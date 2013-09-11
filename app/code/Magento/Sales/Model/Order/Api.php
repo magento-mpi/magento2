@@ -53,7 +53,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
      */
     protected function _initOrder($orderIncrementId)
     {
-        $order = \Mage::getModel('\Magento\Sales\Model\Order');
+        $order = \Mage::getModel('Magento\Sales\Model\Order');
 
         /* @var $order \Magento\Sales\Model\Order */
 
@@ -81,7 +81,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
         $shippingAliasName = 'shipping_o_a';
 
         /** @var $orderCollection \Magento\Sales\Model\Resource\Order\Collection */
-        $orderCollection = \Mage::getModel('\Magento\Sales\Model\Order')->getCollection();
+        $orderCollection = \Mage::getModel('Magento\Sales\Model\Order')->getCollection();
         $billingFirstnameField = "$billingAliasName.firstname";
         $billingLastnameField = "$billingAliasName.lastname";
         $shippingFirstnameField = "$shippingAliasName.firstname";

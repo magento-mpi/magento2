@@ -142,7 +142,7 @@ class Ipn
         if (empty($this->_order)) {
             // get proper order
             $id = $this->getIpnFormData('invoice');
-            $order = \Mage::getModel('\Magento\Sales\Model\Order');
+            $order = \Mage::getModel('Magento\Sales\Model\Order');
             $order->loadByIncrementId($id);
             if (!$order->getId()) {
                 // throws \Exception intentionally, because cannot be logged to order comments

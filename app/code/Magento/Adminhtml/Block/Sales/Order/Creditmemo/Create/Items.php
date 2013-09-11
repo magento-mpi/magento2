@@ -159,7 +159,7 @@ class Items extends Magento_Adminhtml_Block_Sales_Items_Abstract
             if ($this->_canReturnToStock = \Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT)) {
                 $canReturnToStock = false;
                 foreach ($this->getCreditmemo()->getAllItems() as $item) {
-                    $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($item->getOrderItem()->getProductId());
+                    $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($item->getOrderItem()->getProductId());
                     if ( $product->getId() && $product->getStockItem()->getManageStock() ) {
                         $item->setCanReturnToStock($canReturnToStock = true);
                     } else {

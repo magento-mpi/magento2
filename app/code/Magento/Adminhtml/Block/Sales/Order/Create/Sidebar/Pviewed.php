@@ -47,7 +47,7 @@ class Pviewed extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\Abstra
                 $stores[] = $store->getId();
             }
 
-            $collection = \Mage::getModel('\Magento\Reports\Model\Event')
+            $collection = \Mage::getModel('Magento\Reports\Model\Event')
                 ->getCollection()
                 ->addStoreFilter($stores)
                 ->addRecentlyFiler(\Magento\Reports\Model\Event::EVENT_PRODUCT_VIEW, $this->getCustomerId(), 0);
@@ -58,7 +58,7 @@ class Pviewed extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\Abstra
 
             $productCollection = null;
             if ($productIds) {
-                $productCollection = \Mage::getModel('\Magento\Catalog\Model\Product')
+                $productCollection = \Mage::getModel('Magento\Catalog\Model\Product')
                     ->getCollection()
                     ->setStoreId($this->getQuote()->getStoreId())
                     ->addStoreFilter($this->getQuote()->getStoreId())

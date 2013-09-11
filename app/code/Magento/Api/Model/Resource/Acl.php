@@ -36,7 +36,7 @@ class Acl extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function loadAcl()
     {
-        $acl = \Mage::getModel('\Magento\Api\Model\Acl');
+        $acl = \Mage::getModel('Magento\Api\Model\Acl');
         $adapter = $this->_getReadAdapter();
 
         \Mage::getSingleton('Magento\Api\Model\Config')->loadAclResources($acl);
@@ -75,7 +75,7 @@ class Acl extends \Magento\Core\Model\Resource\Db\AbstractDb
                 case \Magento\Api\Model\Acl::ROLE_TYPE_GROUP:
                     $roleId = $role['role_type'].$role['role_id'];
                     $acl->addRole(
-                        \Mage::getModel('\Magento\Api\Model\Acl\Role\Group', array('roleId' => $roleId)),
+                        \Mage::getModel('Magento\Api\Model\Acl\Role\Group', array('roleId' => $roleId)),
                         $parent
                     );
                     break;
@@ -84,7 +84,7 @@ class Acl extends \Magento\Core\Model\Resource\Db\AbstractDb
                     $roleId = $role['role_type'].$role['user_id'];
                     if (!$acl->hasRole($roleId)) {
                         $acl->addRole(
-                            \Mage::getModel('\Magento\Api\Model\Acl\Role\User', array('roleId' => $roleId)),
+                            \Mage::getModel('Magento\Api\Model\Acl\Role\User', array('roleId' => $roleId)),
                             $parent
                         );
                     } else {

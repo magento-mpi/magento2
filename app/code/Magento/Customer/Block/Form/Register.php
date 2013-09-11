@@ -46,7 +46,7 @@ class Register extends \Magento\Directory\Block\Data
      */
     public function getPostActionUrl()
     {
-        return $this->helper('\Magento\Customer\Helper\Data')->getRegisterPostUrl();
+        return $this->helper('Magento\Customer\Helper\Data')->getRegisterPostUrl();
     }
 
     /**
@@ -58,7 +58,7 @@ class Register extends \Magento\Directory\Block\Data
     {
         $url = $this->getData('back_url');
         if (is_null($url)) {
-            $url = $this->helper('\Magento\Customer\Helper\Data')->getLoginUrl();
+            $url = $this->helper('Magento\Customer\Helper\Data')->getLoginUrl();
         }
         return $url;
     }
@@ -133,7 +133,7 @@ class Register extends \Magento\Directory\Block\Data
     public function getAddress()
     {
         if (is_null($this->_address)) {
-            $this->_address = \Mage::getModel('\Magento\Customer\Model\Address');
+            $this->_address = \Mage::getModel('Magento\Customer\Model\Address');
         }
 
         return $this->_address;

@@ -27,7 +27,7 @@ class ListAnswers extends \Magento\Adminhtml\Block\Template
             return parent::_toHtml();
         }
 
-        $collection = \Mage::getModel('\Magento\Poll\Model\Poll\Answer')
+        $collection = \Mage::getModel('Magento\Poll\Model\Poll\Answer')
             ->getResourceCollection()
             ->addPollFilter(\Mage::registry('poll_data')->getId())
             ->load();

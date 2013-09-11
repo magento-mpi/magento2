@@ -28,7 +28,7 @@ class Items
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('\Magento\GiftRegistry\Model\Item')->getCollection()
+        $collection = \Mage::getModel('Magento\GiftRegistry\Model\Item')->getCollection()
             ->addRegistryFilter($this->getEntity()->getId());
 
         $collection->updateItemAttributes();

@@ -25,7 +25,7 @@ $product = Mage::registry('product_simple');
 
 
 //Create quote
-$quote = Mage::getModel('\Magento\Sales\Model\Quote');
+$quote = Mage::getModel('Magento\Sales\Model\Quote');
 $quote->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false)
@@ -35,7 +35,7 @@ $quote->setStoreId(1)
     ->addProduct($product->load($product->getId()), 5);
 
 /** @var $rate \Magento\Sales\Model\Quote\Address\Rate */
-$rate = Mage::getModel('\Magento\Sales\Model\Quote\Address\Rate');
+$rate = Mage::getModel('Magento\Sales\Model\Quote\Address\Rate');
 $rate->setCode('freeshipping_freeshipping');
 $rate->getPrice(1);
 

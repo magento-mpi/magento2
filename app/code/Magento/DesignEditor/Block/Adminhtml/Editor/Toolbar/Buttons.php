@@ -56,6 +56,6 @@ class Buttons
      */
     public function getHomeLink()
     {
-        return $this->helper('\Magento\Backend\Helper\Data')->getHomePageUrl();
+        return $this->helper('Magento\Backend\Helper\Data')->getHomePageUrl();
     }
 }

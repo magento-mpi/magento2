@@ -82,7 +82,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     {
         $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
-        $collection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection();
+        $collection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection();
         $collection
             ->setStore($this->getStore())
             ->addAttributeToSelect($attributes)

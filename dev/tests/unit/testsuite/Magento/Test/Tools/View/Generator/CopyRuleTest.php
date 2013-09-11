@@ -34,14 +34,14 @@ class Magento_Test_Tools_View_Generator_CopyRuleTest extends PHPUnit_Framework_T
     protected function setUp()
     {
         $this->_filesystem = $this->getMock('Magento\Filesystem', array('searchKeys', 'isDirectory'), array(
-            $this->getMockForAbstractClass('\Magento\Filesystem\AdapterInterface')
+            $this->getMockForAbstractClass('Magento\Filesystem\AdapterInterface')
         ));
         $this->_themeCollection = $this->getMock('Magento\Core\Model\Theme\Collection', array('isLoaded'), array(
             $this->_filesystem,
             new \Magento\Core\Model\Dir(__DIR__)
         ));
         $this->_themeCollection->expects($this->any())->method('isLoaded')->will($this->returnValue(true));
-        $this->_fallbackRule = $this->getMockForAbstractClass('\Magento\Core\Model\Design\Fallback\Rule\RuleInterface');
+        $this->_fallbackRule = $this->getMockForAbstractClass('Magento\Core\Model\Design\Fallback\Rule\RuleInterface');
         $this->_object = new \Magento\Tools\View\Generator\CopyRule($this->_filesystem, $this->_themeCollection,
             $this->_fallbackRule);
     }

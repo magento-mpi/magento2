@@ -162,7 +162,7 @@
                 <h5 style="float:left;"><?php echo $_order->getCustomerEmail()?></h5>
             </li>
             <li>
-                <label><?php echo $this->helper('\Magento\Rma\Helper\Data')->getContactEmailLabel() ?></label>
+                <label><?php echo $this->helper('Magento\Rma\Helper\Data')->getContactEmailLabel() ?></label>
                 <div class="input-box">
                      <input type="text" name="customer_custom_email" id="email" title="Contact Email Address" class="input-text" data-validate="{'validate-email':true}" value="<?php echo $this->getContactEmail()?>">
                 </div>

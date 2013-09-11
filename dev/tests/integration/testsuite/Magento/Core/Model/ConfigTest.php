@@ -113,7 +113,7 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     protected function _createModel(array $arguments = array())
     {
         /** @var $model \Magento\Core\Model\Config */
-        $model = Mage::getModel('\Magento\Core\Model\Config', $arguments);
+        $model = Mage::getModel('Magento\Core\Model\Config', $arguments);
         return $model;
     }
 

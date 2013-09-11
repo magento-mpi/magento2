@@ -25,7 +25,7 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
     {
         parent::setUp();
 
-        $this->_model = Mage::getModel('\Magento\Adminhtml\Model\Sales\Order\Create');
+        $this->_model = Mage::getModel('Magento\Adminhtml\Model\Sales\Order\Create');
     }
 
     /**
@@ -35,7 +35,7 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
     public function testInitFromOrderShippingAddressSameAsBillingWhenEmpty()
     {
         /** @var $order \Magento\Sales\Model\Order */
-        $order = Mage::getModel('\Magento\Sales\Model\Order');
+        $order = Mage::getModel('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
         $this->assertFalse($order->getShippingAddress());
 
@@ -53,7 +53,7 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
     public function testInitFromOrderShippingAddressSameAsBillingWhenSame()
     {
         /** @var $order \Magento\Sales\Model\Order */
-        $order = Mage::getModel('\Magento\Sales\Model\Order');
+        $order = Mage::getModel('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
 
         $this->assertNull($order->getShippingAddress()->getSameAsBilling());
@@ -72,7 +72,7 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
     public function testInitFromOrderShippingAddressSameAsBillingWhenDifferent()
     {
         /** @var $order \Magento\Sales\Model\Order */
-        $order = Mage::getModel('\Magento\Sales\Model\Order');
+        $order = Mage::getModel('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
 
         $this->assertNull($order->getShippingAddress()->getSameAsBilling());
@@ -89,7 +89,7 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
     public function testInitFromOrderCcInformationDeleted()
     {
         /** @var $order \Magento\Sales\Model\Order */
-        $order = Mage::getModel('\Magento\Sales\Model\Order');
+        $order = Mage::getModel('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
 
         $payment = $order->getPayment();
@@ -113,7 +113,7 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
     public function testInitFromOrderSavedCcInformationNotDeleted()
     {
         /** @var $order \Magento\Sales\Model\Order */
-        $order = Mage::getModel('\Magento\Sales\Model\Order');
+        $order = Mage::getModel('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
 
         $payment = $order->getPayment();

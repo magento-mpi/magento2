@@ -42,7 +42,7 @@ if (\Mage::helper('Magento\GoogleShopping\Helper\Data')->isModuleEnabled('Magent
         ->insertFromSelect($installer->getTable('googleshopping_items'));
 
     $attributes = '';
-    foreach (\Mage::getModel('\Magento\GoogleShopping\Model\Config')->getAttributes() as $destAttribtues) {
+    foreach (\Mage::getModel('Magento\GoogleShopping\Model\Config')->getAttributes() as $destAttribtues) {
         foreach ($destAttribtues as $code => $info) {
             $attributes .= "'$code',";
         }

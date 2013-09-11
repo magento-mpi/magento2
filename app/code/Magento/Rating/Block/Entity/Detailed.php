@@ -28,7 +28,7 @@ class Detailed extends \Magento\Core\Block\Template
             return '';
         }
 
-        $reviewsCount = \Mage::getModel('\Magento\Review\Model\Review')
+        $reviewsCount = \Mage::getModel('Magento\Review\Model\Review')
             ->getTotalReviews($entityId, true);
         if ($reviewsCount == 0) {
             #return __('Be the first to review this product');
@@ -36,7 +36,7 @@ class Detailed extends \Magento\Core\Block\Template
             return parent::_toHtml();
         }
 
-        $ratingCollection = \Mage::getModel('\Magento\Rating\Model\Rating')
+        $ratingCollection = \Mage::getModel('Magento\Rating\Model\Rating')
             ->getResourceCollection()
             ->addEntityFilter('product') # TOFIX
             ->setPositionOrder()

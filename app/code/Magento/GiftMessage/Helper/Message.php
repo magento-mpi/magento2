@@ -57,7 +57,7 @@ class Message extends \Magento\Core\Helper\Data
             return '';
         }
 
-        return \Mage::app()->getLayout()->createBlock('\Magento\GiftMessage\Block\Message\Inline')
+        return \Mage::app()->getLayout()->createBlock('Magento\GiftMessage\Block\Message\Inline')
             ->setId('giftmessage_form_' . $this->_nextId++)
             ->setDontDisplayContainer($dontDisplayContainer)
             ->setEntity($entity)
@@ -110,7 +110,7 @@ class Message extends \Magento\Core\Helper\Data
             if (!$this->isCached('address_item_' . $entity->getProductId())) {
                 $this->setCached(
                     'address_item_' . $entity->getProductId(),
-                    \Mage::getModel('\Magento\Catalog\Model\Product')
+                    \Mage::getModel('Magento\Catalog\Model\Product')
                         ->setStoreId($storeId)
                         ->load($entity->getProductId())
                         ->getGiftMessageAvailable()
@@ -271,7 +271,7 @@ class Message extends \Magento\Core\Helper\Data
      */
     public function getGiftMessage($messageId=null)
     {
-        $message = \Mage::getModel('\Magento\GiftMessage\Model\Message');
+        $message = \Mage::getModel('Magento\GiftMessage\Model\Message');
         if(!is_null($messageId)) {
             $message->load($messageId);
         }

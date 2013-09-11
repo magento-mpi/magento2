@@ -109,7 +109,7 @@ class Collection extends \Magento\Data\Collection\Db
     {
         $this->getSelect()
             ->from(
-                array('sales' => \Mage::getResourceSingleton('\Magento\Sales\Model\Resource\Order')->getMainTable()),
+                array('sales' => \Mage::getResourceSingleton('Magento\Sales\Model\Resource\Order')->getMainTable()),
                 array(
                     'store_id',
                     'lifetime'      => new \Zend_Db_Expr('SUM(sales.base_grand_total)'),
@@ -164,7 +164,7 @@ class Collection extends \Magento\Data\Collection\Db
         $data = $this->getData();
         $this->resetData();
 
-        $stores = \Mage::getResourceModel('\Magento\Core\Model\Resource\Store\Collection')
+        $stores = \Mage::getResourceModel('Magento\Core\Model\Resource\Store\Collection')
             ->setWithoutDefaultFilter()
             ->load()
             ->toOptionHash();

@@ -30,7 +30,7 @@ class Orders extends \Magento\Adminhtml\Block\Widget\Grid
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Grid\Collection')
+        $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Grid\Collection')
             ->addFieldToSelect('entity_id')
             ->addFieldToSelect('increment_id')
             ->addFieldToSelect('customer_id')

@@ -23,7 +23,7 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
     public function testGetCustomerTaxClassWithDefaultFirstValue()
     {
         $model = new \Magento\Tax\Model\Calculation\Rule(
-            Mage::getModel('\Magento\Core\Model\Context'),
+            Mage::getModel('Magento\Core\Model\Context'),
             Mage::helper('Magento\Tax\Helper\Data'),
             $this->_getTaxClassMock(
                 'getCustomerClasses',
@@ -44,7 +44,7 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
     public function testGetCustomerTaxClassWithDefaultFromConfig()
     {
         $model = new \Magento\Tax\Model\Calculation\Rule(
-            Mage::getModel('\Magento\Core\Model\Context'),
+            Mage::getModel('Magento\Core\Model\Context'),
             Mage::helper('Magento\Tax\Helper\Data'),
             $this->_getTaxClassMock(
                 'getCustomerClasses',
@@ -65,7 +65,7 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
     public function testGetProductTaxClassWithDefaultFirstValue()
     {
         $model = new \Magento\Tax\Model\Calculation\Rule(
-            Mage::getModel('\Magento\Core\Model\Context'),
+            Mage::getModel('Magento\Core\Model\Context'),
             Mage::helper('Magento\Tax\Helper\Data'),
             $this->_getTaxClassMock(
                 'getProductClasses',
@@ -86,7 +86,7 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
     public function testGetProductTaxClassWithDefaultFromConfig()
     {
         $model = new \Magento\Tax\Model\Calculation\Rule(
-            Mage::getModel('\Magento\Core\Model\Context'),
+            Mage::getModel('Magento\Core\Model\Context'),
             Mage::helper('Magento\Tax\Helper\Data'),
             $this->_getTaxClassMock(
                 'getProductClasses',
@@ -107,9 +107,9 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
     public function testGetAllOptions($classFilter, $expected)
     {
         $model = new \Magento\Tax\Model\Calculation\Rule(
-            Mage::getModel('\Magento\Core\Model\Context'),
+            Mage::getModel('Magento\Core\Model\Context'),
             Mage::helper('Magento\Tax\Helper\Data'),
-            Mage::getModel('\Magento\Tax\Model\ClassModel'),
+            Mage::getModel('Magento\Tax\Model\ClassModel'),
             null,
             null,
             array()
@@ -167,8 +167,8 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
             '\Magento\Tax\Model\ClassModel',
             array('getCollection'),
             array(
-                Mage::getModel('\Magento\Core\Model\Context'),
-                Mage::getModel('\Magento\Tax\Model\TaxClass\Factory'),
+                Mage::getModel('Magento\Core\Model\Context'),
+                Mage::getModel('Magento\Tax\Model\TaxClass\Factory'),
             ),
             '',
             true

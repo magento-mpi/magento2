@@ -50,7 +50,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
      */
     public function popupAction()
     {
-        $shippingInfoModel = \Mage::getModel('\Magento\Shipping\Model\Info')->loadByHash($this->getRequest()->getParam('hash'));
+        $shippingInfoModel = \Mage::getModel('Magento\Shipping\Model\Info')->loadByHash($this->getRequest()->getParam('hash'));
         \Mage::register('current_shipping_info', $shippingInfoModel);
         if (count($shippingInfoModel->getTrackingInfo()) == 0) {
             $this->norouteAction();
@@ -70,7 +70,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
     {
         $id = $this->getRequest()->getParam('order_id');
 
-        $order = \Mage::getModel('\Magento\Sales\Model\Order')->load($id);
+        $order = \Mage::getModel('Magento\Sales\Model\Order')->load($id);
         $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
 
         if (!$order->getId() || !$customerId || $order->getCustomerId() != $customerId) {

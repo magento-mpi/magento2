@@ -52,7 +52,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      */
     protected function _getFilterField()
     {
-        $engine = \Mage::getResourceSingleton('\Magento\Search\Model\Resource\Engine');
+        $engine = \Mage::getResourceSingleton('Magento\Search\Model\Resource\Engine');
         $priceField = $engine->getSearchEngineFieldName('price');
 
         return $priceField;

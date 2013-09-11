@@ -216,7 +216,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         $rule->afterLoad();
 
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
-        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection')
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection')
             ->setStoreId($object->getStoreId())
             ->addPriceData($object->getCustomerGroupId())
             ->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInCatalogIds());
@@ -548,7 +548,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     public function removeProductIndex($productId = null, $ruleId = null)
     {
         /** @var $targetRule \Magento\TargetRule\Model\Resource\Rule */
-        $targetRule = \Mage::getResourceSingleton('\Magento\TargetRule\Model\Resource\Rule');
+        $targetRule = \Mage::getResourceSingleton('Magento\TargetRule\Model\Resource\Rule');
         $targetRule->unbindRuleFromEntity($ruleId, $productId, 'product');
 
         return $this;
@@ -566,7 +566,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     public function saveProductIndex($ruleId, $productId, $storeId)
     {
         /** @var $targetRule \Magento\TargetRule\Model\Resource\Rule */
-        $targetRule = \Mage::getResourceSingleton('\Magento\TargetRule\Model\Resource\Rule');
+        $targetRule = \Mage::getResourceSingleton('Magento\TargetRule\Model\Resource\Rule');
         $targetRule->bindRuleToEntity($ruleId, $productId, 'product');
 
         return $this;
@@ -611,7 +611,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
             }
 
             if(count($segmentIds)) {
-                $segmentIds = \Mage::getResourceModel('\Magento\CustomerSegment\Model\Resource\Segment')
+                $segmentIds = \Mage::getResourceModel('Magento\CustomerSegment\Model\Resource\Segment')
                     ->getActiveSegmentsByIds($segmentIds);
             }
         }

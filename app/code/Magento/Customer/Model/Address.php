@@ -68,7 +68,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             return false;
         }
         if (empty($this->_customer)) {
-            $this->_customer = \Mage::getModel('\Magento\Customer\Model\Customer')
+            $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer')
                 ->load($this->getCustomerId());
         }
         return $this->_customer;

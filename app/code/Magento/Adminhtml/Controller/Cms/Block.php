@@ -65,7 +65,7 @@ class Block extends \Magento\Adminhtml\Controller\Action
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('block_id');
-        $model = \Mage::getModel('\Magento\Cms\Model\Block');
+        $model = \Mage::getModel('Magento\Cms\Model\Block');
 
         // 2. Initial checking
         if ($id) {
@@ -103,7 +103,7 @@ class Block extends \Magento\Adminhtml\Controller\Action
         if ($data = $this->getRequest()->getPost()) {
 
             $id = $this->getRequest()->getParam('block_id');
-            $model = \Mage::getModel('\Magento\Cms\Model\Block')->load($id);
+            $model = \Mage::getModel('Magento\Cms\Model\Block')->load($id);
             if (!$model->getId() && $id) {
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('This block no longer exists.'));
                 $this->_redirect('*/*/');
@@ -155,7 +155,7 @@ class Block extends \Magento\Adminhtml\Controller\Action
             $title = "";
             try {
                 // init model and delete
-                $model = \Mage::getModel('\Magento\Cms\Model\Block');
+                $model = \Mage::getModel('Magento\Cms\Model\Block');
                 $model->load($id);
                 $title = $model->getTitle();
                 $model->delete();

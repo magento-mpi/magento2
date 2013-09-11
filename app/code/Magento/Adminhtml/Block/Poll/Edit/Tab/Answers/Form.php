@@ -43,7 +43,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
         );
 
         $fieldset->addField('add_button', 'note', array(
-                    'text' => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+                    'text' => $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                                     ->setData(array(
                                         'label'     => __('Add Answer'),
                                         'onclick'   => 'answers.add();',

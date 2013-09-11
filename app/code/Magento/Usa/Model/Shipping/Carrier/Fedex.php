@@ -234,7 +234,7 @@ class Fedex
                 $request->getStoreId()
             );
         }
-        $r->setOrigCountry(\Mage::getModel('\Magento\Directory\Model\Country')->load($origCountry)->getIso2Code());
+        $r->setOrigCountry(\Mage::getModel('Magento\Directory\Model\Country')->load($origCountry)->getIso2Code());
 
         if ($request->getOrigPostcode()) {
             $r->setOrigPostal($request->getOrigPostcode());
@@ -250,7 +250,7 @@ class Fedex
         } else {
             $destCountry = self::USA_COUNTRY_ID;
         }
-        $r->setDestCountry(\Mage::getModel('\Magento\Directory\Model\Country')->load($destCountry)->getIso2Code());
+        $r->setDestCountry(\Mage::getModel('Magento\Directory\Model\Country')->load($destCountry)->getIso2Code());
 
         if ($request->getDestPostcode()) {
             $r->setDestPostal($request->getDestPostcode());
@@ -428,7 +428,7 @@ class Fedex
      */
     protected function _getQuotes()
     {
-        $this->_result = \Mage::getModel('\Magento\Shipping\Model\Rate\Result');
+        $this->_result = \Mage::getModel('Magento\Shipping\Model\Rate\Result');
         // make separate request for Smart Post method
         $allowedMethods = explode(',', $this->getConfigData('allowed_methods'));
         if (in_array(self::RATE_REQUEST_SMARTPOST, $allowedMethods)) {
@@ -487,9 +487,9 @@ class Fedex
             }
         }
 
-        $result = \Mage::getModel('\Magento\Shipping\Model\Rate\Result');
+        $result = \Mage::getModel('Magento\Shipping\Model\Rate\Result');
         if (empty($priceArr)) {
-            $error = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Error');
+            $error = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Error');
             $error->setCarrier($this->_code);
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($errorTitle);
@@ -497,7 +497,7 @@ class Fedex
             $result->append($error);
         } else {
             foreach ($priceArr as $method=>$price) {
-                $rate = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Method');
+                $rate = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Method');
                 $rate->setCarrier($this->_code);
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
@@ -685,16 +685,16 @@ class Fedex
             $errorTitle = 'Unable to retrieve tracking';
         }
 
-        $result = \Mage::getModel('\Magento\Shipping\Model\Rate\Result');
+        $result = \Mage::getModel('Magento\Shipping\Model\Rate\Result');
         if (empty($priceArr)) {
-            $error = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Error');
+            $error = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Error');
             $error->setCarrier('fedex');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
         } else {
             foreach ($priceArr as $method=>$price) {
-                $rate = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Method');
+                $rate = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Method');
                 $rate->setCarrier('fedex');
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
@@ -1101,18 +1101,18 @@ class Fedex
         }
 
         if (!$this->_result) {
-            $this->_result = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result');
+            $this->_result = \Mage::getModel('Magento\Shipping\Model\Tracking\Result');
         }
 
         if (isset($resultArray)) {
-            $tracking = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result\Status');
+            $tracking = \Mage::getModel('Magento\Shipping\Model\Tracking\Result\Status');
             $tracking->setCarrier('fedex');
             $tracking->setCarrierTitle($this->getConfigData('title'));
             $tracking->setTracking($trackingValue);
             $tracking->addData($resultArray);
             $this->_result->append($tracking);
         } else {
-           $error = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result\Error');
+           $error = \Mage::getModel('Magento\Shipping\Model\Tracking\Result\Error');
            $error->setCarrier('fedex');
            $error->setCarrierTitle($this->getConfigData('title'));
            $error->setTracking($trackingValue);
@@ -1234,7 +1234,7 @@ class Fedex
         }
 
         // get countries of manufacture
-        $productCollection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection')
+        $productCollection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection')
             ->addStoreFilter($request->getStoreId())
             ->addFieldToFilter('entity_id', array('in' => $productIds))
             ->addAttributeToSelect('country_of_manufacture');

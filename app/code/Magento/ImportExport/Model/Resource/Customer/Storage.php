@@ -70,10 +70,10 @@ class Storage
     public function __construct(array $data = array())
     {
         $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
-            : \Mage::getResourceModel('\Magento\Customer\Model\Resource\Customer\Collection');
+            : \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
         $this->_pageSize = isset($data['page_size']) ? $data['page_size'] : 0;
         $this->_byPagesIterator = isset($data['collection_by_pages_iterator']) ? $data['collection_by_pages_iterator']
-            : \Mage::getResourceModel('\Magento\ImportExport\Model\Resource\CollectionByPagesIterator');
+            : \Mage::getResourceModel('Magento\ImportExport\Model\Resource\CollectionByPagesIterator');
     }
 
     /**

@@ -20,7 +20,7 @@ $_product = $this->getProduct();
 ?>
 <div class="price-box map-info">
 
-    <?php if ($this->helper('\Magento\Catalog\Helper\Data')->canApplyMsrp($_product)): ?>
+    <?php if ($this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_product)): ?>
         <a href="<?php echo $_product->getProductUrl() ?>"><?php echo __('Click for price'); ?></a>
     <?php endif; ?>
 </div>

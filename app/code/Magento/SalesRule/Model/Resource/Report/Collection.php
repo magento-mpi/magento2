@@ -148,7 +148,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
             return $this;
         }
 
-        $rulesList = \Mage::getResourceModel('\Magento\SalesRule\Model\Resource\Report\Rule')->getUniqRulesNamesList();
+        $rulesList = \Mage::getResourceModel('Magento\SalesRule\Model\Resource\Report\Rule')->getUniqRulesNamesList();
 
         $rulesFilterSqlParts = array();
 

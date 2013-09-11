@@ -265,7 +265,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
 
         $sectionMock->expects($this->once())->method('getId')->will($this->returnValue('section1'));
 
-        $formFieldMock = $this->getMockForAbstractClass('\Magento\Data\Form\Element\AbstractElement',
+        $formFieldMock = $this->getMockForAbstractClass('Magento\Data\Form\Element\AbstractElement',
             array(), '', false, false, true, array('setRenderer')
         );
 

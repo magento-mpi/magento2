@@ -109,7 +109,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
     public function isAvailable($quote = null)
     {
         $storeId = \Mage::app()->getStore($this->getStore())->getId();
-        $config = \Mage::getModel('\Magento\Paypal\Model\Config')->setStoreId($storeId);
+        $config = \Mage::getModel('Magento\Paypal\Model\Config')->setStoreId($storeId);
         if (parent::isAvailable($quote) && $config->isMethodAvailable($this->getCode())) {
             return true;
         }

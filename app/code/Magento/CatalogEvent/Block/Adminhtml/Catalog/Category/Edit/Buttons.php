@@ -28,7 +28,7 @@ class Buttons
     public function getEvent()
     {
         if (!$this->hasData('event')) {
-            $collection = \Mage::getModel('\Magento\CatalogEvent\Model\Event')->getCollection()
+            $collection = \Mage::getModel('Magento\CatalogEvent\Model\Event')->getCollection()
                 ->addFieldToFilter('category_id', $this->getCategoryId());
 
             $event = $collection->getFirstItem();
@@ -45,11 +45,11 @@ class Buttons
      */
     public function addButtons()
     {
-        if ($this->helper('\Magento\CatalogEvent\Helper\Data')->isEnabled()
+        if ($this->helper('Magento\CatalogEvent\Helper\Data')->isEnabled()
             && $this->_authorization->isAllowed('Magento_CatalogEvent::events')
             && $this->getCategoryId() && $this->getCategory()->getLevel() > 1) {
             if ($this->getEvent() && $this->getEvent()->getId()) {
-                $url = $this->helper('\Magento\Adminhtml\Helper\Data')->getUrl('*/catalog_event/edit', array(
+                $url = $this->helper('Magento\Adminhtml\Helper\Data')->getUrl('*/catalog_event/edit', array(
                             'id' => $this->getEvent()->getId(),
                             'category' => 1
                 ));
@@ -60,7 +60,7 @@ class Buttons
                         'onclick'   => 'setLocation(\''. $url .'\')'
                     ));
             } else {
-                $url = $this->helper('\Magento\Adminhtml\Helper\Data')->getUrl('*/catalog_event/new', array(
+                $url = $this->helper('Magento\Adminhtml\Helper\Data')->getUrl('*/catalog_event/new', array(
                         'category_id' => $this->getCategoryId(),
                         'category' => 1
                 ));

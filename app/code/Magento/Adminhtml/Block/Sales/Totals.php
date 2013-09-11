@@ -21,7 +21,7 @@ class Totals extends \Magento\Sales\Block\Order\Totals
     public function formatValue($total)
     {
         if (!$total->getIsFormated()) {
-            return $this->helper('\Magento\Adminhtml\Helper\Sales')->displayPrices(
+            return $this->helper('Magento\Adminhtml\Helper\Sales')->displayPrices(
                 $this->getOrder(),
                 $total->getBaseValue(),
                 $total->getValue()

@@ -32,7 +32,7 @@ class Container extends \Magento\Core\Block\Template
         foreach ($this->getMethods() as $method) {
             $this->setChild(
                'payment.method.'.$method->getCode(),
-               $this->helper('\Magento\Payment\Helper\Data')->getMethodFormBlock($method)
+               $this->helper('Magento\Payment\Helper\Data')->getMethodFormBlock($method)
             );
         }
 
@@ -96,7 +96,7 @@ class Container extends \Magento\Core\Block\Template
             $quote = $this->getQuote();
             $store = $quote ? $quote->getStoreId() : null;
             $methods = array();
-            foreach ($this->helper('\Magento\Payment\Helper\Data')->getStoreMethods($store, $quote) as $method) {
+            foreach ($this->helper('Magento\Payment\Helper\Data')->getStoreMethods($store, $quote) as $method) {
                 if ($this->_canUseMethod($method) && $method->isApplicableToQuote(
                     $quote,
                     \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL

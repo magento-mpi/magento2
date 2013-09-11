@@ -106,7 +106,7 @@ class Viewed extends \Magento\Sales\Model\Resource\Report\AbstractReport
             ->where('source_table.event_type_id = ?', \Magento\Reports\Model\Event::EVENT_PRODUCT_VIEW);
 
         /** @var \Magento\Catalog\Model\Resource\Product $product */
-        $product  = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product');
+        $product  = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product');
 
         $select->joinInner(
             array('product' => $this->getTable('catalog_product_entity')),

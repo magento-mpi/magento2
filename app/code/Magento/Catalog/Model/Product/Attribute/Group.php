@@ -23,7 +23,7 @@ class Group extends \Magento\Eav\Model\Entity\Attribute\Group
     {
         $result = false;
         /** @var $attributesCollection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
-        $attributesCollection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Attribute\Collection');
+        $attributesCollection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection');
         $attributesCollection->setAttributeGroupFilter($this->getId());
         foreach ($attributesCollection as $attribute) {
             if (!$attribute->getIsUserDefined()) {
@@ -43,7 +43,7 @@ class Group extends \Magento\Eav\Model\Entity\Attribute\Group
     {
         $result = false;
         /** @var $attributesCollection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
-        $attributesCollection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Attribute\Collection');
+        $attributesCollection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection');
         $attributesCollection->setAttributeGroupFilter($this->getId());
         foreach ($attributesCollection as $attribute) {
             if ($attribute->getIsConfigurable()) {

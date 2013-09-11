@@ -34,7 +34,7 @@
         <div class="summary-collapse"><?php echo $this->escapeHtml($this->getItemName($item)); ?></div>
     </td>
     <td class="a-right">
-        <?php echo $this->helper('\Magento\Checkout\Helper\Data')->formatPrice($this->getItemRowTotal($item)) ?>
+        <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getItemRowTotal($item)) ?>
     </td>
 </tr>
 <?php endforeach; ?>

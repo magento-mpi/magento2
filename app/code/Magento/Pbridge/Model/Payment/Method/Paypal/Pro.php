@@ -102,7 +102,7 @@ class Pro extends \Magento\Paypal\Model\Pro
     public function void(\Magento\Object $payment)
     {
         $result = $this->getPbridgeMethodInstance()->void($payment);
-        \Mage::getModel('\Magento\Paypal\Model\Info')->importToPayment(new \Magento\Object($result), $payment);
+        \Mage::getModel('Magento\Paypal\Model\Info')->importToPayment(new \Magento\Object($result), $payment);
         return $result;
     }
 
@@ -115,7 +115,7 @@ class Pro extends \Magento\Paypal\Model\Pro
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
             $result = $this->getPbridgeMethodInstance()->void($payment);
-            \Mage::getModel('\Magento\Paypal\Model\Info')->importToPayment(new \Magento\Object($result), $payment);
+            \Mage::getModel('Magento\Paypal\Model\Info')->importToPayment(new \Magento\Object($result), $payment);
         }
     }
 }

@@ -31,7 +31,7 @@ class OpenAmount extends \Magento\Data\Form\Element\Select
      */
     public function __construct(array $data = array())
     {
-        $this->_element = \Mage::getModel('\Magento\Data\Form\Element\Checkbox');
+        $this->_element = \Mage::getModel('Magento\Data\Form\Element\Checkbox');
         parent::__construct($data);
     }
 

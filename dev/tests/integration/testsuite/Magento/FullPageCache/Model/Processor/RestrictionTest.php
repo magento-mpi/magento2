@@ -25,7 +25,7 @@ class Magento_FullPageCache_Model_Processor_RestrictionTest extends PHPUnit_Fram
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\FullPageCache\Model\Processor');
+        $this->_model = Mage::getModel('Magento\FullPageCache\Model\Processor');
     }
 
     public function testIsAllowedNoCacheCookie()

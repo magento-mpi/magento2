@@ -136,7 +136,7 @@ class Form extends \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
     protected function _getProduct()
     {
         if (!$this->hasData('product')) {
-            $this->setProduct(\Mage::getModel('\Magento\Catalog\Model\Product'));
+            $this->setProduct(\Mage::getModel('Magento\Catalog\Model\Product'));
         }
         return $this->getProduct();
     }
@@ -149,7 +149,7 @@ class Form extends \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
     protected function _getCategory()
     {
         if (!$this->hasData('category')) {
-            $this->setCategory(\Mage::getModel('\Magento\Catalog\Model\Category'));
+            $this->setCategory(\Mage::getModel('Magento\Catalog\Model\Category'));
         }
         return $this->getCategory();
     }

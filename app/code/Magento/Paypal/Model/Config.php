@@ -998,7 +998,7 @@ class Config
      */
     public function getWppCcTypesAsOptionArray()
     {
-        $model = \Mage::getModel('\Magento\Payment\Model\Source\Cctype');
+        $model = \Mage::getModel('Magento\Payment\Model\Source\Cctype');
         return $model->setAllowedTypes(array('AE', 'VI', 'MC', 'SM', 'SO', 'DI'))->toOptionArray();
     }
 
@@ -1009,7 +1009,7 @@ class Config
      */
     public function getWppPeCcTypesAsOptionArray()
     {
-        $model = \Mage::getModel('\Magento\Payment\Model\Source\Cctype');
+        $model = \Mage::getModel('Magento\Payment\Model\Source\Cctype');
         return $model->setAllowedTypes(array('VI', 'MC', 'SM', 'SO', 'OT', 'AE'))->toOptionArray();
     }
 
@@ -1020,7 +1020,7 @@ class Config
      */
     public function getPayflowproCcTypesAsOptionArray()
     {
-        $model = \Mage::getModel('\Magento\Payment\Model\Source\Cctype');
+        $model = \Mage::getModel('Magento\Payment\Model\Source\Cctype');
         return $model->setAllowedTypes(array('AE', 'VI', 'MC', 'JCB', 'DI'))->toOptionArray();
     }
 
@@ -1412,6 +1412,6 @@ class Config
     public function getApiCertificate()
     {
         $websiteId = \Mage::app()->getStore($this->_storeId)->getWebsiteId();
-        return \Mage::getModel('\Magento\Paypal\Model\Cert')->loadByWebsite($websiteId, false)->getCertPath();
+        return \Mage::getModel('Magento\Paypal\Model\Cert')->loadByWebsite($websiteId, false)->getCertPath();
     }
 }

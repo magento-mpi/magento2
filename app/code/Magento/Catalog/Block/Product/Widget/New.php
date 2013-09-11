@@ -87,7 +87,7 @@ class New extends \Magento\Catalog\Block\Product\New
     protected function _getRecentlyAddedProductsCollection()
     {
         /** @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
-        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection');
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection');
         $collection->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInCatalogIds());
 
         $collection = $this->_addProductAttributesAndPrices($collection)
@@ -175,7 +175,7 @@ class New extends \Magento\Catalog\Block\Product\New
         if ($this->showPager()) {
             if (!$this->_pager) {
                 $this->_pager = $this->getLayout()
-                    ->createBlock('\Magento\Catalog\Block\Product\Widget\Html\Pager', 'widget.new.product.list.pager');
+                    ->createBlock('Magento\Catalog\Block\Product\Widget\Html\Pager', 'widget.new.product.list.pager');
 
                 $this->_pager->setUseContainer(true)
                     ->setShowAmounts(true)

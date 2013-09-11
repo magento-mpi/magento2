@@ -22,7 +22,7 @@ class Magento_Adminhtml_Block_Report_Sales_Coupons_GridTest extends PHPUnit_Fram
      */
     protected function _createBlock($reportType = null)
     {
-        $block = Mage::app()->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Sales\Coupons\Grid');
+        $block = Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Sales\Coupons\Grid');
 
         $filterData = new \Magento\Object();
         if ($reportType) {

@@ -181,7 +181,7 @@
     </type>
     <type name="Magento\Core\Model\Theme\Image">
         <param name="uploader">
-            <instance type="Magento_Core_Model_Theme_Image_UploaderProxy" />
+            <instance type="Magento\Core\Model\Theme\Image\UploaderProxy" />
         </param>
     </type>
     <type name="Magento\Phrase\Renderer\Composite">

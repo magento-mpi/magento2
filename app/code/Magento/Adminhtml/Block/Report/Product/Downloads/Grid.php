@@ -40,7 +40,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             $storeId = '';
         }
 
-        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Product\Downloads\Collection')
+        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Product\Downloads\Collection')
             ->addAttributeToSelect('*')
             ->setStoreId($storeId)
             ->addAttributeToFilter('type_id', array(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE))

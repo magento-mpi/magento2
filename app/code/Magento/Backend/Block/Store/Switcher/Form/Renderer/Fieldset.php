@@ -58,6 +58,6 @@ class Fieldset
      */
     public function getHintHtml()
     {
-        return \Mage::getBlockSingleton('\Magento\Backend\Block\Store\Switcher')->getHintHtml();
+        return \Mage::getBlockSingleton('Magento\Backend\Block\Store\Switcher')->getHintHtml();
     }
 }

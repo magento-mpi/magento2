@@ -62,7 +62,7 @@ class Link
             $href = "";
             if ($this->getData('id_path')) {
                 /* @var $urlRewriteResource \Magento\Core\Model\Resource\Url\Rewrite */
-                $urlRewriteResource = \Mage::getResourceSingleton('\Magento\Core\Model\Resource\Url\Rewrite');
+                $urlRewriteResource = \Mage::getResourceSingleton('Magento\Core\Model\Resource\Url\Rewrite');
                 $href = $urlRewriteResource->getRequestPathByIdPath($this->getData('id_path'), $store);
                 if (!$href) {
                     return false;

@@ -30,7 +30,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
         $settlement = \Mage::getSingleton('Magento\Paypal\Model\Report\Settlement');
         /* @var $settlement \Magento\Paypal\Model\Report\Settlement */
 
-        $coreHelper = $this->helper('\Magento\Core\Helper\Data');
+        $coreHelper = $this->helper('Magento\Core\Helper\Data');
         $fieldsets = array(
             'reference_fieldset' => array(
                 'fields' => array(

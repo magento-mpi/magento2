@@ -34,7 +34,7 @@ class Role implements \Magento\Core\Model\Option\ArrayInterface
         if (isset($data['resource'])) {
             $this->_resource = $data['resource'];
         } else {
-            $this->_resource = \Mage::getResourceModel('\Magento\Webapi\Model\Resource\Acl\Role');
+            $this->_resource = \Mage::getResourceModel('Magento\Webapi\Model\Resource\Acl\Role');
         }
     }
 

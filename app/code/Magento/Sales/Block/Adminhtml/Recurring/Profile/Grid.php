@@ -33,7 +33,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Recurring\Profile\Collection');
+        $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Recurring\Profile\Collection');
         $this->setCollection($collection);
         if (!$this->getParam($this->getVarNameSort())) {
             $collection->setOrder('profile_id', 'desc');
@@ -48,7 +48,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
-        $profile = \Mage::getModel('\Magento\Sales\Model\Recurring\Profile');
+        $profile = \Mage::getModel('Magento\Sales\Model\Recurring\Profile');
 
         $this->addColumn('reference_id', array(
             'header' => $profile->getFieldLabel('reference_id'),

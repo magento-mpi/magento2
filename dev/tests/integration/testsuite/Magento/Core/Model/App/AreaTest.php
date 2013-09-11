@@ -24,7 +24,7 @@ class Magento_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         /** @var $_model \Magento\Core\Model\App\Area */
-        $this->_model = Mage::getModel('\Magento\Core\Model\App\Area', array('areaCode' => 'frontend'));
+        $this->_model = Mage::getModel('Magento\Core\Model\App\Area', array('areaCode' => 'frontend'));
     }
 
     /**
@@ -92,7 +92,7 @@ class Magento_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
     public function testDetectDesignNonFrontend()
     {
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla Firefox';
-        $model = Mage::getModel('\Magento\Core\Model\App\Area', array('areaCode' => 'install'));
+        $model = Mage::getModel('Magento\Core\Model\App\Area', array('areaCode' => 'install'));
         $model->detectDesign(new Zend_Controller_Request_Http);
         $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\View\DesignInterface');

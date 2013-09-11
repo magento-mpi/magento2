@@ -39,14 +39,14 @@ class Random
 
     public function __construct()
     {
-        $this->_quote = \Mage::getModel('\Magento\Sales\Model\Quote')->save();
-        $this->_order = \Mage::getModel('\Magento\Sales\Model\Order');
+        $this->_quote = \Mage::getModel('Magento\Sales\Model\Quote')->save();
+        $this->_order = \Mage::getModel('Magento\Sales\Model\Order');
     }
 
     protected function _getStores()
     {
         if (!self::$_storeCollection) {
-            self::$_storeCollection = \Mage::getResourceModel('\Magento\Core\Model\Resource\Store\Collection')
+            self::$_storeCollection = \Mage::getResourceModel('Magento\Core\Model\Resource\Store\Collection')
                 ->load();
         }
         return self::$_storeCollection->getItems();
@@ -55,7 +55,7 @@ class Random
     protected function _getCustomers()
     {
         if (!self::$_customerCollection) {
-            self::$_customerCollection = \Mage::getResourceModel('\Magento\Customer\Model\Resource\Customer\Collection')
+            self::$_customerCollection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection')
                 ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'inner')
                 ->joinAttribute('shipping_country_id', 'customer_address/country_id', 'default_shipping', null, 'inner')
                 ->load();
@@ -66,7 +66,7 @@ class Random
     protected function _getProducts()
     {
         if (!$this->_productCollection) {
-            $this->_productCollection= \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection');
+            $this->_productCollection= \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection');
             //$this->_productCollection->getEntity()->setStore($this->_getStore());
             $this->_productCollection->addAttributeToSelect('name')
                 ->addAttributeToSelect('sku')

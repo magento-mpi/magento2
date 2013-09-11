@@ -94,7 +94,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
             return $this->_customer;
         }
 
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer')
             ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId());
         if ($this->getId()) {
             $customer->load($this->getId());
@@ -177,7 +177,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     public function checkCustomerId($customerId)
     {
         if ($this->_isCustomerIdChecked === null) {
-            $this->_isCustomerIdChecked = \Mage::getResourceSingleton('\Magento\Customer\Model\Resource\Customer')
+            $this->_isCustomerIdChecked = \Mage::getResourceSingleton('Magento\Customer\Model\Resource\Customer')
                 ->checkCustomerId($customerId);
         }
         return $this->_isCustomerIdChecked;
@@ -193,7 +193,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     public function login($username, $password)
     {
         /** @var $customer \Magento\Customer\Model\Customer */
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer')
             ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId());
 
         if ($customer->authenticate($username, $password)) {
@@ -219,7 +219,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      */
     public function loginById($customerId)
     {
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($customerId);
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($customerId);
         if ($customer->getId()) {
             $this->setCustomerAsLoggedIn($customer);
             return true;
@@ -278,7 +278,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         $url = \Mage::helper('Magento\Core\Helper\Url')
             ->removeRequestParam($url, \Mage::getSingleton('Magento\Core\Model\Session')->getSessionIdQueryParam());
         // Add correct session ID to URL if needed
-        $url = \Mage::getModel('\Magento\Core\Model\Url')->getRebuiltUrl($url);
+        $url = \Mage::getModel('Magento\Core\Model\Url')->getRebuiltUrl($url);
         return $this->setData($key, $url);
     }
 

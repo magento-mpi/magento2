@@ -54,7 +54,7 @@ class Online extends \Magento\Core\Model\Resource\Db\AbstractDb
 
             // retrieve online visitors general data
 
-            $lastDate = \Mage::getModel('\Magento\Core\Model\Date')->gmtTimestamp() - $object->getOnlineInterval() * 60;
+            $lastDate = \Mage::getModel('Magento\Core\Model\Date')->gmtTimestamp() - $object->getOnlineInterval() * 60;
 
             $select = $readAdapter->select()
                 ->from(

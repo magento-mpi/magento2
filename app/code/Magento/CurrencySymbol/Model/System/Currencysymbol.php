@@ -194,7 +194,7 @@ class Currencysymbol
             $value['options']['fields']['customsymbol']['inherit'] = 1;
         }
 
-        \Mage::getModel('\Magento\Backend\Model\Config')
+        \Mage::getModel('Magento\Backend\Model\Config')
             ->setSection(self::CONFIG_SECTION)
             ->setWebsite(null)
             ->setStore(null)

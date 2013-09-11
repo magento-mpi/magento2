@@ -41,14 +41,14 @@ class Magento_Core_Model_Layout_File_Source_Override_ThemeTest extends PHPUnit_F
 
     public function testGetFiles()
     {
-        $grandparentTheme = $this->getMockForAbstractClass('\Magento\Core\Model\ThemeInterface');
+        $grandparentTheme = $this->getMockForAbstractClass('Magento\Core\Model\ThemeInterface');
         $grandparentTheme->expects($this->once())->method('getCode')->will($this->returnValue('grand_parent_theme'));
 
-        $parentTheme = $this->getMockForAbstractClass('\Magento\Core\Model\ThemeInterface');
+        $parentTheme = $this->getMockForAbstractClass('Magento\Core\Model\ThemeInterface');
         $parentTheme->expects($this->once())->method('getCode')->will($this->returnValue('parent_theme'));
         $parentTheme->expects($this->once())->method('getParentTheme')->will($this->returnValue($grandparentTheme));
 
-        $theme = $this->getMockForAbstractClass('\Magento\Core\Model\ThemeInterface');
+        $theme = $this->getMockForAbstractClass('Magento\Core\Model\ThemeInterface');
         $theme->expects($this->once())->method('getFullPath')->will($this->returnValue('area/theme_path'));
         $theme->expects($this->once())->method('getParentTheme')->will($this->returnValue($parentTheme));
 
@@ -84,7 +84,7 @@ class Magento_Core_Model_Layout_File_Source_Override_ThemeTest extends PHPUnit_F
                 . ", which is not ancestor of theme 'theme_path'"
         );
 
-        $theme = $this->getMockForAbstractClass('\Magento\Core\Model\ThemeInterface');
+        $theme = $this->getMockForAbstractClass('Magento\Core\Model\ThemeInterface');
         $theme->expects($this->once())->method('getFullPath')->will($this->returnValue('area/theme_path'));
         $theme->expects($this->once())->method('getParentTheme')->will($this->returnValue(null));
         $theme->expects($this->once())->method('getCode')->will($this->returnValue('theme_path'));

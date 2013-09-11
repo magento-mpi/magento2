@@ -39,7 +39,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     public function getCollection()
     {
         if (!$this->_collection) {
-            $this->_collection = \Mage::getModel('\Magento\Connect\Model\Extension\Collection');
+            $this->_collection = \Mage::getModel('Magento\Connect\Model\Extension\Collection');
         }
         return $this->_collection;
     }

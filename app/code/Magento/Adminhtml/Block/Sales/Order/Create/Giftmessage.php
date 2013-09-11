@@ -47,7 +47,7 @@ class Giftmessage extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCr
 
         foreach ($allItems as $item) {
             if($this->_getGiftmessageSaveModel()->getIsAllowedQuoteItem($item)
-               && $this->helper('\Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('item',
+               && $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('item',
                         $item, $this->getStore())) {
                 // if item allowed
                 $items[] = $item;

@@ -123,7 +123,7 @@ class Observer
             'name'      => 'is_used_for_customer_segment',
             'label'     => __('Use in Customer Segment'),
             'title'     => __('Use in Customer Segment'),
-            'values'    => \Mage::getModel('\Magento\Backend\Model\Config\Source\Yesno')->toOptionArray(),
+            'values'    => \Mage::getModel('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray(),
         ));
     }
 
@@ -147,7 +147,7 @@ class Observer
         $block = $observer->getEvent()->getBlock();
 
         /** @var \Magento\Backend\Block\Widget\Form\Element\Dependence $fieldDependencies */
-        $fieldDependencies = $block->getLayout()->createBlock('\Magento\Backend\Block\Widget\Form\Element\Dependence');
+        $fieldDependencies = $block->getLayout()->createBlock('Magento\Backend\Block\Widget\Form\Element\Dependence');
         $block->setChild('form_after', $fieldDependencies);
 
         $this->_segmentHelper->addSegmentFieldsToForm($form, $model, $fieldDependencies);

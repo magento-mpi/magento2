@@ -41,10 +41,10 @@ class Magento_Core_Model_Layout_File_Source_AggregateTest extends PHPUnit_Framew
     protected function setUp()
     {
         $this->_fileList = $this->getMock('Magento\Core\Model\Layout\File\ListFile', array(), array(), '', false);
-        $this->_baseFiles = $this->getMockForAbstractClass('\Magento\Core\Model\Layout\File\SourceInterface');
-        $this->_themeFiles = $this->getMockForAbstractClass('\Magento\Core\Model\Layout\File\SourceInterface');
-        $this->_overridingBaseFiles = $this->getMockForAbstractClass('\Magento\Core\Model\Layout\File\SourceInterface');
-        $this->_overridingThemeFiles = $this->getMockForAbstractClass('\Magento\Core\Model\Layout\File\SourceInterface');
+        $this->_baseFiles = $this->getMockForAbstractClass('Magento\Core\Model\Layout\File\SourceInterface');
+        $this->_themeFiles = $this->getMockForAbstractClass('Magento\Core\Model\Layout\File\SourceInterface');
+        $this->_overridingBaseFiles = $this->getMockForAbstractClass('Magento\Core\Model\Layout\File\SourceInterface');
+        $this->_overridingThemeFiles = $this->getMockForAbstractClass('Magento\Core\Model\Layout\File\SourceInterface');
         $fileListFactory =
             $this->getMock('Magento\Core\Model\Layout\File\FileList\Factory', array(), array(), '', false);
         $fileListFactory->expects($this->once())->method('create')->will($this->returnValue($this->_fileList));
@@ -56,8 +56,8 @@ class Magento_Core_Model_Layout_File_Source_AggregateTest extends PHPUnit_Framew
 
     public function testGetFiles()
     {
-        $parentTheme = $this->getMockForAbstractClass('\Magento\Core\Model\ThemeInterface');
-        $theme = $this->getMockForAbstractClass('\Magento\Core\Model\ThemeInterface');
+        $parentTheme = $this->getMockForAbstractClass('Magento\Core\Model\ThemeInterface');
+        $theme = $this->getMockForAbstractClass('Magento\Core\Model\ThemeInterface');
         $theme->expects($this->once())->method('getParentTheme')->will($this->returnValue($parentTheme));
 
         $files = array(

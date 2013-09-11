@@ -30,7 +30,7 @@ class Json extends \Magento\Adminhtml\Controller\Action
 
         $countryId = $this->getRequest()->getParam('parent');
         if (!empty($countryId)) {
-            $arrRegions = \Mage::getResourceModel('\Magento\Directory\Model\Resource\Region\Collection')
+            $arrRegions = \Mage::getResourceModel('Magento\Directory\Model\Resource\Region\Collection')
                 ->addCountryFilter($countryId)
                 ->load()
                 ->toOptionArray();

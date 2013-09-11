@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$product = Mage::getModel('\Magento\Catalog\Model\Product');
+$product = Mage::getModel('Magento\Catalog\Model\Product');
 $product->setTypeId(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE)
     ->setId(1)
     ->setAttributeSetId(4)

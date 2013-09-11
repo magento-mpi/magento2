@@ -94,7 +94,7 @@ class Authorize extends \Magento\Adminhtml\Controller\Action
     protected function _initForm($simple = false)
     {
         /** @var $server \Magento\Oauth\Model\Server */
-        $server = \Mage::getModel('\Magento\Oauth\Model\Server');
+        $server = \Mage::getModel('Magento\Oauth\Model\Server');
         /** @var $session \Magento\Backend\Model\Auth\Session */
         $session = \Mage::getSingleton($this->_sessionName);
 
@@ -163,7 +163,7 @@ class Authorize extends \Magento\Adminhtml\Controller\Action
 
         try {
             /** @var $server \Magento\Oauth\Model\Server */
-            $server = \Mage::getModel('\Magento\Oauth\Model\Server');
+            $server = \Mage::getModel('Magento\Oauth\Model\Server');
 
             $token = $server->authorizeToken($user->getId(), \Magento\Oauth\Model\Token::USER_TYPE_ADMIN);
 
@@ -197,7 +197,7 @@ class Authorize extends \Magento\Adminhtml\Controller\Action
     protected function _initRejectPage($simple = false)
     {
         /** @var $server \Magento\Oauth\Model\Server */
-        $server = \Mage::getModel('\Magento\Oauth\Model\Server');
+        $server = \Mage::getModel('Magento\Oauth\Model\Server');
 
         /** @var $session \Magento\Backend\Model\Auth\Session */
         $session = \Mage::getSingleton($this->_sessionName);

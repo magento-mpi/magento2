@@ -65,22 +65,22 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = \Mage::getModel('\Magento\Directory\Model\Config\Source\Country')
+                    $options = \Mage::getModel('Magento\Directory\Model\Config\Source\Country')
                         ->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = \Mage::getModel('\Magento\Directory\Model\Config\Source\Allregion')
+                    $options = \Mage::getModel('Magento\Directory\Model\Config\Source\Allregion')
                         ->toOptionArray();
                     break;
 
                 case 'shipping_method':
-                    $options = \Mage::getModel('\Magento\Shipping\Model\Config\Source\Allmethods')
+                    $options = \Mage::getModel('Magento\Shipping\Model\Config\Source\Allmethods')
                         ->toOptionArray();
                     break;
 
                 case 'payment_method':
-                    $options = \Mage::getModel('\Magento\Payment\Model\Config\Source\Allmethods')
+                    $options = \Mage::getModel('Magento\Payment\Model\Config\Source\Allmethods')
                         ->toOptionArray();
                     break;
 

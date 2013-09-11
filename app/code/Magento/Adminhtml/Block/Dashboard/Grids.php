@@ -50,7 +50,7 @@ class Grids extends \Magento\Adminhtml\Block\Widget\Tabs
         $this->addTab('ordered_products', array(
             'label'     => __('Bestsellers'),
             'content'   => $this->getLayout()
-                ->createBlock('\Magento\Adminhtml\Block\Dashboard\Tab\Products\Ordered')->toHtml(),
+                ->createBlock('Magento\Adminhtml\Block\Dashboard\Tab\Products\Ordered')->toHtml(),
             'active'    => true
         ));
 

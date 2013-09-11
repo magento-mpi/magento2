@@ -42,7 +42,7 @@ class Logging extends \Magento\Adminhtml\Controller\Action
     public function detailsAction()
     {
         $eventId = $this->getRequest()->getParam('event_id');
-        $model   = \Mage::getModel('\Magento\Logging\Model\Event')
+        $model   = \Mage::getModel('Magento\Logging\Model\Event')
             ->load($eventId);
         if (!$model->getId()) {
             $this->_redirect('*/*/');
@@ -107,7 +107,7 @@ class Logging extends \Magento\Adminhtml\Controller\Action
      */
     public function downloadAction()
     {
-        $archive = \Mage::getModel('\Magento\Logging\Model\Archive')->loadByBaseName(
+        $archive = \Mage::getModel('Magento\Logging\Model\Archive')->loadByBaseName(
             $this->getRequest()->getParam('basename')
         );
         if ($archive->getFilename()) {

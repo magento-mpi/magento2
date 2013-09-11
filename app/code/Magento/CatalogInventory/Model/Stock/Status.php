@@ -145,7 +145,7 @@ class Status extends \Magento\Core\Model\AbstractModel
      */
     public function getStockItemModel()
     {
-        return \Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item');
+        return \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
     }
 
     /**

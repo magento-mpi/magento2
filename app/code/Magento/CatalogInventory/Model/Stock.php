@@ -79,7 +79,7 @@ class Stock extends \Magento\Core\Model\AbstractModel
      */
     public function getItemCollection()
     {
-        return \Mage::getResourceModel('\Magento\CatalogInventory\Model\Resource\Stock\Item\Collection')
+        return \Mage::getResourceModel('Magento\CatalogInventory\Model\Resource\Stock\Item\Collection')
             ->addStockFilter($this->getId());
     }
 
@@ -93,7 +93,7 @@ class Stock extends \Magento\Core\Model\AbstractModel
         $qtys = array();
         foreach ($items as $productId => $item) {
             if (empty($item['item'])) {
-                $stockItem = \Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item')->loadByProduct($productId);
+                $stockItem = \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item')->loadByProduct($productId);
             } else {
                 $stockItem = $item['item'];
             }
@@ -115,7 +115,7 @@ class Stock extends \Magento\Core\Model\AbstractModel
     public function registerProductsSale($items)
     {
         $qtys = $this->_prepareProductQtys($items);
-        $item = \Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item');
+        $item = \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
         $this->_getResource()->beginTransaction();
         $stockInfo = $this->_getResource()->getProductsStock($this, array_keys($qtys), true);
         $fullSaveItems = array();
@@ -156,7 +156,7 @@ class Stock extends \Magento\Core\Model\AbstractModel
     {
         $productId = $item->getProductId();
         if ($productId) {
-            $stockItem = \Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item')->loadByProduct($productId);
+            $stockItem = \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item')->loadByProduct($productId);
             if (\Mage::helper('Magento\CatalogInventory\Helper\Data')->isQty($stockItem->getTypeId())) {
                 if ($item->getStoreId()) {
                     $stockItem->setStoreId($item->getStoreId());
@@ -182,7 +182,7 @@ class Stock extends \Magento\Core\Model\AbstractModel
      */
     public function backItemQty($productId, $qty)
     {
-        $stockItem = \Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item')->loadByProduct($productId);
+        $stockItem = \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item')->loadByProduct($productId);
         if ($stockItem->getId() && \Mage::helper('Magento\CatalogInventory\Helper\Data')->isQty($stockItem->getTypeId())) {
             $stockItem->addQty($qty);
             if ($stockItem->getCanBackInStock() && $stockItem->getQty() > $stockItem->getMinQty()) {

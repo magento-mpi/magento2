@@ -50,7 +50,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
         /*
          * Prevent multiple notification processing
          */
-        $notification = \Mage::getModel('\Magento\GoogleCheckout\Model\Notification')
+        $notification = \Mage::getModel('Magento\GoogleCheckout\Model\Notification')
             ->setSerialNumber($serialNumber)
             ->loadNotificationData();
 
@@ -98,7 +98,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
     {
         $quoteId = $this->getData('root/shopping-cart/merchant-private-data/quote-id/VALUE');
         $storeId = $this->getData('root/shopping-cart/merchant-private-data/store-id/VALUE');
-        $quote = \Mage::getModel('\Magento\Sales\Model\Quote')
+        $quote = \Mage::getModel('Magento\Sales\Model\Quote')
             ->setStoreId($storeId)
             ->load($quoteId);
         if ($quote->isVirtual()) {
@@ -175,7 +175,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
             $addressId = $googleAddress['id'];
             $regionCode = $googleAddress['region']['VALUE'];
             $countryCode = $googleAddress['country-code']['VALUE'];
-            $regionModel = \Mage::getModel('\Magento\Directory\Model\Region')->loadByCode($regionCode, $countryCode);
+            $regionModel = \Mage::getModel('Magento\Directory\Model\Region')->loadByCode($regionCode, $countryCode);
             $regionId = $regionModel->getId();
 
             $address->setCountryId($countryCode)
@@ -327,7 +327,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
         $this->getGResponse()->SendAck();
 
         // LOOK FOR EXISTING ORDER TO AVOID DUPLICATES
-        $orders = \Mage::getModel('\Magento\Sales\Model\Order')->getCollection()
+        $orders = \Mage::getModel('Magento\Sales\Model\Order')->getCollection()
             ->addAttributeToFilter('ext_order_id', $this->getGoogleOrderNumber());
         if (count($orders)) {
             return;
@@ -410,7 +410,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
          * Adding transaction for correct transaction information displaying on order view at back end.
          * It has no influence on api interaction logic.
          */
-        $payment = \Mage::getModel('\Magento\Sales\Model\Order\Payment')
+        $payment = \Mage::getModel('Magento\Sales\Model\Order\Payment')
             ->setMethod('googlecheckout')
             ->setTransactionId($this->getGoogleOrderNumber())
             ->setIsTransactionClosed(false);
@@ -440,9 +440,9 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
             $customer = $quote->getCustomer();
             if ($customer && $customer->getId()) {
                 $customer->setIsSubscribed(true);
-                \Mage::getModel('\Magento\Newsletter\Model\Subscriber')->subscribeCustomer($customer);
+                \Mage::getModel('Magento\Newsletter\Model\Subscriber')->subscribeCustomer($customer);
             } else {
-                \Mage::getModel('\Magento\Newsletter\Model\Subscriber')->subscribe($order->getCustomerEmail());
+                \Mage::getModel('Magento\Newsletter\Model\Subscriber')->subscribe($order->getCustomerEmail());
             }
         }
 
@@ -520,7 +520,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
         }
 
         if (!$qAddress) {
-            $qAddress = \Mage::getModel('\Magento\Sales\Model\Quote\Address');
+            $qAddress = \Mage::getModel('Magento\Sales\Model\Quote\Address');
         }
         $nameArr = $gAddress->getData('structured-name');
         if ($nameArr) {
@@ -533,7 +533,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
                 $qAddress->setLastname($nameArr[1]);
             }
         }
-        $region = \Mage::getModel('\Magento\Directory\Model\Region')->loadByCode(
+        $region = \Mage::getModel('Magento\Directory\Model\Region')->loadByCode(
             $gAddress->getData('region/VALUE'),
             $gAddress->getData('country-code/VALUE')
         );
@@ -564,7 +564,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
         $cacheKey = ($storeId === null) ? 'nofilter' : $storeId;
         if (!isset($this->_cachedShippingInfo[$cacheKey])) {
             /* @var $shipping \Magento\Shipping\Model\Shipping */
-            $shipping = \Mage::getModel('\Magento\Shipping\Model\Shipping');
+            $shipping = \Mage::getModel('Magento\Shipping\Model\Shipping');
             $carriers = \Mage::getStoreConfig('carriers', $storeId);
             $infos = array();
 
@@ -632,7 +632,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
      */
     protected function _createShippingRate($code, $storeId = null)
     {
-        $rate = \Mage::getModel('\Magento\Sales\Model\Quote\Address\Rate')
+        $rate = \Mage::getModel('Magento\Sales\Model\Quote\Address\Rate')
             ->setCode($code);
 
         $infos = $this->_getShippingInfos($storeId);
@@ -717,7 +717,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
     public function getOrder()
     {
         if (!$this->hasData('order')) {
-            $order = \Mage::getModel('\Magento\Sales\Model\Order')
+            $order = \Mage::getModel('Magento\Sales\Model\Order')
                 ->loadByAttribute('ext_order_id', $this->getGoogleOrderNumber());
             if (!$order->getId()) {
                 \Mage::throwException('Invalid Order: ' . $this->getGoogleOrderNumber());
@@ -775,11 +775,11 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
         $order->addStatusToHistory($order->getStatus(), $msg);
 
         $order->setPaymentAuthorizationAmount($payment->getAmountAuthorized());
-        $timestamp = \Mage::getModel('\Magento\Core\Model\Date')->gmtTimestamp(
+        $timestamp = \Mage::getModel('Magento\Core\Model\Date')->gmtTimestamp(
             $this->getData('root/authorization-expiration-date/VALUE')
         );
         $order->setPaymentAuthorizationExpiration(
-            $timestamp ? $timestamp : \Mage::getModel('\Magento\Core\Model\Date')->gmtTimestamp()
+            $timestamp ? $timestamp : \Mage::getModel('Magento\Core\Model\Date')->gmtTimestamp()
         );
 
         $order->save();
@@ -839,7 +839,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
             ->register()
             ->pay();
 
-        $transactionSave = \Mage::getModel('\Magento\Core\Model\Resource\Transaction')
+        $transactionSave = \Mage::getModel('Magento\Core\Model\Resource\Transaction')
             ->addObject($invoice)
             ->addObject($invoice->getOrder());
 
@@ -857,7 +857,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
 
             $order->setIsInProcess(true);
 
-            $transactionSave = \Mage::getModel('\Magento\Core\Model\Resource\Transaction')
+            $transactionSave = \Mage::getModel('Magento\Core\Model\Resource\Transaction')
                 ->addObject($shipment)
                 ->addObject($shipment->getOrder())
                 ->save();
@@ -878,7 +878,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
 
         $order = $this->getOrder();
         if ($order->getBaseGrandTotal() == $totalChargeback) {
-            $creditmemo = \Mage::getModel('\Magento\Sales\Model\Service\Order', array('order' => $order))
+            $creditmemo = \Mage::getModel('Magento\Sales\Model\Service\Order', array('order' => $order))
                 ->prepareCreditmemo()
                 ->setPaymentRefundDisallowed(true)
                 ->setAutomaticallyCreated(true)
@@ -925,7 +925,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
             $adjustment = array('adjustment_negative' => $order->getBaseGrandTotal() - $latestRefunded);
         }
 
-        $creditmemo = \Mage::getModel('\Magento\Sales\Model\Service\Order', array('order' => $order))
+        $creditmemo = \Mage::getModel('Magento\Sales\Model\Service\Order', array('order' => $order))
             ->prepareCreditmemo($adjustment)
             ->setPaymentRefundDisallowed(true)
             ->setAutomaticallyCreated(true)

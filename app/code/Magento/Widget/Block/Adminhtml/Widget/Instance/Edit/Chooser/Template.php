@@ -34,7 +34,7 @@ class Template
             $html = '<input type="hidden" name="template" value="' . $widgetTemplate['value'] . '" />';
             $html .= $widgetTemplate['label'];
         } else {
-            $html = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
+            $html = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
                 ->setName('template')
                 ->setClass('select')
                 ->setOptions($this->getWidgetTemplates())

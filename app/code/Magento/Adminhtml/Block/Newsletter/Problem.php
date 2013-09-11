@@ -27,7 +27,7 @@ class Problem extends \Magento\Adminhtml\Block\Template
     {
         parent::_construct();
 
-        $collection = \Mage::getResourceSingleton('\Magento\Newsletter\Model\Resource\Problem\Collection')
+        $collection = \Mage::getResourceSingleton('Magento\Newsletter\Model\Resource\Problem\Collection')
             ->addSubscriberInfo()
             ->addQueueInfo();
 
@@ -36,7 +36,7 @@ class Problem extends \Magento\Adminhtml\Block\Template
     protected function _prepareLayout()
     {
         $this->setChild('deleteButton',
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button','del.button')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button','del.button')
                 ->setData(
                     array(
                         'label' => __('Delete Selected Problems'),
@@ -46,7 +46,7 @@ class Problem extends \Magento\Adminhtml\Block\Template
         );
 
         $this->setChild('unsubscribeButton',
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button','unsubscribe.button')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button','unsubscribe.button')
                 ->setData(
                     array(
                         'label' => __('Unsubscribe Selected'),
@@ -69,7 +69,7 @@ class Problem extends \Magento\Adminhtml\Block\Template
 
     public function getShowButtons()
     {
-        return  \Mage::getResourceSingleton('\Magento\Newsletter\Model\Resource\Problem\Collection')->getSize() > 0;
+        return  \Mage::getResourceSingleton('Magento\Newsletter\Model\Resource\Problem\Collection')->getSize() > 0;
     }
 
 }// Class \Magento\Adminhtml\Block\Newsletter\Problem END

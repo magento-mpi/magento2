@@ -44,7 +44,7 @@ class Customer extends \Magento\Core\Controller\Front\Action
     {
         \Mage::register('current_reward', $this->_getReward());
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Reward Points'));
@@ -134,7 +134,7 @@ class Customer extends \Magento\Core\Controller\Front\Action
      */
     protected function _getReward()
     {
-        $reward = \Mage::getModel('\Magento\Reward\Model\Reward')
+        $reward = \Mage::getModel('Magento\Reward\Model\Reward')
             ->setCustomer($this->_getCustomer())
             ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId())
             ->loadByCustomer();

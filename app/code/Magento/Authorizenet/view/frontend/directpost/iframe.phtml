@@ -15,7 +15,7 @@
 <?php
 $_params = $this->getParams();
 /* @var $_helper \Magento\Authorizenet\Helper\Data  */
-$_helper = $this->helper('\Magento\Authorizenet\Helper\Data');
+$_helper = $this->helper('Magento\Authorizenet\Helper\Data');
 ?>
 <html>
 <head>
@@ -27,7 +27,7 @@ $_helper = $this->helper('\Magento\Authorizenet\Helper\Data');
         window.top.location="<?php echo $this->escapeUrl($_params['redirect_parent']) ?>";
     <?php endif; ?>
     <?php if (isset($_params['error_msg'])): ?>
-        alert(<?php echo $this->helper('\Magento\Core\Helper\Data')->jsonEncode($_params['error_msg']) ?>);
+        alert(<?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($_params['error_msg']) ?>);
         <?php if (isset($_params['x_invoice_num'])): ?>
             window.top.location = "<?php echo $_helper->getSuccessOrderUrl($_params) ?>";
         <?php endif; ?>

@@ -36,7 +36,7 @@ class Rating extends \Magento\Adminhtml\Controller\Action
         $this->_initEnityId();
         $this->loadLayout();
 
-        $ratingModel = \Mage::getModel('\Magento\Rating\Model\Rating');
+        $ratingModel = \Mage::getModel('Magento\Rating\Model\Rating');
         if ($this->getRequest()->getParam('id')) {
             $ratingModel->load($this->getRequest()->getParam('id'));
         }
@@ -46,8 +46,8 @@ class Rating extends \Magento\Adminhtml\Controller\Action
         $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_ratings');
         $this->_addBreadcrumb(__('Manage Ratings'), __('Manage Ratings'));
 
-        $this->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Rating\Edit'))
-            ->_addLeft($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Rating\Edit\Tabs'));
+        $this->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Rating\Edit'))
+            ->_addLeft($this->getLayout()->createBlock('Magento\Adminhtml\Block\Rating\Edit\Tabs'));
         $this->renderLayout();
     }
 
@@ -65,7 +65,7 @@ class Rating extends \Magento\Adminhtml\Controller\Action
 
         if ($this->getRequest()->getPost()) {
             try {
-                $ratingModel = \Mage::getModel('\Magento\Rating\Model\Rating');
+                $ratingModel = \Mage::getModel('Magento\Rating\Model\Rating');
 
                 $stores = $this->getRequest()->getParam('stores');
                 $position = (int)$this->getRequest()->getParam('position');
@@ -85,7 +85,7 @@ class Rating extends \Magento\Adminhtml\Controller\Action
                 if (is_array($options)) {
                     $i = 1;
                     foreach ($options as $key => $optionCode) {
-                        $optionModel = \Mage::getModel('\Magento\Rating\Model\Rating\Option');
+                        $optionModel = \Mage::getModel('Magento\Rating\Model\Rating\Option');
                         if (!preg_match("/^add_([0-9]*?)$/", $key)) {
                             $optionModel->setId($key);
                         }
@@ -118,7 +118,7 @@ class Rating extends \Magento\Adminhtml\Controller\Action
     {
         if( $this->getRequest()->getParam('id') > 0 ) {
             try {
-                $model = \Mage::getModel('\Magento\Rating\Model\Rating');
+                $model = \Mage::getModel('Magento\Rating\Model\Rating');
                 /* @var $model \Magento\Rating\Model\Rating */
                 $model->load($this->getRequest()->getParam('id'))
                     ->delete();
@@ -136,7 +136,7 @@ class Rating extends \Magento\Adminhtml\Controller\Action
     {
         $this->_title(__('Ratings'));
 
-        \Mage::register('entityId', \Mage::getModel('\Magento\Rating\Model\Rating\Entity')->getIdByCode('product'));
+        \Mage::register('entityId', \Mage::getModel('Magento\Rating\Model\Rating\Entity')->getIdByCode('product'));
     }
 
     protected function _isAllowed()

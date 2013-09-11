@@ -490,7 +490,7 @@ abstract class AbstractApi extends \Magento\Object
     protected function _lookupRegionCodeFromAddress(\Magento\Object $address)
     {
         if ($regionId = $address->getData('region_id')) {
-            $region = \Mage::getModel('\Magento\Directory\Model\Region')->load($regionId);
+            $region = \Mage::getModel('Magento\Directory\Model\Region')->load($regionId);
             if ($region->getId()) {
                 return $region->getCode();
             }
@@ -554,7 +554,7 @@ abstract class AbstractApi extends \Magento\Object
     protected function _debug($debugData)
     {
         if ($this->getDebugFlag()) {
-            \Mage::getModel('\Magento\Core\Model\Log\Adapter',
+            \Mage::getModel('Magento\Core\Model\Log\Adapter',
                 array('fileName' => 'payment_' . $this->_config->getMethodCode() . '.log'))
                ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
                ->log($debugData);

@@ -29,13 +29,13 @@ class Ajax extends \Magento\Backend\Block\AbstractBlock
         $results = array();
         /** @var $optionsBlock \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Option */
         $optionsBlock = $this->getLayout()
-            ->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Option')
+            ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Option')
             ->setIgnoreCaching(true);
 
         $products = \Mage::registry('import_option_products');
         if (is_array($products)) {
             foreach ($products as $productId) {
-                $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load((int)$productId);
+                $product = \Mage::getModel('Magento\Catalog\Model\Product')->load((int)$productId);
                 if (!$product->getId()) {
                     continue;
                 }

@@ -290,7 +290,7 @@ class Observer
      */
     public function deleteOldAttempts()
     {
-        \Mage::getResourceModel('\Magento\Captcha\Model\Resource\Log')->deleteOldAttempts();
+        \Mage::getResourceModel('Magento\Captcha\Model\Resource\Log')->deleteOldAttempts();
         return $this;
     }
 
@@ -323,7 +323,7 @@ class Observer
      */
     protected function _resetAttempt($login)
     {
-        \Mage::getResourceModel('\Magento\Captcha\Model\Resource\Log')->deleteUserAttempts($login);
+        \Mage::getResourceModel('Magento\Captcha\Model\Resource\Log')->deleteUserAttempts($login);
         return $this;
     }
 

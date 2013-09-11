@@ -84,7 +84,7 @@ abstract class AbstractErrors extends \Magento\Adminhtml\Block\Widget
             'onclick' => 'addBySku.removeAllFailed()',
             'class'   => 'action-delete',
         );
-        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')->setData($buttonData)->toHtml();
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData($buttonData)->toHtml();
     }
 
     /**
@@ -139,7 +139,7 @@ abstract class AbstractErrors extends \Magento\Adminhtml\Block\Widget
     public function getCart()
     {
         if (!isset($this->_cart)) {
-            $this->_cart =  \Mage::getModel('\Magento\AdvancedCheckout\Model\Cart');
+            $this->_cart =  \Mage::getModel('Magento\AdvancedCheckout\Model\Cart');
         }
         return $this->_cart;
     }

@@ -168,7 +168,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             return $this;
         }
         foreach ($this->getItems() as $item) {
-            $options = \Mage::getModel('\Magento\Rating\Model\Rating\Option')
+            $options = \Mage::getModel('Magento\Rating\Model\Rating\Option')
                     ->getResourceCollection()
                     ->addRatingFilter($item->getRatingId())
                     ->load();

@@ -12,8 +12,8 @@
 <div id="attribute-<?php echo $this->getElement()->getHtmlId(); ?>-container" class="field"
      data-element-id="<?php echo $this->getElement()->getHtmlId(); ?>"
      data-mage-init="{fptAttribute:{
-        region: <?php echo $this->escapeHtml($this->helper('\Magento\Directory\Helper\Data')->getRegionJson()) ?>,
-        itemsData: <?php echo $this->escapeHtml($this->helper('\Magento\Core\Helper\Data')->jsonEncode($this->getValues())); ?>,
+        region: <?php echo $this->escapeHtml($this->helper('Magento\Directory\Helper\Data')->getRegionJson()) ?>,
+        itemsData: <?php echo $this->escapeHtml($this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getValues())); ?>,
         bundlePriceType: '#price_type'
         }}">
     <label class="label"><span><?php echo $this->getElement()->getLabel() ?></span></label>

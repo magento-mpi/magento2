@@ -13,11 +13,11 @@ class Magento_Paypal_Controller_HostedproTest extends Magento_TestFramework_Test
 {
     public function testCancelActionIsContentGenerated()
     {
-        $order = Mage::getModel('\Magento\Sales\Model\Order');
+        $order = Mage::getModel('Magento\Sales\Model\Order');
         $order->load('100000001', 'increment_id');
         $order->getPayment()->setMethod(\Magento\Paypal\Model\Config::METHOD_HOSTEDPRO);
 
-        $quote = Mage::getModel('\Magento\Sales\Model\Quote')
+        $quote = Mage::getModel('Magento\Sales\Model\Quote')
             ->setStoreId($order->getStoreId())
             ->save();
 

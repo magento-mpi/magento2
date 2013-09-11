@@ -86,7 +86,7 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
             $value = array($value);
         }
 
-        $field = \Mage::getResourceSingleton('\Magento\Search\Model\Resource\Engine')
+        $field = \Mage::getResourceSingleton('Magento\Search\Model\Resource\Engine')
                 ->getSearchEngineFieldName($attribute, 'nav');
 
         if ($attribute->getBackendType() == 'datetime') {
@@ -120,7 +120,7 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
     public function addRatedPriceFilter($collection, $attribute, $value, $rate = 1)
     {
         $collection->addPriceData();
-        $fieldName = \Mage::getResourceSingleton('\Magento\Search\Model\Resource\Engine')
+        $fieldName = \Mage::getResourceSingleton('Magento\Search\Model\Resource\Engine')
                 ->getSearchEngineFieldName($attribute);
         $collection->addSearchParam(array($fieldName => $value));
 

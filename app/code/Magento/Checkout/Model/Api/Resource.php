@@ -116,7 +116,7 @@ class Resource extends \Magento\Api\Model\Resource\AbstractResource
     protected function _getQuote($quoteId, $store = null)
     {
         /** @var $quote \Magento\Sales\Model\Quote */
-        $quote = \Mage::getModel('\Magento\Sales\Model\Quote');
+        $quote = \Mage::getModel('Magento\Sales\Model\Quote');
 
         if (!(is_string($store) || is_integer($store))) {
             $quote->loadByIdWithoutStore($quoteId);
@@ -142,7 +142,7 @@ class Resource extends \Magento\Api\Model\Resource\AbstractResource
     protected function _getStoreIdFromQuote($quoteId)
     {
         /** @var $quote \Magento\Sales\Model\Quote */
-        $quote = \Mage::getModel('\Magento\Sales\Model\Quote')
+        $quote = \Mage::getModel('Magento\Sales\Model\Quote')
             ->loadByIdWithoutStore($quoteId);
 
         return $quote->getStoreId();

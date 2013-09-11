@@ -221,7 +221,7 @@ class Matrix
         $products = array();
         foreach ($ids as $productId) {
             /** @var $product \Magento\Catalog\Model\Product */
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($productId);
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
             if ($product->getId()) {
                 $products[] = $product;
             }

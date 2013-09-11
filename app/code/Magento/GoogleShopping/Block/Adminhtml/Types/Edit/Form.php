@@ -75,7 +75,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
         ));
 
         $attributesBlock = $this->getLayout()
-            ->createBlock('\Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Attributes')
+            ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Attributes')
             ->setTargetCountry($targetCountry);
         if ($itemType->getId()) {
             $attributesBlock->setAttributeSetId($itemType->getAttributeSetId())
@@ -142,14 +142,14 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _getAttributeSetsArray($targetCountry)
     {
-        $entityType = \Mage::getModel('\Magento\Catalog\Model\Product')->getResource()->getEntityType();
-        $collection = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
+        $entityType = \Mage::getModel('Magento\Catalog\Model\Product')->getResource()->getEntityType();
+        $collection = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
             ->setEntityTypeFilter($entityType->getId());
 
         $ids = array();
         $itemType = $this->getItemType();
         if ( !($itemType instanceof \Magento\Object && $itemType->getId()) ) {
-            $typesCollection = \Mage::getResourceModel('\Magento\GoogleShopping\Model\Resource\Type\Collection')
+            $typesCollection = \Mage::getResourceModel('Magento\GoogleShopping\Model\Resource\Type\Collection')
                 ->addCountryFilter($targetCountry)
                 ->load();
             foreach ($typesCollection as $type) {

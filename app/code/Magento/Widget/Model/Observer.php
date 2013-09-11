@@ -30,7 +30,7 @@ class Observer
         $config = $observer->getEvent()->getConfig();
 
         if ($config->getData('add_widgets')) {
-            $settings = \Mage::getModel('\Magento\Widget\Model\Widget\Config')->getPluginSettings($config);
+            $settings = \Mage::getModel('Magento\Widget\Model\Widget\Config')->getPluginSettings($config);
             $config->addData($settings);
         }
         return $this;

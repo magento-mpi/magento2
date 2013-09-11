@@ -19,12 +19,12 @@ class Magento_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestC
     {
         $expectedRoleNames = array('test_role', 'Test role');
         /** @var $roleResource \Magento\Webapi\Model\Resource\Acl\Role */
-        $roleResource = Mage::getResourceModel('\Magento\Webapi\Model\Resource\Acl\Role');
+        $roleResource = Mage::getResourceModel('Magento\Webapi\Model\Resource\Acl\Role');
         $rolesIds = $roleResource->getRolesIds();
         $this->assertCount(2, $rolesIds);
         foreach ($rolesIds as $roleId) {
             /** @var $role \Magento\Webapi\Model\Acl\Role */
-            $role = Mage::getModel('\Magento\Webapi\Model\Acl\Role')->load($roleId);
+            $role = Mage::getModel('Magento\Webapi\Model\Acl\Role')->load($roleId);
             $this->assertNotEmpty($role->getId());
             $this->assertContains($role->getRoleName(), $expectedRoleNames);
         }
@@ -39,11 +39,11 @@ class Magento_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestC
     public function testGetRolesList()
     {
         /** @var $roleResource \Magento\Webapi\Model\Resource\Acl\Role */
-        $roleResource = Mage::getResourceModel('\Magento\Webapi\Model\Resource\Acl\Role');
+        $roleResource = Mage::getResourceModel('Magento\Webapi\Model\Resource\Acl\Role');
         $rolesList = $roleResource->getRolesList();
         $this->assertCount(2, $rolesList);
         foreach ($rolesList as $roleId => $roleName) {
-            $role = Mage::getModel('\Magento\Webapi\Model\Acl\Role')->load($roleId);
+            $role = Mage::getModel('Magento\Webapi\Model\Acl\Role')->load($roleId);
             $this->assertEquals($roleId, $role->getId());
             $this->assertEquals($roleName, $role->getRoleName());
         }
@@ -59,7 +59,7 @@ class Magento_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestC
     public function testInitUniqueFields()
     {
         /** @var $roleResource \Magento\Webapi\Model\Resource\Acl\Role */
-        $roleResource = Mage::getResourceModel('\Magento\Webapi\Model\Resource\Acl\Role');
+        $roleResource = Mage::getResourceModel('Magento\Webapi\Model\Resource\Acl\Role');
         $uniqueFields = $roleResource->getUniqueFields();
         $expectedUnique = array(
             array(
@@ -69,7 +69,7 @@ class Magento_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestC
         );
         $this->assertEquals($expectedUnique, $uniqueFields);
 
-        Mage::getModel('\Magento\Webapi\Model\Acl\Role')
+        Mage::getModel('Magento\Webapi\Model\Acl\Role')
             ->setRoleName('test_role')
             ->save();
     }
@@ -81,11 +81,11 @@ class Magento_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestC
      */
     public function testDeleteRole()
     {
-        Mage::getModel('\Magento\Webapi\Model\Acl\Role')
+        Mage::getModel('Magento\Webapi\Model\Acl\Role')
             ->load('Test role', 'role_name')
             ->delete();
         /** @var \Magento\Webapi\Model\Acl\User $user */
-        $user = Mage::getModel('\Magento\Webapi\Model\Acl\User')
+        $user = Mage::getModel('Magento\Webapi\Model\Acl\User')
             ->load('test_username', 'api_key');
         $this->assertNotEmpty($user->getId());
     }

@@ -41,7 +41,7 @@ class Info extends \Magento\Core\Controller\Front\Action
             return;
         }
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $this->loadLayoutUpdates();
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {

@@ -26,7 +26,7 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Catalog\Model\Product');
+        $this->_model = Mage::getModel('Magento\Catalog\Model\Product');
     }
 
     public function testGetStoreId()
@@ -81,7 +81,7 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
     {
         // none
         /** @var $model \Magento\Catalog\Model\Product */
-        $model = Mage::getModel('\Magento\Catalog\Model\Product');
+        $model = Mage::getModel('Magento\Catalog\Model\Product');
         $this->assertEquals(array(), $model->getCategoryIds());
 
         // fixture
@@ -111,7 +111,7 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
     {
         // set
         /** @var $model \Magento\Catalog\Model\Product */
-        $model = Mage::getModel('\Magento\Catalog\Model\Product',
+        $model = Mage::getModel('Magento\Catalog\Model\Product',
             array('data' => array('website_ids' => array(1, 2)))
         );
         $this->assertEquals(array(1, 2), $model->getWebsiteIds());
@@ -125,7 +125,7 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
     {
         // set
         /** @var $model \Magento\Catalog\Model\Product */
-        $model = Mage::getModel('\Magento\Catalog\Model\Product',
+        $model = Mage::getModel('Magento\Catalog\Model\Product',
             array('data' => array('store_ids' => array(1, 2)))
         );
         $this->assertEquals(array(1, 2), $model->getStoreIds());
@@ -232,7 +232,7 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
         $this->assertEquals('test', $this->_model->getUrlPath());
 
         /** @var $category \Magento\Catalog\Model\Category */
-        $category = Mage::getModel('\Magento\Catalog\Model\Category');
+        $category = Mage::getModel('Magento\Catalog\Model\Category');
         $category->setUrlPath('category');
         $this->assertEquals('category/test', $this->_model->getUrlPath($category));
     }
@@ -247,7 +247,7 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
         $this->assertEquals(array(), $this->_model->getOptions());
 
         $optionId = uniqid();
-        $option = Mage::getModel('\Magento\Catalog\Model\Product\Option',
+        $option = Mage::getModel('Magento\Catalog\Model\Product\Option',
             array('data' => array('key' => 'value'))
         );
         $option->setId($optionId);

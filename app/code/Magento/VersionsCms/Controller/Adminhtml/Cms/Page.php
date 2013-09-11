@@ -41,7 +41,7 @@ class Page extends \Magento\Adminhtml\Controller\Cms\Page
             ->generateLayoutXml()
             ->generateLayoutBlocks();
 
-        $this->_initLayoutMessages('\Magento\Adminhtml\Model\Session');
+        $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
 
         //load layout, set active menu and breadcrumbs
         $this->_setActiveMenu('Magento_VersionsCms::versionscms_page_page')
@@ -65,7 +65,7 @@ class Page extends \Magento\Adminhtml\Controller\Cms\Page
         $this->_title(__('Pages'));
 
         $pageId = (int) $this->getRequest()->getParam('page_id');
-        $page = \Mage::getModel('\Magento\Cms\Model\Page');
+        $page = \Mage::getModel('Magento\Cms\Model\Page');
 
         if ($pageId) {
             $page->load($pageId);

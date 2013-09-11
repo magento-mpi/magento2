@@ -28,7 +28,7 @@ class Poll extends \Magento\Adminhtml\Controller\Action
         $this->_setActiveMenu('Magento_Poll::cms_poll');
         $this->_addBreadcrumb(__('Poll Manager'), __('Poll Manager'));
 
-        $this->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Poll\Poll'));
+        $this->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Poll\Poll'));
         $this->renderLayout();
     }
 
@@ -37,7 +37,7 @@ class Poll extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Polls'));
 
         $pollId     = $this->getRequest()->getParam('id');
-        $pollModel  = \Mage::getModel('\Magento\Poll\Model\Poll')->load($pollId);
+        $pollModel  = \Mage::getModel('Magento\Poll\Model\Poll')->load($pollId);
 
         if ($pollModel->getId() || $pollId == 0) {
             $this->_title($pollModel->getId() ? $pollModel->getPollTitle() : __('New Poll'));
@@ -50,8 +50,8 @@ class Poll extends \Magento\Adminhtml\Controller\Action
             $this->_addBreadcrumb(__('Edit Poll'), __('Edit Poll'));
 
             $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
-            $this->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Poll\Edit'))
-                ->_addLeft($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Poll\Edit\Tabs'));
+            $this->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Poll\Edit'))
+                ->_addLeft($this->getLayout()->createBlock('Magento\Adminhtml\Block\Poll\Edit\Tabs'));
 
             $this->renderLayout();
         } else {
@@ -64,7 +64,7 @@ class Poll extends \Magento\Adminhtml\Controller\Action
     {
         if ($id = $this->getRequest()->getParam('id')) {
             try {
-                $model = \Mage::getModel('\Magento\Poll\Model\Poll');
+                $model = \Mage::getModel('Magento\Poll\Model\Poll');
                 $model->setId($id);
                 $model->delete();
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('You deleted the poll.'));
@@ -101,7 +101,7 @@ class Poll extends \Magento\Adminhtml\Controller\Action
 
         if ( $this->getRequest()->getPost() ) {
             try {
-                $pollModel = \Mage::getModel('\Magento\Poll\Model\Poll');
+                $pollModel = \Mage::getModel('Magento\Poll\Model\Poll');
 
                 if( !$this->getRequest()->getParam('id') ) {
                     $pollModel->setDatePosted(now());
@@ -160,7 +160,7 @@ class Poll extends \Magento\Adminhtml\Controller\Action
                         }
                         $_titles[] = $answer['title'];
 
-                        $answerModel = \Mage::getModel('\Magento\Poll\Model\Poll\Answer');
+                        $answerModel = \Mage::getModel('Magento\Poll\Model\Poll\Answer');
                         if( intval($key) > 0 ) {
                             $answerModel->setId($key);
                         }
@@ -178,7 +178,7 @@ class Poll extends \Magento\Adminhtml\Controller\Action
                 $answersDelete = $this->getRequest()->getParam('deleteAnswer');
                 if( is_array($answersDelete) ) {
                     foreach( $answersDelete as $answer ) {
-                        $answerModel = \Mage::getModel('\Magento\Poll\Model\Poll\Answer');
+                        $answerModel = \Mage::getModel('Magento\Poll\Model\Poll\Answer');
                         $answerModel->setId($answer)
                             ->delete();
                     }
@@ -186,7 +186,7 @@ class Poll extends \Magento\Adminhtml\Controller\Action
             }
             catch (\Exception $e) {
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-                $this->_initLayoutMessages('\Magento\Adminhtml\Model\Session');
+                $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
                 $response->setError(true);
                 $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
             }

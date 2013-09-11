@@ -18,7 +18,7 @@ class Magento_Catalog_Model_Resource_UrlTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getResourceModel('\Magento\Catalog\Model\Resource\Url');
+        $this->_model = Mage::getResourceModel('Magento\Catalog\Model\Resource\Url');
     }
 
     /**

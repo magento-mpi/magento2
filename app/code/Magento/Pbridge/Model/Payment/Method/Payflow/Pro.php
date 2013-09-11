@@ -127,7 +127,7 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
     public function isAvailable($quote = null)
     {
         $storeId = \Mage::app()->getStore($this->getStore())->getId();
-        $config = \Mage::getModel('\Magento\Paypal\Model\Config')->setStoreId($storeId);
+        $config = \Mage::getModel('Magento\Paypal\Model\Config')->setStoreId($storeId);
 
         return $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote)
             && $config->isMethodAvailable($this->getOriginalCode());

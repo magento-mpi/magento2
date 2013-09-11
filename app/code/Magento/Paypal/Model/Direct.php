@@ -322,7 +322,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
 
         // add line items
         $parameters = array('params' => array($order));
-        $api->setPaypalCart(\Mage::getModel('\Magento\Paypal\Model\Cart', $parameters))
+        $api->setPaypalCart(\Mage::getModel('Magento\Paypal\Model\Cart', $parameters))
             ->setIsLineItemsEnabled($this->_pro->getConfig()->lineItemsEnabled)
         ;
 

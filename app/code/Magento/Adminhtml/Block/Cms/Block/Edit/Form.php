@@ -86,7 +86,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
                 'required'  => true,
                 'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(false, true),
             ));
-            $renderer = $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+            $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
         else {

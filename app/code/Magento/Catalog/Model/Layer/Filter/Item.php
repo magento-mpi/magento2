@@ -44,7 +44,7 @@ class Item extends \Magento\Object
     {
         $query = array(
             $this->getFilter()->getRequestVar()=>$this->getValue(),
-            \Mage::getBlockSingleton('\Magento\Page\Block\Html\Pager')->getPageVarName() => null // exclude current page from urls
+            \Mage::getBlockSingleton('Magento\Page\Block\Html\Pager')->getPageVarName() => null // exclude current page from urls
         );
         return \Mage::getUrl('*/*/*', array('_current'=>true, '_use_rewrite'=>true, '_query'=>$query));
     }

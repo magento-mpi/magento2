@@ -109,7 +109,7 @@ class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
                 ->where('source_table.state != ?', \Magento\Sales\Model\Order::STATE_CANCELED);
 
             /** @var \Magento\Catalog\Model\Resource\Product $product */
-            $product  = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product');
+            $product  = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product');
 
             $productTypes = array(
                 \Magento\Catalog\Model\Product\Type::TYPE_GROUPED,

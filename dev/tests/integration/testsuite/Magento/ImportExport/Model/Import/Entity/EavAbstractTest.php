@@ -27,7 +27,7 @@ class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_F
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Import\Entity\EavAbstract', array(),
+        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\Entity\EavAbstract', array(),
             '', false);
     }
 
@@ -39,7 +39,7 @@ class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_F
         $indexAttributeCode = 'gender';
 
         /** @var $attributeCollection \Magento\Customer\Model\Resource\Attribute\Collection */
-        $attributeCollection = Mage::getResourceModel('\Magento\Customer\Model\Resource\Attribute\Collection');
+        $attributeCollection = Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
         $attributeCollection->addFieldToFilter(
             'attribute_code',
             array(

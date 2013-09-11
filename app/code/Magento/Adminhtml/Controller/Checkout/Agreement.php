@@ -24,7 +24,7 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Terms and Conditions'));
 
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Checkout\Agreement'))
+            ->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Checkout\Agreement'))
             ->renderLayout();
         return $this;
     }
@@ -39,7 +39,7 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Terms and Conditions'));
 
         $id  = $this->getRequest()->getParam('id');
-        $agreementModel  = \Mage::getModel('\Magento\Checkout\Model\Agreement');
+        $agreementModel  = \Mage::getModel('Magento\Checkout\Model\Agreement');
 
         if ($id) {
             $agreementModel->load($id);
@@ -70,7 +70,7 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
             )
             ->_addContent(
                 $this->getLayout()
-                    ->createBlock('\Magento\Adminhtml\Block\Checkout\Agreement\Edit')
+                    ->createBlock('Magento\Adminhtml\Block\Checkout\Agreement\Edit')
                     ->setData('action', $this->getUrl('*/*/save'))
             )
             ->renderLayout();

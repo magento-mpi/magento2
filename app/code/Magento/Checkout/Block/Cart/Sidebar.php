@@ -72,7 +72,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
             /* @var $item \Magento\Sales\Model\Quote\Item */
             if (!$item->getProduct()->isVisibleInSiteVisibility()) {
                 $productId = $item->getProduct()->getId();
-                $products  = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Url')
+                $products  = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Url')
                     ->getRewriteByProductStore(array($productId => $item->getStoreId()));
                 if (!isset($products[$productId])) {
                     continue;
@@ -198,7 +198,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function isPossibleOnepageCheckout()
     {
-        return $this->helper('\Magento\Checkout\Helper\Data')->canOnepageCheckout() && !$this->getQuote()->getHasError();
+        return $this->helper('Magento\Checkout\Helper\Data')->canOnepageCheckout() && !$this->getQuote()->getHasError();
     }
 
     /**
@@ -208,7 +208,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function getCheckoutUrl()
     {
-        return $this->helper('\Magento\Checkout\Helper\Url')->getCheckoutUrl();
+        return $this->helper('Magento\Checkout\Helper\Url')->getCheckoutUrl();
     }
 
     /**

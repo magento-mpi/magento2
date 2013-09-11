@@ -28,7 +28,7 @@ class Flatproduct
      * @return string
      */
     protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element) {
-        if (!$this->helper('\Magento\Catalog\Helper\Product\Flat')->isBuilt()) {
+        if (!$this->helper('Magento\Catalog\Helper\Product\Flat')->isBuilt()) {
             $element->setDisabled(true)
                 ->setValue(0);
         }

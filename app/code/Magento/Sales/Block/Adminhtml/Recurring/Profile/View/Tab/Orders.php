@@ -36,7 +36,7 @@ class Orders
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Grid\Collection')
+        $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Grid\Collection')
             ->addRecurringProfilesFilter(\Mage::registry('current_recurring_profile')->getId())
         ;
         $this->setCollection($collection);

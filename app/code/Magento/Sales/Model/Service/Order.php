@@ -37,7 +37,7 @@ class Order
     public function __construct(\Magento\Sales\Model\Order $order)
     {
         $this->_order       = $order;
-        $this->_convertor   = \Mage::getModel('\Magento\Sales\Model\Convert\Order');
+        $this->_convertor   = \Mage::getModel('Magento\Sales\Model\Convert\Order');
     }
 
     /**

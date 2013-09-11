@@ -145,7 +145,7 @@ class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function aggregate($option)
     {
-        $vote = \Mage::getModel('\Magento\Rating\Model\Rating\Option\Vote')->load($option->getVoteId());
+        $vote = \Mage::getModel('Magento\Rating\Model\Rating\Option\Vote')->load($option->getVoteId());
         $this->aggregateEntityByRatingId($vote->getRatingId(), $vote->getEntityPkValue());
     }
 

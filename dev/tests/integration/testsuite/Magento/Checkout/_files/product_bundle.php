@@ -12,7 +12,7 @@
 require __DIR__ . '/../../Checkout/_files/simple_product.php';
 
 /** @var $bundleProduct \Magento\Catalog\Model\Product */
-$bundleProduct = Mage::getModel('\Magento\Catalog\Model\Product');
+$bundleProduct = Mage::getModel('Magento\Catalog\Model\Product');
 $bundleProduct->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE)
     ->setId(3)
     ->setAttributeSetId(4)
@@ -62,7 +62,7 @@ $bundleProduct->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE)
     ->save();
 
 /** @var $product \Magento\Catalog\Model\Product */
-$product = Mage::getModel('\Magento\Catalog\Model\Product');
+$product = Mage::getModel('Magento\Catalog\Model\Product');
 $product->load($bundleProduct->getId());
 
 /** @var $typeInstance \Magento\Bundle\Model\Product\Type */

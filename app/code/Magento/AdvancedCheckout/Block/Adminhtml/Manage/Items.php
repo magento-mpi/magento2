@@ -214,7 +214,7 @@ class Items extends \Magento\Adminhtml\Block\Template
     public function getCustomerWishlists()
     {
         /* @var \Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlistCollection */
-        return \Mage::getModel('\Magento\Wishlist\Model\Wishlist')->getCollection()
+        return \Mage::getModel('Magento\Wishlist\Model\Wishlist')->getCollection()
             ->filterByCustomerId($this->getCustomerId());
     }
 }

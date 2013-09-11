@@ -25,7 +25,7 @@ class Models
     public function modelSaveAfter($model, $processor)
     {
         $processor->collectId($model);
-        $changes = \Mage::getModel('\Magento\Logging\Model\Event\Changes')
+        $changes = \Mage::getModel('Magento\Logging\Model\Event\Changes')
             ->setOriginalData($model->getOrigData())
             ->setResultData($model->getData());
         return $changes;
@@ -40,7 +40,7 @@ class Models
     public function modelDeleteAfter($model, $processor)
     {
         $processor->collectId($model);
-        $changes = \Mage::getModel('\Magento\Logging\Model\Event\Changes')
+        $changes = \Mage::getModel('Magento\Logging\Model\Event\Changes')
             ->setOriginalData($model->getOrigData())
             ->setResultData(null);
         return $changes;

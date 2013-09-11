@@ -257,7 +257,7 @@ class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
         $this->saveProductLinks($product, $data, $typeId);
 
         // Grouped product relations should be added to relation table
-        \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product\Relation')
+        \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Relation')
             ->processRelations($product->getId(), $new);
 
         return $this;

@@ -54,8 +54,8 @@ class Autocomplete extends \Magento\Core\Block\AbstractBlock
     public function getSuggestData()
     {
         if (!$this->_suggestData) {
-            $collection = $this->helper('\Magento\CatalogSearch\Helper\Data')->getSuggestCollection();
-            $query = $this->helper('\Magento\CatalogSearch\Helper\Data')->getQueryText();
+            $collection = $this->helper('Magento\CatalogSearch\Helper\Data')->getSuggestCollection();
+            $query = $this->helper('Magento\CatalogSearch\Helper\Data')->getQueryText();
             $counter = 0;
             $data = array();
             foreach ($collection as $item) {

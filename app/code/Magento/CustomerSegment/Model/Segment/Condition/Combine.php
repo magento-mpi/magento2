@@ -52,11 +52,11 @@ class Combine
                 'label' => __('Customer Address')
             ),
             // Customer attribute group
-            \Mage::getModel('\Magento\CustomerSegment\Model\Segment\Condition\Customer')
+            \Mage::getModel('Magento\CustomerSegment\Model\Segment\Condition\Customer')
                 ->getNewChildSelectOptions(),
 
             // Shopping cart group
-            \Mage::getModel('\Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart')
+            \Mage::getModel('Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart')
                 ->getNewChildSelectOptions(),
 
             array(
@@ -79,7 +79,7 @@ class Combine
             ),
 
             // Sales group
-            \Mage::getModel('\Magento\CustomerSegment\Model\Segment\Condition\Sales')->getNewChildSelectOptions(),
+            \Mage::getModel('Magento\CustomerSegment\Model\Segment\Condition\Sales')->getNewChildSelectOptions(),
         );
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);
         return $this->_prepareConditionAccordingApplyToValue($conditions);

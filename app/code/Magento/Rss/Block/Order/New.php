@@ -21,7 +21,7 @@ class New extends \Magento\Core\Block\AbstractBlock
 {
     protected function _toHtml()
     {
-        $order = \Mage::getModel('\Magento\Sales\Model\Order');
+        $order = \Mage::getModel('Magento\Sales\Model\Order');
         $passDate = $order->getResource()->formatDate(mktime(0,0,0,date('m'),date('d')-7));
 
         $newurl = \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl(
@@ -33,7 +33,7 @@ class New extends \Magento\Core\Block\AbstractBlock
         );
         $title = __('New Orders');
 
-        $rssObj = \Mage::getModel('\Magento\Rss\Model\Rss');
+        $rssObj = \Mage::getModel('Magento\Rss\Model\Rss');
         $data = array('title' => $title,
                 'description' => $title,
                 'link'        => $newurl,
@@ -46,7 +46,7 @@ class New extends \Magento\Core\Block\AbstractBlock
             ->addAttributeToSort('created_at','desc')
         ;
 
-        $detailBlock = \Mage::getBlockSingleton('\Magento\Rss\Block\Order\Details');
+        $detailBlock = \Mage::getBlockSingleton('Magento\Rss\Block\Order\Details');
 
         \Mage::dispatchEvent('rss_order_new_collection_select', array('collection' => $collection));
 

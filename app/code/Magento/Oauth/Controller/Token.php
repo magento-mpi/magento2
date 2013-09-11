@@ -40,7 +40,7 @@ class Token extends \Magento\Core\Controller\Front\Action
     public function indexAction()
     {
         /** @var $server \Magento\Oauth\Model\Server */
-        $server = \Mage::getModel('\Magento\Oauth\Model\Server');
+        $server = \Mage::getModel('Magento\Oauth\Model\Server');
 
         $server->accessToken();
     }

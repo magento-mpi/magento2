@@ -277,7 +277,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     public function getAddressById($addressId)
     {
-        return \Mage::getModel('\Magento\Customer\Model\Address')
+        return \Mage::getModel('Magento\Customer\Model\Address')
             ->load($addressId);
     }
 
@@ -299,7 +299,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     public function getAddressCollection()
     {
-        return \Mage::getResourceModel('\Magento\Customer\Model\Resource\Address\Collection');
+        return \Mage::getResourceModel('Magento\Customer\Model\Resource\Address\Collection');
     }
 
     /**
@@ -652,8 +652,8 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected function _sendEmailTemplate($template, $sender, $templateParams = array(), $storeId = null)
     {
         /** @var $mailer \Magento\Core\Model\Email\Template\Mailer */
-        $mailer = \Mage::getModel('\Magento\Core\Model\Email\Template\Mailer');
-        $emailInfo = \Mage::getModel('\Magento\Core\Model\Email\Info');
+        $mailer = \Mage::getModel('Magento\Core\Model\Email\Template\Mailer');
+        $emailInfo = \Mage::getModel('Magento\Core\Model\Email\Info');
         $emailInfo->addTo($this->getEmail(), $this->getName());
         $mailer->addEmailInfo($emailInfo);
 
@@ -731,7 +731,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     public function getTaxClassId()
     {
         if (!$this->getData('tax_class_id')) {
-            $this->setTaxClassId(\Mage::getModel('\Magento\Customer\Model\Group')->getTaxClassId($this->getGroupId()));
+            $this->setTaxClassId(\Mage::getModel('Magento\Customer\Model\Group')->getTaxClassId($this->getGroupId()));
         }
         return $this->getData('tax_class_id');
     }
@@ -845,15 +845,15 @@ class Customer extends \Magento\Core\Model\AbstractModel
         }
 
         $entityType = $this->_config->getEntityType('customer');
-        $attribute = \Mage::getModel('\Magento\Customer\Model\Attribute')->loadByCode($entityType, 'dob');
+        $attribute = \Mage::getModel('Magento\Customer\Model\Attribute')->loadByCode($entityType, 'dob');
         if ($attribute->getIsRequired() && '' == trim($this->getDob())) {
             $errors[] = __('The Date of Birth is required.');
         }
-        $attribute = \Mage::getModel('\Magento\Customer\Model\Attribute')->loadByCode($entityType, 'taxvat');
+        $attribute = \Mage::getModel('Magento\Customer\Model\Attribute')->loadByCode($entityType, 'taxvat');
         if ($attribute->getIsRequired() && '' == trim($this->getTaxvat())) {
             $errors[] = __('The TAX/VAT number is required.');
         }
-        $attribute = \Mage::getModel('\Magento\Customer\Model\Attribute')->loadByCode($entityType, 'gender');
+        $attribute = \Mage::getModel('Magento\Customer\Model\Attribute')->loadByCode($entityType, 'gender');
         if ($attribute->getIsRequired() && '' == trim($this->getGender())) {
             $errors[] = __('Gender is required.');
         }

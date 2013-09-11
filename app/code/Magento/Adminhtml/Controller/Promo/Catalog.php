@@ -41,7 +41,7 @@ class Catalog extends \Magento\Adminhtml\Controller\Action
     {
         $this->_title(__('Catalog Price Rules'));
 
-        $dirtyRules = \Mage::getModel('\Magento\CatalogRule\Model\Flag')->loadSelf();
+        $dirtyRules = \Mage::getModel('Magento\CatalogRule\Model\Flag')->loadSelf();
         if ($dirtyRules->getState()) {
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addNotice($this->getDirtyRulesNoticeMessage());
         }
@@ -64,7 +64,7 @@ class Catalog extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Catalog Price Rules'));
 
         $id = $this->getRequest()->getParam('id');
-        $model = \Mage::getModel('\Magento\CatalogRule\Model\Rule');
+        $model = \Mage::getModel('Magento\CatalogRule\Model\Rule');
 
         if ($id) {
             $model->load($id);
@@ -102,7 +102,7 @@ class Catalog extends \Magento\Adminhtml\Controller\Action
     {
         if ($this->getRequest()->getPost()) {
             try {
-                $model = \Mage::getModel('\Magento\CatalogRule\Model\Rule');
+                $model = \Mage::getModel('Magento\CatalogRule\Model\Rule');
                 $this->_eventManager->dispatch(
                     'adminhtml_controller_catalogrule_prepare_save',
                     array('request' => $this->getRequest())
@@ -143,7 +143,7 @@ class Catalog extends \Magento\Adminhtml\Controller\Action
                     $this->getRequest()->setParam('rule_id', $model->getId());
                     $this->_forward('applyRules');
                 } else {
-                    \Mage::getModel('\Magento\CatalogRule\Model\Flag')->loadSelf()
+                    \Mage::getModel('Magento\CatalogRule\Model\Flag')->loadSelf()
                         ->setState(1)
                         ->save();
                     if ($this->getRequest()->getParam('back')) {
@@ -172,10 +172,10 @@ class Catalog extends \Magento\Adminhtml\Controller\Action
     {
         if ($id = $this->getRequest()->getParam('id')) {
             try {
-                $model = \Mage::getModel('\Magento\CatalogRule\Model\Rule');
+                $model = \Mage::getModel('Magento\CatalogRule\Model\Rule');
                 $model->load($id);
                 $model->delete();
-                \Mage::getModel('\Magento\CatalogRule\Model\Flag')->loadSelf()
+                \Mage::getModel('Magento\CatalogRule\Model\Flag')->loadSelf()
                     ->setState(1)
                     ->save();
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
@@ -209,7 +209,7 @@ class Catalog extends \Magento\Adminhtml\Controller\Action
         $model = \Mage::getModel($type)
             ->setId($id)
             ->setType($type)
-            ->setRule(\Mage::getModel('\Magento\CatalogRule\Model\Rule'))
+            ->setRule(\Mage::getModel('Magento\CatalogRule\Model\Rule'))
             ->setPrefix('conditions');
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);
@@ -246,7 +246,7 @@ class Catalog extends \Magento\Adminhtml\Controller\Action
         $model = \Mage::getModel($type)
             ->setId($id)
             ->setType($type)
-            ->setRule(\Mage::getModel('\Magento\CatalogRule\Model\Rule'))
+            ->setRule(\Mage::getModel('Magento\CatalogRule\Model\Rule'))
             ->setPrefix('actions');
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);
@@ -274,7 +274,7 @@ class Catalog extends \Magento\Adminhtml\Controller\Action
 
             if ($ruleJob->hasSuccess()) {
                 $this->_getSession()->addSuccess($ruleJob->getSuccess());
-                \Mage::getModel('\Magento\CatalogRule\Model\Flag')->loadSelf()
+                \Mage::getModel('Magento\CatalogRule\Model\Flag')->loadSelf()
                     ->setState(0)
                     ->save();
             } elseif ($ruleJob->hasError()) {

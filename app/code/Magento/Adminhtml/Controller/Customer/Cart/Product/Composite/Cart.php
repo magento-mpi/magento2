@@ -52,13 +52,13 @@ class Cart extends \Magento\Adminhtml\Controller\Action
             \Mage::throwException(__('No customer ID defined.'));
         }
 
-        $this->_customer = \Mage::getModel('\Magento\Customer\Model\Customer')
+        $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer')
             ->load($customerId);
 
         $quoteItemId = (int) $this->getRequest()->getParam('id');
         $websiteId = (int) $this->getRequest()->getParam('website_id');
 
-        $this->_quote = \Mage::getModel('\Magento\Sales\Model\Quote')
+        $this->_quote = \Mage::getModel('Magento\Sales\Model\Quote')
             ->setWebsite(\Mage::app()->getWebsite($websiteId))
             ->loadByCustomer($this->_customer);
 
@@ -83,7 +83,7 @@ class Cart extends \Magento\Adminhtml\Controller\Action
 
             $quoteItem = $this->_quoteItem;
 
-            $optionCollection = \Mage::getModel('\Magento\Sales\Model\Quote\Item\Option')
+            $optionCollection = \Mage::getModel('Magento\Sales\Model\Quote\Item\Option')
                 ->getCollection()
                 ->addItemFilter($quoteItem);
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));

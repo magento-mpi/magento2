@@ -16,7 +16,7 @@
             $.mage.cookies.set(
                 '<?php echo \Magento\PageCache\Helper\Data::NO_CACHE_COOKIE ?>',
                 1,
-                {lifetime: <?php echo $this->helper('\Magento\PageCache\Helper\Data')->getNoCacheCookieLifetime() ?>}
+                {lifetime: <?php echo $this->helper('Magento\PageCache\Helper\Data')->getNoCacheCookieLifetime() ?>}
             )
         });
     })(jQuery);

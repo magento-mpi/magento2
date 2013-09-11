@@ -103,7 +103,7 @@ class Value extends \Magento\Core\Model\Resource\Db\AbstractDb
                     if ($priceType == 'fixed') {
                         $storeCurrency = \Mage::app()->getStore($storeId)->getBaseCurrencyCode();
                         /** @var $currencyModel \Magento\Directory\Model\Currency */
-                        $currencyModel = \Mage::getModel('\Magento\Directory\Model\Currency');
+                        $currencyModel = \Mage::getModel('Magento\Directory\Model\Currency');
                         $currencyModel->load($baseCurrency);
                         $rate = $currencyModel->getRate($storeCurrency);
                         if (!$rate) {

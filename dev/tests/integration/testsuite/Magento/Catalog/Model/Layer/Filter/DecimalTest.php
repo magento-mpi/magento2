@@ -24,16 +24,16 @@ class Magento_Catalog_Model_Layer_Filter_DecimalTest extends PHPUnit_Framework_T
 
     protected function setUp()
     {
-        $category = Mage::getModel('\Magento\Catalog\Model\Category');
+        $category = Mage::getModel('Magento\Catalog\Model\Category');
         $category->load(4);
 
         /** @var $attribute \Magento\Catalog\Model\Entity\Attribute */
-        $attribute = Mage::getModel('\Magento\Catalog\Model\Entity\Attribute');
+        $attribute = Mage::getModel('Magento\Catalog\Model\Entity\Attribute');
         $attribute->loadByCode('catalog_product', 'weight');
 
-        $this->_model = Mage::getModel('\Magento\Catalog\Model\Layer\Filter\Decimal');
+        $this->_model = Mage::getModel('Magento\Catalog\Model\Layer\Filter\Decimal');
         $this->_model->setData(array(
-            'layer' => Mage::getModel('\Magento\Catalog\Model\Layer', array(
+            'layer' => Mage::getModel('Magento\Catalog\Model\Layer', array(
                 'data' => array('current_category' => $category)
             )),
             'attribute_model' => $attribute,
@@ -46,7 +46,7 @@ class Magento_Catalog_Model_Layer_Filter_DecimalTest extends PHPUnit_Framework_T
 
         $this->_model->apply(
             new Magento_TestFramework_Request(),
-            Mage::app()->getLayout()->createBlock('\Magento\Core\Block\Text')
+            Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text')
         );
 
         $this->assertEmpty($this->_model->getData('range'));
@@ -58,7 +58,7 @@ class Magento_Catalog_Model_Layer_Filter_DecimalTest extends PHPUnit_Framework_T
 
         $request = new Magento_TestFramework_Request();
         $request->setParam('decimal', 'non-decimal');
-        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('\Magento\Core\Block\Text'));
+        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text'));
 
         $this->assertEmpty($this->_model->getData('range'));
     }
@@ -67,7 +67,7 @@ class Magento_Catalog_Model_Layer_Filter_DecimalTest extends PHPUnit_Framework_T
     {
         $request = new Magento_TestFramework_Request();
         $request->setParam('decimal', '1,100');
-        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('\Magento\Core\Block\Text'));
+        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text'));
 
         $this->assertEquals(100, $this->_model->getData('range'));
     }

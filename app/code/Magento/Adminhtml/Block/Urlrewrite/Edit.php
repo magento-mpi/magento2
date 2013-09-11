@@ -171,7 +171,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Container
      */
     protected function _createEditFormBlock()
     {
-        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Urlrewrite\Edit\Form', '',
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Edit\Form', '',
             array('data' => array(
                 'url_rewrite' => $this->_getUrlRewrite()
             ))
@@ -194,7 +194,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Container
     private function _getSelectorBlock()
     {
         if (!$this->_selectorBlock) {
-            $this->_selectorBlock = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Urlrewrite\Selector');
+            $this->_selectorBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Selector');
         }
         return $this->_selectorBlock;
     }
@@ -232,7 +232,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Container
     protected function _getUrlRewrite()
     {
         if (!$this->hasData('url_rewrite')) {
-            $this->setUrlRewrite(\Mage::getModel('\Magento\Core\Model\Url\Rewrite'));
+            $this->setUrlRewrite(\Mage::getModel('Magento\Core\Model\Url\Rewrite'));
         }
         return $this->getUrlRewrite();
     }

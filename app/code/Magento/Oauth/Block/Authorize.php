@@ -27,7 +27,7 @@ class Authorize extends \Magento\Oauth\Block\AuthorizeBaseAbstract
     public function getPostActionUrl()
     {
         /** @var $helper \Magento\Customer\Helper\Data */
-        $helper = $this->helper('\Magento\Customer\Helper\Data');
+        $helper = $this->helper('Magento\Customer\Helper\Data');
         $url = $helper->getLoginPostUrl();
         if ($this->getIsSimple()) {
             if (strstr($url, '?')) {

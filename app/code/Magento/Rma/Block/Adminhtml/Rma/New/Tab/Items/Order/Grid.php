@@ -60,7 +60,7 @@ class Grid
 
         /** @var $collection \Magento\Rma\Model\Resource\Item */
 
-        $orderItemsCollection = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Item')
+        $orderItemsCollection = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item')
             ->getOrderItemsCollection($orderId);
 
         $this->setCollection($orderItemsCollection);
@@ -79,10 +79,10 @@ class Grid
     protected function _afterLoadCollection()
     {
         $orderId = \Mage::registry('current_order')->getId();
-        $itemsInActiveRmaArray = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Item')
+        $itemsInActiveRmaArray = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item')
             ->getItemsIdsByOrder($orderId);
 
-        $fullItemsCollection = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Item')
+        $fullItemsCollection = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item')
             ->getOrderItemsCollection($orderId);
         /**
          * contains data that defines possibility of return for an order item
@@ -92,7 +92,7 @@ class Grid
         $parent = array();
 
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
 
         foreach ($fullItemsCollection as $item) {
             $allowed = true;

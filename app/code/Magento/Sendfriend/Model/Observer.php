@@ -28,7 +28,7 @@ class Observer
      */
     public function register(\Magento\Event\Observer $observer)
     {
-        \Mage::getModel('\Magento\Sendfriend\Model\Sendfriend')->register();
+        \Mage::getModel('Magento\Sendfriend\Model\Sendfriend')->register();
         return $this;
     }
 }

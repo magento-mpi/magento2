@@ -90,7 +90,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_OperationTest
     public function testEditAction($expectedContains)
     {
         /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection */
-        $collection = Mage::getModel('\Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection');
+        $collection = Mage::getModel('Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection');
         $this->assertCount(1, $collection->getItems());
         $operation = $collection->getFirstItem();
 
@@ -110,7 +110,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_OperationTest
     public function testCronAction()
     {
         /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection */
-        $collection = Mage::getModel('\Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection');
+        $collection = Mage::getModel('Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection');
         $this->assertCount(1, $collection->getItems());
         $operation = $collection->getFirstItem();
 

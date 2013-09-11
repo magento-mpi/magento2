@@ -43,7 +43,7 @@ class Container extends \Magento\Core\Block\Html\Select
                 'theme' => $this->_getThemeInstance($this->getTheme()),
             );
             /** @var $layoutMerge \Magento\Core\Model\Layout\Merge */
-            $layoutMerge = \Mage::getModel('\Magento\Core\Model\Layout\Merge', $layoutMergeParams);
+            $layoutMerge = \Mage::getModel('Magento\Core\Model\Layout\Merge', $layoutMergeParams);
             $layoutMerge->addPageHandles(array($this->getLayoutHandle()));
             $layoutMerge->load();
 
@@ -74,7 +74,7 @@ class Container extends \Magento\Core\Block\Html\Select
     protected function _getThemeInstance($themeId)
     {
         /** @var \Magento\Core\Model\Resource\Theme\Collection $themeCollection */
-        $themeCollection = \Mage::getResourceModel('\Magento\Core\Model\Resource\Theme\Collection');
+        $themeCollection = \Mage::getResourceModel('Magento\Core\Model\Resource\Theme\Collection');
         return $themeCollection->getItemById($themeId);
     }
 }

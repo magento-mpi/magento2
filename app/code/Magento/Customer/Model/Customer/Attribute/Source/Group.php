@@ -22,7 +22,7 @@ class Group extends \Magento\Eav\Model\Entity\Attribute\Source\Table
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = \Mage::getResourceModel('\Magento\Customer\Model\Resource\Group\Collection')
+            $this->_options = \Mage::getResourceModel('Magento\Customer\Model\Resource\Group\Collection')
                 ->setRealGroupsFilter()
                 ->load()
                 ->toOptionArray()

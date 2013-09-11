@@ -195,7 +195,7 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
      */
     protected function _getResource()
     {
-        return \Mage::getResourceSingleton('\Magento\Core\Model\Resource\Resource');
+        return \Mage::getResourceSingleton('Magento\Core\Model\Resource\Resource');
     }
 
     /**

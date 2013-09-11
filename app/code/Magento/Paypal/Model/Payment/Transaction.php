@@ -197,7 +197,7 @@ class Transaction extends \Magento\Core\Model\AbstractModel
     protected function _beforeSave()
     {
         if (!$this->getId()) {
-            $this->setCreatedAt(\Mage::getModel('\Magento\Core\Model\Date')->gmtDate());
+            $this->setCreatedAt(\Mage::getModel('Magento\Core\Model\Date')->gmtDate());
         }
         return parent::_beforeSave();
     }

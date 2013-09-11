@@ -31,7 +31,7 @@ class Totals extends \Magento\Adminhtml\Block\Dashboard\Bar
         $period = $this->getRequest()->getParam('period', '24h');
 
         /* @var $collection \Magento\Reports\Model\Resource\Order\Collection */
-        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Order\Collection')
+        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Order\Collection')
             ->addCreateAtPeriodFilter($period)
             ->calculateTotals($isFilter);
 

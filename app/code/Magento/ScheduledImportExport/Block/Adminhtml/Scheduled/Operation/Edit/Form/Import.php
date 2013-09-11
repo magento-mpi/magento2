@@ -69,7 +69,7 @@ class Import
         ), 'freq');
 
         $form->getElement('email_template')
-            ->setValues(\Mage::getModel('\Magento\Backend\Model\Config\Source\Email\Template')
+            ->setValues(\Mage::getModel('Magento\Backend\Model\Config\Source\Email\Template')
                 ->setPath('magento_scheduledimportexport_import_failed')
                 ->toOptionArray()
             );

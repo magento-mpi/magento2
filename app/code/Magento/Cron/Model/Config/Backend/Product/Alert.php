@@ -50,12 +50,12 @@ class Alert extends \Magento\Core\Model\Config\Value
         $cronExprString     = join(' ', $cronExprArray);
 
         try {
-            \Mage::getModel('\Magento\Core\Model\Config\Value')
+            \Mage::getModel('Magento\Core\Model\Config\Value')
                 ->load(self::CRON_STRING_PATH, 'path')
                 ->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
-            \Mage::getModel('\Magento\Core\Model\Config\Value')
+            \Mage::getModel('Magento\Core\Model\Config\Value')
                 ->load(self::CRON_MODEL_PATH, 'path')
                 ->setValue((string) \Mage::getConfig()->getNode(self::CRON_MODEL_PATH))
                 ->setPath(self::CRON_MODEL_PATH)

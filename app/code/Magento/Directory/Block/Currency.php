@@ -63,7 +63,7 @@ class Currency extends \Magento\Core\Block\Template
             $currencies = array();
             $codes = \Mage::app()->getStore()->getAvailableCurrencyCodes(true);
             if (is_array($codes) && count($codes) > 1) {
-                $rates = \Mage::getModel('\Magento\Directory\Model\Currency')->getCurrencyRates(
+                $rates = \Mage::getModel('Magento\Directory\Model\Currency')->getCurrencyRates(
                     \Mage::app()->getStore()->getBaseCurrency(),
                     $codes
                 );

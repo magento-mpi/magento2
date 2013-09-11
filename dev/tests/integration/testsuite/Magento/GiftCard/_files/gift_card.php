@@ -10,7 +10,7 @@
  */
 
 /** @var $product \Magento\Catalog\Model\Product */
-$product = Mage::getModel('\Magento\Catalog\Model\Product');
+$product = Mage::getModel('Magento\Catalog\Model\Product');
 $product->setTypeId(\Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD)
     ->setId(1)
     ->setAttributeSetId(4)

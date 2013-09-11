@@ -25,7 +25,7 @@ class Nominal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      */
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
-        $collector = \Mage::getModel('\Magento\Sales\Model\Quote\Address\Total\Nominal\Collector',
+        $collector = \Mage::getModel('Magento\Sales\Model\Quote\Address\Total\Nominal\Collector',
             array('store' => $address->getQuote()->getStore())
         );
 

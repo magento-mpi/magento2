@@ -60,7 +60,7 @@ class Hierarchy
                 $data = null;
             }
 
-            $collection = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node')->getCollection()
+            $collection = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node')->getCollection()
                 ->joinCmsPage()
                 ->setOrderByLevel()
                 ->joinPageExistsNodeInfo($this->getPage());

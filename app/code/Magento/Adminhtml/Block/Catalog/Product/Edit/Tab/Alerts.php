@@ -25,7 +25,7 @@ class Alerts extends \Magento\Adminhtml\Block\Template
 
     protected function _prepareLayout()
     {
-        $accordion = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Accordion')
+        $accordion = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Accordion')
             ->setId('productAlerts');
         /* @var $accordion \Magento\Adminhtml\Block\Widget\Accordion */
 
@@ -36,7 +36,7 @@ class Alerts extends \Magento\Adminhtml\Block\Template
             $accordion->addItem('price', array(
                 'title'     => __('We saved the price alert subscription.'),
                 'content'   => $this->getLayout()
-                    ->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Alerts\Price')
+                    ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Alerts\Price')
                     ->toHtml() . '<br />',
                 'open'      => true
             ));
@@ -45,7 +45,7 @@ class Alerts extends \Magento\Adminhtml\Block\Template
             $accordion->addItem('stock', array(
                 'title'     => __('We saved the stock notification.'),
                 'content'   => $this->getLayout()
-                    ->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Alerts\Stock'),
+                    ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Alerts\Stock'),
                 'open'      => true
             ));
         }

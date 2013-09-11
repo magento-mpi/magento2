@@ -50,7 +50,7 @@ class Magento_Catalog_Helper_CategoryTest extends PHPUnit_Framework_TestCase
     public function testGetCategoryUrl()
     {
          $url = 'http://example.com/';
-        $category = Mage::getModel('\Magento\Catalog\Model\Category', array('data' => array('url' => $url)));
+        $category = Mage::getModel('Magento\Catalog\Model\Category', array('data' => array('url' => $url)));
         $this->assertEquals($url, $this->_helper->getCategoryUrl($category));
 
         $category = new \Magento\Object(array('url' => $url));
@@ -69,7 +69,7 @@ class Magento_Catalog_Helper_CategoryTest extends PHPUnit_Framework_TestCase
     public function testCanShowFalse()
     {
         /** @var $category \Magento\Catalog\Model\Category */
-        $category = Mage::getModel('\Magento\Catalog\Model\Category');
+        $category = Mage::getModel('Magento\Catalog\Model\Category');
         $this->assertFalse($this->_helper->canShow($category));
         $category->setId(1);
         $this->assertFalse($this->_helper->canShow($category));

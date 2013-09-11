@@ -48,7 +48,7 @@ class V2 extends \Magento\Sales\Model\Order\Shipment\Api
         $includeComment = false
     ) {
         /** @var \Magento\Sales\Model\Order $order */
-        $order = \Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
+        $order = \Mage::getModel('Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
         $itemsQty = $this->_prepareItemQtyData($itemsQty);
         /**
          * Check order existing
@@ -72,7 +72,7 @@ class V2 extends \Magento\Sales\Model\Order\Shipment\Api
             }
             $shipment->getOrder()->setIsInProcess(true);
             try {
-                $transactionSave = \Mage::getModel('\Magento\Core\Model\Resource\Transaction');
+                $transactionSave = \Mage::getModel('Magento\Core\Model\Resource\Transaction');
                 $transactionSave->addObject($shipment)->addObject($shipment->getOrder())->save();
                 $shipment->sendEmail($email, ($includeComment ? $comment : ''));
             } catch (\Magento\Core\Exception $e) {
@@ -91,7 +91,7 @@ class V2 extends \Magento\Sales\Model\Order\Shipment\Api
      */
     public function getCarriers($orderIncrementId)
     {
-        $order = \Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
+        $order = \Mage::getModel('Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
 
         /**
          * Check order existing

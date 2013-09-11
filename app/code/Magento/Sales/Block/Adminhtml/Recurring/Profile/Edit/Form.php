@@ -99,10 +99,10 @@ class Form extends \Magento\Backend\Block\AbstractBlock
         $form = new \Magento\Data\Form();
 
         $form->setFieldsetRenderer(
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
         );
         $form->setFieldsetElementRenderer(
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Form\Renderer\Fieldset\Element')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Form\Renderer\Fieldset\Element')
         );
 
         /**

@@ -38,7 +38,7 @@ class Customlayoutupdate extends \Magento\Eav\Model\Entity\Attribute\Backend\Abs
         }
 
         /** @var $validator \Magento\Adminhtml\Model\LayoutUpdate\Validator */
-        $validator = \Mage::getModel('\Magento\Adminhtml\Model\LayoutUpdate\Validator');
+        $validator = \Mage::getModel('Magento\Adminhtml\Model\LayoutUpdate\Validator');
         if (!$validator->isValid($xml)) {
             $messages = $validator->getMessages();
             //Add first message to exception

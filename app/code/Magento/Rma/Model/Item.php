@@ -87,7 +87,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     {
         $rmaId = $this->getRmaEntityId();
         if (is_null($this->_rma) && $rmaId) {
-            $rma = \Mage::getModel('\Magento\Rma\Model\Rma');
+            $rma = \Mage::getModel('Magento\Rma\Model\Rma');
             $rma->load($rmaId);
             $this->setRma($rma);
         }
@@ -103,7 +103,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     {
         if (is_null(parent::getStatusLabel())){
             $this->setStatusLabel(
-                \Mage::getModel('\Magento\Rma\Model\Item\Attribute\Source\Status')->getItemLabel($this->getStatus())
+                \Mage::getModel('Magento\Rma\Model\Item\Attribute\Source\Status')->getItemLabel($this->getStatus())
             );
         }
         return parent::getStatusLabel();
@@ -152,7 +152,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         }
 
         if ($qtyReturnedChange) {
-            $item = \Mage::getModel('\Magento\Sales\Model\Order\Item')->load($this->getOrderItemId());
+            $item = \Mage::getModel('Magento\Sales\Model\Order\Item')->load($this->getOrderItemId());
             if ($item->getId()) {
                 $item->setQtyReturned($item->getQtyReturned() + $qtyReturnedChange)
                     ->save();
@@ -214,7 +214,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         $httpRequest->setPost($itemPost);
 
         /** @var $itemForm \Magento\Rma\Model\Item\Form */
-        $itemForm = \Mage::getModel('\Magento\Rma\Model\Item\Form');
+        $itemForm = \Mage::getModel('Magento\Rma\Model\Item\Form');
         $itemForm->setFormCode('default')
             ->setEntity($this);
 

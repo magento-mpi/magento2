@@ -56,7 +56,7 @@ class Attribute extends \Magento\Backend\Helper\Data
                 $productsIds = array(0);
             }
 
-            $this->_products = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection')
+            $this->_products = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection')
                 ->setStoreId($this->getSelectedStoreId())
                 ->addIdFilter($productsIds);
         }

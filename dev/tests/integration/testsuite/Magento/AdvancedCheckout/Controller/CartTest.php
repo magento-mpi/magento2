@@ -22,7 +22,7 @@ class Magento_AdvancedCheckout_Controller_CartTest extends Magento_TestFramework
     public function testConfigureActionWithGiftCardProduct()
     {
         /** @var $session \Magento\Checkout\Model\Session  */
-        $session = Mage::getModel('\Magento\Checkout\Model\Session');
+        $session = Mage::getModel('Magento\Checkout\Model\Session');
 
         $quoteItem = $this->_getQuoteItemIdByProductId($session->getQuote(), 1);
 

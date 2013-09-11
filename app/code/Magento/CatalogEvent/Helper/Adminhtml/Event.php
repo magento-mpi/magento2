@@ -41,7 +41,7 @@ class Event extends \Magento\Core\Helper\AbstractHelper
     public function getCategories()
     {
         if ($this->_categories === null) {
-            $tree = \Mage::getModel('\Magento\Catalog\Model\Category')->getTreeModel();
+            $tree = \Mage::getModel('Magento\Catalog\Model\Category')->getTreeModel();
             /** @var $tree \Magento\Catalog\Model\Resource\Category\Tree */
             $tree->load(null, 2); // Load only to second level.
             $tree->addCollectionData(null, 'position');
@@ -124,7 +124,7 @@ class Event extends \Magento\Core\Helper\AbstractHelper
     {
 
         if ($this->_inEventCategoryIds === null) {
-            $collection = \Mage::getModel('\Magento\CatalogEvent\Model\Event')->getCollection();
+            $collection = \Mage::getModel('Magento\CatalogEvent\Model\Event')->getCollection();
             $this->_inEventCategoryIds = $collection->getColumnValues('category_id');
         }
         return $this->_inEventCategoryIds;

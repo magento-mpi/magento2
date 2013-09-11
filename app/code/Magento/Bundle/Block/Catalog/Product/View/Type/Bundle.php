@@ -80,7 +80,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         /* @var $taxHelper \Magento\Tax\Helper\Data */
         $taxHelper = \Mage::helper('Magento\Tax\Helper\Data');
         /* @var $bundlePriceModel \Magento\Bundle\Model\Product\Price */
-        $bundlePriceModel = \Mage::getModel('\Magento\Bundle\Model\Product\Price');
+        $bundlePriceModel = \Mage::getModel('Magento\Bundle\Model\Product\Price');
 
         if ($preConfiguredFlag = $currentProduct->hasPreconfiguredValues()) {
             $preConfiguredValues = $currentProduct->getPreconfiguredValues();

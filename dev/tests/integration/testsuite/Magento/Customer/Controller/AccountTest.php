@@ -16,7 +16,7 @@ class Magento_Customer_Controller_AccountTest extends Magento_TestFramework_Test
      */
     public function testIndexAction()
     {
-        $session = Mage::getModel('\Magento\Customer\Model\Session');
+        $session = Mage::getModel('Magento\Customer\Model\Session');
         $session->login('customer@example.com', 'password');
         $this->dispatch('customer/account/index');
         $this->assertContains('<div class="my-account">', $this->getResponse()->getBody());
@@ -28,7 +28,7 @@ class Magento_Customer_Controller_AccountTest extends Magento_TestFramework_Test
     public function testCreatepasswordAction()
     {
         /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = Mage::getModel('\Magento\Customer\Model\Customer')->load(1);
+        $customer = Mage::getModel('Magento\Customer\Model\Customer')->load(1);
 
         $token = Mage::helper('Magento\Customer\Helper\Data')->generateResetPasswordLinkToken();
         $customer->changeResetPasswordLinkToken($token);
@@ -47,7 +47,7 @@ class Magento_Customer_Controller_AccountTest extends Magento_TestFramework_Test
     public function testOpenActionCreatepasswordAction()
     {
         /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = Mage::getModel('\Magento\Customer\Model\Customer')->load(1);
+        $customer = Mage::getModel('Magento\Customer\Model\Customer')->load(1);
 
         $token = Mage::helper('Magento\Customer\Helper\Data')->generateResetPasswordLinkToken();
         $customer->changeResetPasswordLinkToken($token);

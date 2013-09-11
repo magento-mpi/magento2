@@ -148,7 +148,7 @@ class Value extends \Magento\Core\Model\AbstractModel
      */
     public function getValuesCollection(\Magento\Catalog\Model\Product\Option $option)
     {
-        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Option\Value\Collection')
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Option\Value\Collection')
             ->addFieldToFilter('option_id', $option->getId())
             ->getValues($option->getStoreId());
 
@@ -157,7 +157,7 @@ class Value extends \Magento\Core\Model\AbstractModel
 
     public function getValuesByOption($optionIds, $option_id, $store_id)
     {
-        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Option\Value\Collection')
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Option\Value\Collection')
             ->addFieldToFilter('option_id', $option_id)
             ->getValuesByOption($optionIds, $store_id);
 

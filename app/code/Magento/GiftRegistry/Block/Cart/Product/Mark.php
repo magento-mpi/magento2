@@ -67,7 +67,7 @@ class Mark extends \Magento\Core\Block\Template
 
         if ($newItem->getGiftregistryItemId()) {
             $this->setData('item', $newItem);
-            $entity = \Mage::getModel('\Magento\GiftRegistry\Model\Entity')->loadByEntityItem($newItem->getGiftregistryItemId());
+            $entity = \Mage::getModel('Magento\GiftRegistry\Model\Entity')->loadByEntityItem($newItem->getGiftregistryItemId());
             $this->setEntity($entity);
         }
 

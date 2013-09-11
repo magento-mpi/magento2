@@ -22,7 +22,7 @@ class Gallery extends \Magento\Adminhtml\Controller\Action
     public function uploadAction()
     {
         try {
-            $uploader = \Mage::getModel('\Magento\Core\Model\File\Uploader', array('fileId' => 'image'));
+            $uploader = \Mage::getModel('Magento\Core\Model\File\Uploader', array('fileId' => 'image'));
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
             $imageAdapter = $this->_objectManager->get('Magento\Core\Model\Image\AdapterFactory')->create();
             $uploader->addValidateCallback('catalog_product_image', $imageAdapter, 'validateUploadFile');

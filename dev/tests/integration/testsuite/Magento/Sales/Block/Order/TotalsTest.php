@@ -14,9 +14,9 @@ class Magento_Sales_Block_Order_TotalsTest extends PHPUnit_Framework_TestCase
     public function testToHtmlChildrenInitialized()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('\Magento\Core\Model\Layout');
-        $block = $layout->createBlock('\Magento\Sales\Block\Order\Totals', 'block');
-        $block->setOrder(Mage::getModel('\Magento\Sales\Model\Order'))
+        $layout = Mage::getModel('Magento\Core\Model\Layout');
+        $block = $layout->createBlock('Magento\Sales\Block\Order\Totals', 'block');
+        $block->setOrder(Mage::getModel('Magento\Sales\Model\Order'))
             ->setTemplate('order/totals.phtml');
 
         $context = Mage::getSingleton('Magento\Core\Block\Context');

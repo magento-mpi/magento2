@@ -46,7 +46,7 @@ class View extends \Magento\Core\Block\Template
     public function getRelatedOrders()
     {
         if (is_null($this->_relatedOrders)) {
-            $this->_relatedOrders = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Collection')
+            $this->_relatedOrders = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Collection')
                 ->addFieldToSelect('*')
                 ->addFieldToFilter('customer_id', \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getId())
                 ->addFieldToFilter(
@@ -74,7 +74,7 @@ class View extends \Magento\Core\Block\Template
                 $value = $order->getIncrementId();
                 break;
             case 'created_at':
-                $value = $this->helper('\Magento\Core\Helper\Data')->formatDate($order->getCreatedAt(), 'short', true);
+                $value = $this->helper('Magento\Core\Helper\Data')->formatDate($order->getCreatedAt(), 'short', true);
                 break;
             case 'shipping_address':
                 $value = $order->getShippingAddress()
@@ -108,7 +108,7 @@ class View extends \Magento\Core\Block\Template
         }
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()->createBlock('\Magento\Page\Block\Html\Pager')
+        $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager')
             ->setCollection($this->getRelatedOrders())->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
         $this->getRelatedOrders()->load();
@@ -124,7 +124,7 @@ class View extends \Magento\Core\Block\Template
     protected function _loadPaymentMethods()
     {
         if (!$this->_paymentMethods) {
-            foreach ($this->helper('\Magento\Payment\Helper\Data')->getBillingAgreementMethods() as $paymentMethod) {
+            foreach ($this->helper('Magento\Payment\Helper\Data')->getBillingAgreementMethods() as $paymentMethod) {
                 $this->_paymentMethods[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }
         }
@@ -156,11 +156,11 @@ class View extends \Magento\Core\Block\Template
             $createdAt = $this->_billingAgreementInstance->getCreatedAt();
             $updatedAt = $this->_billingAgreementInstance->getUpdatedAt();
             $this->setAgreementCreatedAt(
-                ($createdAt) ? $this->helper('\Magento\Core\Helper\Data')->formatDate($createdAt, 'short', true) : __('N/A')
+                ($createdAt) ? $this->helper('Magento\Core\Helper\Data')->formatDate($createdAt, 'short', true) : __('N/A')
             );
             if ($updatedAt) {
                 $this->setAgreementUpdatedAt(
-                    $this->helper('\Magento\Core\Helper\Data')->formatDate($updatedAt, 'short', true)
+                    $this->helper('Magento\Core\Helper\Data')->formatDate($updatedAt, 'short', true)
                 );
             }
             $this->setAgreementStatus($this->_billingAgreementInstance->getStatusLabel());

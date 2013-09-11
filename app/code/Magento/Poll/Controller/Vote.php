@@ -37,13 +37,13 @@ class Vote extends \Magento\Core\Controller\Front\Action
         $answerId   = intval($this->getRequest()->getParam('vote'));
 
         /** @var $poll \Magento\Poll\Model\Poll */
-        $poll = \Mage::getModel('\Magento\Poll\Model\Poll')->load($pollId);
+        $poll = \Mage::getModel('Magento\Poll\Model\Poll')->load($pollId);
 
         /**
          * Check poll data
          */
         if ($poll->getId() && !$poll->getClosed() && !$poll->isVoted()) {
-            $vote = \Mage::getModel('\Magento\Poll\Model\Poll\Vote')
+            $vote = \Mage::getModel('Magento\Poll\Model\Poll\Vote')
                 ->setPollAnswerId($answerId)
                 ->setIpAddress(\Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr(true))
                 ->setCustomerId(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId());

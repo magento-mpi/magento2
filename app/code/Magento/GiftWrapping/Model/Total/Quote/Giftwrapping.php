@@ -180,7 +180,7 @@ class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
      */
     protected function _getWrapping($wrappingId, $store)
     {
-        $wrapping = \Mage::getModel('\Magento\GiftWrapping\Model\Wrapping');
+        $wrapping = \Mage::getModel('Magento\GiftWrapping\Model\Wrapping');
         $wrapping->setStoreId($store->getId());
         $wrapping->load($wrappingId);
         return $wrapping;

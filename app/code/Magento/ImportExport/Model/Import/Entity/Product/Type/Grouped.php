@@ -58,7 +58,7 @@ class Grouped
     {
         $groupedLinkId = \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED;
         $connection    = \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('write');
-        $resource      = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Link');
+        $resource      = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Link');
         $mainTable     = $resource->getMainTable();
         $relationTable = $resource->getTable('catalog_product_relation');
         $newSku        = $this->_entityModel->getNewSku();

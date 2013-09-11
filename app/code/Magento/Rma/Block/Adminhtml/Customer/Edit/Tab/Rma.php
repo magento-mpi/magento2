@@ -54,7 +54,7 @@ class Rma
         }
         if ($customerId) {
             /** @var $collection \Magento\Rma\Model\Resource\Rma\Grid\Collection */
-            $collection = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Rma\Grid\Collection')
+            $collection = \Mage::getResourceModel('Magento\Rma\Model\Resource\Rma\Grid\Collection')
                 ->addFieldToFilter('customer_id', $customerId);
 
             $this->setCollection($collection);

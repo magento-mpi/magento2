@@ -47,7 +47,7 @@ class Account extends \Magento\Adminhtml\Block\Widget\Form
         $this->_setFieldset($attributes, $fieldset, array(self::DISABLE_ATTRIBUTE_NAME));
 
         $form->getElement('group_id')->setRenderer($this->getLayout()
-            ->createBlock('\Magento\Adminhtml\Block\Customer\Edit\Renderer\Attribute\Group')
+            ->createBlock('Magento\Adminhtml\Block\Customer\Edit\Renderer\Attribute\Group')
             ->setDisableAutoGroupChangeAttribute($customerForm->getAttribute(self::DISABLE_ATTRIBUTE_NAME))
             ->setDisableAutoGroupChangeAttributeValue($customer->getData(self::DISABLE_ATTRIBUTE_NAME))
         );
@@ -57,7 +57,7 @@ class Account extends \Magento\Adminhtml\Block\Widget\Form
 
         $prefixElement = $form->getElement('prefix');
         if ($prefixElement) {
-            $prefixOptions = $this->helper('\Magento\Customer\Helper\Data')->getNamePrefixOptions($customerStoreId);
+            $prefixOptions = $this->helper('Magento\Customer\Helper\Data')->getNamePrefixOptions($customerStoreId);
             if (!empty($prefixOptions)) {
                 $fieldset->removeField($prefixElement->getId());
                 $prefixField = $fieldset->addField($prefixElement->getId(),
@@ -74,7 +74,7 @@ class Account extends \Magento\Adminhtml\Block\Widget\Form
 
         $suffixElement = $form->getElement('suffix');
         if ($suffixElement) {
-            $suffixOptions = $this->helper('\Magento\Customer\Helper\Data')->getNameSuffixOptions($customerStoreId);
+            $suffixOptions = $this->helper('Magento\Customer\Helper\Data')->getNameSuffixOptions($customerStoreId);
             if (!empty($suffixOptions)) {
                 $fieldset->removeField($suffixElement->getId());
                 $suffixField = $fieldset->addField($suffixElement->getId(),
@@ -145,7 +145,7 @@ class Account extends \Magento\Adminhtml\Block\Widget\Form
     protected function _initCustomerForm(\Magento\Customer\Model\Customer $customer)
     {
         /** @var $customerForm \Magento\Customer\Model\Form */
-        $customerForm = \Mage::getModel('\Magento\Customer\Model\Form');
+        $customerForm = \Mage::getModel('Magento\Customer\Model\Form');
         $customerForm->setEntity($customer)
             ->setFormCode('adminhtml_customer')
             ->initDefaultValues();
@@ -248,7 +248,7 @@ class Account extends \Magento\Adminhtml\Block\Widget\Form
                 . '</script>'
             );
             $renderer = $this->getLayout()
-                ->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $form->getElement('website_id')->setRenderer($renderer);
 
             $fieldset->addField('sendemail_store_id', 'select', array(
@@ -277,7 +277,7 @@ class Account extends \Magento\Adminhtml\Block\Widget\Form
         if (!\Mage::app()->isSingleStoreMode()) {
             $form->getElement('website_id')->setDisabled('disabled');
             $renderer = $this->getLayout()
-                ->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $form->getElement('website_id')->setRenderer($renderer);
         } else {
             $fieldset->removeField('website_id');
@@ -349,7 +349,7 @@ class Account extends \Magento\Adminhtml\Block\Widget\Form
             )
         );
         $field->setRenderer(
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Customer\Edit\Renderer\Newpass')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Customer\Edit\Renderer\Newpass')
         );
     }
 

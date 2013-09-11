@@ -45,7 +45,7 @@ class Export extends \Magento\Data\Form\Element\AbstractElement
         $buttonBlock = $this->getForm()
             ->getParent()
             ->getLayout()
-            ->createBlock('\Magento\Backend\Block\Widget\Button');
+            ->createBlock('Magento\Backend\Block\Widget\Button');
 
         $params = array(
             'website' => $buttonBlock->getRequest()->getParam('website')

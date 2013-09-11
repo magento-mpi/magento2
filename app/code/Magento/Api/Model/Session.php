@@ -59,7 +59,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     public function clear() {
         if ($sessId = $this->getSessionId()) {
             try {
-                \Mage::getModel('\Magento\Api\Model\User')->logoutBySessId($sessId);
+                \Mage::getModel('Magento\Api\Model\User')->logoutBySessId($sessId);
             } catch (\Exception $e) {
                 return false;
             }
@@ -69,18 +69,18 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
 
     public function login($username, $apiKey)
     {
-        $user = \Mage::getModel('\Magento\Api\Model\User')
+        $user = \Mage::getModel('Magento\Api\Model\User')
             ->setSessid($this->getSessionId())
             ->login($username, $apiKey);
 
         if ( $user->getId() && $user->getIsActive() != '1' ) {
             \Mage::throwException(__('Your account has been deactivated.'));
-        } elseif (!\Mage::getModel('\Magento\Api\Model\User')->hasAssigned2Role($user->getId())) {
+        } elseif (!\Mage::getModel('Magento\Api\Model\User')->hasAssigned2Role($user->getId())) {
             \Mage::throwException(__('Access denied'));
         } else {
             if ($user->getId()) {
                 $this->setUser($user);
-                $this->setAcl(\Mage::getResourceModel('\Magento\Api\Model\Resource\Acl')->loadAcl());
+                $this->setAcl(\Mage::getResourceModel('Magento\Api\Model\Resource\Acl')->loadAcl());
             } else {
                 \Mage::throwException(__('Unable to login'));
             }
@@ -98,7 +98,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
             return $this;
         }
         if (!$this->getAcl() || $user->getReloadAclFlag()) {
-            $this->setAcl(\Mage::getResourceModel('\Magento\Api\Model\Resource\Acl')->loadAcl());
+            $this->setAcl(\Mage::getResourceModel('Magento\Api\Model\Resource\Acl')->loadAcl());
         }
         if ($user->getReloadAclFlag()) {
             $user->unsetData('api_key');
@@ -173,14 +173,14 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      */
     protected function _renewBySessId ($sessId)
     {
-        $user = \Mage::getModel('\Magento\Api\Model\User')->loadBySessId($sessId);
+        $user = \Mage::getModel('Magento\Api\Model\User')->loadBySessId($sessId);
         if (!$user->getId() || !$user->getSessid()) {
             return false;
         }
 
         if ($user->getSessid() == $sessId && !$this->isSessionExpired($user)) {
             $this->setUser($user);
-            $this->setAcl(\Mage::getResourceModel('\Magento\Api\Model\Resource\Acl')->loadAcl());
+            $this->setAcl(\Mage::getResourceModel('Magento\Api\Model\Resource\Acl')->loadAcl());
 
             $user->getResource()->recordLogin($user)
                 ->recordSession($user);

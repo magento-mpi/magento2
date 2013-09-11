@@ -40,7 +40,7 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
     {
         $this->_title(__('Invitations'));
 
-        $invitation = \Mage::getModel('\Magento\Invitation\Model\Invitation')->load($this->getRequest()->getParam('id'));
+        $invitation = \Mage::getModel('Magento\Invitation\Model\Invitation')->load($this->getRequest()->getParam('id'));
         if (!$invitation->getId()) {
             \Mage::throwException(__("We couldn't find this invitation."));
         }
@@ -112,7 +112,7 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
             $customerExistsCount = 0;
             foreach ($emails as $key => $email) {
                 try {
-                    $invitation = \Mage::getModel('\Magento\Invitation\Model\Invitation')->setData(array(
+                    $invitation = \Mage::getModel('Magento\Invitation\Model\Invitation')->setData(array(
                         'email'    => $email,
                         'store_id' => $storeId,
                         'message'  => $this->getRequest()->getParam('message'),
@@ -202,7 +202,7 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
             if (empty($invitationsPost) || !is_array($invitationsPost)) {
                 \Mage::throwException(__('Please select invitations.'));
             }
-            $collection = \Mage::getModel('\Magento\Invitation\Model\Invitation')->getCollection()
+            $collection = \Mage::getModel('Magento\Invitation\Model\Invitation')->getCollection()
                 ->addFieldToFilter('invitation_id', array('in' => $invitationsPost))
                 ->addCanBeSentFilter();
             $found = 0;
@@ -259,7 +259,7 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
             if (empty($invitationsPost) || !is_array($invitationsPost)) {
                 \Mage::throwException(__('Please select invitations.'));
             }
-            $collection = \Mage::getModel('\Magento\Invitation\Model\Invitation')->getCollection()
+            $collection = \Mage::getModel('Magento\Invitation\Model\Invitation')->getCollection()
                 ->addFieldToFilter('invitation_id', array('in' => $invitationsPost))
                 ->addCanBeCanceledFilter();
             $found     = 0;

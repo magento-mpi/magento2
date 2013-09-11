@@ -43,7 +43,7 @@ class Magento_Core_Model_Layout_File_ListTest extends PHPUnit_Framework_TestCase
     {
         $theme = null;
         if ($themeFullPath !== null) {
-            $theme = $this->getMockForAbstractClass('\Magento\Core\Model\ThemeInterface');
+            $theme = $this->getMockForAbstractClass('Magento\Core\Model\ThemeInterface');
             $theme->expects($this->any())->method('getFullPath')->will($this->returnValue($themeFullPath));
         }
         return new \Magento\Core\Model\Layout\File($filename, $module, $theme);

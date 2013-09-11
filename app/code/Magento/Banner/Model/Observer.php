@@ -41,7 +41,7 @@ class Observer
     public function bindRelatedBannersToCatalogRule(\Magento\Event\Observer $observer)
     {
         $catalogRule = $observer->getEvent()->getRule();
-        $resource = \Mage::getResourceModel('\Magento\Banner\Model\Resource\Banner');
+        $resource = \Mage::getResourceModel('Magento\Banner\Model\Resource\Banner');
         $banners = $catalogRule->getRelatedBanners();
         if (empty($banners)) {
             $banners = array();
@@ -75,7 +75,7 @@ class Observer
     public function bindRelatedBannersToSalesRule(\Magento\Event\Observer $observer)
     {
         $salesRule = $observer->getEvent()->getRule();
-        $resource = \Mage::getResourceModel('\Magento\Banner\Model\Resource\Banner');
+        $resource = \Mage::getResourceModel('Magento\Banner\Model\Resource\Banner');
         $banners = $salesRule->getRelatedBanners();
         if (empty($banners)) {
             $banners = array();

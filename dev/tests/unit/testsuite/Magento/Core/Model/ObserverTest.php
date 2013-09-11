@@ -44,7 +44,7 @@ class Magento_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_cacheFrontendMock = $this->getMockForAbstractClass('\Magento\Cache\FrontendInterface');
+        $this->_cacheFrontendMock = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
 
         $this->_frontendPoolMock = $this->getMock(
             '\Magento\Core\Model\Cache\Frontend\Pool',

@@ -126,7 +126,7 @@ class Poll extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getVotedPollIdsByIp($ipAddress, $pollId = false)
     {
         // check if validation by ip is enabled
-        if (!\Mage::getModel('\Magento\Poll\Model\Poll')->isValidationByIp()) {
+        if (!\Mage::getModel('Magento\Poll\Model\Poll')->isValidationByIp()) {
             return array();
         }
 

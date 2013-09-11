@@ -26,8 +26,8 @@ class Api extends \Magento\Api\Model\Resource\AbstractResource
      */
     public function items()
     {
-        $entityType = \Mage::getModel('\Magento\Catalog\Model\Product')->getResource()->getEntityType();
-        $collection = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
+        $entityType = \Mage::getModel('Magento\Catalog\Model\Product')->getResource()->getEntityType();
+        $collection = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
             ->setEntityTypeFilter($entityType->getId());
 
         $result = array();
@@ -50,13 +50,13 @@ class Api extends \Magento\Api\Model\Resource\AbstractResource
     public function create($attributeSetName, $skeletonSetId)
     {
         // check if set with requested $skeletonSetId exists
-        if (!\Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')->load($skeletonSetId)->getId()) {
+        if (!\Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')->load($skeletonSetId)->getId()) {
             $this->_fault('invalid_skeleton_set_id');
         }
         // get catalog product entity type id
-        $entityTypeId = \Mage::getModel('\Magento\Catalog\Model\Product')->getResource()->getTypeId();
+        $entityTypeId = \Mage::getModel('Magento\Catalog\Model\Product')->getResource()->getTypeId();
         /** @var $attributeSet \Magento\Eav\Model\Entity\Attribute\Set */
-        $attributeSet = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')
+        $attributeSet = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')
             ->setEntityTypeId($entityTypeId)
             ->setAttributeSetName($attributeSetName);
         try {
@@ -85,13 +85,13 @@ class Api extends \Magento\Api\Model\Resource\AbstractResource
         // if attribute set has related goods and $forceProductsRemove is not set throw exception
         if (!$forceProductsRemove) {
             /** @var $productsCollection \Magento\Catalog\Model\Resource\Product\Collection */
-            $productsCollection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
+            $productsCollection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
                     ->addFieldToFilter('attribute_set_id', $attributeSetId);
             if (count($productsCollection)) {
                 $this->_fault('attribute_set_has_related_products');
             }
         }
-        $attributeSet = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')->load($attributeSetId);
+        $attributeSet = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')->load($attributeSetId);
         // check if set with requested id exists
         if (!$attributeSet->getId()) {
             $this->_fault('invalid_attribute_set_id');
@@ -117,19 +117,19 @@ class Api extends \Magento\Api\Model\Resource\AbstractResource
     {
         // check if attribute with requested id exists
         /** @var $attribute \Magento\Eav\Model\Entity\Attribute */
-        $attribute = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute')->load($attributeId);
+        $attribute = \Mage::getModel('Magento\Eav\Model\Entity\Attribute')->load($attributeId);
         if (!$attribute->getId()) {
             $this->_fault('invalid_attribute_id');
         }
         // check if attribute set with requested id exists
         /** @var $attributeSet \Magento\Eav\Model\Entity\Attribute\Set */
-        $attributeSet = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')->load($attributeSetId);
+        $attributeSet = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')->load($attributeSetId);
         if (!$attributeSet->getId()) {
             $this->_fault('invalid_attribute_set_id');
         }
         if (!empty($attributeGroupId)) {
             // check if attribute group with requested id exists
-            if (!\Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Group')->load($attributeGroupId)->getId()) {
+            if (!\Mage::getModel('Magento\Eav\Model\Entity\Attribute\Group')->load($attributeGroupId)->getId()) {
                 $this->_fault('invalid_attribute_group_id');
             }
         } else {
@@ -163,13 +163,13 @@ class Api extends \Magento\Api\Model\Resource\AbstractResource
     {
         // check if attribute with requested id exists
         /** @var $attribute \Magento\Eav\Model\Entity\Attribute */
-        $attribute = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute')->load($attributeId);
+        $attribute = \Mage::getModel('Magento\Eav\Model\Entity\Attribute')->load($attributeId);
         if (!$attribute->getId()) {
             $this->_fault('invalid_attribute_id');
         }
         // check if attribute set with requested id exists
         /** @var $attributeSet \Magento\Eav\Model\Entity\Attribute\Set */
-        $attributeSet = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')->load($attributeSetId);
+        $attributeSet = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')->load($attributeSetId);
         if (!$attributeSet->getId()) {
             $this->_fault('invalid_attribute_set_id');
         }
@@ -199,7 +199,7 @@ class Api extends \Magento\Api\Model\Resource\AbstractResource
     public function groupAdd($attributeSetId, $groupName)
     {
         /** @var $group \Magento\Eav\Model\Entity\Attribute\Group */
-        $group = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Group');
+        $group = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Group');
         $group->setAttributeSetId($attributeSetId)
                 ->setAttributeGroupName(
                     \Mage::helper('Magento\Catalog\Helper\Data')->stripTags($groupName)
@@ -224,7 +224,7 @@ class Api extends \Magento\Api\Model\Resource\AbstractResource
      */
     public function groupRename($groupId, $groupName)
     {
-        $model = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Group')->load($groupId);
+        $model = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Group')->load($groupId);
 
         if (!$model->getAttributeGroupName()) {
             $this->_fault('invalid_attribute_group_id');
@@ -250,7 +250,7 @@ class Api extends \Magento\Api\Model\Resource\AbstractResource
     public function groupRemove($attributeGroupId)
     {
         /** @var $group \Magento\Catalog\Model\Product\Attribute\Group */
-        $group = \Mage::getModel('\Magento\Catalog\Model\Product\Attribute\Group')->load($attributeGroupId);
+        $group = \Mage::getModel('Magento\Catalog\Model\Product\Attribute\Group')->load($attributeGroupId);
         if (!$group->getId()) {
             $this->_fault('invalid_attribute_group_id');
         }

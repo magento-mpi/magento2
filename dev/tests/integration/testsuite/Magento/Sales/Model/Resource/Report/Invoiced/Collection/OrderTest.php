@@ -15,7 +15,7 @@ class Magento_Sales_Model_Resource_Report_Invoiced_Collection_OrderTest extends 
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Invoiced\Collection\Order');
+        $this->_collection = Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Invoiced\Collection\Order');
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)

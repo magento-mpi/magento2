@@ -29,7 +29,7 @@ class Data extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
         $dirtyCodes = $this->getStore()->getAvailableCurrencyCodes();
         $codes = array();
         if (is_array($dirtyCodes) && count($dirtyCodes)) {
-            $rates = \Mage::getModel('\Magento\Directory\Model\Currency')->getCurrencyRates(
+            $rates = \Mage::getModel('Magento\Directory\Model\Currency')->getCurrencyRates(
                 \Mage::app()->getStore()->getBaseCurrency(),
                 $dirtyCodes
             );

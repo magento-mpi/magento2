@@ -52,7 +52,7 @@ class Urlrewrite extends \Magento\Adminhtml\Block\Widget\Grid\Container
 
         $selectorBlock = $this->getSelectorBlock();
         if ($selectorBlock === null) {
-            $selectorBlock = \Mage::getBlockSingleton('\Magento\Adminhtml\Block\Urlrewrite\Selector');
+            $selectorBlock = \Mage::getBlockSingleton('Magento\Adminhtml\Block\Urlrewrite\Selector');
         }
 
         if ($selectorBlock) {

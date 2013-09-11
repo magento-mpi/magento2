@@ -56,7 +56,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
     public function initForm()
     {
         $this->setChild('form',
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\System\Cache\Form')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\System\Cache\Form')
                 ->initForm()
         );
         return $this;

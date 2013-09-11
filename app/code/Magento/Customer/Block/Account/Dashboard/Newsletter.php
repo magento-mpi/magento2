@@ -23,7 +23,7 @@ class Newsletter extends \Magento\Core\Block\Template
     public function getSubscriptionObject()
     {
         if(is_null($this->_subscription)) {
-            $this->_subscription = \Mage::getModel('\Magento\Newsletter\Model\Subscriber')
+            $this->_subscription = \Mage::getModel('Magento\Newsletter\Model\Subscriber')
                 ->loadByCustomer(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer());
         }
         return $this->_subscription;

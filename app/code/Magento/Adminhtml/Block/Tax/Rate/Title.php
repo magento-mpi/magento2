@@ -43,7 +43,7 @@ class Title extends \Magento\Core\Block\Template
     {
         $stores = $this->getData('stores');
         if (is_null($stores)) {
-            $stores = \Mage::getModel('\Magento\Core\Model\Store')
+            $stores = \Mage::getModel('Magento\Core\Model\Store')
                 ->getResourceCollection()
                 ->setLoadDefault(false)
                 ->load();

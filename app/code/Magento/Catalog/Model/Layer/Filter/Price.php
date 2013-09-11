@@ -70,7 +70,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     protected function _getResource()
     {
         if (is_null($this->_resource)) {
-            $this->_resource = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Layer\Filter\Price');
+            $this->_resource = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Layer\Filter\Price');
         }
         return $this->_resource;
     }

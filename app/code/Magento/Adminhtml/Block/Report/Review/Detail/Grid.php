@@ -29,14 +29,14 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareCollection()
     {
 
-        //$collection = \Mage::getModel('\Magento\Review\Model\Review')->getProductCollection();
+        //$collection = \Mage::getModel('Magento\Review\Model\Review')->getProductCollection();
 
         //$collection->getSelect()
         //    ->where('rt.entity_pk_value='.(int)$this->getRequest()->getParam('id'));
 
         //$collection->getEntity()->setStore(0);
 
-        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Review\Collection')
+        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Review\Collection')
             ->addProductFilter((int)$this->getRequest()->getParam('id'));
 
         $this->setCollection($collection);

@@ -37,7 +37,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
         $uniqId = \Mage::helper('Magento\Core\Helper\Data')->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/promo_quote/chooser', array('uniq_id' => $uniqId));
 
-        $chooser = $this->getLayout()->createBlock('\Magento\Widget\Block\Adminhtml\Widget\Chooser')
+        $chooser = $this->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Chooser')
             ->setElement($element)
             ->setConfig($this->getConfig())
             ->setFieldsetId($this->getFieldsetId())
@@ -45,7 +45,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
             ->setUniqId($uniqId);
 
         if ($element->getValue()) {
-            $rule = \Mage::getModel('\Magento\SalesRule\Model\Rule')->load((int)$element->getValue());
+            $rule = \Mage::getModel('Magento\SalesRule\Model\Rule')->load((int)$element->getValue());
             if ($rule->getId()) {
                 $chooser->setLabel($rule->getName());
             }
@@ -83,7 +83,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('\Magento\SalesRule\Model\Rule')->getResourceCollection();
+        $collection = \Mage::getModel('Magento\SalesRule\Model\Rule')->getResourceCollection();
         $this->setCollection($collection);
 
         \Mage::dispatchEvent('adminhtml_block_promo_widget_chooser_prepare_collection', array(

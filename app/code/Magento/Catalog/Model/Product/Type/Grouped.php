@@ -83,7 +83,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function getChildrenIds($parentId, $required = true)
     {
-        return \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product\Link')
+        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Link')
             ->getChildrenIds($parentId,
                 \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED);
     }
@@ -96,7 +96,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function getParentIdsByChild($childId)
     {
-        return \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product\Link')
+        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Link')
             ->getParentIdsByChild($childId,
                 \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED);
     }

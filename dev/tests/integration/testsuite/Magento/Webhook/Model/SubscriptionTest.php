@@ -75,7 +75,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     {
 
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = Mage::getModel('\Magento\Webhook\Model\Subscription');
+        $subscription = Mage::getModel('Magento\Webhook\Model\Subscription');
         $this->assertEmpty($subscription->getTopics(),
             "New subscription shouldn't be subscribed on any hooks.");
 
@@ -99,7 +99,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     public function testHasTopic()
     {
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = Mage::getModel('\Magento\Webhook\Model\Subscription');
+        $subscription = Mage::getModel('Magento\Webhook\Model\Subscription');
         $subscription->setTopics(array(self::HOOK_IN_CONFIG))
             ->save();
 
@@ -111,7 +111,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     {
         //setup
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = Mage::getModel('\Magento\Webhook\Model\Subscription');
+        $subscription = Mage::getModel('Magento\Webhook\Model\Subscription');
         $subscription->setStatus(\Magento\Webhook\Model\Subscription::STATUS_INACTIVE)
             ->save();
 
@@ -128,7 +128,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     {
         //setup
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = Mage::getModel('\Magento\Webhook\Model\Subscription');
+        $subscription = Mage::getModel('Magento\Webhook\Model\Subscription');
         $subscription->setStatus(\Magento\Webhook\Model\Subscription::STATUS_ACTIVE)
             ->save();
 
@@ -145,7 +145,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     {
         //setup
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = Mage::getModel('\Magento\Webhook\Model\Subscription');
+        $subscription = Mage::getModel('Magento\Webhook\Model\Subscription');
         $subscription->setStatus(\Magento\Webhook\Model\Subscription::STATUS_ACTIVE)
             ->save();
 

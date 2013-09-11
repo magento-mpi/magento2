@@ -47,7 +47,7 @@ class Rules extends \Magento\Core\Model\AbstractModel
 
     public function getCollection()
     {
-        return \Mage::getResourceModel('\Magento\User\Model\Resource\Permissions\Collection');
+        return \Mage::getResourceModel('Magento\User\Model\Resource\Permissions\Collection');
     }
 
     public function saveRel()

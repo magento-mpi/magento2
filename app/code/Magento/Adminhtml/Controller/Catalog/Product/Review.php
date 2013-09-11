@@ -40,7 +40,7 @@ class Review extends \Magento\Adminhtml\Controller\Action
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_reviews_all');
 
-        $this->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Review\Main'));
+        $this->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Main'));
 
         $this->renderLayout();
     }
@@ -59,7 +59,7 @@ class Review extends \Magento\Adminhtml\Controller\Action
         $this->loadLayout();
 
         \Mage::register('usePendingFilter', true);
-        $this->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Review\Main'));
+        $this->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Main'));
 
         $this->renderLayout();
     }
@@ -73,7 +73,7 @@ class Review extends \Magento\Adminhtml\Controller\Action
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_reviews_all');
 
-        $this->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Review\Edit'));
+        $this->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Edit'));
 
         $this->renderLayout();
     }
@@ -89,8 +89,8 @@ class Review extends \Magento\Adminhtml\Controller\Action
 
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
-        $this->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Review\Add'));
-        $this->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Review\Product\Grid'));
+        $this->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Add'));
+        $this->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Product\Grid'));
 
         $this->renderLayout();
     }
@@ -98,7 +98,7 @@ class Review extends \Magento\Adminhtml\Controller\Action
     public function saveAction()
     {
         if (($data = $this->getRequest()->getPost()) && ($reviewId = $this->getRequest()->getParam('id'))) {
-            $review = \Mage::getModel('\Magento\Review\Model\Review')->load($reviewId);
+            $review = \Mage::getModel('Magento\Review\Model\Review')->load($reviewId);
             $session = \Mage::getSingleton('Magento\Adminhtml\Model\Session');
             if (! $review->getId()) {
                 $session->addError(__('The review was removed by another user or does not exist.'));
@@ -107,7 +107,7 @@ class Review extends \Magento\Adminhtml\Controller\Action
                     $review->addData($data)->save();
 
                     $arrRatingId = $this->getRequest()->getParam('ratings', array());
-                    $votes = \Mage::getModel('\Magento\Rating\Model\Rating\Option\Vote')
+                    $votes = \Mage::getModel('Magento\Rating\Model\Rating\Option\Vote')
                         ->getResourceCollection()
                         ->setReviewFilter($reviewId)
                         ->addOptionInfo()
@@ -115,12 +115,12 @@ class Review extends \Magento\Adminhtml\Controller\Action
                         ->addRatingOptions();
                     foreach ($arrRatingId as $ratingId=>$optionId) {
                         if($vote = $votes->getItemByColumnValue('rating_id', $ratingId)) {
-                            \Mage::getModel('\Magento\Rating\Model\Rating')
+                            \Mage::getModel('Magento\Rating\Model\Rating')
                                 ->setVoteId($vote->getId())
                                 ->setReviewId($review->getId())
                                 ->updateOptionVote($optionId);
                         } else {
-                            \Mage::getModel('\Magento\Rating\Model\Rating')
+                            \Mage::getModel('Magento\Rating\Model\Rating')
                                 ->setRatingId($ratingId)
                                 ->setReviewId($review->getId())
                                 ->addOptionVote($optionId, $review->getEntityPkValue());
@@ -153,7 +153,7 @@ class Review extends \Magento\Adminhtml\Controller\Action
         $session    = \Mage::getSingleton('Magento\Adminhtml\Model\Session');
 
         try {
-            \Mage::getModel('\Magento\Review\Model\Review')->setId($reviewId)
+            \Mage::getModel('Magento\Review\Model\Review')->setId($reviewId)
                 ->aggregate()
                 ->delete();
 
@@ -183,7 +183,7 @@ class Review extends \Magento\Adminhtml\Controller\Action
         } else {
             try {
                 foreach ($reviewsIds as $reviewId) {
-                    $model = \Mage::getModel('\Magento\Review\Model\Review')->load($reviewId);
+                    $model = \Mage::getModel('Magento\Review\Model\Review')->load($reviewId);
                     $model->delete();
                 }
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
@@ -211,7 +211,7 @@ class Review extends \Magento\Adminhtml\Controller\Action
             try {
                 $status = $this->getRequest()->getParam('status');
                 foreach ($reviewsIds as $reviewId) {
-                    $model = \Mage::getModel('\Magento\Review\Model\Review')->load($reviewId);
+                    $model = \Mage::getModel('Magento\Review\Model\Review')->load($reviewId);
                     $model->setStatusId($status)
                         ->save()
                         ->aggregate();
@@ -242,7 +242,7 @@ class Review extends \Magento\Adminhtml\Controller\Action
             try {
                 $stores = $this->getRequest()->getParam('stores');
                 foreach ($reviewsIds as $reviewId) {
-                    $model = \Mage::getModel('\Magento\Review\Model\Review')->load($reviewId);
+                    $model = \Mage::getModel('Magento\Review\Model\Review')->load($reviewId);
                     $model->setSelectStores($stores);
                     $model->save();
                 }
@@ -262,14 +262,14 @@ class Review extends \Magento\Adminhtml\Controller\Action
     public function productGridAction()
     {
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Review\Product\Grid')->toHtml()
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Product\Grid')->toHtml()
         );
     }
 
     public function reviewGridAction()
     {
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Review\Grid')->toHtml()
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Grid')->toHtml()
         );
     }
 
@@ -278,7 +278,7 @@ class Review extends \Magento\Adminhtml\Controller\Action
         $response = new \Magento\Object();
         $id = $this->getRequest()->getParam('id');
         if( intval($id) > 0 ) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->load($id);
 
             $response->setId($id);
@@ -303,9 +303,9 @@ class Review extends \Magento\Adminhtml\Controller\Action
                 $data['stores'] = $data['select_stores'];
             }
 
-            $review = \Mage::getModel('\Magento\Review\Model\Review')->setData($data);
+            $review = \Mage::getModel('Magento\Review\Model\Review')->setData($data);
 
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->load($productId);
 
             try {
@@ -318,7 +318,7 @@ class Review extends \Magento\Adminhtml\Controller\Action
 
                 $arrRatingId = $this->getRequest()->getParam('ratings', array());
                 foreach ($arrRatingId as $ratingId=>$optionId) {
-                    \Mage::getModel('\Magento\Rating\Model\Rating')
+                    \Mage::getModel('Magento\Rating\Model\Rating')
                        ->setRatingId($ratingId)
                        ->setReviewId($review->getId())
                        ->addOptionVote($optionId, $productId);
@@ -348,7 +348,7 @@ class Review extends \Magento\Adminhtml\Controller\Action
     {
         $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('\Magento\Adminhtml\Block\Review\Rating\Detailed')
+                ->createBlock('Magento\Adminhtml\Block\Review\Rating\Detailed')
                 ->setIndependentMode()
                 ->toHtml()
         );

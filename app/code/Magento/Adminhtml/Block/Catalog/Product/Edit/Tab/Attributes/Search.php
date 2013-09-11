@@ -55,7 +55,7 @@ class Search extends \Magento\Backend\Block\Widget
         $escapedLabelPart = \Mage::getResourceHelper('Magento_Core')
             ->addLikeEscape($labelPart, array('position' => 'any'));
         /** @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
-        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Attribute\Collection')
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection')
             ->addFieldToFilter('frontend_label', array('like' => $escapedLabelPart));
 
         $collection->setExcludeSetFilter($templateId ?: $this->getRequest()->getParam('template_id'))->setPageSize(20);

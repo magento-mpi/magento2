@@ -26,6 +26,6 @@ class Rollback extends \Magento\Backend\Block\Widget\Grid\Column
      */
     public function isDisplayed()
     {
-        return $this->helper('\Magento\Backup\Helper\Data')->isRollbackAllowed();
+        return $this->helper('Magento\Backup\Helper\Data')->isRollbackAllowed();
     }
 }

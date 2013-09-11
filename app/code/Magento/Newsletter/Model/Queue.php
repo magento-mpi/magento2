@@ -138,7 +138,7 @@ class Queue extends \Magento\Core\Model\Template
             $locale = \Mage::app()->getLocale();
             $format = $locale->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
             $time = $locale->date($startAt, $format)->getTimestamp();
-            $this->setQueueStartAt(\Mage::getModel('\Magento\Core\Model\Date')->gmtDate(null, $time));
+            $this->setQueueStartAt(\Mage::getModel('Magento\Core\Model\Date')->gmtDate(null, $time));
         }
         return $this;
      }
@@ -171,7 +171,7 @@ class Queue extends \Magento\Core\Model\Template
             ->load();
 
         /** @var \Magento\Core\Model\Email\Template $sender */
-        $sender = $this->_emailTemplate ?: \Mage::getModel('\Magento\Core\Model\Email\Template');
+        $sender = $this->_emailTemplate ?: \Mage::getModel('Magento\Core\Model\Email\Template');
         $sender->setSenderName($this->getNewsletterSenderName())
             ->setSenderEmail($this->getNewsletterSenderEmail())
             ->setTemplateType(self::TYPE_HTML)
@@ -193,7 +193,7 @@ class Queue extends \Magento\Core\Model\Template
                 $item->received($this);
             } else {
                 /** @var \Magento\Newsletter\Model\Problem $problem */
-                $problem = \Mage::getModel('\Magento\Newsletter\Model\Problem');
+                $problem = \Mage::getModel('Magento\Newsletter\Model\Problem');
                 $problem->addSubscriberData($item);
                 $problem->addQueueData($this);
                 $e = $sender->getSendingException();
@@ -310,7 +310,7 @@ class Queue extends \Magento\Core\Model\Template
     public function getTemplate()
     {
         if (is_null($this->_template)) {
-            $this->_template = \Mage::getModel('\Magento\Newsletter\Model\Template')
+            $this->_template = \Mage::getModel('Magento\Newsletter\Model\Template')
                 ->load($this->getTemplateId());
         }
         return $this->_template;

@@ -28,7 +28,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         if (!$customerId) {
             return false;
         }
-        return \Mage::getModel('\Magento\Wishlist\Model\Wishlist')->loadByCustomer($customerId, true);
+        return \Mage::getModel('Magento\Wishlist\Model\Wishlist')->loadByCustomer($customerId, true);
     }
 
     /**
@@ -92,10 +92,10 @@ class Observer extends \Magento\Core\Model\AbstractModel
             $wishlistId = array_shift($wishlistIds);
 
             if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
-                $wishlist = \Mage::getModel('\Magento\Wishlist\Model\Wishlist')
+                $wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist')
                         ->loadByCustomer(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer(), true);
             } else if ($sharedWishlist) {
-                $wishlist = \Mage::getModel('\Magento\Wishlist\Model\Wishlist')->loadByCode($sharedWishlist);
+                $wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist')->loadByCode($sharedWishlist);
             } else {
                 return;
             }

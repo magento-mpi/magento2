@@ -75,7 +75,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         $formHtml = parent::getFormHtml();
         if (!\Mage::app()->isSingleStoreMode() && $this->getVariable()->getId()) {
             $storeSwitcher = $this->getLayout()
-                ->createBlock('\Magento\Backend\Block\Store\Switcher')->toHtml();
+                ->createBlock('Magento\Backend\Block\Store\Switcher')->toHtml();
             $formHtml = $storeSwitcher.$formHtml;
         }
         return $formHtml;

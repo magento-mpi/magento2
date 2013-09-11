@@ -16,7 +16,7 @@ class Magento_Review_Model_Resource_Review_Product_CollectionTest extends PHPUni
      */
     public function testGetResultingIds()
     {
-        $collection = Mage::getResourceModel('\Magento\Review\Model\Resource\Review\Product\Collection');
+        $collection = Mage::getResourceModel('Magento\Review\Model\Resource\Review\Product\Collection');
         $collection->addStatusFilter(\Magento\Review\Model\Review::STATUS_APPROVED);
         $actual = $collection->getResultingIds();
         $this->assertCount(2, $actual);

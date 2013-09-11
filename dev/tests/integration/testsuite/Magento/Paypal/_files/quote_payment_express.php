@@ -9,7 +9,7 @@ Mage::app()->loadArea('adminhtml');
 Mage::app()->getStore()->setConfig('carriers/flatrate/active', 1);
 Mage::app()->getStore()->setConfig('payment/paypal_express/active', 1);
 /** @var $product \Magento\Catalog\Model\Product */
-$product = Mage::getModel('\Magento\Catalog\Model\Product');
+$product = Mage::getModel('Magento\Catalog\Model\Product');
 $product->setTypeId('simple')
     ->setId(1)
     ->setAttributeSetId(4)
@@ -62,7 +62,7 @@ $billingData = array(
     'use_for_shipping' => '1',
 );
 
-$billingAddress = Mage::getModel('\Magento\Sales\Model\Quote\Address', array('data' => $billingData));
+$billingAddress = Mage::getModel('Magento\Sales\Model\Quote\Address', array('data' => $billingData));
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
@@ -71,7 +71,7 @@ $shippingAddress->setShippingMethod('flatrate_flatrate');
 $shippingAddress->setCollectShippingRates(true);
 
 /** @var $quote \Magento\Sales\Model\Quote */
-$quote = Mage::getModel('\Magento\Sales\Model\Quote');
+$quote = Mage::getModel('Magento\Sales\Model\Quote');
 $quote->setCustomerIsGuest(true)
     ->setStoreId(Mage::app()->getStore()->getId())
     ->setReservedOrderId('test02')
@@ -84,7 +84,7 @@ $quote->getPayment()->setMethod(\Magento\Paypal\Model\Config::METHOD_WPS);
 $quote->collectTotals()->save();
 
 /** @var $service \Magento\Sales\Model\Service\Quote */
-$service = Mage::getModel('\Magento\Sales\Model\Service\Quote', array('quote' => $quote));
+$service = Mage::getModel('Magento\Sales\Model\Service\Quote', array('quote' => $quote));
 $service->setOrderData(array('increment_id' => '100000002'));
 $service->submitAll();
 

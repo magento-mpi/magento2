@@ -13,7 +13,7 @@ class Magento_Wishlist_Block_Customer_Wishlist_ItemsTest extends PHPUnit_Framewo
 {
     public function testGetColumns()
     {
-        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $layout = Mage::getModel('Magento\Core\Model\Layout');
         $block = $layout->addBlock('\Magento\Wishlist\Block\Customer\Wishlist\Items', 'test');
         $child = $this->getMock('Magento\Core\Block\Text', array('isEnabled'),
             array(Mage::getSingleton('Magento\Core\Block\Context')));

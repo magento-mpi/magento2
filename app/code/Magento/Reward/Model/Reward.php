@@ -228,7 +228,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
     public function getCustomer()
     {
         if (!$this->_getData('customer') && $this->getCustomerId()) {
-            $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($this->getCustomerId());
+            $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($this->getCustomerId());
             $this->setCustomer($customer);
         }
         return $this->_getData('customer');
@@ -344,7 +344,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
     public function getHistory()
     {
         if (!$this->_getData('history')) {
-            $this->setData('history', \Mage::getModel('\Magento\Reward\Model\Reward\History'));
+            $this->setData('history', \Mage::getModel('Magento\Reward\Model\Reward\History'));
             $this->getHistory()->setReward($this);
         }
         return $this->_getData('history');
@@ -359,7 +359,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
     protected function _getRateByDirection($direction)
     {
         if (!isset($this->_rates[$direction])) {
-            $this->_rates[$direction] = \Mage::getModel('\Magento\Reward\Model\Reward\Rate')
+            $this->_rates[$direction] = \Mage::getModel('Magento\Reward\Model\Reward\Rate')
                 ->fetch($this->getCustomerGroupId(), $this->getWebsiteId(), $direction);
         }
         return $this->_rates[$direction];
@@ -599,7 +599,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
         }
         $history = $this->getHistory();
         $store = \Mage::app()->getStore($this->getStore());
-        $mail  = \Mage::getModel('\Magento\Core\Model\Email\Template');
+        $mail  = \Mage::getModel('Magento\Core\Model\Email\Template');
         /* @var $mail \Magento\Core\Model\Email\Template */
         $mail->setDesignConfig(array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId()));
         $templateVars = array(
@@ -642,7 +642,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
      */
     public function sendBalanceWarningNotification($item, $websiteId)
     {
-        $mail  = \Mage::getModel('\Magento\Core\Model\Email\Template');
+        $mail  = \Mage::getModel('Magento\Core\Model\Email\Template');
         /* @var $mail \Magento\Core\Model\Email\Template */
         $mail->setDesignConfig(array(
             'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,

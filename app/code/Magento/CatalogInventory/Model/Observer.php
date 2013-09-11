@@ -49,7 +49,7 @@ class Observer
         if ($product instanceof \Magento\Catalog\Model\Product) {
             $productId = intval($product->getId());
             if (!isset($this->_stockItemsArray[$productId])) {
-                $this->_stockItemsArray[$productId] = \Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item');
+                $this->_stockItemsArray[$productId] = \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
             }
             $productStockItem = $this->_stockItemsArray[$productId];
             $productStockItem->assignProduct($product);
@@ -85,9 +85,9 @@ class Observer
     {
         $productCollection = $observer->getEvent()->getCollection();
         if ($productCollection->hasFlag('require_stock_items')) {
-            \Mage::getModel('\Magento\CatalogInventory\Model\Stock')->addItemsToProducts($productCollection);
+            \Mage::getModel('Magento\CatalogInventory\Model\Stock')->addItemsToProducts($productCollection);
         } else {
-            \Mage::getModel('\Magento\CatalogInventory\Model\Stock\Status')->addStockStatusToProducts($productCollection);
+            \Mage::getModel('Magento\CatalogInventory\Model\Stock\Status')->addStockStatusToProducts($productCollection);
         }
         return $this;
     }
@@ -101,7 +101,7 @@ class Observer
     public function addInventoryDataToCollection($observer)
     {
         $productCollection = $observer->getEvent()->getProductCollection();
-        \Mage::getModel('\Magento\CatalogInventory\Model\Stock')->addItemsToProducts($productCollection);
+        \Mage::getModel('Magento\CatalogInventory\Model\Stock')->addItemsToProducts($productCollection);
         return $this;
     }
 
@@ -125,7 +125,7 @@ class Observer
 
         $item = $product->getStockItem();
         if (!$item) {
-            $item = \Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item');
+            $item = \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
         }
         $this->_prepareItemForSave($item, $product);
         $item->save();
@@ -687,7 +687,7 @@ class Observer
         }
 
         if( count($productIds)) {
-            \Mage::getResourceSingleton('\Magento\CatalogInventory\Model\Resource\Indexer\Stock')
+            \Mage::getResourceSingleton('Magento\CatalogInventory\Model\Resource\Indexer\Stock')
                 ->reindexProducts($productIds);
         }
 
@@ -697,7 +697,7 @@ class Observer
             $item->save();
             $productIds[] = $item->getProductId();
         }
-        \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product\Indexer\Price')->reindexProductIds($productIds);
+        \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Indexer\Price')->reindexProductIds($productIds);
 
         $this->_itemsForReindex = array(); // Clear list of remembered items - we don't need it anymore
 
@@ -770,9 +770,9 @@ class Observer
      */
     public function updateItemsStockUponConfigChange($observer)
     {
-        \Mage::getResourceSingleton('\Magento\CatalogInventory\Model\Resource\Stock')->updateSetOutOfStock();
-        \Mage::getResourceSingleton('\Magento\CatalogInventory\Model\Resource\Stock')->updateSetInStock();
-        \Mage::getResourceSingleton('\Magento\CatalogInventory\Model\Resource\Stock')->updateLowStockDate();
+        \Mage::getResourceSingleton('Magento\CatalogInventory\Model\Resource\Stock')->updateSetOutOfStock();
+        \Mage::getResourceSingleton('Magento\CatalogInventory\Model\Resource\Stock')->updateSetInStock();
+        \Mage::getResourceSingleton('Magento\CatalogInventory\Model\Resource\Stock')->updateLowStockDate();
         return $this;
     }
 

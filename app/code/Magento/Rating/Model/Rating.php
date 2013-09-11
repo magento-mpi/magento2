@@ -48,7 +48,7 @@ class Rating extends \Magento\Core\Model\AbstractModel
 
     public function addOptionVote($optionId, $entityPkValue)
     {
-        \Mage::getModel('\Magento\Rating\Model\Rating\Option')->setOptionId($optionId)
+        \Mage::getModel('Magento\Rating\Model\Rating\Option')->setOptionId($optionId)
             ->setRatingId($this->getId())
             ->setReviewId($this->getReviewId())
             ->setEntityPkValue($entityPkValue)
@@ -58,7 +58,7 @@ class Rating extends \Magento\Core\Model\AbstractModel
 
     public function updateOptionVote($optionId)
     {
-        \Mage::getModel('\Magento\Rating\Model\Rating\Option')->setOptionId($optionId)
+        \Mage::getModel('Magento\Rating\Model\Rating\Option')->setOptionId($optionId)
             ->setVoteId($this->getVoteId())
             ->setReviewId($this->getReviewId())
             ->setDoUpdate(1)
@@ -77,7 +77,7 @@ class Rating extends \Magento\Core\Model\AbstractModel
             return $options;
         }
         elseif ($id = $this->getId()) {
-            return \Mage::getResourceModel('\Magento\Rating\Model\Resource\Rating\Option\Collection')
+            return \Mage::getResourceModel('Magento\Rating\Model\Resource\Rating\Option\Collection')
                ->addRatingFilter($id)
                ->setPositionOrder()
                ->load()

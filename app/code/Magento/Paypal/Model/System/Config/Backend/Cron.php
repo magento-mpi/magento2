@@ -22,13 +22,13 @@ class Cron extends \Magento\Core\Model\Config\Value
     protected function _afterSave()
     {
         $cronExprString = '';
-        $time = explode(',', \Mage::getModel('\Magento\Core\Model\Config\Value')->load('paypal/fetch_reports/time', 'path')->getValue());
-        if (\Mage::getModel('\Magento\Core\Model\Config\Value')->load('paypal/fetch_reports/active', 'path')->getValue()) {
-            $interval = \Mage::getModel('\Magento\Core\Model\Config\Value')->load(self::CRON_MODEL_PATH_INTERVAL, 'path')->getValue();
+        $time = explode(',', \Mage::getModel('Magento\Core\Model\Config\Value')->load('paypal/fetch_reports/time', 'path')->getValue());
+        if (\Mage::getModel('Magento\Core\Model\Config\Value')->load('paypal/fetch_reports/active', 'path')->getValue()) {
+            $interval = \Mage::getModel('Magento\Core\Model\Config\Value')->load(self::CRON_MODEL_PATH_INTERVAL, 'path')->getValue();
             $cronExprString = "{$time[1]} {$time[0]} */{$interval} * *";
         }
 
-        \Mage::getModel('\Magento\Core\Model\Config\Value')
+        \Mage::getModel('Magento\Core\Model\Config\Value')
             ->load(self::CRON_STRING_PATH, 'path')
             ->setValue($cronExprString)
             ->setPath(self::CRON_STRING_PATH)

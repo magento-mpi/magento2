@@ -496,7 +496,7 @@ class Translate
      */
     public function getResource()
     {
-        return \Mage::getResourceSingleton('\Magento\Core\Model\Resource\Translate');
+        return \Mage::getResourceSingleton('Magento\Core\Model\Resource\Translate');
     }
 
     /**

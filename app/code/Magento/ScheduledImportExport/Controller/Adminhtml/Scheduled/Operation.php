@@ -126,7 +126,7 @@ class Operation extends \Magento\Adminhtml\Controller\Action
             }
 
             try {
-                $operation = \Mage::getModel('\Magento\ScheduledImportExport\Model\Scheduled\Operation')->setData($data);
+                $operation = \Mage::getModel('Magento\ScheduledImportExport\Model\Scheduled\Operation')->setData($data);
                 $operation->save();
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
                     \Mage::helper('Magento\ScheduledImportExport\Helper\Data')
@@ -155,7 +155,7 @@ class Operation extends \Magento\Adminhtml\Controller\Action
         $id = (int)$request->getParam('id');
         if ($id) {
             try {
-                \Mage::getModel('\Magento\ScheduledImportExport\Model\Scheduled\Operation')->setId($id)->delete();
+                \Mage::getModel('Magento\ScheduledImportExport\Model\Scheduled\Operation')->setId($id)->delete();
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
                     \Mage::helper('Magento\ScheduledImportExport\Helper\Data')->getSuccessDeleteMessage(
                         $request->getParam('type')
@@ -267,7 +267,7 @@ class Operation extends \Magento\Adminhtml\Controller\Action
                 $this->loadLayout();
 
                 /** @var $export \Magento\ScheduledImportExport\Model\Export */
-                $export = \Mage::getModel('\Magento\ScheduledImportExport\Model\Export')->setData($data);
+                $export = \Mage::getModel('Magento\ScheduledImportExport\Model\Export')->setData($data);
 
                 /** @var $attrFilterBlock \Magento\ScheduledImportExport\Block\Adminhtml\Export\Filter */
                 $attrFilterBlock = $this->getLayout()->getBlock('export.filter')
@@ -320,7 +320,7 @@ class Operation extends \Magento\Adminhtml\Controller\Action
             );
 
             /** @var $observer \Magento\ScheduledImportExport\Model\Observer */
-            $observer = \Mage::getModel('\Magento\ScheduledImportExport\Model\Observer');
+            $observer = \Mage::getModel('Magento\ScheduledImportExport\Model\Observer');
             $result = $observer->processScheduledOperation($schedule, true);
 
             // restore current design area and theme
@@ -352,7 +352,7 @@ class Operation extends \Magento\Adminhtml\Controller\Action
     public function logCleanAction()
     {
         $schedule = new \Magento\Object();
-        $result = \Mage::getModel('\Magento\ScheduledImportExport\Model\Observer')->scheduledLogClean($schedule, true);
+        $result = \Mage::getModel('Magento\ScheduledImportExport\Model\Observer')->scheduledLogClean($schedule, true);
         if ($result) {
             $this->_getSession()
                 ->addSuccess(

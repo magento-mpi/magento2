@@ -28,9 +28,9 @@ class Magento_Catalog_Block_Product_View_Type_ConfigurableTest extends PHPUnit_F
 
     protected function setUp()
     {
-        $this->_product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $this->_product = Mage::getModel('Magento\Catalog\Model\Product');
         $this->_product->load(1);
-        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Catalog\Block\Product\View\Type\Configurable');
+        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Catalog\Block\Product\View\Type\Configurable');
         $this->_block->setProduct($this->_product);
     }
 

@@ -20,7 +20,7 @@ class Magento_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\ImportExport\Model\Export');
+        $this->_model = Mage::getModel('Magento\ImportExport\Model\Export');
     }
 
     /**

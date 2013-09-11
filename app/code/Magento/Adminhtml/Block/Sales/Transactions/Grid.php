@@ -42,7 +42,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     {
         $collection = $this->getCollection();
         if (!$collection) {
-            $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection');
+            $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection');
         }
         $order = \Mage::registry('current_order');
         if ($order) {

@@ -81,7 +81,7 @@ class Widget extends \Magento\Adminhtml\Controller\Action
                 return;
             }
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Category\Tree')
+                $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Category\Tree')
                     ->getTreeJson($category)
             );
         }
@@ -97,7 +97,7 @@ class Widget extends \Magento\Adminhtml\Controller\Action
         $categoryId = (int) $this->getRequest()->getParam('id',false);
         $storeId    = (int) $this->getRequest()->getParam('store');
 
-        $category   = \Mage::getModel('\Magento\Catalog\Model\Category');
+        $category   = \Mage::getModel('Magento\Catalog\Model\Category');
         $category->setStoreId($storeId);
 
         if ($categoryId) {

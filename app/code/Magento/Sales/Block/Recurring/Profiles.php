@@ -29,12 +29,12 @@ class Profiles extends \Magento\Core\Block\Template
     {
         $this->_prepareProfiles(array('reference_id', 'state', 'created_at', 'updated_at', 'method_code'));
 
-        $pager = $this->getLayout()->createBlock('\Magento\Page\Block\Html\Pager')
+        $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager')
             ->setCollection($this->_profiles)->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
 
         /* @var $profile \Magento\Sales\Model\Recurring\Profile */
-        $profile = \Mage::getModel('\Magento\Sales\Model\Recurring\Profile');
+        $profile = \Mage::getModel('Magento\Sales\Model\Recurring\Profile');
 
         $this->setGridColumns(array(
             new \Magento\Object(array(
@@ -95,7 +95,7 @@ class Profiles extends \Magento\Core\Block\Template
      */
     protected function _prepareProfiles($fields = '*')
     {
-        $this->_profiles = \Mage::getModel('\Magento\Sales\Model\Recurring\Profile')->getCollection()
+        $this->_profiles = \Mage::getModel('Magento\Sales\Model\Recurring\Profile')->getCollection()
             ->addFieldToFilter('customer_id', \Mage::registry('current_customer')->getId())
             ->addFieldToSelect($fields)
             ->setOrder('profile_id', 'desc')

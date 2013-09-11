@@ -47,7 +47,7 @@ class Newsletter extends \Magento\Reward\Model\Action\AbstractAction
         }
 
         /* @var $subscribers \Magento\Newsletter\Model\Resource\Subscriber\Collection */
-        $subscribers = \Mage::getResourceModel('\Magento\Newsletter\Model\Resource\Subscriber\Collection')
+        $subscribers = \Mage::getResourceModel('Magento\Newsletter\Model\Resource\Subscriber\Collection')
             ->addFieldToFilter('customer_id', $subscriber->getCustomerId())
             ->load();
         // check for existing customer subscribtions

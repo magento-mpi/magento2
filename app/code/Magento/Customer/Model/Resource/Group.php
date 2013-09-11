@@ -67,7 +67,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _afterDelete(\Magento\Core\Model\AbstractModel $group)
     {
-        $customerCollection = \Mage::getResourceModel('\Magento\Customer\Model\Resource\Customer\Collection')
+        $customerCollection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection')
             ->addAttributeToFilter('group_id', $group->getId())
             ->load();
         foreach ($customerCollection as $customer) {

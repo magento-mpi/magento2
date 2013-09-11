@@ -153,7 +153,7 @@ class Customer
         $this->_initStores(true)
             ->_initAttributes();
 
-        $this->_customerModel = \Mage::getModel('\Magento\Customer\Model\Customer');
+        $this->_customerModel = \Mage::getModel('Magento\Customer\Model\Customer');
         /** @var $customerResource \Magento\Customer\Model\Resource\Customer */
         $customerResource = $this->_customerModel->getResource();
         $this->_entityTable = $customerResource->getEntityTable();

@@ -64,7 +64,7 @@ class Product extends \Magento\Core\Controller\Front\Action
         if (!$productId) {
             return false;
         }
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+        $product = \Mage::getModel('Magento\Catalog\Model\Product')
             ->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             return false;
@@ -81,7 +81,7 @@ class Product extends \Magento\Core\Controller\Front\Action
      */
     protected function _initSendToFriendModel()
     {
-        $model  = \Mage::getModel('\Magento\Sendfriend\Model\Sendfriend');
+        $model  = \Mage::getModel('Magento\Sendfriend\Model\Sendfriend');
         $model->setRemoteAddr(\Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr(true));
         $model->setCookie(\Mage::app()->getCookie());
         $model->setWebsiteId(\Mage::app()->getStore()->getWebsiteId());
@@ -112,7 +112,7 @@ class Product extends \Magento\Core\Controller\Front\Action
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Catalog\Model\Session');
+        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
 
         $this->_eventManager->dispatch('sendfriend_product', array('product' => $product));
         $data = \Mage::getSingleton('Magento\Catalog\Model\Session')->getSendfriendFormData();
@@ -148,7 +148,7 @@ class Product extends \Magento\Core\Controller\Front\Action
 
         $categoryId = $this->getRequest()->getParam('cat_id', null);
         if ($categoryId) {
-            $category = \Mage::getModel('\Magento\Catalog\Model\Category')
+            $category = \Mage::getModel('Magento\Catalog\Model\Category')
                 ->load($categoryId);
             $product->setCategory($category);
             \Mage::register('current_category', $category);

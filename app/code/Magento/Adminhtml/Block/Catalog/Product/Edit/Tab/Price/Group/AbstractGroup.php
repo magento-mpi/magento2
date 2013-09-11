@@ -133,7 +133,7 @@ abstract class AbstractGroup
             if (!\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_Customer')) {
                 return array();
             }
-            $collection = \Mage::getModel('\Magento\Customer\Model\Group')->getCollection();
+            $collection = \Mage::getModel('Magento\Customer\Model\Group')->getCollection();
             $this->_customerGroups = $this->_getInitialCustomerGroups();
 
             foreach ($collection as $item) {

@@ -49,7 +49,7 @@ abstract class AbstractGroupprice
             foreach (\Mage::app()->getWebsites() as $website) {
                 /* @var $website \Magento\Core\Model\Website */
                 if ($website->getBaseCurrencyCode() != $baseCurrency) {
-                    $rate = \Mage::getModel('\Magento\Directory\Model\Currency')
+                    $rate = \Mage::getModel('Magento\Directory\Model\Currency')
                         ->load($baseCurrency)
                         ->getRate($website->getBaseCurrencyCode());
                     if (!$rate) {

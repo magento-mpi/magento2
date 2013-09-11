@@ -71,7 +71,7 @@ class Conditions
 
         $form->setHtmlIdPrefix('rule_');
 
-        $renderer = \Mage::getBlockSingleton('\Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
+        $renderer = \Mage::getBlockSingleton('Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/promo_quote/newConditionHtml/form/rule_conditions_fieldset'));
 
@@ -83,7 +83,7 @@ class Conditions
             'name' => 'conditions',
             'label' => __('Conditions'),
             'title' => __('Conditions'),
-        ))->setRule($model)->setRenderer(\Mage::getBlockSingleton('\Magento\Rule\Block\Conditions'));
+        ))->setRule($model)->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Conditions'));
 
         $form->setValues($model->getData());
         $this->setForm($form);

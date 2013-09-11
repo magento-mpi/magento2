@@ -96,7 +96,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
     protected function _getTree()
     {
         if (!$this->_tree) {
-            $this->_tree = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Category\Tree')
+            $this->_tree = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Tree')
                 ->load();
         }
         return $this->_tree;
@@ -553,7 +553,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
      */
     public function getCategories($parent, $recursionLevel = 0, $sorted = false, $asCollection = false, $toLoad = true)
     {
-        $tree = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Category\Tree');
+        $tree = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Tree');
         /* @var $tree \Magento\Catalog\Model\Resource\Category\Tree */
         $nodes = $tree->loadNode($parent)
             ->loadChildren($recursionLevel)
@@ -576,7 +576,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
     public function getParentCategories($category)
     {
         $pathIds = array_reverse(explode(',', $category->getPathInStore()));
-        $categories = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Category\Collection')
+        $categories = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Collection')
             ->setStore(\Mage::app()->getStore())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('url_key')

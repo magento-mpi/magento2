@@ -38,7 +38,7 @@
         </div>
      </div>
     <h2 class="sub-title"><?php echo __('Shipping Information') ?></h2>
-    <?php $mergedCells = ($this->helper('\Magento\Tax\Helper\Data')->displayCartBothPrices() ? 2 : 1); ?>
+    <?php $mergedCells = ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices() ? 2 : 1); ?>
     <?php foreach ($this->getShippingAddresses() as $_index => $_address): ?>
         <div class="col2-set">
             <h3 class="section-title"><?php echo __('Address %1 of %2', ($_index+1), $this->getShippingAddressCount()) ?></h3>
@@ -58,7 +58,7 @@
                     <?php $_incl = $this->getShippingPriceInclTax($_address); ?>
 
                     <?php echo $_excl; ?>
-                    <?php if ($this->helper('\Magento\Tax\Helper\Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                    <?php if ($this->helper('Magento\Tax\Helper\Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
                         (<?php echo __('Incl. Tax'); ?> <?php echo $_incl; ?>)
                     <?php endif; ?>
                     </p>
@@ -70,12 +70,12 @@
                 <table class="data-table" id="overview-table-<?php echo $_address->getId() ?>">
                     <col />
                     <col width="1" />
-                    <?php if ($this->helper('\Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
+                    <?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
                     <col width="1" />
                     <?php endif; ?>
                     <col width="1" />
                     <col width="1" />
-                    <?php if ($this->helper('\Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
+                    <?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
                     <col width="1" />
                     <?php endif; ?>
                     <thead>
@@ -85,12 +85,12 @@
                             <th rowspan="<?php echo $mergedCells; ?>"><?php echo __('Qty') ?></th>
                             <th colspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo __('Subtotal') ?></th>
                         </tr>
-                        <?php if ($this->helper('\Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
+                        <?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
                         <tr>
-                            <th class="a-right"><?php echo $this->helper('\Magento\Tax\Helper\Data')->getIncExcTaxLabel(false) ?></th>
-                            <th><?php echo $this->helper('\Magento\Tax\Helper\Data')->getIncExcTaxLabel(true) ?></th>
-                            <th class="a-right"><?php echo $this->helper('\Magento\Tax\Helper\Data')->getIncExcTaxLabel(false) ?></th>
-                            <th><?php echo $this->helper('\Magento\Tax\Helper\Data')->getIncExcTaxLabel(true) ?></th>
+                            <th class="a-right"><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(false) ?></th>
+                            <th><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(true) ?></th>
+                            <th class="a-right"><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(false) ?></th>
+                            <th><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(true) ?></th>
                         </tr>
                         <?php endif; ?>
                     </thead>
@@ -116,16 +116,16 @@
         <div class="col-1 narrow"></div>
         <div class="col-2 wide">
             <h3 class="table-caption"><?php echo __('Items') ?> <span class="separator">|</span> <a href="<?php echo $this->getVirtualProductEditUrl() ?>"><?php echo __('Edit Items') ?></a></h3>
-            <?php $mergedCells = ($this->helper('\Magento\Tax\Helper\Data')->displayCartBothPrices() ? 2 : 1); ?>
+            <?php $mergedCells = ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices() ? 2 : 1); ?>
             <table class="data-table" id="virtual-overview-table">
                 <col />
                 <col width="1" />
-                <?php if ($this->helper('\Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
+                <?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
                 <col width="1" />
                 <?php endif; ?>
                 <col width="1" />
                 <col width="1" />
-                <?php if ($this->helper('\Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
+                <?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
                 <col width="70" />
                 <?php endif; ?>
                 <thead>
@@ -135,12 +135,12 @@
                         <th rowspan="<?php echo $mergedCells; ?>"><?php echo __('Qty') ?></th>
                         <th colspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo __('Subtotal') ?></th>
                     </tr>
-                    <?php if ($this->helper('\Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
+                    <?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
                     <tr>
-                        <th class="a-right"><?php echo $this->helper('\Magento\Tax\Helper\Data')->getIncExcTaxLabel(false) ?></th>
-                        <th><?php echo $this->helper('\Magento\Tax\Helper\Data')->getIncExcTaxLabel(true) ?></th>
-                        <th class="a-right"><?php echo $this->helper('\Magento\Tax\Helper\Data')->getIncExcTaxLabel(false) ?></th>
-                        <th><?php echo $this->helper('\Magento\Tax\Helper\Data')->getIncExcTaxLabel(true) ?></th>
+                        <th class="a-right"><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(false) ?></th>
+                        <th><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(true) ?></th>
+                        <th class="a-right"><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(false) ?></th>
+                        <th><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(true) ?></th>
                     </tr>
                     <?php endif; ?>
                 </thead>
@@ -162,7 +162,7 @@
 
     <div id="checkout-review-submit">
         <?php echo $this->getChildHtml('agreements') ?>
-        <p class="grand-total"><strong class="price-label"><?php echo __('Grand Total:') ?></strong> <?php echo $this->helper('\Magento\Checkout\Helper\Data')->formatPrice($this->getTotal()) ?></p>
+        <p class="grand-total"><strong class="price-label"><?php echo __('Grand Total:') ?></strong> <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getTotal()) ?></p>
         <div class="buttons-set" id="review-buttons-container">
             <button type="submit" class="button" id="review-button"><span><span><?php echo __('Place Order') ?></span></span></button>
             <span id="review-please-wait" class="please-wait" style="display:none;">

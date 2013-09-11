@@ -33,7 +33,7 @@ class Item extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('\Magento\GoogleShopping\Model\Resource\Item\Collection');
+        $collection = \Mage::getResourceModel('Magento\GoogleShopping\Model\Resource\Item\Collection');
         $store = $this->_getStore();
         $collection->addStoreFilter($store->getId());
         $this->setCollection($collection);

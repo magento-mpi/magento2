@@ -30,7 +30,7 @@ class AbstractCreate
     public function getDesignCollection()
     {
         if (is_null($this->_designCollection)) {
-            $this->_designCollection = \Mage::getModel('\Magento\GiftWrapping\Model\Wrapping')->getCollection()
+            $this->_designCollection = \Mage::getModel('Magento\GiftWrapping\Model\Wrapping')->getCollection()
                 ->addStoreAttributesToResult($this->getStore()->getId())
                 ->applyStatusFilter()
                 ->applyWebsiteFilter($this->getStore()->getWebsiteId());

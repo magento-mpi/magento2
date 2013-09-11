@@ -45,7 +45,7 @@ class Sidebar extends \Magento\Core\Block\Template
         $customerId = $this->getCustomerId() ? $this->getCustomerId()
             : $this->_getCustomerSession()->getCustomer()->getId();
 
-        $orders = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Collection')
+        $orders = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Collection')
             ->addAttributeToFilter('customer_id', $customerId)
             ->addAttributeToFilter('state',
                 array('in' => \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getVisibleOnFrontStates())

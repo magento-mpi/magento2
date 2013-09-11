@@ -17,7 +17,7 @@ class History extends \Magento\Core\Block\Template
         parent::_construct();
         $this->setTemplate('return/history.phtml');
 
-        $returns = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Rma\Grid\Collection')
+        $returns = \Mage::getResourceModel('Magento\Rma\Model\Resource\Rma\Grid\Collection')
             ->addFieldToSelect('*')
             ->addFieldToFilter('customer_id', \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getId())
             ->setOrder('date_requested', 'desc')
@@ -32,7 +32,7 @@ class History extends \Magento\Core\Block\Template
         parent::_prepareLayout();
 
         $pager = $this->getLayout()
-            ->createBlock('\Magento\Page\Block\Html\Pager', 'sales.order.history.pager')
+            ->createBlock('Magento\Page\Block\Html\Pager', 'sales.order.history.pager')
             ->setCollection($this->getReturns());
         $this->setChild('pager', $pager);
         $this->getReturns()->load();

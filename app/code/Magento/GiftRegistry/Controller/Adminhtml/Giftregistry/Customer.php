@@ -21,7 +21,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
 {
     protected function _initEntity($requestParam = 'id')
     {
-        $entity = \Mage::getModel('\Magento\GiftRegistry\Model\Entity');
+        $entity = \Mage::getModel('Magento\GiftRegistry\Model\Entity');
         if ($entityId = $this->getRequest()->getParam($requestParam)) {
             $entity->load($entityId);
             if (!$entity->getId()) {
@@ -48,7 +48,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
     {
         try {
             $model = $this->_initEntity();
-            $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($model->getCustomerId());
+            $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($model->getCustomerId());
 
             $this->_title(__('Customers'))
                 ->_title(__('Customers'))
@@ -116,7 +116,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
 
         if (is_array($items)) {
             try {
-                $model = \Mage::getModel('\Magento\GiftRegistry\Model\Item');
+                $model = \Mage::getModel('Magento\GiftRegistry\Model\Item');
                 foreach ($items as $itemId => $data) {
                     if (!empty($data['action'])) {
                         $model->load($itemId);

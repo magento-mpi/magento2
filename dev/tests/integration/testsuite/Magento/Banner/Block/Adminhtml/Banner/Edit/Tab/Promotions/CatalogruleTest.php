@@ -20,7 +20,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_CatalogruleTest 
         );
 
         /** @var \Magento\CatalogRule\Model\Rule $catalogRule */
-        $catalogRule = Mage::getModel('\Magento\CatalogRule\Model\Rule');
+        $catalogRule = Mage::getModel('Magento\CatalogRule\Model\Rule');
         $catalogRule->load('Test Catalog Rule', 'name');
 
         $this->assertSame(array($catalogRule->getId()), $block->getCollection()->getAllIds());

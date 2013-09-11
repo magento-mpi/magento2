@@ -10,9 +10,9 @@
  */
 
 // Extract product set id
-$productResource = Mage::getModel('\Magento\Catalog\Model\Product');
+$productResource = Mage::getModel('Magento\Catalog\Model\Product');
 $entityType = $productResource->getResource()->getEntityType();
-$sets = Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
+$sets = Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
     ->setEntityTypeFilter($entityType->getId())
     ->load();
 
@@ -26,7 +26,7 @@ if (!$setId) {
 }
 
 // Create product
-$product = Mage::getModel('\Magento\Catalog\Model\Product');
+$product = Mage::getModel('Magento\Catalog\Model\Product');
 $product->setTypeId('simple')
     ->setAttributeSetId($setId)
     ->setWebsiteIds(array(1))
@@ -42,7 +42,7 @@ $product->setTypeId('simple')
     ->save()
 ;
 
-$stockItem = Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item');
+$stockItem = Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
 $stockItem->setProductId($product->getId())
     ->setTypeId($product->getTypeId())
     ->setStockId(\Magento\CatalogInventory\Model\Stock::DEFAULT_STOCK_ID)

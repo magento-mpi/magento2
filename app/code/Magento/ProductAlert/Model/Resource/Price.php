@@ -49,7 +49,7 @@ class Price extends \Magento\ProductAlert\Model\Resource\AbstractResource
             }
         }
         if (is_null($object->getAddDate())) {
-            $object->setAddDate(\Mage::getModel('\Magento\Core\Model\Date')->gmtDate());
+            $object->setAddDate(\Mage::getModel('Magento\Core\Model\Date')->gmtDate());
         }
         return parent::_beforeSave($object);
     }

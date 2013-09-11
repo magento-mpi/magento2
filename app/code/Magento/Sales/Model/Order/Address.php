@@ -91,7 +91,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     public function getOrder()
     {
         if (!$this->_order) {
-            $this->_order = \Mage::getModel('\Magento\Sales\Model\Order')->load($this->getParentId());
+            $this->_order = \Mage::getModel('Magento\Sales\Model\Order')->load($this->getParentId());
         }
         return $this->_order;
     }

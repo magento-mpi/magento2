@@ -51,7 +51,7 @@ class Api extends \Magento\Customer\Model\Api\Resource
     {
         $customerData = $this->_prepareData($customerData);
         try {
-            $customer = \Mage::getModel('\Magento\Customer\Model\Customer')
+            $customer = \Mage::getModel('Magento\Customer\Model\Customer')
                 ->setData($customerData)
                 ->save();
         } catch (\Magento\Core\Exception $e) {
@@ -69,7 +69,7 @@ class Api extends \Magento\Customer\Model\Api\Resource
      */
     public function info($customerId, $attributes = null)
     {
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($customerId);
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($customerId);
 
         if (!$customer->getId()) {
             $this->_fault('not_exists');
@@ -100,7 +100,7 @@ class Api extends \Magento\Customer\Model\Api\Resource
      */
     public function items($filters)
     {
-        $collection = \Mage::getModel('\Magento\Customer\Model\Customer')->getCollection()->addAttributeToSelect('*');
+        $collection = \Mage::getModel('Magento\Customer\Model\Customer')->getCollection()->addAttributeToSelect('*');
         /** @var $apiHelper \Magento\Api\Helper\Data */
         $apiHelper = \Mage::helper('Magento\Api\Helper\Data');
         $filters = $apiHelper->parseFilters($filters, $this->_mapAttributes);
@@ -140,7 +140,7 @@ class Api extends \Magento\Customer\Model\Api\Resource
     {
         $customerData = $this->_prepareData($customerData);
 
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($customerId);
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($customerId);
 
         if (!$customer->getId()) {
             $this->_fault('not_exists');
@@ -164,7 +164,7 @@ class Api extends \Magento\Customer\Model\Api\Resource
      */
     public function delete($customerId)
     {
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($customerId);
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($customerId);
 
         if (!$customer->getId()) {
             $this->_fault('not_exists');

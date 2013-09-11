@@ -104,7 +104,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
         ));
 
         /** @var $typesModel \Magento\Core\Model\Source\Urlrewrite\Types */
-        $typesModel = \Mage::getModel('\Magento\Core\Model\Source\Urlrewrite\Types');
+        $typesModel = \Mage::getModel('Magento\Core\Model\Source\Urlrewrite\Types');
         $fieldset->addField('is_system', 'select', array(
             'label'    => __('Type'),
             'title'    => __('Type'),
@@ -142,7 +142,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
         ));
 
         /** @var $optionsModel \Magento\Core\Model\Source\Urlrewrite\Options */
-        $optionsModel = \Mage::getModel('\Magento\Core\Model\Source\Urlrewrite\Options');
+        $optionsModel = \Mage::getModel('Magento\Core\Model\Source\Urlrewrite\Options');
         $fieldset->addField('options', 'select', array(
             'label'   => __('Redirect'),
             'title'   => __('Redirect'),
@@ -185,7 +185,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
         } else {
             /** @var $renderer \Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element */
             $renderer = $this->getLayout()
-                ->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
 
             $storeElement = $fieldset->addField('store_id', 'select', array(
                 'label'    => __('Store'),
@@ -225,7 +225,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
     protected function _getSessionData()
     {
         if (is_null($this->_sessionData)) {
-            $this->_sessionData = \Mage::getModel('\Magento\Adminhtml\Model\Session')->getData('urlrewrite_data', true);
+            $this->_sessionData = \Mage::getModel('Magento\Adminhtml\Model\Session')->getData('urlrewrite_data', true);
         }
         return $this->_sessionData;
     }
@@ -238,7 +238,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
     protected function _getModel()
     {
         if (!$this->hasData('url_rewrite')) {
-            $this->setUrlRewrite(\Mage::getModel('\Magento\Core\Model\Url\Rewrite'));
+            $this->setUrlRewrite(\Mage::getModel('Magento\Core\Model\Url\Rewrite'));
         }
         return $this->getUrlRewrite();
     }

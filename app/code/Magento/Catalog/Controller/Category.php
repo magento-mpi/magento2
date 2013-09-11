@@ -32,7 +32,7 @@ class Category extends \Magento\Core\Controller\Front\Action
             return false;
         }
 
-        $category = \Mage::getModel('\Magento\Catalog\Model\Category')
+        $category = \Mage::getModel('Magento\Catalog\Model\Category')
             ->setStoreId(\Mage::app()->getStore()->getId())
             ->load($categoryId);
 
@@ -94,7 +94,7 @@ class Category extends \Magento\Core\Controller\Front\Action
             $this->generateLayoutXml()->generateLayoutBlocks();
             // apply custom layout (page) template once the blocks are generated
             if ($settings->getPageLayout()) {
-                $this->getLayout()->helper('\Magento\Page\Helper\Layout')->applyTemplate($settings->getPageLayout());
+                $this->getLayout()->helper('Magento\Page\Helper\Layout')->applyTemplate($settings->getPageLayout());
             }
 
             $root = $this->getLayout()->getBlock('root');
@@ -103,8 +103,8 @@ class Category extends \Magento\Core\Controller\Front\Action
                     ->addBodyClass('category-' . $category->getUrlKey());
             }
 
-            $this->_initLayoutMessages('\Magento\Catalog\Model\Session');
-            $this->_initLayoutMessages('\Magento\Checkout\Model\Session');
+            $this->_initLayoutMessages('Magento\Catalog\Model\Session');
+            $this->_initLayoutMessages('Magento\Checkout\Model\Session');
             $this->renderLayout();
         } elseif (!$this->getResponse()->isRedirect()) {
             $this->_forward('noRoute');

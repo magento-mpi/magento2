@@ -14,7 +14,7 @@ class AbstractWidget extends \Magento\Core\Block\Template
 {
     public function getConfig($key)
     {
-        return $this->helper('\Magento\Customer\Helper\Address')->getConfig($key);
+        return $this->helper('Magento\Customer\Helper\Address')->getConfig($key);
     }
 
     public function getFieldIdFormat()

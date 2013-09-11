@@ -25,7 +25,7 @@ class Magento_Catalog_Model_ProductPriceTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Catalog\Model\Product');
+        $this->_model = Mage::getModel('Magento\Catalog\Model\Product');
     }
 
     public function testGetPrice()

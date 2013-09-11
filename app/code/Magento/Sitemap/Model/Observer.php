@@ -60,7 +60,7 @@ class Observer
             return;
         }
 
-        $collection = \Mage::getModel('\Magento\Sitemap\Model\Sitemap')->getCollection();
+        $collection = \Mage::getModel('Magento\Sitemap\Model\Sitemap')->getCollection();
         /* @var $collection \Magento\Sitemap\Model\Resource\Sitemap\Collection */
         foreach ($collection as $sitemap) {
             /* @var $sitemap \Magento\Sitemap\Model\Sitemap */
@@ -78,7 +78,7 @@ class Observer
             /* @var $translate \Magento\Core\Model\Translate */
             $translate->setTranslateInline(false);
 
-            $emailTemplate = \Mage::getModel('\Magento\Core\Model\Email\Template');
+            $emailTemplate = \Mage::getModel('Magento\Core\Model\Email\Template');
             /* @var $emailTemplate \Magento\Core\Model\Email\Template */
             $emailTemplate->setDesignConfig(array('area' => 'backend'))
                 ->sendTransactional(

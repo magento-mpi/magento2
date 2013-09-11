@@ -108,6 +108,6 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
 
     public function getShippingPrice($address, $price, $flag)
     {
-        return $address->getQuote()->getStore()->convertPrice($this->helper('\Magento\Tax\Helper\Data')->getShippingPrice($price, $flag, $address), true);
+        return $address->getQuote()->getStore()->convertPrice($this->helper('Magento\Tax\Helper\Data')->getShippingPrice($price, $flag, $address), true);
     }
 }

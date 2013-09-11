@@ -178,7 +178,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
     public function getAttributeSetName()
     {
         if ($setId = $this->getProduct()->getAttributeSetId()) {
-            $set = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')
+            $set = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')
                 ->load($setId);
             return $set->getAttributeSetName();
         }
@@ -210,7 +210,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      */
     public function getFieldsAutogenerationMasks()
     {
-        return $this->helper('\Magento\Catalog\Helper\Product')->getFieldsAutogenerationMasks();
+        return $this->helper('Magento\Catalog\Helper\Product')->getFieldsAutogenerationMasks();
     }
 
     /**
@@ -220,7 +220,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      */
     public function getAttributesAllowedForAutogeneration()
     {
-        return $this->helper('\Magento\Catalog\Helper\Product')->getAttributesAllowedForAutogeneration();
+        return $this->helper('Magento\Catalog\Helper\Product')->getAttributesAllowedForAutogeneration();
     }
 
     /**

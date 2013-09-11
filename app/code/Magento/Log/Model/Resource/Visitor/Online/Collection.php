@@ -43,7 +43,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addCustomerData()
     {
-        $customer   = \Mage::getModel('\Magento\Customer\Model\Customer');
+        $customer   = \Mage::getModel('Magento\Customer\Model\Customer');
         // alias => attribute_code
         $attributes = array(
             'customer_lastname'     => 'lastname',

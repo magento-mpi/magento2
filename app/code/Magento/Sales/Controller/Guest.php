@@ -80,7 +80,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
 
         $invoiceId = (int) $this->getRequest()->getParam('invoice_id');
         if ($invoiceId) {
-            $invoice = \Mage::getModel('\Magento\Sales\Model\Order\Invoice')->load($invoiceId);
+            $invoice = \Mage::getModel('Magento\Sales\Model\Order\Invoice')->load($invoiceId);
             $order = $invoice->getOrder();
         } else {
             $order = \Mage::registry('current_order');
@@ -105,7 +105,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
 
         $shipmentId = (int) $this->getRequest()->getParam('shipment_id');
         if ($shipmentId) {
-            $shipment = \Mage::getModel('\Magento\Sales\Model\Order\Shipment')->load($shipmentId);
+            $shipment = \Mage::getModel('Magento\Sales\Model\Order\Shipment')->load($shipmentId);
             $order = $shipment->getOrder();
         } else {
             $order = \Mage::registry('current_order');
@@ -129,7 +129,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
 
         $creditmemoId = (int) $this->getRequest()->getParam('creditmemo_id');
         if ($creditmemoId) {
-            $creditmemo = \Mage::getModel('\Magento\Sales\Model\Order\Creditmemo')->load($creditmemoId);
+            $creditmemo = \Mage::getModel('Magento\Sales\Model\Order\Creditmemo')->load($creditmemoId);
             $order = $creditmemo->getOrder();
         } else {
             $order = \Mage::registry('current_order');

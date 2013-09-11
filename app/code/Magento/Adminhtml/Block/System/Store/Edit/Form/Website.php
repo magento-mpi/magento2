@@ -61,7 +61,7 @@ class Website
         ));
 
         if (\Mage::registry('store_action') == 'edit') {
-            $groups = \Mage::getModel('\Magento\Core\Model\Store\Group')->getCollection()
+            $groups = \Mage::getModel('Magento\Core\Model\Store\Group')->getCollection()
                 ->addWebsiteFilter($websiteModel->getId())
                 ->setWithoutStoreViewFilter()
                 ->toOptionArray();

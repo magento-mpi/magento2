@@ -95,7 +95,7 @@ class Magento_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_Test
     public function testMageCoreException()
     {
         $objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $imageAdapter = $this->getMockForAbstractClass('\Magento\Image\Adapter\AbstractAdapter');
+        $imageAdapter = $this->getMockForAbstractClass('Magento\Image\Adapter\AbstractAdapter');
         $imageAdapter->expects($this->any())
             ->method('checkDependencies')
             ->will($this->throwException(new Exception));

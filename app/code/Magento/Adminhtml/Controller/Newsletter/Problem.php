@@ -45,7 +45,7 @@ class Problem extends \Magento\Adminhtml\Controller\Action
         if($this->getRequest()->getParam('_unsubscribe')) {
             $problems = (array) $this->getRequest()->getParam('problem', array());
             if (count($problems)>0) {
-                $collection = \Mage::getResourceModel('\Magento\Newsletter\Model\Resource\Problem\Collection');
+                $collection = \Mage::getResourceModel('Magento\Newsletter\Model\Resource\Problem\Collection');
                 $collection
                     ->addSubscriberInfo()
                     ->addFieldToFilter($collection->getResource()->getIdFieldName(),
@@ -62,7 +62,7 @@ class Problem extends \Magento\Adminhtml\Controller\Action
         if($this->getRequest()->getParam('_delete')) {
             $problems = (array) $this->getRequest()->getParam('problem', array());
             if (count($problems)>0) {
-                $collection = \Mage::getResourceModel('\Magento\Newsletter\Model\Resource\Problem\Collection');
+                $collection = \Mage::getResourceModel('Magento\Newsletter\Model\Resource\Problem\Collection');
                 $collection
                     ->addFieldToFilter($collection->getResource()->getIdFieldName(),
                                        array('in'=>$problems))

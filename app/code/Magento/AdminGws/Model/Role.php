@@ -267,7 +267,7 @@ class Role extends \Magento\Object
                 $categoryIds[] = $this->getGroup($groupId)->getRootCategoryId();
             }
 
-            $categories = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Category\Collection')
+            $categories = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Collection')
                 ->addIdFilter($categoryIds);
             foreach ($categories  as $category) {
                 $this->_allowedRootCategories[$category->getId()] = $category->getPath();

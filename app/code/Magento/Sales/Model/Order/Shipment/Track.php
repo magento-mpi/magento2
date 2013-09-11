@@ -97,7 +97,7 @@ class Track extends \Magento\Sales\Model\AbstractModel
     public function getShipment()
     {
         if (!($this->_shipment instanceof \Magento\Sales\Model\Order\Shipment)) {
-            $this->_shipment = \Mage::getModel('\Magento\Sales\Model\Order\Shipment')->load($this->getParentId());
+            $this->_shipment = \Mage::getModel('Magento\Sales\Model\Order\Shipment')->load($this->getParentId());
         }
 
         return $this->_shipment;

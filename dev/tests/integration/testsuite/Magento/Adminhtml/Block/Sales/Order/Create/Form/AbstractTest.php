@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
             ->setDefaultDesignTheme();
         $arguments = array($objectManager->get('Magento\Backend\Block\Template\Context'));
         /** @var $block \Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm */
-        $block = $this->getMockForAbstractClass('\Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm', $arguments);
+        $block = $this->getMockForAbstractClass('Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm', $arguments);
         $block->setLayout($objectManager->create('Magento\Core\Model\Layout'));
 
         $method = new ReflectionMethod(

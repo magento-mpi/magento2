@@ -38,7 +38,7 @@ class Item extends \Magento\Adminhtml\Block\Widget\Form
         }
 
         /* @var $customerForm \Magento\Customer\Model\Form */
-        $customerForm = \Mage::getModel('\Magento\Rma\Model\Item\Form');
+        $customerForm = \Mage::getModel('Magento\Rma\Model\Item\Form');
         $customerForm->setEntity($item)
             ->setFormCode('default')
             ->initDefaultValues();
@@ -48,14 +48,14 @@ class Item extends \Magento\Adminhtml\Block\Widget\Form
         );
 
         $fieldset->setProductName($this->escapeHtml($item->getProductAdminName()));
-        $okButton = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+        $okButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('OK'),
                 'class'   => 'ok_button',
             ));
         $fieldset->setOkButton($okButton->toHtml());
 
-        $cancelButton = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+        $cancelButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('Cancel'),
                 'class'   => 'cancel_button',
@@ -128,7 +128,7 @@ class Item extends \Magento\Adminhtml\Block\Widget\Form
     protected function _populateItemWithProductData($item)
     {
         if ($this->getProductId()) {
-            $orderItem = \Mage::getModel('\Magento\Sales\Model\Order\Item')->load($this->getProductId());
+            $orderItem = \Mage::getModel('Magento\Sales\Model\Order\Item')->load($this->getProductId());
             if ($orderItem && $orderItem->getId()) {
                 $item->setProductAdminName(\Mage::helper('Magento\Rma\Helper\Data')->getAdminProductName($orderItem));
             }

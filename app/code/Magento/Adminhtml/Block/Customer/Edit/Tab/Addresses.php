@@ -85,10 +85,10 @@ class Addresses extends \Magento\Adminhtml\Block\Widget\Form
             'legend'    => __("Edit Customer's Address"))
         );
 
-        $addressModel = \Mage::getModel('\Magento\Customer\Model\Address');
+        $addressModel = \Mage::getModel('Magento\Customer\Model\Address');
         $addressModel->setCountryId(\Mage::helper('Magento\Core\Helper\Data')->getDefaultCountry($customer->getStore()));
         /** @var $addressForm \Magento\Customer\Model\Form */
-        $addressForm = \Mage::getModel('\Magento\Customer\Model\Form');
+        $addressForm = \Mage::getModel('Magento\Customer\Model\Form');
         $addressForm->setFormCode('adminhtml_customer_address')
             ->setEntity($addressModel)
             ->initDefaultValues();
@@ -108,7 +108,7 @@ class Addresses extends \Magento\Adminhtml\Block\Widget\Form
         $regionElement = $form->getElement('region');
         $regionElement->setRequired(true);
         if ($regionElement) {
-            $regionElement->setRenderer(\Mage::getModel('\Magento\Adminhtml\Model\Customer\Renderer\Region'));
+            $regionElement->setRenderer(\Mage::getModel('Magento\Adminhtml\Model\Customer\Renderer\Region'));
         }
 
         $regionElement = $form->getElement('region_id');
@@ -137,7 +137,7 @@ class Addresses extends \Magento\Adminhtml\Block\Widget\Form
 
         $prefixElement = $form->getElement('prefix');
         if ($prefixElement) {
-            $prefixOptions = $this->helper('\Magento\Customer\Helper\Data')->getNamePrefixOptions($customerStoreId);
+            $prefixOptions = $this->helper('Magento\Customer\Helper\Data')->getNamePrefixOptions($customerStoreId);
             if (!empty($prefixOptions)) {
                 $fieldset->removeField($prefixElement->getId());
                 $prefixField = $fieldset->addField($prefixElement->getId(),
@@ -151,7 +151,7 @@ class Addresses extends \Magento\Adminhtml\Block\Widget\Form
 
         $suffixElement = $form->getElement('suffix');
         if ($suffixElement) {
-            $suffixOptions = $this->helper('\Magento\Customer\Helper\Data')->getNameSuffixOptions($customerStoreId);
+            $suffixOptions = $this->helper('Magento\Customer\Helper\Data')->getNameSuffixOptions($customerStoreId);
             if (!empty($suffixOptions)) {
                 $fieldset->removeField($suffixElement->getId());
                 $suffixField = $fieldset->addField($suffixElement->getId(),

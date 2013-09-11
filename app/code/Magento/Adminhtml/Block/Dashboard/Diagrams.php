@@ -34,13 +34,13 @@ class Diagrams extends \Magento\Adminhtml\Block\Widget\Tabs
     {
         $this->addTab('orders', array(
             'label'     => __('Orders'),
-            'content'   => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Dashboard\Tab\Orders')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('Magento\Adminhtml\Block\Dashboard\Tab\Orders')->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('amounts', array(
             'label'     => __('Amounts'),
-            'content'   => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Dashboard\Tab\Amounts')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('Magento\Adminhtml\Block\Dashboard\Tab\Amounts')->toHtml(),
         ));
         return parent::_prepareLayout();
     }

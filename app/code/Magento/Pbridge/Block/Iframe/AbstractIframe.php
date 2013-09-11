@@ -108,7 +108,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
                 $result['street2'] = $street2;
             }
             //Region code lookup
-            $region = \Mage::getModel('\Magento\Directory\Model\Region')->load($address->getData('region_id'));
+            $region = \Mage::getModel('Magento\Directory\Model\Region')->load($address->getData('region_id'));
             if ($region && $region->getId()) {
                 $result['region'] = $region->getCode();
             }

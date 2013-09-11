@@ -32,12 +32,12 @@ class Management
     protected function _prepareLayout()
     {
         $total = $this->getLayout()
-            ->createBlock('\Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance');
+            ->createBlock('Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance');
 
         $this->setChild('balance', $total);
 
         $update = $this->getLayout()
-            ->createBlock('\Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Update');
+            ->createBlock('Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Update');
 
         $this->setChild('update', $update);
 

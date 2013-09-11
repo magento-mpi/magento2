@@ -39,7 +39,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
         $rateObject = new \Magento\Object(\Mage::getSingleton('Magento\Tax\Model\Calculation\Rate')->getData());
         $form = new \Magento\Data\Form();
 
-        $countries = \Mage::getModel('\Magento\Directory\Model\Config\Source\Country')->toOptionArray(false, 'US');
+        $countries = \Mage::getModel('Magento\Directory\Model\Config\Source\Country')->toOptionArray(false, 'US');
         unset($countries[0]);
 
         if (!$rateObject->hasTaxCountryId()) {
@@ -50,7 +50,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
             $rateObject->setTaxRegionId(\Mage::getStoreConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_REGION));
         }
 
-        $regionCollection = \Mage::getModel('\Magento\Directory\Model\Region')
+        $regionCollection = \Mage::getModel('Magento\Directory\Model\Region')
             ->getCollection()
             ->addCountryFilter($rateObject->getTaxCountryId());
 
@@ -141,7 +141,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
 
         if (!\Mage::app()->hasSingleStore()) {
             $form->addElement(
-                \Mage::getBlockSingleton('\Magento\Adminhtml\Block\Tax\Rate\Title\Fieldset')
+                \Mage::getBlockSingleton('Magento\Adminhtml\Block\Tax\Rate\Title\Fieldset')
                     ->setLegend(__('Tax Titles'))
             );
         }
@@ -155,7 +155,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
 
         $this->setChild(
             'form_after',
-            $this->getLayout()->createBlock('\Magento\Core\Block\Template')
+            $this->getLayout()->createBlock('Magento\Core\Block\Template')
                 ->setTemplate('Magento_Adminhtml::tax/rate/js.phtml')
         );
 
@@ -170,7 +170,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
     public function getRateCollection()
     {
         if ($this->getData('rate_collection') == null) {
-            $rateCollection = \Mage::getModel('\Magento\Tax\Model\Calculation\Rate')->getCollection()
+            $rateCollection = \Mage::getModel('Magento\Tax\Model\Calculation\Rate')->getCollection()
                 ->joinRegionTable();
             $rates = array();
 

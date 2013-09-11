@@ -87,7 +87,7 @@ class Info extends \Magento\Object
     protected function _initRma()
     {
         /* @var $model \Magento\Rma\Model\Rma */
-        $model = \Mage::getModel('\Magento\Rma\Model\Rma');
+        $model = \Mage::getModel('Magento\Rma\Model\Rma');
         $rma = $model->load($this->getRmaId());
         if (!$rma->getEntityId() || $this->getProtectCode() != $rma->getProtectCode()) {
             return false;
@@ -126,7 +126,7 @@ class Info extends \Magento\Object
      */
     public function getTrackingInfoByTrackId()
     {
-        $track = \Mage::getModel('\Magento\Rma\Model\Shipping')->load($this->getTrackId());
+        $track = \Mage::getModel('Magento\Rma\Model\Shipping')->load($this->getTrackId());
         if ($track->getId() && $this->getProtectCode() == $track->getProtectCode()) {
             $this->_trackingInfo = array(array($track->getNumberDetail()));
         }

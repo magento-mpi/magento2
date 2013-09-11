@@ -75,7 +75,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
      */
     public function items($filters = null, $store = null)
     {
-        $collection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
+        $collection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
             ->addStoreFilter($this->_getStoreId($store))
             ->addAttributeToSelect('name');
 
@@ -161,7 +161,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
         $this->_checkProductAttributeSet($set);
 
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $product->setStoreId($this->_getStoreId($store))
             ->setAttributeSetId($set)
             ->setTypeId($type)
@@ -309,7 +309,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
         }
 
         if (isset($productData['tier_price']) && is_array($productData['tier_price'])) {
-             $tierPrices = \Mage::getModel('\Magento\Catalog\Model\Product\Attribute\Tierprice\Api')
+             $tierPrices = \Mage::getModel('Magento\Catalog\Model\Product\Attribute\Tierprice\Api')
                  ->prepareTierPrices($product, $productData['tier_price']);
              $product->setData(\Magento\Catalog\Model\Product\Attribute\Tierprice\Api::ATTRIBUTE_CODE, $tierPrices);
         }
@@ -349,7 +349,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
                     continue;
                 }
                 /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
-                $attribute = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Eav\Attribute');
+                $attribute = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Eav\Attribute');
                 $attribute->load($configurableData['attribute_code'], 'attribute_code');
                 if ($attribute->getId()) {
                     $usedConfigurableAttributeIds[] = $attribute->getId();
@@ -452,7 +452,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
         $this->_checkProductAttributeSet($attributeSetId);
 
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $productAttributes = $product->setAttributeSetId($attributeSetId)
             ->setTypeId($productType)
             ->getTypeInstance()
@@ -494,7 +494,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
      */
     protected function _checkProductTypeExists($productType)
     {
-        if (!in_array($productType, array_keys(\Mage::getModel('\Magento\Catalog\Model\Product\Type')->getOptionArray()))) {
+        if (!in_array($productType, array_keys(\Mage::getModel('Magento\Catalog\Model\Product\Type')->getOptionArray()))) {
             $this->_fault('product_type_not_exists');
         }
     }
@@ -508,11 +508,11 @@ class Api extends \Magento\Catalog\Model\Api\Resource
      */
     protected function _checkProductAttributeSet($attributeSetId)
     {
-        $attributeSet = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')->load($attributeSetId);
+        $attributeSet = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')->load($attributeSetId);
         if (is_null($attributeSet->getId())) {
             $this->_fault('product_attribute_set_not_exists');
         }
-        if (\Mage::getModel('\Magento\Catalog\Model\Product')->getResource()->getTypeId() != $attributeSet->getEntityTypeId()) {
+        if (\Mage::getModel('Magento\Catalog\Model\Product')->getResource()->getTypeId() != $attributeSet->getEntityTypeId()) {
             $this->_fault('product_attribute_set_not_valid');
         }
     }

@@ -75,7 +75,7 @@ class Share extends \Magento\Core\Model\Config\Value
     {
         $value = $this->getValue();
         if ($value == self::SHARE_GLOBAL) {
-            if (\Mage::getResourceSingleton('\Magento\Customer\Model\Resource\Customer')->findEmailDuplicates()) {
+            if (\Mage::getResourceSingleton('Magento\Customer\Model\Resource\Customer')->findEmailDuplicates()) {
                 \Mage::throwException(
                     __('Cannot share customer accounts globally because some customer accounts with the same emails exist on multiple websites and cannot be merged.')
                 );

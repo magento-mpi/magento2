@@ -75,7 +75,7 @@ class Sharing
      */
     public function getShareButton()
     {
-        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->addData(array(
                 'id'      => '',
                 'label'   => __('Share Gift Registry'),

@@ -67,7 +67,7 @@ class Dependence extends \Magento\Backend\Block\AbstractBlock
     public function addFieldDependence($fieldName, $fieldNameFrom, $refField)
     {
         if (!is_object($refField)) {
-            $refField = \Mage::getModel('\Magento\Backend\Model\Config\Structure\Element\Dependency\Field', array(
+            $refField = \Mage::getModel('Magento\Backend\Model\Config\Structure\Element\Dependency\Field', array(
                 'fieldData' => array('value' => (string)$refField),
                 'fieldPrefix' => '',
             ));

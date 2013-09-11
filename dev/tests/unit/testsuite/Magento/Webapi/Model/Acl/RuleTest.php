@@ -97,7 +97,7 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCollection()
     {
-        $fetchStrategy = $this->getMockForAbstractClass('\Magento\Data\Collection\Db\FetchStrategyInterface');
+        $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
 
         /** @var PHPUnit_Framework_MockObject_MockObject $collection */
         $collection = $this->getMock(

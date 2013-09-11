@@ -31,7 +31,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_FormTest extends PHPUn
             );
 
         /** @var \Magento\Webhook\Block\Adminhtml\Registration\Create\Form $block */
-        $block = $layout->createBlock('\Magento\Webhook\Block\Adminhtml\Registration\Create\Form',
+        $block = $layout->createBlock('Magento\Webhook\Block\Adminhtml\Registration\Create\Form',
             '', array('registry' => $registry)
         );
         $block->toHtml();

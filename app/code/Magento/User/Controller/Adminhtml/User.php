@@ -40,7 +40,7 @@ class User extends \Magento\Backend\Controller\ActionAbstract
         $this->_title(__('Users'));
 
         $userId = $this->getRequest()->getParam('user_id');
-        $model = \Mage::getModel('\Magento\User\Model\User');
+        $model = \Mage::getModel('Magento\User\Model\User');
 
         if ($userId) {
             $model->load($userId);
@@ -143,7 +143,7 @@ class User extends \Magento\Backend\Controller\ActionAbstract
                 return;
             }
             try {
-                $model = \Mage::getModel('\Magento\User\Model\User');
+                $model = \Mage::getModel('Magento\User\Model\User');
                 $model->setId($userId);
                 $model->delete();
                 $this->_session->addSuccess(__('You deleted the user.'));
@@ -163,7 +163,7 @@ class User extends \Magento\Backend\Controller\ActionAbstract
     public function rolesGridAction()
     {
         $userId = $this->getRequest()->getParam('user_id');
-        $model = \Mage::getModel('\Magento\User\Model\User');
+        $model = \Mage::getModel('Magento\User\Model\User');
 
         if ($userId) {
             $model->load($userId);

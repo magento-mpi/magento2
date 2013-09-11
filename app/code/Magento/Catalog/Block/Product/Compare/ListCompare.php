@@ -70,7 +70,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
             $urlParamName   => $continueUrl
         );
 
-        return $this->helper('\Magento\Wishlist\Helper\Data')->getAddUrlWithParams($product, $params);
+        return $this->helper('Magento\Wishlist\Helper\Data')->getAddUrlWithParams($product, $params);
     }
 
     /**
@@ -97,7 +97,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
         if (is_null($this->_items)) {
             \Mage::helper('Magento\Catalog\Helper\Product\Compare')->setAllowUsedFlat(false);
 
-            $this->_items = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Compare\Item\Collection')
+            $this->_items = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Compare\Item\Collection')
                 ->useProductItem(true)
                 ->setStoreId(\Mage::app()->getStore()->getId());
 

@@ -252,7 +252,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         unset($storeIds[$storeId]);
         $storeIds = array_keys($storeIds);
 
-        $images = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product')
+        $images = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product')
             ->getAssignedImages($object, $storeIds);
 
         $picturesInOtherStores = array();

@@ -42,7 +42,7 @@ class Observer
         ) {
             return $this;
         }
-        \Mage::getModel('\Magento\Persistent\Model\Persistent\Config')
+        \Mage::getModel('Magento\Persistent\Model\Persistent\Config')
             ->setConfigFilePath($helper->getPersistentConfigFilePath())
             ->fire();
         return $this;
@@ -74,7 +74,7 @@ class Observer
         }
 
         /** @var $persistentConfig \Magento\Persistent\Model\Persistent\Config */
-        $persistentConfig = \Mage::getModel('\Magento\Persistent\Model\Persistent\Config')
+        $persistentConfig = \Mage::getModel('Magento\Persistent\Model\Persistent\Config')
             ->setConfigFilePath($configFilePath);
 
         foreach ($persistentConfig->getXmlConfig()->xpath($xPath) as $persistentConfigInfo) {
@@ -338,7 +338,7 @@ class Observer
      */
     protected function _getPersistentCustomer()
     {
-        return \Mage::getModel('\Magento\Customer\Model\Customer')->load(
+        return \Mage::getModel('Magento\Customer\Model\Customer')->load(
             $this->_getPersistentHelper()->getSession()->getCustomerId()
         );
     }
@@ -360,7 +360,7 @@ class Observer
      */
     protected function _getQuote()
     {
-        $quote = \Mage::getModel('\Magento\Sales\Model\Quote');
+        $quote = \Mage::getModel('Magento\Sales\Model\Quote');
         $quote->loadByCustomer($this->_getPersistentCustomer());
         return $quote;
     }
@@ -496,13 +496,13 @@ class Observer
      */
     public function clearExpiredCronJob(\Magento\Cron\Model\Schedule $schedule)
     {
-        $websiteIds = \Mage::getResourceModel('\Magento\Core\Model\Resource\Website\Collection')->getAllIds();
+        $websiteIds = \Mage::getResourceModel('Magento\Core\Model\Resource\Website\Collection')->getAllIds();
         if (!is_array($websiteIds)) {
             return $this;
         }
 
         foreach ($websiteIds as $websiteId) {
-            \Mage::getModel('\Magento\Persistent\Model\Session')->deleteExpired($websiteId);
+            \Mage::getModel('Magento\Persistent\Model\Session')->deleteExpired($websiteId);
         }
 
         return $this;
@@ -543,7 +543,7 @@ class Observer
 
         if ($this->_isLoggedOut()) {
             /** @var $customer \Magento\Customer\Model\Customer */
-            $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load(
+            $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load(
                 $this->_getPersistentHelper()->getSession()->getCustomerId()
             );
             \Mage::getSingleton('Magento\Customer\Model\Session')

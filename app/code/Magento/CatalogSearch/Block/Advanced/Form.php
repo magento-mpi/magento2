@@ -100,7 +100,7 @@ class Form extends \Magento\Core\Block\Template
             $currencies = array();
             $codes = \Mage::app()->getStore()->getAvailableCurrencyCodes(true);
             if (is_array($codes) && count($codes)) {
-                $rates = \Mage::getModel('\Magento\Directory\Model\Currency')->getCurrencyRates(
+                $rates = \Mage::getModel('Magento\Directory\Model\Currency')->getCurrencyRates(
                     \Mage::app()->getStore()->getBaseCurrency(),
                     $codes
                 );
@@ -237,7 +237,7 @@ class Form extends \Magento\Core\Block\Template
     {
         $block = $this->getData('_select_block');
         if (is_null($block)) {
-            $block = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select');
+            $block = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select');
             $this->setData('_select_block', $block);
         }
         return $block;
@@ -247,7 +247,7 @@ class Form extends \Magento\Core\Block\Template
     {
         $block = $this->getData('_date_block');
         if (is_null($block)) {
-            $block = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Date');
+            $block = $this->getLayout()->createBlock('Magento\Core\Block\Html\Date');
             $this->setData('_date_block', $block);
         }
         return $block;

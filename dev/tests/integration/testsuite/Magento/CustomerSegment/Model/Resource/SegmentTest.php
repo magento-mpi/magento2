@@ -16,7 +16,7 @@ class Magento_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Framewo
      */
     public function testCreateConditionSql($field, $operator, $value, $expected)
     {
-        $segment = Mage::getResourceModel('\Magento\CustomerSegment\Model\Resource\Segment');
+        $segment = Mage::getResourceModel('Magento\CustomerSegment\Model\Resource\Segment');
         $result = $segment->createConditionSql($field, $operator, $value);
         $this->assertEquals($expected, $result);
     }

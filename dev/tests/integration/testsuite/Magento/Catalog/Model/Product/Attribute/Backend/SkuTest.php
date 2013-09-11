@@ -20,7 +20,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_SkuTest extends PHPUnit_Fr
     public function testGenerateUniqueSkuExistingProduct()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(1);
         $product->setId(null);
         $this->assertEquals('simple', $product->getSku());
@@ -85,7 +85,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_SkuTest extends PHPUnit_Fr
     protected function _getProduct()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
             ->setId(1)
             ->setAttributeSetId(4)

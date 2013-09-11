@@ -24,7 +24,7 @@ class Magento_Backend_Block_TemplateTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Backend\Block\Template');
+        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Backend\Block\Template');
     }
 
     /**

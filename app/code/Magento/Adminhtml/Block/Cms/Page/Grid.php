@@ -30,7 +30,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('\Magento\Cms\Model\Page')->getCollection();
+        $collection = \Mage::getModel('Magento\Cms\Model\Page')->getCollection();
         /* @var $collection \Magento\Cms\Model\Resource\Page\Collection */
         $collection->setFirstStoreFlag(true);
         $this->setCollection($collection);

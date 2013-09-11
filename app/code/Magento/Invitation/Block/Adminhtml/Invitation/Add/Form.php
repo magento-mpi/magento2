@@ -67,11 +67,11 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
                 'name' => 'store_id',
                 'values' => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+            $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 
-        $groups = \Mage::getModel('\Magento\Customer\Model\Group')->getCollection()
+        $groups = \Mage::getModel('Magento\Customer\Model\Group')->getCollection()
             ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();

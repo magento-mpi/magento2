@@ -9,7 +9,7 @@
  */
 ?>
 <?php global $taxIter; $taxIter++; ?>
-<?php if ($this->helper('\Magento\Tax\Helper\Data')->displayFullSummary() && $this->getTotal()->getValue()!=0): ?>
+<?php if ($this->helper('Magento\Tax\Helper\Data')->displayFullSummary() && $this->getTotal()->getValue()!=0): ?>
 <?php $isTop = 1; ?>
             <?php foreach ($this->getTotal()->getFullInfo() as $info): ?>
                 <?php if (isset($info['hidden']) && $info['hidden']) continue; ?>
@@ -29,7 +29,7 @@
                     </td>
                     <?php if ($isFirst): ?>
                         <td rowspan="<?php echo count($rates); ?>" class="a-right" style="<?php echo $this->getTotal()->getStyle() ?>">
-                            <?php echo $this->helper('\Magento\Checkout\Helper\Data')->formatPrice($amount); ?>
+                            <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($amount); ?>
                         </td>
                     <?php endif; ?>
                 </tr>
@@ -38,15 +38,15 @@
                 <?php endforeach; ?>
             <?php endforeach; ?>
 <?php endif;?>
-<tr<?php if ($this->helper('\Magento\Tax\Helper\Data')->displayFullSummary() && $this->getTotal()->getValue()!=0): ?> class="summary-total" onclick="expandDetails(this, '.summary-details-<?php echo $taxIter;?>')"<?php endif; ?>>
+<tr<?php if ($this->helper('Magento\Tax\Helper\Data')->displayFullSummary() && $this->getTotal()->getValue()!=0): ?> class="summary-total" onclick="expandDetails(this, '.summary-details-<?php echo $taxIter;?>')"<?php endif; ?>>
     <td class="a-right" colspan="<?php echo $this->getColspan(); ?>" style="<?php echo $this->getTotal()->getStyle() ?>">
-        <?php if ($this->helper('\Magento\Tax\Helper\Data')->displayFullSummary()): ?>
+        <?php if ($this->helper('Magento\Tax\Helper\Data')->displayFullSummary()): ?>
             <div class="summary-collapse"><?php echo $this->getTotal()->getTitle() ?></div>
         <?php else: ?>
             <?php echo $this->getTotal()->getTitle() ?>
         <?php endif;?>
     </td>
     <td class="a-right" style="<?php echo $this->getTotal()->getStyle() ?>">
-        <strong><?php echo $this->helper('\Magento\Checkout\Helper\Data')->formatPrice($this->getTotal()->getValue()) ?></strong>
+        <strong><?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getTotal()->getValue()) ?></strong>
     </td>
 </tr>

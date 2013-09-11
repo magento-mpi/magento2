@@ -62,7 +62,7 @@ class Role extends \Magento\Core\Model\AbstractModel
      */
     public function getUsersCollection()
     {
-        return \Mage::getResourceModel('\Magento\User\Model\Resource\Role\User\Collection');
+        return \Mage::getResourceModel('Magento\User\Model\Resource\Role\User\Collection');
     }
 
     /**

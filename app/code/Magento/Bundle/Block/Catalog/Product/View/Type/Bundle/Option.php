@@ -189,7 +189,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
             $price = $this->getProduct()->getPriceModel()
                 ->getSelectionPreFinalPrice($this->getProduct(), $_selection, 1);
             if (is_numeric($price)) {
-                $price = $this->helper('\Magento\Core\Helper\Data')->currencyByStore($price, $store, false);
+                $price = $this->helper('Magento\Core\Helper\Data')->currencyByStore($price, $store, false);
             }
         }
         return is_numeric($price) ? $price : 0;
@@ -235,7 +235,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     public function formatPriceString($price, $includeContainer = true)
     {
         $taxHelper  = \Mage::helper('Magento\Tax\Helper\Data');
-        $coreHelper = $this->helper('\Magento\Core\Helper\Data');
+        $coreHelper = $this->helper('Magento\Core\Helper\Data');
         $currentProduct = $this->getProduct();
         if ($currentProduct->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC
                 && $this->getFormatProduct()

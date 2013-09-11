@@ -20,7 +20,7 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
     {
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_demo', 'frontend');
-        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Page\Block\Html\Head');
+        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Page\Block\Html\Head');
     }
 
     protected function tearDown()

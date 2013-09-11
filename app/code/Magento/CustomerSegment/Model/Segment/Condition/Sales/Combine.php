@@ -39,12 +39,12 @@ class Combine
     public function getNewChildSelectOptions()
     {
         return array_merge_recursive(parent::getNewChildSelectOptions(), array(
-            \Mage::getModel('\Magento\CustomerSegment\Model\Segment\Condition\Order\Status')->getNewChildSelectOptions(),
+            \Mage::getModel('Magento\CustomerSegment\Model\Segment\Condition\Order\Status')->getNewChildSelectOptions(),
             // date ranges
             array(
                 'value' => array(
-                    \Mage::getModel('\Magento\CustomerSegment\Model\Segment\Condition\Uptodate')->getNewChildSelectOptions(),
-                    \Mage::getModel('\Magento\CustomerSegment\Model\Segment\Condition\Daterange')->getNewChildSelectOptions(),
+                    \Mage::getModel('Magento\CustomerSegment\Model\Segment\Condition\Uptodate')->getNewChildSelectOptions(),
+                    \Mage::getModel('Magento\CustomerSegment\Model\Segment\Condition\Daterange')->getNewChildSelectOptions(),
                 ),
                 'label' => __('Date Ranges')
             ),

@@ -152,7 +152,7 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getResultCollection()
     {
-        return \Mage::getResourceModel('\Magento\CatalogSearch\Model\Resource\Fulltext\Collection');
+        return \Mage::getResourceModel('Magento\CatalogSearch\Model\Resource\Fulltext\Collection');
     }
 
     /**
@@ -162,7 +162,7 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getAdvancedResultCollection()
     {
-        return \Mage::getResourceModel('\Magento\CatalogSearch\Model\Resource\Advanced\Collection');
+        return \Mage::getResourceModel('Magento\CatalogSearch\Model\Resource\Advanced\Collection');
     }
 
     /**

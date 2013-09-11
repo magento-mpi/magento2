@@ -229,7 +229,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     public function getOrder()
     {
         if (!$this->_order instanceof \Magento\Sales\Model\Order) {
-            $this->_order = \Mage::getModel('\Magento\Sales\Model\Order')->load($this->getOrderId());
+            $this->_order = \Mage::getModel('Magento\Sales\Model\Order')->load($this->getOrderId());
         }
         return $this->_order->setHistoryEntityName(self::HISTORY_ENTITY_NAME);
     }
@@ -241,7 +241,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      */
     public function getOrderIncrementId()
     {
-        return \Mage::getModel('\Magento\Sales\Model\Order')->getResource()->getIncrementId($this->getOrderId());
+        return \Mage::getModel('Magento\Sales\Model\Order')->getResource()->getIncrementId($this->getOrderId());
     }
 
     /**
@@ -466,7 +466,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     {
         if ($price) {
             if (!isset($this->_rounders[$type])) {
-                $this->_rounders[$type] = \Mage::getModel('\Magento\Core\Model\Calculator',
+                $this->_rounders[$type] = \Mage::getModel('Magento\Core\Model\Calculator',
                     array('store' => $this->getStore()));
             }
             $price = $this->_rounders[$type]->deltaRound($price, $negative);
@@ -482,7 +482,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     public function getItemsCollection()
     {
         if (empty($this->_items)) {
-            $this->_items = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Invoice\Item\Collection')
+            $this->_items = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Invoice\Item\Collection')
                 ->setInvoiceFilter($this->getId());
 
             if ($this->getId()) {
@@ -674,7 +674,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     public function addComment($comment, $notify = false, $visibleOnFront = false)
     {
         if (!($comment instanceof \Magento\Sales\Model\Order\Invoice\Comment)) {
-            $comment = \Mage::getModel('\Magento\Sales\Model\Order\Invoice\Comment')
+            $comment = \Mage::getModel('Magento\Sales\Model\Order\Invoice\Comment')
                 ->setComment($comment)
                 ->setIsCustomerNotified($notify)
                 ->setIsVisibleOnFront($visibleOnFront);
@@ -696,7 +696,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     public function getCommentsCollection($reload=false)
     {
         if (is_null($this->_comments) || $reload) {
-            $this->_comments = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Invoice\Comment\Collection')
+            $this->_comments = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Invoice\Comment\Collection')
                 ->setInvoiceFilter($this->getId())
                 ->setCreatedAtOrder();
             /**
@@ -749,9 +749,9 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
             $customerName = $order->getCustomerName();
         }
 
-        $mailer = \Mage::getModel('\Magento\Core\Model\Email\Template\Mailer');
+        $mailer = \Mage::getModel('Magento\Core\Model\Email\Template\Mailer');
         if ($notifyCustomer) {
-            $emailInfo = \Mage::getModel('\Magento\Core\Model\Email\Info');
+            $emailInfo = \Mage::getModel('Magento\Core\Model\Email\Info');
             $emailInfo->addTo($order->getCustomerEmail(), $customerName);
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
@@ -765,7 +765,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         // Email copies are sent as separated emails if their copy method is 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
-                $emailInfo = \Mage::getModel('\Magento\Core\Model\Email\Info');
+                $emailInfo = \Mage::getModel('Magento\Core\Model\Email\Info');
                 $emailInfo->addTo($email);
                 $mailer->addEmailInfo($emailInfo);
             }
@@ -822,9 +822,9 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
             $customerName = $order->getCustomerName();
         }
 
-        $mailer = \Mage::getModel('\Magento\Core\Model\Email\Template\Mailer');
+        $mailer = \Mage::getModel('Magento\Core\Model\Email\Template\Mailer');
         if ($notifyCustomer) {
-            $emailInfo = \Mage::getModel('\Magento\Core\Model\Email\Info');
+            $emailInfo = \Mage::getModel('Magento\Core\Model\Email\Info');
             $emailInfo->addTo($order->getCustomerEmail(), $customerName);
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
@@ -838,7 +838,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         // Email copies are sent as separated emails if their copy method is 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
-                $emailInfo = \Mage::getModel('\Magento\Core\Model\Email\Info');
+                $emailInfo = \Mage::getModel('Magento\Core\Model\Email\Info');
                 $emailInfo->addTo($email);
                 $mailer->addEmailInfo($emailInfo);
             }

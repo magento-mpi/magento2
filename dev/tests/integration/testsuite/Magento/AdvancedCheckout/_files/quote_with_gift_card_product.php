@@ -12,7 +12,7 @@
 require __DIR__ . '/../../../Magento/GiftCard/_files/gift_card.php';
 
 /** @var $product \Magento\Catalog\Model\Product */
-$product = Mage::getModel('\Magento\Catalog\Model\Product');
+$product = Mage::getModel('Magento\Catalog\Model\Product');
 $product->load(1);
 
 $requestInfo = new \Magento\Object(array(
@@ -27,7 +27,7 @@ $requestInfo = new \Magento\Object(array(
 ));
 
 /** @var $cart \Magento\Checkout\Model\Cart */
-$cart = Mage::getModel('\Magento\Checkout\Model\Cart');
+$cart = Mage::getModel('Magento\Checkout\Model\Cart');
 $cart->addProduct($product, $requestInfo);
 $cart->save();
 

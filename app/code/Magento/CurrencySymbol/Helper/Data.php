@@ -29,7 +29,7 @@ class Data extends \Magento\Core\Helper\Data
     public function getCurrencyOptions($baseCode)
     {
         $currencyOptions = array();
-        $currencySymbol = \Mage::getModel('\Magento\CurrencySymbol\Model\System\Currencysymbol');
+        $currencySymbol = \Mage::getModel('Magento\CurrencySymbol\Model\System\Currencysymbol');
         if($currencySymbol) {
             $customCurrencySymbol = $currencySymbol->getCurrencySymbol($baseCode);
 

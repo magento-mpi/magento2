@@ -535,7 +535,7 @@ class DefaultModel extends \Zend_Captcha_Image implements \Magento\Captcha\Model
     protected function _getResourceModel()
     {
         if (empty($this->_resourceModel)) {
-            $this->_resourceModel = \Mage::getResourceModel('\Magento\Captcha\Model\Resource\Log');
+            $this->_resourceModel = \Mage::getResourceModel('Magento\Captcha\Model\Resource\Log');
         }
         return $this->_resourceModel;
     }

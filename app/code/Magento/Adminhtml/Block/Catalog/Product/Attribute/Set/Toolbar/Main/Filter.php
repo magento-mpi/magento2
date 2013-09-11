@@ -23,7 +23,7 @@ class Filter extends \Magento\Adminhtml\Block\Widget\Form
     {
         $form = new \Magento\Data\Form();
 
-        $collection = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')
+        $collection = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')
             ->getResourceCollection()
             ->load()
             ->toOptionArray();

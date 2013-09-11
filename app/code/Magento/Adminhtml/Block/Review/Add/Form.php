@@ -35,7 +35,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             'label'     => __('Product Rating'),
             'required'  => true,
             'text'      => '<div id="rating_detail">'
-                . $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Review\Rating\Detailed')->toHtml() . '</div>',
+                . $this->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Rating\Detailed')->toHtml() . '</div>',
         ));
 
         $fieldset->addField('status_id', 'select', array(
@@ -55,7 +55,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
                 'name'      => 'select_stores[]',
                 'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+            $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 
@@ -89,7 +89,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
 
         /*$gridFieldset = $form->addFieldset('add_review_grid', array('legend' => __('Please select a product')));
         $gridFieldset->addField('products_grid', 'note', array(
-            'text' => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Review\Product\Grid')->toHtml(),
+            'text' => $this->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Product\Grid')->toHtml(),
         ));*/
 
         $form->setMethod('post');

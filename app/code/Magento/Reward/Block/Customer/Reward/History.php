@@ -129,7 +129,7 @@ class History extends \Magento\Core\Block\Template
     {
         if (!$this->_collection) {
             $websiteId = \Mage::app()->getWebsite()->getId();
-            $this->_collection = \Mage::getModel('\Magento\Reward\Model\Reward\History')->getCollection()
+            $this->_collection = \Mage::getModel('Magento\Reward\Model\Reward\History')->getCollection()
                 ->addCustomerFilter(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId())
                 ->addWebsiteFilter($websiteId)
                 ->setExpiryConfig(\Mage::helper('Magento\Reward\Helper\Data')->getExpiryConfig())
@@ -149,7 +149,7 @@ class History extends \Magento\Core\Block\Template
     protected function _prepareLayout()
     {
         if ($this->_isEnabled()) {
-            $pager = $this->getLayout()->createBlock('\Magento\Page\Block\Html\Pager', 'reward.history.pager')
+            $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager', 'reward.history.pager')
                 ->setCollection($this->_getCollection())->setIsOutputRequired(false)
             ;
             $this->setChild('pager', $pager);

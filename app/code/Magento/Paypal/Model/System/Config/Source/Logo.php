@@ -18,7 +18,7 @@ class Logo
     public function toOptionArray()
     {
         $result = array('' => __('No Logo'));
-        $result += \Mage::getModel('\Magento\Paypal\Model\Config')->getAdditionalOptionsLogoTypes();
+        $result += \Mage::getModel('Magento\Paypal\Model\Config')->getAdditionalOptionsLogoTypes();
         return $result;
     }
 }

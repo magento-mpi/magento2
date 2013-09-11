@@ -95,7 +95,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
                     ->updateAttributes($this->_getHelper()->getProductIds(), $attributesData, $storeId);
             }
             if ($inventoryData) {
-                $stockItem = \Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item');
+                $stockItem = \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
                 $stockItem->setProcessIndexEvents(false);
                 $stockItemSaved = false;
 
@@ -171,7 +171,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
         $productIds = $this->_getHelper()->getProductIds();
         if (!is_array($productIds)) {
             $error = __('Please select products for attributes update.');
-        } else if (!\Mage::getModel('\Magento\Catalog\Model\Product')->isProductsHasSku($productIds)) {
+        } else if (!\Mage::getModel('Magento\Catalog\Model\Product')->isProductsHasSku($productIds)) {
             $error = __('Please make sure to define SKU values for all processed products.');
         }
 
@@ -234,7 +234,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
             $response->setMessage($e->getMessage());
         } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('Something went wrong while updating the product(s) attributes.'));
-            $this->_initLayoutMessages('\Magento\Adminhtml\Model\Session');
+            $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         }

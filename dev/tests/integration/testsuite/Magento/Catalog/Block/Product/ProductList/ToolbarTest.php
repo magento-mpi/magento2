@@ -14,9 +14,9 @@ class Magento_Catalog_Block_Product_ProductList_ToolbarTest extends PHPUnit_Fram
     public function testGetPagerHtml()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $layout = Mage::getModel('Magento\Core\Model\Layout');
         /** @var $block \Magento\Catalog\Block\Product\ProductList\Toolbar */
-        $block = $layout->createBlock('\Magento\Catalog\Block\Product\ProductList\Toolbar', 'block');
+        $block = $layout->createBlock('Magento\Catalog\Block\Product\ProductList\Toolbar', 'block');
         /** @var $childBlock \Magento\Core\Block\Text */
         $childBlock = $layout->addBlock('\Magento\Core\Block\Text', 'product_list_toolbar_pager', 'block');
 

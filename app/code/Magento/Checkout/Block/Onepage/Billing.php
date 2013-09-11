@@ -67,7 +67,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      */
     public function getCountries()
     {
-        return \Mage::getResourceModel('\Magento\Directory\Model\Resource\Country\Collection')->loadByStore();
+        return \Mage::getResourceModel('Magento\Directory\Model\Resource\Country\Collection')->loadByStore();
     }
 
     /**
@@ -97,7 +97,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
                     $this->_address->setLastname($this->getQuote()->getCustomer()->getLastname());
                 }
             } else {
-                $this->_address = \Mage::getModel('\Magento\Sales\Model\Quote\Address');
+                $this->_address = \Mage::getModel('Magento\Sales\Model\Quote\Address');
             }
         }
 
@@ -156,7 +156,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     protected function _getTaxvat()
     {
         if (!$this->_taxvat) {
-            $this->_taxvat = $this->getLayout()->createBlock('\Magento\Customer\Block\Widget\Taxvat');
+            $this->_taxvat = $this->getLayout()->createBlock('Magento\Customer\Block\Widget\Taxvat');
         }
 
         return $this->_taxvat;

@@ -93,7 +93,7 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
          */
         Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
 
-        $auth = Mage::getModel('\Magento\Backend\Model\Auth');
+        $auth = Mage::getModel('Magento\Backend\Model\Auth');
         $auth->login(Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
         $this->assertEquals(1, $this->_helper->getCurrentUserId());
 

@@ -16,7 +16,7 @@ class Magento_Core_Model_Resource_Db_Collection_AbstractTest extends PHPUnit_Fra
     protected function setUp()
     {
         $resourceModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Resource');
-        $resource = $this->getMockForAbstractClass('\Magento\Core\Model\Resource\Db\AbstractDb',
+        $resource = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb',
             array($resourceModel), '', true, true, true, array('getMainTable', 'getIdFieldName')
         );
 
@@ -27,7 +27,7 @@ class Magento_Core_Model_Resource_Db_Collection_AbstractTest extends PHPUnit_Fra
             ->method('getIdFieldName')
             ->will($this->returnValue('website_id'));
 
-        $fetchStrategy = $this->getMockForAbstractClass('\Magento\Data\Collection\Db\FetchStrategyInterface');
+        $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
 
         $this->_model = $this->getMockForAbstractClass(
             '\Magento\Core\Model\Resource\Db\Collection\AbstractCollection',

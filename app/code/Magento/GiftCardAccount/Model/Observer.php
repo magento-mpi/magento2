@@ -78,7 +78,7 @@ class Observer
         $id = $observer->getEvent()->getGiftcardaccountCode();
         $amount = $observer->getEvent()->getAmount();
 
-        \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')
+        \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
             ->loadByCode($id)
             ->charge($amount)
             ->setOrder($observer->getEvent()->getOrder())
@@ -99,7 +99,7 @@ class Observer
         $id = $observer->getEvent()->getGiftcardaccountId();
         $amount = $observer->getEvent()->getAmount();
 
-        \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')
+        \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
             ->load($id)
             ->charge($amount)
             ->setOrder($observer->getEvent()->getOrder())
@@ -139,7 +139,7 @@ class Observer
         $code = $observer->getEvent()->getCode();
         $order = $data->getOrder() ?: ($data->getOrderItem()->getOrder() ?: null);
 
-        $model = \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')
+        $model = \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
             ->setStatus(\Magento\GiftCardAccount\Model\Giftcardaccount::STATUS_ENABLED)
             ->setWebsiteId($data->getWebsiteId())
             ->setBalance($data->getAmount())
@@ -165,7 +165,7 @@ class Observer
         $gca = $observer->getEvent()->getGiftcardaccount();
 
         if ($gca->hasHistoryAction()) {
-            \Mage::getModel('\Magento\GiftCardAccount\Model\History')
+            \Mage::getModel('Magento\GiftCardAccount\Model\History')
                 ->setGiftcardaccount($gca)
                 ->save();
         }
@@ -187,7 +187,7 @@ class Observer
         if (isset($request['giftcard_add'])) {
             $code = $request['giftcard_add'];
             try {
-                \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')
+                \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
                     ->loadByCode($code)
                     ->addToCart(true, $quote);
             } catch (\Magento\Core\Exception $e) {
@@ -206,7 +206,7 @@ class Observer
             $code = $request['giftcard_remove'];
 
             try {
-                \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')
+                \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
                     ->loadByCode($code)
                     ->removeFromCart(false, $quote);
             } catch (\Magento\Core\Exception $e) {
@@ -240,7 +240,7 @@ class Observer
         $cards = \Mage::helper('Magento\GiftCardAccount\Helper\Data')->getCards($quote);
         $website = \Mage::app()->getStore($quote->getStoreId())->getWebsite();
         foreach ($cards as $one) {
-            \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')
+            \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
                 ->loadByCode($one['c'])
                 ->isValid(true, true, $website);
         }
@@ -437,7 +437,7 @@ class Observer
      */
     protected function _revertById($id, $amount = 0)
     {
-        $giftCard = \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')->load($id);
+        $giftCard = \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')->load($id);
 
         if ($giftCard) {
             $giftCard->revert($amount)
@@ -520,7 +520,7 @@ class Observer
             }
 
             if ($balance > 0) {
-                \Mage::getModel('\Magento\CustomerBalance\Model\Balance')
+                \Mage::getModel('Magento\CustomerBalance\Model\Balance')
                     ->setCustomerId($order->getCustomerId())
                     ->setWebsiteId(\Mage::app()->getStore($order->getStoreId())->getWebsiteId())
                     ->setAmountDelta($balance)

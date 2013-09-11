@@ -33,7 +33,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('\Magento\Banner\Model\Resource\Banner\Collection')
+        $collection = \Mage::getResourceModel('Magento\Banner\Model\Resource\Banner\Collection')
             ->addStoresVisibility();
         $this->setCollection($collection);
         return parent::_prepareCollection();

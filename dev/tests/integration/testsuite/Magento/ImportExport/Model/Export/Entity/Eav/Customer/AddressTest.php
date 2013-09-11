@@ -31,7 +31,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = Mage::getModel('\Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address');
+        $this->_model = Mage::getModel('Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address');
 
         /** @var $website \Magento\Core\Model\Website */
         foreach (Mage::app()->getWebsites(true) as $website) {
@@ -50,7 +50,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
 
         $expectedAttributes = array();
         /** @var $collection \Magento\Customer\Model\Resource\Address\Attribute\Collection */
-        $collection = Mage::getResourceModel('\Magento\Customer\Model\Resource\Address\Attribute\Collection');
+        $collection = Mage::getResourceModel('Magento\Customer\Model\Resource\Address\Attribute\Collection');
         /** @var $attribute \Magento\Customer\Model\Attribute */
         foreach ($collection as $attribute) {
             $expectedAttributes[] = $attribute->getAttributeCode();
@@ -60,7 +60,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
         $defaultAddressMap
             = \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::getDefaultAddressAttributeMapping();
 
-        $this->_model->setWriter(Mage::getModel('\Magento\ImportExport\Model\Export\Adapter\Csv'));
+        $this->_model->setWriter(Mage::getModel('Magento\ImportExport\Model\Export\Adapter\Csv'));
         $this->_model->setParameters(array());
 
         $data = $this->_csvToArray($this->_model->export(), $entityIdCode);
@@ -131,7 +131,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
     {
         $entityIdCode = \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID;
 
-        $this->_model->setWriter(Mage::getModel('\Magento\ImportExport\Model\Export\Adapter\Csv'));
+        $this->_model->setWriter(Mage::getModel('Magento\ImportExport\Model\Export\Adapter\Csv'));
 
         $filterData = array(
             'export_filter' => array(

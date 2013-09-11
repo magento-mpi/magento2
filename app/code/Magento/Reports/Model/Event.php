@@ -57,7 +57,7 @@ class Event extends \Magento\Core\Model\AbstractModel
      */
     protected function _beforeSave()
     {
-        $this->setLoggedAt(\Mage::getModel('\Magento\Core\Model\Date')->gmtDate());
+        $this->setLoggedAt(\Mage::getModel('Magento\Core\Model\Date')->gmtDate());
         return parent::_beforeSave();
     }
 
@@ -73,7 +73,7 @@ class Event extends \Magento\Core\Model\AbstractModel
     {
         if (is_null($types)) {
             $types = array();
-            foreach (\Mage::getModel('\Magento\Reports\Model\Event\Type')->getCollection() as $eventType) {
+            foreach (\Mage::getModel('Magento\Reports\Model\Event\Type')->getCollection() as $eventType) {
                 if ($eventType->getCustomerLogin()) {
                     $types[$eventType->getId()] = $eventType->getId();
                 }

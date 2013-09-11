@@ -18,7 +18,7 @@ class Magento_Core_Model_Resource_SetupTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_model = Mage::getResourceModel('\Magento\Core\Model\Resource\Setup',
+        $this->_model = Mage::getResourceModel('Magento\Core\Model\Resource\Setup',
             array('resourceName' => 'default_setup')
         );
     }
@@ -32,8 +32,8 @@ class Magento_Core_Model_Resource_SetupTest extends PHPUnit_Framework_TestCase
     public function testApplyAllDataUpdates()
     {
         /*reset versions*/
-        Mage::getResourceModel('\Magento\Core\Model\Resource\Resource')->setDbVersion('adminnotification_setup', false);
-        Mage::getResourceModel('\Magento\Core\Model\Resource\Resource')
+        Mage::getResourceModel('Magento\Core\Model\Resource\Resource')->setDbVersion('adminnotification_setup', false);
+        Mage::getResourceModel('Magento\Core\Model\Resource\Resource')
             ->setDataVersion('adminnotification_setup', false);
         $this->_model->deleteTableRow('core_resource', 'code', 'adminnotification_setup');
         $this->_model->getConnection()->dropTable($this->_model->getTable('adminnotification_inbox'));

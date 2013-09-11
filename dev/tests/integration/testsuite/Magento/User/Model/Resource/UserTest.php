@@ -16,7 +16,7 @@ class Magento_User_Model_Resource_UserTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getResourceSingleton('\Magento\User\Model\Resource\User');
+        $this->_model = Mage::getResourceSingleton('Magento\User\Model\Resource\User');
     }
 
     public function testCountAll()

@@ -44,7 +44,7 @@ class Info
             } else {
                 $data['price'] = $this->_preparePrices($order->getGwBasePrice(), $order->getGwPrice());
             }
-            $wrapping = \Mage::getModel('\Magento\GiftWrapping\Model\Wrapping')->load($order->getGwId());
+            $wrapping = \Mage::getModel('Magento\GiftWrapping\Model\Wrapping')->load($order->getGwId());
             $data['path'] = $wrapping->getImageUrl();
             $data['design'] = $wrapping->getDesign();
         }

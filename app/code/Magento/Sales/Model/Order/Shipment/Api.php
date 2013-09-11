@@ -41,7 +41,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
     {
         $shipments = array();
         //TODO: add full name logic
-        $shipmentCollection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Shipment\Collection')
+        $shipmentCollection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Shipment\Collection')
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
             ->addAttributeToSelect('total_qty')
@@ -76,7 +76,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
      */
     public function info($shipmentIncrementId)
     {
-        $shipment = \Mage::getModel('\Magento\Sales\Model\Order\Shipment')->loadByIncrementId($shipmentIncrementId);
+        $shipment = \Mage::getModel('Magento\Sales\Model\Order\Shipment')->loadByIncrementId($shipmentIncrementId);
 
         /* @var $shipment \Magento\Sales\Model\Order\Shipment */
 
@@ -115,7 +115,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
      */
     public function addTrack($shipmentIncrementId, $carrier, $title, $trackNumber)
     {
-        $shipment = \Mage::getModel('\Magento\Sales\Model\Order\Shipment')->loadByIncrementId($shipmentIncrementId);
+        $shipment = \Mage::getModel('Magento\Sales\Model\Order\Shipment')->loadByIncrementId($shipmentIncrementId);
 
         /* @var $shipment \Magento\Sales\Model\Order\Shipment */
 
@@ -129,7 +129,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
             $this->_fault('data_invalid', __('We don\'t recognize the carrier you selected.'));
         }
 
-        $track = \Mage::getModel('\Magento\Sales\Model\Order\Shipment\Track')
+        $track = \Mage::getModel('Magento\Sales\Model\Order\Shipment\Track')
                     ->setNumber($trackNumber)
                     ->setCarrierCode($carrier)
                     ->setTitle($title);
@@ -155,7 +155,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
      */
     public function removeTrack($shipmentIncrementId, $trackId)
     {
-        $shipment = \Mage::getModel('\Magento\Sales\Model\Order\Shipment')->loadByIncrementId($shipmentIncrementId);
+        $shipment = \Mage::getModel('Magento\Sales\Model\Order\Shipment')->loadByIncrementId($shipmentIncrementId);
 
         /* @var $shipment \Magento\Sales\Model\Order\Shipment */
 
@@ -186,7 +186,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
     public function sendInfo($shipmentIncrementId, $comment = '')
     {
         /* @var $shipment \Magento\Sales\Model\Order\Shipment */
-        $shipment = \Mage::getModel('\Magento\Sales\Model\Order\Shipment')->loadByIncrementId($shipmentIncrementId);
+        $shipment = \Mage::getModel('Magento\Sales\Model\Order\Shipment')->loadByIncrementId($shipmentIncrementId);
 
         if (!$shipment->getId()) {
             $this->_fault('not_exists');
@@ -196,7 +196,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
             $shipment->sendEmail(true, $comment)
                 ->setEmailSent(true)
                 ->save();
-            $historyItem = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Status\History\Collection')
+            $historyItem = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Status\History\Collection')
                 ->getUnnotifiedForInstance($shipment, \Magento\Sales\Model\Order\Shipment::HISTORY_ENTITY_NAME);
             if ($historyItem) {
                 $historyItem->setIsCustomerNotified(1);
@@ -220,7 +220,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
      */
     public function addComment($shipmentIncrementId, $comment, $email = false, $includeInEmail = false)
     {
-        $shipment = \Mage::getModel('\Magento\Sales\Model\Order\Shipment')->loadByIncrementId($shipmentIncrementId);
+        $shipment = \Mage::getModel('Magento\Sales\Model\Order\Shipment')->loadByIncrementId($shipmentIncrementId);
 
         /* @var $shipment \Magento\Sales\Model\Order\Shipment */
 
@@ -248,7 +248,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
      */
     public function getCarriers($orderIncrementId)
     {
-        $order = \Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
+        $order = \Mage::getModel('Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
 
         /**
           * Check order existing

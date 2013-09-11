@@ -127,13 +127,13 @@ class Downloadable
      */
     protected function _toHtml()
     {
-        $accordion = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Accordion')
+        $accordion = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Accordion')
             ->setId('downloadableInfo');
 
         $accordion->addItem('samples', array(
             'title'   => __('Samples'),
             'content' => $this->getLayout()
-                ->createBlock('\Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples')
+                ->createBlock('Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples')
                 ->toHtml(),
             'open'    => false,
         ));

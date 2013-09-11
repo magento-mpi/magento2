@@ -339,7 +339,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         /**
          * Getting event type id for catalog_product_view event
          */
-        foreach (\Mage::getModel('\Magento\Reports\Model\Event\Type')->getCollection() as $eventType) {
+        foreach (\Mage::getModel('Magento\Reports\Model\Event\Type')->getCollection() as $eventType) {
             if ($eventType->getEventName() == 'catalog_product_view') {
                 $productViewEvent = (int)$eventType->getId();
                 break;

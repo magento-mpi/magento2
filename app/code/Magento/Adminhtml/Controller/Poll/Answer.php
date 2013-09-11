@@ -30,7 +30,7 @@ class Answer extends \Magento\Adminhtml\Controller\Action
         $this->_addBreadcrumb(__('Edit Poll Answer'),
                               __('Edit Poll Answer'));
 
-        $this->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Poll\Answer\Edit'));
+        $this->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Poll\Answer\Edit'));
 
         $this->renderLayout();
     }
@@ -40,7 +40,7 @@ class Answer extends \Magento\Adminhtml\Controller\Action
         //print '@@';
         if ( $post = $this->getRequest()->getPost() ) {
             try {
-                $model = \Mage::getModel('\Magento\Poll\Model\Poll\Answer');
+                $model = \Mage::getModel('Magento\Poll\Model\Poll\Answer');
                 $model->setData($post)
                     ->setId($this->getRequest()->getParam('id'))
                     ->save();
@@ -62,7 +62,7 @@ class Answer extends \Magento\Adminhtml\Controller\Action
     public function gridAction()
     {
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Poll\Edit\Tab\Answers\Grid')->toHtml()
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Poll\Edit\Tab\Answers\Grid')->toHtml()
         );
     }
 
@@ -77,7 +77,7 @@ class Answer extends \Magento\Adminhtml\Controller\Action
                 if( trim($data['answer_title']) == '' ) {
                     throw new \Exception(__('Invalid Answer'));
                 }
-                $model = \Mage::getModel('\Magento\Poll\Model\Poll\Answer');
+                $model = \Mage::getModel('Magento\Poll\Model\Poll\Answer');
                 $model->setData($data)
                     ->save();
             } catch (\Exception $e) {
@@ -95,7 +95,7 @@ class Answer extends \Magento\Adminhtml\Controller\Action
 
         if ( $id = $this->getRequest()->getParam('id') ) {
             try {
-                $model = \Mage::getModel('\Magento\Poll\Model\Poll\Answer');
+                $model = \Mage::getModel('Magento\Poll\Model\Poll\Answer');
                 $model->setId(\Zend_Json::decode($id))
                     ->delete();
             } catch (\Exception $e) {

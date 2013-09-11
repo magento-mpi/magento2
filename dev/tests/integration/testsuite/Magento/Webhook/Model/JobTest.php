@@ -30,11 +30,11 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
 
     public function testConstruct()
     {
-        $event = Mage::getModel('\Magento\Webhook\Model\Event')
+        $event = Mage::getModel('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save();
         $eventId = $event->getId();
-        $subscription = Mage::getModel('\Magento\Webhook\Model\Subscription')
+        $subscription = Mage::getModel('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save();
         $subscriptionId = $subscription->getId();
@@ -49,7 +49,7 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
 
     public function testGetEventById()
     {
-        $eventId = Mage::getModel('\Magento\Webhook\Model\Event')
+        $eventId = Mage::getModel('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save()
             ->getId();
@@ -59,7 +59,7 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
 
     public function testGetEvent()
     {
-        $event = Mage::getModel('\Magento\Webhook\Model\Event')
+        $event = Mage::getModel('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save();
         $this->_job->setData('event', $event);
@@ -68,7 +68,7 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
 
     public function testGetSubscriptionById()
     {
-        $subscriptionId = Mage::getModel('\Magento\Webhook\Model\Subscription')
+        $subscriptionId = Mage::getModel('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save()
             ->getId();
@@ -78,7 +78,7 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
 
     public function testGetSubscription()
     {
-        $subscription = Mage::getModel('\Magento\Webhook\Model\Subscription')
+        $subscription = Mage::getModel('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save();
         $this->_job->setData('subscription', $subscription);
@@ -93,11 +93,11 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
 
     public function testHandleResponseSuccess()
     {
-        $subscriptionId = Mage::getModel('\Magento\Webhook\Model\Subscription')
+        $subscriptionId = Mage::getModel('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save()
             ->getId();
-        $eventId = Mage::getModel('\Magento\Webhook\Model\Event')
+        $eventId = Mage::getModel('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save()
             ->getId();
@@ -110,13 +110,13 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
 
     public function testHandleResponseRetry()
     {
-        $subscriptionId = Mage::getModel('\Magento\Webhook\Model\Subscription')
+        $subscriptionId = Mage::getModel('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save()
             ->getId();
         $this->_job->setData('subscription_id', $subscriptionId);
 
-        $eventId = Mage::getModel('\Magento\Webhook\Model\Event')
+        $eventId = Mage::getModel('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save()
             ->getId();

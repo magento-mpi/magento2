@@ -18,7 +18,7 @@ class Group implements \Magento\Core\Model\Option\ArrayInterface
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $this->_options = \Mage::getResourceModel('\Magento\Customer\Model\Resource\Group\Collection')
+            $this->_options = \Mage::getResourceModel('Magento\Customer\Model\Resource\Group\Collection')
                 ->setRealGroupsFilter()
                 ->loadData()->toOptionArray();
             array_unshift($this->_options, array('value'=> '', 'label'=> __('-- Please Select --')));

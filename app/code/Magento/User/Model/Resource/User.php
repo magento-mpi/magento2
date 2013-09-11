@@ -198,7 +198,7 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _createUserRole($parentId, \Magento\User\Model\User $user)
     {
         if ($parentId > 0) {
-            $parentRole = \Mage::getModel('\Magento\User\Model\Role')->load($parentId);
+            $parentRole = \Mage::getModel('Magento\User\Model\Role')->load($parentId);
         } else {
             $role = new \Magento\Object();
             $role->setTreeLevel(0);

@@ -27,7 +27,7 @@ class Magento_Page_Block_HtmlTest extends PHPUnit_Framework_TestCase
             ->method('getBaseUrl')
             ->will($this->returnValue('http://localhost/pub/media/'));
 
-        $context = Mage::getModel('\Magento\Core\Block\Template\Context', array(
+        $context = Mage::getModel('Magento\Core\Block\Template\Context', array(
             'storeConfig' => $storeConfig,
             'urlBuilder' => $urlBuilder,
         ));

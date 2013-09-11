@@ -30,7 +30,7 @@ class Sales extends \Magento\Adminhtml\Block\Dashboard\Bar
         }
         $isFilter = $this->getRequest()->getParam('store') || $this->getRequest()->getParam('website') || $this->getRequest()->getParam('group');
 
-        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Order\Collection')
+        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Order\Collection')
             ->calculateSales($isFilter);
 
         if ($this->getRequest()->getParam('store')) {

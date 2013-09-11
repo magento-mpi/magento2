@@ -10,7 +10,7 @@
  */
 
 /** @var $block \Magento\Cms\Model\Block */
-$block = Mage::getModel('\Magento\Cms\Model\Block');
+$block = Mage::getModel('Magento\Cms\Model\Block');
 $block->setTitle('CMS Block Title')
     ->setIdentifier('fixture_block')
     ->setContent('<h1>Fixture Block Title</h1>

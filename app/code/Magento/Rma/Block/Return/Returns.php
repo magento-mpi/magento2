@@ -18,7 +18,7 @@ class Returns extends \Magento\Core\Block\Template
         if (\Mage::helper('Magento\Rma\Helper\Data')->isEnabled()) {
             $this->setTemplate('return/returns.phtml');
 
-            $returns = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Rma\Grid\Collection')
+            $returns = \Mage::getResourceModel('Magento\Rma\Model\Resource\Rma\Grid\Collection')
                 ->addFieldToSelect('*')
                 ->addFieldToFilter('order_id', \Mage::registry('current_order')->getId())
                 ->setOrder('date_requested', 'desc');
@@ -37,7 +37,7 @@ class Returns extends \Magento\Core\Block\Template
         parent::_prepareLayout();
 
         $pager = $this->getLayout()
-            ->createBlock('\Magento\Page\Block\Html\Pager', 'sales.order.history.pager')
+            ->createBlock('Magento\Page\Block\Html\Pager', 'sales.order.history.pager')
             ->setCollection($this->getReturns());
         $this->setChild('pager', $pager);
         $this->getReturns()->load();

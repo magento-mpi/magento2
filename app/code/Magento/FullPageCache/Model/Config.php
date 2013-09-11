@@ -96,7 +96,7 @@ class Config extends \Magento\Simplexml\Config
                     $placeholder .= ' ' . $k . '="' . $v . '"';
                 }
             }
-            $placeholder = \Mage::getModel('\Magento\FullPageCache\Model\Container\Placeholder',
+            $placeholder = \Mage::getModel('Magento\FullPageCache\Model\Container\Placeholder',
                 array('definition' => $placeholder));
             return $placeholder;
         }

@@ -41,7 +41,7 @@ class Types extends \Magento\Adminhtml\Controller\Action
     {
         $this->_title(__('Google Content Attributes'));
 
-        \Mage::register('current_item_type', \Mage::getModel('\Magento\GoogleShopping\Model\Type'));
+        \Mage::register('current_item_type', \Mage::getModel('Magento\GoogleShopping\Model\Type'));
         $typeId = $this->getRequest()->getParam('id');
         if (!is_null($typeId)) {
             \Mage::registry('current_item_type')->load($typeId);
@@ -96,7 +96,7 @@ class Types extends \Magento\Adminhtml\Controller\Action
 
             $this->_initAction()
                 ->_addBreadcrumb(__('New attribute set mapping'), __('New attribute set mapping'))
-                ->_addContent($this->getLayout()->createBlock('\Magento\GoogleShopping\Block\Adminhtml\Types\Edit'))
+                ->_addContent($this->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit'))
                 ->renderLayout();
         } catch (\Exception $e) {
             \Mage::logException($e);
@@ -116,7 +116,7 @@ class Types extends \Magento\Adminhtml\Controller\Action
         try {
             $result = array();
             if ($typeId) {
-                $collection = \Mage::getResourceModel('\Magento\GoogleShopping\Model\Resource\Attribute\Collection')
+                $collection = \Mage::getResourceModel('Magento\GoogleShopping\Model\Resource\Attribute\Collection')
                     ->addTypeFilter($typeId)
                     ->load();
                 foreach ($collection as $attribute) {
@@ -130,7 +130,7 @@ class Types extends \Magento\Adminhtml\Controller\Action
             $breadcrumbLabel = $typeId ? __('Edit attribute set mapping') : __('New attribute set mapping');
             $this->_initAction()
                 ->_addBreadcrumb($breadcrumbLabel, $breadcrumbLabel)
-                ->_addContent($this->getLayout()->createBlock('\Magento\GoogleShopping\Block\Adminhtml\Types\Edit'))
+                ->_addContent($this->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit'))
                 ->renderLayout();
         } catch (\Exception $e) {
             \Mage::logException($e);
@@ -145,7 +145,7 @@ class Types extends \Magento\Adminhtml\Controller\Action
     public function saveAction()
     {
         /** @var $typeModel \Magento\GoogleShopping\Model\Type */
-        $typeModel = \Mage::getModel('\Magento\GoogleShopping\Model\Type');
+        $typeModel = \Mage::getModel('Magento\GoogleShopping\Model\Type');
         $id = $this->getRequest()->getParam('type_id');
         if (!is_null($id)) {
             $typeModel->load($id);
@@ -154,7 +154,7 @@ class Types extends \Magento\Adminhtml\Controller\Action
         try {
             $typeModel->setCategory($this->getRequest()->getParam('category'));
             if ($typeModel->getId()) {
-                $collection = \Mage::getResourceModel('\Magento\GoogleShopping\Model\Resource\Attribute\Collection')
+                $collection = \Mage::getResourceModel('Magento\GoogleShopping\Model\Resource\Attribute\Collection')
                     ->addTypeFilter($typeModel->getId())
                     ->load();
                 foreach ($collection as $attribute) {
@@ -174,7 +174,7 @@ class Types extends \Magento\Adminhtml\Controller\Action
                     if (isset($attrInfo['delete']) && $attrInfo['delete'] == 1) {
                         continue;
                     }
-                    \Mage::getModel('\Magento\GoogleShopping\Model\Attribute')
+                    \Mage::getModel('Magento\GoogleShopping\Model\Attribute')
                         ->setAttributeId($attrInfo['attribute_id'])
                         ->setGcontentAttribute($attrInfo['gcontent_attribute'])
                         ->setTypeId($typeId)
@@ -202,7 +202,7 @@ class Types extends \Magento\Adminhtml\Controller\Action
     {
         try {
             $id = $this->getRequest()->getParam('id');
-            $model = \Mage::getModel('\Magento\GoogleShopping\Model\Type');
+            $model = \Mage::getModel('Magento\GoogleShopping\Model\Type');
             $model->load($id);
             if ($model->getTypeId()) {
                 $model->delete();
@@ -222,7 +222,7 @@ class Types extends \Magento\Adminhtml\Controller\Action
     {
         try {
             $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('\Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Attributes')
+            $this->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Attributes')
                 ->setAttributeSetId($this->getRequest()->getParam('attribute_set_id'))
                 ->setTargetCountry($this->getRequest()->getParam('target_country'))
                 ->setAttributeSetSelected(true)
@@ -242,7 +242,7 @@ class Types extends \Magento\Adminhtml\Controller\Action
     {
         try {
             $this->getResponse()->setBody(
-                $this->getLayout()->getBlockSingleton('\Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Form')
+                $this->getLayout()->getBlockSingleton('Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Form')
                     ->getAttributeSetsSelectElement($this->getRequest()->getParam('target_country'))
                     ->toHtml()
             );

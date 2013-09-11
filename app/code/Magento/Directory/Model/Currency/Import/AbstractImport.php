@@ -24,7 +24,7 @@ abstract class AbstractImport
      */
     protected function _getCurrencyCodes()
     {
-        return \Mage::getModel('\Magento\Directory\Model\Currency')->getConfigAllowCurrencies();
+        return \Mage::getModel('Magento\Directory\Model\Currency')->getConfigAllowCurrencies();
     }
 
     /**
@@ -34,7 +34,7 @@ abstract class AbstractImport
      */
     protected function _getDefaultCurrencyCodes()
     {
-        return \Mage::getModel('\Magento\Directory\Model\Currency')->getConfigBaseCurrencies();
+        return \Mage::getModel('Magento\Directory\Model\Currency')->getConfigBaseCurrencies();
     }
 
     /**
@@ -55,7 +55,7 @@ abstract class AbstractImport
     protected function _saveRates($rates)
     {
         foreach ($rates as $currencyCode => $currencyRates) {
-            \Mage::getModel('\Magento\Directory\Model\Currency')
+            \Mage::getModel('Magento\Directory\Model\Currency')
                 ->setId($currencyCode)
                 ->setRates($currencyRates)
                 ->save();

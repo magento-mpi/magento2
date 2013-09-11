@@ -35,9 +35,9 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
 
     protected function setUp()
     {
-        $customerAttributes = Mage::getResourceModel('\Magento\Customer\Model\Resource\Attribute\Collection');
+        $customerAttributes = Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
 
-        $this->_model = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Export\Entity\EavAbstract', array(),
+        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Export\Entity\EavAbstract', array(),
             '', false);
         $this->_model->expects($this->any())
             ->method('getEntityTypeCode')
@@ -85,7 +85,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
     public function testGetAttributeOptions()
     {
         /** @var $attributeCollection \Magento\Customer\Model\Resource\Attribute\Collection */
-        $attributeCollection = Mage::getResourceModel('\Magento\Customer\Model\Resource\Attribute\Collection');
+        $attributeCollection = Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
         $attributeCollection->addFieldToFilter('attribute_code', 'gender');
         /** @var $attribute \Magento\Customer\Model\Attribute */
         $attribute = $attributeCollection->getFirstItem();
@@ -107,7 +107,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
     protected function _getSkippedAttributes()
     {
         /** @var $attributeCollection \Magento\Customer\Model\Resource\Attribute\Collection */
-        $attributeCollection = Mage::getResourceModel('\Magento\Customer\Model\Resource\Attribute\Collection');
+        $attributeCollection = Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
         $attributeCollection->addFieldToFilter('attribute_code', array('in' => self::$_skippedAttributes));
         $skippedAttributes = array();
         /** @var $attribute  \Magento\Customer\Model\Attribute */

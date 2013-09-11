@@ -52,7 +52,7 @@ class Address extends \Magento\Eav\Model\Entity\AbstractEntity
             return $this;
         }
         if ($address->getId() && ($address->getIsDefaultBilling() || $address->getIsDefaultShipping())) {
-            $customer = \Mage::getModel('\Magento\Customer\Model\Customer')
+            $customer = \Mage::getModel('Magento\Customer\Model\Customer')
                 ->load($address->getCustomerId());
 
             if ($address->getIsDefaultBilling()) {

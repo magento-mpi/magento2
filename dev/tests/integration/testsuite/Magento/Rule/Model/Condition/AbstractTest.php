@@ -17,7 +17,7 @@ class Magento_Rule_Model_Condition_AbstractTest extends PHPUnit_Framework_TestCa
     public function testGetValueElement()
     {
         /** @var \Magento\Rule\Model\Condition\AbstractCondition $model */
-        $model = $this->getMockForAbstractClass('\Magento\Rule\Model\Condition\AbstractCondition', array(), '',
+        $model = $this->getMockForAbstractClass('Magento\Rule\Model\Condition\AbstractCondition', array(), '',
             false, true, true, array('getValueElementRenderer'));
         $editableBlock = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento\Rule\Block\Editable');

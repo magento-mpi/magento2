@@ -55,7 +55,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
         ));
         $rule->save();
 
-        $this->_user = Mage::getModel('\Magento\Webapi\Model\Acl\User')
+        $this->_user = Mage::getModel('Magento\Webapi\Model\Acl\User')
             ->setData(array(
             'api_key' => 'webhook_test_username',
             'secret' => 'webhook_test_secret',

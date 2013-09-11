@@ -18,7 +18,7 @@ class Button extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
 {
     protected function _prepareLayout()
     {
-        $ordersCount = \Mage::getResourceSingleton('\Magento\SalesArchive\Model\Resource\Order\Collection')->getSize();
+        $ordersCount = \Mage::getResourceSingleton('Magento\SalesArchive\Model\Resource\Order\Collection')->getSize();
         $parent = $this->getLayout()->getBlock('sales_order.grid.container');
         if ($parent && $ordersCount) {
             $url = $this->getUrl('*/sales_archive/orders');

@@ -35,7 +35,7 @@ class Authorize extends \Magento\Core\Controller\Front\Action
     protected function _initForm($simple = false)
     {
         /** @var $server \Magento\Oauth\Model\Server */
-        $server = \Mage::getModel('\Magento\Oauth\Model\Server');
+        $server = \Mage::getModel('Magento\Oauth\Model\Server');
         /** @var $session \Magento\Customer\Model\Session */
         $session = \Mage::getSingleton($this->_sessionName);
 
@@ -106,7 +106,7 @@ class Authorize extends \Magento\Core\Controller\Front\Action
 
         try {
             /** @var $server \Magento\Oauth\Model\Server */
-            $server = \Mage::getModel('\Magento\Oauth\Model\Server');
+            $server = \Mage::getModel('Magento\Oauth\Model\Server');
 
             /** @var $token \Magento\Oauth\Model\Token */
             $token = $server->authorizeToken($session->getCustomerId(), \Magento\Oauth\Model\Token::USER_TYPE_CUSTOMER);
@@ -146,7 +146,7 @@ class Authorize extends \Magento\Core\Controller\Front\Action
         $session = \Mage::getSingleton($this->_sessionName);
         try {
             /** @var $server \Magento\Oauth\Model\Server */
-            $server = \Mage::getModel('\Magento\Oauth\Model\Server');
+            $server = \Mage::getModel('Magento\Oauth\Model\Server');
 
             /** @var $block \Magento\Oauth\Block\Authorize */
             $block = $this->getLayout()->getBlock('oauth.authorize.reject');

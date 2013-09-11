@@ -439,7 +439,7 @@ abstract class ActionAbstract extends \Magento\Core\Controller\Varien\Action
             $this->generateLayoutBlocks();
             $this->_isLayoutLoaded = true;
         }
-        $this->_initLayoutMessages('\Magento\Backend\Model\Session');
+        $this->_initLayoutMessages('Magento\Backend\Model\Session');
         return $this;
     }
 
@@ -530,8 +530,8 @@ abstract class ActionAbstract extends \Magento\Core\Controller\Varien\Action
      */
     protected function _outTemplate($tplName, $data = array())
     {
-        $this->_initLayoutMessages('\Magento\Backend\Model\Session');
-        $block = $this->getLayout()->createBlock('\Magento\Backend\Block\Template')->setTemplate("{$tplName}.phtml");
+        $this->_initLayoutMessages('Magento\Backend\Model\Session');
+        $block = $this->getLayout()->createBlock('Magento\Backend\Block\Template')->setTemplate("{$tplName}.phtml");
         foreach ($data as $index => $value) {
             $block->assign($index, $value);
         }

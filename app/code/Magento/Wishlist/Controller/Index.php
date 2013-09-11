@@ -100,7 +100,7 @@ class Index
             }
             $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
             /* @var \Magento\Wishlist\Model\Wishlist $wishlist */
-            $wishlist = \Mage::getModel('\Magento\Wishlist\Model\Wishlist');
+            $wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist');
             if ($wishlistId) {
                 $wishlist->load($wishlistId);
             } else {
@@ -148,9 +148,9 @@ class Index
             }
         }
 
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
-        $this->_initLayoutMessages('\Magento\Checkout\Model\Session');
-        $this->_initLayoutMessages('\Magento\Catalog\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Checkout\Model\Session');
+        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
         $this->_initLayoutMessages('Magento_Wishlist_Model_Session');
 
         $this->renderLayout();
@@ -174,7 +174,7 @@ class Index
             return;
         }
 
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($productId);
+        $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             $session->addError(__('We can\'t specify a product.'));
             $this->_redirect('*/');
@@ -240,7 +240,7 @@ class Index
         $id = (int) $this->getRequest()->getParam('id');
         try {
             /* @var $item \Magento\Wishlist\Model\Item */
-            $item = \Mage::getModel('\Magento\Wishlist\Model\Item');
+            $item = \Mage::getModel('Magento\Wishlist\Model\Item');
             $item->loadWithOptions($id);
             if (!$item->getId()) {
                 \Mage::throwException(__('We can\'t load the wish list item.'));
@@ -289,7 +289,7 @@ class Index
             return;
         }
 
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($productId);
+        $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             $session->addError(__('We can\'t specify a product.'));
             $this->_redirect('*/');
@@ -299,7 +299,7 @@ class Index
         try {
             $id = (int) $this->getRequest()->getParam('id');
             /* @var \Magento\Wishlist\Model\Item */
-            $item = \Mage::getModel('\Magento\Wishlist\Model\Item');
+            $item = \Mage::getModel('Magento\Wishlist\Model\Item');
             $item->load($id);
             $wishlist = $this->_getWishlist($item->getWishlistId());
             if (!$wishlist) {
@@ -348,7 +348,7 @@ class Index
             $updatedItems = 0;
 
             foreach ($post['description'] as $itemId => $description) {
-                $item = \Mage::getModel('\Magento\Wishlist\Model\Item')->load($itemId);
+                $item = \Mage::getModel('Magento\Wishlist\Model\Item')->load($itemId);
                 if ($item->getWishlistId() != $wishlist->getId()) {
                     continue;
                 }
@@ -423,7 +423,7 @@ class Index
     public function removeAction()
     {
         $id = (int) $this->getRequest()->getParam('item');
-        $item = \Mage::getModel('\Magento\Wishlist\Model\Item')->load($id);
+        $item = \Mage::getModel('Magento\Wishlist\Model\Item')->load($id);
         if (!$item->getId()) {
             return $this->norouteAction();
         }
@@ -460,7 +460,7 @@ class Index
         $itemId = (int) $this->getRequest()->getParam('item');
 
         /* @var $item \Magento\Wishlist\Model\Item */
-        $item = \Mage::getModel('\Magento\Wishlist\Model\Item')->load($itemId);
+        $item = \Mage::getModel('Magento\Wishlist\Model\Item')->load($itemId);
         if (!$item->getId()) {
             return $this->_redirect('*/*');
         }
@@ -490,7 +490,7 @@ class Index
         $redirectUrl = \Mage::getUrl('*/*');
 
         try {
-            $options = \Mage::getModel('\Magento\Wishlist\Model\Item\Option')->getCollection()
+            $options = \Mage::getModel('Magento\Wishlist\Model\Item\Option')->getCollection()
                     ->addItemFilter(array($itemId));
             $item->setOptions($options->getOptionsByItem($itemId));
 
@@ -585,7 +585,7 @@ class Index
     {
         $this->_getWishlist();
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $this->_initLayoutMessages('Magento_Wishlist_Model_Session');
         $this->renderLayout();
     }
@@ -650,16 +650,16 @@ class Index
             /*if share rss added rss feed to email template*/
             if ($this->getRequest()->getParam('rss_url')) {
                 $rss_url = $this->getLayout()
-                    ->createBlock('\Magento\Wishlist\Block\Share\Email\Rss')
+                    ->createBlock('Magento\Wishlist\Block\Share\Email\Rss')
                     ->setWishlistId($wishlist->getId())
                     ->toHtml();
                 $message .= $rss_url;
             }
-            $wishlistBlock = $this->getLayout()->createBlock('\Magento\Wishlist\Block\Share\Email\Items')->toHtml();
+            $wishlistBlock = $this->getLayout()->createBlock('Magento\Wishlist\Block\Share\Email\Items')->toHtml();
 
             $emails = array_unique($emails);
             /* @var $emailModel \Magento\Core\Model\Email\Template */
-            $emailModel = \Mage::getModel('\Magento\Core\Model\Email\Template');
+            $emailModel = \Mage::getModel('Magento\Core\Model\Email\Template');
 
             $sharingCode = $wishlist->getSharingCode();
 
@@ -710,7 +710,7 @@ class Index
      */
     public function downloadCustomOptionAction()
     {
-        $option = \Mage::getModel('\Magento\Wishlist\Model\Item\Option')->load($this->getRequest()->getParam('id'));
+        $option = \Mage::getModel('Magento\Wishlist\Model\Item\Option')->load($this->getRequest()->getParam('id'));
 
         if (!$option->getId()) {
             return $this->_forward('noRoute');
@@ -723,7 +723,7 @@ class Index
                 return $this->_forward('noRoute');
             }
         }
-        $productOption = \Mage::getModel('\Magento\Catalog\Model\Product\Option')->load($optionId);
+        $productOption = \Mage::getModel('Magento\Catalog\Model\Product\Option')->load($optionId);
 
         if (!$productOption
             || !$productOption->getId()

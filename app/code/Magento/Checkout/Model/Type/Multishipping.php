@@ -292,7 +292,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
             $address = $this->getCustomer()->getAddressById($addressId);
             if ($address->getId()) {
                 if (!$quoteAddress = $this->getQuote()->getShippingAddressByCustomerAddressId($address->getId())) {
-                    $quoteAddress = \Mage::getModel('\Magento\Sales\Model\Quote\Address')->importCustomerAddress($address);
+                    $quoteAddress = \Mage::getModel('Magento\Sales\Model\Quote\Address')->importCustomerAddress($address);
                     $this->getQuote()->addShippingAddress($quoteAddress);
                 }
 

@@ -26,7 +26,7 @@ class Newsletter extends \Magento\Adminhtml\Block\Widget\Form
         $form = new \Magento\Data\Form();
         $form->setHtmlIdPrefix('_newsletter');
         $customer = \Mage::registry('current_customer');
-        $subscriber = \Mage::getModel('\Magento\Newsletter\Model\Subscriber')->loadByCustomer($customer);
+        $subscriber = \Mage::getModel('Magento\Newsletter\Model\Subscriber')->loadByCustomer($customer);
         \Mage::register('subscriber', $subscriber);
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Newsletter Information')));
@@ -72,7 +72,7 @@ class Newsletter extends \Magento\Adminhtml\Block\Widget\Form
     protected function _prepareLayout()
     {
         $this->setChild('grid',
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter\Grid','newsletter.grid')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter\Grid','newsletter.grid')
         );
         return parent::_prepareLayout();
     }

@@ -64,7 +64,7 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
 
         $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
         if ($session->getLastRealOrderId()) {
-            $order = \Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($session->getLastRealOrderId());
+            $order = \Mage::getModel('Magento\Sales\Model\Order')->loadByIncrementId($session->getLastRealOrderId());
 
             if ($order && $order->getIncrementId() == $session->getLastRealOrderId()) {
                 $allowedOrderStates = array(
@@ -107,7 +107,7 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
         $data = $this->getRequest()->getPost();
         if (isset($data['INVNUM'])) {
             /** @var $paymentModel \Magento\Paypal\Model\Payflowadvanced */
-            $paymentModel = \Mage::getModel('\Magento\Paypal\Model\Payflowadvanced');
+            $paymentModel = \Mage::getModel('Magento\Paypal\Model\Payflowadvanced');
             try {
                 $paymentModel->process($data);
             } catch (\Exception $e) {

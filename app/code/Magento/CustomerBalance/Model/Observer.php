@@ -49,7 +49,7 @@ class Observer
         $data = $observer->getCustomer()->getCustomerBalanceData();
         if ($data) {
             if (!empty($data['amount_delta'])) {
-                $balance = \Mage::getModel('\Magento\CustomerBalance\Model\Balance')
+                $balance = \Mage::getModel('Magento\CustomerBalance\Model\Balance')
                     ->setCustomer($observer->getCustomer())
                     ->setWebsiteId(
                         isset($data['website_id']) ? $data['website_id'] : $observer->getCustomer()->getWebsiteId()
@@ -97,7 +97,7 @@ class Observer
         if ($order->getBaseCustomerBalanceAmount() > 0) {
             $websiteId = \Mage::app()->getStore($order->getStoreId())->getWebsiteId();
 
-            $balance = \Mage::getModel('\Magento\CustomerBalance\Model\Balance')
+            $balance = \Mage::getModel('Magento\CustomerBalance\Model\Balance')
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId($websiteId)
                 ->loadByCustomer()
@@ -149,7 +149,7 @@ class Observer
             $this->_checkStoreCreditBalance($order);
 
             $websiteId = \Mage::app()->getStore($order->getStoreId())->getWebsiteId();
-            \Mage::getModel('\Magento\CustomerBalance\Model\Balance')
+            \Mage::getModel('Magento\CustomerBalance\Model\Balance')
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId($websiteId)
                 ->setAmountDelta(-$order->getBaseCustomerBalanceAmount())
@@ -173,7 +173,7 @@ class Observer
             return $this;
         }
 
-        \Mage::getModel('\Magento\CustomerBalance\Model\Balance')
+        \Mage::getModel('Magento\CustomerBalance\Model\Balance')
             ->setCustomerId($order->getCustomerId())
             ->setWebsiteId(\Mage::app()->getStore($order->getStoreId())->getWebsiteId())
             ->setAmountDelta($order->getBaseCustomerBalanceAmount())
@@ -254,7 +254,7 @@ class Observer
         }
         $quote->setUseCustomerBalance($shouldUseBalance);
         if ($shouldUseBalance) {
-            $balance = \Mage::getModel('\Magento\CustomerBalance\Model\Balance')
+            $balance = \Mage::getModel('Magento\CustomerBalance\Model\Balance')
                 ->setCustomerId($quote->getCustomerId())
                 ->setWebsiteId($store->getWebsiteId())
                 ->loadByCustomer();
@@ -397,7 +397,7 @@ class Observer
 
             $websiteId = \Mage::app()->getStore($order->getStoreId())->getWebsiteId();
 
-            \Mage::getModel('\Magento\CustomerBalance\Model\Balance')
+            \Mage::getModel('Magento\CustomerBalance\Model\Balance')
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId($websiteId)
                 ->setAmountDelta($creditmemo->getBsCustomerBalTotalRefunded())
@@ -560,7 +560,7 @@ class Observer
      */
     public function setCustomersBalanceCurrencyToWebsiteBaseCurrency(\Magento\Event\Observer $observer)
     {
-        \Mage::getModel('\Magento\CustomerBalance\Model\Balance')->setCustomersBalanceCurrencyTo(
+        \Mage::getModel('Magento\CustomerBalance\Model\Balance')->setCustomersBalanceCurrencyTo(
             $observer->getEvent()->getWebsite()->getWebsiteId(),
             $observer->getEvent()->getWebsite()->getBaseCurrencyCode()
         );

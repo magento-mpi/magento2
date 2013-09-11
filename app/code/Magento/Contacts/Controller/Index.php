@@ -45,8 +45,8 @@ class Index extends \Magento\Core\Controller\Front\Action
         $this->getLayout()->getBlock('contactForm')
             ->setFormAction( \Mage::getUrl('*/*/post') );
 
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
-        $this->_initLayoutMessages('\Magento\Catalog\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
         $this->renderLayout();
     }
 
@@ -91,7 +91,7 @@ class Index extends \Magento\Core\Controller\Front\Action
                 if ($error) {
                     throw new \Exception();
                 }
-                $mailTemplate = \Mage::getModel('\Magento\Core\Model\Email\Template');
+                $mailTemplate = \Mage::getModel('Magento\Core\Model\Email\Template');
                 /* @var $mailTemplate \Magento\Core\Model\Email\Template */
                 $mailTemplate->setDesignConfig(array(
                     'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,

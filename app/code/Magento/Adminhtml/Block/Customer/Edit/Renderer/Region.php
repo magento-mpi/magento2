@@ -52,7 +52,7 @@ class Region
         $html .= '<script type="text/javascript">' . "\n";
         $html .= '$("' . $selectId . '").setAttribute("defaultValue", "' . $regionId.'");' . "\n";
         $html .= 'new regionUpdater("' . $country->getHtmlId() . '", "' . $element->getHtmlId()
-            . '", "' . $selectId . '", ' . $this->helper('\Magento\Directory\Helper\Data')->getRegionJson() . ');' . "\n";
+            . '", "' . $selectId . '", ' . $this->helper('Magento\Directory\Helper\Data')->getRegionJson() . ');' . "\n";
         $html .= '</script>' . "\n";
 
         $html .= '</div></div>' . "\n";

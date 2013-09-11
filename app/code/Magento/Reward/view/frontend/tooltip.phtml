@@ -16,11 +16,11 @@
 <div class="reward-message <?php echo $this->getWrapperClass()?>">
     <div class="reward">
     <?php if ($this->hasRewardMessage()):?>
-        <p><?php echo __($this->getRewardMessage(), $this->helper('\Magento\Reward\Helper\Data')->formatReward($this->getRewardPoints(), $this->getRewardAmount(), null, '<strong>%s</strong>'))?></p>
+        <p><?php echo __($this->getRewardMessage(), $this->helper('Magento\Reward\Helper\Data')->formatReward($this->getRewardPoints(), $this->getRewardAmount(), null, '<strong>%s</strong>'))?></p>
     <?php endif;?>
     <?php if ($this->hasPointsBalance() && !$this->hasHideBalance()):?>
     <p class="balance">
-        <?php echo __('Your current balance is %1.', $this->helper('\Magento\Reward\Helper\Data')->formatReward($this->getPointsBalance(), null, null, '<strong>%s</strong>'))?>
+        <?php echo __('Your current balance is %1.', $this->helper('Magento\Reward\Helper\Data')->formatReward($this->getPointsBalance(), null, null, '<strong>%s</strong>'))?>
     </p>
     <?php endif;?>
     <?php if (!$this->hasHideLink()):?>

@@ -17,7 +17,7 @@ class Agreements extends \Magento\Core\Block\Template
             if (!\Mage::getStoreConfigFlag('checkout/options/enable_agreements')) {
                 $agreements = array();
             } else {
-                $agreements = \Mage::getModel('\Magento\Checkout\Model\Agreement')->getCollection()
+                $agreements = \Mage::getModel('Magento\Checkout\Model\Agreement')->getCollection()
                     ->addStoreFilter(\Mage::app()->getStore()->getId())
                     ->addFieldToFilter('is_active', 1);
             }

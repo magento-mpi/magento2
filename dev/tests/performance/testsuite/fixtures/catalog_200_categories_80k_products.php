@@ -21,7 +21,7 @@ $categoryIndex = 1;
 
 $categories = array();
 
-$category = Mage::getModel('\Magento\Catalog\Model\Category');
+$category = Mage::getModel('Magento\Catalog\Model\Category');
 while ($categoryIndex <= $categoriesNumber) {
     $category->setId(null)
         ->setName("Category $categoryIndex")

@@ -42,7 +42,7 @@ class Observer
     {
         $password = $observer->getEvent()->getPassword();
         $user     = $observer->getEvent()->getUser();
-        $resource = \Mage::getResourceSingleton('\Magento\Pci\Model\Resource\Admin\User');
+        $resource = \Mage::getResourceSingleton('Magento\Pci\Model\Resource\Admin\User');
         $authResult = $observer->getEvent()->getResult();
 
         // update locking information regardless whether user locked or not
@@ -94,7 +94,7 @@ class Observer
          * Check whether the latest password is expired
          * Side-effect can be when passwords were changed with different lifetime configuration settings
          */
-        $latestPassword = \Mage::getResourceSingleton('\Magento\Pci\Model\Resource\Admin\User')->getLatestPassword($user->getId());
+        $latestPassword = \Mage::getResourceSingleton('Magento\Pci\Model\Resource\Admin\User')->getLatestPassword($user->getId());
         if ($latestPassword) {
             if ($this->_isLatestPasswordExpired($latestPassword)) {
                 if ($this->isPasswordChangeForced()) {
@@ -113,7 +113,7 @@ class Observer
 
         // upgrade admin password
         if (!\Mage::helper('Magento\Core\Helper\Data')->getEncryptor()->validateHashByVersion($password, $user->getPassword())) {
-            \Mage::getModel('\Magento\User\Model\User')->load($user->getId())
+            \Mage::getModel('Magento\User\Model\User')->load($user->getId())
                 ->setNewPassword($password)->setForceNewPassword(true)
                 ->save();
         }
@@ -148,7 +148,7 @@ class Observer
         $apiKey = $observer->getEvent()->getApiKey();
         $model  = $observer->getEvent()->getModel();
         if (!\Mage::helper('Magento\Core\Helper\Data')->getEncryptor()->validateHashByVersion($apiKey, $model->getApiKey())) {
-            \Mage::getModel('\Magento\Api\Model\User')->load($model->getId())->setNewApiKey($apiKey)->save();
+            \Mage::getModel('Magento\Api\Model\User')->load($model->getId())->setNewApiKey($apiKey)->save();
         }
     }
 
@@ -192,7 +192,7 @@ class Observer
             }
 
             // check whether password was used before
-            $resource     = \Mage::getResourceSingleton('\Magento\Pci\Model\Resource\Admin\User');
+            $resource     = \Mage::getResourceSingleton('Magento\Pci\Model\Resource\Admin\User');
             $passwordHash = \Mage::helper('Magento\Core\Helper\Data')->getHash($password, false);
             foreach ($resource->getOldPasswords($user) as $oldPasswordHash) {
                 if ($passwordHash === $oldPasswordHash) {
@@ -215,7 +215,7 @@ class Observer
             $password = $user->getNewPassword();
             $passwordLifetime = $this->getAdminPasswordLifetime();
             if ($passwordLifetime && $password && !$user->getForceNewPassword()) {
-                $resource     = \Mage::getResourceSingleton('\Magento\Pci\Model\Resource\Admin\User');
+                $resource     = \Mage::getResourceSingleton('Magento\Pci\Model\Resource\Admin\User');
                 $passwordHash = \Mage::helper('Magento\Core\Helper\Data')->getHash($password, false);
                 $resource->trackPassword($user, $passwordHash, $passwordLifetime);
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')

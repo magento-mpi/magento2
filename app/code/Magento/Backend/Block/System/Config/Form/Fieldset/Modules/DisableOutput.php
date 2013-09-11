@@ -97,7 +97,7 @@ class DisableOutput
     protected function _getFieldRenderer()
     {
         if (empty($this->_fieldRenderer)) {
-            $this->_fieldRenderer = \Mage::getBlockSingleton('\Magento\Backend\Block\System\Config\Form\Field');
+            $this->_fieldRenderer = \Mage::getBlockSingleton('Magento\Backend\Block\System\Config\Form\Field');
         }
         return $this->_fieldRenderer;
     }

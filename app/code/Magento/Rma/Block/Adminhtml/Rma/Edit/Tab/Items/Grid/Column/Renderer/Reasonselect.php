@@ -29,7 +29,7 @@ class Reasonselect
     protected function _getEditableView(\Magento\Object $row)
     {
         /** @var $rmaItemAttribute \Magento\Rma\Model\Item\Attribute */
-        $rmaItemAttribute = \Mage::getModel('\Magento\Rma\Model\Item\Form')
+        $rmaItemAttribute = \Mage::getModel('Magento\Rma\Model\Item\Form')
             ->setFormCode('default')
             ->getAttribute('reason_other');
 
@@ -68,7 +68,7 @@ class Reasonselect
     protected function _getNonEditableView(\Magento\Object $row)
     {
         /** @var $rmaItemAttribute \Magento\Rma\Model\Item\Attribute */
-        $rmaItemAttribute = \Mage::getModel('\Magento\Rma\Model\Item\Form')
+        $rmaItemAttribute = \Mage::getModel('Magento\Rma\Model\Item\Form')
             ->setFormCode('default')
             ->getAttribute('reason_other');
         $value = $row->getData($this->getColumn()->getIndex());

@@ -43,7 +43,7 @@ class Config extends \Magento\Install\Block\AbstractBlock
         if (is_null($data)) {
             $data = \Mage::getSingleton('Magento_Install_Model_Session')->getConfigData(true);
             if (empty($data)) {
-                $data = \Mage::getModel('\Magento\Install\Model\Installer\Config')->getFormData();
+                $data = \Mage::getModel('Magento\Install\Model\Installer\Config')->getFormData();
             } else {
                 $data = new \Magento\Object($data);
             }
@@ -84,7 +84,7 @@ class Config extends \Magento\Install\Block\AbstractBlock
      */
     public function getSessionSaveSelect()
     {
-        $html = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
+        $html = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setName('config[session_save]')
             ->setId('session_save')
             ->setTitle(__('Save Session Files In'))

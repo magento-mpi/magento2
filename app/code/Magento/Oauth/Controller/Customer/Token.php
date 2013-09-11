@@ -99,7 +99,7 @@ class Token extends \Magento\Core\Controller\Front\Action
 
         try {
             /** @var $collection \Magento\Oauth\Model\Resource\Token\Collection */
-            $collection = \Mage::getModel('\Magento\Oauth\Model\Token')->getCollection();
+            $collection = \Mage::getModel('Magento\Oauth\Model\Token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByCustomerId($this->_session->getCustomerId())
                     ->addFilterById($id)
@@ -147,7 +147,7 @@ class Token extends \Magento\Core\Controller\Front\Action
 
         try {
             /** @var $collection \Magento\Oauth\Model\Resource\Token\Collection */
-            $collection = \Mage::getModel('\Magento\Oauth\Model\Token')->getCollection();
+            $collection = \Mage::getModel('Magento\Oauth\Model\Token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByCustomerId($this->_session->getCustomerId())
                     ->addFilterByType(\Magento\Oauth\Model\Token::TYPE_ACCESS)

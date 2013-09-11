@@ -70,7 +70,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
         $this->_title($template->getId() ? $template->getTemplateCode() : __('New Template'));
 
         $this->_addContent($this->getLayout()
-            ->createBlock('\Magento\Adminhtml\Block\System\Email\Template\Edit', 'template_edit')
+            ->createBlock('Magento\Adminhtml\Block\System\Email\Template\Edit', 'template_edit')
             ->setEditMode((bool)$this->getRequest()->getParam('id'))
         );
         $this->renderLayout();
@@ -173,7 +173,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
             $template->setData('orig_template_code', $templateCode);
             $template->setData('template_variables', \Zend_Json::encode($template->getVariablesOptionArray(true)));
 
-            $templateBlock = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\System\Email\Template\Edit');
+            $templateBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\System\Email\Template\Edit');
             $template->setData('orig_template_used_default_for', $templateBlock->getUsedDefaultForPaths(false));
 
             $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($template->getData()));
@@ -193,7 +193,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Email Templates'));
 
         $id = (int)$this->getRequest()->getParam($idFieldName);
-        $model = \Mage::getModel('\Magento\Adminhtml\Model\Email\Template');
+        $model = \Mage::getModel('Magento\Adminhtml\Model\Email\Template');
         if ($id) {
             $model->load($id);
         }

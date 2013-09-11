@@ -36,11 +36,11 @@ class Magento_Core_Utility_Layout
         /** @var \Magento\Core\Model\Layout\File\Factory $fileFactory */
         $fileFactory = $objectManager->get('Magento\Core\Model\Layout\File\Factory');
         $file = $fileFactory->create($layoutUpdatesFile, 'Magento_Core');
-        $fileSource = $this->_testCase->getMockForAbstractClass('\Magento\Core\Model\Layout\File\SourceInterface');
+        $fileSource = $this->_testCase->getMockForAbstractClass('Magento\Core\Model\Layout\File\SourceInterface');
         $fileSource->expects(PHPUnit_Framework_TestCase::any())
             ->method('getFiles')
             ->will(PHPUnit_Framework_TestCase::returnValue(array($file)));
-        $cache = $this->_testCase->getMockForAbstractClass('\Magento\Cache\FrontendInterface');
+        $cache = $this->_testCase->getMockForAbstractClass('Magento\Cache\FrontendInterface');
         return $objectManager->create(
             '\Magento\Core\Model\Layout\Merge', array('fileSource' => $fileSource, 'cache' => $cache)
         );
@@ -55,7 +55,7 @@ class Magento_Core_Utility_Layout
      */
     public function getLayoutFromFixture($layoutUpdatesFile, array $args = array())
     {
-        $layout = $this->_testCase->getMock('\Magento\Core\Model\Layout', array('getUpdate'), $args);
+        $layout = $this->_testCase->getMock('Magento\Core\Model\Layout', array('getUpdate'), $args);
         $layoutUpdate = $this->getLayoutUpdateFromFixture($layoutUpdatesFile);
         $layoutUpdate->asSimplexml();
         $layout->expects(PHPUnit_Framework_TestCase::any())

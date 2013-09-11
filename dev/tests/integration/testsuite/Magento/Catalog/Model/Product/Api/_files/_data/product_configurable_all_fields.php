@@ -6,7 +6,7 @@
  * @license {license_link}
  */
 
-$taxClasses = Mage::getResourceModel('\Magento\Tax\Model\Resource\TaxClass\Collection')->toArray();
+$taxClasses = Mage::getResourceModel('Magento\Tax\Model\Resource\TaxClass\Collection')->toArray();
 $taxClass = reset($taxClasses['items']);
 
 return array(

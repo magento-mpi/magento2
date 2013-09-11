@@ -17,7 +17,7 @@ class Magento_Catalog_Model_Product_Api_AttributeSetCRUDTest extends PHPUnit_Fra
     protected function _removeAttrSet($attrSetId)
     {
         /** @var $attrSet \Magento\Eav\Model\Entity\Attribute\Set */
-        $attrSet = Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set');
+        $attrSet = Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set');
 
         $attrSet->setId($attrSetId);
         $attrSet->delete();
@@ -31,7 +31,7 @@ class Magento_Catalog_Model_Product_Api_AttributeSetCRUDTest extends PHPUnit_Fra
     protected function _removeAttributes($attrIds)
     {
         /** @var $attr \Magento\Eav\Model\Entity\Attribute */
-        $attr = Mage::getModel('\Magento\Eav\Model\Entity\Attribute');
+        $attr = Mage::getModel('Magento\Eav\Model\Entity\Attribute');
 
         if (!is_array($attrIds)) {
             $attrIds = array($attrIds);

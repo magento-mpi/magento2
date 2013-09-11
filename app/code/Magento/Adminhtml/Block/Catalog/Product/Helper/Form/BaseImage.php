@@ -55,10 +55,10 @@ class BaseImage extends \Magento\Data\Form\Element\AbstractElement
     {
         parent::__construct($attributes);
 
-        $this->_viewUrl = \Mage::getModel('\Magento\Core\Model\View\Url');
+        $this->_viewUrl = \Mage::getModel('Magento\Core\Model\View\Url');
 
         $this->_url = isset($attributes['url']) ? $attributes['url']
-            : \Mage::getModel('\Magento\Backend\Model\Url');
+            : \Mage::getModel('Magento\Backend\Model\Url');
         $this->_coreHelper = isset($attributes['coreHelper']) ? $attributes['coreHelper']
             : \Mage::helper('Magento\Core\Helper\Data');
         $this->_catalogHelperData = isset($attributes['catalogHelperData']) ? $attributes['catalogHelperData']

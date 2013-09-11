@@ -22,7 +22,7 @@ class Store extends \Magento\Eav\Model\Entity\Attribute\Source\Table
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $collection = \Mage::getResourceModel('\Magento\Core\Model\Resource\Store\Collection');
+            $collection = \Mage::getResourceModel('Magento\Core\Model\Resource\Store\Collection');
             if ('store_id' == $this->getAttribute()->getAttributeCode()) {
                 $collection->setWithoutDefaultFilter();
             }
@@ -44,7 +44,7 @@ class Store extends \Magento\Eav\Model\Entity\Attribute\Source\Table
         }
 
         if (!$this->_options) {
-            $collection = \Mage::getResourceModel('\Magento\Core\Model\Resource\Store\Collection');
+            $collection = \Mage::getResourceModel('Magento\Core\Model\Resource\Store\Collection');
             if ('store_id' == $this->getAttribute()->getAttributeCode()) {
                 $collection->setWithoutDefaultFilter();
             }

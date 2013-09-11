@@ -94,8 +94,8 @@ class Processor
     public function __construct()
     {
         $this->_config = \Mage::getSingleton('Magento\Logging\Model\Config');
-        $this->_modelsHandler = \Mage::getModel('\Magento\Logging\Model\Handler\Models');
-        $this->_controllerActionsHandler = \Mage::getModel('\Magento\Logging\Model\Handler\Controllers');
+        $this->_modelsHandler = \Mage::getModel('Magento\Logging\Model\Handler\Models');
+        $this->_controllerActionsHandler = \Mage::getModel('Magento\Logging\Model\Handler\Controllers');
     }
 
     /**
@@ -261,9 +261,9 @@ class Processor
             $userId = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId();
             $username = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getUsername();
         }
-        $errors = \Mage::getModel('\Magento\Adminhtml\Model\Session')->getMessages()->getErrors();
+        $errors = \Mage::getModel('Magento\Adminhtml\Model\Session')->getMessages()->getErrors();
         /** @var \Magento\Logging\Model\Event $loggingEvent */
-        $loggingEvent = \Mage::getModel('\Magento\Logging\Model\Event')->setData(array(
+        $loggingEvent = \Mage::getModel('Magento\Logging\Model\Event')->setData(array(
             'ip'            => \Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr(),
             'x_forwarded_ip'=> \Mage::app()->getRequest()->getServer('HTTP_X_FORWARDED_FOR'),
             'user'          => $username,

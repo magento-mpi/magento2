@@ -112,7 +112,7 @@ class Review extends \Magento\Adminhtml\Controller\Action
             ->_setActiveMenu('Magento_Review::report_review')
             ->_addBreadcrumb(__('Products Report'), __('Products Report'))
             ->_addBreadcrumb(__('Product Reviews'), __('Product Reviews'))
-            ->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Review\Detail'))
+            ->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Review\Detail'))
             ->renderLayout();
     }
 
@@ -122,7 +122,7 @@ class Review extends \Magento\Adminhtml\Controller\Action
     public function exportProductDetailCsvAction()
     {
         $fileName   = 'review_product_detail.csv';
-        $content    = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Review\Detail\Grid')
+        $content    = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Review\Detail\Grid')
             ->getCsv();
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -134,7 +134,7 @@ class Review extends \Magento\Adminhtml\Controller\Action
     public function exportProductDetailExcelAction()
     {
         $fileName   = 'review_product_detail.xml';
-        $content    = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Review\Detail\Grid')
+        $content    = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Review\Detail\Grid')
             ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);

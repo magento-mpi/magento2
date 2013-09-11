@@ -83,7 +83,7 @@ class Links
         if (is_null($this->_purchasedSeparatelyAttribute)) {
             $_attributeCode = 'links_purchased_separately';
 
-            $this->_purchasedSeparatelyAttribute = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute')
+            $this->_purchasedSeparatelyAttribute = \Mage::getModel('Magento\Eav\Model\Entity\Attribute')
                 ->loadByCode(\Magento\Catalog\Model\Product::ENTITY, $_attributeCode);
         }
 
@@ -97,7 +97,7 @@ class Links
      */
     public function getPurchasedSeparatelySelect()
     {
-        $select = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
             ->setName('product[links_purchased_separately]')
             ->setId('downloadable_link_purchase_type')
             ->setOptions(\Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray())
@@ -113,7 +113,7 @@ class Links
      */
     public function getAddButtonHtml()
     {
-        $addButton = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+        $addButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label' => __('Add New Row'),
                 'id'    => 'add_link_item',
@@ -299,7 +299,7 @@ class Links
      */
     public function getUploadUrl($type)
     {
-        return \Mage::getModel('\Magento\Backend\Model\Url')->addSessionParam()
+        return \Mage::getModel('Magento\Backend\Model\Url')->addSessionParam()
             ->getUrl('*/downloadable_file/upload', array('type' => $type, '_secure' => true));
     }
 

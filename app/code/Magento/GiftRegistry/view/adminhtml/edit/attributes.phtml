@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 /* @var $coreHelper \Magento\Core\Helper\Data */
-$coreHelper = $this->helper('\Magento\Core\Helper\Data');
+$coreHelper = $this->helper('Magento\Core\Helper\Data');
 ?>
 
 <div class="fieldset-wrapper custom-options attribute-custom-options">
@@ -27,7 +27,7 @@ $coreHelper = $this->helper('\Magento\Core\Helper\Data');
         '<div class="fieldset-wrapper opened option-box collapsable-wrapper" id="{{prefix}}_option_{{id}}">'+
             '<div class="fieldset-wrapper-title">'+
                 '<strong class="title" data-toggle="collapse" data-target="#{{prefix}}_option_{{id}}-content"><span>New Attribute</span></strong>'+
-                '<div class="actions">'+ <?php echo $this->helper('\Magento\Core\Helper\Data')->jsonEncode($this->getDeleteButtonHtml()) ?> +'</div>'+
+                '<div class="actions">'+ <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getDeleteButtonHtml()) ?> +'</div>'+
             '</div>'+
             '<div class="fieldset-wrapper-content in collapse" id="{{prefix}}_option_{{id}}-content">'+
                 '<fieldset class="fieldset">'+

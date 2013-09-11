@@ -276,7 +276,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
         $nodes = array();
         foreach ($arrNodes as $node) {
             $node['id'] = $node['entity_id'];
-            $nodes[$node['id']] = \Mage::getModel('\Magento\Catalog\Model\Category')->setData($node);
+            $nodes[$node['id']] = \Mage::getModel('Magento\Catalog\Model\Category')->setData($node);
         }
 
         return $nodes;
@@ -333,7 +333,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
                 ->where('entity_id = ?', $parentId);
             if ($parentNode = $this->_getReadAdapter()->fetchRow($selectParent)) {
                 $parentNode['id'] = $parentNode['entity_id'];
-                $parentNode = \Mage::getModel('\Magento\Catalog\Model\Category')->setData($parentNode);
+                $parentNode = \Mage::getModel('Magento\Catalog\Model\Category')->setData($parentNode);
                 $this->_nodes[$parentNode->getId()] = $parentNode;
                 $nodes = $this->_loadNodes($parentNode, $recursionLevel, $storeId);
                 $childrenItems = array();
@@ -375,7 +375,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
                 ->where('mt.entity_id = ?', $parent);
             $parentPath = $this->_getReadAdapter()->fetchOne($select);
 
-            $collection = \Mage::getModel('\Magento\Catalog\Model\Category')->getCollection()
+            $collection = \Mage::getModel('Magento\Catalog\Model\Category')->getCollection()
                 ->addNameToResult()
                 ->addUrlRewriteToResult()
                 ->addParentPathFilter($parentPath)
@@ -1052,8 +1052,8 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
             'children_count',
             'updated_at'
         );
-        $prevParent = \Mage::getModel('\Magento\Catalog\Model\Category')->load($prevParentId);
-        $parent = \Mage::getModel('\Magento\Catalog\Model\Category')->load($parentId);
+        $prevParent = \Mage::getModel('Magento\Catalog\Model\Category')->load($prevParentId);
+        $parent = \Mage::getModel('Magento\Catalog\Model\Category')->load($parentId);
         if ($prevParent->getStore()->getWebsiteId() != $parent->getStore()->getWebsiteId()) {
             foreach ($prevParent->getStoreIds() as $storeId) {
                 $this->_getWriteAdapter()->delete(
@@ -1074,7 +1074,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
             $_categories = $this->_getWriteAdapter()->fetchAll($select);
             foreach ($_categories as $_category) {
                 foreach ($parent->getStoreIds() as $storeId) {
-                    $_tmpCategory = \Mage::getModel('\Magento\Catalog\Model\Category')
+                    $_tmpCategory = \Mage::getModel('Magento\Catalog\Model\Category')
                         ->setStoreId($storeId)
                         ->load($_category['entity_id']);
                     $this->_synchronize($_tmpCategory);
@@ -1214,7 +1214,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
         $result = $this->_getReadAdapter()->fetchAll($select);
         foreach ($result as $row) {
             $row['id'] = $row['entity_id'];
-            $categories[$row['entity_id']] = \Mage::getModel('\Magento\Catalog\Model\Category')->setData($row);
+            $categories[$row['entity_id']] = \Mage::getModel('Magento\Catalog\Model\Category')->setData($row);
         }
         return $categories;
     }
@@ -1237,7 +1237,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
             ->where($levelField . ' != ?', 0)
             ->order('level ' . \Magento\DB\Select::SQL_DESC);
         $result = $adapter->fetchRow($select);
-        return \Mage::getModel('\Magento\Catalog\Model\Category')->setData($result);
+        return \Mage::getModel('Magento\Catalog\Model\Category')->setData($result);
     }
 
     /**
@@ -1354,7 +1354,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
         $result = $this->_getReadAdapter()->fetchAll($select);
         foreach ($result as $row) {
             $row['id'] = $row['entity_id'];
-            $categories[$row['entity_id']] = \Mage::getModel('\Magento\Catalog\Model\Category')->setData($row);
+            $categories[$row['entity_id']] = \Mage::getModel('Magento\Catalog\Model\Category')->setData($row);
         }
         return $categories;
     }

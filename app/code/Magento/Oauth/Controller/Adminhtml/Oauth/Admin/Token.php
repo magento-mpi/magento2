@@ -90,7 +90,7 @@ class Token extends \Magento\Adminhtml\Controller\Action
             $user = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getData('user');
 
             /** @var $collection \Magento\Oauth\Model\Resource\Token\Collection */
-            $collection = \Mage::getModel('\Magento\Oauth\Model\Token')->getCollection();
+            $collection = \Mage::getModel('Magento\Oauth\Model\Token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByAdminId($user->getId())
                     ->addFilterByType(\Magento\Oauth\Model\Token::TYPE_ACCESS)
@@ -136,7 +136,7 @@ class Token extends \Magento\Adminhtml\Controller\Action
             $user = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getData('user');
 
             /** @var $collection \Magento\Oauth\Model\Resource\Token\Collection */
-            $collection = \Mage::getModel('\Magento\Oauth\Model\Token')->getCollection();
+            $collection = \Mage::getModel('Magento\Oauth\Model\Token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByAdminId($user->getId())
                     ->addFilterByType(\Magento\Oauth\Model\Token::TYPE_ACCESS)

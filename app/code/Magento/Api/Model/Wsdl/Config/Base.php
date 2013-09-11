@@ -77,7 +77,7 @@ class Base extends \Magento\Simplexml\Config
     public function processFileData($text)
     {
         /** @var $template \Magento\Core\Model\Email\Template\Filter */
-        $template = \Mage::getModel('\Magento\Core\Model\Email\Template\Filter');
+        $template = \Mage::getModel('Magento\Core\Model\Email\Template\Filter');
 
         $this->_wsdlVariables->setHandler($this->getHandler());
 

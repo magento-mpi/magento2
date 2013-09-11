@@ -31,6 +31,6 @@ class Link extends \Magento\Core\Block\Template
 
     public function isPossibleOnepageCheckout()
     {
-        return $this->helper('\Magento\Checkout\Helper\Data')->canOnepageCheckout();
+        return $this->helper('Magento\Checkout\Helper\Data')->canOnepageCheckout();
     }
 }

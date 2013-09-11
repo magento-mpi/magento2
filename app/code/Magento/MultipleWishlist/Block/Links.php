@@ -26,7 +26,7 @@ class Links extends \Magento\Wishlist\Block\Links
      */
     protected function _getItemCount()
     {
-        return $this->helper('\Magento\MultipleWishlist\Helper\Data')->getItemCount();
+        return $this->helper('Magento\MultipleWishlist\Helper\Data')->getItemCount();
     }
 
     /**

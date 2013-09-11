@@ -15,7 +15,7 @@
  * Example:
  * <code>
  * /** @var $filter \Magento\Core\Model\Input\Filter {@*}
- * $filter = \Mage::getModel('\Magento\Core\Model\Input\Filter');
+ * $filter = \Mage::getModel('Magento\Core\Model\Input\Filter');
  * $filter->setFilters(array(
  *      'list_values' => array(
  *          'children_filters' => array( //filters will applied to all children

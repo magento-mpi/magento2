@@ -34,7 +34,7 @@ class General extends \Magento\Adminhtml\Block\Widget\Form
                 'required' => true,
             ));
             $renderer = $this->getLayout()
-                ->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         } else {
             $fieldset->addField('store_id', 'hidden', array(
@@ -44,7 +44,7 @@ class General extends \Magento\Adminhtml\Block\Widget\Form
         }
 
         /** @var $label \Magento\Core\Model\Theme\Label */
-        $label = \Mage::getModel('\Magento\Core\Model\Theme\Label');
+        $label = \Mage::getModel('Magento\Core\Model\Theme\Label');
         $options = $label->getLabelsCollection(__('-- Please Select --'));
         $fieldset->addField('design', 'select', array(
             'label'    => __('Custom Design'),

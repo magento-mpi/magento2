@@ -25,7 +25,7 @@ class Agreement extends \Magento\Core\Controller\Front\Action
     {
         $this->_title(__('Billing Agreements'));
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $this->renderLayout();
     }
 
@@ -57,7 +57,7 @@ class Agreement extends \Magento\Core\Controller\Front\Action
         $this->_title(__('Billing Agreements'))
             ->_title(__('Billing Agreement # %1', $agreement->getReferenceId()));
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
         if ($navigationBlock) {
             $navigationBlock->setActive('sales/billing_agreement/');
@@ -71,7 +71,7 @@ class Agreement extends \Magento\Core\Controller\Front\Action
      */
     public function startWizardAction()
     {
-        $agreement = \Mage::getModel('\Magento\Sales\Model\Billing\Agreement');
+        $agreement = \Mage::getModel('Magento\Sales\Model\Billing\Agreement');
         $paymentCode = $this->getRequest()->getParam('payment_method');
         if ($paymentCode) {
             try {
@@ -98,7 +98,7 @@ class Agreement extends \Magento\Core\Controller\Front\Action
      */
     public function returnWizardAction()
     {
-        $agreement = \Mage::getModel('\Magento\Sales\Model\Billing\Agreement');
+        $agreement = \Mage::getModel('Magento\Sales\Model\Billing\Agreement');
         $paymentCode = $this->getRequest()->getParam('payment_method');
         $token = $this->getRequest()->getParam('token');
         if ($token && $paymentCode) {
@@ -163,7 +163,7 @@ class Agreement extends \Magento\Core\Controller\Front\Action
     {
         $agreementId = $this->getRequest()->getParam('agreement');
         if ($agreementId) {
-            $billingAgreement = \Mage::getModel('\Magento\Sales\Model\Billing\Agreement')->load($agreementId);
+            $billingAgreement = \Mage::getModel('Magento\Sales\Model\Billing\Agreement')->load($agreementId);
             if (!$billingAgreement->getAgreementId()) {
                 $this->_getSession()->addError(__('Please specify the correct billing agreement ID and try again.'));
                 $this->_redirect('*/*/');

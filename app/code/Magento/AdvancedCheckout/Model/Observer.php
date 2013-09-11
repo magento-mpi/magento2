@@ -127,7 +127,7 @@ class Observer
      */
     protected function _copyAddress($quote, $realAddress)
     {
-        $address = \Mage::getModel('\Magento\Sales\Model\Quote\Address');
+        $address = \Mage::getModel('Magento\Sales\Model\Quote\Address');
         $address->setData($realAddress->getData());
         $address
             ->setId(null)
@@ -159,7 +159,7 @@ class Observer
         }
 
         /** @var $quote \Magento\Sales\Model\Quote */
-        $quote = \Mage::getModel('\Magento\Sales\Model\Quote');
+        $quote = \Mage::getModel('Magento\Sales\Model\Quote');
         $collection = new \Magento\Data\Collection();
 
         foreach (\Mage::helper('Magento\AdvancedCheckout\Helper\Data')->getFailedItems(false) as $item) {

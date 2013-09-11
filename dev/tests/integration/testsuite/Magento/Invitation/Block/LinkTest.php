@@ -18,7 +18,7 @@ class Magento_Invitation_Block_LinkTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Invitation\Block\Link');
+        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Invitation\Block\Link');
     }
 
     /**

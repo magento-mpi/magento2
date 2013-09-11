@@ -13,7 +13,7 @@ class Redirect extends \Magento\Core\Block\AbstractBlock
 {
     protected function _toHtml()
     {
-        $standard = \Mage::getModel('\Magento\Paypal\Model\Standard');
+        $standard = \Mage::getModel('Magento\Paypal\Model\Standard');
 
         $form = new \Magento\Data\Form();
         $form->setAction($standard->getConfig()->getPaypalUrl())

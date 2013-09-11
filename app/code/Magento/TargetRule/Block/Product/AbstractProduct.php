@@ -121,7 +121,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
                 $select = $this->_linkCollection->getSelect();
                 $rotationMode = $this->getTargetRuleHelper()->getRotationMode($this->getProductListType());
                 if ($rotationMode == \Magento\TargetRule\Model\Rule::ROTATION_SHUFFLE) {
-                    \Mage::getResourceSingleton('\Magento\TargetRule\Model\Resource\Index')->orderRand($select);
+                    \Mage::getResourceSingleton('Magento\TargetRule\Model\Resource\Index')->orderRand($select);
                 } else {
                     $select->order('link_attribute_position_int.value ASC');
                 }

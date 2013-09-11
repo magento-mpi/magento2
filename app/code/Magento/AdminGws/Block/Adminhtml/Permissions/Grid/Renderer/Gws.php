@@ -40,7 +40,7 @@ class Gws extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractR
 
         // lookup websites and store groups in system
         if (!self::$websites) {
-            foreach (\Mage::getResourceSingleton('\Magento\Core\Model\Resource\Store\Group\Collection') as $storeGroup) {
+            foreach (\Mage::getResourceSingleton('Magento\Core\Model\Resource\Store\Group\Collection') as $storeGroup) {
                 /* @var $storeGroup \Magento\Core\Model\Store\Group */
                 $website = $storeGroup->getWebsite();
                 $websiteId = (string)$storeGroup->getWebsiteId();

@@ -63,7 +63,7 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
 
             $origCategory = null;
             if ($this->getCategoryId()) {
-                $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($this->getCategoryId());
+                $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($this->getCategoryId());
                 if ($category->getId()) {
                     $origCategory = $layer->getCurrentCategory();
                     $layer->setCurrentCategory($category);

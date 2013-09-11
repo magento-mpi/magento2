@@ -82,7 +82,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         if (is_null($this->_lastAddedProduct)) {
             $productId = $this->getLastAddedProductId();
             if ($productId) {
-                $this->_lastAddedProduct = \Mage::getModel('\Magento\Catalog\Model\Product')
+                $this->_lastAddedProduct = \Mage::getModel('Magento\Catalog\Model\Product')
                     ->load($productId);
             } else {
                 $this->_lastAddedProduct = false;
@@ -171,7 +171,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     protected function _getTargetRuleIndex()
     {
         if (is_null($this->_index)) {
-            $this->_index = \Mage::getModel('\Magento\TargetRule\Model\Index');
+            $this->_index = \Mage::getModel('Magento\TargetRule\Model\Index');
         }
         return $this->_index;
     }
@@ -205,7 +205,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     protected function _getTargetLinkCollection()
     {
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Link\Product\Collection */
-        $collection = \Mage::getModel('\Magento\Catalog\Model\Product\Link')
+        $collection = \Mage::getModel('Magento\Catalog\Model\Product\Link')
             ->useCrossSellLinks()
             ->getProductCollection()
             ->setStoreId(\Mage::app()->getStore()->getId())
@@ -265,7 +265,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     protected function _getProductCollectionByIds($productIds)
     {
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
-        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection');
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection');
         $collection->addFieldToFilter('entity_id', array('in' => $productIds));
         $this->_addProductAttributesAndPrices($collection);
 

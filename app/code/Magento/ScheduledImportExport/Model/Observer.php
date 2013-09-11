@@ -144,7 +144,7 @@ class Observer
      */
     public function processScheduledOperation($schedule, $forceRun = false)
     {
-        $operation = \Mage::getModel('\Magento\ScheduledImportExport\Model\Scheduled\Operation')
+        $operation = \Mage::getModel('Magento\ScheduledImportExport\Model\Scheduled\Operation')
             ->loadByJobCode($schedule->getJobCode());
 
         $result = false;
@@ -170,7 +170,7 @@ class Observer
         }
 
         $mailer = \Mage::getSingleton('Magento\Core\Model\Email\Template\Mailer');
-        $emailInfo = \Mage::getModel('\Magento\Core\Model\Email\Info');
+        $emailInfo = \Mage::getModel('Magento\Core\Model\Email\Info');
         $emailInfo->addTo($receiverEmail);
 
         $mailer->addEmailInfo($emailInfo);

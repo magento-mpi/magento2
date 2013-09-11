@@ -29,7 +29,7 @@ class Stock extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     {
         $this->_inventory = isset($data['inventory'])
             ? $data['inventory']
-            : \Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item');
+            : \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
     }
 
     /**

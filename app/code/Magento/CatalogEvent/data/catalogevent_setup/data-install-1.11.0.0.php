@@ -16,4 +16,4 @@ $cmsBlock = array(
     'is_active'     => 1,
     'stores'        => 0,
 );
- \Mage::getModel('\Magento\Cms\Model\Block')->setData($cmsBlock)->save();
+ \Mage::getModel('Magento\Cms\Model\Block')->setData($cmsBlock)->save();

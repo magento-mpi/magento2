@@ -120,7 +120,7 @@ class Observer
     public function getPendingSchedules()
     {
         if (!$this->_pendingSchedules) {
-            $this->_pendingSchedules = \Mage::getModel('\Magento\Cron\Model\Schedule')->getCollection()
+            $this->_pendingSchedules = \Mage::getModel('Magento\Cron\Model\Schedule')->getCollection()
                 ->addFieldToFilter('status', \Magento\Cron\Model\Schedule::STATUS_PENDING)
                 ->load();
         }
@@ -182,7 +182,7 @@ class Observer
     protected function _generateJobs($jobs, $exists)
     {
         $scheduleAheadFor = \Mage::getStoreConfig(self::XML_PATH_SCHEDULE_AHEAD_FOR)*60;
-        $schedule = \Mage::getModel('\Magento\Cron\Model\Schedule');
+        $schedule = \Mage::getModel('Magento\Cron\Model\Schedule');
 
         foreach ($jobs as $jobCode => $jobConfig) {
             $cronExpr = null;
@@ -226,7 +226,7 @@ class Observer
             return $this;
         }
 
-        $history = \Mage::getModel('\Magento\Cron\Model\Schedule')->getCollection()
+        $history = \Mage::getModel('Magento\Cron\Model\Schedule')->getCollection()
             ->addFieldToFilter('status', array('in'=>array(
                 \Magento\Cron\Model\Schedule::STATUS_SUCCESS,
                 \Magento\Cron\Model\Schedule::STATUS_MISSED,

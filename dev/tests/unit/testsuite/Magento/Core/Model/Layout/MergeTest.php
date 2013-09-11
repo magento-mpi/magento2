@@ -45,24 +45,24 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $fileSource = $this->getMockForAbstractClass('\Magento\Core\Model\Layout\File\SourceInterface');
+        $fileSource = $this->getMockForAbstractClass('Magento\Core\Model\Layout\File\SourceInterface');
         $fileSource->expects($this->any())->method('getFiles')->will($this->returnValue(array(
             new \Magento\Core\Model\Layout\File(__DIR__ . '/_files/pages.xml', 'Magento_Core'),
             new \Magento\Core\Model\Layout\File(__DIR__ . '/_files/handles.xml', 'Magento_Core'),
         )));
 
-        $design = $this->getMockForAbstractClass('\Magento\Core\Model\View\DesignInterface');
+        $design = $this->getMockForAbstractClass('Magento\Core\Model\View\DesignInterface');
 
         $this->_store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $this->_store->expects($this->any())->method('getId')->will($this->returnValue(20));
-        $storeManager = $this->getMockForAbstractClass('\Magento\Core\Model\StoreManagerInterface');
+        $storeManager = $this->getMockForAbstractClass('Magento\Core\Model\StoreManagerInterface');
         $storeManager->expects($this->once())->method('getStore')->with(null)->will($this->returnValue($this->_store));
 
         $this->_resource = $this->getMock('Magento\Core\Model\Resource\Layout\Update', array(), array(), '', false);
 
         $this->_appState = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
 
-        $this->_cache = $this->getMockForAbstractClass('\Magento\Cache\FrontendInterface');
+        $this->_cache = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
 
         $this->_theme = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false, false);
         $this->_theme->expects($this->any())->method('isPhysical')->will($this->returnValue(true));

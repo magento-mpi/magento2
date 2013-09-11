@@ -209,7 +209,7 @@ class Stock extends \Magento\Core\Model\Resource\Db\AbstractDb
             }
 
             $this->_isConfig = true;
-            $this->_stock = \Mage::getModel('\Magento\CatalogInventory\Model\Stock');
+            $this->_stock = \Mage::getModel('Magento\CatalogInventory\Model\Stock');
             $this->_configTypeIds = array_keys(\Mage::helper('Magento\CatalogInventory\Helper\Data')->getIsQtyTypeIds(true));
         }
     }

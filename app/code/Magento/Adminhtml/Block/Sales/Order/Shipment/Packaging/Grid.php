@@ -30,7 +30,7 @@ class Grid extends \Magento\Adminhtml\Block\Template
     public function getCollection()
     {
         if ($this->getShipment()->getId()) {
-            $collection = \Mage::getModel('\Magento\Sales\Model\Order\Shipment\Item')->getCollection()
+            $collection = \Mage::getModel('Magento\Sales\Model\Order\Shipment\Item')->getCollection()
                     ->setShipmentFilter($this->getShipment()->getId());
         } else{
             $collection = $this->getShipment()->getAllItems();

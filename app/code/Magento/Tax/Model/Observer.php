@@ -115,7 +115,7 @@ class Observer
                     'base_real_amount'  => $baseRealAmount,
                 );
 
-                $result = \Mage::getModel('\Magento\Tax\Model\Sales\Order\Tax')->setData($data)->save();
+                $result = \Mage::getModel('Magento\Tax\Model\Sales\Order\Tax')->setData($data)->save();
 
                 if (isset($ratesIdQuoteItemId[$id])) {
                     foreach ($ratesIdQuoteItemId[$id] as $quoteItemId) {
@@ -127,7 +127,7 @@ class Observer
                                     'tax_id'        => $result->getTaxId(),
                                     'tax_percent'   => $quoteItemId['percent']
                                 );
-                                \Mage::getModel('\Magento\Tax\Model\Sales\Order\Tax\Item')->setData($data)->save();
+                                \Mage::getModel('Magento\Tax\Model\Sales\Order\Tax\Item')->setData($data)->save();
                             }
                         }
                     }
@@ -181,7 +181,7 @@ class Observer
         \Mage::app()->getLocale()->emulate(0);
         $currentDate = \Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        \Mage::getResourceModel('\Magento\Tax\Model\Resource\Report\Tax')->aggregate($date);
+        \Mage::getResourceModel('Magento\Tax\Model\Resource\Report\Tax')->aggregate($date);
         \Mage::app()->getLocale()->revert();
         return $this;
     }

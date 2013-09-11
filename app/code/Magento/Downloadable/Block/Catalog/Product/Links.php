@@ -83,7 +83,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         }
 
         $taxHelper = \Mage::helper('Magento\Tax\Helper\Data');
-        $coreHelper = $this->helper('\Magento\Core\Helper\Data');
+        $coreHelper = $this->helper('Magento\Core\Helper\Data');
         $_priceInclTax = $taxHelper->getPrice($link->getProduct(), $price, true);
         $_priceExclTax = $taxHelper->getPrice($link->getProduct(), $price);
 
@@ -113,7 +113,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getCurrencyPrice($price)
     {
         $store = $this->getProduct()->getStore();
-        return $this->helper('\Magento\Core\Helper\Data')->currencyByStore($price, $store, false);
+        return $this->helper('Magento\Core\Helper\Data')->currencyByStore($price, $store, false);
     }
 
     /**

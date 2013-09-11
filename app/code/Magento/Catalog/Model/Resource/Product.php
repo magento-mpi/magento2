@@ -151,7 +151,7 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
          * Check if declared category ids in object data.
          */
         if ($object->hasCategoryIds()) {
-            $categoryIds = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Category')->verifyIds(
+            $categoryIds = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category')->verifyIds(
                 $object->getCategoryIds()
             );
             $object->setCategoryIds($categoryIds);
@@ -310,7 +310,7 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
         $writeAdapter->delete($this->getTable('catalog_category_product_index'), $condition);
 
         /** @var $categoryObject \Magento\Catalog\Model\Resource\Category */
-        $categoryObject = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Category');
+        $categoryObject = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category');
         if (!empty($categoryIds)) {
             $categoriesSelect = $writeAdapter->select()
                 ->from($this->getTable('catalog_category_entity'))
@@ -493,7 +493,7 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
      */
     public function getCategoryCollection($product)
     {
-        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Category\Collection')
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Collection')
             ->joinField('product_id',
                 'catalog_category_product',
                 'product_id',

@@ -25,7 +25,7 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\ImportExport\Model\Import\Entity\Product');
+        $this->_model = Mage::getModel('Magento\ImportExport\Model\Import\Entity\Product');
     }
 
     /**
@@ -57,7 +57,7 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
         $existingProductIds = array(10, 11, 12);
         $productsBeforeImport = array();
         foreach ($existingProductIds as $productId) {
-            $product = Mage::getModel('\Magento\Catalog\Model\Product');
+            $product = Mage::getModel('Magento\Catalog\Model\Product');
             $product->load($productId);
             $productsBeforeImport[] = $product;
         }
@@ -73,7 +73,7 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
         /** @var $productBeforeImport \Magento\Catalog\Model\Product */
         foreach ($productsBeforeImport as $productBeforeImport) {
             /** @var $productAfterImport \Magento\Catalog\Model\Product */
-            $productAfterImport = Mage::getModel('\Magento\Catalog\Model\Product');
+            $productAfterImport = Mage::getModel('Magento\Catalog\Model\Product');
             $productAfterImport->load($productBeforeImport->getId());
 
             $this->assertEquals(
@@ -96,7 +96,7 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
         $existingProductIds = array(10, 11, 12);
         $stockItems = array();
         foreach ($existingProductIds as $productId) {
-            $stockItem = Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item');
+            $stockItem = Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
             $stockItem->loadByProduct($productId);
             $stockItems[$productId] = $stockItem;
         }
@@ -113,7 +113,7 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
         foreach ($stockItems as $productId => $stockItmBeforeImport) {
 
             /** @var $stockItemAfterImport \Magento\CatalogInventory\Model\Stock\Item */
-            $stockItemAfterImport = Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item');
+            $stockItemAfterImport = Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
             $stockItemAfterImport->loadByProduct($productId);
 
             $this->assertEquals(
@@ -145,7 +145,7 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
             ->isDataValid();
         $this->_model->importData();
 
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(1); // product from fixture
         $options = $product->getProductOptionsCollection();
 
@@ -398,7 +398,7 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
      */
     public function testSaveMediaImage()
     {
-        $attribute = Mage::getModel('\Magento\Catalog\Model\Entity\Attribute');
+        $attribute = Mage::getModel('Magento\Catalog\Model\Entity\Attribute');
         $attribute->loadByCode('catalog_product', 'media_gallery');
         $data = implode(',', array(
             // minimum required set of attributes + media images
@@ -416,7 +416,7 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
         $data = 'data://text/plain;base64,' . base64_encode($data);
         $fixture = new \Magento\ImportExport\Model\Import\Source\Csv($data);
 
-        foreach (Mage::getModel('\Magento\Catalog\Model\Resource\Product\Collection') as $product) {
+        foreach (Mage::getModel('Magento\Catalog\Model\Resource\Product\Collection') as $product) {
             $this->fail("Unexpected precondition - product exists: '{$product->getId()}'.");
         }
 
@@ -427,7 +427,7 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
 
         $resource = new \Magento\Catalog\Model\Resource\Product;
         $productId = $resource->getIdBySku('test_sku'); // fixture
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load($productId);
         $gallery = $product->getMediaGalleryImages();
         $this->assertInstanceOf('\Magento\Data\Collection', $gallery);

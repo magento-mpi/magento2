@@ -89,7 +89,7 @@ class Config extends \Magento\Eav\Model\Config
             return $this;
         }
 
-        $attributeSetCollection = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
+        $attributeSetCollection = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
             ->load();
 
         $this->_attributeSetsById = array();
@@ -136,7 +136,7 @@ class Config extends \Magento\Eav\Model\Config
             return $this;
         }
 
-        $attributeSetCollection = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection')
+        $attributeSetCollection = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection')
             ->load();
 
         $this->_attributeGroupsById = array();
@@ -185,7 +185,7 @@ class Config extends \Magento\Eav\Model\Config
             return $this;
         }
 
-        $productTypeCollection = \Mage::getModel('\Magento\Catalog\Model\Product\Type')
+        $productTypeCollection = \Mage::getModel('Magento\Catalog\Model\Product\Type')
             ->getOptionArray();
 
         $this->_productTypesById = array();
@@ -264,7 +264,7 @@ class Config extends \Magento\Eav\Model\Config
      */
     protected function _getResource()
     {
-        return \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Config');
+        return \Mage::getResourceModel('Magento\Catalog\Model\Resource\Config');
     }
 
     /**

@@ -46,9 +46,9 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
         $shipmentId = $this->getRequest()->getParam('shipment_id');
         $orderId = $this->getRequest()->getParam('order_id');
         if ($shipmentId) {
-            $shipment = \Mage::getModel('\Magento\Sales\Model\Order\Shipment')->load($shipmentId);
+            $shipment = \Mage::getModel('Magento\Sales\Model\Order\Shipment')->load($shipmentId);
         } elseif ($orderId) {
-            $order      = \Mage::getModel('\Magento\Sales\Model\Order')->load($orderId);
+            $order      = \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
 
             /**
              * Check order existing
@@ -72,7 +72,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
                 return false;
             }
             $savedQtys = $this->_getItemQtys();
-            $shipment = \Mage::getModel('\Magento\Sales\Model\Service\Order', array('order' => $order))
+            $shipment = \Mage::getModel('Magento\Sales\Model\Service\Order', array('order' => $order))
                 ->prepareShipment($savedQtys);
 
             $tracks = $this->getRequest()->getPost('tracking');
@@ -81,7 +81,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
                     if (empty($data['number'])) {
                         \Mage::throwException(__('Please enter a tracking number.'));
                     }
-                    $track = \Mage::getModel('\Magento\Sales\Model\Order\Shipment\Track')
+                    $track = \Mage::getModel('Magento\Sales\Model\Order\Shipment\Track')
                         ->addData($data);
                     $shipment->addTrack($track);
                 }
@@ -101,7 +101,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
     protected function _saveShipment($shipment)
     {
         $shipment->getOrder()->setIsInProcess(true);
-        $transactionSave = \Mage::getModel('\Magento\Core\Model\Resource\Transaction')
+        $transactionSave = \Mage::getModel('Magento\Core\Model\Resource\Transaction')
             ->addObject($shipment)
             ->addObject($shipment->getOrder())
             ->save();
@@ -252,7 +252,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
                 $shipment->sendEmail(true)
                     ->setEmailSent(true)
                     ->save();
-                $historyItem = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Status\History\Collection')
+                $historyItem = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Status\History\Collection')
                     ->getUnnotifiedForInstance($shipment, \Magento\Sales\Model\Order\Shipment::HISTORY_ENTITY_NAME);
                 if ($historyItem) {
                     $historyItem->setIsCustomerNotified(1);
@@ -287,7 +287,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
             }
             $shipment = $this->_initShipment();
             if ($shipment) {
-                $track = \Mage::getModel('\Magento\Sales\Model\Order\Shipment\Track')
+                $track = \Mage::getModel('Magento\Sales\Model\Order\Shipment\Track')
                     ->setNumber($number)
                     ->setCarrierCode($carrier)
                     ->setTitle($title);
@@ -326,7 +326,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
     {
         $trackId    = $this->getRequest()->getParam('track_id');
         $shipmentId = $this->getRequest()->getParam('shipment_id');
-        $track = \Mage::getModel('\Magento\Sales\Model\Order\Shipment\Track')->load($trackId);
+        $track = \Mage::getModel('Magento\Sales\Model\Order\Shipment\Track')->load($trackId);
         if ($track->getId()) {
             try {
                 if ($this->_initShipment()) {
@@ -365,7 +365,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
     {
         $trackId    = $this->getRequest()->getParam('track_id');
         $shipmentId = $this->getRequest()->getParam('shipment_id');
-        $track = \Mage::getModel('\Magento\Sales\Model\Order\Shipment\Track')->load($trackId);
+        $track = \Mage::getModel('Magento\Sales\Model\Order\Shipment\Track')->load($trackId);
         if ($track->getId()) {
             try {
                 $response = $track->getNumberDetail();
@@ -454,7 +454,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
             return false;
         }
         $shipment->setPackages($this->getRequest()->getParam('packages'));
-        $response = \Mage::getModel('\Magento\Shipping\Model\Shipping')->requestToShipment($shipment);
+        $response = \Mage::getModel('Magento\Shipping\Model\Shipping')->requestToShipment($shipment);
         if ($response->hasErrors()) {
             \Mage::throwException($response->getErrors());
         }
@@ -476,7 +476,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
         $carrierTitle = \Mage::getStoreConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
         if ($trackingNumbers) {
             foreach ($trackingNumbers as $trackingNumber) {
-                $track = \Mage::getModel('\Magento\Sales\Model\Order\Shipment\Track')
+                $track = \Mage::getModel('Magento\Sales\Model\Order\Shipment\Track')
                         ->setNumber($trackingNumber)
                         ->setCarrierCode($carrierCode)
                         ->setTitle($carrierTitle);
@@ -563,7 +563,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
         $shipment = $this->_initShipment();
 
         if ($shipment) {
-            $pdf = \Mage::getModel('\Magento\Sales\Model\Order\Pdf\Shipment\Packaging')->getPdf($shipment);
+            $pdf = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Shipment\Packaging')->getPdf($shipment);
             $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s').'.pdf',
                 $pdf->render(), 'application/pdf'
             );
@@ -591,7 +591,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
                 $ids = $request->getParam('shipment_ids');
                 array_filter($ids, 'intval');
                 if (!empty($ids)) {
-                    $shipments = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Shipment\Collection')
+                    $shipments = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Shipment\Collection')
                         ->addFieldToFilter('entity_id', array('in' => $ids));
                 }
                 break;
@@ -599,7 +599,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
                 $ids = $request->getParam('order_ids');
                 array_filter($ids, 'intval');
                 if (!empty($ids)) {
-                    $shipments = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Shipment\Collection')
+                    $shipments = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Shipment\Collection')
                         ->setOrderFilter(array('in' => $ids));
                 }
                 break;
@@ -697,7 +697,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
         $this->_initShipment();
         return $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('\Magento\Adminhtml\Block\Sales\Order\Shipment\Packaging\Grid')
+                ->createBlock('Magento\Adminhtml\Block\Sales\Order\Shipment\Packaging\Grid')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()
            );

@@ -57,7 +57,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Billing\Agreement\Collection')
+        $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Billing\Agreement\Collection')
             ->addCustomerDetails();
         $this->setCollection($collection);
         return parent::_prepareCollection();

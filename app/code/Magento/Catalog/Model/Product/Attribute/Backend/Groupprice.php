@@ -28,7 +28,7 @@ class Groupprice
      */
     protected function _getResource()
     {
-        return \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product\Attribute\Backend\Groupprice');
+        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Attribute\Backend\Groupprice');
     }
 
     /**

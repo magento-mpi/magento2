@@ -105,7 +105,7 @@ class Layout
      */
     public function getDisplayOnSelectHtml()
     {
-        $selectBlock = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
+        $selectBlock = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setName('widget_instance[{{id}}][page_group]')
             ->setId('widget_instance[{{id}}][page_group]')
             ->setClass('required-entry page_group_select select')
@@ -127,45 +127,45 @@ class Layout
         $options = array();
         $options[] = array(
             'value' => '',
-            'label' => $this->helper('\Magento\Core\Helper\Data')->jsQuoteEscape(__('-- Please Select --'))
+            'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('-- Please Select --'))
         );
         $options[] = array(
             'label' => __('Categories'),
             'value' => array(
                 array(
                     'value' => 'anchor_categories',
-                    'label' => $this->helper('\Magento\Core\Helper\Data')->jsQuoteEscape(__('Anchor Categories'))
+                    'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Anchor Categories'))
                 ),
                 array(
                     'value' => 'notanchor_categories',
-                    'label' => $this->helper('\Magento\Core\Helper\Data')->jsQuoteEscape(__('Non-Anchor Categories'))
+                    'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Non-Anchor Categories'))
                 )
             )
         );
         foreach (\Magento\Catalog\Model\Product\Type::getTypes() as $typeId => $type) {
             $productsOptions[] = array(
                'value' => $typeId.'_products',
-               'label' => $this->helper('\Magento\Core\Helper\Data')->jsQuoteEscape($type['label'])
+               'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape($type['label'])
             );
         }
         array_unshift($productsOptions, array(
             'value' => 'all_products',
-            'label' => $this->helper('\Magento\Core\Helper\Data')->jsQuoteEscape(__('All Product Types'))
+            'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('All Product Types'))
         ));
         $options[] = array(
-            'label' => $this->helper('\Magento\Core\Helper\Data')->jsQuoteEscape(__('Products')),
+            'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Products')),
             'value' => $productsOptions
         );
         $options[] = array(
-            'label' => $this->helper('\Magento\Core\Helper\Data')->jsQuoteEscape(__('Generic Pages')),
+            'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Generic Pages')),
             'value' => array(
                 array(
                     'value' => 'all_pages',
-                    'label' => $this->helper('\Magento\Core\Helper\Data')->jsQuoteEscape(__('All Pages'))
+                    'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('All Pages'))
                 ),
                 array(
                     'value' => 'pages',
-                    'label' => $this->helper('\Magento\Core\Helper\Data')->jsQuoteEscape(__('Specified Page'))
+                    'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Specified Page'))
                 )
             )
         );
@@ -226,7 +226,7 @@ class Layout
     public function getLayoutsChooser()
     {
         $chooserBlock = $this->getLayout()
-            ->createBlock('\Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Layout')
+            ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Layout')
             ->setName('widget_instance[{{id}}][pages][layout_handle]')
             ->setId('layout_handle')
             ->setClass('required-entry select')
@@ -245,7 +245,7 @@ class Layout
      */
     public function getAddLayoutButtonHtml()
     {
-        $button = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+        $button = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'     => __('Add Layout Update'),
                 'onclick'   => 'WidgetInstance.addPageGroup({})',
@@ -261,9 +261,9 @@ class Layout
      */
     public function getRemoveLayoutButtonHtml()
     {
-        $button = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+        $button = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
-                'label'     => $this->helper('\Magento\Core\Helper\Data')->jsQuoteEscape(__('Remove Layout Update')),
+                'label'     => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Remove Layout Update')),
                 'onclick'   => 'WidgetInstance.removePageGroup(this)',
                 'class'     => 'action-delete'
             ));

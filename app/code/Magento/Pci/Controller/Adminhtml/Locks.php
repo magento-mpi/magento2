@@ -49,7 +49,7 @@ class Locks extends \Magento\Adminhtml\Controller\Action
             // unlock users
             $userIds = $this->getRequest()->getPost('unlock');
             if ($userIds && is_array($userIds)) {
-                $affectedUsers = \Mage::getResourceSingleton('\Magento\Pci\Model\Resource\Admin\User')
+                $affectedUsers = \Mage::getResourceSingleton('Magento\Pci\Model\Resource\Admin\User')
                     ->unlock($userIds);
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')
                         ->addSuccess(__('Unlocked %1 user(s).', $affectedUsers));

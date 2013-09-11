@@ -28,7 +28,7 @@ class ListCompare extends \Magento\Object
     public function addProduct($product)
     {
         /* @var $item \Magento\Catalog\Model\Product\Compare\Item */
-        $item = \Mage::getModel('\Magento\Catalog\Model\Product\Compare\Item');
+        $item = \Mage::getModel('Magento\Catalog\Model\Product\Compare\Item');
         $this->_addVisitorToItem($item);
         $item->loadByProduct($product);
 
@@ -63,7 +63,7 @@ class ListCompare extends \Magento\Object
      */
     public function getItemCollection()
     {
-        return \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Compare\Item\Collection');
+        return \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Compare\Item\Collection');
     }
 
     /**
@@ -75,7 +75,7 @@ class ListCompare extends \Magento\Object
     public function removeProduct($product)
     {
         /* @var $item \Magento\Catalog\Model\Product\Compare\Item */
-        $item = \Mage::getModel('\Magento\Catalog\Model\Product\Compare\Item');
+        $item = \Mage::getModel('Magento\Catalog\Model\Product\Compare\Item');
         $this->_addVisitorToItem($item);
         $item->loadByProduct($product);
 
@@ -111,7 +111,7 @@ class ListCompare extends \Magento\Object
      */
     public function hasItems($customerId, $visitorId)
     {
-        return \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product\Compare\Item')
+        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Compare\Item')
             ->getCount($customerId, $visitorId);
     }
 }

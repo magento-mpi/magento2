@@ -94,7 +94,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                 return $country;
             }
         }
-        return \Mage::getResourceModel('\Magento\Directory\Model\Resource\Country');
+        return \Mage::getResourceModel('Magento\Directory\Model\Resource\Country');
     }
 
     /**

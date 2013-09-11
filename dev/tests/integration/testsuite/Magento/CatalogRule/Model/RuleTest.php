@@ -21,7 +21,7 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_object = Mage::getModel('\Magento\CatalogRule\Model\Rule');
+        $this->_object = Mage::getModel('Magento\CatalogRule\Model\Rule');
     }
 
     /**
@@ -37,7 +37,7 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
             ->method('_getRulesFromProduct')
             ->will($this->returnValue($this->_getCatalogRulesFixtures()));
 
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $this->assertEquals($catalogRule->calcProductPriceRule($product, 100), 45);
         $product->setParentId(true);
         $this->assertEquals($catalogRule->calcProductPriceRule($product, 50), 5);

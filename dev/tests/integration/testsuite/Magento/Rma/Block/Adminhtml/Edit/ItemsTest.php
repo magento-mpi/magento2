@@ -19,7 +19,7 @@ class Magento_Rma_Block_Adminhtml_Edit_ItemsTest extends PHPUnit_Framework_TestC
      */
     public function testToHtml()
     {
-        $rma = Mage::getModel('\Magento\Rma\Model\Rma');
+        $rma = Mage::getModel('Magento\Rma\Model\Rma');
         $rma->load(1, 'increment_id');
         Mage::register('current_rma', $rma);
         $utility = new Magento_Core_Utility_Layout($this);

@@ -40,7 +40,7 @@ class Product extends \Magento\Adminhtml\Block\Widget\Container
 
         $this->setChild(
             'grid',
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Grid', 'product.grid')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Grid', 'product.grid')
         );
         return parent::_prepareLayout();
     }
@@ -54,7 +54,7 @@ class Product extends \Magento\Adminhtml\Block\Widget\Container
     {
         $splitButtonOptions = array();
 
-        foreach (\Mage::getModel('\Magento\Catalog\Model\Product\Type')->getOptionArray() as $key => $label) {
+        foreach (\Mage::getModel('Magento\Catalog\Model\Product\Type')->getOptionArray() as $key => $label) {
             $splitButtonOptions[$key] = array(
                 'label'     => $label,
                 'onclick'   => "setLocation('" . $this->_getProductCreateUrl($key) . "')",
@@ -74,7 +74,7 @@ class Product extends \Magento\Adminhtml\Block\Widget\Container
     protected function _getProductCreateUrl($type)
     {
         return $this->getUrl('*/*/new', array(
-            'set'   => \Mage::getModel('\Magento\Catalog\Model\Product')->getDefaultAttributeSetId(),
+            'set'   => \Mage::getModel('Magento\Catalog\Model\Product')->getDefaultAttributeSetId(),
             'type'  => $type
         ));
     }

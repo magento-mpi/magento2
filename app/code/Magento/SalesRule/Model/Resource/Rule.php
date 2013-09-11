@@ -121,7 +121,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
         // Update auto geterated specific coupons if exists
         if ($object->getUseAutoGeneration() && $object->hasDataChanges()) {
-            \Mage::getResourceModel('\Magento\SalesRule\Model\Resource\Coupon')->updateSpecificCoupons($object);
+            \Mage::getResourceModel('Magento\SalesRule\Model\Resource\Coupon')->updateSpecificCoupons($object);
         }
         return parent::_afterSave($object);
     }

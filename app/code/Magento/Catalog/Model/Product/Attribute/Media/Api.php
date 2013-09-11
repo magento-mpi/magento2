@@ -296,7 +296,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
      */
     public function types($setId)
     {
-        $attributes = \Mage::getModel('\Magento\Catalog\Model\Product')->getResource()
+        $attributes = \Mage::getModel('Magento\Catalog\Model\Product')->getResource()
                 ->loadAllAttributes()
                 ->getSortedAttributes($setId);
 

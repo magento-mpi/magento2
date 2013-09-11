@@ -111,7 +111,7 @@ class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
             $amount = 0;
             $cards = \Mage::helper('Magento\GiftCardAccount\Helper\Data')->getCards($quote);
             foreach ($cards as $k=>&$card) {
-                $model = \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')->load($card['i']);
+                $model = \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')->load($card['i']);
                 if ($model->isExpired() || $model->getBalance() == 0) {
                     unset($cards[$k]);
                 } else if ($model->getBalance() != $card['ba']) {

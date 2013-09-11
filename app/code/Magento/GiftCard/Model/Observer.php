@@ -59,7 +59,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
 
         if ($elem) {
             $elem->setRenderer(
-                \Mage::app()->getLayout()->createBlock('\Magento\GiftCard\Block\Adminhtml\Renderer\Amount')
+                \Mage::app()->getLayout()->createBlock('Magento\GiftCard\Block\Adminhtml\Renderer\Amount')
             );
         }
     }
@@ -185,7 +185,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
                             if(isset($loadedInvoices[$invoiceId])) {
                                 $invoice = $loadedInvoices[$invoiceId];
                             } else {
-                                $invoice = \Mage::getModel('\Magento\Sales\Model\Order\Invoice')->load($invoiceId);
+                                $invoice = \Mage::getModel('Magento\Sales\Model\Order\Invoice')->load($invoiceId);
                                 $loadedInvoices[$invoiceId] = $invoice;
                             }
                             // check, if this order item has been paid
@@ -272,7 +272,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
                             'is_redeemable'          => $isRedeemable,
                         );
 
-                        $email = $this->_emailTemplateModel ?: \Mage::getModel('\Magento\Core\Model\Email\Template');
+                        $email = $this->_emailTemplateModel ?: \Mage::getModel('Magento\Core\Model\Email\Template');
                         $email->setDesignConfig(array(
                             'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                             'store' => $item->getOrder()->getStoreId(),

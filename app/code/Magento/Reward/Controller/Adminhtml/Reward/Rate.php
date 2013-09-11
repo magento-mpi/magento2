@@ -62,7 +62,7 @@ class Rate extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Reward Exchange Rates'));
 
         $rateId = $this->getRequest()->getParam('rate_id', 0);
-        $rate = \Mage::getModel('\Magento\Reward\Model\Reward\Rate');
+        $rate = \Mage::getModel('Magento\Reward\Model\Reward\Rate');
         if ($rateId) {
             $rate->load($rateId);
         }
@@ -200,7 +200,7 @@ class Rate extends \Magento\Adminhtml\Controller\Action
 
         if ($message) {
             $this->_getSession()->addError($message);
-            $this->_initLayoutMessages('\Magento\Adminhtml\Model\Session');
+            $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         }

@@ -25,7 +25,7 @@ class StatusesArray implements \Magento\Core\Model\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $statuses = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Status\Collection')
+        $statuses = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Status\Collection')
             ->toOptionHash();
         return $statuses;
     }

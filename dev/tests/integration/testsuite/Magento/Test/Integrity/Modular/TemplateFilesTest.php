@@ -28,7 +28,7 @@ class Magento_Test_Integrity_Modular_TemplateFilesTest extends Magento_TestFrame
         // intentionally to make sure the module files will be requested
         $params = array(
             'area'       => $area,
-            'themeModel' => Mage::getModel('\Magento\Core\Model\Theme'),
+            'themeModel' => Mage::getModel('Magento\Core\Model\Theme'),
             'module'     => $module
         );
         $file = Magento_TestFramework_Helper_Bootstrap::getObjectmanager()

@@ -125,7 +125,7 @@ abstract class AbstractType extends \Magento\Object
 
     protected function _createOrderFromAddress($address)
     {
-        $order = \Mage::getModel('\Magento\Sales\Model\Order')->createFromQuoteAddress($address)
+        $order = \Mage::getModel('Magento\Sales\Model\Order')->createFromQuoteAddress($address)
             ->setCustomerId($this->getCustomer()->getId())
             ->setGlobalCurrencyCode('USD')
             ->setBaseCurrencyCode('USD')

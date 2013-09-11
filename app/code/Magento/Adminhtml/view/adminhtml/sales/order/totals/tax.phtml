@@ -77,7 +77,7 @@ $_fullInfo  = $this->getFullTaxInfo();
 <?php endif; ?>
     <td class="label">
         <div class="summary-collapse">
-        <?php if ($this->helper('\Magento\Tax\Helper\Data')->displayFullSummary()): ?>
+        <?php if ($this->helper('Magento\Tax\Helper\Data')->displayFullSummary()): ?>
             <?php echo __('Total Tax') ?>
         <?php else: ?>
             <?php echo __('Tax') ?>

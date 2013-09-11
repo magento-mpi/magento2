@@ -118,12 +118,12 @@ class Magento_Catalog_Controller_Product_CompareTest extends Magento_TestFramewo
     protected function _prepareCompareListWithProductNameXss()
     {
         /** @var $visitor \Magento\Log\Model\Visitor */
-        $visitor = Mage::getModel('\Magento\Log\Model\Visitor');
+        $visitor = Mage::getModel('Magento\Log\Model\Visitor');
         $visitor->setSessionId(md5(time()) . md5(microtime()))
             ->setLastVisitAt(now())
             ->save();
         /** @var $item \Magento\Catalog\Model\Product\Compare\Item */
-        $item = Mage::getModel('\Magento\Catalog\Model\Product\Compare\Item');
+        $item = Mage::getModel('Magento\Catalog\Model\Product\Compare\Item');
         $item->setVisitorId($visitor->getId())
             ->setProductId(1)
             ->save();
@@ -133,7 +133,7 @@ class Magento_Catalog_Controller_Product_CompareTest extends Magento_TestFramewo
     protected function _requireVisitorWithNoProducts()
     {
         /** @var $visitor \Magento\Log\Model\Visitor */
-        $visitor = Mage::getModel('\Magento\Log\Model\Visitor');
+        $visitor = Mage::getModel('Magento\Log\Model\Visitor');
         $visitor->setSessionId(md5(time()) . md5(microtime()))
             ->setLastVisitAt(now())
             ->save();
@@ -146,19 +146,19 @@ class Magento_Catalog_Controller_Product_CompareTest extends Magento_TestFramewo
     protected function _requireVisitorWithTwoProducts()
     {
         /** @var $visitor \Magento\Log\Model\Visitor */
-        $visitor = Mage::getModel('\Magento\Log\Model\Visitor');
+        $visitor = Mage::getModel('Magento\Log\Model\Visitor');
         $visitor->setSessionId(md5(time()) . md5(microtime()))
             ->setLastVisitAt(now())
             ->save();
 
         /** @var $item \Magento\Catalog\Model\Product\Compare\Item */
-        $item = Mage::getModel('\Magento\Catalog\Model\Product\Compare\Item');
+        $item = Mage::getModel('Magento\Catalog\Model\Product\Compare\Item');
         $item->setVisitorId($visitor->getId())
             ->setProductId(1)
             ->save();
 
         /** @var $item \Magento\Catalog\Model\Product\Compare\Item */
-        $item = Mage::getModel('\Magento\Catalog\Model\Product\Compare\Item');
+        $item = Mage::getModel('Magento\Catalog\Model\Product\Compare\Item');
         $item->setVisitorId($visitor->getId())
             ->setProductId(2)
             ->save();
@@ -176,7 +176,7 @@ class Magento_Catalog_Controller_Product_CompareTest extends Magento_TestFramewo
     protected function _assertCompareListEquals(array $expectedProductIds)
     {
         /** @var $compareItems \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection */
-        $compareItems = Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Compare\Item\Collection');
+        $compareItems = Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Compare\Item\Collection');
         $compareItems->useProductItem(true); // important
         $compareItems->setVisitorId(
             Mage::getSingleton('Magento\Log\Model\Visitor')->getId()

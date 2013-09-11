@@ -273,7 +273,7 @@ class Observer
         }
 
         if ($this->_eventsToCategories === null) {
-            $this->_eventsToCategories = \Mage::getModel('\Magento\CatalogEvent\Model\Event')->getCategoryIdsWithEvent(
+            $this->_eventsToCategories = \Mage::getModel('Magento\CatalogEvent\Model\Event')->getCategoryIdsWithEvent(
                 \Mage::app()->getStore()->getId()
             );
 
@@ -301,7 +301,7 @@ class Observer
      */
     protected function _getEventCollection(array $categoryIds = null)
     {
-        $collection = \Mage::getModel('\Magento\CatalogEvent\Model\Event')->getCollection();
+        $collection = \Mage::getModel('Magento\CatalogEvent\Model\Event')->getCollection();
         if ($categoryIds !== null) {
             $collection->addFieldToFilter('category_id',
                 array(

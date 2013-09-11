@@ -33,7 +33,7 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
     {
          if (!$this->hasItemCollection()) {
              $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
-             $collection = \Mage::getModel('\Magento\GiftRegistry\Model\Item')->getCollection()
+             $collection = \Mage::getModel('Magento\GiftRegistry\Model\Item')->getCollection()
                 ->addRegistryFilter($this->getEntity()->getId());
             $this->setData('item_collection', $collection);
         }

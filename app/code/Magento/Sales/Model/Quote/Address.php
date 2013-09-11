@@ -303,7 +303,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      */
     public function exportCustomerAddress()
     {
-        $address = \Mage::getModel('\Magento\Customer\Model\Address');
+        $address = \Mage::getModel('Magento\Customer\Model\Address');
         \Mage::helper('Magento\Core\Helper\Data')
             ->copyFieldset('sales_convert_quote_address', 'to_customer_address', $this, $address);
         return $address;
@@ -353,7 +353,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     public function getItemsCollection()
     {
         if (null === $this->_items) {
-            $this->_items = \Mage::getModel('\Magento\Sales\Model\Quote\Address\Item')->getCollection()
+            $this->_items = \Mage::getModel('Magento\Sales\Model\Quote\Address\Item')->getCollection()
                 ->setAddressFilter($this->getId());
 
             if ($this->getId()) {
@@ -615,14 +615,14 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             if ($item->getParentItemId()) {
                 return $this;
             }
-            $addressItem = \Mage::getModel('\Magento\Sales\Model\Quote\Address\Item')
+            $addressItem = \Mage::getModel('Magento\Sales\Model\Quote\Address\Item')
                 ->setAddress($this)
                 ->importQuoteItem($item);
             $this->getItemsCollection()->addItem($addressItem);
 
             if ($item->getHasChildren()) {
                 foreach ($item->getChildren() as $child) {
-                    $addressChildItem = \Mage::getModel('\Magento\Sales\Model\Quote\Address\Item')
+                    $addressChildItem = \Mage::getModel('Magento\Sales\Model\Quote\Address\Item')
                         ->setAddress($this)
                         ->importQuoteItem($child)
                         ->setParentItem($addressItem);
@@ -651,7 +651,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     public function getShippingRatesCollection()
     {
         if (null === $this->_rates) {
-            $this->_rates = \Mage::getModel('\Magento\Sales\Model\Quote\Address\Rate')->getCollection()
+            $this->_rates = \Mage::getModel('Magento\Sales\Model\Quote\Address\Rate')->getCollection()
                 ->setAddressFilter($this->getId());
             if ($this->getQuote()->hasNominalItems(false)) {
                 $this->_rates->setFixedOnlyFilter(true);
@@ -819,7 +819,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     public function requestShippingRates(\Magento\Sales\Model\Quote\Item\AbstractItem $item = null)
     {
         /** @var $request \Magento\Shipping\Model\Rate\Request */
-        $request = \Mage::getModel('\Magento\Shipping\Model\Rate\Request');
+        $request = \Mage::getModel('Magento\Shipping\Model\Rate\Request');
         $request->setAllItems($item ? array($item) : $this->getAllItems());
         $request->setDestCountryId($this->getCountryId());
         $request->setDestRegionId($this->getRegionId());
@@ -863,14 +863,14 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
 
         $request->setBaseSubtotalInclTax($this->getBaseSubtotalInclTax());
 
-        $result = \Mage::getModel('\Magento\Shipping\Model\Shipping')->collectRates($request)->getResult();
+        $result = \Mage::getModel('Magento\Shipping\Model\Shipping')->collectRates($request)->getResult();
 
         $found = false;
         if ($result) {
             $shippingRates = $result->getAllRates();
 
             foreach ($shippingRates as $shippingRate) {
-                $rate = \Mage::getModel('\Magento\Sales\Model\Quote\Address\Rate')
+                $rate = \Mage::getModel('Magento\Sales\Model\Quote\Address\Rate')
                     ->importShippingRate($shippingRate);
                 if (!$item) {
                     $this->addShippingRate($rate);
@@ -949,7 +949,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     public function addTotal($total)
     {
         if (is_array($total)) {
-            $totalInstance = \Mage::getModel('\Magento\Sales\Model\Quote\Address\Total')->setData($total);
+            $totalInstance = \Mage::getModel('Magento\Sales\Model\Quote\Address\Total')->setData($total);
         } elseif ($total instanceof Magento_Sales_Model_Quote_Total) {
             $totalInstance = $total;
         }

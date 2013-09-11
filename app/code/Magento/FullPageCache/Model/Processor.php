@@ -502,7 +502,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
 
             if ($this->_environment->hasQuery(\Magento\Core\Model\Session\AbstractSession::SESSION_ID_QUERY_PARAM)) {
                 \Mage::getSingleton('Magento\FullPageCache\Model\Cookie')->updateCustomerCookies();
-                \Mage::getModel('\Magento\FullPageCache\Model\Observer')->updateCustomerProductIndex();
+                \Mage::getModel('Magento\FullPageCache\Model\Observer')->updateCustomerProductIndex();
             }
         }
         return $this;

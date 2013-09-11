@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Catalog_Product_EditTest extends PHPUnit_Framework
         $product->expects($this->any())->method('getAttributes')->will($this->returnValue(array()));
         $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
         Mage::register('current_product', $product);
-        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit');
+        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit');
     }
 
     public function testGetTypeSwitcherData()

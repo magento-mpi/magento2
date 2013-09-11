@@ -40,7 +40,7 @@ class Magento_ImportExport_Model_Resource_CollectionByPagesIteratorTest extends 
         /** @var $callbackMock PHPUnit_Framework_MockObject_MockObject */
         $callbackMock = $this->getMock('stdClass', array('callback'));
 
-        $fetchStrategy = $this->getMockForAbstractClass('\Magento\Data\Collection\Db\FetchStrategyInterface');
+        $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
 
         $select = $this->getMock('Zend_Db_Select', array(), array(), '', false);
 

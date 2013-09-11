@@ -132,7 +132,7 @@ class Messages extends \Magento\Core\Block\Template
     public function getMessageCollection()
     {
         if (!($this->_messages instanceof \Magento\Core\Model\Message\Collection)) {
-            $this->_messages = \Mage::getModel('\Magento\Core\Model\Message\Collection');
+            $this->_messages = \Mage::getModel('Magento\Core\Model\Message\Collection');
         }
         return $this->_messages;
     }

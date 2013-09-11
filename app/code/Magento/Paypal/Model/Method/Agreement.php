@@ -58,7 +58,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AgreementAbs
         if ($proInstance && ($proInstance instanceof \Magento\Paypal\Model\Pro)) {
             $this->_pro = $proInstance;
         } else {
-            $this->_pro = \Mage::getModel('\Magento\Paypal\Model\Pro');
+            $this->_pro = \Mage::getModel('Magento\Paypal\Model\Pro');
         }
         $this->_pro->setMethod($this->_code);
     }
@@ -280,7 +280,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AgreementAbs
     protected function _placeOrder(\Magento\Sales\Model\Order\Payment $payment, $amount)
     {
         $order = $payment->getOrder();
-        $billingAgreement = \Mage::getModel('\Magento\Sales\Model\Billing\Agreement')->load(
+        $billingAgreement = \Mage::getModel('Magento\Sales\Model\Billing\Agreement')->load(
             $payment->getAdditionalInformation(
                 \Magento\Sales\Model\Payment\Method\Billing\AgreementAbstract::TRANSPORT_BILLING_AGREEMENT_ID
             )
@@ -292,7 +292,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AgreementAbs
             ->setPaymentAction($this->_pro->getConfig()->paymentAction)
             ->setAmount($amount)
             ->setNotifyUrl(\Mage::getUrl('paypal/ipn/'))
-            ->setPaypalCart(\Mage::getModel('\Magento\Paypal\Model\Cart', $parameters))
+            ->setPaypalCart(\Mage::getModel('Magento\Paypal\Model\Cart', $parameters))
             ->setIsLineItemsEnabled($this->_pro->getConfig()->lineItemsEnabled)
             ->setInvNum($order->getIncrementId())
         ;

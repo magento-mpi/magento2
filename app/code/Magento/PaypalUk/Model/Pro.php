@@ -95,7 +95,7 @@ class Pro extends \Magento\Paypal\Model\Pro
         $payment->setPreparedMessage(
             __('Payflow PNREF: #%1.', $api->getTransactionId())
         );
-        \Mage::getModel('\Magento\Paypal\Model\Info')->importToPayment($api, $payment);
+        \Mage::getModel('Magento\Paypal\Model\Info')->importToPayment($api, $payment);
     }
 
     /**
@@ -132,6 +132,6 @@ class Pro extends \Magento\Paypal\Model\Pro
         $payment->setPreparedMessage(
             __('Payflow PNREF: #%1.', $api->getTransactionId())
         );
-        \Mage::getModel('\Magento\Paypal\Model\Info')->importToPayment($api, $payment);
+        \Mage::getModel('Magento\Paypal\Model\Info')->importToPayment($api, $payment);
     }
 }

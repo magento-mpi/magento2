@@ -20,7 +20,7 @@ $filesystem->setIsAllowCreateDirectories(true);
 $filesystem->copy(dirname(__FILE__) . '/magento_image_sitemap.png', $baseTmpMediaPath . '/magento_image_sitemap.png');
 $filesystem->copy(dirname(__FILE__) . '/second_image.png', $baseTmpMediaPath . '/second_image.png');
 
-$product = Mage::getModel('\Magento\Catalog\Model\Product');
+$product = Mage::getModel('Magento\Catalog\Model\Product');
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(1)
     ->setAttributeSetId(4)
@@ -33,7 +33,7 @@ $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setStockData(array('qty' => 100, 'is_in_stock' => 1))
     ->save();
 
-$product = Mage::getModel('\Magento\Catalog\Model\Product');
+$product = Mage::getModel('Magento\Catalog\Model\Product');
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(2)
     ->setAttributeSetId(4)
@@ -47,7 +47,7 @@ $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setRelatedLinkData(array(1 => array('position' => 1)))
     ->save();
 
-$product = Mage::getModel('\Magento\Catalog\Model\Product');
+$product = Mage::getModel('Magento\Catalog\Model\Product');
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(3)
     ->setAttributeSetId(4)
@@ -61,7 +61,7 @@ $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setRelatedLinkData(array(1 => array('position' => 1)))
     ->save();
 
-$product = Mage::getModel('\Magento\Catalog\Model\Product');
+$product = Mage::getModel('Magento\Catalog\Model\Product');
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(4)
     ->setAttributeSetId(4)
@@ -80,7 +80,7 @@ $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setRelatedLinkData(array(1 => array('position' => 1)))
     ->save();
 
-$product = Mage::getModel('\Magento\Catalog\Model\Product');
+$product = Mage::getModel('Magento\Catalog\Model\Product');
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(5)
     ->setAttributeSetId(4)

@@ -27,8 +27,8 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
      */
     public function testExport()
     {
-        $customerFinance = Mage::getModel('\Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance');
-        $customerFinance->setWriter(Mage::getModel('\Magento\ImportExport\Model\Export\Adapter\Csv'));
+        $customerFinance = Mage::getModel('Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance');
+        $customerFinance->setWriter(Mage::getModel('Magento\ImportExport\Model\Export\Adapter\Csv'));
         $customerFinance->setParameters(array());
         $csvExportString = $customerFinance->export();
 
@@ -81,7 +81,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
      */
     public function testGetAttributeCollection()
     {
-        $customerFinance = Mage::getModel('\Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance');
+        $customerFinance = Mage::getModel('Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance');
         $attributeCollection = $customerFinance->getAttributeCollection();
 
         $this->assertInstanceOf(

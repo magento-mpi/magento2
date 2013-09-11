@@ -58,7 +58,7 @@ class Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('\Magento\Reward\Model\Reward')
+        $collection = \Mage::getModel('Magento\Reward\Model\Reward')
             ->getCollection()
             ->addFieldToFilter('customer_id', $this->getCustomer()->getId());
         $this->setCollection($collection);
@@ -114,7 +114,7 @@ class Grid
                 'index'    => 'website_id',
                 'sortable' => false,
                 'type'     => 'options',
-                'options'  => \Mage::getModel('\Magento\Reward\Model\Source\Website')->toOptionArray(false)
+                'options'  => \Mage::getModel('Magento\Reward\Model\Source\Website')->toOptionArray(false)
             ));
         }
 
@@ -170,7 +170,7 @@ class Grid
     {
         $html = parent::_afterToHtml($html);
         if ($this->_customerHasOrphanPoints) {
-            $deleteOrhanPointsButton = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+            $deleteOrhanPointsButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(array(
                     'label'     => __('Delete Orphan Points'),
                     'onclick'   => 'setLocation(\'' . $this->getDeleteOrphanPointsUrl() .'\')',

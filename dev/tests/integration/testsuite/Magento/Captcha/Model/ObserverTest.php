@@ -53,7 +53,7 @@ class Magento_Captcha_Model_ObserverTest extends Magento_TestFramework_TestCase_
         $captchaModel = Mage::helper('Magento\Captcha\Helper\Data')->getCaptcha('backend_login');
 
         try {
-            $authModel = Mage::getModel('\Magento\Backend\Model\Auth');
+            $authModel = Mage::getModel('Magento\Backend\Model\Auth');
             $authModel->login(
                 Magento_TestFramework_Bootstrap::ADMIN_NAME,
                 'wrong_password'

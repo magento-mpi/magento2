@@ -34,8 +34,8 @@
             <ul class="note-list">
             <?php foreach ($this->getComments() as $_item): ?>
                 <li>
-                    <span class="note-list-date"><?php echo $this->helper('\Magento\Core\Helper\Data')->formatDate($_item->getCreatedAt(), 'medium') ?></span>
-                    <span class="note-list-time"><?php echo $this->helper('\Magento\Core\Helper\Data')->formatTime($_item->getCreatedAt(), 'medium') ?></span>
+                    <span class="note-list-date"><?php echo $this->helper('Magento\Core\Helper\Data')->formatDate($_item->getCreatedAt(), 'medium') ?></span>
+                    <span class="note-list-time"><?php echo $this->helper('Magento\Core\Helper\Data')->formatTime($_item->getCreatedAt(), 'medium') ?></span>
                     <?php if ($_item->getIsAdmin()): ?>
                         <span class="note-list-status"><?php echo __('Customer Service')?></span>
                     <?php else: ?>

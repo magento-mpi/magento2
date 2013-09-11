@@ -34,7 +34,7 @@ class Form extends \Magento\Adminhtml\Block\Report\Filter\Form
 
         if (is_object($fieldset) && $fieldset instanceof \Magento\Data\Form\Element\Fieldset) {
 
-            $statuses = \Mage::getModel('\Magento\Sales\Model\Order\Config')->getStatuses();
+            $statuses = \Mage::getModel('Magento\Sales\Model\Order\Config')->getStatuses();
             $values = array();
             foreach ($statuses as $code => $label) {
                 if (false === strpos($code, 'pending')) {
@@ -65,7 +65,7 @@ class Form extends \Magento\Adminhtml\Block\Report\Filter\Form
             if ($this->getFieldVisibility('show_order_statuses') && $this->getFieldVisibility('order_statuses')) {
                 $this->setChild(
                     'form_after',
-                    $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Form\Element\Dependence')
+                    $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Form\Element\Dependence')
                         ->addFieldMap("{$htmlIdPrefix}show_order_statuses", 'show_order_statuses')
                         ->addFieldMap("{$htmlIdPrefix}order_statuses", 'order_statuses')
                         ->addFieldDependence('order_statuses', 'show_order_statuses', '1')

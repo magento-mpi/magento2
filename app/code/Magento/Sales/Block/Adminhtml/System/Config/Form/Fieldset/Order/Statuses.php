@@ -36,7 +36,7 @@ class Statuses
     {
         $html = '';
 
-        $statuses = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Status\Collection')->load()->toOptionHash();
+        $statuses = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Status\Collection')->load()->toOptionHash();
 
         foreach ($statuses as $id => $status) {
             $html.= $this->_getFieldHtml($element, $id, $status);
@@ -61,7 +61,7 @@ class Statuses
     protected function _getFieldRenderer()
     {
         if (empty($this->_fieldRenderer)) {
-            $this->_fieldRenderer = \Mage::getBlockSingleton('\Magento\Backend\Block\System\Config\Form\Field');
+            $this->_fieldRenderer = \Mage::getBlockSingleton('Magento\Backend\Block\System\Config\Form\Field');
         }
         return $this->_fieldRenderer;
     }

@@ -24,7 +24,7 @@ class Widget extends \Magento\Backend\Block\Template
     public function getId()
     {
         if (null === $this->getData('id')) {
-            $this->setData('id', $this->helper('\Magento\Core\Helper\Data')->uniqHash('id_'));
+            $this->setData('id', $this->helper('Magento\Core\Helper\Data')->uniqHash('id_'));
         }
         return $this->getData('id');
     }
@@ -76,7 +76,7 @@ class Widget extends \Magento\Backend\Block\Template
      */
     public function getButtonHtml($label, $onclick, $class = '', $buttonId = null, $dataAttr = array())
     {
-        return $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button')
+        return $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
             ->setData(array(
                 'label'     => $label,
                 'onclick'   => $onclick,

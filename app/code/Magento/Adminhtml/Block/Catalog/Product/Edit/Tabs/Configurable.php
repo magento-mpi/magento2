@@ -29,7 +29,7 @@ class Configurable extends \Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs
         $this->addTab('super_settings', array(
             'label'     => __('Configurable Product Settings'),
             'content'   => $this->getLayout()
-                ->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Settings')
+                ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Settings')
                 ->toHtml(),
             'active'    => true
         ));

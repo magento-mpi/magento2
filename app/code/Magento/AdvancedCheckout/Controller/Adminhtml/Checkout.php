@@ -53,7 +53,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
     protected function _initData($useRedirects = true)
     {
         $customerId = $this->getRequest()->getParam('customer');
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($customerId);
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($customerId);
         if (!$customer->getId()) {
             throw new \Magento\AdvancedCheckout\Exception(__('Customer not found'));
         }
@@ -105,7 +105,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         if ($quote->getId()) {
             $quoteCurrencyCode = $quote->getData('quote_currency_code');
             if ($quoteCurrencyCode != \Mage::app()->getStore($storeId)->getCurrentCurrencyCode()) {
-                $quoteCurrency = \Mage::getModel('\Magento\Directory\Model\Currency')->load($quoteCurrencyCode);
+                $quoteCurrency = \Mage::getModel('Magento\Directory\Model\Currency')->load($quoteCurrencyCode);
                 $quote->setForcedCurrency($quoteCurrency);
                 \Mage::app()->getStore($storeId)->setCurrentCurrencyCode($quoteCurrency->getCode());
             }
@@ -216,7 +216,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
             // Reorder products
             if (isset($source['source_ordered']) && is_array($source['source_ordered'])) {
                 foreach ($source['source_ordered'] as $orderItemId => $qty) {
-                    $orderItem = \Mage::getModel('\Magento\Sales\Model\Order\Item')->load($orderItemId);
+                    $orderItem = \Mage::getModel('Magento\Sales\Model\Order\Item')->load($orderItemId);
                     $cart->reorderItem($orderItem, $qty);
                 }
                 unset($source['source_ordered']);
@@ -238,7 +238,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
 
             // Remove items from wishlist
             if (isset($source['source_wishlist']) && is_array($source['source_wishlist'])) {
-                $wishlist = \Mage::getModel('\Magento\Wishlist\Model\Wishlist')->loadByCustomer($customer)
+                $wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist')->loadByCustomer($customer)
                     ->setStore($store)
                     ->setSharedStoreIds($store->getWebsite()->getStoreIds());
                 if ($wishlist->getId()) {
@@ -248,7 +248,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
                     }
                     foreach ($source['source_wishlist'] as $productId => $qty) {
                         if (in_array($productId, $quoteProductIds)) {
-                            $wishlistItem = \Mage::getModel('\Magento\Wishlist\Model\Item')->loadByProductWishlist(
+                            $wishlistItem = \Mage::getModel('Magento\Wishlist\Model\Item')->loadByProductWishlist(
                                 $wishlist->getId(),
                                 $productId,
                                 $wishlist->getSharedStoreIds()
@@ -480,7 +480,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
                 \Mage::throwException(__('The wish list item id is not received.'));
             }
 
-            $item = \Mage::getModel('\Magento\Wishlist\Model\Item')
+            $item = \Mage::getModel('Magento\Wishlist\Model\Item')
                 ->loadWithOptions($itemId, 'info_buyRequest');
             if (!$item->getId()) {
                 \Mage::throwException(__('The wish list item is not loaded.'));
@@ -525,7 +525,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
                 \Mage::throwException(__('Ordered item id is not received.'));
             }
 
-            $item = \Mage::getModel('\Magento\Sales\Model\Order\Item')
+            $item = \Mage::getModel('Magento\Sales\Model\Order\Item')
                 ->load($itemId);
             if (!$item->getId()) {
                 \Mage::throwException(__('Ordered item is not loaded.'));
@@ -607,13 +607,13 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
                 \Mage::throwException(__('Quote item id is not received.'));
             }
 
-            $quoteItem = \Mage::getModel('\Magento\Sales\Model\Quote\Item')->load($quoteItemId);
+            $quoteItem = \Mage::getModel('Magento\Sales\Model\Quote\Item')->load($quoteItemId);
             if (!$quoteItem->getId()) {
                 \Mage::throwException(__('Quote item is not loaded.'));
             }
 
             $configureResult->setOk(true);
-            $optionCollection = \Mage::getModel('\Magento\Sales\Model\Quote\Item\Option')->getCollection()
+            $optionCollection = \Mage::getModel('Magento\Sales\Model\Quote\Item\Option')->getCollection()
                     ->addItemFilter(array($quoteItemId));
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
 
@@ -717,7 +717,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         $buyRequest = new \Magento\Object();
         switch ($listType) {
             case 'wishlist':
-                $item = \Mage::getModel('\Magento\Wishlist\Model\Item')
+                $item = \Mage::getModel('Magento\Wishlist\Model\Item')
                     ->loadWithOptions($itemId, 'info_buyRequest');
                 if ($item->getId()) {
                     $productId = $item->getProductId();
@@ -725,7 +725,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
                 }
                 break;
             case 'ordered':
-                $item = \Mage::getModel('\Magento\Sales\Model\Order\Item')
+                $item = \Mage::getModel('Magento\Sales\Model\Order\Item')
                     ->load($itemId);
                 if ($item->getId()) {
                     $productId = $item->getProductId();

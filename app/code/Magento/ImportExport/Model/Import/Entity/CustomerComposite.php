@@ -150,7 +150,7 @@ class CustomerComposite
                 'entity_type' => \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COMPONENT_ENTITY_CUSTOMER,
             );
             $this->_dataSourceModels['customer']
-                = \Mage::getResourceModel('\Magento\ImportExport\Model\Resource\Import\CustomerComposite\Data',
+                = \Mage::getResourceModel('Magento\ImportExport\Model\Resource\Import\CustomerComposite\Data',
                     array('arguments' => $arguments)
                 );
         }
@@ -158,7 +158,7 @@ class CustomerComposite
             $this->_customerEntity = $data['customer_entity'];
         } else {
             $data['data_source_model'] = $this->_dataSourceModels['customer'];
-            $this->_customerEntity = \Mage::getModel('\Magento\ImportExport\Model\Import\Entity\Eav\Customer',
+            $this->_customerEntity = \Mage::getModel('Magento\ImportExport\Model\Import\Entity\Eav\Customer',
                 array('data' => $data));
             unset($data['data_source_model']);
         }
@@ -173,7 +173,7 @@ class CustomerComposite
                 'customer_attributes' => $this->_customerAttributes
             );
             $this->_dataSourceModels['address']
-                = \Mage::getResourceModel('\Magento\ImportExport\Model\Resource\Import\CustomerComposite\Data',
+                = \Mage::getResourceModel('Magento\ImportExport\Model\Resource\Import\CustomerComposite\Data',
                     array('arguments' => $arguments)
                 );
         }
@@ -182,7 +182,7 @@ class CustomerComposite
         } else {
             $data['data_source_model'] = $this->_dataSourceModels['address'];
             $this->_addressEntity
-                = \Mage::getModel('\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address',
+                = \Mage::getModel('Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address',
                     array('data' => $data));
             unset($data['data_source_model']);
         }

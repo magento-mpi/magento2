@@ -34,7 +34,7 @@ class Login extends \Magento\Core\Block\Template
      */
     public function getPostActionUrl()
     {
-        return $this->helper('\Magento\Customer\Helper\Data')->getLoginPostUrl();
+        return $this->helper('Magento\Customer\Helper\Data')->getLoginPostUrl();
     }
 
     /**
@@ -46,7 +46,7 @@ class Login extends \Magento\Core\Block\Template
     {
         $url = $this->getData('create_account_url');
         if (is_null($url)) {
-            $url = $this->helper('\Magento\Customer\Helper\Data')->getRegisterUrl();
+            $url = $this->helper('Magento\Customer\Helper\Data')->getRegisterUrl();
         }
         return $url;
     }
@@ -58,7 +58,7 @@ class Login extends \Magento\Core\Block\Template
      */
     public function getForgotPasswordUrl()
     {
-        return $this->helper('\Magento\Customer\Helper\Data')->getForgotPasswordUrl();
+        return $this->helper('Magento\Customer\Helper\Data')->getForgotPasswordUrl();
     }
 
     /**

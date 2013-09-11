@@ -30,7 +30,7 @@ class Active
     {
         parent::_afterSave();
         if ($this->isValueChanged() && !$this->getValue()) {
-            \Mage::getModel('\Magento\SalesArchive\Model\Archive')->removeOrdersFromArchive();
+            \Mage::getModel('Magento\SalesArchive\Model\Archive')->removeOrdersFromArchive();
         }
         return $this;
     }
@@ -44,7 +44,7 @@ class Active
     public function getCommentText($currentValue)
     {
         if ($currentValue) {
-            $ordersCount = \Mage::getResourceSingleton('\Magento\SalesArchive\Model\Resource\Order\Collection')
+            $ordersCount = \Mage::getResourceSingleton('Magento\SalesArchive\Model\Resource\Order\Collection')
                 ->getSize();
             if ($ordersCount) {
                 return __('There are %1 orders in this archive. All of them will be moved to the regular table after the archive is disabled.', $ordersCount);

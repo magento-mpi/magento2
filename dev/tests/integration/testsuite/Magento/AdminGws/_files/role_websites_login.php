@@ -14,7 +14,7 @@ if (!isset($scope)) {
 }
 
 /** @var $role \Magento\User\Model\Role */
-$role = Mage::getModel('\Magento\User\Model\Role');
+$role = Mage::getModel('Magento\User\Model\Role');
 $role->setName('admingws_role')
     ->setGwsIsAll(0)
     ->setRoleType('G')
@@ -27,12 +27,12 @@ if ('websites' == $scope) {
 $role->save();
 
 /** @var $rule \Magento\User\Model\Rules */
-$rule = Mage::getModel('\Magento\User\Model\Rules');
+$rule = Mage::getModel('Magento\User\Model\Rules');
 $rule->setRoleId($role->getId())
     ->setResources(array('Magento_Adminhtml::all'))
     ->saveRel();
 
-$user = Mage::getModel('\Magento\User\Model\User');
+$user = Mage::getModel('Magento\User\Model\User');
 $user->setData(array(
     'firstname' => 'firstname',
     'lastname'  => 'lastname',

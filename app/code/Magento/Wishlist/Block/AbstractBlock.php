@@ -380,7 +380,7 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
         if (is_object($buyRequest)) {
             $config = $buyRequest->getSuperProductConfig();
             if ($config && !empty($config['product_id'])) {
-                $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+                $product = \Mage::getModel('Magento\Catalog\Model\Product')
                     ->setStoreId(\Mage::app()->getStore()->getStoreId())
                     ->load($config['product_id']);
             }
@@ -396,7 +396,7 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
      */
     public function getImageUrl($product)
     {
-        return (string)$this->helper('\Magento\Catalog\Helper\Image')->init($product, 'small_image')
+        return (string)$this->helper('Magento\Catalog\Helper\Image')->init($product, 'small_image')
             ->resize($this->getImageSize());
     }
 

@@ -121,7 +121,7 @@ class Type extends \Magento\Core\Model\AbstractModel
      */
     protected function _getAttributeCollection()
     {
-        $collection = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute')->getCollection();
+        $collection = \Mage::getModel('Magento\Eav\Model\Entity\Attribute')->getCollection();
         $objectsModel = $this->getAttributeModel();
         if ($objectsModel) {
             $collection->setModel($objectsModel);
@@ -138,7 +138,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     public function getAttributeSetCollection()
     {
         if (empty($this->_sets)) {
-            $this->_sets = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')->getResourceCollection()
+            $this->_sets = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')->getResourceCollection()
                 ->setEntityTypeFilter($this->getId());
         }
         return $this->_sets;
@@ -166,7 +166,7 @@ class Type extends \Magento\Core\Model\AbstractModel
         // Start transaction to run SELECT ... FOR UPDATE
         $this->_getResource()->beginTransaction();
 
-        $entityStoreConfig = \Mage::getModel('\Magento\Eav\Model\Entity\Store')
+        $entityStoreConfig = \Mage::getModel('Magento\Eav\Model\Entity\Store')
             ->loadByEntityStore($this->getId(), $storeId);
 
         if (!$entityStoreConfig->getId()) {

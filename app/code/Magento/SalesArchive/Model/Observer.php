@@ -30,7 +30,7 @@ class Observer
 
     public function __construct()
     {
-        $this->_archive = \Mage::getModel('\Magento\SalesArchive\Model\Archive');
+        $this->_archive = \Mage::getModel('Magento\SalesArchive\Model\Archive');
         $this->_config  = \Mage::getSingleton('Magento\SalesArchive\Model\Config');
     }
 
@@ -137,7 +137,7 @@ class Observer
         $collectionSelect = $collection->getSelect();
         $cloneSelect = clone $collectionSelect;
 
-        $union = \Mage::getResourceModel('\Magento\SalesArchive\Model\Resource\Order\Collection')
+        $union = \Mage::getResourceModel('Magento\SalesArchive\Model\Resource\Order\Collection')
             ->getOrderGridArchiveSelect($cloneSelect);
 
         $unionParts = array($cloneSelect, $union);

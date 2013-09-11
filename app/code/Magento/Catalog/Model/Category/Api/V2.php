@@ -63,7 +63,7 @@ class V2 extends \Magento\Catalog\Model\Category\Api
         $parent_category = $this->_initCategory($parentId, $store);
 
         /* @var $category \Magento\Catalog\Model\Category */
-        $category = \Mage::getModel('\Magento\Catalog\Model\Category')
+        $category = \Mage::getModel('Magento\Catalog\Model\Category')
             ->setStoreId($this->_getStoreId($store));
 
         $category->addData(array('path'=>implode('/',$parent_category->getPathIds())));

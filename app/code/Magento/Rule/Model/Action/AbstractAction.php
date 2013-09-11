@@ -228,7 +228,7 @@ abstract class AbstractAction extends \Magento\Object implements \Magento\Rule\M
             'values' => $this->getAttributeSelectOptions(),
             'value' => $this->getAttribute(),
             'value_name' => $this->getAttributeName(),
-        ))->setRenderer(\Mage::getBlockSingleton('\Magento\Rule\Block\Editable'));
+        ))->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Editable'));
     }
 
     public function getOperatorElement()
@@ -238,7 +238,7 @@ abstract class AbstractAction extends \Magento\Object implements \Magento\Rule\M
             'values' => $this->getOperatorSelectOptions(),
             'value' => $this->getOperator(),
             'value_name' => $this->getOperatorName(),
-        ))->setRenderer(\Mage::getBlockSingleton('\Magento\Rule\Block\Editable'));
+        ))->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Editable'));
     }
 
     public function getValueElement()
@@ -247,7 +247,7 @@ abstract class AbstractAction extends \Magento\Object implements \Magento\Rule\M
             'name' => 'rule[actions][' . $this->getId() . '][value]',
             'value' => $this->getValue(),
             'value_name' => $this->getValueName(),
-        ))->setRenderer(\Mage::getBlockSingleton('\Magento\Rule\Block\Editable'));
+        ))->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Editable'));
     }
 
     /**

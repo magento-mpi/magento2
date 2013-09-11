@@ -23,7 +23,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('\Magento\Checkout\Model\Agreement')
+        $collection = \Mage::getModel('Magento\Checkout\Model\Agreement')
             ->getCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();

@@ -9,7 +9,7 @@
  */
 
 /** @var \Magento\Customer\Model\Address $customerAddress */
-$customerAddress = Mage::getModel('\Magento\Customer\Model\Address');
+$customerAddress = Mage::getModel('Magento\Customer\Model\Address');
 $customerAddress->isObjectNew(true);
 $customerAddress->setCustomerId(1)
     ->setData(array(

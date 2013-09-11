@@ -85,7 +85,7 @@ class Observer
         }
 
         /* @var $resource \Magento\Bundle\Model\Resource\Selection */
-        $resource   = \Mage::getResourceSingleton('\Magento\Bundle\Model\Resource\Selection');
+        $resource   = \Mage::getResourceSingleton('Magento\Bundle\Model\Resource\Selection');
 
         $productIds = array_keys($collection->getItems());
         if (!is_null($limit) && $limit <= count($productIds)) {

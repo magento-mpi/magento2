@@ -101,7 +101,7 @@ class Observer
                 continue;
             }
             try {
-                $collection = \Mage::getModel('\Magento\ProductAlert\Model\Price')
+                $collection = \Mage::getModel('Magento\ProductAlert\Model\Price')
                     ->getCollection()
                     ->addWebsiteFilter($website->getId())
                     ->setCustomerOrder();
@@ -116,7 +116,7 @@ class Observer
             foreach ($collection as $alert) {
                 try {
                     if (!$previousCustomer || $previousCustomer->getId() != $alert->getCustomerId()) {
-                        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($alert->getCustomerId());
+                        $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($alert->getCustomerId());
                         if ($previousCustomer) {
                             $email->send();
                         }
@@ -131,7 +131,7 @@ class Observer
                         $customer = $previousCustomer;
                     }
 
-                    $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+                    $product = \Mage::getModel('Magento\Catalog\Model\Product')
                         ->setStoreId($website->getDefaultStore()->getId())
                         ->load($alert->getProductId());
                     if (!$product) {
@@ -145,7 +145,7 @@ class Observer
                         $email->addPriceProduct($product);
 
                         $alert->setPrice($productPrice);
-                        $alert->setLastSendDate(\Mage::getModel('\Magento\Core\Model\Date')->gmtDate());
+                        $alert->setLastSendDate(\Mage::getModel('Magento\Core\Model\Date')->gmtDate());
                         $alert->setSendCount($alert->getSendCount() + 1);
                         $alert->setStatus(1);
                         $alert->save();
@@ -190,7 +190,7 @@ class Observer
                 continue;
             }
             try {
-                $collection = \Mage::getModel('\Magento\ProductAlert\Model\Stock')
+                $collection = \Mage::getModel('Magento\ProductAlert\Model\Stock')
                     ->getCollection()
                     ->addWebsiteFilter($website->getId())
                     ->addStatusFilter(0)
@@ -206,7 +206,7 @@ class Observer
             foreach ($collection as $alert) {
                 try {
                     if (!$previousCustomer || $previousCustomer->getId() != $alert->getCustomerId()) {
-                        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($alert->getCustomerId());
+                        $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($alert->getCustomerId());
                         if ($previousCustomer) {
                             $email->send();
                         }
@@ -221,7 +221,7 @@ class Observer
                         $customer = $previousCustomer;
                     }
 
-                    $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+                    $product = \Mage::getModel('Magento\Catalog\Model\Product')
                         ->setStoreId($website->getDefaultStore()->getId())
                         ->load($alert->getProductId());
                     /* @var $product \Magento\Catalog\Model\Product */
@@ -234,7 +234,7 @@ class Observer
                     if ($product->isSalable()) {
                         $email->addStockProduct($product);
 
-                        $alert->setSendDate(\Mage::getModel('\Magento\Core\Model\Date')->gmtDate());
+                        $alert->setSendDate(\Mage::getModel('Magento\Core\Model\Date')->gmtDate());
                         $alert->setSendCount($alert->getSendCount() + 1);
                         $alert->setStatus(1);
                         $alert->save();
@@ -274,7 +274,7 @@ class Observer
             /* @var $translate \Magento\Core\Model\Translate */
             $translate->setTranslateInline(false);
 
-            $emailTemplate = \Mage::getModel('\Magento\Core\Model\Email\Template');
+            $emailTemplate = \Mage::getModel('Magento\Core\Model\Email\Template');
             /* @var $emailTemplate \Magento\Core\Model\Email\Template */
             $emailTemplate->setDesignConfig(array('area'  => 'backend'))
                 ->sendTransactional(
@@ -298,7 +298,7 @@ class Observer
      */
     public function process()
     {
-        $email = \Mage::getModel('\Magento\ProductAlert\Model\Email');
+        $email = \Mage::getModel('Magento\ProductAlert\Model\Email');
         /* @var $email \Magento\ProductAlert\Model\Email */
         $this->_processPrice($email);
         $this->_processStock($email);

@@ -101,10 +101,10 @@ class Update
             || \Mage::app()->hasSingleStore()
             || $customer->getSharingConfig()->isGlobalScope())
         {
-            return \Mage::getModel('\Magento\Core\Model\System\Store')->getStoreValuesForForm();
+            return \Mage::getModel('Magento\Core\Model\System\Store')->getStoreValuesForForm();
         }
 
-        $stores = \Mage::getModel('\Magento\Core\Model\System\Store')
+        $stores = \Mage::getModel('Magento\Core\Model\System\Store')
             ->getStoresStructure(false, array(), array(), array($customer->getWebsiteId()));
         $values = array();
 

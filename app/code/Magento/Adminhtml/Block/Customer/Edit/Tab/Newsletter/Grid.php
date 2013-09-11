@@ -41,7 +41,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareCollection()
     {
         /** @var $collection \Magento\Newsletter\Model\Resource\Queue\Collection */
-        $collection = \Mage::getResourceModel('\Magento\Newsletter\Model\Resource\Queue\Collection')
+        $collection = \Mage::getResourceModel('Magento\Newsletter\Model\Resource\Queue\Collection')
             ->addTemplateInfo()
             ->addSubscriberFilter(\Mage::registry('subscriber')->getId());
 

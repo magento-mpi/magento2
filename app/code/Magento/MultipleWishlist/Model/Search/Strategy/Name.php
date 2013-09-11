@@ -63,7 +63,7 @@ class Name implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyIn
     public function filterCollection(\Magento\Wishlist\Model\Resource\Wishlist\Collection $collection)
     {
         /* @var $customers \Magento\Customer\Model\Resource\Customer\Collection */
-        $customers = \Mage::getModel('\Magento\Customer\Model\Customer')->getCollection()
+        $customers = \Mage::getModel('Magento\Customer\Model\Customer')->getCollection()
             ->addAttributeToFilter(
                 array(array('attribute' => 'firstname', 'like' => '%'.$this->_firstname.'%'))
             )

@@ -85,7 +85,7 @@ class Product extends \Magento\Adminhtml\Block\Widget
      */
     public function getPositionBehaviorOptions()
     {
-        return \Mage::getModel('\Magento\TargetRule\Model\Source\Position')->toOptionArray();
+        return \Mage::getModel('Magento\TargetRule\Model\Source\Position')->toOptionArray();
     }
 
     /**

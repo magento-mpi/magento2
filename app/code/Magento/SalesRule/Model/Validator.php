@@ -79,7 +79,7 @@ class Validator extends \Magento\Core\Model\AbstractModel
 
         $key = $websiteId . '_' . $customerGroupId . '_' . $couponCode;
         if (!isset($this->_rules[$key])) {
-            $this->_rules[$key] = \Mage::getResourceModel('\Magento\SalesRule\Model\Resource\Rule\Collection')
+            $this->_rules[$key] = \Mage::getResourceModel('Magento\SalesRule\Model\Resource\Rule\Collection')
                 ->setValidationFilter($websiteId, $customerGroupId, $couponCode)
                 ->load();
         }
@@ -116,7 +116,7 @@ class Validator extends \Magento\Core\Model\AbstractModel
         if ($rule->getCouponType() != \Magento\SalesRule\Model\Rule::COUPON_TYPE_NO_COUPON) {
             $couponCode = $address->getQuote()->getCouponCode();
             if (strlen($couponCode)) {
-                $coupon = \Mage::getModel('\Magento\SalesRule\Model\Coupon');
+                $coupon = \Mage::getModel('Magento\SalesRule\Model\Coupon');
                 $coupon->load($couponCode, 'code');
                 if ($coupon->getId()) {
                     // check entire usage limit
@@ -128,7 +128,7 @@ class Validator extends \Magento\Core\Model\AbstractModel
                     $customerId = $address->getQuote()->getCustomerId();
                     if ($customerId && $coupon->getUsagePerCustomer()) {
                         $couponUsage = new \Magento\Object();
-                        \Mage::getResourceModel('\Magento\SalesRule\Model\Resource\Coupon\Usage')->loadByCustomerCoupon(
+                        \Mage::getResourceModel('Magento\SalesRule\Model\Resource\Coupon\Usage')->loadByCustomerCoupon(
                             $couponUsage, $customerId, $coupon->getId());
                         if ($couponUsage->getCouponId() &&
                             $couponUsage->getTimesUsed() >= $coupon->getUsagePerCustomer()
@@ -147,7 +147,7 @@ class Validator extends \Magento\Core\Model\AbstractModel
         $ruleId = $rule->getId();
         if ($ruleId && $rule->getUsesPerCustomer()) {
             $customerId     = $address->getQuote()->getCustomerId();
-            $ruleCustomer   = \Mage::getModel('\Magento\SalesRule\Model\Rule\Customer');
+            $ruleCustomer   = \Mage::getModel('Magento\SalesRule\Model\Rule\Customer');
             $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
             if ($ruleCustomer->getId()) {
                 if ($ruleCustomer->getTimesUsed() >= $rule->getUsesPerCustomer()) {

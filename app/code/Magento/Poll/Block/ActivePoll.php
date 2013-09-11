@@ -50,7 +50,7 @@ class ActivePoll extends \Magento\Core\Block\Template
     protected function _construct()
     {
         parent::_construct();
-        $this->_pollModel = \Mage::getModel('\Magento\Poll\Model\Poll');
+        $this->_pollModel = \Mage::getModel('Magento\Poll\Model\Poll');
     }
 
     /**
@@ -139,7 +139,7 @@ class ActivePoll extends \Magento\Core\Block\Template
         }
         $poll = $this->_pollModel->load($pollId);
 
-        $pollAnswers = \Mage::getModel('\Magento\Poll\Model\Poll\Answer')
+        $pollAnswers = \Mage::getModel('Magento\Poll\Model\Poll\Answer')
             ->getResourceCollection()
             ->addPollFilter($pollId)
             ->load()

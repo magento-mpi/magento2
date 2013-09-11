@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_TreeTest extends PHPUn
         parent::setUp();
 
         $this->_treeBlock = Mage::app()->getLayout()
-            ->createBlock('\Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree');
+            ->createBlock('Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree');
     }
 
     /**

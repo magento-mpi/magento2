@@ -45,10 +45,10 @@ class Account extends \Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractF
     protected function _prepareForm()
     {
         /* @var $customerModel \Magento\Customer\Model\Customer */
-        $customerModel = \Mage::getModel('\Magento\Customer\Model\Customer');
+        $customerModel = \Mage::getModel('Magento\Customer\Model\Customer');
 
         /* @var $customerForm \Magento\Customer\Model\Form */
-        $customerForm   = \Mage::getModel('\Magento\Customer\Model\Form');
+        $customerForm   = \Mage::getModel('Magento\Customer\Model\Form');
         $customerForm->setFormCode('adminhtml_checkout')
             ->setStore($this->getStore())
             ->setEntity($customerModel);

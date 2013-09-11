@@ -728,7 +728,7 @@ abstract class AbstractMethod extends \Magento\Object
     protected function _debug($debugData)
     {
         if ($this->getDebugFlag()) {
-            \Mage::getModel('\Magento\Core\Model\Log\Adapter', array('fileName' => 'payment_' . $this->getCode() . '.log'))
+            \Mage::getModel('Magento\Core\Model\Log\Adapter', array('fileName' => 'payment_' . $this->getCode() . '.log'))
                ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
                ->log($debugData);
         }

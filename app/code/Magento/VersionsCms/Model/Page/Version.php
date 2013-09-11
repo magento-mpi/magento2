@@ -77,7 +77,7 @@ class Version extends \Magento\Core\Model\AbstractModel
     protected function _beforeSave()
     {
         if (!$this->getId()) {
-            $incrementNumber = \Mage::getModel('\Magento\VersionsCms\Model\Increment')
+            $incrementNumber = \Mage::getModel('Magento\VersionsCms\Model\Increment')
                 ->getNewIncrementId(\Magento\VersionsCms\Model\Increment::TYPE_PAGE,
                         $this->getPageId(), \Magento\VersionsCms\Model\Increment::LEVEL_VERSION);
 
@@ -122,7 +122,7 @@ class Version extends \Magento\Core\Model\AbstractModel
         // If this was a new version we should create initial revision for it
         // from specified revision or from latest for parent version
         if ($this->getOrigData($this->getIdFieldName()) != $this->getId()) {
-            $revision = \Mage::getModel('\Magento\VersionsCms\Model\Page\Revision');
+            $revision = \Mage::getModel('Magento\VersionsCms\Model\Page\Revision');
 
             // setting data for load
             $userId = $this->getUserId();
@@ -177,7 +177,7 @@ class Version extends \Magento\Core\Model\AbstractModel
      */
     protected function _afterDelete()
     {
-        \Mage::getResourceSingleton('\Magento\VersionsCms\Model\Resource\Increment')
+        \Mage::getResourceSingleton('Magento\VersionsCms\Model\Resource\Increment')
             ->cleanIncrementRecord(\Magento\VersionsCms\Model\Increment::TYPE_PAGE,
                 $this->getId(),
                 \Magento\VersionsCms\Model\Increment::LEVEL_REVISION);

@@ -47,13 +47,13 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
         $invoiceId = $this->getRequest()->getParam('invoice_id');
         $orderId = $this->getRequest()->getParam('order_id');
         if ($invoiceId) {
-            $invoice = \Mage::getModel('\Magento\Sales\Model\Order\Invoice')->load($invoiceId);
+            $invoice = \Mage::getModel('Magento\Sales\Model\Order\Invoice')->load($invoiceId);
             if (!$invoice->getId()) {
                 $this->_getSession()->addError(__('The invoice no longer exists.'));
                 return false;
             }
         } elseif ($orderId) {
-            $order = \Mage::getModel('\Magento\Sales\Model\Order')->load($orderId);
+            $order = \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
             /**
              * Check order existing
              */
@@ -69,7 +69,7 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
                 return false;
             }
             $savedQtys = $this->_getItemQtys();
-            $invoice = \Mage::getModel('\Magento\Sales\Model\Service\Order', array('order' => $order))
+            $invoice = \Mage::getModel('Magento\Sales\Model\Service\Order', array('order' => $order))
                 ->prepareInvoice($savedQtys);
             if (!$invoice->getTotalQty()) {
                 \Mage::throwException(__('Cannot create an invoice without products.'));
@@ -89,7 +89,7 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
     protected function _saveInvoice($invoice)
     {
         $invoice->getOrder()->setIsInProcess(true);
-        $transactionSave = \Mage::getModel('\Magento\Core\Model\Resource\Transaction')
+        $transactionSave = \Mage::getModel('Magento\Core\Model\Resource\Transaction')
             ->addObject($invoice)
             ->addObject($invoice->getOrder())
             ->save();
@@ -106,7 +106,7 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
     protected function _prepareShipment($invoice)
     {
         $savedQtys = $this->_getItemQtys();
-        $shipment = \Mage::getModel('\Magento\Sales\Model\Service\Order', array('order' => $invoice->getOrder()))
+        $shipment = \Mage::getModel('Magento\Sales\Model\Service\Order', array('order' => $invoice->getOrder()))
             ->prepareShipment($savedQtys);
         if (!$shipment->getTotalQty()) {
             return false;
@@ -117,7 +117,7 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
         $tracks = $this->getRequest()->getPost('tracking');
         if ($tracks) {
             foreach ($tracks as $data) {
-                $track = \Mage::getModel('\Magento\Sales\Model\Order\Shipment\Track')
+                $track = \Mage::getModel('Magento\Sales\Model\Order\Shipment\Track')
                     ->addData($data);
                 $shipment->addTrack($track);
             }
@@ -246,7 +246,7 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
                 $invoice->getOrder()->setCustomerNoteNotify(!empty($data['send_email']));
                 $invoice->getOrder()->setIsInProcess(true);
 
-                $transactionSave = \Mage::getModel('\Magento\Core\Model\Resource\Transaction')
+                $transactionSave = \Mage::getModel('Magento\Core\Model\Resource\Transaction')
                     ->addObject($invoice)
                     ->addObject($invoice->getOrder());
                 $shipment = false;

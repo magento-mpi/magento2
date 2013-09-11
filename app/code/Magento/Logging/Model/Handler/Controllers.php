@@ -84,7 +84,7 @@ class Controllers
         $request = \Mage::app()->getRequest();
         $postData = $request->getPost();
         $groupFieldsData = array();
-        $change = \Mage::getModel('\Magento\Logging\Model\Event\Changes');
+        $change = \Mage::getModel('Magento\Logging\Model\Event\Changes');
 
         //Collect skip encrypted fields
         /** @var \Magento\Backend\Model\Config\Structure $configStructure  */
@@ -249,7 +249,7 @@ class Controllers
 
         //Add log entry details
         if ($data) {
-            $change = \Mage::getModel('\Magento\Logging\Model\Event\Changes');
+            $change = \Mage::getModel('Magento\Logging\Model\Event\Changes');
             $processor->addEventChanges($change->setSourceName('params')
                 ->setOriginalData(array())
                 ->setResultData($data));
@@ -338,7 +338,7 @@ class Controllers
     public function postDispatchProductUpdateAttributes($config, $eventModel, $processor)
     {
         $request = \Mage::app()->getRequest();
-        $change = \Mage::getModel('\Magento\Logging\Model\Event\Changes');
+        $change = \Mage::getModel('Magento\Logging\Model\Event\Changes');
         $products = $request->getParam('product');
         if (!$products) {
             $products = \Mage::helper('Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute')->getProductIds();
@@ -535,7 +535,7 @@ class Controllers
     public function postDispatchSystemCurrencySave($config, $eventModel, $processor)
     {
         $request = \Mage::app()->getRequest();
-        $change = \Mage::getModel('\Magento\Logging\Model\Event\Changes');
+        $change = \Mage::getModel('Magento\Logging\Model\Event\Changes');
         $data = $request->getParam('rate');
         $values = array();
         if (!is_array($data)) {

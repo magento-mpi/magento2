@@ -21,12 +21,12 @@ class Magento_User_Model_Resource_Role_CollectionTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('\Magento\User\Model\Resource\Role\Collection');
+        $this->_collection = Mage::getResourceModel('Magento\User\Model\Resource\Role\Collection');
     }
 
     public function testSetUserFilter()
     {
-        $user = Mage::getModel('\Magento\User\Model\User');
+        $user = Mage::getModel('Magento\User\Model\User');
         $user->loadByUsername(Magento_TestFramework_Bootstrap::ADMIN_NAME);
         $this->_collection->setUserFilter($user->getId());
 

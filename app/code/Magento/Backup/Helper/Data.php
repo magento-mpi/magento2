@@ -285,7 +285,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function invalidateIndexer()
     {
-        foreach (\Mage::getResourceModel('\Magento\Index\Model\Resource\Process\Collection') as $process) {
+        foreach (\Mage::getResourceModel('Magento\Index\Model\Resource\Process\Collection') as $process) {
             $process->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
         }
         return $this;

@@ -123,7 +123,7 @@ class Grid
     public function getRelatedBannersByRule()
     {
         $ruleId = \Mage::registry('current_promo_catalog_rule')->getRuleId();
-        return \Mage::getModel('\Magento\Banner\Model\Banner')->getRelatedBannersByCatalogRuleId($ruleId);
+        return \Mage::getModel('Magento\Banner\Model\Banner')->getRelatedBannersByCatalogRuleId($ruleId);
     }
 
     /**

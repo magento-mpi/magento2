@@ -42,7 +42,7 @@ class Items extends \Magento\Adminhtml\Block\Widget\Form
             'onclick' => "rma.addProduct()",
             'class' => 'add',
         );
-        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')->setData($addButtonData)->toHtml();
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData($addButtonData)->toHtml();
     }
 
     /**
@@ -57,7 +57,7 @@ class Items extends \Magento\Adminhtml\Block\Widget\Form
             'onclick' => "rma.addSelectedProduct()",
             'class' => 'add',
         );
-        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')->setData($addButtonData)->toHtml();
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData($addButtonData)->toHtml();
     }
 
     /**
@@ -102,7 +102,7 @@ class Items extends \Magento\Adminhtml\Block\Widget\Form
         ));
 
         $reasonOtherAttribute =
-            \Mage::getModel('\Magento\Rma\Model\Item\Form')->setFormCode('default')->getAttribute('reason_other');
+            \Mage::getModel('Magento\Rma\Model\Item\Form')->setFormCode('default')->getAttribute('reason_other');
 
         $fieldset->addField('reason_other', 'text', array(
             'label'     => $reasonOtherAttribute->getStoreLabel(),
@@ -120,7 +120,7 @@ class Items extends \Magento\Adminhtml\Block\Widget\Form
             'name' => 'reason',
             'required' => false
         ))->setRenderer(
-            $this->getLayout()->createBlock('\Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items\Renderer\Reason')
+            $this->getLayout()->createBlock('Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items\Renderer\Reason')
         );
 
         $fieldset->addField('condition', 'select', array(

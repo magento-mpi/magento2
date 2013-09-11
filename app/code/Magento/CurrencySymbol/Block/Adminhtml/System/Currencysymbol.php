@@ -64,7 +64,7 @@ class Currencysymbol extends \Magento\Backend\Block\Widget\Form
     public function getSaveButtonHtml()
     {
         /** @var $block \Magento\Core\Block\AbstractBlock */
-        $block = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button');
+        $block = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button');
         $block->setData(array(
             'label'     => __('Save Currency Symbols'),
             'class'     => 'save',
@@ -116,7 +116,7 @@ class Currencysymbol extends \Magento\Backend\Block\Widget\Form
     public function getCurrencySymbolsData()
     {
         if(!$this->_symbolsData) {
-            $this->_symbolsData =  \Mage::getModel('\Magento\CurrencySymbol\Model\System\Currencysymbol')
+            $this->_symbolsData =  \Mage::getModel('Magento\CurrencySymbol\Model\System\Currencysymbol')
                 ->getCurrencySymbolsData();
         }
         return $this->_symbolsData;

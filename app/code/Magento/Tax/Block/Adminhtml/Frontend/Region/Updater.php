@@ -31,7 +31,7 @@ class Updater
                }
                </script>';
 
-        $html .= sprintf($js, $this->helper('\Magento\Directory\Helper\Data')->getRegionJson());
+        $html .= sprintf($js, $this->helper('Magento\Directory\Helper\Data')->getRegionJson());
         return $html;
     }
 }

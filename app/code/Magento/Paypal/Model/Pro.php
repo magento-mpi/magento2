@@ -142,7 +142,7 @@ class Pro
     public function getInfo()
     {
         if (null === $this->_infoInstance) {
-            $this->_infoInstance = \Mage::getModel('\Magento\Paypal\Model\Info');
+            $this->_infoInstance = \Mage::getModel('Magento\Paypal\Model\Info');
         }
         return $this->_infoInstance;
     }

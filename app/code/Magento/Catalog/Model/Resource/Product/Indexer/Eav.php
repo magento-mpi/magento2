@@ -45,8 +45,8 @@ class Eav extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexe
     {
         if (is_null($this->_types)) {
             $this->_types   = array(
-                'source'    => \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source'),
-                'decimal'   => \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Indexer\Eav\Decimal'),
+                'source'    => \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source'),
+                'decimal'   => \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Indexer\Eav\Decimal'),
             );
         }
 

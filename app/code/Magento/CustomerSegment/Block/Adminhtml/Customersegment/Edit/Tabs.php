@@ -34,7 +34,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
     protected function _beforeToHtml()
     {
         $generalSectionContent = $this->getLayout()
-            ->createBlock('\Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tab\General')
+            ->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tab\General')
             ->toHtml();
 
         $this->addTab('general_section', array(
@@ -48,7 +48,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 
         if ($segment && $segment->getId()) {
             $conditionsSectionContent = $this->getLayout()
-                ->createBlock('\Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tab\Conditions')
+                ->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tab\Conditions')
                 ->toHtml();
 
             $this->addTab('conditions_section', array(
@@ -58,7 +58,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
             ));
 
             if ($segment->getApplyTo() != \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS) {
-                $customersQty = \Mage::getModel('\Magento\CustomerSegment\Model\Segment')->getResource()
+                $customersQty = \Mage::getModel('Magento\CustomerSegment\Model\Segment')->getResource()
                     ->getSegmentCustomersQty($segment->getId());
                 $this->addTab('customers_tab', array(
                     'label' => __('Matched Customers (%1)', $customersQty),

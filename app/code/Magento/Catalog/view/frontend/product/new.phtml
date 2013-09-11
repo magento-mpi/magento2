@@ -31,7 +31,7 @@
                         <p class="availability out-of-stock"><span><?php echo __('Out of stock') ?></span></p>
                     <?php endif; ?>
                     <ul class="add-to-links" data-role="add-to-links">
-                        <?php if ($this->helper('\Magento\Wishlist\Helper\Data')->isAllow()) : ?>
+                        <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow()) : ?>
                             <li><a href="<?php echo $this->getAddToWishlistUrl($_product) ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wishlist') ?></a></li>
                         <?php endif; ?>
                         <?php if ($_compareUrl = $this->getAddToCompareUrl($_product)): ?>

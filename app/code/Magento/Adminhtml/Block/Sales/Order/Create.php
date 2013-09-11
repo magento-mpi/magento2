@@ -61,7 +61,7 @@ class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
         $this->_updateButton('reset', 'class', 'cancel');
         $this->_updateButton('reset', 'onclick', 'deleteConfirm(\''.$confirm.'\', \'' . $this->getCancelUrl() . '\')');
 
-        $pageTitle = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Sales\Order\Create\Header')->toHtml();
+        $pageTitle = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Sales\Order\Create\Header')->toHtml();
         if (is_object($this->getLayout()->getBlock('page-title'))) {
             $this->getLayout()->getBlock('page-title')->setPageTitle($pageTitle);
         }
@@ -75,7 +75,7 @@ class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
     public function getHeaderHtml()
     {
         $out = '<div id="order-header">'
-            . $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Sales\Order\Create\Header')->toHtml()
+            . $this->getLayout()->createBlock('Magento\Adminhtml\Block\Sales\Order\Create\Header')->toHtml()
             . '</div>';
         return $out;
     }

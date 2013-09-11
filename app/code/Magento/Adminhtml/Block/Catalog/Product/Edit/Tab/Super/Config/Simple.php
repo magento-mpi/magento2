@@ -45,7 +45,7 @@ class Simple
 
         $availableTypes = array('text', 'select', 'multiselect', 'textarea', 'price', 'weight');
 
-        $attributes = \Mage::getModel('\Magento\Catalog\Model\Product')
+        $attributes = \Mage::getModel('Magento\Catalog\Model\Product')
             ->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
             ->setAttributeSetId($this->getProduct()->getAttributeSetId())
             ->getAttributes();

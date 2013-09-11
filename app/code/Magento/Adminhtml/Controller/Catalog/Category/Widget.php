@@ -37,7 +37,7 @@ class Widget extends \Magento\Adminhtml\Controller\Action
     {
         if ($categoryId = (int) $this->getRequest()->getPost('id')) {
 
-            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($categoryId);
+            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
             if ($category->getId()) {
                 \Mage::register('category', $category);
                 \Mage::register('current_category', $category);
@@ -50,7 +50,7 @@ class Widget extends \Magento\Adminhtml\Controller\Action
 
     protected function _getCategoryTreeBlock()
     {
-        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Category\Widget\Chooser', '', array(
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Category\Widget\Chooser', '', array(
             'data' => array(
                 'id' => $this->getRequest()->getParam('uniq_id'),
                 'use_massaction' => $this->getRequest()->getParam('use_massaction', false)

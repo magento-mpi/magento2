@@ -65,7 +65,7 @@ class Account extends \Magento\Customer\Controller\Account
     protected function _initInvitation()
     {
         if (!\Mage::registry('current_invitation')) {
-            $invitation = \Mage::getModel('\Magento\Invitation\Model\Invitation');
+            $invitation = \Mage::getModel('Magento\Invitation\Model\Invitation');
             $invitation
                 ->loadByInvitationCode(\Mage::helper('Magento\Core\Helper\Data')->urlDecode(
                     $this->getRequest()->getParam('invitation', false)
@@ -84,7 +84,7 @@ class Account extends \Magento\Customer\Controller\Account
         try {
             $invitation = $this->_initInvitation();
             $this->loadLayout();
-            $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+            $this->_initLayoutMessages('Magento\Customer\Model\Session');
             $this->renderLayout();
             return;
         }
@@ -102,7 +102,7 @@ class Account extends \Magento\Customer\Controller\Account
         try {
             $invitation = $this->_initInvitation();
 
-            $customer = \Mage::getModel('\Magento\Customer\Model\Customer')
+            $customer = \Mage::getModel('Magento\Customer\Model\Customer')
                 ->setId(null)->setSkipConfirmationIfEmail($invitation->getEmail());
             \Mage::register('current_customer', $customer);
 

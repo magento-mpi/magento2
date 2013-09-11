@@ -35,7 +35,7 @@ class Formgroup extends \Magento\Adminhtml\Block\Widget\Form
 
         $fieldset->addField('submit', 'note',
                             array(
-                                'text' => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+                                'text' => $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                                             ->setData(array(
                                                 'label'     => __('Add Group'),
                                                 'onclick'   => 'this.form.submit();',
@@ -63,7 +63,7 @@ class Formgroup extends \Magento\Adminhtml\Block\Widget\Form
     {
         return ( intval($this->getRequest()->getParam('id')) > 0 )
                     ? intval($this->getRequest()->getParam('id'))
-                    : \Mage::getModel('\Magento\Eav\Model\Entity\Type')
+                    : \Mage::getModel('Magento\Eav\Model\Entity\Type')
                         ->load(\Mage::registry('entityType'))
                         ->getDefaultAttributeSetId();
     }

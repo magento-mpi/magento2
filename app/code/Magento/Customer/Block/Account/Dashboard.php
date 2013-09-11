@@ -64,7 +64,7 @@ class Dashboard extends \Magento\Core\Block\Template
     public function getSubscriptionObject()
     {
         if(is_null($this->_subscription)) {
-            $this->_subscription = \Mage::getModel('\Magento\Newsletter\Model\Subscriber')->loadByCustomer($this->getCustomer());
+            $this->_subscription = \Mage::getModel('Magento\Newsletter\Model\Subscriber')->loadByCustomer($this->getCustomer());
         }
 
         return $this->_subscription;

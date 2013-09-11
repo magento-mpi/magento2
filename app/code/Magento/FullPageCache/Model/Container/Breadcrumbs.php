@@ -44,7 +44,7 @@ class Breadcrumbs extends \Magento\FullPageCache\Model\Container\AbstractContain
         $product = null;
 
         if ($productId) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->setStoreId(\Mage::app()->getStore()->getId())
                 ->load($productId);
             if ($product) {
@@ -59,7 +59,7 @@ class Breadcrumbs extends \Magento\FullPageCache\Model\Container\AbstractContain
         }
 
         if ($categoryId && !\Mage::registry('current_category')) {
-            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($categoryId);
+            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
             if ($category) {
                 \Mage::register('current_category', $category);
             }

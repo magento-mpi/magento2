@@ -109,7 +109,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      */
     public function createRecursive($path)
     {
-        $directory = \Mage::getModel('\Magento\Core\Model\File\Storage\Directory\Database')->loadByPath($path);
+        $directory = \Mage::getModel('Magento\Core\Model\File\Storage\Directory\Database')->loadByPath($path);
 
         if (!$directory->getId()) {
             $dirName = basename($path);

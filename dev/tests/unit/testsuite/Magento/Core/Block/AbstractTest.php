@@ -20,7 +20,7 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     public function testGetUiId($expectedResult, $nameInLayout, $methodArguments)
     {
         /** @var $block \Magento\Core\Block\AbstractBlock|PHPUnit_Framework_MockObject_MockObject */
-        $block = $this->getMockForAbstractClass('\Magento\Core\Block\AbstractBlock', array(), '', false);
+        $block = $this->getMockForAbstractClass('Magento\Core\Block\AbstractBlock', array(), '', false);
         $block->setNameInLayout($nameInLayout);
 
         $this->assertEquals(
@@ -72,7 +72,7 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
             'viewConfig' => $configManager,
         );
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $block = $this->getMockForAbstractClass('\Magento\Core\Block\AbstractBlock',
+        $block = $this->getMockForAbstractClass('Magento\Core\Block\AbstractBlock',
             $helper->getConstructArguments('\Magento\Core\Block\AbstractBlock', $params),
             uniqid('Magento_Core_Block_Abstract_')
         );

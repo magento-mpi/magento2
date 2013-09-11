@@ -39,7 +39,7 @@ class Agreements extends \Magento\Core\Block\Template
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $pager = $this->getLayout()->createBlock('\Magento\Page\Block\Html\Pager')
+        $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager')
             ->setCollection($this->getBillingAgreements())->setIsOutputRequired(false);
         $this->setChild('pager', $pager)
             ->setBackUrl($this->getUrl('customer/account/'));
@@ -55,7 +55,7 @@ class Agreements extends \Magento\Core\Block\Template
     public function getBillingAgreements()
     {
         if (is_null($this->_billingAgreements)) {
-            $this->_billingAgreements = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Billing\Agreement\Collection')
+            $this->_billingAgreements = \Mage::getResourceModel('Magento\Sales\Model\Resource\Billing\Agreement\Collection')
                 ->addFieldToFilter('customer_id', \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId())
                 ->setOrder('agreement_id', 'desc');
         }
@@ -75,7 +75,7 @@ class Agreements extends \Magento\Core\Block\Template
             case 'created_at':
             case 'updated_at':
                 $value = ($item->getData($key))
-                    ? $this->helper('\Magento\Core\Helper\Data')->formatDate($item->getData($key), 'short', true) : __('N/A');
+                    ? $this->helper('Magento\Core\Helper\Data')->formatDate($item->getData($key), 'short', true) : __('N/A');
                 break;
             case 'edit_url':
                 $value = $this->getUrl('*/billing_agreement/view', array('agreement' => $item->getAgreementId()));
@@ -101,7 +101,7 @@ class Agreements extends \Magento\Core\Block\Template
     protected function _loadPaymentMethods()
     {
         if (!$this->_paymentMethods) {
-            foreach ($this->helper('\Magento\Payment\Helper\Data')->getBillingAgreementMethods() as $paymentMethod) {
+            foreach ($this->helper('Magento\Payment\Helper\Data')->getBillingAgreementMethods() as $paymentMethod) {
                 $this->_paymentMethods[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }
         }
@@ -116,7 +116,7 @@ class Agreements extends \Magento\Core\Block\Template
     public function getWizardPaymentMethodOptions()
     {
         $paymentMethodOptions = array();
-        foreach ($this->helper('\Magento\Payment\Helper\Data')->getBillingAgreementMethods() as $paymentMethod) {
+        foreach ($this->helper('Magento\Payment\Helper\Data')->getBillingAgreementMethods() as $paymentMethod) {
             if ($paymentMethod->getConfigData('allow_billing_agreement_wizard') == 1) {
                 $paymentMethodOptions[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }

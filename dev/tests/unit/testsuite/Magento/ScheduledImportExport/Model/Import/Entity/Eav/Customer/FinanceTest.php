@@ -215,7 +215,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
             /** @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
             $arguments = $objectManagerHelper->getConstructArguments('\Magento\Eav\Model\Entity\Attribute\AbstractAttribute');
             $arguments['data'] = $attributeData;
-            $attribute = $this->getMockForAbstractClass('\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+            $attribute = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 $arguments, '', true, true, true, array('_construct')
             );
             $attributeCollection->addItem($attribute);

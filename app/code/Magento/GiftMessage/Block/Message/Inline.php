@@ -87,7 +87,7 @@ class Inline extends \Magento\Core\Block\Template
      */
     protected function _initMessage()
     {
-        $this->_giftMessage = $this->helper('\Magento\GiftMessage\Helper\Message')->getGiftMessage(
+        $this->_giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage(
             $this->getEntity()->getGiftMessageId()
         );
         return $this;
@@ -136,7 +136,7 @@ class Inline extends \Magento\Core\Block\Template
         if ($entity) {
             if (!$entity->getGiftMessage()) {
                 $entity->setGiftMessage(
-                    $this->helper('\Magento\GiftMessage\Helper\Message')->getGiftMessage($entity->getGiftMessageId())
+                    $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage($entity->getGiftMessageId())
                 );
             }
             return $entity->getGiftMessage();
@@ -267,7 +267,7 @@ class Inline extends \Magento\Core\Block\Template
      */
     public function getThumbnailUrl($product)
     {
-        return (string)$this->helper('\Magento\Catalog\Helper\Image')->init($product, 'thumbnail')
+        return (string)$this->helper('Magento\Catalog\Helper\Image')->init($product, 'thumbnail')
             ->resize($this->getThumbnailSize());
     }
 

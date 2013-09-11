@@ -40,7 +40,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      */
     protected function _getResource()
     {
-        return \Mage::getResourceSingleton('\Magento\Checkout\Model\Resource\Cart');
+        return \Mage::getResourceSingleton('Magento\Checkout\Model\Resource\Cart');
     }
 
     /**
@@ -152,7 +152,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     {
         /* @var $orderItem \Magento\Sales\Model\Order\Item */
         if (is_null($orderItem->getParentItem())) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->setStoreId(\Mage::app()->getStore()->getId())
                 ->load($orderItem->getProductId());
             if (!$product->getId()) {
@@ -184,7 +184,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         if ($productInfo instanceof \Magento\Catalog\Model\Product) {
             $product = $productInfo;
         } elseif (is_int($productInfo) || is_string($productInfo)) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->setStoreId(\Mage::app()->getStore()->getId())
                 ->load($productInfo);
         }

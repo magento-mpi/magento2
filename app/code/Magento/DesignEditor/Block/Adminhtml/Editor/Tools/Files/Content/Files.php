@@ -25,7 +25,7 @@ class Files
      */
     public function getStorageType()
     {
-        return __($this->helper('\Magento\Theme\Helper\Storage')->getStorageType());
+        return __($this->helper('Magento\Theme\Helper\Storage')->getStorageType());
     }
 
 }

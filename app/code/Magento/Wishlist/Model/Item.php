@@ -294,7 +294,7 @@ class Item extends \Magento\Core\Model\AbstractModel
                 \Mage::throwException(__('Cannot specify product.'));
             }
 
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->setStoreId($this->getStoreId())
                 ->load($this->getProductId());
 
@@ -334,7 +334,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             if ($product->getStoreId() == $storeId) {
                 return false;
             }
-            $urlData = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Url')
+            $urlData = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Url')
                 ->getRewriteByProductStore(array($product->getId() => $storeId));
             if (!isset($urlData[$product->getId()])) {
                 return false;
@@ -582,12 +582,12 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function addOption($option)
     {
         if (is_array($option)) {
-            $option = \Mage::getModel('\Magento\Wishlist\Model\Item\Option')->setData($option)
+            $option = \Mage::getModel('Magento\Wishlist\Model\Item\Option')->setData($option)
                 ->setItem($this);
         } else if ($option instanceof \Magento\Wishlist\Model\Item\Option) {
             $option->setItem($this);
         } else if ($option instanceof \Magento\Object) {
-            $option = \Mage::getModel('\Magento\Wishlist\Model\Item\Option')->setData($option->getData())
+            $option = \Mage::getModel('Magento\Wishlist\Model\Item\Option')->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
         } else {
@@ -692,7 +692,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             return $this;
         }
 
-        $options = \Mage::getResourceModel('\Magento\Wishlist\Model\Resource\Item\Option\Collection')
+        $options = \Mage::getResourceModel('Magento\Wishlist\Model\Resource\Item\Option\Collection')
             ->addItemFilter($this);
         if ($optionsFilter) {
             $options->addFieldToFilter('code', $optionsFilter);

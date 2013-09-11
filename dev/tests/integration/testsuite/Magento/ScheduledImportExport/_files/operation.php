@@ -10,7 +10,7 @@
  */
 
 /** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
-$operation = Mage::getModel('\Magento\ScheduledImportExport\Model\Scheduled\Operation');
+$operation = Mage::getModel('Magento\ScheduledImportExport\Model\Scheduled\Operation');
 
 $data = array(
     'operation_type'    => 'export',

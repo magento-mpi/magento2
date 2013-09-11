@@ -66,7 +66,7 @@ class History
      */
     public function getNewChildSelectOptions()
     {
-        return \Mage::getModel('\Magento\CustomerSegment\Model\Segment\Condition\Product\Combine')
+        return \Mage::getModel('Magento\CustomerSegment\Model\Segment\Condition\Product\Combine')
             ->setDateConditions(true)
             ->getNewChildSelectOptions();
     }

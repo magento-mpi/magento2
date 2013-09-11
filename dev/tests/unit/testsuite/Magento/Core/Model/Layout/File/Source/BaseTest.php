@@ -41,7 +41,7 @@ class Magento_Core_Model_Layout_File_Source_BaseTest extends PHPUnit_Framework_T
 
     public function testGetFiles()
     {
-        $theme = $this->getMockForAbstractClass('\Magento\Core\Model\ThemeInterface');
+        $theme = $this->getMockForAbstractClass('Magento\Core\Model\ThemeInterface');
         $theme->expects($this->once())->method('getArea')->will($this->returnValue('area'));
 
         $this->_filesystem

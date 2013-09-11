@@ -76,7 +76,7 @@ class Order extends \Magento\Core\Helper\AbstractHelper
         }
 
         /** @var $order \Magento\Sales\Model\Order */
-        $order = \Mage::getModel('\Magento\Sales\Model\Order')->load($data['order_id']);
+        $order = \Mage::getModel('Magento\Sales\Model\Order')->load($data['order_id']);
         if ($order->getId()
             && $order->getIncrementId() == $data['increment_id']
             && $order->getCustomerId() == $data['customer_id']

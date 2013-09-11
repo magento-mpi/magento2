@@ -29,7 +29,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         $attribute = $this->getAttributeModel();
         $this->_requestVar = $attribute->getAttributeCode();
 
-        $engine = \Mage::getResourceSingleton('\Magento\Search\Model\Resource\Engine');
+        $engine = \Mage::getResourceSingleton('Magento\Search\Model\Resource\Engine');
         $fieldName = $engine->getSearchEngineFieldName($attribute, 'nav');
 
         $productCollection = $this->getLayer()->getProductCollection();
@@ -84,7 +84,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
      */
     public function addFacetCondition()
     {
-        $engine = \Mage::getResourceSingleton('\Magento\Search\Model\Resource\Engine');
+        $engine = \Mage::getResourceSingleton('Magento\Search\Model\Resource\Engine');
         $facetField = $engine->getSearchEngineFieldName($this->getAttributeModel(), 'nav');
         $this->getLayer()->getProductCollection()->setFacetCondition($facetField);
 
@@ -121,7 +121,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
             }
         }
 
-        $fieldName = \Mage::getResourceSingleton('\Magento\Search\Model\Resource\Engine')
+        $fieldName = \Mage::getResourceSingleton('Magento\Search\Model\Resource\Engine')
             ->getSearchEngineFieldName($attribute, 'nav');
         $this->getLayer()->getProductCollection()->addFqFilter(array($fieldName => $value));
 

@@ -80,7 +80,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\Core\M
     protected $_domainFactory;
 
     /**
-     * @var Magento_Core_Model_Theme_ImageFactory
+     * @var \Magento\Core\Model\Theme\ImageFactory
      */
     protected $_imageFactory;
 
@@ -95,7 +95,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\Core\M
     protected $_customization;
 
     /**
-     * @var Magento_Core_Model_Theme_CustomizationFactory
+     * @var \Magento\Core\Model\Theme\CustomizationFactory
      */
     protected $_customFactory;
 
@@ -116,9 +116,9 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\Core\M
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Theme\FlyweightFactory $themeFactory
      * @param \Magento\Core\Model\Theme\Domain\Factory $domainFactory
-     * @param Magento_Core_Model_Theme_ImageFactory $imageFactory
+     * @param \Magento\Core\Model\Theme\ImageFactory $imageFactory
      * @param \Magento\Core\Model\Theme\Validator $validator
-     * @param Magento_Core_Model_Theme_CustomizationFactory $customizationFactory
+     * @param \Magento\Core\Model\Theme\CustomizationFactory $customizationFactory
      * @param \Magento\Core\Model\Resource\Theme $resource
      * @param \Magento\Core\Model\Resource\Theme\Collection $resourceCollection
      * @param array $data
@@ -127,9 +127,9 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\Core\M
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Theme\FlyweightFactory $themeFactory,
         \Magento\Core\Model\Theme\Domain\Factory $domainFactory,
-        Magento_Core_Model_Theme_ImageFactory $imageFactory,
+        \Magento\Core\Model\Theme\ImageFactory $imageFactory,
         \Magento\Core\Model\Theme\Validator $validator,
-        Magento_Core_Model_Theme_CustomizationFactory $customizationFactory,
+        \Magento\Core\Model\Theme\CustomizationFactory $customizationFactory,
         \Magento\Core\Model\Resource\Theme $resource = null,
         \Magento\Core\Model\Resource\Theme\Collection $resourceCollection = null,
         array $data = array()

@@ -41,7 +41,7 @@ class User extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Users'));
 
         $id = $this->getRequest()->getParam('user_id');
-        $model = \Mage::getModel('\Magento\Api\Model\User');
+        $model = \Mage::getModel('Magento\Api\Model\User');
 
         if ($id) {
             $model->load($id);
@@ -65,12 +65,12 @@ class User extends \Magento\Adminhtml\Controller\Action
         $this->_initAction()
             ->_addBreadcrumb($id ? __('Edit User') : __('New User'), $id ? __('Edit User') : __('New User'))
             ->_addContent($this->getLayout()
-                ->createBlock('\Magento\Adminhtml\Block\Api\User\Edit')
+                ->createBlock('Magento\Adminhtml\Block\Api\User\Edit')
                 ->setData('action', $this->getUrl('*/api_user/save')))
-            ->_addLeft($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Api\User\Edit\Tabs'));
+            ->_addLeft($this->getLayout()->createBlock('Magento\Adminhtml\Block\Api\User\Edit\Tabs'));
 
         $this->_addJs($this->getLayout()
-            ->createBlock('\Magento\Adminhtml\Block\Template')
+            ->createBlock('Magento\Adminhtml\Block\Template')
             ->setTemplate('api/user_roles_grid_js.phtml')
         );
         $this->renderLayout();
@@ -80,7 +80,7 @@ class User extends \Magento\Adminhtml\Controller\Action
     {
         if ($data = $this->getRequest()->getPost()) {
             $id = $this->getRequest()->getPost('user_id', false);
-            $model = \Mage::getModel('\Magento\Api\Model\User')->load($id);
+            $model = \Mage::getModel('Magento\Api\Model\User')->load($id);
             if (!$model->getId() && $id) {
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('This user no longer exists.'));
                 $this->_redirect('*/*/');
@@ -123,7 +123,7 @@ class User extends \Magento\Adminhtml\Controller\Action
         if ($id = $this->getRequest()->getParam('user_id')) {
 
             try {
-                $model = \Mage::getModel('\Magento\Api\Model\User')->load($id);
+                $model = \Mage::getModel('Magento\Api\Model\User')->load($id);
                 $model->delete();
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('You deleted the user.'));
                 $this->_redirect('*/*/');
@@ -142,7 +142,7 @@ class User extends \Magento\Adminhtml\Controller\Action
     public function rolesGridAction()
     {
         $id = $this->getRequest()->getParam('user_id');
-        $model = \Mage::getModel('\Magento\Api\Model\User');
+        $model = \Mage::getModel('Magento\Api\Model\User');
 
         if ($id) {
             $model->load($id);
@@ -150,7 +150,7 @@ class User extends \Magento\Adminhtml\Controller\Action
 
         \Mage::register('api_user', $model);
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Api\User\Edit\Tab\Roles')->toHtml()
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Api\User\Edit\Tab\Roles')->toHtml()
         );
     }
 

@@ -160,8 +160,8 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      */
     protected function _initAttributeSets()
     {
-        $productTypeId = \Mage::getModel('\Magento\Catalog\Model\Product')->getResource()->getTypeId();
-        foreach (\Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
+        $productTypeId = \Mage::getModel('Magento\Catalog\Model\Product')->getResource()->getTypeId();
+        foreach (\Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
                 ->setEntityTypeFilter($productTypeId) as $attributeSet) {
             $this->_attrSetIdToName[$attributeSet->getId()] = $attributeSet->getAttributeSetName();
         }
@@ -175,7 +175,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      */
     protected function _initCategories()
     {
-        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Category\Collection')->addNameToResult();
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Collection')->addNameToResult();
         /* @var $collection \Magento\Catalog\Model\Resource\Category\Collection */
         foreach ($collection as $category) {
             $structure = preg_split('#/+#', $category->getPath());
@@ -363,7 +363,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
             return array();
         }
         $select = $this->_connection->select()
-            ->from(\Mage::getResourceModel('\Magento\CatalogInventory\Model\Resource\Stock\Item')->getMainTable())
+            ->from(\Mage::getResourceModel('Magento\CatalogInventory\Model\Resource\Stock\Item')->getMainTable())
             ->where('product_id IN (?)', $productIds);
 
         $stmt = $this->_connection->query($select);
@@ -733,7 +733,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
                 \Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL => '_links_crosssell_',
                 \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED   => '_associated_'
             );
-            $configurableProductsCollection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection');
+            $configurableProductsCollection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection');
             $configurableProductsCollection->addAttributeToFilter(
                 'entity_id',
                 array(
@@ -768,7 +768,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
             $customOptionsDataPre = array();
 
             foreach ($this->_storeIdToCode as $storeId => &$storeCode) {
-                $options = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Option\Collection')
+                $options = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Option\Collection')
                     ->reset()
                     ->addTitleToResult($storeId)
                     ->addPriceToResult($storeId)
@@ -1032,7 +1032,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      */
     public function getAttributeCollection()
     {
-        return \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Attribute\Collection');
+        return \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection');
     }
 
     /**

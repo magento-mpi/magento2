@@ -163,7 +163,7 @@ class Group extends \Magento\Core\Model\AbstractModel
      */
     public function getStoreCollection()
     {
-        return \Mage::getModel('\Magento\Core\Model\Store')
+        return \Mage::getModel('Magento\Core\Model\Store')
             ->getCollection()
             ->addGroupFilter($this->getId());
     }

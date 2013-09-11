@@ -23,7 +23,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
     protected function _prepareForm()
     {
         $userId = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId();
-        $user = \Mage::getModel('\Magento\User\Model\User')
+        $user = \Mage::getModel('Magento\User\Model\User')
             ->load($userId);
         $user->unsetData('password');
 

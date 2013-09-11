@@ -28,7 +28,7 @@ class Locale extends \Magento\Core\Model\Config\Value
      */
     protected function _afterSave()
     {
-        $collection = \Mage::getModel('\Magento\Core\Model\Config\Value')
+        $collection = \Mage::getModel('Magento\Core\Model\Config\Value')
             ->getCollection()
             ->addPathFilter('currency/options');
 
@@ -54,13 +54,13 @@ class Locale extends \Magento\Core\Model\Config\Value
                             break;
 
                         case 'website':
-                            $websiteName = \Mage::getModel('\Magento\Core\Model\Website')
+                            $websiteName = \Mage::getModel('Magento\Core\Model\Website')
                                 ->load($data->getScopeId())->getName();
                             $scopeName = __('website(%1) scope', $websiteName);
                             break;
 
                         case 'store':
-                            $storeName = \Mage::getModel('\Magento\Core\Model\Store')->load($data->getScopeId())
+                            $storeName = \Mage::getModel('Magento\Core\Model\Store')->load($data->getScopeId())
                                 ->getName();
                             $scopeName = __('store(%1) scope', $storeName);
                             break;

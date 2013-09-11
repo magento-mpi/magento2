@@ -37,7 +37,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
                 'value' => $this->getType(),
                 'label' => __('Conditions Combination')
             ),
-            \Mage::getModel('\Magento\TargetRule\Model\Rule\Condition\Product\Attributes')->getNewChildSelectOptions(),
+            \Mage::getModel('Magento\TargetRule\Model\Rule\Condition\Product\Attributes')->getNewChildSelectOptions(),
         );
 
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);

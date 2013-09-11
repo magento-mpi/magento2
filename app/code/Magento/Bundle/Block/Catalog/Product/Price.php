@@ -64,7 +64,7 @@ class Price extends \Magento\Catalog\Block\Product\Price
             $product->getPriceModel()->getIsPricesCalculatedByIndex() !== false) {
             return false;
         }
-        return $this->helper('\Magento\Tax\Helper\Data')->displayBothPrices();
+        return $this->helper('Magento\Tax\Helper\Data')->displayBothPrices();
     }
 
     /**
@@ -87,7 +87,7 @@ class Price extends \Magento\Catalog\Block\Product\Price
             $addToCartUrl  = $this->getLayout()->getBlock('product.info.bundle')->getAddToCartUrl($product);
             $product->setAddToCartUrl($addToCartUrl);
             $html = $this->getLayout()
-                ->createBlock('\Magento\Catalog\Block\Product\Price')
+                ->createBlock('Magento\Catalog\Block\Product\Price')
                 ->setTemplate($this->getMAPTemplate())
                 ->setRealPriceHtml($hiddenPriceHtml)
                 ->setPriceElementIdPrefix('bundle-price-')

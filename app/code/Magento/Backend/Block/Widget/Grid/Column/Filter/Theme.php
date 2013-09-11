@@ -55,7 +55,7 @@ class Theme
         $options = $this->getColumn()->getOptions();
         if (empty($options) || !is_array($options)) {
             /** @var $label \Magento\Core\Model\Theme\Label */
-            $label = \Mage::getModel('\Magento\Core\Model\Theme\Label');
+            $label = \Mage::getModel('Magento\Core\Model\Theme\Label');
             $options = $label->getLabelsCollection();
         }
         return $options;

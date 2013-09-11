@@ -153,7 +153,7 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     protected function _getCollection()
     {
-        $collection = \Mage::getModel('\Magento\Catalog\Model\Product\Link')->useCrossSellLinks()
+        $collection = \Mage::getModel('Magento\Catalog\Model\Product\Link')->useCrossSellLinks()
             ->getProductCollection()
             ->setStoreId(\Mage::app()->getStore()->getId())
             ->addStoreFilter()

@@ -29,9 +29,9 @@ class Downloadable extends \Magento\Sales\Block\Order\Email\Items\DefaultItems
      */
     public function getLinks()
     {
-        $this->_purchased = \Mage::getModel('\Magento\Downloadable\Model\Link\Purchased')
+        $this->_purchased = \Mage::getModel('Magento\Downloadable\Model\Link\Purchased')
             ->load($this->getItem()->getOrder()->getId(), 'order_id');
-        $purchasedLinks = \Mage::getModel('\Magento\Downloadable\Model\Link\Purchased\Item')->getCollection()
+        $purchasedLinks = \Mage::getModel('Magento\Downloadable\Model\Link\Purchased\Item')->getCollection()
             ->addFieldToFilter('order_item_id', $this->getItem()->getOrderItem()->getId());
         $this->_purchased->setPurchasedItems($purchasedLinks);
 

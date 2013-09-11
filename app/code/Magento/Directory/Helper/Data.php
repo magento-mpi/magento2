@@ -90,7 +90,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getRegionCollection()
     {
         if (!$this->_regionCollection) {
-            $this->_regionCollection = \Mage::getModel('\Magento\Directory\Model\Region')->getResourceCollection()
+            $this->_regionCollection = \Mage::getModel('Magento\Directory\Model\Region')->getResourceCollection()
                 ->addCountryFilter($this->getAddress()->getCountryId())
                 ->load();
         }
@@ -105,7 +105,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getCountryCollection()
     {
         if (!$this->_countryCollection) {
-            $this->_countryCollection = \Mage::getModel('\Magento\Directory\Model\Country')->getResourceCollection()
+            $this->_countryCollection = \Mage::getModel('Magento\Directory\Model\Country')->getResourceCollection()
                 ->loadByStore();
         }
         return $this->_countryCollection;
@@ -128,7 +128,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                 foreach ($this->getCountryCollection() as $country) {
                     $countryIds[] = $country->getCountryId();
                 }
-                $collection = \Mage::getModel('\Magento\Directory\Model\Region')->getResourceCollection()
+                $collection = \Mage::getModel('Magento\Directory\Model\Region')->getResourceCollection()
                     ->addCountryFilter($countryIds)
                     ->load();
                 $regions = array(
@@ -168,7 +168,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function currencyConvert($amount, $from, $to = null)
     {
         if (empty($this->_currencyCache[$from])) {
-            $this->_currencyCache[$from] = \Mage::getModel('\Magento\Directory\Model\Currency')->load($from);
+            $this->_currencyCache[$from] = \Mage::getModel('Magento\Directory\Model\Currency')->load($from);
         }
         if (is_null($to)) {
             $to = \Mage::app()->getStore()->getCurrentCurrencyCode();

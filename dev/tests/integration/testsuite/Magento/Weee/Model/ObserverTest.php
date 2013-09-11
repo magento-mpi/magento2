@@ -18,7 +18,7 @@ class Magento_Weee_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Weee\Model\Observer');
+        $this->_model = Mage::getModel('Magento\Weee\Model\Observer');
     }
 
     /**
@@ -32,7 +32,7 @@ class Magento_Weee_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_model->updateConfigurableProductOptions($eventObserver);
         $this->assertEquals(array(), $eventObserver->getEvent()->getResponseObject()->getAdditionalOptions());
 
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         Mage::register('current_product', $product->load(1));
 
         foreach (array(\Magento\Weee\Model\Tax::DISPLAY_INCL, \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR) as $mode) {

@@ -57,7 +57,7 @@ class Success extends \Magento\Core\Block\Template
     {
         $orderId = \Mage::getSingleton('Magento\Checkout\Model\Session')->getLastOrderId();
         if ($orderId) {
-            $order = \Mage::getModel('\Magento\Sales\Model\Order')->load($orderId);
+            $order = \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
             if ($order->getId()) {
                 $isVisible = !in_array($order->getState(),
                     \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getInvisibleOnFrontStates());
@@ -81,7 +81,7 @@ class Success extends \Magento\Core\Block\Template
         $agreementId = \Mage::getSingleton('Magento\Checkout\Model\Session')->getLastBillingAgreementId();
         $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
         if ($agreementId && $customerId) {
-            $agreement = \Mage::getModel('\Magento\Sales\Model\Billing\Agreement')->load($agreementId);
+            $agreement = \Mage::getModel('Magento\Sales\Model\Billing\Agreement')->load($agreementId);
             if ($agreement->getId() && $customerId == $agreement->getCustomerId()) {
                 $this->addData(array(
                     'agreement_ref_id' => $agreement->getReferenceId(),
@@ -100,7 +100,7 @@ class Success extends \Magento\Core\Block\Template
     {
         $profileIds = \Mage::getSingleton('Magento\Checkout\Model\Session')->getLastRecurringProfileIds();
         if ($profileIds && is_array($profileIds)) {
-            $collection = \Mage::getModel('\Magento\Sales\Model\Recurring\Profile')->getCollection()
+            $collection = \Mage::getModel('Magento\Sales\Model\Recurring\Profile')->getCollection()
                 ->addFieldToFilter('profile_id', array('in' => $profileIds))
             ;
             $profiles = array();

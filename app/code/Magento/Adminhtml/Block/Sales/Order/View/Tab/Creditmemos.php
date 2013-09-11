@@ -86,7 +86,7 @@ class Creditmemos
             'header'    => __('Status'),
             'index'     => 'state',
             'type'      => 'options',
-            'options'   => \Mage::getModel('\Magento\Sales\Model\Order\Creditmemo')->getStates(),
+            'options'   => \Mage::getModel('Magento\Sales\Model\Order\Creditmemo')->getStates(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));

@@ -30,7 +30,7 @@ class Shipping extends \Magento\Checkout\Block\Onepage\Shipping
             if ($this->isCustomerLoggedIn() || $this->getQuote()->getShippingAddress()) {
                 $this->_address = $this->getQuote()->getShippingAddress();
             } else {
-                $this->_address = \Mage::getModel('\Magento\Sales\Model\Quote\Address');
+                $this->_address = \Mage::getModel('Magento\Sales\Model\Quote\Address');
             }
         }
 

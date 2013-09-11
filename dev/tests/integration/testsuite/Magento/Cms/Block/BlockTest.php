@@ -19,10 +19,10 @@ class Magento_Cms_Block_BlockTest extends PHPUnit_Framework_TestCase
      */
     public function testToHtml()
     {
-        $cmsBlock = Mage::getModel('\Magento\Cms\Model\Block');
+        $cmsBlock = Mage::getModel('Magento\Cms\Model\Block');
         $cmsBlock->load('fixture_block', 'identifier');
         /** @var $block \Magento\Cms\Block\Block */
-        $block = Mage::app()->getLayout()->createBlock('\Magento\Cms\Block\Block');
+        $block = Mage::app()->getLayout()->createBlock('Magento\Cms\Block\Block');
         $block->setBlockId($cmsBlock->getId());
         $result = $block->toHtml();
         $this->assertContains('<a href="http://example.com/', $result);

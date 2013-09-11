@@ -43,7 +43,7 @@ class Magento_GiftRegistry_Controller_Adminhtml_GiftregistryTest extends Magento
         ));
         $this->dispatch('backend/admin/giftregistry/save/store/0');
         /** @var $type \Magento\GiftRegistry\Model\Type */
-        $type = Mage::getModel('\Magento\GiftRegistry\Model\Type');
+        $type = Mage::getModel('Magento\GiftRegistry\Model\Type');
         $type->setStoreId(0);
 
         $type = $type->load('test_registry', 'code');

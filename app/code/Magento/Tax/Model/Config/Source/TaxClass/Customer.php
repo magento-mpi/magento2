@@ -19,7 +19,7 @@ class Customer implements \Magento\Core\Model\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $taxClasses = \Mage::getModel('\Magento\Tax\Model\TaxClass\Source\Customer')->toOptionArray();
+        $taxClasses = \Mage::getModel('Magento\Tax\Model\TaxClass\Source\Customer')->toOptionArray();
         array_unshift($taxClasses, array('value' => '0', 'label' => __('None')));
         return $taxClasses;
     }

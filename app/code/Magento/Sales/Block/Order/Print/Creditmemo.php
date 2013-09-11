@@ -27,7 +27,7 @@ class Creditmemo extends \Magento\Sales\Block\Items\AbstractItems
         }
         $this->setChild(
             'payment_info',
-            $this->helper('\Magento\Payment\Helper\Data')->getInfoBlock($this->getOrder()->getPayment())
+            $this->helper('Magento\Payment\Helper\Data')->getInfoBlock($this->getOrder()->getPayment())
         );
     }
 

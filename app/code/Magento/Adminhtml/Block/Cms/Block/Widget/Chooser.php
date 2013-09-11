@@ -42,7 +42,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
         $uniqId = \Mage::helper('Magento\Core\Helper\Data')->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/cms_block_widget/chooser', array('uniq_id' => $uniqId));
 
-        $chooser = $this->getLayout()->createBlock('\Magento\Widget\Block\Adminhtml\Widget\Chooser')
+        $chooser = $this->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Chooser')
             ->setElement($element)
             ->setConfig($this->getConfig())
             ->setFieldsetId($this->getFieldsetId())
@@ -51,7 +51,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
 
 
         if ($element->getValue()) {
-            $block = \Mage::getModel('\Magento\Cms\Model\Block')->load($element->getValue());
+            $block = \Mage::getModel('Magento\Cms\Model\Block')->load($element->getValue());
             if ($block->getId()) {
                 $chooser->setLabel($block->getTitle());
             }
@@ -89,7 +89,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('\Magento\Cms\Model\Block')->getCollection();
+        $collection = \Mage::getModel('Magento\Cms\Model\Block')->getCollection();
         /* @var $collection \Magento\Cms\Model\Resource\Block\Collection */
         $this->setCollection($collection);
         return parent::_prepareCollection();

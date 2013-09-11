@@ -223,11 +223,11 @@ foreach ($entityAttributesCodes as $code => $type) {
 /**
  * Add gift wrapping attributes for catalog product entity
  */
-$types = \Mage::getModel('\Magento\Catalog\Model\Product\Type')->getOptionArray();
+$types = \Mage::getModel('Magento\Catalog\Model\Product\Type')->getOptionArray();
 unset($types['virtual'], $types['downloadable'], $types['grouped']);
 $applyTo = join(',', array_keys($types));
 
-$installer = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'));
+$installer = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'));
 
 $installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'gift_wrapping_available', array(
     'group'         => 'Gift Options',

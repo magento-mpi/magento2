@@ -33,7 +33,7 @@ class Observer
     {
         $quote = $observer->getEvent()->getQuote();
         if ($quote instanceof \Magento\Core\Model\AbstractModel) {
-            \Mage::getModel('\Magento\CustomerCustomAttributes\Model\Sales\Quote')
+            \Mage::getModel('Magento\CustomerCustomAttributes\Model\Sales\Quote')
                 ->load($quote->getId())
                 ->attachAttributeData($quote);
         }
@@ -51,7 +51,7 @@ class Observer
     {
         $collection = $observer->getEvent()->getQuoteAddressCollection();
         if ($collection instanceof \Magento\Data\Collection\Db) {
-            \Mage::getModel('\Magento\CustomerCustomAttributes\Model\Sales\Quote\Address')
+            \Mage::getModel('Magento\CustomerCustomAttributes\Model\Sales\Quote\Address')
                 ->attachDataToEntities($collection->getItems());
         }
 
@@ -68,7 +68,7 @@ class Observer
     {
         $quote = $observer->getEvent()->getQuote();
         if ($quote instanceof \Magento\Core\Model\AbstractModel) {
-            \Mage::getModel('\Magento\CustomerCustomAttributes\Model\Sales\Quote')
+            \Mage::getModel('Magento\CustomerCustomAttributes\Model\Sales\Quote')
                 ->saveAttributeData($quote);
         }
 
@@ -85,7 +85,7 @@ class Observer
     {
         $quoteAddress = $observer->getEvent()->getQuoteAddress();
         if ($quoteAddress instanceof \Magento\Core\Model\AbstractModel) {
-            \Mage::getModel('\Magento\CustomerCustomAttributes\Model\Sales\Quote\Address')
+            \Mage::getModel('Magento\CustomerCustomAttributes\Model\Sales\Quote\Address')
                 ->saveAttributeData($quoteAddress);
         }
 
@@ -102,7 +102,7 @@ class Observer
     {
         $order = $observer->getEvent()->getOrder();
         if ($order instanceof \Magento\Core\Model\AbstractModel) {
-            \Mage::getModel('\Magento\CustomerCustomAttributes\Model\Sales\Order')
+            \Mage::getModel('Magento\CustomerCustomAttributes\Model\Sales\Order')
                 ->load($order->getId())
                 ->attachAttributeData($order);
         }
@@ -120,7 +120,7 @@ class Observer
     {
         $collection = $observer->getEvent()->getOrderAddressCollection();
         if ($collection instanceof \Magento\Data\Collection\Db) {
-            \Mage::getModel('\Magento\CustomerCustomAttributes\Model\Sales\Order\Address')
+            \Mage::getModel('Magento\CustomerCustomAttributes\Model\Sales\Order\Address')
                 ->attachDataToEntities($collection->getItems());
         }
 
@@ -137,7 +137,7 @@ class Observer
     {
         $order = $observer->getEvent()->getOrder();
         if ($order instanceof \Magento\Core\Model\AbstractModel) {
-            \Mage::getModel('\Magento\CustomerCustomAttributes\Model\Sales\Order')
+            \Mage::getModel('Magento\CustomerCustomAttributes\Model\Sales\Order')
                 ->saveAttributeData($order);
         }
 
@@ -154,7 +154,7 @@ class Observer
     {
         $address = $observer->getEvent()->getAddress();
         if ($address instanceof \Magento\Core\Model\AbstractModel) {
-            \Mage::getModel('\Magento\CustomerCustomAttributes\Model\Sales\Order\Address')
+            \Mage::getModel('Magento\CustomerCustomAttributes\Model\Sales\Order\Address')
                 ->attachDataToEntities(array($address));
         }
 
@@ -171,7 +171,7 @@ class Observer
     {
         $orderAddress = $observer->getEvent()->getAddress();
         if ($orderAddress instanceof \Magento\Core\Model\AbstractModel) {
-            \Mage::getModel('\Magento\CustomerCustomAttributes\Model\Sales\Order\Address')
+            \Mage::getModel('Magento\CustomerCustomAttributes\Model\Sales\Order\Address')
                 ->saveAttributeData($orderAddress);
         }
 
@@ -215,9 +215,9 @@ class Observer
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute instanceof \Magento\Customer\Model\Attribute && $attribute->isObjectNew()) {
-            \Mage::getModel('\Magento\CustomerCustomAttributes\Model\Sales\Quote')
+            \Mage::getModel('Magento\CustomerCustomAttributes\Model\Sales\Quote')
                 ->saveNewAttribute($attribute);
-            \Mage::getModel('\Magento\CustomerCustomAttributes\Model\Sales\Order')
+            \Mage::getModel('Magento\CustomerCustomAttributes\Model\Sales\Order')
                 ->saveNewAttribute($attribute);
         }
 
@@ -234,9 +234,9 @@ class Observer
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute instanceof \Magento\Customer\Model\Attribute && !$attribute->isObjectNew()) {
-            \Mage::getModel('\Magento\CustomerCustomAttributes\Model\Sales\Quote')
+            \Mage::getModel('Magento\CustomerCustomAttributes\Model\Sales\Quote')
                 ->deleteAttribute($attribute);
-            \Mage::getModel('\Magento\CustomerCustomAttributes\Model\Sales\Order')
+            \Mage::getModel('Magento\CustomerCustomAttributes\Model\Sales\Order')
                 ->deleteAttribute($attribute);
         }
 
@@ -253,9 +253,9 @@ class Observer
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute instanceof \Magento\Customer\Model\Attribute && $attribute->isObjectNew()) {
-            \Mage::getModel('\Magento\CustomerCustomAttributes\Model\Sales\Quote\Address')
+            \Mage::getModel('Magento\CustomerCustomAttributes\Model\Sales\Quote\Address')
                 ->saveNewAttribute($attribute);
-            \Mage::getModel('\Magento\CustomerCustomAttributes\Model\Sales\Order\Address')
+            \Mage::getModel('Magento\CustomerCustomAttributes\Model\Sales\Order\Address')
                 ->saveNewAttribute($attribute);
         }
 
@@ -272,9 +272,9 @@ class Observer
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute instanceof \Magento\Customer\Model\Attribute && !$attribute->isObjectNew()) {
-            \Mage::getModel('\Magento\CustomerCustomAttributes\Model\Sales\Quote\Address')
+            \Mage::getModel('Magento\CustomerCustomAttributes\Model\Sales\Quote\Address')
                 ->deleteAttribute($attribute);
-            \Mage::getModel('\Magento\CustomerCustomAttributes\Model\Sales\Order\Address')
+            \Mage::getModel('Magento\CustomerCustomAttributes\Model\Sales\Order\Address')
                 ->deleteAttribute($attribute);
         }
 

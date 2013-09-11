@@ -23,7 +23,7 @@ class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Catalog\Model\Layer');
+        $this->_model = Mage::getModel('Magento\Catalog\Model\Layer');
         $this->_model->setCurrentCategory(4);
     }
 
@@ -60,7 +60,7 @@ class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
                     '\Magento\Catalog\Model\Layer\Filter\Item',
                     array(
                         'data' => array(
-                            'filter' => Mage::getModel('\Magento\Catalog\Model\Layer\Filter\Category'),
+                            'filter' => Mage::getModel('Magento\Catalog\Model\Layer\Filter\Category'),
                             'value'  => 'expected-value-string',
                         )
                     )
@@ -71,7 +71,7 @@ class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
                     '\Magento\Catalog\Model\Layer\Filter\Item',
                     array(
                         'data' => array(
-                            'filter' => Mage::getModel('\Magento\Catalog\Model\Layer\Filter\Decimal'),
+                            'filter' => Mage::getModel('Magento\Catalog\Model\Layer\Filter\Decimal'),
                             'value'  => 1234,
                         )
                     )
@@ -94,17 +94,17 @@ class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
 
     public function testGetSetCurrentCategory()
     {
-        $existingCategory = Mage::getModel('\Magento\Catalog\Model\Category');
+        $existingCategory = Mage::getModel('Magento\Catalog\Model\Category');
         $existingCategory->load(5);
 
         /* Category object */
         /** @var $model \Magento\Catalog\Model\Layer */
-        $model = Mage::getModel('\Magento\Catalog\Model\Layer');
+        $model = Mage::getModel('Magento\Catalog\Model\Layer');
         $model->setCurrentCategory($existingCategory);
         $this->assertSame($existingCategory, $model->getCurrentCategory());
 
         /* Category id */
-        $model = Mage::getModel('\Magento\Catalog\Model\Layer');
+        $model = Mage::getModel('Magento\Catalog\Model\Layer');
         $model->setCurrentCategory(3);
         $actualCategory = $model->getCurrentCategory();
         $this->assertInstanceOf('\Magento\Catalog\Model\Category', $actualCategory);
@@ -114,7 +114,7 @@ class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
         /* Category in registry */
         Mage::register('current_category', $existingCategory);
         try {
-            $model = Mage::getModel('\Magento\Catalog\Model\Layer');
+            $model = Mage::getModel('Magento\Catalog\Model\Layer');
             $this->assertSame($existingCategory, $model->getCurrentCategory());
             Mage::unregister('current_category');
             $this->assertSame($existingCategory, $model->getCurrentCategory());
@@ -125,15 +125,15 @@ class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
 
 
         try {
-            $model = Mage::getModel('\Magento\Catalog\Model\Layer');
+            $model = Mage::getModel('Magento\Catalog\Model\Layer');
             $model->setCurrentCategory(new \Magento\Object());
             $this->fail('Assign category of invalid class.');
         } catch (\Magento\Core\Exception $e) {
         }
 
         try {
-            $model = Mage::getModel('\Magento\Catalog\Model\Layer');
-            $model->setCurrentCategory(Mage::getModel('\Magento\Catalog\Model\Category'));
+            $model = Mage::getModel('Magento\Catalog\Model\Layer');
+            $model->setCurrentCategory(Mage::getModel('Magento\Catalog\Model\Category'));
             $this->fail('Assign category with invalid id.');
         } catch (\Magento\Core\Exception $e) {
         }
@@ -166,7 +166,7 @@ class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\Magento\Catalog\Model\Layer\State', $state);
         $this->assertSame($state, $this->_model->getState());
 
-        $state = Mage::getModel('\Magento\Catalog\Model\Layer\State');
+        $state = Mage::getModel('Magento\Catalog\Model\Layer\State');
         $this->_model->setState($state); // $this->_model->setData('state', state);
         $this->assertSame($state, $this->_model->getState());
     }

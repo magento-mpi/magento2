@@ -102,7 +102,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
         parent::_beforeSave();
         $country = $this->getTaxCountryId();
         $region = $this->getTaxRegionId();
-        $regionModel = \Mage::getModel('\Magento\Directory\Model\Region');
+        $regionModel = \Mage::getModel('Magento\Directory\Model\Region');
         $regionModel->load($region);
         if ($regionModel->getCountryId() != $country) {
             $this->setTaxRegionId('*');
@@ -172,7 +172,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
     public function getTitleModel()
     {
         if (is_null($this->_titleModel)) {
-            $this->_titleModel = \Mage::getModel('\Magento\Tax\Model\Calculation\Rate\Title');
+            $this->_titleModel = \Mage::getModel('Magento\Tax\Model\Calculation\Rate\Title');
         }
         return $this->_titleModel;
     }

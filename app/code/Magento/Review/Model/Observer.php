@@ -45,7 +45,7 @@ class Observer
     {
         $eventProduct = $observer->getEvent()->getProduct();
         if ($eventProduct && $eventProduct->getId()) {
-            \Mage::getResourceSingleton('\Magento\Review\Model\Resource\Review')
+            \Mage::getResourceSingleton('Magento\Review\Model\Resource\Review')
                 ->deleteReviewsByProductId($eventProduct->getId());
         }
 
@@ -63,7 +63,7 @@ class Observer
         $productCollection = $observer->getEvent()->getCollection();
         if ($productCollection instanceof \Magento\Data\Collection) {
             $productCollection->load();
-            \Mage::getModel('\Magento\Review\Model\Review')->appendSummary($productCollection);
+            \Mage::getModel('Magento\Review\Model\Review')->appendSummary($productCollection);
         }
 
         return $this;

@@ -61,7 +61,7 @@ class Order extends \Magento\Core\Controller\Front\Action
     {
         \Mage::app()->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML, \Magento\Core\Model\App\Area::PART_CONFIG);
         /** @var $auth \Magento\Backend\Model\Auth */
-        $auth = \Mage::getModel('\Magento\Backend\Model\Auth');
+        $auth = \Mage::getModel('Magento\Backend\Model\Auth');
         $session = $auth->getAuthStorage();
 
         // try to login using HTTP-authentication

@@ -35,10 +35,10 @@
                     class="map-cart-sidebar-total"><?php echo __('You will see the order total before you submit the order.'); ?></span>
                 <?php else: ?>
                 <span
-                    class="label"><?php echo __('Cart Subtotal:') ?></span> <?php echo $this->helper('\Magento\Checkout\Helper\Data')->formatPrice($this->getSubtotal()) ?>
+                    class="label"><?php echo __('Cart Subtotal:') ?></span> <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getSubtotal()) ?>
                 <?php if ($_subtotalInclTax = $this->getSubtotalInclTax()): ?>
                     <br/>
-                    (<?php echo $this->helper('\Magento\Checkout\Helper\Data')->formatPrice($_subtotalInclTax) ?> <?php echo $this->helper('\Magento\Tax\Helper\Data')->getIncExcText(true) ?>
+                    (<?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($_subtotalInclTax) ?> <?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcText(true) ?>
                     )
                     <?php endif; ?>
                 <?php endif; ?>

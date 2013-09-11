@@ -28,7 +28,7 @@ class V2 extends \Magento\Customer\Model\Address\Api
      */
     public function create($customerId, $addressData)
     {
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer')
             ->load($customerId);
         /* @var $customer \Magento\Customer\Model\Customer */
 
@@ -36,7 +36,7 @@ class V2 extends \Magento\Customer\Model\Address\Api
             $this->_fault('customer_not_exists');
         }
 
-        $address = \Mage::getModel('\Magento\Customer\Model\Address');
+        $address = \Mage::getModel('Magento\Customer\Model\Address');
 
         foreach ($this->getAllowedAttributes($address) as $attributeCode=>$attribute) {
             if (isset($addressData->$attributeCode)) {
@@ -70,7 +70,7 @@ class V2 extends \Magento\Customer\Model\Address\Api
      */
     public function info($addressId)
     {
-        $address = \Mage::getModel('\Magento\Customer\Model\Address')
+        $address = \Mage::getModel('Magento\Customer\Model\Address')
             ->load($addressId);
 
         if (!$address->getId()) {
@@ -106,7 +106,7 @@ class V2 extends \Magento\Customer\Model\Address\Api
     public function update($addressId, $addressData)
     {
         /** @var $address \Magento\Customer\Model\Address */
-        $address = \Mage::getModel('\Magento\Customer\Model\Address')->load($addressId);
+        $address = \Mage::getModel('Magento\Customer\Model\Address')->load($addressId);
 
         if (!$address->getId()) {
             $this->_fault('not_exists');

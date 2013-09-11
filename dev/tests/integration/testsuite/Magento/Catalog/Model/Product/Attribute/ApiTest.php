@@ -21,7 +21,7 @@ class Magento_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Catalog\Model\Product\Attribute\Api');
+        $this->_model = Mage::getModel('Magento\Catalog\Model\Product\Attribute\Api');
     }
 
     public function testItems()
@@ -194,7 +194,7 @@ class Magento_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_
     protected function _verifyAttribute($attributeCode, array $actualData, array $fieldsToCompare = array())
     {
         /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $expectedAttribute */
-        $expectedAttribute = Mage::getResourceModel('\Magento\Catalog\Model\Resource\Eav\Attribute');
+        $expectedAttribute = Mage::getResourceModel('Magento\Catalog\Model\Resource\Eav\Attribute');
         $expectedAttribute->loadByCode('catalog_product', $attributeCode);
         $expectedIsGlobal = $actualData['scope'] == 'global' ? 1 : 0;
         $this->assertEquals($expectedIsGlobal, $expectedAttribute->getIsGlobal(), 'Attribute scope is incorrect.');
@@ -245,7 +245,7 @@ class Magento_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_
 
         // Verify that attribute was deleted
         /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
-        $attribute = Mage::getResourceModel('\Magento\Catalog\Model\Resource\Eav\Attribute');
+        $attribute = Mage::getResourceModel('Magento\Catalog\Model\Resource\Eav\Attribute');
         $attribute->loadByCode('catalog_product', $attributeCode);
         $this->assertNull($attribute->getId(), 'Attribute was not deleted from storage.');
     }
@@ -281,7 +281,7 @@ class Magento_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_
         );
         $this->assertTrue($result, 'Attribute option was not added.');
         /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $expectedAttribute */
-        $expectedAttribute = Mage::getModel('\Magento\Catalog\Model\Resource\Eav\Attribute');
+        $expectedAttribute = Mage::getModel('Magento\Catalog\Model\Resource\Eav\Attribute');
         $expectedAttribute->loadByCode('catalog_product', $attributeCode);
         $options = $expectedAttribute->getSource()->getAllOptions();
         $this->assertCount(3, $options, 'Exactly 3 options should be in attribute.');
@@ -298,7 +298,7 @@ class Magento_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_
     {
         $attributeCode = 'select_attribute';
         /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $attribute */
-        $attribute = Mage::getModel('\Magento\Catalog\Model\Resource\Eav\Attribute');
+        $attribute = Mage::getModel('Magento\Catalog\Model\Resource\Eav\Attribute');
         $attribute->loadByCode('catalog_product', $attributeCode);
         $options = $attribute->getSource()->getAllOptions();
         $this->assertCount(2, $options, 'Incorrect options count in fixture.');
@@ -314,7 +314,7 @@ class Magento_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_
         $this->assertTrue($result, 'Attribute option was not removed.');
         // Verify option was removed from storage.
         /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $attrAfterRemove */
-        $attrAfterRemove = Mage::getModel('\Magento\Catalog\Model\Resource\Eav\Attribute');
+        $attrAfterRemove = Mage::getModel('Magento\Catalog\Model\Resource\Eav\Attribute');
         $attrAfterRemove->loadByCode('catalog_product', $attributeCode);
         $optionsAfterRemove = $attrAfterRemove->getSource()->getAllOptions();
         $this->assertCount(1, $optionsAfterRemove, 'Attribute option was not removed from storage.');

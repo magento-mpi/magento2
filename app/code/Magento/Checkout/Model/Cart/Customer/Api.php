@@ -55,7 +55,7 @@ class Api extends \Magento\Checkout\Model\Api\Resource\Customer
             case self::MODE_REGISTER:
             case self::MODE_GUEST:
                 /** @var \Magento\Customer\Model\Customer $customer */
-                $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->setData($customerData);
+                $customer = \Mage::getModel('Magento\Customer\Model\Customer')->setData($customerData);
 
                 if ($customer->getMode() == self::MODE_GUEST) {
                     $password = $customer->generatePassword();
@@ -100,7 +100,7 @@ class Api extends \Magento\Checkout\Model\Api\Resource\Customer
 
         foreach ($customerAddressData as $addressItem) {
             /** @var $address \Magento\Sales\Model\Quote\Address */
-            $address = \Mage::getModel('\Magento\Sales\Model\Quote\Address');
+            $address = \Mage::getModel('Magento\Sales\Model\Quote\Address');
             $addressMode = $addressItem['mode'];
             unset($addressItem['mode']);
 

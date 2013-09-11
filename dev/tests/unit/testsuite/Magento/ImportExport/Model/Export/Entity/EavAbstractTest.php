@@ -27,7 +27,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
 
     public function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Export\Entity\EavAbstract', array(),
+        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Export\Entity\EavAbstract', array(),
             '', false, true, true, array('_getExportAttributeCodes', 'getAttributeCollection', 'getAttributeOptions'));
 
         $this->_model->expects($this->once())
@@ -68,7 +68,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
         $testAttributeValue = 'value';
         $testAttributeOptions = array('value' => 'option');
         /** @var $testAttribute \Magento\Eav\Model\Entity\Attribute */
-        $testAttribute = $this->getMockForAbstractClass('\Magento\Eav\Model\Entity\Attribute\AbstractAttribute', array(), '',
+        $testAttribute = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\Attribute\AbstractAttribute', array(), '',
             false);
         $testAttribute->setAttributeCode($testAttributeCode);
 
@@ -81,7 +81,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
             ->will($this->returnValue($testAttributeOptions));
 
         /** @var $item \Magento\Core\Model\AbstractModel|PHPUnit_Framework_MockObject_MockObject */
-        $item = $this->getMockForAbstractClass('\Magento\Core\Model\AbstractModel', array(), '', false, true, true,
+        $item = $this->getMockForAbstractClass('Magento\Core\Model\AbstractModel', array(), '', false, true, true,
             array('getData'));
         $item->expects($this->any())
             ->method('getData')

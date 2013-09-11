@@ -38,7 +38,7 @@
             <?php foreach ($_returns as $_return): ?>
             <tr>
                 <td><?php echo $_return->getIncrementId() ?></td>
-                <td><span class="nobr"><?php echo $this->helper('\Magento\Rma\Helper\Data')->getFormatedDate($_return->getDateRequested()) ?></span></td>
+                <td><span class="nobr"><?php echo $this->helper('Magento\Rma\Helper\Data')->getFormatedDate($_return->getDateRequested()) ?></span></td>
                 <td><?php echo $this->escapeHtml($_return->getCustomerName()) ?></td>
                 <td><?php echo $this->escapeHtml($_return->getStatusLabel()) ?></td>
                 <td>

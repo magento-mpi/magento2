@@ -43,7 +43,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         $user = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getData('user');
 
         /** @var $collection \Magento\Oauth\Model\Resource\Token\Collection */
-        $collection = \Mage::getModel('\Magento\Oauth\Model\Token')->getCollection();
+        $collection = \Mage::getModel('Magento\Oauth\Model\Token')->getCollection();
         $collection->joinConsumerAsApplication()
                 ->addFilterByType(\Magento\Oauth\Model\Token::TYPE_ACCESS)
                 ->addFilterByAdminId($user->getId());

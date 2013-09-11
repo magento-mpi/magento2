@@ -35,7 +35,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
 
         // base fieldset
         /** @var $importEntity \Magento\ImportExport\Model\Source\Import\Entity */
-        $importEntity = \Mage::getModel('\Magento\ImportExport\Model\Source\Import\Entity');
+        $importEntity = \Mage::getModel('Magento\ImportExport\Model\Source\Import\Entity');
         $fieldsets['base'] = $form->addFieldset('base_fieldset', array('legend' => __('Import Settings')));
         $fieldsets['base']->addField('entity', 'select', array(
             'name'     => 'entity',

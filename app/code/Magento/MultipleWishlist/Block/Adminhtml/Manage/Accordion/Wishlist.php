@@ -27,7 +27,7 @@ class Wishlist
      */
     protected function _createItemsCollection()
     {
-        return \Mage::getModel('\Magento\MultipleWishlist\Model\Item')->getCollection();
+        return \Mage::getModel('Magento\MultipleWishlist\Model\Item')->getCollection();
     }
 
     /**

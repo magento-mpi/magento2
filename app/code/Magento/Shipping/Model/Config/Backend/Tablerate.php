@@ -22,6 +22,6 @@ class Tablerate extends \Magento\Core\Model\Config\Value
 {
     public function _afterSave()
     {
-        \Mage::getResourceModel('\Magento\Shipping\Model\Resource\Carrier\Tablerate')->uploadAndImport($this);
+        \Mage::getResourceModel('Magento\Shipping\Model\Resource\Carrier\Tablerate')->uploadAndImport($this);
     }
 }

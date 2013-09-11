@@ -67,7 +67,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         $expectedFinanceData = $this->_csvToArray(file_get_contents($pathToCsvFile));
 
         $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToCsvFile);
-        $model = Mage::getModel('\Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance');
+        $model = Mage::getModel('Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance');
         $model->setParameters(
             array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE)
         );
@@ -80,10 +80,10 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         $customerBalanceKey =
             \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_CUSTOMER_BALANCE;
 
-        $customerCollection = Mage::getResourceModel('\Magento\Customer\Model\Resource\Customer\Collection');
+        $customerCollection = Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
         /** @var $customer \Magento\Customer\Model\Customer */
         foreach ($customerCollection as $customer) {
-            $rewardCollection = Mage::getResourceModel('\Magento\Reward\Model\Resource\Reward\Collection');
+            $rewardCollection = Mage::getResourceModel('Magento\Reward\Model\Resource\Reward\Collection');
             $rewardCollection->addFieldToFilter('customer_id', $customer->getId());
             /** @var $rewardPoints \Magento\Reward\Model\Reward */
             foreach ($rewardCollection as $rewardPoints) {
@@ -99,7 +99,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
                 );
             }
 
-            $customerBalance = Mage::getResourceModel('\Magento\CustomerBalance\Model\Resource\Balance\Collection');
+            $customerBalance = Mage::getResourceModel('Magento\CustomerBalance\Model\Resource\Balance\Collection');
             $customerBalance->addFieldToFilter('customer_id', $customer->getId());
             /** @var $balance \Magento\CustomerBalance\Model\Balance */
             foreach ($customerBalance as $balance) {
@@ -129,13 +129,13 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
     public function testImportDataDelete()
     {
         /* clean up the database from prior tests before importing */
-        $rewards  = Mage::getResourceModel('\Magento\Reward\Model\Resource\Reward\Collection');
+        $rewards  = Mage::getResourceModel('Magento\Reward\Model\Resource\Reward\Collection');
         foreach ($rewards as $reward) {
             $reward->delete();
         }
 
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(__DIR__ . '/../_files/customer_finance_delete.csv');
-        $model = Mage::getModel('\Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance');
+        $model = Mage::getModel('Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance');
         $model->setParameters(
             array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE)
         );
@@ -143,8 +143,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         $model->validateData();
         $model->importData();
 
-        $rewards  = Mage::getResourceModel('\Magento\Reward\Model\Resource\Reward\Collection');
-        $balances = Mage::getResourceModel('\Magento\CustomerBalance\Model\Resource\Balance\Collection');
+        $rewards  = Mage::getResourceModel('Magento\Reward\Model\Resource\Reward\Collection');
+        $balances = Mage::getResourceModel('Magento\CustomerBalance\Model\Resource\Balance\Collection');
 
         $expectedRewards = Mage::registry('_fixture/Magento_ScheduledImportExport_Customers_ExpectedRewards');
         /** @var $reward \Magento\Reward\Model\Reward */

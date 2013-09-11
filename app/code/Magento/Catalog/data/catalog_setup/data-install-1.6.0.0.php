@@ -11,7 +11,7 @@
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this;
 
-// Create Root Catalog Node \Mage::getModel('\Magento\Catalog\Model\Category')
+// Create Root Catalog Node \Mage::getModel('Magento\Catalog\Model\Category')
     ->load(1)
     ->setId(1)
     ->setStoreId(0)
@@ -24,7 +24,7 @@ $installer = $this;
     ->save();
 
 /* @var $category \Magento\Catalog\Model\Category */
-$category = \Mage::getModel('\Magento\Catalog\Model\Category');
+$category = \Mage::getModel('Magento\Catalog\Model\Category');
 
 $category->setStoreId(0)
     ->setName('Default Category')

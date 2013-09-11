@@ -245,7 +245,7 @@ class Config
             return $this;
         }
 
-        $entityTypesData = \Mage::getModel('\Magento\Eav\Model\Entity\Type')->getCollection()->getData();
+        $entityTypesData = \Mage::getModel('Magento\Eav\Model\Entity\Type')->getCollection()->getData();
         $types           = array();
 
         /**
@@ -302,7 +302,7 @@ class Config
         }
 
 
-        $entityType = \Mage::getModel('\Magento\Eav\Model\Entity\Type');
+        $entityType = \Mage::getModel('Magento\Eav\Model\Entity\Type');
         if (isset($this->_entityData[$code])) {
             $entityType->setData($this->_entityData[$code]);
         } else {

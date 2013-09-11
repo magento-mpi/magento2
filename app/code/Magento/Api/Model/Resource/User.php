@@ -339,7 +339,7 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
 
         if ($user->getId() > 0) {
-            $role = \Mage::getModel('\Magento\Api\Model\Role')->load($user->getRoleId());
+            $role = \Mage::getModel('Magento\Api\Model\Role')->load($user->getRoleId());
         } else {
             $role = new \Magento\Object(array('tree_level' => 0));
         }

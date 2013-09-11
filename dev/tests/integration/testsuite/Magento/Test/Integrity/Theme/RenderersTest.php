@@ -26,7 +26,7 @@ class Magento_Test_Integrity_Theme_RenderersTest extends Magento_TestFramework_T
         $blocks = array();
         foreach ($this->_getDesignThemes() as $theme) {
             /** @var \Magento\Core\Model\Layout\Merge $layoutUpdate */
-            $layoutUpdate = Mage::getModel('\Magento\Core\Model\Layout\Merge', array('theme' => $theme));
+            $layoutUpdate = Mage::getModel('Magento\Core\Model\Layout\Merge', array('theme' => $theme));
             $blockElements = $layoutUpdate->getFileLayoutUpdatesXml()->xpath($xpath);
             if ($blockElements) {
                 foreach ($blockElements as $block) {

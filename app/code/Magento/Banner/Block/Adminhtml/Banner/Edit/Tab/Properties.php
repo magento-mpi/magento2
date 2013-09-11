@@ -85,7 +85,7 @@ class Properties extends \Magento\Adminhtml\Block\Widget\Form
             'can_be_empty' => true,
         ));
 
-        $afterFormBlock = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Form\Element\Dependence')
+        $afterFormBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Form\Element\Dependence')
             ->addFieldMap("{$htmlIdPrefix}is_types", 'is_types')
             ->addFieldMap("{$htmlIdPrefix}types", 'types')
             ->addFieldDependence('types', 'is_types', '1');

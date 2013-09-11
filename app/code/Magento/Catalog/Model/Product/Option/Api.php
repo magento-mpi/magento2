@@ -69,7 +69,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
     public function update($optionId, $data, $store = null)
     {
         /** @var $option \Magento\Catalog\Model\Product\Option */
-        $option = \Mage::getModel('\Magento\Catalog\Model\Product\Option')->load($optionId);
+        $option = \Mage::getModel('Magento\Catalog\Model\Product\Option')->load($optionId);
         if (!$option->getId()) {
             $this->_fault('option_not_exists');
         }
@@ -212,7 +212,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
     public function info($optionId, $store = null)
     {
         /** @var $option \Magento\Catalog\Model\Product\Option */
-        $option = \Mage::getModel('\Magento\Catalog\Model\Product\Option')->load($optionId);
+        $option = \Mage::getModel('Magento\Catalog\Model\Product\Option')->load($optionId);
         if (!$option->getId()) {
             $this->_fault('option_not_exists');
         }
@@ -296,7 +296,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
     public function remove($optionId)
     {
         /** @var $option \Magento\Catalog\Model\Product\Option */
-        $option = \Mage::getModel('\Magento\Catalog\Model\Product\Option')->load($optionId);
+        $option = \Mage::getModel('Magento\Catalog\Model\Product\Option')->load($optionId);
         if (!$option->getId()) {
             $this->_fault('option_not_exists');
         }

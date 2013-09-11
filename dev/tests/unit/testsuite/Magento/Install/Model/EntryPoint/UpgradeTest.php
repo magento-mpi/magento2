@@ -28,7 +28,7 @@ class Magento_Install_Model_EntryPoint_UpgradeTest extends PHPUnit_Framework_Tes
 
         $dirVerification = $this->getMock('Magento\Core\Model\Dir\Verification', array(), array(), '', false);
 
-        $cacheFrontend = $this->getMockForAbstractClass('\Magento\Cache\FrontendInterface');
+        $cacheFrontend = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
         $cacheFrontend->expects($this->once())->method('clean')->with('all', array());
         $cacheFrontendPool = $this->getMock(
             '\Magento\Core\Model\Cache\Frontend\Pool', array('valid', 'current'), array(

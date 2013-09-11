@@ -35,10 +35,10 @@ class Observer
             /** @var $categoryFlatHelper \Magento\Catalog\Helper\Category\Flat */
             $categoryFlatHelper = \Mage::helper('Magento\Catalog\Helper\Category\Flat');
             if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
-                \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Category\Flat')
+                \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Flat')
                     ->synchronize(null, array($store->getId()));
             }
-            \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product')->refreshEnabledIndex($store);
+            \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product')->refreshEnabledIndex($store);
         }
         return $this;
     }
@@ -58,10 +58,10 @@ class Observer
         /** @var $categoryFlatHelper \Magento\Catalog\Helper\Category\Flat */
         $categoryFlatHelper = \Mage::helper('Magento\Catalog\Helper\Category\Flat');
         if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
-            \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Category\Flat')
+            \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Flat')
                 ->synchronize(null, array($store->getId()));
         }
-        \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product')->refreshEnabledIndex($store);
+        \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product')->refreshEnabledIndex($store);
         return $this;
     }
 
@@ -81,7 +81,7 @@ class Observer
                 /** @var $categoryFlatHelper \Magento\Catalog\Helper\Category\Flat */
                 $categoryFlatHelper = \Mage::helper('Magento\Catalog\Helper\Category\Flat');
                 if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
-                    \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Category\Flat')
+                    \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Flat')
                         ->synchronize(null, array($store->getId()));
                 }
             }
@@ -101,7 +101,7 @@ class Observer
         $categoryFlatHelper = \Mage::helper('Magento\Catalog\Helper\Category\Flat');
         if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
             $store = $observer->getEvent()->getStore();
-            \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Category\Flat')->deleteStores($store->getId());
+            \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Flat')->deleteStores($store->getId());
         }
         return $this;
     }
@@ -120,7 +120,7 @@ class Observer
         /** @var $categoryFlatHelper \Magento\Catalog\Helper\Category\Flat */
         $categoryFlatHelper = \Mage::helper('Magento\Catalog\Helper\Category\Flat');
         if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
-            \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Category\Flat')
+            \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Flat')
                 ->move($categoryId, $prevParentId, $parentId);
         }
         return $this;
@@ -134,8 +134,8 @@ class Observer
      */
     public function catalogProductImportAfter(\Magento\Event\Observer $observer)
     {
-        \Mage::getModel('\Magento\Catalog\Model\Url')->refreshRewrites();
-        \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Category')->refreshProductIndex();
+        \Mage::getModel('Magento\Catalog\Model\Url')->refreshRewrites();
+        \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category')->refreshProductIndex();
         return $this;
     }
 
@@ -147,7 +147,7 @@ class Observer
      */
     public function catalogProductCompareClean(\Magento\Event\Observer $observer)
     {
-        \Mage::getModel('\Magento\Catalog\Model\Product\Compare\Item')->clean();
+        \Mage::getModel('Magento\Catalog\Model\Product\Compare\Item')->clean();
         return $this;
     }
 
@@ -163,7 +163,7 @@ class Observer
         $categoryFlatHelper = \Mage::helper('Magento\Catalog\Helper\Category\Flat');
         if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
             $category = $observer->getEvent()->getCategory();
-            \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Category\Flat')->synchronize($category);
+            \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Flat')->synchronize($category);
         }
         return $this;
     }

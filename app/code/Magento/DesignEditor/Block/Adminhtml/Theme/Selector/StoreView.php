@@ -95,7 +95,7 @@ class StoreView extends \Magento\Backend\Block\Template
     public function getAssignNextButtonHtml()
     {
         /** @var $assignSaveButton \Magento\Backend\Block\Widget\Button */
-        $assignSaveButton = $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button');
+        $assignSaveButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button');
         $assignSaveButton->setData(array(
             'label'     => __('Assign'),
             'class'     => 'action-save primary',
@@ -196,7 +196,7 @@ class StoreView extends \Magento\Backend\Block\Template
         $options['afterAssignOpen']  = false;
 
         /** @var $helper \Magento\Core\Helper\Data */
-        $helper = $this->helper('\Magento\Core\Helper\Data');
+        $helper = $this->helper('Magento\Core\Helper\Data');
 
         return $helper->jsonEncode($options);
     }

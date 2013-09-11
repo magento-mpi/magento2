@@ -109,12 +109,12 @@ class Attributes
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = \Mage::getModel('\Magento\Directory\Model\Config\Source\Country')
+                    $options = \Mage::getModel('Magento\Directory\Model\Config\Source\Country')
                         ->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = \Mage::getModel('\Magento\Directory\Model\Config\Source\Allregion')
+                    $options = \Mage::getModel('Magento\Directory\Model\Config\Source\Allregion')
                         ->toOptionArray();
                     break;
 

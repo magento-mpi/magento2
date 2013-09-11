@@ -35,7 +35,7 @@ class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     protected function _getResource()
     {
-        return \Mage::getResourceSingleton('\Magento\CatalogSearch\Model\Resource\Indexer\Fulltext');
+        return \Mage::getResourceSingleton('Magento\CatalogSearch\Model\Resource\Indexer\Fulltext');
     }
 
     /**
@@ -308,7 +308,7 @@ class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
     {
         if (is_null($this->_searchableAttributes)) {
             /** @var $attributeCollection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
-            $attributeCollection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Attribute\Collection');
+            $attributeCollection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection');
             $attributeCollection->addIsSearchableFilter();
 
             foreach ($attributeCollection as $attribute) {
@@ -327,7 +327,7 @@ class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     protected function _isProductComposite($productId)
     {
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($productId);
+        $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
         return $product->isComposite();
     }
 

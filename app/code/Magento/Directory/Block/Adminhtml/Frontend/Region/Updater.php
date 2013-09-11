@@ -18,7 +18,7 @@ class Updater
         $html = parent::_getElementHtml($element);
         $html .= "<script type=\"text/javascript\">var updater = new RegionUpdater('tax_defaults_country',"
             . " 'tax_region', 'tax_defaults_region', "
-            . $this->helper('\Magento\Directory\Helper\Data')->getRegionJson()
+            . $this->helper('Magento\Directory\Helper\Data')->getRegionJson()
             . ", 'disable');</script>";
 
         return $html;

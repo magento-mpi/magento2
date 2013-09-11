@@ -36,7 +36,7 @@ class Collection
     public function joinWithRewardPoints()
     {
         /** @var $rewardResourceModel \Magento\Reward\Model\Resource\Reward */
-        $rewardResourceModel = \Mage::getResourceModel('\Magento\Reward\Model\Resource\Reward');
+        $rewardResourceModel = \Mage::getResourceModel('Magento\Reward\Model\Resource\Reward');
 
         $joinFlag = 'join_reward_points';
         if (!$this->getFlag($joinFlag)) {
@@ -73,7 +73,7 @@ class Collection
     public function joinWithCustomerBalance()
     {
         /** @var $customerBalanceResourceModel \Magento\CustomerBalance\Model\Resource\Balance */
-        $customerBalanceResourceModel = \Mage::getResourceModel('\Magento\CustomerBalance\Model\Resource\Balance');
+        $customerBalanceResourceModel = \Mage::getResourceModel('Magento\CustomerBalance\Model\Resource\Balance');
 
         $joinFlag = 'join_customer_balance';
         if (!$this->getFlag($joinFlag)) {

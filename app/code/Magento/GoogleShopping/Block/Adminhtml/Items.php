@@ -53,7 +53,7 @@ class Items extends \Magento\Adminhtml\Block\Widget\Grid\Container
      */
     public function getCaptchaHtml()
     {
-        return $this->getLayout()->createBlock('\Magento\GoogleShopping\Block\Adminhtml\Captcha')
+        return $this->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Captcha')
             ->setGcontentCaptchaToken($this->getGcontentCaptchaToken())
             ->setGcontentCaptchaUrl($this->getGcontentCaptchaUrl())
             ->toHtml();
@@ -76,7 +76,7 @@ class Items extends \Magento\Adminhtml\Block\Widget\Grid\Container
      */
     public function isProcessRunning()
     {
-        $flag = \Mage::getModel('\Magento\GoogleShopping\Model\Flag')->loadSelf();
+        $flag = \Mage::getModel('Magento\GoogleShopping\Model\Flag')->loadSelf();
         return $flag->isLocked();
     }
 

@@ -25,7 +25,7 @@ class Content
      */
     public function getHeaderText()
     {
-        return __('CSS Editor ') . __($this->helper('\Magento\Theme\Helper\Storage')->getStorageTypeName());
+        return __('CSS Editor ') . __($this->helper('Magento\Theme\Helper\Storage')->getStorageTypeName());
     }
     /**
      * Javascript setup object for filebrowser instance
@@ -50,6 +50,6 @@ class Content
             'showBreadcrumbs' => false
         ));
 
-        return $this->helper('\Magento\Core\Helper\Data')->jsonEncode($setupObject);
+        return $this->helper('Magento\Core\Helper\Data')->jsonEncode($setupObject);
     }
 }

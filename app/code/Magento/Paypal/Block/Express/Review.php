@@ -127,10 +127,10 @@ class Review extends \Magento\Core\Block\Template
             $price = $rate->getErrorMessage();
         } else {
             $price = $this->_getShippingPrice($rate->getPrice(),
-                $this->helper('\Magento\Tax\Helper\Data')->displayShippingPriceIncludingTax());
+                $this->helper('Magento\Tax\Helper\Data')->displayShippingPriceIncludingTax());
 
             $incl = $this->_getShippingPrice($rate->getPrice(), true);
-            if (($incl != $price) && $this->helper('\Magento\Tax\Helper\Data')->displayShippingBothPrices()) {
+            if (($incl != $price) && $this->helper('Magento\Tax\Helper\Data')->displayShippingBothPrices()) {
                 $renderedInclTax = sprintf(
                     $inclTaxFormat,
                     __('Incl. Tax'),
@@ -170,7 +170,7 @@ class Review extends \Magento\Core\Block\Template
     protected function _getShippingPrice($price, $isInclTax)
     {
         return $this->_formatPrice(
-            $this->helper('\Magento\Tax\Helper\Data')->getShippingPrice(
+            $this->helper('Magento\Tax\Helper\Data')->getShippingPrice(
                 $price,
                 $isInclTax,
                 $this->_address

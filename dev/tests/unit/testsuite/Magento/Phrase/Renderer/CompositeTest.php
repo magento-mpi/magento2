@@ -34,9 +34,9 @@ class Magento_Phrase_Renderer_CompositeTest extends PHPUnit_Framework_TestCase
     public function testCreatingRenderersWhenCompositeCreating()
     {
         $this->_rendererFactory->expects($this->at(0))->method('create')->with('RenderClass1')
-            ->will($this->returnValue($this->getMockForAbstractClass('\Magento\Phrase\RendererInterface')));
+            ->will($this->returnValue($this->getMockForAbstractClass('Magento\Phrase\RendererInterface')));
         $this->_rendererFactory->expects($this->at(1))->method('create')->with('RenderClass2')
-            ->will($this->returnValue($this->getMockForAbstractClass('\Magento\Phrase\RendererInterface')));
+            ->will($this->returnValue($this->getMockForAbstractClass('Magento\Phrase\RendererInterface')));
 
         $this->_createComposite(array('RenderClass1', 'RenderClass2'));
     }

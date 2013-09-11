@@ -35,9 +35,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_SettingsTest extend
 
         Mage::register('current_product', $product);
 
-        $context = Mage::getModel('\Magento\Backend\Block\Template\Context', array('urlBuilder' => $urlModel));
+        $context = Mage::getModel('Magento\Backend\Block\Template\Context', array('urlBuilder' => $urlModel));
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $layout = Mage::getModel('Magento\Core\Model\Layout');
         /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Settings */
         $block = $layout->createBlock(
             '\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Settings',

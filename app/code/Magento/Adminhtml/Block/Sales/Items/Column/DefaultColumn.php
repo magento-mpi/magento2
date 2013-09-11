@@ -58,7 +58,7 @@ class DefaultColumn extends \Magento\Adminhtml\Block\Template
         $_default = $optionInfo['value'];
         if (isset($optionInfo['option_type'])) {
             try {
-                $group = \Mage::getModel('\Magento\Catalog\Model\Product\Option')->groupFactory($optionInfo['option_type']);
+                $group = \Mage::getModel('Magento\Catalog\Model\Product\Option')->groupFactory($optionInfo['option_type']);
                 return $group->getCustomizedView($optionInfo);
             } catch (\Exception $e) {
                 return $_default;

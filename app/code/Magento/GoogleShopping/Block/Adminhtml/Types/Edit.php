@@ -43,7 +43,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getFormInitScripts()
     {
-        return $this->getLayout()->createBlock('\Magento\Core\Block\Template')
+        return $this->getLayout()->createBlock('Magento\Core\Block\Template')
             ->setTemplate('Magento_GoogleShopping::types/edit.phtml')
             ->toHtml();
     }

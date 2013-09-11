@@ -10,7 +10,7 @@
  */
 
 /** @var $model \Magento\GiftCardAccount\Model\Giftcardaccount */
-$model = Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount');
+$model = Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount');
 $model->setCode('giftcardaccount_fixture')
     ->setStatus(\Magento\GiftCardAccount\Model\Giftcardaccount::STATUS_ENABLED)
     ->setState(\Magento\GiftCardAccount\Model\Giftcardaccount::STATE_AVAILABLE)

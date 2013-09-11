@@ -45,7 +45,7 @@ class History extends \Magento\Core\Block\Template
             return false;
         }
 
-        $collection = \Mage::getModel('\Magento\CustomerBalance\Model\Balance\History')
+        $collection = \Mage::getModel('Magento\CustomerBalance\Model\Balance\History')
                 ->getCollection()
                 ->addFieldToFilter('customer_id', $customerId)
                 ->addFieldToFilter('website_id', \Mage::app()->getStore()->getWebsiteId())

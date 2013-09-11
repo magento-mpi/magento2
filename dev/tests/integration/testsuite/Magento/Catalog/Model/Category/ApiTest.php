@@ -25,7 +25,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Catalog\Model\Category\Api');
+        $this->_model = Mage::getModel('Magento\Catalog\Model\Category\Api');
         Mage::app()->setCurrentStore(\Magento\Core\Model\App::ADMIN_STORE_ID);
     }
 
@@ -222,7 +222,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
             'Result of a create method is not an integer.'
         );
 
-        $category = Mage::getModel('\Magento\Catalog\Model\Category');
+        $category = Mage::getModel('Magento\Catalog\Model\Category');
         $category->load($categoryId);
 
         //check created data
@@ -323,7 +323,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
             Magento_TestFramework_Helper_Api::call($this, 'catalogCategoryUpdate', $categoryFixture['update']);
         $this->assertTrue($resultUpdated);
 
-        $category = Mage::getModel('\Magento\Catalog\Model\Category');
+        $category = Mage::getModel('Magento\Catalog\Model\Category');
         $category->load($categoryId);
 
         //check updated data
@@ -361,7 +361,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
         );
         $this->assertTrue($categoryDelete);
 
-        $category = Mage::getModel('\Magento\Catalog\Model\Category');
+        $category = Mage::getModel('Magento\Catalog\Model\Category');
         $category->load($categoryId);
         $this->assertEmpty($category->getId());
     }
@@ -388,7 +388,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
             'Category cannot created with vulnerability in is_active field'
         );
 
-        $category = Mage::getModel('\Magento\Catalog\Model\Category');
+        $category = Mage::getModel('Magento\Catalog\Model\Category');
         $category->load($categoryId);
 
         $this->assertEquals(
@@ -463,7 +463,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
             'Exception message is not right.'
         );
 
-        $category = Mage::getModel('\Magento\Catalog\Model\Category');
+        $category = Mage::getModel('Magento\Catalog\Model\Category');
         $this->assertNotNull($category->load(\Magento\Catalog\Model\Category::TREE_ROOT_ID)->getId());
     }
 }

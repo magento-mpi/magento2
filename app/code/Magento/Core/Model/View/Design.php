@@ -189,7 +189,7 @@ class Design implements \Magento\Core\Model\View\DesignInterface
     public function getDesignTheme()
     {
         if ($this->_theme === null) {
-            $this->_theme = \Mage::getModel('\Magento\Core\Model\Theme');
+            $this->_theme = \Mage::getModel('Magento\Core\Model\Theme');
         }
         return $this->_theme;
     }

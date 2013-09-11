@@ -31,7 +31,7 @@ class ClassTax extends \Magento\Adminhtml\Controller\Action
                 'class_type' => $this->_processClassType((string)$this->getRequest()->getPost('class_type')),
                 'class_name' => $this->_processClassName((string)$this->getRequest()->getPost('class_name'))
             );
-            $class = \Mage::getModel('\Magento\Tax\Model\ClassModel')
+            $class = \Mage::getModel('Magento\Tax\Model\ClassModel')
                 ->setData($classData)
                 ->save();
             $responseContent = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode(array(

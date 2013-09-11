@@ -127,7 +127,7 @@ class DefaultRenderer extends Magento_Adminhtml_Block_Sales_Items_Abstract
     protected function _initMessage()
     {
         $this->_giftMessage[$this->getItem()->getGiftMessageId()] =
-            $this->helper('\Magento\GiftMessage\Helper\Message')->getGiftMessage($this->getItem()->getGiftMessageId());
+            $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage($this->getItem()->getGiftMessageId());
 
         // init default values for giftmessage form
         if(!$this->getMessage()->getSender()) {
@@ -185,7 +185,7 @@ class DefaultRenderer extends Magento_Adminhtml_Block_Sales_Items_Abstract
      */
     public function canDisplayGiftmessage()
     {
-        return $this->helper('\Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable(
+        return $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable(
             'order_item', $this->getItem(), $this->getItem()->getOrder()->getStoreId()
         );
     }
@@ -199,8 +199,8 @@ class DefaultRenderer extends Magento_Adminhtml_Block_Sales_Items_Abstract
     public function displaySubtotalInclTax($item)
     {
         return $this->displayPrices(
-            $this->helper('\Magento\Checkout\Helper\Data')->getBaseSubtotalInclTax($item),
-            $this->helper('\Magento\Checkout\Helper\Data')->getSubtotalInclTax($item)
+            $this->helper('Magento\Checkout\Helper\Data')->getBaseSubtotalInclTax($item),
+            $this->helper('Magento\Checkout\Helper\Data')->getSubtotalInclTax($item)
         );
     }
 
@@ -213,8 +213,8 @@ class DefaultRenderer extends Magento_Adminhtml_Block_Sales_Items_Abstract
     public function displayPriceInclTax(\Magento\Object $item)
     {
         return $this->displayPrices(
-            $this->helper('\Magento\Checkout\Helper\Data')->getBasePriceInclTax($item),
-            $this->helper('\Magento\Checkout\Helper\Data')->getPriceInclTax($item)
+            $this->helper('Magento\Checkout\Helper\Data')->getBasePriceInclTax($item),
+            $this->helper('Magento\Checkout\Helper\Data')->getPriceInclTax($item)
         );
     }
 

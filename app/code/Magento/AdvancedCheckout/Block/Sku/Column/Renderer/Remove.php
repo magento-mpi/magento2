@@ -13,7 +13,7 @@ class Remove extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Button
 {
     public function render(\Magento\Object $row)
     {
-        $removeButtonHtml = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button', '', array(
+        $removeButtonHtml = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button', '', array(
             'data' => array(
                 'class' => 'delete',
                 'label' => 'Remove',

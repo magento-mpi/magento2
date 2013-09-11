@@ -75,7 +75,7 @@ class Query extends \Magento\Core\Model\AbstractModel
      */
     public function getSearchCollection()
     {
-        return \Mage::getResourceModel('\Magento\CatalogSearch\Model\Resource\Search\Collection');
+        return \Mage::getResourceModel('Magento\CatalogSearch\Model\Resource\Search\Collection');
     }
 
     /**
@@ -112,7 +112,7 @@ class Query extends \Magento\Core\Model\AbstractModel
     {
         $collection = $this->getData('suggest_collection');
         if (is_null($collection)) {
-            $collection = \Mage::getResourceModel('\Magento\CatalogSearch\Model\Resource\Query\Collection')
+            $collection = \Mage::getResourceModel('Magento\CatalogSearch\Model\Resource\Query\Collection')
                 ->setStoreId($this->getStoreId())
                 ->setQueryFilter($this->getQueryText());
             $this->setData('suggest_collection', $collection);

@@ -44,7 +44,7 @@ class Profile extends \Magento\Core\Controller\Front\Action
     {
         $this->_title(__('Recurring Billing Profiles'));
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $this->renderLayout();
     }
 
@@ -153,7 +153,7 @@ class Profile extends \Magento\Core\Controller\Front\Action
             $profile = $this->_initProfile();
             $this->_title(__('Recurring Billing Profiles'))->_title(__('Profile #%1', $profile->getReferenceId()));
             $this->loadLayout();
-            $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+            $this->_initLayoutMessages('Magento\Customer\Model\Session');
             $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
             if ($navigationBlock) {
                 $navigationBlock->setActive('sales/recurring_profile/');
@@ -176,7 +176,7 @@ class Profile extends \Magento\Core\Controller\Front\Action
      */
     protected function _initProfile()
     {
-        $profile = \Mage::getModel('\Magento\Sales\Model\Recurring\Profile')->load($this->getRequest()->getParam('profile'));
+        $profile = \Mage::getModel('Magento\Sales\Model\Recurring\Profile')->load($this->getRequest()->getParam('profile'));
         if (!$profile->getId()) {
             \Mage::throwException(__('We can\'t find the profile you specified.'));
         }

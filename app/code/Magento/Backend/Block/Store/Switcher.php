@@ -321,7 +321,7 @@ class Switcher extends \Magento\Backend\Block\Template
     public function getHintUrl()
     {
         if (null === $this->_hintUrl) {
-            $this->_hintUrl = $this->helper('\Magento\Core\Helper\Hint')->getHintByCode(self::XPATH_HINT_KEY);
+            $this->_hintUrl = $this->helper('Magento\Core\Helper\Hint')->getHintByCode(self::XPATH_HINT_KEY);
         }
         return $this->_hintUrl;
     }

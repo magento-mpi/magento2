@@ -31,7 +31,7 @@ class Observer
 
         // Process only Google Checkout internal methods
         /* @var $gcCarrier \Magento\GoogleCheckout\Model\Shipping */
-        $gcCarrier = \Mage::getModel('\Magento\GoogleCheckout\Model\Shipping');
+        $gcCarrier = \Mage::getModel('Magento\GoogleCheckout\Model\Shipping');
         list($carrierCode, $methodCode) = explode('_', $shippingMethod);
         if ($gcCarrier->getCarrierCode() != $carrierCode) {
             return;
@@ -41,7 +41,7 @@ class Observer
             return;
         }
 
-        \Mage::getModel('\Magento\GoogleCheckout\Model\Api')
+        \Mage::getModel('Magento\GoogleCheckout\Model\Api')
             ->setStoreId($order->getStoreId())
             ->deliver($order->getExtOrderId(), $track->getCarrierCode(), $track->getNumber());
     }
@@ -63,7 +63,7 @@ class Observer
 
         // Process only Google Checkout internal methods
         /* @var $gcCarrier \Magento\GoogleCheckout\Model\Shipping */
-        $gcCarrier = \Mage::getModel('\Magento\GoogleCheckout\Model\Shipping');
+        $gcCarrier = \Mage::getModel('Magento\GoogleCheckout\Model\Shipping');
         list($carrierCode, $methodCode) = explode('_', $shippingMethod);
         if ($gcCarrier->getCarrierCode() != $carrierCode) {
             return;
@@ -83,7 +83,7 @@ class Observer
         }
 
         if ($items) {
-            \Mage::getModel('\Magento\GoogleCheckout\Model\Api')
+            \Mage::getModel('Magento\GoogleCheckout\Model\Api')
                 ->setStoreId($order->getStoreId())
                 ->shipItems($order->getExtOrderId(), $items);
         }

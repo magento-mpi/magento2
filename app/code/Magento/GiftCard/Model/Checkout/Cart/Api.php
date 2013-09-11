@@ -50,7 +50,7 @@ class Api extends \Magento\Checkout\Model\Api\Resource
         $quote = $this->_getQuote($quoteId, $store);
 
         /** @var $giftcardAccount \Magento\GiftCardAccount\Model\Giftcardaccount */
-        $giftcardAccount = \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')
+        $giftcardAccount = \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
                 ->loadByCode($giftcardAccountCode);
         if (!$giftcardAccount->getId()) {
             $this->_fault('giftcard_account_not_found_by_code');
@@ -78,7 +78,7 @@ class Api extends \Magento\Checkout\Model\Api\Resource
         $quote = $this->_getQuote($quoteId, $store);
 
         /** @var $giftcardAccount \Magento\GiftCardAccount\Model\Giftcardaccount */
-        $giftcardAccount = \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')
+        $giftcardAccount = \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
                 ->loadByCode($giftcardAccountCode);
         if (!$giftcardAccount->getId()) {
             $this->_fault('giftcard_account_not_found_by_code');

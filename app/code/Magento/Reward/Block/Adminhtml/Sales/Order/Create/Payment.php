@@ -70,7 +70,7 @@ class Payment extends \Magento\Backend\Block\Template
     {
         if (!$this->_getData('reward')) {
             /* @var $reward \Magento\Reward\Model\Reward */
-            $reward = \Mage::getModel('\Magento\Reward\Model\Reward')
+            $reward = \Mage::getModel('Magento\Reward\Model\Reward')
                 ->setCustomer($this->getQuote()->getCustomer())
                 ->setStore($this->getQuote()->getStore())
                 ->loadByCustomer();

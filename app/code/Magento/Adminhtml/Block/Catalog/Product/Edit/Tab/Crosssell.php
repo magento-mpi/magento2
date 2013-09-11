@@ -82,7 +82,7 @@ class Crosssell extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareCollection()
     {
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Link\Product\Collection */
-        $collection = \Mage::getModel('\Magento\Catalog\Model\Product\Link')->useCrossSellLinks()
+        $collection = \Mage::getModel('Magento\Catalog\Model\Product\Link')->useCrossSellLinks()
             ->getProductCollection()
             ->setProduct($this->getProduct())
             ->addAttributeToSelect('*');
@@ -154,8 +154,8 @@ class Crosssell extends \Magento\Adminhtml\Block\Widget\Grid
             'column_css_class'  => 'col-type'
         ));
 
-        $sets = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
-            ->setEntityTypeFilter(\Mage::getModel('\Magento\Catalog\Model\Product')->getResource()->getTypeId())
+        $sets = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
+            ->setEntityTypeFilter(\Mage::getModel('Magento\Catalog\Model\Product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 

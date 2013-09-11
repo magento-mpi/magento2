@@ -34,7 +34,7 @@ class Magento_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Fram
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Catalog\Model\Product\Attribute\Media\Api');
+        $this->_model = Mage::getModel('Magento\Catalog\Model\Product\Attribute\Media\Api');
     }
 
     public static function setUpBeforeClass()
@@ -57,7 +57,7 @@ class Magento_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Fram
     public static function productMediaFixture()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(1);
         $product->setTierPrice(array());
         $product->setData('media_gallery', array('images' => array(array('file' => '/m/a/magento_image.jpg',),)));

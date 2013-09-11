@@ -45,7 +45,7 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
 
         /** Ensure that invoice was created. */
         /** @var \Magento\Sales\Model\Order $invoicedOrder */
-        $invoicedOrder = Mage::getModel('\Magento\Sales\Model\Order');
+        $invoicedOrder = Mage::getModel('Magento\Sales\Model\Order');
         $invoicedOrder->loadByIncrementId($order->getIncrementId());
         $invoiceCollection = $invoicedOrder->getInvoiceCollection();
         $this->assertCount(1, $invoiceCollection->getItems(), 'Invoice was not created.');
@@ -230,7 +230,7 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
     {
         $orderIncrementId = '100000001';
         /** @var \Magento\Sales\Model\Order $order */
-        $order = Mage::getModel('\Magento\Sales\Model\Order');
+        $order = Mage::getModel('Magento\Sales\Model\Order');
         $order->loadByIncrementId($orderIncrementId);
         return $order;
     }

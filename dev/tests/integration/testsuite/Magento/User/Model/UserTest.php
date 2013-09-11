@@ -26,7 +26,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\User\Model\User');
+        $this->_model = Mage::getModel('Magento\User\Model\User');
     }
 
     /**
@@ -70,7 +70,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     public static function roleDataFixture()
     {
-        self::$_newRole = Mage::getModel('\Magento\User\Model\Role');
+        self::$_newRole = Mage::getModel('Magento\User\Model\Role');
         self::$_newRole->setName('admin_role')
             ->setRoleType('G')
             ->setPid('1');
@@ -165,7 +165,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     public function testGetAclRole()
     {
-        $newuser = Mage::getModel('\Magento\User\Model\User');
+        $newuser = Mage::getModel('Magento\User\Model\User');
         $newuser->setUserId(10);
         $this->assertNotEquals($this->_model->getAclRole(), $newuser->getAclRole());
     }

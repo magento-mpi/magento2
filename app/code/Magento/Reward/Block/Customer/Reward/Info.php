@@ -35,7 +35,7 @@ class Info extends \Magento\Core\Block\Template
     {
         $customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
         if ($customer && $customer->getId()) {
-            $this->_rewardInstance = \Mage::getModel('\Magento\Reward\Model\Reward')
+            $this->_rewardInstance = \Mage::getModel('Magento\Reward\Model\Reward')
                 ->setCustomer($customer)
                 ->setWebsiteId(\Mage::app()->getWebsite()->getId())
                 ->loadByCustomer();

@@ -35,12 +35,12 @@ class Advanced extends \Magento\Core\Controller\Front\Action
         } catch (\Magento\Core\Exception $e) {
             \Mage::getSingleton('Magento_CatalogSearch_Model_Session')->addError($e->getMessage());
             $this->_redirectError(
-                \Mage::getModel('\Magento\Core\Model\Url')
+                \Mage::getModel('Magento\Core\Model\Url')
                     ->setQueryParams($this->getRequest()->getQuery())
                     ->getUrl('*/*/')
             );
         }
-        $this->_initLayoutMessages('\Magento\Catalog\Model\Session');
+        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
         $this->renderLayout();
     }
 }

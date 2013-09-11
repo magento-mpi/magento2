@@ -121,7 +121,7 @@ class Installer extends \Magento\Object
     public function checkDownloads()
     {
         try {
-            \Mage::getModel('\Magento\Install\Model\Installer\Pear')->checkDownloads();
+            \Mage::getModel('Magento\Install\Model\Installer\Pear')->checkDownloads();
             $result = true;
         } catch (\Exception $e) {
             $result = false;
@@ -138,7 +138,7 @@ class Installer extends \Magento\Object
     public function checkServer()
     {
         try {
-            \Mage::getModel('\Magento\Install\Model\Installer\Filesystem')->install();
+            \Mage::getModel('Magento\Install\Model\Installer\Filesystem')->install();
             $result = true;
         } catch (\Exception $e) {
             $result = false;
@@ -286,7 +286,7 @@ class Installer extends \Magento\Object
         // \Magento\User\Model\User belongs to adminhtml area
         \Mage::app()->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML, \Magento\Core\Model\App\Area::PART_CONFIG);
         /** @var $user \Magento\User\Model\User */
-        $user = \Mage::getModel('\Magento\User\Model\User');
+        $user = \Mage::getModel('Magento\User\Model\User');
         $user->loadByUsername($data['username']);
         $user->addData($data)
             ->setForceNewPassword(true) // run-time flag to force saving of the entered password

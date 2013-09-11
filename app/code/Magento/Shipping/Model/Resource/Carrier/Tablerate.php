@@ -275,7 +275,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
         $this->_importIso3Countries = array();
 
         /** @var $collection \Magento\Directory\Model\Resource\Country\Collection */
-        $collection = \Mage::getResourceModel('\Magento\Directory\Model\Resource\Country\Collection');
+        $collection = \Mage::getResourceModel('Magento\Directory\Model\Resource\Country\Collection');
         foreach ($collection->getData() as $row) {
             $this->_importIso2Countries[$row['iso2_code']] = $row['country_id'];
             $this->_importIso3Countries[$row['iso3_code']] = $row['country_id'];
@@ -298,7 +298,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
         $this->_importRegions = array();
 
         /** @var $collection \Magento\Directory\Model\Resource\Region\Collection */
-        $collection = \Mage::getResourceModel('\Magento\Directory\Model\Resource\Region\Collection');
+        $collection = \Mage::getResourceModel('Magento\Directory\Model\Resource\Region\Collection');
         foreach ($collection->getData() as $row) {
             $this->_importRegions[$row['country_id']][$row['code']] = (int)$row['region_id'];
         }

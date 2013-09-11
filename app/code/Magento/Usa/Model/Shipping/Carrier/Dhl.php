@@ -355,7 +355,7 @@ class Dhl
 
 
         if (is_numeric($request->getOrigState())) {
-            $r->setOrigState(\Mage::getModel('\Magento\Directory\Model\Region')->load($request->getOrigState())->getCode());
+            $r->setOrigState(\Mage::getModel('Magento\Directory\Model\Region')->load($request->getOrigState())->getCode());
         } else {
             $r->setOrigState($request->getOrigState());
         }
@@ -847,12 +847,12 @@ class Dhl
             }
             return $result;
         } else {
-            $result = \Mage::getModel('\Magento\Shipping\Model\Rate\Result');
+            $result = \Mage::getModel('Magento\Shipping\Model\Rate\Result');
             if ($this->_dhlRates) {
                 foreach ($this->_dhlRates as $rate) {
                     $method = $rate['service'];
                     $data = $rate['data'];
-                    $rate = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Method');
+                    $rate = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Method');
                     $rate->setCarrier('dhl');
                     $rate->setCarrierTitle($this->getConfigData('title'));
                     $rate->setMethod($method);
@@ -862,7 +862,7 @@ class Dhl
                     $result->append($rate);
                 }
             } else if (!empty($this->_errors)) {
-                $error = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Error');
+                $error = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Error');
                 $error->setCarrier('dhl');
                 $error->setCarrierTitle($this->getConfigData('title'));
                 $error->setErrorMessage($this->getConfigData('specificerrmsg'));
@@ -1220,10 +1220,10 @@ class Dhl
             }
         }
 
-        $result = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result');
+        $result = \Mage::getModel('Magento\Shipping\Model\Tracking\Result');
         if ($errorArr || $resultArr) {
             foreach ($errorArr as $t => $r) {
-                $error = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result\Error');
+                $error = \Mage::getModel('Magento\Shipping\Model\Tracking\Result\Error');
                 $error->setCarrier('dhl');
                 $error->setCarrierTitle($this->getConfigData('title'));
                 $error->setTracking($t);
@@ -1232,7 +1232,7 @@ class Dhl
             }
 
             foreach ($resultArr as $t => $data) {
-                $tracking = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result\Status');
+                $tracking = \Mage::getModel('Magento\Shipping\Model\Tracking\Result\Status');
                 $tracking->setCarrier('dhl');
                 $tracking->setCarrierTitle($this->getConfigData('title'));
                 $tracking->setTracking($t);
@@ -1242,7 +1242,7 @@ class Dhl
             }
         } else {
             foreach ($trackings as $t) {
-                $error = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result\Error');
+                $error = \Mage::getModel('Magento\Shipping\Model\Tracking\Result\Error');
                 $error->setCarrier('dhl');
                 $error->setCarrierTitle($this->getConfigData('title'));
                 $error->setTracking($t);

@@ -82,7 +82,7 @@ class Pbridge extends \Magento\Core\Controller\Front\Action
         if ($methodCode) {
             $methodInstance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance($methodCode);
             if ($methodInstance) {
-                $block = $this->getLayout()->createBlock('\Magento\Pbridge\Block\Checkout\Payment\Review\Iframe');
+                $block = $this->getLayout()->createBlock('Magento\Pbridge\Block\Checkout\Payment\Review\Iframe');
                 $block->setMethod($methodInstance);
                 if ($block) {
                     $this->getResponse()->setBody($block->getIframeBlock()->toHtml());

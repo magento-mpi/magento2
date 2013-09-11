@@ -30,7 +30,7 @@ class Region
     public function beforeSave($object)
     {
         if (is_numeric($object->getRegion())) {
-            $region = \Mage::getModel('\Magento\Directory\Model\Region')->load((int)$object->getRegion());
+            $region = \Mage::getModel('Magento\Directory\Model\Region')->load((int)$object->getRegion());
             if ($region) {
                 $object->setRegionId($region->getId());
                 $object->setRegion($region->getCode());

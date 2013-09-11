@@ -21,9 +21,9 @@ class Category implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray($addEmpty = true)
     {
-        $tree = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Category\Tree');
+        $tree = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Tree');
 
-        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Category\Collection');
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Collection');
 
         $collection->addAttributeToSelect('name')
             ->addRootLevelFilter()

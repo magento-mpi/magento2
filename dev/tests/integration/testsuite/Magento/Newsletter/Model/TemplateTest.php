@@ -21,7 +21,7 @@ class Magento_Newsletter_Model_TemplateTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Newsletter\Model\Template');
+        $this->_model = Mage::getModel('Magento\Newsletter\Model\Template');
     }
 
     /**

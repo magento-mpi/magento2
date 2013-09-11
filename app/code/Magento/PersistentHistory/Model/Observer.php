@@ -35,7 +35,7 @@ class Observer
 
         if ($this->_isLoggedOut()) {
             /** @var $customer \Magento\Customer\Model\Customer */
-            $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load(
+            $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load(
                 $this->_getPersistentHelper()->getSession()->getCustomerId()
             );
             \Mage::getSingleton('Magento\Customer\Model\Session')
@@ -78,7 +78,7 @@ class Observer
         ) {
             return;
         }
-        \Mage::getModel('\Magento\Persistent\Model\Persistent\Config')
+        \Mage::getModel('Magento\Persistent\Model\Persistent\Config')
             ->setConfigFilePath(\Mage::helper('Magento\PersistentHistory\Helper\Data')->getPersistentConfigFilePath())
             ->fire();
     }
@@ -308,7 +308,7 @@ class Observer
         $eventDataObject = $observer->getEvent()->getDataObject();
 
         if ($eventDataObject->getValue()) {
-            $optionCustomerSegm = \Mage::getModel('\Magento\Core\Model\Config\Value')
+            $optionCustomerSegm = \Mage::getModel('Magento\Core\Model\Config\Value')
                 ->setScope($eventDataObject->getScope())
                 ->setScopeId($eventDataObject->getScopeId())
                 ->setPath(\Magento\PersistentHistory\Helper\Data::XML_PATH_PERSIST_CUSTOMER_AND_SEGM)
@@ -350,7 +350,7 @@ class Observer
         if (!$this->_isComparedProductsPersist()) {
             return;
         }
-        \Mage::getModel('\Magento\Reports\Model\Product\Index\Compared')
+        \Mage::getModel('Magento\Reports\Model\Product\Index\Compared')
             ->purgeVisitorByCustomer()
             ->calculate();
     }
@@ -364,7 +364,7 @@ class Observer
         if (!$this->_isComparedProductsPersist()) {
             return;
         }
-        \Mage::getModel('\Magento\Reports\Model\Product\Index\Viewed')
+        \Mage::getModel('Magento\Reports\Model\Product\Index\Viewed')
             ->purgeVisitorByCustomer()
             ->calculate();
     }
@@ -396,7 +396,7 @@ class Observer
      */
     protected function _initWishlist()
     {
-        return \Mage::getModel('\Magento\Wishlist\Model\Wishlist')->loadByCustomer($this->_getCustomerId() ,true);
+        return \Mage::getModel('Magento\Wishlist\Model\Wishlist')->loadByCustomer($this->_getCustomerId() ,true);
     }
 
     /**

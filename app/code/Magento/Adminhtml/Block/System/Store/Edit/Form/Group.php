@@ -37,7 +37,7 @@ class Group
         ));
 
         if (\Mage::registry('store_action') == 'edit' || \Mage::registry('store_action') == 'add') {
-            $websites = \Mage::getModel('\Magento\Core\Model\Website')->getCollection()->toOptionArray();
+            $websites = \Mage::getModel('Magento\Core\Model\Website')->getCollection()->toOptionArray();
             $fieldset->addField('group_website_id', 'select', array(
                 'name'      => 'group[website_id]',
                 'label'     => __('Web Site'),
@@ -74,7 +74,7 @@ class Group
             'disabled'  => $groupModel->isReadOnly(),
         ));
 
-        $categories = \Mage::getModel('\Magento\Catalog\Model\Config\Source\Category')->toOptionArray();
+        $categories = \Mage::getModel('Magento\Catalog\Model\Config\Source\Category')->toOptionArray();
 
         $fieldset->addField('group_root_category_id', 'select', array(
             'name'      => 'group[root_category_id]',
@@ -86,7 +86,7 @@ class Group
         ));
 
         if (\Mage::registry('store_action') == 'edit') {
-            $stores = \Mage::getModel('\Magento\Core\Model\Store')->getCollection()
+            $stores = \Mage::getModel('Magento\Core\Model\Store')->getCollection()
                 ->addGroupFilter($groupModel->getId())->toOptionArray();
             $fieldset->addField('group_default_store_id', 'select', array(
                 'name'      => 'group[default_store_id]',

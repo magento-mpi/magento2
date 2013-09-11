@@ -31,7 +31,7 @@ class Role extends \Magento\Adminhtml\Block\Widget\Grid
 
     protected function _prepareCollection()
     {
-        $collection =  \Mage::getModel('\Magento\Api\Model\Roles')->getCollection();
+        $collection =  \Mage::getModel('Magento\Api\Model\Roles')->getCollection();
         $this->setCollection($collection);
 
         return parent::_prepareCollection();

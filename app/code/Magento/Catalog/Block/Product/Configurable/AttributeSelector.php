@@ -30,7 +30,7 @@ class AttributeSelector extends \Magento\Backend\Block\Template
         $escapedLabelPart = \Mage::getResourceHelper('Magento_Core')
             ->addLikeEscape($labelPart, array('position' => 'any'));
         /** @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
-        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Attribute\Collection')
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection')
             ->addFieldToFilter('frontend_input', 'select')
             ->addFieldToFilter('frontend_label', array('like' => $escapedLabelPart))
             ->addFieldToFilter('is_configurable', 1)

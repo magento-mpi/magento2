@@ -14,8 +14,8 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
     protected function _getProductCollection()
     {
         if (is_null($this->_productCollection)) {
-            $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection');
-            \Mage::getModel('\Magento\Catalog\Model\Layer')->prepareProductCollection($collection);
+            $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection');
+            \Mage::getModel('Magento\Catalog\Model\Layer')->prepareProductCollection($collection);
 // your custom filter
             $collection->addAttributeToFilter('promotion', 1)
                 ->addStoreFilter();

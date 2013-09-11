@@ -34,7 +34,7 @@ class Store
      */
     public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
-        $html = \Mage::getModel('\Magento\Core\Model\StoreManagerInterface')->isSingleStoreMode() ? '' : $this->toHtml();
+        $html = \Mage::getModel('Magento\Core\Model\StoreManagerInterface')->isSingleStoreMode() ? '' : $this->toHtml();
         return $html;
     }
 

@@ -41,7 +41,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     protected function _getWishlist()
     {
         if (is_null($this->_wishlist)) {
-            $this->_wishlist = \Mage::getModel('\Magento\Wishlist\Model\Wishlist');
+            $this->_wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist');
             $wishlistId = $this->getRequest()->getParam('wishlist_id');
             if ($wishlistId) {
                 $this->_wishlist->load($wishlistId);
@@ -65,7 +65,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     protected function _getCustomer()
     {
         if (is_null($this->_customer)) {
-            $this->_customer = \Mage::getModel('\Magento\Customer\Model\Customer');
+            $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer');
 
             $params = \Mage::helper('Magento\Core\Helper\Data')->urlDecode($this->getRequest()->getParam('data'));
             $data   = explode(',', $params);
@@ -96,7 +96,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     protected function _toHtml()
     {
         /* @var $rssObj \Magento\Rss\Model\Rss */
-        $rssObj = \Mage::getModel('\Magento\Rss\Model\Rss');
+        $rssObj = \Mage::getModel('Magento\Rss\Model\Rss');
 
         if ($this->_getWishlist()->getId()) {
             $newUrl = \Mage::getUrl('wishlist/shared/index', array(
@@ -131,10 +131,10 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
                 }
 
                 $description = '<table><tr><td><a href="' . $productUrl . '"><img src="'
-                    . $this->helper('\Magento\Catalog\Helper\Image')->init($product, 'thumbnail')->resize(75, 75)
+                    . $this->helper('Magento\Catalog\Helper\Image')->init($product, 'thumbnail')->resize(75, 75)
                     . '" border="0" align="left" height="75" width="75"></a></td>'
                     . '<td style="text-decoration:none;">'
-                    . $this->helper('\Magento\Catalog\Helper\Output')
+                    . $this->helper('Magento\Catalog\Helper\Output')
                         ->productAttribute($product, $product->getShortDescription(), 'short_description')
                     . '<p>';
 
@@ -144,7 +144,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
                 $description .= '</p>';
                 if ($this->hasDescription($product)) {
                     $description .= '<p>' . __('Comment:')
-                        . ' ' . $this->helper('\Magento\Catalog\Helper\Output')
+                        . ' ' . $this->helper('Magento\Catalog\Helper\Output')
                             ->productAttribute($product, $product->getDescription(), 'description')
                         . '<p>';
                 }
@@ -152,7 +152,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
                 $description .= '</td></tr></table>';
 
                 $rssObj->_addEntry(array(
-                    'title'         => $this->helper('\Magento\Catalog\Helper\Output')
+                    'title'         => $this->helper('Magento\Catalog\Helper\Output')
                         ->productAttribute($product, $product->getName(), 'name'),
                     'link'          => $productUrl,
                     'description'   => $description,

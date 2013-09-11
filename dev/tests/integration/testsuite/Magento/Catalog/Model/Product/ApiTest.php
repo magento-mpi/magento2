@@ -25,7 +25,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($actualProductData, 'Missing special price response data.');
 
         /** @var \Magento\Catalog\Model\Product $expectedProduct */
-        $expectedProduct = Mage::getModel('\Magento\Catalog\Model\Product');
+        $expectedProduct = Mage::getModel('Magento\Catalog\Model\Product');
         $expectedProduct->load($productId);
         $fieldsToCompare = array(
             'special_price',
@@ -54,7 +54,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertCount(3, $actualProductsData, 'Products quantity is invalid.');
 
         /** Loading expected product from fixture. */
-        $expectedProduct = Mage::getModel('\Magento\Catalog\Model\Product');
+        $expectedProduct = Mage::getModel('Magento\Catalog\Model\Product');
         $expectedProduct->load(10);
         $fieldsToCompare = array(
             'entity_id' => 'product_id',
@@ -123,7 +123,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($result, 'Failed updating products.');
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
 
         foreach ($productIds as $index => $productId) {
             $description = $product->load($productId)->getDescription();
@@ -179,7 +179,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         );
         $this->assertEquals(108, (int)$exception->faultcode);
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('\Magento\Catalog\Model\Product')->load(10);
+        $product = Mage::getModel('Magento\Catalog\Model\Product')->load(10);
         $this->assertEquals($productData[0]->description, $product->getDescription());
         $product->load(11);
         $this->assertNotEquals($productData[1]->description, $product->getDescription());
@@ -193,7 +193,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
     public function testInfoAlphaIdTypeNotSet()
     {
         /** @var \Magento\Catalog\Model\Product $alphaProduct */
-        $alphaProduct = Mage::getModel('\Magento\Catalog\Model\Product');
+        $alphaProduct = Mage::getModel('Magento\Catalog\Model\Product');
         $alphaProduct->load(1);
 
         $soapResult = Magento_TestFramework_Helper_Api::call(
@@ -218,7 +218,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
     {
 
         /** @var \Magento\Catalog\Model\Product $numericalProduct */
-        $numericalProduct = Mage::getModel('\Magento\Catalog\Model\Product');
+        $numericalProduct = Mage::getModel('Magento\Catalog\Model\Product');
         $numericalProduct->load(2);
 
         $exception = Magento_TestFramework_Helper_Api::callWithException(
@@ -244,7 +244,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
     public function testInfoNumericIdTypeNotSet()
     {
         /** @var \Magento\Catalog\Model\Product $numericalProduct */
-        $numericalProduct = Mage::getModel('\Magento\Catalog\Model\Product');
+        $numericalProduct = Mage::getModel('Magento\Catalog\Model\Product');
         $numericalProduct->load(2);
 
         $soapResult = Magento_TestFramework_Helper_Api::call(
@@ -267,7 +267,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
     public function testInfoAlphaIdTypeSku()
     {
         /** @var \Magento\Catalog\Model\Product $alphaProduct */
-        $alphaProduct = Mage::getModel('\Magento\Catalog\Model\Product');
+        $alphaProduct = Mage::getModel('Magento\Catalog\Model\Product');
         $alphaProduct->load(1);
 
         $soapResult = Magento_TestFramework_Helper_Api::call(
@@ -293,7 +293,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
     public function testInfoNumericIdTypeSku()
     {
         /** @var \Magento\Catalog\Model\Product $numericalProduct */
-        $numericalProduct = Mage::getModel('\Magento\Catalog\Model\Product');
+        $numericalProduct = Mage::getModel('Magento\Catalog\Model\Product');
         $numericalProduct->load(2);
 
         $soapResult = Magento_TestFramework_Helper_Api::call(
@@ -381,7 +381,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         );
 
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(1);
 
         $updatedProduct = Magento_TestFramework_Helper_Api::call(

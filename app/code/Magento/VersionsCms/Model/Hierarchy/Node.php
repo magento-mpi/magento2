@@ -507,7 +507,7 @@ class Node extends \Magento\Core\Model\AbstractModel
     public function getMetaNodeByType($type)
     {
         if (!isset($this->_metaNodes[$type])) {
-            $model = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node')
+            $model = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node')
                 ->setData($this->_getResource()->getMetaNodeDataByType($this, $type));
 
             $this->_metaNodes[$type] = $model;
@@ -569,7 +569,7 @@ class Node extends \Magento\Core\Model\AbstractModel
             ->setTreeIsBrief($this->_getData('tree_is_brief'))
             ->getTreeSlice($this, $up, $down);
 
-        $blankModel = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node');
+        $blankModel = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node');
         foreach ($data as $parentId => $children) {
             foreach ($children as $childId => $child) {
                 $newModel = clone $blankModel;
@@ -586,7 +586,7 @@ class Node extends \Magento\Core\Model\AbstractModel
     public function getParentNodeChildren()
     {
         $children = $this->_getResource()->getParentNodeChildren($this);
-        $blankModel = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node');
+        $blankModel = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node');
         foreach ($children as $childId => $child) {
             $newModel = clone $blankModel;
             $children[$childId] = $newModel->setData($child);
@@ -808,14 +808,14 @@ class Node extends \Magento\Core\Model\AbstractModel
         if ($this->getIsInherited()) {
             $helper = \Mage::helper('Magento\VersionsCms\Helper\Hierarchy');
             $parentScope = $helper->getParentScope($this->_scope, $this->_scopeId);
-            $parentScopeNode = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node', array('data' =>
+            $parentScopeNode = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node', array('data' =>
                 array(
                     'scope' =>  $parentScope[0],
                     'scope_id' => $parentScope[1],
             )));
             if ($parentScopeNode->getIsInherited()) {
                 $parentScope = $helper->getParentScope($parentScope[0], $parentScope[1]);
-                $parentScopeNode = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node', array('data' =>
+                $parentScopeNode = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node', array('data' =>
                     array(
                         'scope' =>  $parentScope[0],
                         'scope_id' => $parentScope[1],

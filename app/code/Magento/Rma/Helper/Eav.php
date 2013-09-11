@@ -175,7 +175,7 @@ class Eav extends \Magento\Eav\Helper\Data
         }
 
         if (!isset($this->_attributeOptionValues[$storeId])) {
-            $optionCollection = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection')
+            $optionCollection = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection')
                 ->setStoreFilter($storeId, $useDefaultValue);
 
             $optionCollection

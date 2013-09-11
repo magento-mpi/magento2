@@ -332,7 +332,7 @@ class International
         $requestObject->setOrigStreet($request->getOrigStreet() ? $request->getOrigStreet() : $originStreet2);
 
         if (is_numeric($request->getOrigState())) {
-            $requestObject->setOrigState(\Mage::getModel('\Magento\Directory\Model\Region')->load($request->getOrigState())->getCode());
+            $requestObject->setOrigState(\Mage::getModel('Magento\Directory\Model\Region')->load($request->getOrigState())->getCode());
         } else {
             $requestObject->setOrigState($request->getOrigState());
         }
@@ -924,13 +924,13 @@ class International
         }
 
         /* @var $result \Magento\Shipping\Model\Rate\Result */
-        $result = \Mage::getModel('\Magento\Shipping\Model\Rate\Result');
+        $result = \Mage::getModel('Magento\Shipping\Model\Rate\Result');
         if ($this->_rates) {
             foreach ($this->_rates as $rate) {
                 $method = $rate['service'];
                 $data = $rate['data'];
                 /* @var $rate \Magento\Shipping\Model\Rate\Result\Method */
-                $rate = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Method');
+                $rate = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Method');
                 $rate->setCarrier(self::CODE);
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
@@ -971,7 +971,7 @@ class International
 
             if ($currencyCode != $baseCurrencyCode) {
                 /* @var $currency \Magento\Directory\Model\Currency */
-                $currency = \Mage::getModel('\Magento\Directory\Model\Currency');
+                $currency = \Mage::getModel('Magento\Directory\Model\Currency');
                 $rates = $currency->getCurrencyRates($currencyCode, array($baseCurrencyCode));
                 if (!empty($rates) && isset($rates[$baseCurrencyCode])) {
                     // Convert to store display currency using store exchange rate
@@ -1118,7 +1118,7 @@ class International
 
         if ($showMethod) {
             /* @var $error \Magento\Shipping\Model\Rate\Result\Error */
-            $error = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Error');
+            $error = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Error');
             $error->setCarrier(self::CODE);
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
@@ -1435,7 +1435,7 @@ class International
             $nodeShipmentDetails->addChild('GlobalProductCode', $rawRequest->getShippingMethod());
             $nodeShipmentDetails->addChild('LocalProductCode', $rawRequest->getShippingMethod());
 
-            $nodeShipmentDetails->addChild('Date', \Mage::getModel('\Magento\Core\Model\Date')->date('Y-m-d'));
+            $nodeShipmentDetails->addChild('Date', \Mage::getModel('Magento\Core\Model\Date')->date('Y-m-d'));
             $nodeShipmentDetails->addChild('Contents', 'DHL Parcel');
             /*
              * The DoorTo Element defines the type of delivery service that applies to the shipment.
@@ -1473,7 +1473,7 @@ class International
              * Door non-compliant)
              */
             $nodeShipmentDetails->addChild('DoorTo', 'DD');
-            $nodeShipmentDetails->addChild('Date', \Mage::getModel('\Magento\Core\Model\Date')->date('Y-m-d'));
+            $nodeShipmentDetails->addChild('Date', \Mage::getModel('Magento\Core\Model\Date')->date('Y-m-d'));
             $nodeShipmentDetails->addChild('Contents', 'DHL Parcel TEST');
         }
     }
@@ -1629,11 +1629,11 @@ class International
             }
         }
 
-        $result = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result');
+        $result = \Mage::getModel('Magento\Shipping\Model\Tracking\Result');
 
         if (!empty($resultArr)) {
             foreach ($resultArr as $trackNum => $data) {
-                $tracking = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result\Status');
+                $tracking = \Mage::getModel('Magento\Shipping\Model\Tracking\Result\Status');
                 $tracking->setCarrier($this->_code);
                 $tracking->setCarrierTitle($this->getConfigData('title'));
                 $tracking->setTracking($trackNum);
@@ -1645,7 +1645,7 @@ class International
         if (!empty($this->_errors) || empty($resultArr)) {
             $resultArr = !empty($this->_errors) ? $this->_errors : $trackings;
             foreach ($resultArr as $trackNum => $err) {
-                $error = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result\Error');
+                $error = \Mage::getModel('Magento\Shipping\Model\Tracking\Result\Error');
                 $error->setCarrier($this->_code);
                 $error->setCarrierTitle($this->getConfigData('title'));
                 $error->setTracking(!empty($this->_errors) ? $trackNum : $err);

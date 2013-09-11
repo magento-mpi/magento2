@@ -77,7 +77,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
         $rootCategoryId = \Mage::app()->getStore($storeId)->getRootCategoryId();
 
         /* @var $select \Magento\DB\Select */
-        $select = \Mage::getModel('\Magento\Catalog\Model\Category')->getCollection()
+        $select = \Mage::getModel('Magento\Catalog\Model\Category')->getCollection()
             ->setStoreId(\Mage::app()->getStore($storeId)->getId())
             ->addIsActiveFilter()
             ->addPathsFilter(\Magento\Catalog\Model\Category::TREE_ROOT_ID . '/' . $rootCategoryId)

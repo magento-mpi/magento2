@@ -18,7 +18,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Widget\Model\Widget\Instance');
+        $this->_model = Mage::getModel('Magento\Widget\Model\Widget\Instance');
     }
 
     public function testSetGetType()

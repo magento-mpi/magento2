@@ -52,7 +52,7 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
         }
 
         if ($products) {
-            $products = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Url')
+            $products = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Url')
                 ->getRewriteByProductStore($products);
             foreach ($this->getItems() as $item) {
                 $product    = $item->getProduct();
@@ -120,7 +120,7 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
 
     public function getIsVirtual()
     {
-        return $this->helper('\Magento\Checkout\Helper\Cart')->getIsVirtualQuote();
+        return $this->helper('Magento\Checkout\Helper\Cart')->getIsVirtualQuote();
     }
 
     /**

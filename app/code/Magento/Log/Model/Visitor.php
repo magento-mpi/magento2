@@ -264,7 +264,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         if (intval($customerId) <= 0) {
             return $this;
         }
-        $customerData = \Mage::getModel('\Magento\Customer\Model\Customer')->load($customerId);
+        $customerData = \Mage::getModel('Magento\Customer\Model\Customer')->load($customerId);
         $newCustomerData = array();
         foreach ($customerData->getData() as $propName => $propValue) {
             $newCustomerData['customer_' . $propName] = $propValue;
@@ -284,7 +284,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         if (intval($quoteId) <= 0) {
             return $this;
         }
-        $data->setQuoteData(\Mage::getModel('\Magento\Sales\Model\Quote')->load($quoteId));
+        $data->setQuoteData(\Mage::getModel('Magento\Sales\Model\Quote')->load($quoteId));
         return $this;
     }
 

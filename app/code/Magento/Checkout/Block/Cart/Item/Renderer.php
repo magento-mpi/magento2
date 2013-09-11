@@ -98,7 +98,7 @@ class Renderer extends \Magento\Core\Block\Template
                     $product = $children[0]->getProduct();
                 }
             }
-            $thumbnail = $this->helper('\Magento\Catalog\Helper\Image')->init($product, 'thumbnail');
+            $thumbnail = $this->helper('Magento\Catalog\Helper\Image')->init($product, 'thumbnail');
         } else {
             $thumbnail = $this->_productThumbnail;
         }
@@ -269,7 +269,7 @@ class Renderer extends \Magento\Core\Block\Template
             return $this->getData('delete_url');
         }
 
-        $encodedUrl = $this->helper('\Magento\Core\Helper\Url')->getEncodedUrl();
+        $encodedUrl = $this->helper('Magento\Core\Helper\Url')->getEncodedUrl();
         return $this->getUrl(
             'checkout/cart/delete',
             array(
@@ -409,7 +409,7 @@ class Renderer extends \Magento\Core\Block\Template
      */
     public function getMsrpHtml($item)
     {
-        return $this->getLayout()->createBlock('\Magento\Catalog\Block\Product\Price')
+        return $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Price')
             ->setTemplate('product/price_msrp_item.phtml')
             ->setProduct($item->getProduct())
             ->toHtml();

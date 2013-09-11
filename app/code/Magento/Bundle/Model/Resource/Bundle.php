@@ -112,7 +112,7 @@ class Bundle extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function saveProductRelations($parentId, $childIds)
     {
-        \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product\Relation')
+        \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Relation')
             ->processRelations($parentId, $childIds);
 
         return $this;

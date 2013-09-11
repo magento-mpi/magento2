@@ -56,10 +56,10 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Core\Model\View\DesignInterface');
-        $this->_viewFileSystem = Mage::getModel('\Magento\Core\Model\View\FileSystem');
-        $this->_viewConfig = Mage::getModel('\Magento\Core\Model\View\Config');
-        $this->_viewUrl = Mage::getModel('\Magento\Core\Model\View\Url');
+        $this->_model = Mage::getModel('Magento\Core\Model\View\DesignInterface');
+        $this->_viewFileSystem = Mage::getModel('Magento\Core\Model\View\FileSystem');
+        $this->_viewConfig = Mage::getModel('Magento\Core\Model\View\Config');
+        $this->_viewUrl = Mage::getModel('Magento\Core\Model\View\Url');
     }
 
     /**
@@ -78,9 +78,9 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
             ->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme($themePath);
 
-        $this->_viewFileSystem = Mage::getModel('\Magento\Core\Model\View\FileSystem');
-        $this->_viewConfig = Mage::getModel('\Magento\Core\Model\View\Config');
-        $this->_viewUrl = Mage::getModel('\Magento\Core\Model\View\Url');
+        $this->_viewFileSystem = Mage::getModel('Magento\Core\Model\View\FileSystem');
+        $this->_viewConfig = Mage::getModel('Magento\Core\Model\View\Config');
+        $this->_viewUrl = Mage::getModel('Magento\Core\Model\View\Url');
     }
 
     public function testSetGetArea()

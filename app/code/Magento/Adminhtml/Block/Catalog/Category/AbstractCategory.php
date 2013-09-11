@@ -82,7 +82,7 @@ class AbstractCategory extends \Magento\Adminhtml\Block\Template
                 $rootId = \Magento\Catalog\Model\Category::TREE_ROOT_ID;
             }
 
-            $tree = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Category\Tree')
+            $tree = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category\Tree')
                 ->load(null, $recursionLevel);
 
             if ($this->getCategory()) {
@@ -119,7 +119,7 @@ class AbstractCategory extends \Magento\Adminhtml\Block\Template
     {
         $root = \Mage::registry('root');
         if (null === $root) {
-            $categoryTreeResource = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Category\Tree');
+            $categoryTreeResource = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category\Tree');
             $ids    = $categoryTreeResource->getExistingCategoryIdsBySpecifiedIds($ids);
             $tree   = $categoryTreeResource->loadByIds($ids);
             $rootId = \Magento\Catalog\Model\Category::TREE_ROOT_ID;
@@ -138,7 +138,7 @@ class AbstractCategory extends \Magento\Adminhtml\Block\Template
 
     public function getNode($parentNodeCategory, $recursionLevel=2)
     {
-        $tree = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Category\Tree');
+        $tree = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Tree');
 
         $nodeId     = $parentNodeCategory->getId();
         $parentId   = $parentNodeCategory->getParentId();

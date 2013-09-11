@@ -43,7 +43,7 @@ class Unsubscribe extends \Magento\Core\Controller\Front\Action
         $session    = \Mage::getSingleton('Magento\Catalog\Model\Session');
 
         /* @var $session \Magento\Catalog\Model\Session */
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($productId);
+        $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             /* @var $product \Magento\Catalog\Model\Product */
             \Mage::getSingleton('Magento\Customer\Model\Session')->addError(__('We can\'t find the product.'));
@@ -52,7 +52,7 @@ class Unsubscribe extends \Magento\Core\Controller\Front\Action
         }
 
         try {
-            $model  = \Mage::getModel('\Magento\ProductAlert\Model\Price')
+            $model  = \Mage::getModel('Magento\ProductAlert\Model\Price')
                 ->setCustomerId(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId())
                 ->setProductId($product->getId())
                 ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId())
@@ -75,7 +75,7 @@ class Unsubscribe extends \Magento\Core\Controller\Front\Action
         /* @var $session \Magento\Customer\Model\Session */
 
         try {
-            \Mage::getModel('\Magento\ProductAlert\Model\Price')->deleteCustomer(
+            \Mage::getModel('Magento\ProductAlert\Model\Price')->deleteCustomer(
                 $session->getCustomerId(),
                 \Mage::app()->getStore()->getWebsiteId()
             );
@@ -98,7 +98,7 @@ class Unsubscribe extends \Magento\Core\Controller\Front\Action
 
         $session = \Mage::getSingleton('Magento\Catalog\Model\Session');
         /* @var $session \Magento\Catalog\Model\Session */
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($productId);
+        $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
         /* @var $product \Magento\Catalog\Model\Product */
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             \Mage::getSingleton('Magento\Customer\Model\Session')->addError(__('The product was not found.'));
@@ -107,7 +107,7 @@ class Unsubscribe extends \Magento\Core\Controller\Front\Action
         }
 
         try {
-            $model  = \Mage::getModel('\Magento\ProductAlert\Model\Stock')
+            $model  = \Mage::getModel('Magento\ProductAlert\Model\Stock')
                 ->setCustomerId(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId())
                 ->setProductId($product->getId())
                 ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId())
@@ -129,7 +129,7 @@ class Unsubscribe extends \Magento\Core\Controller\Front\Action
         /* @var $session \Magento\Customer\Model\Session */
 
         try {
-            \Mage::getModel('\Magento\ProductAlert\Model\Stock')->deleteCustomer(
+            \Mage::getModel('Magento\ProductAlert\Model\Stock')->deleteCustomer(
                 $session->getCustomerId(),
                 \Mage::app()->getStore()->getWebsiteId()
             );

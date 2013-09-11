@@ -17,20 +17,20 @@ $addressData = array(
     'telephone'  => '11111111',
     'country_id' => 'US',
 );
-$billingAddress = Mage::getModel('\Magento\Sales\Model\Order\Address', array('data' => $addressData));
+$billingAddress = Mage::getModel('Magento\Sales\Model\Order\Address', array('data' => $addressData));
 $shippingAddress = clone $billingAddress;
 
-$item = Mage::getModel('\Magento\Sales\Model\Order\Item');
+$item = Mage::getModel('Magento\Sales\Model\Order\Item');
 $item->setOriginalPrice(100)
     ->setPrice(100)
     ->setQtyOrdered(1)
     ->setRowTotal(100)
     ->setSubtotal(100);
 
-$payment = Mage::getModel('\Magento\Sales\Model\Order\Payment');
+$payment = Mage::getModel('Magento\Sales\Model\Order\Payment');
 $payment->setMethod('checkmo');
 
-$order = Mage::getModel('\Magento\Sales\Model\Order');
+$order = Mage::getModel('Magento\Sales\Model\Order');
 $order->setBaseSubtotal(100)
     ->setSubtotal(100)
     ->setBaseGrandTotal(100)

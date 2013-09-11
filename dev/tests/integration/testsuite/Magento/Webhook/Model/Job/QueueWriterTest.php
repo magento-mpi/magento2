@@ -14,10 +14,10 @@ class Magento_Webhook_Model_Job_QueueWriterTest extends PHPUnit_Framework_TestCa
     public function testOffer()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $event = Mage::getModel('\Magento\Webhook\Model\Event')
+        $event = Mage::getModel('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save();
-        $subscription = Mage::getModel('\Magento\Webhook\Model\Subscription')
+        $subscription = Mage::getModel('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save();
         /** @var \Magento\Webhook\Model\Job $job */

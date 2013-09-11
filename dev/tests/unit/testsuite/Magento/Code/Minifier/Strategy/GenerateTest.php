@@ -24,7 +24,7 @@ class Magento_Code_Minifier_Strategy_GenerateTest extends PHPUnit_Framework_Test
             ->method('write')
             ->with($minifiedFile, $minifiedContent);
 
-        $adapter = $this->getMockForAbstractClass('\Magento\Code\Minifier\AdapterInterface', array(), '', false);
+        $adapter = $this->getMockForAbstractClass('Magento\Code\Minifier\AdapterInterface', array(), '', false);
         $adapter->expects($this->once())
             ->method('minify')
             ->with($content)
@@ -56,7 +56,7 @@ class Magento_Code_Minifier_Strategy_GenerateTest extends PHPUnit_Framework_Test
         $filesystem->expects($this->never())
             ->method('write');
 
-        $adapter = $this->getMockForAbstractClass('\Magento\Code\Minifier\AdapterInterface', array(), '', false);
+        $adapter = $this->getMockForAbstractClass('Magento\Code\Minifier\AdapterInterface', array(), '', false);
         $adapter->expects($this->never())
             ->method('minify');
 

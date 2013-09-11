@@ -31,7 +31,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('\Magento\Poll\Model\Poll')->getCollection();
+        $collection = \Mage::getModel('Magento\Poll\Model\Poll')->getCollection();
         $this->setCollection($collection);
         parent::_prepareCollection();
 

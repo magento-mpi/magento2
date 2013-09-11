@@ -27,7 +27,7 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $customizationConfig = $this->getMock('Magento\Theme\Model\Config\Customization', array(), array(), '', false);
-        $customizationFactory = $this->getMock('Magento_Core_Model_Theme_CustomizationFactory',
+        $customizationFactory = $this->getMock('Magento\Core\Model\Theme\CustomizationFactory',
             array('create'), array(), '', false);
         $resourceCollection = $this->getMock(
             '\Magento\Core\Model\Resource\Theme\Collection',
@@ -36,7 +36,7 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_imageFactory = $this->getMock('Magento_Core_Model_Theme_ImageFactory',
+        $this->_imageFactory = $this->getMock('Magento\Core\Model\Theme\ImageFactory',
             array('create'), array(), '', false);
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);

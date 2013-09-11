@@ -15,7 +15,7 @@ class Magento_Sales_Model_Resource_Report_Invoiced_Collection_InvoicedTest exten
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Invoiced\Collection\Invoiced');
+        $this->_collection = Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Invoiced\Collection\Invoiced');
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)

@@ -148,7 +148,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         }
         if ($rejected) {
             /** @var $consumer \Magento\Oauth\Model\Consumer */
-            $consumer = \Mage::getModel('\Magento\Oauth\Model\Consumer')->load($token->getConsumerId());
+            $consumer = \Mage::getModel('Magento\Oauth\Model\Consumer')->load($token->getConsumerId());
 
             if ($consumer->getId() && $consumer->getRejectedCallbackUrl()) {
                 $callbackUrl = $consumer->getRejectedCallbackUrl();
@@ -212,7 +212,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function sendNotificationOnTokenStatusChange($userEmail, $userName, $applicationName, $status)
     {
         /* @var $mailTemplate \Magento\Core\Model\Email\Template */
-        $mailTemplate = \Mage::getModel('\Magento\Core\Model\Email\Template');
+        $mailTemplate = \Mage::getModel('Magento\Core\Model\Email\Template');
 
         $mailTemplate->sendTransactional(
             \Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE),

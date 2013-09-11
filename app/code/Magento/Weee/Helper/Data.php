@@ -277,7 +277,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getAmountForDisplay($product)
     {
         if ($this->isEnabled()) {
-            return \Mage::getModel('\Magento\Weee\Model\Tax')
+            return \Mage::getModel('Magento\Weee\Model\Tax')
                     ->getWeeeAmount($product, null, null, null, $this->typeOfDisplay($product, 1));
         }
         return 0;
@@ -292,7 +292,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getOriginalAmount($product)
     {
         if ($this->isEnabled()) {
-            return \Mage::getModel('\Magento\Weee\Model\Tax')->getWeeeAmount($product, null, null, null, false, true);
+            return \Mage::getModel('Magento\Weee\Model\Tax')->getWeeeAmount($product, null, null, null, false, true);
         }
         return 0;
     }

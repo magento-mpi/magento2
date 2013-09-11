@@ -85,7 +85,7 @@ class Soap extends \Magento\Object
 
         if ($this->getController()->getRequest()->getParam('wsdl') !== null) {
             /** @var $wsdlConfig \Magento\Api\Model\Wsdl\Config */
-            $wsdlConfig = \Mage::getModel('\Magento\Api\Model\Wsdl\Config');
+            $wsdlConfig = \Mage::getModel('Magento\Api\Model\Wsdl\Config');
             $wsdlConfig->setHandler($this->getHandler())
                 ->setCacheId('wsdl_config_global_soap')
                 ->init();
@@ -167,7 +167,7 @@ class Soap extends \Magento\Object
      */
     protected function getWsdlUrl($params = null, $withAuth = true)
     {
-        $urlModel = \Mage::getModel('\Magento\Core\Model\Url')
+        $urlModel = \Mage::getModel('Magento\Core\Model\Url')
             ->setUseSession(false);
 
         $wsdlUrl = $params !== null

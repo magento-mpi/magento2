@@ -231,7 +231,7 @@ abstract class Form
         ));
 
         /** @var $sourceEmailIdentity \Magento\Backend\Model\Config\Source\Email\Identity */
-        $sourceEmailIdentity = \Mage::getModel('\Magento\Backend\Model\Config\Source\Email\Identity');
+        $sourceEmailIdentity = \Mage::getModel('Magento\Backend\Model\Config\Source\Email\Identity');
 
         $fieldset->addField('email_receiver', 'select', array(
             'name'      => 'email_receiver',
@@ -260,7 +260,7 @@ abstract class Form
         ));
 
         /** @var $sourceEmailMethod \Magento\Backend\Model\Config\Source\Email\Method */
-        $sourceEmailMethod = \Mage::getModel('\Magento\Backend\Model\Config\Source\Email\Method');
+        $sourceEmailMethod = \Mage::getModel('Magento\Backend\Model\Config\Source\Email\Method');
 
         $fieldset->addField('email_copy_method', 'select', array(
             'name'      => 'email_copy_method',

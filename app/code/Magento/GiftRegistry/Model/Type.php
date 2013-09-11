@@ -44,7 +44,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     {
         if (!$this->hasStoreId() && !$this->getStoreId()) {
             $this->_cleanupData();
-            $xmlModel = \Mage::getModel('\Magento\GiftRegistry\Model\Attribute\Processor');
+            $xmlModel = \Mage::getModel('Magento\GiftRegistry\Model\Attribute\Processor');
             $this->setMetaXml($xmlModel->processData($this));
         }
 
@@ -199,7 +199,7 @@ class Type extends \Magento\Core\Model\AbstractModel
      */
     public function assignAttributesStoreData()
     {
-        $xmlModel = \Mage::getModel('\Magento\GiftRegistry\Model\Attribute\Processor');
+        $xmlModel = \Mage::getModel('Magento\GiftRegistry\Model\Attribute\Processor');
         $groups = $xmlModel->processXml($this->getMetaXml());
         $storeData = array();
 

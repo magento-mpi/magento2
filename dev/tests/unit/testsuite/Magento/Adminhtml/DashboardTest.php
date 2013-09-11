@@ -11,7 +11,7 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
     {
         $fixture = uniqid();
         /** @var $request \Magento\Core\Controller\Request\Http|PHPUnit_Framework_MockObject_MockObject */
-        $request = $this->getMockForAbstractClass('\Magento\Core\Controller\Request\Http');
+        $request = $this->getMockForAbstractClass('Magento\Core\Controller\Request\Http');
         $request->setParam('ga', urlencode(base64_encode(json_encode(array(1)))));
         $request->setParam('h', $fixture);
 
@@ -41,7 +41,7 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
 
     public function testTunnelAction400()
     {
-        $controller = $this->_factory($this->getMockForAbstractClass('\Magento\Core\Controller\Request\Http'));
+        $controller = $this->_factory($this->getMockForAbstractClass('Magento\Core\Controller\Request\Http'));
         $controller->tunnelAction();
         $this->assertEquals(400, $controller->getResponse()->getHttpResponseCode());
     }
@@ -50,7 +50,7 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
     {
         $fixture = uniqid();
         /** @var $request \Magento\Core\Controller\Request\Http|PHPUnit_Framework_MockObject_MockObject */
-        $request = $this->getMockForAbstractClass('\Magento\Core\Controller\Request\Http');
+        $request = $this->getMockForAbstractClass('Magento\Core\Controller\Request\Http');
         $request->setParam('ga', urlencode(base64_encode(json_encode(array(1)))));
         $request->setParam('h', $fixture);
 
@@ -94,7 +94,7 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
     {
         if (!$response) {
             /** @var $response \Magento\Core\Controller\Response\Http|PHPUnit_Framework_MockObject_MockObject */
-            $response = $this->getMockForAbstractClass('\Magento\Core\Controller\Response\Http');
+            $response = $this->getMockForAbstractClass('Magento\Core\Controller\Response\Http');
             $response->headersSentThrowsException = false;
         }
         if (!$objectManager) {

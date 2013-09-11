@@ -73,7 +73,7 @@ class Options extends \Magento\Adminhtml\Block\Widget\Form
         $this->setData('main_fieldset', $fieldset);
 
         // add dependence javascript block
-        $block = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Form\Element\Dependence');
+        $block = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Form\Element\Dependence');
         $this->setChild('form_after', $block);
 
         return $fieldset;

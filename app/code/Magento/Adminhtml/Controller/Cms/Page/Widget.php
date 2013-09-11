@@ -26,7 +26,7 @@ class Widget extends \Magento\Adminhtml\Controller\Action
     public function chooserAction()
     {
         $uniqId = $this->getRequest()->getParam('uniq_id');
-        $pagesGrid = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Cms\Page\Widget\Chooser', '', array(
+        $pagesGrid = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Cms\Page\Widget\Chooser', '', array(
             'data' => array('id' => $uniqId)
         ));
         $this->getResponse()->setBody($pagesGrid->toHtml());

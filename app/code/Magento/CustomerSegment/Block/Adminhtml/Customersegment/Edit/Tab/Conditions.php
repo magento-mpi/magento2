@@ -35,7 +35,7 @@ class Conditions
         $params = array('apply_to' => $model->getApplyTo());
         $url = $this->getUrl('*/customersegment/newConditionHtml/form/segment_conditions_fieldset', $params);
 
-        $renderer = \Mage::getBlockSingleton('\Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
+        $renderer = \Mage::getBlockSingleton('Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($url);
         $fieldset = $form->addFieldset('conditions_fieldset', array(
@@ -48,7 +48,7 @@ class Conditions
             'label' => __('Conditions'),
             'title' => __('Conditions'),
             'required' => true,
-        ))->setRule($model)->setRenderer(\Mage::getBlockSingleton('\Magento\Rule\Block\Conditions'));
+        ))->setRule($model)->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Conditions'));
 
         if (\Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS_AND_REGISTERED == $model->getApplyTo()) {
             $fieldset->addField('conditions-label', 'label', array(

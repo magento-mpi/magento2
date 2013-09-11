@@ -164,7 +164,7 @@ class Profile extends \Magento\Adminhtml\Controller\Action
     protected function _initCustomer()
     {
         $customerId = (int) $this->getRequest()->getParam('id');
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer');
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer');
 
         if ($customerId) {
             $customer->load($customerId);
@@ -181,7 +181,7 @@ class Profile extends \Magento\Adminhtml\Controller\Action
      */
     protected function _initProfile()
     {
-        $profile = \Mage::getModel('\Magento\Sales\Model\Recurring\Profile')->load($this->getRequest()->getParam('profile'));
+        $profile = \Mage::getModel('Magento\Sales\Model\Recurring\Profile')->load($this->getRequest()->getParam('profile'));
         if (!$profile->getId()) {
             \Mage::throwException(__('The profile you specified does not exist.'));
         }

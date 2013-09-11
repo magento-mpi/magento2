@@ -36,7 +36,7 @@ class Collection
     protected function _addCustomerInfo()
     {
         /* @var \Magento\Customer\Model\Resource\Customer $customer */
-        $customer  = \Mage::getResourceSingleton('\Magento\Customer\Model\Resource\Customer');
+        $customer  = \Mage::getResourceSingleton('Magento\Customer\Model\Resource\Customer');
         $select = $this->getSelect();
 
         $customerAccount = \Mage::getConfig()->getFieldset('customer_account');

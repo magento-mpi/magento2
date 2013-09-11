@@ -47,7 +47,7 @@ class Config extends \Magento\Object
         );
         $settings = array(
             'widget_plugin_src'   => $url,
-            'widget_placeholders' => \Mage::getModel('\Magento\Widget\Model\Widget')->getPlaceholderImageUrls(),
+            'widget_placeholders' => \Mage::getModel('Magento\Widget\Model\Widget')->getPlaceholderImageUrls(),
             'widget_window_url'   => $this->getWidgetWindowUrl($config)
         );
 
@@ -66,8 +66,8 @@ class Config extends \Magento\Object
 
         $skipped = is_array($config->getData('skip_widgets')) ? $config->getData('skip_widgets') : array();
         if ($config->hasData('widget_filters')) {
-            $all = \Mage::getModel('\Magento\Widget\Model\Widget')->getWidgetsXml();
-            $filtered = \Mage::getModel('\Magento\Widget\Model\Widget')->getWidgetsXml($config->getData('widget_filters'));
+            $all = \Mage::getModel('Magento\Widget\Model\Widget')->getWidgetsXml();
+            $filtered = \Mage::getModel('Magento\Widget\Model\Widget')->getWidgetsXml($config->getData('widget_filters'));
             $reflection = new \ReflectionObject($filtered);
             foreach ($all as $code => $widget) {
                 if (!$reflection->hasProperty($code)) {

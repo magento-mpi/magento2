@@ -108,7 +108,7 @@ class Tax extends \Magento\Adminhtml\Block\Widget implements \Magento\Data\Form\
     public function getCountries()
     {
         if (is_null($this->_countries)) {
-            $this->_countries = \Mage::getModel('\Magento\Directory\Model\Config\Source\Country')->toOptionArray();
+            $this->_countries = \Mage::getModel('Magento\Directory\Model\Config\Source\Country')->toOptionArray();
         }
 
         return $this->_countries;

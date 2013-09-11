@@ -67,7 +67,7 @@ class Vat
             $optionsVarName = $this->getJsVariablePrefix() . 'VatParameters';
             $beforeHtml = '<script type="text/javascript">var ' . $optionsVarName . ' = ' . $vatValidateOptions
                 . ';</script>';
-            $this->_validateButton = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')->setData(array(
+            $this->_validateButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData(array(
                 'label'       => __('Validate VAT Number'),
                 'before_html' => $beforeHtml,
                 'onclick'     => 'order.validateVat(' . $optionsVarName . ')'

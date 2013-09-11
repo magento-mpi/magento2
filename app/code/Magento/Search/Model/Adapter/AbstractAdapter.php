@@ -269,7 +269,7 @@ abstract class AbstractAdapter
     {
         $result = array();
 
-        $categoryProductData = \Mage::getResourceSingleton('\Magento\Search\Model\Resource\Index')
+        $categoryProductData = \Mage::getResourceSingleton('Magento\Search\Model\Resource\Index')
                 ->getCategoryProductIndexData($storeId, $productId);
 
         if (isset($categoryProductData[$productId])) {
@@ -300,7 +300,7 @@ abstract class AbstractAdapter
     {
         $result = array();
 
-        $productPriceIndexData = \Mage::getResourceSingleton('\Magento\Search\Model\Resource\Index')
+        $productPriceIndexData = \Mage::getResourceSingleton('Magento\Search\Model\Resource\Index')
             ->getPriceIndexData($productId, $storeId);
 
         if (isset($productPriceIndexData[$productId])) {
@@ -538,7 +538,7 @@ abstract class AbstractAdapter
             return array();
         }
 
-        $this->_separator = \Mage::getResourceSingleton('\Magento\CatalogSearch\Model\Resource\Fulltext')->getSeparator();
+        $this->_separator = \Mage::getResourceSingleton('Magento\CatalogSearch\Model\Resource\Fulltext')->getSeparator();
 
         $docs = array();
         foreach ($docData as $productId => $productIndexData) {
@@ -1129,7 +1129,7 @@ abstract class AbstractAdapter
     protected function _getIndexableAttributeParams()
     {
         if ($this->_indexableAttributeParams === null) {
-            $attributeCollection = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product\Attribute\Collection')
+            $attributeCollection = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Attribute\Collection')
                     ->addToIndexFilter()
                     ->getItems();
 

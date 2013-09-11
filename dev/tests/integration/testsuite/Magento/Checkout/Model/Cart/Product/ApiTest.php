@@ -39,7 +39,7 @@ class Magento_Checkout_Model_Cart_Product_ApiTest extends Magento_Checkout_Model
 
         $this->assertTrue($soapResult, 'Error during product update in cart via API call');
         /** @var \Magento\Sales\Model\Quote $quoteAfterUpdate */
-        $quoteAfterUpdate = Mage::getModel('\Magento\Sales\Model\Quote');
+        $quoteAfterUpdate = Mage::getModel('Magento\Sales\Model\Quote');
         $quoteAfterUpdate->load($quote->getId());
         $quoteItemsUpdated = $quoteAfterUpdate->getAllItems();
         /** @var \Magento\Sales\Model\Quote\Item $quoteItem */
@@ -72,7 +72,7 @@ class Magento_Checkout_Model_Cart_Product_ApiTest extends Magento_Checkout_Model
 
         $this->assertTrue($soapResult, 'Error during product remove from cart via API call');
         /** @var \Magento\Sales\Model\Quote $quoteAfterUpdate */
-        $quoteAfterUpdate = Mage::getModel('\Magento\Sales\Model\Quote');
+        $quoteAfterUpdate = Mage::getModel('Magento\Sales\Model\Quote');
         $quoteAfterUpdate->load($quote->getId());
         $this->assertCount(0, $quoteAfterUpdate->getAllItems(), 'Quote item was not deleted.');
     }
@@ -91,7 +91,7 @@ class Magento_Checkout_Model_Cart_Product_ApiTest extends Magento_Checkout_Model
         $inactiveQuote = $this->_getQuote();
         $this->assertCount(1, $inactiveQuote->getAllItems(), 'Quote should have exactly 1 item.');
         $inactiveQuote->setIsActive(0)->setCustomerId(1)->save();
-        $activeQuote = Mage::getModel('\Magento\Sales\Model\Quote');
+        $activeQuote = Mage::getModel('Magento\Sales\Model\Quote');
         $activeQuote->setData(array(
             'store_id' => 1,
             'is_active' => 1,
@@ -117,7 +117,7 @@ class Magento_Checkout_Model_Cart_Product_ApiTest extends Magento_Checkout_Model
 
         /** Ensure that data was saved to DB correctly. */
         /** @var \Magento\Sales\Model\Quote $quoteAfterMove */
-        $quoteAfterMove = Mage::getModel('\Magento\Sales\Model\Quote');
+        $quoteAfterMove = Mage::getModel('Magento\Sales\Model\Quote');
         $quoteAfterMove->load($activeQuote->getId());
         /** @var \Magento\Sales\Model\Resource\Quote\Item\Collection $itemsCollection */
         $itemsCollection = $quoteAfterMove->getItemsCollection(false);

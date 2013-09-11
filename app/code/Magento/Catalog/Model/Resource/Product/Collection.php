@@ -530,7 +530,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         }
 
         if ($objects && $this->hasFlag('url_data_object')) {
-            $objects = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Url')
+            $objects = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Url')
                 ->getRewriteByProductStore($objects);
             foreach ($this->_items as $item) {
                 if (isset($objects[$item->getEntityId()])) {
@@ -1359,7 +1359,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             $productIds[] = $product->getId();
         }
         if (!empty($productIds)) {
-            $options = \Mage::getModel('\Magento\Catalog\Model\Product\Option')
+            $options = \Mage::getModel('Magento\Catalog\Model\Product\Option')
                 ->getCollection()
                 ->addTitleToResult(\Mage::app()->getStore()->getId())
                 ->addPriceToResult(\Mage::app()->getStore()->getId())

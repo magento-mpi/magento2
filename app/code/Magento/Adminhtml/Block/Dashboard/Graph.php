@@ -178,7 +178,7 @@ class Graph extends \Magento\Adminhtml\Block\Dashboard\AbstractDashboard
 
         $timezoneLocal = \Mage::app()->getStore()->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
 
-        list ($dateStart, $dateEnd) = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Order\Collection')
+        list ($dateStart, $dateEnd) = \Mage::getResourceModel('Magento\Reports\Model\Resource\Order\Collection')
             ->getDateRange($this->getDataHelper()->getParam('period'), '', '', true);
 
         $dateStart->setTimezone($timezoneLocal);
@@ -519,7 +519,7 @@ class Graph extends \Magento\Adminhtml\Block\Dashboard\AbstractDashboard
     protected function _prepareData()
     {
         if (!is_null($this->getDataHelperName())) {
-            $availablePeriods = array_keys($this->helper('\Magento\Adminhtml\Helper\Dashboard\Data')->getDatePeriods());
+            $availablePeriods = array_keys($this->helper('Magento\Adminhtml\Helper\Dashboard\Data')->getDatePeriods());
             $period = $this->getRequest()->getParam('period');
             $this->getDataHelper()->setParam('period',
                ($period && in_array($period, $availablePeriods)) ? $period : '24h'

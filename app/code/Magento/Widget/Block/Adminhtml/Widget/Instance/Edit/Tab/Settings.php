@@ -106,7 +106,7 @@ class Settings
         ));
 
         /** @var $label \Magento\Core\Model\Theme\Label */
-        $label = \Mage::getModel('\Magento\Core\Model\Theme\Label');
+        $label = \Mage::getModel('Magento\Core\Model\Theme\Label');
         $options = $label->getLabelsCollection(__('-- Please Select --'));
         $fieldset->addField('theme_id', 'select', array(
             'name'     => 'theme_id',
@@ -116,7 +116,7 @@ class Settings
             'values'   => $options
         ));
         $continueButton = $this->getLayout()
-            ->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+            ->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'     => __('Continue'),
                 'onclick'   => "setSettings('" . $this->getContinueUrl() . "', 'type', 'theme_id')",

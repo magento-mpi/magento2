@@ -94,7 +94,7 @@ abstract class AbstractReport extends \Magento\Adminhtml\Controller\Action
      */
     protected function _showLastExecutionTime($flagCode, $refreshCode)
     {
-        $flag = \Mage::getModel('\Magento\Reports\Model\Flag')->setReportFlagCode($flagCode)->loadSelf();
+        $flag = \Mage::getModel('Magento\Reports\Model\Flag')->setReportFlagCode($flagCode)->loadSelf();
         $updatedAt = ($flag->hasData())
             ? \Mage::app()->getLocale()->storeDate(
                 0, new \Zend_Date($flag->getLastUpdate(), \Magento\Date::DATETIME_INTERNAL_FORMAT), true

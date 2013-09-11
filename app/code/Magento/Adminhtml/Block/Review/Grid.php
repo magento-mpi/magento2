@@ -58,7 +58,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected function _prepareCollection()
     {
         /** @var $model \Magento\Review\Model\Review */
-        $model = \Mage::getModel('\Magento\Review\Model\Review');
+        $model = \Mage::getModel('Magento\Review\Model\Review');
         /** @var $collection \Magento\Review\Model\Resource\Review\Product\Collection */
         $collection = $model->getProductCollection();
 

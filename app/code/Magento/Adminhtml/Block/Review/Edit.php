@@ -132,7 +132,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         }
 
         if( $this->getRequest()->getParam($this->_objectId) ) {
-            $reviewData = \Mage::getModel('\Magento\Review\Model\Review')
+            $reviewData = \Mage::getModel('Magento\Review\Model\Review')
                 ->load($this->getRequest()->getParam($this->_objectId));
             \Mage::register('review_data', $reviewData);
         }

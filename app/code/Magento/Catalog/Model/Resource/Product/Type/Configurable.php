@@ -71,7 +71,7 @@ class Configurable extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
 
         // configurable product relations should be added to relation table
-        \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product\Relation')
+        \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Relation')
             ->processRelations($mainProductId, $productIds);
 
         return $this;

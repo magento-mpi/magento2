@@ -76,7 +76,7 @@ class Payflow extends \Magento\Core\Controller\Front\Action
         $data = $this->getRequest()->getPost();
         if (isset($data['INVNUM'])) {
             /** @var $paymentModel \Magento\Paypal\Model\Payflowlink */
-            $paymentModel = \Mage::getModel('\Magento\Paypal\Model\Payflowlink');
+            $paymentModel = \Mage::getModel('Magento\Paypal\Model\Payflowlink');
             try {
                 $paymentModel->process($data);
             } catch (\Exception $e) {

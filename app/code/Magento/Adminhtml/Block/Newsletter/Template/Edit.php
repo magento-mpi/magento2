@@ -227,7 +227,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
     public function getForm()
     {
         return $this->getLayout()
-            ->createBlock('\Magento\Adminhtml\Block\Newsletter\Template\Edit\Form')
+            ->createBlock('Magento\Adminhtml\Block\Newsletter\Template\Edit\Form')
             ->toHtml();
     }
 

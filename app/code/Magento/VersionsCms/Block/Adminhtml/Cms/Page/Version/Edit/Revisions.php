@@ -38,7 +38,7 @@ class Revisions
     protected function _prepareCollection()
     {
         /* var $collection Magento_VersionsCms_Model_Resource_Revision_Collection */
-        $collection = \Mage::getModel('\Magento\VersionsCms\Model\Page\Revision')->getCollection()
+        $collection = \Mage::getModel('Magento\VersionsCms\Model\Page\Revision')->getCollection()
             ->addPageFilter($this->getPage())
             ->addVersionFilter($this->getVersion())
             ->addUserColumn()

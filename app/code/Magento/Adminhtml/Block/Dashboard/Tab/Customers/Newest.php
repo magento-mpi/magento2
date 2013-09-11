@@ -29,7 +29,7 @@ class Newest extends \Magento\Adminhtml\Block\Dashboard\Grid
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Customer\Collection')
+        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Customer\Collection')
             ->addCustomerName();
 
         $storeFilter = 0;

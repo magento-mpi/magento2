@@ -120,11 +120,11 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
             ))
             ->where('permission.category_id IN (?)', $categoryIds);
 
-        $websiteIds = \Mage::getModel('\Magento\Core\Model\Website')->getCollection()
+        $websiteIds = \Mage::getModel('Magento\Core\Model\Website')->getCollection()
             ->addFieldToFilter('website_id', array('neq'=>0))
             ->getAllIds();
 
-        $customerGroupIds = \Mage::getModel('\Magento\Customer\Model\Group')->getCollection()
+        $customerGroupIds = \Mage::getModel('Magento\Customer\Model\Group')->getCollection()
             ->getAllIds();
 
         $notEmptyWhere = array();

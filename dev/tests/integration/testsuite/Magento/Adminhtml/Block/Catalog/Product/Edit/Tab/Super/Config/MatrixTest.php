@@ -20,8 +20,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_MatrixTest e
      */
     public function testGetVariations()
     {
-        Mage::register('current_product', Mage::getModel('\Magento\Catalog\Model\Product')->load(1));
-        Mage::app()->getLayout()->createBlock('\Magento\Core\Block\Text', 'head');
+        Mage::register('current_product', Mage::getModel('Magento\Catalog\Model\Product')->load(1));
+        Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text', 'head');
         /** @var $usedAttribute \Magento\Catalog\Model\Entity\Attribute */
         $usedAttribute = Mage::getSingleton('Magento\Catalog\Model\Entity\Attribute')->loadByCode(
             Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('catalog_product')->getId(),

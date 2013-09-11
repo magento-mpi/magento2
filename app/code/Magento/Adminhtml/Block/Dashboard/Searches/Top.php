@@ -33,7 +33,7 @@ class Top extends \Magento\Adminhtml\Block\Dashboard\Grid
         if (!\Mage::helper('Magento\Core\Helper\Data')->isModuleEnabled('Magento_CatalogSearch')) {
             return parent::_prepareCollection();
         }
-        $this->_collection = \Mage::getModel('\Magento\CatalogSearch\Model\Query')
+        $this->_collection = \Mage::getModel('Magento\CatalogSearch\Model\Query')
             ->getResourceCollection();
 
         if ($this->getRequest()->getParam('store')) {

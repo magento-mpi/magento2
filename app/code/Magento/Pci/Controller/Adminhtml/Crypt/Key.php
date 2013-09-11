@@ -73,7 +73,7 @@ class Key extends \Magento\Adminhtml\Controller\Action
                 \Mage::helper('Magento\Core\Helper\Data')->validateKey($key);
             }
 
-            $newKey = \Mage::getResourceSingleton('\Magento\Pci\Model\Resource\Key\Change')
+            $newKey = \Mage::getResourceSingleton('Magento\Pci\Model\Resource\Key\Change')
                 ->changeEncryptionKey($key);
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')
                     ->addSuccess(

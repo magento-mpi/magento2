@@ -26,7 +26,7 @@ class Sidebar extends \Magento\Wishlist\Block\Customer\Sidebar
      */
     protected function _getHelper()
     {
-        return $this->helper('\Magento\MultipleWishlist\Helper\Data');
+        return $this->helper('Magento\MultipleWishlist\Helper\Data');
     }
 
     /**

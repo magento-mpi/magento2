@@ -74,7 +74,7 @@ class Ordered
 
             // Load last order of a customer
             /* @var $collection \Magento\Core\Model\Resource\Db\Collection\AbstractCollection */
-            $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Collection')
+            $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Collection')
                 ->addAttributeToFilter('customer_id', $this->_getCustomer()->getId())
                 ->addAttributeToFilter('store_id', array('in' => $storeIds))
                 ->addAttributeToSort('created_at', 'desc')
@@ -98,7 +98,7 @@ class Ordered
                 if ($productIds) {
                     // Load products collection
                     $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
-                    $products = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
+                    $products = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
                         ->setStore($this->_getStore())
                         ->addAttributeToSelect($attributes)
                         ->addAttributeToSelect('sku')

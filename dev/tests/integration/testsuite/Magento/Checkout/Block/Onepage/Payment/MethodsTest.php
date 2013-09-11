@@ -22,17 +22,17 @@ class Magento_Checkout_Block_Onepage_Payment_MethodsTest extends PHPUnit_Framewo
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Mage::getModel('\Magento\Core\Model\Layout')
-            ->createBlock('\Magento\Checkout\Block\Onepage\Payment\Methods');
+        $this->_block = Mage::getModel('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Checkout\Block\Onepage\Payment\Methods');
     }
 
     public function testGetMethodTitleAndMethodLabelAfterHtml()
     {
         $expectedTitle = 'Free Method';
         $expectedLabel = 'Label After Html';
-        $method = Mage::getModel('\Magento\Payment\Model\Method\Free');
+        $method = Mage::getModel('Magento\Payment\Model\Method\Free');
 
-        $block = $this->_block->getLayout()->createBlock('\Magento\Core\Block\Text')
+        $block = $this->_block->getLayout()->createBlock('Magento\Core\Block\Text')
             ->setMethodTitle($expectedTitle)
             ->setMethodLabelAfterHtml($expectedLabel);
 

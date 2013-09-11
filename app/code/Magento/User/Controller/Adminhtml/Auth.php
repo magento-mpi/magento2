@@ -30,14 +30,14 @@ class Auth extends \Magento\Backend\Controller\ActionAbstract
         if (!empty($email) && !empty($params)) {
             // Validate received data to be an email address
             if (\Zend_Validate::is($email, 'EmailAddress')) {
-                $collection = \Mage::getResourceModel('\Magento\User\Model\Resource\User\Collection');
+                $collection = \Mage::getResourceModel('Magento\User\Model\Resource\User\Collection');
                 /** @var $collection \Magento\User\Model\Resource\User\Collection */
                 $collection->addFieldToFilter('email', $email);
                 $collection->load(false);
 
                 if ($collection->getSize() > 0) {
                     foreach ($collection as $item) {
-                        $user = \Mage::getModel('\Magento\User\Model\User')->load($item->getId());
+                        $user = \Mage::getModel('Magento\User\Model\User')->load($item->getId());
                         if ($user->getId()) {
                             $newPassResetToken = \Mage::helper('Magento\User\Helper\Data')
                                 ->generateResetPasswordLinkToken();
@@ -117,7 +117,7 @@ class Auth extends \Magento\Backend\Controller\ActionAbstract
         }
 
         /** @var $user \Magento\User\Model\User */
-        $user = \Mage::getModel('\Magento\User\Model\User')->load($userId);
+        $user = \Mage::getModel('Magento\User\Model\User')->load($userId);
         if ($password !== '') {
             $user->setPassword($password);
         }
@@ -167,7 +167,7 @@ class Auth extends \Magento\Backend\Controller\ActionAbstract
         }
 
         /** @var $user \Magento\User\Model\User */
-        $user = \Mage::getModel('\Magento\User\Model\User')->load($userId);
+        $user = \Mage::getModel('Magento\User\Model\User')->load($userId);
         if (!$user->getId()) {
             throw \Mage::exception(
                 'Magento_Core',

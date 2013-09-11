@@ -45,7 +45,7 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $object->getProduct();
         if (!($product instanceof \Magento\Catalog\Model\Product)) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($object->getProductId());
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($object->getProductId());
         }
 
         $product

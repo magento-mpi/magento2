@@ -82,7 +82,7 @@ class Tax extends \Magento\Core\Model\AbstractModel
         }
 
         if (is_null($this->_allAttributes)) {
-            $this->_allAttributes = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute')->getAttributeCodesByFrontendType('weee');
+            $this->_allAttributes = \Mage::getModel('Magento\Eav\Model\Entity\Attribute')->getAttributeCodesByFrontendType('weee');
         }
         return $this->_allAttributes;
     }
@@ -112,7 +112,7 @@ class Tax extends \Magento\Core\Model\AbstractModel
             $customerTaxClass = null;
         }
 
-        $calculator = \Mage::getModel('\Magento\Tax\Model\Calculation');
+        $calculator = \Mage::getModel('Magento\Tax\Model\Calculation');
         if ($customer) {
             $calculator->setCustomer($customer);
         }
@@ -150,7 +150,7 @@ class Tax extends \Magento\Core\Model\AbstractModel
                     $taxAmount = $amount = 0;
                     $amount    = $value;
                     if ($calculateTax && \Mage::helper('Magento\Weee\Helper\Data')->isTaxable($store)) {
-                        $defaultPercent = \Mage::getModel('\Magento\Tax\Model\Calculation')
+                        $defaultPercent = \Mage::getModel('Magento\Tax\Model\Calculation')
                             ->getRate($defaultRateRequest
                             ->setProductClassId($product->getTaxClassId()));
                         $currentPercent = $product->getTaxPercent();

@@ -18,7 +18,7 @@ class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $fetchStrategy = $this->getMockForAbstractClass('\Magento\Data\Collection\Db\FetchStrategyInterface');
+        $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
         $this->_collection = new \Magento\Data\Collection\Db($fetchStrategy);
     }
 

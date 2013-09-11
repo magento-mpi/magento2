@@ -41,7 +41,7 @@ class Api extends \Magento\Api\Model\Resource\AbstractResource
     public function items($filters)
     {
         /** @var $collection \Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Collection */
-        $collection = \Mage::getResourceModel('\Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Collection');
+        $collection = \Mage::getResourceModel('Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Collection');
         /** @var $apiHelper \Magento\Api\Helper\Data */
         $apiHelper = \Mage::helper('Magento\Api\Helper\Data');
         $filters = $apiHelper->parseFilters($filters, $this->_mapAttributes);
@@ -75,7 +75,7 @@ class Api extends \Magento\Api\Model\Resource\AbstractResource
         $result['history']       = array();
 
         /** @var $historyCollection \Magento\GiftCardAccount\Model\Resource\History\Collection */
-        $historyCollection = \Mage::getModel('\Magento\GiftCardAccount\Model\History')
+        $historyCollection = \Mage::getModel('Magento\GiftCardAccount\Model\History')
             ->getCollection()
             ->addFieldToFilter('giftcardaccount_id', $model->getId());
 
@@ -106,7 +106,7 @@ class Api extends \Magento\Api\Model\Resource\AbstractResource
         $giftcardAccountData = $this->_prepareCreateGiftcardAccountData($giftcardAccountData);
         $notificationData = $this->_prepareCreateNotificationData($notificationData);
         /** @var $giftcardAccount \Magento\GiftCardAccount\Model\Giftcardaccount */
-        $giftcardAccount = \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount');
+        $giftcardAccount = \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount');
         try {
             $giftcardAccount->setData($giftcardAccountData);
             $giftcardAccount->save();
@@ -166,7 +166,7 @@ class Api extends \Magento\Api\Model\Resource\AbstractResource
     public function remove($giftcardAccountId)
     {
         /** @var $giftcardAccount \Magento\GiftCardAccount\Model\Giftcardaccount */
-        $giftcardAccount = \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')->load($giftcardAccountId);
+        $giftcardAccount = \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')->load($giftcardAccountId);
         if (!$giftcardAccount->getId()) {
             $this->_fault('giftcard_account_not_found_by_id');
         }
@@ -186,7 +186,7 @@ class Api extends \Magento\Api\Model\Resource\AbstractResource
      */
     protected function _init($giftcardId)
     {
-        $model = \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')
+        $model = \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
             ->load($giftcardId);
 
         if (!$model->getId()) {

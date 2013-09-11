@@ -67,7 +67,7 @@ Ext.EventManager.onDocumentReady(function() {
     });
 
     tree.setRootNode(root);
-    buildResourcesTree(root, <?php echo $this->helper('\Magento\Core\Helper\Data')->jsonEncode($this->getResourcesTree()) ?>);
+    buildResourcesTree(root, <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getResourcesTree()) ?>);
     tree.addListener('click', resourceClick.createDelegate(this));
 
     // render the tree

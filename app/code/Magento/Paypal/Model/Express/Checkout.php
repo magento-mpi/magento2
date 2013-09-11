@@ -305,7 +305,7 @@ class Checkout
 
         // add line items
         $parameters = array('params' => array($this->_quote));
-        $paypalCart = \Mage::getModel('\Magento\Paypal\Model\Cart', $parameters);
+        $paypalCart = \Mage::getModel('Magento\Paypal\Model\Cart', $parameters);
         $this->_api->setPaypalCart($paypalCart)
             ->setIsLineItemsEnabled($this->_config->lineItemsEnabled)
         ;
@@ -496,7 +496,7 @@ class Checkout
     public function updateOrder($data)
     {
         /** @var $checkout \Magento\Checkout\Model\Type\Onepage */
-        $checkout = \Mage::getModel('\Magento\Checkout\Model\Type\Onepage');
+        $checkout = \Mage::getModel('Magento\Checkout\Model\Type\Onepage');
 
         $this->_quote->setTotalsCollectedFlag(true);
         $checkout->setQuote($this->_quote);
@@ -549,7 +549,7 @@ class Checkout
         $this->_ignoreAddressValidation();
         $this->_quote->collectTotals();
         $parameters = array('quote' => $this->_quote);
-        $service = \Mage::getModel('\Magento\Sales\Model\Service\Quote', $parameters);
+        $service = \Mage::getModel('Magento\Sales\Model\Service\Quote', $parameters);
         $service->submitAll();
         $this->_quote->save();
 
@@ -711,7 +711,7 @@ class Checkout
             return $this;
         }
 
-        if (!\Mage::getModel('\Magento\Sales\Model\Billing\Agreement')->needToCreateForCustomer($this->_customerId)) {
+        if (!\Mage::getModel('Magento\Sales\Model\Billing\Agreement')->needToCreateForCustomer($this->_customerId)) {
             return $this;
         }
         $this->_api->setBillingType($this->_api->getBillingAgreementType());

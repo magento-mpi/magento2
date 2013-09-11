@@ -120,7 +120,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
     public function isAvailable($quote = null)
     {
         $storeId = \Mage::app()->getStore($this->getStore())->getId();
-        $config = \Mage::getModel('\Magento\Paypal\Model\Config')->setStoreId($storeId);
+        $config = \Mage::getModel('Magento\Paypal\Model\Config')->setStoreId($storeId);
         if (\Magento\Payment\Model\Method\AbstractMethod::isAvailable($quote) && $config->isMethodAvailable($this->getCode())) {
             return true;
         }
@@ -168,7 +168,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
     public function getResponse()
     {
         if (!$this->_response) {
-            $this->_response = \Mage::getModel('\Magento\Paypal\Model\Payflow\Request');
+            $this->_response = \Mage::getModel('Magento\Paypal\Model\Payflow\Request');
         }
 
         return $this->_response;
@@ -271,7 +271,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
             if ($canSendNewOrderEmail) {
                 $order->sendNewOrderEmail();
             }
-            \Mage::getModel('\Magento\Sales\Model\Quote')
+            \Mage::getModel('Magento\Sales\Model\Quote')
                 ->load($order->getQuoteId())
                 ->setIsActive(false)
                 ->save();
@@ -306,7 +306,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
     {
         $response = $this->getResponse();
 
-        $order = \Mage::getModel('\Magento\Sales\Model\Order')
+        $order = \Mage::getModel('Magento\Sales\Model\Order')
                 ->loadByIncrementId($response->getInvnum());
 
         if ($this->_getSecureSilentPostHash($order->getPayment()) != $response->getUser2()
@@ -422,7 +422,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
       */
     protected function _buildBasicRequest(\Magento\Object $payment)
     {
-        $request = \Mage::getModel('\Magento\Paypal\Model\Payflow\Request');
+        $request = \Mage::getModel('Magento\Paypal\Model\Payflow\Request');
         $cscEditable = $this->getConfigData('csc_editable');
         $request
             ->setUser($this->getConfigData('user', $this->_getStoreId()))
@@ -635,7 +635,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
         $request = \Mage::app()->getRequest();
         if ($request->getParam('website')) {
             /** @var $website \Magento\Core\Model\Website */
-            $website = \Mage::getModel('\Magento\Core\Model\Website')->load($request->getParam('website'));
+            $website = \Mage::getModel('Magento\Core\Model\Website')->load($request->getParam('website'));
             $secure = \Mage::getStoreConfigFlag(
                 \Magento\Core\Model\Url::XML_PATH_SECURE_IN_FRONT,
                 $website->getDefaultStore()

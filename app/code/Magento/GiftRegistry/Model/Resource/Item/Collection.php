@@ -108,7 +108,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _assignOptions()
     {
         $itemIds = array_keys($this->_items);
-        $optionCollection = \Mage::getModel('\Magento\GiftRegistry\Model\Item\Option')->getCollection()
+        $optionCollection = \Mage::getModel('Magento\GiftRegistry\Model\Item\Option')->getCollection()
             ->addItemFilter($itemIds);
         foreach ($this as $item) {
             $item->setOptions($optionCollection->getOptionsByItem($item));
@@ -132,7 +132,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         }
         $this->_productIds = array_merge($this->_productIds, $productIds);
 
-        $productCollection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
+        $productCollection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
             ->setStoreId(\Mage::app()->getStore()->getId())
             ->addIdFilter($this->_productIds)
             ->addAttributeToSelect(\Mage::getSingleton('Magento\Sales\Model\Quote\Config')->getProductAttributes())

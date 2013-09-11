@@ -138,7 +138,7 @@ class Chooser extends \Magento\Adminhtml\Block\Template
         }
 
         $buttons = $config->getButtons();
-        $chooseButton = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+        $chooseButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setType('button')
             ->setId($chooserId . 'control')
             ->setClass('btn-chooser')

@@ -93,7 +93,7 @@ class Magento_GiftCard_Model_Checkout_Cart_ApiTest extends PHPUnit_Framework_Tes
     protected function _loadGiftCards($quoteId)
     {
         /** @var \Magento\Sales\Model\Quote $updatedQuote */
-        $updatedQuote = Mage::getModel('\Magento\Sales\Model\Quote')->load($quoteId);
+        $updatedQuote = Mage::getModel('Magento\Sales\Model\Quote')->load($quoteId);
         $this->assertInternalType(
             'string',
             $updatedQuote->getGiftCards(),
@@ -116,7 +116,7 @@ class Magento_GiftCard_Model_Checkout_Cart_ApiTest extends PHPUnit_Framework_Tes
     protected function _getQuote()
     {
         /** @var $session \Magento\Checkout\Model\Session */
-        $session = Mage::getModel('\Magento\Checkout\Model\Session');
+        $session = Mage::getModel('Magento\Checkout\Model\Session');
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $session->getQuote();
         return $quote;

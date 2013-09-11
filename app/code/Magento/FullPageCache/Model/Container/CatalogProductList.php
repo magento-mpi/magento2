@@ -25,7 +25,7 @@ class CatalogProductList
     {
         $productId = $this->_getProductId();
         if ($productId && !\Mage::registry('product')) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->setStoreId(\Mage::app()->getStore()->getId())
                 ->load($productId);
             if ($product) {

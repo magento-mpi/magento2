@@ -216,7 +216,7 @@ class Configurable
                     ->getNode('global/catalog/product/type/configurable/allow_product_types')->children() as $type) {
                 $allowProductTypes[] = $type->getName();
             }
-            foreach (\Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection')
+            foreach (\Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection')
                         ->addFieldToFilter('type_id', $allowProductTypes)
                         ->addAttributeToSelect(array_keys($this->_superAttributes)) as $product) {
                 $attrSetName = $attrSetIdToName[$product->getAttributeSetId()];

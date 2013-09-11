@@ -231,7 +231,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _initMessage()
     {
-        $this->_giftMessage = $this->helper('\Magento\GiftMessage\Helper\Message')->getGiftMessage(
+        $this->_giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage(
                                    $this->getEntity()->getGiftMessageId()
                               );
         return $this;

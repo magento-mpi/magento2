@@ -63,7 +63,7 @@ class Targetrule extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Related Products Rule'));
 
         /* @var $model \Magento\TargetRule\Model\Rule */
-        $model  = \Mage::getModel('\Magento\TargetRule\Model\Rule');
+        $model  = \Mage::getModel('Magento\TargetRule\Model\Rule');
         $ruleId = $this->getRequest()->getParam('id', null);
 
         if ($ruleId) {
@@ -114,7 +114,7 @@ class Targetrule extends \Magento\Adminhtml\Controller\Action
 
         if ($this->getRequest()->isPost() && $data) {
             /* @var $model \Magento\TargetRule\Model\Rule */
-            $model          = \Mage::getModel('\Magento\TargetRule\Model\Rule');
+            $model          = \Mage::getModel('Magento\TargetRule\Model\Rule');
             $redirectBack   = $this->getRequest()->getParam('back', false);
             $hasError       = false;
 
@@ -193,7 +193,7 @@ class Targetrule extends \Magento\Adminhtml\Controller\Action
     {
         if ($id = $this->getRequest()->getParam('id')) {
             try {
-                $model = \Mage::getModel('\Magento\TargetRule\Model\Rule');
+                $model = \Mage::getModel('Magento\TargetRule\Model\Rule');
                 $model->load($id);
                 $model->delete();
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')
@@ -226,7 +226,7 @@ class Targetrule extends \Magento\Adminhtml\Controller\Action
         $model = \Mage::getModel($type)
             ->setId($id)
             ->setType($type)
-            ->setRule(\Mage::getModel('\Magento\TargetRule\Model\Rule'))
+            ->setRule(\Mage::getModel('Magento\TargetRule\Model\Rule'))
             ->setPrefix($prefix);
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);

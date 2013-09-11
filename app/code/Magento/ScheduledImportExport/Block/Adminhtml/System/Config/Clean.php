@@ -42,7 +42,7 @@ class Clean extends \Magento\Backend\Block\System\Config\Form\Field
         $url    = $this->getUrl('*/scheduled_operation/logClean', array(
             'section' => $this->getRequest()->getParam('section')
         ));
-        $button = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+        $button = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'id'        => 'clean_now',
                 'label'     => __('Clean Now'),

@@ -198,7 +198,7 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
         }
 
         if ($errorMsg && $showMethod) {
-            $error = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Error');
+            $error = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Error');
             $error->setCarrier($this->_code);
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($errorMsg);

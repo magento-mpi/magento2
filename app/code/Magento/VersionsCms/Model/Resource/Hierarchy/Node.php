@@ -810,7 +810,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         // Copy hierarchy
         /** @var $nodesModel \Magento\VersionsCms\Model\Hierarchy\Node */
-        $nodesModel = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node', array('data' => array(
+        $nodesModel = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node', array('data' => array(
             'scope' =>  $scope,
             'scope_id' => $scopeId,
         )));

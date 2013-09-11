@@ -44,7 +44,7 @@ class Rma
         }
         if ($orderId) {
             /** @var $collection \Magento\Rma\Model\Resource\Rma\Grid\Collection */
-            $collection = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Rma\Grid\Collection')
+            $collection = \Mage::getResourceModel('Magento\Rma\Model\Resource\Rma\Grid\Collection')
                 ->addFieldToFilter('order_id', $orderId);
             $this->setCollection($collection);
         }

@@ -122,7 +122,7 @@ class Items extends \Magento\Adminhtml\Block\Template
     protected function _initMessage()
     {
         $this->_giftMessage[$this->getItem()->getGiftMessageId()] =
-            $this->helper('\Magento\GiftMessage\Helper\Message')->getGiftMessage($this->getItem()->getGiftMessageId());
+            $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage($this->getItem()->getGiftMessageId());
 
         // init default values for giftmessage form
         if(!$this->getMessage()->getSender()) {

@@ -233,7 +233,7 @@ class Category extends \Magento\Adminhtml\Controller\Action
                 return;
             }
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Category\Tree')
+                $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Category\Tree')
                     ->getTreeJson($category)
             );
         }
@@ -476,7 +476,7 @@ class Category extends \Magento\Adminhtml\Controller\Action
 
         $category = $this->_initCategory(true);
 
-        $block = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Category\Tree');
+        $block = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Category\Tree');
         $root  = $block->getRoot();
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
             'data' => $block->getTree(),
@@ -514,7 +514,7 @@ class Category extends \Magento\Adminhtml\Controller\Action
      */
     public function suggestCategoriesAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Category\Tree')
+        $this->getResponse()->setBody($this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Category\Tree')
             ->getSuggestedCategoriesJson($this->getRequest()->getParam('label_part')));
     }
 

@@ -44,7 +44,7 @@ class Cart
      */
     public function getNewChildSelectOptions()
     {
-        return \Mage::getModel('\Magento\Reminder\Model\Rule\Condition\Cart\Combine')->getNewChildSelectOptions();
+        return \Mage::getModel('Magento\Reminder\Model\Rule\Condition\Cart\Combine')->getNewChildSelectOptions();
     }
 
     /**

@@ -34,7 +34,7 @@ class Data extends \Magento\Wishlist\Helper\Data
     protected function _createWishlistItemCollection()
     {
         if ($this->isMultipleEnabled()) {
-            return \Mage::getModel('\Magento\Wishlist\Model\Item')->getCollection()
+            return \Mage::getModel('Magento\Wishlist\Model\Item')->getCollection()
                 ->addCustomerIdFilter($this->getCustomer()->getId())
                 ->addStoreFilter(\Mage::app()->getStore()->getWebsite()->getStoreIds())
                 ->setVisibilityFilter();
@@ -88,7 +88,7 @@ class Data extends \Magento\Wishlist\Helper\Data
             $customerId = $this->getCustomer()->getId();
         }
         if (!isset($this->_defaultWishlistsByCustomer[$customerId])) {
-            $this->_defaultWishlistsByCustomer[$customerId] = \Mage::getModel('\Magento\Wishlist\Model\Wishlist');
+            $this->_defaultWishlistsByCustomer[$customerId] = \Mage::getModel('Magento\Wishlist\Model\Wishlist');
             $this->_defaultWishlistsByCustomer[$customerId]->loadByCustomer($customerId, false);
         }
         return $this->_defaultWishlistsByCustomer[$customerId];
@@ -128,7 +128,7 @@ class Data extends \Magento\Wishlist\Helper\Data
         }
         $wishlistsByCustomer = \Mage::registry('wishlists_by_customer');
         if (!isset($wishlistsByCustomer[$customerId])) {
-            $collection = \Mage::getModel('\Magento\Wishlist\Model\Wishlist')->getCollection();
+            $collection = \Mage::getModel('Magento\Wishlist\Model\Wishlist')->getCollection();
             $collection->filterByCustomerId($customerId);
             $wishlistsByCustomer[$customerId] = $collection;
             \Mage::register('wishlists_by_customer', $wishlistsByCustomer);

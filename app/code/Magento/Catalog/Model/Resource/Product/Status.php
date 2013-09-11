@@ -78,7 +78,7 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
             return $this;
         }
 
-        \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product')->refreshEnabledIndex($storeId, $productId);
+        \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product')->refreshEnabledIndex($storeId, $productId);
 
         return $this;
     }

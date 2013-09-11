@@ -47,14 +47,14 @@ class Wishlist
         }
 
         /* @var $wishlistItem \Magento\Wishlist\Model\Item */
-        $wishlistItem = \Mage::getModel('\Magento\Wishlist\Model\Item')
+        $wishlistItem = \Mage::getModel('Magento\Wishlist\Model\Item')
             ->loadWithOptions($wishlistItemId);
 
         if (!$wishlistItem->getWishlistId()) {
             \Mage::throwException(__('Please load the wish list item.'));
         }
 
-        $this->_wishlist = \Mage::getModel('\Magento\Wishlist\Model\Wishlist')
+        $this->_wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist')
             ->load($wishlistItem->getWishlistId());
 
         $this->_wishlistItem = $wishlistItem;

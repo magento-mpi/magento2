@@ -58,7 +58,7 @@ class Form extends \Magento\Core\Block\Template
 
     public function getProductInfo()
     {
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         return $product->load($this->getRequest()->getParam('id'));
     }
 
@@ -70,7 +70,7 @@ class Form extends \Magento\Core\Block\Template
 
     public function getRatings()
     {
-        $ratingCollection = \Mage::getModel('\Magento\Rating\Model\Rating')
+        $ratingCollection = \Mage::getModel('Magento\Rating\Model\Rating')
             ->getResourceCollection()
             ->addEntityFilter('product')
             ->setPositionOrder()

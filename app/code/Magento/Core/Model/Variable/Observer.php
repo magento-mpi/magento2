@@ -30,7 +30,7 @@ class Observer
         $config = $observer->getEvent()->getConfig();
 
         if ($config->getData('add_variables')) {
-            $settings = \Mage::getModel('\Magento\Core\Model\Variable\Config')->getWysiwygPluginSettings($config);
+            $settings = \Mage::getModel('Magento\Core\Model\Variable\Config')->getWysiwygPluginSettings($config);
             $config->addData($settings);
         }
         return $this;

@@ -28,7 +28,7 @@ class Magento_Backend_Block_WidgetTest extends PHPUnit_Framework_TestCase
         $layout->getUpdate()->load();
         $layout->generateXml()->generateElements();
 
-        $widget = $layout->createBlock('\Magento\Backend\Block\Widget');
+        $widget = $layout->createBlock('Magento\Backend\Block\Widget');
 
         $this->assertRegExp(
             '/<button.*onclick\=\"this.form.submit\(\)\".*\>[\s\S]*Button Label[\s\S]*<\/button>/iu',
@@ -50,7 +50,7 @@ class Magento_Backend_Block_WidgetTest extends PHPUnit_Framework_TestCase
         $layout->getUpdate()->load();
         $layout->generateXml()->generateElements();
 
-        $widget = $layout->createBlock('\Magento\Backend\Block\Widget');
+        $widget = $layout->createBlock('Magento\Backend\Block\Widget');
 
         $this->assertRegExp(
             '/<button.*onclick\=\"this.form.submit\(\)\".*\>[\s\S]*Button Label[\s\S]*<\/button>/iu',

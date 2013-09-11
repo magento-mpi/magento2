@@ -179,7 +179,7 @@ class Menu extends \Magento\Backend\Block\Template
      */
     protected function _getMenuIterator($menu)
     {
-        return \Mage::getModel('\Magento\Backend\Model\Menu\Filter\Iterator', array('iterator' => $menu->getIterator()));
+        return \Mage::getModel('Magento\Backend\Model\Menu\Filter\Iterator', array('iterator' => $menu->getIterator()));
     }
 
     /**

@@ -23,7 +23,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
         $model = new \Magento\Catalog\Model\Resource\Eav\Attribute(
-            Mage::getModel('\Magento\Core\Model\Context')
+            Mage::getModel('Magento\Core\Model\Context')
         );
         $model->load($postData['attribute_id']);
         $this->assertNull($model->getData('apply_to'));
@@ -38,7 +38,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
         $model = new \Magento\Catalog\Model\Resource\Eav\Attribute(
-            Mage::getModel('\Magento\Core\Model\Context')
+            Mage::getModel('Magento\Core\Model\Context')
         );
         $model->load($postData['attribute_id']);
         $this->assertEquals('simple,configurable', $model->getData('apply_to'));
@@ -54,7 +54,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
         $model = new \Magento\Catalog\Model\Resource\Eav\Attribute(
-            Mage::getModel('\Magento\Core\Model\Context')
+            Mage::getModel('Magento\Core\Model\Context')
         );
         $model->load($postData['attribute_id']);
         $this->assertEquals(array('simple', 'configurable'), $model->getApplyTo());
@@ -71,7 +71,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
         // ensure string translation is cached
         $this->_translate('Fixture String');
         /** @var \Magento\Core\Model\Resource\Translate\String $translateString */
-        $translateString = Mage::getModel('\Magento\Core\Model\Resource\Translate\String');
+        $translateString = Mage::getModel('Magento\Core\Model\Resource\Translate\String');
         $translateString->saveTranslate(
             'Fixture String', 'New Db Translation', 'en_US', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
         );
@@ -101,7 +101,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme(1);
         /** @var \Magento\Core\Model\Translate $translate */
-        $translate = Mage::getModel('\Magento\Core\Model\Translate');
+        $translate = Mage::getModel('Magento\Core\Model\Translate');
         $translate->init(\Magento\Backend\Helper\Data::BACKEND_AREA_CODE, null);
         return $translate->translate(array($string));
     }

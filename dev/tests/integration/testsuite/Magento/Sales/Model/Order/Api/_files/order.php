@@ -16,7 +16,7 @@ require 'product_virtual.php';
 $product = Mage::registry('product_virtual');
 
 //Create quote
-$quote = Mage::getModel('\Magento\Sales\Model\Quote');
+$quote = Mage::getModel('Magento\Sales\Model\Quote');
 $quote->setStoreId(1)
     ->setCustomerEmail($customer->getEmail())
     ->setIsActive(false)
@@ -40,7 +40,7 @@ $order->save();
 Mage::register('order', $order);
 
 //Create order
-$quote2 = Mage::getModel('\Magento\Sales\Model\Quote');
+$quote2 = Mage::getModel('Magento\Sales\Model\Quote');
 $quote2->setStoreId(1)
     ->setCustomerEmail($customer->getEmail())
     ->setIsActive(false)

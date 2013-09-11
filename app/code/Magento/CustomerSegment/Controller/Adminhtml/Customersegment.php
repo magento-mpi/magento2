@@ -25,7 +25,7 @@ class Customersegment extends \Magento\Adminhtml\Controller\Action
     protected function _initSegment($requestParam = 'id', $requireValidId = false)
     {
         $segmentId = $this->getRequest()->getParam($requestParam, 0);
-        $segment = \Mage::getModel('\Magento\CustomerSegment\Model\Segment');
+        $segment = \Mage::getModel('Magento\CustomerSegment\Model\Segment');
         if ($segmentId || $requireValidId) {
             $segment->load($segmentId);
             if (!$segment->getId()) {
@@ -87,7 +87,7 @@ class Customersegment extends \Magento\Adminhtml\Controller\Action
 
         $this->_initAction();
 
-        $block =  $this->getLayout()->createBlock('\Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit')
+        $block =  $this->getLayout()->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit')
             ->setData('form_action_url', $this->getUrl('*/*/save'));
 
         $this->getLayout()->getBlock('head')
@@ -99,7 +99,7 @@ class Customersegment extends \Magento\Adminhtml\Controller\Action
                 $model->getId() ? __('Edit Segment') : __('New Segment'))
             ->_addContent($block)
             ->_addLeft(
-                $this->getLayout()->createBlock('\Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tabs'))
+                $this->getLayout()->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tabs'))
             ->renderLayout();
     }
 
@@ -152,7 +152,7 @@ class Customersegment extends \Magento\Adminhtml\Controller\Action
         $typeArr = explode('|', str_replace('-', '/', $this->getRequest()->getParam('type')));
         $type = $typeArr[0];
 
-        $segment = \Mage::getModel('\Magento\CustomerSegment\Model\Segment');
+        $segment = \Mage::getModel('Magento\CustomerSegment\Model\Segment');
         $segment->setApplyTo((int) $this->getRequest()->getParam('apply_to'));
         $model = \Mage::getModel($type)
             ->setId($id)
@@ -274,7 +274,7 @@ class Customersegment extends \Magento\Adminhtml\Controller\Action
      */
     public function chooserDaterangeAction()
     {
-        $block = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Promo\Widget\Chooser\Daterange');
+        $block = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Promo\Widget\Chooser\Daterange');
         if ($block) {
             // set block data from request
             $block->setTargetElementId($this->getRequest()->getParam('value_element_id'));

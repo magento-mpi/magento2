@@ -27,9 +27,9 @@ class Cart
 
     protected function _prepareCollection()
     {
-        $quote = \Mage::getModel('\Magento\Sales\Model\Quote');
+        $quote = \Mage::getModel('Magento\Sales\Model\Quote');
         $quote->setWebsite(\Mage::app()->getWebsite($this->getEntity()->getWebsiteId()));
-        $quote->loadByCustomer(\Mage::getModel('\Magento\Customer\Model\Customer')->load($this->getEntity()->getCustomerId()));
+        $quote->loadByCustomer(\Mage::getModel('Magento\Customer\Model\Customer')->load($this->getEntity()->getCustomerId()));
 
         $collection = ($quote) ? $quote->getItemsCollection(false) : new \Magento\Data\Collection();
         $collection->addFieldToFilter('parent_item_id', array('null' => true));

@@ -57,7 +57,7 @@ class Magento_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\ImportExport\Model\Import');
+        $this->_model = Mage::getModel('Magento\ImportExport\Model\Import');
     }
 
     /**
@@ -66,7 +66,7 @@ class Magento_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
     public function testImportSource()
     {
         /** @var $customersCollection \Magento\Customer\Model\Resource\Customer\Collection */
-        $customersCollection = Mage::getResourceModel('\Magento\Customer\Model\Resource\Customer\Collection');
+        $customersCollection = Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
 
         $existCustomersCount = count($customersCollection->load());
 
@@ -86,7 +86,7 @@ class Magento_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->setEntity('catalog_product');
         /** @var \Magento\ImportExport\Model\Import\SourceAbstract|PHPUnit_Framework_MockObject_MockObject $source */
-        $source = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Import\SourceAbstract', array(
+        $source = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\SourceAbstract', array(
             array('sku', 'name')
         ));
         $source->expects($this->any())->method('_getNextRow')->will($this->returnValue(false));
@@ -99,7 +99,7 @@ class Magento_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
      */
     public function testValidateSourceException()
     {
-        $source = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Import\SourceAbstract',
+        $source = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\SourceAbstract',
             array(), '', false);
         $this->_model->validateSource($source);
     }

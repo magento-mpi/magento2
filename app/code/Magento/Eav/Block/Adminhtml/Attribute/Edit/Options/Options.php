@@ -143,7 +143,7 @@ class Options extends \Magento\Backend\Block\Template
                 ->getAllOptions();
             return $options;
         } else {
-            return \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection')
+            return \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection')
                 ->setAttributeFilter($attribute->getId())
                 ->setPositionOrder('asc', true)
                 ->load();
@@ -226,7 +226,7 @@ class Options extends \Magento\Backend\Block\Template
         $values = $this->getData('store_option_values_'.$storeId);
         if (is_null($values)) {
             $values = array();
-            $valuesCollection = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection')
+            $valuesCollection = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection')
                 ->setAttributeFilter($this->getAttributeObject()->getId())
                 ->setStoreFilter($storeId, false)
                 ->load();

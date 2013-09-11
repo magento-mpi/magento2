@@ -36,7 +36,7 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
      */
     public function getResource()
     {
-        return \Mage::getResourceSingleton('\Magento\Reminder\Model\Resource\Rule');
+        return \Mage::getResourceSingleton('Magento\Reminder\Model\Resource\Rule');
     }
 
     /**

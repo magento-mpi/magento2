@@ -86,7 +86,7 @@ class Grid extends \Magento\Adminhtml\Block\Catalog\Product\Grid
                     'sortable'  => false,
                     'index'     => 'websites',
                     'type'      => 'options',
-                    'options'   => \Mage::getModel('\Magento\Core\Model\Website')->getCollection()->toOptionHash(),
+                    'options'   => \Mage::getModel('Magento\Core\Model\Website')->getCollection()->toOptionHash(),
             ));
         }
     }

@@ -64,7 +64,7 @@ class Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
+        $collection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
             ->setOrder('id')
             ->setStore($this->getStore())
             ->addAttributeToSelect('name')

@@ -71,7 +71,7 @@ class Conditions
 
         $form->setHtmlIdPrefix('rule_');
 
-        $renderer = \Mage::getBlockSingleton('\Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
+        $renderer = \Mage::getBlockSingleton('Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/promo_catalog/newConditionHtml/form/rule_conditions_fieldset'));
 
@@ -84,7 +84,7 @@ class Conditions
             'label' => __('Conditions'),
             'title' => __('Conditions'),
             'required' => true,
-        ))->setRule($model)->setRenderer(\Mage::getBlockSingleton('\Magento\Rule\Block\Conditions'));
+        ))->setRule($model)->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Conditions'));
 /*
         $fieldset = $form->addFieldset('actions_fieldset', array('legend'=>__('Actions')));
 
@@ -93,7 +93,7 @@ class Conditions
             'label' => __('Actions'),
             'title' => __('Actions'),
             'required' => true,
-        ))->setRule($model)->setRenderer(\Mage::getBlockSingleton('\Magento\Rule\Block\Actions'));
+        ))->setRule($model)->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Actions'));
 
         $fieldset = $form->addFieldset('options_fieldset', array('legend'=>__('Options')));
 

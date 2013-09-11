@@ -298,7 +298,7 @@ abstract class AbstractType
             $superProductId = (int) $superProductConfig['product_id'];
             if ($superProductId) {
                 if (!$superProduct = \Mage::registry('used_super_product_'.$superProductId)) {
-                    $superProduct = \Mage::getModel('\Magento\Catalog\Model\Product')->load($superProductId);
+                    $superProduct = \Mage::getModel('Magento\Catalog\Model\Product')->load($superProductId);
                     \Mage::register('used_super_product_'.$superProductId, $superProduct);
                 }
                 if ($superProduct->getId()) {
@@ -426,13 +426,13 @@ abstract class AbstractType
                             }
                             \Mage::throwException(__("The file upload failed."));
                         }
-                        $this->_helper('\Magento\Core\Helper\File\Storage\Database')->saveFile($dst);
+                        $this->_helper('Magento\Core\Helper\File\Storage\Database')->saveFile($dst);
                         break;
                     case 'move_uploaded_file':
                         $src = $queueOptions['src_name'];
                         $dst = $queueOptions['dst_name'];
                         move_uploaded_file($src, $dst);
-                        $this->_helper('\Magento\Core\Helper\File\Storage\Database')->saveFile($dst);
+                        $this->_helper('Magento\Core\Helper\File\Storage\Database')->saveFile($dst);
                         break;
                     default:
                         break;

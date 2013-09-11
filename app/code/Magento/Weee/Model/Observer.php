@@ -29,7 +29,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         foreach ($attributes as $code) {
             if ($weeeTax = $form->getElement($code)) {
                 $weeeTax->setRenderer(
-                    \Mage::app()->getLayout()->createBlock('\Magento\Weee\Block\Renderer\Weee\Tax')
+                    \Mage::app()->getLayout()->createBlock('Magento\Weee\Block\Renderer\Weee\Tax')
                 );
             }
         }
@@ -162,7 +162,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         } else {
             $eventProduct = $observer->getEvent()->getProduct();
         }
-        \Mage::getModel('\Magento\Weee\Model\Tax')->updateProductsDiscountPercent($eventProduct);
+        \Mage::getModel('Magento\Weee\Model\Tax')->updateProductsDiscountPercent($eventProduct);
 
         return $this;
     }

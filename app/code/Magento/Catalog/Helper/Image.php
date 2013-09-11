@@ -140,7 +140,7 @@ class Image extends \Magento\Core\Helper\AbstractHelper
     public function init(\Magento\Catalog\Model\Product $product, $attributeName, $imageFile=null)
     {
         $this->_reset();
-        $this->_setModel(\Mage::getModel('\Magento\Catalog\Model\Product\Image'));
+        $this->_setModel(\Mage::getModel('Magento\Catalog\Model\Product\Image'));
         $this->_getModel()->setDestinationSubdir($attributeName);
         $this->setProduct($product);
 

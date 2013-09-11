@@ -82,7 +82,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
         if ($latestLogEntry) {
             // make sure folder for dump file will exist
             /** @var \Magento\Logging\Model\Archive $archive */
-            $archive = \Mage::getModel('\Magento\Logging\Model\Archive');
+            $archive = \Mage::getModel('Magento\Logging\Model\Archive');
             $archive->createNew();
 
             $expr = new \Zend_Db_Expr('INET_NTOA(' . $this->_getReadAdapter()->quoteIdentifier('ip') . ')');

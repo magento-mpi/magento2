@@ -36,7 +36,7 @@ class Release
             'legend'    => __('Release')
         ));
 
-        $stabilityOptions = \Mage::getModel('\Magento\Connect\Model\Extension')->getStabilityOptions();
+        $stabilityOptions = \Mage::getModel('Magento\Connect\Model\Extension')->getStabilityOptions();
         $fieldset->addField('version', 'text', array(
             'name'      => 'version',
             'label'     => __('Release Version'),

@@ -41,7 +41,7 @@ class Design extends \Magento\Adminhtml\Controller\Action
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $id  = (int) $this->getRequest()->getParam('id');
-        $design    = \Mage::getModel('\Magento\Core\Model\Design');
+        $design    = \Mage::getModel('Magento\Core\Model\Design');
 
         if ($id) {
             $design->load($id);
@@ -51,8 +51,8 @@ class Design extends \Magento\Adminhtml\Controller\Action
 
         \Mage::register('design', $design);
 
-        $this->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\System\Design\Edit'));
-        $this->_addLeft($this->getLayout()->createBlock('\Magento\Adminhtml\Block\System\Design\Edit\Tabs', 'design_tabs'));
+        $this->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\System\Design\Edit'));
+        $this->_addLeft($this->getLayout()->createBlock('Magento\Adminhtml\Block\System\Design\Edit\Tabs', 'design_tabs'));
 
         $this->renderLayout();
     }
@@ -62,7 +62,7 @@ class Design extends \Magento\Adminhtml\Controller\Action
         if ($data = $this->getRequest()->getPost()) {
             $id = (int) $this->getRequest()->getParam('id');
 
-            $design = \Mage::getModel('\Magento\Core\Model\Design');
+            $design = \Mage::getModel('Magento\Core\Model\Design');
             if ($id) {
                 $design->load($id);
             }
@@ -90,7 +90,7 @@ class Design extends \Magento\Adminhtml\Controller\Action
     public function deleteAction()
     {
         if ($id = $this->getRequest()->getParam('id')) {
-            $design = \Mage::getModel('\Magento\Core\Model\Design')->load($id);
+            $design = \Mage::getModel('Magento\Core\Model\Design')->load($id);
 
             try {
                 $design->delete();

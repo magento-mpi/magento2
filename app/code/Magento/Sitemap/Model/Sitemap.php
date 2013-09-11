@@ -191,7 +191,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      */
     protected function _getCategoryItemsCollection($storeId)
     {
-        return \Mage::getResourceModel('\Magento\Sitemap\Model\Resource\Catalog\Category')->getCollection($storeId);
+        return \Mage::getResourceModel('Magento\Sitemap\Model\Resource\Catalog\Category')->getCollection($storeId);
     }
 
     /**
@@ -202,7 +202,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      */
     protected function _getProductItemsCollection($storeId)
     {
-        return \Mage::getResourceModel('\Magento\Sitemap\Model\Resource\Catalog\Product')->getCollection($storeId);
+        return \Mage::getResourceModel('Magento\Sitemap\Model\Resource\Catalog\Product')->getCollection($storeId);
     }
 
     /**
@@ -213,7 +213,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      */
     protected function _getPageItemsCollection($storeId)
     {
-        return \Mage::getResourceModel('\Magento\Sitemap\Model\Resource\Cms\Page')->getCollection($storeId);
+        return \Mage::getResourceModel('Magento\Sitemap\Model\Resource\Cms\Page')->getCollection($storeId);
     }
 
     /**

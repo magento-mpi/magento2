@@ -85,7 +85,7 @@ class Database extends \Magento\Core\Helper\AbstractHelper
     public function getStorageDatabaseModel()
     {
         if (is_null($this->_databaseModel)) {
-            $this->_databaseModel = \Mage::getModel('\Magento\Core\Model\File\Storage\Database');
+            $this->_databaseModel = \Mage::getModel('Magento\Core\Model\File\Storage\Database');
         }
 
         return $this->_databaseModel;
@@ -201,7 +201,7 @@ class Database extends \Magento\Core\Helper\AbstractHelper
     public function saveFileToFilesystem($filename) {
         if ($this->checkDbUsage()) {
             /** @var $file \Magento\Core\Model\File\Storage\Database */
-            $file = \Mage::getModel('\Magento\Core\Model\File\Storage\Database')
+            $file = \Mage::getModel('Magento\Core\Model\File\Storage\Database')
                 ->loadByFilename($this->_removeAbsPathFromFileName($filename));
             if (!$file->getId()) {
                 return false;

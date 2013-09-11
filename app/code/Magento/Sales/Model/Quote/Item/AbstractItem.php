@@ -61,7 +61,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     {
         $product = $this->_getData('product');
         if (($product === null) && $this->getProductId()) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->setStoreId($this->getQuote()->getStoreId())
                 ->load($this->getProductId());
             $this->setProduct($product);

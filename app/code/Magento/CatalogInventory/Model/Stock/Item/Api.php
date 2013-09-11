@@ -30,7 +30,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
             $productIds = array($productIds);
         }
 
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
 
         foreach ($productIds as &$productId) {
             if ($newId = $product->getIdBySku($productId)) {
@@ -38,7 +38,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
             }
         }
 
-        $collection = \Mage::getModel('\Magento\Catalog\Model\Product')
+        $collection = \Mage::getModel('Magento\Catalog\Model\Product')
             ->getCollection()
             ->setFlag('require_stock_items', true)
             ->addFieldToFilter('entity_id', array('in'=>$productIds));

@@ -71,7 +71,7 @@ class Creditmemo
     {
         $invoiceId = $this->getRequest()->getParam('invoice_id');
         if ($invoiceId) {
-            $invoice = \Mage::getModel('\Magento\Sales\Model\Order\Invoice')
+            $invoice = \Mage::getModel('Magento\Sales\Model\Order\Invoice')
                 ->load($invoiceId)
                 ->setOrder($order);
             if ($invoice->getId()) {
@@ -158,7 +158,7 @@ class Creditmemo
      */
     protected function _saveCreditmemo($creditmemo)
     {
-        $transactionSave = \Mage::getModel('\Magento\Core\Model\Resource\Transaction')
+        $transactionSave = \Mage::getModel('Magento\Core\Model\Resource\Transaction')
             ->addObject($creditmemo)
             ->addObject($creditmemo->getOrder());
         if ($creditmemo->getInvoice()) {

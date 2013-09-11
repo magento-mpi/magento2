@@ -87,7 +87,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         if (is_null($this->_customerGroups)) {
             $this->_customerGroups = array();
-            foreach (\Mage::getModel('\Magento\Customer\Model\Group')->getCollection() as $group) {
+            foreach (\Mage::getModel('Magento\Customer\Model\Group')->getCollection() as $group) {
                 $this->_customerGroups[$group->getId()] = $group;
             }
         }
@@ -473,7 +473,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
         $storeTimeStamp = \Mage::app()->getLocale()->storeTimeStamp($store);
         $finalPrice     = $this->_calculateSpecialPrice($priceData['price'], $priceData, $website);
 
-        $rulePrice = \Mage::getResourceModel('\Magento\CatalogRule\Model\Resource\Rule')
+        $rulePrice = \Mage::getResourceModel('Magento\CatalogRule\Model\Resource\Rule')
             ->getRulePrice($storeTimeStamp, $website->getId(), $customerGroup->getId(), $productId);
 
         if ($rulePrice !== null && $rulePrice !== false) {

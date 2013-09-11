@@ -148,7 +148,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
      */
     public function testExportItem()
     {
-        $writer = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Export\Adapter\AbstractAdapter',
+        $writer = $this->getMockForAbstractClass('Magento\ImportExport\Model\Export\Adapter\AbstractAdapter',
             array(), '', false, false, true, array('writeRow')
         );
 
@@ -158,7 +158,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
 
         $this->_model->setWriter($writer);
 
-        $item = $this->getMockForAbstractClass('\Magento\Core\Model\AbstractModel', array(), '', false);
+        $item = $this->getMockForAbstractClass('Magento\Core\Model\AbstractModel', array(), '', false);
         /** @var $item \Magento\Core\Model\AbstractModel */
         $item->setData($this->_customerData);
 

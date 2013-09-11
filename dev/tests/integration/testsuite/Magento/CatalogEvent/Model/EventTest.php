@@ -18,7 +18,7 @@ class Magento_CatalogEvent_Model_EventTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\CatalogEvent\Model\Event');
+        $this->_model = Mage::getModel('Magento\CatalogEvent\Model\Event');
     }
 
     protected function _getDate($time = 'now')

@@ -30,7 +30,7 @@ class View extends \Magento\Rma\Block\Form
         $this->setOrder(\Mage::registry('current_order'));
 
         /** @var $collection \Magento\Rma\Model\Resource\Item */
-        $collection = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Item\Collection')
+        $collection = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item\Collection')
             ->addAttributeToSelect('*')
             ->addFilter('rma_entity_id', $this->getRma()->getEntityId())
         ;
@@ -38,7 +38,7 @@ class View extends \Magento\Rma\Block\Form
         $this->setItems($collection);
 
         /** @var $comments \Magento\Rma\Model\Resource\Rma\Status\History\Collection */
-        $comments = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Rma\Status\History\Collection')
+        $comments = \Mage::getResourceModel('Magento\Rma\Model\Resource\Rma\Status\History\Collection')
             ->addFilter('rma_entity_id', $this->getRma()->getEntityId())
         ;
         $this->setComments($comments);
@@ -54,7 +54,7 @@ class View extends \Magento\Rma\Block\Form
         $array = array();
 
         /** @var $collection \Magento\Rma\Model\Resource\Item */
-        $collection = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Item\Collection')
+        $collection = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item\Collection')
             ->addFilter('rma_entity_id', $this->getRma()->getEntityId())
         ;
         foreach ($collection as $item) {
@@ -65,10 +65,10 @@ class View extends \Magento\Rma\Block\Form
         }
 
         /* @var $itemModel \Magento\Rma\Model\Item */
-        $itemModel = \Mage::getModel('\Magento\Rma\Model\Item');
+        $itemModel = \Mage::getModel('Magento\Rma\Model\Item');
 
         /* @var $itemForm \Magento\Rma\Model\Item\Form */
-        $itemForm   = \Mage::getModel('\Magento\Rma\Model\Item\Form');
+        $itemForm   = \Mage::getModel('Magento\Rma\Model\Item\Form');
         $itemForm->setFormCode('default')
             ->setStore($this->getStore())
             ->setEntity($itemModel);
@@ -104,7 +104,7 @@ class View extends \Magento\Rma\Block\Form
         foreach ($items as $item) {
             if (!$itemForm) {
                 /* @var $itemForm \Magento\Rma\Model\Item\Form */
-                $itemForm   = \Mage::getModel('\Magento\Rma\Model\Item\Form');
+                $itemForm   = \Mage::getModel('Magento\Rma\Model\Item\Form');
                 $itemForm->setFormCode('default')
                     ->setStore($this->getStore())
                     ->setEntity($item);
@@ -300,7 +300,7 @@ class View extends \Magento\Rma\Block\Form
         $data['id'] = $this->getRma()->getId();
         $url = $this->getUrl('*/rma/printLabel', $data);
         return $this->getLayout()
-            ->createBlock('\Magento\Core\Block\Html\Link')
+            ->createBlock('Magento\Core\Block\Html\Link')
             ->setData(array(
                 'label'   => __('Print Shipping Label'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
@@ -317,12 +317,12 @@ class View extends \Magento\Rma\Block\Form
     public function getShowPackagesButton()
     {
         return $this->getLayout()
-            ->createBlock('\Magento\Core\Block\Html\Link')
+            ->createBlock('Magento\Core\Block\Html\Link')
             ->setData(array(
                 'href'      => "javascript:void(0)",
                 'title'     => __('Show Packages'),
                 'onclick'   => "popWin(
-                        '".$this->helper('\Magento\Rma\Helper\Data')->getPackagePopupUrlByRmaModel($this->getRma())."',
+                        '".$this->helper('Magento\Rma\Helper\Data')->getPackagePopupUrlByRmaModel($this->getRma())."',
                         'package',
                         'width=800,height=600,top=0,left=0,resizable=yes,scrollbars=yes'); return false;"
             ))
@@ -338,9 +338,9 @@ class View extends \Magento\Rma\Block\Form
     public function getPrintShippingLabelButton()
     {
         return $this->getLayout()
-            ->createBlock('\Magento\Core\Block\Html\Link')
+            ->createBlock('Magento\Core\Block\Html\Link')
             ->setData(array(
-                'href'      => $this->helper('\Magento\Rma\Helper\Data')->getPackagePopupUrlByRmaModel(
+                'href'      => $this->helper('Magento\Rma\Helper\Data')->getPackagePopupUrlByRmaModel(
                     $this->getRma(),
                     'printlabel'
                 ),

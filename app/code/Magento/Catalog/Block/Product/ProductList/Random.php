@@ -23,8 +23,8 @@ class Random extends \Magento\Catalog\Block\Product\ListProduct
     protected function _getProductCollection()
     {
         if (is_null($this->_productCollection)) {
-            $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection');
-            \Mage::getModel('\Magento\Catalog\Model\Layer')->prepareProductCollection($collection);
+            $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection');
+            \Mage::getModel('Magento\Catalog\Model\Layer')->prepareProductCollection($collection);
             $collection->getSelect()->order('rand()');
             $collection->addStoreFilter();
             $numProducts = $this->getNumProducts() ? $this->getNumProducts() : 0;

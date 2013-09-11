@@ -27,7 +27,7 @@ class Groups implements \Magento\Core\Model\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $groups = \Mage::getResourceModel('\Magento\Customer\Model\Resource\Group\Collection')
+        $groups = \Mage::getResourceModel('Magento\Customer\Model\Resource\Group\Collection')
             ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();

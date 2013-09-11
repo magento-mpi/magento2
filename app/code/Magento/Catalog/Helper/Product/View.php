@@ -83,7 +83,7 @@ class View extends \Magento\Core\Helper\AbstractHelper
 
         // Apply custom layout (page) template once the blocks are generated
         if ($settings->getPageLayout()) {
-            $controller->getLayout()->helper('\Magento\Page\Helper\Layout')->applyTemplate($settings->getPageLayout());
+            $controller->getLayout()->helper('Magento\Page\Helper\Layout')->applyTemplate($settings->getPageLayout());
         }
 
         $currentCategory = \Mage::registry('current_category');

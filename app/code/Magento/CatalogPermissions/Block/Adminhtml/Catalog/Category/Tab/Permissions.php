@@ -86,7 +86,7 @@ class Permissions
     public function getPermissionCollection()
     {
         if (!$this->hasData('permission_collection')) {
-            $collection = \Mage::getModel('\Magento\CatalogPermissions\Model\Permission')
+            $collection = \Mage::getModel('Magento\CatalogPermissions\Model\Permission')
                 ->getCollection()
                 ->addFieldToFilter('category_id', $this->getCategoryId())
                 ->setOrder('permission_id', 'asc');
@@ -114,7 +114,7 @@ class Permissions
 
         $permissions = array();
         if ($categoryId) {
-            $index  = \Mage::getModel('\Magento\CatalogPermissions\Model\Permission\Index')
+            $index  = \Mage::getModel('Magento\CatalogPermissions\Model\Permission\Index')
                 ->getIndexForCategory($categoryId, null, null);
             foreach ($index as $row) {
                 $permissionKey = $row['website_id'] . '_' . $row['customer_group_id'];
@@ -127,7 +127,7 @@ class Permissions
         }
 
         $websites = \Mage::app()->getWebsites(false);
-        $groups   = \Mage::getModel('\Magento\Customer\Model\Group')->getCollection()->getAllIds();
+        $groups   = \Mage::getModel('Magento\Customer\Model\Group')->getCollection()->getAllIds();
 
         /* @var $helper \Magento\CatalogPermissions\Helper\Data */
         $helper   = \Mage::helper('Magento\CatalogPermissions\Helper\Data');

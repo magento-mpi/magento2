@@ -49,7 +49,7 @@ class Bundle extends \Magento\Adminhtml\Block\Widget
         ));
 
         $this->setChild('options_box',
-            $this->getLayout()->createBlock('\Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option',
+            $this->getLayout()->createBlock('Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option',
                 'adminhtml.catalog.product.edit.tab.bundle.option')
         );
 

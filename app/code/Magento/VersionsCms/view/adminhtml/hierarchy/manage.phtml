@@ -88,7 +88,7 @@
         var buttonAction = null;
         var descriptionText = '';
         if (action == 'delete') {
-            title = <?php echo json_encode($this->helper('\Magento\VersionsCms\Helper\Data')->getDeleteMultipleHierarchiesText()); ?>;
+            title = <?php echo json_encode($this->helper('Magento\VersionsCms\Helper\Data')->getDeleteMultipleHierarchiesText()); ?>;
             buttonText = <?php echo json_encode(__('Delete')); ?>;
             buttonClass = 'scalable ok_button delete';
             buttonAction = submitDelete;

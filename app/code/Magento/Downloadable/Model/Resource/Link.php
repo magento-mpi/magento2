@@ -118,7 +118,7 @@ class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
                         if ($websiteCurrency == $baseCurrency) {
                             continue;
                         }
-                        $rate = \Mage::getModel('\Magento\Directory\Model\Currency')->load($baseCurrency)->getRate($websiteCurrency);
+                        $rate = \Mage::getModel('Magento\Directory\Model\Currency')->load($baseCurrency)->getRate($websiteCurrency);
                         if (!$rate) {
                             $rate = 1;
                         }

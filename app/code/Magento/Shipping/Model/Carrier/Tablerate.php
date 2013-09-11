@@ -98,14 +98,14 @@ class Tablerate
         $request->setPackageWeight($request->getFreeMethodWeight());
         $request->setPackageQty($oldQty - $freeQty);
 
-        $result = \Mage::getModel('\Magento\Shipping\Model\Rate\Result');
+        $result = \Mage::getModel('Magento\Shipping\Model\Rate\Result');
         $rate = $this->getRate($request);
 
         $request->setPackageWeight($oldWeight);
         $request->setPackageQty($oldQty);
 
         if (!empty($rate) && $rate['price'] >= 0) {
-            $method = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Method');
+            $method = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Method');
 
             $method->setCarrier('tablerate');
             $method->setCarrierTitle($this->getConfigData('title'));
@@ -130,7 +130,7 @@ class Tablerate
 
     public function getRate(\Magento\Shipping\Model\Rate\Request $request)
     {
-        return \Mage::getResourceModel('\Magento\Shipping\Model\Resource\Carrier\Tablerate')->getRate($request);
+        return \Mage::getResourceModel('Magento\Shipping\Model\Resource\Carrier\Tablerate')->getRate($request);
     }
 
     public function getCode($type, $code='')

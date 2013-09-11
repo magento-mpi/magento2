@@ -37,7 +37,7 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_basic', 'adminhtml');
         /** @var $model \Magento\Cms\Model\Wysiwyg\Images\Storage */
-        $model = Mage::getModel('\Magento\Cms\Model\Wysiwyg\Images\Storage');
+        $model = Mage::getModel('Magento\Cms\Model\Wysiwyg\Images\Storage');
         $collection = $model->getFilesCollection(self::$_baseDir, 'media');
         $this->assertInstanceOf('\Magento\Cms\Model\Wysiwyg\Images\Storage\Collection', $collection);
         foreach ($collection as $item) {

@@ -24,7 +24,7 @@ class Order extends Magento_Adminhtml_Helper_Dashboard_Abstract
     {
         $isFilter = $this->getParam('store') || $this->getParam('website') || $this->getParam('group');
 
-        $this->_collection = \Mage::getResourceSingleton('\Magento\Reports\Model\Resource\Order\Collection')
+        $this->_collection = \Mage::getResourceSingleton('Magento\Reports\Model\Resource\Order\Collection')
             ->prepareSummary($this->getParam('period'), 0, 0, $isFilter);
 
         if ($this->getParam('store')) {

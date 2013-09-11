@@ -81,7 +81,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
         $objectManager->addSharedInstance($this->_designModel, '\Magento\Core\Model\View\Design');
 
-        $this->_model = Mage::getModel('\Magento\Core\Model\Translate');
+        $this->_model = Mage::getModel('Magento\Core\Model\Translate');
         $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND);
     }
 
@@ -95,7 +95,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND, null);
 
         /** @var \Magento\Core\Model\Resource\Translate\String $translateString */
-        $translateString = Mage::getModel('\Magento\Core\Model\Resource\Translate\String');
+        $translateString = Mage::getModel('Magento\Core\Model\Resource\Translate\String');
         $translateString->saveTranslate('Fixture String', 'New Db Translation');
 
         $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND, null);
@@ -179,7 +179,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
      */
     public function testTranslate($inputText, $expectedTranslation)
     {
-        $this->_model = Mage::getModel('\Magento\Core\Model\Translate');
+        $this->_model = Mage::getModel('Magento\Core\Model\Translate');
         $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND);
 
         $actualTranslation = $this->_model->translate(array($inputText));

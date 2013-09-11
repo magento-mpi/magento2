@@ -46,7 +46,7 @@ class Compared
     {
         if (!$this->hasData('items_collection')) {
             $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
-            $collection = \Mage::getModel('\Magento\Catalog\Model\Product\Compare\ListCompare')
+            $collection = \Mage::getModel('Magento\Catalog\Model\Product\Compare\ListCompare')
                 ->getItemCollection()
                 ->useProductItem(true)
                 ->setStoreId($this->_getStore()->getId())

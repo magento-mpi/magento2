@@ -33,7 +33,7 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Core\Model\Resource');
+        $this->_model = Mage::getModel('Magento\Core\Model\Resource');
     }
 
     /**

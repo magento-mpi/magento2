@@ -119,7 +119,7 @@ class Main
                 'required' => true,
                 'values'   => \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+            $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 
@@ -128,7 +128,7 @@ class Main
             'label'     => __('Customer Groups'),
             'title'     => __('Customer Groups'),
             'required'  => true,
-            'values'    => \Mage::getResourceModel('\Magento\Customer\Model\Resource\Group\Collection')->toOptionArray()
+            'values'    => \Mage::getResourceModel('Magento\Customer\Model\Resource\Group\Collection')->toOptionArray()
         ));
 
         $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);

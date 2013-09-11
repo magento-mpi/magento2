@@ -61,8 +61,8 @@ class Result extends \Magento\Core\Controller\Front\Action
             \Mage::helper('Magento\CatalogSearch\Helper\Data')->checkNotes();
 
             $this->loadLayout();
-            $this->_initLayoutMessages('\Magento\Catalog\Model\Session');
-            $this->_initLayoutMessages('\Magento\Checkout\Model\Session');
+            $this->_initLayoutMessages('Magento\Catalog\Model\Session');
+            $this->_initLayoutMessages('Magento\Checkout\Model\Session');
             $this->renderLayout();
 
             if (!\Mage::helper('Magento\CatalogSearch\Helper\Data')->isMinQueryLength()) {

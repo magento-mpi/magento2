@@ -44,7 +44,7 @@ class Magento_ImportExport_Block_Adminhtml_Export_Edit_FormTest extends PHPUnit_
     public function setUp()
     {
         parent::setUp();
-        $this->_model = Mage::app()->getLayout()->createBlock('\Magento\ImportExport\Block\Adminhtml\Export\Edit\Form');
+        $this->_model = Mage::app()->getLayout()->createBlock('Magento\ImportExport\Block\Adminhtml\Export\Edit\Form');
     }
 
     /**

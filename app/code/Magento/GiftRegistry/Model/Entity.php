@@ -178,9 +178,9 @@ class Entity extends \Magento\Core\Model\AbstractModel
     {
         $skippedItems = 0;
         if (is_array($itemsIds)) {
-            $quote = \Mage::getModel('\Magento\Sales\Model\Quote');
+            $quote = \Mage::getModel('Magento\Sales\Model\Quote');
             $quote->setWebsite(\Mage::app()->getWebsite($this->getWebsiteId()));
-            $quote->loadByCustomer(\Mage::getModel('\Magento\Customer\Model\Customer')->load($this->getCustomerId()));
+            $quote->loadByCustomer(\Mage::getModel('Magento\Customer\Model\Customer')->load($this->getCustomerId()));
 
             foreach ($quote->getAllVisibleItems() as $item) {
                 if (in_array($item->getId(), $itemsIds)) {
@@ -235,7 +235,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
             throw new \Magento\Core\Exception($cartCandidates, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
         }
 
-        $item = \Mage::getModel('\Magento\GiftRegistry\Model\Item');
+        $item = \Mage::getModel('Magento\GiftRegistry\Model\Item');
         $items = $item->getCollection()->addRegistryFilter($this->getId());
 
         foreach ($cartCandidates as $currentCandidate) {
@@ -264,7 +264,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
             } else {
                 $customOptions = $currentCandidate->getCustomOptions();
 
-                $item = \Mage::getModel('\Magento\GiftRegistry\Model\Item');
+                $item = \Mage::getModel('Magento\GiftRegistry\Model\Item');
 
                 $item->setEntityId($this->getId())
                     ->setProductId($productId)
@@ -316,7 +316,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
             'entity' => $this,
             'message' => $message,
             'recipient_name' => $recipientName,
-            'url' => $this->_helper('\Magento\GiftRegistry\Helper\Data')->getRegistryLink($this)
+            'url' => $this->_helper('Magento\GiftRegistry\Helper\Data')->getRegistryLink($this)
         );
 
         $mail->setDesignConfig(array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId()));
@@ -344,8 +344,8 @@ class Entity extends \Magento\Core\Model\AbstractModel
     public function sendShareRegistryEmails()
     {
         $senderMessage = $this->getSenderMessage();
-        $senderName = $this->_helper('\Magento\GiftRegistry\Helper\Data')->escapeHtml($this->getSenderName());
-        $senderEmail = $this->_helper('\Magento\GiftRegistry\Helper\Data')->escapeHtml($this->getSenderEmail());
+        $senderName = $this->_helper('Magento\GiftRegistry\Helper\Data')->escapeHtml($this->getSenderName());
+        $senderEmail = $this->_helper('Magento\GiftRegistry\Helper\Data')->escapeHtml($this->getSenderEmail());
         $result = new \Magento\Object(array('is_success' => false));
 
         if (empty($senderName) || empty($senderMessage) || empty($senderEmail)) {
@@ -369,7 +369,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
                 );
             }
 
-            $recipient['name'] = $this->_helper('\Magento\GiftRegistry\Helper\Data')->escapeHtml($recipient['name']);
+            $recipient['name'] = $this->_helper('Magento\GiftRegistry\Helper\Data')->escapeHtml($recipient['name']);
             if (empty($recipient['name'])) {
                 return $result->setErrorMessage(
                     __('Please enter a recipient name.')
@@ -415,7 +415,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
         $translate->setTranslateInline(false);
 
-        $owner = \Mage::getModel('\Magento\Customer\Model\Customer')
+        $owner = \Mage::getModel('Magento\Customer\Model\Customer')
             ->load($this->getCustomerId());
 
         $store = \Mage::app()->getStore();
@@ -456,7 +456,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
         $translate->setTranslateInline(false);
 
-        $owner = \Mage::getModel('\Magento\Customer\Model\Customer')
+        $owner = \Mage::getModel('Magento\Customer\Model\Customer')
             ->load($this->getCustomerId());
 
         $store = \Mage::app()->getStore();
@@ -528,7 +528,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      */
     public function getRegistrantsCollection()
     {
-        $collection = \Mage::getModel('\Magento\GiftRegistry\Model\Person')->getCollection()
+        $collection = \Mage::getModel('Magento\GiftRegistry\Model\Person')->getCollection()
             ->addRegistryFilter($this->getId());
 
         return $collection;
@@ -541,7 +541,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      */
     public function getItemsCollection()
     {
-        $collection = \Mage::getModel('\Magento\GiftRegistry\Model\Item')->getCollection()
+        $collection = \Mage::getModel('Magento\GiftRegistry\Model\Item')->getCollection()
             ->addRegistryFilter($this->getId());
         return $collection;
     }
@@ -588,7 +588,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      */
     public function exportAddress()
     {
-        $address = \Mage::getModel('\Magento\Customer\Model\Address');
+        $address = \Mage::getModel('Magento\Customer\Model\Address');
         $shippingAddressData = unserialize($this->getData('shipping_address'));
         if (is_array($shippingAddressData)) {
             $address->setData($shippingAddressData);
@@ -783,7 +783,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
                 \Mage::throwException(__('We cannot specify the product.'));
             }
 
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->load($productId);
 
             $this->setData('product', $product);
@@ -819,7 +819,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
                 'customer_id' => \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getId(),
                 'website_id' => \Mage::app()->getStore()->getWebsiteId(),
                 'url_key' => $this->getGenerateKeyId(),
-                'created_at' => \Mage::getModel('\Magento\Core\Model\Date')->date(),
+                'created_at' => \Mage::getModel('Magento\Core\Model\Date')->date(),
                 'is_add_action' => true
             ));
         }
@@ -883,7 +883,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
     public function postDispatchShare($config, $eventModel, $processor)
     {
         $request = \Mage::app()->getRequest();
-        $change = \Mage::getModel('\Magento\Logging\Model\Event\Changes');
+        $change = \Mage::getModel('Magento\Logging\Model\Event\Changes');
 
         $emails = $request->getParam('emails', '');
         if ($emails) {

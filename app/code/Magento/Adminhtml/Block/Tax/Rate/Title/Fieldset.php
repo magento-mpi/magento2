@@ -20,6 +20,6 @@ class Fieldset extends \Magento\Data\Form\Element\Fieldset
 {
     public function getBasicChildrenHtml()
     {
-        return \Mage::getBlockSingleton('\Magento\Adminhtml\Block\Tax\Rate\Title')->toHtml();
+        return \Mage::getBlockSingleton('Magento\Adminhtml\Block\Tax\Rate\Title')->toHtml();
     }
 }

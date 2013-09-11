@@ -67,7 +67,7 @@ class Sitemap extends  \Magento\Adminhtml\Controller\Action
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('sitemap_id');
-        $model = \Mage::getModel('\Magento\Sitemap\Model\Sitemap');
+        $model = \Mage::getModel('Magento\Sitemap\Model\Sitemap');
 
         // 2. Initial checking
         if ($id) {
@@ -96,7 +96,7 @@ class Sitemap extends  \Magento\Adminhtml\Controller\Action
             ->_addBreadcrumb(
                 $id ? __('Edit Sitemap') : __('New Sitemap'),
                 $id ? __('Edit Sitemap') : __('New Sitemap'))
-            ->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Sitemap\Edit'))
+            ->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Sitemap\Edit'))
             ->renderLayout();
     }
 
@@ -109,14 +109,14 @@ class Sitemap extends  \Magento\Adminhtml\Controller\Action
         if ($data = $this->getRequest()->getPost()) {
             // init model and set data
             /** @var \Magento\Sitemap\Model\Sitemap $model */
-            $model = \Mage::getModel('\Magento\Sitemap\Model\Sitemap');
+            $model = \Mage::getModel('Magento\Sitemap\Model\Sitemap');
 
             //validate path to generate
             if (!empty($data['sitemap_filename']) && !empty($data['sitemap_path'])) {
                 $path = rtrim($data['sitemap_path'], '\\/')
                       . DS . $data['sitemap_filename'];
                 /** @var $validator \Magento\Core\Model\File\Validator\AvailablePath */
-                $validator = \Mage::getModel('\Magento\Core\Model\File\Validator\AvailablePath');
+                $validator = \Mage::getModel('Magento\Core\Model\File\Validator\AvailablePath');
                 /** @var $helper \Magento\Adminhtml\Helper\Catalog */
                 $helper = \Mage::helper('Magento\Adminhtml\Helper\Catalog');
                 $validator->setPaths($helper->getSitemapValidPaths());
@@ -200,7 +200,7 @@ class Sitemap extends  \Magento\Adminhtml\Controller\Action
         if ($id = $this->getRequest()->getParam('sitemap_id')) {
             try {
                 // init model and delete
-                $model = \Mage::getModel('\Magento\Sitemap\Model\Sitemap');
+                $model = \Mage::getModel('Magento\Sitemap\Model\Sitemap');
                 $model->setId($id);
                 // init and load sitemap model
 
@@ -240,7 +240,7 @@ class Sitemap extends  \Magento\Adminhtml\Controller\Action
     {
         // init and load sitemap model
         $id = $this->getRequest()->getParam('sitemap_id');
-        $sitemap = \Mage::getModel('\Magento\Sitemap\Model\Sitemap');
+        $sitemap = \Mage::getModel('Magento\Sitemap\Model\Sitemap');
         /* @var $sitemap \Magento\Sitemap\Model\Sitemap */
         $sitemap->load($id);
         // if sitemap record exists

@@ -11,7 +11,7 @@
 
 $storeId = Mage::app()->getAnyStoreView()->getId();
 /** @var $change \Magento\Core\Model\Design */
-$change = Mage::getModel('\Magento\Core\Model\Design');
+$change = Mage::getModel('Magento\Core\Model\Design');
 $change->setStoreId($storeId)
     ->setDesign('magento_blank')
     ->setDateFrom('2001-01-01 01:01:01')

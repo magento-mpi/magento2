@@ -552,7 +552,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
             $website = \Mage::app()->getWebsite($item['website_id']);
 
             if ($website->getBaseCurrencyCode() != $baseCurrency) {
-                $rate = \Mage::getModel('\Magento\Directory\Model\Currency')
+                $rate = \Mage::getModel('Magento\Directory\Model\Currency')
                     ->load($baseCurrency)
                     ->getRate($website->getBaseCurrencyCode());
                 if (!$rate) {

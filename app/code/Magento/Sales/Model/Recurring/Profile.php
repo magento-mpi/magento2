@@ -265,18 +265,18 @@ class Profile extends \Magento\Payment\Model\Recurring\Profile
         }
         $grandTotal = $billingAmount + $shippingAmount + $taxAmount;
 
-        $order = \Mage::getModel('\Magento\Sales\Model\Order');
+        $order = \Mage::getModel('Magento\Sales\Model\Order');
 
-        $billingAddress = \Mage::getModel('\Magento\Sales\Model\Order\Address')
+        $billingAddress = \Mage::getModel('Magento\Sales\Model\Order\Address')
             ->setData($this->getBillingAddressInfo())
             ->setId(null);
 
         $shippingInfo = $this->getShippingAddressInfo();
-        $shippingAddress = \Mage::getModel('\Magento\Sales\Model\Order\Address')
+        $shippingAddress = \Mage::getModel('Magento\Sales\Model\Order\Address')
             ->setData($shippingInfo)
             ->setId(null);
 
-        $payment = \Mage::getModel('\Magento\Sales\Model\Order\Payment')
+        $payment = \Mage::getModel('Magento\Sales\Model\Order\Payment')
             ->setMethod($this->getMethodCode());
 
         $transferDataKays = array(
@@ -651,7 +651,7 @@ class Profile extends \Magento\Payment\Model\Recurring\Profile
         $shippingAmount = $itemInfo->getShippingAmount() ? $itemInfo->getShippingAmount() : $this->getShippingAmount();
         $taxAmount = $itemInfo->getTaxAmount() ? $itemInfo->getTaxAmount() : $this->getTaxAmount();
 
-        $item = \Mage::getModel('\Magento\Sales\Model\Order\Item')
+        $item = \Mage::getModel('Magento\Sales\Model\Order\Item')
             ->setData($this->getOrderItemInfo())
             ->setQtyOrdered($this->getInfoValue('order_item_info', 'qty'))
             ->setBaseOriginalPrice($this->getInfoValue('order_item_info', 'price'))
@@ -702,7 +702,7 @@ class Profile extends \Magento\Payment\Model\Recurring\Profile
         $price = $itemInfo->getPrice() ? $itemInfo->getPrice() : $this->getInitAmount();
         $shippingAmount = $itemInfo->getShippingAmount() ? $itemInfo->getShippingAmount() : 0;
         $taxAmount = $itemInfo->getTaxAmount() ? $itemInfo->getTaxAmount() : 0;
-        $item = \Mage::getModel('\Magento\Sales\Model\Order\Item')
+        $item = \Mage::getModel('Magento\Sales\Model\Order\Item')
             ->setStoreId($this->getStoreId())
             ->setProductType(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL)
             ->setIsVirtual(1)

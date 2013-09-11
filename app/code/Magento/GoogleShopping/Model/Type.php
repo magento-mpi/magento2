@@ -177,7 +177,7 @@ class Type extends \Magento\Core\Model\AbstractModel
             $useDefault = true;
         }
         if ($useDefault) {
-            $attributeModel = \Mage::getModel('\Magento\GoogleShopping\Model\Attribute\DefaultAttribute');
+            $attributeModel = \Mage::getModel('Magento\GoogleShopping\Model\Attribute\DefaultAttribute');
         }
         $attributeModel->setName($name);
 

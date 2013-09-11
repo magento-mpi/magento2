@@ -42,7 +42,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
     public function preDispatch()
     {
         parent::preDispatch();
-        $this->_entityTypeId = \Mage::getModel('\Magento\Eav\Model\Entity')->setType(\Magento\Catalog\Model\Product::ENTITY)
+        $this->_entityTypeId = \Mage::getModel('Magento\Eav\Model\Entity')->setType(\Magento\Catalog\Model\Product::ENTITY)
             ->getTypeId();
     }
 
@@ -72,7 +72,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
     public function indexAction()
     {
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Attribute'))
+            ->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Attribute'))
             ->renderLayout();
     }
 
@@ -85,7 +85,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
     {
         $id = $this->getRequest()->getParam('attribute_id');
         /** @var $model \Magento\Catalog\Model\Resource\Eav\Attribute */
-        $model = \Mage::getModel('\Magento\Catalog\Model\Resource\Eav\Attribute')
+        $model = \Mage::getModel('Magento\Catalog\Model\Resource\Eav\Attribute')
             ->setEntityTypeId($this->_entityTypeId);
         if ($id) {
             $model->load($id);
@@ -143,7 +143,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
         $frontendLabel = $this->getRequest()->getParam('frontend_label');
         $attributeCode = $attributeCode ?: $this->generateCode($frontendLabel[0]);
         $attributeId = $this->getRequest()->getParam('attribute_id');
-        $attribute = \Mage::getModel('\Magento\Catalog\Model\Resource\Eav\Attribute')
+        $attribute = \Mage::getModel('Magento\Catalog\Model\Resource\Eav\Attribute')
             ->loadByCode($this->_entityTypeId, $attributeCode);
 
         if ($attribute->getId() && !$attributeId) {
@@ -173,7 +173,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
                     __('Attribute Set with name \'%1\' already exists.', $setName)
                 );
 
-                $this->_initLayoutMessages('\Magento\Adminhtml\Model\Session');
+                $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
                 $response->setError(true);
                 $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
             }
@@ -211,7 +211,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
             $isNewAttributeSet = false;
             if (!empty($data['new_attribute_set_name'])) {
                 /** @var $attributeSet \Magento\Eav\Model\Entity\Attribute\Set */
-                $attributeSet = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set');
+                $attributeSet = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set');
                 $name = \Mage::helper('Magento\Adminhtml\Helper\Data')->stripTags($data['new_attribute_set_name']);
                 $name = trim($name);
                 $attributeSet->setEntityTypeId($this->_entityTypeId)
@@ -240,7 +240,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
 
             $redirectBack   = $this->getRequest()->getParam('back', false);
             /* @var $model \Magento\Catalog\Model\Resource\Eav\Attribute */
-            $model = \Mage::getModel('\Magento\Catalog\Model\Resource\Eav\Attribute');
+            $model = \Mage::getModel('Magento\Catalog\Model\Resource\Eav\Attribute');
             /* @var $helper \Magento\Catalog\Helper\Product */
             $helper = \Mage::helper('Magento\Catalog\Helper\Product');
 
@@ -264,7 +264,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
             //validate frontend_input
             if (isset($data['frontend_input'])) {
                 /** @var $validatorInput \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator */
-                $validatorInput = \Mage::getModel('\Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator');
+                $validatorInput = \Mage::getModel('Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator');
                 if (!$validatorInput->isValid($data['frontend_input'])) {
                     foreach ($validatorInput->getMessages() as $message) {
                         $session->addError($message);
@@ -335,7 +335,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
                 $attributeSetId = $isNewAttributeSet ? $attributeSet->getId() : $this->getRequest()->getParam('set');
                 $groupCollection = $isNewAttributeSet
                     ? $attributeSet->getGroups()
-                    : \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection')
+                    : \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection')
                         ->setAttributeSetFilter($attributeSetId)
                         ->load();
                 foreach ($groupCollection as $group) {
@@ -385,7 +385,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
     public function deleteAction()
     {
         if ($id = $this->getRequest()->getParam('attribute_id')) {
-            $model = \Mage::getModel('\Magento\Catalog\Model\Resource\Eav\Attribute');
+            $model = \Mage::getModel('Magento\Catalog\Model\Resource\Eav\Attribute');
 
             // entity type check
             $model->load($id);
@@ -420,7 +420,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
     public function suggestConfigurableAttributesAction()
     {
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
-            $this->getLayout()->createBlock('\Magento\Catalog\Block\Product\Configurable\AttributeSelector')
+            $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Configurable\AttributeSelector')
                 ->getSuggestedAttributes($this->getRequest()->getParam('label_part'))
         ));
     }

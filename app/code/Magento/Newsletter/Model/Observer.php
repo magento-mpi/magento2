@@ -21,7 +21,7 @@ class Observer
     {
         $customer = $observer->getEvent()->getCustomer();
         if (($customer instanceof \Magento\Customer\Model\Customer)) {
-            \Mage::getModel('\Magento\Newsletter\Model\Subscriber')->subscribeCustomer($customer);
+            \Mage::getModel('Magento\Newsletter\Model\Subscriber')->subscribeCustomer($customer);
         }
         return $this;
     }
@@ -34,7 +34,7 @@ class Observer
      */
     public function customerDeleted($observer)
     {
-        $subscriber = \Mage::getModel('\Magento\Newsletter\Model\Subscriber')
+        $subscriber = \Mage::getModel('Magento\Newsletter\Model\Subscriber')
             ->loadByEmail($observer->getEvent()->getCustomer()->getEmail());
         if($subscriber->getId()) {
             $subscriber->delete();
@@ -47,7 +47,7 @@ class Observer
         $countOfQueue  = 3;
         $countOfSubscritions = 20;
 
-        $collection = \Mage::getModel('\Magento\Newsletter\Model\Queue')->getCollection()
+        $collection = \Mage::getModel('Magento\Newsletter\Model\Queue')->getCollection()
             ->setPageSize($countOfQueue)
             ->setCurPage(1)
             ->addOnlyForSendingFilter()

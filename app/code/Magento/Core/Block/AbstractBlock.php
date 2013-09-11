@@ -703,7 +703,7 @@ abstract class AbstractBlock extends \Magento\Object
      */
     public function getUrlBase64($route = '', $params = array())
     {
-        return $this->helper('\Magento\Core\Helper\Data')->urlEncode($this->getUrl($route, $params));
+        return $this->helper('Magento\Core\Helper\Data')->urlEncode($this->getUrl($route, $params));
     }
 
     /**
@@ -715,7 +715,7 @@ abstract class AbstractBlock extends \Magento\Object
      */
     public function getUrlEncoded($route = '', $params = array())
     {
-        return $this->helper('\Magento\Core\Helper\Data')->urlEncode($this->getUrl($route, $params));
+        return $this->helper('Magento\Core\Helper\Data')->urlEncode($this->getUrl($route, $params));
     }
 
     /**
@@ -798,7 +798,7 @@ abstract class AbstractBlock extends \Magento\Object
     public function formatDate(
         $date = null, $format =  \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showTime = false
     ) {
-        return $this->helper('\Magento\Core\Helper\Data')->formatDate($date, $format, $showTime);
+        return $this->helper('Magento\Core\Helper\Data')->formatDate($date, $format, $showTime);
     }
 
     /**
@@ -812,7 +812,7 @@ abstract class AbstractBlock extends \Magento\Object
     public function formatTime(
         $time = null, $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showDate = false
     ) {
-        return $this->helper('\Magento\Core\Helper\Data')->formatTime($time, $format, $showDate);
+        return $this->helper('Magento\Core\Helper\Data')->formatTime($time, $format, $showDate);
     }
 
     /**
@@ -848,7 +848,7 @@ abstract class AbstractBlock extends \Magento\Object
      */
     public function escapeHtml($data, $allowedTags = null)
     {
-        return $this->helper('\Magento\Core\Helper\Data')->escapeHtml($data, $allowedTags);
+        return $this->helper('Magento\Core\Helper\Data')->escapeHtml($data, $allowedTags);
     }
 
     /**
@@ -861,7 +861,7 @@ abstract class AbstractBlock extends \Magento\Object
      */
     public function stripTags($data, $allowableTags = null, $allowHtmlEntities = false)
     {
-        return $this->helper('\Magento\Core\Helper\Data')->stripTags($data, $allowableTags, $allowHtmlEntities);
+        return $this->helper('Magento\Core\Helper\Data')->stripTags($data, $allowableTags, $allowHtmlEntities);
     }
 
     /**
@@ -872,7 +872,7 @@ abstract class AbstractBlock extends \Magento\Object
      */
     public function escapeUrl($data)
     {
-        return $this->helper('\Magento\Core\Helper\Data')->escapeUrl($data);
+        return $this->helper('Magento\Core\Helper\Data')->escapeUrl($data);
     }
 
     /**
@@ -885,7 +885,7 @@ abstract class AbstractBlock extends \Magento\Object
      */
     public function quoteEscape($data, $addSlashes = false)
     {
-        return $this->helper('\Magento\Core\Helper\Data')->quoteEscape($data, $addSlashes);
+        return $this->helper('Magento\Core\Helper\Data')->quoteEscape($data, $addSlashes);
     }
 
     /**
@@ -897,7 +897,7 @@ abstract class AbstractBlock extends \Magento\Object
      */
     public function jsQuoteEscape($data, $quote = '\'')
     {
-        return $this->helper('\Magento\Core\Helper\Data')->jsQuoteEscape($data, $quote);
+        return $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape($data, $quote);
     }
 
     /**

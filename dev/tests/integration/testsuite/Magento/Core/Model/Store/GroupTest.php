@@ -18,7 +18,7 @@ class Magento_Core_Model_Store_GroupTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Core\Model\Store\Group');
+        $this->_model = Mage::getModel('Magento\Core\Model\Store\Group');
     }
 
     public function testSetGetWebsite()

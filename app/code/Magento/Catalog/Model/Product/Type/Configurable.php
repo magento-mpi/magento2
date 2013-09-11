@@ -105,7 +105,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function getChildrenIds($parentId, $required = true)
     {
-        return \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product\Type\Configurable')
+        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Type\Configurable')
             ->getChildrenIds($parentId, $required);
     }
 
@@ -117,7 +117,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function getParentIdsByChild($childId)
     {
-        return \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product\Type\Configurable')
+        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Type\Configurable')
             ->getParentIdsByChild($childId);
     }
 
@@ -150,7 +150,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
 
         foreach ($ids as $attributeId) {
             $usedProductAttributes[]  = $this->getAttributeById($attributeId, $product);
-            $configurableAttributes[] = \Mage::getModel('\Magento\Catalog\Model\Product\Type\Configurable\Attribute')
+            $configurableAttributes[] = \Mage::getModel('Magento\Catalog\Model\Product\Type\Configurable\Attribute')
                 ->setProductAttribute($this->getAttributeById($attributeId, $product));
         }
         $product->setData($this->_usedProductAttributes, $usedProductAttributes);
@@ -257,7 +257,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function getConfigurableAttributeCollection($product)
     {
-        return \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection')
+        return \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection')
             ->setProductFilter($product);
     }
 
@@ -330,7 +330,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function getUsedProductCollection($product)
     {
-        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Type\Configurable\Product\Collection')
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Type\Configurable\Product\Collection')
             ->setFlag('require_stock_items', true)
             ->setFlag('product_children', true)
             ->setProductFilter($product);
@@ -388,7 +388,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
         if ($data) {
             foreach ($data as $attributeData) {
                 /** @var $configurableAttribute \Magento\Catalog\Model\Product\Type\Configurable\Attribute */
-                $configurableAttribute = \Mage::getModel('\Magento\Catalog\Model\Product\Type\Configurable\Attribute');
+                $configurableAttribute = \Mage::getModel('Magento\Catalog\Model\Product\Type\Configurable\Attribute');
                 if (!empty($attributeData['id'])) {
                     $configurableAttribute->load($attributeData['id']);
                 } else {
@@ -420,7 +420,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
         /* Save product relations */
         $productIds = $product->getAssociatedProductIds();
         if (is_array($productIds)) {
-            \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Type\Configurable')
+            \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Type\Configurable')
                 ->saveProducts($product, $productIds);
         }
         return $this;
@@ -845,7 +845,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function getConfigurableOptions($product)
     {
-        return \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product\Type\Configurable')
+        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Type\Configurable')
             ->getConfigurableOptions($product, $this->getUsedProductAttributes($product));
     }
 
@@ -856,10 +856,10 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function deleteTypeSpecificData(\Magento\Catalog\Model\Product $product)
     {
-        \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Type\Configurable')
+        \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Type\Configurable')
             ->saveProducts($product, array());
         /** @var $configurableAttribute \Magento\Catalog\Model\Product\Type\Configurable\Attribute */
-        $configurableAttribute = \Mage::getModel('\Magento\Catalog\Model\Product\Type\Configurable\Attribute');
+        $configurableAttribute = \Mage::getModel('Magento\Catalog\Model\Product\Type\Configurable\Attribute');
         $configurableAttribute->deleteByProduct($product);
     }
 
@@ -874,7 +874,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
     public function getAttributeById($attributeId, $product)
     {
         $attribute = parent::getAttributeById($attributeId, $product);
-        return $attribute ?: \Mage::getModel('\Magento\Catalog\Model\Resource\Eav\Attribute')->load($attributeId);
+        return $attribute ?: \Mage::getModel('Magento\Catalog\Model\Resource\Eav\Attribute')->load($attributeId);
     }
 
     /**
@@ -889,7 +889,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
         $this->_prepareAttributeSetToBeBaseForNewVariations($parentProduct);
         $generatedProductIds = array();
         foreach ($productsData as $simpleProductData) {
-            $newSimpleProduct = \Mage::getModel('\Magento\Catalog\Model\Product');
+            $newSimpleProduct = \Mage::getModel('Magento\Catalog\Model\Product');
             $configurableAttribute = \Mage::helper('Magento\Core\Helper\Data')->jsonDecode(
                 $simpleProductData['configurable_attribute']
             );
@@ -936,9 +936,9 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
         $attributes = $this->getUsedProductAttributes($product);
         $attributeSetId = $product->getNewVariationsAttributeSetId();
         /** @var $attributeSet \Magento\Eav\Model\Entity\Attribute\Set */
-        $attributeSet = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')->load($attributeSetId);
+        $attributeSet = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')->load($attributeSetId);
         $attributeSet->addSetInfo(
-            \Mage::getModel('\Magento\Eav\Model\Entity')->setType(\Magento\Catalog\Model\Product::ENTITY)->getTypeId(),
+            \Mage::getModel('Magento\Eav\Model\Entity')->setType(\Magento\Catalog\Model\Product::ENTITY)->getTypeId(),
             $attributes
         );
         foreach ($attributes as $attribute) {

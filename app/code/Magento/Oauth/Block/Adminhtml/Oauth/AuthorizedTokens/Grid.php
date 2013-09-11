@@ -40,7 +40,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareCollection()
     {
         /** @var $collection \Magento\Oauth\Model\Resource\Token\Collection */
-        $collection = \Mage::getModel('\Magento\Oauth\Model\Token')->getCollection();
+        $collection = \Mage::getModel('Magento\Oauth\Model\Token')->getCollection();
         $collection->joinConsumerAsApplication()
             ->addFilterByType(\Magento\Oauth\Model\Token::TYPE_ACCESS);
         $this->setCollection($collection);

@@ -24,7 +24,7 @@ class Tree extends \Magento\Backend\Block\Template
      */
     public function getTreeLoaderUrl()
     {
-        return $this->getUrl('*/*/treeJson', $this->helper('\Magento\Theme\Helper\Storage')->getRequestParams());
+        return $this->getUrl('*/*/treeJson', $this->helper('Magento\Theme\Helper\Storage')->getRequestParams());
     }
 
     /**
@@ -56,14 +56,14 @@ class Tree extends \Magento\Backend\Block\Template
     public function getTreeCurrentPath()
     {
         $treePath = '/root';
-        $path = $this->helper('\Magento\Theme\Helper\Storage')->getSession()->getCurrentPath();
+        $path = $this->helper('Magento\Theme\Helper\Storage')->getSession()->getCurrentPath();
         if ($path) {
-            $path = str_replace($this->helper('\Magento\Theme\Helper\Storage')->getStorageRoot(), '', $path);
+            $path = str_replace($this->helper('Magento\Theme\Helper\Storage')->getStorageRoot(), '', $path);
             $relative = '';
             foreach (explode(DIRECTORY_SEPARATOR, $path) as $dirName) {
                 if ($dirName) {
                     $relative .= DIRECTORY_SEPARATOR . $dirName;
-                    $treePath .= '/' . $this->helper('\Magento\Theme\Helper\Storage')->urlEncode($relative);
+                    $treePath .= '/' . $this->helper('Magento\Theme\Helper\Storage')->urlEncode($relative);
                 }
             }
         }

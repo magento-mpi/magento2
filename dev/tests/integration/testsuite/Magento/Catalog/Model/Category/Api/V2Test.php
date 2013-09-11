@@ -21,7 +21,7 @@ class Magento_Catalog_Model_Category_Api_V2Test extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Catalog\Model\Category\Api\V2');
+        $this->_model = Mage::getModel('Magento\Catalog\Model\Category\Api\V2');
         Mage::app()->setCurrentStore(\Magento\Core\Model\App::ADMIN_STORE_ID);
     }
 

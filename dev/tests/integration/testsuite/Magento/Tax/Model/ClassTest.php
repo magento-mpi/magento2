@@ -14,7 +14,7 @@ class Magento_Tax_Model_ClassTest extends PHPUnit_Framework_TestCase
     public function testCheckClassCanBeDeletedCustomerClassAssertException()
     {
         /** @var $model \Magento\Tax\Model\ClassModel */
-        $model = Mage::getModel('\Magento\Tax\Model\ClassModel')->getCollection()
+        $model = Mage::getModel('Magento\Tax\Model\ClassModel')->getCollection()
             ->setClassTypeFilter(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER)
             ->getFirstItem();
 
@@ -28,11 +28,11 @@ class Magento_Tax_Model_ClassTest extends PHPUnit_Framework_TestCase
     public function testCheckClassCanBeDeletedProductClassAssertException()
     {
         /** @var $model \Magento\Tax\Model\ClassModel */
-        $model = Mage::getModel('\Magento\Tax\Model\ClassModel')->getCollection()
+        $model = Mage::getModel('Magento\Tax\Model\ClassModel')->getCollection()
             ->setClassTypeFilter(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT)
             ->getFirstItem();
 
-        Mage::getModel('\Magento\Catalog\Model\Product')
+        Mage::getModel('Magento\Catalog\Model\Product')
             ->setTypeId('simple')->setAttributeSetId(4)
             ->setName('Simple Product')->setSku(uniqid())->setPrice(10)
             ->setMetaTitle('meta title')->setMetaKeyword('meta keyword')->setMetaDescription('meta description')
@@ -51,7 +51,7 @@ class Magento_Tax_Model_ClassTest extends PHPUnit_Framework_TestCase
     public function testCheckClassCanBeDeletedPositiveResult($classType)
     {
         /** @var $model \Magento\Tax\Model\ClassModel */
-        $model = Mage::getModel('\Magento\Tax\Model\ClassModel');
+        $model = Mage::getModel('Magento\Tax\Model\ClassModel');
         $model->setClassName('TaxClass' . uniqid())
             ->setClassType($classType)
             ->isObjectNew(true);
@@ -81,7 +81,7 @@ class Magento_Tax_Model_ClassTest extends PHPUnit_Framework_TestCase
         $customerClasses = $taxRule->getCustomerTaxClasses();
 
         /** @var $model \Magento\Tax\Model\ClassModel */
-        $model = Mage::getModel('\Magento\Tax\Model\ClassModel')
+        $model = Mage::getModel('Magento\Tax\Model\ClassModel')
             ->load($customerClasses[0]);
         $this->setExpectedException('\Magento\Core\Exception', 'You cannot delete this tax class because it is used in' .
             ' Tax Rules. You have to delete the rules it is used in first.');
@@ -101,7 +101,7 @@ class Magento_Tax_Model_ClassTest extends PHPUnit_Framework_TestCase
         $productClasses = $taxRule->getProductTaxClasses();
 
         /** @var $model \Magento\Tax\Model\ClassModel */
-        $model = Mage::getModel('\Magento\Tax\Model\ClassModel')
+        $model = Mage::getModel('Magento\Tax\Model\ClassModel')
             ->load($productClasses[0]);
         $this->setExpectedException('\Magento\Core\Exception', 'You cannot delete this tax class because it is used in' .
             ' Tax Rules. You have to delete the rules it is used in first.');

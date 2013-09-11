@@ -305,7 +305,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     {
         $category = $this->getData('category');
         if (is_null($category) && $this->getCategoryId()) {
-            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($this->getCategoryId());
+            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($this->getCategoryId());
             $this->setCategory($category);
         }
         return $category;
@@ -1005,7 +1005,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->getCategoryIds();
 
         /* @var $newProduct \Magento\Catalog\Model\Product */
-        $newProduct = \Mage::getModel('\Magento\Catalog\Model\Product')->setData($this->getData())
+        $newProduct = \Mage::getModel('Magento\Catalog\Model\Product')->setData($this->getData())
             ->setIsDuplicate(true)
             ->setOriginalId($this->getId())
             ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED)
@@ -1431,7 +1431,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     {
         if (isset($data['stock_item'])) {
             if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_CatalogInventory')) {
-                $stockItem = \Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item')
+                $stockItem = \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item')
                     ->setData($data['stock_item'])
                     ->setProduct($this);
                 $this->setStockItem($stockItem);
@@ -1609,7 +1609,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     public function addCustomOption($code, $value, $product=null)
     {
         $product = $product ? $product : $this;
-        $option = \Mage::getModel('\Magento\Catalog\Model\Product\Configuration\Item\Option')
+        $option = \Mage::getModel('Magento\Catalog\Model\Product\Configuration\Item\Option')
             ->addData(array(
                 'product_id'=> $product->getId(),
                 'product'   => $product,

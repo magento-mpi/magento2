@@ -131,7 +131,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function getConditionsInstance()
     {
-        return \Mage::getModel('\Magento\TargetRule\Model\Rule\Condition\Combine');
+        return \Mage::getModel('Magento\TargetRule\Model\Rule\Condition\Combine');
     }
 
     /**
@@ -141,7 +141,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function getActionsInstance()
     {
-        return \Mage::getModel('\Magento\TargetRule\Model\Actions\Condition\Combine');
+        return \Mage::getModel('Magento\TargetRule\Model\Actions\Condition\Combine');
     }
 
     /**
@@ -176,7 +176,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function prepareMatchingProducts($onlyId = false)
     {
-        $productCollection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection');
+        $productCollection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection');
 
         if (!$onlyId && !is_null($this->_productIds)) {
             $productCollection->addIdFilter($this->_productIds);
@@ -194,7 +194,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
                 ),
                 array(
                     'attributes'    => $this->getCollectedAttributes(),
-                    'product'       => \Mage::getModel('\Magento\Catalog\Model\Product'),
+                    'product'       => \Mage::getModel('Magento\Catalog\Model\Product'),
                     'onlyId'        => (bool) $onlyId
                 )
             );

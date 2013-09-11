@@ -23,10 +23,10 @@ class Preview extends \Magento\Adminhtml\Block\Widget
     protected function _toHtml()
     {
         /* @var $template \Magento\Newsletter\Model\Template */
-        $template = \Mage::getModel('\Magento\Newsletter\Model\Template');
+        $template = \Mage::getModel('Magento\Newsletter\Model\Template');
 
         if($id = (int)$this->getRequest()->getParam('id')) {
-            $queue = \Mage::getModel('\Magento\Newsletter\Model\Queue');
+            $queue = \Mage::getModel('Magento\Newsletter\Model\Queue');
             $queue->load($id);
             $template->setTemplateType($queue->getNewsletterType());
             $template->setTemplateText($queue->getNewsletterText());
@@ -46,7 +46,7 @@ class Preview extends \Magento\Adminhtml\Block\Widget
         \Magento\Profiler::start("newsletter_queue_proccessing");
         $vars = array();
 
-        $vars['subscriber'] = \Mage::getModel('\Magento\Newsletter\Model\Subscriber');
+        $vars['subscriber'] = \Mage::getModel('Magento\Newsletter\Model\Subscriber');
 
         $template->emulateDesign($storeId);
         $templateProcessed = $template->getProcessedTemplate($vars, true);

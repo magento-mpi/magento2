@@ -103,7 +103,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             if ($product->getStoreId() == $storeId) {
                 return false;
             }
-            $urlData = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Url')
+            $urlData = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Url')
                 ->getRewriteByProductStore(array($product->getId() => $storeId));
             if (!isset($urlData[$product->getId()])) {
                 return false;
@@ -215,7 +215,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     protected function _getProduct()
     {
         if (!$this->_getData('product')) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($this->getProductId());
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($this->getProductId());
             if (!$product->getId()) {
                 \Mage::throwException(
                     __('Please correct the product for adding the item to the quote.'));
@@ -357,18 +357,18 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function addOption($option)
     {
         if (is_array($option)) {
-            $option = \Mage::getModel('\Magento\GiftRegistry\Model\Item\Option')->setData($option)
+            $option = \Mage::getModel('Magento\GiftRegistry\Model\Item\Option')->setData($option)
                 ->setItem($this);
         } elseif ($option instanceof \Magento\Sales\Model\Quote\Item\Option) {
             // import data from existing quote item option
-            $option = \Mage::getModel('\Magento\GiftRegistry\Model\Item\Option')->setProduct($option->getProduct())
+            $option = \Mage::getModel('Magento\GiftRegistry\Model\Item\Option')->setProduct($option->getProduct())
                ->setCode($option->getCode())
                ->setValue($option->getValue())
                ->setItem($this);
         } elseif (($option instanceof \Magento\Object)
             && !($option instanceof \Magento\GiftRegistry\Model\Item\Option)
         ) {
-            $option = \Mage::getModel('\Magento\GiftRegistry\Model\Item\Option')->setData($option->getData())
+            $option = \Mage::getModel('Magento\GiftRegistry\Model\Item\Option')->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
         } elseif($option instanceof \Magento\GiftRegistry\Model\Item\Option) {

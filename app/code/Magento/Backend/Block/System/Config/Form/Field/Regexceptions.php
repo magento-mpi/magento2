@@ -48,7 +48,7 @@ class Regexceptions
     {
         if ($columnName == 'value' && isset($this->_columns[$columnName])) {
             /** @var $label \Magento\Core\Model\Theme\Label */
-            $label = \Mage::getModel('\Magento\Core\Model\Theme\Label');
+            $label = \Mage::getModel('Magento\Core\Model\Theme\Label');
             $options = $label->getLabelsCollection(__('-- No Theme --'));
             $element = new \Magento\Data\Form\Element\Select();
             $element

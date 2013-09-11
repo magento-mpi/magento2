@@ -57,7 +57,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     {
         if ($this->_defaultCustomerTaxClass === null) {
             $defaultCustomerGroup = \Mage::helper('Magento\Customer\Helper\Data')->getDefaultCustomerGroupId($store);
-            $this->_defaultCustomerTaxClass = \Mage::getModel('\Magento\Customer\Model\Group')->getTaxClassId($defaultCustomerGroup);
+            $this->_defaultCustomerTaxClass = \Mage::getModel('Magento\Customer\Model\Group')->getTaxClassId($defaultCustomerGroup);
         }
         return $this->_defaultCustomerTaxClass;
     }
@@ -74,7 +74,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
             if ($session->isLoggedIn()) {
                 $this->_customer = $session->getCustomer();
             } elseif ($session->getCustomerId()) {
-                $this->_customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($session->getCustomerId());
+                $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($session->getCustomerId());
             } else {
                 $this->_customer = false;
             }
@@ -391,7 +391,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     protected function _getRates($request, $fieldName, $type)
     {
         $result = array();
-        $classes = \Mage::getModel('\Magento\Tax\Model\ClassModel')->getCollection()
+        $classes = \Mage::getModel('Magento\Tax\Model\ClassModel')->getCollection()
             ->addFieldToFilter('class_type', $type)
             ->load();
         foreach ($classes as $class) {

@@ -33,7 +33,7 @@ class View extends \Magento\Core\Controller\Front\Action
      */
     public function indexAction()
     {
-        $entity = \Mage::getModel('\Magento\GiftRegistry\Model\Entity');
+        $entity = \Mage::getModel('Magento\GiftRegistry\Model\Entity');
         $entity->loadByUrlKey($this->getRequest()->getParam('id'));
         if (!$entity->getId() || !$entity->getCustomerId() || !$entity->getTypeId() || !$entity->getIsActive()) {
             $this->_forward('noroute');
@@ -41,13 +41,13 @@ class View extends \Magento\Core\Controller\Front\Action
         }
 
         /** @var \Magento\Customer\Model\Customer */
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer');
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer');
         $customer->load($entity->getCustomerId());
         $entity->setCustomer($customer);
         \Mage::register('current_entity', $entity);
 
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry Info'));
@@ -74,8 +74,8 @@ class View extends \Magento\Core\Controller\Front\Action
         try {
             $count = 0;
             foreach ($items as $itemId => $itemInfo) {
-                $item = \Mage::getModel('\Magento\GiftRegistry\Model\Item')->load($itemId);
-                $optionCollection = \Mage::getModel('\Magento\GiftRegistry\Model\Item\Option')->getCollection()
+                $item = \Mage::getModel('Magento\GiftRegistry\Model\Item')->load($itemId);
+                $optionCollection = \Mage::getModel('Magento\GiftRegistry\Model\Item\Option')->getCollection()
                     ->addItemFilter($itemId);
                 $item->setOptions($optionCollection->getOptionsByItem($item));
                 if (!$item->getId() || $itemInfo['qty'] < 1 || ($item->getQty() <= $item->getQtyFulfilled())) {

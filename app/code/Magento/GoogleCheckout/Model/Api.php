@@ -192,7 +192,7 @@ class Api extends \Magento\Object
     public function debugData($debugData)
     {
         if ($this->getDebugFlag()) {
-            \Mage::getModel('\Magento\Core\Model\Log\Adapter', array('fileName' => 'payment_googlecheckout.log'))
+            \Mage::getModel('Magento\Core\Model\Log\Adapter', array('fileName' => 'payment_googlecheckout.log'))
                ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
                ->log($debugData);
         }

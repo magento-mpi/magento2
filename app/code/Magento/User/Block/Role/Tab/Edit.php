@@ -94,7 +94,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form
         $rid = \Mage::app()->getRequest()->getParam('rid', false);
 
         $acl = \Mage::getSingleton('Magento\Acl\Builder')->getAcl();
-        $rulesSet = \Mage::getResourceModel('\Magento\User\Model\Resource\Rules\Collection')->getByRoles($rid)->load();
+        $rulesSet = \Mage::getResourceModel('Magento\User\Model\Resource\Rules\Collection')->getByRoles($rid)->load();
 
         $selectedResourceIds = array();
 

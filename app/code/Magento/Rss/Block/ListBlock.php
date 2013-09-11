@@ -154,7 +154,7 @@ class ListBlock extends \Magento\Core\Block\Template
     {
         $path = self::XML_PATH_RSS_METHODS.'/catalog/category';
         if((bool)\Mage::getStoreConfig($path)){
-            $category = \Mage::getModel('\Magento\Catalog\Model\Category');
+            $category = \Mage::getModel('Magento\Catalog\Model\Category');
 
             /* @var $collection \Magento\Catalog\Model\Resource\Category\Collection */
             $treeModel = $category->getTreeModel()->loadNode(\Mage::app()->getStore()->getRootCategoryId());

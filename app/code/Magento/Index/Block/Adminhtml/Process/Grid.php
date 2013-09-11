@@ -70,7 +70,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('\Magento\Index\Model\Resource\Process\Collection');
+        $collection = \Mage::getResourceModel('Magento\Index\Model\Resource\Process\Collection');
         $this->setCollection($collection);
         parent::_prepareCollection();
 
@@ -275,7 +275,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         $this->setMassactionIdField('process_id');
         $this->getMassactionBlock()->setFormFieldName('process');
 
-        $modeOptions = \Mage::getModel('\Magento\Index\Model\Process')->getModesOptions();
+        $modeOptions = \Mage::getModel('Magento\Index\Model\Process')->getModesOptions();
 
         $this->getMassactionBlock()->addItem('change_mode', array(
             'label'         => __('Change Index Mode'),

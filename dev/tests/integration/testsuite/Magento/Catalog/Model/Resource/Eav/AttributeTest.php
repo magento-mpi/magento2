@@ -18,7 +18,7 @@ class Magento_Catalog_Model_Resource_Eav_AttributeTest extends PHPUnit_Framework
 
     protected function setUp()
     {
-        $this->_model= Mage::getResourceModel('\Magento\Catalog\Model\Resource\Eav\Attribute');
+        $this->_model= Mage::getResourceModel('Magento\Catalog\Model\Resource\Eav\Attribute');
     }
 
     public function testCRUD()

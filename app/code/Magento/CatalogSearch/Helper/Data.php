@@ -73,7 +73,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getQuery()
     {
         if (!$this->_query) {
-            $this->_query = \Mage::getModel('\Magento\CatalogSearch\Model\Query')
+            $this->_query = \Mage::getModel('Magento\CatalogSearch\Model\Query')
                 ->loadByQuery($this->getQueryText());
             if (!$this->_query->getId()) {
                 $this->_query->setQueryText($this->getQueryText());
@@ -330,7 +330,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                 }
             }
             if (!$this->_engine) {
-                $this->_engine = \Mage::getResourceSingleton('\Magento\CatalogSearch\Model\Resource\Fulltext\Engine');
+                $this->_engine = \Mage::getResourceSingleton('Magento\CatalogSearch\Model\Resource\Fulltext\Engine');
             }
         }
 

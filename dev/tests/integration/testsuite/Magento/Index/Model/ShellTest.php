@@ -19,7 +19,7 @@ class Magento_Index_Model_ShellTest extends PHPUnit_Framework_TestCase
      */
     protected function _getModel($entryPoint = 'fake.php')
     {
-        return Mage::getModel('\Magento\Index\Model\Shell', array('entryPoint' => $entryPoint));
+        return Mage::getModel('Magento\Index\Model\Shell', array('entryPoint' => $entryPoint));
     }
 
     /**

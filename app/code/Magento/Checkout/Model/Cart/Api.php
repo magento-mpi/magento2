@@ -69,7 +69,7 @@ class Api extends \Magento\Checkout\Model\Api\Resource
 
         try {
             /*@var $quote \Magento\Sales\Model\Quote*/
-            $quote = \Mage::getModel('\Magento\Sales\Model\Quote');
+            $quote = \Mage::getModel('Magento\Sales\Model\Quote');
             $quote->setStoreId($storeId)
                     ->setIsActive(false)
                     ->setIsMultiShipping(false)
@@ -232,7 +232,7 @@ class Api extends \Magento\Checkout\Model\Api\Resource
         try {
             $quote->collectTotals();
             /** @var $service \Magento\Sales\Model\Service\Quote */
-            $service = \Mage::getModel('\Magento\Sales\Model\Service\Quote', array('quote' => $quote));
+            $service = \Mage::getModel('Magento\Sales\Model\Service\Quote', array('quote' => $quote));
             $service->submitAll();
 
             if ($isNewCustomer) {
@@ -349,7 +349,7 @@ class Api extends \Magento\Checkout\Model\Api\Resource
 
         $agreements = array();
         if (\Mage::getStoreConfigFlag('checkout/options/enable_agreements')) {
-            $agreementsCollection = \Mage::getModel('\Magento\Checkout\Model\Agreement')->getCollection()
+            $agreementsCollection = \Mage::getModel('Magento\Checkout\Model\Agreement')->getCollection()
                     ->addStoreFilter($storeId)
                     ->addFieldToFilter('is_active', 1);
 

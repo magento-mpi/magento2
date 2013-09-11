@@ -18,7 +18,7 @@ class Magento_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Core\Model\Resource');
+        $this->_model = Mage::getModel('Magento\Core\Model\Resource');
     }
 
     public function testGetConnectionTypeInstance()

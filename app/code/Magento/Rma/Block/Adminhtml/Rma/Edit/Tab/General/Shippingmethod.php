@@ -81,7 +81,7 @@ class Shippingmethod
      */
     public function getShipment()
     {
-        return \Mage::getModel('\Magento\Rma\Model\Shipping')
+        return \Mage::getModel('Magento\Rma\Model\Shipping')
             ->getShippingLabelByRma($this->getRma());
     }
 
@@ -156,7 +156,7 @@ class Shippingmethod
         $url        = $this->getUrl('*/rma/printLabel', $data);
 
         return $this->getLayout()
-            ->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+            ->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('Print Shipping Label'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
@@ -172,7 +172,7 @@ class Shippingmethod
     public function getShowPackagesButton()
     {
         return $this->getLayout()
-            ->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+            ->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('Show Packages'),
                 'onclick' => 'showPackedWindow();'
@@ -191,7 +191,7 @@ class Shippingmethod
         $url        = $this->getUrl('*/rma/printPackage', $data);
 
         return $this->getLayout()
-            ->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+            ->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('Print'),
                 'onclick' => 'setLocation(\'' . $url . '\')'

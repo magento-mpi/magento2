@@ -44,7 +44,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
         }
 
         if ($setId) {
-            $groupCollection = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection')
+            $groupCollection = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection')
                 ->setAttributeSetFilter($setId)
                 ->setSortOrder()
                 ->load();
@@ -95,7 +95,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
                 $this->addTab('websites', array(
                     'label'     => __('Websites'),
                     'content'   => $this->_translateHtml($this->getLayout()
-                        ->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Websites')->toHtml()),
+                        ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Websites')->toHtml()),
                     'group_code' => self::BASIC_TAB_GROUP_CODE,
                 ));
             }
@@ -109,7 +109,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
                 $this->addTab('advanced-inventory', array(
                     'label'     => __('Advanced Inventory'),
                     'content'   => $this->_translateHtml($this->getLayout()
-                        ->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Inventory')->toHtml()),
+                        ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Inventory')->toHtml()),
                     'group_code' => self::ADVANCED_TAB_GROUP_CODE,
                 ));
             }
@@ -160,7 +160,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
                 $this->addTab('product-alerts', array(
                     'label'     => __('Product Alerts'),
                     'content'   => $this->_translateHtml($this->getLayout()
-                        ->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Alerts', 'admin.alerts.products')
+                        ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Alerts', 'admin.alerts.products')
                         ->toHtml()
                     ),
                     'group_code' => self::ADVANCED_TAB_GROUP_CODE,

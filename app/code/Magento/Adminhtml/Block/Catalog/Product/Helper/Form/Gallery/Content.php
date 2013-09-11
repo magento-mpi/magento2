@@ -30,7 +30,7 @@ class Content extends \Magento\Adminhtml\Block\Widget
 
         $this->getUploader()->getConfig()
             ->setUrl(
-                \Mage::getModel('\Magento\Backend\Model\Url')
+                \Mage::getModel('Magento\Backend\Model\Url')
                     ->addSessionParam()
                     ->getUrl('adminhtml/catalog_product_gallery/upload')
             )

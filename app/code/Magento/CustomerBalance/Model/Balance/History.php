@@ -171,7 +171,7 @@ class History extends \Magento\Core\Model\AbstractModel
         $this->setIsCustomerNotified(false);
         if ($this->getBalanceModel()->getNotifyByEmail()) {
             $storeId = $this->getBalanceModel()->getStoreId();
-            $email = \Mage::getModel('\Magento\Core\Model\Email\Template')
+            $email = \Mage::getModel('Magento\Core\Model\Email\Template')
                 ->setDesignConfig(array('store' => $storeId, 'area' => $this->_design->getArea()));
             $customer = $this->getBalanceModel()->getCustomer();
             $email->sendTransactional(

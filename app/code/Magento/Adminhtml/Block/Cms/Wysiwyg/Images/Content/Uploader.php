@@ -33,7 +33,7 @@ class Uploader extends \Magento\Adminhtml\Block\Media\Uploader
         }
         $this->getConfig()
             ->setUrl(
-                \Mage::getModel('\Magento\Backend\Model\Url')
+                \Mage::getModel('Magento\Backend\Model\Url')
                     ->addSessionParam()
                     ->getUrl('*/*/upload', array('type' => $type)
                 )

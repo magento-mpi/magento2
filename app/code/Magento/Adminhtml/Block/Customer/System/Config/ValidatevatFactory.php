@@ -26,6 +26,6 @@ class ValidatevatFactory
      */
     public function createVatValidator()
     {
-        return \Mage::getBlockSingleton('\Magento\Adminhtml\Block\Customer\System\Config\Validatevat');
+        return \Mage::getBlockSingleton('Magento\Adminhtml\Block\Customer\System\Config\Validatevat');
     }
 }

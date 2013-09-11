@@ -40,7 +40,7 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
         );
         $this->assertGreaterThan(0, (int)$shipmentIncrementId, 'Shipment was not created.');
         /** Ensure that shipment was created partially. */
-        $shipment = Mage::getModel('\Magento\Sales\Model\Order\Shipment')->load($shipmentIncrementId, 'increment_id');
+        $shipment = Mage::getModel('Magento\Sales\Model\Order\Shipment')->load($shipmentIncrementId, 'increment_id');
         $this->assertEquals(
             $qtyToShip,
             (int)$shipment->getTotalQty(),
@@ -88,7 +88,7 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
     {
         /** Prepare data. */
         /** @var \Magento\Sales\Model\Order $order */
-        $order = Mage::getModel('\Magento\Sales\Model\Order');
+        $order = Mage::getModel('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
 
         /** Retrieve carriers list */
@@ -176,7 +176,7 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
 
         /** Ensure that tracking data was saved correctly. */
         /** @var \Magento\Sales\Model\Order\Shipment $updatedShipment */
-        $updatedShipment = Mage::getModel('\Magento\Sales\Model\Order\Shipment');
+        $updatedShipment = Mage::getModel('Magento\Sales\Model\Order\Shipment');
         $updatedShipment->load($this->_getShipmentFixture()->getId());
         $tracksCollection = $updatedShipment->getTracksCollection();
         $this->assertCount(0, $tracksCollection->getItems(), "Tracking information was not removed from DB.");
@@ -275,7 +275,7 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
     protected function _getOrderFixture()
     {
         /** @var $order \Magento\Sales\Model\Resource\Order\Collection */
-        $orderCollection = Mage::getModel('\Magento\Sales\Model\Resource\Order\Collection');
+        $orderCollection = Mage::getModel('Magento\Sales\Model\Resource\Order\Collection');
         $this->assertCount(1, $orderCollection->getItems());
         return $orderCollection->getFirstItem();
     }
@@ -288,7 +288,7 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
     protected function _getShipmentFixture()
     {
         /** @var $order \Magento\Sales\Model\Resource\Order\Shipment\Collection */
-        $collection = Mage::getModel('\Magento\Sales\Model\Resource\Order\Shipment\Collection');
+        $collection = Mage::getModel('Magento\Sales\Model\Resource\Order\Shipment\Collection');
         $this->assertCount(1, $collection->getItems());
         return $collection->getFirstItem();
     }

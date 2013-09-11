@@ -33,7 +33,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getUsersArray($addEmptyUser = false)
     {
         if (!$this->_usersHash) {
-            $collection = \Mage::getModel('\Magento\User\Model\User')->getCollection();
+            $collection = \Mage::getModel('Magento\User\Model\User')->getCollection();
             $this->_usersHash = array();
 
             if ($addEmptyUser) {

@@ -339,7 +339,7 @@ class Backup extends \Magento\Object
      */
     public function validateUserPassword($password)
     {
-        $userPasswordHash = \Mage::getModel('\Magento\Backend\Model\Auth\Session')->getUser()->getPassword();
+        $userPasswordHash = \Mage::getModel('Magento\Backend\Model\Auth\Session')->getUser()->getPassword();
         return \Mage::helper('Magento\Core\Helper\Data')->validateHash($password, $userPasswordHash);
     }
 

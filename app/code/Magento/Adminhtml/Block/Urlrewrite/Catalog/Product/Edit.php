@@ -73,7 +73,7 @@ class Edit extends \Magento\Adminhtml\Block\Urlrewrite\Edit
     private function _getProduct()
     {
         if (!$this->hasData('product')) {
-            $this->setProduct(\Mage::getModel('\Magento\Catalog\Model\Product'));
+            $this->setProduct(\Mage::getModel('Magento\Catalog\Model\Product'));
         }
         return $this->getProduct();
     }
@@ -86,7 +86,7 @@ class Edit extends \Magento\Adminhtml\Block\Urlrewrite\Edit
     private function _getCategory()
     {
         if (!$this->hasData('category')) {
-            $this->setCategory(\Mage::getModel('\Magento\Catalog\Model\Category'));
+            $this->setCategory(\Mage::getModel('Magento\Catalog\Model\Category'));
         }
         return $this->getCategory();
     }
@@ -158,7 +158,7 @@ class Edit extends \Magento\Adminhtml\Block\Urlrewrite\Edit
      */
     protected function _createEditFormBlock()
     {
-        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\Form', '', array(
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\Form', '', array(
             'data' => array(
                 'product'     => $this->_getProduct(),
                 'category'    => $this->_getCategory(),

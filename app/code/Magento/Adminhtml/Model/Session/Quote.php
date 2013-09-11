@@ -65,7 +65,7 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
     public function getQuote()
     {
         if (is_null($this->_quote)) {
-            $this->_quote = \Mage::getModel('\Magento\Sales\Model\Quote');
+            $this->_quote = \Mage::getModel('Magento\Sales\Model\Quote');
             if ($this->getStoreId() && $this->getQuoteId()) {
                 $this->_quote->setStoreId($this->getStoreId())
                     ->load($this->getQuoteId());
@@ -105,7 +105,7 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
     public function getCustomer($forceReload=false, $useSetStore=false)
     {
         if (is_null($this->_customer) || $forceReload) {
-            $this->_customer = \Mage::getModel('\Magento\Customer\Model\Customer');
+            $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer');
             if ($useSetStore && $this->getStore()->getId()) {
                 $this->_customer->setStore($this->getStore());
             }
@@ -140,7 +140,7 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
     public function getOrder()
     {
         if (is_null($this->_order)) {
-            $this->_order = \Mage::getModel('\Magento\Sales\Model\Order');
+            $this->_order = \Mage::getModel('Magento\Sales\Model\Order');
             if ($this->getOrderId()) {
                 $this->_order->load($this->getOrderId());
             }

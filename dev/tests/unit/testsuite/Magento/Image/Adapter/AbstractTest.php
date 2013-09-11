@@ -28,7 +28,7 @@ class Magento_Image_Adapter_AbstractTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $data = array('io' => $ioFile);
-        $this->_model = $this->getMockForAbstractClass('\Magento\Image\Adapter\AbstractAdapter', array($data));
+        $this->_model = $this->getMockForAbstractClass('Magento\Image\Adapter\AbstractAdapter', array($data));
     }
 
     /**

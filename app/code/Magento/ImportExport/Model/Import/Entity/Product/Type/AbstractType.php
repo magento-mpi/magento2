@@ -143,9 +143,9 @@ abstract class AbstractType
         // temporary storage for attributes' parameters to avoid double querying inside the loop
         $attributesCache = array();
 
-        foreach (\Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
+        foreach (\Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
                 ->setEntityTypeFilter($this->_entityModel->getEntityTypeId()) as $attributeSet) {
-            foreach (\Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Attribute\Collection')
+            foreach (\Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection')
                 ->setAttributeSetFilter($attributeSet->getId()) as $attribute) {
 
                 $attributeCode = $attribute->getAttributeCode();

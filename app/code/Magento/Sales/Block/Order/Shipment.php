@@ -29,7 +29,7 @@ class Shipment extends \Magento\Core\Block\Template
         }
         $this->setChild(
             'payment_info',
-            $this->helper('\Magento\Payment\Helper\Data')->getInfoBlock($this->getOrder()->getPayment())
+            $this->helper('Magento\Payment\Helper\Data')->getInfoBlock($this->getOrder()->getPayment())
         );
     }
 

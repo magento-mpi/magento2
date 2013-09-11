@@ -26,7 +26,7 @@ class Pool extends \Magento\Core\Model\Config\Value
     protected function _afterSave()
     {
         if ($this->isValueChanged()) {
-            \Mage::getModel('\Magento\GiftCardAccount\Model\Pool')->cleanupFree();
+            \Mage::getModel('Magento\GiftCardAccount\Model\Pool')->cleanupFree();
         }
         parent::_afterSave();
     }
@@ -53,7 +53,7 @@ class Pool extends \Magento\Core\Model\Config\Value
         if (isset($fields['code_split']['value'])) {
             $v = (int) $fields['code_split']['value'];
             if ($v > 0 && $v < $codeLen) {
-                $sep = \Mage::getModel('\Magento\GiftCardAccount\Model\Pool')->getCodeSeparator();
+                $sep = \Mage::getModel('Magento\GiftCardAccount\Model\Pool')->getCodeSeparator();
                 $len += (ceil($codeLen/$v) * strlen($sep))-1;
             }
         }

@@ -30,7 +30,7 @@ class Wysiwyg extends \Magento\Data\Form\Element\Textarea
         if ($this->getIsWysiwygEnabled()) {
             $disabled = ($this->getDisabled() || $this->getReadonly());
             $html .= \Mage::app()->getLayout()
-                ->createBlock('\Magento\Adminhtml\Block\Widget\Button', '', array('data' => array(
+                ->createBlock('Magento\Adminhtml\Block\Widget\Button', '', array('data' => array(
                     'label'   => __('WYSIWYG Editor'),
                     'type'    => 'button',
                     'disabled' => $disabled,

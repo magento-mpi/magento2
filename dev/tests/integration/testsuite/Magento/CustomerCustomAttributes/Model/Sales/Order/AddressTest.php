@@ -21,12 +21,12 @@ class Magento_CustomerCustomAttributes_Model_Sales_Order_AddressTest extends PHP
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\CustomerCustomAttributes\Model\Sales\Order\Address');
+        $this->_model = Mage::getModel('Magento\CustomerCustomAttributes\Model\Sales\Order\Address');
     }
 
     public function testAttachDataToEntities()
     {
-        $address = Mage::getModel('\Magento\Sales\Model\Order\Address');
+        $address = Mage::getModel('Magento\Sales\Model\Order\Address');
         $address->load('admin@example.com', 'email');
 
         $entity = new \Magento\Object(array('id' => $address->getId()));

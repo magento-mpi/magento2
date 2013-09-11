@@ -16,9 +16,9 @@
  * @see app/design/frontend/enterprise/default/template/customer/form/login.phtml
  */
 ?>
-<div class="account-login<?php if (!$this->helper('\Magento\Customer\Helper\Data')->isRegistrationAllowed()) echo ' login-only' ?>">
+<div class="account-login<?php if (!$this->helper('Magento\Customer\Helper\Data')->isRegistrationAllowed()) echo ' login-only' ?>">
     <div class="page-title">
-        <h1><?php if ($this->helper('\Magento\Customer\Helper\Data')->isRegistrationAllowed()): ?>
+        <h1><?php if ($this->helper('Magento\Customer\Helper\Data')->isRegistrationAllowed()): ?>
             <?php echo __('Login or Create an Account') ?>
             <?php else: ?>
             <?php echo __('Login'); ?>
@@ -56,7 +56,7 @@
                     <p class="required"><?php echo __('* Required Fields') ?></p>
                     <?php echo $this->getChildHtml('persistent.remember.me.tooltip'); ?>
                 </div>
-                <?php if ($this->helper('\Magento\Customer\Helper\Data')->isRegistrationAllowed()): ?>
+                <?php if ($this->helper('Magento\Customer\Helper\Data')->isRegistrationAllowed()): ?>
                 <div class="col-2 new-users">
                     <h2 class="legend"><?php echo __('New Customers') ?></h2>
                     <p><?php echo __('Create an account with us for faster checkout, multiple shipping addresses, your own shopping history file and more.') ?></p>
@@ -67,7 +67,7 @@
                 <?php endif; ?>
             </div>
         </div>
-        <?php if ($this->helper('\Magento\Checkout\Helper\Data')->isContextCheckout()): ?>
+        <?php if ($this->helper('Magento\Checkout\Helper\Data')->isContextCheckout()): ?>
             <input name="context" type="hidden" value="checkout" />
         <?php endif; ?>
     </form>
@@ -79,7 +79,7 @@
                 "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
                 function() {
-                    $('#login-form .new-users button').on('click', function() {window.location='<?php echo $this->helper('\Magento\Persistent\Helper\Data')->getCreateAccountUrl($this->getCreateAccountUrl()) ?>';});
+                    $('#login-form .new-users button').on('click', function() {window.location='<?php echo $this->helper('Magento\Persistent\Helper\Data')->getCreateAccountUrl($this->getCreateAccountUrl()) ?>';});
                     $('#login-form').validation();
                 });
         })(jQuery);

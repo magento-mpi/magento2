@@ -42,7 +42,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
 
         $productId  = (int)$this->getRequest()->getParam('id');
         /** @var $product \Magento\Catalog\Model\Product */
-        $product    = \Mage::getModel('\Magento\Catalog\Model\Product')
+        $product    = \Mage::getModel('Magento\Catalog\Model\Product')
             ->setStoreId($this->getRequest()->getParam('store', 0));
 
         $typeId = $this->getRequest()->getParam('type');
@@ -94,7 +94,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
             && !is_array($this->getRequest()->getParam('product'))
             && $this->getRequest()->getParam('id', false) === false) {
 
-            $configProduct = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $configProduct = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->setStoreId(0)
                 ->load($this->getRequest()->getParam('product'))
                 ->setTypeId($this->getRequest()->getParam('type'));
@@ -132,7 +132,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
      */
     protected function _createSerializerBlock($inputName, \Magento\Adminhtml\Block\Widget\Grid $gridBlock, $productsArray)
     {
-        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Ajax\Serializer')
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Ajax\Serializer')
             ->setGridBlock($gridBlock)
             ->setProducts($productsArray)
             ->setInputElementName($inputName);
@@ -144,7 +144,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
     protected function _outputBlocks()
     {
         $blocks = func_get_args();
-        $output = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Text\ListText');
+        $output = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Text\ListText');
         foreach ($blocks as $block) {
             $output->insert($block, '', true);
         }
@@ -533,7 +533,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
                 $productData['stock_data']['use_config_manage_stock'] = 0;
             }
             /* @var $product \Magento\Catalog\Model\Product */
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product');
+            $product = \Mage::getModel('Magento\Catalog\Model\Product');
             $product->setData('_edit_mode', true);
             $storeId = $this->getRequest()->getParam('store');
             if ($storeId) {
@@ -607,7 +607,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
             $response->setMessage($e->getMessage());
         } catch (\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_initLayoutMessages('\Magento\Adminhtml\Model\Session');
+            $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
@@ -840,7 +840,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
                  */
                 if (isset($data['copy_to_stores'])) {
                     foreach ($data['copy_to_stores'] as $storeTo=>$storeFrom) {
-                        \Mage::getModel('\Magento\Catalog\Model\Product')
+                        \Mage::getModel('Magento\Catalog\Model\Product')
                             ->setStoreId($storeFrom)
                             ->load($productId)
                             ->setStoreId($storeTo)
@@ -848,7 +848,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
                     }
                 }
 
-                \Mage::getModel('\Magento\CatalogRule\Model\Rule')->applyAllRulesToProduct($productId);
+                \Mage::getModel('Magento\CatalogRule\Model\Rule')->applyAllRulesToProduct($productId);
 
                 $this->_getSession()->addSuccess(__('You saved the product.'));
                 if ($product->getSku() != $originalSku) {
@@ -950,7 +950,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
         $this->loadLayout('popup');
         $this->_initProduct();
         $this->_addContent(
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Attribute\New\Product\Created')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Attribute\New\Product\Created')
         );
         $this->renderLayout();
     }
@@ -959,7 +959,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
     {
         $this->loadLayout('popup');
         $this->_addContent(
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Created')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Created')
         );
         $this->renderLayout();
     }
@@ -1029,7 +1029,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
     public function _validateMassStatus(array $productIds, $status)
     {
         if ($status == \Magento\Catalog\Model\Product\Status::STATUS_ENABLED) {
-            if (!\Mage::getModel('\Magento\Catalog\Model\Product')->isProductsHasSku($productIds)) {
+            if (!\Mage::getModel('Magento\Catalog\Model\Product')->isProductsHasSku($productIds)) {
                 throw new \Magento\Core\Exception(
                     __('Please make sure to define SKU values for all processed products.')
                 );
@@ -1092,7 +1092,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
     {
         $this->_initProduct();
         $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode(
-            $this->getLayout()->createBlock('\Magento\Catalog\Block\Product\TemplateSelector')
+            $this->getLayout()->createBlock('Magento\Catalog\Block\Product\TemplateSelector')
                 ->getSuggestedTemplates($this->getRequest()->getParam('label_part'))
         ));
     }
@@ -1103,7 +1103,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
     public function suggestAttributesAction()
     {
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes\Search')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes\Search')
                 ->getSuggestedAttributes($this->getRequest()->getParam('label_part'))
         ));
     }

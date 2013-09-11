@@ -111,7 +111,7 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
     {
         if (!$this->getFlag('website_group_date_filter')) {
             if (is_null($now)) {
-                $now = \Mage::getModel('\Magento\Core\Model\Date')->date('Y-m-d');
+                $now = \Mage::getModel('Magento\Core\Model\Date')->date('Y-m-d');
             }
 
             $this->addWebsiteFilter($websiteId);

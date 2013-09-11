@@ -49,7 +49,7 @@ class Magento_User_Controller_Adminhtml_AuthTest extends Magento_Backend_Utility
     public function testResetPasswordAction()
     {
         /** @var $user \Magento\User\Model\User */
-        $user = Mage::getModel('\Magento\User\Model\User')->loadByUsername('dummy_username');
+        $user = Mage::getModel('Magento\User\Model\User')->loadByUsername('dummy_username');
         $this->assertNotEmpty($user->getId(), 'Broken fixture');
         $resetPasswordToken = Mage::helper('Magento\User\Helper\Data')->generateResetPasswordLinkToken();
         $user->changeResetPasswordLinkToken($resetPasswordToken);
@@ -89,7 +89,7 @@ class Magento_User_Controller_Adminhtml_AuthTest extends Magento_Backend_Utility
     public function testResetPasswordPostAction()
     {
         /** @var $user \Magento\User\Model\User */
-        $user = Mage::getModel('\Magento\User\Model\User')->loadByUsername('dummy_username');
+        $user = Mage::getModel('Magento\User\Model\User')->loadByUsername('dummy_username');
         $this->assertNotEmpty($user->getId(), 'Broken fixture');
         $resetPasswordToken = Mage::helper('Magento\User\Helper\Data')->generateResetPasswordLinkToken();
         $user->changeResetPasswordLinkToken($resetPasswordToken);
@@ -108,7 +108,7 @@ class Magento_User_Controller_Adminhtml_AuthTest extends Magento_Backend_Utility
         $this->assertRedirect($this->equalTo(Mage::helper('Magento\Backend\Helper\Data')->getHomePageUrl()));
 
         /** @var $user \Magento\User\Model\User */
-        $user = Mage::getModel('\Magento\User\Model\User')->loadByUsername('dummy_username');
+        $user = Mage::getModel('Magento\User\Model\User')->loadByUsername('dummy_username');
         $this->assertTrue(
             Mage::helper('Magento\Core\Helper\Data')->validateHash($newDummyPassword, $user->getPassword())
         );
@@ -136,7 +136,7 @@ class Magento_User_Controller_Adminhtml_AuthTest extends Magento_Backend_Utility
      */
     public function testResetPasswordPostActionWithInvalidPassword()
     {
-        $user = Mage::getModel('\Magento\User\Model\User')->loadByUsername('dummy_username');
+        $user = Mage::getModel('Magento\User\Model\User')->loadByUsername('dummy_username');
         $resetPasswordToken = null;
         if ($user->getId()) {
             $resetPasswordToken = Mage::helper('Magento\User\Helper\Data')

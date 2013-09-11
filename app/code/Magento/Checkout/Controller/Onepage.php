@@ -182,7 +182,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         );
         $this->getOnepage()->initCheckout();
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $this->getLayout()->getBlock('head')->setTitle(__('Checkout'));
         $this->renderLayout();
     }
@@ -241,7 +241,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
 
         $session->clear();
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Checkout\Model\Session');
+        $this->_initLayoutMessages('Magento\Checkout\Model\Session');
         $this->_eventManager->dispatch(
             'checkout_onepage_controller_success_action', array('order_ids' => array($lastOrderId))
         );
@@ -455,7 +455,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
     protected function _getOrder()
     {
         if (is_null($this->_order)) {
-            $this->_order = \Mage::getModel('\Magento\Sales\Model\Order');
+            $this->_order = \Mage::getModel('Magento\Sales\Model\Order');
             $this->_order->load($this->getOnepage()->getQuote()->getId(), 'quote_id');
             if (!$this->_order->getId()) {
                 throw new \Magento\Payment\Model\Info\Exception(
@@ -478,7 +478,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
             $items[$item->getId()] = $item->getQtyOrdered();
         }
         /* @var $invoice \Magento\Sales\Model\Service\Order */
-        $invoice = \Mage::getModel('\Magento\Sales\Model\Service\Order', array('order' => $this->_getOrder()))
+        $invoice = \Mage::getModel('Magento\Sales\Model\Service\Order', array('order' => $this->_getOrder()))
             ->prepareInvoice($items);
         $invoice->setEmailSent(true)->register();
 

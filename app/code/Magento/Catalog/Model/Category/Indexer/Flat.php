@@ -82,7 +82,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     protected function _getIndexer()
     {
-        return \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Category\Flat');
+        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category\Flat');
     }
 
     /**

@@ -29,7 +29,7 @@ class Magento_Backend_Model_Menu_Builder_CommandAbstractTest extends PHPUnit_Fra
      */
     public function testConstructorRequiresObligatoryParams()
     {
-        $this->getMockForAbstractClass('\Magento\Backend\Model\Menu\Builder\CommandAbstract');
+        $this->getMockForAbstractClass('Magento\Backend\Model\Menu\Builder\CommandAbstract');
     }
 
     public function testChainAddsNewCommandAsNextInChain()

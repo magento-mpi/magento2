@@ -29,7 +29,7 @@ class Observer
     protected function _saveItemInfo($entity, $data)
     {
         if (is_array($data) && isset($data['design'])) {
-            $wrapping = \Mage::getModel('\Magento\GiftWrapping\Model\Wrapping')->load($data['design']);
+            $wrapping = \Mage::getModel('Magento\GiftWrapping\Model\Wrapping')->load($data['design']);
             $entity->setGwId($wrapping->getId())
                 ->save();
         }
@@ -48,7 +48,7 @@ class Observer
         if (is_array($data)) {
             $wrappingInfo = array();
             if (isset($data['design'])) {
-                $wrapping = \Mage::getModel('\Magento\GiftWrapping\Model\Wrapping')->load($data['design']);
+                $wrapping = \Mage::getModel('Magento\GiftWrapping\Model\Wrapping')->load($data['design']);
                 $wrappingInfo['gw_id'] = $wrapping->getId();
             }
             $wrappingInfo['gw_allow_gift_receipt'] = isset($data['allow_gift_receipt']);

@@ -12,7 +12,7 @@
 require __DIR__ . '/../../../Magento/Catalog/_files/product_simple.php';
 
 /** @var $product \Magento\Catalog\Model\Product */
-$product = Mage::getModel('\Magento\Catalog\Model\Product');
+$product = Mage::getModel('Magento\Catalog\Model\Product');
 $product->load(1);
 
 $options = array();
@@ -40,7 +40,7 @@ $requestInfo = new \Magento\Object(array(
 ));
 
 /** @var $cart \Magento\Checkout\Model\Cart */
-$cart = Mage::getModel('\Magento\Checkout\Model\Cart');
+$cart = Mage::getModel('Magento\Checkout\Model\Cart');
 $cart->addProduct($product, $requestInfo);
 $cart->save();
 

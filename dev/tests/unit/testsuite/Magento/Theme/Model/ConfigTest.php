@@ -60,8 +60,8 @@ class Magento_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_configData = $this->getMock(
             '\Magento\Core\Model\Config\Value', array('getCollection', 'addFieldToFilter'), array(), '', false
         );
-        $this->_configCacheMock = $this->getMockForAbstractClass('\Magento\Cache\FrontendInterface');
-        $this->_layoutCacheMock = $this->getMockForAbstractClass('\Magento\Cache\FrontendInterface');
+        $this->_configCacheMock = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
+        $this->_layoutCacheMock = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
 
         $this->_storeConfigWriter = $this->getMock(
             '\Magento\Core\Model\Config\Storage\WriterInterface', array('save', 'delete')

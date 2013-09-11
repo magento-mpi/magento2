@@ -18,7 +18,7 @@ abstract class Magento_Checkout_Model_Cart_AbstractTest extends PHPUnit_Framewor
     protected function _getQuote()
     {
         /** @var \Magento\Checkout\Model\Session $session */
-        $session = Mage::getModel('\Magento\Checkout\Model\Session');
+        $session = Mage::getModel('Magento\Checkout\Model\Session');
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $session->getQuote();
         return $quote;

@@ -75,7 +75,7 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
         }
 
         /** @var \Magento\Banner\Model\Resource\Salesrule\Collection $collection */
-        $collection = Mage::getResourceModel('\Magento\Banner\Model\Resource\Salesrule\Collection');
+        $collection = Mage::getResourceModel('Magento\Banner\Model\Resource\Salesrule\Collection');
         $select = $collection->getSelect();
         $initialSql = (string)$select;
 
@@ -120,7 +120,7 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
     protected function _getBannerId($bannerName)
     {
         /** @var \Magento\Banner\Model\Banner $banner */
-        $banner = Mage::getModel('\Magento\Banner\Model\Banner');
+        $banner = Mage::getModel('Magento\Banner\Model\Banner');
         $banner->load($bannerName, 'name');
         return $banner->getId();
     }
@@ -136,7 +136,7 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
         $result = array();
         foreach ($segmentNames as $segmentName) {
             /** @var $segment \Magento\CustomerSegment\Model\Segment */
-            $segment = Mage::getModel('\Magento\CustomerSegment\Model\Segment');
+            $segment = Mage::getModel('Magento\CustomerSegment\Model\Segment');
             $segment->load($segmentName, 'name');
             $result[] = $segment->getId();
         }

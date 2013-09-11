@@ -22,7 +22,7 @@ var authorTemplate =
             '<input type="text" class="input-text required-entry validate-email" name="authors[email][]" id="authors_email_{{id}}" value="{{email}}"/>'+
         '</td>'+
         '<td class="col-delete">'+
-            <?php echo $this->helper('\Magento\Core\Helper\Data')->jsonEncode($this->getRemoveRowButtonHtml('tr')) ?> +
+            <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getRemoveRowButtonHtml('tr')) ?> +
         '</td>'+
     '</tr>';
 

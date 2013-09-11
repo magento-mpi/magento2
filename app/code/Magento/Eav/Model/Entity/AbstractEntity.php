@@ -677,7 +677,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
                 if ($collectExceptionMessages) {
                     $results[$attrCode] = $e->getMessage();
                 } else {
-                    $e = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Exception',
+                    $e = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Exception',
                         array('message' => $e->getMessage())
                     );
                     $e->setAttributeCode($attrCode)->setPart($part);

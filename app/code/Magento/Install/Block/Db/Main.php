@@ -88,7 +88,7 @@ class Main extends \Magento\Core\Block\Template
         if (is_null($data)) {
             $data = \Mage::getSingleton('Magento_Install_Model_Session')->getConfigData(true);
             if (empty($data)) {
-                $data = \Mage::getModel('\Magento\Install\Model\Installer\Config')->getFormData();
+                $data = \Mage::getModel('Magento\Install\Model\Installer\Config')->getFormData();
             } else {
                 $data = new \Magento\Object($data);
             }

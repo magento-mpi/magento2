@@ -37,7 +37,7 @@ class CreditmemoAbstract extends \Magento\Adminhtml\Controller\Action
     public function indexAction()
     {
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Sales\Creditmemo'))
+            ->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Sales\Creditmemo'))
             ->renderLayout();
     }
 
@@ -59,9 +59,9 @@ class CreditmemoAbstract extends \Magento\Adminhtml\Controller\Action
     public function emailAction()
     {
         if ($creditmemoId = $this->getRequest()->getParam('creditmemo_id')) {
-            if ($creditmemo = \Mage::getModel('\Magento\Sales\Model\Order\Creditmemo')->load($creditmemoId)) {
+            if ($creditmemo = \Mage::getModel('Magento\Sales\Model\Order\Creditmemo')->load($creditmemoId)) {
                 $creditmemo->sendEmail();
-                $historyItem = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Status\History\Collection')
+                $historyItem = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Status\History\Collection')
                     ->getUnnotifiedForInstance($creditmemo, \Magento\Sales\Model\Order\Creditmemo::HISTORY_ENTITY_NAME);
                 if ($historyItem) {
                     $historyItem->setIsCustomerNotified(1);
@@ -79,14 +79,14 @@ class CreditmemoAbstract extends \Magento\Adminhtml\Controller\Action
     public function pdfcreditmemosAction(){
         $creditmemosIds = $this->getRequest()->getPost('creditmemo_ids');
         if (!empty($creditmemosIds)) {
-            $invoices = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Creditmemo\Collection')
+            $invoices = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Creditmemo\Collection')
                 ->addAttributeToSelect('*')
                 ->addAttributeToFilter('entity_id', array('in' => $creditmemosIds))
                 ->load();
             if (!isset($pdf)){
-                $pdf = \Mage::getModel('\Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf($invoices);
+                $pdf = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf($invoices);
             } else {
-                $pages = \Mage::getModel('\Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf($invoices);
+                $pages = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf($invoices);
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
 
@@ -100,8 +100,8 @@ class CreditmemoAbstract extends \Magento\Adminhtml\Controller\Action
     {
         /** @see \Magento\Adminhtml\Controller\Sales\Order\Invoice */
         if ($creditmemoId = $this->getRequest()->getParam('creditmemo_id')) {
-            if ($creditmemo = \Mage::getModel('\Magento\Sales\Model\Order\Creditmemo')->load($creditmemoId)) {
-                $pdf = \Mage::getModel('\Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf(array($creditmemo));
+            if ($creditmemo = \Mage::getModel('Magento\Sales\Model\Order\Creditmemo')->load($creditmemoId)) {
+                $pdf = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf(array($creditmemo));
                 $this->_prepareDownloadResponse('creditmemo'.Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s').
                     '.pdf', $pdf->render(), 'application/pdf');
             }

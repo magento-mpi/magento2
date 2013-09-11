@@ -41,7 +41,7 @@ class Instance extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Frontend Apps'));
 
         /** @var $widgetInstance \Magento\Widget\Model\Widget\Instance */
-        $widgetInstance = \Mage::getModel('\Magento\Widget\Model\Widget\Instance');
+        $widgetInstance = \Mage::getModel('Magento\Widget\Model\Widget\Instance');
 
         $instanceId = $this->getRequest()->getParam('instance_id', null);
         $type = $this->getRequest()->getParam('type', null);
@@ -126,7 +126,7 @@ class Instance extends \Magento\Adminhtml\Controller\Action
         $result = $widgetInstance->validate();
         if ($result !== true && is_string($result)) {
             $this->_getSession()->addError($result);
-            $this->_initLayoutMessages('\Magento\Adminhtml\Model\Session');
+            $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
@@ -202,7 +202,7 @@ class Instance extends \Magento\Adminhtml\Controller\Action
         $selected = $this->getRequest()->getParam('selected', '');
         $isAnchorOnly = $this->getRequest()->getParam('is_anchor_only', 0);
         $chooser = $this->getLayout()
-            ->createBlock('\Magento\Adminhtml\Block\Catalog\Category\Widget\Chooser')
+            ->createBlock('Magento\Adminhtml\Block\Catalog\Category\Widget\Chooser')
             ->setUseMassaction(true)
             ->setId(\Mage::helper('Magento\Core\Helper\Data')->uniqHash('categories'))
             ->setIsAnchorOnly($isAnchorOnly)
@@ -219,13 +219,13 @@ class Instance extends \Magento\Adminhtml\Controller\Action
         $selected = $this->getRequest()->getParam('selected', '');
         $productTypeId = $this->getRequest()->getParam('product_type_id', '');
         $chooser = $this->getLayout()
-            ->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser')
+            ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser')
             ->setName(\Mage::helper('Magento\Core\Helper\Data')->uniqHash('products_grid_'))
             ->setUseMassaction(true)
             ->setProductTypeId($productTypeId)
             ->setSelectedProducts(explode(',', $selected));
         /* @var $serializer \Magento\Adminhtml\Block\Widget\Grid\Serializer */
-        $serializer = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Grid\Serializer');
+        $serializer = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Grid\Serializer');
         $serializer->initSerializerBlock($chooser, 'getSelectedProducts', 'selected_products', 'selected_products');
         $this->setBody($chooser->toHtml() . $serializer->toHtml());
     }
@@ -241,7 +241,7 @@ class Instance extends \Magento\Adminhtml\Controller\Action
         $layout = $this->getRequest()->getParam('layout');
         $selected = $this->getRequest()->getParam('selected', null);
         $blocksChooser = $this->getLayout()
-            ->createBlock('\Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Container')
+            ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Container')
             ->setValue($selected)
             ->setArea($widgetInstance->getArea())
             ->setTheme($widgetInstance->getThemeId())
@@ -261,7 +261,7 @@ class Instance extends \Magento\Adminhtml\Controller\Action
         $block = $this->getRequest()->getParam('block');
         $selected = $this->getRequest()->getParam('selected', null);
         $templateChooser = $this->getLayout()
-            ->createBlock('\Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Template')
+            ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Template')
             ->setSelected($selected)
             ->setWidgetTemplates($widgetInstance->getWidgetSupportedTemplatesByContainer($block));
         $this->setBody($templateChooser->toHtml());

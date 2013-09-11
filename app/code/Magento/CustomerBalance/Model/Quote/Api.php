@@ -59,9 +59,9 @@ class Api extends \Magento\Checkout\Model\Api\Resource
         $quote->setUseCustomerBalance($shouldUseCustomerBalance);
         $payment = $quote->getPayment();
         /** @var $saveTransaction \Magento\Core\Model\Resource\Transaction */
-        $saveTransaction = \Mage::getModel('\Magento\Core\Model\Resource\Transaction');
+        $saveTransaction = \Mage::getModel('Magento\Core\Model\Resource\Transaction');
         if ($shouldUseCustomerBalance) {
-            $balance = \Mage::getModel('\Magento\CustomerBalance\Model\Balance')
+            $balance = \Mage::getModel('Magento\CustomerBalance\Model\Balance')
                     ->setCustomerId($quote->getCustomerId())
                     ->setWebsiteId(\Mage::app()->getStore($quote->getStoreId())->getWebsiteId())
                     ->loadByCustomer();

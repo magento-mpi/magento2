@@ -180,7 +180,7 @@ class Api extends \Magento\Checkout\Model\Api\Resource\Product
     public function setForQuoteItem($quoteItemId, $giftMessage, $store = null)
     {
         /** @var $quote \Magento\Sales\Model\Quote\Item */
-        $quoteItem = \Mage::getModel('\Magento\Sales\Model\Quote\Item')->load($quoteItemId);
+        $quoteItem = \Mage::getModel('Magento\Sales\Model\Quote\Item')->load($quoteItemId);
         if (is_null($quoteItem->getId())) {
             $this->_fault("quote_item_not_exists");
         }

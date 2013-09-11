@@ -120,7 +120,7 @@ class Magento_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_T
     public function testIsValidAttributesFromCollection()
     {
         /** @var \Magento\Eav\Model\Entity\AbstractEntity $resource */
-        $resource = $this->getMockForAbstractClass('\Magento\Eav\Model\Entity\AbstractEntity');
+        $resource = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\AbstractEntity');
         $attribute = $this->_getAttributeMock(array(
             'attribute_code' => 'attribute',
             'data_model' => $this->_getDataModelMock(null),

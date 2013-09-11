@@ -667,7 +667,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function joinTaxClass($select, $storeId, $priceTable = 'main_table')
     {
-        $taxClassAttribute = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute')
+        $taxClassAttribute = \Mage::getModel('Magento\Eav\Model\Entity\Attribute')
             ->loadByCode(\Magento\Catalog\Model\Product::ENTITY, 'tax_class_id');
         $joinConditionD = implode(' AND ',array(
             "tax_class_d.entity_id = {$priceTable}.entity_id",
@@ -790,7 +790,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $taxClassAmount = array();
         if ($current && $source) {
             foreach($current->getItemsCollection() as $item) {
-                $taxCollection = \Mage::getResourceModel('\Magento\Tax\Model\Resource\Sales\Order\Tax\Item')
+                $taxCollection = \Mage::getResourceModel('Magento\Tax\Model\Resource\Sales\Order\Tax\Item')
                     ->getTaxItemsByItemId(
                         $item->getOrderItemId() ? $item->getOrderItemId() : $item->getItemId()
                     );

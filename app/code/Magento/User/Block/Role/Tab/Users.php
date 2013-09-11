@@ -19,7 +19,7 @@ class Users extends \Magento\Backend\Block\Widget\Tabs
 
         $roleId = $this->getRequest()->getParam('rid', false);
 
-        $users = \Mage::getModel('\Magento\User\Model\User')->getCollection()->load();
+        $users = \Mage::getModel('Magento\User\Model\User')->getCollection()->load();
         $this->setTemplate('role/users.phtml')
             ->assign('users', $users->getItems())
             ->assign('roleId', $roleId);
@@ -29,7 +29,7 @@ class Users extends \Magento\Backend\Block\Widget\Tabs
     {
         $this->setChild(
             'userGrid',
-            $this->getLayout()->createBlock('\Magento\User\Block\Role\Grid\User', 'roleUsersGrid')
+            $this->getLayout()->createBlock('Magento\User\Block\Role\Grid\User', 'roleUsersGrid')
         );
         return parent::_prepareLayout();
     }

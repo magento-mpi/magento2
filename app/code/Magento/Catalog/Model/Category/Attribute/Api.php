@@ -31,7 +31,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
      */
     public function items()
     {
-        $attributes = \Mage::getModel('\Magento\Catalog\Model\Category')->getAttributes();
+        $attributes = \Mage::getModel('Magento\Catalog\Model\Category')->getAttributes();
         $result = array();
 
         foreach ($attributes as $attribute) {
@@ -67,7 +67,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
      */
     public function options($attributeId, $store = null)
     {
-        $attribute = \Mage::getModel('\Magento\Catalog\Model\Category')
+        $attribute = \Mage::getModel('Magento\Catalog\Model\Category')
             ->setStoreId($this->_getStoreId($store))
             ->getResource()
             ->getAttribute($attributeId);

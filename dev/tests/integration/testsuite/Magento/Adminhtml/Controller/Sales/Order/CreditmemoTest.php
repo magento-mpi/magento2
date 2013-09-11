@@ -21,13 +21,13 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends Magento_Ba
     public function testAddCommentAction()
     {
         /** @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
-        $stockItem = Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item');
+        $stockItem = Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
         $stockItem->loadByProduct(1);
         $this->assertEquals(95, $stockItem->getStockQty());
         $stockItem = null;
 
         /** @var $order \Magento\Sales\Model\Order */
-        $order = Mage::getModel('\Magento\Sales\Model\Order');
+        $order = Mage::getModel('Magento\Sales\Model\Order');
         $order->load('100000001', 'increment_id');
 
         $items = $order->getCreditmemosCollection()->getItems();
@@ -43,7 +43,7 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends Magento_Ba
 
         $this->assertContains($comment, $html);
         /** @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
-        $stockItem = Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item');
+        $stockItem = Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
         $stockItem->loadByProduct(1);
         $this->assertEquals(95, $stockItem->getStockQty());
     }

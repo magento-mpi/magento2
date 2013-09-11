@@ -37,7 +37,7 @@ class Balance
 
         } else {
             $grid = $this->getLayout()
-                ->createBlock('\Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance\Grid');
+                ->createBlock('Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance\Grid');
             $this->setChild('grid', $grid);
         }
         return parent::_prepareLayout();

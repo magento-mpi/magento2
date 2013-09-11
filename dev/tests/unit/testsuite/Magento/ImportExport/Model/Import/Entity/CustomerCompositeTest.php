@@ -523,7 +523,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $data['address_entity']  = $addressEntity;
         $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite($data);
 
-        $source = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Import\SourceAbstract', array(), '',
+        $source = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\SourceAbstract', array(), '',
             false);
         $this->_model->setSource($source);
     }

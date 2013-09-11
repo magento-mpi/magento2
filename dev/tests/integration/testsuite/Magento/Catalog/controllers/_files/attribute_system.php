@@ -10,7 +10,7 @@
  */
 
 $model = new \Magento\Catalog\Model\Resource\Eav\Attribute(
-    Mage::getModel('\Magento\Core\Model\Context')
+    Mage::getModel('Magento\Core\Model\Context')
 );
 $model->setName('system_attribute')
     ->setId(2)

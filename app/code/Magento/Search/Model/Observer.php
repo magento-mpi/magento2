@@ -38,7 +38,7 @@ class Observer
         $fieldset->addField('search_weight', 'select', array(
             'name'        => 'search_weight',
             'label'       => __('Search Weight'),
-            'values'      => \Mage::getModel('\Magento\Search\Model\Source\Weight')->getOptions(),
+            'values'      => \Mage::getModel('Magento\Search\Model\Source\Weight')->getOptions(),
         ), 'is_searchable');
         /**
          * Disable default search fields
@@ -67,7 +67,7 @@ class Observer
             $relatedQueries = explode('&', $relatedQueries);
         }
 
-        \Mage::getResourceModel('\Magento\Search\Model\Resource\Recommendations')
+        \Mage::getResourceModel('Magento\Search\Model\Resource\Recommendations')
             ->saveRelatedQueries($queryId, $relatedQueries);
     }
 
@@ -165,7 +165,7 @@ class Observer
                 continue;
             }
 
-            $optionCollection = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection')
+            $optionCollection = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection')
                 ->setAttributeFilter($attribute->getAttributeId())
                 ->setPositionOrder(\Magento\DB\Select::SQL_ASC, true)
                 ->load();

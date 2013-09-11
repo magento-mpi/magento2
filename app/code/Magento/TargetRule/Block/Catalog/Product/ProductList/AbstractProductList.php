@@ -84,7 +84,7 @@ abstract class AbstractProductList
     protected function _getTargetRuleIndex()
     {
         if (is_null($this->_index)) {
-            $this->_index = \Mage::getModel('\Magento\TargetRule\Model\Index');
+            $this->_index = \Mage::getModel('Magento\TargetRule\Model\Index');
         }
         return $this->_index;
     }
@@ -254,7 +254,7 @@ abstract class AbstractProductList
         $items = array();
         if ($productIds) {
             /** @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
-            $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection');
+            $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection');
             $collection->addFieldToFilter('entity_id', array('in' => $productIds));
             $this->_addProductAttributesAndPrices($collection);
 

@@ -50,7 +50,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
             'legend' => __('Tax Rule Information')
         ));
 
-        $rates = \Mage::getModel('\Magento\Tax\Model\Calculation\Rate')
+        $rates = \Mage::getModel('Magento\Tax\Model\Calculation\Rate')
             ->getCollection()
             ->toOptionArray();
 

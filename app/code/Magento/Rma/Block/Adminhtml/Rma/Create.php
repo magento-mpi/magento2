@@ -36,6 +36,6 @@ class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
 
     public function getHeaderHtml()
     {
-        return $this->getLayout()->createBlock('\Magento\Rma\Block\Adminhtml\Rma\Create\Header')->toHtml();
+        return $this->getLayout()->createBlock('Magento\Rma\Block\Adminhtml\Rma\Create\Header')->toHtml();
     }
 }

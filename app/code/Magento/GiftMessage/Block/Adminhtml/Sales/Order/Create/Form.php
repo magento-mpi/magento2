@@ -27,6 +27,6 @@ class Form extends \Magento\Adminhtml\Block\Template
     public function canDisplayGiftmessageForm()
     {
         $quote = \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getQuote();
-        return $this->helper('\Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('items', $quote, $quote->getStore());
+        return $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('items', $quote, $quote->getStore());
     }
 }

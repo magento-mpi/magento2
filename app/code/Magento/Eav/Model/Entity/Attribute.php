@@ -128,7 +128,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     {
         // prevent overriding product data
         if (isset($this->_data['attribute_code'])
-            && \Mage::getModel('\Magento\Catalog\Model\Product')->isReservedAttribute($this))
+            && \Mage::getModel('Magento\Catalog\Model\Product')->isReservedAttribute($this))
         {
             throw \Mage::exception('Magento_Eav', __('The attribute code \'%1\' is reserved by system. Please try another attribute code', $this->_data['attribute_code']));
         }

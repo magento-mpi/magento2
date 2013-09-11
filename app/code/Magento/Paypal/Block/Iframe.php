@@ -61,7 +61,7 @@ class Iframe extends \Magento\Payment\Block\Form
             ->getQuote()
             ->getPayment()
             ->getMethod();
-        if (in_array($paymentCode, $this->helper('\Magento\Paypal\Helper\Hss')->getHssMethods())) {
+        if (in_array($paymentCode, $this->helper('Magento\Paypal\Helper\Hss')->getHssMethods())) {
             $this->_paymentMethodCode = $paymentCode;
             $templatePath = str_replace('_', '', $paymentCode);
             $templateFile = "{$templatePath}/iframe.phtml";
@@ -102,7 +102,7 @@ class Iframe extends \Magento\Payment\Block\Form
     {
         if (!$this->_order) {
             $incrementId = $this->_getCheckout()->getLastRealOrderId();
-            $this->_order = \Mage::getModel('\Magento\Sales\Model\Order')
+            $this->_order = \Mage::getModel('Magento\Sales\Model\Order')
                 ->loadByIncrementId($incrementId);
         }
         return $this->_order;

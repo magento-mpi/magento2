@@ -44,7 +44,7 @@ class Db
      */
     public function getResource()
     {
-        return \Mage::getResourceSingleton('\Magento\Backup\Model\Resource\Db');
+        return \Mage::getResourceSingleton('Magento\Backup\Model\Resource\Db');
     }
 
     public function getTables()

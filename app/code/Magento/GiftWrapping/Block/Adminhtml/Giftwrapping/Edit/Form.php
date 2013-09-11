@@ -108,7 +108,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             'after_element_html' => '<strong>[' .  \Mage::app()->getBaseCurrencyCode() . ']</strong>'
         ));
 
-        $uploadButton = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+        $uploadButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label' => __('Upload File'),
                 'id' => 'upload_image_button',

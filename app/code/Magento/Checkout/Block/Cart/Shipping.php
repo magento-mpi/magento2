@@ -213,7 +213,7 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function getShippingPrice($price, $flag)
     {
-        return $this->formatPrice($this->helper('\Magento\Tax\Helper\Data')->getShippingPrice(
+        return $this->formatPrice($this->helper('Magento\Tax\Helper\Data')->getShippingPrice(
             $price,
             $flag,
             $this->getAddress(),

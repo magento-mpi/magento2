@@ -23,7 +23,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
     public function exportCsvAction()
     {
         $fileName   = 'shipments.csv';
-        $grid       = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Sales\Shipment\Grid');
+        $grid       = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Sales\Shipment\Grid');
         $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
     }
 
@@ -33,7 +33,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
     public function exportExcelAction()
     {
         $fileName   = 'shipments.xml';
-        $grid       = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Sales\Shipment\Grid');
+        $grid       = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Sales\Shipment\Grid');
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
 }

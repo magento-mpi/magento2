@@ -111,7 +111,7 @@ class Price extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
                     if ($storeCurrency == $baseCurrency) {
                         continue;
                     }
-                    $rate = \Mage::getModel('\Magento\Directory\Model\Currency')->load($baseCurrency)->getRate($storeCurrency);
+                    $rate = \Mage::getModel('Magento\Directory\Model\Currency')->load($baseCurrency)->getRate($storeCurrency);
                     if (!$rate) {
                         $rate = 1;
                     }

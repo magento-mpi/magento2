@@ -74,7 +74,7 @@ class Synchronize
      */
     public function getButtonHtml()
     {
-        $button = $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button')
+        $button = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
             ->setData(array(
                 'id'        => 'synchronize_button',
                 'label'     => __('Synchronize'),

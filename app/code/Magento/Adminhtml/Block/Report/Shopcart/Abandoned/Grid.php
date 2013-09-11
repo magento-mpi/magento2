@@ -29,7 +29,7 @@ class Grid extends \Magento\Adminhtml\Block\Report\Grid\Shopcart
     protected function _prepareCollection()
     {
         /** @var $collection \Magento\Reports\Model\Resource\Quote\Collection */
-        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Quote\Collection');
+        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Quote\Collection');
 
         $filter = $this->getParam($this->getVarNameFilter(), array());
         if ($filter) {

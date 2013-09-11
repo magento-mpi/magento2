@@ -56,7 +56,7 @@ class Edit
     private function _getCategory()
     {
         if (!$this->hasData('category')) {
-            $this->setCategory(\Mage::getModel('\Magento\Catalog\Model\Category'));
+            $this->setCategory(\Mage::getModel('Magento\Catalog\Model\Category'));
         }
         return $this->getCategory();
     }
@@ -90,7 +90,7 @@ class Edit
      */
     protected function _createEditFormBlock()
     {
-        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\Form', '', array(
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\Form', '', array(
             'data' => array(
                 'category'    => $this->_getCategory(),
                 'url_rewrite' => $this->_getUrlRewrite()

@@ -18,7 +18,7 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Core\Model\Url');
+        $this->_model = Mage::getModel('Magento\Core\Model\Url');
     }
 
     public function testParseUrl()
@@ -100,7 +100,7 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf('\Magento\Core\Model\Store', $this->_model->getStore());
 
-        $store = Mage::getModel('\Magento\Core\Model\Store');
+        $store = Mage::getModel('Magento\Core\Model\Store');
         $this->_model->setStore($store);
         $this->assertSame($store, $this->_model->getStore());
     }

@@ -43,7 +43,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends PHPUnit_
      */
     public function testPrepareForm()
     {
-        $formBlock = Mage::app()->getLayout()->createBlock('\Magento\ImportExport\Block\Adminhtml\Import\Edit\Form');
+        $formBlock = Mage::app()->getLayout()->createBlock('Magento\ImportExport\Block\Adminhtml\Import\Edit\Form');
         $prepareForm = new ReflectionMethod(
             '\Magento\ImportExport\Block\Adminhtml\Import\Edit\Form',
             '_prepareForm'

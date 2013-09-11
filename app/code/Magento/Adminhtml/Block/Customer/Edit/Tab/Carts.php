@@ -27,7 +27,7 @@ class Carts extends \Magento\Adminhtml\Block\Template
         $isShared = count($sharedWebsiteIds) > 1;
         foreach ($sharedWebsiteIds as $websiteId) {
             $blockName = 'customer_cart_' . $websiteId;
-            $block = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Customer\Edit\Tab\Cart',
+            $block = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Customer\Edit\Tab\Cart',
                 $blockName, array('data' => array('website_id' => $websiteId)));
             if ($isShared) {
                 $block->setCartHeader(__('Shopping Cart from %1', \Mage::app()->getWebsite($websiteId)->getName()));

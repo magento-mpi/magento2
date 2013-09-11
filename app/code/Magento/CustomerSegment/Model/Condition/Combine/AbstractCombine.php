@@ -71,7 +71,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
      */
     public function getResource()
     {
-        return \Mage::getResourceSingleton('\Magento\CustomerSegment\Model\Resource\Segment');
+        return \Mage::getResourceSingleton('Magento\CustomerSegment\Model\Resource\Segment');
     }
 
     /**

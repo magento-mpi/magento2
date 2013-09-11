@@ -32,7 +32,7 @@ class Category extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategor
     {
         $result = array();
         if ($parentId) {
-            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($parentId);
+            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($parentId);
             if (!empty($category)) {
                 $tree = $this->_getNodesArray($this->getNode($category, $recursionLevel));
                 if (!empty($tree) && !empty($tree['children'])) {
@@ -58,7 +58,7 @@ class Category extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategor
     {
         $collection = $this->_getData('category_collection');
         if (is_null($collection)) {
-            $collection = \Mage::getModel('\Magento\Catalog\Model\Category')->getCollection()
+            $collection = \Mage::getModel('Magento\Catalog\Model\Category')->getCollection()
                 ->addAttributeToSelect(array('name', 'is_active'))
                 ->setLoadProductCount(true)
             ;
@@ -74,7 +74,7 @@ class Category extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategor
      */
     protected function _getNodesArray($node)
     {
-        $eventHelper = $this->helper('\Magento\CatalogEvent\Helper\Adminhtml\Event');
+        $eventHelper = $this->helper('Magento\CatalogEvent\Helper\Adminhtml\Event');
         $result = array(
             'id'             => (int)$node->getId(),
             'parent_id'      => (int)$node->getParentId(),

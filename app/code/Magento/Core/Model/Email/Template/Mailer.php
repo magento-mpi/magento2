@@ -48,7 +48,7 @@ class Mailer extends \Magento\Object
     public function send()
     {
         /** @var $emailTemplate \Magento\Core\Model\Email\Template */
-        $emailTemplate = \Mage::getModel('\Magento\Core\Model\Email\Template');
+        $emailTemplate = \Mage::getModel('Magento\Core\Model\Email\Template');
         // Send all emails from corresponding list
         while (!empty($this->_emailInfos)) {
             $emailInfo = array_pop($this->_emailInfos);

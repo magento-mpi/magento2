@@ -82,7 +82,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
             $ids = (null === $categoryId)? \Magento\Catalog\Model\Category::TREE_ROOT_ID : $categoryId;
         }
 
-        $collection = \Mage::getModel('\Magento\Catalog\Model\Category')->getCollection()
+        $collection = \Mage::getModel('Magento\Catalog\Model\Category')->getCollection()
             ->setStoreId($storeId)
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('is_active');
@@ -126,7 +126,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
         }
 
         /* @var $tree \Magento\Catalog\Model\Resource\Category\Tree */
-        $tree = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Category\Tree')
+        $tree = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category\Tree')
             ->load();
 
         $root = $tree->getNodeById($parentId);
@@ -135,7 +135,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
             $root->setName(__('Root'));
         }
 
-        $collection = \Mage::getModel('\Magento\Catalog\Model\Category')->getCollection()
+        $collection = \Mage::getModel('Magento\Catalog\Model\Category')->getCollection()
             ->setStoreId($this->_getStoreId($store))
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('is_active');
@@ -179,7 +179,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
      */
     protected function _initCategory($categoryId, $store = null)
     {
-        $category = \Mage::getModel('\Magento\Catalog\Model\Category')
+        $category = \Mage::getModel('Magento\Catalog\Model\Category')
             ->setStoreId($this->_getStoreId($store))
             ->load($categoryId);
 
@@ -233,7 +233,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
     public function create($parentId, $categoryData, $store = null)
     {
         $parent_category = $this->_initCategory($parentId, $store);
-        $category = \Mage::getModel('\Magento\Catalog\Model\Category')
+        $category = \Mage::getModel('Magento\Catalog\Model\Category')
             ->setStoreId($this->_getStoreId($store));
 
         $category->addData(array('path'=>implode('/',$parent_category->getPathIds())));

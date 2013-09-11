@@ -210,7 +210,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
     public function getEntityTypeId()
     {
         if ($this->_entityTypeId === null) {
-            $this->_entityTypeId = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Config')
+            $this->_entityTypeId = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Config')
                 ->getEntityTypeId();
         }
         return $this->_entityTypeId;
@@ -260,7 +260,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
     {
         $attributes = $this->getAttributes();
         if (!isset($attributes[$attributeCode])) {
-            $attribute = \Mage::getModel('\Magento\Catalog\Model\Resource\Eav\Attribute')
+            $attribute = \Mage::getModel('Magento\Catalog\Model\Resource\Eav\Attribute')
                 ->loadByCode($this->getEntityTypeId(), $attributeCode);
             if (!$attribute->getId()) {
                 \Mage::throwException(__('Invalid attribute %1', $attributeCode));

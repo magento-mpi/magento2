@@ -83,7 +83,7 @@ class New extends \Magento\Catalog\Block\Product\AbstractProduct
             ->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
 
         /** @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
-        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection');
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection');
         $collection->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInCatalogIds());
 
 

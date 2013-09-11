@@ -39,7 +39,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
         if (!empty($params['type'])) {
             $type = $params['type'];
         } elseif (!empty($params['id'])) {
-            $preconfigured = \Mage::getResourceSingleton('\Magento\Widget\Model\Resource\Widget')
+            $preconfigured = \Mage::getResourceSingleton('Magento\Widget\Model\Resource\Widget')
                 ->loadPreconfiguredWidget($params['id']);
             $type = $preconfigured['widget_type'];
             $params = $preconfigured['parameters'];

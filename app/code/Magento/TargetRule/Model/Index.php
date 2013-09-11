@@ -259,7 +259,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     public function getRuleCollection()
     {
         /* @var $collection \Magento\TargetRule\Model\Resource\Rule\Collection */
-        $collection = \Mage::getResourceModel('\Magento\TargetRule\Model\Resource\Rule\Collection');
+        $collection = \Mage::getResourceModel('Magento\TargetRule\Model\Resource\Rule\Collection');
         $collection->addApplyToFilter($this->getType())
             ->addProductFilter($this->getProduct()->getId())
             ->addIsActiveFilter()
@@ -392,7 +392,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
         // remove old matched product index
         $indexResource->removeProductIndex($product->getId());
 
-        $ruleCollection = \Mage::getResourceModel('\Magento\TargetRule\Model\Resource\Rule\Collection')
+        $ruleCollection = \Mage::getResourceModel('Magento\TargetRule\Model\Resource\Rule\Collection')
             ->addProductFilter($product->getId());
 
         foreach ($ruleCollection as $rule) {

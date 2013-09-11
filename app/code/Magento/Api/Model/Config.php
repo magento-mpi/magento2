@@ -168,7 +168,7 @@ class Config extends \Magento\Simplexml\Config
         } else {
             $resourceName = (is_null($parentName) ? '' : $parentName.'/').$resource->getName();
             $acl->addResource(
-                \Mage::getModel('\Magento\Api\Model\Acl\Resource', array('resourceId' => $resourceName)),
+                \Mage::getModel('Magento\Api\Model\Acl\Resource', array('resourceId' => $resourceName)),
                 $parentName
             );
         }

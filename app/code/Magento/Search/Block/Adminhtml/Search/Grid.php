@@ -89,7 +89,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
     {
         $queries = array_flip($this->getSelectedQueries());
         if (!empty($queries)) {
-            return $this->helper('\Magento\Core\Helper\Data')->jsonEncode($queries);
+            return $this->helper('Magento\Core\Helper\Data')->jsonEncode($queries);
         }
         return '{}';
     }

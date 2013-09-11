@@ -57,7 +57,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
      */
     protected function _initAttribute()
     {
-        $attribute = \Mage::getModel('\Magento\Rma\Model\Item\Attribute');
+        $attribute = \Mage::getModel('Magento\Rma\Model\Item\Attribute');
         $websiteId = $this->getRequest()->getParam('website');
         if ($websiteId) {
             $attribute->setWebsite($websiteId);
@@ -153,7 +153,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
                     __('An attribute with the same code already exists.')
                 );
 
-                $this->_initLayoutMessages('\Magento\Adminhtml\Model\Session');
+                $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
                 $response->setError(true);
                 $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
             }
@@ -212,7 +212,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
 
                 // add set and group info
                 $data['attribute_set_id']   = $this->_getEntityType()->getDefaultAttributeSetId();
-                $data['attribute_group_id'] = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')
+                $data['attribute_group_id'] = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')
                     ->getDefaultGroupId($data['attribute_set_id']);
             }
 

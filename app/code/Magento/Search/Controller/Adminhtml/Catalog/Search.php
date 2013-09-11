@@ -25,7 +25,7 @@ class Search extends \Magento\Adminhtml\Controller\Action
     public function relatedGridAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $model = \Mage::getModel('\Magento\CatalogSearch\Model\Query');
+        $model = \Mage::getModel('Magento\CatalogSearch\Model\Query');
 
         if ($id) {
             $model->load($id);

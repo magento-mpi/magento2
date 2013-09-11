@@ -94,7 +94,7 @@ class Problem extends \Magento\Core\Model\AbstractModel
         }
 
         if(is_null($this->_subscriber)) {
-            $this->_subscriber = \Mage::getModel('\Magento\Newsletter\Model\Subscriber')
+            $this->_subscriber = \Mage::getModel('Magento\Newsletter\Model\Subscriber')
                 ->load($this->getSubscriberId());
         }
 

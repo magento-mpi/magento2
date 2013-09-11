@@ -17,7 +17,7 @@
 ?>
 <?php
 /* @var $this \Magento\Bundle\Block\Catalog\Product\View */
-$_helper = $this->helper('\Magento\Catalog\Helper\Output');
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
 $_product = $this->getProduct();
 ?>
 <div id="messages_product_view"><?php echo $this->getLayout()->renderElement('messages') ?></div>
@@ -81,7 +81,7 @@ $_product = $this->getProduct();
                     </div>
                 <?php endif; ?>
                 <?php if ($this->canEmailToFriend()): ?>
-                    <p class="emailto-link"><a href="<?php echo $this->helper('\Magento\Catalog\Helper\Product')->getEmailToFriendUrl($_product) ?>"><?php echo __('Email to a Friend') ?></a></p>
+                    <p class="emailto-link"><a href="<?php echo $this->helper('Magento\Catalog\Helper\Product')->getEmailToFriendUrl($_product) ?>"><?php echo __('Email to a Friend') ?></a></p>
                 <?php endif; ?>
             </div>
             <div class="clearer"></div>

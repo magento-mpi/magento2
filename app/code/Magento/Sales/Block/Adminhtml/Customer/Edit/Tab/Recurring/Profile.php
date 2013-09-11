@@ -77,7 +77,7 @@ class Profile
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Recurring\Profile\Collection')
+        $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Recurring\Profile\Collection')
             ->addFieldToFilter('customer_id', \Mage::registry('current_customer')->getId());
         if (!$this->getParam($this->getVarNameSort())) {
             $collection->setOrder('profile_id', 'desc');

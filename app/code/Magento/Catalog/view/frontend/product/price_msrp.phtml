@@ -22,12 +22,12 @@
     $_msrpPrice = "";
 ?>
     <div class="price-box map-info">
-    <?php $_price = $this->helper('\Magento\Tax\Helper\Data')->getPrice($_product, $_product->getMsrp()) ?>
+    <?php $_price = $this->helper('Magento\Tax\Helper\Data')->getPrice($_product, $_product->getMsrp()) ?>
         <?php if ($_product->getMsrp()): ?>
-            <?php $_msrpPrice = $this->helper('\Magento\Core\Helper\Data')->currency($_product->getMsrp(),true,true) ?>
+            <?php $_msrpPrice = $this->helper('Magento\Core\Helper\Data')->currency($_product->getMsrp(),true,true) ?>
             <span class="old-price" id="product-price-<?php echo $_product->getId() ?><?php echo $this->getIdSuffix() ?>"><?php echo $_msrpPrice ?></span>
         <?php endif; ?>
-        <?php $helpLinkId = 'msrp-click-' . $_product->getId() . $this->helper('\Magento\Core\Helper\Data')->getRandomString(20); ?>
+        <?php $helpLinkId = 'msrp-click-' . $_product->getId() . $this->helper('Magento\Core\Helper\Data')->getRandomString(20); ?>
         <a href="#" id="<?php echo($helpLinkId);?>"><?php echo __('Click for price') ?></a>
     </div>
 
@@ -35,7 +35,7 @@
         //<![CDATA[
         (function ($) {
             head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/msrp.js') ?>", function () {
-                <?php if ($this->helper('\Magento\Catalog\Helper\Data')->isShowPriceOnGesture($_product)): ?>
+                <?php if ($this->helper('Magento\Catalog\Helper\Data')->isShowPriceOnGesture($_product)): ?>
                     $('#<?php echo($helpLinkId);?>').addToCart({
                         popupId: "#<?php echo($helpLinkId);?>",
                         productName: '<?php echo $_product->getName() ?>',

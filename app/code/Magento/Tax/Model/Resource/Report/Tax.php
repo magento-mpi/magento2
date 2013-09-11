@@ -37,8 +37,8 @@ class Tax extends \Magento\Reports\Model\Resource\Report\AbstractReport
      */
     public function aggregate($from = null, $to = null)
     {
-        \Mage::getResourceModel('\Magento\Tax\Model\Resource\Report\Tax\Createdat')->aggregate($from, $to);
-        \Mage::getResourceModel('\Magento\Tax\Model\Resource\Report\Tax\Updatedat')->aggregate($from, $to);
+        \Mage::getResourceModel('Magento\Tax\Model\Resource\Report\Tax\Createdat')->aggregate($from, $to);
+        \Mage::getResourceModel('Magento\Tax\Model\Resource\Report\Tax\Updatedat')->aggregate($from, $to);
         $this->_setFlagData(\Magento\Reports\Model\Flag::REPORT_TAX_FLAG_CODE);
 
         return $this;

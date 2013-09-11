@@ -57,7 +57,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_layout = $this->_objectManager->get('Magento\Core\Model\Layout');
         $this->_blockFactory = $this->_objectManager->get('Magento\Core\Model\BlockFactory');
-        $this->_block = $this->_blockFactory->createBlock('\Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Resource',
+        $this->_block = $this->_blockFactory->createBlock('Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Resource',
             array(
                 'resourceProvider' => $this->_resourceProvider,
                 'ruleResource' => $this->_ruleResource

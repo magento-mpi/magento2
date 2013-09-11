@@ -22,7 +22,7 @@ class Country extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Select
 
     protected function _getOptions()
     {
-        $options = \Mage::getResourceModel('\Magento\Directory\Model\Resource\Country\Collection')->load()->toOptionArray();
+        $options = \Mage::getResourceModel('Magento\Directory\Model\Resource\Country\Collection')->load()->toOptionArray();
         array_unshift($options, array('value'=>'', 'label'=>__('All countries')));
         return $options;
     }

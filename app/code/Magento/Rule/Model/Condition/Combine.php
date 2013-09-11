@@ -123,7 +123,7 @@ class Combine extends \Magento\Rule\Model\Condition\AbstractCondition
             'values' => $this->getAggregatorSelectOptions(),
             'value' => $this->getAggregator(),
             'value_name' => $this->getAggregatorName(),
-        ))->setRenderer(\Mage::getBlockSingleton('\Magento\Rule\Block\Editable'));
+        ))->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Editable'));
     }
     /* end aggregator methods */
 
@@ -280,7 +280,7 @@ class Combine extends \Magento\Rule\Model\Condition\AbstractCondition
             'name' => 'rule[' . $this->getPrefix() . '][' . $this->getId() . '][new_child]',
             'values' => $this->getNewChildSelectOptions(),
             'value_name' => $this->getNewChildName(),
-        ))->setRenderer(\Mage::getBlockSingleton('\Magento\Rule\Block\Newchild'));
+        ))->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Newchild'));
     }
 
     /**

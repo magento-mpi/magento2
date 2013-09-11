@@ -25,7 +25,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
         $this->addTab('general', array(
             'label'     => __('General'),
             'content'   => $this->getLayout()
-                ->createBlock('\Magento\Adminhtml\Block\System\Design\Edit\Tab\General')->toHtml(),
+                ->createBlock('Magento\Adminhtml\Block\System\Design\Edit\Tab\General')->toHtml(),
         ));
 
         return parent::_prepareLayout();

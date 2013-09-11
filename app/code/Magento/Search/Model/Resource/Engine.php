@@ -250,7 +250,7 @@ class Engine
      */
     public function getResultCollection()
     {
-        return \Mage::getResourceModel('\Magento\Search\Model\Resource\Collection')->setEngine($this);
+        return \Mage::getResourceModel('Magento\Search\Model\Resource\Collection')->setEngine($this);
     }
 
     /**
@@ -433,12 +433,12 @@ class Engine
     public function updateCategoryIndex($productIds, $categoryIds)
     {
         if (!is_array($productIds) || empty($productIds)) {
-            $productIds = \Mage::getResourceSingleton('\Magento\Search\Model\Resource\Index')
+            $productIds = \Mage::getResourceSingleton('Magento\Search\Model\Resource\Index')
                 ->getMovedCategoryProductIds($categoryIds[0]);
         }
 
         if (!empty($productIds)) {
-            \Mage::getResourceSingleton('\Magento\CatalogSearch\Model\Resource\Fulltext')->rebuildIndex(null, $productIds);
+            \Mage::getResourceSingleton('Magento\CatalogSearch\Model\Resource\Fulltext')->rebuildIndex(null, $productIds);
         }
 
         return $this;
@@ -471,7 +471,7 @@ class Engine
      */
     public function addAdvancedIndex($index, $storeId, $productIds = null)
     {
-        return \Mage::getResourceSingleton('\Magento\Search\Model\Resource\Index')
+        return \Mage::getResourceSingleton('Magento\Search\Model\Resource\Index')
             ->addAdvancedIndex($index, $storeId, $productIds);
     }
 

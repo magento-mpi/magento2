@@ -31,7 +31,7 @@ class Wsi extends \Magento\Api\Model\Server\Adapter\Soap
 
         if ($this->getController()->getRequest()->getParam('wsdl') !== null) {
             /** @var $wsdlConfig \Magento\Api\Model\Wsdl\Config */
-            $wsdlConfig = \Mage::getModel('\Magento\Api\Model\Wsdl\Config');
+            $wsdlConfig = \Mage::getModel('Magento\Api\Model\Wsdl\Config');
             $wsdlConfig->setHandler($this->getHandler())
                 ->setCacheId('wsdl_config_global_soap_wsi')
                 ->init();

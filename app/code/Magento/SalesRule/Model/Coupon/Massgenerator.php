@@ -104,7 +104,7 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
         $maxAttempts = $this->getMaxAttempts() ? $this->getMaxAttempts() : self::MAX_GENERATE_ATTEMPTS;
 
         /** @var $coupon \Magento\SalesRule\Model\Coupon */
-        $coupon = \Mage::getModel('\Magento\SalesRule\Model\Coupon');
+        $coupon = \Mage::getModel('Magento\SalesRule\Model\Coupon');
 
         $chars = count(\Mage::helper('Magento\SalesRule\Helper\Coupon')->getCharset($this->getFormat()));
         $length = (int) $this->getLength();

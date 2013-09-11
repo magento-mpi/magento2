@@ -56,10 +56,10 @@ class Rate extends \Magento\Adminhtml\Controller\Action
             ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'), $this->getUrl('*/tax_rate'))
             ->_addBreadcrumb(__('New Tax Rate'), __('New Tax Rate'))
             ->_addContent(
-                $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Tax\Rate\Toolbar\Save')
+                $this->getLayout()->createBlock('Magento\Adminhtml\Block\Tax\Rate\Toolbar\Save')
                 ->assign('header', __('Add New Tax Rate'))
                 ->assign('form',
-                    $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Tax\Rate\Form', 'tax_rate_form')
+                    $this->getLayout()->createBlock('Magento\Adminhtml\Block\Tax\Rate\Form', 'tax_rate_form')
                 )
             )
             ->renderLayout();
@@ -82,7 +82,7 @@ class Rate extends \Magento\Adminhtml\Controller\Action
                 }
             }
 
-            $rateModel = \Mage::getModel('\Magento\Tax\Model\Calculation\Rate')->setData($ratePost);
+            $rateModel = \Mage::getModel('Magento\Tax\Model\Calculation\Rate')->setData($ratePost);
 
             try {
                 $rateModel->save();
@@ -111,7 +111,7 @@ class Rate extends \Magento\Adminhtml\Controller\Action
         $responseContent = '';
         try {
             $rateData = $this->_processRateData($this->getRequest()->getPost());
-            $rate = \Mage::getModel('\Magento\Tax\Model\Calculation\Rate')
+            $rate = \Mage::getModel('Magento\Tax\Model\Calculation\Rate')
                 ->setData($rateData)
                 ->save();
             $responseContent = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode(array(
@@ -182,10 +182,10 @@ class Rate extends \Magento\Adminhtml\Controller\Action
             ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'), $this->getUrl('*/tax_rate'))
             ->_addBreadcrumb(__('Edit Tax Rate'), __('Edit Tax Rate'))
             ->_addContent(
-                $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Tax\Rate\Toolbar\Save')
+                $this->getLayout()->createBlock('Magento\Adminhtml\Block\Tax\Rate\Toolbar\Save')
                 ->assign('header', __('Edit Tax Rate'))
                 ->assign('form',
-                    $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Tax\Rate\Form', 'tax_rate_form')
+                    $this->getLayout()->createBlock('Magento\Adminhtml\Block\Tax\Rate\Form', 'tax_rate_form')
                         ->setShowLegend(true)
                 )
             )
@@ -200,7 +200,7 @@ class Rate extends \Magento\Adminhtml\Controller\Action
     public function deleteAction()
     {
         if ($rateId = $this->getRequest()->getParam('rate')) {
-            $rateModel = \Mage::getModel('\Magento\Tax\Model\Calculation\Rate')->load($rateId);
+            $rateModel = \Mage::getModel('Magento\Tax\Model\Calculation\Rate')->load($rateId);
             if ($rateModel->getId()) {
                 try {
                     $rateModel->delete();
@@ -237,7 +237,7 @@ class Rate extends \Magento\Adminhtml\Controller\Action
         $responseContent = '';
         $rateId = (int)$this->getRequest()->getParam('tax_calculation_rate_id');
         try {
-            $rate = \Mage::getModel('\Magento\Tax\Model\Calculation\Rate')->load($rateId);
+            $rate = \Mage::getModel('Magento\Tax\Model\Calculation\Rate')->load($rateId);
             $rate->delete();
             $responseContent = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode(array(
                 'success' => true,
@@ -304,8 +304,8 @@ class Rate extends \Magento\Adminhtml\Controller\Action
 
         $this->loadLayout()
             ->_setActiveMenu('Magento_Tax::system_convert_tax')
-            ->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Tax\Rate\ImportExportHeader'))
-            ->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Tax\Rate\ImportExport'))
+            ->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Tax\Rate\ImportExportHeader'))
+            ->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Tax\Rate\ImportExport'))
             ->renderLayout();
     }
 
@@ -357,7 +357,7 @@ class Rate extends \Magento\Adminhtml\Controller\Action
         $storeTaxTitleTemplate       = array();
         $taxCalculationRateTitleDict = array();
 
-        foreach (\Mage::getModel('\Magento\Core\Model\Store')->getCollection()->setLoadDefault(false) as $store) {
+        foreach (\Mage::getModel('Magento\Core\Model\Store')->getCollection()->setLoadDefault(false) as $store) {
             $storeTitle = 'title_' . $store->getId();
             $content   .= ',"' . $store->getCode() . '"';
             $template  .= ',"{{' . $storeTitle . '}}"';
@@ -367,7 +367,7 @@ class Rate extends \Magento\Adminhtml\Controller\Action
 
         $content .= "\n";
 
-        foreach (\Mage::getModel('\Magento\Tax\Model\Calculation\Rate\Title')->getCollection() as $title) {
+        foreach (\Mage::getModel('Magento\Tax\Model\Calculation\Rate\Title')->getCollection() as $title) {
             $rateId = $title->getTaxCalculationRateId();
 
             if (! array_key_exists($rateId, $taxCalculationRateTitleDict)) {
@@ -378,7 +378,7 @@ class Rate extends \Magento\Adminhtml\Controller\Action
         }
         unset($title);
 
-        $collection = \Mage::getResourceModel('\Magento\Tax\Model\Resource\Calculation\Rate\Collection')
+        $collection = \Mage::getResourceModel('Magento\Tax\Model\Resource\Calculation\Rate\Collection')
             ->joinCountryTable()
             ->joinRegionTable();
 

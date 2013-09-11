@@ -51,7 +51,7 @@ class Attributes
          * Initialize product object as form property
          * for using it in elements generation
          */
-        $form->setDataObject(\Mage::getModel('\Magento\Catalog\Model\Product'));
+        $form->setDataObject(\Mage::getModel('Magento\Catalog\Model\Product'));
         $this->_setFieldset($attributes, $fieldset, $this->getFormExcludedFieldList());
         $form->setFieldNameSuffix('attributes');
         $this->setForm($form);
@@ -64,7 +64,7 @@ class Attributes
      */
     public function getAttributes()
     {
-        return $this->helper('\Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute')
+        return $this->helper('Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute')
             ->getAttributes()->getItems();
     }
 

@@ -46,7 +46,7 @@ class Link extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Abstract
     public function render(\Magento\Object $row)
     {
         /** @var $sitemap \Magento\Sitemap\Model\Sitemap */
-        $sitemap = \Mage::getModel('\Magento\Sitemap\Model\Sitemap');
+        $sitemap = \Mage::getModel('Magento\Sitemap\Model\Sitemap');
         $url = $this->escapeHtml($sitemap->getSitemapUrl($row->getSitemapPath(), $row->getSitemapFilename()));
 
         $fileName = preg_replace('/^\//', '', $row->getSitemapPath() . $row->getSitemapFilename());

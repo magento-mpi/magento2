@@ -21,7 +21,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\ImportExport\Model\Export\Entity\Eav\Customer');
+        $this->_model = Mage::getModel('Magento\ImportExport\Model\Export\Entity\Eav\Customer');
     }
 
     /**
@@ -33,14 +33,14 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
     {
         $expectedAttributes = array();
         /** @var $collection \Magento\Customer\Model\Resource\Attribute\Collection */
-        $collection = Mage::getResourceModel('\Magento\Customer\Model\Resource\Attribute\Collection');
+        $collection = Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
         /** @var $attribute \Magento\Customer\Model\Attribute */
         foreach ($collection as $attribute) {
             $expectedAttributes[] = $attribute->getAttributeCode();
         }
         $expectedAttributes = array_diff($expectedAttributes, $this->_model->getDisabledAttributes());
 
-        $this->_model->setWriter(Mage::getModel('\Magento\ImportExport\Model\Export\Adapter\Csv'));
+        $this->_model->setWriter(Mage::getModel('Magento\ImportExport\Model\Export\Adapter\Csv'));
         $data = $this->_model->export();
         $this->assertNotEmpty($data);
 
@@ -147,7 +147,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
         /**
          * Change type of created_at attribute. In this case we have possibility to test date rage filter
          */
-        $attributeCollection = Mage::getResourceModel('\Magento\Customer\Model\Resource\Attribute\Collection');
+        $attributeCollection = Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
         $attributeCollection->addFieldToFilter('attribute_code', 'created_at');
         /** @var $createdAtAttribute \Magento\Customer\Model\Attribute */
         $createdAtAttribute = $attributeCollection->getFirstItem();
@@ -166,7 +166,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
         $this->_model->setParameters($parameters);
         /** @var $customers \Magento\Customer\Model\Resource\Customer\Collection */
         $collection = $this->_model->filterEntityCollection(
-            Mage::getResourceModel('\Magento\Customer\Model\Resource\Customer\Collection')
+            Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection')
         );
         $collection->load();
 

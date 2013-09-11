@@ -30,7 +30,7 @@ class Messages extends \Magento\Adminhtml\Block\Messages
         /**
          * Check customer existing
          */
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($this->_getOrder()->getCustomerId());
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($this->_getOrder()->getCustomerId());
 
         /**
          * Check Item products existing

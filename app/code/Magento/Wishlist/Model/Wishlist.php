@@ -195,7 +195,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
 
         if ($item === null) {
             $storeId = $product->hasWishlistStoreId() ? $product->getWishlistStoreId() : $this->getStore()->getId();
-            $item = \Mage::getModel('\Magento\Wishlist\Model\Item');
+            $item = \Mage::getModel('Magento\Wishlist\Model\Item');
             $item->setProductId($product->getId())
                 ->setWishlistId($this->getId())
                 ->setAddedAt(now())
@@ -228,7 +228,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
         if (is_null($this->_itemCollection)) {
             /** @var $currentWebsiteOnly boolean */
             $currentWebsiteOnly = !\Mage::app()->getStore()->isAdmin();
-            $this->_itemCollection =  \Mage::getResourceModel('\Magento\Wishlist\Model\Resource\Item\Collection')
+            $this->_itemCollection =  \Mage::getResourceModel('Magento\Wishlist\Model\Resource\Item\Collection')
                 ->addWishlistFilter($this)
                 ->addStoreFilter($this->getSharedStoreIds($currentWebsiteOnly))
                 ->setVisibilityFilter();
@@ -297,7 +297,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
         }
 
         /* @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+        $product = \Mage::getModel('Magento\Catalog\Model\Product')
             ->setStoreId($storeId)
             ->load($productId);
 

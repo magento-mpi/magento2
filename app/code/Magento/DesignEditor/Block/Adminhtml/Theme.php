@@ -92,7 +92,7 @@ class Theme extends \Magento\Backend\Block\Template
         );
 
         /** @var $helper \Magento\Core\Helper\Data */
-        $helper = $this->helper('\Magento\Core\Helper\Data');
+        $helper = $this->helper('Magento\Core\Helper\Data');
         return $helper->jsonEncode($options);
     }
 
@@ -104,7 +104,7 @@ class Theme extends \Magento\Backend\Block\Template
     public function getQuickSaveButton()
     {
         /** @var $saveButton \Magento\Backend\Block\Widget\Button */
-        $saveButton = $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button');
+        $saveButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button');
         $saveButton->setData(array(
             'label'     => __('Save'),
             'class'     => 'action-save',

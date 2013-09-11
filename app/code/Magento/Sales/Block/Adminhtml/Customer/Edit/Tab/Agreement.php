@@ -99,7 +99,7 @@ class Agreement
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Billing\Agreement\Collection')
+        $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Billing\Agreement\Collection')
             ->addFieldToFilter('customer_id', \Mage::registry('current_customer')->getId())
             ->setOrder('created_at');
         $this->setCollection($collection);

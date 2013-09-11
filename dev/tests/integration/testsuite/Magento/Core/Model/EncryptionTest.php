@@ -18,7 +18,7 @@ class Magento_Core_Model_EncryptionTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Core\Model\Encryption');
+        $this->_model = Mage::getModel('Magento\Core\Model\Encryption');
     }
 
     public function testEncryptDecrypt()

@@ -46,7 +46,7 @@ class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
         if ($quote->getCustomer()->getId()) {
             if ($quote->getUseCustomerBalance()) {
                 $store = \Mage::app()->getStore($quote->getStoreId());
-                $baseBalance = \Mage::getModel('\Magento\CustomerBalance\Model\Balance')
+                $baseBalance = \Mage::getModel('Magento\CustomerBalance\Model\Balance')
                     ->setCustomer($quote->getCustomer())
                     ->setCustomerId($quote->getCustomer()->getId())
                     ->setWebsiteId($store->getWebsiteId())

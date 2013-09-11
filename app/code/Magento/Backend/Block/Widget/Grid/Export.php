@@ -125,7 +125,7 @@ class Export
     protected function _prepareLayout()
     {
         $this->setChild('export_button',
-            $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button')
+            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
                 ->setData(array(
                 'label'     => __('Export'),
                 'onclick'   => $this->getParentBlock()->getJsObjectName().'.doExport()',

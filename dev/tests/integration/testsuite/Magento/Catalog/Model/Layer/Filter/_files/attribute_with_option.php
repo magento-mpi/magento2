@@ -11,9 +11,9 @@
 
 /* Create attribute */
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
-$installer = Mage::getResourceModel('\Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'));
+$installer = Mage::getResourceModel('Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'));
 /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
-$attribute = Mage::getResourceModel('\Magento\Catalog\Model\Resource\Eav\Attribute');
+$attribute = Mage::getResourceModel('Magento\Catalog\Model\Resource\Eav\Attribute');
 $attribute->setData(
     array(
         'attribute_code'    => 'attribute_with_option',
@@ -36,12 +36,12 @@ $installer->addAttributeToGroup('catalog_product', 'Default', 'General', $attrib
 
 /* Create simple products per each option */
 /** @var $options \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection */
-$options = Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection');
+$options = Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection');
 $options->setAttributeFilter($attribute->getId());
 
 foreach ($options as $option) {
     /** @var $product \Magento\Catalog\Model\Product */
-    $product = Mage::getModel('\Magento\Catalog\Model\Product');
+    $product = Mage::getModel('Magento\Catalog\Model\Product');
     $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
         ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))
         ->setWebsiteIds(array(1))

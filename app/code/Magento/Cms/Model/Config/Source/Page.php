@@ -17,7 +17,7 @@ class Page implements \Magento\Core\Model\Option\ArrayInterface
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $this->_options = \Mage::getResourceModel('\Magento\Cms\Model\Resource\Page\Collection')
+            $this->_options = \Mage::getResourceModel('Magento\Cms\Model\Resource\Page\Collection')
                 ->load()->toOptionIdArray();
         }
         return $this->_options;

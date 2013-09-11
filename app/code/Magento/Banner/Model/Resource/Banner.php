@@ -436,7 +436,7 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getSalesRuleRelatedBannerIds(array $appliedRules)
     {
         /** @var \Magento\Banner\Model\Resource\Salesrule\Collection $collection */
-        $collection = \Mage::getResourceModel('\Magento\Banner\Model\Resource\Salesrule\Collection');
+        $collection = \Mage::getResourceModel('Magento\Banner\Model\Resource\Salesrule\Collection');
         $collection->addRuleIdsFilter($appliedRules);
         return $collection->getColumnValues('banner_id');
     }
@@ -451,7 +451,7 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getCatalogRuleRelatedBannerIds($websiteId, $customerGroupId)
     {
         /** @var \Magento\Banner\Model\Resource\Catalogrule\Collection $collection */
-        $collection = \Mage::getResourceModel('\Magento\Banner\Model\Resource\Catalogrule\Collection');
+        $collection = \Mage::getResourceModel('Magento\Banner\Model\Resource\Catalogrule\Collection');
         $collection->addWebsiteCustomerGroupFilter($websiteId, $customerGroupId);
         return $collection->getColumnValues('banner_id');
     }

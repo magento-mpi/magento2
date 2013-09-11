@@ -42,7 +42,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         /**
          * @var \Magento\SalesRule\Model\Resource\Coupon\Collection $collection
          */
-        $collection = \Mage::getResourceModel('\Magento\SalesRule\Model\Resource\Coupon\Collection')
+        $collection = \Mage::getResourceModel('Magento\SalesRule\Model\Resource\Coupon\Collection')
             ->addRuleToFilter($priceRule)
             ->addGeneratedCouponsFilter();
 
@@ -82,7 +82,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             ),
             'renderer' => '\Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons\Grid\Column\Renderer\Used',
             'filter_condition_callback' => array(
-                \Mage::getResourceModel('\Magento\SalesRule\Model\Resource\Coupon\Collection'), 'addIsUsedFilterCallback'
+                \Mage::getResourceModel('Magento\SalesRule\Model\Resource\Coupon\Collection'), 'addIsUsedFilterCallback'
             )
         ));
 

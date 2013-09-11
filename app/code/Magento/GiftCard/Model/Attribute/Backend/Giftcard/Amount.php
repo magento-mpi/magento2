@@ -20,7 +20,7 @@ class Amount
      */
     protected function _getResource()
     {
-        return \Mage::getResourceSingleton('\Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount');
+        return \Mage::getResourceSingleton('Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount');
     }
 
     /**

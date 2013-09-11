@@ -327,7 +327,7 @@ class Grid extends \Magento\Backend\Block\Widget
             }
 
             if (is_string($filter)) {
-                $data = $this->helper('\Magento\Backend\Helper\Data')->prepareFilterString($filter);
+                $data = $this->helper('Magento\Backend\Helper\Data')->prepareFilterString($filter);
                 $data = array_merge($data, (array)$this->getRequest()->getPost($this->getVarNameFilter()));
                 $this->_setFilterValues($data);
             } else if ($filter && is_array($filter)) {
@@ -353,7 +353,7 @@ class Grid extends \Magento\Backend\Block\Widget
      */
     protected function _decodeFilter(&$value)
     {
-        $value = $this->helper('\Magento\Backend\Helper\Data')->decodeFilter($value);
+        $value = $this->helper('Magento\Backend\Helper\Data')->decodeFilter($value);
     }
 
     /**
@@ -405,14 +405,14 @@ class Grid extends \Magento\Backend\Block\Widget
     protected function _prepareFilterButtons()
     {
         $this->setChild('reset_filter_button',
-            $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button')
+            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
                 ->setData(array(
                 'label'     => __('Reset Filter'),
                 'onclick'   => $this->getJsObjectName().'.resetFilter()',
             ))
         );
         $this->setChild('search_button',
-            $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button')
+            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
                 ->setData(array(
                 'label'     => __('Search'),
                 'onclick'   => $this->getJsObjectName().'.doFilter()',

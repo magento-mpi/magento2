@@ -85,7 +85,7 @@ class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
 
         $itemStatusArray = array_unique($itemStatusArray);
 
-        $itemStatusModel = \Mage::getModel('\Magento\Rma\Model\Item\Attribute\Source\Status');
+        $itemStatusModel = \Mage::getModel('Magento\Rma\Model\Item\Attribute\Source\Status');
 
         foreach ($itemStatusArray as $status) {
             if (!$itemStatusModel->checkStatus($status)) {

@@ -77,7 +77,7 @@ class Info extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
     public function getCustomerGroupName()
     {
         if ($this->getOrder()) {
-            return \Mage::getModel('\Magento\Customer\Model\Group')->load((int)$this->getOrder()->getCustomerGroupId())->getCode();
+            return \Mage::getModel('Magento\Customer\Model\Group')->load((int)$this->getOrder()->getCustomerGroupId())->getCode();
         }
         return null;
     }
@@ -124,7 +124,7 @@ class Info extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
         /* @var $config \Magento\Eav\Model\Config */
         $config     = \Mage::getSingleton('Magento\Eav\Model\Config');
         $entityType = 'customer';
-        $customer   = \Mage::getModel('\Magento\Customer\Model\Customer');
+        $customer   = \Mage::getModel('Magento\Customer\Model\Customer');
         foreach ($config->getEntityAttributeCodes($entityType) as $attributeCode) {
             /* @var $attribute \Magento\Customer\Model\Attribute */
             $attribute = $config->getAttribute($entityType, $attributeCode);

@@ -118,7 +118,7 @@ class Revision extends \Magento\Core\Model\AbstractModel
             $this->unsetData($this->getIdFieldName());
             $this->setCreatedAt(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate());
 
-            $incrementNumber = \Mage::getModel('\Magento\VersionsCms\Model\Increment')
+            $incrementNumber = \Mage::getModel('Magento\VersionsCms\Model\Increment')
                 ->getNewIncrementId(\Magento\VersionsCms\Model\Increment::TYPE_PAGE,
                         $this->getVersionId(), \Magento\VersionsCms\Model\Increment::LEVEL_REVISION);
 
@@ -179,7 +179,7 @@ class Revision extends \Magento\Core\Model\AbstractModel
         $this->_getResource()->beginTransaction();
         try {
             $data = $this->_prepareDataForPublish($this);
-            $object = \Mage::getModel('\Magento\VersionsCms\Model\Page\Revision')->setData($data);
+            $object = \Mage::getModel('Magento\VersionsCms\Model\Page\Revision')->setData($data);
             $this->_getResource()->publish($object, $this->getPageId());
             $this->_getResource()->commit();
         } catch (\Exception $e){

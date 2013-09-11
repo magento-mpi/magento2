@@ -18,7 +18,7 @@ class Magento_Widget_Model_Widget_ConfigTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Widget\Model\Widget\Config');
+        $this->_model = Mage::getModel('Magento\Widget\Model\Widget\Config');
     }
 
     /**

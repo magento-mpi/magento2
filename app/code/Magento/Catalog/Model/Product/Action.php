@@ -89,9 +89,9 @@ class Action extends \Magento\Core\Model\AbstractModel
         ));
 
         if ($type == 'add') {
-            \Mage::getModel('\Magento\Catalog\Model\Product\Website')->addProducts($websiteIds, $productIds);
+            \Mage::getModel('Magento\Catalog\Model\Product\Website')->addProducts($websiteIds, $productIds);
         } else if ($type == 'remove') {
-            \Mage::getModel('\Magento\Catalog\Model\Product\Website')->removeProducts($websiteIds, $productIds);
+            \Mage::getModel('Magento\Catalog\Model\Product\Website')->removeProducts($websiteIds, $productIds);
         }
 
         $this->setData(array(

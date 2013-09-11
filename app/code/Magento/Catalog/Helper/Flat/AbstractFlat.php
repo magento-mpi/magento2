@@ -68,7 +68,7 @@ abstract class AbstractFlat extends \Magento\Core\Helper\AbstractHelper
     public function getProcess()
     {
         if (is_null($this->_process)) {
-            $this->_process = \Mage::getModel('\Magento\Index\Model\Process')
+            $this->_process = \Mage::getModel('Magento\Index\Model\Process')
                 ->load($this->_indexerCode, 'indexer_code');
         }
         return $this->_process;

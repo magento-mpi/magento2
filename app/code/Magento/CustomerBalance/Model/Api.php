@@ -24,7 +24,7 @@ class Api extends \Magento\Api\Model\Resource\AbstractResource
          * @var \Magento\CustomerBalance\Model\Balance $balanceModel
          */
         try {
-            $balanceModel = \Mage::getModel('\Magento\CustomerBalance\Model\Balance')
+            $balanceModel = \Mage::getModel('Magento\CustomerBalance\Model\Balance')
                     ->setCustomerId($customerId)
                     ->setWebsiteId($websiteId)
                     ->loadByCustomer();
@@ -48,7 +48,7 @@ class Api extends \Magento\Api\Model\Resource\AbstractResource
     public function history($customerId, $websiteId = null)
     {
         try {
-            $result = \Mage::getModel('\Magento\CustomerBalance\Model\Balance\History')
+            $result = \Mage::getModel('Magento\CustomerBalance\Model\Balance\History')
                     ->getHistoryData($customerId, $websiteId);
         } catch (\Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());

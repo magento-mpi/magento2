@@ -42,7 +42,7 @@ class Export extends \Magento\ImportExport\Model\Export
     {
         parent::__construct($data);
 
-        $this->_dateModel = isset($data['date_model']) ? $data['date_model'] : \Mage::getModel('\Magento\Core\Model\Date');
+        $this->_dateModel = isset($data['date_model']) ? $data['date_model'] : \Mage::getModel('Magento\Core\Model\Date');
     }
 
     /**

@@ -118,8 +118,8 @@ class Store
      */
     protected function _getStoreGroups()
     {
-        $websites = \Mage::getModel('\Magento\Core\Model\Website')->getCollection();
-        $allgroups = \Mage::getModel('\Magento\Core\Model\Store\Group')->getCollection();
+        $websites = \Mage::getModel('Magento\Core\Model\Website')->getCollection();
+        $allgroups = \Mage::getModel('Magento\Core\Model\Store\Group')->getCollection();
         $groups = array();
         foreach ($websites as $website) {
             $values = array();

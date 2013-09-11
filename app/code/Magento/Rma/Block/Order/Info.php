@@ -16,7 +16,7 @@ class Info extends \Magento\Core\Block\Template
         parent::_construct();
 
         if (\Mage::helper('Magento\Rma\Helper\Data')->isEnabled()) {
-            $returns = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Rma\Grid\Collection')
+            $returns = \Mage::getResourceModel('Magento\Rma\Model\Resource\Rma\Grid\Collection')
                 ->addFieldToSelect('*')
                 ->addFieldToFilter('customer_id', \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getId())
                 ->addFieldToFilter('order_id', \Mage::registry('current_order')->getId())

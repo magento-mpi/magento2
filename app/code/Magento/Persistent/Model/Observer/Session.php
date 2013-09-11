@@ -34,7 +34,7 @@ class Session
             || !$customer->getId()
             || !\Mage::helper('Magento\Persistent\Helper\Session')->isRememberMeChecked()
         ) {
-            \Mage::getModel('\Magento\Persistent\Model\Session')->removePersistentCookie();
+            \Mage::getModel('Magento\Persistent\Model\Session')->removePersistentCookie();
             return;
         }
 
@@ -42,7 +42,7 @@ class Session
         // Delete persistent session, if persistent could not be applied
         if (\Mage::helper('Magento\Persistent\Helper\Data')->isEnabled() && ($persistentLifeTime <= 0)) {
             // Remove current customer persistent session
-            \Mage::getModel('\Magento\Persistent\Model\Session')->deleteByCustomerId($customer->getId());
+            \Mage::getModel('Magento\Persistent\Model\Session')->deleteByCustomerId($customer->getId());
             return;
         }
 
@@ -51,11 +51,11 @@ class Session
 
         // Check if session is wrong or not exists, so create new session
         if (!$sessionModel->getId() || ($sessionModel->getCustomerId() != $customer->getId())) {
-            $sessionModel = \Mage::getModel('\Magento\Persistent\Model\Session')
+            $sessionModel = \Mage::getModel('Magento\Persistent\Model\Session')
                 ->setLoadExpired()
                 ->loadByCustomerId($customer->getId());
             if (!$sessionModel->getId()) {
-                $sessionModel = \Mage::getModel('\Magento\Persistent\Model\Session')
+                $sessionModel = \Mage::getModel('Magento\Persistent\Model\Session')
                     ->setCustomerId($customer->getId())
                     ->save();
             }
@@ -92,7 +92,7 @@ class Session
             return;
         }
 
-        \Mage::getModel('\Magento\Persistent\Model\Session')->removePersistentCookie();
+        \Mage::getModel('Magento\Persistent\Model\Session')->removePersistentCookie();
 
         // Unset persistent session
         \Mage::helper('Magento\Persistent\Helper\Session')->setSession(null);

@@ -104,7 +104,7 @@ abstract class AbstractForm
     protected function _getAdditionalFormElementRenderers()
     {
         return array(
-            'region'    => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Customer\Edit\Renderer\Region'),
+            'region'    => $this->getLayout()->createBlock('Magento\Adminhtml\Block\Customer\Edit\Renderer\Region'),
         );
     }
 

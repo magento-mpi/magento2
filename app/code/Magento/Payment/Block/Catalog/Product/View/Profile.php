@@ -49,7 +49,7 @@ class Profile extends \Magento\Core\Block\Template
         if ($this->_profile->getStartDateIsEditable()) {
             $this->setDateHtmlId('recurring_start_date');
             $calendar = $this->getLayout()
-                ->createBlock('\Magento\Core\Block\Html\Date')
+                ->createBlock('Magento\Core\Block\Html\Date')
                 ->setId('recurring_start_date')
                 ->setName(\Magento\Payment\Model\Recurring\Profile::BUY_REQUEST_START_DATETIME)
                 ->setClass('datetime-picker input-text')
@@ -69,7 +69,7 @@ class Profile extends \Magento\Core\Block\Template
     {
         $product = \Mage::registry('current_product');
         if ($product) {
-            $this->_profile = \Mage::getModel('\Magento\Payment\Model\Recurring\Profile')->importProduct($product);
+            $this->_profile = \Mage::getModel('Magento\Payment\Model\Recurring\Profile')->importProduct($product);
         }
         return parent::_prepareLayout();
     }

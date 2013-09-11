@@ -38,14 +38,14 @@ class Freeshipping
             return false;
         }
 
-        $result = \Mage::getModel('\Magento\Shipping\Model\Rate\Result');
+        $result = \Mage::getModel('Magento\Shipping\Model\Rate\Result');
 
         $this->_updateFreeMethodQuote($request);
 
         if (($request->getFreeShipping())
             || ($request->getBaseSubtotalInclTax() >= $this->getConfigData('free_shipping_subtotal'))
         ) {
-            $method = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Method');
+            $method = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Method');
 
             $method->setCarrier('freeshipping');
             $method->setCarrierTitle($this->getConfigData('title'));

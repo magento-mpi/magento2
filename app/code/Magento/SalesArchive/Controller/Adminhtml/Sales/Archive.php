@@ -277,15 +277,15 @@ class Archive extends \Magento\Adminhtml\Controller\Action
         switch ($action) {
             case 'invoice':
                 $fileName = 'invoice_archive.' . $type;
-                $grid = $layout->createBlock('\Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Invoice\Grid');
+                $grid = $layout->createBlock('Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Invoice\Grid');
                 break;
             case 'shipment':
                 $fileName = 'shipment_archive.' . $type;
-                $grid = $layout->createBlock('\Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Shipment\Grid');
+                $grid = $layout->createBlock('Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Shipment\Grid');
                 break;
             case 'creditmemo':
                 $fileName = 'creditmemo_archive.' . $type;
-                $grid = $layout->createBlock('\Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo\Grid');
+                $grid = $layout->createBlock('Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo\Grid');
                 break;
             default:
                 $fileName = 'orders_archive.' . $type;

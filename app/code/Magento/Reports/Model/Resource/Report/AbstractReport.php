@@ -35,7 +35,7 @@ abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getFlag()
     {
         if ($this->_flag === null) {
-            $this->_flag = \Mage::getModel('\Magento\Reports\Model\Flag');
+            $this->_flag = \Mage::getModel('Magento\Reports\Model\Flag');
         }
         return $this->_flag;
     }

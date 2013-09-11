@@ -21,7 +21,7 @@ class Magento_Core_Model_Design_Fallback_Rule_CompositeTest extends PHPUnit_Fram
     {
         $inputParams = array('param_one' => 'value_one', 'param_two' => 'value_two');
 
-        $ruleOne = $this->getMockForAbstractClass('\Magento\Core\Model\Design\Fallback\Rule\RuleInterface');
+        $ruleOne = $this->getMockForAbstractClass('Magento\Core\Model\Design\Fallback\Rule\RuleInterface');
         $ruleOne
             ->expects($this->once())
             ->method('getPatternDirs')
@@ -29,7 +29,7 @@ class Magento_Core_Model_Design_Fallback_Rule_CompositeTest extends PHPUnit_Fram
             ->will($this->returnValue(array('rule_one/path/one', 'rule_one/path/two')))
         ;
 
-        $ruleTwo = $this->getMockForAbstractClass('\Magento\Core\Model\Design\Fallback\Rule\RuleInterface');
+        $ruleTwo = $this->getMockForAbstractClass('Magento\Core\Model\Design\Fallback\Rule\RuleInterface');
         $ruleTwo
             ->expects($this->once())
             ->method('getPatternDirs')

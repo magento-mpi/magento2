@@ -49,10 +49,10 @@
 
     removeItem: function (itemId) {
         if (!itemId) {
-            alert('<?php echo $this->helper('\Magento\Core\Helper\Data')->jsQuoteEscape(__('No item specified.')) ?>');
+            alert('<?php echo $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('No item specified.')) ?>');
             return false;
         }
-        if(!confirm('<?php echo $this->helper('\Magento\Customer\Helper\Data')->jsQuoteEscape(__('Are you sure that you want to remove this item?')) ?>')) {
+        if(!confirm('<?php echo $this->helper('Magento\Customer\Helper\Data')->jsQuoteEscape(__('Are you sure that you want to remove this item?')) ?>')) {
             return false;
         }
 

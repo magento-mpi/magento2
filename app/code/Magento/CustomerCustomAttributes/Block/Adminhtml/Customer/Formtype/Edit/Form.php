@@ -77,7 +77,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             ));
 
             /** @var $label \Magento\Core\Model\Theme\Label */
-            $label = \Mage::getModel('\Magento\Core\Model\Theme\Label');
+            $label = \Mage::getModel('Magento\Core\Model\Theme\Label');
             $options = $label->getLabelsCollection();
             array_unshift($options, array(
                 'label' => __('All Themes'),

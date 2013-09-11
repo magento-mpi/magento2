@@ -150,7 +150,7 @@ class Filter extends \Magento\Filter\Template
             $type = $blockParameters['type'];
             $block = $layout->createBlock($type, null, array('data' => $blockParameters));
         } elseif (isset($blockParameters['id'])) {
-            $block = $layout->createBlock('\Magento\Cms\Block\Block');
+            $block = $layout->createBlock('Magento\Cms\Block\Block');
             if ($block) {
                 $block->setBlockId($blockParameters['id']);
             }
@@ -194,7 +194,7 @@ class Filter extends \Magento\Filter\Template
             $layoutParams['area'] = $params['area'];
         }
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getModel('\Magento\Core\Model\Layout', $layoutParams);
+        $layout = \Mage::getModel('Magento\Core\Model\Layout', $layoutParams);
 
         $layout->getUpdate()->addHandle($params['handle']);
         $layout->getUpdate()->load();
@@ -460,7 +460,7 @@ class Filter extends \Magento\Filter\Template
         $customVarValue = '';
         $params = $this->_getIncludeParameters($construction[2]);
         if (isset($params['code'])) {
-            $variable = \Mage::getModel('\Magento\Core\Model\Variable')
+            $variable = \Mage::getModel('Magento\Core\Model\Variable')
                 ->setStoreId($this->getStoreId())
                 ->loadByCode($params['code']);
             $mode = $this->getPlainTemplateMode()

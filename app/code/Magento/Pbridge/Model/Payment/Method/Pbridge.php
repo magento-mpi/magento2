@@ -71,7 +71,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     protected function _getApi()
     {
         if ($this->_api === null) {
-            $this->_api = \Mage::getModel('\Magento\Pbridge\Model\Payment\Method\Pbridge\Api');
+            $this->_api = \Mage::getModel('Magento\Pbridge\Model\Payment\Method\Pbridge\Api');
             $this->_api->setMethodInstance($this);
         }
         return $this->_api;
@@ -433,7 +433,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
             $result['street2'] = $street2;
         }
         //Region code lookup
-        $region = \Mage::getModel('\Magento\Directory\Model\Region')->load($address->getData('region_id'));
+        $region = \Mage::getModel('Magento\Directory\Model\Region')->load($address->getData('region_id'));
         if ($region && $region->getId()) {
             $result['region'] = $region->getCode();
         } else {

@@ -296,7 +296,7 @@ class Collection
      */
     public function clear()
     {
-        \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product\Compare\Item')
+        \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Compare\Item')
             ->clearItems($this->getVisitorId(), $this->getCustomerId());
         \Mage::dispatchEvent('catalog_product_compare_item_collection_clear');
 

@@ -173,7 +173,7 @@ abstract class AbstractFilter extends \Magento\Object
      */
     protected function _createItem($label, $value, $count=0)
     {
-        return \Mage::getModel('\Magento\Catalog\Model\Layer\Filter\Item')
+        return \Mage::getModel('Magento\Catalog\Model\Layer\Filter\Item')
             ->setFilter($this)
             ->setLabel($label)
             ->setValue($value)

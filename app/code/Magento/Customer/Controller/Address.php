@@ -45,8 +45,8 @@ class Address extends \Magento\Core\Controller\Front\Action
     {
         if (count($this->_getSession()->getCustomer()->getAddresses())) {
             $this->loadLayout();
-            $this->_initLayoutMessages('\Magento\Customer\Model\Session');
-            $this->_initLayoutMessages('\Magento\Catalog\Model\Session');
+            $this->_initLayoutMessages('Magento\Customer\Model\Session');
+            $this->_initLayoutMessages('Magento\Catalog\Model\Session');
 
             $block = $this->getLayout()->getBlock('address_book');
             if ($block) {
@@ -74,7 +74,7 @@ class Address extends \Magento\Core\Controller\Front\Action
     public function formAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
         if ($navigationBlock) {
             $navigationBlock->setActive('customer/address');
@@ -143,7 +143,7 @@ class Address extends \Magento\Core\Controller\Front\Action
     {
         $customer = $this->_getSession()->getCustomer();
         /* @var \Magento\Customer\Model\Address $address */
-        $address  = \Mage::getModel('\Magento\Customer\Model\Address');
+        $address  = \Mage::getModel('Magento\Customer\Model\Address');
         $addressId = $this->getRequest()->getParam('id');
         if ($addressId) {
             $existsAddress = $customer->getAddressById($addressId);
@@ -152,7 +152,7 @@ class Address extends \Magento\Core\Controller\Front\Action
             }
         }
         /* @var \Magento\Customer\Model\Form $addressForm */
-        $addressForm = \Mage::getModel('\Magento\Customer\Model\Address\Form');
+        $addressForm = \Mage::getModel('Magento\Customer\Model\Address\Form');
         $addressForm->setFormCode('customer_address_edit')
             ->setEntity($address);
         $addressData = $addressForm->extractData($this->getRequest());
@@ -168,7 +168,7 @@ class Address extends \Magento\Core\Controller\Front\Action
         $addressId = $this->getRequest()->getParam('id', false);
 
         if ($addressId) {
-            $address = \Mage::getModel('\Magento\Customer\Model\Address')->load($addressId);
+            $address = \Mage::getModel('Magento\Customer\Model\Address')->load($addressId);
 
             // Validate address_id <=> customer_id
             if ($address->getCustomerId() != $this->_getSession()->getCustomerId()) {

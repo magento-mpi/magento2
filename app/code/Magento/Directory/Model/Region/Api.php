@@ -28,7 +28,7 @@ class Api extends \Magento\Api\Model\Resource\AbstractResource
     public function items($country)
     {
         try {
-            $country = \Mage::getModel('\Magento\Directory\Model\Country')->loadByCode($country);
+            $country = \Mage::getModel('Magento\Directory\Model\Country')->loadByCode($country);
         } catch (\Magento\Core\Exception $e) {
             $this->_fault('country_not_exists', $e->getMessage());
         }

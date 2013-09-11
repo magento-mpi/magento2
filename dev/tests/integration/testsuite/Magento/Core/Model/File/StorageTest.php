@@ -18,7 +18,7 @@ class Magento_Core_Model_File_StorageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetScriptConfig()
     {
-        $config = Mage::getModel('\Magento\Core\Model\File\Storage')->getScriptConfig();
+        $config = Mage::getModel('Magento\Core\Model\File\Storage')->getScriptConfig();
         $this->assertInternalType('array', $config);
         $this->assertArrayHasKey('media_directory', $config);
         $this->assertArrayHasKey('allowed_resources', $config);

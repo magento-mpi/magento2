@@ -55,7 +55,7 @@ class Category extends \Magento\Core\Helper\AbstractHelper
         /**
          * Check if parent node of the store still exists
          */
-        $category = \Mage::getModel('\Magento\Catalog\Model\Category');
+        $category = \Mage::getModel('Magento\Catalog\Model\Category');
         /* @var $category \Magento\Catalog\Model\Category */
         if (!$category->checkId($parent)) {
             if ($asCollection) {
@@ -82,7 +82,7 @@ class Category extends \Magento\Core\Helper\AbstractHelper
         if ($category instanceof \Magento\Catalog\Model\Category) {
             return $category->getUrl();
         }
-        return \Mage::getModel('\Magento\Catalog\Model\Category')
+        return \Mage::getModel('Magento\Catalog\Model\Category')
             ->setData($category->getData())
             ->getUrl();
     }
@@ -96,7 +96,7 @@ class Category extends \Magento\Core\Helper\AbstractHelper
     public function canShow($category)
     {
         if (is_int($category)) {
-            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($category);
+            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($category);
         }
 
         if (!$category->getId()) {

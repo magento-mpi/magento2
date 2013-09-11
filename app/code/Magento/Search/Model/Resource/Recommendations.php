@@ -206,7 +206,7 @@ class Recommendations extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getSearchQueryModel()
     {
         if (!$this->_searchQueryModel) {
-            $this->_searchQueryModel = \Mage::getModel('\Magento\CatalogSearch\Model\Query');
+            $this->_searchQueryModel = \Mage::getModel('Magento\CatalogSearch\Model\Query');
         }
         return $this->_searchQueryModel;
     }

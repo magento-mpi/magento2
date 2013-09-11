@@ -22,7 +22,7 @@ class Page extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = \Mage::getResourceModel('\Magento\Cms\Model\Resource\Block\Collection')
+            $this->_options = \Mage::getResourceModel('Magento\Cms\Model\Resource\Block\Collection')
                 ->load()
                 ->toOptionArray();
             array_unshift($this->_options, array('value'=>'', 'label'=>__('Please select a static block.')));

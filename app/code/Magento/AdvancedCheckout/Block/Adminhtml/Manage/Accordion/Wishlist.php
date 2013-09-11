@@ -70,7 +70,7 @@ class Wishlist
      */
     protected function _createItemsCollection()
     {
-        return \Mage::getModel('\Magento\Wishlist\Model\Item')->getCollection();
+        return \Mage::getModel('Magento\Wishlist\Model\Item')->getCollection();
     }
 
     /**

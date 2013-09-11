@@ -532,7 +532,7 @@ class Transaction extends \Magento\Core\Model\AbstractModel
     {
         $this->_verifyThisTransactionExists();
         if (null === $this->_paymentObject && $shouldLoad) {
-            $payment = \Mage::getModel('\Magento\Sales\Model\Order\Payment')->load($this->getPaymentId());
+            $payment = \Mage::getModel('Magento\Sales\Model\Order\Payment')->load($this->getPaymentId());
             if ($payment->getId()) {
                 $this->setOrderPaymentObject($payment);
             }
@@ -585,7 +585,7 @@ class Transaction extends \Magento\Core\Model\AbstractModel
             if (null !== $this->_paymentObject && $this->_paymentObject->getOrder()) {
                 $this->_order = $this->_paymentObject->getOrder();
             } elseif ($this->getOrderId() && $order === null) {
-                $this->_order = \Mage::getModel('\Magento\Sales\Model\Order')->load($this->getOrderId());
+                $this->_order = \Mage::getModel('Magento\Sales\Model\Order')->load($this->getOrderId());
             } else {
                 $this->_order = false;
             }
@@ -631,7 +631,7 @@ class Transaction extends \Magento\Core\Model\AbstractModel
                 $this->setOrderId($this->_order->getId());
             }
 
-            $this->setCreatedAt(\Mage::getModel('\Magento\Core\Model\Date')->gmtDate());
+            $this->setCreatedAt(\Mage::getModel('Magento\Core\Model\Date')->gmtDate());
         }
         return parent::_beforeSave();
     }

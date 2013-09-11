@@ -18,12 +18,12 @@ class Magento_Payment_Block_InfoTest extends PHPUnit_Framework_TestCase
     public function testGetChildPdfAsArray()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('\Magento\Core\Model\Layout');
-        $block = $layout->createBlock('\Magento\Payment\Block\Info', 'block');
+        $layout = Mage::getModel('Magento\Core\Model\Layout');
+        $block = $layout->createBlock('Magento\Payment\Block\Info', 'block');
 
         /** @var $paymentInfoBank\Magento\Payment\Model\Info  */
-        $paymentInfoBank = Mage::getModel('\Magento\Payment\Model\Info');
-        $paymentInfoBank->setMethodInstance(Mage::getModel('\Magento\Payment\Model\Method\Banktransfer'));
+        $paymentInfoBank = Mage::getModel('Magento\Payment\Model\Info');
+        $paymentInfoBank->setMethodInstance(Mage::getModel('Magento\Payment\Model\Method\Banktransfer'));
         /** @var $childBank \Magento\Payment\Block\Info\Instructions */
         $childBank = $layout->addBlock('\Magento\Payment\Block\Info\Instructions', 'child.one', 'block');
         $childBank->setInfo($paymentInfoBank)
@@ -34,8 +34,8 @@ class Magento_Payment_Block_InfoTest extends PHPUnit_Framework_TestCase
         $childHtml->setText($nonExpectedHtml);
 
         /** @var $paymentInfoCheckmo \Magento\Payment\Model\Info */
-        $paymentInfoCheckmo = Mage::getModel('\Magento\Payment\Model\Info');
-        $paymentInfoCheckmo->setMethodInstance(Mage::getModel('\Magento\Payment\Model\Method\Checkmo'));
+        $paymentInfoCheckmo = Mage::getModel('Magento\Payment\Model\Info');
+        $paymentInfoCheckmo->setMethodInstance(Mage::getModel('Magento\Payment\Model\Method\Checkmo'));
         /** @var $childCheckmo \Magento\Payment\Block\Info\Checkmo */
         $childCheckmo = $layout->addBlock('\Magento\Payment\Block\Info\Checkmo', 'child.just.another', 'block');
         $childCheckmo->setInfo($paymentInfoCheckmo)

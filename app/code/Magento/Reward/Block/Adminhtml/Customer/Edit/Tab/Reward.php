@@ -73,7 +73,7 @@ class Reward
      */
     protected function _prepareLayout()
     {
-        $accordion = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Accordion');
+        $accordion = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Accordion');
         $accordion->addItem('reward_points_history', array(
             'title'       => __('Reward Points History'),
             'open'        => false,

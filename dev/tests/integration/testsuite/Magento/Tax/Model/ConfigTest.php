@@ -15,7 +15,7 @@ class Magento_Tax_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Tax\Model\Config');
+        $this->_model = Mage::getModel('Magento\Tax\Model\Config');
     }
 
     public function testSetPriceIncludesTax()

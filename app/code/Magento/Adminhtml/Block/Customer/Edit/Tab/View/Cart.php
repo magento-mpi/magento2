@@ -33,7 +33,7 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
 
     protected function _prepareCollection()
     {
-        $quote = \Mage::getModel('\Magento\Sales\Model\Quote');
+        $quote = \Mage::getModel('Magento\Sales\Model\Quote');
         // set website to quote, if any
         if ($this->getWebsiteId()) {
             $quote->setWebsite(\Mage::app()->getWebsite($this->getWebsiteId()));

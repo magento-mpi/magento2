@@ -36,7 +36,7 @@ class Image
     protected $_imageFactory;
 
     /**
-     * @var Magento_Core_Model_Theme_Image_UploaderProxy
+     * @var \Magento\Core\Model\Theme\Image\UploaderProxy
      */
     protected $_uploader;
 

@@ -22,7 +22,7 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Export\EntityAbstract');
+        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Export\EntityAbstract');
     }
 
     /**
@@ -46,7 +46,7 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
      */
     public function testGetWriter()
     {
-        $this->_model->setWriter(Mage::getModel('\Magento\ImportExport\Model\Export\Adapter\Csv'));
+        $this->_model->setWriter(Mage::getModel('Magento\ImportExport\Model\Export\Adapter\Csv'));
         $this->assertInstanceOf('\Magento\ImportExport\Model\Export\Adapter\Csv', $this->_model->getWriter());
     }
 
@@ -67,7 +67,7 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
     {
         /** @var $model Stub_Magento_ImportExport_Model_Export_EntityAbstract */
         $model = $this->getMockForAbstractClass('Stub_Magento_ImportExport_Model_Export_EntityAbstract');
-        $collection = Mage::getResourceModel('\Magento\Customer\Model\Resource\Attribute\Collection');
+        $collection = Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
         $collection = $model->filterAttributeCollection($collection);
         /**
          * Check that disabled attributes is not existed in attribute collection

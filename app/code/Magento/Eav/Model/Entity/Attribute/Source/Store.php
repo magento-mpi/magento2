@@ -27,7 +27,7 @@ class Store extends \Magento\Eav\Model\Entity\Attribute\Source\Table
     public function getAllOptions()
     {
         if ($this->_options === null) {
-            $this->_options = \Mage::getResourceModel('\Magento\Core\Model\Resource\Store\Collection')
+            $this->_options = \Mage::getResourceModel('Magento\Core\Model\Resource\Store\Collection')
                 ->load()
                 ->toOptionArray();
         }

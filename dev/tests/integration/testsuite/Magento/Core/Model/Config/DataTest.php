@@ -45,13 +45,13 @@ class Magento_Core_Model_Config_DataTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Core\Model\Config\Value');
+        $this->_model = Mage::getModel('Magento\Core\Model\Config\Value');
     }
 
     public function testIsValueChanged()
     {
         // load the model
-        $collection = Mage::getResourceModel('\Magento\Core\Model\Resource\Config\Data\Collection');
+        $collection = Mage::getResourceModel('Magento\Core\Model\Resource\Config\Data\Collection');
         $collection->addFieldToFilter('path', self::SAMPLE_CONFIG_PATH)->addFieldToFilter('scope_id', 0)
             ->addFieldToFilter('scope', 'default')
         ;

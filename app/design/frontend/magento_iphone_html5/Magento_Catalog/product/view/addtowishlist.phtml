@@ -11,5 +11,5 @@
 /** @var $this \Magento\Catalog\Block\Product\View */
 ?>
 <?php $_product = $this->getProduct(); ?>
-<?php $_wishlistSubmitUrl = $this->helper('\Magento\Wishlist\Helper\Data')->getAddUrl($_product); ?>
+<?php $_wishlistSubmitUrl = $this->helper('Magento\Wishlist\Helper\Data')->getAddUrl($_product); ?>
 <a href="<?php echo $_wishlistSubmitUrl ?>" onclick="productAddToCartForm.submitLight(this, '<?php echo $_wishlistSubmitUrl ?>'); return false;" class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wishlist') ?></a>

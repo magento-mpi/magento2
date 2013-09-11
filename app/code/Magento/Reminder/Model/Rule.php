@@ -108,7 +108,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function getConditionsInstance()
     {
-        return \Mage::getModel('\Magento\Reminder\Model\Rule\Condition\Combine\Root');
+        return \Mage::getModel('Magento\Reminder\Model\Rule\Condition\Combine\Root');
     }
 
     /**
@@ -118,7 +118,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function getActionsInstance()
     {
-        return \Mage::getModel('\Magento\Rule\Model\Action\Collection');
+        return \Mage::getModel('Magento\Rule\Model\Action\Collection');
     }
 
     /**
@@ -129,7 +129,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     public function sendReminderEmails()
     {
         /** @var $mail \Magento\Core\Model\Email\Template */
-        $mail = \Mage::getModel('\Magento\Core\Model\Email\Template');
+        $mail = \Mage::getModel('Magento\Core\Model\Email\Template');
 
         /* @var $translate \Magento\Core\Model\Translate */
         $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
@@ -144,7 +144,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
         foreach ($recipients as $recipient) {
             /* @var $customer \Magento\Customer\Model\Customer */
-            $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($recipient['customer_id']);
+            $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($recipient['customer_id']);
             if (!$customer || !$customer->getId()) {
                 continue;
             }
@@ -161,7 +161,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
             }
 
             /* @var $coupon \Magento\SalesRule\Model\Coupon */
-            $coupon = \Mage::getModel('\Magento\SalesRule\Model\Coupon')->load($recipient['coupon_id']);
+            $coupon = \Mage::getModel('Magento\SalesRule\Model\Coupon')->load($recipient['coupon_id']);
 
             $templateVars = array(
                 'store'          => $store,
@@ -198,7 +198,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected function _matchCustomers()
     {
         $threshold   = \Mage::helper('Magento\Reminder\Helper\Data')->getSendFailureThreshold();
-        $currentDate = \Mage::getModel('\Magento\Core\Model\Date')->date('Y-m-d');
+        $currentDate = \Mage::getModel('Magento\Core\Model\Date')->date('Y-m-d');
         $rules       = $this->getCollection()->addDateFilter($currentDate)->addIsActiveFilter(1);
 
         if ($this->getRuleId()) {

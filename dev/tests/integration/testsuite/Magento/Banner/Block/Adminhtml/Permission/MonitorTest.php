@@ -23,7 +23,7 @@ class Magento_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_Fram
      */
     public function testPrepareLayout($blockType, $blockName, $tabsType, $tabsName)
     {
-        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $layout = Mage::getModel('Magento\Core\Model\Layout');
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
         $layout->addBlock($blockType, $blockName);
@@ -38,7 +38,7 @@ class Magento_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_Fram
         $this->assertContains('banners_section', $tabs->getTabsIds());
         $this->assertTrue($layout->hasElement($blockName));
         $this->assertInstanceOf($blockType, $layout->getBlock($blockName));
-        $layout->createBlock('\Magento\Banner\Block\Adminhtml\Permission\Monitor', 'bannner.permission.monitor');
+        $layout->createBlock('Magento\Banner\Block\Adminhtml\Permission\Monitor', 'bannner.permission.monitor');
         $this->assertFalse($layout->hasElement($blockName));
         $this->assertFalse($layout->getBlock($blockName));
         $this->assertNotContains('banners_section', $tabs->getTabsIds());

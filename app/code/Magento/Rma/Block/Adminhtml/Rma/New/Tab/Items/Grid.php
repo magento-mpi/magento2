@@ -69,7 +69,7 @@ class Grid
     protected function _prepareCollection()
     {
         /** @var $collection \Magento\Rma\Model\Resource\Item\Collection */
-        $collection = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Item\Collection');
+        $collection = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item\Collection');
         $collection->addAttributeToSelect('*');
         $collection->addAttributeToFilter('entity_id', NULL);
 

@@ -35,7 +35,7 @@ class Order extends \Magento\Object
 
         $query = $this->getQuery();
         //TODO: add full name logic
-        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Collection')
+        $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Collection')
             ->addAttributeToSelect('*')
             ->addAttributeToSearchFilter(array(
                 array('attribute' => 'increment_id',       'like'=>$query.'%'),

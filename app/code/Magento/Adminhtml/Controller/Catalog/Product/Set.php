@@ -42,7 +42,7 @@ class Set extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Product Templates'));
 
         $this->_setTypeId();
-        $attributeSet = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')
+        $attributeSet = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')
             ->load($this->getRequest()->getParam('id'));
 
         if (!$attributeSet->getId()) {
@@ -63,7 +63,7 @@ class Set extends \Magento\Adminhtml\Controller\Action
             __('Manage Product Sets'),
             __('Manage Product Sets'));
 
-        $this->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main'));
+        $this->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main'));
 
         $this->renderLayout();
     }
@@ -91,7 +91,7 @@ class Set extends \Magento\Adminhtml\Controller\Action
         $isNewSet       = $this->getRequest()->getParam('gotoEdit', false) == '1';
 
         /* @var $model \Magento\Eav\Model\Entity\Attribute\Set */
-        $model  = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')
+        $model  = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')
             ->setEntityTypeId($entityTypeId);
 
         /** @var $helper \Magento\Adminhtml\Helper\Data */
@@ -154,7 +154,7 @@ class Set extends \Magento\Adminhtml\Controller\Action
         } else {
             $response = array();
             if ($hasError) {
-                $this->_initLayoutMessages('\Magento\Adminhtml\Model\Session');
+                $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
                 $response['error']   = 1;
                 $response['message'] = $this->getLayout()->getMessagesBlock()->getGroupedHtml();
             } else {
@@ -176,7 +176,7 @@ class Set extends \Magento\Adminhtml\Controller\Action
 
 
         $this->_addContent(
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar\Add')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar\Add')
         );
 
         $this->renderLayout();
@@ -186,7 +186,7 @@ class Set extends \Magento\Adminhtml\Controller\Action
     {
         $setId = $this->getRequest()->getParam('id');
         try {
-            \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')
+            \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')
                 ->setId($setId)
                 ->delete();
 
@@ -205,7 +205,7 @@ class Set extends \Magento\Adminhtml\Controller\Action
     protected function _setTypeId()
     {
         \Mage::register('entityType',
-            \Mage::getModel('\Magento\Catalog\Model\Product')->getResource()->getTypeId());
+            \Mage::getModel('Magento\Catalog\Model\Product')->getResource()->getTypeId());
     }
 
     protected function _isAllowed()

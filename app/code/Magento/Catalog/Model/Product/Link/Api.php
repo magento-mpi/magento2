@@ -120,10 +120,10 @@ class Api extends \Magento\Catalog\Model\Api\Resource
             $_linkInstance = \Mage::getSingleton('Magento\Catalog\Model\Product\Link');
             $_linkInstance->saveProductRelations($product);
 
-            $indexerStock = \Mage::getModel('\Magento\CatalogInventory\Model\Stock\Status');
+            $indexerStock = \Mage::getModel('Magento\CatalogInventory\Model\Stock\Status');
             $indexerStock->updateStatus($productId);
 
-            $indexerPrice = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Indexer\Price');
+            $indexerPrice = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Indexer\Price');
             $indexerPrice->reindexProductIds($productId);
         } catch (\Exception $e) {
             $this->_fault('data_invalid', __('The linked product does not exist.'));
@@ -176,10 +176,10 @@ class Api extends \Magento\Catalog\Model\Api\Resource
             $_linkInstance = \Mage::getSingleton('Magento\Catalog\Model\Product\Link');
             $_linkInstance->saveProductRelations($product);
 
-            $indexerStock = \Mage::getModel('\Magento\CatalogInventory\Model\Stock\Status');
+            $indexerStock = \Mage::getModel('Magento\CatalogInventory\Model\Stock\Status');
             $indexerStock->updateStatus($productId);
 
-            $indexerPrice = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Indexer\Price');
+            $indexerPrice = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Indexer\Price');
             $indexerPrice->reindexProductIds($productId);
         } catch (\Exception $e) {
             $this->_fault('data_invalid', __('The linked product does not exist.'));
@@ -238,7 +238,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
     {
         $typeId = $this->_getTypeId($type);
 
-        $attributes = \Mage::getModel('\Magento\Catalog\Model\Product\Link')
+        $attributes = \Mage::getModel('Magento\Catalog\Model\Product\Link')
             ->getAttributes($typeId);
 
         $result = array();

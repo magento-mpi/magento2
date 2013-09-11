@@ -25,7 +25,7 @@ class Redirect extends \Magento\Core\Controller\Front\Action
     protected function _getApi ()
     {
         $session = \Mage::getSingleton('Magento\Checkout\Model\Session');
-        $api = \Mage::getModel('\Magento\GoogleCheckout\Model\Api');
+        $api = \Mage::getModel('Magento\GoogleCheckout\Model\Api');
         /* @var $quote \Magento\Sales\Model\Quote */
         $quote = $session->getQuote();
 
@@ -34,7 +34,7 @@ class Redirect extends \Magento\Core\Controller\Front\Action
             $api->setError(true);
         }
 
-        $storeQuote = \Mage::getModel('\Magento\Sales\Model\Quote')->setStoreId(\Mage::app()->getStore()->getId());
+        $storeQuote = \Mage::getModel('Magento\Sales\Model\Quote')->setStoreId(\Mage::app()->getStore()->getId());
         $storeQuote->merge($quote);
         $storeQuote
             ->setItemsCount($quote->getItemsCount())
@@ -68,7 +68,7 @@ class Redirect extends \Magento\Core\Controller\Front\Action
             } else {
                 $quote->setIsActive(false)->save();
                 $session->replaceQuote($storeQuote);
-                \Mage::getModel('\Magento\Checkout\Model\Cart')->init()->save();
+                \Mage::getModel('Magento\Checkout\Model\Cart')->init()->save();
                 if (\Mage::getStoreConfigFlag('google/checkout/hide_cart_contents')) {
                     $session->setGoogleCheckoutQuoteId($session->getQuoteId());
                     $session->setQuoteId(null);
@@ -130,7 +130,7 @@ class Redirect extends \Magento\Core\Controller\Front\Action
         $session = \Mage::getSingleton('Magento\Checkout\Model\Session');
 
         if ($quoteId = $session->getGoogleCheckoutQuoteId()) {
-            $quote = \Mage::getModel('\Magento\Sales\Model\Quote')->load($quoteId)
+            $quote = \Mage::getModel('Magento\Sales\Model\Quote')->load($quoteId)
                 ->setIsActive(false)->save();
         }
         $session->clear();

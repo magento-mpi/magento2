@@ -55,7 +55,7 @@ class Address
     protected function _getAddressForm()
     {
         if (is_null($this->_addressForm)) {
-            $this->_addressForm = \Mage::getModel('\Magento\Customer\Model\Form')
+            $this->_addressForm = \Mage::getModel('Magento\Customer\Model\Form')
                 ->setFormCode('adminhtml_customer_address')
                 ->setStore($this->getStore());
         }
@@ -99,7 +99,7 @@ class Address
         ));
 
         /* @var $addressModel \Magento\Customer\Model\Address */
-        $addressModel = \Mage::getModel('\Magento\Customer\Model\Address');
+        $addressModel = \Mage::getModel('Magento\Customer\Model\Address');
 
         $addressForm = $this->_getAddressForm()
             ->setEntity($addressModel);
@@ -113,7 +113,7 @@ class Address
 
         $prefixElement = $this->_form->getElement('prefix');
         if ($prefixElement) {
-            $prefixOptions = $this->helper('\Magento\Customer\Helper\Data')->getNamePrefixOptions($this->getStore());
+            $prefixOptions = $this->helper('Magento\Customer\Helper\Data')->getNamePrefixOptions($this->getStore());
             if (!empty($prefixOptions)) {
                 $fieldset->removeField($prefixElement->getId());
                 $prefixField = $fieldset->addField($prefixElement->getId(),
@@ -130,7 +130,7 @@ class Address
 
         $suffixElement = $this->_form->getElement('suffix');
         if ($suffixElement) {
-            $suffixOptions = $this->helper('\Magento\Customer\Helper\Data')->getNameSuffixOptions($this->getStore());
+            $suffixOptions = $this->helper('Magento\Customer\Helper\Data')->getNameSuffixOptions($this->getStore());
             if (!empty($suffixOptions)) {
                 $fieldset->removeField($suffixElement->getId());
                 $suffixField = $fieldset->addField($suffixElement->getId(),
@@ -172,7 +172,7 @@ class Address
         $vatIdElement = $this->_form->getElement('vat_id');
         if ($vatIdElement && $this->getDisplayVatValidationButton() !== false) {
             $vatIdElement->setRenderer(
-                $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Customer\Sales\Order\Address\Form\Renderer\Vat')
+                $this->getLayout()->createBlock('Magento\Adminhtml\Block\Customer\Sales\Order\Address\Form\Renderer\Vat')
                     ->setJsVariablePrefix($this->getJsVariablePrefix())
             );
         }

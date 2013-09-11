@@ -36,8 +36,8 @@ class Manage extends \Magento\Core\Controller\Front\Action
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
-        $this->_initLayoutMessages('\Magento\Catalog\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
 
         if ($block = $this->getLayout()->getBlock('customer_newsletter')) {
             $block->setRefererUrl($this->_getRefererUrl());

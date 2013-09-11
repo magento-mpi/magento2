@@ -139,7 +139,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         }
         if (!empty($optionIds)) {
             /** @var $values Magento_Catalog_Model_Option_Value_Collection */
-            $values = \Mage::getModel('\Magento\Catalog\Model\Product\Option\Value')
+            $values = \Mage::getModel('Magento\Catalog\Model\Product\Option\Value')
                 ->getCollection()
                 ->addTitleToResult($storeId)
                 ->addPriceToResult($storeId)

@@ -92,7 +92,7 @@ class Payment
                     ->createOrder();
 
                 $payment = $order->getPayment();
-                if ($payment && $payment->getMethod() == \Mage::getModel('\Magento\Authorizenet\Model\Directpost')->getCode()) {
+                if ($payment && $payment->getMethod() == \Mage::getModel('Magento\Authorizenet\Model\Directpost')->getCode()) {
                     //return json with data.
                     $session = $this->_getDirectPostSession();
                     $session->addCheckoutOrderIncrementId($order->getIncrementId());
@@ -161,7 +161,7 @@ class Payment
             $oldOrder = $this->_getOrderCreateModel()->getSession()->getOrder();
             if ($oldOrder->getId()) {
                 /* @var $order \Magento\Sales\Model\Order */
-                $order = \Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($redirectParams['x_invoice_num']);
+                $order = \Mage::getModel('Magento\Sales\Model\Order')->loadByIncrementId($redirectParams['x_invoice_num']);
                 if ($order->getId()) {
                     $oldOrder->cancel()
                         ->save();
@@ -209,7 +209,7 @@ class Payment
                 ->isCheckoutOrderIncrementIdExist($incrementId)
         ) {
             /* @var $order \Magento\Sales\Model\Order */
-            $order = \Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($incrementId);
+            $order = \Mage::getModel('Magento\Sales\Model\Order')->loadByIncrementId($incrementId);
             if ($order->getId()) {
                 $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($order->getIncrementId());
                 if ($cancelOrder && $order->getState() == \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT) {

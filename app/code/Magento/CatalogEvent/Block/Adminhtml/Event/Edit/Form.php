@@ -74,7 +74,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
 
         $this->_addElementTypes($fieldset);
 
-        $currentCategory = \Mage::getModel('\Magento\Catalog\Model\Category')
+        $currentCategory = \Mage::getModel('Magento\Catalog\Model\Category')
             ->load($this->getEvent()->getCategoryId());
 
         $fieldset->addField('category_name', 'note',

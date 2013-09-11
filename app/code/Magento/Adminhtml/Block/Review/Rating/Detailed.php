@@ -41,7 +41,7 @@ class Detailed extends \Magento\Adminhtml\Block\Template
 
                 $stores = array_diff($stores, array(0));
 
-                $ratingCollection = \Mage::getModel('\Magento\Rating\Model\Rating')
+                $ratingCollection = \Mage::getModel('Magento\Rating\Model\Rating')
                     ->getResourceCollection()
                     ->addEntityFilter('product')
                     ->setStoreFilter($stores)
@@ -50,7 +50,7 @@ class Detailed extends \Magento\Adminhtml\Block\Template
                     ->load()
                     ->addOptionToItems();
 
-                $this->_voteCollection = \Mage::getModel('\Magento\Rating\Model\Rating\Option\Vote')
+                $this->_voteCollection = \Mage::getModel('Magento\Rating\Model\Rating\Option\Vote')
                     ->getResourceCollection()
                     ->setReviewFilter($this->getReviewId())
                     ->addOptionInfo()
@@ -58,7 +58,7 @@ class Detailed extends \Magento\Adminhtml\Block\Template
                     ->addRatingOptions();
 
             } elseif (!$this->getIsIndependentMode()) {
-                $ratingCollection = \Mage::getModel('\Magento\Rating\Model\Rating')
+                $ratingCollection = \Mage::getModel('Magento\Rating\Model\Rating')
                     ->getResourceCollection()
                     ->addEntityFilter('product')
                     ->setStoreFilter(null)
@@ -66,7 +66,7 @@ class Detailed extends \Magento\Adminhtml\Block\Template
                     ->load()
                     ->addOptionToItems();
             } else {
-                $ratingCollection = \Mage::getModel('\Magento\Rating\Model\Rating')
+                $ratingCollection = \Mage::getModel('Magento\Rating\Model\Rating')
                     ->getResourceCollection()
                     ->addEntityFilter('product')
                     ->setStoreFilter($this->getRequest()->getParam('select_stores') ? $this->getRequest()->getParam('select_stores') : $this->getRequest()->getParam('stores'))
@@ -74,7 +74,7 @@ class Detailed extends \Magento\Adminhtml\Block\Template
                     ->load()
                     ->addOptionToItems();
                 if(intval($this->getRequest()->getParam('id'))){
-                    $this->_voteCollection = \Mage::getModel('\Magento\Rating\Model\Rating\Option\Vote')
+                    $this->_voteCollection = \Mage::getModel('Magento\Rating\Model\Rating\Option\Vote')
                         ->getResourceCollection()
                         ->setReviewFilter(intval($this->getRequest()->getParam('id')))
                         ->addOptionInfo()

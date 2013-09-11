@@ -51,7 +51,7 @@ class Form
      */
     public function getOwnerName()
     {
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer')
             ->load($this->getEntity()->getCustomerId());
 
         return $this->escapeHtml($customer->getName());
@@ -74,7 +74,7 @@ class Form
      */
     public function getTypeName()
     {
-        $type = \Mage::getModel('\Magento\GiftRegistry\Model\Type')
+        $type = \Mage::getModel('Magento\GiftRegistry\Model\Type')
             ->load($this->getEntity()->getTypeId());
 
         return $this->escapeHtml($type->getLabel());

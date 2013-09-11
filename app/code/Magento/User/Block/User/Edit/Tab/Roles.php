@@ -45,7 +45,7 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('\Magento\User\Model\Resource\Role\Collection');
+        $collection = \Mage::getResourceModel('Magento\User\Model\Resource\Role\Collection');
         $collection->setRolesFilter();
         $this->setCollection($collection);
         return parent::_prepareCollection();

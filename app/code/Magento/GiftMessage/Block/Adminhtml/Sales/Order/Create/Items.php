@@ -40,7 +40,7 @@ class Items extends \Magento\Adminhtml\Block\Template
         if (!$item) {
             return false;
         }
-        return $this->helper('\Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable(
+        return $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable(
             'item', $item, $item->getStoreId()
         );
     }
@@ -52,7 +52,7 @@ class Items extends \Magento\Adminhtml\Block\Template
      */
     public function getFormHtml()
     {
-        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Sales\Order\Create\Giftmessage\Form')
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Sales\Order\Create\Giftmessage\Form')
             ->setEntity($this->getItem())
             ->setEntityType('item')
             ->toHtml();
@@ -66,7 +66,7 @@ class Items extends \Magento\Adminhtml\Block\Template
     public function getMessageText()
     {
         if ($this->getItem()->getGiftMessageId()) {
-            $model = $this->helper('\Magento\GiftMessage\Helper\Message')->getGiftMessage($this->getItem()->getGiftMessageId());
+            $model = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage($this->getItem()->getGiftMessageId());
             return $this->escapeHtml($model->getMessage());
         }
         return '';

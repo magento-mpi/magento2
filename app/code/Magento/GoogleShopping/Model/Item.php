@@ -47,7 +47,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function getServiceItem()
     {
         if (is_null($this->_serviceItem)) {
-            $this->_serviceItem = \Mage::getModel('\Magento\GoogleShopping\Model\Service\Item')
+            $this->_serviceItem = \Mage::getModel('Magento\GoogleShopping\Model\Service\Item')
                 ->setStoreId($this->getStoreId());
         }
         return $this->_serviceItem;
@@ -144,7 +144,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             return $registry[$attributeSetId][$targetCountry];
         }
 
-        $type = \Mage::getModel('\Magento\GoogleShopping\Model\Type')
+        $type = \Mage::getModel('Magento\GoogleShopping\Model\Type')
             ->loadByAttributeSetId($attributeSetId, $targetCountry);
 
         $registry[$attributeSetId][$targetCountry] = $type;
@@ -162,7 +162,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function getProduct()
     {
         if (is_null($this->getData('product')) && !is_null($this->getProductId())) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->setStoreId($this->getStoreId())
                 ->load($this->getProductId());
             $this->setData('product', $product);

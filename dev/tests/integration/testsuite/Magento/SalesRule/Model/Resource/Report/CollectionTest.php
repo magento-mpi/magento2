@@ -15,7 +15,7 @@ class Magento_SalesRule_Model_Resource_Report_CollectionTest extends PHPUnit_Fra
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('\Magento\SalesRule\Model\Resource\Report\Collection');
+        $this->_collection = Mage::getResourceModel('Magento\SalesRule\Model\Resource\Report\Collection');
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)

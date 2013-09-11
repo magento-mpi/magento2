@@ -298,7 +298,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
             $setDisabled = true;
         } else {
             $categoryId = $observer->getEvent()->getBlock()->getEvent()->getCategoryId();
-            $path = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Category')->getCategoryPathById($categoryId);
+            $path = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category')->getCategoryPathById($categoryId);
             if (!$this->_role->hasExclusiveCategoryAccess($path)) {
                 $setDisabled = true;
             }
@@ -564,7 +564,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
         /* @var $model \Magento\Cms\Model\Page */
         $model = \Mage::registry('cms_page');
         if ($model && $model->getId()) {
-            $storeIds = \Mage::getResourceSingleton('\Magento\Cms\Model\Resource\Page')
+            $storeIds = \Mage::getResourceSingleton('Magento\Cms\Model\Resource\Page')
                 ->lookupStoreIds($model->getPageId());
             if (!$this->_role->hasExclusiveStoreAccess($storeIds)) {
                 $observer->getEvent()->getBlock()
@@ -585,7 +585,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $model = \Mage::registry('cms_page');
         if ($model && $model->getId()) {
-            $storeIds = \Mage::getResourceSingleton('\Magento\Cms\Model\Resource\Page')
+            $storeIds = \Mage::getResourceSingleton('Magento\Cms\Model\Resource\Page')
                 ->lookupStoreIds($model->getPageId());
             if (!$this->_role->hasExclusiveStoreAccess($storeIds)) {
                 $observer->getEvent()->getBlock()
@@ -907,7 +907,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $block = $observer->getEvent()->getBlock();
         $eventCategoryId = $block->getEvent()->getCategoryId();
-        $categoryPath = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Category')
+        $categoryPath = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category')
             ->getCategoryPathById($eventCategoryId);
         if (!$this->_role->hasExclusiveCategoryAccess($categoryPath)) {
             $block->removeButton('save');

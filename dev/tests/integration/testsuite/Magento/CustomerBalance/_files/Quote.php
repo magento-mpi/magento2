@@ -7,7 +7,7 @@
  */
 
 //Add customer
-$customer = Mage::getModel('\Magento\Customer\Model\Customer');
+$customer = Mage::getModel('Magento\Customer\Model\Customer');
 $customer->setStoreId(1)
     ->setWebsiteId(1)
     ->setCreatedIn('Default Store View')
@@ -23,7 +23,7 @@ $customer->setStoreId(1)
     ->save();
 
 //Change customer balance several times to create balance with history
-$customerBalance = Mage::getModel('\Magento\CustomerBalance\Model\Balance');
+$customerBalance = Mage::getModel('Magento\CustomerBalance\Model\Balance');
 $customerBalance->setCustomerId($customer->getId())
     ->setWebsiteId(1)
     ->setAmountDelta(1000)
@@ -33,7 +33,7 @@ $customerBalance->setCustomerId($customer->getId())
 Magento_CustomerBalance_Model_Quote_ApiTest::$customer = $customer;
 
 //Create new simple product to add it to shopping cart
-$product = Mage::getModel('\Magento\Catalog\Model\Product');
+$product = Mage::getModel('Magento\Catalog\Model\Product');
 $product->setTypeId('simple')
     ->setStoreId(1)
     ->setWebsiteId(1)
@@ -61,7 +61,7 @@ $product->setTypeId('simple')
 Magento_CustomerBalance_Model_Quote_ApiTest::$product = $product;
 
 //Create shopping cart
-$quote = Mage::getModel('\Magento\Sales\Model\Quote');
+$quote = Mage::getModel('Magento\Sales\Model\Quote');
 $quote->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false);
@@ -77,7 +77,7 @@ $quote->setCustomer($customer)
     ->setPasswordHash($customer->encryptPassword($customer->getPassword()));
 
 //Create billing/shipping address
-$address = Mage::getModel('\Magento\Sales\Model\Quote\Address');
+$address = Mage::getModel('Magento\Sales\Model\Quote\Address');
 $address->setData(
     array(
         'city' => 'New York',
@@ -107,7 +107,7 @@ $quote->collectTotals()
 Magento_CustomerBalance_Model_Quote_ApiTest::$quote = $quote;
 
 //Create shopping cart by guest
-$guestQuote = Mage::getModel('\Magento\Sales\Model\Quote');
+$guestQuote = Mage::getModel('Magento\Sales\Model\Quote');
 $guestQuote->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false)

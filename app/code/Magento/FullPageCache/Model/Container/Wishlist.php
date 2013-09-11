@@ -53,7 +53,7 @@ class Wishlist extends \Magento\FullPageCache\Model\Container\AbstractContainer
 
         /** @var $blockPrice \Magento\Catalog\Block\Product\Price\Template */
         $blockPrice = \Mage::app()->getLayout()
-            ->createBlock('\Magento\Catalog\Block\Product\Price\Template', 'catalog_product_price_template');
+            ->createBlock('Magento\Catalog\Block\Product\Price\Template', 'catalog_product_price_template');
         $blockPrice->addPriceBlockType('msrp', '\Magento\Catalog\Block\Product\Price', 'catalog/product/price_msrp.phtml');
 
         \Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));

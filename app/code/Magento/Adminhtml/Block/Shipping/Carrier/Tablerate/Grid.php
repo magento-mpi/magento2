@@ -101,7 +101,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareCollection()
     {
         /** @var $collection \Magento\Shipping\Model\Resource\Carrier\Tablerate\Collection */
-        $collection = \Mage::getResourceModel('\Magento\Shipping\Model\Resource\Carrier\Tablerate\Collection');
+        $collection = \Mage::getResourceModel('Magento\Shipping\Model\Resource\Carrier\Tablerate\Collection');
         $collection->setConditionFilter($this->getConditionName())
             ->setWebsiteFilter($this->getWebsiteId());
 

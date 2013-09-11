@@ -110,8 +110,8 @@ class Account extends \Magento\Core\Controller\Front\Action
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
-        $this->_initLayoutMessages('\Magento\Catalog\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
         $this->getLayout()->getBlock('head')->setTitle(__('My Account'));
         $this->renderLayout();
     }
@@ -127,8 +127,8 @@ class Account extends \Magento\Core\Controller\Front\Action
         }
         $this->getResponse()->setHeader('Login-Required', 'true');
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
-        $this->_initLayoutMessages('\Magento\Catalog\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
         $this->renderLayout();
     }
 
@@ -258,7 +258,7 @@ class Account extends \Magento\Core\Controller\Front\Action
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $this->renderLayout();
     }
 
@@ -372,9 +372,9 @@ class Account extends \Magento\Core\Controller\Front\Action
             return null;
         }
         /* @var \Magento\Customer\Model\Address $address */
-        $address = \Mage::getModel('\Magento\Customer\Model\Address');
+        $address = \Mage::getModel('Magento\Customer\Model\Address');
         /* @var \Magento\Customer\Model\Form $addressForm */
-        $addressForm = \Mage::getModel('\Magento\Customer\Model\Form');
+        $addressForm = \Mage::getModel('Magento\Customer\Model\Form');
         $addressForm->setFormCode('customer_register_address')
             ->setEntity($address);
 
@@ -397,10 +397,10 @@ class Account extends \Magento\Core\Controller\Front\Action
         /** @var \Magento\Customer\Model\Customer $customer */
         $customer = \Mage::registry('current_customer');
         if (!$customer) {
-            $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->setId(null);
+            $customer = \Mage::getModel('Magento\Customer\Model\Customer')->setId(null);
         }
         /* @var \Magento\Customer\Model\Form $customerForm */
-        $customerForm = \Mage::getModel('\Magento\Customer\Model\Form');
+        $customerForm = \Mage::getModel('Magento\Customer\Model\Form');
         $customerForm->setFormCode('customer_account_create')
             ->setEntity($customer);
 
@@ -479,7 +479,7 @@ class Account extends \Magento\Core\Controller\Front\Action
             // load customer by id (try/catch in case if it throws exceptions)
             try {
                 /** @var \Magento\Customer\Model\Customer $customer */
-                $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($customerId);
+                $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($customerId);
                 if ((!$customer) || (!$customer->getId())) {
                     throw new \Exception('Failed to load customer by id.');
                 }
@@ -524,7 +524,7 @@ class Account extends \Magento\Core\Controller\Front\Action
      */
     public function confirmationAction()
     {
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer');
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer');
         if ($this->_getSession()->isLoggedIn()) {
             $this->_redirect('*/*/');
             return;
@@ -559,7 +559,7 @@ class Account extends \Magento\Core\Controller\Front\Action
         $this->getLayout()->getBlock('accountConfirmation')
             ->setEmail($this->getRequest()->getParam('email', $email));
 
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $this->renderLayout();
     }
 
@@ -575,7 +575,7 @@ class Account extends \Magento\Core\Controller\Front\Action
         );
         $this->_getSession()->unsForgottenEmail();
 
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $this->renderLayout();
     }
 
@@ -594,7 +594,7 @@ class Account extends \Magento\Core\Controller\Front\Action
             }
 
             /** @var $customer \Magento\Customer\Model\Customer */
-            $customer = \Mage::getModel('\Magento\Customer\Model\Customer')
+            $customer = \Mage::getModel('Magento\Customer\Model\Customer')
                 ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId())
                 ->loadByEmail($email);
 
@@ -688,7 +688,7 @@ class Account extends \Magento\Core\Controller\Front\Action
             );
         }
         /** @var $customer \Magento\Customer\Model\Customer */
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($customerId);
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($customerId);
 
         $customer->setPassword($password);
         $customer->setConfirmation($passwordConfirmation);
@@ -751,7 +751,7 @@ class Account extends \Magento\Core\Controller\Front\Action
         }
 
         /** @var $customer \Magento\Customer\Model\Customer */
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($customerId);
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($customerId);
         if (!$customer || !$customer->getId()) {
             throw \Mage::exception(
                 'Magento_Core',
@@ -774,8 +774,8 @@ class Account extends \Magento\Core\Controller\Front\Action
     public function editAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
-        $this->_initLayoutMessages('\Magento\Catalog\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
 
         $block = $this->getLayout()->getBlock('customer_edit');
         if ($block) {
@@ -810,7 +810,7 @@ class Account extends \Magento\Core\Controller\Front\Action
             $customer = $this->_getSession()->getCustomer();
 
             /** @var $customerForm \Magento\Customer\Model\Form */
-            $customerForm = \Mage::getModel('\Magento\Customer\Model\Form');
+            $customerForm = \Mage::getModel('Magento\Customer\Model\Form');
             $customerForm->setFormCode('customer_account_edit')
                 ->setEntity($customer);
 

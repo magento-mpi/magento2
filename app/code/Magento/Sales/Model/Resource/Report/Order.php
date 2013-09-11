@@ -38,8 +38,8 @@ class Order extends \Magento\Sales\Model\Resource\Report\AbstractReport
      */
     public function aggregate($from = null, $to = null)
     {
-        \Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Order\Createdat')->aggregate($from, $to);
-        \Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Order\Updatedat')->aggregate($from, $to);
+        \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Order\Createdat')->aggregate($from, $to);
+        \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Order\Updatedat')->aggregate($from, $to);
         $this->_setFlagData(\Magento\Reports\Model\Flag::REPORT_ORDER_FLAG_CODE);
 
         return $this;

@@ -19,7 +19,7 @@ class Magento_Wishlist_Controller_IndexTest extends Magento_TestFramework_TestCa
     protected function setUp()
     {
         parent::setUp();
-        $this->_customerSession = Mage::getModel('\Magento\Customer\Model\Session');
+        $this->_customerSession = Mage::getModel('Magento\Customer\Model\Session');
         $this->_customerSession->login('customer@example.com', 'password');
     }
 

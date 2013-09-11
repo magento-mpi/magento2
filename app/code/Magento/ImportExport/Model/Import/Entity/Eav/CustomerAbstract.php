@@ -101,7 +101,7 @@ abstract class CustomerAbstract
             $data['page_size'] = $this->_pageSize;
         }
         $this->_customerStorage = isset($data['customer_storage']) ? $data['customer_storage']
-                : \Mage::getResourceModel('\Magento\ImportExport\Model\Resource\Customer\Storage', array('data' => $data));
+                : \Mage::getResourceModel('Magento\ImportExport\Model\Resource\Customer\Storage', array('data' => $data));
 
         return $this;
     }

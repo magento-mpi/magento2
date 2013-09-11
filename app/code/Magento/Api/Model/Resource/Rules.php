@@ -42,7 +42,7 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
         try {
             $roleId = $rule->getRoleId();
             $adapter->delete($this->getMainTable(), array('role_id = ?' => $roleId));
-            $masterResources = \Mage::getModel('\Magento\Api\Model\Roles')->getResourcesList2D();
+            $masterResources = \Mage::getModel('Magento\Api\Model\Roles')->getResourcesList2D();
             $masterAdmin = false;
             if ($postedResources = $rule->getResources()) {
                 foreach ($masterResources as $index => $resName) {

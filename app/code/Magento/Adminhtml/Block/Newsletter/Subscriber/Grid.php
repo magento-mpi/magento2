@@ -28,7 +28,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
     {
 
         if ($this->getRequest()->getParam('queue', false)) {
-            $this->getCollection()->useQueue(\Mage::getModel('\Magento\Newsletter\Model\Queue')
+            $this->getCollection()->useQueue(\Mage::getModel('Magento\Newsletter\Model\Queue')
                 ->load($this->getRequest()->getParam('queue')));
         }
 

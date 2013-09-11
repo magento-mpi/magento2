@@ -48,7 +48,7 @@ class Create extends \Magento\Object
             $customerId = intval($customerId);
 
             if ($customerId) {
-                $customer = \Mage::getModel('\Magento\Customer\Model\Customer');
+                $customer = \Mage::getModel('Magento\Customer\Model\Customer');
                 $customer->load($customerId);
                 $this->_customer = $customer;
             } elseif (intval($this->getOrderId())) {
@@ -72,7 +72,7 @@ class Create extends \Magento\Object
             }
             $orderId = intval($orderId);
             if ($orderId) {
-                $order = \Mage::getModel('\Magento\Sales\Model\Order');
+                $order = \Mage::getModel('Magento\Sales\Model\Order');
                 $order->load($orderId);
                 $this->_order = $order;
             }

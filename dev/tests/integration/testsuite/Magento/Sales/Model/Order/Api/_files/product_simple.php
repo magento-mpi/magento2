@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-$product = Mage::getModel('\Magento\Catalog\Model\Product');
+$product = Mage::getModel('Magento\Catalog\Model\Product');
 $product->setTypeId('simple')
     ->setAttributeSetId(4)
     ->setStoreId(0)
@@ -28,5 +28,5 @@ $product->setTypeId('simple')
 )
     ->save();
 // to make stock item visible from created product it should be reloaded
-$product = Mage::getModel('\Magento\Catalog\Model\Product')->load($product->getId());
+$product = Mage::getModel('Magento\Catalog\Model\Product')->load($product->getId());
 Mage::register('product_simple', $product);

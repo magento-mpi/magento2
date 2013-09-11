@@ -331,13 +331,13 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
             if (!$maxAmount || $maxAmount && $customAmount <= $maxAmount) {
                 return $customAmount;
             } elseif ($customAmount > $maxAmount && $isStrict) {
-                $messageAmount = $this->_helper('\Magento\Core\Helper\Data')->currency($maxAmount, true, false);
+                $messageAmount = $this->_helper('Magento\Core\Helper\Data')->currency($maxAmount, true, false);
                 \Mage::throwException(
                     __('Gift Card max amount is %1', $messageAmount)
                 );
             }
         } elseif ($customAmount < $minAmount && $isStrict) {
-            $messageAmount = $this->_helper('\Magento\Core\Helper\Data')->currency($minAmount, true, false);
+            $messageAmount = $this->_helper('Magento\Core\Helper\Data')->currency($minAmount, true, false);
             \Mage::throwException(
                 __('Gift Card min amount is %1', $messageAmount)
             );

@@ -18,7 +18,7 @@ class Magento_CatalogSearch_Block_TermTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\CatalogSearch\Block\Term');
+        $this->_block = Mage::app()->getLayout()->createBlock('Magento\CatalogSearch\Block\Term');
     }
 
     public function testGetSearchUrl()

@@ -86,7 +86,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     public function getFormHtml()
     {
         $html = parent::getFormHtml();
-        $html .= $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Composite\Configure')->toHtml();
+        $html .= $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Composite\Configure')->toHtml();
         return $html;
     }
 

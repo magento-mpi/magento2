@@ -27,7 +27,7 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
         $this->setCacheKey('rss_catalog_category_'
             . $this->getRequest()->getParam('cid') . '_'
             . $this->getRequest()->getParam('store_id') . '_'
-            . \Mage::getModel('\Magento\Customer\Model\Session')->getId()
+            . \Mage::getModel('Magento\Customer\Model\Session')->getId()
         );
         $this->setCacheLifetime(600);
     }
@@ -36,9 +36,9 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
     {
         $categoryId = $this->getRequest()->getParam('cid');
         $storeId = $this->_getStoreId();
-        $rssObj = \Mage::getModel('\Magento\Rss\Model\Rss');
+        $rssObj = \Mage::getModel('Magento\Rss\Model\Rss');
         if ($categoryId) {
-            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($categoryId);
+            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
             if ($category && $category->getId()) {
                 $layer = \Mage::getSingleton('Magento\Catalog\Model\Layer')->setStore($storeId);
                 //want to load all products no matter anchor or not
@@ -61,7 +61,7 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
                     ->addIdFilter($category->getChildren())
                     ->load()
                 ;
-                $productCollection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection();
+                $productCollection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection();
 
                 $currentCategory = $layer->setCurrentCategory($category);
                 $layer->prepareProductCollection($productCollection);
@@ -110,7 +110,7 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
 
         $description = '<table><tr>'
                      . '<td><a href="'.$product->getProductUrl().'"><img src="'
-                     . $this->helper('\Magento\Catalog\Helper\Image')->init($product, 'thumbnail')->resize(75, 75)
+                     . $this->helper('Magento\Catalog\Helper\Image')->init($product, 'thumbnail')->resize(75, 75)
                      . '" border="0" align="left" height="75" width="75"></a></td>'
                      . '<td  style="text-decoration:none;">' . $product->getDescription();
 

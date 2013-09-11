@@ -14,9 +14,9 @@ class Magento_Catalog_Block_Product_View_AdditionalTest extends PHPUnit_Framewor
     public function testGetChildHtmlList()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $layout = Mage::getModel('Magento\Core\Model\Layout');
         /** @var $block \Magento\Catalog\Block\Product\View\Additional */
-        $block = $layout->createBlock('\Magento\Catalog\Block\Product\View\Additional', 'block');
+        $block = $layout->createBlock('Magento\Catalog\Block\Product\View\Additional', 'block');
 
         /** @var $childFirst \Magento\Core\Block\Text */
         $childFirst = $layout->addBlock('\Magento\Core\Block\Text', 'child1', 'block');

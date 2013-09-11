@@ -145,7 +145,7 @@ class Navigation extends \Magento\Core\Block\Template
         $category   = $layer->getCurrentCategory();
         /* @var $category \Magento\Catalog\Model\Category */
         $categories = $category->getChildrenCategories();
-        $productCollection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection');
+        $productCollection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection');
         $layer->prepareProductCollection($productCollection);
         $productCollection->addCountToCategories($categories);
         return $categories;
@@ -168,7 +168,7 @@ class Navigation extends \Magento\Core\Block\Template
     protected function _getCategoryInstance()
     {
         if (is_null($this->_categoryInstance)) {
-            $this->_categoryInstance = \Mage::getModel('\Magento\Catalog\Model\Category');
+            $this->_categoryInstance = \Mage::getModel('Magento\Catalog\Model\Category');
         }
         return $this->_categoryInstance;
     }

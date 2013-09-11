@@ -29,7 +29,7 @@ class Quote extends \Magento\Object
     public function toOrder(\Magento\Sales\Model\Quote $quote, $order=null)
     {
         if (!($order instanceof \Magento\Sales\Model\Order)) {
-            $order = \Mage::getModel('\Magento\Sales\Model\Order');
+            $order = \Mage::getModel('Magento\Sales\Model\Order');
         }
         /* @var $order \Magento\Sales\Model\Order */
 
@@ -75,7 +75,7 @@ class Quote extends \Magento\Object
      */
     public function addressToOrderAddress(\Magento\Sales\Model\Quote\Address $address)
     {
-        $orderAddress = \Mage::getModel('\Magento\Sales\Model\Order\Address')
+        $orderAddress = \Mage::getModel('Magento\Sales\Model\Order\Address')
             ->setStoreId($address->getStoreId())
             ->setAddressType($address->getAddressType())
             ->setCustomerId($address->getCustomerId())
@@ -102,7 +102,7 @@ class Quote extends \Magento\Object
      */
     public function paymentToOrderPayment(\Magento\Sales\Model\Quote\Payment $payment)
     {
-        $orderPayment = \Mage::getModel('\Magento\Sales\Model\Order\Payment')
+        $orderPayment = \Mage::getModel('Magento\Sales\Model\Order\Payment')
             ->setStoreId($payment->getStoreId())
             ->setCustomerPaymentId($payment->getCustomerPaymentId());
 
@@ -127,7 +127,7 @@ class Quote extends \Magento\Object
      */
     public function itemToOrderItem(\Magento\Sales\Model\Quote\Item\AbstractItem $item)
     {
-        $orderItem = \Mage::getModel('\Magento\Sales\Model\Order\Item')
+        $orderItem = \Mage::getModel('Magento\Sales\Model\Order\Item')
             ->setStoreId($item->getStoreId())
             ->setQuoteItemId($item->getId())
             ->setQuoteParentItemId($item->getParentItemId())

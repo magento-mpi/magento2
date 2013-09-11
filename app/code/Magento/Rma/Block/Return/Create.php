@@ -69,10 +69,10 @@ class Create extends \Magento\Rma\Block\Form
     public function getAttributes()
     {
         /* @var $itemModel */
-        $itemModel = \Mage::getModel('\Magento\Rma\Model\Item');
+        $itemModel = \Mage::getModel('Magento\Rma\Model\Item');
 
         /* @var $itemForm \Magento\Rma\Model\Item\Form */
-        $itemForm = \Mage::getModel('\Magento\Rma\Model\Item\Form');
+        $itemForm = \Mage::getModel('Magento\Rma\Model\Item\Form');
         $itemForm->setFormCode('default')
             ->setStore($this->getStore())
             ->setEntity($itemModel);

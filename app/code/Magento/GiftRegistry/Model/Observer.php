@@ -92,7 +92,7 @@ class Observer
         $object = $observer->getEvent()->getDataObject();
 
         if ($registryItemId = $object->getGiftregistryItemId()) {
-            $model = \Mage::getModel('\Magento\GiftRegistry\Model\Entity')
+            $model = \Mage::getModel('Magento\GiftRegistry\Model\Entity')
                 ->loadByEntityItem($registryItemId);
             if ($model->getId()) {
                 $object->setId(
@@ -185,7 +185,7 @@ class Observer
     public function orderPlaced($observer)
     {
         $order = $observer->getEvent()->getOrder();
-        $item = \Mage::getModel('\Magento\GiftRegistry\Model\Item');
+        $item = \Mage::getModel('Magento\GiftRegistry\Model\Item');
         $giftRegistries = array();
         $updatedQty = array();
 
@@ -207,7 +207,7 @@ class Observer
 
         $giftRegistries = array_unique($giftRegistries);
         if (count($giftRegistries)) {
-            $entity = \Mage::getModel('\Magento\GiftRegistry\Model\Entity');
+            $entity = \Mage::getModel('Magento\GiftRegistry\Model\Entity');
             foreach ($giftRegistries as $registryId) {
                 $entity->load($registryId);
                 $entity->sendUpdateRegistryEmail($updatedQty);
@@ -260,7 +260,7 @@ class Observer
         }
 
         /** @var $grItem \Magento\GiftRegistry\Model\Item */
-        $grItem = \Mage::getModel('\Magento\GiftRegistry\Model\Item');
+        $grItem = \Mage::getModel('Magento\GiftRegistry\Model\Item');
         /** @var $collection \Magento\GiftRegistry\Model\Resource\Item\Collection */
         $collection = $grItem->getCollection()->addProductFilter($productId);
 
@@ -269,7 +269,7 @@ class Observer
         }
 
         /** @var $options \Magento\GiftRegistry\Model\Item\Option*/
-        $options = \Mage::getModel('\Magento\GiftRegistry\Model\Item\Option');
+        $options = \Mage::getModel('Magento\GiftRegistry\Model\Item\Option');
         $optionCollection = $options->getCollection()->addProductFilter($productId);
 
         $itemsArray = array();

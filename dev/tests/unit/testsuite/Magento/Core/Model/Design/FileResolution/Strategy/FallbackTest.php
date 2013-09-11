@@ -41,7 +41,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
 
     public function setUp()
     {
-        $this->_fallbackFile = $this->getMockForAbstractClass('\Magento\Core\Model\Design\Fallback\Rule\RuleInterface');
+        $this->_fallbackFile = $this->getMockForAbstractClass('Magento\Core\Model\Design\Fallback\Rule\RuleInterface');
         $this->_fallbackLocale = $this->getMockForAbstractClass(
             '\Magento\Core\Model\Design\Fallback\Rule\RuleInterface'
         );

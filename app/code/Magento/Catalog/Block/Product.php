@@ -22,7 +22,7 @@ class Product extends \Magento\Core\Block\Template
                 $productId = $this->getData('product')->getProductId();
             }
             if ($productId) {
-                $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($productId);
+                $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
                 if ($product) {
                     $this->setProduct($product);
                 }

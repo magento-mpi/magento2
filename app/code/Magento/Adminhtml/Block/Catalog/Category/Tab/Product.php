@@ -59,7 +59,7 @@ class Product extends \Magento\Adminhtml\Block\Widget\Grid
         if ($this->getCategory()->getId()) {
             $this->setDefaultFilter(array('in_category'=>1));
         }
-        $collection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
+        $collection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')

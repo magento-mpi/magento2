@@ -71,12 +71,12 @@ class MassOperations
                     break;
                 }
                 try {
-                    $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+                    $product = \Mage::getModel('Magento\Catalog\Model\Product')
                         ->setStoreId($storeId)
                         ->load($productId);
 
                     if ($product->getId()) {
-                        \Mage::getModel('\Magento\GoogleShopping\Model\Item')
+                        \Mage::getModel('Magento\GoogleShopping\Model\Item')
                             ->insertItem($product)
                             ->save();
                         // The product was added successfully
@@ -271,7 +271,7 @@ class MassOperations
         if ($items instanceof \Magento\GoogleShopping\Model\Resource\Item\Collection) {
             $itemsCollection = $items;
         } else if (is_array($items)) {
-            $itemsCollection = \Mage::getResourceModel('\Magento\GoogleShopping\Model\Resource\Item\Collection')
+            $itemsCollection = \Mage::getResourceModel('Magento\GoogleShopping\Model\Resource\Item\Collection')
                 ->addFieldToFilter('item_id', $items);
         }
 
@@ -295,7 +295,7 @@ class MassOperations
      */
     protected function _getNotifier()
     {
-        return \Mage::getModel('\Magento\AdminNotification\Model\Inbox');
+        return \Mage::getModel('Magento\AdminNotification\Model\Inbox');
     }
 
     /**

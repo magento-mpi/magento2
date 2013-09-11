@@ -153,7 +153,7 @@ class Banner extends \Magento\Adminhtml\Controller\Action
         if ($bannerId = $this->getRequest()->getParam('id')) {
             try {
                 // init model and delete
-                $model = \Mage::getModel('\Magento\Banner\Model\Banner');
+                $model = \Mage::getModel('Magento\Banner\Model\Banner');
                 $model->load($bannerId);
                 $model->delete();
                 // display success message
@@ -233,7 +233,7 @@ class Banner extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Banners'));
 
         $bannerId = (int)$this->getRequest()->getParam($idFieldName);
-        $model = \Mage::getModel('\Magento\Banner\Model\Banner');
+        $model = \Mage::getModel('Magento\Banner\Model\Banner');
         if ($bannerId) {
             $model->load($bannerId);
         }
@@ -321,7 +321,7 @@ class Banner extends \Magento\Adminhtml\Controller\Action
     public function salesRuleBannersGridAction()
     {
         $ruleId = $this->getRequest()->getParam('id');
-        $model = \Mage::getModel('\Magento\SalesRule\Model\Rule');
+        $model = \Mage::getModel('Magento\SalesRule\Model\Rule');
 
         if ($ruleId) {
             $model->load($ruleId);
@@ -350,7 +350,7 @@ class Banner extends \Magento\Adminhtml\Controller\Action
     public function catalogRuleBannersGridAction()
     {
         $ruleId = $this->getRequest()->getParam('id');
-        $model = \Mage::getModel('\Magento\CatalogRule\Model\Rule');
+        $model = \Mage::getModel('Magento\CatalogRule\Model\Rule');
 
         if ($ruleId) {
             $model->load($ruleId);

@@ -100,7 +100,7 @@ class Giftmessage extends \Magento\Adminhtml\Block\Widget
     public function getEntity()
     {
         if(is_null($this->_entity)) {
-            $this->setEntity(\Mage::getModel('\Magento\GiftMessage\Model\Message')->getEntityModelByType('order'));
+            $this->setEntity(\Mage::getModel('Magento\GiftMessage\Model\Message')->getEntityModelByType('order'));
             $this->getEntity()->load($this->getRequest()->getParam('entity'));
         }
         return $this->_entity;
@@ -191,7 +191,7 @@ class Giftmessage extends \Magento\Adminhtml\Block\Widget
      */
     protected function _initMessage()
     {
-        $this->_giftMessage = $this->helper('\Magento\GiftMessage\Helper\Message')->getGiftMessage(
+        $this->_giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage(
                                    $this->getEntity()->getGiftMessageId()
                               );
 
@@ -248,7 +248,7 @@ class Giftmessage extends \Magento\Adminhtml\Block\Widget
      */
     public function canDisplayGiftmessage()
     {
-        return $this->helper('\Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable(
+        return $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable(
             'order', $this->getEntity(), $this->getEntity()->getStoreId()
         );
     }

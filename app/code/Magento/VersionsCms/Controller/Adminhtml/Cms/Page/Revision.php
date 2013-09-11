@@ -67,7 +67,7 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
             $revisionId = (int) $this->getRequest()->getParam('revision_id');
         }
 
-        $revision = \Mage::getModel('\Magento\VersionsCms\Model\Page\Revision');
+        $revision = \Mage::getModel('Magento\VersionsCms\Model\Page\Revision');
         $userId = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId();
         $accessLevel = \Mage::getSingleton('Magento\VersionsCms\Model\Config')->getAllowedAccessLevel();
 

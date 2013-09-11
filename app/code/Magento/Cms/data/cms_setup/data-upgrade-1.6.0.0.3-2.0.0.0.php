@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-$cookieRestrictionModel = \Mage::getModel('\Magento\Cms\Model\Page')
+$cookieRestrictionModel = \Mage::getModel('Magento\Cms\Model\Page')
     ->load('privacy-policy-cookie-restriction-mode','identifier');
 
 if ($cookieRestrictionModel->getId()) {

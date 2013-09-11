@@ -42,7 +42,7 @@ class Region implements \Magento\Data\Form\Element\Renderer\RendererInterface
         $regionCollection = false;
         if ($countryId) {
             if (!isset(self::$_regionCollections[$countryId])) {
-                self::$_regionCollections[$countryId] = \Mage::getModel('\Magento\Directory\Model\Country')
+                self::$_regionCollections[$countryId] = \Mage::getModel('Magento\Directory\Model\Country')
                     ->setId($countryId)
                     ->getLoadedRegionCollection()
                     ->toOptionArray();

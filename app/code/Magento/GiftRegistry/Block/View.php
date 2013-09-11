@@ -49,7 +49,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
     public function getCountryName($countryCode)
     {
         if ($countryCode) {
-            $country = \Mage::getModel('\Magento\Directory\Model\Country')->loadByCode($countryCode);
+            $country = \Mage::getModel('Magento\Directory\Model\Country')->loadByCode($countryCode);
             return $country->getName();
         }
         return '';
@@ -86,7 +86,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
     public function getAttributesToDisplay()
     {
         $typeId = $this->getEntity()->getTypeId();
-        $type = \Mage::getModel('\Magento\GiftRegistry\Model\Type')->load($typeId);
+        $type = \Mage::getModel('Magento\GiftRegistry\Model\Type')->load($typeId);
 
         $attributes = array_merge(
             array(

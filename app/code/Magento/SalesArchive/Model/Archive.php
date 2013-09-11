@@ -61,7 +61,7 @@ class Archive
      */
     protected function _getResource()
     {
-        return \Mage::getResourceSingleton('\Magento\SalesArchive\Model\Resource\Archive');
+        return \Mage::getResourceSingleton('Magento\SalesArchive\Model\Resource\Archive');
     }
 
     /**

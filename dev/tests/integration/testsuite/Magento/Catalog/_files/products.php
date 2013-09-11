@@ -10,7 +10,7 @@
  */
 
 /** @var $product \Magento\Catalog\Model\Product */
-$product = Mage::getModel('\Magento\Catalog\Model\Product');
+$product = Mage::getModel('Magento\Catalog\Model\Product');
 $product->setTypeId('simple')
     ->setId(1)
     ->setAttributeSetId(4)
@@ -31,6 +31,6 @@ $product->setTypeId('simple')
     ))
     ->save();
 
-$customDesignProduct = Mage::getModel('\Magento\Catalog\Model\Product', array('data' => $product->getData()));
+$customDesignProduct = Mage::getModel('Magento\Catalog\Model\Product', array('data' => $product->getData()));
 $customDesignProduct->setId(2)->setCustomDesign('magento_blank')
     ->save();

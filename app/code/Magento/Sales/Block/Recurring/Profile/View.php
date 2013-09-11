@@ -145,13 +145,13 @@ class View extends \Magento\Core\Block\Template
             return;
         }
 
-        $options = \Mage::getModel('\Magento\Catalog\Model\Product\Option')->getCollection()
+        $options = \Mage::getModel('Magento\Catalog\Model\Product\Option')->getCollection()
             ->addIdsToFilter(array_keys($request['options']))
             ->addTitleToResult($this->_profile->getInfoValue($key, 'store_id'))
             ->addValuesToResult();
 
-        $productMock = \Mage::getModel('\Magento\Catalog\Model\Product');
-        $quoteItemOptionMock = \Mage::getModel('\Magento\Sales\Model\Quote\Item\Option');
+        $productMock = \Mage::getModel('Magento\Catalog\Model\Product');
+        $quoteItemOptionMock = \Mage::getModel('Magento\Sales\Model\Quote\Item\Option');
         foreach ($options as $option) {
             $quoteItemOptionMock->setId($option->getId());
 
@@ -249,7 +249,7 @@ class View extends \Magento\Core\Block\Template
             $key = 'billing_address_info';
         }
         $this->setIsAddress(true);
-        $address = \Mage::getModel('\Magento\Sales\Model\Order\Address', array('data' => $this->_profile->getData($key)));
+        $address = \Mage::getModel('Magento\Sales\Model\Order\Address', array('data' => $this->_profile->getData($key)));
         $this->_addInfo(array(
             'value' => preg_replace('/\\n{2,}/', "\n", $address->format('text')),
         ));
@@ -267,7 +267,7 @@ class View extends \Magento\Core\Block\Template
             'in' => \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getVisibleOnFrontStates()
         ));
 
-        $pager = $this->getLayout()->createBlock('\Magento\Page\Block\Html\Pager')
+        $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager')
             ->setCollection($this->_relatedOrders)->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
 
@@ -347,7 +347,7 @@ class View extends \Magento\Core\Block\Template
     protected function _prepareRelatedOrders($fieldsToSelect = '*')
     {
         if (null === $this->_relatedOrders) {
-            $this->_relatedOrders = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Collection')
+            $this->_relatedOrders = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Collection')
                 ->addFieldToSelect($fieldsToSelect)
                 ->addFieldToFilter('customer_id', \Mage::registry('current_customer')->getId())
                 ->addRecurringProfilesFilter($this->_profile->getId())

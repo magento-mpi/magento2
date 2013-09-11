@@ -197,7 +197,7 @@ class User
         );
 
         /** @var $validator \Magento\Validator\Composite\VarienObject */
-        $validator = \Mage::getModel('\Magento\Validator\Composite\VarienObject');
+        $validator = \Mage::getModel('Magento\Validator\Composite\VarienObject');
         $validator
             ->addRule($userNameNotEmpty, 'username')
             ->addRule($firstNameNotEmpty, 'firstname')
@@ -293,7 +293,7 @@ class User
     public function getRole()
     {
         if (null === $this->_role) {
-            $this->_role = \Mage::getModel('\Magento\User\Model\Role');
+            $this->_role = \Mage::getModel('Magento\User\Model\Role');
             $roles = $this->getRoles();
             if ($roles && isset($roles[0]) && $roles[0]) {
                 $this->_role->load($roles[0]);
@@ -331,7 +331,7 @@ class User
      */
     public function getCollection()
     {
-        return \Mage::getResourceModel('\Magento\User\Model\Resource\User\Collection');
+        return \Mage::getResourceModel('Magento\User\Model\Resource\User\Collection');
     }
 
     /**
@@ -354,7 +354,7 @@ class User
     protected function _getMailer()
     {
         if (!$this->_mailer) {
-            $this->_mailer = \Mage::getModel('\Magento\Core\Model\Email\Template\Mailer');
+            $this->_mailer = \Mage::getModel('Magento\Core\Model\Email\Template\Mailer');
         }
         return $this->_mailer;
     }
@@ -368,7 +368,7 @@ class User
     {
         $mailer = $this->_getMailer();
         /** @var $mailer \Magento\Core\Model\Email\Template\Mailer */
-        $emailInfo = \Mage::getModel('\Magento\Core\Model\Email\Info');
+        $emailInfo = \Mage::getModel('Magento\Core\Model\Email\Info');
         $emailInfo->addTo($this->getEmail(), $this->getName());
         $mailer->addEmailInfo($emailInfo);
 

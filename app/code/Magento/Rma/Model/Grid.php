@@ -53,7 +53,7 @@ class Grid extends \Magento\Core\Model\AbstractModel
     public function getStatusLabel()
     {
         if (is_null(parent::getStatusLabel())){
-            $this->setStatusLabel(\Mage::getModel('\Magento\Rma\Model\Rma\Source\Status')->getItemLabel($this->getStatus()));
+            $this->setStatusLabel(\Mage::getModel('Magento\Rma\Model\Rma\Source\Status')->getItemLabel($this->getStatus()));
     }
         return parent::getStatusLabel();
     }

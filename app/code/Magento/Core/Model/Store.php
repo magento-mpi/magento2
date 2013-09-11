@@ -284,7 +284,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected function _getSession()
     {
         if (!$this->_session) {
-            $this->_session = \Mage::getModel('\Magento\Core\Model\Session')
+            $this->_session = \Mage::getModel('Magento\Core\Model\Session')
                 ->init('store_'.$this->getCode());
         }
         return $this->_session;
@@ -697,7 +697,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     {
         $currency = $this->getData('base_currency');
         if (is_null($currency)) {
-            $currency = \Mage::getModel('\Magento\Directory\Model\Currency')->load($this->getBaseCurrencyCode());
+            $currency = \Mage::getModel('Magento\Directory\Model\Currency')->load($this->getBaseCurrencyCode());
             $this->setData('base_currency', $currency);
         }
         return $currency;
@@ -723,7 +723,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     {
         $currency = $this->getData('default_currency');
         if (is_null($currency)) {
-            $currency = \Mage::getModel('\Magento\Directory\Model\Currency')->load($this->getDefaultCurrencyCode());
+            $currency = \Mage::getModel('Magento\Directory\Model\Currency')->load($this->getDefaultCurrencyCode());
             $this->setData('default_currency', $currency);
         }
         return $currency;
@@ -821,7 +821,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         $currency = $this->getData('current_currency');
 
         if (is_null($currency)) {
-            $currency     = \Mage::getModel('\Magento\Directory\Model\Currency')->load($this->getCurrentCurrencyCode());
+            $currency     = \Mage::getModel('Magento\Directory\Model\Currency')->load($this->getCurrentCurrencyCode());
             $baseCurrency = $this->getBaseCurrency();
 
             if (! $baseCurrency->getRate($currency)) {

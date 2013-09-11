@@ -35,7 +35,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     protected function _prepareLayout()
     {
-        $this->getLayout()->createBlock('\Magento\Catalog\Block\Breadcrumbs');
+        $this->getLayout()->createBlock('Magento\Catalog\Block\Breadcrumbs');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $product = $this->getProduct();
@@ -56,7 +56,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
             } else {
                 $headBlock->setDescription(\Mage::helper('Magento\Core\Helper\String')->substr($product->getDescription(), 0, 255));
             }
-            if ($this->helper('\Magento\Catalog\Helper\Product')->canUseCanonicalTag()) {
+            if ($this->helper('Magento\Catalog\Helper\Product')->canUseCanonicalTag()) {
                 $params = array('_ignore_category'=>true);
                 $headBlock->addLinkRel('canonical', $product->getUrlModel()->getUrl($product, $params));
             }
@@ -77,7 +77,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getProduct()
     {
         if (!\Mage::registry('product') && $this->getProductId()) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($this->getProductId());
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($this->getProductId());
             \Mage::register('product', $product);
         }
         return \Mage::registry('product');
@@ -115,7 +115,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         $addUrlValue = \Mage::getUrl('*/*/*', array('_use_rewrite' => true, '_current' => true));
         $additional[$addUrlKey] = \Mage::helper('Magento\Core\Helper\Data')->urlEncode($addUrlValue);
 
-        return $this->helper('\Magento\Checkout\Helper\Cart')->getAddUrl($product, $additional);
+        return $this->helper('Magento\Checkout\Helper\Cart')->getAddUrl($product, $additional);
     }
 
     /**

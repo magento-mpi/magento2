@@ -114,7 +114,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
         foreach ($this->_attributes as $attributeData) {
             $arguments = $this->_objectManager->getConstructArguments('\Magento\Eav\Model\Entity\Attribute\AbstractAttribute');
             $arguments['data'] = $attributeData;
-            $attribute = $this->getMockForAbstractClass('\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+            $attribute = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 $arguments, '', true, true, true, array('_construct')
             );
             $attributeCollection->addItem($attribute);
@@ -207,7 +207,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
      */
     public function testExportItem()
     {
-        $writer = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Export\Adapter\AbstractAdapter',
+        $writer = $this->getMockForAbstractClass('Magento\ImportExport\Model\Export\Adapter\AbstractAdapter',
             array(), '', false, false, true, array('writeRow')
         );
 
@@ -220,7 +220,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
 
         $arguments = $this->_objectManager->getConstructArguments('\Magento\Core\Model\AbstractModel');
         $arguments['data'] = $this->_addressData;
-        $item = $this->getMockForAbstractClass('\Magento\Core\Model\AbstractModel', $arguments);
+        $item = $this->getMockForAbstractClass('Magento\Core\Model\AbstractModel', $arguments);
         $this->_model->exportItem($item);
     }
 

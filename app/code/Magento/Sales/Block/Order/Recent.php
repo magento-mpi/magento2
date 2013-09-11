@@ -26,7 +26,7 @@ class Recent extends \Magento\Core\Block\Template
         parent::_construct();
 
         //TODO: add full name logic
-        $orders = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Collection')
+        $orders = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Collection')
             ->addAttributeToSelect('*')
             ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id', null, 'left')
             ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id', null, 'left')

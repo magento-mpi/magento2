@@ -22,7 +22,7 @@ class V2 extends \Magento\CatalogInventory\Model\Stock\Item\Api
     public function update($productId, $data)
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $productId = $product->getIdBySku($productId) ?: $productId;
 
         $product->setStoreId($this->_getStoreId())

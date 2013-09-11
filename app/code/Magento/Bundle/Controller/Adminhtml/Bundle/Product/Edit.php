@@ -24,7 +24,7 @@ class Edit extends \Magento\Adminhtml\Controller\Catalog\Product
         $product = $this->_initProduct();
         $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('\Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle',
+                ->createBlock('Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle',
                     'admin.product.bundle.items')
                 ->setProductId($product->getId())
                 ->toHtml()

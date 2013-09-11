@@ -25,7 +25,7 @@ class Options extends \Magento\Adminhtml\Block\Widget\Form
         $fieldset = $form->addFieldset('options_form', array('legend'=>__('Assigned Options')));
 
         if( \Mage::registry('rating_data') ) {
-            $collection = \Mage::getModel('\Magento\Rating\Model\Rating\Option')
+            $collection = \Mage::getModel('Magento\Rating\Model\Rating\Option')
                 ->getResourceCollection()
                 ->addRatingFilter(\Mage::registry('rating_data')->getId())
                 ->load();

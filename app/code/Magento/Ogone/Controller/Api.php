@@ -49,7 +49,7 @@ class Api extends \Magento\Core\Controller\Front\Action
     {
         if (empty($this->_order)) {
             $orderId = $this->getRequest()->getParam('orderID');
-            $this->_order = \Mage::getModel('\Magento\Sales\Model\Order');
+            $this->_order = \Mage::getModel('Magento\Sales\Model\Order');
             $this->_order->loadByIncrementId($orderId);
         }
         return $this->_order;
@@ -101,7 +101,7 @@ class Api extends \Magento\Core\Controller\Front\Action
     {
         $lastIncrementId = $this->_getCheckout()->getLastRealOrderId();
         if ($lastIncrementId) {
-            $order = \Mage::getModel('\Magento\Sales\Model\Order');
+            $order = \Mage::getModel('Magento\Sales\Model\Order');
             $order->loadByIncrementId($lastIncrementId);
             if ($order->getId()) {
                 $order->setState(
@@ -278,7 +278,7 @@ class Api extends \Magento\Core\Controller\Front\Action
                     $invoice->setState(\Magento\Sales\Model\Order\Invoice::STATE_PAID);
                     $invoice->getOrder()->setIsInProcess(true);
 
-                    $transactionSave = \Mage::getModel('\Magento\Core\Model\Resource\Transaction')
+                    $transactionSave = \Mage::getModel('Magento\Core\Model\Resource\Transaction')
                         ->addObject($invoice)
                         ->addObject($invoice->getOrder())
                         ->save();

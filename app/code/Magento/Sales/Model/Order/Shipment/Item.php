@@ -101,7 +101,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             if ($this->getShipment()) {
                 $this->_orderItem = $this->getShipment()->getOrder()->getItemById($this->getOrderItemId());
             } else {
-                $this->_orderItem = \Mage::getModel('\Magento\Sales\Model\Order\Item')
+                $this->_orderItem = \Mage::getModel('Magento\Sales\Model\Order\Item')
                     ->load($this->getOrderItemId());
             }
         }

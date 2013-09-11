@@ -16,7 +16,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
     public function testGetColumnValues()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(9);
         Mage::register('current_product', $product);
 

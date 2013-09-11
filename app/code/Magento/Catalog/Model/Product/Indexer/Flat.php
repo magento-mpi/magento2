@@ -385,6 +385,6 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     protected function _getFlatAttributes()
     {
-        return \Mage::getModel('\Magento\Catalog\Model\Product\Flat\Indexer')->getAttributeCodes();
+        return \Mage::getModel('Magento\Catalog\Model\Product\Flat\Indexer')->getAttributeCodes();
     }
 }

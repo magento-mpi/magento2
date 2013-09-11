@@ -255,7 +255,7 @@ class Content extends \Magento\Adminhtml\Block\Widget\Form
             'legend' => __('Store View Specific Content'),
             'class' => 'store-scope',
         ));
-        $renderer = $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset');
+        $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset');
         $fieldset->setRenderer($renderer);
         $this->_getWysiwygConfig()->setUseContainer(true);
         foreach ($this->_app->getWebsites() as $website) {

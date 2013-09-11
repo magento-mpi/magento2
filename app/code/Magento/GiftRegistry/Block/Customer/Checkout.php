@@ -45,7 +45,7 @@ class Checkout extends \Magento\Core\Block\Template
         $items = array();
         if ($this->_getCheckoutSession()->getQuoteId()) {
             $quote = $this->_getCheckoutSession()->getQuote();
-            $model = \Mage::getModel('\Magento\GiftRegistry\Model\Entity');
+            $model = \Mage::getModel('Magento\GiftRegistry\Model\Entity');
             foreach ($quote->getItemsCollection() as $quoteItem) {
                 $item = array();
                 if ($registryItemId = $quoteItem->getGiftregistryItemId()) {

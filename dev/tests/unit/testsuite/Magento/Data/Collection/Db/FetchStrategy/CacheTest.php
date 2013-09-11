@@ -45,8 +45,8 @@ class Magento_Data_Collection_Db_FetchStrategy_CacheTest extends PHPUnit_Framewo
             ->will($this->returnValue('SELECT * FROM fixture_table'))
         ;
 
-        $this->_cache = $this->getMockForAbstractClass('\Magento\Cache\FrontendInterface');
-        $this->_fetchStrategy = $this->getMockForAbstractClass('\Magento\Data\Collection\Db\FetchStrategyInterface');
+        $this->_cache = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
+        $this->_fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
 
         $this->_object = new \Magento\Data\Collection\Db\FetchStrategy\Cache(
             $this->_cache, $this->_fetchStrategy, 'fixture_', array('fixture_tag_one', 'fixture_tag_two'), 86400

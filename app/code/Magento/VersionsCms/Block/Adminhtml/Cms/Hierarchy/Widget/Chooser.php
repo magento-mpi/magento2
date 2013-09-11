@@ -33,7 +33,7 @@ class Chooser extends \Magento\Adminhtml\Block\Template
         $uniqueId = \Mage::helper('Magento\Core\Helper\Data')->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/cms_hierarchy_widget/chooser', array('uniq_id' => $uniqueId));
 
-        $chooser = $this->getLayout()->createBlock('\Magento\Widget\Block\Adminhtml\Widget\Chooser')
+        $chooser = $this->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Chooser')
             ->setElement($element)
             ->setConfig($this->getConfig())
             ->setFieldsetId($this->getFieldsetId())
@@ -42,13 +42,13 @@ class Chooser extends \Magento\Adminhtml\Block\Template
 
 
         if ($element->getValue()) {
-            $node = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node')->load($element->getValue());
+            $node = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node')->load($element->getValue());
             if ($node->getId()) {
                 $chooser->setLabel($node->getLabel());
             }
         }
 
-        $radioHtml = \Mage::getBlockSingleton('\Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio')
+        $radioHtml = \Mage::getBlockSingleton('Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio')
             ->setUniqId($uniqueId)
             ->toHtml();
 
@@ -150,7 +150,7 @@ class Chooser extends \Magento\Adminhtml\Block\Template
     {
         $nodes = array();
         /** @var $hierarchyNode \Magento\VersionsCms\Model\Hierarchy\Node */
-        $hierarchyNode = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node');
+        $hierarchyNode = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node');
         $hierarchyNode->setScope($this->getScope());
         $hierarchyNode->setScopeId($this->getScopeId());
 

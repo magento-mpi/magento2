@@ -35,7 +35,7 @@ class ProductType extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribu
         $value = 'Shop';
 
         if (!empty($productCategories)) {
-            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load(
+            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load(
                 array_shift($productCategories)
             );
 

@@ -23,7 +23,7 @@ class Flatcatalog
 {
     protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
-        if (!$this->helper('\Magento\Catalog\Helper\Category\Flat')->isBuilt()) {
+        if (!$this->helper('Magento\Catalog\Helper\Category\Flat')->isBuilt()) {
             $element->setDisabled(true)
                 ->setValue(0);
         }

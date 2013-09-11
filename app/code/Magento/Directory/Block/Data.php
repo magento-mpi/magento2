@@ -47,7 +47,7 @@ class Data extends \Magento\Core\Block\Template
     {
         $collection = $this->getData('country_collection');
         if (is_null($collection)) {
-            $collection = \Mage::getModel('\Magento\Directory\Model\Country')->getResourceCollection()
+            $collection = \Mage::getModel('Magento\Directory\Model\Country')->getResourceCollection()
                 ->loadByStore();
             $this->setData('country_collection', $collection);
         }
@@ -68,7 +68,7 @@ class Data extends \Magento\Core\Block\Template
             $options = $this->getCountryCollection()->toOptionArray();
             $this->_configCacheType->save(serialize($options), $cacheKey);
         }
-        $html = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
+        $html = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setName($name)
             ->setId($id)
             ->setTitle(__($title))
@@ -85,7 +85,7 @@ class Data extends \Magento\Core\Block\Template
     {
         $collection = $this->getData('region_collection');
         if (is_null($collection)) {
-            $collection = \Mage::getModel('\Magento\Directory\Model\Region')->getResourceCollection()
+            $collection = \Mage::getModel('Magento\Directory\Model\Region')->getResourceCollection()
                 ->addCountryFilter($this->getCountryId())
                 ->load();
 
@@ -105,7 +105,7 @@ class Data extends \Magento\Core\Block\Template
             $options = $this->getRegionCollection()->toOptionArray();
             $this->_configCacheType->save(serialize($options), $cacheKey);
         }
-        $html = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
+        $html = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setName('region')
             ->setTitle(__('State/Province'))
             ->setId('state')
@@ -135,7 +135,7 @@ class Data extends \Magento\Core\Block\Template
             foreach ($this->getCountryCollection() as $country) {
                 $countryIds[] = $country->getCountryId();
             }
-            $collection = \Mage::getModel('\Magento\Directory\Model\Region')->getResourceCollection()
+            $collection = \Mage::getModel('Magento\Directory\Model\Region')->getResourceCollection()
                 ->addCountryFilter($countryIds)
                 ->load();
             $regions = array();

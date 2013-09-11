@@ -119,7 +119,7 @@ class Magento_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_F
             ->method('getCheckSql')
             ->will($this->returnCallback(array($this, 'verifyGetCheckSql')));
 
-        $resource = $this->getMockForAbstractClass('\Magento\Core\Model\Resource\Db\AbstractDb',
+        $resource = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb',
             array(), '', false, true, true,
             array(
                 'getReadConnection',
@@ -137,7 +137,7 @@ class Magento_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_F
             ->method('getTable')
             ->will($this->returnValue(self::MAIN_TABLE));
 
-        $fetchStrategy = $this->getMockForAbstractClass('\Magento\Data\Collection\Db\FetchStrategyInterface');
+        $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
 
         $this->_collection = $this->getMock(
             '\Magento\CatalogEvent\Model\Resource\Event\Collection',

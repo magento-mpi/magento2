@@ -126,7 +126,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                 $this->_wishlist = \Mage::registry('wishlist');
             }
             else {
-                $this->_wishlist = \Mage::getModel('\Magento\Wishlist\Model\Wishlist');
+                $this->_wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist');
                 if ($this->getCustomer()) {
                     $this->_wishlist->loadByCustomer($this->getCustomer());
                 }

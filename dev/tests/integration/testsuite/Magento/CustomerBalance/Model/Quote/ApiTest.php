@@ -71,7 +71,7 @@ class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_Test
             $data['input']),
             'Remove used amount fail');
 
-        $quote = Mage::getModel('\Magento\Sales\Model\Quote');
+        $quote = Mage::getModel('Magento\Sales\Model\Quote');
         $quote->load(self::$quote->getId());
         $this->assertEquals(0, $quote->getCustomerBalanceAmountUsed(), 'Used amount must be deleted');
     }
@@ -102,7 +102,7 @@ class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_Test
             assertTrue(Magento_TestFramework_Helper_Api::call($this, 'shoppingCartCustomerbalanceRemoveAmount', $input),
             'Remove used amount fail');
 
-        $quote = Mage::getModel('\Magento\Sales\Model\Quote');
+        $quote = Mage::getModel('Magento\Sales\Model\Quote');
         $quote->load(self::$quote->getId());
         $this->assertEquals(0, $quote->getCustomerBalanceAmountUsed(), 'Used amount must be deleted');
     }
@@ -144,7 +144,7 @@ class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_Test
             'Remove used amount fail'
         );
 
-        $quote = Mage::getModel('\Magento\Sales\Model\Quote');
+        $quote = Mage::getModel('Magento\Sales\Model\Quote');
         $quote->load(self::$quote->getId());
         $this->assertEquals(0, $quote->getCustomerBalanceAmountUsed(), 'Used amount must be deleted');
     }

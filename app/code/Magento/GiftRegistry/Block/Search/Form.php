@@ -54,7 +54,7 @@ class Form extends \Magento\Core\Block\Template
      */
     public function getTypesCollection()
     {
-        return \Mage::getModel('\Magento\GiftRegistry\Model\Type')->getCollection()
+        return \Mage::getModel('Magento\GiftRegistry\Model\Type')->getCollection()
             ->addStoreData(\Mage::app()->getStore()->getId());
     }
 
@@ -65,7 +65,7 @@ class Form extends \Magento\Core\Block\Template
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setData(array(
                 'id'    => 'params-type-id',
                 'class' => 'select'

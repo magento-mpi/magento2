@@ -110,7 +110,7 @@ class Catalognavigation extends \Magento\FullPageCache\Model\Container\AbstractC
 
         $categoryId = $this->_getCategoryId();
         if (!\Mage::registry('current_category') && $categoryId) {
-            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($categoryId);
+            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
             \Mage::register('current_category', $category);
         }
 

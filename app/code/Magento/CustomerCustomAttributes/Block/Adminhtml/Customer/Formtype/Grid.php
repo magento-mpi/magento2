@@ -38,7 +38,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('\Magento\Eav\Model\Form\Type')
+        $collection = \Mage::getModel('Magento\Eav\Model\Form\Type')
             ->getCollection();
 
         $this->setCollection($collection);
@@ -69,7 +69,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         ));
 
         /** @var $label \Magento\Core\Model\Theme\Label */
-        $label = \Mage::getModel('\Magento\Core\Model\Theme\Label');
+        $label = \Mage::getModel('Magento\Core\Model\Theme\Label');
         $design = $label->getLabelsCollection();
         array_unshift($design, array(
             'value' => 'all',

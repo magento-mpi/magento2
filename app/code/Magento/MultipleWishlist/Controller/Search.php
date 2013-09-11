@@ -77,7 +77,7 @@ class Search extends \Magento\Core\Controller\Front\Action
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Wish List Search'));
@@ -103,10 +103,10 @@ class Search extends \Magento\Core\Controller\Front\Action
             $strategy = null;
             switch ($params['search']) {
                 case 'type':
-                    $strategy = \Mage::getModel('\Magento\MultipleWishlist\Model\Search\Strategy\Name');
+                    $strategy = \Mage::getModel('Magento\MultipleWishlist\Model\Search\Strategy\Name');
                     break;
                 case 'email':
-                    $strategy = \Mage::getModel('\Magento\MultipleWishlist\Model\Search\Strategy\Email');
+                    $strategy = \Mage::getModel('Magento\MultipleWishlist\Model\Search\Strategy\Email');
                     break;
                 default:
                     \Mage::throwException(
@@ -115,7 +115,7 @@ class Search extends \Magento\Core\Controller\Front\Action
             }
 
             $strategy->setSearchParams($params);
-            $search = \Mage::getModel('\Magento\MultipleWishlist\Model\Search');
+            $search = \Mage::getModel('Magento\MultipleWishlist\Model\Search');
             \Mage::register('search_results', $search->getResults($strategy));
             $this->_getSession()->setLastWishlistSearchParams($params);
         } catch (\InvalidArgumentException $e) {
@@ -126,7 +126,7 @@ class Search extends \Magento\Core\Controller\Front\Action
             $this->_getSession()->addError(__('We could not perform the search.'));
         }
 
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Wish List Search'));
@@ -143,7 +143,7 @@ class Search extends \Magento\Core\Controller\Front\Action
         if (!$wishlistId) {
             return $this->norouteAction();
         }
-        $wishlist = \Mage::getModel('\Magento\Wishlist\Model\Wishlist');
+        $wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist');
         $wishlist->load($wishlistId);
         if (!$wishlist->getId()
             || (!$wishlist->getVisibility() && $wishlist->getCustomerId != $this->_getSession()->getCustomerId())) {
@@ -178,7 +178,7 @@ class Search extends \Magento\Core\Controller\Front\Action
             if ($qty && isset($selected[$itemId])) {
                 try {
                     /** @var \Magento\Wishlist\Model\Item $item*/
-                    $item = \Mage::getModel('\Magento\Wishlist\Model\Item');
+                    $item = \Mage::getModel('Magento\Wishlist\Model\Item');
                     $item->loadWithOptions($itemId);
                     $item->unsProduct();
                     $qty = $this->_processLocalizedQty($qty);

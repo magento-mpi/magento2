@@ -21,7 +21,7 @@ class Magento_Catalog_Model_Category_Attribute_ApiTest extends PHPUnit_Framework
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Catalog\Model\Category\Attribute\Api');
+        $this->_model = Mage::getModel('Magento\Catalog\Model\Category\Attribute\Api');
     }
 
     public function testItems()

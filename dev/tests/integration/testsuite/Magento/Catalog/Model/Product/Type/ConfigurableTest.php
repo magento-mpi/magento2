@@ -28,10 +28,10 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
 
     protected function setUp()
     {
-        $this->_product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $this->_product = Mage::getModel('Magento\Catalog\Model\Product');
         $this->_product->load(1); // fixture
 
-        $this->_model = Mage::getModel('\Magento\Catalog\Model\Product\Type\Configurable');
+        $this->_model = Mage::getModel('Magento\Catalog\Model\Product\Type\Configurable');
         // prevent fatal errors by assigning proper "singleton" of type instance to the product
         $this->_product->setTypeInstance($this->_model);
     }
@@ -431,7 +431,7 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
         $this->assertEquals(3, count($generatedProducts));
         foreach ($generatedProducts as $productId) {
             /** @var $product \Magento\Catalog\Model\Product */
-            $product = Mage::getModel('\Magento\Catalog\Model\Product');
+            $product = Mage::getModel('Magento\Catalog\Model\Product');
             $product->load($productId);
             $this->assertNotNull($product->getName());
             $this->assertNotNull($product->getSku());
@@ -451,7 +451,7 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
         $generatedProducts = $this->_model->generateSimpleProducts($this->_product, $productsData);
         foreach ($generatedProducts as $productId) {
             /** @var $product \Magento\Catalog\Model\Product */
-            $product = Mage::getModel('\Magento\Catalog\Model\Product');
+            $product = Mage::getModel('Magento\Catalog\Model\Product');
             $product->load($productId);
             $this->assertEquals('0', $product->getStockItem()->getData('manage_stock'));
         }

@@ -18,7 +18,7 @@ class Magento_Pci_Model_EncryptionTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Pci\Model\Encryption');
+        $this->_model = Mage::getModel('Magento\Pci\Model\Encryption');
     }
 
     public function testEncryptDecrypt()

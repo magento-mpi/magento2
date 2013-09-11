@@ -89,8 +89,8 @@ class Advanced extends \Magento\Core\Model\AbstractModel
         /* @var $attributes Magento_Catalog_Model_Resource_Eav_Resource_Product_Attribute_Collection */
         $attributes = $this->getData('attributes');
         if (is_null($attributes)) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product');
-            $attributes = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Attribute\Collection')
+            $product = \Mage::getModel('Magento\Catalog\Model\Product');
+            $attributes = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection')
                 ->addHasOptionsFilter()
                 ->addDisplayInAdvancedSearchFilter()
                 ->addStoreLabel(\Mage::app()->getStore()->getId())
@@ -190,7 +190,7 @@ class Advanced extends \Magento\Core\Model\AbstractModel
                 if (!empty($value['from']) || !empty($value['to'])) {
                     if (isset($value['currency'])) {
                         /** @var $currencyModel \Magento\Directory\Model\Currency */
-                        $currencyModel = \Mage::getModel('\Magento\Directory\Model\Currency')->load($value['currency']);
+                        $currencyModel = \Mage::getModel('Magento\Directory\Model\Currency')->load($value['currency']);
                         $from = $currencyModel->format($value['from'], array(), false);
                         $to = $currencyModel->format($value['to'], array(), false);
                     } else {

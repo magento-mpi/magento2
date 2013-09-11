@@ -43,7 +43,7 @@ class Export
         $operation = \Mage::registry('current_operation');
 
         /** @var $fileFormatModel \Magento\ImportExport\Model\Source\Export\Format */
-        $fileFormatModel = \Mage::getModel('\Magento\ImportExport\Model\Source\Export\Format');
+        $fileFormatModel = \Mage::getModel('Magento\ImportExport\Model\Source\Export\Format');
 
         $fieldset = $form->getElement('operation_settings');
         $fieldset->addField('file_format', 'select', array(
@@ -55,7 +55,7 @@ class Export
         ));
 
         $form->getElement('email_template')
-            ->setValues(\Mage::getModel('\Magento\Backend\Model\Config\Source\Email\Template')
+            ->setValues(\Mage::getModel('Magento\Backend\Model\Config\Source\Email\Template')
                 ->setPath('magento_scheduledimportexport_export_failed')
                 ->toOptionArray()
             );
@@ -99,7 +99,7 @@ class Export
         $exportOperation = $operation->getInstance();
         /** @var $block \Magento\ScheduledImportExport\Block\Adminhtml\Export\Filter */
         $block = $this->getLayout()
-            ->createBlock('\Magento\ScheduledImportExport\Block\Adminhtml\Export\Filter')
+            ->createBlock('Magento\ScheduledImportExport\Block\Adminhtml\Export\Filter')
             ->setOperation($exportOperation);
 
         $exportOperation->filterAttributeCollection(

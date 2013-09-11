@@ -116,7 +116,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function showCustomerInfo()
     {
         $adapter = $this->getConnection();
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer');
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer');
         $firstname  = $customer->getAttribute('firstname');
         $lastname   = $customer->getAttribute('lastname');
 

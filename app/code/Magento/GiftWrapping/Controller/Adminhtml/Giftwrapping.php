@@ -44,7 +44,7 @@ class Giftwrapping extends \Magento\Adminhtml\Controller\Action
         if ($model) {
            return $model;
         }
-        $model = \Mage::getModel('\Magento\GiftWrapping\Model\Wrapping');
+        $model = \Mage::getModel('Magento\GiftWrapping\Model\Wrapping');
         $model->setStoreId($this->getRequest()->getParam('store', 0));
 
         $wrappingId = $this->getRequest()->getParam($requestParam);
@@ -189,7 +189,7 @@ class Giftwrapping extends \Magento\Adminhtml\Controller\Action
         $wrappingIds = (array)$this->getRequest()->getParam('wrapping_ids');
         $status = (int)(bool)$this->getRequest()->getParam('status');
         try {
-            $wrappingCollection = \Mage::getModel('\Magento\GiftWrapping\Model\Wrapping')->getCollection();
+            $wrappingCollection = \Mage::getModel('Magento\GiftWrapping\Model\Wrapping')->getCollection();
             $wrappingCollection->addFieldToFilter('wrapping_id', array('in' => $wrappingIds));
             foreach ($wrappingCollection as $wrapping) {
                 $wrapping->setStatus($status);
@@ -220,7 +220,7 @@ class Giftwrapping extends \Magento\Adminhtml\Controller\Action
             $this->_getSession()->addError(__('Please select items.'));
         } else {
             try {
-                $wrappingCollection = \Mage::getModel('\Magento\GiftWrapping\Model\Wrapping')->getCollection();
+                $wrappingCollection = \Mage::getModel('Magento\GiftWrapping\Model\Wrapping')->getCollection();
                 $wrappingCollection->addFieldToFilter('wrapping_id', array('in' => $wrappingIds));
                 foreach ($wrappingCollection as $wrapping) {
                     $wrapping->delete();
@@ -244,7 +244,7 @@ class Giftwrapping extends \Magento\Adminhtml\Controller\Action
      */
     public function deleteAction()
     {
-        $wrapping = \Mage::getModel('\Magento\GiftWrapping\Model\Wrapping');
+        $wrapping = \Mage::getModel('Magento\GiftWrapping\Model\Wrapping');
         $wrapping->load($this->getRequest()->getParam('id', false));
         if ($wrapping->getId()) {
             try {

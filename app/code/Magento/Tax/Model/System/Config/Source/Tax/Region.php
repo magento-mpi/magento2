@@ -17,7 +17,7 @@ class Region
 
     public function toOptionArray($noEmpty=false, $country = null)
     {
-        $options = \Mage::getModel('\Magento\Directory\Model\Region')
+        $options = \Mage::getModel('Magento\Directory\Model\Region')
             ->getCollection()
             ->addCountryFilter($country)
             ->toOptionArray();

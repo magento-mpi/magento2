@@ -23,7 +23,7 @@ class Flat extends \Magento\Core\Model\Config\Value
     protected function _afterSave()
     {
         if ($this->isValueChanged() && $this->getValue()) {
-            \Mage::getModel('\Magento\Index\Model\Indexer')
+            \Mage::getModel('Magento\Index\Model\Indexer')
                 ->getProcessByCode(\Magento\Catalog\Helper\Category\Flat::CATALOG_CATEGORY_FLAT_PROCESS_CODE)
                 ->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
         }

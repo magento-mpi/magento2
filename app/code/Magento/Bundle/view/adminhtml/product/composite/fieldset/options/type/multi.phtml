@@ -12,7 +12,7 @@
 <?php /* @var $this \Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset\Options\Type\Multi */ ?>
 <?php $_option = $this->getOption(); ?>
 <?php $_selections = $_option->getSelections(); ?>
-<?php $_skipSaleableCheck = $this->helper('\Magento\Catalog\Helper\Product')->getSkipSaleableCheck(); ?>
+<?php $_skipSaleableCheck = $this->helper('Magento\Catalog\Helper\Product')->getSkipSaleableCheck(); ?>
 <dt><label<?php if ($_option->getRequired()) echo ' class="required"' ?>><?php if ($_option->getRequired()) echo '<em>*</em>' ?><?php echo $this->escapeHtml($_option->getTitle()) ?></label></dt>
 <dd<?php if ($_option->getDecoratedIsLast()):?> class="last"<?php endif; ?>>
     <div class="input-box">

@@ -126,7 +126,7 @@ class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCas
         );
         $this->_filesystem = $this->getMock(
             'Magento\Filesystem', array('isDirectory', 'searchKeys', 'copy', 'delete'),
-            array($this->getMockForAbstractClass('\Magento\Filesystem\AdapterInterface'))
+            array($this->getMockForAbstractClass('Magento\Filesystem\AdapterInterface'))
         );
 
         /* Init Magento_Core_Model_Resource_Layout_Collection model  */

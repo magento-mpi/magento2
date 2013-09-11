@@ -266,7 +266,7 @@ class Observer
             return $this;
         }
         $object = $observer->getEvent()->getObject();
-        $object = \Mage::getModel('\Magento\FullPageCache\Model\Validator')->checkDataChange($object);
+        $object = \Mage::getModel('Magento\FullPageCache\Model\Validator')->checkDataChange($object);
         return $this;
     }
 
@@ -282,7 +282,7 @@ class Observer
             return $this;
         }
         $object = $observer->getEvent()->getObject();
-        $object = \Mage::getModel('\Magento\FullPageCache\Model\Validator')->checkDataDelete($object);
+        $object = \Mage::getModel('Magento\FullPageCache\Model\Validator')->checkDataDelete($object);
         return $this;
     }
 
@@ -434,7 +434,7 @@ class Observer
             $productIds = $this->_cookie->get(\Magento\FullPageCache\Model\Container\Viewedproducts::COOKIE_NAME);
             if ($productIds) {
                 $productIds = explode(',', $productIds);
-                \Mage::getModel('\Magento\Reports\Model\Product\Index\Viewed')->registerIds($productIds);
+                \Mage::getModel('Magento\Reports\Model\Product\Index\Viewed')->registerIds($productIds);
             }
         } catch (\Exception $e) {
             \Mage::logException($e);
@@ -442,7 +442,7 @@ class Observer
 
         // renew customer viewed product ids cookie
         $countLimit = \Mage::getStoreConfig(\Magento\Reports\Block\Product\Viewed::XML_PATH_RECENTLY_VIEWED_COUNT);
-        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Product\Index\Viewed\Collection')
+        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Product\Index\Viewed\Collection')
             ->addIndexFilter()
             ->setAddedAtOrder()
             ->setPageSize($countLimit)

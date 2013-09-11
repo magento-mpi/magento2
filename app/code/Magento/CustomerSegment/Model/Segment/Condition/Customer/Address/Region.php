@@ -42,7 +42,7 @@ class Region
      */
     public function getMatchedEvents()
     {
-        return \Mage::getModel('\Magento\CustomerSegment\Model\Segment\Condition\Customer\Address\Attributes')
+        return \Mage::getModel('Magento\CustomerSegment\Model\Segment\Condition\Customer\Address\Attributes')
             ->getMatchedEvents();
     }
 

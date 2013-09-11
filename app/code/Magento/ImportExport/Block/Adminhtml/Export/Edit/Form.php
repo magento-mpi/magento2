@@ -34,7 +34,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Export Settings')));
         /** @var $entitySourceModel \Magento\ImportExport\Model\Source\Export\Entity */
-        $entitySourceModel = \Mage::getModel('\Magento\ImportExport\Model\Source\Export\Entity');
+        $entitySourceModel = \Mage::getModel('Magento\ImportExport\Model\Source\Export\Entity');
         $fieldset->addField('entity', 'select', array(
             'name'     => 'entity',
             'title'    => __('Entity Type'),
@@ -44,7 +44,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
             'values'   => $entitySourceModel->toOptionArray()
         ));
         /** @var $formatSourceModel \Magento\ImportExport\Model\Source\Export\Format */
-        $formatSourceModel = \Mage::getModel('\Magento\ImportExport\Model\Source\Export\Format');
+        $formatSourceModel = \Mage::getModel('Magento\ImportExport\Model\Source\Export\Format');
         $fieldset->addField('file_format', 'select', array(
             'name'     => 'file_format',
             'title'    => __('Export File Format'),

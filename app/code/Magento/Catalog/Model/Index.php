@@ -27,10 +27,10 @@ class Index
      */
     public function rebuild()
     {
-        \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Category')
+        \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category')
             ->refreshProductIndex();
         foreach (\Mage::app()->getStores() as $store) {
-            \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product')
+            \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product')
                 ->refreshEnabledIndex($store);
         }
         return $this;

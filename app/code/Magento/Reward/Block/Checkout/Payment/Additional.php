@@ -48,7 +48,7 @@ class Additional extends \Magento\Core\Block\Template
     public function getReward()
     {
         if (!$this->getData('reward')) {
-            $reward = \Mage::getModel('\Magento\Reward\Model\Reward')
+            $reward = \Mage::getModel('Magento\Reward\Model\Reward')
                 ->setCustomer($this->getCustomer())
                 ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId())
                 ->loadByCustomer();

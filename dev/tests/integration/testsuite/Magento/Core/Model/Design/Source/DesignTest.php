@@ -18,7 +18,7 @@ class Magento_Core_Model_Design_Source_DesignTest extends PHPUnit_Framework_Test
             ->create('Magento\Core\Model\Design\Source\Design');
 
         /** @var $expectedCollection \Magento\Core\Model\Theme\Collection */
-        $expectedCollection = Mage::getModel('\Magento\Core\Model\Resource\Theme\Collection');
+        $expectedCollection = Mage::getModel('Magento\Core\Model\Resource\Theme\Collection');
         $expectedCollection->addFilter('area', 'frontend');
 
         $expectedItemsCount = count($expectedCollection);

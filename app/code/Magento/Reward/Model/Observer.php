@@ -46,7 +46,7 @@ class Observer
                 }
             }
             /** @var $reward \Magento\Reward\Model\Reward */
-            $reward = \Mage::getModel('\Magento\Reward\Model\Reward');
+            $reward = \Mage::getModel('Magento\Reward\Model\Reward');
             $reward->setCustomer($customer)
                 ->setWebsiteId(\Mage::app()->getStore($data['store_id'])->getWebsiteId())
                 ->loadByCustomer();
@@ -106,7 +106,7 @@ class Observer
             try {
                 $subscribeByDefault = \Mage::helper('Magento\Reward\Helper\Data')
                     ->getNotificationConfig('subscribe_by_default', \Mage::app()->getStore()->getWebsiteId());
-                $reward = \Mage::getModel('\Magento\Reward\Model\Reward')
+                $reward = \Mage::getModel('Magento\Reward\Model\Reward')
                     ->setCustomer($customer)
                     ->setActionEntity($customer)
                     ->setStore(\Mage::app()->getStore()->getId())
@@ -141,7 +141,7 @@ class Observer
         }
         if ($review->isApproved() && $review->getCustomerId()) {
             /* @var $reward \Magento\Reward\Model\Reward */
-            $reward = \Mage::getModel('\Magento\Reward\Model\Reward')
+            $reward = \Mage::getModel('Magento\Reward\Model\Reward')
                 ->setCustomerId($review->getCustomerId())
                 ->setStore($review->getStoreId())
                 ->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_REVIEW)
@@ -170,7 +170,7 @@ class Observer
             return $this;
         }
 
-        $reward = \Mage::getModel('\Magento\Reward\Model\Reward')
+        $reward = \Mage::getModel('Magento\Reward\Model\Reward')
             ->setCustomerId($subscriber->getCustomerId())
             ->setStore($subscriber->getStoreId())
             ->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_NEWSLETTER)
@@ -196,7 +196,7 @@ class Observer
         }
 
         if ($invitation->getCustomerId() && $invitation->getReferralId()) {
-            \Mage::getModel('\Magento\Reward\Model\Reward')
+            \Mage::getModel('Magento\Reward\Model\Reward')
                 ->setCustomerId($invitation->getCustomerId())
                 ->setWebsiteId($websiteId)
                 ->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_INVITATION_CUSTOMER)
@@ -225,7 +225,7 @@ class Observer
 
         if ($order->getCustomerId() && $this->_isOrderPaidNow($order)) {
             /* @var $reward \Magento\Reward\Model\Reward */
-            $reward = \Mage::getModel('\Magento\Reward\Model\Reward')
+            $reward = \Mage::getModel('Magento\Reward\Model\Reward')
                 ->setActionEntity($order)
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId($order->getStore()->getWebsiteId())
@@ -277,12 +277,12 @@ class Observer
             if ($order->getBaseTotalDue() > 0) {
                 return $this;
             }
-            $invitation = \Mage::getModel('\Magento\Invitation\Model\Invitation')
+            $invitation = \Mage::getModel('Magento\Invitation\Model\Invitation')
                 ->load($order->getCustomerId(), 'referral_id');
             if (!$invitation->getId() || !$invitation->getCustomerId()) {
                 return $this;
             }
-            \Mage::getModel('\Magento\Reward\Model\Reward')
+            \Mage::getModel('Magento\Reward\Model\Reward')
                 ->setActionEntity($invitation)
                 ->setCustomerId($invitation->getCustomerId())
                 ->setStore($order->getStoreId())
@@ -413,7 +413,7 @@ class Observer
         $quote->setUseRewardPoints((bool)$useRewardPoints);
         if ($quote->getUseRewardPoints()) {
             /* @var $reward \Magento\Reward\Model\Reward */
-            $reward = \Mage::getModel('\Magento\Reward\Model\Reward')
+            $reward = \Mage::getModel('Magento\Reward\Model\Reward')
                 ->setCustomer($quote->getCustomer())
                 ->setWebsiteId($quote->getStore()->getWebsiteId())
                 ->loadByCustomer();
@@ -446,7 +446,7 @@ class Observer
         if (!$order->getCustomer()->getId()) {
             return $this;
         }
-        \Mage::getModel('\Magento\Reward\Model\Reward')
+        \Mage::getModel('Magento\Reward\Model\Reward')
             ->setCustomerId($order->getCustomer()->getId())
             ->setWebsiteId(\Mage::app()->getStore($order->getStoreId())->getWebsiteId())
             ->setPointsDelta($order->getRewardPointsBalance())
@@ -629,7 +629,7 @@ class Observer
             );
 
             if ((int)$creditmemo->getRewardPointsBalanceRefund() > 0) {
-                \Mage::getModel('\Magento\Reward\Model\Reward')
+                \Mage::getModel('Magento\Reward\Model\Reward')
                     ->setCustomerId($order->getCustomerId())
                     ->setStore($order->getStoreId())
                     ->setPointsDelta((int)$creditmemo->getRewardPointsBalanceRefund())
@@ -660,7 +660,7 @@ class Observer
             if (!$inDays) {
                 continue;
             }
-            $collection = \Mage::getResourceModel('\Magento\Reward\Model\Resource\Reward\History\Collection')
+            $collection = \Mage::getResourceModel('Magento\Reward\Model\Resource\Reward\History\Collection')
                 ->setExpiryConfig(\Mage::helper('Magento\Reward\Helper\Data')->getExpiryConfig())
                 ->loadExpiredSoonPoints($website->getId(), true)
                 ->addNotificationSentFlag(false)
@@ -676,7 +676,7 @@ class Observer
 
             // mark records as sent
             $historyIds = $collection->getExpiredSoonIds();
-            \Mage::getResourceModel('\Magento\Reward\Model\Resource\Reward\History')->markAsNotified($historyIds);
+            \Mage::getResourceModel('Magento\Reward\Model\Resource\Reward\History')->markAsNotified($historyIds);
         }
 
         return $this;
@@ -698,7 +698,7 @@ class Observer
             }
             $expiryType = \Mage::helper('Magento\Reward\Helper\Data')
                 ->getGeneralConfig('expiry_calculation', $website->getId());
-            \Mage::getResourceModel('\Magento\Reward\Model\Resource\Reward\History')
+            \Mage::getResourceModel('Magento\Reward\Model\Resource\Reward\History')
                 ->expirePoints($website->getId(), $expiryType, 100);
         }
 
@@ -715,7 +715,7 @@ class Observer
     {
         /* @var $website \Magento\Core\Model\Website */
         $website = $observer->getEvent()->getWebsite();
-        \Mage::getModel('\Magento\Reward\Model\Reward')
+        \Mage::getModel('Magento\Reward\Model\Reward')
             ->prepareOrphanPoints($website->getId(), $website->getBaseCurrencyCode());
         return $this;
     }
@@ -755,7 +755,7 @@ class Observer
         /* @var $salesRule \Magento\SalesRule\Model\Rule */
         $salesRule = $observer->getEvent()->getRule();
         if ($salesRule->getId()) {
-            $data = \Mage::getResourceModel('\Magento\Reward\Model\Resource\Reward')
+            $data = \Mage::getResourceModel('Magento\Reward\Model\Resource\Reward')
                 ->getRewardSalesrule($salesRule->getId());
             if (isset($data['points_delta'])) {
                 $salesRule->setRewardPointsDelta($data['points_delta']);
@@ -777,7 +777,7 @@ class Observer
         }
         /* @var $salesRule \Magento\SalesRule\Model\Rule */
         $salesRule = $observer->getEvent()->getRule();
-        \Mage::getResourceModel('\Magento\Reward\Model\Resource\Reward')
+        \Mage::getResourceModel('Magento\Reward\Model\Resource\Reward')
             ->saveRewardSalesrule($salesRule->getId(), (int)$salesRule->getRewardPointsDelta());
         return $this;
     }
@@ -796,7 +796,7 @@ class Observer
             return $this;
         }
         if ($order->getCustomerId() && !$order->canInvoice() && $order->getRewardSalesrulePoints()) {
-            $reward = \Mage::getModel('\Magento\Reward\Model\Reward')
+            $reward = \Mage::getModel('Magento\Reward\Model\Reward')
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId($order->getStore()->getWebsiteId())
                 ->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_SALESRULE)
@@ -827,7 +827,7 @@ class Observer
         $groupId    = $observer->getEvent()->getCustomerSession()->getCustomerGroupId();
         $websiteId  = \Mage::app()->getStore()->getWebsiteId();
 
-        $rate = \Mage::getModel('\Magento\Reward\Model\Reward\Rate');
+        $rate = \Mage::getModel('Magento\Reward\Model\Reward\Rate');
 
         $hasRates = $rate->fetch(
             $groupId, $websiteId, \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
@@ -873,7 +873,7 @@ class Observer
         $order = $observer->getEvent()->getOrder();
 
         if ($order->getRewardPointsBalance() > 0) {
-            \Mage::getModel('\Magento\Reward\Model\Reward')
+            \Mage::getModel('Magento\Reward\Model\Reward')
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId(\Mage::app()->getStore($order->getStoreId())->getWebsiteId())
                 ->setPointsDelta($order->getRewardPointsBalance())

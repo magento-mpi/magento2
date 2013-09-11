@@ -69,7 +69,7 @@ class Compare extends \Magento\Core\Controller\Front\Action
             && (\Mage::getSingleton('Magento\Log\Model\Visitor')->getId()
                 || \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn())
         ) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->setStoreId(\Mage::app()->getStore()->getId())
                 ->load($productId);
 
@@ -95,18 +95,18 @@ class Compare extends \Magento\Core\Controller\Front\Action
     {
         $productId = (int)$this->getRequest()->getParam('product');
         if ($productId) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->setStoreId(\Mage::app()->getStore()->getId())
                 ->load($productId);
 
             if ($product->getId()) {
                 /** @var $item \Magento\Catalog\Model\Product\Compare\Item */
-                $item = \Mage::getModel('\Magento\Catalog\Model\Product\Compare\Item');
+                $item = \Mage::getModel('Magento\Catalog\Model\Product\Compare\Item');
                 if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
                     $item->addCustomerData(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer());
                 } elseif ($this->_customerId) {
                     $item->addCustomerData(
-                        \Mage::getModel('\Magento\Customer\Model\Customer')->load($this->_customerId)
+                        \Mage::getModel('Magento\Customer\Model\Customer')->load($this->_customerId)
                     );
                 } else {
                     $item->addVisitorId(\Mage::getSingleton('Magento\Log\Model\Visitor')->getId());
@@ -137,7 +137,7 @@ class Compare extends \Magento\Core\Controller\Front\Action
      */
     public function clearAction()
     {
-        $items = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Compare\Item\Collection');
+        $items = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Compare\Item\Collection');
 
         if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
             $items->setCustomerId(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId());

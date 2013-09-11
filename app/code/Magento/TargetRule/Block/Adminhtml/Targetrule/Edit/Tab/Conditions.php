@@ -40,7 +40,7 @@ class Conditions
         $newCondUrl = $this->getUrl('*/targetrule/newConditionHtml/', array(
             'form'  => $fieldset->getHtmlId()
         ));
-        $renderer   = \Mage::getBlockSingleton('\Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
+        $renderer   = \Mage::getBlockSingleton('Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
             ->setTemplate('Magento_TargetRule::edit/conditions/fieldset.phtml')
             ->setNewChildUrl($newCondUrl);
         $fieldset->setRenderer($renderer);
@@ -51,7 +51,7 @@ class Conditions
         ));
 
         $element->setRule($model);
-        $element->setRenderer(\Mage::getBlockSingleton('\Magento\TargetRule\Block\Adminhtml\Rule\Conditions'));
+        $element->setRenderer(\Mage::getBlockSingleton('Magento\TargetRule\Block\Adminhtml\Rule\Conditions'));
 
         $model->getConditions()->setJsFormObject($fieldset->getHtmlId());
         $form->setValues($model->getData());

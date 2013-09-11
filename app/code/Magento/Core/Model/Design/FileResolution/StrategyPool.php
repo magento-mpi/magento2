@@ -174,7 +174,7 @@ class StrategyPool
     protected function _createStrategy($className)
     {
         switch ($className) {
-            case 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy':
+            case '\Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy':
                 $mapDir = $this->_dirs->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DIRECTORY_SEPARATOR
                     . self::FALLBACK_MAP_DIR;
                 $arguments = array(

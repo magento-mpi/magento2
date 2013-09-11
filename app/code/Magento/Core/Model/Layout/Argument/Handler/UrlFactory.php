@@ -26,7 +26,7 @@ class UrlFactory
      */
     public function createHandler()
     {
-        return \Mage::getModel('\Magento\Core\Model\Layout\Argument\Handler\Url', array(
+        return \Mage::getModel('Magento\Core\Model\Layout\Argument\Handler\Url', array(
             'urlModel' => \Mage::app()->getStore()->getUrlModel()
         ));
     }

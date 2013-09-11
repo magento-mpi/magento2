@@ -39,7 +39,7 @@ class Search extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
             'onclick' => 'order.productGridAddSelected()',
             'class' => 'action-add',
         );
-        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')->setData($addButtonData)->toHtml();
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData($addButtonData)->toHtml();
     }
 
     public function getHeaderCssClass()

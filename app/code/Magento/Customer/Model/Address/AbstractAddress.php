@@ -296,7 +296,7 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
                 $this->setData('region_id', $region);
                 $this->unsRegion();
             } else {
-                $regionModel = \Mage::getModel('\Magento\Directory\Model\Region')
+                $regionModel = \Mage::getModel('Magento\Directory\Model\Region')
                     ->loadByCode($this->getRegionCode(), $this->getCountryId());
                 $this->setData('region_id', $regionModel->getId());
             }
@@ -307,7 +307,7 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
     public function getCountry()
     {
         /*if ($this->getData('country_id') && !$this->getData('country')) {
-            $this->setData('country', \Mage::getModel('\Magento\Directory\Model\Country')
+            $this->setData('country', \Mage::getModel('Magento\Directory\Model\Country')
                 ->load($this->getData('country_id'))->getIso2Code());
         }
         return $this->getData('country');*/
@@ -323,7 +323,7 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
     public function getCountryModel()
     {
         if(!isset(self::$_countryModels[$this->getCountryId()])) {
-            self::$_countryModels[$this->getCountryId()] = \Mage::getModel('\Magento\Directory\Model\Country')
+            self::$_countryModels[$this->getCountryId()] = \Mage::getModel('Magento\Directory\Model\Country')
                 ->load($this->getCountryId());
         }
 
@@ -342,7 +342,7 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
         }
 
         if(!isset(self::$_regionModels[$region])) {
-            self::$_regionModels[$region] = \Mage::getModel('\Magento\Directory\Model\Region')->load($region);
+            self::$_regionModels[$region] = \Mage::getModel('Magento\Directory\Model\Region')->load($region);
         }
 
         return self::$_regionModels[$region];

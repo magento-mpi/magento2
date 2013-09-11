@@ -122,7 +122,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     public function getUrlInstance()
     {
         if (!self::$_url) {
-            self::$_url = \Mage::getModel('\Magento\Core\Model\Url');
+            self::$_url = \Mage::getModel('Magento\Core\Model\Url');
         }
         return self::$_url;
     }
@@ -135,7 +135,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     public function getUrlRewrite()
     {
         if (!self::$_urlRewrite) {
-            self::$_urlRewrite = \Mage::getModel('\Magento\Core\Model\Url\Rewrite');
+            self::$_urlRewrite = \Mage::getModel('Magento\Core\Model\Url\Rewrite');
         }
         return self::$_urlRewrite;
     }
@@ -147,7 +147,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      */
     public function getTreeModel()
     {
-        return \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Category\Tree');
+        return \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Tree');
     }
 
     /**
@@ -158,7 +158,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     public function getTreeModelInstance()
     {
         if (is_null($this->_treeModel)) {
-            $this->_treeModel = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Category\Tree');
+            $this->_treeModel = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category\Tree');
         }
         return $this->_treeModel;
     }
@@ -176,7 +176,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
          * Validate new parent category id. (category model is used for backward
          * compatibility in event params)
          */
-        $parent = \Mage::getModel('\Magento\Catalog\Model\Category')
+        $parent = \Mage::getModel('Magento\Catalog\Model\Category')
             ->setStoreId($this->getStoreId())
             ->load($parentId);
 
@@ -261,7 +261,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      */
     public function getProductCollection()
     {
-        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection')
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection')
             ->setStoreId($this->getStoreId())
             ->addCategoryFilter($this);
         return $collection;
@@ -336,7 +336,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         }
 
         $storeIds = array();
-        $storeCollection = \Mage::getModel('\Magento\Core\Model\Store')->getCollection()->loadByCategoryIds($nodes);
+        $storeCollection = \Mage::getModel('Magento\Core\Model\Store')->getCollection()->loadByCategoryIds($nodes);
         foreach ($storeCollection as $store) {
             $storeIds[$store->getId()] = $store->getId();
         }
@@ -483,7 +483,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         $path = $this->getUrlKey();
 
         if ($this->getParentId()) {
-            $parentPath = \Mage::getModel('\Magento\Catalog\Model\Category')->load($this->getParentId())->getCategoryPath();
+            $parentPath = \Mage::getModel('Magento\Catalog\Model\Category')->load($this->getParentId())->getCategoryPath();
             $path = $parentPath.'/'.$path;
         }
 
@@ -500,7 +500,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     public function getParentCategory()
     {
         if (!$this->hasData('parent_category')) {
-            $this->setData('parent_category', \Mage::getModel('\Magento\Catalog\Model\Category')->load($this->getParentId()));
+            $this->setData('parent_category', \Mage::getModel('Magento\Catalog\Model\Category')->load($this->getParentId()));
         }
         return $this->_getData('parent_category');
     }

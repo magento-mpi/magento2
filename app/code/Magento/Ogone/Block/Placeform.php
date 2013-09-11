@@ -44,7 +44,7 @@ class Placeform extends \Magento\Core\Block\Template
         if ($this->getOrder()) {
             $order = $this->getOrder();
         } else if ($this->getCheckout()->getLastRealOrderId()) {
-            $order = \Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($this->getCheckout()->getLastRealOrderId());
+            $order = \Mage::getModel('Magento\Sales\Model\Order')->loadByIncrementId($this->getCheckout()->getLastRealOrderId());
         } else {
             return null;
         }

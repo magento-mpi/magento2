@@ -97,20 +97,20 @@ class Observer
         if ($product && $product->getTypeId() != \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE) {
             return $this;
         }
-        $purchasedLink = \Mage::getModel('\Magento\Downloadable\Model\Link\Purchased')
+        $purchasedLink = \Mage::getModel('Magento\Downloadable\Model\Link\Purchased')
             ->load($orderItem->getId(), 'order_item_id');
         if ($purchasedLink->getId()) {
             return $this;
         }
         if (!$product) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->setStoreId($orderItem->getOrder()->getStoreId())
                 ->load($orderItem->getProductId());
         }
         if ($product->getTypeId() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE) {
             $links = $product->getTypeInstance()->getLinks($product);
             if ($linkIds = $orderItem->getProductOptionByCode('links')) {
-                $linkPurchased = \Mage::getModel('\Magento\Downloadable\Model\Link\Purchased');
+                $linkPurchased = \Mage::getModel('Magento\Downloadable\Model\Link\Purchased');
                 \Mage::helper('Magento\Core\Helper\Data')->copyFieldset(
                     'downloadable_sales_copy_order',
                     'to_downloadable',
@@ -131,7 +131,7 @@ class Observer
                     ->save();
                 foreach ($linkIds as $linkId) {
                     if (isset($links[$linkId])) {
-                        $linkPurchasedItem = \Mage::getModel('\Magento\Downloadable\Model\Link\Purchased\Item')
+                        $linkPurchasedItem = \Mage::getModel('Magento\Downloadable\Model\Link\Purchased\Item')
                             ->setPurchasedId($linkPurchased->getId())
                             ->setOrderItemId($orderItem->getId());
 
@@ -267,7 +267,7 @@ class Observer
         }
 
         if ($downloadableItemsStatuses) {
-            $linkPurchased = \Mage::getResourceModel('\Magento\Downloadable\Model\Resource\Link\Purchased\Item\Collection')
+            $linkPurchased = \Mage::getResourceModel('Magento\Downloadable\Model\Resource\Link\Purchased\Item\Collection')
             ->addFieldToFilter('order_item_id', array('in' => array_keys($downloadableItemsStatuses)));
             foreach ($linkPurchased as $link) {
                 if ($link->getStatus() != $linkStatuses['expired']

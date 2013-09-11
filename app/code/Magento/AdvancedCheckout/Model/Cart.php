@@ -156,7 +156,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             return $this->_quote;
         }
 
-        $this->_quote = \Mage::getModel('\Magento\Sales\Model\Quote');
+        $this->_quote = \Mage::getModel('Magento\Sales\Model\Quote');
 
         if ($this->getCustomer() !== null) {
             $this->_quote
@@ -312,7 +312,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
 
         if (!($product instanceof \Magento\Catalog\Model\Product)) {
             $productId = $product;
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->setStore($this->getStore())
                 ->setStoreId($this->getStore()->getId())
                 ->load($product);
@@ -364,7 +364,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             \Mage::throwException(__('Something went wrong reordering this product.'));
         }
 
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+        $product = \Mage::getModel('Magento\Catalog\Model\Product')
             ->setStoreId($this->getStore()->getId())
             ->load($orderItem->getProductId());
 
@@ -538,9 +538,9 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             if ($moveTo[0] == 'wishlist') {
                 $wishlist = null;
                 if (!isset($moveTo[1])) {
-                    $wishlist = \Mage::getModel('\Magento\Wishlist\Model\Wishlist')->loadByCustomer($this->getCustomer(), true);
+                    $wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist')->loadByCustomer($this->getCustomer(), true);
                 } else {
-                    $wishlist = \Mage::getModel('\Magento\Wishlist\Model\Wishlist')->load($moveTo[1]);
+                    $wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist')->load($moveTo[1]);
                     if (!$wishlist->getId() || $wishlist->getCustomerId() != $this->getCustomer()->getId()) {
                         $wishlist = null;
                     }
@@ -782,11 +782,11 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected function _loadProductBySku($sku)
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+        $product = \Mage::getModel('Magento\Catalog\Model\Product')
             ->setStore($this->getCurrentStore())
             ->loadByAttribute('sku', $sku);
         if ($product && $product->getId()) {
-            \Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item')->assignProduct($product);
+            \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item')->assignProduct($product);
         }
 
         return $product;
@@ -862,7 +862,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             $this->_successOptions = array();
 
             /** @var $option \Magento\Catalog\Model\Product\Option */
-            $option = \Mage::getModel('\Magento\Catalog\Model\Product\Option')
+            $option = \Mage::getModel('Magento\Catalog\Model\Product\Option')
                 ->setAddRequiredFilter(true)
                 ->setAddRequiredFilterValue(true);
 
@@ -1130,7 +1130,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         }
 
         /** @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
-        $stockItem = \Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item');
+        $stockItem = \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
         $stockItem->loadByProduct($product);
         $stockItem->setProduct($product);
         return !$stockItem->getIsInStock();
@@ -1229,7 +1229,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
 
         // copy data to temporary quote
         /** @var $temporaryQuote \Magento\Sales\Model\Quote */
-        $temporaryQuote = \Mage::getModel('\Magento\Sales\Model\Quote');
+        $temporaryQuote = \Mage::getModel('Magento\Sales\Model\Quote');
         $temporaryQuote->setStore($quote->getStore())->setIsSuperMode($quote->getIsSuperMode());
         foreach ($quote->getAllItems() as $quoteItem) {
             $temporaryItem = clone $quoteItem;

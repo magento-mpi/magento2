@@ -140,7 +140,7 @@ class Backup extends \Magento\Adminhtml\Controller\Action
     public function downloadAction()
     {
         /* @var $backup \Magento\Backup\Model\Backup */
-        $backup = \Mage::getModel('\Magento\Backup\Model\Backup')->loadByTimeAndType(
+        $backup = \Mage::getModel('Magento\Backup\Model\Backup')->loadByTimeAndType(
             $this->getRequest()->getParam('time'),
             $this->getRequest()->getParam('type')
         );
@@ -179,7 +179,7 @@ class Backup extends \Magento\Adminhtml\Controller\Action
 
         try {
             /* @var $backup \Magento\Backup\Model\Backup */
-            $backup = \Mage::getModel('\Magento\Backup\Model\Backup')->loadByTimeAndType(
+            $backup = \Mage::getModel('Magento\Backup\Model\Backup')->loadByTimeAndType(
                 $this->getRequest()->getParam('time'),
                 $this->getRequest()->getParam('type')
             );
@@ -199,11 +199,11 @@ class Backup extends \Magento\Adminhtml\Controller\Action
                 ->setTime($backup->getTime())
                 ->setBackupsDir($helper->getBackupsDir())
                 ->setName($backup->getName(), false)
-                ->setResourceModel(\Mage::getResourceModel('\Magento\Backup\Model\Resource\Db'));
+                ->setResourceModel(\Mage::getResourceModel('Magento\Backup\Model\Resource\Db'));
 
             \Mage::register('backup_manager', $backupManager);
 
-            $passwordValid = \Mage::getModel('\Magento\Backup\Model\Backup')->validateUserPassword(
+            $passwordValid = \Mage::getModel('Magento\Backup\Model\Backup')->validateUserPassword(
                 $this->getRequest()->getParam('password')
             );
 
@@ -290,7 +290,7 @@ class Backup extends \Magento\Adminhtml\Controller\Action
         }
 
         /** @var $backupModel \Magento\Backup\Model\Backup */
-        $backupModel = \Mage::getModel('\Magento\Backup\Model\Backup');
+        $backupModel = \Mage::getModel('Magento\Backup\Model\Backup');
         $resultData = new \Magento\Object();
         $resultData->setIsSuccess(false);
         $resultData->setDeleteResult(array());

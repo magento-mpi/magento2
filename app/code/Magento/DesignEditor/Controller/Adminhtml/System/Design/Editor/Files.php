@@ -24,7 +24,7 @@ class Files
     {
         try {
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('\Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Tree')
+                $this->getLayout()->createBlock('Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Tree')
                     ->getTreeJson($this->_getStorage()->getTreeArray())
             );
         } catch (\Exception $e) {

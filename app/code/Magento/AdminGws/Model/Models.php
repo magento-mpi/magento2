@@ -685,7 +685,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function catalogEventSaveBefore($model)
     {
-        $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($model->getCategoryId());
+        $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($model->getCategoryId());
         if (!$category->getId()) {
             $this->_throwSave();
         }
@@ -722,7 +722,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     public function catalogEventDeleteBefore($model)
     {
         // delete only in exclusive mode
-        $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($model->getCategoryId());
+        $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($model->getCategoryId());
         if (!$category->getId()) {
             $this->_throwDelete();
         }
@@ -738,7 +738,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function catalogEventLoadAfter($model)
     {
-        $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($model->getCategoryId());
+        $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($model->getCategoryId());
         if (!$this->_role->hasExclusiveCategoryAccess($category->getPath())) {
             $model->setIsReadonly(true);
             $model->setIsDeleteable(false);

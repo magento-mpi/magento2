@@ -26,7 +26,7 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetBreadcrumbPath()
     {
-        $category = Mage::getModel('\Magento\Catalog\Model\Category');
+        $category = Mage::getModel('Magento\Catalog\Model\Category');
         $category->load(5);
         Mage::register('current_category', $category);
 
@@ -45,7 +45,7 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetCategory()
     {
-        $category = Mage::getModel('\Magento\Catalog\Model\Category');
+        $category = Mage::getModel('Magento\Catalog\Model\Category');
         Mage::register('current_category', $category);
         try {
             $this->assertSame($category, $this->_helper->getCategory());
@@ -58,7 +58,7 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetProduct()
     {
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         Mage::register('current_product', $product);
         try {
             $this->assertSame($product, $this->_helper->getProduct());

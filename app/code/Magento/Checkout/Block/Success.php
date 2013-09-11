@@ -15,7 +15,7 @@ class Success extends \Magento\Core\Block\Template
 {
     public function getRealOrderId()
     {
-        $order = \Mage::getModel('\Magento\Sales\Model\Order')->load($this->getLastOrderId());
+        $order = \Mage::getModel('Magento\Sales\Model\Order')->load($this->getLastOrderId());
         #print_r($order->getData());
         return $order->getIncrementId();
     }

@@ -180,11 +180,11 @@ class Observer
      */
     public function rotateLogs()
     {
-        $lastRotationFlag = \Mage::getModel('\Magento\Logging\Model\Flag')->loadSelf();
+        $lastRotationFlag = \Mage::getModel('Magento\Logging\Model\Flag')->loadSelf();
         $lastRotationTime = $lastRotationFlag->getFlagData();
         $rotationFrequency = 3600 * 24 * (int)\Mage::getConfig()->getValue('system/rotation/frequency', 'default');
         if (!$lastRotationTime || ($lastRotationTime < time() - $rotationFrequency)) {
-            \Mage::getResourceModel('\Magento\Logging\Model\Resource\Event')->rotate(
+            \Mage::getResourceModel('Magento\Logging\Model\Resource\Event')->rotate(
                 3600 * 24 *(int)\Mage::getConfig()->getValue('system/rotation/lifetime', 'default')
             );
         }

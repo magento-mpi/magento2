@@ -125,7 +125,7 @@ class Email extends \Magento\Core\Model\AbstractModel
      */
     public function setCustomerId($customerId)
     {
-        $this->_customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($customerId);
+        $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($customerId);
         return $this;
     }
 
@@ -188,7 +188,7 @@ class Email extends \Magento\Core\Model\AbstractModel
     {
         if (is_null($this->_priceBlock)) {
             $this->_priceBlock = \Mage::helper('Magento\ProductAlert\Helper\Data')
-                ->createBlock('\Magento\ProductAlert\Block\Email\Price');
+                ->createBlock('Magento\ProductAlert\Block\Email\Price');
         }
         return $this->_priceBlock;
     }
@@ -202,7 +202,7 @@ class Email extends \Magento\Core\Model\AbstractModel
     {
         if (is_null($this->_stockBlock)) {
             $this->_stockBlock = \Mage::helper('Magento\ProductAlert\Helper\Data')
-                ->createBlock('\Magento\ProductAlert\Block\Email\Stock');
+                ->createBlock('Magento\ProductAlert\Block\Email\Stock');
         }
         return $this->_stockBlock;
     }
@@ -266,7 +266,7 @@ class Email extends \Magento\Core\Model\AbstractModel
 
         $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
 
-        \Mage::getModel('\Magento\Core\Model\Email\Template')
+        \Mage::getModel('Magento\Core\Model\Email\Template')
             ->setDesignConfig(array(
                 'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                 'store' => $storeId

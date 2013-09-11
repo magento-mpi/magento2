@@ -25,7 +25,7 @@ class Magento_Reward_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_saveRewardPoints($customer, $pointsDelta);
 
         /** @var $reward \Magento\Reward\Model\Reward */
-        $reward = Mage::getModel('\Magento\Reward\Model\Reward');
+        $reward = Mage::getModel('Magento\Reward\Model\Reward');
         $reward->setCustomer($customer)
             ->loadByCustomer();
 
@@ -72,7 +72,7 @@ class Magento_Reward_Model_ObserverTest extends PHPUnit_Framework_TestCase
             array('event' => $event)
         );
 
-        $rewardObserver = Mage::getModel('\Magento\Reward\Model\Observer');
+        $rewardObserver = Mage::getModel('Magento\Reward\Model\Observer');
         $rewardObserver->saveRewardPoints($eventObserver);
     }
 }

@@ -13,7 +13,7 @@
 <?php $_option = $this->getOption(); ?>
 <?php $_selections  = $_option->getSelections(); ?>
 <?php $_default = $_option->getDefaultSelection(); ?>
-<?php $_skipSaleableCheck = $this->helper('\Magento\Catalog\Helper\Product')->getSkipSaleableCheck(); ?>
+<?php $_skipSaleableCheck = $this->helper('Magento\Catalog\Helper\Product')->getSkipSaleableCheck(); ?>
 <?php list($_defaultQty, $_canChangeQty) = $this->getDefaultValues(); ?>
 
 <dt>

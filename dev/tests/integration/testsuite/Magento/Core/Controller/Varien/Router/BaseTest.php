@@ -23,8 +23,8 @@ class Magento_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_T
             'baseController' => '\Magento\Core\Controller\Front\Action',
             'routerId' => 'standard'
         );
-        $this->_model = Mage::getModel('\Magento\Core\Controller\Varien\Router\Base', $options);
-        $this->_model->setFront(Mage::getModel('\Magento\Core\Controller\Varien\Front'));
+        $this->_model = Mage::getModel('Magento\Core\Controller\Varien\Router\Base', $options);
+        $this->_model->setFront(Mage::getModel('Magento\Core\Controller\Varien\Front'));
     }
 
     public function testFetchDefault()

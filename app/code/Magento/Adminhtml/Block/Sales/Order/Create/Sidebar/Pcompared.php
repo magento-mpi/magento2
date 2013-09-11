@@ -55,13 +55,13 @@ class Pcompared extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\Abst
             }
 
             // prepare products collection and apply visitors log to it
-            $productCollection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
+            $productCollection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
                 ->setStoreId($this->getQuote()->getStoreId())
                 ->addStoreFilter($this->getQuote()->getStoreId())
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
                 ->addAttributeToSelect('small_image');
-            \Mage::getResourceSingleton('\Magento\Reports\Model\Resource\Event')->applyLogToCollection(
+            \Mage::getResourceSingleton('Magento\Reports\Model\Resource\Event')->applyLogToCollection(
                 $productCollection, \Magento\Reports\Model\Event::EVENT_PRODUCT_COMPARE, $this->getCustomerId(), 0, $skipProducts
             );
 

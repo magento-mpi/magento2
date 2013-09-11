@@ -120,7 +120,7 @@ class Url
         }
 
         if (self::$_categoryForUrlPath === null) {
-            self::$_categoryForUrlPath = \Mage::getModel('\Magento\Catalog\Model\Category');
+            self::$_categoryForUrlPath = \Mage::getModel('Magento\Catalog\Model\Category');
         }
 
         // Generate url_path
@@ -149,7 +149,7 @@ class Url
     public function getResource()
     {
         if (is_null($this->_resourceModel)) {
-            $this->_resourceModel = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Url');
+            $this->_resourceModel = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Url');
         }
         return $this->_resourceModel;
     }

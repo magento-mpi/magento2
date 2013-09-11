@@ -174,7 +174,7 @@ class Fieldset
     {
         $htmlId = $element->getHtmlId();
         $output = "Fieldset.applyCollapse('{$htmlId}');";
-        return $this->helper('\Magento\Core\Helper\Js')->getScript($output);
+        return $this->helper('Magento\Core\Helper\Js')->getScript($output);
     }
 
     /**

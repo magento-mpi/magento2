@@ -87,7 +87,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      */
     public function getProductCollection()
     {
-        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Link\Product\Collection')
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Link\Product\Collection')
             ->setLinkModel($this);
         return $collection;
     }
@@ -97,7 +97,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      */
     public function getLinkCollection()
     {
-        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Link\Collection')
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Link\Collection')
             ->setLinkModel($this);
         return $collection;
     }

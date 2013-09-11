@@ -27,9 +27,9 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 
         $this->_objectId = 'id';
         $this->_controller = 'poll_answer';
-        $answerData = \Mage::getModel('\Magento\Poll\Model\Poll\Answer');
+        $answerData = \Mage::getModel('Magento\Poll\Model\Poll\Answer');
         if( $this->getRequest()->getParam($this->_objectId) ) {
-            $answerData = \Mage::getModel('\Magento\Poll\Model\Poll\Answer')
+            $answerData = \Mage::getModel('Magento\Poll\Model\Poll\Answer')
                 ->load($this->getRequest()->getParam($this->_objectId));
             \Mage::register('answer_data', $answerData);
         }

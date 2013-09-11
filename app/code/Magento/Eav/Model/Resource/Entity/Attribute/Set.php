@@ -52,7 +52,7 @@ class Set extends \Magento\Core\Model\Resource\Db\AbstractDb
                 /* @var $group \Magento\Eav\Model\Entity\Attribute\Group */
                 $group->delete();
             }
-            \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Group')
+            \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Group')
                 ->updateDefaultGroup($object->getId());
         }
         if ($object->getRemoveAttributes()) {

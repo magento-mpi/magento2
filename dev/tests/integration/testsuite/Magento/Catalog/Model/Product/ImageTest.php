@@ -17,7 +17,7 @@ class Magento_Catalog_Model_Product_ImageTest extends PHPUnit_Framework_TestCase
     public function testSetBaseFilePlaceholder()
     {
         /** @var $model \Magento\Catalog\Model\Product\Image */
-        $model = Mage::getModel('\Magento\Catalog\Model\Product\Image');
+        $model = Mage::getModel('Magento\Catalog\Model\Product\Image');
         $model->setDestinationSubdir('image')->setBaseFile('');
         $this->assertEmpty($model->getBaseFile());
         return $model;

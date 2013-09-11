@@ -206,7 +206,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
         foreach ($this->_attributes as $attributeData) {
             $arguments = $objectManagerHelper->getConstructArguments('\Magento\Eav\Model\Entity\Attribute\AbstractAttribute');
             $arguments['data'] = $attributeData;
-            $attribute = $this->getMockForAbstractClass('\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+            $attribute = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 $arguments, '', true, true, true, array('_construct', 'getBackend')
             );
             $attribute->expects($this->any())

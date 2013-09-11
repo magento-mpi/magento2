@@ -230,7 +230,7 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
     public function reindexAll()
     {
         /** @var $resourceModel \Magento\Catalog\Model\Resource\Url */
-        $resourceModel = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Url');
+        $resourceModel = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Url');
         $resourceModel->beginTransaction();
         try {
             \Mage::getSingleton('Magento\Catalog\Model\Url')->refreshRewrites();

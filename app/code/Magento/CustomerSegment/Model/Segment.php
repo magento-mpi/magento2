@@ -96,7 +96,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      */
     public function getConditionsInstance()
     {
-        return \Mage::getModel('\Magento\CustomerSegment\Model\Segment\Condition\Combine\Root');
+        return \Mage::getModel('Magento\CustomerSegment\Model\Segment\Condition\Combine\Root');
     }
 
     /**
@@ -106,7 +106,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      */
     public function getActionsInstance()
     {
-        return \Mage::getModel('\Magento\Rule\Model\Action\Collection');
+        return \Mage::getModel('Magento\Rule\Model\Action\Collection');
     }
 
     /**
@@ -227,7 +227,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
         }
         if (strpos($sql, ':quote_id')) {
             if (!$customerId) {
-                $params['quote_id'] = \Mage::getModel('\Magento\Log\Model\Visitor')
+                $params['quote_id'] = \Mage::getModel('Magento\Log\Model\Visitor')
                     ->load($this->getVisitorId())->getQuoteId();
             } else {
                 $params['quote_id'] = 0;

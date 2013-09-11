@@ -87,7 +87,7 @@ class Magento_TestFramework_Helper_ObjectManager
      */
     protected function _getResourceModelMock()
     {
-        $resourceMock = $this->_testObject->getMock('\Magento\Core\Model\Resource\Resource', array('getIdFieldName'),
+        $resourceMock = $this->_testObject->getMock('Magento\Core\Model\Resource\Resource', array('getIdFieldName'),
             array(), '', false
         );
         $resourceMock->expects($this->_testObject->any())

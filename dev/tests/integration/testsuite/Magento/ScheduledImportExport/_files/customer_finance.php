@@ -11,7 +11,7 @@
 
 // add new website
 /** @var $website \Magento\Core\Model\Website */
-$website = Mage::getModel('\Magento\Core\Model\Website');
+$website = Mage::getModel('Magento\Core\Model\Website');
 $website->setCode('finance_website')
     ->setName('Finance Website');
 $website->save();
@@ -19,7 +19,7 @@ Mage::app()->reinitStores();
 
 // create test customer
 /** @var $customer \Magento\Customer\Model\Customer */
-$customer = Mage::getModel('\Magento\Customer\Model\Customer');
+$customer = Mage::getModel('Magento\Customer\Model\Customer');
 $customer->addData(array(
     'firstname' => 'Test',
     'lastname' => 'User'
@@ -43,7 +43,7 @@ foreach (Mage::app()->getWebsites() as $website) {
     $increment += 10;
 
     /** @var $customerBalance \Magento\CustomerBalance\Model\Balance */
-    $customerBalance = Mage::getModel('\Magento\CustomerBalance\Model\Balance');
+    $customerBalance = Mage::getModel('Magento\CustomerBalance\Model\Balance');
     $customerBalance->setCustomerId($customer->getId());
     $customerBalanceAmount = 50 + $increment;
     $registerKey = 'customer_balance_' . $website->getCode();
@@ -54,7 +54,7 @@ foreach (Mage::app()->getWebsites() as $website) {
     $customerBalance->save();
 
     /** @var $rewardPoints \Magento\Reward\Model\Reward */
-    $rewardPoints = Mage::getModel('\Magento\Reward\Model\Reward');
+    $rewardPoints = Mage::getModel('Magento\Reward\Model\Reward');
     $rewardPoints->setCustomerId($customer->getId());
     $rewardPointsBalance = 100 + $increment;
     $registerKey = 'reward_point_balance_' . $website->getCode();

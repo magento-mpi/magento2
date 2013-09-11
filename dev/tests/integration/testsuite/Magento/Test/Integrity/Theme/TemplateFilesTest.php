@@ -55,7 +55,7 @@ class Magento_Test_Integrity_Theme_TemplateFilesTest extends Magento_TestFramewo
         $themes = $this->_getDesignThemes();
         foreach ($themes as $theme) {
             /** @var \Magento\Core\Model\Layout\Merge $layoutUpdate */
-            $layoutUpdate = Mage::getModel('\Magento\Core\Model\Layout\Merge', array('theme' => $theme));
+            $layoutUpdate = Mage::getModel('Magento\Core\Model\Layout\Merge', array('theme' => $theme));
             $layoutTemplates = $this->_getLayoutTemplates($layoutUpdate->getFileLayoutUpdatesXml());
             foreach ($layoutTemplates as $templateData) {
                 $templates[] = array_merge(array($theme->getArea(), $theme->getId()), $templateData);

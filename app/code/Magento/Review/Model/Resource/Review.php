@@ -289,7 +289,7 @@ class Review extends \Magento\Core\Model\Resource\Db\AbstractDb
             $object->load($object->getReviewId());
         }
 
-        $ratingModel    = \Mage::getModel('\Magento\Rating\Model\Rating');
+        $ratingModel    = \Mage::getModel('Magento\Rating\Model\Rating');
         $ratingSummaries= $ratingModel->getEntitySummary($object->getEntityPkValue(), false);
 
         foreach ($ratingSummaries as $ratingSummaryObject) {
@@ -372,7 +372,7 @@ class Review extends \Magento\Core\Model\Resource\Db\AbstractDb
             $ratingIds = array((int)$ratingIds);
         }
         if ($ratingIds && $entityPkValue
-            && ($resource = \Mage::getResourceSingleton('\Magento\Rating\Model\Resource\Rating\Option'))
+            && ($resource = \Mage::getResourceSingleton('Magento\Rating\Model\Resource\Rating\Option'))
             ) {
             foreach ($ratingIds as $ratingId) {
                 $resource->aggregateEntityByRatingId(

@@ -62,7 +62,7 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
      */
     public function getResource()
     {
-        return \Mage::getResourceSingleton('\Magento\CustomerSegment\Model\Resource\Segment');
+        return \Mage::getResourceSingleton('Magento\CustomerSegment\Model\Resource\Segment');
     }
 
     /**

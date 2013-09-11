@@ -49,7 +49,7 @@ class Send extends \Magento\Adminhtml\Block\Widget\Form
                 'after_element_html' => $this->_getStoreIdScript()
             ));
             $renderer = $this->getLayout()
-                ->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 

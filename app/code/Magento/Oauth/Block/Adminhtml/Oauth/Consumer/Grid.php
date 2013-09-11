@@ -48,7 +48,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('\Magento\Oauth\Model\Consumer')->getCollection();
+        $collection = \Mage::getModel('Magento\Oauth\Model\Consumer')->getCollection();
         $this->setCollection($collection);
 
         return parent::_prepareCollection();

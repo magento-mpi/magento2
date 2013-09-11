@@ -21,7 +21,7 @@ class Process extends \Magento\Adminhtml\Controller\Action
         $processId = $this->getRequest()->getParam('process');
         if ($processId) {
             /** @var $process \Magento\Index\Model\Process */
-            $process = \Mage::getModel('\Magento\Index\Model\Process')->load($processId);
+            $process = \Mage::getModel('Magento\Index\Model\Process')->load($processId);
             if ($process->getId() && $process->getIndexer()->isVisible()) {
                 return $process;
             }
@@ -38,7 +38,7 @@ class Process extends \Magento\Adminhtml\Controller\Action
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Index::system_index');
-        $this->_addContent($this->getLayout()->createBlock('\Magento\Index\Block\Adminhtml\Process'));
+        $this->_addContent($this->getLayout()->createBlock('Magento\Index\Block\Adminhtml\Process'));
         $this->renderLayout();
     }
 
@@ -198,7 +198,7 @@ class Process extends \Magento\Adminhtml\Controller\Action
                 $mode = $this->getRequest()->getParam('index_mode');
                 foreach ($processIds as $processId) {
                     /* @var $process \Magento\Index\Model\Process */
-                    $process = \Mage::getModel('\Magento\Index\Model\Process')->load($processId);
+                    $process = \Mage::getModel('Magento\Index\Model\Process')->load($processId);
                     if ($process->getId() && $process->getIndexer()->isVisible()) {
                         $process->setMode($mode)->save();
                         $counter++;

@@ -30,7 +30,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
     public function getLinks($product)
     {
         if (is_null($product->getDownloadableLinks())) {
-            $_linkCollection = \Mage::getModel('\Magento\Downloadable\Model\Link')->getCollection()
+            $_linkCollection = \Mage::getModel('Magento\Downloadable\Model\Link')->getCollection()
                 ->addProductToFilter($product->getId())
                 ->addTitleToResult($product->getStoreId())
                 ->addPriceToResult($product->getStore()->getWebsiteId());
@@ -107,7 +107,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
     public function getSamples($product)
     {
         if (is_null($product->getDownloadableSamples())) {
-            $_sampleCollection = \Mage::getModel('\Magento\Downloadable\Model\Sample')->getCollection()
+            $_sampleCollection = \Mage::getModel('Magento\Downloadable\Model\Sample')->getCollection()
                 ->addProductToFilter($product->getId())
                 ->addTitleToResult($product->getStoreId());
             $product->setDownloadableSamples($_sampleCollection);
@@ -150,7 +150,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
                         if (!$sampleItem['sample_id']) {
                             unset($sampleItem['sample_id']);
                         }
-                        $sampleModel = \Mage::getModel('\Magento\Downloadable\Model\Sample');
+                        $sampleModel = \Mage::getModel('Magento\Downloadable\Model\Sample');
                         $files = array();
                         if (isset($sampleItem['file'])) {
                             $files = \Mage::helper('Magento\Core\Helper\Data')->jsonDecode($sampleItem['file']);
@@ -174,7 +174,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
                     }
                 }
                 if ($_deleteItems) {
-                    \Mage::getResourceModel('\Magento\Downloadable\Model\Resource\Sample')->deleteItems($_deleteItems);
+                    \Mage::getResourceModel('Magento\Downloadable\Model\Resource\Sample')->deleteItems($_deleteItems);
                 }
             }
             if (isset($data['link'])) {
@@ -199,7 +199,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
                             $sample = $linkItem['sample'];
                             unset($linkItem['sample']);
                         }
-                        $linkModel = \Mage::getModel('\Magento\Downloadable\Model\Link')
+                        $linkModel = \Mage::getModel('Magento\Downloadable\Model\Link')
                             ->setData($linkItem)
                             ->setLinkType($linkItem['type'])
                             ->setProductId($product->getId())
@@ -242,7 +242,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
                     }
                 }
                 if ($_deleteItems) {
-                    \Mage::getResourceModel('\Magento\Downloadable\Model\Resource\Link')->deleteItems($_deleteItems);
+                    \Mage::getResourceModel('Magento\Downloadable\Model\Resource\Link')->deleteItems($_deleteItems);
                 }
                 if ($product->getLinksPurchasedSeparately()) {
                     $product->setIsCustomOptionChanged();
@@ -317,7 +317,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
             $buyRequest = new \Magento\Object(unserialize($option->getValue()));
             if (!$buyRequest->hasLinks()) {
                 if (!$product->getLinksPurchasedSeparately()) {
-                    $allLinksIds = \Mage::getModel('\Magento\Downloadable\Model\Link')
+                    $allLinksIds = \Mage::getModel('Magento\Downloadable\Model\Link')
                         ->getCollection()
                         ->addProductToFilter($product->getId())
                         ->getAllIds();
@@ -483,7 +483,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
                 }
             }
             if ($sampleItems) {
-                \Mage::getResourceModel('\Magento\Downloadable\Model\Resource\Sample')->deleteItems($sampleItems);
+                \Mage::getResourceModel('Magento\Downloadable\Model\Resource\Sample')->deleteItems($sampleItems);
             }
             $linkItems = array();
             if (isset($downloadableData['link'])) {
@@ -492,7 +492,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
                 }
             }
             if ($linkItems) {
-                \Mage::getResourceModel('\Magento\Downloadable\Model\Resource\Link')->deleteItems($linkItems);
+                \Mage::getResourceModel('Magento\Downloadable\Model\Resource\Link')->deleteItems($linkItems);
             }
         }
     }

@@ -23,7 +23,7 @@ class View extends \Magento\Core\Block\Template
     {
         parent::_prepareLayout();
 
-        $this->getLayout()->createBlock('\Magento\Catalog\Block\Breadcrumbs');
+        $this->getLayout()->createBlock('Magento\Catalog\Block\Breadcrumbs');
 
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             $category = $this->getCurrentCategory();
@@ -36,7 +36,7 @@ class View extends \Magento\Core\Block\Template
             if ($keywords = $category->getMetaKeywords()) {
                 $headBlock->setKeywords($keywords);
             }
-            if ($this->helper('\Magento\Catalog\Helper\Category')->canUseCanonicalTag()) {
+            if ($this->helper('Magento\Catalog\Helper\Category')->canUseCanonicalTag()) {
                 $headBlock->addLinkRel('canonical', $category->getUrl());
             }
             /*
@@ -91,7 +91,7 @@ class View extends \Magento\Core\Block\Template
     public function getCmsBlockHtml()
     {
         if (!$this->getData('cms_block_html')) {
-            $html = $this->getLayout()->createBlock('\Magento\Cms\Block\Block')
+            $html = $this->getLayout()->createBlock('Magento\Cms\Block\Block')
                 ->setBlockId($this->getCurrentCategory()->getLandingPage())
                 ->toHtml();
             $this->setData('cms_block_html', $html);

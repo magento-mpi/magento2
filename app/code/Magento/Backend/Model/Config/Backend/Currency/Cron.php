@@ -41,7 +41,7 @@ class Cron extends \Magento\Core\Model\Config\Value
         $cronExprString = join(' ', $cronExprArray);
 
         try {
-            \Mage::getModel('\Magento\Core\Model\Config\Value')
+            \Mage::getModel('Magento\Core\Model\Config\Value')
                 ->load(self::CRON_STRING_PATH, 'path')
                 ->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)

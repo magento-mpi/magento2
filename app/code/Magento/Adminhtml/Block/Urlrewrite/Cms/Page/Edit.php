@@ -54,7 +54,7 @@ class Edit extends \Magento\Adminhtml\Block\Urlrewrite\Edit
     private function _getCmsPage()
     {
         if (!$this->hasData('cms_page')) {
-            $this->setCmsPage(\Mage::getModel('\Magento\Cms\Model\Page'));
+            $this->setCmsPage(\Mage::getModel('Magento\Cms\Model\Page'));
         }
         return $this->getCmsPage();
     }
@@ -88,7 +88,7 @@ class Edit extends \Magento\Adminhtml\Block\Urlrewrite\Edit
      */
     protected function _createEditFormBlock()
     {
-        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit\Form', '', array(
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit\Form', '', array(
             'data' => array(
                 'cms_page'    => $this->_getCmsPage(),
                 'url_rewrite' => $this->_getUrlRewrite()

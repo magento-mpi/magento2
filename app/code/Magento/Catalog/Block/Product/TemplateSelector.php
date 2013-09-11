@@ -30,7 +30,7 @@ class TemplateSelector extends \Magento\Core\Block\Template
         $product = \Mage::registry('product');
         $entityType = $product->getResource()->getEntityType();
         $labelPart = \Mage::getResourceHelper('Magento_Core')->addLikeEscape($labelPart, array('position' => 'any'));
-        $collection = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
+        $collection = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
             ->setEntityTypeFilter($entityType->getId())
             ->addFieldToFilter('attribute_set_name', array('like' => $labelPart))
             ->addFieldToSelect('attribute_set_id', 'id')

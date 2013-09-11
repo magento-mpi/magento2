@@ -44,7 +44,7 @@ abstract class AgreementAbstract extends \Magento\Payment\Model\Method\AbstractM
     {
         if (is_null($this->_isAvailable)) {
             if (is_object($quote) && $quote->getCustomer()) {
-                $availableBA = \Mage::getModel('\Magento\Sales\Model\Billing\Agreement')->getAvailableCustomerBillingAgreements(
+                $availableBA = \Mage::getModel('Magento\Sales\Model\Billing\Agreement')->getAvailableCustomerBillingAgreements(
                     $quote->getCustomer()->getId()
                 );
                 $isAvailableBA = count($availableBA) > 0;
@@ -76,7 +76,7 @@ abstract class AgreementAbstract extends \Magento\Payment\Model\Method\AbstractM
         }
         if ($id) {
             $info = $this->getInfoInstance();
-            $ba = \Mage::getModel('\Magento\Sales\Model\Billing\Agreement')->load($id);
+            $ba = \Mage::getModel('Magento\Sales\Model\Billing\Agreement')->load($id);
             if ($ba->getId() && $ba->getCustomerId() == $info->getQuote()->getCustomer()->getId()) {
                 $info->setAdditionalInformation($key, $id)
                     ->setAdditionalInformation(self::PAYMENT_INFO_REFERENCE_ID, $ba->getReferenceId());

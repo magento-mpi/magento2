@@ -28,18 +28,18 @@ class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_T
 
     protected function setUp()
     {
-        $this->_product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $this->_product = Mage::getModel('Magento\Catalog\Model\Product');
         $this->_product->load(1);
         Mage::unregister('current_product');
         Mage::register('current_product', $this->_product);
-        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Catalog\Block\Product\View\Options');
+        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Catalog\Block\Product\View\Options');
     }
 
     public function testSetGetProduct()
     {
         $this->assertSame($this->_product, $this->_block->getProduct());
 
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $this->_block->setProduct($product);
         $this->assertSame($product, $this->_block->getProduct());
     }

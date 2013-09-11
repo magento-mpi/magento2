@@ -18,7 +18,7 @@ class Magento_Core_Block_TextTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Core\Block\Text');
+        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text');
     }
 
     public function testSetGetText()

@@ -83,7 +83,7 @@ class Consumer extends \Magento\Adminhtml\Controller\Action
     public function newAction()
     {
         /** @var $model \Magento\Oauth\Model\Consumer */
-        $model = \Mage::getModel('\Magento\Oauth\Model\Consumer');
+        $model = \Mage::getModel('Magento\Oauth\Model\Consumer');
 
         $formData = $this->_getFormData();
         if ($formData) {
@@ -117,7 +117,7 @@ class Consumer extends \Magento\Adminhtml\Controller\Action
         }
 
         /** @var $model \Magento\Oauth\Model\Consumer */
-        $model = \Mage::getModel('\Magento\Oauth\Model\Consumer');
+        $model = \Mage::getModel('Magento\Oauth\Model\Consumer');
         $model->load($id);
 
         if (!$model->getId()) {
@@ -151,7 +151,7 @@ class Consumer extends \Magento\Adminhtml\Controller\Action
         $data = $this->_filter($this->getRequest()->getParams());
 
         /** @var $model \Magento\Oauth\Model\Consumer */
-        $model = \Mage::getModel('\Magento\Oauth\Model\Consumer');
+        $model = \Mage::getModel('Magento\Oauth\Model\Consumer');
 
         if ($id) {
             if (!(int) $id) {
@@ -268,7 +268,7 @@ class Consumer extends \Magento\Adminhtml\Controller\Action
         if ($consumerId) {
             try {
                 /** @var $consumer \Magento\Oauth\Model\Consumer */
-                $consumer = \Mage::getModel('\Magento\Oauth\Model\Consumer')->load($consumerId);
+                $consumer = \Mage::getModel('Magento\Oauth\Model\Consumer')->load($consumerId);
                 if (!$consumer->getId()) {
                     \Mage::throwException(__('Unable to find a consumer.'));
                 }

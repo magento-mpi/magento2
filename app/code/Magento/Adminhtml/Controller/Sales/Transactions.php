@@ -24,7 +24,7 @@ class Transactions extends \Magento\Adminhtml\Controller\Action
      */
     protected function _initTransaction()
     {
-        $txn = \Mage::getModel('\Magento\Sales\Model\Order\Payment\Transaction')->load(
+        $txn = \Mage::getModel('Magento\Sales\Model\Order\Payment\Transaction')->load(
             $this->getRequest()->getParam('txn_id')
         );
 

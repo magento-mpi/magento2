@@ -94,7 +94,7 @@ class Attributes
             );
         }
 
-        $select = $this->getLayout()->createBlock('\Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Select')
+        $select = $this->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Select')
             ->setId($this->getFieldId().'_{{index}}_gattribute')
             ->setName($this->getFieldName().'[{{index}}][gcontent_attribute]')
             ->setOptions($options);
@@ -110,7 +110,7 @@ class Attributes
      */
     public function getAttributesSelectHtml($escapeJsQuotes = false)
     {
-        $select = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
             ->setId($this->getFieldId().'_{{index}}_attribute')
             ->setName($this->getFieldName().'[{{index}}][attribute_id]')
             ->setOptions($this->_getAttributes($this->getAttributeSetId(), $escapeJsQuotes));
@@ -147,7 +147,7 @@ class Attributes
      */
     public function _getAttributes($setId, $escapeJsQuotes = false)
     {
-        $attributes = \Mage::getModel('\Magento\GoogleShopping\Model\Attribute')->getAllowedAttributes($setId);
+        $attributes = \Mage::getModel('Magento\GoogleShopping\Model\Attribute')->getAllowedAttributes($setId);
         $result = array();
 
         foreach ($attributes as $attribute) {

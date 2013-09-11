@@ -13,7 +13,7 @@
 <?php $this->setPriceDataObject($_source) ?>
 
 <?php if ((float) $_source->getGiftCardsAmount()): ?>
-    <?php $_giftCards = $this->helper('\Magento\GiftCardAccount\Helper\Data')->getCards($_source); ?>
+    <?php $_giftCards = $this->helper('Magento\GiftCardAccount\Helper\Data')->getCards($_source); ?>
     <?php foreach ($_giftCards as $_card): ?>
         <?php $_baseAmount = $_card['ba']; ?>
         <?php $_amount = $_card['a']; ?>

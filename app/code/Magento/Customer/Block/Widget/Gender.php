@@ -65,7 +65,7 @@ class Gender extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function getGenderOptions()
     {
-        return \Mage::getResourceSingleton('\Magento\Customer\Model\Resource\Customer')
+        return \Mage::getResourceSingleton('Magento\Customer\Model\Resource\Customer')
             ->getAttribute('gender')
             ->getSource()
             ->getAllOptions();

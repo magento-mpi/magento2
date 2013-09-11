@@ -14,7 +14,7 @@
     <input type="checkbox" class="checkbox" name="payment[use_customer_balance]" value="1"
            id="use-customer-balance" <?php echo ($this->isCustomerBalanceUsed() ? 'checked' : '') ?>/>
 
-    <?php $balance = $this->helper('\Magento\Core\Helper\Data')->currency($this->getBalance()); ?>
+    <?php $balance = $this->helper('Magento\Core\Helper\Data')->currency($this->getBalance()); ?>
     <label
         for="use-customer-balance"><strong><?php echo __('Use Store Credit (%1 available)', $balance); ?></strong></label>
 </div>

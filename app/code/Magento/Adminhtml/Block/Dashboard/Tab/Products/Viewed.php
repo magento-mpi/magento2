@@ -38,7 +38,7 @@ class Viewed extends \Magento\Adminhtml\Block\Dashboard\Grid
         } else {
             $storeId = (int)$this->getParam('store');
         }
-        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Product\Collection')
+        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Product\Collection')
             ->addAttributeToSelect('*')
             ->addViewsCount()
             ->setStoreId($storeId)

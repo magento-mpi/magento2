@@ -212,7 +212,7 @@ class Cart
         try {
             $cart = $this->_getCart();
 
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->setStoreId(\Mage::app()->getStore()->getId())
                 ->load($id);
 

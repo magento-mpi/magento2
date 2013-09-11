@@ -25,7 +25,7 @@ class Magento_Core_Model_Layout_File_Source_Decorator_ModuleOutputTest extends P
 
     protected function setUp()
     {
-        $this->_fileSource = $this->getMockForAbstractClass('\Magento\Core\Model\Layout\File\SourceInterface');
+        $this->_fileSource = $this->getMockForAbstractClass('Magento\Core\Model\Layout\File\SourceInterface');
         $this->_moduleManager = $this->getMock('Magento\Core\Model\ModuleManager', array(), array(), '', false);
         $this->_moduleManager
             ->expects($this->any())
@@ -42,7 +42,7 @@ class Magento_Core_Model_Layout_File_Source_Decorator_ModuleOutputTest extends P
 
     public function testGetFiles()
     {
-        $theme = $this->getMockForAbstractClass('\Magento\Core\Model\ThemeInterface');
+        $theme = $this->getMockForAbstractClass('Magento\Core\Model\ThemeInterface');
         $fileOne = new \Magento\Core\Model\Layout\File('1.xml', 'Module_OutputEnabled');
         $fileTwo = new \Magento\Core\Model\Layout\File('2.xml', 'Module_OutputDisabled');
         $fileThree = new \Magento\Core\Model\Layout\File('3.xml', 'Module_OutputEnabled', $theme);

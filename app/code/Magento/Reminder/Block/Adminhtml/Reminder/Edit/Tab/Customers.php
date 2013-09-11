@@ -35,7 +35,7 @@ class Customers extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareCollection()
     {
         /* @var $collection \Magento\Reminder\Model\Resource\Customer\Collection */
-        $collection = \Mage::getResourceModel('\Magento\Reminder\Model\Resource\Customer\Collection');
+        $collection = \Mage::getResourceModel('Magento\Reminder\Model\Resource\Customer\Collection');
         $this->setCollection($collection);
 
         return parent::_prepareCollection();

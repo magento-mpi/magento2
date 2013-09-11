@@ -34,7 +34,7 @@ class Result extends \Magento\Core\Block\Template
      */
     protected function _getQuery()
     {
-        return $this->helper('\Magento\CatalogSearch\Helper\Data')->getQuery();
+        return $this->helper('Magento\CatalogSearch\Helper\Data')->getQuery();
     }
 
     /**
@@ -47,7 +47,7 @@ class Result extends \Magento\Core\Block\Template
         // add Home breadcrumb
         $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
         if ($breadcrumbs) {
-            $title = __("Search results for: '%1'", $this->helper('\Magento\CatalogSearch\Helper\Data')->getQueryText());
+            $title = __("Search results for: '%1'", $this->helper('Magento\CatalogSearch\Helper\Data')->getQueryText());
 
             $breadcrumbs->addCrumb('home', array(
                 'label' => __('Home'),
@@ -60,7 +60,7 @@ class Result extends \Magento\Core\Block\Template
         }
 
         // modify page title
-        $title = __("Search results for: '%1'", $this->helper('\Magento\CatalogSearch\Helper\Data')->getEscapedQueryText());
+        $title = __("Search results for: '%1'", $this->helper('Magento\CatalogSearch\Helper\Data')->getEscapedQueryText());
         $this->getLayout()->getBlock('head')->setTitle($title);
 
         return parent::_prepareLayout();

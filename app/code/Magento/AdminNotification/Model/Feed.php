@@ -80,7 +80,7 @@ class Feed extends \Magento\Core\Model\AbstractModel
             }
 
             if ($feedData) {
-                \Mage::getModel('\Magento\AdminNotification\Model\Inbox')->parse(array_reverse($feedData));
+                \Mage::getModel('Magento\AdminNotification\Model\Inbox')->parse(array_reverse($feedData));
             }
 
         }
@@ -128,7 +128,7 @@ class Feed extends \Magento\Core\Model\AbstractModel
     public function setLastUpdate()
     {
         \Mage::app()->saveCache(time(), 'admin_notifications_lastcheck');
-//        $config = \Mage::getModel('\Magento\Core\Model\Config');
+//        $config = \Mage::getModel('Magento\Core\Model\Config');
 //        /* @var $config \Magento\Core\Model\Config */
 //        $config->saveConfig(self::XML_LAST_UPDATE_PATH, time());
         return $this;

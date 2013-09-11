@@ -42,7 +42,7 @@ class Recommendations
             $searchRecommendationsCount = 1;
         }
         if ($searchRecommendationsEnabled) {
-            $model = \Mage::getResourceModel('\Magento\Search\Model\Resource\Recommendations');
+            $model = \Mage::getResourceModel('Magento\Search\Model\Resource\Recommendations');
             return $model->getRecommendationsByQuery($searchQueryText, $params, $searchRecommendationsCount);
         } else {
             return array();

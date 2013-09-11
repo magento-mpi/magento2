@@ -63,7 +63,7 @@ class Survey
     protected static function _getFlagModel()
     {
         if (self::$_flagModel === null) {
-            self::$_flagModel = \Mage::getModel('\Magento\Core\Model\Flag',
+            self::$_flagModel = \Mage::getModel('Magento\Core\Model\Flag',
                 array('data' => array('flag_code' => self::$_flagCode)))
                 ->loadSelf();
         }

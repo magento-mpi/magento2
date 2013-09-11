@@ -106,7 +106,7 @@ class Magento_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestC
 
     protected function _testGetProductUrl($method, $expectedFullAction)
     {
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->setId(10);
         $url = $this->_helper->$method($product);
         $this->assertContains($expectedFullAction, $url);
@@ -119,12 +119,12 @@ class Magento_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestC
      */
     protected function _populateCompareList()
     {
-        $productOne = Mage::getModel('\Magento\Catalog\Model\Product');
-        $productTwo = Mage::getModel('\Magento\Catalog\Model\Product');
+        $productOne = Mage::getModel('Magento\Catalog\Model\Product');
+        $productTwo = Mage::getModel('Magento\Catalog\Model\Product');
         $productOne->load(10);
         $productTwo->load(11);
         /** @var $compareList \Magento\Catalog\Model\Product\Compare\ListCompare */
-        $compareList = Mage::getModel('\Magento\Catalog\Model\Product\Compare\ListCompare');
+        $compareList = Mage::getModel('Magento\Catalog\Model\Product\Compare\ListCompare');
         $compareList->addProduct($productOne)->addProduct($productTwo);
     }
 }

@@ -31,7 +31,7 @@ class V2 extends \Magento\Sales\Model\Order\Invoice\Api
      */
     public function create($orderIncrementId, $itemsQty, $comment = null, $email = false, $includeComment = false)
     {
-        $order = \Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
+        $order = \Mage::getModel('Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
         $itemsQty = $this->_prepareItemQtyData($itemsQty);
         /* @var $order \Magento\Sales\Model\Order */
         /**
@@ -63,7 +63,7 @@ class V2 extends \Magento\Sales\Model\Order\Invoice\Api
         $invoice->getOrder()->setIsInProcess(true);
 
         try {
-            \Mage::getModel('\Magento\Core\Model\Resource\Transaction')->addObject($invoice)->addObject($invoice->getOrder())
+            \Mage::getModel('Magento\Core\Model\Resource\Transaction')->addObject($invoice)->addObject($invoice->getOrder())
                 ->save();
             $invoice->sendEmail($email, ($includeComment ? $comment : ''));
         } catch (\Magento\Core\Exception $e) {

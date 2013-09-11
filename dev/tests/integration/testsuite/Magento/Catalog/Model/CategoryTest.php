@@ -212,7 +212,7 @@ class Magento_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
     public function testSetStoreIdWithNonNumericValue()
     {
         /** @var $store \Magento\Core\Model\Store */
-        $store = Mage::getModel('\Magento\Core\Model\Store');
+        $store = Mage::getModel('Magento\Core\Model\Store');
         $store->load('fixturestore');
 
         $this->assertNotEquals($this->_model->getStoreId(), $store->getId());

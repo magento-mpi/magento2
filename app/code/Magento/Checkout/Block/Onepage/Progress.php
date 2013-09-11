@@ -44,7 +44,7 @@ class Progress extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         /*$amount = $this->getQuote()->getShippingAddress()->getShippingAmount();
         $filter = \Mage::app()->getStore()->getPriceFilter();
         return $filter->filter($amount);*/
-        //return $this->helper('\Magento\Checkout\Helper\Data')->formatPrice(
+        //return $this->helper('Magento\Checkout\Helper\Data')->formatPrice(
         //    $this->getQuote()->getShippingAddress()->getShippingAmount()
         //);
         return $this->getQuote()->getShippingAddress()->getShippingAmount();

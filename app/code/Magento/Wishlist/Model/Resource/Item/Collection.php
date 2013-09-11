@@ -117,7 +117,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     {
         $itemIds = array_keys($this->_items);
         /* @var $optionCollection \Magento\Wishlist\Model\Resource\Item\Option\Collection */
-        $optionCollection = \Mage::getModel('\Magento\Wishlist\Model\Item\Option')->getCollection();
+        $optionCollection = \Mage::getModel('Magento\Wishlist\Model\Item\Option')->getCollection();
         $optionCollection->addItemFilter($itemIds);
 
         /* @var $item \Magento\Wishlist\Model\Item */
@@ -155,7 +155,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
         $this->_productIds = array_merge($this->_productIds, array_keys($productIds));
         $attributes = \Mage::getSingleton('Magento\Wishlist\Model\Config')->getProductAttributes();
-        $productCollection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection();
+        $productCollection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection();
         foreach ($storeIds as $id) {
             $productCollection->addStoreFilter($id);
         }
@@ -374,9 +374,9 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _joinProductNameTable()
     {
         if (!$this->_isProductNameJoined) {
-            $entityTypeId = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Config')
+            $entityTypeId = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Config')
                 ->getEntityTypeId();
-            $attribute = \Mage::getModel('\Magento\Catalog\Model\Entity\Attribute')
+            $attribute = \Mage::getModel('Magento\Catalog\Model\Entity\Attribute')
                 ->loadByCode($entityTypeId, 'name');
 
             $storeId = \Mage::app()->getStore()->getId();

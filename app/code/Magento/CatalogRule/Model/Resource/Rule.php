@@ -496,7 +496,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
             $write->delete($this->getTable('catalogrule_group_website'), array());
 
-            $timestamp = \Mage::getModel('\Magento\Core\Model\Date')->gmtTimestamp();
+            $timestamp = \Mage::getModel('Magento\Core\Model\Date')->gmtTimestamp();
 
             $select = $write->select()
                 ->distinct(true)
@@ -513,7 +513,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             throw $e;
         }
 
-        $productCondition = \Mage::getModel('\Magento\Catalog\Model\Product\Condition')
+        $productCondition = \Mage::getModel('Magento\Catalog\Model\Product\Condition')
             ->setTable($this->getTable('catalogrule_affected_product'))
             ->setPkFieldName('product_id');
         \Mage::dispatchEvent('catalogrule_after_apply', array(

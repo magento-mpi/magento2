@@ -85,7 +85,7 @@ class Observer extends \Magento\Object
         if(is_array($giftMessages)) {
             foreach ($giftMessages as $entityId=>$message) {
 
-                $giftMessage = \Mage::getModel('\Magento\GiftMessage\Model\Message');
+                $giftMessage = \Mage::getModel('Magento\GiftMessage\Model\Message');
 
                 switch ($message['type']) {
                     case 'quote':
@@ -156,7 +156,7 @@ class Observer extends \Magento\Object
         }
         $giftMessageId = $order->getGiftMessageId();
         if($giftMessageId) {
-            $giftMessage = \Mage::getModel('\Magento\GiftMessage\Model\Message')->load($giftMessageId)
+            $giftMessage = \Mage::getModel('Magento\GiftMessage\Model\Message')->load($giftMessageId)
                 ->setId(null)
                 ->save();
             $observer->getEvent()->getQuote()->setGiftMessageId($giftMessage->getId());
@@ -193,7 +193,7 @@ class Observer extends \Magento\Object
         /** @var $quoteItem \Magento\Sales\Model\Quote\Item */
         $quoteItem = $observer->getEvent()->getQuoteItem();
         if ($giftMessageId = $orderItem->getGiftMessageId()) {
-            $giftMessage = \Mage::getModel('\Magento\GiftMessage\Model\Message')->load($giftMessageId)
+            $giftMessage = \Mage::getModel('Magento\GiftMessage\Model\Message')->load($giftMessageId)
                 ->setId(null)
                 ->save();
             $quoteItem->setGiftMessageId($giftMessage->getId());

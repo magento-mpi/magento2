@@ -16,9 +16,9 @@ class Magento_Rma_Model_RmaTest extends PHPUnit_Framework_TestCase
      */
     public function testSaveRma()
     {
-        $order = Mage::getModel('\Magento\Sales\Model\Order');
+        $order = Mage::getModel('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
-        $rma = Mage::getModel('\Magento\Rma\Model\Rma');
+        $rma = Mage::getModel('Magento\Rma\Model\Rma');
         $rmaItems = array();
 
         foreach ($order->getItemsCollection() as $item) {
@@ -51,7 +51,7 @@ class Magento_Rma_Model_RmaTest extends PHPUnit_Framework_TestCase
         $rmaId = $rma->getId();
 
         unset($rma);
-        $rma = Mage::getModel('\Magento\Rma\Model\Rma');
+        $rma = Mage::getModel('Magento\Rma\Model\Rma');
         $rma->load($rmaId);
         $this->assertEquals($rma->getId(), $rmaId);
         $this->assertEquals($rma->getOrderId(), $order->getId());

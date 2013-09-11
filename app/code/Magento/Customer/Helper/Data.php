@@ -110,7 +110,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getGroups()
     {
         if (empty($this->_groups)) {
-            $this->_groups = \Mage::getModel('\Magento\Customer\Model\Group')->getResourceCollection()
+            $this->_groups = \Mage::getModel('Magento\Customer\Model\Group')->getResourceCollection()
                 ->setRealGroupsFilter()
                 ->load();
         }
@@ -622,7 +622,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $additionalAttributes = array(), $scope = null, $eavForm = null
     ) {
         if (is_null($eavForm)) {
-            $eavForm = \Mage::getModel('\Magento\Customer\Model\Form');
+            $eavForm = \Mage::getModel('Magento\Customer\Model\Form');
         }
         /** @var \Magento\Eav\Model\Form $eavForm */
         $eavForm->setEntity($entity)

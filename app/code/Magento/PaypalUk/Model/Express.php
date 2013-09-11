@@ -71,7 +71,7 @@ class Express extends \Magento\Paypal\Model\Express
             ->setTransactionAdditionalInfo(\Magento\PaypalUk\Model\Pro::TRANSPORT_PAYFLOW_TXN_ID, $api->getTransactionId())
         ;
         $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getTransactionId()));
-        \Mage::getModel('\Magento\Paypal\Model\Info')->importToPayment($api, $payment);
+        \Mage::getModel('Magento\Paypal\Model\Info')->importToPayment($api, $payment);
     }
 
     /**

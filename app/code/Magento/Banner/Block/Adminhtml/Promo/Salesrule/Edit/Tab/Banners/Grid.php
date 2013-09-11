@@ -122,7 +122,7 @@ class Grid
      */
     public function getRelatedBannersByRule()
     {
-        return \Mage::getModel('\Magento\Banner\Model\Banner')
+        return \Mage::getModel('Magento\Banner\Model\Banner')
             ->getRelatedBannersBySalesRuleId($this->_getRule()->getRuleId());
     }
 

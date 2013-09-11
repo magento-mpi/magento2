@@ -118,7 +118,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
         $copyMethod = $this->getEmailCopyMethod();
 
         $mailer = \Mage::getSingleton('Magento\Core\Model\Email\Template\Mailer');
-        $emailInfo = \Mage::getModel('\Magento\Core\Model\Email\Info');
+        $emailInfo = \Mage::getModel('Magento\Core\Model\Email\Info');
 
         $receiverEmail = \Mage::getStoreConfig(
             self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/email',
@@ -142,7 +142,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
         // Email copies are sent as separated emails if their copy method is 'copy'
         if ($copyTo && $copyMethod == 'copy') {
             foreach ($copyTo as $email) {
-                $emailInfo = \Mage::getModel('\Magento\Core\Model\Email\Info');
+                $emailInfo = \Mage::getModel('Magento\Core\Model\Email\Info');
                 $emailInfo->addTo($email);
                 $mailer->addEmailInfo($emailInfo);
             }
@@ -248,13 +248,13 @@ class Operation extends \Magento\Core\Model\AbstractModel
         $exprPath  = $this->getExprConfigPath();
         $modelPath = $this->getModelConfigPath();
         try {
-            \Mage::getModel('\Magento\Core\Model\Config\Value')
+            \Mage::getModel('Magento\Core\Model\Config\Value')
                 ->load($exprPath, 'path')
                 ->setValue($cronExprString)
                 ->setPath($exprPath)
                 ->save();
 
-            \Mage::getModel('\Magento\Core\Model\Config\Value')
+            \Mage::getModel('Magento\Core\Model\Config\Value')
                 ->load($modelPath, 'path')
                 ->setValue(self::CRON_MODEL)
                 ->setPath($modelPath)
@@ -275,10 +275,10 @@ class Operation extends \Magento\Core\Model\AbstractModel
     protected function _dropCronTask()
     {
         try {
-            \Mage::getModel('\Magento\Core\Model\Config\Value')
+            \Mage::getModel('Magento\Core\Model\Config\Value')
                 ->load($this->getExprConfigPath(), 'path')
                 ->delete();
-            \Mage::getModel('\Magento\Core\Model\Config\Value')
+            \Mage::getModel('Magento\Core\Model\Config\Value')
                 ->load($this->getModelConfigPath(), 'path')
                 ->delete();
         } catch (\Exception $e) {
@@ -464,7 +464,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     public function getServerIoDriver()
     {
         $fileInfo = $this->getFileInfo();
-        $availableTypes = \Mage::getModel('\Magento\ScheduledImportExport\Model\Scheduled\Operation\Data')
+        $availableTypes = \Mage::getModel('Magento\ScheduledImportExport\Model\Scheduled\Operation\Data')
             ->getServerTypesOptionArray();
         if (!isset($fileInfo['server_type'])
             || !$fileInfo['server_type']

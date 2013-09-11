@@ -94,7 +94,7 @@ class Content
         ));
 
         // Setting custom renderer for content field to remove label column
-        $renderer = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element')
+        $renderer = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element')
                     ->setTemplate('cms/page/edit/form/renderer/content.phtml');
         $contentField->setRenderer($renderer);
 

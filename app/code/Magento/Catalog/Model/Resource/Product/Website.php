@@ -36,7 +36,7 @@ class Website extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _getProductResource()
     {
-        return \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product');
+        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product');
     }
 
     /**

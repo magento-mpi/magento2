@@ -39,7 +39,7 @@ class Rule extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Tax Rules'));
 
         $taxRuleId  = $this->getRequest()->getParam('rule');
-        $ruleModel  = \Mage::getModel('\Magento\Tax\Model\Calculation\Rule');
+        $ruleModel  = \Mage::getModel('Magento\Tax\Model\Calculation\Rule');
         if ($taxRuleId) {
             $ruleModel->load($taxRuleId);
             if (!$ruleModel->getId()) {

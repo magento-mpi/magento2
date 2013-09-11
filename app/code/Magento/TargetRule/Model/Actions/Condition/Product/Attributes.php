@@ -187,7 +187,7 @@ class Attributes
             'value'         => $this->getValueType(),
             'value_name'    => $this->getValueTypeName(),
             'class'         => 'value-type-chooser',
-        ))->setRenderer(\Mage::getBlockSingleton('\Magento\Rule\Block\Editable'));
+        ))->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Editable'));
         return $element;
     }
 

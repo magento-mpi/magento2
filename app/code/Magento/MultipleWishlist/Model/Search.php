@@ -28,7 +28,7 @@ class Search
     public function getResults(\Magento\MultipleWishlist\Model\Search\Strategy\StrategyInterface $strategy)
     {
         /* @var \Magento\Wishlist\Model\Resource\Wishlist\Collection $collection */
-        $collection = \Mage::getModel('\Magento\Wishlist\Model\Wishlist')->getCollection();
+        $collection = \Mage::getModel('Magento\Wishlist\Model\Wishlist')->getCollection();
         $collection->addFieldToFilter('visibility', array('eq' => 1));
         $strategy->filterCollection($collection);
         return $collection;

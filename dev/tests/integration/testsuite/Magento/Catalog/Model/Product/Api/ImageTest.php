@@ -24,7 +24,7 @@ class Magento_Catalog_Model_Product_Api_ImageTest extends PHPUnit_Framework_Test
     protected function setUp()
     {
         $productFixture = require dirname(__FILE__) . '/_files/ProductData.php';
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
 
         $product->setData($productFixture['create_full_fledged']);
         $product->save();

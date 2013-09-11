@@ -27,7 +27,7 @@ class Edit extends \Magento\Backend\Block\Widget\Tabs
         $this->addTab(
             'info',
             $this->getLayout()
-                ->createBlock('\Magento\User\Block\Role\Tab\Info')
+                ->createBlock('Magento\User\Block\Role\Tab\Info')
                 ->setRole($role)
                 ->setActive(true)
         );
@@ -37,7 +37,7 @@ class Edit extends \Magento\Backend\Block\Widget\Tabs
                 'label'     => __('Role Users'),
                 'title'     => __('Role Users'),
                 'content'   => $this->getLayout()
-                    ->createBlock('\Magento\User\Block\Role\Tab\Users', 'role.users.grid')
+                    ->createBlock('Magento\User\Block\Role\Tab\Users', 'role.users.grid')
                     ->toHtml(),
             ));
         }

@@ -23,6 +23,6 @@ class Tree
      */
     public function getRootNodeName()
     {
-        return __('CSS Editor ') . __($this->helper('\Magento\Theme\Helper\Storage')->getStorageTypeName());
+        return __('CSS Editor ') . __($this->helper('Magento\Theme\Helper\Storage')->getStorageTypeName());
     }
 }

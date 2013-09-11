@@ -245,7 +245,7 @@ class Cache extends \Magento\Adminhtml\Controller\Action
     public function cleanImagesAction()
     {
         try {
-            \Mage::getModel('\Magento\Catalog\Model\Product\Image')->clearCache();
+            \Mage::getModel('Magento\Catalog\Model\Product\Image')->clearCache();
             $this->_eventManager->dispatch('clean_catalog_images_cache_after');
             $this->_getSession()->addSuccess(
                 __('The image cache was cleaned.')

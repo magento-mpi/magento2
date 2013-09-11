@@ -70,7 +70,7 @@ class Product extends \Magento\Core\Helper\Url
         if ($product instanceof \Magento\Catalog\Model\Product) {
             return $product->getProductUrl();
         } elseif (is_numeric($product)) {
-            return \Mage::getModel('\Magento\Catalog\Model\Product')->load($product)->getProductUrl();
+            return \Mage::getModel('Magento\Catalog\Model\Product')->load($product)->getProductUrl();
         }
         return false;
     }
@@ -168,7 +168,7 @@ class Product extends \Magento\Core\Helper\Url
     {
         if (null === $this->_statuses) {
             $this->_statuses = array();
-            // \Mage::getModel('\Magento\Catalog\Model\Product\Status')->getResourceCollection()->load();
+            // \Mage::getModel('Magento\Catalog\Model\Product\Status')->getResourceCollection()->load();
         }
 
         return $this->_statuses;
@@ -184,7 +184,7 @@ class Product extends \Magento\Core\Helper\Url
     public function canShow($product, $where = 'catalog')
     {
         if (is_int($product)) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($product);
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($product);
         }
 
         /* @var $product \Magento\Catalog\Model\Product */
@@ -314,7 +314,7 @@ class Product extends \Magento\Core\Helper\Url
             return false;
         }
 
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+        $product = \Mage::getModel('Magento\Catalog\Model\Product')
             ->setStoreId(\Mage::app()->getStore()->getId())
             ->load($productId);
 
@@ -337,7 +337,7 @@ class Product extends \Magento\Core\Helper\Url
         }
 
         if ($categoryId) {
-            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($categoryId);
+            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
             $product->setCategory($category);
             \Mage::register('current_category', $category);
         }
@@ -437,7 +437,7 @@ class Product extends \Magento\Core\Helper\Url
     public function getProduct($productId, $store, $identifierType = null)
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product')->setStoreId(\Mage::app()->getStore($store)->getId());
+        $product = \Mage::getModel('Magento\Catalog\Model\Product')->setStoreId(\Mage::app()->getStore($store)->getId());
 
         $expectedIdType = false;
         if ($identifierType === null) {

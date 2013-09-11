@@ -454,7 +454,7 @@ abstract class AbstractCondition
             'values' => $this->getAttributeSelectOptions(),
             'value' => $this->getAttribute(),
             'value_name' => $this->getAttributeName(),
-        ))->setRenderer(\Mage::getBlockSingleton('\Magento\Rule\Block\Editable'));
+        ))->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Editable'));
     }
 
     /**
@@ -489,7 +489,7 @@ abstract class AbstractCondition
             'value'         => $this->getOperator(),
             'value_name'    => $this->getOperatorName(),
         ));
-        $element->setRenderer(\Mage::getBlockSingleton('\Magento\Rule\Block\Editable'));
+        $element->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Editable'));
 
         return $element;
     }
@@ -521,7 +521,7 @@ abstract class AbstractCondition
         if (strpos($this->getValueElementType(), '/') !== false) {
             return \Mage::getBlockSingleton($this->getValueElementType());
         }
-        return \Mage::getBlockSingleton('\Magento\Rule\Block\Editable');
+        return \Mage::getBlockSingleton('Magento\Rule\Block\Editable');
     }
 
     public function getValueElement()

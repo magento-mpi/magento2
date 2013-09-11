@@ -19,7 +19,7 @@ class Magento_Paypal_Controller_PayflowadvancedTest extends Magento_TestFramewor
         $order->load('100000001', 'increment_id');
         $order->getPayment()->setMethod(\Magento\Paypal\Model\Config::METHOD_PAYFLOWADVANCED);
 
-        $quote = Mage::getModel('\Magento\Sales\Model\Quote')
+        $quote = Mage::getModel('Magento\Sales\Model\Quote')
             ->setStoreId($order->getStoreId())
             ->save();
 

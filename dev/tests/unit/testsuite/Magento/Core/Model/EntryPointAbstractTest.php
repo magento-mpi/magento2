@@ -19,7 +19,7 @@ class Magento_Core_Model_EntryPointAbstractTest extends PHPUnit_Framework_TestCa
 
         $config = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
 
-        $model = $this->getMockForAbstractClass('\Magento\Core\Model\EntryPointAbstract',
+        $model = $this->getMockForAbstractClass('Magento\Core\Model\EntryPointAbstract',
             array($config, $objectManager), '');
         $model->expects($this->once())
             ->method('_processRequest');

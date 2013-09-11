@@ -66,7 +66,7 @@ class Attribute extends \Magento\Core\Model\AbstractModel
      */
     public function getAllowedAttributes($setId)
     {
-        $attributes = \Mage::getModel('\Magento\Catalog\Model\Product')->getResource()
+        $attributes = \Mage::getModel('Magento\Catalog\Model\Product')->getResource()
                 ->loadAllAttributes()
                 ->getSortedAttributes($setId);
 

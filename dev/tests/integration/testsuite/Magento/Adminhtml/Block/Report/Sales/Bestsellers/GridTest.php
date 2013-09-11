@@ -22,7 +22,7 @@ class Magento_Adminhtml_Block_Report_Sales_Bestsellers_GridTest extends PHPUnit_
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Sales\Bestsellers\Grid');
+        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Sales\Bestsellers\Grid');
     }
 
     public function testGetResourceCollectionName()

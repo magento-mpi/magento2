@@ -150,7 +150,7 @@ class Ipn
         if (empty($this->_order)) {
             // get proper order
             $id = $this->_request['invoice'];
-            $this->_order = \Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($id);
+            $this->_order = \Mage::getModel('Magento\Sales\Model\Order')->loadByIncrementId($id);
             if (!$this->_order->getId()) {
                 $this->_debugData['exception'] = sprintf('Wrong order ID: "%s".', $id);
                 $this->_debug();
@@ -162,7 +162,7 @@ class Ipn
             // re-initialize config with the method code and store id
             $method = $this->_order->getPayment()->getMethod();
             $parameters = array('params' => array($method, $this->_order->getStoreId()));
-            $this->_config = \Mage::getModel('\Magento\Paypal\Model\Config', $parameters);
+            $this->_config = \Mage::getModel('Magento\Paypal\Model\Config', $parameters);
             if (!$this->_config->isMethodActive($method) || !$this->_config->isMethodAvailable()) {
                 throw new \Exception(sprintf('Method "%s" is not available.', $method));
             }
@@ -183,7 +183,7 @@ class Ipn
         if (empty($this->_recurringProfile)) {
             // get proper recurring profile
             $internalReferenceId = $this->_request['rp_invoice_id'];
-            $this->_recurringProfile = \Mage::getModel('\Magento\Sales\Model\Recurring\Profile')
+            $this->_recurringProfile = \Mage::getModel('Magento\Sales\Model\Recurring\Profile')
                 ->loadByInternalReferenceId($internalReferenceId);
             if (!$this->_recurringProfile->getId()) {
                 throw new \Exception(
@@ -193,7 +193,7 @@ class Ipn
             // re-initialize config with the method code and store id
             $methodCode = $this->_recurringProfile->getMethodCode();
             $parameters = array('params' => array($methodCode, $this->_recurringProfile->getStoreId()));
-            $this->_config = \Mage::getModel('\Magento\Paypal\Model\Config', $parameters);
+            $this->_config = \Mage::getModel('Magento\Paypal\Model\Config', $parameters);
             if (!$this->_config->isMethodActive($methodCode) || !$this->_config->isMethodAvailable()) {
                 throw new \Exception(sprintf('Method "%s" is not available.', $methodCode));
             }
@@ -743,7 +743,7 @@ class Ipn
         if ($this->_config && $this->_config->debug) {
             $file = $this->_config->getMethodCode() ? "payment_{$this->_config->getMethodCode()}.log"
                 : self::DEFAULT_LOG_FILE;
-            \Mage::getModel('\Magento\Core\Model\Log\Adapter', array('fileName' => $file))->log($this->_debugData);
+            \Mage::getModel('Magento\Core\Model\Log\Adapter', array('fileName' => $file))->log($this->_debugData);
         }
     }
 }

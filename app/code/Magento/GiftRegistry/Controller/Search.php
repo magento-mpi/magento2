@@ -46,7 +46,7 @@ class Search extends \Magento\Core\Controller\Front\Action
      */
     protected function _initType($typeId)
     {
-        $type = \Mage::getModel('\Magento\GiftRegistry\Model\Type')
+        $type = \Mage::getModel('Magento\GiftRegistry\Model\Type')
             ->setStoreId(\Mage::app()->getStore()->getId())
             ->load($typeId);
 
@@ -185,7 +185,7 @@ class Search extends \Magento\Core\Controller\Front\Action
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry Search'));
@@ -199,7 +199,7 @@ class Search extends \Magento\Core\Controller\Front\Action
     public function resultsAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
 
         if ($params = $this->getRequest()->getParam('params')) {
             $this->_getSession()->setRegistrySearchData($params);
@@ -208,7 +208,7 @@ class Search extends \Magento\Core\Controller\Front\Action
         }
 
         if ($this->_validateSearchParams($params)) {
-            $results = \Mage::getModel('\Magento\GiftRegistry\Model\Entity')->getCollection()
+            $results = \Mage::getModel('Magento\GiftRegistry\Model\Entity')->getCollection()
                 ->applySearchFilters($this->_filterInputParams($params));
 
             $this->getLayout()->getBlock('giftregistry.search.results')

@@ -28,7 +28,7 @@ class Tierprice
      */
     protected function _getResource()
     {
-        return \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice');
+        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice');
     }
 
     /**

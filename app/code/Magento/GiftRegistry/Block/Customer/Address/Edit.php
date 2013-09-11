@@ -75,7 +75,7 @@ namespace Magento\GiftRegistry\Block\Customer\Address;
                 'label' => __('New Address')
             );
 
-            $select = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
+            $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
                 ->setName('address_type_or_id')
                 ->setId($domId)
                 ->setClass('address-select')

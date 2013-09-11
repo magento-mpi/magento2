@@ -23,15 +23,15 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_FormTest extends PH
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = Mage::getModel('\Magento\Core\Model\Layout');
-        $this->_block = $this->_layout->createBlock('\Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form');
+        $this->_layout = Mage::getModel('Magento\Core\Model\Layout');
+        $this->_block = $this->_layout->createBlock('Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form');
     }
 
     public function testGetGridJsObject()
     {
         $parentName = 'parent';
         $mockClass = $this->getMockClass('\Magento\Catalog\Block\Product\AbstractProduct', array('_prepareLayout'),
-            array(Mage::getModel('\Magento\Core\Block\Template\Context'))
+            array(Mage::getModel('Magento\Core\Block\Template\Context'))
         );
         $this->_layout->createBlock($mockClass, $parentName);
         $this->_layout->setChild($parentName, $this->_block->getNameInLayout(), '');

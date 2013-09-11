@@ -31,7 +31,7 @@ class Grid extends \Magento\Adminhtml\Block\Dashboard\Grid
         if (!\Mage::helper('Magento\Core\Helper\Data')->isModuleEnabled('Magento_Reports')) {
             return $this;
         }
-        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Order\Collection')
+        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Order\Collection')
             ->addItemCountExpr()
             ->joinCustomerName('customer')
             ->orderByCreatedAt();

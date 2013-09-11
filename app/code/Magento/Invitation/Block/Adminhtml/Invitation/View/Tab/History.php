@@ -57,7 +57,7 @@ class History
      */
     public function getHistoryCollection()
     {
-        return \Mage::getModel('\Magento\Invitation\Model\Invitation\History')
+        return \Mage::getModel('Magento\Invitation\Model\Invitation\History')
             ->getCollection()
             ->addFieldToFilter('invitation_id', $this->getInvitation()->getId())
             ->addOrder('history_id');

@@ -31,7 +31,7 @@ class Files extends \Magento\Adminhtml\Controller\Action
     {
         try {
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('\Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Tree')
+                $this->getLayout()->createBlock('Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Tree')
                     ->getTreeJson($this->_getStorage()->getTreeArray())
             );
         } catch (\Exception $e) {

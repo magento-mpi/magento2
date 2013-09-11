@@ -57,7 +57,7 @@ class Import extends \Magento\Object
     public function uploadFile()
     {
         /** @var $uploader \Magento\Core\Model\File\Uploader */
-        $uploader  = \Mage::getModel('\Magento\Core\Model\File\Uploader', array('fileId' => self::FIELD_NAME_SOURCE_FILE));
+        $uploader  = \Mage::getModel('Magento\Core\Model\File\Uploader', array('fileId' => self::FIELD_NAME_SOURCE_FILE));
         $uploader->setAllowedExtensions($this->_allowedExtensions);
         $uploader->skipDbProcessing(true);
         if (!$uploader->checkAllowedExtension($uploader->getFileExtension())) {

@@ -523,7 +523,7 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends \Magento\Adminhtml\B
         $canReturnToStock = \Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT);
         if (!is_null($item)) {
             if (!$item->hasCanReturnToStock()) {
-                $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($item->getOrderItem()->getProductId());
+                $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($item->getOrderItem()->getProductId());
                 if ( $product->getId() && $product->getStockItem()->getManageStock() ) {
                     $item->setCanReturnToStock(true);
                 }

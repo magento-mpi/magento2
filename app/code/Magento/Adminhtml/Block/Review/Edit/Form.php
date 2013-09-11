@@ -23,8 +23,8 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
     protected function _prepareForm()
     {
         $review = \Mage::registry('review_data');
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($review->getEntityPkValue());
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($review->getCustomerId());
+        $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($review->getEntityPkValue());
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($review->getCustomerId());
 
         $form = new \Magento\Data\Form(array(
             'id'        => 'edit_form',
@@ -58,14 +58,14 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
 
         $fieldset->addField('summary_rating', 'note', array(
             'label'     => __('Summary Rating'),
-            'text'      => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Review\Rating\Summary')->toHtml(),
+            'text'      => $this->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Rating\Summary')->toHtml(),
         ));
 
         $fieldset->addField('detailed_rating', 'note', array(
             'label'     => __('Detailed Rating'),
             'required'  => true,
             'text'      => '<div id="rating_detail">'
-                           . $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Review\Rating\Detailed')->toHtml()
+                           . $this->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Rating\Detailed')->toHtml()
                            . '</div>',
         ));
 
@@ -86,7 +86,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
                 'name'      => 'stores[]',
                 'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+            $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
             $review->setSelectStores($review->getStores());
         }

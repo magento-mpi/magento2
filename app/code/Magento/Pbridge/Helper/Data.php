@@ -251,7 +251,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     {
         if ($this->_encryptor === null) {
             $key = trim((string)\Mage::getStoreConfig('payment/pbridge/transferkey', $this->_storeId));
-            $this->_encryptor = \Mage::getModel('\Magento\Pbridge\Model\Encryption', array('key' => $key));
+            $this->_encryptor = \Mage::getModel('Magento\Pbridge\Model\Encryption', array('key' => $key));
             $this->_encryptor->setHelper($this);
         }
         return $this->_encryptor;
@@ -306,7 +306,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function prepareCart($order)
     {
-        $paypalCart = \Mage::getModel('\Magento\Paypal\Model\Cart',
+        $paypalCart = \Mage::getModel('Magento\Paypal\Model\Cart',
             array('params' => array($order)))
             ->isDiscountAsItem(true);
         return array($paypalCart->getItems(true), $paypalCart->getTotals());

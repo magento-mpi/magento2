@@ -26,10 +26,10 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         $productData = require __DIR__ . '/_files/_data/simple_product_data.php';
         $productId = $this->_createProductWithApi($productData);
 
-        $actualProduct = Mage::getModel('\Magento\Catalog\Model\Product');
+        $actualProduct = Mage::getModel('Magento\Catalog\Model\Product');
         $actualProduct->load($productId);
         $this->assertNotNull($actualProduct->getId());
-        $expectedProduct = Mage::getModel('\Magento\Catalog\Model\Product');
+        $expectedProduct = Mage::getModel('Magento\Catalog\Model\Product');
         $expectedProduct->setData($productData);
 
         $this->assertProductEquals($expectedProduct, $actualProduct);
@@ -55,7 +55,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
     {
         $productId = $this->_createProductWithApi($productData);
 
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load($productId);
         $this->assertNotNull($product->getId());
         $skipAttributes = array(
@@ -113,7 +113,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         $productData = require __DIR__ . '/_files/_data/simple_product_inventory_use_config.php';
         $productId = $this->_createProductWithApi($productData);
 
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load($productId);
         $this->assertNotNull($product->getId());
 
@@ -131,7 +131,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         $productData = require __DIR__ . '/_files/_data/simple_product_manage_stock_use_config.php';
 
         $productId = $this->_createProductWithApi($productData);
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load($productId);
         $this->assertNotNull($product->getId());
 
@@ -148,7 +148,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
     public function testSetSpecialPrice()
     {
         $productData = require __DIR__ . '/_files/ProductData.php';
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $specialPrice = 1.99;
         $specialFrom = '2011-12-22 00:00:00';
         $specialTo = '2011-12-25 00:00:00';
@@ -199,7 +199,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         );
 
         //test new product exists in DB
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load($productId);
         $this->assertNotNull($product->getId(), 'Tested product not found.');
 
@@ -239,7 +239,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         $this->assertGreaterThan(0, $productId);
 
         //test new product exists in DB
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load($productId);
         $this->assertNotNull($product->getId());
 
@@ -253,7 +253,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         $this->assertTrue($isOk, 'Call returned false');
 
         //test product exists in DB after update and product data changed
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load($productId);
         $this->assertNotNull($product->getId());
         $this->assertEquals($data['update']['productData']->name, $product->getName());
@@ -265,7 +265,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         $this->assertTrue((bool)$isOk, 'Call returned false'); //in SOAP v2 it's integer:1
 
         //test product not exists in DB after delete
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load($productId);
         $this->assertNull($product->getId());
     }
@@ -295,7 +295,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
             $data['create_with_attributes_soapv2']
         );
 
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load($productId);
 
         // test new product id returned
@@ -326,11 +326,11 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
 
         // find not product (category) attribute set identifier to try other error message
         /** @var $entity \Magento\Eav\Model\Entity\Type */
-        $entity = Mage::getModel('\Magento\Eav\Model\Entity\Type');
+        $entity = Mage::getModel('Magento\Eav\Model\Entity\Type');
         $entityTypeId = $entity->loadByCode('catalog_category')->getId();
 
         /** @var $attrSet \Magento\Eav\Model\Entity\Attribute\Set */
-        $attrSet = Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set');
+        $attrSet = Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set');
 
         /** @var $attrSetCollection \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection */
         $attrSetCollection = $attrSet->getCollection();
@@ -368,7 +368,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         $this->assertTrue($isOk, 'Can not update product on test store');
 
         // Load product in test store
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->setStoreId($store->getId())->load($productId);
         $this->assertNotNull($product->getId());
         $this->assertEquals(
@@ -383,7 +383,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         $this->assertTrue($isOk, 'Can not update product on default store');
 
         // Load product in default store
-        $productDefault = Mage::getModel('\Magento\Catalog\Model\Product');
+        $productDefault = Mage::getModel('Magento\Catalog\Model\Product');
         $productDefault->load($productId);
         $this->assertEquals(
             $data['update_default_store']['productData']->description,
@@ -397,7 +397,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         );
 
         // Load product in test store
-        $productTestStore = Mage::getModel('\Magento\Catalog\Model\Product');
+        $productTestStore = Mage::getModel('Magento\Catalog\Model\Product');
         $productTestStore->setStoreId($store->getId())->load($productId);
         $this->assertEquals(
             $data['update_default_store']['productData']->description,
@@ -427,7 +427,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         // test new product id returned
         $this->assertGreaterThan(0, $productId);
 
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load($productId);
 
         $found = false;

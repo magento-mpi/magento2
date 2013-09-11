@@ -42,7 +42,7 @@ class Collection extends \Magento\Review\Model\Resource\Review\Collection
         /** @var $adapter \Magento\DB\Adapter\AdapterInterface */
         $adapter            = $this->getConnection();
         /** @var $customer \Magento\Customer\Model\Resource\Customer */
-        $customer           = \Mage::getResourceSingleton('\Magento\Customer\Model\Resource\Customer');
+        $customer           = \Mage::getResourceSingleton('Magento\Customer\Model\Resource\Customer');
         /** @var $firstnameAttr \Magento\Eav\Model\Entity\Attribute */
         $firstnameAttr      = $customer->getAttribute('firstname');
         /** @var $lastnameAttr \Magento\Eav\Model\Entity\Attribute */

@@ -28,7 +28,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function getConditionsInstance()
     {
-        return \Mage::getModel('\Magento\Rule\Model\Condition\Combine');
+        return \Mage::getModel('Magento\Rule\Model\Condition\Combine');
     }
 
     /**
@@ -38,6 +38,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function getActionsInstance()
     {
-        return \Mage::getModel('\Magento\Rule\Model\Action\Collection');
+        return \Mage::getModel('Magento\Rule\Model\Action\Collection');
     }
 }

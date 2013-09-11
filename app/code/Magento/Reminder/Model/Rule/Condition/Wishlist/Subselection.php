@@ -33,7 +33,7 @@ class Subselection
      */
     public function getNewChildSelectOptions()
     {
-        return \Mage::getModel('\Magento\Reminder\Model\Rule\Condition\Wishlist\Subcombine')
+        return \Mage::getModel('Magento\Reminder\Model\Rule\Condition\Wishlist\Subcombine')
             ->getNewChildSelectOptions();
     }
 

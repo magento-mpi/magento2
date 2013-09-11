@@ -19,7 +19,7 @@ class Country extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 {
     protected function _getOptions()
     {
-        $options = \Mage::getResourceModel('\Magento\Directory\Model\Resource\Country\Collection')
+        $options = \Mage::getResourceModel('Magento\Directory\Model\Resource\Country\Collection')
             ->load()
             ->toOptionArray(false);
         array_unshift($options,

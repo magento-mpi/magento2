@@ -31,14 +31,14 @@ class Main extends \Magento\Adminhtml\Block\Widget\Grid\Container
         $customerId = $this->getRequest()->getParam('customerId', false);
         $customerName = '';
         if ($customerId) {
-            $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($customerId);
+            $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($customerId);
             $customerName = $customer->getFirstname() . ' ' . $customer->getLastname();
             $customerName = $this->escapeHtml($customerName);
         }
         $productId = $this->getRequest()->getParam('productId', false);
         $productName = null;
         if ($productId) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($productId);
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
             $productName =  $this->escapeHtml($product->getName());
         }
 

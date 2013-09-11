@@ -37,7 +37,7 @@ class Magento_Core_Model_Layout_File_Source_Decorator_ModuleDependencyTest exten
             ),
         );
 
-        $this->_fileSource = $this->getMockForAbstractClass('\Magento\Core\Model\Layout\File\SourceInterface');
+        $this->_fileSource = $this->getMockForAbstractClass('Magento\Core\Model\Layout\File\SourceInterface');
         $this->_moduleListMock = $this->getMock('Magento\Core\Model\ModuleListInterface');
         $this->_moduleListMock->expects($this->any())->method('getModules')->will($this->returnValue($modulesConfig));
         $this->_model = new \Magento\Core\Model\Layout\File\Source\Decorator\ModuleDependency(
@@ -53,7 +53,7 @@ class Magento_Core_Model_Layout_File_Source_Decorator_ModuleDependencyTest exten
      */
     public function testGetFiles(array $fixtureFiles, array $expectedFiles, $message)
     {
-        $theme = $this->getMockForAbstractClass('\Magento\Core\Model\ThemeInterface');
+        $theme = $this->getMockForAbstractClass('Magento\Core\Model\ThemeInterface');
         $this->_fileSource
             ->expects($this->once())
             ->method('getFiles')

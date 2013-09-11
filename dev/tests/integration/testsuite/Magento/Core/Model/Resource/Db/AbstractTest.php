@@ -19,7 +19,7 @@ class Magento_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_Test
     public function setUp()
     {
         $resource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Resource');
-        $this->_model = $this->getMockForAbstractClass('\Magento\Core\Model\Resource\Db\AbstractDb',
+        $this->_model = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb',
             array('resource' => $resource)
         );
     }

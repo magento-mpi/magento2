@@ -23,7 +23,7 @@ class Selection extends \Magento\Adminhtml\Controller\Action
     {
         return $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('\Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search')
+                ->createBlock('Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->setFirstShow(true)
                 ->toHtml()
@@ -34,7 +34,7 @@ class Selection extends \Magento\Adminhtml\Controller\Action
     {
         return $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('\Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search\Grid',
+                ->createBlock('Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search\Grid',
                     'adminhtml.catalog.product.edit.tab.bundle.option.search.grid')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()

@@ -171,7 +171,7 @@ abstract class EntityAbstract
         $this->_pageSize = isset($data['page_size']) ? $data['page_size']
             : (static::XML_PATH_PAGE_SIZE ? (int) \Mage::getStoreConfig(static::XML_PATH_PAGE_SIZE) : 0);
         $this->_byPagesIterator = isset($data['collection_by_pages_iterator']) ? $data['collection_by_pages_iterator']
-            : \Mage::getResourceModel('\Magento\ImportExport\Model\Resource\CollectionByPagesIterator');
+            : \Mage::getResourceModel('Magento\ImportExport\Model\Resource\CollectionByPagesIterator');
     }
 
     /**

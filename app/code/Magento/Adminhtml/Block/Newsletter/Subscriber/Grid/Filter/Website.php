@@ -32,7 +32,7 @@ class Website extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Select
     public function getCollection()
     {
         if(is_null($this->_websiteCollection)) {
-            $this->_websiteCollection = \Mage::getResourceModel('\Magento\Core\Model\Resource\Website\Collection')
+            $this->_websiteCollection = \Mage::getResourceModel('Magento\Core\Model\Resource\Website\Collection')
                 ->load();
         }
 

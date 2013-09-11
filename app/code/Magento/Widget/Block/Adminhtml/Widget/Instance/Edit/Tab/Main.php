@@ -117,7 +117,7 @@ class Main
         ));
 
         /** @var $label \Magento\Core\Model\Theme\Label */
-        $label = \Mage::getModel('\Magento\Core\Model\Theme\Label');
+        $label = \Mage::getModel('Magento\Core\Model\Theme\Label');
         $options = $label->getLabelsCollection(__('-- Please Select --'));
         $fieldset->addField('theme_id', 'select', array(
             'name'  => 'theme_id',
@@ -145,7 +145,7 @@ class Main
                 'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(false, true),
             ));
             $renderer = $this->getLayout()
-                ->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 
@@ -160,7 +160,7 @@ class Main
 
         /* @var $layoutBlock \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main\Layout */
         $layoutBlock = $this->getLayout()
-            ->createBlock('\Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main\Layout')
+            ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main\Layout')
             ->setWidgetInstance($widgetInstance);
         $fieldset = $form->addFieldset('layout_updates_fieldset',
             array('legend' => __('Layout Updates'))

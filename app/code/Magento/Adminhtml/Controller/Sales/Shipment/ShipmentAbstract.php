@@ -39,7 +39,7 @@ class ShipmentAbstract extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Shipments'));
 
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Sales\Shipment'))
+            ->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Sales\Shipment'))
             ->renderLayout();
     }
 
@@ -58,14 +58,14 @@ class ShipmentAbstract extends \Magento\Adminhtml\Controller\Action
     public function pdfshipmentsAction(){
         $shipmentIds = $this->getRequest()->getPost('shipment_ids');
         if (!empty($shipmentIds)) {
-            $shipments = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Shipment\Collection')
+            $shipments = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Shipment\Collection')
                 ->addAttributeToSelect('*')
                 ->addAttributeToFilter('entity_id', array('in' => $shipmentIds))
                 ->load();
             if (!isset($pdf)){
-                $pdf = \Mage::getModel('\Magento\Sales\Model\Order\Pdf\Shipment')->getPdf($shipments);
+                $pdf = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Shipment')->getPdf($shipments);
             } else {
-                $pages = \Mage::getModel('\Magento\Sales\Model\Order\Pdf\Shipment')->getPdf($shipments);
+                $pages = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Shipment')->getPdf($shipments);
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
 
@@ -79,8 +79,8 @@ class ShipmentAbstract extends \Magento\Adminhtml\Controller\Action
     {
         /** @see \Magento\Adminhtml\Controller\Sales\Order\Invoice */
         if ($shipmentId = $this->getRequest()->getParam('invoice_id')) { // invoice_id o_0
-            if ($shipment = \Mage::getModel('\Magento\Sales\Model\Order\Shipment')->load($shipmentId)) {
-                $pdf = \Mage::getModel('\Magento\Sales\Model\Order\Pdf\Shipment')->getPdf(array($shipment));
+            if ($shipment = \Mage::getModel('Magento\Sales\Model\Order\Shipment')->load($shipmentId)) {
+                $pdf = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Shipment')->getPdf(array($shipment));
                 $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
             }
         }

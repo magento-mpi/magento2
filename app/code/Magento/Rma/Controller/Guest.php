@@ -82,7 +82,7 @@ class Guest extends \Magento\Core\Controller\Front\Action
             return false;
         }
 
-        $rma = \Mage::getModel('\Magento\Rma\Model\Rma')->load($entityId);
+        $rma = \Mage::getModel('Magento\Rma\Model\Rma')->load($entityId);
 
         if ($this->_canViewRma($rma)) {
             \Mage::register('current_rma', $rma);
@@ -110,7 +110,7 @@ class Guest extends \Magento\Core\Controller\Front\Action
         $post = $this->getRequest()->getPost();
         if (($post) && !empty($post['items'])) {
             try {
-                $rmaModel = \Mage::getModel('\Magento\Rma\Model\Rma');
+                $rmaModel = \Mage::getModel('Magento\Rma\Model\Rma');
                 $rmaData = array(
                     'status'                => \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING,
                     'date_requested'        => \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate(),
@@ -129,7 +129,7 @@ class Guest extends \Magento\Core\Controller\Front\Action
                 }
                 $result->sendNewRmaEmail();
                 if (isset($post['rma_comment']) && !empty($post['rma_comment'])) {
-                    \Mage::getModel('\Magento\Rma\Model\Rma\Status\History')
+                    \Mage::getModel('Magento\Rma\Model\Rma\Status\History')
                         ->setRmaEntityId($rmaModel->getId())
                         ->setComment($post['rma_comment'])
                         ->setIsVisibleOnFront(true)
@@ -150,7 +150,7 @@ class Guest extends \Magento\Core\Controller\Front\Action
             }
         }
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Core\Model\Session');
+        $this->_initLayoutMessages('Magento\Core\Model\Session');
         $this->getLayout()->getBlock('head')->setTitle(__('Create New Return'));
         if ($block = $this->getLayout()->getBlock('customer.account.link.back')) {
             $block->setRefererUrl($this->_getRefererUrl());
@@ -189,7 +189,7 @@ class Guest extends \Magento\Core\Controller\Front\Action
                 $comment    = trim(strip_tags($comment));
 
                 if (!empty($comment)) {
-                    $result = \Mage::getModel('\Magento\Rma\Model\Rma\Status\History')
+                    $result = \Mage::getModel('Magento\Rma\Model\Rma\Status\History')
                         ->setRmaEntityId(\Mage::registry('current_rma')->getEntityId())
                         ->setComment($comment)
                         ->setIsVisibleOnFront(true)
@@ -247,7 +247,7 @@ class Guest extends \Magento\Core\Controller\Front\Action
                     \Mage::throwException(__('Please enter a valid tracking number.'));
                 }
 
-                \Mage::getModel('\Magento\Rma\Model\Shipping')
+                \Mage::getModel('Magento\Rma\Model\Shipping')
                     ->setRmaEntityId($rma->getEntityId())
                     ->setTrackNumber($number)
                     ->setCarrierCode($carrier)
@@ -300,7 +300,7 @@ class Guest extends \Magento\Core\Controller\Front\Action
                     \Mage::throwException(__('Please enter a valid tracking number.'));
                 }
 
-                $trackingNumber = \Mage::getModel('\Magento\Rma\Model\Shipping')
+                $trackingNumber = \Mage::getModel('Magento\Rma\Model\Shipping')
                     ->load($number);
                 if ($trackingNumber->getRmaEntityId() !== $rma->getId()) {
                     \Mage::throwException(__('The wrong RMA was selected.'));

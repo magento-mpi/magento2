@@ -45,7 +45,7 @@ class Index extends \Magento\Core\Controller\Front\Action
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         if ($block = $this->getLayout()->getBlock('giftregistry_list')) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
@@ -133,7 +133,7 @@ class Index extends \Magento\Core\Controller\Front\Action
         if ($itemId) {
             try {
                 $entity = $this->_initEntity('entity');
-                $wishlistItem = \Mage::getModel('\Magento\Wishlist\Model\Item')
+                $wishlistItem = \Mage::getModel('Magento\Wishlist\Model\Item')
                     ->loadWithOptions($itemId, 'info_buyRequest');
                 $entity->addItem($wishlistItem->getProductId(), $wishlistItem->getBuyRequest());
                 $this->_getSession()->addSuccess(
@@ -142,7 +142,7 @@ class Index extends \Magento\Core\Controller\Front\Action
                 $redirectParams['wishlist_id'] = $wishlistItem->getWishlistId();
             } catch (\Magento\Core\Exception $e) {
                 if ($e->getCode() == \Magento\GiftRegistry\Model\Entity::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
-                    $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load((int)$wishlistItem->getProductId());
+                    $product = \Mage::getModel('Magento\Catalog\Model\Product')->load((int)$wishlistItem->getProductId());
                     $query['options'] = \Magento\GiftRegistry\Block\Product\View::FLAG;
                     $query['entity'] = $this->getRequest()->getParam('entity');
                     $this->_redirectUrl($product->getUrlModel()->getUrl($product, array('_query' => $query)));
@@ -193,7 +193,7 @@ class Index extends \Magento\Core\Controller\Front\Action
         try {
             $entity = $this->_initEntity();
             $this->loadLayout();
-            $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+            $this->_initLayoutMessages('Magento\Customer\Model\Session');
             $headBlock = $this->getLayout()->getBlock('head');
             if ($headBlock) {
                 $headBlock->setTitle(__('Share Gift Registry'));
@@ -220,8 +220,8 @@ class Index extends \Magento\Core\Controller\Front\Action
         try {
             \Mage::register('current_entity', $this->_initEntity());
             $this->loadLayout();
-            $this->_initLayoutMessages('\Magento\Customer\Model\Session');
-            $this->_initLayoutMessages('\Magento\Checkout\Model\Session');
+            $this->_initLayoutMessages('Magento\Customer\Model\Session');
+            $this->_initLayoutMessages('Magento\Checkout\Model\Session');
             $headBlock = $this->getLayout()->getBlock('head');
             if ($headBlock) {
                 $headBlock->setTitle(__('Gift Registry Items'));
@@ -329,7 +329,7 @@ class Index extends \Magento\Core\Controller\Front\Action
     public function addSelectAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         if ($block = $this->getLayout()->getBlock('giftregistry_addselect')) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
@@ -374,7 +374,7 @@ class Index extends \Magento\Core\Controller\Front\Action
             \Mage::register('magento_giftregistry_address', $model->exportAddress());
 
             $this->loadLayout();
-            $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+            $this->_initLayoutMessages('Magento\Customer\Model\Session');
 
             if ($model->getId()) {
                 $pageTitle = __('Edit Gift Registry');
@@ -420,7 +420,7 @@ class Index extends \Magento\Core\Controller\Front\Action
                 }
                 if ($isAddAction) {
                     $entityId = null;
-                    $model = \Mage::getModel('\Magento\GiftRegistry\Model\Entity');
+                    $model = \Mage::getModel('Magento\GiftRegistry\Model\Entity');
                     if ($model->setTypeById($typeId) === false) {
                         \Mage::throwException(__('Incorrect Type'));
                     }
@@ -440,7 +440,7 @@ class Index extends \Magento\Core\Controller\Front\Action
                     foreach  ($registrantsPost as $index => $registrant) {
                         if (is_array($registrant)) {
                             /* @var $person \Magento\GiftRegistry\Model\Person */
-                            $person = \Mage::getModel('\Magento\GiftRegistry\Model\Person');
+                            $person = \Mage::getModel('Magento\GiftRegistry\Model\Person');
                             $idField = $person->getIdFieldName();
                             if (!empty($registrant[$idField])) {
                                 $person->load($registrant[$idField]);
@@ -468,7 +468,7 @@ class Index extends \Magento\Core\Controller\Front\Action
                     // creating new address
                     if (!empty($data['address'])) {
                         /* @var $address \Magento\Customer\Model\Address */
-                        $address = \Mage::getModel('\Magento\Customer\Model\Address');
+                        $address = \Mage::getModel('Magento\Customer\Model\Address');
                         $address->setData($data['address']);
                         $errors = $address->validate();
                         $model->importAddress($address);
@@ -514,7 +514,7 @@ class Index extends \Magento\Core\Controller\Front\Action
                         $personLeft[] = $person->getId();
                     }
                     if (!$isAddAction) {
-                        \Mage::getModel('\Magento\GiftRegistry\Model\Person')
+                        \Mage::getModel('Magento\GiftRegistry\Model\Person')
                             ->getResource()
                             ->deleteOrphan($entityId, $personLeft);
                     }
@@ -556,7 +556,7 @@ class Index extends \Magento\Core\Controller\Front\Action
      */
     protected function _initEntity($requestParam = 'id')
     {
-        $entity = \Mage::getModel('\Magento\GiftRegistry\Model\Entity');
+        $entity = \Mage::getModel('Magento\GiftRegistry\Model\Entity');
         $customerId = $this->_getSession()->getCustomerId();
         $entityId = $this->getRequest()->getParam($requestParam);
 

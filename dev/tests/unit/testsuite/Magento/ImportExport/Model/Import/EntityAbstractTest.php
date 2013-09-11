@@ -36,7 +36,7 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
 
     public function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Import\EntityAbstract',
+        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\EntityAbstract',
             array($this->_getModelDependencies())
         );
     }
@@ -155,7 +155,7 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
     public function testIsDataValid()
     {
         /** @var $model \Magento\ImportExport\Model\Import\EntityAbstract|PHPUnit_Framework_MockObject_MockObject */
-        $model = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Import\EntityAbstract', array(), '', false,
+        $model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\EntityAbstract', array(), '', false,
             true, true, array('validateData'));
         $model->expects($this->any())
             ->method('validateData');
@@ -619,7 +619,7 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
     protected function _createSourceAdapterMock(array $columns)
     {
         /** @var $source \Magento\ImportExport\Model\Import\SourceAbstract|PHPUnit_Framework_MockObject_MockObject */
-        $source = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Import\SourceAbstract', array(), '', false,
+        $source = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\SourceAbstract', array(), '', false,
             true, true, array('getColNames')
         );
         $source->expects($this->any())

@@ -52,7 +52,7 @@ class Images extends \Magento\Adminhtml\Controller\Action
         try {
             $this->_initAction();
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Cms\Wysiwyg\Images\Tree')
+                $this->getLayout()->createBlock('Magento\Adminhtml\Block\Cms\Wysiwyg\Images\Tree')
                     ->getTreeJson()
             );
         } catch (\Exception $e) {
@@ -190,7 +190,7 @@ class Images extends \Magento\Adminhtml\Controller\Action
     public function getStorage()
     {
         if (!\Mage::registry('storage')) {
-            $storage = \Mage::getModel('\Magento\Cms\Model\Wysiwyg\Images\Storage');
+            $storage = \Mage::getModel('Magento\Cms\Model\Wysiwyg\Images\Storage');
             \Mage::register('storage', $storage);
         }
         return \Mage::registry('storage');

@@ -127,6 +127,6 @@ class Grouped extends \Magento\Catalog\Block\Product\View\Type\Grouped
     public function getCurrencyPrice($price)
     {
         $store = $this->getProduct()->getStore();
-        return $this->helper('\Magento\Core\Helper\Data')->currencyByStore($price, $store, false);
+        return $this->helper('Magento\Core\Helper\Data')->currencyByStore($price, $store, false);
     }
 }

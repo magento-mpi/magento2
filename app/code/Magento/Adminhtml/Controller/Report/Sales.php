@@ -79,7 +79,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
     public function exportBestsellersCsvAction()
     {
         $fileName   = 'bestsellers.csv';
-        $grid       = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Sales\Bestsellers\Grid');
+        $grid       = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Sales\Bestsellers\Grid');
         $this->_initReportAction($grid);
         $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
     }
@@ -90,7 +90,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
     public function exportBestsellersExcelAction()
     {
         $fileName   = 'bestsellers.xml';
-        $grid       = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Sales\Bestsellers\Grid');
+        $grid       = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Sales\Bestsellers\Grid');
         $this->_initReportAction($grid);
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
@@ -121,7 +121,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
     public function exportSalesCsvAction()
     {
         $fileName   = 'sales.csv';
-        $grid       = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Sales\Sales\Grid');
+        $grid       = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Sales\Sales\Grid');
         $this->_initReportAction($grid);
         $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
     }
@@ -132,7 +132,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
     public function exportSalesExcelAction()
     {
         $fileName   = 'sales.xml';
-        $grid       = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Sales\Sales\Grid');
+        $grid       = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Sales\Sales\Grid');
         $this->_initReportAction($grid);
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
@@ -164,7 +164,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
     public function exportTaxCsvAction()
     {
         $fileName   = 'tax.csv';
-        $grid       = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Sales\Tax\Grid');
+        $grid       = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Sales\Tax\Grid');
         $this->_initReportAction($grid);
         $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
     }
@@ -175,7 +175,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
     public function exportTaxExcelAction()
     {
         $fileName   = 'tax.xml';
-        $grid       = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Sales\Tax\Grid');
+        $grid       = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Sales\Tax\Grid');
         $this->_initReportAction($grid);
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
@@ -207,7 +207,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
     public function exportShippingCsvAction()
     {
         $fileName   = 'shipping.csv';
-        $grid       = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Sales\Shipping\Grid');
+        $grid       = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Sales\Shipping\Grid');
         $this->_initReportAction($grid);
         $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
     }
@@ -218,7 +218,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
     public function exportShippingExcelAction()
     {
         $fileName   = 'shipping.xml';
-        $grid       = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Sales\Shipping\Grid');
+        $grid       = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Sales\Shipping\Grid');
         $this->_initReportAction($grid);
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
@@ -250,7 +250,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
     public function exportInvoicedCsvAction()
     {
         $fileName   = 'invoiced.csv';
-        $grid       = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Sales\Invoiced\Grid');
+        $grid       = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Sales\Invoiced\Grid');
         $this->_initReportAction($grid);
         $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
     }
@@ -261,7 +261,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
     public function exportInvoicedExcelAction()
     {
         $fileName   = 'invoiced.xml';
-        $grid       = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Sales\Invoiced\Grid');
+        $grid       = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Sales\Invoiced\Grid');
         $this->_initReportAction($grid);
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
@@ -293,7 +293,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
     public function exportRefundedCsvAction()
     {
         $fileName   = 'refunded.csv';
-        $grid       = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Sales\Refunded\Grid');
+        $grid       = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Sales\Refunded\Grid');
         $this->_initReportAction($grid);
         $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
     }
@@ -304,7 +304,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
     public function exportRefundedExcelAction()
     {
         $fileName   = 'refunded.xml';
-        $grid       = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Sales\Refunded\Grid');
+        $grid       = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Sales\Refunded\Grid');
         $this->_initReportAction($grid);
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
@@ -336,7 +336,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
     public function exportCouponsCsvAction()
     {
         $fileName   = 'coupons.csv';
-        $grid       = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Sales\Coupons\Grid');
+        $grid       = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Sales\Coupons\Grid');
         $this->_initReportAction($grid);
         $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
     }
@@ -347,7 +347,7 @@ class Sales extends \Magento\Adminhtml\Controller\Report\AbstractReport
     public function exportCouponsExcelAction()
     {
         $fileName   = 'coupons.xml';
-        $grid       = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Sales\Coupons\Grid');
+        $grid       = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Sales\Coupons\Grid');
         $this->_initReportAction($grid);
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }

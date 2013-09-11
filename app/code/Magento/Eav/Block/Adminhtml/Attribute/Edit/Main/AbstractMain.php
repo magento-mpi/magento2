@@ -66,7 +66,7 @@ abstract class AbstractMain extends \Magento\Adminhtml\Block\Widget\Form
 
         $this->_addElementTypes($fieldset);
 
-        $yesno = \Mage::getModel('\Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();
+        $yesno = \Mage::getModel('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();
 
         $labels = $attributeObject->getFrontendLabel();
         $fieldset->addField(
@@ -93,7 +93,7 @@ abstract class AbstractMain extends \Magento\Adminhtml\Block\Widget\Form
             'required' => true,
         ));
 
-        $inputTypes = \Mage::getModel('\Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype')->toOptionArray();
+        $inputTypes = \Mage::getModel('Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype')->toOptionArray();
 
         $fieldset->addField('frontend_input', 'select', array(
             'name' => 'frontend_input',
@@ -228,7 +228,7 @@ abstract class AbstractMain extends \Magento\Adminhtml\Block\Widget\Form
     protected function _afterToHtml($html)
     {
         $jsScripts = $this->getLayout()
-            ->createBlock('\Magento\Eav\Block\Adminhtml\Attribute\Edit\Js')->toHtml();
+            ->createBlock('Magento\Eav\Block\Adminhtml\Attribute\Edit\Js')->toHtml();
         return $html.$jsScripts;
     }
 

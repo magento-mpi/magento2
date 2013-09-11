@@ -105,7 +105,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     public function getActiveSegmentsForEvent($eventName, $websiteId)
     {
         if (!isset($this->_segmentMap[$eventName][$websiteId])) {
-            $relatedSegments = \Mage::getResourceModel('\Magento\CustomerSegment\Model\Resource\Segment\Collection')
+            $relatedSegments = \Mage::getResourceModel('Magento\CustomerSegment\Model\Resource\Segment\Collection')
                 ->addEventFilter($eventName)
                 ->addWebsiteFilter($websiteId)
                 ->addIsActiveFilter(1);
@@ -144,7 +144,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     public function processCustomer(\Magento\Customer\Model\Customer $customer, $website)
     {
         $website = \Mage::app()->getWebsite($website);
-        $segments = \Mage::getResourceModel('\Magento\CustomerSegment\Model\Resource\Segment\Collection')
+        $segments = \Mage::getResourceModel('Magento\CustomerSegment\Model\Resource\Segment\Collection')
             ->addWebsiteFilter($website)
             ->addIsActiveFilter(1);
 
@@ -221,7 +221,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     public function processCustomerEvent($eventName, $customerId)
     {
         if (\Mage::getSingleton('Magento\Customer\Model\Config\Share')->isWebsiteScope()) {
-            $websiteIds = \Mage::getResourceSingleton('\Magento\Customer\Model\Resource\Customer')
+            $websiteIds = \Mage::getResourceSingleton('Magento\Customer\Model\Resource\Customer')
                 ->getWebsiteId($customerId);
 
             if ($websiteIds) {

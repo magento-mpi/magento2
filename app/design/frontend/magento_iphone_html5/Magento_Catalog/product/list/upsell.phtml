@@ -19,7 +19,7 @@
         <?php for($_j=0;$_j<$this->getColumnCount();$_j++): ?>
             <?php if($_link=$this->getIterableItem()): ?>
             -><li class="item">
-                <a href="<?php echo $_link->getProductUrl() ?>" class="product-image"><img src="<?php echo $this->helper('\Magento\Catalog\Helper\Image')->init($_link, 'small_image')->resize(135) ?>" width="135" height="135" alt="<?php echo $this->escapeHtml($_link->getName()) ?>" title="<?php echo $this->escapeHtml($_link->getName()) ?>" /></a>
+                <a href="<?php echo $_link->getProductUrl() ?>" class="product-image"><img src="<?php echo $this->helper('Magento\Catalog\Helper\Image')->init($_link, 'small_image')->resize(135) ?>" width="135" height="135" alt="<?php echo $this->escapeHtml($_link->getName()) ?>" title="<?php echo $this->escapeHtml($_link->getName()) ?>" /></a>
                 <h3 class="product-name"><a href="<?php echo $_link->getProductUrl() ?>"><?php echo $this->escapeHtml($_link->getName()) ?></a></h3>
                 <?php echo $this->getPriceHtml($_link, true, '-upsell') ?>
             </li><!-

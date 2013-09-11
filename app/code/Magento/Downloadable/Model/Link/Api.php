@@ -49,7 +49,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
 
         $result = array();
         try {
-            $uploader = \Mage::getModel('\Magento\Downloadable\Model\Link\Api\Uploader', array('file' => $fileInfo));
+            $uploader = \Mage::getModel('Magento\Downloadable\Model\Link\Api\Uploader', array('file' => $fileInfo));
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
             $result = $uploader->save($tmpPath);

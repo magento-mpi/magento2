@@ -128,7 +128,7 @@ class Queue extends \Magento\Core\Model\Resource\Db\AbstractDb
             return $this;
         }
 
-        $subscribers = \Mage::getResourceSingleton('\Magento\Newsletter\Model\Resource\Subscriber\Collection')
+        $subscribers = \Mage::getResourceSingleton('Magento\Newsletter\Model\Resource\Subscriber\Collection')
             ->addFieldToFilter('store_id', array('in'=>$stores))
             ->useOnlySubscribed()
             ->load();

@@ -28,7 +28,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
      */
     public function getNewChildSelectOptions()
     {
-        $addressCondition = \Mage::getModel('\Magento\SalesRule\Model\Rule\Condition\Address');
+        $addressCondition = \Mage::getModel('Magento\SalesRule\Model\Rule\Condition\Address');
         $addressAttributes = $addressCondition->loadAttributeOptions()->getAttributeOption();
         $attributes = array();
         foreach ($addressAttributes as $code=>$label) {

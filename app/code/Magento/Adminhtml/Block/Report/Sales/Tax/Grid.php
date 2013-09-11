@@ -111,7 +111,7 @@ class Grid extends \Magento\Adminhtml\Block\Report\Grid\AbstractGrid
     {
         $filterData = $this->getFilterData();
         if(!$filterData->hasData('order_statuses')) {
-            $orderConfig = \Mage::getModel('\Magento\Sales\Model\Order\Config');
+            $orderConfig = \Mage::getModel('Magento\Sales\Model\Order\Config');
             $statusValues = array();
             $canceledStatuses = $orderConfig->getStateStatuses(\Magento\Sales\Model\Order::STATE_CANCELED);
             foreach ($orderConfig->getStatuses() as $code => $label) {

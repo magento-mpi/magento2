@@ -64,11 +64,11 @@ class Sales extends \Magento\Adminhtml\Block\Template
 
     public function _beforeToHtml()
     {
-        $this->_currency = \Mage::getModel('\Magento\Directory\Model\Currency')
+        $this->_currency = \Mage::getModel('Magento\Directory\Model\Currency')
             ->load(\Mage::getStoreConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE))
         ;
 
-        $this->_collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Sale\Collection')
+        $this->_collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Sale\Collection')
             ->setCustomerFilter(\Mage::registry('current_customer'))
             ->setOrderStateFilter(\Magento\Sales\Model\Order::STATE_CANCELED, true)
             ->load()

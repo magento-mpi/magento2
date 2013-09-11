@@ -50,7 +50,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _beforePrepareCollection()
     {
         if (!$this->getCollection()) {
-            $collection = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Rma\Grid\Collection');
+            $collection = \Mage::getResourceModel('Magento\Rma\Model\Resource\Rma\Grid\Collection');
             $this->setCollection($collection);
         }
         return $this;
@@ -108,7 +108,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'header'  => __('Status'),
             'index'   => 'status',
             'type'    => 'options',
-            'options' => \Mage::getModel('\Magento\Rma\Model\Rma')->getAllStatuses(),
+            'options' => \Mage::getModel('Magento\Rma\Model\Rma')->getAllStatuses(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));

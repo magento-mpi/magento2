@@ -71,7 +71,7 @@ class Save extends \Magento\Object
      */
     protected function _saveOne($entityId, $giftmessage) {
         /* @var $giftmessageModel \Magento\GiftMessage\Model\Message */
-        $giftmessageModel = \Mage::getModel('\Magento\GiftMessage\Model\Message');
+        $giftmessageModel = \Mage::getModel('Magento\GiftMessage\Model\Message');
         $entityType = $this->_getMappedType($giftmessage['type']);
 
         switch($entityType) {
@@ -125,7 +125,7 @@ class Save extends \Magento\Object
     protected function _deleteOne($entityModel, $giftmessageModel=null)
     {
         if(is_null($giftmessageModel)) {
-            $giftmessageModel = \Mage::getModel('\Magento\GiftMessage\Model\Message')
+            $giftmessageModel = \Mage::getModel('Magento\GiftMessage\Model\Message')
                 ->load($entityModel->getGiftMessageId());
         }
         $giftmessageModel->delete();
@@ -238,7 +238,7 @@ class Save extends \Magento\Object
         $allowedItems = $this->getAllowQuoteItems();
         $deleteAllowedItems = array();
         foreach ($products as $productId=>$data) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->setStore($this->_getSession()->getStore())
                 ->load($productId);
             $item = $this->_getQuote()->getItemByProduct($product);

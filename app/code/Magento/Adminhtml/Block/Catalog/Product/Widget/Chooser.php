@@ -45,7 +45,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
             'use_massaction' => false,
         ));
 
-        $chooser = $this->getLayout()->createBlock('\Magento\Widget\Block\Adminhtml\Widget\Chooser')
+        $chooser = $this->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Chooser')
             ->setElement($element)
             ->setConfig($this->getConfig())
             ->setFieldsetId($this->getFieldsetId())
@@ -61,11 +61,11 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
             $categoryId = isset($value[2]) ? $value[2] : false;
             $label = '';
             if ($categoryId) {
-                $label = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Category')
+                $label = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category')
                     ->getAttributeRawValue($categoryId, 'name', \Mage::app()->getStore()) . '/';
             }
             if ($productId) {
-                $label .= \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product')
+                $label .= \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product')
                     ->getAttributeRawValue($productId, 'name', \Mage::app()->getStore());
             }
             $chooser->setLabel($label);
@@ -167,12 +167,12 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareCollection()
     {
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
-        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection')
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection')
             ->setStoreId(0)
             ->addAttributeToSelect('name');
 
         if ($categoryId = $this->getCategoryId()) {
-            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($categoryId);
+            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
             if ($category->getId()) {
                 // $collection->addCategoryFilter($category);
                 $productIds = $category->getProductsPosition();

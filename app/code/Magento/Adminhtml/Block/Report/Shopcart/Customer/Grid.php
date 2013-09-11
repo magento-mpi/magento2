@@ -29,7 +29,7 @@ class Grid extends \Magento\Adminhtml\Block\Report\Grid\Shopcart
     protected function _prepareCollection()
     {
         //TODO: add full name logic
-        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Customer\Collection')
+        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Customer\Collection')
           ->addAttributeToSelect('firstname')
           ->addAttributeToSelect('lastname');
 

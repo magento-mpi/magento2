@@ -46,7 +46,7 @@ class Guest extends \Magento\Core\Helper\Data
         $errors         = false;
 
         /** @var $order \Magento\Sales\Model\Order */
-        $order = \Mage::getModel('\Magento\Sales\Model\Order');
+        $order = \Mage::getModel('Magento\Sales\Model\Order');
 
         if (empty($post) && !\Mage::getSingleton('Magento\Core\Model\Cookie')->get($this->_cookieName)) {
             \Mage::app()->getResponse()->setRedirect(\Mage::getUrl('sales/guest/form'));

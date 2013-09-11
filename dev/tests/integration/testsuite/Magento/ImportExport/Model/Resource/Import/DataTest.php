@@ -25,7 +25,7 @@ class Magento_ImportExport_Model_Resource_Import_DataTest extends PHPUnit_Framew
     {
         parent::setUp();
 
-        $this->_model = Mage::getResourceModel('\Magento\ImportExport\Model\Resource\Import\Data');
+        $this->_model = Mage::getResourceModel('Magento\ImportExport\Model\Resource\Import\Data');
     }
 
     /**

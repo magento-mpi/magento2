@@ -25,8 +25,8 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_AccordionTest extends PHPU
         parent::setUp();
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-        $this->_layout = Mage::getModel('\Magento\Core\Model\Layout');
-        $this->_block = $this->_layout->createBlock('\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion');
+        $this->_layout = Mage::getModel('Magento\Core\Model\Layout');
+        $this->_block = $this->_layout->createBlock('Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion');
     }
 
     protected function tearDown()
@@ -77,7 +77,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_AccordionTest extends PHPU
      */
     protected function _initAcl()
     {
-        $user = Mage::getModel('\Magento\User\Model\User');
+        $user = Mage::getModel('Magento\User\Model\User');
         $user->setId(1)->setRole(true);
         Mage::getSingleton('Magento\Backend\Model\Auth\Session')->setUpdatedAt(time())->setUser($user);
         Mage::getModel(

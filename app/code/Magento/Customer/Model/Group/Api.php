@@ -26,7 +26,7 @@ class Api extends \Magento\Api\Model\Resource\AbstractResource
      */
     public function items()
     {
-        $collection = \Mage::getModel('\Magento\Customer\Model\Group')->getCollection();
+        $collection = \Mage::getModel('Magento\Customer\Model\Group')->getCollection();
 
         $result = array();
         foreach ($collection as $group) {

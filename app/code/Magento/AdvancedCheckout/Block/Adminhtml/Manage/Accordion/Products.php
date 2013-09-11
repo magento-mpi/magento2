@@ -52,7 +52,7 @@ class Products
     {
         if (!$this->hasData('items_collection')) {
             $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
-            $collection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
+            $collection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
                 ->setStore($this->_getStore())
                 ->addAttributeToSelect($attributes)
                 ->addAttributeToSelect('sku')

@@ -63,7 +63,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getProductResource()
     {
-        return \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product');
+        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product');
     }
 
     public function loadProductIdsBySegmentId($object, $segmentId)

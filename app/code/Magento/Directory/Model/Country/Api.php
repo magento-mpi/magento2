@@ -26,7 +26,7 @@ class Api extends \Magento\Api\Model\Resource\AbstractResource
      */
     public function items()
     {
-        $collection = \Mage::getModel('\Magento\Directory\Model\Country')->getCollection();
+        $collection = \Mage::getModel('Magento\Directory\Model\Country')->getCollection();
 
         $result = array();
         foreach ($collection as $country) {

@@ -27,7 +27,7 @@ class Stub extends \Magento\Cms\Block\Page
         if (!$this->hasData('page')) {
             $page = \Mage::registry('restriction_landing_page');
             if (!$page) {
-                $page = \Mage::getModel('\Magento\Cms\Model\Page')
+                $page = \Mage::getModel('Magento\Cms\Model\Page')
                     ->load($this->getPageIdentifier(), 'identifier');
             }
             $this->setData('page', $page);

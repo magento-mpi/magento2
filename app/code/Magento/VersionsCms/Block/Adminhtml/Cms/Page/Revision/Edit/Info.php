@@ -105,7 +105,7 @@ class Info extends \Magento\Adminhtml\Block\Widget\Container
             return \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getUsername();
         }
 
-        $user = \Mage::getModel('\Magento\User\Model\User')
+        $user = \Mage::getModel('Magento\User\Model\User')
             ->load($userId);
 
         if ($user->getId()) {

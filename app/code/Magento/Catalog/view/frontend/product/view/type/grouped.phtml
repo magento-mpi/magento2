@@ -45,7 +45,7 @@
     <tbody>
     <?php if ($_hasAssociatedProducts): ?>
     <?php foreach ($_associatedProducts as $_item): ?>
-        <?php $_finalPriceInclTax = $this->helper('\Magento\Tax\Helper\Data')->getPrice($_item, $_item->getFinalPrice(), true) ?>
+        <?php $_finalPriceInclTax = $this->helper('Magento\Tax\Helper\Data')->getPrice($_item, $_item->getFinalPrice(), true) ?>
         <tr>
             <td><?php echo $this->escapeHtml($_item->getName()) ?></td>
             <?php if ($this->getCanShowProductPrice($_product)): ?>

@@ -44,7 +44,7 @@ class Observer
             }
         }
 
-        $eventModel = \Mage::getModel('\Magento\Reports\Model\Event');
+        $eventModel = \Mage::getModel('Magento\Reports\Model\Event');
         $storeId    = \Mage::app()->getStore()->getId();
         $eventModel
             ->setEventTypeId($eventTypeId)
@@ -71,13 +71,13 @@ class Observer
 
         $visitorId  = \Mage::getSingleton('Magento\Log\Model\Visitor')->getId();
         $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
-        $eventModel = \Mage::getModel('\Magento\Reports\Model\Event');
+        $eventModel = \Mage::getModel('Magento\Reports\Model\Event');
         $eventModel->updateCustomerType($visitorId, $customerId);
 
-        \Mage::getModel('\Magento\Reports\Model\Product\Index\Compared')
+        \Mage::getModel('Magento\Reports\Model\Product\Index\Compared')
             ->updateCustomerFromVisitor()
             ->calculate();
-        \Mage::getModel('\Magento\Reports\Model\Product\Index\Viewed')
+        \Mage::getModel('Magento\Reports\Model\Product\Index\Viewed')
             ->updateCustomerFromVisitor()
             ->calculate();
 
@@ -92,10 +92,10 @@ class Observer
      */
     public function customerLogout(\Magento\Event\Observer $observer)
     {
-        \Mage::getModel('\Magento\Reports\Model\Product\Index\Compared')
+        \Mage::getModel('Magento\Reports\Model\Product\Index\Compared')
             ->purgeVisitorByCustomer()
             ->calculate();
-        \Mage::getModel('\Magento\Reports\Model\Product\Index\Viewed')
+        \Mage::getModel('Magento\Reports\Model\Product\Index\Viewed')
             ->purgeVisitorByCustomer()
             ->calculate();
         return $this;
@@ -111,7 +111,7 @@ class Observer
     {
         $productId = $observer->getEvent()->getProduct()->getId();
 
-        \Mage::getModel('\Magento\Reports\Model\Product\Index\Viewed')
+        \Mage::getModel('Magento\Reports\Model\Product\Index\Viewed')
             ->setProductId($productId)
             ->save()
             ->calculate();
@@ -142,7 +142,7 @@ class Observer
      */
     public function catalogProductCompareRemoveProduct(\Magento\Event\Observer $observer)
     {
-        \Mage::getModel('\Magento\Reports\Model\Product\Index\Compared')->calculate();
+        \Mage::getModel('Magento\Reports\Model\Product\Index\Compared')->calculate();
 
         return $this;
     }
@@ -157,7 +157,7 @@ class Observer
      */
     public function catalogProductCompareClear(\Magento\Event\Observer $observer)
     {
-        \Mage::getModel('\Magento\Reports\Model\Product\Index\Compared')->calculate();
+        \Mage::getModel('Magento\Reports\Model\Product\Index\Compared')->calculate();
 
         return $this;
     }
@@ -174,7 +174,7 @@ class Observer
     {
         $productId = $observer->getEvent()->getProduct()->getId();
 
-        \Mage::getModel('\Magento\Reports\Model\Product\Index\Compared')
+        \Mage::getModel('Magento\Reports\Model\Product\Index\Compared')
             ->setProductId($productId)
             ->save()
             ->calculate();
@@ -235,11 +235,11 @@ class Observer
     public function eventClean(\Magento\Event\Observer $observer)
     {
         /* @var $event \Magento\Reports\Model\Event */
-        $event = \Mage::getModel('\Magento\Reports\Model\Event');
+        $event = \Mage::getModel('Magento\Reports\Model\Event');
         $event->clean();
 
-        \Mage::getModel('\Magento\Reports\Model\Product\Index\Compared')->clean();
-        \Mage::getModel('\Magento\Reports\Model\Product\Index\Viewed')->clean();
+        \Mage::getModel('Magento\Reports\Model\Product\Index\Compared')->clean();
+        \Mage::getModel('Magento\Reports\Model\Product\Index\Viewed')->clean();
 
         return $this;
     }

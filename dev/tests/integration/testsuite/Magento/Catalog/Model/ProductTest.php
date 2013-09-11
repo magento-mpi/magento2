@@ -26,7 +26,7 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Catalog\Model\Product');
+        $this->_model = Mage::getModel('Magento\Catalog\Model\Product');
     }
 
     public static function tearDownAfterClass()
@@ -354,7 +354,7 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->_model->reset();
         $this->_assertEmpty($model);
 
-        $this->_model->addOption(Mage::getModel('\Magento\Catalog\Model\Product\Option'));
+        $this->_model->addOption(Mage::getModel('Magento\Catalog\Model\Product\Option'));
         $this->_model->reset();
         $this->_assertEmpty($model);
 

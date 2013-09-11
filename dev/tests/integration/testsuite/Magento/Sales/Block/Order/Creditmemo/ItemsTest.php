@@ -28,9 +28,9 @@ class Magento_Sales_Block_Order_Creditmemo_ItemsTest extends PHPUnit_Framework_T
 
     public function setUp()
     {
-        $this->_layout = Mage::getModel('\Magento\Core\Model\Layout');
-        $this->_block = $this->_layout->createBlock('\Magento\Sales\Block\Order\Creditmemo\Items', 'block');
-        $this->_creditmemo = Mage::getModel('\Magento\Sales\Model\Order\Creditmemo');
+        $this->_layout = Mage::getModel('Magento\Core\Model\Layout');
+        $this->_block = $this->_layout->createBlock('Magento\Sales\Block\Order\Creditmemo\Items', 'block');
+        $this->_creditmemo = Mage::getModel('Magento\Sales\Model\Order\Creditmemo');
     }
 
     public function testGetTotalsHtml()

@@ -35,7 +35,7 @@ class Helper extends \Magento\Core\Block\Template
         $this->setDisplayIfEmpty($displayIfNoReviews);
 
         if (!$product->getRatingSummary()) {
-            \Mage::getModel('\Magento\Review\Model\Review')
+            \Mage::getModel('Magento\Review\Model\Review')
                ->getEntitySummary($product, \Mage::app()->getStore()->getId());
         }
         $this->setProduct($product);

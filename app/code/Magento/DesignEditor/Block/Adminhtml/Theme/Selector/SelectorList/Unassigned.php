@@ -37,7 +37,7 @@ class Unassigned
         $themeId = $themeBlock->getTheme()->getId();
         $themeTitle = $themeBlock->getTheme()->getThemeTitle();
         /** @var $removeButton \Magento\Backend\Block\Widget\Button */
-        $removeButton = $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button');
+        $removeButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button');
 
         $removeButton->setData(array(
             'label'     => __('Remove'),

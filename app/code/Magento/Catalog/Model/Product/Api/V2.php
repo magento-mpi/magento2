@@ -102,7 +102,7 @@ class V2 extends \Magento\Catalog\Model\Product\Api
         $this->_checkProductAttributeSet($set);
 
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $product->setStoreId($this->_getStoreId($store))
             ->setAttributeSetId($set)
             ->setTypeId($type)
@@ -283,7 +283,7 @@ class V2 extends \Magento\Catalog\Model\Product\Api
         }
 
         if (property_exists($productData, 'tier_price')) {
-             $tierPrices = \Mage::getModel('\Magento\Catalog\Model\Product\Attribute\Tierprice\Api\V2')
+             $tierPrices = \Mage::getModel('Magento\Catalog\Model\Product\Attribute\Tierprice\Api\V2')
                  ->prepareTierPrices($product, $productData->tier_price);
              $product->setData(\Magento\Catalog\Model\Product\Attribute\Tierprice\Api\V2::ATTRIBUTE_CODE, $tierPrices);
         }

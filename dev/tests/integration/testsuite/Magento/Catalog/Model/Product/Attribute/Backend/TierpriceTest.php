@@ -23,7 +23,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPU
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Catalog\Model\Product\Attribute\Backend\Tierprice');
+        $this->_model = Mage::getModel('Magento\Catalog\Model\Product\Attribute\Backend\Tierprice');
         $this->_model->setAttribute(
             Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('catalog_product', 'tier_price')
         );
@@ -91,7 +91,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPU
     public function testAfterLoad()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->setId(1);
         $this->_model->afterLoad($product);
         $price = $product->getTierPrice();
@@ -103,7 +103,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPU
     {
         Mage::app()->setCurrentStore(Mage::app()->getStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID));
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(1);
         $product->setOrigData();
         $product->setTierPrice(
@@ -117,7 +117,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPU
 
         $this->_model->afterSave($product);
 
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->setId(1);
         $this->_model->afterLoad($product);
         $this->assertEquals(3, count($product->getTierPrice()));
@@ -130,13 +130,13 @@ class Magento_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPU
     {
         Mage::app()->setCurrentStore(Mage::app()->getStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID));
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(1);
         $product->setOrigData();
         $product->setTierPrice(array());
         $this->_model->afterSave($product);
 
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->setId(1);
         $this->_model->afterLoad($product);
         $this->assertEmpty($product->getTierPrice());

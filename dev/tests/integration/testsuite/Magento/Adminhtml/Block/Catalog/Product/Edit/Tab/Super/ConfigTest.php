@@ -19,9 +19,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_ConfigTest extends 
      */
     public function testGetSelectedAttributesForSimpleProductType()
     {
-        Mage::register('current_product', Mage::getModel('\Magento\Catalog\Model\Product'));
+        Mage::register('current_product', Mage::getModel('Magento\Catalog\Model\Product'));
         /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config */
-        $block = Mage::app()->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config');
+        $block = Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config');
         $this->assertEquals(array(), $block->getSelectedAttributes());
     }
 
@@ -31,14 +31,14 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_ConfigTest extends 
      */
     public function testGetSelectedAttributesForConfigurableProductType()
     {
-        Mage::register('current_product', Mage::getModel('\Magento\Catalog\Model\Product')->load(1));
-        Mage::app()->getLayout()->createBlock('\Magento\Core\Block\Text', 'head');
+        Mage::register('current_product', Mage::getModel('Magento\Catalog\Model\Product')->load(1));
+        Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text', 'head');
         $usedAttribute = Mage::getSingleton('Magento\Catalog\Model\Entity\Attribute')->loadByCode(
             Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('catalog_product')->getId(),
             'test_configurable'
         );
         /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config */
-        $block = Mage::app()->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config');
+        $block = Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config');
         $selectedAttributes = $block->getSelectedAttributes();
         $this->assertEquals(array($usedAttribute->getId()), array_keys($selectedAttributes));
         $selectedAttribute = reset($selectedAttributes);

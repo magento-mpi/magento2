@@ -378,7 +378,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function getOrder()
     {
         if (is_null($this->_order) && ($orderId = $this->getOrderId())) {
-            $order = \Mage::getModel('\Magento\Sales\Model\Order');
+            $order = \Mage::getModel('Magento\Sales\Model\Order');
             $order->load($orderId);
             $this->setOrder($order);
         }
@@ -734,7 +734,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function getProduct()
     {
         if (!$this->getData('product')) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($this->getProductId());
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($this->getProductId());
             $this->setProduct($product);
         }
 

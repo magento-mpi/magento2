@@ -186,7 +186,7 @@ class Packaging extends \Magento\Adminhtml\Block\Template
             $carrier    = \Mage::helper('Magento\Rma\Helper\Data')->getCarrier($carrierCode, $storeId);
             $countryId  = \Mage::helper('Magento\Rma\Helper\Data')->getReturnAddressModel($storeId)->getCountryId();
 
-            $order              = \Mage::getModel('\Magento\Sales\Model\Order')->load($this->getRma()->getOrderId());
+            $order              = \Mage::getModel('Magento\Sales\Model\Order')->load($this->getRma()->getOrderId());
             $shipperAddress     = $order->getShippingAddress();
              if ($carrier) {
                 $params = new \Magento\Object(array(
@@ -228,7 +228,7 @@ class Packaging extends \Magento\Adminhtml\Block\Template
      */
     public function getShippingCarrierUspsSourceSize()
     {
-        return \Mage::getModel('\Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size')->toOptionArray();
+        return \Mage::getModel('Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size')->toOptionArray();
     }
 
     /**

@@ -53,7 +53,7 @@ class Currencysymbol extends \Magento\Adminhtml\Controller\Action
         }
 
         try {
-            \Mage::getModel('\Magento\CurrencySymbol\Model\System\Currencysymbol')->setCurrencySymbolsData($symbolsDataArray);
+            \Mage::getModel('Magento\CurrencySymbol\Model\System\Currencysymbol')->setCurrencySymbolsData($symbolsDataArray);
             \Mage::getSingleton('Magento\Connect\Model\Session')->addSuccess(
                 __('The custom currency symbols were applied.')
             );
@@ -69,7 +69,7 @@ class Currencysymbol extends \Magento\Adminhtml\Controller\Action
      */
     public function resetAction()
     {
-        \Mage::getModel('\Magento\CurrencySymbol\Model\System\Currencysymbol')->resetValues();
+        \Mage::getModel('Magento\CurrencySymbol\Model\System\Currencysymbol')->resetValues();
         $this->_redirectReferer();
     }
 

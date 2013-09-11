@@ -63,7 +63,7 @@ class Info extends \Magento\Object
      */
     protected function _initOrder()
     {
-        $order = \Mage::getModel('\Magento\Sales\Model\Order')->load($this->getOrderId());
+        $order = \Mage::getModel('Magento\Sales\Model\Order')->load($this->getOrderId());
 
         if (!$order->getId() || $this->getProtectCode() != $order->getProtectCode()) {
             return false;
@@ -80,7 +80,7 @@ class Info extends \Magento\Object
     protected function _initShipment()
     {
         /* @var $model \Magento\Sales\Model\Order\Shipment */
-        $model = \Mage::getModel('\Magento\Sales\Model\Order\Shipment');
+        $model = \Mage::getModel('Magento\Sales\Model\Order\Shipment');
         $ship = $model->load($this->getShipId());
         if (!$ship->getEntityId() || $this->getProtectCode() != $ship->getProtectCode()) {
             return false;
@@ -146,7 +146,7 @@ class Info extends \Magento\Object
      */
     public function getTrackingInfoByTrackId()
     {
-        $track = \Mage::getModel('\Magento\Sales\Model\Order\Shipment\Track')->load($this->getTrackId());
+        $track = \Mage::getModel('Magento\Sales\Model\Order\Shipment\Track')->load($this->getTrackId());
         if ($track->getId() && $this->getProtectCode() == $track->getProtectCode()) {
             $this->_trackingInfo = array(array($track->getNumberDetail()));
         }

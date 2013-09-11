@@ -41,7 +41,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareCollection()
     {
         $store = $this->_getStore();
-        $collection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
+        $collection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('attribute_set_id')
@@ -170,8 +170,8 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
                 'column_css_class'  => 'col-type'
         ));
 
-        $sets = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
-            ->setEntityTypeFilter(\Mage::getModel('\Magento\Catalog\Model\Product')->getResource()->getTypeId())
+        $sets = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
+            ->setEntityTypeFilter(\Mage::getModel('Magento\Catalog\Model\Product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
@@ -224,7 +224,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
                 'width' => '70px',
                 'index' => 'visibility',
                 'type'  => 'options',
-                'options' => \Mage::getModel('\Magento\Catalog\Model\Product\Visibility')->getOptionArray(),
+                'options' => \Mage::getModel('Magento\Catalog\Model\Product\Visibility')->getOptionArray(),
                 'header_css_class'  => 'col-visibility',
                 'column_css_class'  => 'col-visibility'
         ));
@@ -248,7 +248,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
                     'sortable'  => false,
                     'index'     => 'websites',
                     'type'      => 'options',
-                    'options'   => \Mage::getModel('\Magento\Core\Model\Website')->getCollection()->toOptionHash(),
+                    'options'   => \Mage::getModel('Magento\Core\Model\Website')->getCollection()->toOptionHash(),
                     'header_css_class'  => 'col-websites',
                     'column_css_class'  => 'col-websites'
             ));

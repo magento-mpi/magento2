@@ -62,7 +62,7 @@ class Flat extends \Magento\Catalog\Helper\Flat\AbstractFlat
      */
     public function isBuilt()
     {
-        return \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Category\Flat')->isBuilt();
+        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category\Flat')->isBuilt();
     }
 
     /**

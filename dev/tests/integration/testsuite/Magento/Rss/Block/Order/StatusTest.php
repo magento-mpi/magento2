@@ -13,7 +13,7 @@ class Magento_Rss_Block_Order_StatusTest extends PHPUnit_Framework_TestCase
 {
     public function testToHtml()
     {
-        $block = Mage::app()->getLayout()->createBlock('\Magento\Rss\Block\Order\Status');
+        $block = Mage::app()->getLayout()->createBlock('Magento\Rss\Block\Order\Status');
         $this->assertEmpty($block->toHtml());
 
         $uniqid = uniqid();

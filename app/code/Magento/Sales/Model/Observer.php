@@ -42,7 +42,7 @@ class Observer
             $lifetime *= 86400;
 
             /** @var $quotes \Magento\Sales\Model\Resource\Quote\Collection */
-            $quotes = \Mage::getModel('\Magento\Sales\Model\Quote')->getCollection();
+            $quotes = \Mage::getModel('Magento\Sales\Model\Quote')->getCollection();
 
             $quotes->addFieldToFilter('store_id', $storeId);
             $quotes->addFieldToFilter('updated_at', array('to'=>date("Y-m-d", time()-$lifetime)));
@@ -90,7 +90,7 @@ class Observer
         \Mage::app()->getLocale()->emulate(0);
         $currentDate = \Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        \Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Order')->aggregate($date);
+        \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Order')->aggregate($date);
         \Mage::app()->getLocale()->revert();
         return $this;
     }
@@ -106,7 +106,7 @@ class Observer
         \Mage::app()->getLocale()->emulate(0);
         $currentDate = \Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        \Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Shipping')->aggregate($date);
+        \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Shipping')->aggregate($date);
         \Mage::app()->getLocale()->revert();
         return $this;
     }
@@ -122,7 +122,7 @@ class Observer
         \Mage::app()->getLocale()->emulate(0);
         $currentDate = \Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        \Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Invoiced')->aggregate($date);
+        \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Invoiced')->aggregate($date);
         \Mage::app()->getLocale()->revert();
         return $this;
     }
@@ -138,7 +138,7 @@ class Observer
         \Mage::app()->getLocale()->emulate(0);
         $currentDate = \Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        \Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Refunded')->aggregate($date);
+        \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Refunded')->aggregate($date);
         \Mage::app()->getLocale()->revert();
         return $this;
     }
@@ -154,7 +154,7 @@ class Observer
         \Mage::app()->getLocale()->emulate(0);
         $currentDate = \Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        \Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Bestsellers')->aggregate($date);
+        \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Bestsellers')->aggregate($date);
         \Mage::app()->getLocale()->revert();
         return $this;
     }

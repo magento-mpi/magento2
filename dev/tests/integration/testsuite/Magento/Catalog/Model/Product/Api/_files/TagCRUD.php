@@ -11,7 +11,7 @@ $tagFixture = simplexml_load_file(__DIR__ . '/_data/xml/TagCRUD.xml');
 $customerData = Magento_TestFramework_Helper_Api::simpleXmlToArray($tagFixture->customer);
 $customerData['email'] = mt_rand(1000, 9999) . '.' . $customerData['email'];
 
-$customer = Mage::getModel('\Magento\Customer\Model\Customer');
+$customer = Mage::getModel('Magento\Customer\Model\Customer');
 $customer->setData($customerData)->save();
 Mage::register('customerData', $customer);
 
@@ -20,6 +20,6 @@ $productData = Magento_TestFramework_Helper_Api::simpleXmlToArray($tagFixture->p
 $productData['sku'] = $productData['sku'] . mt_rand(1000, 9999);
 $productData['name'] = $productData['name'] . ' ' . mt_rand(1000, 9999);
 
-$product = Mage::getModel('\Magento\Catalog\Model\Product');
+$product = Mage::getModel('Magento\Catalog\Model\Product');
 $product->setData($productData)->save();
 Mage::register('productData', $product);

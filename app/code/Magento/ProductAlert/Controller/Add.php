@@ -48,7 +48,7 @@ class Add extends \Magento\Core\Controller\Front\Action
             return ;
         }
 
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($productId);
+        $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
         if (!$product->getId()) {
             /* @var $product \Magento\Catalog\Model\Product */
             $session->addError(__('There are not enough parameters.'));
@@ -61,7 +61,7 @@ class Add extends \Magento\Core\Controller\Front\Action
         }
 
         try {
-            $model  = \Mage::getModel('\Magento\ProductAlert\Model\Price')
+            $model  = \Mage::getModel('Magento\ProductAlert\Model\Price')
                 ->setCustomerId(\Mage::getSingleton('Magento\Customer\Model\Session')->getId())
                 ->setProductId($product->getId())
                 ->setPrice($product->getFinalPrice())
@@ -86,7 +86,7 @@ class Add extends \Magento\Core\Controller\Front\Action
             return ;
         }
 
-        if (!$product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($productId)) {
+        if (!$product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId)) {
             /* @var $product \Magento\Catalog\Model\Product */
             $session->addError(__('There are not enough parameters.'));
             $this->_redirectUrl($backUrl);
@@ -94,7 +94,7 @@ class Add extends \Magento\Core\Controller\Front\Action
         }
 
         try {
-            $model = \Mage::getModel('\Magento\ProductAlert\Model\Stock')
+            $model = \Mage::getModel('Magento\ProductAlert\Model\Stock')
                 ->setCustomerId(\Mage::getSingleton('Magento\Customer\Model\Session')->getId())
                 ->setProductId($product->getId())
                 ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId());

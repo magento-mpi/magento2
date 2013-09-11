@@ -55,7 +55,7 @@ class Country extends \Magento\Core\Model\AbstractModel
 
     public function getRegionCollection()
     {
-        $collection = \Mage::getResourceModel('\Magento\Directory\Model\Resource\Region\Collection');
+        $collection = \Mage::getResourceModel('Magento\Directory\Model\Resource\Region\Collection');
         $collection->addCountryFilter($this->getId());
         return $collection;
     }
@@ -106,7 +106,7 @@ T: {{telephone}}";
     public function getFormats()
     {
         if (!isset(self::$_format[$this->getId()]) && $this->getId()) {
-            self::$_format[$this->getId()] = \Mage::getModel('\Magento\Directory\Model\Country\Format')
+            self::$_format[$this->getId()] = \Mage::getModel('Magento\Directory\Model\Country\Format')
                                                 ->getCollection()
                                                 ->setCountryFilter($this)
                                                 ->load();

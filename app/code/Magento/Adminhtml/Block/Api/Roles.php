@@ -29,6 +29,6 @@ class Roles extends \Magento\Adminhtml\Block\Template
 
     public function getGridHtml()
     {
-        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Api\Grid\Role')->toHtml();
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Api\Grid\Role')->toHtml();
     }
 }

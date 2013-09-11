@@ -86,7 +86,7 @@ class Result extends \Magento\Core\Block\Template
 
     public function getFormUrl()
     {
-        return \Mage::getModel('\Magento\Core\Model\Url')
+        return \Mage::getModel('Magento\Core\Model\Url')
             ->setQueryParams($this->getRequest()->getQuery())
             ->getUrl('*/*/', array('_escape' => true));
     }

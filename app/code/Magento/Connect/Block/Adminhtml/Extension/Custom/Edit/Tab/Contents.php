@@ -27,7 +27,7 @@ class Contents
      */
     public function getMageTargets()
     {
-        $targets = \Mage::getModel('\Magento\Connect\Model\Extension')->getLabelTargets();
+        $targets = \Mage::getModel('Magento\Connect\Model\Extension')->getLabelTargets();
         if (!is_array($targets)) {
             $targets = array();
         }

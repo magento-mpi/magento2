@@ -16,7 +16,7 @@ class Magento_Profiler_Driver_Standard_OutputAbstractTest extends PHPUnit_Framew
 
     protected function setUp()
     {
-        $this->_output = $this->getMockForAbstractClass('\Magento\Profiler\Driver\Standard\OutputAbstract');
+        $this->_output = $this->getMockForAbstractClass('Magento\Profiler\Driver\Standard\OutputAbstract');
     }
 
     /**
@@ -57,7 +57,7 @@ class Magento_Profiler_Driver_Standard_OutputAbstractTest extends PHPUnit_Framew
             )
         );
         /** @var \Magento\Profiler\Driver\Standard\OutputAbstract|PHPUnit_Framework_MockObject_MockObject $output  */
-        $output = $this->getMockForAbstractClass('\Magento\Profiler\Driver\Standard\OutputAbstract', array(
+        $output = $this->getMockForAbstractClass('Magento\Profiler\Driver\Standard\OutputAbstract', array(
             $configuration
         ));
         $this->assertEquals('/filter pattern/', $output->getFilterPattern());

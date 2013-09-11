@@ -9,13 +9,13 @@
 require __DIR__ . '/../../../Magento/Sales/_files/order.php';
 
 /** @var \Magento\Sales\Model\Order $order */
-$order = Mage::getModel('\Magento\Sales\Model\Order');
+$order = Mage::getModel('Magento\Sales\Model\Order');
 $order->loadByIncrementId('100000001')
     ->setBaseToGlobalRate(2)
     ->save();
 
 /** @var \Magento\Tax\Model\Sales\Order\Tax $tax */
-$tax = Mage::getModel('\Magento\Tax\Model\Sales\Order\Tax');
+$tax = Mage::getModel('Magento\Tax\Model\Sales\Order\Tax');
 $tax->setData(array(
     'order_id'          => $order->getId(),
     'code'              => 'tax_code',

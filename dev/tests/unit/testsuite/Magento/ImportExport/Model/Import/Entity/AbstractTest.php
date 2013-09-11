@@ -25,7 +25,7 @@ class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Fram
     {
         parent::setUp();
 
-        $this->_model = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Import\Entity\AbstractEntity', array(),
+        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\Entity\AbstractEntity', array(),
             '', false, true, true, array('_saveValidatedBunches')
         );
     }
@@ -64,7 +64,7 @@ class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Fram
     protected function _createSourceAdapterMock(array $columns)
     {
         /** @var $source \Magento\ImportExport\Model\Import\SourceAbstract|PHPUnit_Framework_MockObject_MockObject */
-        $source = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Import\SourceAbstract', array(), '', false,
+        $source = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\SourceAbstract', array(), '', false,
             true, true, array('getColNames')
         );
         $source->expects($this->any())

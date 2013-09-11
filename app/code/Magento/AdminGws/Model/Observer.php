@@ -222,7 +222,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $oldWebsiteId = (string)$observer->getEvent()->getOldWebsiteId();
         $newWebsiteId = (string)$observer->getEvent()->getNewWebsiteId();
-        $roles = \Mage::getResourceSingleton('\Magento\User\Model\Resource\Role\Collection');
+        $roles = \Mage::getResourceSingleton('Magento\User\Model\Resource\Role\Collection');
         foreach ($roles as $role) {
             $shouldRoleBeUpdated = false;
             $roleWebsites = explode(',', $role->getGwsWebsites());

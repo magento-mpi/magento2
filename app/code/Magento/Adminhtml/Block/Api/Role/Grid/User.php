@@ -56,7 +56,7 @@ class User extends \Magento\Adminhtml\Block\Widget\Grid
     {
         $roleId = $this->getRequest()->getParam('rid');
         \Mage::register('RID', $roleId);
-        $collection = \Mage::getModel('\Magento\Api\Model\Roles')->getUsersCollection();
+        $collection = \Mage::getModel('Magento\Api\Model\Roles')->getUsersCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -146,7 +146,7 @@ class User extends \Magento\Adminhtml\Block\Widget\Grid
             return $this->getRequest()->getParam('in_role_user');
         }
         $roleId = ( $this->getRequest()->getParam('rid') > 0 ) ? $this->getRequest()->getParam('rid') : \Mage::registry('RID');
-        $users  = \Mage::getModel('\Magento\Api\Model\Roles')->setId($roleId)->getRoleUsers();
+        $users  = \Mage::getModel('Magento\Api\Model\Roles')->setId($roleId)->getRoleUsers();
         if (sizeof($users) > 0) {
             if ( $json ) {
                 $jsonUsers = Array();

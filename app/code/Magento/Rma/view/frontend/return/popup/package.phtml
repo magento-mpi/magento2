@@ -34,19 +34,19 @@
                         <th class="label"><?php echo __('Type') ?></th>
                         <td class="value"><?php echo $this->getContainerTypeByCode($params->getContainer()) ?></td>
                         <th class="label"><?php echo __('Length') ?></th>
-                        <td class="value"><?php echo $params->getLength() .' '. $this->helper('\Magento\Usa\Helper\Data')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
+                        <td class="value"><?php echo $params->getLength() .' '. $this->helper('Magento\Usa\Helper\Data')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
                     </tr>
                     <tr>
                         <th class="label"><?php echo __('Total Weight') ?></th>
-                        <td class="value"><?php echo $params->getWeight() .' '. $this->helper('\Magento\Usa\Helper\Data')->getMeasureWeightName($params->getWeightUnits()) ?></td>
+                        <td class="value"><?php echo $params->getWeight() .' '. $this->helper('Magento\Usa\Helper\Data')->getMeasureWeightName($params->getWeightUnits()) ?></td>
                         <th class="label"><?php echo __('Width') ?></th>
-                        <td class="value"><?php echo $params->getWidth() .' '. $this->helper('\Magento\Usa\Helper\Data')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
+                        <td class="value"><?php echo $params->getWidth() .' '. $this->helper('Magento\Usa\Helper\Data')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
                     </tr>
                     <tr>
                         <th>&nbsp;</th>
                         <td>&nbsp;</td>
                         <th class="label"><?php echo __('Height') ?></th>
-                        <td class="value"><?php echo $params->getHeight() .' '. $this->helper('\Magento\Usa\Helper\Data')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
+                        <td class="value"><?php echo $params->getHeight() .' '. $this->helper('Magento\Usa\Helper\Data')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
                     </tr>
                 </tbody>
             </table>

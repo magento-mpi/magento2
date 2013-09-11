@@ -49,7 +49,7 @@ class Items extends \Magento\Adminhtml\Controller\Action
         $this->_initAction();
 
         $contentBlock = $this->getLayout()
-            ->createBlock('\Magento\GoogleShopping\Block\Adminhtml\Items')->setStore($this->_getStore());
+            ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Items')->setStore($this->_getStore());
 
         if ($this->getRequest()->getParam('captcha_token') && $this->getRequest()->getParam('captcha_url')) {
             $contentBlock->setGcontentCaptchaToken(
@@ -80,7 +80,7 @@ class Items extends \Magento\Adminhtml\Controller\Action
         $this->loadLayout();
         $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('\Magento\GoogleShopping\Block\Adminhtml\Items\Item')
+                ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Items\Item')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()
            );
@@ -112,11 +112,11 @@ class Items extends \Magento\Adminhtml\Controller\Action
 
         $storeId = $this->_getStore()->getId();
         $productIds = $this->getRequest()->getParam('product', null);
-        $notifier = \Mage::getModel('\Magento\AdminNotification\Model\Inbox');
+        $notifier = \Mage::getModel('Magento\AdminNotification\Model\Inbox');
 
         try {
             $flag->lock();
-            \Mage::getModel('\Magento\GoogleShopping\Model\MassOperations')
+            \Mage::getModel('Magento\GoogleShopping\Model\MassOperations')
                 ->setFlag($flag)
                 ->addProducts($productIds, $storeId);
         } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
@@ -156,7 +156,7 @@ class Items extends \Magento\Adminhtml\Controller\Action
 
         try {
             $flag->lock();
-            \Mage::getModel('\Magento\GoogleShopping\Model\MassOperations')
+            \Mage::getModel('Magento\GoogleShopping\Model\MassOperations')
                 ->setFlag($flag)
                 ->deleteItems($itemIds);
         } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
@@ -167,7 +167,7 @@ class Items extends \Magento\Adminhtml\Controller\Action
             return;
         } catch (\Exception $e) {
             $flag->unlock();
-            \Mage::getModel('\Magento\AdminNotification\Model\Inbox')->addMajor(
+            \Mage::getModel('Magento\AdminNotification\Model\Inbox')->addMajor(
                 __('An error has occurred while deleting products from google shopping account.'),
                 __('One or more products were not deleted from google shopping account. Refer to the log file for details.')
             );
@@ -196,7 +196,7 @@ class Items extends \Magento\Adminhtml\Controller\Action
 
         try {
             $flag->lock();
-            \Mage::getModel('\Magento\GoogleShopping\Model\MassOperations')
+            \Mage::getModel('Magento\GoogleShopping\Model\MassOperations')
                 ->setFlag($flag)
                 ->synchronizeItems($itemIds);
         } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
@@ -207,7 +207,7 @@ class Items extends \Magento\Adminhtml\Controller\Action
             return;
         } catch (\Exception $e) {
             $flag->unlock();
-            \Mage::getModel('\Magento\AdminNotification\Model\Inbox')->addMajor(
+            \Mage::getModel('Magento\AdminNotification\Model\Inbox')->addMajor(
                 __('An error has occurred while deleting products from google shopping account.'),
                 __('One or more products were not deleted from google shopping account. Refer to the log file for details.')
             );
@@ -226,7 +226,7 @@ class Items extends \Magento\Adminhtml\Controller\Action
 
         $storeId = $this->_getStore()->getId();
         try {
-            \Mage::getModel('\Magento\GoogleShopping\Model\Service')->getClient(
+            \Mage::getModel('Magento\GoogleShopping\Model\Service')->getClient(
                 $storeId,
                 \Mage::helper('Magento\Core\Helper\Data')->urlDecode($this->getRequest()->getParam('captcha_token')),
                 $this->getRequest()->getParam('user_confirm')

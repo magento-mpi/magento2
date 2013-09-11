@@ -34,7 +34,7 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
 
         $this->_setFixtureTheme();
 
-        $this->_layout = Mage::getModel('\Magento\Core\Model\Layout', array('area' => 'adminhtml'));
+        $this->_layout = Mage::getModel('Magento\Core\Model\Layout', array('area' => 'adminhtml'));
         $this->_layout->getUpdate()->load('layout_test_grid_handle');
         $this->_layout->generateXml();
         $this->_layout->generateElements();
@@ -70,7 +70,7 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
     public function testMassactionDefaultValues()
     {
         /** @var $blockEmpty \Magento\Backend\Block\Widget\Grid\Massaction */
-        $blockEmpty = Mage::app()->getLayout()->createBlock('\Magento\Backend\Block\Widget\Grid\Massaction');
+        $blockEmpty = Mage::app()->getLayout()->createBlock('Magento\Backend\Block\Widget\Grid\Massaction');
         $this->assertEmpty($blockEmpty->getItems());
         $this->assertEquals(0, $blockEmpty->getCount());
         $this->assertSame('[]', $blockEmpty->getItemsJson());

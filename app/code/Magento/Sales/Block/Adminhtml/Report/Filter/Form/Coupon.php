@@ -49,7 +49,7 @@ class Coupon extends \Magento\Sales\Block\Adminhtml\Report\Filter\Form
                 'label'   => __('Shopping Cart Price Rule'),
             ));
 
-            $rulesList = \Mage::getResourceModel('\Magento\SalesRule\Model\Resource\Report\Rule')->getUniqRulesNamesList();
+            $rulesList = \Mage::getResourceModel('Magento\SalesRule\Model\Resource\Report\Rule')->getUniqRulesNamesList();
 
             $rulesListOptions = array();
 
@@ -91,7 +91,7 @@ class Coupon extends \Magento\Sales\Block\Adminhtml\Report\Filter\Form
              * without core logic changes, that's why the code below was moved inside method '_afterToHtml'.
              */
             /** @var $formAfterBlock \Magento\Adminhtml\Block\Widget\Form\Element\Dependence */
-            $formAfterBlock = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Form\Element\Dependence',
+            $formAfterBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Form\Element\Dependence',
                 'adminhtml.block.widget.form.element.dependence'
             );
             $formAfterBlock->addFieldMap($htmlIdPrefix . 'price_rule_type', 'price_rule_type')

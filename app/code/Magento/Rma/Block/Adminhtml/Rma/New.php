@@ -65,7 +65,7 @@ class New extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getHeaderText()
     {
-        return $this->getLayout()->createBlock('\Magento\Rma\Block\Adminhtml\Rma\Create\Header')->toHtml();
+        return $this->getLayout()->createBlock('Magento\Rma\Block\Adminhtml\Rma\Create\Header')->toHtml();
     }
 
     /**

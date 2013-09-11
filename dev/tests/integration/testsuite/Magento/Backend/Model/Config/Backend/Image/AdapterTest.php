@@ -19,7 +19,7 @@ class Magento_Backend_Model_Config_Backend_Image_AdapterTest extends PHPUnit_Fra
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = Mage::getModel('\Magento\Backend\Model\Config\Backend\Image\Adapter');
+        $this->_model = Mage::getModel('Magento\Backend\Model\Config\Backend\Image\Adapter');
     }
 
     /**

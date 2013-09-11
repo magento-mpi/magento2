@@ -952,7 +952,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      */
     protected function _initCardsStorage($payment)
     {
-        $this->_cardsStorage = \Mage::getModel('\Magento\Paygate\Model\Authorizenet\Cards')->setPayment($payment);
+        $this->_cardsStorage = \Mage::getModel('Magento\Paygate\Model\Authorizenet\Cards')->setPayment($payment);
     }
 
     /**
@@ -1114,7 +1114,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      */
     protected function _getRequest()
     {
-        $request = \Mage::getModel('\Magento\Paygate\Model\Authorizenet\Request')
+        $request = \Mage::getModel('Magento\Paygate\Model\Authorizenet\Request')
             ->setXVersion(3.1)
             ->setXDelimData('True')
             ->setXRelayResponse('False')
@@ -1245,7 +1245,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     {
         $debugData = array('request' => $request->getData());
 
-        $result = \Mage::getModel('\Magento\Paygate\Model\Authorizenet\Result');
+        $result = \Mage::getModel('Magento\Paygate\Model\Authorizenet\Result');
 
         $client = new \Magento\HTTP\ZendClient();
 
@@ -1470,7 +1470,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
              * load new order object and set information into this object.
              */
             $currentOrderId = $payment->getOrder()->getId();
-            $copyOrder = \Mage::getModel('\Magento\Sales\Model\Order')->load($currentOrderId);
+            $copyOrder = \Mage::getModel('Magento\Sales\Model\Order')->load($currentOrderId);
             $copyOrder->getPayment()->setAdditionalInformation($this->_isGatewayActionsLockedKey, 1);
             foreach($messages as $message) {
                 $copyOrder->addStatusHistoryComment($message);

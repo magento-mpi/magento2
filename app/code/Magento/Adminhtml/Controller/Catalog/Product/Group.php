@@ -14,7 +14,7 @@ class Group extends \Magento\Adminhtml\Controller\Action
 {
     public function saveAction()
     {
-        $model = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Group');
+        $model = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Group');
 
         $model->setAttributeGroupName($this->getRequest()->getParam('attribute_group_name'))
               ->setAttributeSetId($this->getRequest()->getParam('attribute_set_id'));

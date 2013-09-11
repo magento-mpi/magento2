@@ -24,7 +24,7 @@ class Results extends \Magento\Core\Block\Template
     public function setSearchResults($results)
     {
         $this->setData('search_results', $results);
-        $pager = $this->getLayout()->createBlock('\Magento\Page\Block\Html\Pager', 'giftregistry.search.pager')
+        $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager', 'giftregistry.search.pager')
             ->setCollection($results)->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
     }

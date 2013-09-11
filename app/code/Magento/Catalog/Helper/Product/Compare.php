@@ -219,7 +219,7 @@ class Compare extends \Magento\Core\Helper\Url
             $count = 0;
         } else {
             /** @var $collection \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection */
-            $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Compare\Item\Collection')
+            $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Compare\Item\Collection')
                 ->useProductItem(true);
             if (!$logout && \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
                 $collection->setCustomerId(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId());

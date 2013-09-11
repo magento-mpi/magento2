@@ -20,7 +20,7 @@ class Magento_Adminhtml_Controller_Customer_GroupTest extends Magento_Backend_Ut
     public static function customerGroupDataFixture()
     {
         /** @var \Magento\Customer\Model\Group $group */
-        $group = Mage::getModel('\Magento\Customer\Model\Group');
+        $group = Mage::getModel('Magento\Customer\Model\Group');
 
         $groupData = array(
             'customer_group_code' => 'New Customer Group',

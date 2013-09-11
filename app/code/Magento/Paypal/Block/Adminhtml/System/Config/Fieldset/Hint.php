@@ -79,6 +79,6 @@ class Hint
                 });
             });
         ';
-        return $this->toHtml() . $this->helper('\Magento\Adminhtml\Helper\Js')->getScript($js);
+        return $this->toHtml() . $this->helper('Magento\Adminhtml\Helper\Js')->getScript($js);
     }
 }

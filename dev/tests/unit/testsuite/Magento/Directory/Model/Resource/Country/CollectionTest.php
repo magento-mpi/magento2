@@ -24,7 +24,7 @@ class Magento_Directory_Model_Resource_Country_CollectionTest extends PHPUnit_Fr
             ->method('select')
             ->will($this->returnValue($select));
 
-        $resource = $this->getMockForAbstractClass('\Magento\Core\Model\Resource\Db\AbstractDb', array(), '', false, true,
+        $resource = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb', array(), '', false, true,
             true, array('getReadConnection', 'getMainTable', 'getTable'));
         $resource->expects($this->any())
             ->method('getReadConnection')
@@ -37,7 +37,7 @@ class Magento_Directory_Model_Resource_Country_CollectionTest extends PHPUnit_Fr
         $localeMock = $this->getMock('Magento\Core\Model\LocaleInterface');
         $localeMock->expects($this->any())->method('getCountryTranslation')->will($this->returnArgument(0));
 
-        $fetchStrategy = $this->getMockForAbstractClass('\Magento\Data\Collection\Db\FetchStrategyInterface');
+        $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
         $this->_model = $this->getMock('Magento\Directory\Model\Resource\Country\Collection',
             array('_toOptionArray'), array($helperMock, $localeMock, $fetchStrategy, $resource), '', true
         );

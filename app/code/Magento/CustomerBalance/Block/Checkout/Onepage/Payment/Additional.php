@@ -54,7 +54,7 @@ class Additional extends \Magento\Core\Block\Template
     protected function _getBalanceModel()
     {
         if (is_null($this->_balanceModel)) {
-            $this->_balanceModel = \Mage::getModel('\Magento\CustomerBalance\Model\Balance')
+            $this->_balanceModel = \Mage::getModel('Magento\CustomerBalance\Model\Balance')
                 ->setCustomer($this->_getCustomer())
                 ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId());
 

@@ -85,7 +85,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
     {
         if (!$this->hasData('available_widgets')) {
             $result = array();
-            $allWidgets = \Mage::getModel('\Magento\Widget\Model\Widget')->getWidgetsArray();
+            $allWidgets = \Mage::getModel('Magento\Widget\Model\Widget')->getWidgetsArray();
             $skipped = $this->_getSkippedWidgets();
             foreach ($allWidgets as $widget) {
                 if (is_array($skipped) && in_array($widget['type'], $skipped)) {

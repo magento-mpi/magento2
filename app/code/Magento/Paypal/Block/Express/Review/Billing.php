@@ -36,7 +36,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\Billing
                     $this->_address->setLastname($this->getQuote()->getCustomer()->getLastname());
                 }
             } else {
-                $this->_address = \Mage::getModel('\Magento\Sales\Model\Quote\Address');
+                $this->_address = \Mage::getModel('Magento\Sales\Model\Quote\Address');
             }
         }
 

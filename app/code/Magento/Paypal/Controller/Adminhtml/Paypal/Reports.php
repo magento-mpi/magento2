@@ -43,7 +43,7 @@ class Reports extends \Magento\Adminhtml\Controller\Action
     public function detailsAction()
     {
         $rowId = $this->getRequest()->getParam('id');
-        $row = \Mage::getModel('\Magento\Paypal\Model\Report\Settlement\Row')->load($rowId);
+        $row = \Mage::getModel('Magento\Paypal\Model\Report\Settlement\Row')->load($rowId);
         if (!$row->getId()) {
             $this->_redirect('*/*/');
             return;
@@ -52,7 +52,7 @@ class Reports extends \Magento\Adminhtml\Controller\Action
         $this->_initAction()
             ->_title(__('View Transaction'))
             ->_addContent($this->getLayout()
-                ->createBlock('\Magento\Paypal\Block\Adminhtml\Settlement\Details', 'settlementDetails'))
+                ->createBlock('Magento\Paypal\Block\Adminhtml\Settlement\Details', 'settlementDetails'))
             ->renderLayout();
     }
 
@@ -62,7 +62,7 @@ class Reports extends \Magento\Adminhtml\Controller\Action
     public function fetchAction()
     {
         try {
-            $reports = \Mage::getModel('\Magento\Paypal\Model\Report\Settlement');
+            $reports = \Mage::getModel('Magento\Paypal\Model\Report\Settlement');
             /* @var $reports \Magento\Paypal\Model\Report\Settlement */
             $credentials = $reports->getSftpCredentials();
             if (empty($credentials)) {

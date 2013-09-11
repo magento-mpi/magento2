@@ -38,7 +38,7 @@ class Select
             || $_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_MULTIPLE) {
             $require = ($_option->getIsRequire()) ? ' required' : '';
             $extraParams = '';
-            $select = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
+            $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
                 ->setData(array(
                     'id' => 'select_'.$_option->getId(),
                     'class' => $require.' product-custom-option'
@@ -59,7 +59,7 @@ class Select
                     $_value->getOptionTypeId(),
                     $_value->getTitle() . ' ' . $priceStr . '',
                     array(
-                        'price' => $this->helper('\Magento\Core\Helper\Data')->currencyByStore(
+                        'price' => $this->helper('Magento\Core\Helper\Data')->currencyByStore(
                             $_value->getPrice(true),
                             $store,
                             false
@@ -127,7 +127,7 @@ class Select
                     . ($this->getSkipJsReloadPrice() ? '' : ' onclick="opConfig.reloadPrice()"')
                     . ' name="options[' . $_option->getId() . ']' . $arraySign . '" id="options_' . $_option->getId()
                     . '_' . $count . '" value="' . $htmlValue . '" ' . $checked . ' price="'
-                    . $this->helper('\Magento\Core\Helper\Data')->currencyByStore($_value->getPrice(true), $store, false) . '" />'
+                    . $this->helper('Magento\Core\Helper\Data')->currencyByStore($_value->getPrice(true), $store, false) . '" />'
                     . '<label class="label" for="options_' . $_option->getId() . '_' . $count . '"><span>'
                     . $_value->getTitle() . '</span>' . $priceStr . '</label>';
                 $selectHtml .= '</div>';

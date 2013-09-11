@@ -260,7 +260,7 @@ class Api extends \Magento\Checkout\Model\Api\Resource\Product
         }
 
         /** @var $customerQuote \Magento\Sales\Model\Quote */
-        $customerQuote = \Mage::getModel('\Magento\Sales\Model\Quote')
+        $customerQuote = \Mage::getModel('Magento\Sales\Model\Quote')
             ->setStoreId($store)
             ->loadByCustomer($customer);
 

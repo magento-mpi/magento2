@@ -24,7 +24,7 @@ foreach ($files as $file) {
 }
 
 /** @var $registration \Magento\Core\Model\Theme\Registration */
-$registration = Mage::getModel('\Magento\Core\Model\Theme\Registration');
+$registration = Mage::getModel('Magento\Core\Model\Theme\Registration');
 $registration->register(
     $designDir,
     implode(DIRECTORY_SEPARATOR, array('*', '*', 'theme.xml'))

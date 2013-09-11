@@ -87,7 +87,7 @@
                 $('body').splitButton().multipleWishlist({
                     canCreate: <?php echo $this->canCreateWishlists($this->getWishlists()) ? 'true' : 'false';?>,
                     createUrl: '<?php echo $this->getCreateUrl();?>',
-                    wishlists: <?php echo $this->helper('\Magento\Core\Helper\Data')->jsonEncode($this->getWishlistShortList());?>
+                    wishlists: <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getWishlistShortList());?>
                 });
             });
     })(jQuery);

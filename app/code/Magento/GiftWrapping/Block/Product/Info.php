@@ -34,7 +34,7 @@ class Info extends \Magento\Core\Block\Template
         }
 
         if ($wrappingId) {
-            return \Mage::getModel('\Magento\GiftWrapping\Model\Wrapping')->load($wrappingId);
+            return \Mage::getModel('Magento\GiftWrapping\Model\Wrapping')->load($wrappingId);
         }
         return false;
     }

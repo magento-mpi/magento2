@@ -12,7 +12,7 @@
 require __DIR__ . '/../../../Magento/Catalog/_files/products.php';
 
 /** @var $quote \Magento\Sales\Model\Quote */
-$quote = Mage::getModel('\Magento\Sales\Model\Quote');
+$quote = Mage::getModel('Magento\Sales\Model\Quote');
 $quote->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false)

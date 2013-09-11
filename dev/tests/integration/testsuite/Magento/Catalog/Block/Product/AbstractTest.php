@@ -42,14 +42,14 @@ class Magento_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         if (!self::$_isStubClass) {
-            $this->getMockForAbstractClass('\Magento\Catalog\Block\Product\AbstractProduct', array(), self::STUB_CLASS, false);
+            $this->getMockForAbstractClass('Magento\Catalog\Block\Product\AbstractProduct', array(), self::STUB_CLASS, false);
             self::$_isStubClass = true;
         }
 
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDefaultDesignTheme();
         $this->_block = Mage::app()->getLayout()->createBlock(self::STUB_CLASS);
-        $this->_product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $this->_product = Mage::getModel('Magento\Catalog\Model\Product');
         $this->_product->load(1);
         $this->_product->addData(array(
             'image'       => '/m/a/magento_image.jpg',
@@ -97,13 +97,13 @@ class Magento_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestC
 
     public function testGetPriceHtml()
     {
-        $this->_block->setLayout(Mage::getModel('\Magento\Core\Model\Layout'));
+        $this->_block->setLayout(Mage::getModel('Magento\Core\Model\Layout'));
         $this->assertContains('10', $this->_block->getPriceHtml($this->_product));
     }
 
     public function testGetReviewsSummaryHtml()
     {
-        $this->_block->setLayout(Mage::getModel('\Magento\Core\Model\Layout'));
+        $this->_block->setLayout(Mage::getModel('Magento\Core\Model\Layout'));
         $html = $this->_block->getReviewsSummaryHtml($this->_product, false, true);
         $this->assertNotEmpty($html);
         $this->assertContains('review', $html);
@@ -123,7 +123,7 @@ class Magento_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestC
 
     public function testGetTierPriceHtml()
     {
-        $this->_block->setLayout(Mage::getModel('\Magento\Core\Model\Layout'));
+        $this->_block->setLayout(Mage::getModel('Magento\Core\Model\Layout'));
         $html = $this->_block->getTierPriceHtml();
         $this->assertNotEmpty($html);
         $this->assertContains('2', $html); /* Buy 2 */
@@ -164,7 +164,7 @@ class Magento_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestC
 
     public function testLayoutDependColumnCount()
     {
-        $this->_block->setLayout(Mage::getModel('\Magento\Core\Model\Layout'));
+        $this->_block->setLayout(Mage::getModel('Magento\Core\Model\Layout'));
         $this->assertEquals(3, $this->_block->getColumnCount()); /* default column count */
 
         $this->_block->addColumnCountLayoutDepend('test', 10);

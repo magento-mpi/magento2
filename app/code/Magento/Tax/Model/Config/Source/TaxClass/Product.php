@@ -18,6 +18,6 @@ class Product implements \Magento\Core\Model\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return \Mage::getModel('\Magento\Tax\Model\TaxClass\Source\Product')->toOptionArray();
+        return \Mage::getModel('Magento\Tax\Model\TaxClass\Source\Product')->toOptionArray();
     }
 }

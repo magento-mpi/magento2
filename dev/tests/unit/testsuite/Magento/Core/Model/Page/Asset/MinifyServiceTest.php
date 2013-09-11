@@ -41,11 +41,11 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
 
     public function testGetAssets()
     {
-        $assetOne = $this->getMockForAbstractClass('\Magento\Core\Model\Page\Asset\LocalInterface');
+        $assetOne = $this->getMockForAbstractClass('Magento\Core\Model\Page\Asset\LocalInterface');
         $assetOne->expects($this->once())
             ->method('getContentType')
             ->will($this->returnValue('js'));
-        $assetTwo = $this->getMockForAbstractClass('\Magento\Core\Model\Page\Asset\LocalInterface');
+        $assetTwo = $this->getMockForAbstractClass('Magento\Core\Model\Page\Asset\LocalInterface');
         $assetTwo->expects($this->once())
             ->method('getContentType')
             ->will($this->returnValue('js'));
@@ -77,7 +77,7 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
 
     public function testGetAssetsDisabled()
     {
-        $asset = $this->getMockForAbstractClass('\Magento\Core\Model\Page\Asset\LocalInterface');
+        $asset = $this->getMockForAbstractClass('Magento\Core\Model\Page\Asset\LocalInterface');
         $asset->expects($this->once())
             ->method('getContentType')
             ->will($this->returnValue('js'));
@@ -104,7 +104,7 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
             ->method('getConfigFlag')
             ->with('dev/js/minify_files')
             ->will($this->returnValue(true));
-        $asset = $this->getMockForAbstractClass('\Magento\Core\Model\Page\Asset\LocalInterface');
+        $asset = $this->getMockForAbstractClass('Magento\Core\Model\Page\Asset\LocalInterface');
         $asset->expects($this->once())
             ->method('getContentType')
             ->will($this->returnValue('js'));
@@ -122,7 +122,7 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
             ->method('getMode')
             ->will($this->returnValue($mode));
 
-        $asset = $this->getMockForAbstractClass('\Magento\Core\Model\Page\Asset\LocalInterface');
+        $asset = $this->getMockForAbstractClass('Magento\Core\Model\Page\Asset\LocalInterface');
         $asset->expects($this->once())
             ->method('getContentType')
             ->will($this->returnValue('js'));

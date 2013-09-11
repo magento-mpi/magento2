@@ -29,7 +29,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
 
     protected function _initCollection()
     {
-        $this->_collection = \Mage::getModel('\Magento\Review\Model\Review')->getProductCollection();
+        $this->_collection = \Mage::getModel('Magento\Review\Model\Review')->getProductCollection();
         $this->_collection
             ->addStoreFilter(\Mage::app()->getStore()->getId())
             ->addCustomerFilter(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId())
@@ -64,7 +64,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     protected function _prepareLayout()
     {
-        $toolbar = $this->getLayout()->createBlock('\Magento\Page\Block\Html\Pager', 'customer_review_list.toolbar')
+        $toolbar = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager', 'customer_review_list.toolbar')
             ->setCollection($this->getCollection());
 
         $this->setChild('toolbar', $toolbar);

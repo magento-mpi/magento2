@@ -123,7 +123,7 @@ class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
                     foreach ($storeIds as $storeId) {
                         if ($object->getPriceType() == 'fixed') {
                             $storeCurrency = \Mage::app()->getStore($storeId)->getBaseCurrencyCode();
-                            $rate = \Mage::getModel('\Magento\Directory\Model\Currency')->load($baseCurrency)->getRate($storeCurrency);
+                            $rate = \Mage::getModel('Magento\Directory\Model\Currency')->load($baseCurrency)->getRate($storeCurrency);
                             if (!$rate) {
                                 $rate=1;
                             }

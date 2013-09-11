@@ -18,7 +18,7 @@ class Magento_Core_Model_Resource_CacheTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_model = Mage::getResourceModel('\Magento\Core\Model\Resource\Cache');
+        $this->_model = Mage::getResourceModel('Magento\Core\Model\Resource\Cache');
     }
 
     /**

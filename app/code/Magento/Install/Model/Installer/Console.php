@@ -191,7 +191,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     protected function _getDataModel()
     {
         if (null === $this->_dataModel) {
-            $this->_dataModel = \Mage::getModel('\Magento\Install\Model\Installer\Data');
+            $this->_dataModel = \Mage::getModel('Magento\Install\Model\Installer\Data');
         }
         return $this->_dataModel;
     }

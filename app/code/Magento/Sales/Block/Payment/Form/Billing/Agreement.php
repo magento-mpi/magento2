@@ -38,7 +38,7 @@ class Agreement extends \Magento\Payment\Block\Form
         if (!$quote || !$quote->getCustomer()) {
             return $data;
         }
-        $collection = \Mage::getModel('\Magento\Sales\Model\Billing\Agreement')->getAvailableCustomerBillingAgreements(
+        $collection = \Mage::getModel('Magento\Sales\Model\Billing\Agreement')->getAvailableCustomerBillingAgreements(
             $quote->getCustomer()->getId()
         );
 

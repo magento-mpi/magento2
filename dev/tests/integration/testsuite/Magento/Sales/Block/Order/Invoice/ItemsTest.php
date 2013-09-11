@@ -28,9 +28,9 @@ class Magento_Sales_Block_Order_Invoice_ItemsTest extends PHPUnit_Framework_Test
 
     public function setUp()
     {
-        $this->_layout = Mage::getModel('\Magento\Core\Model\Layout');
-        $this->_block = $this->_layout->createBlock('\Magento\Sales\Block\Order\Invoice\Items', 'block');
-        $this->_invoice = Mage::getModel('\Magento\Sales\Model\Order\Invoice');
+        $this->_layout = Mage::getModel('Magento\Core\Model\Layout');
+        $this->_block = $this->_layout->createBlock('Magento\Sales\Block\Order\Invoice\Items', 'block');
+        $this->_invoice = Mage::getModel('Magento\Sales\Model\Order\Invoice');
     }
 
     public function testGetInvoiceTotalsHtml()

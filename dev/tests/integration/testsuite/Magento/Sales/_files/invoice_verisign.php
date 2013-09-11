@@ -16,5 +16,5 @@ $invoice = $orderService->prepareInvoice();
 /** To allow invoice cancelling it should be created without capturing. */
 $invoice->setRequestedCaptureCase(\Magento\Sales\Model\Order\Invoice::NOT_CAPTURE)->register();
 $order->setIsInProcess(true);
-$transactionSave = Mage::getModel('\Magento\Core\Model\Resource\Transaction');
+$transactionSave = Mage::getModel('Magento\Core\Model\Resource\Transaction');
 $transactionSave->addObject($invoice)->addObject($order)->save();

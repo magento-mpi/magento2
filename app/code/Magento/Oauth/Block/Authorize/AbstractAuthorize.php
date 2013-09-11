@@ -45,7 +45,7 @@ abstract class AbstractAuthorize extends \Magento\Core\Block\Template
     {
         if (null === $this->_consumer) {
             /** @var $token \Magento\Oauth\Model\Token */
-            $token = \Mage::getModel('\Magento\Oauth\Model\Token');
+            $token = \Mage::getModel('Magento\Oauth\Model\Token');
             $token->load($this->getToken(), 'token');
             $this->_consumer = $token->getConsumer();
         }

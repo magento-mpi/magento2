@@ -139,7 +139,7 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
 
         $this->_initScope();
 
-        $nodeModel = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node', array('data' =>
+        $nodeModel = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node', array('data' =>
                 array('scope' => $this->_scope, 'scope_id' => $this->_scopeId)));
 
         // restore data if exists
@@ -174,7 +174,7 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
             }
             try {
                 /* @var $nodeModel \Magento\VersionsCms\Model\Hierarchy\Node */
-                $nodeModel = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node');
+                $nodeModel = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node');
                 foreach (array_unique($scopes) as $value) {
                     list ($scope, $scopeId) = $this->_getScopeData($value);
                     $nodeModel->setScope($scope);
@@ -207,7 +207,7 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
         $scopes = $this->getRequest()->getParam('scopes');
         if ($this->getRequest()->isPost() && is_array($scopes) && !empty($scopes)) {
             /** @var $nodeModel \Magento\VersionsCms\Model\Hierarchy\Node */
-            $nodeModel = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node', array(
+            $nodeModel = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node', array(
                 'data' => array('scope'    => $this->_scope,
                                 'scope_id' => $this->_scopeId)
             ));
@@ -250,7 +250,7 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
         $this->_initScope();
         if ($this->getRequest()->isPost()) {
             /** @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
-            $node       = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node', array(
+            $node       = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node', array(
                 'data' => array('scope'    => $this->_scope,
                                 'scope_id' => $this->_scopeId)
             ));

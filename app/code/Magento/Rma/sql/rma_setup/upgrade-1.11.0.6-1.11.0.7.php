@@ -9,7 +9,7 @@
  */
 
 //Add Product's Attribute
-$installer = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'));
+$installer = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'));
 
 $installer->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'is_returnable');
 $installer->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'use_config_is_returnable');

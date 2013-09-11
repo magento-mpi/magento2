@@ -47,7 +47,7 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     protected function _getResource()
     {
         if (is_null($this->_resource)) {
-            $this->_resource = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Layer\Filter\Decimal');
+            $this->_resource = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Layer\Filter\Decimal');
         }
         return $this->_resource;
     }

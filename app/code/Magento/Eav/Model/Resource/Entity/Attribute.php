@@ -575,7 +575,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getAdditionalAttributeTable($entityTypeId)
     {
-        return \Mage::getResourceSingleton('\Magento\Eav\Model\Resource\Entity\Type')
+        return \Mage::getResourceSingleton('Magento\Eav\Model\Resource\Entity\Type')
             ->getAdditionalAttributeTable($entityTypeId);
     }
 

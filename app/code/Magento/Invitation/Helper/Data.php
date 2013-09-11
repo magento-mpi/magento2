@@ -39,7 +39,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getInvitationUrl($invitation)
     {
-        return \Mage::getModel('\Magento\Core\Model\Url')->setStore($invitation->getStoreId())
+        return \Mage::getModel('Magento\Core\Model\Url')->setStore($invitation->getStoreId())
             ->getUrl('magento_invitation/customer_account/create', array(
                 'invitation' => \Mage::helper('Magento\Core\Helper\Data')->urlEncode($invitation->getInvitationCode()),
                 '_store_to_url' => true,

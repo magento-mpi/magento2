@@ -130,7 +130,7 @@ class Actions
             ),
         ));
 
-        $renderer = \Mage::getBlockSingleton('\Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
+        $renderer = \Mage::getBlockSingleton('Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/promo_quote/newActionHtml/form/rule_actions_fieldset'));
 
@@ -143,7 +143,7 @@ class Actions
             'label' => __('Apply To'),
             'title' => __('Apply To'),
             'required' => true,
-        ))->setRule($model)->setRenderer(\Mage::getBlockSingleton('\Magento\Rule\Block\Actions'));
+        ))->setRule($model)->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Actions'));
 
         \Mage::dispatchEvent('adminhtml_block_salesrule_actions_prepareform', array('form' => $form));
 

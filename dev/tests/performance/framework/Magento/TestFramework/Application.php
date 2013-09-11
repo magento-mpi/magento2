@@ -153,7 +153,7 @@ class Magento_TestFramework_Application
         $this->_bootstrap();
 
         /** @var $indexer \Magento\Index\Model\Indexer */
-        $indexer = Mage::getModel('\Magento\Index\Model\Indexer');
+        $indexer = Mage::getModel('Magento\Index\Model\Indexer');
         /** @var $process \Magento\Index\Model\Process */
         foreach ($indexer->getProcessesCollection() as $process) {
             if ($process->getIndexer()->isVisible()) {

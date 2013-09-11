@@ -418,11 +418,11 @@ class Magento_TestFramework_Application
         $user->save();
 
         /** @var $roleAdmin \Magento\User\Model\Role */
-        $roleAdmin = Mage::getModel('\Magento\User\Model\Role');
+        $roleAdmin = Mage::getModel('Magento\User\Model\Role');
         $roleAdmin->load($adminRoleName, 'role_name');
 
         /** @var $roleUser \Magento\User\Model\Role */
-        $roleUser = Mage::getModel('\Magento\User\Model\Role');
+        $roleUser = Mage::getModel('Magento\User\Model\Role');
         $roleUser->setData(array(
             'parent_id'  => $roleAdmin->getId(),
             'tree_level' => $roleAdmin->getTreeLevel() + 1,

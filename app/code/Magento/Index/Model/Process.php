@@ -202,7 +202,7 @@ class Process extends \Magento\Core\Model\AbstractModel
             $eventsCollection = $this->_eventRepository->getUnprocessed($this);
 
             /** @var $eventResource \Magento\Index\Model\Resource\Event */
-            $eventResource = \Mage::getResourceSingleton('\Magento\Index\Model\Resource\Event');
+            $eventResource = \Mage::getResourceSingleton('Magento\Index\Model\Resource\Event');
 
             if ($processStatus == self::STATUS_PENDING && $eventsCollection->getSize() > 0
                 || $this->getForcePartialReindex()

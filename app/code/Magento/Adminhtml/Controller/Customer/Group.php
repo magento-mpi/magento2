@@ -23,7 +23,7 @@ class Group extends \Magento\Adminhtml\Controller\Action
     {
         $this->_title(__('Customer Groups'));
 
-        \Mage::register('current_group', \Mage::getModel('\Magento\Customer\Model\Group'));
+        \Mage::register('current_group', \Mage::getModel('Magento\Customer\Model\Group'));
         $groupId = $this->getRequest()->getParam('id');
         if (!is_null($groupId)) {
             \Mage::registry('current_group')->load($groupId);
@@ -84,7 +84,7 @@ class Group extends \Magento\Adminhtml\Controller\Action
      */
     public function saveAction()
     {
-        $customerGroup = \Mage::getModel('\Magento\Customer\Model\Group');
+        $customerGroup = \Mage::getModel('Magento\Customer\Model\Group');
         $id = $this->getRequest()->getParam('id');
         if (!is_null($id)) {
             $customerGroup->load((int)$id);
@@ -121,7 +121,7 @@ class Group extends \Magento\Adminhtml\Controller\Action
     public function deleteAction()
     {
         if ($id = $this->getRequest()->getParam('id')) {
-            $customerGroup = \Mage::getModel('\Magento\Customer\Model\Group')->load($id);
+            $customerGroup = \Mage::getModel('Magento\Customer\Model\Group')->load($id);
             if (!$customerGroup->getId()) {
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('The customer group no longer exists.'));
                 $this->_redirect('*/*/');

@@ -28,7 +28,7 @@ class Balance extends \Magento\Core\Block\Template
             return 0;
         }
 
-        $model = \Mage::getModel('\Magento\CustomerBalance\Model\Balance')
+        $model = \Mage::getModel('Magento\CustomerBalance\Model\Balance')
             ->setCustomerId($customerId)
             ->loadByCustomer();
 

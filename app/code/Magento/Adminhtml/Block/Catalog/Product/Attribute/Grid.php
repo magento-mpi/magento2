@@ -26,7 +26,7 @@ class Grid extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Attribute\Collection')
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection')
             ->addVisibleFilter();
         $this->setCollection($collection);
 

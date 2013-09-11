@@ -22,7 +22,7 @@ class Magento_Checkout_Controller_CartTest extends Magento_TestFramework_TestCas
     public function testConfigureActionWithSimpleProduct()
     {
         /** @var $session \Magento\Checkout\Model\Session  */
-        $session = Mage::getModel('\Magento\Checkout\Model\Session');
+        $session = Mage::getModel('Magento\Checkout\Model\Session');
 
         $quoteItem = $this->_getQuoteItemIdByProductId($session->getQuote(), 1);
         $this->assertNotNull($quoteItem, 'Cannot get quote item for simple product');
@@ -48,7 +48,7 @@ class Magento_Checkout_Controller_CartTest extends Magento_TestFramework_TestCas
     public function testConfigureActionWithSimpleProductAndCustomOption()
     {
         /** @var $session \Magento\Checkout\Model\Session  */
-        $session = Mage::getModel('\Magento\Checkout\Model\Session');
+        $session = Mage::getModel('Magento\Checkout\Model\Session');
 
         $quoteItem = $this->_getQuoteItemIdByProductId($session->getQuote(), 1);
         $this->assertNotNull($quoteItem, 'Cannot get quote item for simple product with custom option');
@@ -77,7 +77,7 @@ class Magento_Checkout_Controller_CartTest extends Magento_TestFramework_TestCas
     public function testConfigureActionWithBundleProduct()
     {
         /** @var $session \Magento\Checkout\Model\Session  */
-        $session = Mage::getModel('\Magento\Checkout\Model\Session');
+        $session = Mage::getModel('Magento\Checkout\Model\Session');
 
         $quoteItem = $this->_getQuoteItemIdByProductId($session->getQuote(), 3);
         $this->assertNotNull($quoteItem, 'Cannot get quote item for bundle product');
@@ -103,7 +103,7 @@ class Magento_Checkout_Controller_CartTest extends Magento_TestFramework_TestCas
     public function testConfigureActionWithDownloadableProduct()
     {
         /** @var $session \Magento\Checkout\Model\Session  */
-        $session = Mage::getModel('\Magento\Checkout\Model\Session');
+        $session = Mage::getModel('Magento\Checkout\Model\Session');
 
         $quoteItem = $this->_getQuoteItemIdByProductId($session->getQuote(), 1);
         $this->assertNotNull($quoteItem, 'Cannot get quote item for downloadable product');
@@ -132,7 +132,7 @@ class Magento_Checkout_Controller_CartTest extends Magento_TestFramework_TestCas
     public function testConfigureActionWithConfigurableProduct()
     {
         /** @var $session \Magento\Checkout\Model\Session  */
-        $session = Mage::getModel('\Magento\Checkout\Model\Session');
+        $session = Mage::getModel('Magento\Checkout\Model\Session');
 
         $quoteItem = $this->_getQuoteItemIdByProductId($session->getQuote(), 1);
         $this->assertNotNull($quoteItem, 'Cannot get quote item for configurable product');

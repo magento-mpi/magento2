@@ -65,7 +65,7 @@ class Customersegment
         }
 
         /* @var $segment \Magento\CustomerSegment\Model\Segment */
-        $segment = \Mage::getModel('\Magento\CustomerSegment\Model\Segment');
+        $segment = \Mage::getModel('Magento\CustomerSegment\Model\Segment');
 
         if ($segmentId) {
             $segment->load($segmentId);
@@ -129,7 +129,7 @@ class Customersegment
 
             // Add help Notice to Combined Report
             if ($this->_getAdminSession()->getMassactionIds()) {
-                $collection = \Mage::getResourceModel('\Magento\CustomerSegment\Model\Resource\Segment\Collection')
+                $collection = \Mage::getResourceModel('Magento\CustomerSegment\Model\Resource\Segment\Collection')
                     ->addFieldToFilter(
                         'segment_id',
                         array('in' => $this->_getAdminSession()->getMassactionIds())
@@ -239,7 +239,7 @@ class Customersegment
     protected function _getAdminSession()
     {
         if (is_null($this->_adminSession)) {
-            $this->_adminSession = \Mage::getModel('\Magento\Backend\Model\Auth\Session');
+            $this->_adminSession = \Mage::getModel('Magento\Backend\Model\Auth\Session');
         }
         return $this->_adminSession;
     }

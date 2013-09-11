@@ -64,7 +64,7 @@ class DefaultProcessor implements \Magento\FullPageCache\Model\Cache\SubProcesso
         $placeholders = array_unique($placeholders[1]);
         try {
             foreach ($placeholders as $definition) {
-                $this->_placeholder = \Mage::getModel('\Magento\FullPageCache\Model\Container\Placeholder',
+                $this->_placeholder = \Mage::getModel('Magento\FullPageCache\Model\Container\Placeholder',
                     array('definition' => $definition));
                 $content = preg_replace_callback($this->_placeholder->getPattern(),
                     array($this, '_getPlaceholderReplacer'), $content);

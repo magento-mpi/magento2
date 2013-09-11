@@ -39,7 +39,7 @@ class Magento_Webhook_Block_Adminhtml_Subscription_EditTest extends PHPUnit_Fram
         $this->_registry->register('current_subscription', $subscription);
 
         /** @var \Magento\Webhook\Block\Adminhtml\Subscription\Edit $block */
-        $block = $layout->createBlock('\Magento\Webhook\Block\Adminhtml\Subscription\Edit',
+        $block = $layout->createBlock('Magento\Webhook\Block\Adminhtml\Subscription\Edit',
             '', array('registry' => $this->_registry)
         );
         $block->toHtml();
@@ -58,7 +58,7 @@ class Magento_Webhook_Block_Adminhtml_Subscription_EditTest extends PHPUnit_Fram
         $this->_registry->register('current_subscription', $subscription);
 
         /** @var \Magento\Webhook\Block\Adminhtml\Subscription\Edit $block */
-        $block = $layout->createBlock('\Magento\Webhook\Block\Adminhtml\Subscription\Edit',
+        $block = $layout->createBlock('Magento\Webhook\Block\Adminhtml\Subscription\Edit',
             '', array('registry' => $this->_registry)
         );
         $block->toHtml();

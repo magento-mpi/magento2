@@ -21,7 +21,7 @@ class Magento_Backend_Model_SessionTest extends PHPUnit_Framework_TestCase
         if (array_key_exists('adminhtml', $_SESSION)) {
             unset($_SESSION['adminhtml']);
         }
-        Mage::getModel('\Magento\Backend\Model\Session');
+        Mage::getModel('Magento\Backend\Model\Session');
         $this->assertArrayHasKey('adminhtml', $_SESSION);
     }
 }

@@ -29,7 +29,7 @@ class Page extends \Magento\Core\Block\AbstractBlock
     {
         if (!$this->hasData('page')) {
             if ($this->getPageId()) {
-                $page = \Mage::getModel('\Magento\Cms\Model\Page')
+                $page = \Mage::getModel('Magento\Cms\Model\Page')
                     ->setStoreId(\Mage::app()->getStore()->getId())
                     ->load($this->getPageId(), 'identifier');
             } else {

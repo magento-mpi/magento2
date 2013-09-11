@@ -14,7 +14,7 @@
     <?php echo __('To add or remove gift cards, <a href="%1">click here</a>.', $_url); ?><br />
 
     <?php if ((float)$this->getAppliedGiftCardAmount()): ?>
-        <?php $amount = $this->helper('\Magento\Core\Helper\Data')->currency($this->getAppliedGiftCardAmount(), true); ?>
+        <?php $amount = $this->helper('Magento\Core\Helper\Data')->currency($this->getAppliedGiftCardAmount(), true); ?>
         <?php echo __('Gift Card amount applied to order: %1', $amount); ?>
     <?php endif; ?>
 

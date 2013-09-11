@@ -20,9 +20,9 @@ class Cron
     public function updateStates()
     {
         // update to expired
-        $model = \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount');
+        $model = \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount');
 
-        $now = \Mage::getModel('\Magento\Core\Model\Date')->date('Y-m-d');
+        $now = \Mage::getModel('Magento\Core\Model\Date')->date('Y-m-d');
 
         $collection = $model->getCollection()
             ->addFieldToFilter('state', \Magento\GiftCardAccount\Model\Giftcardaccount::STATE_AVAILABLE)

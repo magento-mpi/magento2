@@ -57,7 +57,7 @@ class Widget extends \Magento\Adminhtml\Controller\Action
                 )
             );
 
-            $html = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser\Container')
+            $html = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser\Container')
                 ->setTreeHtml($categoriesTree->toHtml())
                 ->setGridHtml($html)
                 ->toHtml();

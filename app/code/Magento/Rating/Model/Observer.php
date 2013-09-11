@@ -30,7 +30,7 @@ class Observer
     {
         $eventProduct = $observer->getEvent()->getProduct();
         if ($eventProduct && $eventProduct->getId()) {
-            \Mage::getResourceSingleton('\Magento\Rating\Model\Resource\Rating')
+            \Mage::getResourceSingleton('Magento\Rating\Model\Resource\Rating')
                 ->deleteAggregatedRatingsByProductId($eventProduct->getId());
         }
         return $this;

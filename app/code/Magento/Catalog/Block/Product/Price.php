@@ -124,7 +124,7 @@ class Price extends \Magento\Core\Block\Template
      */
     public function getAddToCartUrl($product, $additional = array())
     {
-        return $this->helper('\Magento\Checkout\Helper\Cart')->getAddUrl($product, $additional);
+        return $this->helper('Magento\Checkout\Helper\Cart')->getAddUrl($product, $additional);
     }
 
     /**

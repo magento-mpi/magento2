@@ -25,7 +25,7 @@ class Formset extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $data = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')
+        $data = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')
             ->load($this->getRequest()->getParam('id'));
 
         $form = new \Magento\Data\Form();
@@ -45,7 +45,7 @@ class Formset extends \Magento\Adminhtml\Block\Widget\Form
                 'value' => '1'
             ));
 
-            $sets = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')
+            $sets = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')
                 ->getResourceCollection()
                 ->setEntityTypeFilter(\Mage::registry('entityType'))
                 ->load()

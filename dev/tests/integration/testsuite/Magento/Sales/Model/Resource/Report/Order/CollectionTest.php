@@ -15,7 +15,7 @@ class Magento_Sales_Model_Resource_Report_Order_CollectionTest extends PHPUnit_F
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Order\Collection');
+        $this->_collection = Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Order\Collection');
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)

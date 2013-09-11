@@ -77,10 +77,10 @@ class Link
                 // compare to null used here bc user can specify blank title
                 $this->_title = $this->getData('title');
             } else if ($this->getData('page_id')) {
-                $this->_title = \Mage::getResourceSingleton('\Magento\Cms\Model\Resource\Page')
+                $this->_title = \Mage::getResourceSingleton('Magento\Cms\Model\Resource\Page')
                     ->getCmsPageTitleById($this->getData('page_id'));
             } else if ($this->getData('href')) {
-                $this->_title = \Mage::getResourceSingleton('\Magento\Cms\Model\Resource\Page')
+                $this->_title = \Mage::getResourceSingleton('Magento\Cms\Model\Resource\Page')
                     ->setStore(\Mage::app()->getStore())
                     ->getCmsPageTitleByIdentifier($this->getData('href'));
             }
@@ -103,11 +103,11 @@ class Link
         } else if ($this->getTitle()) {
             $this->_anchorText = $this->getTitle();
         } else if ($this->getData('href')) {
-            $this->_anchorText = \Mage::getResourceSingleton('\Magento\Cms\Model\Resource\Page')
+            $this->_anchorText = \Mage::getResourceSingleton('Magento\Cms\Model\Resource\Page')
                 ->setStore(\Mage::app()->getStore())
                 ->getCmsPageTitleByIdentifier($this->getData('href'));
         } else if ($this->getData('page_id')) {
-            $this->_anchorText = \Mage::getResourceSingleton('\Magento\Cms\Model\Resource\Page')
+            $this->_anchorText = \Mage::getResourceSingleton('Magento\Cms\Model\Resource\Page')
                 ->getCmsPageTitleById($this->getData('page_id'));
         } else {
             $this->_anchorText = $this->getData('href');

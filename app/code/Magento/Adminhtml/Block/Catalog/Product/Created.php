@@ -114,7 +114,7 @@ class Created extends \Magento\Adminhtml\Block\Widget
     public function getConfigurableProduct()
     {
         if ($this->_configurableProduct === null) {
-            $this->_configurableProduct = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $this->_configurableProduct = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->setStore(0)
                 ->load($this->getRequest()->getParam('product'));
         }
@@ -129,7 +129,7 @@ class Created extends \Magento\Adminhtml\Block\Widget
     public function getProduct()
     {
         if ($this->_product === null) {
-            $this->_product = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $this->_product = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->setStore(0)
                 ->load($this->getRequest()->getParam('id'));
         }

@@ -83,7 +83,7 @@ class Router extends \Magento\Core\Controller\Varien\Router\AbstractRouter
             return null;
         }
 
-        $page   = \Mage::getModel('\Magento\Cms\Model\Page');
+        $page   = \Mage::getModel('Magento\Cms\Model\Page');
         $pageId = $page->checkIdentifier($identifier, \Mage::app()->getStore()->getId());
         if (!$pageId) {
             return null;

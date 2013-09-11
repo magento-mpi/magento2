@@ -24,7 +24,7 @@ class Magento_Usa_Block_Adminhtml_Dhl_UnitofmeasureTest extends PHPUnit_Framewor
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = Mage::getSingleton('Magento\Core\Model\Layout');
         /** @var $block \Magento\Usa\Block\Adminhtml\Dhl\Unitofmeasure */
-        $block = $layout->createBlock('\Magento\Usa\Block\Adminhtml\Dhl\Unitofmeasure');
+        $block = $layout->createBlock('Magento\Usa\Block\Adminhtml\Dhl\Unitofmeasure');
         $this->assertNotEmpty($block->toHtml());
     }
 }

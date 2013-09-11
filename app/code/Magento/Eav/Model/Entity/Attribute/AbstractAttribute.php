@@ -95,7 +95,7 @@ abstract class AbstractAttribute
         if (is_numeric($entityType)) {
             $entityTypeId = $entityType;
         } elseif (is_string($entityType)) {
-            $entityType = \Mage::getModel('\Magento\Eav\Model\Entity\Type')->loadByCode($entityType);
+            $entityType = \Mage::getModel('Magento\Eav\Model\Entity\Type')->loadByCode($entityType);
         }
         if ($entityType instanceof \Magento\Eav\Model\Entity\Type) {
             $entityTypeId = $entityType->getId();

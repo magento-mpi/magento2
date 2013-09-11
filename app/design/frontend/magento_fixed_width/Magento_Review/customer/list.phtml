@@ -32,7 +32,7 @@
                         </div>
                     <?php endif; ?>
                     </td>
-                    <td><?php echo $this->helper('\Magento\Review\Helper\Data')->getDetailHtml($_review->getDetail()) ?></td>
+                    <td><?php echo $this->helper('Magento\Review\Helper\Data')->getDetailHtml($_review->getDetail()) ?></td>
                     <td><a href="<?php echo $this->getReviewLink() ?>id/<?php echo $_review->getReviewId() ?>"><?php echo __('View Details') ?></a></td>
                 </tr>
                 <?php endforeach; ?>

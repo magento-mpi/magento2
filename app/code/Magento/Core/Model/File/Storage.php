@@ -90,12 +90,12 @@ class Storage extends \Magento\Core\Model\AbstractModel
 
         switch ($storage) {
             case self::STORAGE_MEDIA_FILE_SYSTEM:
-                $model = \Mage::getModel('\Magento\Core\Model\File\Storage\File');
+                $model = \Mage::getModel('Magento\Core\Model\File\Storage\File');
                 break;
             case self::STORAGE_MEDIA_DATABASE:
                 $connection = (isset($params['connection'])) ? $params['connection'] : null;
                 $arguments = array('connection' => $connection);
-                $model = \Mage::getModel('\Magento\Core\Model\File\Storage\Database',
+                $model = \Mage::getModel('Magento\Core\Model\File\Storage\Database',
                     array('connectionName' => $arguments));
                 break;
             default:

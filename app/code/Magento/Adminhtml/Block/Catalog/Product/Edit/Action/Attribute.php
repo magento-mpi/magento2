@@ -62,7 +62,7 @@ class Attribute extends \Magento\Adminhtml\Block\Widget
      */
     protected function _getHelper()
     {
-        return $this->helper('\Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute');
+        return $this->helper('Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute');
     }
 
     /**

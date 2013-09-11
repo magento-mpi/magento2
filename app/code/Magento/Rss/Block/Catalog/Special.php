@@ -44,7 +44,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
         //customer group id
         $customerGroupId = $this->_getCustomerGroupId();
 
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
 
         $fields = array(
             'final_price',
@@ -68,7 +68,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
         $title = __('%1 - Special Products', \Mage::app()->getStore()->getFrontendName());
         $lang = \Mage::getStoreConfig('general/locale/code');
 
-        $rssObj = \Mage::getModel('\Magento\Rss\Model\Rss');
+        $rssObj = \Mage::getModel('Magento\Rss\Model\Rss');
         $data = array('title' => $title,
                 'description' => $title,
                 'link'        => $newurl,
@@ -96,8 +96,8 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
                     <td><a href="%s"><img src="%s" alt="" border="0" align="left" height="75" width="75" /></a></td>
                     <td style="text-decoration:none;">%s',
                     $product->getProductUrl(),
-                    $this->helper('\Magento\Catalog\Helper\Image')->init($product, 'thumbnail')->resize(75, 75),
-                    $this->helper('\Magento\Catalog\Helper\Output')->productAttribute(
+                    $this->helper('Magento\Catalog\Helper\Image')->init($product, 'thumbnail')->resize(75, 75),
+                    $this->helper('Magento\Catalog\Helper\Output')->productAttribute(
                         $product,
                         $product->getDescription(),
                         'description'

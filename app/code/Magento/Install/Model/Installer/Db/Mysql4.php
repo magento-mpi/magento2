@@ -52,7 +52,7 @@ class Mysql4 extends \Magento\Install\Model\Installer\Db\AbstractDb
     public function cleanUpDatabase(\SimpleXMLElement $config)
     {
         /** @var $resourceModel \Magento\Core\Model\Resource */
-        $resourceModel = \Mage::getModel('\Magento\Core\Model\Resource');
+        $resourceModel = \Mage::getModel('Magento\Core\Model\Resource');
         $connection = $resourceModel->getConnection(\Magento\Core\Model\Resource::DEFAULT_SETUP_RESOURCE);
         $dbName = $config->dbname;
 

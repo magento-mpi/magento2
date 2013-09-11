@@ -49,12 +49,12 @@ class AbstractOrder extends \Magento\Adminhtml\Block\Widget
 
     public function displayPriceAttribute($code, $strong = false, $separator = '<br/>')
     {
-        return $this->helper('\Magento\Adminhtml\Helper\Sales')->displayPriceAttribute($this->getPriceDataObject(), $code, $strong, $separator);
+        return $this->helper('Magento\Adminhtml\Helper\Sales')->displayPriceAttribute($this->getPriceDataObject(), $code, $strong, $separator);
     }
 
     public function displayPrices($basePrice, $price, $strong = false, $separator = '<br/>')
     {
-        return $this->helper('\Magento\Adminhtml\Helper\Sales')->displayPrices($this->getPriceDataObject(), $basePrice, $price, $strong, $separator);
+        return $this->helper('Magento\Adminhtml\Helper\Sales')->displayPrices($this->getPriceDataObject(), $basePrice, $price, $strong, $separator);
     }
 
     /**

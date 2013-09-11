@@ -109,7 +109,7 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
                     ));
                 } else {
                     $form->getElement('url_key')->setRenderer(
-                        $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Form\Renderer\Attribute\Urlkey')
+                        $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Form\Renderer\Attribute\Urlkey')
                     );
                 }
             }

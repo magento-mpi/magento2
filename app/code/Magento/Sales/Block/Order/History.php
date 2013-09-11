@@ -29,7 +29,7 @@ class History extends \Magento\Core\Block\Template
         parent::_construct();
 
 
-        $orders = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Collection')
+        $orders = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Collection')
             ->addFieldToSelect('*')
             ->addFieldToFilter('customer_id', \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getId())
             ->addFieldToFilter('state', array('in' => \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getVisibleOnFrontStates()))
@@ -49,7 +49,7 @@ class History extends \Magento\Core\Block\Template
     {
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()->createBlock('\Magento\Page\Block\Html\Pager', 'sales.order.history.pager')
+        $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager', 'sales.order.history.pager')
             ->setCollection($this->getOrders());
         $this->setChild('pager', $pager);
         $this->getOrders()->load();

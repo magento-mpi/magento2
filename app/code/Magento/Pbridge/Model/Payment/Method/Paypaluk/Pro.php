@@ -101,7 +101,7 @@ class Pro extends \Magento\PaypalUk\Model\Pro
     public function void(\Magento\Object $payment)
     {
         $result = $this->getPbridgeMethodInstance()->void($payment);
-        \Mage::getModel('\Magento\Paypal\Model\Info')->importToPayment(new \Magento\Object($result), $payment);
+        \Mage::getModel('Magento\Paypal\Model\Info')->importToPayment(new \Magento\Object($result), $payment);
         return $result;
     }
 
@@ -114,7 +114,7 @@ class Pro extends \Magento\PaypalUk\Model\Pro
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
             $result = $this->getPbridgeMethodInstance()->void($payment);
-            \Mage::getModel('\Magento\Paypal\Model\Info')->importToPayment(new \Magento\Object($result), $payment);
+            \Mage::getModel('Magento\Paypal\Model\Info')->importToPayment(new \Magento\Object($result), $payment);
         }
     }
 
@@ -143,7 +143,7 @@ class Pro extends \Magento\PaypalUk\Model\Pro
         $payment->setPreparedMessage(
             __('Payflow PNREF: #%1.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID))
         );
-        \Mage::getModel('\Magento\Paypal\Model\Info')->importToPayment($api, $payment);
+        \Mage::getModel('Magento\Paypal\Model\Info')->importToPayment($api, $payment);
     }
 
     /**
@@ -163,6 +163,6 @@ class Pro extends \Magento\PaypalUk\Model\Pro
         $payment->setPreparedMessage(
             __('Payflow PNREF: #%1.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID))
         );
-        \Mage::getModel('\Magento\Paypal\Model\Info')->importToPayment($api, $payment);
+        \Mage::getModel('Magento\Paypal\Model\Info')->importToPayment($api, $payment);
     }
 }

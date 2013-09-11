@@ -98,7 +98,7 @@ class Query extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
-        $object->setUpdatedAt($this->formatDate(\Mage::getModel('\Magento\Core\Model\Date')->gmtTimestamp()));
+        $object->setUpdatedAt($this->formatDate(\Mage::getModel('Magento\Core\Model\Date')->gmtTimestamp()));
         return $this;
     }
 }

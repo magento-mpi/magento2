@@ -39,7 +39,7 @@ $typesData = array(
 );
 
 foreach ($typesData as $data) {
-    \Mage::getModel('\Magento\GiftRegistry\Model\Type')
+    \Mage::getModel('Magento\GiftRegistry\Model\Type')
         ->addData($data)
         ->setStoreId($data['store_id'])
         ->save();

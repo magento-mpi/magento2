@@ -31,7 +31,7 @@ class Block extends \Magento\Core\Block\AbstractBlock
         $html = '';
         if ($blockId) {
             $storeId = \Mage::app()->getStore()->getId();
-            $block = \Mage::getModel('\Magento\Cms\Model\Block')
+            $block = \Mage::getModel('Magento\Cms\Model\Block')
                 ->setStoreId($storeId)
                 ->load($blockId);
             if ($block->getIsActive()) {

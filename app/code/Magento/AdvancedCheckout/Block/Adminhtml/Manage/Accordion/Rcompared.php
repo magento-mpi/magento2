@@ -49,7 +49,7 @@ class Rcompared
     {
         if (!$this->hasData('items_collection')) {
             $skipProducts = array();
-            $collection = \Mage::getModel('\Magento\Catalog\Model\Product\Compare\ListCompare')
+            $collection = \Mage::getModel('Magento\Catalog\Model\Product\Compare\ListCompare')
                 ->getItemCollection()
                 ->useProductItem(true)
                 ->setStoreId($this->_getStore()->getId())
@@ -65,11 +65,11 @@ class Rcompared
                 // Status attribute is required even if it is not used in product listings
                 array_push($attributes, 'status');
             }
-            $productCollection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
+            $productCollection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
                 ->setStoreId($this->_getStore()->getId())
                 ->addStoreFilter($this->_getStore()->getId())
                 ->addAttributeToSelect($attributes);
-            \Mage::getResourceSingleton('\Magento\Reports\Model\Resource\Event')->applyLogToCollection(
+            \Mage::getResourceSingleton('Magento\Reports\Model\Resource\Event')->applyLogToCollection(
                 $productCollection,
                 \Magento\Reports\Model\Event::EVENT_PRODUCT_COMPARE,
                 $this->_getCustomer()->getId(),

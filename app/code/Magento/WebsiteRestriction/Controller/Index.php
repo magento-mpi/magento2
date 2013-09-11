@@ -63,7 +63,7 @@ class Index extends \Magento\Core\Controller\Front\Action
             /**
              * Generating page and save it to cache
              */
-            $page = \Mage::getModel('\Magento\Cms\Model\Page')
+            $page = \Mage::getModel('Magento\Cms\Model\Page')
                 ->load(\Mage::getStoreConfig($this->_stubPageIdentifier), 'identifier');
 
             \Mage::register('restriction_landing_page', $page);
@@ -80,7 +80,7 @@ class Index extends \Magento\Core\Controller\Front\Action
             $this->addActionLayoutHandles();
 
             if ($page->getRootTemplate()) {
-                $this->getLayout()->helper('\Magento\Page\Helper\Layout')
+                $this->getLayout()->helper('Magento\Page\Helper\Layout')
                     ->applyHandle($page->getRootTemplate());
             }
 
@@ -90,7 +90,7 @@ class Index extends \Magento\Core\Controller\Front\Action
             $this->generateLayoutXml()->generateLayoutBlocks();
 
             if ($page->getRootTemplate()) {
-                $this->getLayout()->helper('\Magento\Page\Helper\Layout')
+                $this->getLayout()->helper('Magento\Page\Helper\Layout')
                     ->applyTemplate($page->getRootTemplate());
             }
 

@@ -36,7 +36,7 @@ class ListToken extends \Magento\Customer\Block\Account\Dashboard
         $session = \Mage::getSingleton('Magento\Customer\Model\Session');
 
         /** @var $collection \Magento\Oauth\Model\Resource\Token\Collection */
-        $collection = \Mage::getModel('\Magento\Oauth\Model\Token')->getCollection();
+        $collection = \Mage::getModel('Magento\Oauth\Model\Token')->getCollection();
         $collection->joinConsumerAsApplication()
                 ->addFilterByType(\Magento\Oauth\Model\Token::TYPE_ACCESS)
                 ->addFilterByCustomerId($session->getCustomerId());
@@ -71,7 +71,7 @@ class ListToken extends \Magento\Customer\Block\Account\Dashboard
     protected function _prepareLayout()
     {
         /** @var $toolbar \Magento\Page\Block\Html\Pager */
-        $toolbar = $this->getLayout()->createBlock('\Magento\Page\Block\Html\Pager', 'customer_token.toolbar');
+        $toolbar = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager', 'customer_token.toolbar');
         $toolbar->setCollection($this->_collection);
         $this->setChild('toolbar', $toolbar);
         parent::_prepareLayout();

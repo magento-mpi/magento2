@@ -28,7 +28,7 @@ class Status extends \Magento\Adminhtml\Controller\Action
     {
         $statusCode = $this->getRequest()->getParam('status');
         if ($statusCode) {
-            $status = \Mage::getModel('\Magento\Sales\Model\Order\Status')->load($statusCode);
+            $status = \Mage::getModel('Magento\Sales\Model\Order\Status')->load($statusCode);
         } else {
             $status = false;
         }
@@ -51,7 +51,7 @@ class Status extends \Magento\Adminhtml\Controller\Action
     {
         $data = $this->_getSession()->getFormData(true);
         if ($data) {
-            $status = \Mage::getModel('\Magento\Sales\Model\Order\Status')
+            $status = \Mage::getModel('Magento\Sales\Model\Order\Status')
                 ->setData($data);
             \Mage::register('current_status', $status);
         }
@@ -103,7 +103,7 @@ class Status extends \Magento\Adminhtml\Controller\Action
                 $label = $helper->stripTags($label);
             }
 
-            $status = \Mage::getModel('\Magento\Sales\Model\Order\Status')
+            $status = \Mage::getModel('Magento\Sales\Model\Order\Status')
                     ->load($statusCode);
             // check if status exist
             if ($isNew && $status->getStatus()) {

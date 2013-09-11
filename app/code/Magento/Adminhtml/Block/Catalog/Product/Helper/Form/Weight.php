@@ -40,7 +40,7 @@ class Weight extends \Magento\Data\Form\Element\Text
         $this->_helper = isset($data['helper']) ? $data['helper'] : \Mage::helper('Magento\Catalog\Helper\Product');
         $this->_virtual = isset($data['element'])
             ? $data['element']
-            : \Mage::getModel('\Magento\Data\Form\Element\Checkbox');
+            : \Mage::getModel('Magento\Data\Form\Element\Checkbox');
         $this->_virtual->setId(self::VIRTUAL_FIELD_HTML_ID)->setName('is_virtual')
             ->setLabel($this->_helper->getTypeSwitcherControlLabel());
         $data['class'] = 'validate-number validate-zero-or-greater validate-number-range number-range-0-99999999.9999';

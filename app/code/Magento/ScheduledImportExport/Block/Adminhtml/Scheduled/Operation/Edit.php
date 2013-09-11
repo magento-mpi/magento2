@@ -33,7 +33,7 @@ class Edit
         $this->_controller = 'adminhtml_scheduled_operation';
 
         $operationId = (int)$this->getRequest()->getParam($this->_objectId);
-        $operation = \Mage::getModel('\Magento\ScheduledImportExport\Model\Scheduled\Operation');
+        $operation = \Mage::getModel('Magento\ScheduledImportExport\Model\Scheduled\Operation');
         if ($operationId) {
             $operation->load($operationId);
         } else {

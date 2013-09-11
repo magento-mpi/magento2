@@ -75,7 +75,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
         }
         catch (\Exception $e) {
             $obj = new \Magento\Object();
-            $obj->setEntity(\Mage::getResourceSingleton('\Magento\Catalog\Model\Product'))
+            $obj->setEntity(\Mage::getResourceSingleton('Magento\Catalog\Model\Product'))
                 ->setFrontendInput('text');
         }
         return $obj;
@@ -99,7 +99,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
      */
     public function loadAttributeOptions()
     {
-        $productAttributes = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product')
+        $productAttributes = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product')
             ->loadAllAttributes()
             ->getAttributesByCode();
 
@@ -144,7 +144,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
         if ($this->getAttribute() === 'attribute_set_id') {
             $entityTypeId = \Mage::getSingleton('Magento\Eav\Model\Config')
                 ->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getId();
-            $selectOptions = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
+            $selectOptions = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
                 ->setEntityTypeFilter($entityTypeId)
                 ->load()
                 ->toOptionArray();

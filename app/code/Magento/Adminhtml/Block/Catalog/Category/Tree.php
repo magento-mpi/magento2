@@ -57,7 +57,7 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
         }
 
         $this->setChild('store_switcher',
-            $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher')
+            $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher')
                 ->setSwitchUrl($this->getUrl('*/*/*', array('_current'=>true, '_query'=>false, 'store'=>null)))
                 ->setTemplate('store/switcher/enhanced.phtml')
         );
@@ -74,7 +74,7 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
         $storeId = $this->getRequest()->getParam('store', $this->_getDefaultStoreId());
         $collection = $this->getData('category_collection');
         if (is_null($collection)) {
-            $collection = \Mage::getModel('\Magento\Catalog\Model\Category')->getCollection();
+            $collection = \Mage::getModel('Magento\Catalog\Model\Category')->getCollection();
 
             /* @var $collection \Magento\Catalog\Model\Resource\Category\Collection */
             $collection->addAttributeToSelect('name')
@@ -99,7 +99,7 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
         $storeId = $this->getRequest()->getParam('store', $this->_getDefaultStoreId());
 
         /* @var $collection \Magento\Catalog\Model\Resource\Category\Collection */
-        $collection = \Mage::getModel('\Magento\Catalog\Model\Category')->getCollection();
+        $collection = \Mage::getModel('Magento\Catalog\Model\Category')->getCollection();
 
         $matchingNamesCollection = clone $collection;
         $escapedNamePart = \Mage::getResourceHelper('Magento_Core')->addLikeEscape($namePart, array('position' => 'any'));
@@ -229,7 +229,7 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
             return '';
         }
 
-        $categories = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Category\Tree')
+        $categories = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category\Tree')
             ->setStoreId($this->getStore()->getId())->loadBreadcrumbsArray($path);
         if (empty($categories)) {
             return '';
@@ -263,7 +263,7 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
         $item = array();
         $item['text'] = $this->buildNodeName($node);
 
-        /* $rootForStores = \Mage::getModel('\Magento\Core\Model\Store')
+        /* $rootForStores = \Mage::getModel('Magento\Core\Model\Store')
             ->getCollection()
             ->loadByCategoryIds(array($node->getEntityId())); */
         $rootForStores = in_array($node->getEntityId(), $this->getRootIds());

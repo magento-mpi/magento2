@@ -296,7 +296,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
 
         $isConfirmNeed   = (\Mage::getStoreConfig(self::XML_PATH_CONFIRMATION_FLAG) == 1) ? true : false;
         $isOwnSubscribes = false;
-        $ownerId = \Mage::getModel('\Magento\Customer\Model\Customer')
+        $ownerId = \Mage::getModel('Magento\Customer\Model\Customer')
             ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId())
             ->loadByEmail($email)
             ->getId();
@@ -493,7 +493,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         /* @var $translate \Magento\Core\Model\Translate */
         $translate->setTranslateInline(false);
 
-        $email = \Mage::getModel('\Magento\Core\Model\Email\Template');
+        $email = \Mage::getModel('Magento\Core\Model\Email\Template');
 
         $email->sendTransactional(
             \Mage::getStoreConfig(self::XML_PATH_CONFIRM_EMAIL_TEMPLATE),
@@ -529,7 +529,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         /* @var $translate \Magento\Core\Model\Translate */
         $translate->setTranslateInline(false);
 
-        $email = \Mage::getModel('\Magento\Core\Model\Email\Template');
+        $email = \Mage::getModel('Magento\Core\Model\Email\Template');
 
         $email->sendTransactional(
             \Mage::getStoreConfig(self::XML_PATH_SUCCESS_EMAIL_TEMPLATE),
@@ -564,7 +564,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         /* @var $translate \Magento\Core\Model\Translate */
         $translate->setTranslateInline(false);
 
-        $email = \Mage::getModel('\Magento\Core\Model\Email\Template');
+        $email = \Mage::getModel('Magento\Core\Model\Email\Template');
 
         $email->sendTransactional(
             \Mage::getStoreConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_TEMPLATE),

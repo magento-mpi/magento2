@@ -255,7 +255,7 @@ class Wizard extends \Magento\Install\Controller\Action
             }
             $params['command'] = 'install';
             $params['options'] = array('onlyreqdeps' => 1);
-            $params['params'] = \Mage::getModel('\Magento\Install\Model\Installer\Pear')->getPackages();
+            $params['params'] = \Mage::getModel('Magento\Install\Model\Installer\Pear')->getPackages();
             $params['success_callback'] = array($this, 'installSuccessCallback');
             $params['failure_callback'] = array($this, 'installFailureCallback');
         }

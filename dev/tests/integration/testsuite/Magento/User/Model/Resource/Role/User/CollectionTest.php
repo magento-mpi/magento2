@@ -21,7 +21,7 @@ class Magento_User_Model_Resource_Role_User_CollectionTest extends PHPUnit_Frame
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('\Magento\User\Model\Resource\Role\User\Collection');
+        $this->_collection = Mage::getResourceModel('Magento\User\Model\Resource\Role\User\Collection');
     }
 
     public function testSelectQueryInitialized()

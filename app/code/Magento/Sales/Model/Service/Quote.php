@@ -65,7 +65,7 @@ class Quote
     public function __construct(\Magento\Sales\Model\Quote $quote)
     {
         $this->_quote       = $quote;
-        $this->_convertor   = \Mage::getModel('\Magento\Sales\Model\Convert\Quote');
+        $this->_convertor   = \Mage::getModel('Magento\Sales\Model\Convert\Quote');
     }
 
     /**
@@ -114,7 +114,7 @@ class Quote
         $quote = $this->_quote;
         $isVirtual = $quote->isVirtual();
 
-        $transaction = \Mage::getModel('\Magento\Core\Model\Resource\Transaction');
+        $transaction = \Mage::getModel('Magento\Core\Model\Resource\Transaction');
         if ($quote->getCustomerId()) {
             $transaction->addObject($quote->getCustomer());
         }

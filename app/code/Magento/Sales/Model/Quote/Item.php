@@ -599,11 +599,11 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     public function addOption($option)
     {
         if (is_array($option)) {
-            $option = \Mage::getModel('\Magento\Sales\Model\Quote\Item\Option')->setData($option)
+            $option = \Mage::getModel('Magento\Sales\Model\Quote\Item\Option')->setData($option)
                 ->setItem($this);
         }
         elseif (($option instanceof \Magento\Object) && !($option instanceof \Magento\Sales\Model\Quote\Item\Option)) {
-            $option = \Mage::getModel('\Magento\Sales\Model\Quote\Item\Option')->setData($option->getData())
+            $option = \Mage::getModel('Magento\Sales\Model\Quote\Item\Option')->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
         }

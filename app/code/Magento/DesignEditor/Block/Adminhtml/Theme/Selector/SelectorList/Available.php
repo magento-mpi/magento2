@@ -52,7 +52,7 @@ class Available
         $themeId = $themeBlock->getTheme()->getId();
 
         /** @var $assignButton \Magento\Backend\Block\Widget\Button */
-        $assignButton = $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button');
+        $assignButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button');
         $assignButton->setData(array(
             'label' => __('Edit'),
             'data_attribute' => array(

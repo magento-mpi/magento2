@@ -20,7 +20,7 @@ class Magento_Test_Integrity_Modular_Email_TemplateFilesTest extends PHPUnit_Fra
      */
     public function testLoadBaseContents($module, $filename)
     {
-        $model = Mage::getModel('\Magento\Core\Model\Email\Template');
+        $model = Mage::getModel('Magento\Core\Model\Email\Template');
         $this->assertNotEmpty($model->loadBaseContents($module, $filename));
     }
 

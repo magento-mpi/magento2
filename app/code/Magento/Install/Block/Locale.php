@@ -64,7 +64,7 @@ class Locale extends \Magento\Install\Block\AbstractBlock
      */
     public function getLocaleSelect()
     {
-        $html = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
+        $html = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setName('config[locale]')
             ->setId('locale')
             ->setTitle(__('Locale'))
@@ -82,7 +82,7 @@ class Locale extends \Magento\Install\Block\AbstractBlock
      */
     public function getTimezoneSelect()
     {
-        $html = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
+        $html = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setName('config[timezone]')
             ->setId('timezone')
             ->setTitle(__('Time Zone'))
@@ -116,7 +116,7 @@ class Locale extends \Magento\Install\Block\AbstractBlock
      */
     public function getCurrencySelect()
     {
-        $html = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
+        $html = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setName('config[currency]')
             ->setId('currency')
             ->setTitle(__('Default Currency'))

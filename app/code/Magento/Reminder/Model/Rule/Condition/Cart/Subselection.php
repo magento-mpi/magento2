@@ -33,7 +33,7 @@ class Subselection
      */
     public function getNewChildSelectOptions()
     {
-        return \Mage::getModel('\Magento\Reminder\Model\Rule\Condition\Cart\Subcombine')->getNewChildSelectOptions();
+        return \Mage::getModel('Magento\Reminder\Model\Rule\Condition\Cart\Subcombine')->getNewChildSelectOptions();
     }
 
     /**

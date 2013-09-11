@@ -512,16 +512,16 @@ class Usps
             }
         }
 
-        $result = \Mage::getModel('\Magento\Shipping\Model\Rate\Result');
+        $result = \Mage::getModel('Magento\Shipping\Model\Rate\Result');
         if (empty($priceArr)) {
-            $error = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Error');
+            $error = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Error');
             $error->setCarrier('usps');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
         } else {
             foreach ($priceArr as $method=>$price) {
-                $rate = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Method');
+                $rate = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Method');
                 $rate->setCarrier('usps');
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
@@ -888,19 +888,19 @@ class Usps
         }
 
         if (!$this->_result) {
-            $this->_result = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result');
+            $this->_result = \Mage::getModel('Magento\Shipping\Model\Tracking\Result');
         }
         $defaults = $this->getDefaults();
 
         if ($resultArr) {
-             $tracking = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result\Status');
+             $tracking = \Mage::getModel('Magento\Shipping\Model\Tracking\Result\Status');
              $tracking->setCarrier('usps');
              $tracking->setCarrierTitle($this->getConfigData('title'));
              $tracking->setTracking($trackingvalue);
              $tracking->setTrackSummary($resultArr['tracksummary']);
              $this->_result->append($tracking);
          } else {
-            $error = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result\Error');
+            $error = \Mage::getModel('Magento\Shipping\Model\Tracking\Result\Error');
             $error->setCarrier('usps');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setTracking($trackingvalue);
@@ -1522,7 +1522,7 @@ class Usps
 
                 $productIds[]= $item->getProductId();
         }
-        $productCollection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection')
+        $productCollection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection')
             ->addStoreFilter($request->getStoreId())
             ->addFieldToFilter('entity_id', array('in' => $productIds))
             ->addAttributeToSelect('country_of_manufacture');

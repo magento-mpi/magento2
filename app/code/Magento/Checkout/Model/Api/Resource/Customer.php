@@ -39,7 +39,7 @@ class Customer extends \Magento\Checkout\Model\Api\Resource
     protected function _getCustomer($customerId)
     {
         /** @var $customer \Magento\Customer\Model\Customer */
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer')
             ->load($customerId);
         if (!$customer->getId()) {
             $this->_fault('customer_not_exists');
@@ -56,7 +56,7 @@ class Customer extends \Magento\Checkout\Model\Api\Resource
      */
     protected function _getCustomerAddress($addressId)
     {
-        $address = \Mage::getModel('\Magento\Customer\Model\Address')->load((int)$addressId);
+        $address = \Mage::getModel('Magento\Customer\Model\Address')->load((int)$addressId);
         if (is_null($address->getId())) {
             $this->_fault('invalid_address_id');
         }
@@ -117,7 +117,7 @@ class Customer extends \Magento\Checkout\Model\Api\Resource
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
-        //$customer = \Mage::getModel('\Magento\Customer\Model\Customer');
+        //$customer = \Mage::getModel('Magento\Customer\Model\Customer');
         $customer = $quote->getCustomer();
         /* @var $customer \Magento\Customer\Model\Customer */
         $customerBilling = $billing->exportCustomerAddress();

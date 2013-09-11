@@ -65,7 +65,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
         $readAdapter    = $this->_getReadAdapter();
         $writeAdapter   = $this->_getWriteAdapter();
 
-        $timeLimit = $this->formatDate(\Mage::getModel('\Magento\Core\Model\Date')->gmtTimestamp() - $time);
+        $timeLimit = $this->formatDate(\Mage::getModel('Magento\Core\Model\Date')->gmtTimestamp() - $time);
 
         while (true) {
             $select = $readAdapter->select()
@@ -114,7 +114,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
         $readAdapter    = $this->_getReadAdapter();
         $writeAdapter   = $this->_getWriteAdapter();
 
-        $timeLimit = $this->formatDate(\Mage::getModel('\Magento\Core\Model\Date')->gmtTimestamp() - $time);
+        $timeLimit = $this->formatDate(\Mage::getModel('Magento\Core\Model\Date')->gmtTimestamp() - $time);
 
         // retrieve last active customer log id
         $lastLogId = $readAdapter->fetchOne(

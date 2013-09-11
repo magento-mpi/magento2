@@ -28,10 +28,10 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     public static function performUploadButtonTest(\Magento\Core\Block\AbstractBlock $block)
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $layout = Mage::getModel('Magento\Core\Model\Layout');
         $layout->addBlock($block, 'links');
         $expected = uniqid();
-        $text = Mage::app()->getLayout()->createBlock('\Magento\Core\Block\Text', '',
+        $text = Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text', '',
             array('data' => array('text' => $expected))
         );
         $block->unsetChild('upload_button');
@@ -46,7 +46,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     {
         Mage::register('product', new \Magento\Object(array('type_id' => 'simple')));
         $block = Mage::app()->getLayout()
-            ->createBlock('\Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links');
+            ->createBlock('Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links');
         $this->assertEmpty($block->getLinkData());
     }
 
@@ -69,7 +69,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
             'links_title' => $linksTitle
         )));
         $block = Mage::app()->getLayout()
-            ->createBlock('\Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links');
+            ->createBlock('Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links');
         $this->assertEquals($expectedResult, $block->getLinksTitle());
     }
 

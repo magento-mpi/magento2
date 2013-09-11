@@ -201,7 +201,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      */
     public static function getDataSourceModel()
     {
-        return \Mage::getResourceSingleton('\Magento\ImportExport\Model\Resource\Import\Data');
+        return \Mage::getResourceSingleton('Magento\ImportExport\Model\Resource\Import\Data');
     }
 
     /**
@@ -361,7 +361,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     public function expandSource()
     {
         /** @var $writer \Magento\ImportExport\Model\Export\Adapter\Csv */
-        $writer  = \Mage::getModel('\Magento\ImportExport\Model\Export\Adapter\Csv',
+        $writer  = \Mage::getModel('Magento\ImportExport\Model\Export\Adapter\Csv',
             array('destination' => self::getWorkingDir() . "big0.csv"));
         $regExps = array('last' => '/(.*?)(\d+)$/', 'middle' => '/(.*?)(\d+)(.*)$/');
         $colReg  = array(
@@ -427,7 +427,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
 
         $entity    = $this->getEntity();
         /** @var $uploader \Magento\Core\Model\File\Uploader */
-        $uploader  = \Mage::getModel('\Magento\Core\Model\File\Uploader', array('fileId' => self::FIELD_NAME_SOURCE_FILE));
+        $uploader  = \Mage::getModel('Magento\Core\Model\File\Uploader', array('fileId' => self::FIELD_NAME_SOURCE_FILE));
         $uploader->skipDbProcessing(true);
         $result    = $uploader->save(self::getWorkingDir());
         $extension = pathinfo($result['file'], PATHINFO_EXTENSION);

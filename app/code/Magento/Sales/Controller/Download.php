@@ -64,7 +64,7 @@ class Download extends \Magento\Core\Controller\Front\Action
         }
 
         $relativePath = \Mage::helper('Magento\Core\Helper\File\Storage\Database')->getMediaRelativePath($filePath);
-        $file = \Mage::getModel('\Magento\Core\Model\File\Storage\Database')->loadByFilename($relativePath);
+        $file = \Mage::getModel('Magento\Core\Model\File\Storage\Database')->loadByFilename($relativePath);
 
         if (!$file->getId()) {
             return false;
@@ -90,7 +90,7 @@ class Download extends \Magento\Core\Controller\Front\Action
      */
     public function downloadProfileCustomOptionAction()
     {
-        $recurringProfile = \Mage::getModel('\Magento\Sales\Model\Recurring\Profile')->load($this->getRequest()->getParam('id'));
+        $recurringProfile = \Mage::getModel('Magento\Sales\Model\Recurring\Profile')->load($this->getRequest()->getParam('id'));
 
         if (!$recurringProfile->getId()) {
             $this->_forward('noRoute');
@@ -111,7 +111,7 @@ class Download extends \Magento\Core\Controller\Front\Action
                 return;
             }
             // Check if the product exists
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($request['product']);
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($request['product']);
             if (!$product || !$product->getId()) {
                 $this->_forward('noRoute');
                 return;
@@ -135,7 +135,7 @@ class Download extends \Magento\Core\Controller\Front\Action
     {
         $quoteItemOptionId = $this->getRequest()->getParam('id');
         /** @var $option \Magento\Sales\Model\Quote\Item\Option */
-        $option = \Mage::getModel('\Magento\Sales\Model\Quote\Item\Option')->load($quoteItemOptionId);
+        $option = \Mage::getModel('Magento\Sales\Model\Quote\Item\Option')->load($quoteItemOptionId);
 
         if (!$option->getId()) {
             $this->_forward('noRoute');
@@ -152,7 +152,7 @@ class Download extends \Magento\Core\Controller\Front\Action
         $productOption = null;
         if ($optionId) {
             /** @var $productOption \Magento\Catalog\Model\Product\Option */
-            $productOption = \Mage::getModel('\Magento\Catalog\Model\Product\Option')->load($optionId);
+            $productOption = \Mage::getModel('Magento\Catalog\Model\Product\Option')->load($optionId);
         }
         if (!$productOption || !$productOption->getId()
             || $productOption->getProductId() != $option->getProductId() || $productOption->getType() != 'file'

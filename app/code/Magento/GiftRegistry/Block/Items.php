@@ -27,12 +27,12 @@ class Items extends \Magento\Checkout\Block\Cart
             if (!$this->getEntity()) {
                 return array();
             }
-            $collection = \Mage::getModel('\Magento\GiftRegistry\Model\Item')->getCollection()
+            $collection = \Mage::getModel('Magento\GiftRegistry\Model\Item')->getCollection()
                 ->addRegistryFilter($this->getEntity()->getId());
 
             $quoteItemsCollection = array();
-            $quote = \Mage::getModel('\Magento\Sales\Model\Quote')->setItemCount(true);
-            $emptyQuoteItem = \Mage::getModel('\Magento\Sales\Model\Quote\Item');
+            $quote = \Mage::getModel('Magento\Sales\Model\Quote')->setItemCount(true);
+            $emptyQuoteItem = \Mage::getModel('Magento\Sales\Model\Quote\Item');
             foreach ($collection as $item) {
                 $product = $item->getProduct();
                 $remainingQty = $item->getQty() - $item->getQtyFulfilled();
@@ -55,7 +55,7 @@ class Items extends \Magento\Checkout\Block\Cart
                             \Mage::helper('Magento\Tax\Helper\Data')->getPrice($product, $product->getFinalPrice(), true)
                         ))
                     );
-                    $product->setAddToCartUrl($this->helper('\Magento\Checkout\Helper\Cart')->getAddUrl($product));
+                    $product->setAddToCartUrl($this->helper('Magento\Checkout\Helper\Cart')->getAddUrl($product));
                 } else {
                     $quoteItem->setGiftRegistryPrice($product->getFinalPrice());
                     $quoteItem->setCanApplyMsrp(false);

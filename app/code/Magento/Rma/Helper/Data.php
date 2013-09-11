@@ -134,7 +134,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             \Mage::throwException(__('This is not a valid order.'));
         }
         if (is_null($this->_orderItems) || !isset($this->_orderItems[$orderId])) {
-            $this->_orderItems[$orderId] = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Item')
+            $this->_orderItems[$orderId] = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item')
                 ->getOrderItems($orderId);
         }
 
@@ -230,7 +230,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getReturnAddressModel($storeId = null)
     {
-        $addressModel = \Mage::getModel('\Magento\Sales\Model\Quote\Address');
+        $addressModel = \Mage::getModel('Magento\Sales\Model\Quote\Address');
         $addressModel->setData($this->getReturnAddressData($storeId));
         $addressModel->setCountryId($addressModel->getData('countryId'));
         $addressModel->setStreet($addressModel->getData('street1')."\n".$addressModel->getData('street2'));
@@ -302,7 +302,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected function _getCountryModel()
     {
         if (is_null($this->_countryModel)) {
-            $this->_countryModel = \Mage::getModel('\Magento\Directory\Model\Country');
+            $this->_countryModel = \Mage::getModel('Magento\Directory\Model\Country');
         }
         return $this->_countryModel;
     }

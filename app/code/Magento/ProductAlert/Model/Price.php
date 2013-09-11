@@ -46,7 +46,7 @@ class Price extends \Magento\Core\Model\AbstractModel
 
     public function getCustomerCollection()
     {
-        return \Mage::getResourceModel('\Magento\ProductAlert\Model\Resource\Price\Customer\Collection');
+        return \Mage::getResourceModel('Magento\ProductAlert\Model\Resource\Price\Customer\Collection');
     }
 
     public function loadByParam()

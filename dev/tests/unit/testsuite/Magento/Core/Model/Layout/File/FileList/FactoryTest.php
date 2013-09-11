@@ -20,7 +20,7 @@ class Magento_Core_Model_Layout_File_FileList_FactoryTest extends PHPUnit_Framew
 
     protected function setUp()
     {
-        $this->_objectManager = $this->getMockForAbstractClass('\Magento\ObjectManager');
+        $this->_objectManager = $this->getMockForAbstractClass('Magento\ObjectManager');
         $this->_model = new \Magento\Core\Model\Layout\File\FileList\Factory($this->_objectManager);
     }
 

@@ -102,7 +102,7 @@ class Config
      */
     protected function _getProductType()
     {
-        return \Mage::getModel('\Magento\Catalog\Model\Product\Type\Configurable');
+        return \Mage::getModel('Magento\Catalog\Model\Product\Type\Configurable');
     }
 
     /**
@@ -133,7 +133,7 @@ class Config
 // @todo: Remove unused code and blocks
 //        if ($this->getProduct()->getId()) {
 //            $this->setChild('simple',
-//                $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Simple',
+//                $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Simple',
 //                    'catalog.product.edit.tab.super.config.simple')
 //            );
 //

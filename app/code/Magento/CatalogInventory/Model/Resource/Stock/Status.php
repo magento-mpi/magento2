@@ -138,7 +138,7 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getWebsiteStores()
     {
-        $select = \Mage::getModel('\Magento\Core\Model\Website')->getDefaultStoresSelect(false);
+        $select = \Mage::getModel('Magento\Core\Model\Website')->getDefaultStoresSelect(false);
         return $this->_getReadAdapter()->fetchPairs($select);
     }
 

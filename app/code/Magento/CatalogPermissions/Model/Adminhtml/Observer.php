@@ -73,7 +73,7 @@ class Observer
                 ->isAllowed('Magento_CatalogPermissions::catalog_magento_catalogpermissions')
         ) {
             foreach ($category->getData('permissions') as $data) {
-                $permission = \Mage::getModel('\Magento\CatalogPermissions\Model\Permission');
+                $permission = \Mage::getModel('Magento\CatalogPermissions\Model\Permission');
                 if (!empty($data['id'])) {
                     $permission->load($data['id']);
                 }
@@ -121,7 +121,7 @@ class Observer
      */
     public function reindexCategoryPermissionOnMove(\Magento\Event\Observer $observer)
     {
-        $category = \Mage::getModel('\Magento\Catalog\Model\Category')
+        $category = \Mage::getModel('Magento\Catalog\Model\Category')
             ->load($observer->getEvent()->getCategoryId());
         $this->_indexQueue[] = $category->getPath();
         return $this;

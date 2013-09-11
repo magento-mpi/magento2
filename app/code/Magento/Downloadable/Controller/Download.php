@@ -81,7 +81,7 @@ class Download extends \Magento\Core\Controller\Front\Action
     public function sampleAction()
     {
         $sampleId = $this->getRequest()->getParam('sample_id', 0);
-        $sample = \Mage::getModel('\Magento\Downloadable\Model\Sample')->load($sampleId);
+        $sample = \Mage::getModel('Magento\Downloadable\Model\Sample')->load($sampleId);
         if ($sample->getId()) {
             $resource = '';
             $resourceType = '';
@@ -111,7 +111,7 @@ class Download extends \Magento\Core\Controller\Front\Action
     public function linkSampleAction()
     {
         $linkId = $this->getRequest()->getParam('link_id', 0);
-        $link = \Mage::getModel('\Magento\Downloadable\Model\Link')->load($linkId);
+        $link = \Mage::getModel('Magento\Downloadable\Model\Link')->load($linkId);
         if ($link->getId()) {
             $resource = '';
             $resourceType = '';
@@ -140,7 +140,7 @@ class Download extends \Magento\Core\Controller\Front\Action
     public function linkAction()
     {
         $id = $this->getRequest()->getParam('id', 0);
-        $linkPurchasedItem = \Mage::getModel('\Magento\Downloadable\Model\Link\Purchased\Item')->load($id, 'link_hash');
+        $linkPurchasedItem = \Mage::getModel('Magento\Downloadable\Model\Link\Purchased\Item')->load($id, 'link_hash');
         if (! $linkPurchasedItem->getId() ) {
             $this->_getCustomerSession()->addNotice(__("We can't find the link you requested."));
             return $this->_redirect('*/customer/products');
@@ -148,7 +148,7 @@ class Download extends \Magento\Core\Controller\Front\Action
         if (!\Mage::helper('Magento\Downloadable\Helper\Data')->getIsShareable($linkPurchasedItem)) {
             $customerId = $this->_getCustomerSession()->getCustomerId();
             if (!$customerId) {
-                $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($linkPurchasedItem->getProductId());
+                $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($linkPurchasedItem->getProductId());
                 if ($product->getId()) {
                     $notice = __('Please log in to download your product or purchase <a href="%1">%2</a>.', $product->getProductUrl(), $product->getName());
                 } else {
@@ -161,7 +161,7 @@ class Download extends \Magento\Core\Controller\Front\Action
                 );
                 return ;
             }
-            $linkPurchased = \Mage::getModel('\Magento\Downloadable\Model\Link\Purchased')->load($linkPurchasedItem->getPurchasedId());
+            $linkPurchased = \Mage::getModel('Magento\Downloadable\Model\Link\Purchased')->load($linkPurchasedItem->getPurchasedId());
             if ($linkPurchased->getCustomerId() != $customerId) {
                 $this->_getCustomerSession()->addNotice(__("We can't find the link you requested."));
                 return $this->_redirect('*/customer/products');

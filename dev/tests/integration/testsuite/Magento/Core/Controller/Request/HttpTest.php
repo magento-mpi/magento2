@@ -21,7 +21,7 @@ class Magento_Core_Controller_Request_HttpTest extends PHPUnit_Framework_TestCas
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(Mage::PARAM_CUSTOM_LOCAL_CONFIG
             => sprintf(\Magento\Core\Model\Config\Primary::CONFIG_TEMPLATE_INSTALL_DATE, date('r', strtotime('now')))
         ));
-        $this->_model = Mage::getModel('\Magento\Core\Controller\Request\Http');
+        $this->_model = Mage::getModel('Magento\Core\Controller\Request\Http');
     }
 
     public function testGetOriginalPathInfo()

@@ -47,7 +47,7 @@ class Rviewed
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $collection = \Mage::getModel('\Magento\Reports\Model\Event')
+            $collection = \Mage::getModel('Magento\Reports\Model\Event')
                 ->getCollection()
                 ->addStoreFilter($this->_getStore()->getWebsite()->getStoreIds())
                 ->addRecentlyFiler(\Magento\Reports\Model\Event::EVENT_PRODUCT_VIEW, $this->_getCustomer()->getId(), 0);
@@ -59,7 +59,7 @@ class Rviewed
             $productCollection = parent::getItemsCollection();
             if ($productIds) {
                 $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
-                $productCollection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
+                $productCollection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
                     ->setStoreId($this->_getStore()->getId())
                     ->addStoreFilter($this->_getStore()->getId())
                     ->addAttributeToSelect($attributes)

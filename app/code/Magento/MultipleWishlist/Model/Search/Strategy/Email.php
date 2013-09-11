@@ -49,7 +49,7 @@ class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyI
      */
     public function filterCollection(\Magento\Wishlist\Model\Resource\Wishlist\Collection $collection)
     {
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer')
             ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId())
             ->loadByEmail($this->_email);
 

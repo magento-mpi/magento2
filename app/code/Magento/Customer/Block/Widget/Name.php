@@ -58,7 +58,7 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function getPrefixOptions()
     {
-        $prefixOptions = $this->helper('\Magento\Customer\Helper\Data')->getNamePrefixOptions();
+        $prefixOptions = $this->helper('Magento\Customer\Helper\Data')->getNamePrefixOptions();
 
         if ($this->getObject() && !empty($prefixOptions)) {
             $oldPrefix = $this->escapeHtml(trim($this->getObject()->getPrefix()));
@@ -114,7 +114,7 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function getSuffixOptions()
     {
-        $suffixOptions = $this->helper('\Magento\Customer\Helper\Data')->getNameSuffixOptions();
+        $suffixOptions = $this->helper('Magento\Customer\Helper\Data')->getNameSuffixOptions();
         if ($this->getObject() && !empty($suffixOptions)) {
             $oldSuffix = $this->escapeHtml(trim($this->getObject()->getSuffix()));
             $suffixOptions[$oldSuffix] = $oldSuffix;

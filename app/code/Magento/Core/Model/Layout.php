@@ -234,7 +234,7 @@ class Layout extends \Magento\Simplexml\Config
     {
         if (!$this->_update) {
             $theme = $this->_getThemeInstance($this->getArea());
-            $this->_update = \Mage::getModel('\Magento\Core\Model\Layout\Merge', array('theme' => $theme));
+            $this->_update = \Mage::getModel('Magento\Core\Model\Layout\Merge', array('theme' => $theme));
         }
         return $this->_update;
     }
@@ -251,7 +251,7 @@ class Layout extends \Magento\Simplexml\Config
             return $this->_design->getDesignTheme();
         }
         /** @var \Magento\Core\Model\Resource\Theme\Collection $themeCollection */
-        $themeCollection = \Mage::getResourceModel('\Magento\Core\Model\Resource\Theme\Collection');
+        $themeCollection = \Mage::getResourceModel('Magento\Core\Model\Resource\Theme\Collection');
         $themeIdentifier = $this->_design->getConfigurationDesignTheme($area);
         if (is_numeric($themeIdentifier)) {
             $result = $themeCollection->getItemById($themeIdentifier);
@@ -1605,7 +1605,7 @@ class Layout extends \Magento\Simplexml\Config
         if ($block) {
             return $block;
         }
-        return $this->createBlock('\Magento\Core\Block\Messages', 'messages');
+        return $this->createBlock('Magento\Core\Block\Messages', 'messages');
     }
 
     /**

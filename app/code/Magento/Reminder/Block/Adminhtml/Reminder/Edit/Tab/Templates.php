@@ -126,7 +126,7 @@ class Templates
      */
     public function getTemplatesOptionsArray()
     {
-        $template = \Mage::getModel('\Magento\Backend\Model\Config\Source\Email\Template');
+        $template = \Mage::getModel('Magento\Backend\Model\Config\Source\Email\Template');
         $template->setPath(\Magento\Reminder\Model\Rule::XML_PATH_EMAIL_TEMPLATE);
 
         $options = $template->toOptionArray();

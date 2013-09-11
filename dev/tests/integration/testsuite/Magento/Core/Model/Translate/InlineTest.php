@@ -29,7 +29,7 @@ class Magento_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Core\Model\Translate\Inline');
+        $this->_model = Mage::getModel('Magento\Core\Model\Translate\Inline');
         /* Called getConfig as workaround for setConfig bug */
         Mage::app()->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
         Mage::app()->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);

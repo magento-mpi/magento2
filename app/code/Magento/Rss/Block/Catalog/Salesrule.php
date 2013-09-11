@@ -45,9 +45,9 @@ class Salesrule extends \Magento\Rss\Block\AbstractBlock
         $title       = __('%1 - Discounts and Coupons',Mage::app()->getStore($storeId)->getName());
 
         /** @var $rssObject \Magento\Rss\Model\Rss */
-        $rssObject = \Mage::getModel('\Magento\Rss\Model\Rss');
+        $rssObject = \Mage::getModel('Magento\Rss\Model\Rss');
         /** @var $collection \Magento\SalesRule\Model\Resource\Rule\Collection */
-        $collection = \Mage::getModel('\Magento\SalesRule\Model\Rule')->getResourceCollection();
+        $collection = \Mage::getModel('Magento\SalesRule\Model\Rule')->getResourceCollection();
 
         $data = array(
             'title'       => $title,

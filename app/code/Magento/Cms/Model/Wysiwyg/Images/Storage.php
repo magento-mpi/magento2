@@ -83,7 +83,7 @@ class Storage extends \Magento\Object
     public function getDirsCollection($path)
     {
         if (\Mage::helper('Magento\Core\Helper\File\Storage\Database')->checkDbUsage()) {
-            $subDirectories = \Mage::getModel('\Magento\Core\Model\File\Storage\Directory\Database')
+            $subDirectories = \Mage::getModel('Magento\Core\Model\File\Storage\Directory\Database')
                 ->getSubdirectories($path);
             foreach ($subDirectories as $directory) {
                 $fullPath = rtrim($path, DS) . DS . $directory['name'];
@@ -131,9 +131,9 @@ class Storage extends \Magento\Object
     public function getFilesCollection($path, $type = null)
     {
         if (\Mage::helper('Magento\Core\Helper\File\Storage\Database')->checkDbUsage()) {
-            $files = \Mage::getModel('\Magento\Core\Model\File\Storage\Database')->getDirectoryFiles($path);
+            $files = \Mage::getModel('Magento\Core\Model\File\Storage\Database')->getDirectoryFiles($path);
 
-            $fileStorageModel = \Mage::getModel('\Magento\Core\Model\File\Storage\File');
+            $fileStorageModel = \Mage::getModel('Magento\Core\Model\File\Storage\File');
             foreach ($files as $file) {
                 $fileStorageModel->saveFile($file);
             }
@@ -191,7 +191,7 @@ class Storage extends \Magento\Object
      */
     public function getCollection($path = null)
     {
-        $collection = \Mage::getModel('\Magento\Cms\Model\Wysiwyg\Images\Storage\Collection');
+        $collection = \Mage::getModel('Magento\Cms\Model\Wysiwyg\Images\Storage\Collection');
         if ($path !== null) {
             $collection->addTargetDir($path);
         }
@@ -225,7 +225,7 @@ class Storage extends \Magento\Object
         try {
             if (\Mage::helper('Magento\Core\Helper\File\Storage\Database')->checkDbUsage()) {
                 $relativePath = \Mage::helper('Magento\Core\Helper\File\Storage\Database')->getMediaRelativePath($newPath);
-                \Mage::getModel('\Magento\Core\Model\File\Storage\Directory\Database')->createRecursive($relativePath);
+                \Mage::getModel('Magento\Core\Model\File\Storage\Directory\Database')->createRecursive($relativePath);
             }
 
             $result = array(
@@ -260,7 +260,7 @@ class Storage extends \Magento\Object
 
 
         if (\Mage::helper('Magento\Core\Helper\File\Storage\Database')->checkDbUsage()) {
-            \Mage::getModel('\Magento\Core\Model\File\Storage\Directory\Database')->deleteDirectory($path);
+            \Mage::getModel('Magento\Core\Model\File\Storage\Directory\Database')->deleteDirectory($path);
         }
         try {
             $this->_filesystem->delete($path);

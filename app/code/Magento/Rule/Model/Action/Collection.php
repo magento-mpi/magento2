@@ -92,7 +92,7 @@ class Collection extends \Magento\Rule\Model\Action\AbstractAction
             'name' => 'rule[actions][' . $this->getId() . '][new_child]',
             'values' => $this->getNewChildSelectOptions(),
             'value_name' => $this->getNewChildName(),
-        ))->setRenderer(\Mage::getBlockSingleton('\Magento\Rule\Block\Newchild'));
+        ))->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Newchild'));
     }
 
     /**

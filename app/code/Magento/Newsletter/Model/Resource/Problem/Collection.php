@@ -95,7 +95,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             return;
         }
 
-        $customers = \Mage::getResourceModel('\Magento\Customer\Model\Resource\Customer\Collection')
+        $customers = \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection')
             ->addNameToSelect()
             ->addAttributeToFilter('entity_id', array("in"=>$customersIds));
 

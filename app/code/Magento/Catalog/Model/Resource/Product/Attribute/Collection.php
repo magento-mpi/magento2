@@ -37,7 +37,7 @@ class Collection
      */
     protected function _initSelect()
     {
-        $entityTypeId = (int)\Mage::getModel('\Magento\Eav\Model\Entity')->setType(\Magento\Catalog\Model\Product::ENTITY)
+        $entityTypeId = (int)\Mage::getModel('Magento\Eav\Model\Entity')->setType(\Magento\Catalog\Model\Product::ENTITY)
             ->getTypeId();
         $columns = $this->getConnection()->describeTable($this->getResource()->getMainTable());
         unset($columns['attribute_id']);

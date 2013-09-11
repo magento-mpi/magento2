@@ -150,7 +150,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
 
         // save history action
         if (abs($this->getAmountDelta())) {
-            $history = \Mage::getModel('\Magento\CustomerBalance\Model\Balance\History')
+            $history = \Mage::getModel('Magento\CustomerBalance\Model\Balance\History')
                 ->setBalanceModel($this)
                 ->save();
         }
@@ -172,7 +172,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
             \Mage::throwException(__('A customer ID must be specified.'));
         }
         if (!$this->getCustomer()) {
-            $this->setCustomer(\Mage::getModel('\Magento\Customer\Model\Customer')->load($this->getCustomerId()));
+            $this->setCustomer(\Mage::getModel('Magento\Customer\Model\Customer')->load($this->getCustomerId()));
         }
         if (!$this->getCustomer()->getId()) {
             \Mage::throwException(__('This customer is not set or does not exist.'));

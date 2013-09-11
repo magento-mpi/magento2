@@ -31,7 +31,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('\Magento\Customer\Model\Resource\Customer\Collection')
+        $collection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection')
             ->addNameToSelect()
             ->addAttributeToSelect('email')
             ->addAttributeToSelect('created_at')
@@ -73,7 +73,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'index'     => 'email'
         ));
 
-        $groups = \Mage::getResourceModel('\Magento\Customer\Model\Resource\Group\Collection')
+        $groups = \Mage::getResourceModel('Magento\Customer\Model\Resource\Group\Collection')
             ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();
@@ -175,7 +175,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
              'url'      => $this->getUrl('*/*/massUnsubscribe')
         ));
 
-        $groups = $this->helper('\Magento\Customer\Helper\Data')->getGroups()->toOptionArray();
+        $groups = $this->helper('Magento\Customer\Helper\Data')->getGroups()->toOptionArray();
 
         array_unshift($groups, array('label'=> '', 'value'=> ''));
         $this->getMassactionBlock()->addItem('assign_group', array(

@@ -34,14 +34,14 @@
                     <div class="shipping-description-content">
                         <?php echo __('Total Shipping Charges'); ?>:
 
-                        <?php if ($this->helper('\Magento\Tax\Helper\Data')->displayShippingPriceIncludingTax()): ?>
+                        <?php if ($this->helper('Magento\Tax\Helper\Data')->displayShippingPriceIncludingTax()): ?>
                             <?php $_excl = $this->displayShippingPriceInclTax($_order); ?>
                         <?php else: ?>
                             <?php $_excl = $this->displayPriceAttribute('shipping_amount', false, ' '); ?>
                         <?php endif; ?>
                         <?php $_incl = $this->displayShippingPriceInclTax($_order); ?>
                         <?php echo $_excl; ?>
-                        <?php if ($this->helper('\Magento\Tax\Helper\Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                        <?php if ($this->helper('Magento\Tax\Helper\Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
                         (<?php echo __('Incl. Tax'); ?> <?php echo $_incl; ?>)
                         <?php endif; ?>
                     </div>

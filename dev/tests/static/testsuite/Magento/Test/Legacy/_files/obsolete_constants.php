@@ -66,7 +66,7 @@ return array(
     array('LOCALE_CACHE_LIFETIME', '\Magento\Adminhtml\Block\Page\Footer'),
     array('LOCALE_CACHE_TAG', '\Magento\Adminhtml\Block\Page\Footer'),
     array('PATH_PREFIX_CUSTOMIZATION', '\Magento\Core\Model\Theme'),
-    array('PATH_PREFIX_CUSTOMIZED', 'Magento_Core_Model_Theme_Files'),
+    array('PATH_PREFIX_CUSTOMIZED', '\Magento\Core\Model\Theme\Files'),
     array('PUBLIC_BASE_THEME_DIR', 'Magento_Core_Model_Design_PackageInterface'),
     array('PUBLIC_CACHE_TAG', 'Magento_Core_Model_Design_PackageInterface'),
     array('PUBLIC_MODULE_DIR', 'Magento_Core_Model_Design_PackageInterface',

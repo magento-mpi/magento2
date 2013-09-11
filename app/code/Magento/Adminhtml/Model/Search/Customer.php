@@ -32,7 +32,7 @@ class Customer extends \Magento\Object
             $this->setResults($arr);
             return $this;
         }
-        $collection = \Mage::getResourceModel('\Magento\Customer\Model\Resource\Customer\Collection')
+        $collection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection')
             ->addNameToSelect()
             ->joinAttribute('company', 'customer_address/company', 'default_billing', null, 'left')
             ->addAttributeToFilter(array(

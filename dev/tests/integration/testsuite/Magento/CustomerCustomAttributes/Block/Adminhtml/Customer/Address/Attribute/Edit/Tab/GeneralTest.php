@@ -26,7 +26,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
             ->setDefaultDesignTheme();
         $entityType = Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('customer');
         /** @var $model \Magento\Customer\Model\Attribute */
-        $model = Mage::getModel('\Magento\Customer\Model\Attribute');
+        $model = Mage::getModel('Magento\Customer\Model\Attribute');
         $model->setEntityTypeId($entityType->getId());
         Mage::register('entity_attribute', $model);
 

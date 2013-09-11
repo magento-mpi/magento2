@@ -71,7 +71,7 @@ class Api extends \Magento\Api\Model\Resource\AbstractResource
      */
     protected function _getGiftCard($code)
     {
-        $card = \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')
+        $card = \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
             ->loadByCode($code);
         if (!$card->getId()) {
             $this->_fault('not_exists');

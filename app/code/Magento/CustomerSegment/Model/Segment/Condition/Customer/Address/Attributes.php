@@ -64,7 +64,7 @@ class Attributes
      */
     public function loadAttributeOptions()
     {
-        $customerAttributes = \Mage::getResourceSingleton('\Magento\Customer\Model\Resource\Address')
+        $customerAttributes = \Mage::getResourceSingleton('Magento\Customer\Model\Resource\Address')
             ->loadAllAttributes()
             ->getAttributesByCode();
 
@@ -94,11 +94,11 @@ class Attributes
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = \Mage::getModel('\Magento\Directory\Model\Config\Source\Country')->toOptionArray();
+                    $options = \Mage::getModel('Magento\Directory\Model\Config\Source\Country')->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = \Mage::getModel('\Magento\Directory\Model\Config\Source\Allregion')->toOptionArray();
+                    $options = \Mage::getModel('Magento\Directory\Model\Config\Source\Allregion')->toOptionArray();
                     break;
 
                 default:

@@ -52,10 +52,10 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
                 'name'   => 'website_id',
                 'title'  => __('Website'),
                 'label'  => __('Website'),
-                'values' => \Mage::getModel('\Magento\Reward\Model\Source\Website')->toOptionArray(),
+                'values' => \Mage::getModel('Magento\Reward\Model\Source\Website')->toOptionArray(),
             ));
             $renderer = $this->getLayout()
-                ->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 
@@ -63,7 +63,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             'name'   => 'customer_group_id',
             'title'  => __('Customer Group'),
             'label'  => __('Customer Group'),
-            'values' => \Mage::getModel('\Magento\Reward\Model\Source\Customer\Groups')->toOptionArray()
+            'values' => \Mage::getModel('Magento\Reward\Model\Source\Customer\Groups')->toOptionArray()
         ));
 
         $fieldset->addField('direction', 'select', array(
@@ -74,7 +74,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
         ));
 
         $rateRenderer = $this->getLayout()
-            ->createBlock('\Magento\Reward\Block\Adminhtml\Reward\Rate\Edit\Form\Renderer\Rate')
+            ->createBlock('Magento\Reward\Block\Adminhtml\Reward\Rate\Edit\Form\Renderer\Rate')
             ->setRate($this->getRate());
         $direction = $this->getRate()->getDirection();
         if ($direction == \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY) {

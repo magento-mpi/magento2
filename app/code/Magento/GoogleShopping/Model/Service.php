@@ -89,7 +89,7 @@ class Service extends \Magento\Object
 
             if ($this->getConfig()->getIsDebug($storeId)) {
                 $this->_service
-                    ->setLogAdapter(\Mage::getModel('\Magento\Core\Model\Log\Adapter',
+                    ->setLogAdapter(\Mage::getModel('Magento\Core\Model\Log\Adapter',
                     array('fileName' => 'googleshopping.log')), 'log')
                     ->setDebug(true);
             }

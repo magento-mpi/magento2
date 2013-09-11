@@ -55,7 +55,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             array('customer_email' => 'email')
         );
 
-        $customer = \Mage::getResourceSingleton('\Magento\Customer\Model\Resource\Customer');
+        $customer = \Mage::getResourceSingleton('Magento\Customer\Model\Resource\Customer');
         $adapter  = $this->getConnection();
         $attr     = $customer->getAttribute('firstname');
         $joinExpr = 'firstname.entity_id = main_table.customer_id AND '

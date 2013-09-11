@@ -35,7 +35,7 @@ class Indexer
      */
     private function _createCollection()
     {
-        return \Mage::getResourceModel('\Magento\Index\Model\Resource\Process\Collection');
+        return \Mage::getResourceModel('Magento\Index\Model\Resource\Process\Collection');
     }
 
     /**
@@ -93,7 +93,7 @@ class Indexer
     {
         \Mage::dispatchEvent('start_index_events' . $this->_getEventTypeName($entity, $type));
         /** @var $resourceModel \Magento\Index\Model\Resource\Process */
-        $resourceModel = \Mage::getResourceSingleton('\Magento\Index\Model\Resource\Process');
+        $resourceModel = \Mage::getResourceSingleton('Magento\Index\Model\Resource\Process');
         $resourceModel->beginTransaction();
         try {
             $this->_runAll('indexEvents', array($entity, $type));
@@ -140,7 +140,7 @@ class Indexer
      */
     public function logEvent(\Magento\Object $entity, $entityType, $eventType, $doSave=true)
     {
-        $event = \Mage::getModel('\Magento\Index\Model\Event')
+        $event = \Mage::getModel('Magento\Index\Model\Event')
             ->setEntity($entityType)
             ->setType($eventType)
             ->setDataObject($entity)
@@ -171,7 +171,7 @@ class Indexer
         if ($event->getProcessIds()) {
             \Mage::dispatchEvent('start_process_event' . $this->_getEventTypeName($entityType, $eventType));
             /** @var $resourceModel \Magento\Index\Model\Resource\Process */
-            $resourceModel = \Mage::getResourceSingleton('\Magento\Index\Model\Resource\Process');
+            $resourceModel = \Mage::getResourceSingleton('Magento\Index\Model\Resource\Process');
             $resourceModel->beginTransaction();
             try {
                 $this->indexEvent($event);

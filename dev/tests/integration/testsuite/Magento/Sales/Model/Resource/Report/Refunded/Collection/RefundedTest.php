@@ -15,7 +15,7 @@ class Magento_Sales_Model_Resource_Report_Refunded_Collection_RefundedTest exten
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Refunded\Collection\Refunded');
+        $this->_collection = Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Refunded\Collection\Refunded');
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)

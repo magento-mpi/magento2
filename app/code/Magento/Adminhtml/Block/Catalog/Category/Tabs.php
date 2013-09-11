@@ -93,7 +93,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 
         $attributeSetId     = $this->getCategory()->getDefaultAttributeSetId();
         /** @var $groupCollection \Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection */
-        $groupCollection    = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection')
+        $groupCollection    = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection')
             ->setAttributeSetFilter($attributeSetId)
             ->setSortOrder()
             ->load();

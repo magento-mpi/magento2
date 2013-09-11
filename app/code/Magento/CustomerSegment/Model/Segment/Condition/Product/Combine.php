@@ -49,8 +49,8 @@ class Combine
                 array(
                     array(
                         'value' => array(
-                            \Mage::getModel('\Magento\CustomerSegment\Model\Segment\Condition\Uptodate')->getNewChildSelectOptions(),
-                            \Mage::getModel('\Magento\CustomerSegment\Model\Segment\Condition\Daterange')->getNewChildSelectOptions(),
+                            \Mage::getModel('Magento\CustomerSegment\Model\Segment\Condition\Uptodate')->getNewChildSelectOptions(),
+                            \Mage::getModel('Magento\CustomerSegment\Model\Segment\Condition\Daterange')->getNewChildSelectOptions(),
                         ),
                         'label' => __('Date Ranges')
                     )
@@ -61,7 +61,7 @@ class Combine
         $children = array_merge_recursive(
             $children,
             array(
-                \Mage::getModel('\Magento\CustomerSegment\Model\Segment\Condition\Product\Attributes')->getNewChildSelectOptions()
+                \Mage::getModel('Magento\CustomerSegment\Model\Segment\Condition\Product\Attributes')->getNewChildSelectOptions()
             )
         );
 

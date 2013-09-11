@@ -37,7 +37,7 @@ class Table extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
             $this->_optionsDefault = array();
         }
         if (!isset($this->_options[$storeId])) {
-            $collection = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection')
+            $collection = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection')
                 ->setPositionOrder('asc')
                 ->setAttributeFilter($this->getAttribute()->getId())
                 ->setStoreFilter($this->getAttribute()->getStoreId())
@@ -116,7 +116,7 @@ class Table extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
         $valueExpr = $collection->getSelect()->getAdapter()
             ->getCheckSql("{$valueTable2}.value_id > 0", "{$valueTable2}.value", "{$valueTable1}.value");
 
-        \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Option')
+        \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Option')
             ->addOptionValueToCollection($collection, $this->getAttribute(), $valueExpr);
 
         $collection->getSelect()
@@ -216,7 +216,7 @@ class Table extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      */
     public function getFlatUpdateSelect($store)
     {
-        return \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Option')
+        return \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Option')
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

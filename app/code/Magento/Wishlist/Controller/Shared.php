@@ -32,7 +32,7 @@ class Shared extends \Magento\Wishlist\Controller\AbstractController
             return false;
         }
 
-        $wishlist = \Mage::getModel('\Magento\Wishlist\Model\Wishlist')->loadByCode($code);
+        $wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist')->loadByCode($code);
         if (!$wishlist->getId()) {
             return false;
         }
@@ -59,7 +59,7 @@ class Shared extends \Magento\Wishlist\Controller\AbstractController
         \Mage::register('shared_wishlist', $wishlist);
 
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Checkout\Model\Session');
+        $this->_initLayoutMessages('Magento\Checkout\Model\Session');
         $this->_initLayoutMessages('Magento_Wishlist_Model_Session');
         $this->renderLayout();
     }
@@ -76,7 +76,7 @@ class Shared extends \Magento\Wishlist\Controller\AbstractController
         $itemId = (int) $this->getRequest()->getParam('item');
 
         /* @var $item \Magento\Wishlist\Model\Item */
-        $item = \Mage::getModel('\Magento\Wishlist\Model\Item')->load($itemId);
+        $item = \Mage::getModel('Magento\Wishlist\Model\Item')->load($itemId);
 
 
         /* @var $session \Magento\Core\Model\Session\Generic */
@@ -86,7 +86,7 @@ class Shared extends \Magento\Wishlist\Controller\AbstractController
         $redirectUrl = $this->_getRefererUrl();
 
         try {
-            $options = \Mage::getModel('\Magento\Wishlist\Model\Item\Option')->getCollection()
+            $options = \Mage::getModel('Magento\Wishlist\Model\Item\Option')->getCollection()
                     ->addItemFilter(array($itemId));
             $item->setOptions($options->getOptionsByItem($itemId));
 

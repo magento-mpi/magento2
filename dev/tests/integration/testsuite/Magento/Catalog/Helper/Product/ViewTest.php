@@ -63,7 +63,7 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     {
         $uniqid = uniqid();
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->setTypeId(\Magento\Catalog\Model\Product\Type::DEFAULT_TYPE)->setId(99)->setUrlKey($uniqid);
         Mage::register('product', $product);
 

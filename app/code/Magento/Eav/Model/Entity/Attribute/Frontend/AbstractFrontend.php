@@ -88,7 +88,7 @@ abstract class AbstractFrontend
         if (in_array($this->getConfigField('input'), array('select','boolean'))) {
             $valueOption = $this->getOption($value);
             if (!$valueOption) {
-                $opt     = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Source\Boolean');
+                $opt     = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Source\Boolean');
                 $options = $opt->getAllOptions();
                 if ($options) {
                     foreach ($options as $option) {

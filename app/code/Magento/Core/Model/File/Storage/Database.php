@@ -219,7 +219,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
         $fileInfo = $this->collectFileInfo($filename);
         $filePath = $fileInfo['directory'];
 
-        $directory = \Mage::getModel('\Magento\Core\Model\File\Storage\Directory\Database')->loadByPath($filePath);
+        $directory = \Mage::getModel('Magento\Core\Model\File\Storage\Directory\Database')->loadByPath($filePath);
 
         if (!$directory->getId()) {
             $directory = $this->getDirectoryModel()->createRecursive($filePath);
@@ -278,7 +278,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
         );
 
         $newPath = dirname($newFilePath);
-        $directory = \Mage::getModel('\Magento\Core\Model\File\Storage\Directory\Database')->loadByPath($newPath);
+        $directory = \Mage::getModel('Magento\Core\Model\File\Storage\Directory\Database')->loadByPath($newPath);
 
         if (!$directory->getId()) {
             $directory = $this->getDirectoryModel()->createRecursive($newPath);

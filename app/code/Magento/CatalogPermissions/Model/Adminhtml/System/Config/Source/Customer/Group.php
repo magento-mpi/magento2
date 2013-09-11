@@ -23,7 +23,7 @@ class Group
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $this->_options = \Mage::getResourceModel('\Magento\Customer\Model\Resource\Group\Collection')
+            $this->_options = \Mage::getResourceModel('Magento\Customer\Model\Resource\Group\Collection')
                 ->loadData()->toOptionArray();
         }
         return $this->_options;

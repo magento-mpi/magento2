@@ -27,7 +27,7 @@ class Giftcardaccount extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Gift Card Accounts'));
 
         if ($this->_showCodePoolStatusMessage) {
-            $usage = \Mage::getModel('\Magento\GiftCardAccount\Model\Pool')->getPoolUsageInfo();
+            $usage = \Mage::getModel('Magento\GiftCardAccount\Model\Pool')->getPoolUsageInfo();
 
             $function = 'addNotice';
             if ($usage->getPercent() == 100) {
@@ -80,11 +80,11 @@ class Giftcardaccount extends \Magento\Adminhtml\Controller\Action
             ->_addBreadcrumb($id ? __('Edit Gift Card Account') : __('New Gift Card Account'),
                              $id ? __('Edit Gift Card Account') : __('New Gift Card Account'))
             ->_addContent(
-                $this->getLayout()->createBlock('\Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit')
+                $this->getLayout()->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit')
                     ->setData('form_action_url', $this->getUrl('*/*/save'))
             )
             ->_addLeft(
-                $this->getLayout()->createBlock('\Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tabs')
+                $this->getLayout()->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tabs')
             )
             ->_setActiveMenu('Magento_GiftCardAccount::customer_giftcardaccount')
             ->renderLayout();
@@ -184,7 +184,7 @@ class Giftcardaccount extends \Magento\Adminhtml\Controller\Action
         if ($id = $this->getRequest()->getParam('id')) {
             try {
                 // init model and delete
-                $model = \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount');
+                $model = \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount');
                 $model->load($id);
                 $model->delete();
                 // display success message
@@ -222,7 +222,7 @@ class Giftcardaccount extends \Magento\Adminhtml\Controller\Action
     public function generateAction()
     {
         try {
-            \Mage::getModel('\Magento\GiftCardAccount\Model\Pool')->generatePool();
+            \Mage::getModel('Magento\GiftCardAccount\Model\Pool')->generatePool();
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('New code pool was generated.'));
         } catch (\Magento\Core\Exception $e) {
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
@@ -256,7 +256,7 @@ class Giftcardaccount extends \Magento\Adminhtml\Controller\Action
         $this->loadLayout();
         $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('\Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\History')
+                ->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\History')
                 ->toHtml()
         );
     }
@@ -271,7 +271,7 @@ class Giftcardaccount extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Gift Card Accounts'));
 
         $id = (int)$this->getRequest()->getParam($idFieldName);
-        $model = \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount');
+        $model = \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount');
         if ($id) {
             $model->load($id);
         }

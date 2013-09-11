@@ -237,7 +237,7 @@ abstract class AbstractCarrier extends \Magento\Object
              } elseif ($showMethod && (!$availableCountries || ($availableCountries
                  && !in_array($request->getDestCountryId(), $availableCountries)))
              ){
-                   $error = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Error');
+                   $error = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Error');
                    $error->setCarrier($this->_code);
                    $error->setCarrierTitle($this->getConfigData('title'));
                    $errorMsg = $this->getConfigData('specificerrmsg');
@@ -522,7 +522,7 @@ abstract class AbstractCarrier extends \Magento\Object
     protected function _debug($debugData)
     {
         if ($this->getDebugFlag()) {
-            \Mage::getModel('\Magento\Core\Model\Log\Adapter',
+            \Mage::getModel('Magento\Core\Model\Log\Adapter',
                 array('fileName' => 'shipping_' . $this->getCarrierCode() . '.log'))
                ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
                ->log($debugData);

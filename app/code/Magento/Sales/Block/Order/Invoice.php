@@ -29,7 +29,7 @@ class Invoice extends \Magento\Sales\Block\Order\Invoice\Items
         }
         $this->setChild(
             'payment_info',
-            $this->helper('\Magento\Payment\Helper\Data')->getInfoBlock($this->getOrder()->getPayment())
+            $this->helper('Magento\Payment\Helper\Data')->getInfoBlock($this->getOrder()->getPayment())
         );
     }
 

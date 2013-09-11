@@ -44,7 +44,7 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
         $customer = \Mage::registry('current_customer');
         $storeIds = \Mage::app()->getWebsite($this->getWebsiteId())->getStoreIds();
 
-        $quote = \Mage::getModel('\Magento\Sales\Model\Quote')
+        $quote = \Mage::getModel('Magento\Sales\Model\Quote')
             ->setSharedStoreIds($storeIds)
             ->loadByCustomer($customer);
 

@@ -53,7 +53,7 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
             /* @var $reward \Magento\Reward\Model\Reward */
             $reward = $quote->getRewardInstance();
             if (!$reward || !$reward->getId()) {
-                $reward = \Mage::getModel('\Magento\Reward\Model\Reward')
+                $reward = \Mage::getModel('Magento\Reward\Model\Reward')
                     ->setCustomer($quote->getCustomer())
                     ->setCustomerId($quote->getCustomer()->getId())
                     ->setWebsiteId($quote->getStore()->getWebsiteId())

@@ -29,7 +29,7 @@ class Most extends \Magento\Adminhtml\Block\Dashboard\Grid
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Order\Collection');
+        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Order\Collection');
         /* @var $collection \Magento\Reports\Model\Resource\Order\Collection */
         $collection
             ->groupByCustomer()

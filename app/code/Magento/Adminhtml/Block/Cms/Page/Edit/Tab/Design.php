@@ -95,7 +95,7 @@ class Design
         ));
 
         /** @var $label \Magento\Core\Model\Theme\Label */
-        $label = \Mage::getModel('\Magento\Core\Model\Theme\Label');
+        $label = \Mage::getModel('Magento\Core\Model\Theme\Label');
         $options = $label->getLabelsCollection(__('-- Please Select --'));
         $designFieldset->addField('custom_theme', 'select', array(
             'name'      => 'custom_theme',

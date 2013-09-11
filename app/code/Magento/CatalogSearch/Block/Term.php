@@ -32,7 +32,7 @@ class Term extends \Magento\Core\Block\Template
     {
         if (empty($this->_terms)) {
             $this->_terms = array();
-            $terms = \Mage::getResourceModel('\Magento\CatalogSearch\Model\Resource\Query\Collection')
+            $terms = \Mage::getResourceModel('Magento\CatalogSearch\Model\Resource\Query\Collection')
                 ->setPopularQueryFilter(\Mage::app()->getStore()->getId())
                 ->setPageSize(100)
                 ->load()
@@ -72,7 +72,7 @@ class Term extends \Magento\Core\Block\Template
 
     public function getSearchUrl($obj)
     {
-        $url = \Mage::getModel('\Magento\Core\Model\Url');
+        $url = \Mage::getModel('Magento\Core\Model\Url');
         /*
         * url encoding will be done in Url.php http_build_query
         * so no need to explicitly called urlencode for the text

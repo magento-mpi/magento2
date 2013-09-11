@@ -39,7 +39,7 @@ class Salesrule extends \Magento\Reward\Model\Action\AbstractAction
             if ($this->_quote->getAppliedRuleIds()) { 
                 $ruleIds = explode(',', $this->_quote->getAppliedRuleIds());
                 $ruleIds = array_unique($ruleIds);
-                $data = \Mage::getResourceModel('\Magento\Reward\Model\Resource\Reward')->getRewardSalesrule($ruleIds);
+                $data = \Mage::getResourceModel('Magento\Reward\Model\Resource\Reward')->getRewardSalesrule($ruleIds);
                 foreach ($data as $rule) {
                     $pointsDelta += (int)$rule['points_delta'];
                 }

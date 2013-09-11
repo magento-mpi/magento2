@@ -108,7 +108,7 @@ class Messages extends \Magento\Backend\Block\Template
      */
     public function getSystemMessageDialogJson()
     {
-        return $this->helper('\Magento\Core\Helper\Data')->jsonEncode(array(
+        return $this->helper('Magento\Core\Helper\Data')->jsonEncode(array(
             'systemMessageDialog' => array(
                 'autoOpen' => false,
                 'width' => 600,

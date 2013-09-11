@@ -41,7 +41,7 @@ class Form extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
         $categoryId = (int) $category->getId(); // 0 when we create category, otherwise some value for editing category
 
         $this->setChild('tabs',
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Category\Tabs', 'tabs')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Category\Tabs', 'tabs')
         );
 
         // Save button
@@ -135,7 +135,7 @@ class Form extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
             $config['element_name'] = $config['name'];
         }
         $this->setChild($alias . '_button',
-                        $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')->addData($config));
+                        $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->addData($config));
         $this->_additionalButtons[$alias] = $alias . '_button';
         return $this;
     }

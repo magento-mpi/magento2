@@ -48,7 +48,7 @@ class Reorder extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\Abstra
     public function getLastOrder()
     {
         $storeIds = $this->getQuote()->getStore()->getWebsite()->getStoreIds();
-        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Collection')
+        $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Collection')
             ->addFieldToFilter('customer_id', $this->getCustomerId())
             ->addFieldToFilter('store_id', array('in' => $storeIds))
             ->setOrder('created_at', 'desc')

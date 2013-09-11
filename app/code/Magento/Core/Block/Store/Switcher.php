@@ -38,10 +38,10 @@ class Switcher extends \Magento\Core\Block\Template
         }
 
         $websiteId = \Mage::app()->getStore()->getWebsiteId();
-        $storeCollection = \Mage::getModel('\Magento\Core\Model\Store')
+        $storeCollection = \Mage::getModel('Magento\Core\Model\Store')
             ->getCollection()
             ->addWebsiteFilter($websiteId);
-        $groupCollection = \Mage::getModel('\Magento\Core\Model\Store\Group')
+        $groupCollection = \Mage::getModel('Magento\Core\Model\Store\Group')
             ->getCollection()
             ->addWebsiteFilter($websiteId);
         foreach ($groupCollection as $group) {

@@ -33,15 +33,15 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
         $this->addTab('form_section', array(
             'label'     => __('Rating Information'),
             'title'     => __('Rating Information'),
-            'content'   => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Rating\Edit\Tab\Form')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('Magento\Adminhtml\Block\Rating\Edit\Tab\Form')->toHtml(),
         ))
         ;
 /*
         $this->addTab('answers_section', array(
                 'label'     => __('Rating Options'),
                 'title'     => __('Rating Options'),
-                'content'   => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Rating\Edit\Tab\Options')
-                    ->append($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Rating\Edit\Tab\Options'))
+                'content'   => $this->getLayout()->createBlock('Magento\Adminhtml\Block\Rating\Edit\Tab\Options')
+                    ->append($this->getLayout()->createBlock('Magento\Adminhtml\Block\Rating\Edit\Tab\Options'))
                     ->toHtml(),
            ));*/
         return parent::_beforeToHtml();

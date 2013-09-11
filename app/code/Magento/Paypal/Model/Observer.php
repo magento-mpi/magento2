@@ -25,7 +25,7 @@ class Observer
     public function fetchReports()
     {
         try {
-            $reports = \Mage::getModel('\Magento\Paypal\Model\Report\Settlement');
+            $reports = \Mage::getModel('Magento\Paypal\Model\Report\Settlement');
             /* @var $reports \Magento\Paypal\Model\Report\Settlement */
             $credentials = $reports->getSftpCredentials(true);
             foreach ($credentials as $config) {

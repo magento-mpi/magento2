@@ -30,8 +30,8 @@ class Magento_Core_Model_ModuleManagerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_moduleList = $this->getMockForAbstractClass('\Magento\Core\Model\ModuleListInterface');
-        $this->_storeConfig = $this->getMockForAbstractClass('\Magento\Core\Model\Store\ConfigInterface');
+        $this->_moduleList = $this->getMockForAbstractClass('Magento\Core\Model\ModuleListInterface');
+        $this->_storeConfig = $this->getMockForAbstractClass('Magento\Core\Model\Store\ConfigInterface');
         $this->_model = new \Magento\Core\Model\ModuleManager($this->_storeConfig, $this->_moduleList, array(
             'Module_DisabledOutputOne' => self::XML_PATH_OUTPUT_ENABLED,
             'Module_DisabledOutputTwo' => 'Magento_Core_Model_ModuleManagerTest::XML_PATH_OUTPUT_ENABLED',

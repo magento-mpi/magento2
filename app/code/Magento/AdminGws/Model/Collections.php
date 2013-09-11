@@ -257,7 +257,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function limitAdminPermissionRoles($collection)
     {
-        $limited = \Mage::getResourceModel('\Magento\AdminGws\Model\Resource\Collections')
+        $limited = \Mage::getResourceModel('Magento\AdminGws\Model\Resource\Collections')
             ->getRolesOutsideLimitedScope(
                 $this->_role->getIsAll(),
                 $this->_role->getWebsiteIds(),
@@ -274,7 +274,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function limitAdminPermissionUsers($collection)
     {
-        $limited = \Mage::getResourceModel('\Magento\AdminGws\Model\Resource\Collections')
+        $limited = \Mage::getResourceModel('Magento\AdminGws\Model\Resource\Collections')
             ->getUsersOutsideLimitedScope(
                 $this->_role->getIsAll(),
                 $this->_role->getWebsiteIds(),

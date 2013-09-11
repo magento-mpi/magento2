@@ -94,7 +94,7 @@ abstract class Consumer extends \Magento\Core\Model\AbstractModel implements \Ma
         }
 
         /** @var $validatorLength \Magento\Oauth\Model\Consumer\Validator\KeyLength */
-        $validatorLength = \Mage::getModel('\Magento\Oauth\Model\Consumer\Validator\KeyLength',
+        $validatorLength = \Mage::getModel('Magento\Oauth\Model\Consumer\Validator\KeyLength',
             array('options' => array(
                 'length' => self::KEY_LENGTH
             )));

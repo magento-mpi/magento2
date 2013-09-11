@@ -18,7 +18,7 @@ class Magento_Catalog_Block_Layer_ViewTest extends PHPUnit_Framework_TestCase
      */
     public function testGetFilters()
     {
-        $currentCategory = Mage::getModel('\Magento\Catalog\Model\Category');
+        $currentCategory = Mage::getModel('Magento\Catalog\Model\Category');
         $currentCategory->load(3);
 
         /** @var $layer \Magento\Catalog\Model\Layer */
@@ -26,9 +26,9 @@ class Magento_Catalog_Block_Layer_ViewTest extends PHPUnit_Framework_TestCase
         $layer->setCurrentCategory($currentCategory);
 
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $layout = Mage::getModel('Magento\Core\Model\Layout');
         /** @var $block \Magento\Catalog\Block\Layer\View */
-        $block = $layout->createBlock('\Magento\Catalog\Block\Layer\View', 'block');
+        $block = $layout->createBlock('Magento\Catalog\Block\Layer\View', 'block');
 
         $filters = $block->getFilters();
 

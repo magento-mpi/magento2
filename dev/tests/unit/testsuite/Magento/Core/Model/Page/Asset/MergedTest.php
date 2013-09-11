@@ -45,12 +45,12 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_assetJsOne = $this->getMockForAbstractClass('\Magento\Core\Model\Page\Asset\MergeableInterface');
+        $this->_assetJsOne = $this->getMockForAbstractClass('Magento\Core\Model\Page\Asset\MergeableInterface');
         $this->_assetJsOne->expects($this->any())->method('getContentType')->will($this->returnValue('js'));
         $this->_assetJsOne->expects($this->any())->method('getSourceFile')
             ->will($this->returnValue('/pub/script_one.js'));
 
-        $this->_assetJsTwo = $this->getMockForAbstractClass('\Magento\Core\Model\Page\Asset\MergeableInterface');
+        $this->_assetJsTwo = $this->getMockForAbstractClass('Magento\Core\Model\Page\Asset\MergeableInterface');
         $this->_assetJsTwo->expects($this->any())->method('getContentType')->will($this->returnValue('js'));
         $this->_assetJsTwo->expects($this->any())->method('getSourceFile')
             ->will($this->returnValue('/pub/script_two.js'));
@@ -101,7 +101,7 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
      */
     public function testConstructorIncompatibleContentTypes()
     {
-        $assetCss = $this->getMockForAbstractClass('\Magento\Core\Model\Page\Asset\MergeableInterface');
+        $assetCss = $this->getMockForAbstractClass('Magento\Core\Model\Page\Asset\MergeableInterface');
         $assetCss->expects($this->any())->method('getContentType')->will($this->returnValue('css'));
         $assetCss->expects($this->any())->method('getSourceFile')->will($this->returnValue('style.css'));
 
@@ -128,7 +128,7 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
             ->with($publicFiles, $mergedFile, 'js')
             ->will($this->returnValue(null));
 
-        $mergedAsset = $this->getMockForAbstractClass('\Magento\Core\Model\Page\Asset\MergeableInterface');
+        $mergedAsset = $this->getMockForAbstractClass('Magento\Core\Model\Page\Asset\MergeableInterface');
         $this->_objectManager
             ->expects($this->once())
             ->method('create')
@@ -144,7 +144,7 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
     public function testIteratorInterfaceMergeFailure()
     {
         $mergeError = new Exception('File not found');
-        $assetBroken = $this->getMockForAbstractClass('\Magento\Core\Model\Page\Asset\MergeableInterface');
+        $assetBroken = $this->getMockForAbstractClass('Magento\Core\Model\Page\Asset\MergeableInterface');
         $assetBroken->expects($this->any())->method('getContentType')->will($this->returnValue('js'));
         $assetBroken->expects($this->any())->method('getSourceFile')
             ->will($this->throwException($mergeError));

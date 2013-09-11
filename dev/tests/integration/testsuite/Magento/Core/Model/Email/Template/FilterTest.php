@@ -18,7 +18,7 @@ class Magento_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_Tes
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Core\Model\Email\Template\Filter');
+        $this->_model = Mage::getModel('Magento\Core\Model\Email\Template\Filter');
     }
 
     /**
@@ -96,7 +96,7 @@ class Magento_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_Tes
             )
         ));
 
-        $collection = Mage::getModel('\Magento\Core\Model\Resource\Theme\Collection');
+        $collection = Mage::getModel('Magento\Core\Model\Resource\Theme\Collection');
         $themeId = $collection->getThemeByFullPath('frontend/test_default')->getId();
         Mage::app()->getStore()->setConfig(\Magento\Core\Model\View\Design::XML_PATH_THEME_ID, $themeId);
 

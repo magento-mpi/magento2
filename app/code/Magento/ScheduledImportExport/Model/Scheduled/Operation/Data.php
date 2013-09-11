@@ -46,9 +46,9 @@ class Data
     public function __construct(array $data = array())
     {
         $this->_importExportConfig = isset($data['import_export_config']) ? $data['import_export_config']
-            : \Mage::getModel('\Magento\ImportExport\Model\Config');
+            : \Mage::getModel('Magento\ImportExport\Model\Config');
         $this->_importModel = isset($data['import_model']) ? $data['import_model']
-            : \Mage::getModel('\Magento\ImportExport\Model\Import');
+            : \Mage::getModel('Magento\ImportExport\Model\Import');
     }
 
     /**

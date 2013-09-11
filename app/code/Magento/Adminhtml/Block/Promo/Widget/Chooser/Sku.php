@@ -76,7 +76,7 @@ class Sku extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection')
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection')
             ->setStoreId(0)
             ->addAttributeToSelect('name', 'type_id', 'attribute_set_id');
 
@@ -118,8 +118,8 @@ class Sku extends \Magento\Adminhtml\Block\Widget\Grid
                 'options' => \Mage::getSingleton('Magento\Catalog\Model\Product\Type')->getOptionArray(),
         ));
 
-        $sets = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
-            ->setEntityTypeFilter(\Mage::getModel('\Magento\Catalog\Model\Product')->getResource()->getTypeId())
+        $sets = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
+            ->setEntityTypeFilter(\Mage::getModel('Magento\Catalog\Model\Product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 

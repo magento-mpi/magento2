@@ -25,7 +25,7 @@ class Magento_Code_MinifierTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_strategy = $this->getMockForAbstractClass('\Magento\Code\Minifier\StrategyInterface');
+        $this->_strategy = $this->getMockForAbstractClass('Magento\Code\Minifier\StrategyInterface');
         $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $this->_minifier = new \Magento\Code\Minifier($this->_strategy, $this->_filesystem, __DIR__);
     }

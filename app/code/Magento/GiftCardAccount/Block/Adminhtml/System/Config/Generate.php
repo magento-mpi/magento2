@@ -35,6 +35,6 @@ class Generate extends \Magento\Backend\Block\System\Config\Form\Field
      */
     public function getUsage()
     {
-        return \Mage::getModel('\Magento\GiftCardAccount\Model\Pool')->getPoolUsageInfo();
+        return \Mage::getModel('Magento\GiftCardAccount\Model\Pool')->getPoolUsageInfo();
     }
 }

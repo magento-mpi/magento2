@@ -33,10 +33,10 @@ class Wishlist extends \Magento\Adminhtml\Block\Template
     {
         $this->setChild(
             'grid',
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Wishlist\Grid', 'report.grid')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Wishlist\Grid', 'report.grid')
         );
 
-        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Wishlist\Collection');
+        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Wishlist\Collection');
 
         list($customerWithWishlist, $wishlistsCount) = $collection->getWishlistCustomerCount();
         $this->setCustomerWithWishlist($customerWithWishlist);

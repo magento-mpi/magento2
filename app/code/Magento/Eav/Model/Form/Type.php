@@ -118,10 +118,10 @@ class Type extends \Magento\Core\Model\AbstractModel
      */
     public function createFromSkeleton(\Magento\Eav\Model\Form\Type $skeleton)
     {
-        $fieldsetCollection = \Mage::getModel('\Magento\Eav\Model\Form\Fieldset')->getCollection()
+        $fieldsetCollection = \Mage::getModel('Magento\Eav\Model\Form\Fieldset')->getCollection()
             ->addTypeFilter($skeleton)
             ->setSortOrder();
-        $elementCollection = \Mage::getModel('\Magento\Eav\Model\Form\Element')->getCollection()
+        $elementCollection = \Mage::getModel('Magento\Eav\Model\Form\Element')->getCollection()
             ->addTypeFilter($skeleton)
             ->setSortOrder();
 
@@ -129,7 +129,7 @@ class Type extends \Magento\Core\Model\AbstractModel
         $fieldsetMap = array();
         foreach ($fieldsetCollection as $skeletonFieldset) {
             /* @var $skeletonFieldset \Magento\Eav\Model\Form\Fieldset */
-            $fieldset = \Mage::getModel('\Magento\Eav\Model\Form\Fieldset');
+            $fieldset = \Mage::getModel('Magento\Eav\Model\Form\Fieldset');
             $fieldset->setTypeId($this->getId())
                 ->setCode($skeletonFieldset->getCode())
                 ->setLabels($skeletonFieldset->getLabels())
@@ -141,7 +141,7 @@ class Type extends \Magento\Core\Model\AbstractModel
         // copy elements
         foreach ($elementCollection as $skeletonElement) {
             /* @var $skeletonElement \Magento\Eav\Model\Form\Element */
-            $element = \Mage::getModel('\Magento\Eav\Model\Form\Element');
+            $element = \Mage::getModel('Magento\Eav\Model\Form\Element');
             $fieldsetId = null;
             if ($skeletonElement->getFieldsetId()) {
                 $fieldsetId = $fieldsetMap[$skeletonElement->getFieldsetId()];

@@ -32,7 +32,7 @@ class Options extends \Magento\Core\Block\Template
     {
         if (is_null($this->_designCollection)) {
             $store = \Mage::app()->getStore();
-            $this->_designCollection = \Mage::getModel('\Magento\GiftWrapping\Model\Wrapping')->getCollection()
+            $this->_designCollection = \Mage::getModel('Magento\GiftWrapping\Model\Wrapping')->getCollection()
                 ->addStoreAttributesToResult($store->getId())
                 ->applyStatusFilter()
                 ->applyWebsiteFilter($store->getWebsiteId());
@@ -47,7 +47,7 @@ class Options extends \Magento\Core\Block\Template
      */
     public function getDesignSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setData(array(
             'id'    => 'giftwrapping-${_id_}',
             'class' => 'select'
@@ -319,8 +319,8 @@ class Options extends \Magento\Core\Block\Template
      */
     public function canDisplayGiftWrapping()
     {
-        $cartItems      = \Mage::getModel('\Magento\Checkout\Model\Cart')->getItems();
-        $productModel   = \Mage::getModel('\Magento\Catalog\Model\Product');
+        $cartItems      = \Mage::getModel('Magento\Checkout\Model\Cart')->getItems();
+        $productModel   = \Mage::getModel('Magento\Catalog\Model\Product');
         foreach ($cartItems as $item) {
             $product = $productModel->load($item->getProductId());
             if ($product->getGiftWrappingAvailable()) {

@@ -39,7 +39,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareCollection()
     {
         /** @var $collection \Magento\Sales\Model\Resource\Order\Grid\Collection */
-        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Grid\Collection')
+        $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Grid\Collection')
             ->setOrder('entity_id');
         $this->setCollection($collection);
         return parent::_prepareCollection();

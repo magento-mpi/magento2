@@ -36,7 +36,7 @@ class Api extends \Magento\Customer\Model\Api\Resource
      */
     public function items($customerId)
     {
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer')
             ->load($customerId);
         /* @var $customer \Magento\Customer\Model\Customer */
 
@@ -77,7 +77,7 @@ class Api extends \Magento\Customer\Model\Api\Resource
      */
     public function info($addressId)
     {
-        $address = \Mage::getModel('\Magento\Customer\Model\Address')
+        $address = \Mage::getModel('Magento\Customer\Model\Address')
             ->load($addressId);
 
         if (!$address->getId()) {
@@ -111,7 +111,7 @@ class Api extends \Magento\Customer\Model\Api\Resource
      */
     public function delete($addressId)
     {
-        $address = \Mage::getModel('\Magento\Customer\Model\Address')
+        $address = \Mage::getModel('Magento\Customer\Model\Address')
             ->load($addressId);
 
         if (!$address->getId()) {

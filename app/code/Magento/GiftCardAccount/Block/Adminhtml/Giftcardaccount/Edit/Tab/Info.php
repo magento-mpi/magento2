@@ -105,7 +105,7 @@ class Info extends \Magento\Adminhtml\Block\Widget\Form
                 'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteValuesForForm(true),
             ));
             $renderer = $this->getLayout()
-                ->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 

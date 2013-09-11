@@ -25,7 +25,7 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
         $source->rewind();
         $expected = $source->current();
         /** @var $model \Magento\ImportExport\Model\Import\EntityAbstract|PHPUnit_Framework_MockObject_MockObject */
-        $model = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Import\EntityAbstract');
+        $model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\EntityAbstract');
         $model->expects($this->any())
             ->method('validateRow')
             ->will($this->returnValue(true));

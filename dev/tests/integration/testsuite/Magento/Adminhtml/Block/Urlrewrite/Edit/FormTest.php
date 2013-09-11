@@ -24,9 +24,9 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
     protected function _getFormInstance($args = array())
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $layout = Mage::getModel('Magento\Core\Model\Layout');
         /** @var $block \Magento\Adminhtml\Block\Urlrewrite\Edit\Form */
-        $block = $layout->createBlock('\Magento\Adminhtml\Block\Urlrewrite\Edit\Form', 'block', array('data' => $args));
+        $block = $layout->createBlock('Magento\Adminhtml\Block\Urlrewrite\Edit\Form', 'block', array('data' => $args));
         $block->setTemplate(null);
         $block->toHtml();
         return $block->getForm();
@@ -75,7 +75,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
             'options'      => 'options',
             'description'  => 'description'
         );
-        Mage::getModel('\Magento\Adminhtml\Model\Session')->setUrlrewriteData($sessionValues);
+        Mage::getModel('Magento\Adminhtml\Model\Session')->setUrlrewriteData($sessionValues);
         // Re-init form to use newly set session data
         $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object()));
 

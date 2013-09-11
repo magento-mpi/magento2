@@ -20,7 +20,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_IndexTest extends PHP
 
     protected function setUp()
     {
-        $this->_indexModel = Mage::getModel('\Magento\CatalogPermissions\Model\Permission\Index');
+        $this->_indexModel = Mage::getModel('Magento\CatalogPermissions\Model\Permission\Index');
     }
 
     /**

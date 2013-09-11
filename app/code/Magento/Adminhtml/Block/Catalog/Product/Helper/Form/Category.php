@@ -61,7 +61,7 @@ class Category extends \Magento\Data\Form\Element\Multiselect
      */
     protected function _getCategoriesCollection()
     {
-        return \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Category\Collection');
+        return \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Collection');
     }
 
     /**
@@ -79,7 +79,7 @@ class Category extends \Magento\Data\Form\Element\Multiselect
         $newCategoryCaption = __('New Category');
 
         $button = $this->_layout
-            ->createBlock('\Magento\Backend\Block\Widget\Button')
+            ->createBlock('Magento\Backend\Block\Widget\Button')
             ->setData(array(
                 'id'        => 'add_category_button',
                 'label'     => $newCategoryCaption,

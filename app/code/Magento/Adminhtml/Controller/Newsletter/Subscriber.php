@@ -77,7 +77,7 @@ class Subscriber extends \Magento\Adminhtml\Controller\Action
         else {
             try {
                 foreach ($subscribersIds as $subscriberId) {
-                    $subscriber = \Mage::getModel('\Magento\Newsletter\Model\Subscriber')->load($subscriberId);
+                    $subscriber = \Mage::getModel('Magento\Newsletter\Model\Subscriber')->load($subscriberId);
                     $subscriber->unsubscribe();
                 }
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
@@ -100,7 +100,7 @@ class Subscriber extends \Magento\Adminhtml\Controller\Action
         else {
             try {
                 foreach ($subscribersIds as $subscriberId) {
-                    $subscriber = \Mage::getModel('\Magento\Newsletter\Model\Subscriber')->load($subscriberId);
+                    $subscriber = \Mage::getModel('Magento\Newsletter\Model\Subscriber')->load($subscriberId);
                     $subscriber->delete();
                 }
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(

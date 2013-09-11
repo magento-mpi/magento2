@@ -25,7 +25,7 @@ class Magento_Catalog_Model_CategoryTreeTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Catalog\Model\Category');
+        $this->_model = Mage::getModel('Magento\Catalog\Model\Category');
     }
 
     public function testMove()

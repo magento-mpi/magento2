@@ -96,7 +96,7 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
                 $currentStoreId = \Mage::app()->getStore()->getId();
             }
 
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->setStoreId($currentStoreId)
                 ->load($configureResult->getProductId());
             if (!$product->getId()) {
@@ -110,7 +110,7 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
             if (!$currentCustomer) {
                 $currentCustomerId = (int) $configureResult->getCurrentCustomerId();
                 if ($currentCustomerId) {
-                    $currentCustomer = \Mage::getModel('\Magento\Customer\Model\Customer')
+                    $currentCustomer = \Mage::getModel('Magento\Customer\Model\Customer')
                         ->load($currentCustomerId);
                 }
             }

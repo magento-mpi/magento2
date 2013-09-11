@@ -37,7 +37,7 @@ class Event extends \Magento\Core\Model\AbstractModel
         if (!$this->getId()) {
             $this->setStatus($this->getIsSuccess() ? self::RESULT_SUCCESS : self::RESULT_FAILURE);
             if (!$this->getUser() && $id = $this->getUserId()) {
-                $this->setUser(\Mage::getModel('\Magento\User\Model\User')->load($id)->getUserName());
+                $this->setUser(\Mage::getModel('Magento\User\Model\User')->load($id)->getUserName());
             }
             if (!$this->hasTime()) {
                 $this->setTime(time());

@@ -151,7 +151,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
      */
     protected function _afterSave()
     {
-        \Mage::getModel('\Magento\Invitation\Model\Invitation\History')
+        \Mage::getModel('Magento\Invitation\Model\Invitation\History')
             ->setInvitationId($this->getId())->setStatus($this->getStatus())
             ->save();
         $parent = parent::_afterSave();
@@ -170,7 +170,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     {
         $this->makeSureCanBeSent();
         $store = \Mage::app()->getStore($this->getStoreId());
-        $mail  = \Mage::getModel('\Magento\Core\Model\Email\Template');
+        $mail  = \Mage::getModel('Magento\Core\Model\Email\Template');
         $mail->setDesignConfig(array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $this->getStoreId()))
             ->sendTransactional(
                 $store->getConfig(self::XML_PATH_EMAIL_TEMPLATE), $store->getConfig(self::XML_PATH_EMAIL_IDENTITY),
@@ -262,7 +262,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
 
         // lookup customer by specified email/website id
         if (!isset(self::$_customerExistsLookup[$email]) || !isset(self::$_customerExistsLookup[$email][$websiteId])) {
-            $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->setWebsiteId($websiteId)->loadByEmail($email);
+            $customer = \Mage::getModel('Magento\Customer\Model\Customer')->setWebsiteId($websiteId)->loadByEmail($email);
             self::$_customerExistsLookup[$email][$websiteId] = ($customer->getId() ? $customer->getId() : false);
         }
         if (false === self::$_customerExistsLookup[$email][$websiteId]) {

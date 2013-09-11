@@ -38,7 +38,7 @@ class AbstractGrid extends \Magento\Adminhtml\Block\Widget\Grid
     public function getCollection()
     {
         if (is_null($this->_collection)) {
-            $this->setCollection(\Mage::getModel('\Magento\Reports\Model\Grouped\Collection'));
+            $this->setCollection(\Mage::getModel('Magento\Reports\Model\Grouped\Collection'));
         }
         return $this->_collection;
     }

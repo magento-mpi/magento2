@@ -18,7 +18,7 @@ class Magento_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Widget\Model\Widget');
+        $this->_model = Mage::getModel('Magento\Widget\Model\Widget');
     }
 
     public function testGetWidgetsArray()

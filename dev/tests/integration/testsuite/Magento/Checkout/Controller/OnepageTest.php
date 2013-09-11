@@ -17,7 +17,7 @@ class Magento_Checkout_Controller_OnepageTest extends Magento_TestFramework_Test
     protected function setUp()
     {
         parent::setUp();
-        $quote = Mage::getModel('\Magento\Sales\Model\Quote');
+        $quote = Mage::getModel('Magento\Sales\Model\Quote');
         $quote->load('test01', 'reserved_order_id');
         Mage::getSingleton('Magento\Checkout\Model\Session')->setQuoteId($quote->getId());
     }

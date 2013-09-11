@@ -69,28 +69,28 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
             $urlKey = $form->getElement('url_key');
             if ($urlKey) {
                 $urlKey->setRenderer(
-                    $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Form\Renderer\Attribute\Urlkey')
+                    $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Form\Renderer\Attribute\Urlkey')
                 );
             }
 
             $tierPrice = $form->getElement('tier_price');
             if ($tierPrice) {
                 $tierPrice->setRenderer(
-                    $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Tier')
+                    $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Tier')
                 );
             }
 
             $groupPrice = $form->getElement('group_price');
             if ($groupPrice) {
                 $groupPrice->setRenderer(
-                    $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Group')
+                    $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Group')
                 );
             }
 
             $recurringProfile = $form->getElement('recurring_profile');
             if ($recurringProfile) {
                 $recurringProfile->setRenderer(
-                    $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Recurring')
+                    $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Recurring')
                 );
             }
 
@@ -100,7 +100,7 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
                 && $isWrapped
             ) {
                 $attributeCreate = $this->getLayout()
-                    ->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes\Create');
+                    ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes\Create');
 
                 $attributeCreate->getConfig()
                     ->setAttributeGroupCode($group->getAttributeGroupCode())
@@ -112,7 +112,7 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
                     ->setProductId($form->getDataObject()->getId());
 
                 $attributeSearch = $this->getLayout()
-                    ->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes\Search')
+                    ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes\Search')
                     ->setGroupId($group->getId())
                     ->setGroupCode($group->getAttributeGroupCode());
 

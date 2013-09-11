@@ -28,7 +28,7 @@ class Collection extends \Magento\Data\Collection\Filesystem
     public function __construct()
     {
         parent::__construct();
-        $basePath = \Mage::getModel('\Magento\Logging\Model\Archive')->getBasePath();
+        $basePath = \Mage::getModel('Magento\Logging\Model\Archive')->getBasePath();
         $file = new \Magento\Io\File();
         $file->setAllowCreateFolders(true)->createDestinationDir($basePath);
         $this->addTargetDir($basePath);

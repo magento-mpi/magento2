@@ -94,8 +94,8 @@ jQuery(function($) {
     });
     $form.mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
 
-    var masks = <?php echo $this->helper('\Magento\Core\Helper\Data')->jsonEncode($this->getFieldsAutogenerationMasks())?>;
-    var availablePlaceholders = <?php echo $this->helper('\Magento\Core\Helper\Data')->jsonEncode($this->getAttributesAllowedForAutogeneration())?>;
+    var masks = <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getFieldsAutogenerationMasks())?>;
+    var availablePlaceholders = <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getAttributesAllowedForAutogeneration())?>;
     var Autogenerator = function(masks) {
         this._masks = masks || {};
         this._fieldReverseIndex = this._buildReverseIndex(this._masks);

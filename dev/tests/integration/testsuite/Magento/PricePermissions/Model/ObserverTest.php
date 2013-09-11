@@ -22,12 +22,12 @@ class Magento_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_Test
         parent::setUp();
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-        $this->_layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $this->_layout = Mage::getModel('Magento\Core\Model\Layout');
     }
 
     public function testAdminhtmlBlockHtmlBeforeProductOpt()
     {
-        $parentBlock = $this->_layout->createBlock('\Magento\Adminhtml\Block\Template', 'admin.product.options');
+        $parentBlock = $this->_layout->createBlock('Magento\Adminhtml\Block\Template', 'admin.product.options');
         $optionsBlock = $this->_layout->addBlock(
             '\Magento\Adminhtml\Block\Template',
             'options_box',
@@ -71,7 +71,7 @@ class Magento_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_Test
     {
         $event = new \Magento\Event\Observer();
         $event->setBlock($block);
-        $observer = Mage::getModel('\Magento\PricePermissions\Model\Observer');
+        $observer = Mage::getModel('Magento\PricePermissions\Model\Observer');
         $observer->adminControllerPredispatch($event);
         $observer->adminhtmlBlockHtmlBefore($event);
     }
@@ -81,9 +81,9 @@ class Magento_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_Test
      */
     protected function _initSession()
     {
-        $user = Mage::getModel('\Magento\User\Model\User');
+        $user = Mage::getModel('Magento\User\Model\User');
         $user->setId(2)->setRole(true);
-        $session = Mage::getModel('\Magento\Backend\Model\Auth\Session');
+        $session = Mage::getModel('Magento\Backend\Model\Auth\Session');
         $session->setUpdatedAt(time())->setUser($user);
     }
 }

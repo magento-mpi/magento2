@@ -133,7 +133,7 @@ class Main
             'values'    => array('' => __('None')),
         ));
 
-        $yesnoSource = \Mage::getModel('\Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();
+        $yesnoSource = \Mage::getModel('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();
 
         $fieldset = $form->addFieldset('front_fieldset', array(
             'legend'    => __('Frontend Properties')

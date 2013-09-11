@@ -66,7 +66,7 @@ class Magento_Checkout_Model_Cart_Payment_ApiTest extends PHPUnit_Framework_Test
     protected function _getQuote()
     {
         /** @var \Magento\Sales\Model\Resource\Quote\Collection $quoteCollection */
-        $quoteCollection = Mage::getModel('\Magento\Sales\Model\Resource\Quote\Collection');
+        $quoteCollection = Mage::getModel('Magento\Sales\Model\Resource\Quote\Collection');
         /** @var $quote \Magento\Sales\Model\Quote */
         $quote = $quoteCollection->getFirstItem();
 

@@ -7,7 +7,7 @@
  */
 
 /** @var \Magento\SalesRule\Model\Rule $salesRule */
-$salesRule = Mage::getModel('\Magento\SalesRule\Model\Rule');
+$salesRule = Mage::getModel('Magento\SalesRule\Model\Rule');
 $salesRule->setData(array(
     'name' => '50% Off on Large Orders',
     'is_active' => 1,

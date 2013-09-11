@@ -40,7 +40,7 @@ class Actions
         $newCondUrl = $this->getUrl('*/targetrule/newActionsHtml/', array(
             'form'  => $fieldset->getHtmlId()
         ));
-        $renderer   = \Mage::getBlockSingleton('\Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
+        $renderer   = \Mage::getBlockSingleton('Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
             ->setTemplate('Magento_TargetRule::edit/conditions/fieldset.phtml')
             ->setNewChildUrl($newCondUrl);
         $fieldset->setRenderer($renderer);
@@ -50,7 +50,7 @@ class Actions
             'required'  => true
         ));
         $element->setRule($model);
-        $element->setRenderer(\Mage::getBlockSingleton('\Magento\TargetRule\Block\Adminhtml\Actions\Conditions'));
+        $element->setRenderer(\Mage::getBlockSingleton('Magento\TargetRule\Block\Adminhtml\Actions\Conditions'));
 
         $model->getActions()->setJsFormObject($fieldset->getHtmlId());
         $form->setValues($model->getData());

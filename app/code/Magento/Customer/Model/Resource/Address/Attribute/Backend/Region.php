@@ -31,7 +31,7 @@ class Region
     {
         $region = $object->getData('region');
         if (is_numeric($region)) {
-            $regionModel = \Mage::getModel('\Magento\Directory\Model\Region')->load($region);
+            $regionModel = \Mage::getModel('Magento\Directory\Model\Region')->load($region);
             if ($regionModel->getId() && $object->getCountryId() == $regionModel->getCountryId()) {
                 $object->setRegionId($regionModel->getId())
                     ->setRegion($regionModel->getName());

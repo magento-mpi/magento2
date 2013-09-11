@@ -22,7 +22,7 @@ class History extends \Magento\Adminhtml\Block\Template
     protected function _prepareLayout()
     {
         $onclick = "submitAndReloadArea($('order_history_block').parentNode, '".$this->getSubmitUrl()."')";
-        $button = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+        $button = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('Submit Comment'),
                 'class'   => 'save',

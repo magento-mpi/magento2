@@ -99,7 +99,7 @@ class Custom extends \Magento\Adminhtml\Controller\Action
 
         $session->setCustomExtensionPackageFormData($p);
         try {
-            $ext = \Mage::getModel('\Magento\Connect\Model\Extension');
+            $ext = \Mage::getModel('Magento\Connect\Model\Extension');
             /** @var $ext \Magento\Connect\Model\Extension */
             $ext->setData($p);
             if ($ext->savePackage()) {
@@ -132,7 +132,7 @@ class Custom extends \Magento\Adminhtml\Controller\Action
         try {
             $p = $this->getRequest()->getPost();
             $session->setCustomExtensionPackageFormData($p);
-            $ext = \Mage::getModel('\Magento\Connect\Model\Extension');
+            $ext = \Mage::getModel('Magento\Connect\Model\Extension');
             $ext->setData($p);
             $packageVersion = $this->getRequest()->getPost('version_ids');
             if (is_array($packageVersion)) {

@@ -42,7 +42,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
     {
         $invoices = array();
         /** @var $invoiceCollection \Magento\Sales\Model\Resource\Order\Invoice\Collection */
-        $invoiceCollection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Invoice\Collection');
+        $invoiceCollection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Invoice\Collection');
         $invoiceCollection->addAttributeToSelect('entity_id')
             ->addAttributeToSelect('order_id')
             ->addAttributeToSelect('increment_id')
@@ -75,7 +75,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
      */
     public function info($invoiceIncrementId)
     {
-        $invoice = \Mage::getModel('\Magento\Sales\Model\Order\Invoice')->loadByIncrementId($invoiceIncrementId);
+        $invoice = \Mage::getModel('Magento\Sales\Model\Order\Invoice')->loadByIncrementId($invoiceIncrementId);
 
         /* @var \Magento\Sales\Model\Order\Invoice $invoice */
 
@@ -111,7 +111,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
      */
     public function create($orderIncrementId, $itemsQty, $comment = null, $email = false, $includeComment = false)
     {
-        $order = \Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
+        $order = \Mage::getModel('Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
 
         /* @var $order \Magento\Sales\Model\Order */
         /**
@@ -143,7 +143,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
         $invoice->getOrder()->setIsInProcess(true);
 
         try {
-            $transactionSave = \Mage::getModel('\Magento\Core\Model\Resource\Transaction')
+            $transactionSave = \Mage::getModel('Magento\Core\Model\Resource\Transaction')
                 ->addObject($invoice)
                 ->addObject($invoice->getOrder())
                 ->save();
@@ -167,7 +167,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
      */
     public function addComment($invoiceIncrementId, $comment, $email = false, $includeComment = false)
     {
-        $invoice = \Mage::getModel('\Magento\Sales\Model\Order\Invoice')->loadByIncrementId($invoiceIncrementId);
+        $invoice = \Mage::getModel('Magento\Sales\Model\Order\Invoice')->loadByIncrementId($invoiceIncrementId);
 
         /* @var $invoice \Magento\Sales\Model\Order\Invoice */
 
@@ -195,7 +195,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
      */
     public function capture($invoiceIncrementId)
     {
-        $invoice = \Mage::getModel('\Magento\Sales\Model\Order\Invoice')->loadByIncrementId($invoiceIncrementId);
+        $invoice = \Mage::getModel('Magento\Sales\Model\Order\Invoice')->loadByIncrementId($invoiceIncrementId);
 
         /* @var $invoice \Magento\Sales\Model\Order\Invoice */
 
@@ -213,7 +213,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
         try {
             $invoice->capture();
             $invoice->getOrder()->setIsInProcess(true);
-            $transactionSave = \Mage::getModel('\Magento\Core\Model\Resource\Transaction')
+            $transactionSave = \Mage::getModel('Magento\Core\Model\Resource\Transaction')
                 ->addObject($invoice)
                 ->addObject($invoice->getOrder())
                 ->save();
@@ -237,7 +237,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
      */
     public function void($invoiceIncrementId)
     {
-        $invoice = \Mage::getModel('\Magento\Sales\Model\Order\Invoice')->loadByIncrementId($invoiceIncrementId);
+        $invoice = \Mage::getModel('Magento\Sales\Model\Order\Invoice')->loadByIncrementId($invoiceIncrementId);
 
         /* @var $invoice \Magento\Sales\Model\Order\Invoice */
 
@@ -255,7 +255,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
         try {
             $invoice->void();
             $invoice->getOrder()->setIsInProcess(true);
-            $transactionSave = \Mage::getModel('\Magento\Core\Model\Resource\Transaction')
+            $transactionSave = \Mage::getModel('Magento\Core\Model\Resource\Transaction')
                 ->addObject($invoice)
                 ->addObject($invoice->getOrder())
                 ->save();
@@ -276,7 +276,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
      */
     public function cancel($invoiceIncrementId)
     {
-        $invoice = \Mage::getModel('\Magento\Sales\Model\Order\Invoice')->loadByIncrementId($invoiceIncrementId);
+        $invoice = \Mage::getModel('Magento\Sales\Model\Order\Invoice')->loadByIncrementId($invoiceIncrementId);
 
         /* @var $invoice \Magento\Sales\Model\Order\Invoice */
 
@@ -294,7 +294,7 @@ class Api extends \Magento\Sales\Model\Api\Resource
         try {
             $invoice->cancel();
             $invoice->getOrder()->setIsInProcess(true);
-            $transactionSave = \Mage::getModel('\Magento\Core\Model\Resource\Transaction')
+            $transactionSave = \Mage::getModel('Magento\Core\Model\Resource\Transaction')
                 ->addObject($invoice)
                 ->addObject($invoice->getOrder())
                 ->save();

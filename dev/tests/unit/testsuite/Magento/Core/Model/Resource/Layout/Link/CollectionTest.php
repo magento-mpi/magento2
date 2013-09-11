@@ -30,7 +30,7 @@ class Magento_Core_Model_Resource_Layout_Link_CollectionTest extends Magento_Cor
     protected function _getCollection(Zend_Db_Select $select)
     {
         return new \Magento\Core\Model\Resource\Layout\Link\Collection(
-            $this->getMockForAbstractClass('\Magento\Data\Collection\Db\FetchStrategyInterface'),
+            $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface'),
             $this->_getResource($select)
         );
     }

@@ -77,7 +77,7 @@ class Observer
             return;
         }
 
-        $profile = \Mage::getModel('\Magento\Payment\Model\Recurring\Profile')
+        $profile = \Mage::getModel('Magento\Payment\Model\Recurring\Profile')
             ->setLocale(\Mage::app()->getLocale())
             ->setStore(\Mage::app()->getStore())
             ->importBuyRequest($buyRequest)

@@ -40,7 +40,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Install\Model\Installer');
+        $this->_model = Mage::getModel('Magento\Install\Model\Installer');
     }
 
     /**
@@ -77,7 +77,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
         );
 
         /** @var $user \Magento\User\Model\User */
-        $user = Mage::getModel('\Magento\User\Model\User');
+        $user = Mage::getModel('Magento\User\Model\User');
         $user->loadByUsername($userName);
         $this->assertEmpty($user->getId());
 
@@ -168,10 +168,10 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
         $this->_model->finish();
 
         /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
-        $cacheState = Mage::getModel('\Magento\Core\Model\Cache\StateInterface');
+        $cacheState = Mage::getModel('Magento\Core\Model\Cache\StateInterface');
 
         /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
-        $cacheTypeList = Mage::getModel('\Magento\Core\Model\Cache\TypeListInterface');
+        $cacheTypeList = Mage::getModel('Magento\Core\Model\Cache\TypeListInterface');
         $types = array_keys($cacheTypeList->getTypes());
         foreach ($types as $type) {
             $this->assertTrue(

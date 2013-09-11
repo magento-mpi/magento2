@@ -78,7 +78,7 @@ class Startdate extends \Magento\Eav\Model\Entity\Attribute\Backend\Datetime
         }
 
         if ($maxDate) {
-            $date     = \Mage::getModel('\Magento\Core\Model\Date');
+            $date     = \Mage::getModel('Magento\Core\Model\Date');
             $value    = $date->timestamp($startDate);
             $maxValue = $date->timestamp($maxDate);
 

@@ -244,7 +244,7 @@ class Api extends \Magento\Object
     protected function _debug($debugData)
     {
         if ($this->getDebugFlag()) {
-            \Mage::getModel('\Magento\Core\Model\Log\Adapter', array('fileName' => 'card_validation_3d_secure.log'))
+            \Mage::getModel('Magento\Core\Model\Log\Adapter', array('fileName' => 'card_validation_3d_secure.log'))
                ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
                ->log($debugData);
         }

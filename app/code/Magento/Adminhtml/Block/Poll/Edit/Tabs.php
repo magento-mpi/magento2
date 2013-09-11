@@ -33,15 +33,15 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
         $this->addTab('form_section', array(
             'label'     => __('Poll Information'),
             'title'     => __('Poll Information'),
-            'content'   => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Poll\Edit\Tab\Form')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('Magento\Adminhtml\Block\Poll\Edit\Tab\Form')->toHtml(),
         ))
         ;
 
         $this->addTab('answers_section', array(
                 'label'     => __('Poll Answers'),
                 'title'     => __('Poll Answers'),
-                'content'   => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Poll\Edit\Tab\Answers')
-                    ->append($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Poll\Edit\Tab\Answers\ListAnswers'))
+                'content'   => $this->getLayout()->createBlock('Magento\Adminhtml\Block\Poll\Edit\Tab\Answers')
+                    ->append($this->getLayout()->createBlock('Magento\Adminhtml\Block\Poll\Edit\Tab\Answers\ListAnswers'))
                     ->toHtml(),
                 'active'    => ( $this->getRequest()->getParam('tab') == 'answers_section' ) ? true : false,
             ));

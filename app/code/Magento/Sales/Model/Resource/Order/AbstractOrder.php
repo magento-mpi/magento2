@@ -360,7 +360,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     {
         if ($this->_useIncrementId && !$object->getIncrementId()) {
             /* @var $entityType \Magento\Eav\Model\Entity\Type */
-            $entityType = \Mage::getModel('\Magento\Eav\Model\Entity\Type')->loadByCode($this->_entityTypeForIncrementId);
+            $entityType = \Mage::getModel('Magento\Eav\Model\Entity\Type')->loadByCode($this->_entityTypeForIncrementId);
             $object->setIncrementId($entityType->fetchNewIncrementId($object->getStoreId()));
         }
         parent::_beforeSave($object);

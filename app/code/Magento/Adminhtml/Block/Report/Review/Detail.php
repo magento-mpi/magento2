@@ -25,7 +25,7 @@ class Detail extends \Magento\Adminhtml\Block\Widget\Grid\Container
     {
         $this->_controller = 'report_review_detail';
 
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($this->getRequest()->getParam('id'));
+        $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($this->getRequest()->getParam('id'));
         $this->_headerText = __('Reviews for %1', $product->getName());
 
         parent::_construct();

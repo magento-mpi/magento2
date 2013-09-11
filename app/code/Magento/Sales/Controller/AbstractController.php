@@ -50,7 +50,7 @@ abstract class AbstractController extends \Magento\Core\Controller\Front\Action
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Catalog\Model\Session');
+        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
 
         $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
         if ($navigationBlock) {
@@ -75,7 +75,7 @@ abstract class AbstractController extends \Magento\Core\Controller\Front\Action
             return false;
         }
 
-        $order = \Mage::getModel('\Magento\Sales\Model\Order')->load($orderId);
+        $order = \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
 
         if ($this->_canViewOrder($order)) {
             \Mage::register('current_order', $order);
@@ -175,11 +175,11 @@ abstract class AbstractController extends \Magento\Core\Controller\Front\Action
     {
         $invoiceId = (int) $this->getRequest()->getParam('invoice_id');
         if ($invoiceId) {
-            $invoice = \Mage::getModel('\Magento\Sales\Model\Order\Invoice')->load($invoiceId);
+            $invoice = \Mage::getModel('Magento\Sales\Model\Order\Invoice')->load($invoiceId);
             $order = $invoice->getOrder();
         } else {
             $orderId = (int) $this->getRequest()->getParam('order_id');
-            $order = \Mage::getModel('\Magento\Sales\Model\Order')->load($orderId);
+            $order = \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
         }
 
         if ($this->_canViewOrder($order)) {
@@ -205,11 +205,11 @@ abstract class AbstractController extends \Magento\Core\Controller\Front\Action
     {
         $shipmentId = (int) $this->getRequest()->getParam('shipment_id');
         if ($shipmentId) {
-            $shipment = \Mage::getModel('\Magento\Sales\Model\Order\Shipment')->load($shipmentId);
+            $shipment = \Mage::getModel('Magento\Sales\Model\Order\Shipment')->load($shipmentId);
             $order = $shipment->getOrder();
         } else {
             $orderId = (int) $this->getRequest()->getParam('order_id');
-            $order = \Mage::getModel('\Magento\Sales\Model\Order')->load($orderId);
+            $order = \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
         }
         if ($this->_canViewOrder($order)) {
             \Mage::register('current_order', $order);
@@ -234,11 +234,11 @@ abstract class AbstractController extends \Magento\Core\Controller\Front\Action
     {
         $creditmemoId = (int) $this->getRequest()->getParam('creditmemo_id');
         if ($creditmemoId) {
-            $creditmemo = \Mage::getModel('\Magento\Sales\Model\Order\Creditmemo')->load($creditmemoId);
+            $creditmemo = \Mage::getModel('Magento\Sales\Model\Order\Creditmemo')->load($creditmemoId);
             $order = $creditmemo->getOrder();
         } else {
             $orderId = (int) $this->getRequest()->getParam('order_id');
-            $order = \Mage::getModel('\Magento\Sales\Model\Order')->load($orderId);
+            $order = \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
         }
 
         if ($this->_canViewOrder($order)) {

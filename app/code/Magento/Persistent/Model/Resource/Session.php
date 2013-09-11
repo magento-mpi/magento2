@@ -76,7 +76,7 @@ class Session extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function isKeyAllowed($key)
     {
-        $sameSession = \Mage::getModel('\Magento\Persistent\Model\Session')->setLoadExpired();
+        $sameSession = \Mage::getModel('Magento\Persistent\Model\Session')->setLoadExpired();
         $sameSession->loadByCookieKey($key);
         return !$sameSession->getId();
     }

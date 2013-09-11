@@ -119,7 +119,7 @@ class Details extends \Magento\Adminhtml\Block\Widget\Container
     public function getEventUser()
     {
         if (null === $this->_eventUser) {
-            $this->_eventUser = \Mage::getModel('\Magento\User\Model\User')->load($this->getUserId());
+            $this->_eventUser = \Mage::getModel('Magento\User\Model\User')->load($this->getUserId());
         }
         return $this->_eventUser;
     }

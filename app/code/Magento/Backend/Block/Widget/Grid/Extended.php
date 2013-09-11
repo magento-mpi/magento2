@@ -179,7 +179,7 @@ class Extended
     protected function _prepareLayout()
     {
         $this->setChild('export_button',
-            $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button')
+            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
                 ->setData(array(
                 'label'     => __('Export'),
                 'onclick'   => $this->getJsObjectName().'.doExport()',
@@ -187,14 +187,14 @@ class Extended
             ))
         );
         $this->setChild('reset_filter_button',
-            $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button')
+            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
                 ->setData(array(
                 'label'     => __('Reset Filter'),
                 'onclick'   => $this->getJsObjectName().'.resetFilter()',
             ))
         );
         $this->setChild('search_button',
-            $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button')
+            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
                 ->setData(array(
                 'label'     => __('Search'),
                 'onclick'   => $this->getJsObjectName().'.doFilter()',
@@ -213,7 +213,7 @@ class Extended
     {
         if (!$this->getChildBlock('grid.columnSet')) {
             $this->setChild('grid.columnSet',
-                $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Grid\ColumnSet')
+                $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Grid\ColumnSet')
             );
         }
         return parent::getColumnSet();
@@ -259,7 +259,7 @@ class Extended
         if (is_array($column)) {
             $this->getColumnSet()->setChild(
                 $columnId,
-                $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Grid\Column\Extended')
+                $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Grid\Column\Extended')
                     ->setData($column)
                     ->setId($columnId)
                     ->setGrid($this)
@@ -402,7 +402,7 @@ class Extended
     protected function _prepareMassactionColumn()
     {
         $columnId = 'massaction';
-        $massactionColumn = $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Grid\Column')
+        $massactionColumn = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Grid\Column')
             ->setData(array(
             'index'        => $this->getMassactionIdField(),
             'filter_index' => $this->getMassactionIdFilter(),

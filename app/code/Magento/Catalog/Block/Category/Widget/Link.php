@@ -27,6 +27,6 @@ class Link
     protected function _construct()
     {
         parent::_construct();
-        $this->_entityResource = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Category');
+        $this->_entityResource = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category');
     }
 }

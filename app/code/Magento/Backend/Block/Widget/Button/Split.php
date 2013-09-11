@@ -235,7 +235,7 @@ class Split extends \Magento\Backend\Block\Widget
     protected function _getAttributesString($attributes)
     {
         /** @var $helper \Magento\Backend\Helper\Data */
-        $helper = $this->helper('\Magento\Backend\Helper\Data');
+        $helper = $this->helper('Magento\Backend\Helper\Data');
 
         $html = array();
         foreach ($attributes as $attributeKey => $attributeValue) {

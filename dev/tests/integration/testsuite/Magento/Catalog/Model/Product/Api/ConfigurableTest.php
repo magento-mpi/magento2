@@ -32,14 +32,14 @@ class Magento_Catalog_Model_Product_Api_ConfigurableTest extends Magento_Catalog
         $productId = $this->_createProductWithApi($productData);
         // Validate outcome
         /** @var $actual \Magento\Catalog\Model\Product */
-        $actual = Mage::getModel('\Magento\Catalog\Model\Product')->load($productId);
+        $actual = Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
         $this->_getHelper()->checkConfigurableAttributesData(
             $actual,
             $productData['configurable_attributes'],
             false
         );
         unset($productData['configurable_attributes']);
-        $expected = Mage::getModel('\Magento\Catalog\Model\Product');
+        $expected = Mage::getModel('Magento\Catalog\Model\Product');
         $expected->setData($productData);
         $this->assertProductEquals($expected, $actual);
     }

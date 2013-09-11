@@ -33,7 +33,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
         $this->addTab('main_section', array(
             'label'     => __('User Info'),
             'title'     => __('User Info'),
-            'content'   => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Api\User\Edit\Tab\Main')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('Magento\Adminhtml\Block\Api\User\Edit\Tab\Main')->toHtml(),
             'active'    => true
         ));
 

@@ -273,7 +273,7 @@ class Token extends \Magento\Core\Model\AbstractModel
     {
         if (!$this->getData('consumer')) {
             /** @var $consumer \Magento\Oauth\Model\Consumer */
-            $consumer = \Mage::getModel('\Magento\Oauth\Model\Consumer');
+            $consumer = \Mage::getModel('Magento\Oauth\Model\Consumer');
             $consumer->load($this->getConsumerId());
             $this->setData('consumer', $consumer);
         }

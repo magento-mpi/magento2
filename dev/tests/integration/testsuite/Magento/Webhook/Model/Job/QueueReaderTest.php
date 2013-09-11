@@ -14,11 +14,11 @@ class Magento_Webhook_Model_Job_QueueReaderTest extends PHPUnit_Framework_TestCa
     public function testPoll()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $event = Mage::getModel('\Magento\Webhook\Model\Event')
+        $event = Mage::getModel('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save();
 
-        $subscription = Mage::getModel('\Magento\Webhook\Model\Subscription')
+        $subscription = Mage::getModel('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save();
 

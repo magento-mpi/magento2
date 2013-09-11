@@ -125,7 +125,7 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
     {
         try {
             $quoteId = $this->getRequest()->getParam('quote_id');
-            $this->_quote = \Mage::getModel('\Magento\Sales\Model\Quote')->load($quoteId);
+            $this->_quote = \Mage::getModel('Magento\Sales\Model\Quote')->load($quoteId);
             $this->_initCheckout();
             $response = $this->_checkout->getShippingOptionsCallbackResponse($this->getRequest()->getParams());
             $this->getResponse()->setBody($response);
@@ -144,7 +144,7 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
             // TODO verify if this logic of order cancellation is deprecated
             // if there is an order - cancel it
             $orderId = $this->_getCheckoutSession()->getLastOrderId();
-            $order = ($orderId) ? \Mage::getModel('\Magento\Sales\Model\Order')->load($orderId) : false;
+            $order = ($orderId) ? \Mage::getModel('Magento\Sales\Model\Order')->load($orderId) : false;
             if ($order && $order->getId() && $order->getQuoteId() == $this->_getCheckoutSession()->getQuoteId()) {
                 $order->cancel()->save();
                 $this->_getCheckoutSession()

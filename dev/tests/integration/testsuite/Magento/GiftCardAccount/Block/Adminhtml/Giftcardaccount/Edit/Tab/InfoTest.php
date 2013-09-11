@@ -23,12 +23,12 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTest 
     {
         parent::setUp();
 
-        $model = Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount');
+        $model = Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount');
         Mage::register('current_giftcardaccount', $model);
 
-        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $layout = Mage::getModel('Magento\Core\Model\Layout');
         $this->_block = $layout
-            ->createBlock('\Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Info');
+            ->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Info');
     }
 
     protected function tearDown()
@@ -97,7 +97,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTest 
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $layout = Mage::getModel('Magento\Core\Model\Layout');
         $block = $layout->addBlock('\Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Info');
 
         $element = $block->initForm()->getForm()->getElement('date_expires');

@@ -92,7 +92,7 @@ class Upsell extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('\Magento\Catalog\Model\Product\Link')->useUpSellLinks()
+        $collection = \Mage::getModel('Magento\Catalog\Model\Product\Link')->useUpSellLinks()
             ->getProductCollection()
             ->setProduct($this->getProduct())
             ->addAttributeToSelect('*');
@@ -151,8 +151,8 @@ class Upsell extends \Magento\Adminhtml\Block\Widget\Grid
             'column_css_class'  => 'col-type'
         ));
 
-        $sets = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
-            ->setEntityTypeFilter(\Mage::getModel('\Magento\Catalog\Model\Product')->getResource()->getTypeId())
+        $sets = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
+            ->setEntityTypeFilter(\Mage::getModel('Magento\Catalog\Model\Product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 

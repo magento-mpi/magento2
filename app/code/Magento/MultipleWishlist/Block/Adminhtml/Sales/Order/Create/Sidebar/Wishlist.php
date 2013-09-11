@@ -30,7 +30,7 @@ class Wishlist
         $collection = $this->getData('item_collection');
         $storeIds = $this->getCreateOrderModel()->getSession()->getStore()->getWebsite()->getStoreIds();
         if (is_null($collection)) {
-            $collection = \Mage::getModel('\Magento\MultipleWishlist\Model\Item')->getCollection()
+            $collection = \Mage::getModel('Magento\MultipleWishlist\Model\Item')->getCollection()
                 ->addCustomerIdFilter($this->getCustomerId())
                 ->addStoreFilter($storeIds)
                 ->setVisibilityFilter();

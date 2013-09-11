@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php echo $this->helper('\Magento\Core\Helper\Js')->includeScript('Magento_Adminhtml::sales/order/create/giftmessage.js') ?>
+<?php echo $this->helper('Magento\Core\Helper\Js')->includeScript('Magento_Adminhtml::sales/order/create/giftmessage.js') ?>
 <?php if(!$this->getSaveMode()): ?>
 <form action="<?php echo $this->getSaveUrl() ?>" id="message-form" method="post" class="a-left">
     <?php echo $this->getBlockHtml('formkey')?>

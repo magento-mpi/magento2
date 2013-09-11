@@ -41,7 +41,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
         $this->_ignoredAttributeCodes[] = 'type_id';
         $this->_ignoredAttributeTypes[] = 'gallery';
         $this->_ignoredAttributeTypes[] = 'media_image';
-        $this->_entityTypeId = \Mage::getModel('\Magento\Eav\Model\Entity')->setType('catalog_product')->getTypeId();
+        $this->_entityTypeId = \Mage::getModel('Magento\Eav\Model\Entity')->setType('catalog_product')->getTypeId();
     }
 
     /**
@@ -52,7 +52,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
      */
     public function items($setId)
     {
-        $attributes = \Mage::getModel('\Magento\Catalog\Model\Product')->getResource()
+        $attributes = \Mage::getModel('Magento\Catalog\Model\Product')->getResource()
                 ->loadAllAttributes()
                 ->getSortedAttributes($setId);
         $result = array();
@@ -93,7 +93,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
     public function options($attributeId, $store = null)
     {
         $storeId = $this->_getStoreId($store);
-        $attribute = \Mage::getModel('\Magento\Catalog\Model\Product')
+        $attribute = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->setStoreId($storeId)
                 ->getResource()
                 ->getAttribute($attributeId);
@@ -138,7 +138,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
     public function create($data)
     {
         /** @var $model \Magento\Catalog\Model\Resource\Eav\Attribute */
-        $model = \Mage::getModel('\Magento\Catalog\Model\Resource\Eav\Attribute');
+        $model = \Mage::getModel('Magento\Catalog\Model\Resource\Eav\Attribute');
         /** @var $helper \Magento\Catalog\Helper\Product */
         $helper = \Mage::helper('Magento\Catalog\Helper\Product');
 
@@ -497,7 +497,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
      */
     protected function _getAttribute($attribute)
     {
-        $model = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Eav\Attribute')
+        $model = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Eav\Attribute')
             ->setEntityTypeId($this->_entityTypeId);
 
         if (is_numeric($attribute)) {

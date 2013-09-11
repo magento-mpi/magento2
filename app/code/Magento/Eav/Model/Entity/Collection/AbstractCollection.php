@@ -174,7 +174,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
         if ($entity instanceof \Magento\Eav\Model\Entity\AbstractEntity) {
             $this->_entity = $entity;
         } elseif (is_string($entity) || $entity instanceof \Magento\Core\Model\Config\Element) {
-            $this->_entity = \Mage::getModel('\Magento\Eav\Model\Entity')->setType($entity);
+            $this->_entity = \Mage::getModel('Magento\Eav\Model\Entity')->setType($entity);
         } else {
             throw \Mage::exception('Magento_Eav', __('Invalid entity supplied: %1', print_r($entity, 1)));
         }
@@ -614,7 +614,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
             if (isset($this->_joinEntities[$entity])) {
                 $entity = $this->_joinEntities[$entity];
             } else {
-                $entity = \Mage::getModel('\Magento\Eav\Model\Entity')->setType($attrArr[0]);
+                $entity = \Mage::getModel('Magento\Eav\Model\Entity')->setType($attrArr[0]);
             }
         }
         if (!$entity || !$entity->getTypeId()) {

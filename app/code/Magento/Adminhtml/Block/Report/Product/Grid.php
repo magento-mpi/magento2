@@ -31,7 +31,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareCollection()
     {
 
-        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Product\Collection');
+        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Product\Collection');
         $collection->getEntity()->setStore(0);
 
         $this->setCollection($collection);

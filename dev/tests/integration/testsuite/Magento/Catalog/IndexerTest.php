@@ -20,7 +20,7 @@ class Magento_Catalog_IndexerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_indexer = Mage::getModel('\Magento\Index\Model\Indexer');
+        $this->_indexer = Mage::getModel('Magento\Index\Model\Indexer');
     }
 
     protected function tearDown()
@@ -82,7 +82,7 @@ class Magento_Catalog_IndexerTest extends PHPUnit_Framework_TestCase
      */
     private function _getProcessModel($typeCode)
     {
-        $process = Mage::getModel('\Magento\Index\Model\Process');
+        $process = Mage::getModel('Magento\Index\Model\Process');
         $process->load($typeCode, 'indexer_code');
         return $process;
     }

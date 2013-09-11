@@ -78,7 +78,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function createFormBlock($name)
     {
-        $block = $this->getLayout()->createBlock('\Magento\Paypal\Block\Standard\Form', $name)
+        $block = $this->getLayout()->createBlock('Magento\Paypal\Block\Standard\Form', $name)
             ->setMethod('paypal_standard')
             ->setPayment($this->getPayment())
             ->setTemplate('standard/form.phtml');
@@ -104,9 +104,9 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
     public function getStandardCheckoutFormFields()
     {
         $orderIncrementId = $this->getCheckout()->getLastRealOrderId();
-        $order = \Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
+        $order = \Mage::getModel('Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
         /* @var $api \Magento\Paypal\Model\Api\Standard */
-        $api = \Mage::getModel('\Magento\Paypal\Model\Api\Standard')->setConfigObject($this->getConfig());
+        $api = \Mage::getModel('Magento\Paypal\Model\Api\Standard')->setConfigObject($this->getConfig());
         $api->setOrderId($orderIncrementId)
             ->setCurrencyCode($order->getBaseCurrencyCode())
             //->setPaymentAction()
@@ -126,7 +126,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
 
         // add cart totals and line items
         $parameters = array('params' => array($order));
-        $api->setPaypalCart(\Mage::getModel('\Magento\Paypal\Model\Cart', $parameters))
+        $api->setPaypalCart(\Mage::getModel('Magento\Paypal\Model\Cart', $parameters))
             ->setIsLineItemsEnabled($this->_config->lineItemsEnabled)
         ;
         $api->setCartSummary($this->_getAggregatedCartSummary());
@@ -159,7 +159,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
             if ($store = $this->getStore()) {
                 $params[] = is_object($store) ? $store->getId() : $store;
             }
-            $this->_config = \Mage::getModel('\Magento\Paypal\Model\Config', array('params' => $params));
+            $this->_config = \Mage::getModel('Magento\Paypal\Model\Config', array('params' => $params));
         }
         return $this->_config;
     }

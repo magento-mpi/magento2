@@ -10,7 +10,7 @@
  */
 
 /** @var $website \Magento\Core\Model\Website */
-$website = Mage::getModel('\Magento\Core\Model\Website');
+$website = Mage::getModel('Magento\Core\Model\Website');
 $website->setData(array(
     'code' => 'test',
     'name' => 'Test Website',

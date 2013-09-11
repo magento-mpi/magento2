@@ -32,12 +32,12 @@ class Magento_CustomerCustomAttributes_Model_ObserverTest extends PHPUnit_Framew
 
     protected function setUp()
     {
-        $this->_observer = Mage::getModel('\Magento\CustomerCustomAttributes\Model\Observer');
+        $this->_observer = Mage::getModel('Magento\CustomerCustomAttributes\Model\Observer');
     }
 
     public function testSalesOrderAddressCollectionAfterLoad()
     {
-        $address = Mage::getModel('\Magento\Sales\Model\Order\Address');
+        $address = Mage::getModel('Magento\Sales\Model\Order\Address');
         $address->load('admin@example.com', 'email');
 
         $entity = new \Magento\Object(array('id' => $address->getId()));
@@ -59,11 +59,11 @@ class Magento_CustomerCustomAttributes_Model_ObserverTest extends PHPUnit_Framew
 
     public function testSalesOrderAddressAfterLoad()
     {
-        $address = Mage::getModel('\Magento\Sales\Model\Order\Address');
+        $address = Mage::getModel('Magento\Sales\Model\Order\Address');
         $address->load('admin@example.com', 'email');
         $arguments = $this->_prepareConstructorArguments();
         $arguments[] = array('id' => $address->getId());
-        $entity = $this->getMockForAbstractClass('\Magento\Core\Model\AbstractModel', $arguments);
+        $entity = $this->getMockForAbstractClass('Magento\Core\Model\AbstractModel', $arguments);
         $observer = new \Magento\Event\Observer(array(
             'event' => new \Magento\Object(array(
                 'address' => $entity,

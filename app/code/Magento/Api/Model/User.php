@@ -160,7 +160,7 @@ class User extends \Magento\Core\Model\AbstractModel
      */
     public function getCollection()
     {
-        return \Mage::getResourceModel('\Magento\Api\Model\Resource\User\Collection');
+        return \Mage::getResourceModel('Magento\Api\Model\Resource\User\Collection');
     }
 
     /**

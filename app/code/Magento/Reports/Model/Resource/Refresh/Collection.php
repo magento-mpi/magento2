@@ -28,7 +28,7 @@ class Collection extends \Magento\Data\Collection
      */
     protected function _getUpdatedAt($reportCode)
     {
-        $flag = \Mage::getModel('\Magento\Reports\Model\Flag')->setReportFlagCode($reportCode)->loadSelf();
+        $flag = \Mage::getModel('Magento\Reports\Model\Flag')->setReportFlagCode($reportCode)->loadSelf();
         return ($flag->hasData())
             ? \Mage::app()->getLocale()
                 ->storeDate(0, new \Zend_Date($flag->getLastUpdate(), \Magento\Date::DATETIME_INTERNAL_FORMAT), true)

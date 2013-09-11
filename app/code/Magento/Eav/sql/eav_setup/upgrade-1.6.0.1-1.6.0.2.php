@@ -29,7 +29,7 @@ $connection->addColumn($tableName, 'tab_group_code', array(
 ));
 
 /** @var $groups \Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection*/
-$groups = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection');
+$groups = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection');
 foreach ($groups as $group) {
     /** @var $group \Magento\Eav\Model\Entity\Attribute\Group*/
     $group->save();

@@ -39,7 +39,7 @@ class Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('\Magento\Customer\Model\Resource\Attribute\Collection')
+        $collection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection')
             ->addSystemHiddenFilter()
             ->addExcludeHiddenFrontendFilter();
         $this->setCollection($collection);

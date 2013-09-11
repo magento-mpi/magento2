@@ -86,7 +86,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
 
             return $this->getProductUrl($product, $additional);
         }
-        return $this->helper('\Magento\Checkout\Helper\Cart')->getAddUrl($product, $additional);
+        return $this->helper('Magento\Checkout\Helper\Cart')->getAddUrl($product, $additional);
     }
 
     /**
@@ -119,7 +119,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
      */
     public function getAddToWishlistUrl($product)
     {
-        return $this->helper('\Magento\Wishlist\Helper\Data')->getAddUrl($product);
+        return $this->helper('Magento\Wishlist\Helper\Data')->getAddUrl($product);
     }
 
     /**
@@ -130,7 +130,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
      */
     public function getAddToCompareUrl($product)
     {
-        return $this->helper('\Magento\Catalog\Helper\Product\Compare')->getAddUrl($product);
+        return $this->helper('Magento\Catalog\Helper\Product\Compare')->getAddUrl($product);
     }
 
     /**
@@ -278,7 +278,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
             if (!\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_Review')) {
                 return false;
             } else {
-                $this->_reviewsHelperBlock = $this->getLayout()->createBlock('\Magento\Review\Block\Helper');
+                $this->_reviewsHelperBlock = $this->getLayout()->createBlock('Magento\Review\Block\Helper');
             }
         }
 
@@ -538,7 +538,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
      */
     public function getPageLayout()
     {
-        return $this->helper('\Magento\Page\Helper\Layout')->getCurrentPageLayout();
+        return $this->helper('Magento\Page\Helper\Layout')->getCurrentPageLayout();
     }
 
     /**
@@ -592,7 +592,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
      */
     public function getThumbnailUrl($product)
     {
-        return (string)$this->helper('\Magento\Catalog\Helper\Image')->init($product, 'thumbnail')
+        return (string)$this->helper('Magento\Catalog\Helper\Image')->init($product, 'thumbnail')
             ->resize($this->getThumbnailSize());
     }
 
@@ -614,7 +614,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
      */
     public function getThumbnailSidebarUrl($product)
     {
-        return (string) $this->helper('\Magento\Catalog\Helper\Image')->init($product, 'thumbnail')
+        return (string) $this->helper('Magento\Catalog\Helper\Image')->init($product, 'thumbnail')
             ->resize($this->getThumbnailSidebarSize());
     }
 
@@ -636,7 +636,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
      */
     public function getSmallImageUrl($product)
     {
-        return (string) $this->helper('\Magento\Catalog\Helper\Image')->init($product, 'small_image')
+        return (string) $this->helper('Magento\Catalog\Helper\Image')->init($product, 'small_image')
             ->resize($this->getSmallImageSize());
     }
 
@@ -658,7 +658,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
      */
     public function getSmallImageSidebarUrl($product)
     {
-        return (string) $this->helper('\Magento\Catalog\Helper\Image')->init($product, 'small_image')
+        return (string) $this->helper('Magento\Catalog\Helper\Image')->init($product, 'small_image')
             ->resize($this->getSmallImageSidebarSize());
     }
 
@@ -680,7 +680,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
      */
     public function getBaseImageUrl($product)
     {
-        return (string)$this->helper('\Magento\Catalog\Helper\Image')->init($product, 'image')
+        return (string)$this->helper('Magento\Catalog\Helper\Image')->init($product, 'image')
             ->resize($this->getBaseImageSize());
     }
 
@@ -702,7 +702,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
      */
     public function getBaseImageIconUrl($product)
     {
-        return (string)$this->helper('\Magento\Catalog\Helper\Image')->init($product, 'image')
+        return (string)$this->helper('Magento\Catalog\Helper\Image')->init($product, 'image')
             ->resize($this->getBaseImageIconSize());
     }
 

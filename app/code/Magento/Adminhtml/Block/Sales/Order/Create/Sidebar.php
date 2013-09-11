@@ -23,7 +23,7 @@ class Sidebar extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
     protected function _prepareLayout()
     {
         if ($this->getCustomerId()) {
-            $button = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')->setData(array(
+            $button = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData(array(
                 'label' => __('Update Changes'),
                 'onclick' => 'order.sidebarApplyChanges()',
                 'before_html' => '<div class="actions">',

@@ -55,7 +55,7 @@ class Roles extends \Magento\Core\Model\AbstractModel
 
     public function getUsersCollection()
     {
-        return \Mage::getResourceModel('\Magento\Api\Model\Resource\Roles\User\Collection');
+        return \Mage::getResourceModel('Magento\Api\Model\Resource\Roles\User\Collection');
     }
 
     public function getResourcesTree()
@@ -157,7 +157,7 @@ class Roles extends \Magento\Core\Model\AbstractModel
             return $this;
         }
         /** @var $filter \Magento\Core\Model\Input\Filter */
-        $filter = \Mage::getModel('\Magento\Core\Model\Input\Filter');
+        $filter = \Mage::getModel('Magento\Core\Model\Input\Filter');
         $filter->setFilters($this->_filters);
         $this->setData($filter->filter($data));
         return $this;

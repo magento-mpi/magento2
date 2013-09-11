@@ -27,7 +27,7 @@ class Items
      */
     public function getDesignSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setData(array(
                 'id'    => 'giftwrapping_design_item',
                 'class' => 'select'

@@ -80,7 +80,7 @@ class Queue extends \Magento\Adminhtml\Controller\Action
 
     public function startAction()
     {
-        $queue = \Mage::getModel('\Magento\Newsletter\Model\Queue')
+        $queue = \Mage::getModel('Magento\Newsletter\Model\Queue')
             ->load($this->getRequest()->getParam('id'));
         if ($queue->getId()) {
             if (!in_array($queue->getQueueStatus(),
@@ -155,7 +155,7 @@ class Queue extends \Magento\Adminhtml\Controller\Action
         $countOfQueue  = 3;
         $countOfSubscritions = 20;
 
-        $collection = \Mage::getResourceModel('\Magento\Newsletter\Model\Resource\Queue\Collection')
+        $collection = \Mage::getResourceModel('Magento\Newsletter\Model\Resource\Queue\Collection')
             ->setPageSize($countOfQueue)
             ->setCurPage(1)
             ->addOnlyForSendingFilter()
@@ -176,7 +176,7 @@ class Queue extends \Magento\Adminhtml\Controller\Action
         if ($id) {
             $queue = \Mage::registry('current_queue')->load($id);
         } elseif ($templateId) {
-            $template = \Mage::getModel('\Magento\Newsletter\Model\Template')->load($templateId);
+            $template = \Mage::getModel('Magento\Newsletter\Model\Template')->load($templateId);
             $queue = \Mage::registry('current_queue')->setTemplateId($template->getId());
         }
 
@@ -200,12 +200,12 @@ class Queue extends \Magento\Adminhtml\Controller\Action
     {
         try {
             /* @var $queue \Magento\Newsletter\Model\Queue */
-            $queue = \Mage::getModel('\Magento\Newsletter\Model\Queue');
+            $queue = \Mage::getModel('Magento\Newsletter\Model\Queue');
 
             $templateId = $this->getRequest()->getParam('template_id');
             if ($templateId) {
                 /* @var $template \Magento\Newsletter\Model\Template */
-                $template = \Mage::getModel('\Magento\Newsletter\Model\Template')->load($templateId);
+                $template = \Mage::getModel('Magento\Newsletter\Model\Template')->load($templateId);
 
                 if (!$template->getId() || $template->getIsSystem()) {
                     \Mage::throwException(__('Please correct the newsletter template and try again.'));

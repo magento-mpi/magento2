@@ -26,7 +26,7 @@ class Watermark
     public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $html = $this->_getHeaderHtml($element);
-        $renderer = \Mage::getBlockSingleton('\Magento\Backend\Block\System\Config\Form\Field');
+        $renderer = \Mage::getBlockSingleton('Magento\Backend\Block\System\Config\Form\Field');
 
         $attributes = \Mage::getConfig()->getNode(self::XML_PATH_IMAGE_TYPES)->asArray();
 

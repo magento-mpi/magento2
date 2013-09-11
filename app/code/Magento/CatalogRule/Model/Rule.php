@@ -114,7 +114,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function getConditionsInstance()
     {
-        return \Mage::getModel('\Magento\CatalogRule\Model\Rule\Condition\Combine');
+        return \Mage::getModel('Magento\CatalogRule\Model\Rule\Condition\Combine');
     }
 
     /**
@@ -124,7 +124,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function getActionsInstance()
     {
-        return \Mage::getModel('\Magento\CatalogRule\Model\Rule\Action\Collection');
+        return \Mage::getModel('Magento\CatalogRule\Model\Rule\Action\Collection');
     }
 
     /**
@@ -177,7 +177,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
             if ($this->getWebsiteIds()) {
                 /** @var $productCollection \Magento\Catalog\Model\Resource\Product\Collection */
-                $productCollection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection');
+                $productCollection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection');
                 $productCollection->addWebsiteFilter($this->getWebsiteIds());
                 if ($this->_productsFilter) {
                     $productCollection->addIdFilter($this->_productsFilter);
@@ -189,7 +189,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
                     array(array($this, 'callbackValidateProduct')),
                     array(
                         'attributes' => $this->getCollectedAttributes(),
-                        'product'    => \Mage::getModel('\Magento\Catalog\Model\Product'),
+                        'product'    => \Mage::getModel('Magento\Catalog\Model\Product'),
                     )
                 );
             }
@@ -225,7 +225,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     public function applyToProduct($product, $websiteIds = null)
     {
         if (is_numeric($product)) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($product);
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($product);
         }
         if (is_null($websiteIds)) {
             $websiteIds = $this->getWebsiteIds();

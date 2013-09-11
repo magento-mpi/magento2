@@ -37,7 +37,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
                     $this->addTab('view', array(
                         'label'     => __('Customer View'),
                         'content'   => $this->getLayout()
-                        ->createBlock('\Magento\Adminhtml\Block\Customer\Edit\Tab\View')->toHtml(),
+                        ->createBlock('Magento\Adminhtml\Block\Customer\Edit\Tab\View')->toHtml(),
                         'active'    => true
                     ));
                 }
@@ -45,14 +45,14 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
         $this->addTab('account', array(
             'label'     => __('Account Information'),
             'content'   => $this->getLayout()
-                ->createBlock('\Magento\Adminhtml\Block\Customer\Edit\Tab\Account')->initForm()->toHtml(),
+                ->createBlock('Magento\Adminhtml\Block\Customer\Edit\Tab\Account')->initForm()->toHtml(),
             'active'    => \Mage::registry('current_customer')->getId() ? false : true
         ));
 
         $this->addTab('addresses', array(
             'label'     => __('Addresses'),
             'content'   => $this->getLayout()
-                ->createBlock('\Magento\Adminhtml\Block\Customer\Edit\Tab\Addresses')->initForm()->toHtml(),
+                ->createBlock('Magento\Adminhtml\Block\Customer\Edit\Tab\Addresses')->initForm()->toHtml(),
         ));
 
 
@@ -84,7 +84,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
                 $this->addTab('newsletter', array(
                     'label'     => __('Newsletter'),
                     'content'   => $this->getLayout()
-                        ->createBlock('\Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter')->initForm()->toHtml()
+                        ->createBlock('Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter')->initForm()->toHtml()
                 ));
             }
 

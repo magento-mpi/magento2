@@ -34,7 +34,7 @@ class FormRenderer
         $product = $observer->getEvent()->getProduct();
 
         /** @var $formBlock \Magento\Sales\Block\Adminhtml\Recurring\Profile\Edit\Form */
-        $formBlock = $this->_blockFactory->createBlock('\Magento\Sales\Block\Adminhtml\Recurring\Profile\Edit\Form');
+        $formBlock = $this->_blockFactory->createBlock('Magento\Sales\Block\Adminhtml\Recurring\Profile\Edit\Form');
         $formBlock->setNameInLayout('adminhtml_recurring_profile_edit_form');
         $formBlock->setParentElement($profileElement);
         $formBlock->setProductEntity($product);
@@ -42,7 +42,7 @@ class FormRenderer
 
         // make the profile element dependent on is_recurring
         /** @var $dependencies \Magento\Backend\Block\Widget\Form\Element\Dependence */
-        $dependencies = $this->_blockFactory->createBlock('\Magento\Backend\Block\Widget\Form\Element\Dependence');
+        $dependencies = $this->_blockFactory->createBlock('Magento\Backend\Block\Widget\Form\Element\Dependence');
         $dependencies->setNameInLayout('adminhtml_recurring_profile_edit_form_dependence');
         $dependencies->addFieldMap('is_recurring', 'product[is_recurring]');
         $dependencies->addFieldMap($profileElement->getHtmlId(), $profileElement->getName());

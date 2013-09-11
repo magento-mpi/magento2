@@ -41,7 +41,7 @@ class Search extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Search Terms'));
 
         $id = $this->getRequest()->getParam('id');
-        $model = \Mage::getModel('\Magento\CatalogSearch\Model\Query');
+        $model = \Mage::getModel('Magento\CatalogSearch\Model\Query');
 
         if ($id) {
             $model->load($id);
@@ -86,7 +86,7 @@ class Search extends \Magento\Adminhtml\Controller\Action
         $queryId    = $this->getRequest()->getPost('query_id', null);
         if ($this->getRequest()->isPost() && $data) {
             /* @var $model \Magento\CatalogSearch\Model\Query */
-            $model = \Mage::getModel('\Magento\CatalogSearch\Model\Query');
+            $model = \Mage::getModel('Magento\CatalogSearch\Model\Query');
 
             // validate query
             $queryText  = $this->getRequest()->getPost('query_text', false);
@@ -134,7 +134,7 @@ class Search extends \Magento\Adminhtml\Controller\Action
     {
         if ($id = $this->getRequest()->getParam('id')) {
             try {
-                $model = \Mage::getModel('\Magento\CatalogSearch\Model\Query');
+                $model = \Mage::getModel('Magento\CatalogSearch\Model\Query');
                 $model->setId($id);
                 $model->delete();
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('You deleted the search.'));
@@ -159,7 +159,7 @@ class Search extends \Magento\Adminhtml\Controller\Action
         } else {
             try {
                 foreach ($searchIds as $searchId) {
-                    $model = \Mage::getModel('\Magento\CatalogSearch\Model\Query')->load($searchId);
+                    $model = \Mage::getModel('Magento\CatalogSearch\Model\Query')->load($searchId);
                     $model->delete();
                 }
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(

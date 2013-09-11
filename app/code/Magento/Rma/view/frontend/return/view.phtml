@@ -29,7 +29,7 @@
                         <br />
                         <?php echo __('ID') ?>: <?php echo $this->escapeHtml($_rma->getIncrementId()) ?><br />
                         <?php echo __('Order ID') ?>: <a href="<?php echo $this->getOrderUrl($_rma) ?>"><?php echo $this->escapeHtml($_rma->getOrderIncrementId()) ?></a><br />
-                        <?php echo __('Date Requested') ?>: <?php echo $this->helper('\Magento\Rma\Helper\Data')->getFormatedDate($_rma->getDateRequested()) ?><br />
+                        <?php echo __('Date Requested') ?>: <?php echo $this->helper('Magento\Rma\Helper\Data')->getFormatedDate($_rma->getDateRequested()) ?><br />
                         <?php echo __('Email Address') ?>: <?php echo $this->escapeHtml($_order->getCustomerEmail()) ?><br />
                         <?php echo __('Contact Email Address') ?>: <?php echo $this->escapeHtml($_rma->getCustomerCustomEmail()) ?>
                     </p>
@@ -62,7 +62,7 @@
                         <div class="a-right">
                         <?php if ($trackingNumbers->count()): ?>
                             <a class="f-left" href="#"
-                               data-mage-init="{popupWindow: {windowURL:'<?php echo $this->helper('\Magento\Rma\Helper\Data')->getTrackingPopupUrlBySalesModel($this->getRma()) ?>',windowName:'trackshipment',width:800,height:600,top:0,left:0,resizable:1,scrollbars:1}}"
+                               data-mage-init="{popupWindow: {windowURL:'<?php echo $this->helper('Magento\Rma\Helper\Data')->getTrackingPopupUrlBySalesModel($this->getRma()) ?>',windowName:'trackshipment',width:800,height:600,top:0,left:0,resizable:1,scrollbars:1}}"
                                title="<?php echo __('Track this shipment') ?>">
                                     <?php echo __('Track this shipment') ?>
                             </a>
@@ -178,8 +178,8 @@
             <td><?php echo $this->escapeHtml($item->getProductSku()) ?></span></td>
             <td><?php echo $this->escapeHtml($this->getAttributeValue($item->getId(), 'condition')) ?></td>
             <td><?php echo $this->escapeHtml($this->getAttributeValue($item->getId(), 'resolution')) ?></td>
-            <td><?php echo $this->escapeHtml($this->helper('\Magento\Rma\Helper\Data')->parseQuantity($item->getQtyRequested(), $item)); ?></td>
-            <td><?php echo $this->escapeHtml($this->helper('\Magento\Rma\Helper\Data')->getQty($item));?></td>
+            <td><?php echo $this->escapeHtml($this->helper('Magento\Rma\Helper\Data')->parseQuantity($item->getQtyRequested(), $item)); ?></td>
+            <td><?php echo $this->escapeHtml($this->helper('Magento\Rma\Helper\Data')->getQty($item));?></td>
             <td><span class="nobr"><?php echo $this->escapeHtml($item->getStatusLabel()) ?></span></td>
             <td>
                 <?php if ($_qna) : ?>

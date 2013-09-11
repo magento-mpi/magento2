@@ -32,7 +32,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         if (null === self::$_shouldAskToCreateBillingAgreement) {
             self::$_shouldAskToCreateBillingAgreement = false;
             if ($customerId && $config->shouldAskToCreateBillingAgreement()) {
-                if (\Mage::getModel('\Magento\Sales\Model\Billing\Agreement')->needToCreateForCustomer($customerId)) {
+                if (\Mage::getModel('Magento\Sales\Model\Billing\Agreement')->needToCreateForCustomer($customerId)) {
                     self::$_shouldAskToCreateBillingAgreement = true;
                 }
             }

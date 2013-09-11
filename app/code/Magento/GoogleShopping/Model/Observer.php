@@ -31,7 +31,7 @@ class Observer
         $items = $this->_getItemsCollection($product);
 
         try {
-            \Mage::getModel('\Magento\GoogleShopping\Model\MassOperations')
+            \Mage::getModel('Magento\GoogleShopping\Model\MassOperations')
                 ->synchronizeItems($items);
         } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')
@@ -53,7 +53,7 @@ class Observer
         $items = $this->_getItemsCollection($product);
 
         try {
-            \Mage::getModel('\Magento\GoogleShopping\Model\MassOperations')
+            \Mage::getModel('Magento\GoogleShopping\Model\MassOperations')
                 ->deleteItems($items);
         } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')
@@ -71,7 +71,7 @@ class Observer
      */
     protected function _getItemsCollection($product)
     {
-        $items = \Mage::getResourceModel('\Magento\GoogleShopping\Model\Resource\Item\Collection')
+        $items = \Mage::getResourceModel('Magento\GoogleShopping\Model\Resource\Item\Collection')
             ->addProductFilterId($product->getId());
         if ($product->getStoreId()) {
             $items->addStoreFilter($product->getStoreId());
@@ -96,7 +96,7 @@ class Observer
     {
         $flag = \Mage::getSingleton('Magento\GoogleShopping\Model\Flag')->loadSelf();
         if ($flag->isExpired()) {
-            \Mage::getModel('\Magento\AdminNotification\Model\Inbox')->addMajor(
+            \Mage::getModel('Magento\AdminNotification\Model\Inbox')->addMajor(
                 __('Google Shopping operation has expired.'),
                 __('One or more google shopping synchronization operations failed because of timeout.')
             );

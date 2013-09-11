@@ -89,7 +89,7 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($isAdded, "Comment was not added");
 
         /** @var \Magento\Sales\Model\Order $orderAfter */
-        $orderAfter = Mage::getModel('\Magento\Sales\Model\Order')->load($order->getId());
+        $orderAfter = Mage::getModel('Magento\Sales\Model\Order')->load($order->getId());
         $historyAfter = $orderAfter->getAllStatusHistory();
         $this->assertCount($historySizeBefore + 1, $historyAfter, "History item was not created.");
         /** @var \Magento\Sales\Model\Order\Status\History $createdHistoryItem */
@@ -207,7 +207,7 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
         );
         $this->assertTrue($isUnholded, "The order was not unholded.");
         /** @var \Magento\Sales\Model\Order $updatedOrder */
-        $updatedOrder = Mage::getModel('\Magento\Sales\Model\Order');
+        $updatedOrder = Mage::getModel('Magento\Sales\Model\Order');
         $updatedOrder->load($order->getId());
         $this->assertEquals(self::STATUS_PENDING, $updatedOrder->getStatus(), 'Order was not unholded.');
     }

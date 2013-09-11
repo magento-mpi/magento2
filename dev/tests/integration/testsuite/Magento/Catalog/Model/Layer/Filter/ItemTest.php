@@ -21,9 +21,9 @@ class Magento_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_Test
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Catalog\Model\Layer\Filter\Item', array(
+        $this->_model = Mage::getModel('Magento\Catalog\Model\Layer\Filter\Item', array(
             'data' => array(
-                'filter' => Mage::getModel('\Magento\Catalog\Model\Layer\Filter\Category'),
+                'filter' => Mage::getModel('Magento\Catalog\Model\Layer\Filter\Category'),
                 'value'  => array('valuePart1', 'valuePart2'),
             )
         ));
@@ -42,7 +42,7 @@ class Magento_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_Test
     public function testGetFilterException()
     {
         /** @var $model \Magento\Catalog\Model\Layer\Filter\Item */
-        $model = Mage::getModel('\Magento\Catalog\Model\Layer\Filter\Item');
+        $model = Mage::getModel('Magento\Catalog\Model\Layer\Filter\Item');
         $model->getFilter();
     }
 
@@ -72,7 +72,7 @@ class Magento_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_Test
 
         $request = new Magento_TestFramework_Request();
         $request->setParam('cat', 4);
-        $this->_model->getFilter()->apply($request, Mage::app()->getLayout()->createBlock('\Magento\Core\Block\Text'));
+        $this->_model->getFilter()->apply($request, Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text'));
 
         $this->assertStringEndsWith('/x/y/z/?cat=3', $this->_model->getRemoveUrl());
     }

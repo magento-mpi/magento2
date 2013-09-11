@@ -58,7 +58,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             if (!\Mage::getStoreConfigFlag('checkout/options/enable_agreements')) {
                 $this->_agreements = array();
             } else {
-                $this->_agreements = \Mage::getModel('\Magento\Checkout\Model\Agreement')->getCollection()
+                $this->_agreements = \Mage::getModel('Magento\Checkout\Model\Agreement')->getCollection()
                     ->addStoreFilter(\Mage::app()->getStore()->getId())
                     ->addFieldToFilter('is_active', 1)
                     ->getAllIds();
@@ -137,7 +137,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         /* @var $translate \Magento\Core\Model\Translate */
         $translate->setTranslateInline(false);
 
-        $mailTemplate = \Mage::getModel('\Magento\Core\Model\Email\Template');
+        $mailTemplate = \Mage::getModel('Magento\Core\Model\Email\Template');
         /* @var $mailTemplate \Magento\Core\Model\Email\Template */
 
         $template = \Mage::getStoreConfig('checkout/payment_failed/template', $checkout->getStoreId());

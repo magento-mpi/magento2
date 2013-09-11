@@ -34,7 +34,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
      */
     protected function _initModel($requestParam = 'id')
     {
-        $model = \Mage::getModel('\Magento\Rma\Model\Rma');
+        $model = \Mage::getModel('Magento\Rma\Model\Rma');
         $model->setStoreId($this->getRequest()->getParam('store', 0));
 
         $rmaId = $this->getRequest()->getParam($requestParam);
@@ -50,7 +50,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
         }
 
         if ($orderId) {
-            $order = \Mage::getModel('\Magento\Sales\Model\Order')->load($orderId);
+            $order = \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
             if (!$order->getId()) {
                 \Mage::throwException(__('This is the wrong RMA order ID.'));
             }
@@ -67,11 +67,11 @@ class Rma extends \Magento\Adminhtml\Controller\Action
      */
     protected function _initCreateModel()
     {
-        $model = \Mage::getModel('\Magento\Rma\Model\Rma\Create');
+        $model = \Mage::getModel('Magento\Rma\Model\Rma\Create');
         $orderId = $this->getRequest()->getParam('order_id');
         $model->setOrderId($orderId);
         if ($orderId) {
-            $order =  \Mage::getModel('\Magento\Sales\Model\Order')->load($orderId);
+            $order =  \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
             $model->setCustomerId($order->getCustomerId());
             $model->setStoreId($order->getStoreId());
         }
@@ -227,7 +227,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
         if (!empty($saveRequest['comment']['comment'])) {
             $visible = isset($saveRequest['comment']['is_visible_on_front']);
 
-            \Mage::getModel('\Magento\Rma\Model\Rma\Status\History')
+            \Mage::getModel('Magento\Rma\Model\Rma\Status\History')
                 ->setRmaEntityId($rma->getId())
                 ->setComment($saveRequest['comment']['comment'])
                 ->setIsVisibleOnFront($visible)
@@ -262,7 +262,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
             $saveRequest = $this->_filterRmaSaveRequest($this->getRequest()->getPost());
             $itemStatuses = $this->_combineItemStatuses($saveRequest['items'], $rmaId);
             $model = $this->_initModel('rma_id');
-            $model->setStatus(\Mage::getModel('\Magento\Rma\Model\Rma\Source\Status')->getStatusByItems($itemStatuses))
+            $model->setStatus(\Mage::getModel('Magento\Rma\Model\Rma\Source\Status')->getStatusByItems($itemStatuses))
                 ->setIsUpdate(1);
             if (!$model->saveRma($saveRequest)) {
                 \Mage::throwException(__('We failed to save this RMA.'));
@@ -347,7 +347,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
             }
         }
         /* Merge RMA Items status with POST data*/
-        $rmaItems = \Mage::getModel('\Magento\Rma\Model\Item')
+        $rmaItems = \Mage::getModel('Magento\Rma\Model\Item')
             ->getCollection()
             ->addAttributeToFilter('rma_entity_id', $rmaId);
         foreach ($rmaItems as $rmaItem) {
@@ -382,7 +382,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
         $countCloseRma = 0;
         $countNonCloseRma = 0;
         foreach ($entityIds as $entityId) {
-            $rma = \Mage::getModel('\Magento\Rma\Model\Rma')->load($entityId);
+            $rma = \Mage::getModel('Magento\Rma\Model\Rma')->load($entityId);
             if ($rma->canClose()) {
                 $rma->close()
                     ->save();
@@ -435,7 +435,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
             }
 
             /** @var $history \Magento\Rma\Model\Rma\Status\History */
-            $history = \Mage::getModel('\Magento\Rma\Model\Rma\Status\History');
+            $history = \Mage::getModel('Magento\Rma\Model\Rma\Status\History');
             $history->setRmaEntityId((int)$rma->getId())
                 ->setComment($comment)
                 ->setIsVisibleOnFront($visible)
@@ -480,7 +480,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
             $this->getResponse()->setBody(
                 $this
                     ->getLayout()
-                    ->createBlock('\Magento\Rma\Block\Adminhtml\Customer\Edit\Tab\Rma')
+                    ->createBlock('Magento\Rma\Block\Adminhtml\Customer\Edit\Tab\Rma')
                     ->setCustomerId($customerId)
                     ->toHtml()
             );
@@ -496,7 +496,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
         $this->getResponse()->setBody(
             $this
                 ->getLayout()
-                ->createBlock('\Magento\Rma\Block\Adminhtml\Order\View\Tab\Rma')
+                ->createBlock('Magento\Rma\Block\Adminhtml\Order\View\Tab\Rma')
                 ->setOrderId($orderId)
                 ->toHtml()
         );
@@ -543,8 +543,8 @@ class Rma extends \Magento\Adminhtml\Controller\Action
     {
         $rmaId = (int)$this->getRequest()->getParam('rma_id');
         if ($rmaId) {
-            if ($rma = \Mage::getModel('\Magento\Rma\Model\Rma')->load($rmaId)) {
-                $pdf = \Mage::getModel('\Magento\Rma\Model\Pdf\Rma')->getPdf(array($rma));
+            if ($rma = \Mage::getModel('Magento\Rma\Model\Rma')->load($rmaId)) {
+                $pdf = \Mage::getModel('Magento\Rma\Model\Pdf\Rma')->getPdf(array($rma));
                 $this->_prepareDownloadResponse(
                     'rma'.Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s').'.pdf',
                     $pdf->render(),
@@ -571,7 +571,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
             if (!$model->getId()) {
                 \Mage::throwException(__('The wrong RMA was requested.'));
             }
-            $rma_item = \Mage::getModel('\Magento\Rma\Model\Item');
+            $rma_item = \Mage::getModel('Magento\Rma\Model\Item');
 
             if ($itemId) {
                 $rma_item->load($itemId);
@@ -617,7 +617,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
         $orderId = $this->getRequest()->getParam('order_id');
         $productId = $this->getRequest()->getParam('product_id');
 
-        $rma_item = \Mage::getModel('\Magento\Rma\Model\Item');
+        $rma_item = \Mage::getModel('Magento\Rma\Model\Item');
         \Mage::register('current_rma_item', $rma_item);
 
         $this->loadLayout();
@@ -653,7 +653,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
             if (!$model->getId()) {
                 \Mage::throwException(__('The wrong RMA was requested.'));
             }
-            $rma_item = \Mage::getModel('\Magento\Rma\Model\Item');
+            $rma_item = \Mage::getModel('Magento\Rma\Model\Item');
 
             if ($itemId) {
                 $rma_item->load($itemId);
@@ -716,7 +716,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
         try {
             if ($orderId && $itemId) {
                 /** @var $items \Magento\Rma\Model\Resource\Item */
-                $items = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Item')->getOrderItems($orderId, $itemId);
+                $items = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item')->getOrderItems($orderId, $itemId);
                 if (empty($items)) {
                     \Mage::throwException(__('No items for bundle product'));
                 }
@@ -955,7 +955,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
         }
 
         $shippingInformation = $this->getLayout()
-            ->createBlock('\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Information')
+            ->createBlock('Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Information')
             ->setIndex($this->getRequest()->getParam('index'))
             ->toHtml();
 
@@ -1071,7 +1071,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
         $data = $this->getRequest()->getPost();
         if ($model && isset($data['packages']) && !empty($data['packages'])) {
             /** @var $shipment \Magento\Rma\Model\Shipping */
-            $shipment =  \Mage::getModel('\Magento\Rma\Model\Shipping')
+            $shipment =  \Mage::getModel('Magento\Rma\Model\Shipping')
                 ->getShippingLabelByRma($model);
 
             $carrier = \Mage::helper('Magento\Rma\Helper\Data')->getCarrier($data['code'], $model->getStoreId());
@@ -1119,9 +1119,9 @@ class Rma extends \Magento\Adminhtml\Controller\Action
                 $carrierCode = $carrier->getCarrierCode();
                 $carrierTitle = \Mage::getStoreConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
                 if ($trackingNumbers) {
-                    \Mage::getResourceModel('\Magento\Rma\Model\Resource\Shipping')->deleteTrackingNumbers($model);
+                    \Mage::getResourceModel('Magento\Rma\Model\Resource\Shipping')->deleteTrackingNumbers($model);
                     foreach ($trackingNumbers as $trackingNumber) {
-                        \Mage::getModel('\Magento\Rma\Model\Shipping')
+                        \Mage::getModel('Magento\Rma\Model\Shipping')
                             ->setTrackNumber($trackingNumber)
                             ->setCarrierCode($carrierCode)
                             ->setCarrierTitle($carrierTitle)
@@ -1148,7 +1148,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
     {
         try {
             $model = $this->_initModel();
-            $labelContent = \Mage::getModel('\Magento\Rma\Model\Shipping')
+            $labelContent = \Mage::getModel('Magento\Rma\Model\Shipping')
                 ->getShippingLabelByRma($model)
                 ->getShippingLabel();
             if ($labelContent) {
@@ -1189,13 +1189,13 @@ class Rma extends \Magento\Adminhtml\Controller\Action
     public function printPackageAction()
     {
         $model = $this->_initModel();
-        $shipment = \Mage::getModel('\Magento\Rma\Model\Shipping')
+        $shipment = \Mage::getModel('Magento\Rma\Model\Shipping')
             ->getShippingLabelByRma($model);
 
         if ($shipment) {
-            $pdf = \Mage::getModel('\Magento\Sales\Model\Order\Pdf\Shipment\Packaging')
+            $pdf = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Shipment\Packaging')
                     ->setPackageShippingBlock(
-                        \Mage::getBlockSingleton('\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod')
+                        \Mage::getBlockSingleton('Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod')
                     )
                     ->getPdf($shipment);
             $this->_prepareDownloadResponse(
@@ -1280,7 +1280,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
 
             $model = $this->_initModel();
             if ($model->getId()) {
-                \Mage::getModel('\Magento\Rma\Model\Shipping')
+                \Mage::getModel('Magento\Rma\Model\Shipping')
                     ->setTrackNumber($number)
                     ->setCarrierCode($carrier)
                     ->setCarrierTitle($title)
@@ -1320,7 +1320,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
     public function removeTrackAction()
     {
         $trackId    = $this->getRequest()->getParam('track_id');
-        $track      = \Mage::getModel('\Magento\Rma\Model\Shipping')->load($trackId);
+        $track      = \Mage::getModel('Magento\Rma\Model\Shipping')->load($trackId);
         if ($track->getId()) {
             try {
                 $model = $this->_initModel();

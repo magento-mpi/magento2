@@ -37,7 +37,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceSingleton('\Magento\Newsletter\Model\Resource\Template\Collection')
+        $collection = \Mage::getResourceSingleton('Magento\Newsletter\Model\Resource\Template\Collection')
             ->useOnlyActual();
 
         $this->setCollection($collection);

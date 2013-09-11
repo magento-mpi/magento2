@@ -27,7 +27,7 @@ class ListProducts extends \Magento\Core\Block\Template
     {
         parent::_construct();
         $session = \Mage::getSingleton('Magento\Customer\Model\Session');
-        $purchased = \Mage::getResourceModel('\Magento\Downloadable\Model\Resource\Link\Purchased\Collection')
+        $purchased = \Mage::getResourceModel('Magento\Downloadable\Model\Resource\Link\Purchased\Collection')
             ->addFieldToFilter('customer_id', $session->getCustomerId())
             ->addOrder('created_at', 'desc');
         $this->setPurchased($purchased);
@@ -38,7 +38,7 @@ class ListProducts extends \Magento\Core\Block\Template
         if (empty($purchasedIds)) {
             $purchasedIds = array(null);
         }
-        $purchasedItems = \Mage::getResourceModel('\Magento\Downloadable\Model\Resource\Link\Purchased\Item\Collection')
+        $purchasedItems = \Mage::getResourceModel('Magento\Downloadable\Model\Resource\Link\Purchased\Item\Collection')
             ->addFieldToFilter('purchased_id', array('in' => $purchasedIds))
             ->addFieldToFilter('status',
                 array(
@@ -61,7 +61,7 @@ class ListProducts extends \Magento\Core\Block\Template
     {
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()->createBlock('\Magento\Page\Block\Html\Pager', 'downloadable.customer.products.pager')
+        $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager', 'downloadable.customer.products.pager')
             ->setCollection($this->getItems());
         $this->setChild('pager', $pager);
         $this->getItems()->load();

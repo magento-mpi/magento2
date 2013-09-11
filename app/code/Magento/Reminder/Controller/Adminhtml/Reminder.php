@@ -40,7 +40,7 @@ class Reminder extends \Magento\Adminhtml\Controller\Action
     protected function _initRule($requestParam = 'id')
     {
         $ruleId = $this->getRequest()->getParam($requestParam, 0);
-        $rule = \Mage::getModel('\Magento\Reminder\Model\Rule');
+        $rule = \Mage::getModel('Magento\Reminder\Model\Rule');
         if ($ruleId) {
             $rule->load($ruleId);
             if (!$rule->getId()) {
@@ -123,7 +123,7 @@ class Reminder extends \Magento\Adminhtml\Controller\Action
         $model = \Mage::getModel($type)
             ->setId($id)
             ->setType($type)
-            ->setRule(\Mage::getModel('\Magento\Reminder\Model\Rule'))
+            ->setRule(\Mage::getModel('Magento\Reminder\Model\Rule'))
             ->setPrefix('conditions');
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);
@@ -239,7 +239,7 @@ class Reminder extends \Magento\Adminhtml\Controller\Action
     public function customerGridAction()
     {
         if ($this->_initRule('rule_id')) {
-            $block = $this->getLayout()->createBlock('\Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers');
+            $block = $this->getLayout()->createBlock('Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers');
             $this->getResponse()->setBody($block->toHtml());
         }
     }

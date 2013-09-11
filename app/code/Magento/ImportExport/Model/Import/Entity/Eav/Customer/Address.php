@@ -206,11 +206,11 @@ class Address
         parent::__construct($data);
 
         $this->_addressCollection = isset($data['address_collection']) ? $data['address_collection']
-            : \Mage::getResourceModel('\Magento\Customer\Model\Resource\Address\Collection');
+            : \Mage::getResourceModel('Magento\Customer\Model\Resource\Address\Collection');
         $this->_entityTable = isset($data['entity_table']) ? $data['entity_table']
-            : \Mage::getModel('\Magento\Customer\Model\Address')->getResource()->getEntityTable();
+            : \Mage::getModel('Magento\Customer\Model\Address')->getResource()->getEntityTable();
         $this->_regionCollection = isset($data['region_collection']) ? $data['region_collection']
-            : \Mage::getResourceModel('\Magento\Directory\Model\Resource\Region\Collection');
+            : \Mage::getResourceModel('Magento\Directory\Model\Resource\Region\Collection');
 
         $this->addMessageTemplate(self::ERROR_ADDRESS_ID_IS_EMPTY,
             __('Customer address id column is not specified')
@@ -238,7 +238,7 @@ class Address
     protected function _getCustomerEntity()
     {
         if (!$this->_customerEntity) {
-            $this->_customerEntity = \Mage::getModel('\Magento\Customer\Model\Customer');
+            $this->_customerEntity = \Mage::getModel('Magento\Customer\Model\Customer');
         }
         return $this->_customerEntity;
     }
@@ -271,7 +271,7 @@ class Address
     {
         if (!$this->_nextEntityId) {
             /** @var $addressResource \Magento\Customer\Model\Resource\Address */
-            $addressResource     = \Mage::getModel('\Magento\Customer\Model\Address')->getResource();
+            $addressResource     = \Mage::getModel('Magento\Customer\Model\Address')->getResource();
             $addressTable        = $addressResource->getEntityTable();
             $this->_nextEntityId = \Mage::getResourceHelper('Magento_ImportExport')->getNextAutoincrement($addressTable);
         }
@@ -513,7 +513,7 @@ class Address
     protected function _saveCustomerDefaults(array $defaults)
     {
         /** @var $entity \Magento\Customer\Model\Customer */
-        $entity = \Mage::getModel('\Magento\Customer\Model\Customer');
+        $entity = \Mage::getModel('Magento\Customer\Model\Customer');
         $entityTypeId = $entity->getEntityTypeId();
 
         foreach ($defaults as $tableName => $data) {

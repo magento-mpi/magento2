@@ -81,7 +81,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         $storeInfo          = new \Magento\Object(\Mage::getStoreConfig('general/store_information', $shipmentStoreId));
 
         /** @var $order \Magento\Sales\Model\Order */
-        $order              = \Mage::getModel('\Magento\Sales\Model\Order')->load($this->getRma()->getOrderId());
+        $order              = \Mage::getModel('Magento\Sales\Model\Order')->load($this->getRma()->getOrderId());
         $shipperAddress     = $order->getShippingAddress();
         /** @var \Magento\Sales\Model\Quote\Address $recipientAddress */
         $recipientAddress   = \Mage::helper('Magento\Rma\Helper\Data')->getReturnAddressModel($this->getRma()->getStoreId());
@@ -95,7 +95,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
             \Mage::throwException(__('Invalid carrier: %1', $carrierCode));
         }
 
-        $shipperRegionCode  = \Mage::getModel('\Magento\Directory\Model\Region')->load($shipperAddress->getRegionId())->getCode();
+        $shipperRegionCode  = \Mage::getModel('Magento\Directory\Model\Region')->load($shipperAddress->getRegionId())->getCode();
 
         $recipientRegionCode= $recipientAddress->getRegionId();
 
@@ -117,7 +117,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         }
 
         /** @var $request \Magento\Shipping\Model\Shipment\Request */
-        $request = \Mage::getModel('\Magento\Shipping\Model\Shipment\Return');
+        $request = \Mage::getModel('Magento\Shipping\Model\Shipment\Return');
         $request->setOrderShipment($this);
 
         $request->setShipperContactPersonName($order->getCustomerName());
@@ -198,7 +198,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     public function getProtectCode()
     {
         if ($this->getRmaEntityId()) {
-            $rma = \Mage::getModel('\Magento\Rma\Model\Rma')->load($this->getRmaEntityId());
+            $rma = \Mage::getModel('Magento\Rma\Model\Rma')->load($this->getRmaEntityId());
         }
 
         return (string)$rma->getProtectCode();

@@ -45,7 +45,7 @@ class View extends \Magento\Catalog\Block\Product\View
     public function getReviewsSummaryHtml(\Magento\Catalog\Model\Product $product, $templateType = false, $displayIfNoReviews = false)
     {
         return
-            $this->getLayout()->createBlock('\Magento\Rating\Block\Entity\Detailed')
+            $this->getLayout()->createBlock('Magento\Rating\Block\Entity\Detailed')
                 ->setEntityId($this->getProduct()->getId())
                 ->toHtml()
             .
@@ -58,7 +58,7 @@ class View extends \Magento\Catalog\Block\Product\View
     public function getReviewsCollection()
     {
         if (null === $this->_reviewsCollection) {
-            $this->_reviewsCollection = \Mage::getModel('\Magento\Review\Model\Review')->getCollection()
+            $this->_reviewsCollection = \Mage::getModel('Magento\Review\Model\Review')->getCollection()
                 ->addStoreFilter(\Mage::app()->getStore()->getId())
                 ->addStatusFilter(\Magento\Review\Model\Review::STATUS_APPROVED)
                 ->addEntityFilter('product', $this->getProduct()->getId())

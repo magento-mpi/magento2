@@ -35,7 +35,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareCollection()
     {
         $event = \Mage::registry('current_event');
-        $collection = \Mage::getResourceModel('\Magento\Logging\Model\Resource\Event\Changes\Collection')
+        $collection = \Mage::getResourceModel('Magento\Logging\Model\Resource\Event\Changes\Collection')
             ->addFieldToFilter('event_id', $event->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();

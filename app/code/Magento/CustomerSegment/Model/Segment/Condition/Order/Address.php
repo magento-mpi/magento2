@@ -48,7 +48,7 @@ class Address
      */
     public function getNewChildSelectOptions()
     {
-        return \Mage::getModel('\Magento\CustomerSegment\Model\Segment\Condition\Order\Address\Combine')
+        return \Mage::getModel('Magento\CustomerSegment\Model\Segment\Condition\Order\Address\Combine')
             ->getNewChildSelectOptions();
     }
 

@@ -108,7 +108,7 @@ class DefaultRenderer extends \Magento\Core\Block\Template
             $_default = array('value' => $optionValue);
             if (isset($optionInfo['option_type'])) {
                 try {
-                    $group = \Mage::getModel('\Magento\Catalog\Model\Product\Option')->groupFactory($optionInfo['option_type']);
+                    $group = \Mage::getModel('Magento\Catalog\Model\Product\Option')->groupFactory($optionInfo['option_type']);
                     return array('value' => $group->getCustomizedView($optionInfo));
                 } catch (\Exception $e) {
                     return $_default;

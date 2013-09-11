@@ -79,7 +79,7 @@ class Edit extends \Magento\Directory\Block\Data
     public function getTypeList()
     {
         $storeId = \Mage::app()->getStore()->getId();
-        $collection = \Mage::getModel('\Magento\GiftRegistry\Model\Type')
+        $collection = \Mage::getModel('Magento\GiftRegistry\Model\Type')
             ->getCollection()
             ->addStoreData($storeId)
             ->applyListedFilter()

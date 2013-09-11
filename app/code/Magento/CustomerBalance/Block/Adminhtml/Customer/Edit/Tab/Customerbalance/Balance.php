@@ -20,9 +20,9 @@ class Balance extends \Magento\Adminhtml\Block\Template
     public function getDeleteOrphanBalancesButton()
     {
         $customer = \Mage::registry('current_customer');
-        $balance = \Mage::getModel('\Magento\CustomerBalance\Model\Balance');
+        $balance = \Mage::getModel('Magento\CustomerBalance\Model\Balance');
         if ($balance->getOrphanBalancesCount($customer->getId()) > 0) {
-            return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')->setData(array(
+            return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData(array(
                 'label'     => __('Delete Orphan Balances'),
                 'onclick'   => 'setLocation(\'' . $this->getDeleteOrphanBalancesUrl() .'\')',
                 'class'     => 'scalable delete',

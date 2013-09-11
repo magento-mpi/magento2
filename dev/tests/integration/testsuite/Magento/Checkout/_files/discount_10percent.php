@@ -9,7 +9,7 @@
  */
 
 /** @var \Magento\SalesRule\Model\Rule $salesRule */
-$salesRule = Mage::getModel('\Magento\SalesRule\Model\Rule');
+$salesRule = Mage::getModel('Magento\SalesRule\Model\Rule');
 
 $data = array(
     'name' => 'Test Coupon',

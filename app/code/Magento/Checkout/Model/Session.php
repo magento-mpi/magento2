@@ -115,7 +115,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
 
         if ($this->_quote === null) {
             /** @var $quote \Magento\Sales\Model\Quote */
-            $quote = \Mage::getModel('\Magento\Sales\Model\Quote')->setStoreId(\Mage::app()->getStore()->getId());
+            $quote = \Mage::getModel('Magento\Sales\Model\Quote')->setStoreId(\Mage::app()->getStore()->getId());
             if ($this->getQuoteId()) {
                 if ($this->_loadInactive) {
                     $quote->load($this->getQuoteId());
@@ -135,7 +135,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
                          * We mast to create new quote object, because collectTotals()
                          * can to create links with other objects.
                          */
-                        $quote = \Mage::getModel('\Magento\Sales\Model\Quote')->setStoreId(\Mage::app()->getStore()->getId());
+                        $quote = \Mage::getModel('Magento\Sales\Model\Quote')->setStoreId(\Mage::app()->getStore()->getId());
                         $quote->load($this->getQuoteId());
                     }
                 } else {
@@ -203,7 +203,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
 
         \Mage::dispatchEvent('load_customer_quote_before', array('checkout_session' => $this));
 
-        $customerQuote = \Mage::getModel('\Magento\Sales\Model\Quote')
+        $customerQuote = \Mage::getModel('Magento\Sales\Model\Quote')
             ->setStoreId(\Mage::app()->getStore()->getId())
             ->loadByCustomer(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId());
 
@@ -327,7 +327,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     {
         $allMessages = $this->getAdditionalMessages();
         if (!isset($allMessages[$itemKey])) {
-            $allMessages[$itemKey] = \Mage::getModel('\Magento\Core\Model\Message\Collection');
+            $allMessages[$itemKey] = \Mage::getModel('Magento\Core\Model\Message\Collection');
         }
         $allMessages[$itemKey]->add($message);
         $this->setAdditionalMessages($allMessages);

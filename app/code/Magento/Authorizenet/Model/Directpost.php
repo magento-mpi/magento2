@@ -294,7 +294,7 @@ class Directpost extends \Magento\Paygate\Model\Authorizenet
      */
     protected function _getRequestModel()
     {
-        return \Mage::getModel('\Magento\Authorizenet\Model\Directpost\Request');
+        return \Mage::getModel('Magento\Authorizenet\Model\Directpost\Request');
     }
 
     /**
@@ -411,7 +411,7 @@ class Directpost extends \Magento\Paygate\Model\Authorizenet
         $isError = false;
         if ($orderIncrementId) {
             /* @var $order \Magento\Sales\Model\Order */
-            $order = \Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
+            $order = \Mage::getModel('Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
             //check payment method
             $payment = $order->getPayment();
             if (!$payment || $payment->getMethod() != $this->getCode()) {
@@ -561,7 +561,7 @@ class Directpost extends \Magento\Paygate\Model\Authorizenet
                 $order->sendNewOrderEmail();
             }
 
-            \Mage::getModel('\Magento\Sales\Model\Quote')
+            \Mage::getModel('Magento\Sales\Model\Quote')
                 ->load($order->getQuoteId())
                 ->setIsActive(false)
                 ->save();

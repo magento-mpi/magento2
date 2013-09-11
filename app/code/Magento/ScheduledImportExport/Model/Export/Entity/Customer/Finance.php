@@ -97,9 +97,9 @@ class Finance
         parent::__construct($data);
 
         $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
-            : \Mage::getResourceModel('\Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
+            : \Mage::getResourceModel('Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
         $this->_customerEntity = isset($data['customer_entity']) ? $data['customer_entity']
-            : \Mage::getModel('\Magento\ImportExport\Model\Export\Entity\Eav\Customer');
+            : \Mage::getModel('Magento\ImportExport\Model\Export\Entity\Eav\Customer');
         $this->_moduleHelper = isset($data['module_helper']) ? $data['module_helper']
             : \Mage::helper('Magento\ScheduledImportExport\Helper\Data');
 

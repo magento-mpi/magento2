@@ -80,7 +80,7 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
      */
     public function prepareForProductsInCarts()
     {
-        $productEntity          = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product\Collection');
+        $productEntity          = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Collection');
         $productAttrName        = $productEntity->getAttribute('name');
         $productAttrNameId      = (int) $productAttrName->getAttributeId();
         $productAttrNameTable   = $productAttrName->getBackend()->getTable();
@@ -152,7 +152,7 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
      */
     public function addCustomerData($filter = null)
     {
-        $customerEntity         = \Mage::getResourceSingleton('\Magento\Customer\Model\Resource\Customer');
+        $customerEntity         = \Mage::getResourceSingleton('Magento\Customer\Model\Resource\Customer');
         $attrFirstname          = $customerEntity->getAttribute('firstname');
         $attrFirstnameId        = (int) $attrFirstname->getAttributeId();
         $attrFirstnameTableName = $attrFirstname->getBackend()->getTable();

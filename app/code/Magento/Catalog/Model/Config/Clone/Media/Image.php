@@ -32,7 +32,7 @@ class Image extends \Magento\Core\Model\Config\Value
         $entityTypeId = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getId();
 
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
-        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Attribute\Collection');
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection');
         $collection->setEntityTypeFilter($entityTypeId);
         $collection->setFrontendInputTypeFilter('media_image');
 

@@ -23,7 +23,7 @@ class Notice extends \Magento\Adminhtml\Block\Template
     protected function _prepareLayout()
     {
         if ($salesRule = \Mage::registry('current_promo_quote_rule')) {
-            $resource = \Mage::getResourceModel('\Magento\Reminder\Model\Resource\Rule');
+            $resource = \Mage::getResourceModel('Magento\Reminder\Model\Resource\Rule');
             if ($count = $resource->getAssignedRulesCount($salesRule->getId())) {
                 $confirm = __('This rule is assigned to %1 automated reminder rule(s). Deleting this rule will automatically unassign it.', $count);
                 $block = $this->getLayout()->getBlock('promo_quote_edit');

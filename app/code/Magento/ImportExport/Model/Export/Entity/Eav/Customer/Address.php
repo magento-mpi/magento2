@@ -115,13 +115,13 @@ class Address
         parent::__construct($data);
 
         $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
-            : \Mage::getResourceModel('\Magento\Customer\Model\Resource\Customer\Collection');
+            : \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
 
         $this->_customerEntity = isset($data['customer_entity']) ? $data['customer_entity']
-            : \Mage::getModel('\Magento\ImportExport\Model\Export\Entity\Eav\Customer');
+            : \Mage::getModel('Magento\ImportExport\Model\Export\Entity\Eav\Customer');
 
         $this->_addressCollection = isset($data['address_collection']) ? $data['address_collection']
-            : \Mage::getResourceModel('\Magento\Customer\Model\Resource\Address\Collection');
+            : \Mage::getResourceModel('Magento\Customer\Model\Resource\Address\Collection');
 
         $this->_initWebsites(true);
         $this->setFileName($this->getEntityTypeCode());

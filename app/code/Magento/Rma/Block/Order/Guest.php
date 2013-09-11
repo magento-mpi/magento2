@@ -16,7 +16,7 @@ class Guest extends \Magento\Core\Block\Template
         parent::_construct();
 
         if (\Mage::helper('Magento\Rma\Helper\Data')->isEnabled()) {
-            $returns = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Rma\Grid\Collection')
+            $returns = \Mage::getResourceModel('Magento\Rma\Model\Resource\Rma\Grid\Collection')
                 ->addFieldToSelect('*')
                 ->addFieldToFilter('order_id', \Mage::registry('current_order')->getId())
                 ->count()

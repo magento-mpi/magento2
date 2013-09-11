@@ -38,7 +38,7 @@ class Info extends \Magento\Payment\Block\Info\Cc
     {
         $transport = parent::_prepareSpecificInformation($transport);
         $payment = $this->getInfo();
-        $paypalInfo = \Mage::getModel('\Magento\Paypal\Model\Info');
+        $paypalInfo = \Mage::getModel('Magento\Paypal\Model\Info');
         if (!$this->getIsSecureMode()) {
             $info = $paypalInfo->getPaymentInfo($payment, true);
         } else {

@@ -93,12 +93,12 @@ class Grid extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
     public function isGiftMessagesAvailable($item=null)
     {
         if(is_null($item)) {
-            return $this->helper('\Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable(
+            return $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable(
                 'items', $this->getQuote(), $this->getStore()
             );
         }
 
-        return $this->helper('\Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable(
+        return $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable(
             'item', $item, $this->getStore()
         );
     }
@@ -351,7 +351,7 @@ class Grid extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
             $options['title'] = __('This product does not have any configurable options');
         }
 
-        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData($options)
             ->toHtml();
     }
@@ -388,7 +388,7 @@ class Grid extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
      */
     public function getCustomerWishlists()
     {
-        return \Mage::getModel('\Magento\Wishlist\Model\Wishlist')->getCollection()
+        return \Mage::getModel('Magento\Wishlist\Model\Wishlist')->getCollection()
             ->filterByCustomerId($this->getCustomerId());
     }
 }

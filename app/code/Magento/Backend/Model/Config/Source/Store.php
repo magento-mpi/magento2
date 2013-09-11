@@ -18,7 +18,7 @@ class Store implements \Magento\Core\Model\Option\ArrayInterface
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $this->_options = \Mage::getResourceModel('\Magento\Core\Model\Resource\Store\Collection')
+            $this->_options = \Mage::getResourceModel('Magento\Core\Model\Resource\Store\Collection')
                 ->load()->toOptionArray();
         }
         return $this->_options;

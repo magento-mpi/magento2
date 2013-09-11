@@ -245,7 +245,7 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
         $creditMemoIncrement = end($creditmemoInfo);
 
         /** @var $creditmemo \Magento\Sales\Model\Order\Creditmemo */
-        $creditmemo = Mage::getModel('\Magento\Sales\Model\Order\Creditmemo')
+        $creditmemo = Mage::getModel('Magento\Sales\Model\Order\Creditmemo')
             ->load($creditMemoIncrement, 'increment_id');
 
         $filters = array(
@@ -321,7 +321,7 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
 
         /** Add creditmemo to fixtures to ensure that it is removed in teardown. */
         /** @var \Magento\Sales\Model\Order\Creditmemo $createdCreditmemo */
-        $createdCreditmemo = Mage::getModel('\Magento\Sales\Model\Order\Creditmemo');
+        $createdCreditmemo = Mage::getModel('Magento\Sales\Model\Order\Creditmemo');
         $createdCreditmemo->load($creditMemoIncrement, 'increment_id');
         Mage::register('creditmemo', $createdCreditmemo);
 

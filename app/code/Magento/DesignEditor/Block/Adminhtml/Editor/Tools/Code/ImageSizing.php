@@ -143,7 +143,7 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form
                 'name'  => 'save_image_sizing',
                 'title' => __('Update'),
                 'value' => __('Update'),
-                'data-mage-init' => $this->helper('\Magento\Backend\Helper\Data')->escapeHtml(json_encode(array(
+                'data-mage-init' => $this->helper('Magento\Backend\Helper\Data')->escapeHtml(json_encode(array(
                     'button' => array(
                         'event'  => 'saveForm',
                         'target' => 'body'
@@ -337,7 +337,7 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form
             'title' => __('Reset to Original'),
             'value' => __('Reset to Original'),
             'class' => 'action-reset',
-            'data-mage-init' => $this->helper('\Magento\Backend\Helper\Data')->escapeHtml(json_encode(array(
+            'data-mage-init' => $this->helper('Magento\Backend\Helper\Data')->escapeHtml(json_encode(array(
                 'button' => array(
                     'event'     => 'restoreDefaultData',
                     'target'    => 'body',

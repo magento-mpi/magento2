@@ -705,7 +705,7 @@ class Payment extends \Magento\Payment\Model\Info
             return $this;
         }
 
-        $serviceModel = \Mage::getModel('\Magento\Sales\Model\Service\Order', array('order' => $order));
+        $serviceModel = \Mage::getModel('Magento\Sales\Model\Service\Order', array('order' => $order));
         if ($invoice) {
             if ($invoice->getBaseTotalRefunded() > 0) {
                 $adjustment = array('adjustment_positive' => $amount);
@@ -1131,7 +1131,7 @@ class Payment extends \Magento\Payment\Model\Info
                 $transaction = $this->_lookupTransaction($transactionId);
             }
             if (!$transaction) {
-                $transaction = \Mage::getModel('\Magento\Sales\Model\Order\Payment\Transaction')->setTxnId($transactionId);
+                $transaction = \Mage::getModel('Magento\Sales\Model\Order\Payment\Transaction')->setTxnId($transactionId);
             }
             $transaction
                 ->setOrderPaymentObject($this)
@@ -1329,7 +1329,7 @@ class Payment extends \Magento\Payment\Model\Info
     {
         if (!$txnId) {
             if ($txnType && $this->getId()) {
-                $collection = \Mage::getModel('\Magento\Sales\Model\Order\Payment\Transaction')->getCollection()
+                $collection = \Mage::getModel('Magento\Sales\Model\Order\Payment\Transaction')->getCollection()
                     ->setOrderFilter($this->getOrder())
                     ->addPaymentIdFilter($this->getId())
                     ->addTxnTypeFilter($txnType)
@@ -1346,7 +1346,7 @@ class Payment extends \Magento\Payment\Model\Info
         if (isset($this->_transactionsLookup[$txnId])) {
             return $this->_transactionsLookup[$txnId];
         }
-        $txn = \Mage::getModel('\Magento\Sales\Model\Order\Payment\Transaction')
+        $txn = \Mage::getModel('Magento\Sales\Model\Order\Payment\Transaction')
             ->setOrderPaymentObject($this)
             ->loadByTxnId($txnId);
         if ($txn->getId()) {
@@ -1468,7 +1468,7 @@ class Payment extends \Magento\Payment\Model\Info
     {
         if ($this->getBillingAgreementData()) {
             $order = $this->getOrder();
-            $agreement = \Mage::getModel('\Magento\Sales\Model\Billing\Agreement')->importOrderPayment($this);
+            $agreement = \Mage::getModel('Magento\Sales\Model\Billing\Agreement')->importOrderPayment($this);
             if ($agreement->isValid()) {
                 $message = __('Created billing agreement #%1.', $agreement->getReferenceId());
                 $order->addRelatedObject($agreement);

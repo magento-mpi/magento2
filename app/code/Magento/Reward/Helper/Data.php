@@ -290,7 +290,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected function _loadRatesArray()
     {
         $ratesArray = array();
-        $collection = \Mage::getModel('\Magento\Reward\Model\Reward\Rate')->getCollection()
+        $collection = \Mage::getModel('Magento\Reward\Model\Reward\Rate')->getCollection()
             ->addFieldToFilter('direction', \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY);
         foreach ($collection as $rate) {
             $ratesArray[$rate->getCustomerGroupId()][$rate->getWebsiteId()] = $rate;

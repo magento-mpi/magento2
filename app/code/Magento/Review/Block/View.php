@@ -61,7 +61,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getRating()
     {
         if( !$this->getRatingCollection() ) {
-            $ratingCollection = \Mage::getModel('\Magento\Rating\Model\Rating\Option\Vote')
+            $ratingCollection = \Mage::getModel('Magento\Rating\Model\Rating\Option\Vote')
                 ->getResourceCollection()
                 ->setReviewFilter($this->getReviewId())
                 ->setStoreFilter(\Mage::app()->getStore()->getId())
@@ -80,7 +80,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getRatingSummary()
     {
         if( !$this->getRatingSummaryCache() ) {
-            $this->setRatingSummaryCache(\Mage::getModel('\Magento\Rating\Model\Rating')->getEntitySummary($this->getProductData()->getId()));
+            $this->setRatingSummaryCache(\Mage::getModel('Magento\Rating\Model\Rating')->getEntitySummary($this->getProductData()->getId()));
         }
         return $this->getRatingSummaryCache();
     }
@@ -93,7 +93,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getTotalReviews()
     {
         if( !$this->getTotalReviewsCache() ) {
-            $this->setTotalReviewsCache(\Mage::getModel('\Magento\Review\Model\Review')->getTotalReviews($this->getProductData()->getId(), false, \Mage::app()->getStore()->getId()));
+            $this->setTotalReviewsCache(\Mage::getModel('Magento\Review\Model\Review')->getTotalReviews($this->getProductData()->getId(), false, \Mage::app()->getStore()->getId()));
         }
         return $this->getTotalReviewsCache();
     }

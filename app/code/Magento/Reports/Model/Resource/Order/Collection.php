@@ -268,7 +268,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
     {
         return str_replace(
             '{{attribute}}',
-            \Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Order')
+            \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Order')
                     ->getStoreTZOffsetQuery($this->getMainTable(), $attribute, $from, $to),
             $this->_getRangeExpression($range)
         );

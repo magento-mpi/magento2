@@ -23,7 +23,7 @@ class Date
      */
     public function getDateFormatSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                 'id'    =>  '{{prefix}}_attribute_{{id}}_date_format',
                 'class' => 'select global-scope'

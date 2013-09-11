@@ -61,7 +61,7 @@ class Magento_Adminhtml_Block_Widget_ContainerTest extends PHPUnit_Framework_Tes
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
         /** @var $block \Magento\Adminhtml\Block\Widget\Container */
-        $block = $layout->createBlock('\Magento\Adminhtml\Block\Widget\Container', 'block');
+        $block = $layout->createBlock('Magento\Adminhtml\Block\Widget\Container', 'block');
         foreach ($titles as $id => $title) {
             $block->addButton($id, array('title' => $title));
         }

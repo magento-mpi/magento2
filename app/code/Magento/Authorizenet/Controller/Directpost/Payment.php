@@ -46,7 +46,7 @@ class Payment extends \Magento\Core\Controller\Front\Action
         $params = array();
         $data = $this->getRequest()->getPost();
         /* @var $paymentMethod Magento_Authorizenet_Model_DirectPost */
-        $paymentMethod = \Mage::getModel('\Magento\Authorizenet\Model\Directpost');
+        $paymentMethod = \Mage::getModel('Magento\Authorizenet\Model\Directpost');
 
         $result = array();
         if (!empty($data['x_invoice_num'])) {
@@ -169,9 +169,9 @@ class Payment extends \Magento\Core\Controller\Front\Action
                 ->isCheckoutOrderIncrementIdExist($incrementId)
         ) {
             /* @var $order \Magento\Sales\Model\Order */
-            $order = \Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($incrementId);
+            $order = \Mage::getModel('Magento\Sales\Model\Order')->loadByIncrementId($incrementId);
             if ($order->getId()) {
-                $quote = \Mage::getModel('\Magento\Sales\Model\Quote')
+                $quote = \Mage::getModel('Magento\Sales\Model\Quote')
                     ->load($order->getQuoteId());
                 if ($quote->getId()) {
                     $quote->setIsActive(1)

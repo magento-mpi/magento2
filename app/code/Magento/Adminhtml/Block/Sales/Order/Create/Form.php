@@ -81,7 +81,7 @@ class Form extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
             $data['addresses'] = array();
 
             /* @var $addressForm \Magento\Customer\Model\Form */
-            $addressForm = \Mage::getModel('\Magento\Customer\Model\Form')
+            $addressForm = \Mage::getModel('Magento\Customer\Model\Form')
                 ->setFormCode('adminhtml_customer_address')
                 ->setStore($this->getStore());
             foreach ($this->getCustomer()->getAddresses() as $address) {

@@ -534,7 +534,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
             ->setNotifyUrl(\Mage::getUrl('paypal/ipn/'))
             ->setInvNum($order->getIncrementId())
             ->setCurrencyCode($order->getBaseCurrencyCode())
-            ->setPaypalCart(\Mage::getModel('\Magento\Paypal\Model\Cart', $parameters))
+            ->setPaypalCart(\Mage::getModel('Magento\Paypal\Model\Cart', $parameters))
             ->setIsLineItemsEnabled($this->_pro->getConfig()->lineItemsEnabled)
         ;
         if ($order->getIsVirtual()) {

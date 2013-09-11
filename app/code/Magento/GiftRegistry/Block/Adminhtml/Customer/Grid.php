@@ -33,7 +33,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareCollection()
     {
         /** @var $collection \Magento\GiftRegistry\Model\Resource\Entity\Collection */
-        $collection = \Mage::getModel('\Magento\GiftRegistry\Model\Entity')->getCollection();
+        $collection = \Mage::getModel('Magento\GiftRegistry\Model\Entity')->getCollection();
         $collection->filterByCustomerId($this->getRequest()->getParam('id'));
         $collection->addRegistryInfo();
 

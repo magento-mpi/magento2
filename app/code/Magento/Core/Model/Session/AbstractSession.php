@@ -87,7 +87,7 @@ class AbstractSession extends \Magento\Object
         switch($this->getSessionSaveMethod()) {
             case 'db':
                 ini_set('session.save_handler', 'user');
-                $sessionResource = \Mage::getResourceSingleton('\Magento\Core\Model\Resource\Session');
+                $sessionResource = \Mage::getResourceSingleton('Magento\Core\Model\Resource\Session');
                 /* @var $sessionResource \Magento\Core\Model\Resource\Session */
                 $sessionResource->setSaveHandler();
                 break;
@@ -408,7 +408,7 @@ class AbstractSession extends \Magento\Object
     public function getMessages($clear = false)
     {
         if (!$this->getData('messages')) {
-            $this->setMessages(\Mage::getModel('\Magento\Core\Model\Message\Collection'));
+            $this->setMessages(\Mage::getModel('Magento\Core\Model\Message\Collection'));
         }
 
         if ($clear) {

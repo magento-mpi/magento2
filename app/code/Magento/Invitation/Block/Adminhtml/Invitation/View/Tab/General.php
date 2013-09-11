@@ -117,7 +117,7 @@ class General extends \Magento\Adminhtml\Block\Template
     {
         if (!$this->hasData('referral')) {
             if ($this->getInvitation()->getReferralId()) {
-                $referral = \Mage::getModel('\Magento\Customer\Model\Customer')->load(
+                $referral = \Mage::getModel('Magento\Customer\Model\Customer')->load(
                     $this->getInvitation()->getReferralId()
                 );
             } else {
@@ -139,7 +139,7 @@ class General extends \Magento\Adminhtml\Block\Template
     {
         if (!$this->hasData('customer')) {
             if ($this->getInvitation()->getCustomerId()) {
-                $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load(
+                $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load(
                     $this->getInvitation()->getCustomerId()
                 );
             } else {
@@ -160,7 +160,7 @@ class General extends \Magento\Adminhtml\Block\Template
     public function getCustomerGroupCollection()
     {
         if (!$this->hasData('customer_groups_collection')) {
-            $groups = \Mage::getModel('\Magento\Customer\Model\Group')->getCollection()
+            $groups = \Mage::getModel('Magento\Customer\Model\Group')->getCollection()
                 ->addFieldToFilter('customer_group_id', array('gt'=> 0))
                 ->load();
             $this->setData('customer_groups_collection', $groups);

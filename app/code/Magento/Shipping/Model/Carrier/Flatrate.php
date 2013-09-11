@@ -59,7 +59,7 @@ class Flatrate
         }
         $this->setFreeBoxes($freeBoxes);
 
-        $result = \Mage::getModel('\Magento\Shipping\Model\Rate\Result');
+        $result = \Mage::getModel('Magento\Shipping\Model\Rate\Result');
         if ($this->getConfigData('type') == 'O') { // per order
             $shippingPrice = $this->getConfigData('price');
         } elseif ($this->getConfigData('type') == 'I') { // per item
@@ -71,7 +71,7 @@ class Flatrate
         $shippingPrice = $this->getFinalPriceWithHandlingFee($shippingPrice);
 
         if ($shippingPrice !== false) {
-            $method = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Method');
+            $method = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Method');
 
             $method->setCarrier('flatrate');
             $method->setCarrierTitle($this->getConfigData('title'));

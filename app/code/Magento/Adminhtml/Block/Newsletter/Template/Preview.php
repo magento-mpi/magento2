@@ -23,7 +23,7 @@ class Preview extends \Magento\Adminhtml\Block\Widget
     protected function _toHtml()
     {
         /* @var $template \Magento\Newsletter\Model\Template */
-        $template = \Mage::getModel('\Magento\Newsletter\Model\Template');
+        $template = \Mage::getModel('Magento\Newsletter\Model\Template');
 
         if($id = (int)$this->getRequest()->getParam('id')) {
             $template->load($id);
@@ -41,7 +41,7 @@ class Preview extends \Magento\Adminhtml\Block\Widget
         \Magento\Profiler::start("newsletter_template_proccessing");
         $vars = array();
 
-        $vars['subscriber'] = \Mage::getModel('\Magento\Newsletter\Model\Subscriber');
+        $vars['subscriber'] = \Mage::getModel('Magento\Newsletter\Model\Subscriber');
         if($this->getRequest()->getParam('subscriber')) {
             $vars['subscriber']->load($this->getRequest()->getParam('subscriber'));
         }

@@ -70,12 +70,12 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
     public function addCartInfo()
     {
         foreach ($this->getItems() as $item) {
-            $quote = \Mage::getModel('\Magento\Sales\Model\Quote')->loadByCustomer($item->getId());
+            $quote = \Mage::getModel('Magento\Sales\Model\Quote')->loadByCustomer($item->getId());
 
             if ($quote instanceof \Magento\Sales\Model\Quote) {
                 $totals = $quote->getTotals();
                 $item->setTotal($totals['subtotal']->getValue());
-                $quoteItems = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Quote\Item\Collection')
+                $quoteItems = \Mage::getResourceModel('Magento\Sales\Model\Resource\Quote\Item\Collection')
                     ->setQuoteFilter($quote->getId());
                 $quoteItems->load();
                 $item->setItems($quoteItems->count());

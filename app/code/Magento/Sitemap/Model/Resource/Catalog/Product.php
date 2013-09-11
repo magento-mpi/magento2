@@ -290,7 +290,7 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $product->setStoreId($storeId);
         /** @var $mediaGallery \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media */
-        $mediaGallery = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media');
+        $mediaGallery = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media');
         $gallery = $mediaGallery->loadGallery($product, $this->_getMediaGalleryModel());
 
         $imagesCollection = array();
@@ -316,7 +316,7 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         if (is_null($this->_mediaGalleryModel)) {
             /** @var $eavConfig \Magento\Eav\Model\Config */
-            $eavConfig = \Mage::getModel('\Magento\Eav\Model\Config');
+            $eavConfig = \Mage::getModel('Magento\Eav\Model\Config');
             /** @var $eavConfig \Magento\Eav\Model\Attribute */
             $mediaGallery = $eavConfig->getAttribute(\Magento\Catalog\Model\Product::ENTITY, 'media_gallery');
             $this->_mediaGalleryModel = $mediaGallery->getBackend();

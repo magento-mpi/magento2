@@ -44,7 +44,7 @@ class Customergroup extends \Magento\Core\Block\Html\Select
     {
         if (is_null($this->_customerGroups)) {
             $this->_customerGroups = array();
-            $collection = \Mage::getModel('\Magento\Customer\Model\Group')->getCollection();
+            $collection = \Mage::getModel('Magento\Customer\Model\Group')->getCollection();
             foreach ($collection as $item) {
                 /* @var $item \Magento\Customer\Model\Group */
                 $this->_customerGroups[$item->getId()] = $item->getCustomerGroupCode();

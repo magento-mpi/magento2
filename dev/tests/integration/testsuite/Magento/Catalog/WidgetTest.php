@@ -14,7 +14,7 @@ class Magento_Catalog_WidgetTest extends PHPUnit_Framework_TestCase
     public function testNewProductsWidget()
     {
         /** @var $model \Magento\Widget\Model\Widget\Instance */
-        $model = Mage::getModel('\Magento\Widget\Model\Widget\Instance');
+        $model = Mage::getModel('Magento\Widget\Model\Widget\Instance');
         $config = $model->setType('\Magento\Catalog\Block\Product\Widget\New')->getWidgetConfig();
         $templates = $config->xpath('parameters/template/values');
         $templates = (array) $templates[0]->children();

@@ -20,9 +20,9 @@ class Rolesedit extends \Magento\Adminhtml\Block\Widget\Form {
 
         $rid = \Mage::app()->getRequest()->getParam('rid', false);
 
-        $resources = \Mage::getModel('\Magento\Api\Model\Roles')->getResourcesList();
+        $resources = \Mage::getModel('Magento\Api\Model\Roles')->getResourcesList();
 
-        $rules_set = \Mage::getResourceModel('\Magento\Api\Model\Resource\Rules\Collection')->getByRoles($rid)->load();
+        $rules_set = \Mage::getResourceModel('Magento\Api\Model\Resource\Rules\Collection')->getByRoles($rid)->load();
 
         $selrids = array();
 
@@ -59,7 +59,7 @@ class Rolesedit extends \Magento\Adminhtml\Block\Widget\Form {
      */
     public function getTree()
     {
-        $resource = \Mage::getModel('\Magento\Api\Model\Roles')->getResourcesTree();
+        $resource = \Mage::getModel('Magento\Api\Model\Roles')->getResourcesTree();
         $rootArray = $this->_mapResources($resource);
         return $rootArray['children'];
     }

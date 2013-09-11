@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-$product = Mage::getModel('\Magento\Catalog\Model\Product');
+$product = Mage::getModel('Magento\Catalog\Model\Product');
 $product->setTypeId('virtual')
     ->setAttributeSetId(4)
     ->setStoreId(0)

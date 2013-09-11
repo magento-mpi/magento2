@@ -98,7 +98,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
         $translate->setTranslateInline(false);
 
         /* @var $mailTemplate \Magento\Core\Model\Email\Template */
-        $mailTemplate = \Mage::getModel('\Magento\Core\Model\Email\Template');
+        $mailTemplate = \Mage::getModel('Magento\Core\Model\Email\Template');
 
         $message = nl2br(htmlspecialchars($this->getSender()->getMessage()));
         $sender  = array(

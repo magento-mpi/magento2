@@ -31,8 +31,8 @@ class Services extends \Magento\Backend\Block\Template
     {
         $this->setChild(
             'import_services',
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Html\Select')
-                ->setOptions(\Mage::getModel('\Magento\Backend\Model\Config\Source\Currency\Service')->toOptionArray(0))
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
+                ->setOptions(\Mage::getModel('Magento\Backend\Model\Config\Source\Currency\Service')->toOptionArray(0))
                 ->setId('rate_services')
                 ->setName('rate_services')
                 ->setValue(\Mage::getSingleton('Magento\Adminhtml\Model\Session')->getCurrencyRateService(true))

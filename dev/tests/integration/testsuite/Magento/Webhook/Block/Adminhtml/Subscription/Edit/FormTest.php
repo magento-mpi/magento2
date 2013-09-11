@@ -36,7 +36,7 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends PHPUnit
             );
 
         /** @var \Magento\Webhook\Block\Adminhtml\Subscription\Edit\Form $block */
-        $block = $layout->createBlock('\Magento\Webhook\Block\Adminhtml\Subscription\Edit\Form',
+        $block = $layout->createBlock('Magento\Webhook\Block\Adminhtml\Subscription\Edit\Form',
             '', array('registry' => $registry)
         );
         $block->toHtml();

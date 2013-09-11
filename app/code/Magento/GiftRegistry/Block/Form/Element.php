@@ -62,7 +62,7 @@ class Element extends \Magento\Core\Block\Template
     protected function _getRegionCollection($country = null)
     {
         if (!$this->_regionCollection) {
-            $this->_regionCollection = \Mage::getModel('\Magento\Directory\Model\Region')->getResourceCollection()
+            $this->_regionCollection = \Mage::getModel('Magento\Directory\Model\Region')->getResourceCollection()
                 ->addCountryFilter($country)
                 ->load();
         }
@@ -151,7 +151,7 @@ class Element extends \Magento\Core\Block\Template
      */
     public function getSelectHtml($name, $id, $options = array(), $value = null, $class = '')
     {
-        $select = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setName($this->_getFieldName($name))
             ->setId($this->_getFieldId($id))
             ->setClass('select ' . $class)
@@ -208,7 +208,7 @@ class Element extends \Magento\Core\Block\Template
             $formatType = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM;
         }
 
-        $calendar = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Date')
+        $calendar = $this->getLayout()->createBlock('Magento\Core\Block\Html\Date')
             ->setName($this->_getFieldName($name))
             ->setId($this->_getFieldId($id))
             ->setValue($value)

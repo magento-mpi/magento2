@@ -75,7 +75,7 @@ class Tabs extends \Magento\Backend\Block\Widget
         $this->setTitle(__('Configuration'));
         $this->_currentSectionId = $this->getRequest()->getParam('section');
 
-        $this->helper('\Magento\Backend\Helper\Data')->addPageHelpUrl($this->getRequest()->getParam('section') . '/');
+        $this->helper('Magento\Backend\Helper\Data')->addPageHelpUrl($this->getRequest()->getParam('section') . '/');
     }
 
     /**

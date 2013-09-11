@@ -39,7 +39,7 @@ class Sidebar extends \Magento\Core\Block\Template
     public function getCartItemsCount()
     {
         if( !$this->_cartItemsCount ) {
-            $this->_cartItemsCount = \Mage::getModel('\Magento\Sales\Model\Quote')
+            $this->_cartItemsCount = \Mage::getModel('Magento\Sales\Model\Quote')
                 ->setId(\Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote()->getId())
                 ->getItemsCollection()
                 ->getSize();
@@ -51,7 +51,7 @@ class Sidebar extends \Magento\Core\Block\Template
     public function getWishlist()
     {
         if( !$this->_wishlist ) {
-            $this->_wishlist = \Mage::getModel('\Magento\Wishlist\Model\Wishlist')
+            $this->_wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist')
                 ->loadByCustomer(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer());
             $this->_wishlist->getItemCollection()
                 ->addAttributeToSelect('name')
@@ -81,7 +81,7 @@ class Sidebar extends \Magento\Core\Block\Template
     {
         if( !$this->_compareItems ) {
             $this->_compareItems =
-                \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Compare\Item\Collection')
+                \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Compare\Item\Collection')
                     ->setStoreId(\Mage::app()->getStore()->getId());
             $this->_compareItems->setCustomerId(
                 \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId()

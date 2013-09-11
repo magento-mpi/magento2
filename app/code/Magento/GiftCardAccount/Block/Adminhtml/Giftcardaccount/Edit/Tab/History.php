@@ -25,7 +25,7 @@ class History extends \Magento\Adminhtml\Block\Widget\Grid
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('\Magento\GiftCardAccount\Model\History')
+        $collection = \Mage::getModel('Magento\GiftCardAccount\Model\History')
             ->getCollection()
             ->addFieldToFilter('giftcardaccount_id', \Mage::registry('current_giftcardaccount')->getId());
         $this->setCollection($collection);

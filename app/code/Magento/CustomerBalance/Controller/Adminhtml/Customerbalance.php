@@ -77,7 +77,7 @@ class Customerbalance extends \Magento\Adminhtml\Controller\Action
      */
     protected function _initCustomer($idFieldName = 'id')
     {
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load((int)$this->getRequest()->getParam($idFieldName));
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load((int)$this->getRequest()->getParam($idFieldName));
         if (!$customer->getId()) {
             \Mage::throwException(__('Failed to initialize customer'));
         }

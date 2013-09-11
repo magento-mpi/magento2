@@ -60,7 +60,7 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
-        $api = \Mage::getModel('\Magento\GoogleCheckout\Model\Api')->setStoreId($payment->getOrder()->getStoreId());
+        $api = \Mage::getModel('Magento\GoogleCheckout\Model\Api')->setStoreId($payment->getOrder()->getStoreId());
         $api->authorize($payment->getOrder()->getExtOrderId());
 
         return $this;
@@ -82,7 +82,7 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
         }
         */
 
-        if ($payment->getOrder()->getPaymentAuthExpiration() < \Mage::getModel('\Magento\Core\Model\Date')->gmtTimestamp()) {
+        if ($payment->getOrder()->getPaymentAuthExpiration() < \Mage::getModel('Magento\Core\Model\Date')->gmtTimestamp()) {
             try {
                 $this->authorize($payment, $amount);
             } catch (\Exception $e) {
@@ -90,7 +90,7 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
             }
         }
 
-        $api = \Mage::getModel('\Magento\GoogleCheckout\Model\Api')->setStoreId($payment->getOrder()->getStoreId());
+        $api = \Mage::getModel('Magento\GoogleCheckout\Model\Api')->setStoreId($payment->getOrder()->getStoreId());
         $api->charge($payment->getOrder()->getExtOrderId(), $amount);
         $payment->setForcedState(\Magento\Sales\Model\Order\Invoice::STATE_OPEN);
 
@@ -110,7 +110,7 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
         $reason = $this->getReason() ? $this->getReason() : __('No Reason');
         $comment = $this->getComment() ? $this->getComment() : __('No Comment');
 
-        $api = \Mage::getModel('\Magento\GoogleCheckout\Model\Api')->setStoreId($payment->getOrder()->getStoreId());
+        $api = \Mage::getModel('Magento\GoogleCheckout\Model\Api')->setStoreId($payment->getOrder()->getStoreId());
         $api->refund($payment->getOrder()->getExtOrderId(), $amount, $reason, $comment);
 
         return $this;
@@ -136,7 +136,7 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
             $reason = $this->getReason() ? $this->getReason() : __('Unknown Reason');
             $comment = $this->getComment() ? $this->getComment() : __('No Comment');
 
-            $api = \Mage::getModel('\Magento\GoogleCheckout\Model\Api')->setStoreId($payment->getOrder()->getStoreId());
+            $api = \Mage::getModel('Magento\GoogleCheckout\Model\Api')->setStoreId($payment->getOrder()->getStoreId());
             $api->cancel($payment->getOrder()->getExtOrderId(), $reason, $comment);
         }
 

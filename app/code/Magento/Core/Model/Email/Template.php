@@ -14,7 +14,7 @@
  * Example:
  *
  * // Loading of template
- * $emailTemplate  = \Mage::getModel('\Magento\Core\Model\Email\Template')
+ * $emailTemplate  = \Mage::getModel('Magento\Core\Model\Email\Template')
  *    ->load(\Mage::getStoreConfig('path_to_email_template_id_config'));
  * $variables = array(
  *    'someObject' => \Mage::getSingleton('Magento\Core\Model\Resource\Email\Template')
@@ -189,7 +189,7 @@ class Template extends \Magento\Core\Model\Template
     public function getTemplateFilter()
     {
         if (empty($this->_templateFilter)) {
-            $this->_templateFilter = \Mage::getModel('\Magento\Core\Model\Email\Template\Filter');
+            $this->_templateFilter = \Mage::getModel('Magento\Core\Model\Email\Template\Filter');
             $this->_templateFilter->setUseAbsoluteLinks($this->getUseAbsoluteLinks())
                 ->setStoreId($this->getDesignConfig()->getStore());
         }

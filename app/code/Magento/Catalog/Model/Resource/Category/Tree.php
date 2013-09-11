@@ -357,7 +357,7 @@ class Tree extends \Magento\Data\Tree\Dbp
     protected function _getDefaultCollection($sorted = false)
     {
         $this->_joinUrlRewriteIntoCollection = true;
-        $collection = \Mage::getModel('\Magento\Catalog\Model\Category')->getCollection();
+        $collection = \Mage::getModel('Magento\Catalog\Model\Category')->getCollection();
         /** @var $collection \Magento\Catalog\Model\Resource\Category\Collection */
 
         $attributes = \Mage::getConfig()->getNode('frontend/category/collection/attributes');
@@ -408,7 +408,7 @@ class Tree extends \Magento\Data\Tree\Dbp
     public function move($category, $newParent, $prevNode = null)
     {
         $this->_beforeMove($category, $newParent, $prevNode);
-        \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Category')
+        \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category')
             ->move($category->getId(), $newParent->getId());
         parent::move($category, $newParent, $prevNode);
 
@@ -572,7 +572,7 @@ class Tree extends \Magento\Data\Tree\Dbp
         if ($optionalAttributes) {
             $attributes = array_unique(array_merge($attributes, $optionalAttributes));
         }
-        $resource = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Category');
+        $resource = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category');
         foreach ($attributes as $attributeCode) {
             /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
             $attribute = $resource->getAttribute($attributeCode);

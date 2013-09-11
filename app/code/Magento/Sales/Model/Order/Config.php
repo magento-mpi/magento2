@@ -59,7 +59,7 @@ class Config extends \Magento\Core\Model\Config\Base
     {
         $status = false;
         if ($stateNode = $this->_getState($state)) {
-            $status = \Mage::getModel('\Magento\Sales\Model\Order\Status')
+            $status = \Mage::getModel('Magento\Sales\Model\Order\Status')
                 ->loadDefaultByState($state);
             $status = $status->getStatus();
         }
@@ -74,7 +74,7 @@ class Config extends \Magento\Core\Model\Config\Base
      */
     public function getStatusLabel($code)
     {
-        $status = \Mage::getModel('\Magento\Sales\Model\Order\Status')
+        $status = \Mage::getModel('Magento\Sales\Model\Order\Status')
             ->load($code);
         return $status->getStoreLabel();
     }
@@ -102,7 +102,7 @@ class Config extends \Magento\Core\Model\Config\Base
      */
     public function getStatuses()
     {
-        $statuses = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Status\Collection')
+        $statuses = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Status\Collection')
             ->toOptionHash();
         return $statuses;
     }
@@ -148,7 +148,7 @@ class Config extends \Magento\Core\Model\Config\Base
         }
         foreach ($state as $_state) {
             if ($stateNode = $this->_getState($_state)) {
-                $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Status\Collection')
+                $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Status\Collection')
                     ->addStateFilter($_state)
                     ->orderByLabel();
                 foreach ($collection as $status) {

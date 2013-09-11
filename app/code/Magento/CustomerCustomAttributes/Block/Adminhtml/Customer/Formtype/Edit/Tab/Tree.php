@@ -39,26 +39,26 @@ class Tree
             'onclick'   => 'formType.newFieldset()',
             'class'     => 'add',
         );
-        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData($addButtonData)->toHtml();
     }
 
     public function getFieldsetButtonsHtml()
     {
         $buttons = array();
-        $buttons[] = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')->setData(array(
+        $buttons[] = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData(array(
             'id'        => 'save_node_button',
             'label'     => __('Save'),
             'onclick'   => 'formType.saveFieldset()',
             'class'     => 'save',
         ))->toHtml();
-        $buttons[] = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')->setData(array(
+        $buttons[] = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData(array(
             'id'        => 'delete_node_button',
             'label'     => __('Remove'),
             'onclick'   => 'formType.deleteFieldset()',
             'class'     => 'delete',
         ))->toHtml();
-        $buttons[] = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')->setData(array(
+        $buttons[] = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData(array(
             'id'        => 'cancel_node_button',
             'label'     => __('Cancel'),
             'onclick'   => 'formType.cancelFieldset()',
@@ -106,10 +106,10 @@ class Tree
     {
         $nodes = array();
 
-        $fieldsetCollection = \Mage::getModel('\Magento\Eav\Model\Form\Fieldset')->getCollection()
+        $fieldsetCollection = \Mage::getModel('Magento\Eav\Model\Form\Fieldset')->getCollection()
             ->addTypeFilter($this->_getFormType())
             ->setSortOrder();
-        $elementCollection = \Mage::getModel('\Magento\Eav\Model\Form\Element')->getCollection()
+        $elementCollection = \Mage::getModel('Magento\Eav\Model\Form\Element')->getCollection()
             ->addTypeFilter($this->_getFormType())
             ->setSortOrder();
         foreach ($fieldsetCollection as $fieldset) {

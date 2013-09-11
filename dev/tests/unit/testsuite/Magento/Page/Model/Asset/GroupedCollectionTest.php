@@ -92,7 +92,7 @@ class Magento_Page_Model_Asset_GroupedCollectionTest extends PHPUnit_Framework_T
     {
         $cssAsset = new \Magento\Core\Model\Page\Asset\Remote('http://127.0.0.1/style.css', 'css');
         $jsAsset = new \Magento\Core\Model\Page\Asset\Remote('http://127.0.0.1/script.js', 'js');
-        $jsAssetAllowingMerge = $this->getMockForAbstractClass('\Magento\Core\Model\Page\Asset\MergeableInterface');
+        $jsAssetAllowingMerge = $this->getMockForAbstractClass('Magento\Core\Model\Page\Asset\MergeableInterface');
         $jsAssetAllowingMerge->expects($this->any())->method('getContentType')->will($this->returnValue('js'));
 
         // assets with identical properties should be grouped together

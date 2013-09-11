@@ -29,7 +29,7 @@ class NotifyStock extends \Magento\Core\Block\AbstractBlock
         $newUrl = \Mage::getUrl('rss/catalog/notifystock');
         $title = __('Low Stock Products');
 
-        $rssObj = \Mage::getModel('\Magento\Rss\Model\Rss');
+        $rssObj = \Mage::getModel('Magento\Rss\Model\Rss');
         $data = array(
             'title'       => $title,
             'description' => $title,
@@ -42,10 +42,10 @@ class NotifyStock extends \Magento\Core\Block\AbstractBlock
             \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_NOTIFY_STOCK_QTY);
         \Mage::helper('Magento\Rss\Helper\Data')->disableFlat();
         /* @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
         $collection = $product->getCollection();
-        \Mage::getResourceModel('\Magento\CatalogInventory\Model\Resource\Stock')->addLowStockFilter($collection, array(
+        \Mage::getResourceModel('Magento\CatalogInventory\Model\Resource\Stock')->addLowStockFilter($collection, array(
             'qty',
             'notify_stock_qty',
             'low_stock_date',

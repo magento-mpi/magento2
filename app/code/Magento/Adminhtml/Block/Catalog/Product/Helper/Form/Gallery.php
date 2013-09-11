@@ -37,7 +37,7 @@ class Gallery extends \Magento\Data\Form\Element\AbstractElement
 
         /* @var $content \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery\Content */
         $content = \Mage::app()->getLayout()
-            ->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery\Content');
+            ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery\Content');
 
         $content->setId($this->getHtmlId() . '_content')->setElement($this);
         $galleryJs = $content->getJsObjectName();

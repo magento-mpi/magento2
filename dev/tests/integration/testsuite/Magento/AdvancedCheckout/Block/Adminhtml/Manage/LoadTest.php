@@ -23,8 +23,8 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_LoadTest extends PHPUnit_F
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = Mage::getModel('\Magento\Core\Model\Layout');
-        $this->_block = $this->_layout->createBlock('\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Load');
+        $this->_layout = Mage::getModel('Magento\Core\Model\Layout');
+        $this->_block = $this->_layout->createBlock('Magento\AdvancedCheckout\Block\Adminhtml\Manage\Load');
     }
 
     public function testToHtml()

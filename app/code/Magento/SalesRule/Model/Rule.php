@@ -248,7 +248,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function getConditionsInstance()
     {
-        return \Mage::getModel('\Magento\SalesRule\Model\Rule\Condition\Combine');
+        return \Mage::getModel('Magento\SalesRule\Model\Rule\Condition\Combine');
     }
 
     /**
@@ -258,7 +258,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function getActionsInstance()
     {
-        return \Mage::getModel('\Magento\SalesRule\Model\Rule\Condition\Product\Combine');
+        return \Mage::getModel('Magento\SalesRule\Model\Rule\Condition\Product\Combine');
     }
 
     /**
@@ -269,7 +269,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     public static function getCouponCodeGenerator()
     {
         if (!self::$_couponCodeGenerator) {
-            return \Mage::getModel('\Magento\SalesRule\Model\Coupon\Codegenerator',
+            return \Mage::getModel('Magento\SalesRule\Model\Coupon\Codegenerator',
                 array('data' => array('length' => 16)));
         }
         return self::$_couponCodeGenerator;
@@ -293,7 +293,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     public function getPrimaryCoupon()
     {
         if ($this->_primaryCoupon === null) {
-            $this->_primaryCoupon = \Mage::getModel('\Magento\SalesRule\Model\Coupon');
+            $this->_primaryCoupon = \Mage::getModel('Magento\SalesRule\Model\Coupon');
             $this->_primaryCoupon->loadPrimaryByRule($this->getId());
             $this->_primaryCoupon->setRule($this)->setIsPrimary(true);
         }
@@ -358,7 +358,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     public function getCoupons()
     {
         if ($this->_coupons === null) {
-            $collection = \Mage::getResourceModel('\Magento\SalesRule\Model\Resource\Coupon\Collection');
+            $collection = \Mage::getResourceModel('Magento\SalesRule\Model\Resource\Coupon\Collection');
             /** @var \Magento\SalesRule\Model\Resource\Coupon\Collection */
             $collection->addRuleToFilter($this);
             $this->_coupons = $collection->getItems();
@@ -408,7 +408,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
             return $this->getPrimaryCoupon();
         }
         /** @var \Magento\SalesRule\Model\Coupon $coupon */
-        $coupon = \Mage::getModel('\Magento\SalesRule\Model\Coupon');
+        $coupon = \Mage::getModel('Magento\SalesRule\Model\Coupon');
         $coupon->setRule($this)
             ->setIsPrimary(false)
             ->setUsageLimit($this->getUsesPerCoupon() ? $this->getUsesPerCoupon() : null)

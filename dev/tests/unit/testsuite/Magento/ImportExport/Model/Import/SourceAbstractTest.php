@@ -14,7 +14,7 @@ class Magento_ImportExport_Model_Import_SourceAbstractTest extends PHPUnit_Frame
 
     protected function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Import\SourceAbstract', array(array(
+        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\SourceAbstract', array(array(
             'key1', 'key2', 'key3'
         )));
     }
@@ -26,7 +26,7 @@ class Magento_ImportExport_Model_Import_SourceAbstractTest extends PHPUnit_Frame
      */
     public function testConstructException($argument)
     {
-        $this->getMockForAbstractClass('\Magento\ImportExport\Model\Import\SourceAbstract', array($argument));
+        $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\SourceAbstract', array($argument));
     }
 
     /**

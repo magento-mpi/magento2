@@ -28,10 +28,10 @@ class Select extends \Magento\CustomAttribute\Block\Form\Renderer\Select
     public function getAttribute($code)
     {
         /* @var $itemModel  */
-        $itemModel = \Mage::getModel('\Magento\Rma\Model\Item');
+        $itemModel = \Mage::getModel('Magento\Rma\Model\Item');
 
         /* @var $itemForm \Magento\Rma\Model\Item\Form */
-        $itemForm   = \Mage::getModel('\Magento\Rma\Model\Item\Form');
+        $itemForm   = \Mage::getModel('Magento\Rma\Model\Item\Form');
         $itemForm->setFormCode('default')
             ->setStore($this->getStore())
             ->setEntity($itemModel);

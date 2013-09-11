@@ -108,7 +108,7 @@ class Product extends \Magento\Checkout\Model\Api\Resource
         }
 
         if (is_null($item)) {
-            $item = \Mage::getModel('\Magento\Sales\Model\Quote\Item');
+            $item = \Mage::getModel('Magento\Sales\Model\Quote\Item');
         }
 
         return $item;

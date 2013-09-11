@@ -248,7 +248,7 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
             $clone->addData($row);
             $summary[$clone->getStoreId()][$clone->getEntityPkValue()] = $clone;
         }
-        \Mage::getResourceModel('\Magento\Review\Model\Resource\Review\Summary')->reAggregate($summary);
+        \Mage::getResourceModel('Magento\Review\Model\Resource\Review\Summary')->reAggregate($summary);
         return $this;
     }
 
@@ -275,7 +275,7 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
         $result = array();
 
         //$stores = \Mage::app()->getStore()->getResourceCollection()->load();
-        $stores = \Mage::getModel('\Magento\Core\Model\Store')->getResourceCollection()->load();
+        $stores = \Mage::getModel('Magento\Core\Model\Store')->getResourceCollection()->load();
 
         foreach ($data as $row) {
             $clone = clone $object;

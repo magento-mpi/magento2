@@ -22,7 +22,7 @@ class Express
      */
     public function toOptionArray()
     {
-        $configModel = \Mage::getModel('\Magento\Paypal\Model\Config');
+        $configModel = \Mage::getModel('Magento\Paypal\Model\Config');
         $configModel->setMethod(\Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS);
         return $configModel->getPaymentActions();
     }

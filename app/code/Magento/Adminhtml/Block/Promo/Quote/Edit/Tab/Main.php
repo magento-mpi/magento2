@@ -126,11 +126,11 @@ class Main
                 'required' => true,
                 'values'   => \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+            $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 
-        $customerGroups = \Mage::getResourceModel('\Magento\Customer\Model\Resource\Group\Collection')->load()->toOptionArray();
+        $customerGroups = \Mage::getResourceModel('Magento\Customer\Model\Resource\Group\Collection')->load()->toOptionArray();
         $found = false;
 
         foreach ($customerGroups as $group) {
@@ -150,14 +150,14 @@ class Main
             'label'     => __('Customer Groups'),
             'title'     => __('Customer Groups'),
             'required'  => true,
-            'values'    => \Mage::getResourceModel('\Magento\Customer\Model\Resource\Group\Collection')->toOptionArray(),
+            'values'    => \Mage::getResourceModel('Magento\Customer\Model\Resource\Group\Collection')->toOptionArray(),
         ));
 
         $couponTypeFiled = $fieldset->addField('coupon_type', 'select', array(
             'name'       => 'coupon_type',
             'label'      => __('Coupon'),
             'required'   => true,
-            'options'    => \Mage::getModel('\Magento\SalesRule\Model\Rule')->getCouponTypes(),
+            'options'    => \Mage::getModel('Magento\SalesRule\Model\Rule')->getCouponTypes(),
         ));
 
         $couponCodeFiled = $fieldset->addField('coupon_code', 'text', array(
@@ -175,7 +175,7 @@ class Main
         ));
 
         $autoGenerationCheckbox->setRenderer(
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Main\Renderer\Checkbox')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Main\Renderer\Checkbox')
         );
 
         $usesPerCouponFiled = $fieldset->addField('uses_per_coupon', 'text', array(
@@ -242,7 +242,7 @@ class Main
 
         // field dependencies
         $this->setChild('form_after', $this->getLayout()
-            ->createBlock('\Magento\Adminhtml\Block\Widget\Form\Element\Dependence')
+            ->createBlock('Magento\Adminhtml\Block\Widget\Form\Element\Dependence')
             ->addFieldMap($couponTypeFiled->getHtmlId(), $couponTypeFiled->getName())
             ->addFieldMap($couponCodeFiled->getHtmlId(), $couponCodeFiled->getName())
             ->addFieldMap($autoGenerationCheckbox->getHtmlId(), $autoGenerationCheckbox->getName())

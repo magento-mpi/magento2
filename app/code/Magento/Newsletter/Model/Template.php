@@ -218,7 +218,7 @@ class Template extends \Magento\Core\Model\Template
      */
     public function getInclude($templateCode, array $variables)
     {
-        return \Mage::getModel('\Magento\Newsletter\Model\Template')
+        return \Mage::getModel('Magento\Newsletter\Model\Template')
             ->loadByCode($templateCode)
             ->getProcessedTemplate($variables);
     }

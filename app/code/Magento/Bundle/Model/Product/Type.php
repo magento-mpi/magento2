@@ -101,7 +101,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function getChildrenIds($parentId, $required = true)
     {
-        return \Mage::getResourceSingleton('\Magento\Bundle\Model\Resource\Selection')
+        return \Mage::getResourceSingleton('Magento\Bundle\Model\Resource\Selection')
             ->getChildrenIds($parentId, $required);
     }
 
@@ -113,7 +113,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function getParentIdsByChild($childId)
     {
-        return \Mage::getResourceSingleton('\Magento\Bundle\Model\Resource\Selection')
+        return \Mage::getResourceSingleton('Magento\Bundle\Model\Resource\Selection')
             ->getParentIdsByChild($childId);
     }
 
@@ -258,7 +258,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     {
         parent::save($product);
         /* @var $resource \Magento\Bundle\Model\Resource\Bundle */
-        $resource = \Mage::getResourceModel('\Magento\Bundle\Model\Resource\Bundle');
+        $resource = \Mage::getResourceModel('Magento\Bundle\Model\Resource\Bundle');
 
         $options = $product->getBundleOptionsData();
         if ($options) {
@@ -269,7 +269,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                     unset($option['option_id']);
                 }
 
-                $optionModel = \Mage::getModel('\Magento\Bundle\Model\Option')
+                $optionModel = \Mage::getModel('Magento\Bundle\Model\Option')
                     ->setData($option)
                     ->setParentId($product->getId())
                     ->setStoreId($product->getStoreId());
@@ -295,7 +295,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                             $selection['is_default'] = 0;
                         }
 
-                        $selectionModel = \Mage::getModel('\Magento\Bundle\Model\Selection')
+                        $selectionModel = \Mage::getModel('Magento\Bundle\Model\Selection')
                             ->setData($selection)
                             ->setOptionId($options[$index]['option_id'])
                             ->setWebsiteId(\Mage::app()->getStore($product->getStoreId())->getWebsiteId())
@@ -356,7 +356,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     public function getOptionsCollection($product)
     {
         if (!$product->hasData($this->_keyOptionsCollection)) {
-            $optionsCollection = \Mage::getModel('\Magento\Bundle\Model\Option')->getResourceCollection()
+            $optionsCollection = \Mage::getModel('Magento\Bundle\Model\Option')->getResourceCollection()
                 ->setProductIdFilter($product->getId())
                 ->setPositionOrder();
 
@@ -384,7 +384,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         $key = $this->_keySelectionsCollection . $keyOptionIds;
         if (!$product->hasData($key)) {
             $storeId = $product->getStoreId();
-            $selectionsCollection = \Mage::getResourceModel('\Magento\Bundle\Model\Resource\Selection\Collection')
+            $selectionsCollection = \Mage::getResourceModel('Magento\Bundle\Model\Resource\Selection\Collection')
                 ->addAttributeToSelect(\Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes())
                 ->addAttributeToSelect('tax_class_id') //used for calculation item taxes in Bundle with Dynamic Price
                 ->setFlag('require_stock_items', true)
@@ -713,7 +713,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
 
         if (!$usedSelections || serialize($usedSelectionsIds) != serialize($selectionIds)) {
             $storeId = $product->getStoreId();
-            $usedSelections = \Mage::getResourceModel('\Magento\Bundle\Model\Resource\Selection\Collection')
+            $usedSelections = \Mage::getResourceModel('Magento\Bundle\Model\Resource\Selection\Collection')
                 ->addAttributeToSelect('*')
                 ->setFlag('require_stock_items', true)
                 ->addStoreFilter($this->getStoreFilter($product))
@@ -747,7 +747,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         $usedOptionsIds  = $product->getData($this->_keyUsedOptionsIds);
 
         if (!$usedOptions || serialize($usedOptionsIds) != serialize($optionIds)) {
-            $usedOptions = \Mage::getModel('\Magento\Bundle\Model\Option')->getResourceCollection()
+            $usedOptions = \Mage::getModel('Magento\Bundle\Model\Option')->getResourceCollection()
                 ->setProductIdFilter($product->getId())
                 ->setPositionOrder()
                 ->joinValues(\Mage::app()->getStore()->getId())

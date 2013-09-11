@@ -66,7 +66,7 @@ class Product extends \Magento\Core\Controller\Front\Action
         }
 
         if ($categoryId) {
-            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($categoryId);
+            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
             \Mage::register('current_category', $category);
         }
 
@@ -97,7 +97,7 @@ class Product extends \Magento\Core\Controller\Front\Action
             return false;
         }
 
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+        $product = \Mage::getModel('Magento\Catalog\Model\Product')
             ->setStoreId(\Mage::app()->getStore()->getId())
             ->load($productId);
         /* @var $product \Magento\Catalog\Model\Product */
@@ -124,7 +124,7 @@ class Product extends \Magento\Core\Controller\Front\Action
             return false;
         }
 
-        $review = \Mage::getModel('\Magento\Review\Model\Review')->load($reviewId);
+        $review = \Mage::getModel('Magento\Review\Model\Review')->load($reviewId);
         /* @var $review \Magento\Review\Model\Review */
         if (!$review->getId() || !$review->isApproved() || !$review->isAvailableOnStore(\Mage::app()->getStore())) {
             return false;
@@ -154,7 +154,7 @@ class Product extends \Magento\Core\Controller\Front\Action
         if (($product = $this->_initProduct()) && !empty($data)) {
             $session    = \Mage::getSingleton('Magento\Core\Model\Session');
             /* @var $session \Magento\Core\Model\Session */
-            $review     = \Mage::getModel('\Magento\Review\Model\Review')->setData($data);
+            $review     = \Mage::getModel('Magento\Review\Model\Review')->setData($data);
             /* @var $review \Magento\Review\Model\Review */
 
             $validate = $review->validate();
@@ -169,7 +169,7 @@ class Product extends \Magento\Core\Controller\Front\Action
                         ->save();
 
                     foreach ($rating as $ratingId => $optionId) {
-                        \Mage::getModel('\Magento\Rating\Model\Rating')
+                        \Mage::getModel('Magento\Rating\Model\Rating')
                         ->setRatingId($ratingId)
                         ->setReviewId($review->getId())
                         ->setCustomerId(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId())
@@ -256,7 +256,7 @@ class Product extends \Magento\Core\Controller\Front\Action
 
         $this->loadLayout();
         $this->_initLayoutMessages('Magento_Review_Model_Session');
-        $this->_initLayoutMessages('\Magento\Catalog\Model\Session');
+        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
         $this->renderLayout();
     }
 
@@ -272,13 +272,13 @@ class Product extends \Magento\Core\Controller\Front\Action
         );
 
         if ($product->getPageLayout()) {
-            $this->getLayout()->helper('\Magento\Page\Helper\Layout')
+            $this->getLayout()->helper('Magento\Page\Helper\Layout')
                 ->applyHandle($product->getPageLayout());
         }
         $this->loadLayoutUpdates();
 
         if ($product->getPageLayout()) {
-            $this->getLayout()->helper('\Magento\Page\Helper\Layout')
+            $this->getLayout()->helper('Magento\Page\Helper\Layout')
                 ->applyTemplate($product->getPageLayout());
         }
         $update->addUpdate($product->getCustomLayoutUpdate());

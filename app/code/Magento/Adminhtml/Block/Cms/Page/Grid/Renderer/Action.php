@@ -15,7 +15,7 @@ class Action
 {
     public function render(\Magento\Object $row)
     {
-        $urlModel = \Mage::getModel('\Magento\Core\Model\Url')->setStore($row->getData('_first_store_id'));
+        $urlModel = \Mage::getModel('Magento\Core\Model\Url')->setStore($row->getData('_first_store_id'));
         $href = $urlModel->getUrl(
             $row->getIdentifier(), array(
                 '_current' => false,

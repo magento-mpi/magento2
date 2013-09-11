@@ -17,7 +17,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
     {
         $this->_title(__('Cart Price Rules'));
 
-        \Mage::register('current_promo_quote_rule', \Mage::getModel('\Magento\SalesRule\Model\Rule'));
+        \Mage::register('current_promo_quote_rule', \Mage::getModel('Magento\SalesRule\Model\Rule'));
         $id = (int)$this->getRequest()->getParam('id');
 
         if (!$id && $this->getRequest()->getParam('rule_id')) {
@@ -55,7 +55,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
     public function editAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $model = \Mage::getModel('\Magento\SalesRule\Model\Rule');
+        $model = \Mage::getModel('Magento\SalesRule\Model\Rule');
 
         if ($id) {
             $model->load($id);
@@ -102,7 +102,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
         if ($this->getRequest()->getPost()) {
             try {
                 /** @var $model \Magento\SalesRule\Model\Rule */
-                $model = \Mage::getModel('\Magento\SalesRule\Model\Rule');
+                $model = \Mage::getModel('Magento\SalesRule\Model\Rule');
                 $this->_eventManager->dispatch(
                     'adminhtml_controller_salesrule_prepare_save',
                     array('request' => $this->getRequest()));
@@ -181,7 +181,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
     {
         if ($id = $this->getRequest()->getParam('id')) {
             try {
-                $model = \Mage::getModel('\Magento\SalesRule\Model\Rule');
+                $model = \Mage::getModel('Magento\SalesRule\Model\Rule');
                 $model->load($id);
                 $model->delete();
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
@@ -212,7 +212,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
         $model = \Mage::getModel($type)
             ->setId($id)
             ->setType($type)
-            ->setRule(\Mage::getModel('\Magento\SalesRule\Model\Rule'))
+            ->setRule(\Mage::getModel('Magento\SalesRule\Model\Rule'))
             ->setPrefix('conditions');
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);
@@ -236,7 +236,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
         $model = \Mage::getModel($type)
             ->setId($id)
             ->setType($type)
-            ->setRule(\Mage::getModel('\Magento\SalesRule\Model\Rule'))
+            ->setRule(\Mage::getModel('Magento\SalesRule\Model\Rule'))
             ->setPrefix('actions');
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);
@@ -278,7 +278,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
         if ($rule->getId()) {
             $fileName = 'coupon_codes.xml';
             $content = $this->getLayout()
-                ->createBlock('\Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons\Grid')
+                ->createBlock('Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons\Grid')
                 ->getExcelFile($fileName);
             $this->_prepareDownloadResponse($fileName, $content);
         } else {
@@ -299,7 +299,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
         if ($rule->getId()) {
             $fileName = 'coupon_codes.csv';
             $content = $this->getLayout()
-                ->createBlock('\Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons\Grid')
+                ->createBlock('Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons\Grid')
                 ->getCsvFile();
             $this->_prepareDownloadResponse($fileName, $content);
         } else {
@@ -324,7 +324,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
 
         if (is_array($codesIds)) {
 
-            $couponsCollection = \Mage::getResourceModel('\Magento\SalesRule\Model\Resource\Coupon\Collection')
+            $couponsCollection = \Mage::getResourceModel('Magento\SalesRule\Model\Resource\Coupon\Collection')
                 ->addFieldToFilter('coupon_id', array('in' => $codesIds));
 
             foreach ($couponsCollection as $coupon) {
@@ -366,7 +366,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
                     $generator->generatePool();
                     $generated = $generator->getGeneratedCount();
                     $this->_getSession()->addSuccess(__('%1 coupon(s) have been generated.', $generated));
-                    $this->_initLayoutMessages('\Magento\Adminhtml\Model\Session');
+                    $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
                     $result['messages']  = $this->getLayout()->getMessagesBlock()->getGroupedHtml();
                 }
             } catch (\Magento\Core\Exception $e) {
@@ -385,7 +385,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
     public function chooserAction()
     {
         $uniqId = $this->getRequest()->getParam('uniq_id');
-        $chooserBlock = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Promo\Widget\Chooser', '', array(
+        $chooserBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Promo\Widget\Chooser', '', array(
             'data' => array('id' => $uniqId)
         ));
         $this->getResponse()->setBody($chooserBlock->toHtml());

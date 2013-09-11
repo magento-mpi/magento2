@@ -43,7 +43,7 @@ class Advanced extends \Magento\Backend\Block\Widget\Form
             )
         );
 
-        $yesno = \Mage::getModel('\Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();
+        $yesno = \Mage::getModel('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();
 
         $validateClass = sprintf(
             'validate-code validate-length maximum-length-%d',
@@ -144,7 +144,7 @@ class Advanced extends \Magento\Backend\Block\Widget\Form
             }
         }
 
-        $yesnoSource = \Mage::getModel('\Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();
+        $yesnoSource = \Mage::getModel('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();
 
         $scopes = array(
             \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE =>__('Store View'),

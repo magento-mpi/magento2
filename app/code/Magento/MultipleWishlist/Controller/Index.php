@@ -113,7 +113,7 @@ class Index extends \Magento\Wishlist\Controller\Index
      */
     protected function _editWishlist($customerId, $wishlistName, $visibility = false, $wishlistId = null)
     {
-        $wishlist = \Mage::getModel('\Magento\Wishlist\Model\Wishlist');
+        $wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist');
 
         if (!$customerId) {
             \Mage::throwException(__('Log in to edit wish lists.'));
@@ -129,7 +129,7 @@ class Index extends \Magento\Wishlist\Controller\Index
                 );
             }
         } else {
-            $wishlistCollection = \Mage::getModel('\Magento\Wishlist\Model\Wishlist')->getCollection()
+            $wishlistCollection = \Mage::getModel('Magento\Wishlist\Model\Wishlist')->getCollection()
                 ->filterByCustomerId($customerId);
             $limit = \Mage::helper('Magento\MultipleWishlist\Helper\Data')->getWishlistLimit();
             if (\Mage::helper('Magento\MultipleWishlist\Helper\Data')->isWishlistLimitReached($wishlistCollection)) {
@@ -295,7 +295,7 @@ class Index extends \Magento\Wishlist\Controller\Index
             $productName = '';
             try {
                 /* @var \Magento\Wishlist\Model\Item $item */
-                $item = \Mage::getModel('\Magento\Wishlist\Model\Item');
+                $item = \Mage::getModel('Magento\Wishlist\Model\Item');
                 $item->loadWithOptions($itemId);
 
                 $wishlistName = \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($wishlist->getName());
@@ -357,7 +357,7 @@ class Index extends \Magento\Wishlist\Controller\Index
             foreach ($itemIds as $id => $value) {
                 try {
                     /* @var \Magento\Wishlist\Model\Item $item */
-                    $item = \Mage::getModel('\Magento\Wishlist\Model\Item');
+                    $item = \Mage::getModel('Magento\Wishlist\Model\Item');
                     $item->loadWithOptions($id);
 
                     $this->_copyItem($item, $wishlist, isset($qtys[$id]) ? $qtys[$id] : null);
@@ -460,11 +460,11 @@ class Index extends \Magento\Wishlist\Controller\Index
 
         if ($itemId) {
             try {
-                $wishlists = \Mage::getModel('\Magento\Wishlist\Model\Wishlist')->getCollection()
+                $wishlists = \Mage::getModel('Magento\Wishlist\Model\Wishlist')->getCollection()
                     ->filterByCustomerId($this->_getSession()->getCustomerId());
 
                 /* @var \Magento\Wishlist\Model\Item $item */
-                $item = \Mage::getModel('\Magento\Wishlist\Model\Item');
+                $item = \Mage::getModel('Magento\Wishlist\Model\Item');
                 $item->loadWithOptions($itemId);
 
                 $productName = \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($item->getProduct()->getName());
@@ -517,14 +517,14 @@ class Index extends \Magento\Wishlist\Controller\Index
         $notAllowed = array();
         $alreadyPresent = array();
         if (count($itemIds)) {
-            $wishlists = \Mage::getModel('\Magento\Wishlist\Model\Wishlist')->getCollection();
+            $wishlists = \Mage::getModel('Magento\Wishlist\Model\Wishlist')->getCollection();
             $wishlists->filterByCustomerId($this->_getSession()->getCustomerId());
             $qtys = $this->getRequest()->getParam('qty', array());
 
             foreach ($itemIds as $id => $value) {
                 try {
                     /* @var \Magento\Wishlist\Model\Item $item */
-                    $item = \Mage::getModel('\Magento\Wishlist\Model\Item');
+                    $item = \Mage::getModel('Magento\Wishlist\Model\Item');
                     $item->loadWithOptions($id);
 
                     $this->_moveItem($item, $wishlist, $wishlists, isset($qtys[$id]) ? $qtys[$id] : null);

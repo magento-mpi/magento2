@@ -38,8 +38,8 @@ class Rule extends \Magento\Reports\Model\Resource\Report\AbstractReport
      */
     public function aggregate($from = null, $to = null)
     {
-        \Mage::getResourceModel('\Magento\SalesRule\Model\Resource\Report\Rule\Createdat')->aggregate($from, $to);
-        \Mage::getResourceModel('\Magento\SalesRule\Model\Resource\Report\Rule\Updatedat')->aggregate($from, $to);
+        \Mage::getResourceModel('Magento\SalesRule\Model\Resource\Report\Rule\Createdat')->aggregate($from, $to);
+        \Mage::getResourceModel('Magento\SalesRule\Model\Resource\Report\Rule\Updatedat')->aggregate($from, $to);
         $this->_setFlagData(\Magento\Reports\Model\Flag::REPORT_COUPONS_FLAG_CODE);
 
         return $this;

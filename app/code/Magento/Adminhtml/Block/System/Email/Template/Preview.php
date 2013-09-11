@@ -27,7 +27,7 @@ class Preview extends \Magento\Adminhtml\Block\Widget
     protected function _toHtml()
     {
         /** @var $template \Magento\Core\Model\Email\Template */
-        $template = \Mage::getModel('\Magento\Core\Model\Email\Template',
+        $template = \Mage::getModel('Magento\Core\Model\Email\Template',
             array('data' => array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND)));
         $id = (int)$this->getRequest()->getParam('id');
         if ($id) {

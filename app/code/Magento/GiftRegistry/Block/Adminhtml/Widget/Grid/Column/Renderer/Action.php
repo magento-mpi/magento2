@@ -24,7 +24,7 @@ class Action
      */
     protected function _getValue(\Magento\Object $row)
     {
-        $select = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setId($this->getColumn()->getId())
             ->setName('items[' . $row->getItemId() . '][action]')
             ->setOptions($this->getColumn()->getOptions());

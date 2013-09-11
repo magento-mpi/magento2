@@ -31,7 +31,7 @@ class Links extends \Magento\Page\Block\Template\Links\Block
      */
     protected function _toHtml()
     {
-        if ($this->helper('\Magento\Wishlist\Helper\Data')->isAllow()) {
+        if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow()) {
             $text = $this->_createLabel($this->_getItemCount());
             $this->_label = $text;
             $this->_title = $text;
@@ -61,7 +61,7 @@ class Links extends \Magento\Page\Block\Template\Links\Block
      */
     protected function _getItemCount()
     {
-        return $this->helper('\Magento\Wishlist\Helper\Data')->getItemCount();
+        return $this->helper('Magento\Wishlist\Helper\Data')->getItemCount();
     }
 
     /**

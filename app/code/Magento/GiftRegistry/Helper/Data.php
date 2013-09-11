@@ -120,7 +120,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getCurrentCustomerEntityOptions()
     {
         $result = array();
-        $entityCollection = \Mage::getModel('\Magento\GiftRegistry\Model\Entity')->getCollection()
+        $entityCollection = \Mage::getModel('Magento\GiftRegistry\Model\Entity')->getCollection()
             ->filterByCustomerId(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId())
             ->filterByIsActive(1);
 
@@ -200,7 +200,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getRegistryLink($entity)
     {
-        return \Mage::getModel('\Magento\Core\Model\Url')->setStore($entity->getStoreId())
+        return \Mage::getModel('Magento\Core\Model\Url')->setStore($entity->getStoreId())
             ->getUrl('giftregistry/view/index', array('id' => $entity->getUrlKey()));
     }
 
@@ -224,7 +224,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
 
         if ($productType == \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD) {
             if ($item instanceof \Magento\Sales\Model\Quote\Item) {
-                $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($item->getProductId());
+                $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($item->getProductId());
             } else {
                 $product = $item;
             }

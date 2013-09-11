@@ -30,7 +30,7 @@ class Status extends \Magento\Core\Block\Template
 
     protected function _toHtml()
     {
-        $rssObj = \Mage::getModel('\Magento\Rss\Model\Rss');
+        $rssObj = \Mage::getModel('Magento\Rss\Model\Rss');
         $order = \Mage::registry('current_order');
         if (!$order) {
             return '';
@@ -43,7 +43,7 @@ class Status extends \Magento\Core\Block\Template
                 'charset'     => 'UTF-8',
                 );
         $rssObj->_addHeader($data);
-        $resourceModel = \Mage::getResourceModel('\Magento\Rss\Model\Resource\Order');
+        $resourceModel = \Mage::getResourceModel('Magento\Rss\Model\Resource\Order');
         $results = $resourceModel->getAllCommentCollection($order->getId());
         if($results){
             foreach($results as $result){

@@ -15,7 +15,7 @@ $orderService = new \Magento\Sales\Model\Service\Order($order);
 $invoice = $orderService->prepareInvoice();
 $invoice->register();
 $invoice->getOrder()->setIsInProcess(true);
-$transactionSave = Mage::getModel('\Magento\Core\Model\Resource\Transaction');
+$transactionSave = Mage::getModel('Magento\Core\Model\Resource\Transaction');
 $transactionSave->addObject($invoice)
     ->addObject($invoice->getOrder())
     ->save();
@@ -26,7 +26,7 @@ $orderService2 = new \Magento\Sales\Model\Service\Order($order2);
 $invoice2 = $orderService2->prepareInvoice();
 $invoice2->register();
 $invoice2->getOrder()->setIsInProcess(true);
-$transactionSave2 = Mage::getModel('\Magento\Core\Model\Resource\Transaction');
+$transactionSave2 = Mage::getModel('Magento\Core\Model\Resource\Transaction');
 $transactionSave2->addObject($invoice2)
     ->addObject($invoice2->getOrder())
     ->save();

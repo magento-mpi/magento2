@@ -64,7 +64,7 @@ class Agreement extends \Magento\Payment\Model\Billing\AgreementAbstract
      */
     protected function _beforeSave()
     {
-        $date = \Mage::getModel('\Magento\Core\Model\Date')->gmtDate();
+        $date = \Mage::getModel('Magento\Core\Model\Date')->gmtDate();
         if ($this->isObjectNew() && !$this->getCreatedAt()) {
             $this->setCreatedAt($date);
         } else {
@@ -234,7 +234,7 @@ class Agreement extends \Magento\Payment\Model\Billing\AgreementAbstract
      */
     public function getAvailableCustomerBillingAgreements($customerId)
     {
-        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Billing\Agreement\Collection');
+        $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Billing\Agreement\Collection');
         $collection->addFieldToFilter('customer_id', $customerId)
             ->addFieldToFilter('status', self::STATUS_ACTIVE)
             ->setOrder('agreement_id');

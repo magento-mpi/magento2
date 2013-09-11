@@ -96,7 +96,7 @@
     </script>
     <?php else: ?>
     <p class="review-nologged" id="review-form">
-        <?php echo __('Only registered users can write reviews. Please, <a href="%1">log in</a> or <a href="%2">sign up</a>.', $this->getLoginLink(), $this->helper('\Magento\Customer\Helper\Data')->getRegisterUrl()) ?>
+        <?php echo __('Only registered users can write reviews. Please, <a href="%1">log in</a> or <a href="%2">sign up</a>.', $this->getLoginLink(), $this->helper('Magento\Customer\Helper\Data')->getRegisterUrl()) ?>
     </p>
     <?php endif ?>
 </div>

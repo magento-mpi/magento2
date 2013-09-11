@@ -33,10 +33,10 @@ class New extends \Magento\Rss\Block\Catalog\AbstractCatalog
         $storeId = $this->_getStoreId();
 
         $newurl = \Mage::getUrl('rss/catalog/new/store_id/' . $storeId);
-        $title = __('New Products from %1', \Mage::getModel('\Magento\Core\Model\StoreManagerInterface')->getStore($storeId)->getFrontendName());
+        $title = __('New Products from %1', \Mage::getModel('Magento\Core\Model\StoreManagerInterface')->getStore($storeId)->getFrontendName());
         $lang = \Mage::getStoreConfig('general/locale/code');
 
-        $rssObj = \Mage::getModel('\Magento\Rss\Model\Rss');
+        $rssObj = \Mage::getModel('Magento\Rss\Model\Rss');
         $data = array('title' => $title,
                 'description' => $title,
                 'link'        => $newurl,
@@ -50,7 +50,7 @@ special price - getSpecialPrice()
 getFinalPrice() - used in shopping cart calculations
 */
 
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
 
         $todayStartOfDayDate  = \Mage::app()->getLocale()->date()
             ->setTime('00:00:00')
@@ -129,7 +129,7 @@ getFinalPrice() - used in shopping cart calculations
         $product->setData($args['row']);
         $description = '<table><tr>'
             . '<td><a href="'.$product->getProductUrl().'"><img src="'
-            . $this->helper('\Magento\Catalog\Helper\Image')->init($product, 'thumbnail')->resize(75, 75)
+            . $this->helper('Magento\Catalog\Helper\Image')->init($product, 'thumbnail')->resize(75, 75)
             .'" border="0" align="left" height="75" width="75"></a></td>'.
             '<td  style="text-decoration:none;">'.$product->getDescription();
 

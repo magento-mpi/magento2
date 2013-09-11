@@ -19,12 +19,12 @@ class Magento_Catalog_Block_Product_ProductList_CrosssellTest extends PHPUnit_Fr
     public function testAll()
     {
         Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(2);
         Mage::register('product', $product);
         /** @var $block \Magento\Catalog\Block\Product\ProductList\Crosssell */
-        $block = Mage::app()->getLayout()->createBlock('\Magento\Catalog\Block\Product\ProductList\Crosssell');
-        $block->setLayout(Mage::getModel('\Magento\Core\Model\Layout'));
+        $block = Mage::app()->getLayout()->createBlock('Magento\Catalog\Block\Product\ProductList\Crosssell');
+        $block->setLayout(Mage::getModel('Magento\Core\Model\Layout'));
         $block->setTemplate('Magento_Checkout::cart/crosssell.phtml');
         $block->setItemCount(1);
 

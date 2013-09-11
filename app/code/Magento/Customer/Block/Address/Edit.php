@@ -44,7 +44,7 @@ class Edit extends \Magento\Directory\Block\Data
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $this->_address = \Mage::getModel('\Magento\Customer\Model\Address');
+        $this->_address = \Mage::getModel('Magento\Customer\Model\Address');
 
         // Init address object
         if ($id = $this->getRequest()->getParam('id')) {
@@ -79,7 +79,7 @@ class Edit extends \Magento\Directory\Block\Data
     public function getNameBlockHtml()
     {
         $nameBlock = $this->getLayout()
-            ->createBlock('\Magento\Customer\Block\Widget\Name')
+            ->createBlock('Magento\Customer\Block\Widget\Name')
             ->setObject($this->getAddress());
 
         return $nameBlock->toHtml();

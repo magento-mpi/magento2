@@ -18,7 +18,7 @@ class Magento_Core_Model_Variable_ConfigTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Core\Model\Variable\Config');
+        $this->_model = Mage::getModel('Magento\Core\Model\Variable\Config');
     }
 
     public function testGetWysiwygJsPluginSrc()

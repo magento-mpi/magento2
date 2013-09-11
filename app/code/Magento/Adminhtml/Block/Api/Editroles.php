@@ -22,7 +22,7 @@ class Editroles extends \Magento\Adminhtml\Block\Widget\Tabs {
     protected function _beforeToHtml()
     {
         $roleId = $this->getRequest()->getParam('rid', false);
-        $role = \Mage::getModel('\Magento\Api\Model\Roles')
+        $role = \Mage::getModel('Magento\Api\Model\Roles')
            ->load($roleId);
 
         $this->addTab('info', array(
@@ -37,7 +37,7 @@ class Editroles extends \Magento\Adminhtml\Block\Widget\Tabs {
         $this->addTab('account', array(
             'label'     => __('Role Resources'),
             'title'     => __('Role Resources'),
-            'content'   => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Api\Tab\Rolesedit')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('Magento\Adminhtml\Block\Api\Tab\Rolesedit')->toHtml(),
         ));
 
         if( intval($roleId) > 0 ) {

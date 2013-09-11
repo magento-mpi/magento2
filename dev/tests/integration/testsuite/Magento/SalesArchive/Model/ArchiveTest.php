@@ -18,7 +18,7 @@ class Magento_SalesArchive_Model_ArchiveTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model= Mage::getModel('\Magento\SalesArchive\Model\Archive');
+        $this->_model= Mage::getModel('Magento\SalesArchive\Model\Archive');
     }
 
     /**

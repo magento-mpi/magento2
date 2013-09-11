@@ -229,7 +229,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     {
         if ($all && is_null($this->_itemsAll) || !$all && is_null($this->_items)) {
             $failedItems = \Mage::getSingleton('Magento\AdvancedCheckout\Model\Cart')->getFailedItems();
-            $collection = \Mage::getResourceSingleton('\Magento\AdvancedCheckout\Model\Resource\Product\Collection')
+            $collection = \Mage::getResourceSingleton('Magento\AdvancedCheckout\Model\Resource\Product\Collection')
                 ->addMinimalPrice()
                 ->addFinalPrice()
                 ->addTaxPercents()
@@ -255,8 +255,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                     $item['item']['code'] = $item['code'];
                     $item['item']['product_type'] = 'undefined';
                     // Create empty quote item. Otherwise it won't be correctly treated inside failed.phtml
-                    $collectionItem = \Mage::getModel('\Magento\Sales\Model\Quote\Item')
-                        ->setProduct(\Mage::getModel('\Magento\Catalog\Model\Product'))
+                    $collectionItem = \Mage::getModel('Magento\Sales\Model\Quote\Item')
+                        ->setProduct(\Mage::getModel('Magento\Catalog\Model\Product'))
                         ->addData($item['item']);
                     $quoteItemsCollection[] = $collectionItem;
                 }
@@ -266,7 +266,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                 $collection->addIdFilter($ids);
 
                 $quote = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
-                $emptyQuoteItem = \Mage::getModel('\Magento\Sales\Model\Quote\Item');
+                $emptyQuoteItem = \Mage::getModel('Magento\Sales\Model\Quote\Item');
 
                 /** @var $itemProduct \Magento\Catalog\Model\Product */
                 foreach ($collection->getItems() as $product) {
@@ -299,7 +299,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                         }
 
                         /** @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
-                        $stockItem = \Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item');
+                        $stockItem = \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
                         $stockItem->assignProduct($itemProduct);
                         $quoteItem->setStockItem($stockItem);
 
@@ -336,7 +336,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function processSkuFileUploading($session)
     {
         /** @var $importModel \Magento\AdvancedCheckout\Model\Import */
-        $importModel = \Mage::getModel('\Magento\AdvancedCheckout\Model\Import');
+        $importModel = \Mage::getModel('Magento\AdvancedCheckout\Model\Import');
         try {
             $importModel->uploadFile();
             $rows = $importModel->getRows();

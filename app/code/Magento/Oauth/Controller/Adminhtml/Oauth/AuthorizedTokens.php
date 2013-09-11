@@ -73,7 +73,7 @@ class AuthorizedTokens extends \Magento\Adminhtml\Controller\Action
 
         try {
             /** @var $collection \Magento\Oauth\Model\Resource\Token\Collection */
-            $collection = \Mage::getModel('\Magento\Oauth\Model\Token')->getCollection();
+            $collection = \Mage::getModel('Magento\Oauth\Model\Token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByType(\Magento\Oauth\Model\Token::TYPE_ACCESS)
                     ->addFilterById($ids)
@@ -117,7 +117,7 @@ class AuthorizedTokens extends \Magento\Adminhtml\Controller\Action
 
         try {
             /** @var $collection \Magento\Oauth\Model\Resource\Token\Collection */
-            $collection = \Mage::getModel('\Magento\Oauth\Model\Token')->getCollection();
+            $collection = \Mage::getModel('Magento\Oauth\Model\Token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByType(\Magento\Oauth\Model\Token::TYPE_ACCESS)
                     ->addFilterById($ids);
@@ -170,7 +170,7 @@ class AuthorizedTokens extends \Magento\Adminhtml\Controller\Action
             $name  = $admin->getName(' ');
         } else {
             /** @var $customer \Magento\Customer\Model\Customer */
-            $customer = \Mage::getModel('\Magento\Customer\Model\Customer');
+            $customer = \Mage::getModel('Magento\Customer\Model\Customer');
 
             $customer->load($token->getCustomerId());
 

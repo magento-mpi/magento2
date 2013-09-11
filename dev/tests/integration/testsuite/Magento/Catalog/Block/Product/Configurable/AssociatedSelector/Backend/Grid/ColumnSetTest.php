@@ -21,7 +21,7 @@ class Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid
      */
     public function testPrepareSelect()
     {
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         Mage::register('current_product', $product);
 

@@ -28,7 +28,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     {
         Mage::register('current_product', new \Magento\Object(array('type_id' => 'simple')));
         $block = Mage::app()->getLayout()
-            ->createBlock('\Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples');
+            ->createBlock('Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples');
         $this->assertEmpty($block->getSampleData());
     }
 
@@ -51,7 +51,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
             'samples_title' => $samplesTitle
         )));
         $block = Mage::app()->getLayout()
-            ->createBlock('\Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples');
+            ->createBlock('Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples');
         $this->assertEquals($expectedResult, $block->getSamplesTitle());
     }
 

@@ -85,7 +85,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
         }
 
         if (\Mage::registry('rating_data')) {
-            $collection = \Mage::getModel('\Magento\Rating\Model\Rating\Option')
+            $collection = \Mage::getModel('Magento\Rating\Model\Rating\Option')
                 ->getResourceCollection()
                 ->addRatingFilter(\Mage::registry('rating_data')->getId())
                 ->load();
@@ -119,7 +119,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
                 'name' => 'stores[]',
                 'values' => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+            $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
 
             if (\Mage::registry('rating_data')) {

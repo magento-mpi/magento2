@@ -42,7 +42,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareCollection()
     {
         /** @var $collection \Magento\CustomerSegment\Model\Resource\Segment\Collection */
-        $collection = \Mage::getModel('\Magento\CustomerSegment\Model\Segment')->getCollection();
+        $collection = \Mage::getModel('Magento\CustomerSegment\Model\Segment')->getCollection();
         $collection->addWebsitesToResult();
         $this->setCollection($collection);
 

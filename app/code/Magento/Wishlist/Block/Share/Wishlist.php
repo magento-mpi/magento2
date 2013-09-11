@@ -52,7 +52,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     public function getWishlistCustomer()
     {
         if (is_null($this->_customer)) {
-            $this->_customer = \Mage::getModel('\Magento\Customer\Model\Customer')
+            $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer')
                 ->load($this->_getWishlist()->getCustomerId());
         }
 

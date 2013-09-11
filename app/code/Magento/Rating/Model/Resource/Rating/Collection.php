@@ -148,7 +148,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         $arrRatingId = $this->getColumnValues('rating_id');
 
         if (!empty($arrRatingId)) {
-            $collection = \Mage::getResourceModel('\Magento\Rating\Model\Resource\Rating\Option\Collection')
+            $collection = \Mage::getResourceModel('Magento\Rating\Model\Resource\Rating\Option\Collection')
                 ->addRatingFilter($arrRatingId)
                 ->setPositionOrder()
                 ->load();

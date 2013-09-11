@@ -143,7 +143,7 @@ class Item extends \Magento\Core\Model\AbstractModel
                 $this->_orderItem = $this->getCreditmemo()->getOrder()->getItemById($this->getOrderItemId());
             }
             else {
-                $this->_orderItem = \Mage::getModel('\Magento\Sales\Model\Order\Item')
+                $this->_orderItem = \Mage::getModel('Magento\Sales\Model\Order\Item')
                     ->load($this->getOrderItemId());
             }
         }

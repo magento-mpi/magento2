@@ -19,7 +19,7 @@ abstract class AbstractRate extends \Magento\Core\Model\AbstractModel
     {
         $code = $this->getCarrier();
         if (!isset(self::$_instances[$code])) {
-            self::$_instances[$code] = \Mage::getModel('\Magento\Shipping\Model\Config')->getCarrierInstance($code);
+            self::$_instances[$code] = \Mage::getModel('Magento\Shipping\Model\Config')->getCarrierInstance($code);
         }
         return self::$_instances[$code];
     }

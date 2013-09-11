@@ -46,7 +46,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     protected function _getResource()
     {
         if (is_null($this->_resource)) {
-            $this->_resource = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Layer\Filter\Attribute');
+            $this->_resource = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Layer\Filter\Attribute');
         }
         return $this->_resource;
     }

@@ -80,7 +80,7 @@ class Observer
                 $userId = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId();
                 $accessLevel = \Mage::getSingleton('Magento\VersionsCms\Model\Config')->getAllowedAccessLevel();
 
-                $revision = \Mage::getModel('\Magento\VersionsCms\Model\Page\Revision')
+                $revision = \Mage::getModel('Magento\VersionsCms\Model\Page\Revision')
                     ->loadWithRestrictions($accessLevel, $userId, $page->getPublishedRevisionId());
 
                 if ($revision->getId()) {
@@ -142,7 +142,7 @@ class Observer
          * Validate Request and modify router match condition
          */
         /* @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
-        $node = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node', array('data' => array(
+        $node = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node', array('data' => array(
             'scope' => \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE,
             'scope_id' => \Mage::app()->getStore()->getId(),
         )))->getHeritage();
@@ -169,7 +169,7 @@ class Observer
 
         if (!$node->getPageId()) {
             /* @var $child \Magento\VersionsCms\Model\Hierarchy\Node */
-            $child = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node', array('data' => array(
+            $child = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node', array('data' => array(
                 'scope' => $node->getScope(),
                 'scope_id' => $node->getScopeId(),
             )));
@@ -210,7 +210,7 @@ class Observer
         if ($page->getIsNewPage() || ($page->getUnderVersionControl()
             && $page->dataHasChangedFor('under_version_control'))
         ) {
-            $version = \Mage::getModel('\Magento\VersionsCms\Model\Page\Version');
+            $version = \Mage::getModel('Magento\VersionsCms\Model\Page\Version');
 
             $revisionInitialData = $page->getData();
             $revisionInitialData['copied_from_original'] = true;
@@ -250,7 +250,7 @@ class Observer
         /*
          * Updating sort order for nodes in parent nodes which have current page as child
          */
-        $resource = \Mage::getResourceSingleton('\Magento\VersionsCms\Model\Resource\Hierarchy\Node');
+        $resource = \Mage::getResourceSingleton('Magento\VersionsCms\Model\Resource\Hierarchy\Node');
         foreach ($page->getNodesSortOrder() as $nodeId => $value) {
             $resource->updateSortOrder($nodeId, $value);
         }
@@ -325,7 +325,7 @@ class Observer
      */
     public function adminUserDeleteAfter(\Magento\Event\Observer $observer)
     {
-        $version = \Mage::getModel('\Magento\VersionsCms\Model\Page\Version');
+        $version = \Mage::getModel('Magento\VersionsCms\Model\Page\Version');
         $collection = $version->getCollection()
             ->addAccessLevelFilter(\Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PRIVATE)
             ->addUserIdFilter();
@@ -346,7 +346,7 @@ class Observer
     {
         /* @var $store \Magento\Core\Model\Website */
         $website = $observer->getEvent()->getWebsite();
-        $nodeModel = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node');
+        $nodeModel = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node');
         $nodeModel->deleteByScope(\Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_WEBSITE, $website->getId());
 
         foreach ($website->getStoreIds() as $storeId) {
@@ -377,11 +377,11 @@ class Observer
     private function _cleanStoreFootprints($storeId)
     {
         $storeScope = \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE;
-        $nodeModel = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node');
+        $nodeModel = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node');
         $nodeModel->deleteByScope($storeScope, $storeId);
 
         /* @var $widgetModel \Magento\Widget\Model\Widget\Instance */
-        $widgetModel = \Mage::getModel('\Magento\Widget\Model\Widget\Instance');
+        $widgetModel = \Mage::getModel('Magento\Widget\Model\Widget\Instance');
         $widgets = $widgetModel->getResourceCollection()
                 ->addStoreFilter(array($storeId, false))
                 ->addFieldToFilter('instance_type', '\Magento\VersionsCms\Block\Widget\Node');
@@ -454,7 +454,7 @@ class Observer
         /* @var $page \Magento\Cms\Model\Page */
         $page = $observer->getEvent()->getObject();
 
-        \Mage::getResourceSingleton('\Magento\VersionsCms\Model\Resource\Increment')
+        \Mage::getResourceSingleton('Magento\VersionsCms\Model\Resource\Increment')
             ->cleanIncrementRecord(\Magento\VersionsCms\Model\Increment::TYPE_PAGE,
                 $page->getId(),
                 \Magento\VersionsCms\Model\Increment::LEVEL_VERSION);
@@ -553,7 +553,7 @@ class Observer
          */
         $topMenuRootNode = $observer->getMenu();
 
-        $hierarchyModel = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node', array('data' => array(
+        $hierarchyModel = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node', array('data' => array(
             'scope' => \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE,
             'scope_id' => \Mage::app()->getStore()->getId(),
         )))->getHeritage();
@@ -565,7 +565,7 @@ class Observer
             $topMenuRootNode->getId() => $topMenuRootNode
         );
 
-        $nodeModel = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node');
+        $nodeModel = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node');
 
         foreach ($nodes as $node) {
 

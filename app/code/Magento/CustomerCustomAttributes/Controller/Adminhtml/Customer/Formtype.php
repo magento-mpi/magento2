@@ -52,7 +52,7 @@ class Formtype extends \Magento\Adminhtml\Controller\Action
      */
     protected function _initFormType()
     {
-        $model  = \Mage::getModel('\Magento\Eav\Model\Form\Type');
+        $model  = \Mage::getModel('Magento\Eav\Model\Form\Type');
         $typeId = $this->getRequest()->getParam('type_id');
         if (is_numeric($typeId)) {
             $model->load($typeId);
@@ -88,7 +88,7 @@ class Formtype extends \Magento\Adminhtml\Controller\Action
         if ($skeleton->getId()) {
             try {
                 $hasError = false;
-                $formType = \Mage::getModel('\Magento\Eav\Model\Form\Type');
+                $formType = \Mage::getModel('Magento\Eav\Model\Form\Type');
                 $formType->addData(array(
                     'code'          => $skeleton->getCode(),
                     'label'         => $this->getRequest()->getPost('label'),
@@ -140,10 +140,10 @@ class Formtype extends \Magento\Adminhtml\Controller\Action
      */
     protected function _saveTreeData($formType, array $data)
     {
-        $fieldsetCollection = \Mage::getModel('\Magento\Eav\Model\Form\Fieldset')->getCollection()
+        $fieldsetCollection = \Mage::getModel('Magento\Eav\Model\Form\Fieldset')->getCollection()
             ->addTypeFilter($formType)
             ->setSortOrder();
-        $elementCollection = \Mage::getModel('\Magento\Eav\Model\Form\Element')->getCollection()
+        $elementCollection = \Mage::getModel('Magento\Eav\Model\Form\Element')->getCollection()
             ->addTypeFilter($formType)
             ->setSortOrder();
 
@@ -182,7 +182,7 @@ class Formtype extends \Magento\Adminhtml\Controller\Action
         // insert new fieldsets
         $fsMap = array();
         foreach ($fsInsert as $fsData) {
-            $fieldset = \Mage::getModel('\Magento\Eav\Model\Form\Fieldset');
+            $fieldset = \Mage::getModel('Magento\Eav\Model\Form\Fieldset');
             $fieldset->setTypeId($formType->getId())
                 ->setCode($fsData['code'])
                 ->setLabels($fsData['labels'])

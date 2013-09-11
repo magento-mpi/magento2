@@ -37,7 +37,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             'legend'    => __('Assignment Information')
         ));
 
-        $statuses = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Status\Collection')
+        $statuses = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Status\Collection')
             ->toOptionArray();
         array_unshift($statuses, array('value' => '', 'label' => ''));
 

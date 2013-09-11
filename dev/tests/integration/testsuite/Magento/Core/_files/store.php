@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$store = Mage::getModel('\Magento\Core\Model\Store');
+$store = Mage::getModel('Magento\Core\Model\Store');
 $websiteId = Mage::app()->getWebsite()->getId();
 $groupId = Mage::app()->getWebsite()->getDefaultGroupId();
 $store->setCode('fixturestore') // fixture_store conflicts with "current_store" notation

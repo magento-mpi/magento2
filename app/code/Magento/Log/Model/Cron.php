@@ -50,7 +50,7 @@ class Cron extends \Magento\Core\Model\AbstractModel
         /* @var $translate \Magento\Core\Model\Translate */
         $translate->setTranslateInline(false);
 
-        $emailTemplate = \Mage::getModel('\Magento\Core\Model\Email\Template');
+        $emailTemplate = \Mage::getModel('Magento\Core\Model\Email\Template');
         /* @var $emailTemplate \Magento\Core\Model\Email\Template */
         $emailTemplate->setDesignConfig(array('area' => 'backend', 'store' => \Mage::app()->getStore()->getId()))
             ->sendTransactional(
@@ -80,7 +80,7 @@ class Cron extends \Magento\Core\Model\AbstractModel
         $this->_errors = array();
 
         try {
-            \Mage::getModel('\Magento\Log\Model\Log')->clean();
+            \Mage::getModel('Magento\Log\Model\Log')->clean();
         }
         catch (\Exception $e) {
             $this->_errors[] = $e->getMessage();

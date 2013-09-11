@@ -144,7 +144,7 @@ class AbstractApi extends \Magento\Object
     {
         $this->_debugFlag = (bool)\Mage::getStoreConfigFlag('payment/pbridge/debug');
         if ($this->_debugFlag) {
-            \Mage::getModel('\Magento\Core\Model\Log\Adapter', array('fileName' => 'payment_pbridge.log'))
+            \Mage::getModel('Magento\Core\Model\Log\Adapter', array('fileName' => 'payment_pbridge.log'))
                ->log($debugData);
         }
     }

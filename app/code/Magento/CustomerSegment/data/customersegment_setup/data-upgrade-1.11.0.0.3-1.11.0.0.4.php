@@ -9,7 +9,7 @@
  */
 
 /** @var $installer \Magento\Enterprise\Model\Resource\Setup\Migration */
-$installer = \Mage::getResourceModel('\Magento\Enterprise\Model\Resource\Setup\Migration',
+$installer = \Mage::getResourceModel('Magento\Enterprise\Model\Resource\Setup\Migration',
     array('resourceName' => 'core_setup'));
 $installer->startSetup();
 

@@ -31,7 +31,7 @@ class Recent extends \Magento\Core\Block\Template
 
     protected function _initCollection()
     {
-        $this->_collection = \Mage::getModel('\Magento\Review\Model\Review')->getProductCollection();
+        $this->_collection = \Mage::getModel('Magento\Review\Model\Review')->getProductCollection();
         $this->_collection
             ->addStoreFilter(\Mage::app()->getStore()->getId())
             ->addCustomerFilter(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId())

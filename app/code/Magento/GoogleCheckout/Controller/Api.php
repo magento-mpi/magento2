@@ -14,7 +14,7 @@ class Api extends \Magento\Core\Controller\Front\Action
 {
     public function indexAction()
     {
-        $res = \Mage::getModel('\Magento\GoogleCheckout\Model\Api')->processCallback();
+        $res = \Mage::getModel('Magento\GoogleCheckout\Model\Api')->processCallback();
         if ($res === false) {
             $this->_forward('noRoute');
         }
@@ -25,6 +25,6 @@ class Api extends \Magento\Core\Controller\Front\Action
 
     public function beaconAction()
     {
-        \Mage::getModel('\Magento\GoogleCheckout\Model\Api')->debugData(array('request' => $_SERVER['QUERY_STRING'], 'dir' => 'in'));
+        \Mage::getModel('Magento\GoogleCheckout\Model\Api')->debugData(array('request' => $_SERVER['QUERY_STRING'], 'dir' => 'in'));
     }
 }

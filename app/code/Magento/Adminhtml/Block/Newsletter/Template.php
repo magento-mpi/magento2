@@ -26,7 +26,7 @@ class Template extends \Magento\Adminhtml\Block\Template
     {
         $this->setChild(
             'grid',
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Newsletter\Template\Grid', 'newsletter.template.grid')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Newsletter\Template\Grid', 'newsletter.template.grid')
         );
         return parent::_prepareLayout();
     }

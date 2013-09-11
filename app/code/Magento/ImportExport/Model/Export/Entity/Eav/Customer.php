@@ -94,7 +94,7 @@ class Customer
         parent::__construct($data);
 
         $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
-            : \Mage::getResourceModel('\Magento\Customer\Model\Resource\Customer\Collection');
+            : \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
 
         $this->_initAttributeValues()
             ->_initStores()

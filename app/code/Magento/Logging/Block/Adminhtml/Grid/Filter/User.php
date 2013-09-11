@@ -23,7 +23,7 @@ class User extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Select
     public function _getOptions()
     {
         $options = array(array('value' => '', 'label' => __('All Users')));
-        foreach (\Mage::getResourceModel('\Magento\Logging\Model\Resource\Event')->getUserNames() as $username) {
+        foreach (\Mage::getResourceModel('Magento\Logging\Model\Resource\Event')->getUserNames() as $username) {
             $options[] = array('value' => $username, 'label' => $username);
         }
         return $options;

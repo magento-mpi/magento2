@@ -44,7 +44,7 @@ class Countryofmanufacture
         if ($cache = $this->_configCacheType->load($cacheKey)) {
             $options = unserialize($cache);
         } else {
-            $collection = \Mage::getModel('\Magento\Directory\Model\Country')->getResourceCollection()
+            $collection = \Mage::getModel('Magento\Directory\Model\Country')->getResourceCollection()
                 ->loadByStore();
             $options = $collection->toOptionArray();
             $this->_configCacheType->save(serialize($options), $cacheKey);

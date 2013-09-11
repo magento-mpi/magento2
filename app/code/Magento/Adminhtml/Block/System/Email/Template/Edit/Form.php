@@ -103,7 +103,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
         ));
 
         $insertVariableButton = $this->getLayout()
-            ->createBlock('\Magento\Adminhtml\Block\Widget\Button', '', array('data' => array(
+            ->createBlock('Magento\Adminhtml\Block\Widget\Button', '', array('data' => array(
                 'type' => 'button',
                 'label' => __('Insert Variable...'),
                 'onclick' => 'templateControl.openVariableChooser();return false;'
@@ -160,9 +160,9 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
     public function getVariables()
     {
         $variables = array();
-        $variables[] = \Mage::getModel('\Magento\Core\Model\Source\Email\Variables')
+        $variables[] = \Mage::getModel('Magento\Core\Model\Source\Email\Variables')
             ->toOptionArray(true);
-        $customVariables = \Mage::getModel('\Magento\Core\Model\Variable')
+        $customVariables = \Mage::getModel('Magento\Core\Model\Variable')
             ->getVariablesOptionArray(true);
         if ($customVariables) {
             $variables[] = $customVariables;

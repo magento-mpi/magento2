@@ -41,7 +41,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
         }
 
         /** @var $collection \Magento\Reports\Model\Resource\Product\Lowstock\Collection  */
-        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Product\Lowstock\Collection')
+        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Product\Lowstock\Collection')
             ->addAttributeToSelect('*')
             ->setStoreId($storeId)
             ->filterByIsQtyProductTypes()

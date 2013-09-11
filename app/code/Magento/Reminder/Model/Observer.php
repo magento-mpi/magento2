@@ -92,7 +92,7 @@ class Observer
     public function scheduledNotification()
     {
         if (\Mage::helper('Magento\Reminder\Helper\Data')->isEnabled()) {
-            \Mage::getModel('\Magento\Reminder\Model\Rule')->sendReminderEmails();
+            \Mage::getModel('Magento\Reminder\Model\Rule')->sendReminderEmails();
             return $this;
         }
     }
@@ -110,7 +110,7 @@ class Observer
         $autoGeneration = $rule->getUseAutoGeneration();
 
         if ($couponType == \Magento\SalesRule\Model\Rule::COUPON_TYPE_SPECIFIC && !empty($autoGeneration)) {
-            $model = \Mage::getModel('\Magento\Reminder\Model\Rule');
+            $model = \Mage::getModel('Magento\Reminder\Model\Rule');
             $ruleId = $rule->getId();
             $model->detachSalesRule($ruleId);
         }

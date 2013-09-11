@@ -27,7 +27,7 @@ class Matrix extends \Magento\Backend\Block\Template
         $newRates = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getRates();
         \Mage::getSingleton('Magento\Adminhtml\Model\Session')->unsetData('rates');
 
-        $currencyModel = \Mage::getModel('\Magento\Directory\Model\Currency');
+        $currencyModel = \Mage::getModel('Magento\Directory\Model\Currency');
         $currencies = $currencyModel->getConfigAllowCurrencies();
         $defaultCurrencies = $currencyModel->getConfigBaseCurrencies();
         $oldCurrencies = $this->_prepareRates($currencyModel->getCurrencyRates($defaultCurrencies, $currencies));

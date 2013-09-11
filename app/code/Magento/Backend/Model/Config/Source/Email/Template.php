@@ -29,7 +29,7 @@ class Template extends \Magento\Object
     public function toOptionArray()
     {
         if (!$collection = \Mage::registry('config_system_email_template')) {
-            $collection = \Mage::getResourceModel('\Magento\Core\Model\Resource\Email\Template\Collection')
+            $collection = \Mage::getResourceModel('Magento\Core\Model\Resource\Email\Template\Collection')
                 ->load();
 
             \Mage::register('config_system_email_template', $collection);

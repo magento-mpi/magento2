@@ -61,7 +61,7 @@ class Item extends \Magento\Adminhtml\Block\Sales\Order\Totals
      */
     public function displayPrices($baseAmount, $amount)
     {
-        return $this->helper('\Magento\Adminhtml\Helper\Sales')->displayPrices($this->getOrder(), $baseAmount, $amount);
+        return $this->helper('Magento\Adminhtml\Helper\Sales')->displayPrices($this->getOrder(), $baseAmount, $amount);
     }
 
     /**
@@ -74,7 +74,7 @@ class Item extends \Magento\Adminhtml\Block\Sales\Order\Totals
      */
     public function displayPriceAttribute($code, $strong = false, $separator = '<br/>')
     {
-        return $this->helper('\Magento\Adminhtml\Helper\Sales')->displayPriceAttribute($this->getSource(), $code, $strong, $separator);
+        return $this->helper('Magento\Adminhtml\Helper\Sales')->displayPriceAttribute($this->getSource(), $code, $strong, $separator);
     }
 
     /**

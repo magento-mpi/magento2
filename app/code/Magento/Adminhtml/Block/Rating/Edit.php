@@ -31,7 +31,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 
         if( $this->getRequest()->getParam($this->_objectId) ) {
 
-            $ratingData = \Mage::getModel('\Magento\Rating\Model\Rating')
+            $ratingData = \Mage::getModel('Magento\Rating\Model\Rating')
                 ->load($this->getRequest()->getParam($this->_objectId));
 
             \Mage::register('rating_data', $ratingData);

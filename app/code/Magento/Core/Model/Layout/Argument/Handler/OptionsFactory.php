@@ -26,6 +26,6 @@ class OptionsFactory
      */
     public function createHandler()
     {
-        return \Mage::getModel('\Magento\Core\Model\Layout\Argument\Handler\Options');
+        return \Mage::getModel('Magento\Core\Model\Layout\Argument\Handler\Options');
     }
 }

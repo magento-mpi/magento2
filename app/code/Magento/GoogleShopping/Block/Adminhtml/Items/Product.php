@@ -47,7 +47,7 @@ class Product extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
+        $collection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
             ->setStore($this->_getStore())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
@@ -87,8 +87,8 @@ class Product extends \Magento\Adminhtml\Block\Widget\Grid
             'column_css_class'=> 'name'
         ));
 
-        $sets = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
-            ->setEntityTypeFilter(\Mage::getModel('\Magento\Catalog\Model\Product')->getResource()->getTypeId())
+        $sets = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
+            ->setEntityTypeFilter(\Mage::getModel('Magento\Catalog\Model\Product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
@@ -162,7 +162,7 @@ class Product extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _getGoogleShoppingProductIds()
     {
-        $collection = \Mage::getResourceModel('\Magento\GoogleShopping\Model\Resource\Item\Collection')
+        $collection = \Mage::getResourceModel('Magento\GoogleShopping\Model\Resource\Item\Collection')
             ->addStoreFilter($this->_getStore()->getId())
             ->load();
         $productIds = array();

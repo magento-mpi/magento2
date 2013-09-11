@@ -26,7 +26,7 @@ class Observer
     public function initHelperItemCollection()
     {
         if (\Mage::helper('Magento\MultipleWishlist\Helper\Data')->isMultipleEnabled()) {
-            $collection = \Mage::getModel('\Magento\Wishlist\Model\Item')->getCollection()
+            $collection = \Mage::getModel('Magento\Wishlist\Model\Item')->getCollection()
                 ->addCustomerIdFilter(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId())
                 ->setVisibilityFilter()
                 ->addStoreFilter(\Mage::app()->getStore()->getWebsite()->getStoreIds())

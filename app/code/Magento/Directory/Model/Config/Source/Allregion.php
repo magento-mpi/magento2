@@ -19,7 +19,7 @@ class Allregion implements \Magento\Core\Model\Option\ArrayInterface
     public function toOptionArray($isMultiselect=false)
     {
         if (!$this->_options) {
-            $countriesArray = \Mage::getResourceModel('\Magento\Directory\Model\Resource\Country\Collection')->load()
+            $countriesArray = \Mage::getResourceModel('Magento\Directory\Model\Resource\Country\Collection')->load()
                 ->toOptionArray(false);
             $this->_countries = array();
             foreach ($countriesArray as $a) {
@@ -27,7 +27,7 @@ class Allregion implements \Magento\Core\Model\Option\ArrayInterface
             }
 
             $countryRegions = array();
-            $regionsCollection = \Mage::getResourceModel('\Magento\Directory\Model\Resource\Region\Collection')->load();
+            $regionsCollection = \Mage::getResourceModel('Magento\Directory\Model\Resource\Region\Collection')->load();
             foreach ($regionsCollection as $region) {
                 $countryRegions[$region->getCountryId()][$region->getId()] = $region->getDefaultName();
             }

@@ -23,7 +23,7 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
      */
     protected function _getResource()
     {
-        return \Mage::getResourceSingleton('\Magento\Weee\Model\Resource\Attribute\Backend\Weee\Tax');
+        return \Mage::getResourceSingleton('Magento\Weee\Model\Resource\Attribute\Backend\Weee\Tax');
     }
 
     /**

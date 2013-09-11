@@ -163,7 +163,7 @@ class Info extends \Magento\Core\Block\Template
         \Mage::unregister('product');
         \Mage::register('product', $product);
         if (!$this->hasProductViewBlock()) {
-            $this->setProductViewBlock($this->getLayout()->createBlock('\Magento\Catalog\Block\Product\View'));
+            $this->setProductViewBlock($this->getLayout()->createBlock('Magento\Catalog\Block\Product\View'));
         }
         return $this->getProductViewBlock()->getTierPriceHtml();
     }

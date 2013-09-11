@@ -103,7 +103,7 @@ class Cart
     {
         $productId = (int) $this->getRequest()->getParam('product');
         if ($productId) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->setStoreId(\Mage::app()->getStore()->getId())
                 ->load($productId);
             if ($product->getId()) {
@@ -155,8 +155,8 @@ class Cart
         \Magento\Profiler::start(__METHOD__ . 'cart_display');
         $this
             ->loadLayout()
-            ->_initLayoutMessages('\Magento\Checkout\Model\Session')
-            ->_initLayoutMessages('\Magento\Catalog\Model\Session')
+            ->_initLayoutMessages('Magento\Checkout\Model\Session')
+            ->_initLayoutMessages('Magento\Catalog\Model\Session')
             ->getLayout()->getBlock('head')->setTitle(__('Shopping Cart'));
         $this->renderLayout();
         \Magento\Profiler::stop(__METHOD__ . 'cart_display');
@@ -238,7 +238,7 @@ class Cart
     {
         $orderItemIds = $this->getRequest()->getParam('order_items', array());
         if (is_array($orderItemIds)) {
-            $itemsCollection = \Mage::getModel('\Magento\Sales\Model\Order\Item')
+            $itemsCollection = \Mage::getModel('Magento\Sales\Model\Order\Item')
                 ->getCollection()
                 ->addIdFilter($orderItemIds)
                 ->load();

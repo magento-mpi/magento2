@@ -23,7 +23,7 @@ class Magento_Catalog_Model_Product_Attribute_Tierprice_ApiTest extends PHPUnit_
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\Catalog\Model\Product\Attribute\Tierprice\Api');
+        $this->_model = Mage::getModel('Magento\Catalog\Model\Product\Attribute\Tierprice\Api');
     }
 
     public function testInfo()
@@ -51,13 +51,13 @@ class Magento_Catalog_Model_Product_Attribute_Tierprice_ApiTest extends PHPUnit_
      */
     public function testPrepareTierPricesInvalidData()
     {
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $this->_model->prepareTierPrices($product, array(1));
     }
 
     public function testPrepareTierPricesInvalidWebsite()
     {
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $data = $this->_model->prepareTierPrices($product, array(array('qty' => 3, 'price' => 8, 'website' => 100)));
         $this->assertEquals(
             array(array('website_id' => 0, 'cust_group' => 32000, 'price_qty' => 3, 'price' => 8)),
@@ -67,7 +67,7 @@ class Magento_Catalog_Model_Product_Attribute_Tierprice_ApiTest extends PHPUnit_
 
     public function testPrepareTierPrices()
     {
-        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
 
         $this->assertNull($this->_model->prepareTierPrices($product));
 

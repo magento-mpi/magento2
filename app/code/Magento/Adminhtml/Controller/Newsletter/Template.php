@@ -54,7 +54,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Newsletter::newsletter_template');
         $this->_addBreadcrumb(__('Newsletter Templates'), __('Newsletter Templates'));
-        $this->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Newsletter\Template', 'template'));
+        $this->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Newsletter\Template', 'template'));
         $this->renderLayout();
     }
 
@@ -65,7 +65,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
     public function gridAction ()
     {
         $this->loadLayout();
-        $grid = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Newsletter\Template\Grid')
+        $grid = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Newsletter\Template\Grid')
             ->toHtml();
         $this->getResponse()->setBody($grid);
     }
@@ -87,7 +87,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
     {
         $this->_setTitle();
 
-        $model = \Mage::getModel('\Magento\Newsletter\Model\Template');
+        $model = \Mage::getModel('Magento\Newsletter\Model\Template');
         if ($id = $this->getRequest()->getParam('id')) {
             $model->load($id);
         }
@@ -142,7 +142,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
         if (!$request->isPost()) {
             $this->getResponse()->setRedirect($this->getUrl('*/newsletter_template'));
         }
-        $template = \Mage::getModel('\Magento\Newsletter\Model\Template');
+        $template = \Mage::getModel('Magento\Newsletter\Model\Template');
 
         if ($id = (int)$request->getParam('id')) {
             $template->load($id);
@@ -196,7 +196,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
      */
     public function deleteAction ()
     {
-        $template = \Mage::getModel('\Magento\Newsletter\Model\Template')
+        $template = \Mage::getModel('Magento\Newsletter\Model\Template')
             ->load($this->getRequest()->getParam('id'));
         if ($template->getId()) {
             try {

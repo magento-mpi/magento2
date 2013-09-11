@@ -26,7 +26,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     public function getInvitationCollection()
     {
         if (!$this->hasInvitationCollection()) {
-            $this->setData('invitation_collection', \Mage::getModel('\Magento\Invitation\Model\Invitation')->getCollection()
+            $this->setData('invitation_collection', \Mage::getModel('Magento\Invitation\Model\Invitation')->getCollection()
                 ->addOrder('invitation_id', \Magento\Data\Collection::SORT_ORDER_DESC)
                 ->loadByCustomerId(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId())
             );

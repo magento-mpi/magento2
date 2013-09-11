@@ -188,7 +188,7 @@ class Onepage
      */
     public function getAddress($addressId)
     {
-        $address = \Mage::getModel('\Magento\Customer\Model\Address')->load((int)$addressId);
+        $address = \Mage::getModel('Magento\Customer\Model\Address')->load((int)$addressId);
         $address->explodeStreetAddress();
         if ($address->getRegionId()) {
             $address->setRegion($address->getRegionId());
@@ -212,13 +212,13 @@ class Onepage
 
         $address = $this->getQuote()->getBillingAddress();
         /* @var $addressForm \Magento\Customer\Model\Form */
-        $addressForm = \Mage::getModel('\Magento\Customer\Model\Form');
+        $addressForm = \Mage::getModel('Magento\Customer\Model\Form');
         $addressForm->setFormCode('customer_address_edit')
             ->setEntityType('customer_address')
             ->setIsAjaxRequest(\Mage::app()->getRequest()->isAjax());
 
         if (!empty($customerAddressId)) {
-            $customerAddress = \Mage::getModel('\Magento\Customer\Model\Address')->load($customerAddressId);
+            $customerAddress = \Mage::getModel('Magento\Customer\Model\Address')->load($customerAddressId);
             if ($customerAddress->getId()) {
                 if ($customerAddress->getCustomerId() != $this->getQuote()->getCustomerId()) {
                     return array('error' => 1,
@@ -332,7 +332,7 @@ class Onepage
     protected function _validateCustomerData(array $data)
     {
         /** @var $customerForm \Magento\Customer\Model\Form */
-        $customerForm = \Mage::getModel('\Magento\Customer\Model\Form');
+        $customerForm = \Mage::getModel('Magento\Customer\Model\Form');
         $customerForm->setFormCode('checkout_register')
             ->setIsAjaxRequest(\Mage::app()->getRequest()->isAjax());
 
@@ -343,7 +343,7 @@ class Onepage
             $customerData = $quote->getCustomer()->getData();
         } else {
             /* @var $customer \Magento\Customer\Model\Customer */
-            $customer = \Mage::getModel('\Magento\Customer\Model\Customer');
+            $customer = \Mage::getModel('Magento\Customer\Model\Customer');
             $customerForm->setEntity($customer);
             $customerRequest = $customerForm->prepareRequest($data);
             $customerData = $customerForm->extractData($customerRequest);
@@ -414,13 +414,13 @@ class Onepage
         $address = $this->getQuote()->getShippingAddress();
 
         /* @var $addressForm \Magento\Customer\Model\Form */
-        $addressForm    = \Mage::getModel('\Magento\Customer\Model\Form');
+        $addressForm    = \Mage::getModel('Magento\Customer\Model\Form');
         $addressForm->setFormCode('customer_address_edit')
             ->setEntityType('customer_address')
             ->setIsAjaxRequest(\Mage::app()->getRequest()->isAjax());
 
         if (!empty($customerAddressId)) {
-            $customerAddress = \Mage::getModel('\Magento\Customer\Model\Address')->load($customerAddressId);
+            $customerAddress = \Mage::getModel('Magento\Customer\Model\Address')->load($customerAddressId);
             if ($customerAddress->getId()) {
                 if ($customerAddress->getCustomerId() != $this->getQuote()->getCustomerId()) {
                     return array('error' => 1,
@@ -685,7 +685,7 @@ class Onepage
                 break;
         }
 
-        $service = \Mage::getModel('\Magento\Sales\Model\Service\Quote', array('quote' => $this->getQuote()));
+        $service = \Mage::getModel('Magento\Sales\Model\Service\Quote', array('quote' => $this->getQuote()));
         $service->submitAll();
 
         if ($isNewCustomer) {
@@ -761,7 +761,7 @@ class Onepage
      */
     protected function _customerEmailExists($email, $websiteId = null)
     {
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer');
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer');
         if ($websiteId) {
             $customer->setWebsiteId($websiteId);
         }
@@ -782,7 +782,7 @@ class Onepage
         $lastId  = $this->getCheckout()->getLastOrderId();
         $orderId = false;
         if ($lastId) {
-            $order = \Mage::getModel('\Magento\Sales\Model\Order');
+            $order = \Mage::getModel('Magento\Sales\Model\Order');
             $order->load($lastId);
             $orderId = $order->getIncrementId();
         }

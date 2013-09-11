@@ -50,7 +50,7 @@ class Version extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
             $versionId = (int) $this->getRequest()->getParam('version_id');
         }
 
-        $version = \Mage::getModel('\Magento\VersionsCms\Model\Page\Version');
+        $version = \Mage::getModel('Magento\VersionsCms\Model\Page\Version');
         /* @var $version \Magento\VersionsCms\Model\Page\Version */
 
         if ($versionId) {

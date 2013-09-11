@@ -42,7 +42,7 @@ class Magento_Adminhtml_Controller_Catalog_ProductTest extends Magento_Backend_U
      */
     protected function _getConfigurableAttribute()
     {
-        return Mage::getModel('\Magento\Catalog\Model\Entity\Attribute')->loadByCode(
+        return Mage::getModel('Magento\Catalog\Model\Entity\Attribute')->loadByCode(
             Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('catalog_product')->getId(),
             'test_configurable'
         );

@@ -228,7 +228,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     public function addReviewSummary()
     {
         foreach ($this->getItems() as $item) {
-            $model = \Mage::getModel('\Magento\Rating\Model\Rating');
+            $model = \Mage::getModel('Magento\Rating\Model\Rating');
             $model->getReviewSummary($item->getReviewId());
             $item->addData($model->getData());
         }
@@ -243,7 +243,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     public function addRateVotes()
     {
         foreach ($this->getItems() as $item) {
-            $votesCollection = \Mage::getModel('\Magento\Rating\Model\Rating\Option\Vote')
+            $votesCollection = \Mage::getModel('Magento\Rating\Model\Rating\Option\Vote')
                 ->getResourceCollection()
                 ->setEntityPkFilter($item->getEntityId())
                 ->setStoreFilter(\Mage::app()->getStore()->getId())

@@ -10,10 +10,10 @@
 
 
 /** @var $resourceCollection \Magento\Core\Model\Resource\Theme\Collection */
-$resourceCollection = \Mage::getResourceModel('\Magento\Core\Model\Resource\Theme\Collection');
+$resourceCollection = \Mage::getResourceModel('Magento\Core\Model\Resource\Theme\Collection');
 
 /** @var $filesystemCollection \Magento\Core\Model\Theme\Collection */
-$filesystemCollection = \Mage::getModel('\Magento\Core\Model\Theme\Collection');
+$filesystemCollection = \Mage::getModel('Magento\Core\Model\Theme\Collection');
 $filesystemCollection->addDefaultPattern('*');
 
 /** @var $theme \Magento\Core\Model\Theme */

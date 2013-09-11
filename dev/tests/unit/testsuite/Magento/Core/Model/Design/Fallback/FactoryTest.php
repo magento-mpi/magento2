@@ -27,10 +27,10 @@ class Magento_Core_Model_Design_Fallback_FactoryTest extends PHPUnit_Framework_T
         ));
         $this->_model = new \Magento\Core\Model\Design\Fallback\Factory($dirs);
 
-        $parentTheme = $this->getMockForAbstractClass('\Magento\Core\Model\ThemeInterface');
+        $parentTheme = $this->getMockForAbstractClass('Magento\Core\Model\ThemeInterface');
         $parentTheme->expects($this->any())->method('getThemePath')->will($this->returnValue('parent_theme_path'));
 
-        $theme = $this->getMockForAbstractClass('\Magento\Core\Model\ThemeInterface');
+        $theme = $this->getMockForAbstractClass('Magento\Core\Model\ThemeInterface');
         $theme->expects($this->any())->method('getThemePath')->will($this->returnValue('current_theme_path'));
         $theme->expects($this->any())->method('getParentTheme')->will($this->returnValue($parentTheme));
 

@@ -165,7 +165,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
         }
 
         $calendar = $this->getLayout()
-            ->createBlock('\Magento\GiftRegistry\Block\Customer\Date')
+            ->createBlock('Magento\GiftRegistry\Block\Customer\Date')
             ->setId($id)
             ->setName($name)
             ->setValue($this->formatDate($value, $formatType))
@@ -182,7 +182,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      */
     public function getSelectHtml($options, $name, $id, $value = false, $class = '')
     {
-        $select = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setData(array(
                 'id'    => $id,
                 'class' => 'select global-scope '. $class

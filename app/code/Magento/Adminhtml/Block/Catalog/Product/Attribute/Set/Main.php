@@ -138,13 +138,13 @@ class Main extends \Magento\Adminhtml\Block\Template
         $setId = $this->_getSetId();
 
         /* @var $groups \Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection */
-        $groups = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Group')
+        $groups = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Group')
             ->getResourceCollection()
             ->setAttributeSetFilter($setId)
             ->setSortOrder()
             ->load();
 
-        $configurable = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute')
+        $configurable = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute')
             ->getUsedAttributes($setId);
 
         $unassignableAttributes = \Mage::helper('Magento\Catalog\Helper\Product')->getUnassignableAttributes();
@@ -158,7 +158,7 @@ class Main extends \Magento\Adminhtml\Block\Template
             $item['allowDrop']  = true;
             $item['allowDrag']  = true;
 
-            $nodeChildren = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Attribute\Collection')
+            $nodeChildren = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection')
                 ->setAttributeGroupFilter($node->getId())
                 ->addVisibleFilter()
                 ->load();
@@ -203,7 +203,7 @@ class Main extends \Magento\Adminhtml\Block\Template
         $items = array();
         $setId = $this->_getSetId();
 
-        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Attribute\Collection')
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection')
             ->setAttributeSetFilter($setId)
             ->load();
 
@@ -213,7 +213,7 @@ class Main extends \Magento\Adminhtml\Block\Template
             $attributesIds[] = $item->getAttributeId();
         }
 
-        $attributes = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Attribute\Collection')
+        $attributes = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection')
             ->setAttributesExcludeFilter($attributesIds)
             ->addVisibleFilter()
             ->load();
@@ -349,7 +349,7 @@ class Main extends \Magento\Adminhtml\Block\Template
     {
         $isDefault = $this->getData('is_current_set_default');
         if (is_null($isDefault)) {
-            $defaultSetId = \Mage::getModel('\Magento\Eav\Model\Entity\Type')
+            $defaultSetId = \Mage::getModel('Magento\Eav\Model\Entity\Type')
                 ->load(\Mage::registry('entityType'))
                 ->getDefaultAttributeSetId();
             $isDefault = $this->_getSetId() == $defaultSetId;

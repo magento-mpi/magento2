@@ -75,7 +75,7 @@ _gaq.push(['_trackPageview'{$optPageURL}]);
         if (empty($orderIds) || !is_array($orderIds)) {
             return;
         }
-        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Collection')
+        $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Collection')
             ->addFieldToFilter('entity_id', array('in' => $orderIds))
         ;
         $result = array();

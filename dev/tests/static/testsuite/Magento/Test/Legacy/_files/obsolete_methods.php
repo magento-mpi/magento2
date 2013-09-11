@@ -373,7 +373,7 @@ return array(
     array('getQuoteItemOption', '\Magento\Catalog\Model\Product\Option\Type\DefaultType'),
     array('getQuoteOrdersHtml', '\Magento\GoogleAnalytics\Block\Ga'),
     array('getRefererParamName', '\Magento\Adminhtml\Block\Page\Footer'),
-    array('getRelativePath', 'Magento_Core_Model_Theme_Files'),
+    array('getRelativePath', '\Magento\Core\Model\Theme\Files'),
     array('getRemoveItemUrl', '\Magento\Wishlist\Block\Customer\Sidebar'),
     array('getReorderUrl', '\Magento\Sales\Block\Order\Info'),
     array('getResourceConfig', 'Magento_Config_Model_Config', 'Magento_Config_Model_Config_Resource::getResourceConfig'),

@@ -48,7 +48,7 @@ class History extends \Magento\Core\Model\AbstractModel
     public function getRma()
     {
         if (!$this->hasData('rma') && $this->getRmaEntityId()) {
-            $rma = \Mage::getModel('\Magento\Rma\Model\Rma')->load($this->getRmaEntityId());
+            $rma = \Mage::getModel('Magento\Rma\Model\Rma')->load($this->getRmaEntityId());
             $this->setData('rma', $rma);
         }
         return $this->getData('rma');
@@ -123,7 +123,7 @@ class History extends \Magento\Core\Model\AbstractModel
         /* @var $translate \Magento\Core\Model\Translate */
         $translate->setTranslateInline(false);
 
-        $mailTemplate = \Mage::getModel('\Magento\Core\Model\Email\Template');
+        $mailTemplate = \Mage::getModel('Magento\Core\Model\Email\Template');
         /* @var $mailTemplate \Magento\Core\Model\Email\Template */
         $copyTo = $configRmaEmail->getCopyTo();
         $copyMethod = $configRmaEmail->getCopyMethod();

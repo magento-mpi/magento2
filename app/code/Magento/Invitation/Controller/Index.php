@@ -60,7 +60,7 @@ class Index extends \Magento\Core\Controller\Front\Action
                     continue;
                 }
                 try {
-                    $invitation = \Mage::getModel('\Magento\Invitation\Model\Invitation')->setData(array(
+                    $invitation = \Mage::getModel('Magento\Invitation\Model\Invitation')->setData(array(
                         'email'    => $email,
                         'customer' => $customer,
                         'message'  => (isset($data['message']) ? $data['message'] : ''),
@@ -96,7 +96,7 @@ class Index extends \Magento\Core\Controller\Front\Action
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $this->loadLayoutUpdates();
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
@@ -112,7 +112,7 @@ class Index extends \Magento\Core\Controller\Front\Action
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $this->loadLayoutUpdates();
         if ($block = $this->getLayout()->getBlock('invitations_list')) {
             $block->setRefererUrl($this->_getRefererUrl());

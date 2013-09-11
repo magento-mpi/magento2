@@ -26,6 +26,6 @@ class ObjectFactory
      */
     public function createHandler()
     {
-        return \Mage::getModel('\Magento\Core\Model\Layout\Argument\Handler\Object');
+        return \Mage::getModel('Magento\Core\Model\Layout\Argument\Handler\Object');
     }
 }

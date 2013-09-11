@@ -21,7 +21,7 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     public function getAllOptions()
     {
         if (is_null($this->_options)) {
-            $this->_options = \Mage::getResourceModel('\Magento\Tax\Model\Resource\TaxClass\Collection')
+            $this->_options = \Mage::getResourceModel('Magento\Tax\Model\Resource\TaxClass\Collection')
                 ->addFieldToFilter('class_type', \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT)
                 ->load()
                 ->toOptionArray();
@@ -94,7 +94,7 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      */
     public function getFlatUpdateSelect($store)
     {
-        return \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Option')
+        return \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Option')
             ->getFlatUpdateSelect($this->getAttribute(), $store, false);
     }
 }

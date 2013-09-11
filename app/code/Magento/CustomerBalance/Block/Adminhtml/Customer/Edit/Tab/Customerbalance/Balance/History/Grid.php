@@ -40,7 +40,7 @@ class Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('\Magento\CustomerBalance\Model\Balance\History')
+        $collection = \Mage::getModel('Magento\CustomerBalance\Model\Balance\History')
             ->getCollection()
             ->addFieldToFilter('customer_id', $this->getRequest()->getParam('id'));
         $this->setCollection($collection);

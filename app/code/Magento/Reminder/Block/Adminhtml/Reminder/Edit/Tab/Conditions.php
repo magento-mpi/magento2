@@ -26,7 +26,7 @@ class Conditions
         $form = new \Magento\Data\Form();
         $model = \Mage::registry('current_reminder_rule');
 
-        $renderer = \Mage::getBlockSingleton('\Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
+        $renderer = \Mage::getBlockSingleton('Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/reminder/newConditionHtml/form/rule_conditions_fieldset'));
         $fieldset = $form->addFieldset('rule_conditions_fieldset', array(
@@ -37,7 +37,7 @@ class Conditions
         $fieldset->addField('conditions', 'text', array(
             'name' => 'conditions',
             'required' => true,
-        ))->setRule($model)->setRenderer(\Mage::getBlockSingleton('\Magento\Rule\Block\Conditions'));
+        ))->setRule($model)->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Conditions'));
 
         $form->setValues($model->getData());
         $this->setForm($form);

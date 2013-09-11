@@ -39,7 +39,7 @@ class Customer extends \Magento\Core\Controller\Front\Action
                 if (!\Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
                     \Mage::throwException(__("You can't redeem a gift card now."));
                 }
-                \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')->loadByCode($code)
+                \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')->loadByCode($code)
                     ->setIsRedeemed(true)->redeem();
                 \Mage::getSingleton('Magento\Customer\Model\Session')->addSuccess(
                     __('Gift Card "%1" was redeemed.', \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($code))
@@ -53,7 +53,7 @@ class Customer extends \Magento\Core\Controller\Front\Action
             return;
         }
         $this->loadLayout();
-        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $this->loadLayoutUpdates();
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {

@@ -14,7 +14,7 @@ class Magento_Backend_Block_Widget_Grid_ContainerTest extends PHPUnit_Framework_
     public function testPseudoConstruct()
     {
         /** @var $block \Magento\Backend\Block\Widget\Grid\Container */
-        $block = Mage::app()->getLayout()->createBlock('\Magento\Backend\Block\Widget\Grid\Container', '', array(
+        $block = Mage::app()->getLayout()->createBlock('Magento\Backend\Block\Widget\Grid\Container', '', array(
             'data' => array(
                 \Magento\Backend\Block\Widget\Container::PARAM_CONTROLLER => 'widget',
                 \Magento\Backend\Block\Widget\Container::PARAM_HEADER_TEXT => 'two',

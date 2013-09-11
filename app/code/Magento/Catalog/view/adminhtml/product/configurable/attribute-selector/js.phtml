@@ -12,7 +12,7 @@
 ?>
 <script type="text/javascript">
 jQuery(function($) {
-    var options = <?php echo $this->helper('\Magento\Core\Helper\Data')->jsonEncode($this->getSuggestWidgetOptions())?>;
+    var options = <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getSuggestWidgetOptions())?>;
     $('#configurable-attribute-selector')
         .mage('suggest', options)
         .on('suggestselect', function (event, ui) {

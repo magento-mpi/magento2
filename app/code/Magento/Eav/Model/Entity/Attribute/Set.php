@@ -59,7 +59,7 @@ class Set extends \Magento\Core\Model\AbstractModel
      */
     public function initFromSkeleton($skeletonId)
     {
-        $groups = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Group')
+        $groups = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Group')
             ->getResourceCollection()
             ->setAttributeSetFilter($skeletonId)
             ->load();
@@ -71,14 +71,14 @@ class Set extends \Magento\Core\Model\AbstractModel
                 ->setAttributeSetId($this->getId())
                 ->setDefaultId($group->getDefaultId());
 
-            $groupAttributesCollection = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute')
+            $groupAttributesCollection = \Mage::getModel('Magento\Eav\Model\Entity\Attribute')
                 ->getResourceCollection()
                 ->setAttributeGroupFilter($group->getId())
                 ->load();
 
             $newAttributes = array();
             foreach ($groupAttributesCollection as $attribute) {
-                $newAttribute = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute')
+                $newAttribute = \Mage::getModel('Magento\Eav\Model\Entity\Attribute')
                     ->setId($attribute->getId())
                     //->setAttributeGroupId($newGroup->getId())
                     ->setAttributeSetId($this->getId())
@@ -110,12 +110,12 @@ class Set extends \Magento\Core\Model\AbstractModel
             foreach ($data['attributes'] as $attribute) {
                 $ids[] = $attribute[0];
             }
-            $attributeIds = \Mage::getResourceSingleton('\Magento\Eav\Model\Resource\Entity\Attribute')
+            $attributeIds = \Mage::getResourceSingleton('Magento\Eav\Model\Resource\Entity\Attribute')
                 ->getValidAttributeIds($ids);
         }
         if( $data['groups'] ) {
             foreach ($data['groups'] as $group) {
-                $modelGroup = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Group');
+                $modelGroup = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Group');
                 $modelGroup->setId(is_numeric($group[0]) && $group[0] > 0 ? $group[0] : null)
                     ->setAttributeGroupName($group[1])
                     ->setAttributeSetId($this->getId())
@@ -124,7 +124,7 @@ class Set extends \Magento\Core\Model\AbstractModel
                 if( $data['attributes'] ) {
                     foreach( $data['attributes'] as $attribute ) {
                         if( $attribute[1] == $group[0] && in_array($attribute[0], $attributeIds) ) {
-                            $modelAttribute = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute');
+                            $modelAttribute = \Mage::getModel('Magento\Eav\Model\Entity\Attribute');
                             $modelAttribute->setId($attribute[0])
                                 ->setAttributeGroupId($attribute[1])
                                 ->setAttributeSetId($this->getId())
@@ -145,7 +145,7 @@ class Set extends \Magento\Core\Model\AbstractModel
         if( $data['not_attributes'] ) {
             $modelAttributeArray = array();
             foreach( $data['not_attributes'] as $attributeId ) {
-                $modelAttribute = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute');
+                $modelAttribute = \Mage::getModel('Magento\Eav\Model\Entity\Attribute');
 
                 $modelAttribute->setEntityAttributeId($attributeId);
                 $modelAttributeArray[] = $modelAttribute;
@@ -156,7 +156,7 @@ class Set extends \Magento\Core\Model\AbstractModel
         if( $data['removeGroups'] ) {
             $modelGroupArray = array();
             foreach( $data['removeGroups'] as $groupId ) {
-                $modelGroup = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Group');
+                $modelGroup = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Group');
                 $modelGroup->setId($groupId);
 
                 $modelGroupArray[] = $modelGroup;

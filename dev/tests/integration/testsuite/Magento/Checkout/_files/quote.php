@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$quote = Mage::getModel('\Magento\Sales\Model\Quote');
+$quote = Mage::getModel('Magento\Sales\Model\Quote');
 $quote->setData(array(
     'store_id' => 1,
     'is_active' => 0,

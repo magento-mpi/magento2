@@ -47,7 +47,7 @@ class Observer
 
         if ($order && $order->getId()) {
             $payment = $order->getPayment();
-            if ($payment && $payment->getMethod() == \Mage::getModel('\Magento\Authorizenet\Model\Directpost')->getCode()) {
+            if ($payment && $payment->getMethod() == \Mage::getModel('Magento\Authorizenet\Model\Directpost')->getCode()) {
                 /* @var $controller \Magento\Core\Controller\Varien\Action */
                 $controller = $observer->getEvent()->getData('controller_action');
                 $result = \Mage::helper('Magento\Core\Helper\Data')->jsonDecode(

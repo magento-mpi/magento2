@@ -31,7 +31,7 @@ class Magento_Catalog_Model_AbstractTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         if (!self::$_isStubClass) {
-            $this->getMockForAbstractClass('\Magento\Catalog\Model\AbstractModel', array(), self::STUB_CLASS, false);
+            $this->getMockForAbstractClass('Magento\Catalog\Model\AbstractModel', array(), self::STUB_CLASS, false);
             self::$_isStubClass = true;
         }
 

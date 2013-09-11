@@ -16,7 +16,7 @@
  * @var $this \Magento\Catalog\Block\Product\View
  */
 ?>
-<?php $_helper = $this->helper('\Magento\Catalog\Helper\Output'); ?>
+<?php $_helper = $this->helper('Magento\Catalog\Helper\Output'); ?>
 <?php $_product = $this->getProduct(); ?>
 <?php $this->getMessagesBlock()->setEscapeMessageFlag(true); ?>
 <script type="text/javascript">
@@ -106,7 +106,7 @@
                 </div>
             <?php endif; ?>
             <?php if ($this->canEmailToFriend()): ?>
-                <p class="emailto-link"><a href="<?php echo $this->helper('\Magento\Catalog\Helper\Product')->getEmailToFriendUrl($_product) ?>"><?php echo __('Email to a Friend') ?></a></p>
+                <p class="emailto-link"><a href="<?php echo $this->helper('Magento\Catalog\Helper\Product')->getEmailToFriendUrl($_product) ?>"><?php echo __('Email to a Friend') ?></a></p>
             <?php endif; ?>
         </div>
         <div class="clearer"></div>

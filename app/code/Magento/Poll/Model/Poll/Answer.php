@@ -46,7 +46,7 @@ class Answer extends \Magento\Core\Model\AbstractModel
 
     protected function _afterSave()
     {
-        \Mage::getModel('\Magento\Poll\Model\Poll')
+        \Mage::getModel('Magento\Poll\Model\Poll')
             ->setId($this->getPollId())
             ->resetVotesCount();
     }
@@ -58,7 +58,7 @@ class Answer extends \Magento\Core\Model\AbstractModel
 
     protected function _afterDelete()
     {
-        \Mage::getModel('\Magento\Poll\Model\Poll')
+        \Mage::getModel('Magento\Poll\Model\Poll')
             ->setId($this->getPollId())
             ->resetVotesCount();
     }

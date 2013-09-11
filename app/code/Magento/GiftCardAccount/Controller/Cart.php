@@ -34,7 +34,7 @@ class Cart extends \Magento\Core\Controller\Front\Action
                 if (strlen($code) > \Magento\GiftCardAccount\Helper\Data::GIFT_CARD_CODE_MAX_LENGTH) {
                     \Mage::throwException(__('Please correct the gift card code.'));
                 }
-                \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')
+                \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
                     ->loadByCode($code)
                     ->addToCart();
                 \Mage::getSingleton('Magento\Checkout\Model\Session')->addSuccess(
@@ -58,7 +58,7 @@ class Cart extends \Magento\Core\Controller\Front\Action
     {
         if ($code = $this->getRequest()->getParam('code')) {
             try {
-                \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')
+                \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
                     ->loadByCode($code)
                     ->removeFromCart();
                 \Mage::getSingleton('Magento\Checkout\Model\Session')->addSuccess(
@@ -84,7 +84,7 @@ class Cart extends \Magento\Core\Controller\Front\Action
     public function quickCheckAction()
     {
         /* @var $card \Magento\GiftCardAccount\Model\Giftcardaccount */
-        $card = \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')
+        $card = \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
             ->loadByCode($this->getRequest()->getParam('giftcard_code', ''));
         \Mage::register('current_giftcardaccount', $card);
         try {

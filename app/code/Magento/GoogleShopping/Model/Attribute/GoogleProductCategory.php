@@ -30,7 +30,7 @@ class GoogleProductCategory extends \Magento\GoogleShopping\Model\Attribute\Defa
     {
         $targetCountry = \Mage::getSingleton('Magento\GoogleShopping\Model\Config')
             ->getTargetCountry($product->getStoreId());
-        $value = \Mage::getModel('\Magento\GoogleShopping\Model\Type')
+        $value = \Mage::getModel('Magento\GoogleShopping\Model\Type')
             ->loadByAttributeSetId($product->getAttributeSetId(), $targetCountry);
 
         $val = ($value->getCategory() == \Magento\GoogleShopping\Helper\Category::CATEGORY_OTHER)

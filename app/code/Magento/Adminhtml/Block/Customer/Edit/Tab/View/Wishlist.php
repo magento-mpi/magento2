@@ -41,7 +41,7 @@ class Wishlist extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('\Magento\Wishlist\Model\Item')->getCollection()
+        $collection = \Mage::getModel('Magento\Wishlist\Model\Item')->getCollection()
             ->addCustomerIdFilter(\Mage::registry('current_customer')->getId())
             ->addDaysInWishlist()
             ->addStoreData()

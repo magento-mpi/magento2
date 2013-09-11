@@ -23,7 +23,7 @@ class Magento_Adminhtml_Block_Page_HeaderTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Adminhtml\Block\Page\Header');
+        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Page\Header');
     }
 
     public function testGetHomeLink()

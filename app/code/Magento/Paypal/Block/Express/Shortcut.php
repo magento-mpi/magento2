@@ -53,7 +53,7 @@ class Shortcut extends \Magento\Core\Block\Template
     {
         $result = parent::_beforeToHtml();
         $params = array($this->_paymentMethodCode);
-        $config = \Mage::getModel('\Magento\Paypal\Model\Config', array('params' => $params));
+        $config = \Mage::getModel('Magento\Paypal\Model\Config', array('params' => $params));
         $isInCatalog = $this->getIsInCatalogProduct();
         $quote = ($isInCatalog || '' == $this->getIsQuoteAllowed())
             ? null : \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
@@ -92,7 +92,7 @@ class Shortcut extends \Magento\Core\Block\Template
         }
 
         // set misc data
-        $this->setShortcutHtmlId($this->helper('\Magento\Core\Helper\Data')->uniqHash('ec_shortcut_'))
+        $this->setShortcutHtmlId($this->helper('Magento\Core\Helper\Data')->uniqHash('ec_shortcut_'))
             ->setCheckoutUrl($this->getUrl($this->_startAction))
         ;
 

@@ -28,11 +28,11 @@ class Magento_Sales_Block_Recurring_Profile_ViewTest extends PHPUnit_Framework_T
 
     public function setUp()
     {
-        $this->_profile = Mage::getModel('\Magento\Sales\Model\Recurring\Profile');
+        $this->_profile = Mage::getModel('Magento\Sales\Model\Recurring\Profile');
         Mage::register('current_recurring_profile', $this->_profile);
 
-        $this->_layout = Mage::getModel('\Magento\Core\Model\Layout');
-        $this->_block = $this->_layout->createBlock('\Magento\Sales\Block\Recurring\Profile\View', 'block');
+        $this->_layout = Mage::getModel('Magento\Core\Model\Layout');
+        $this->_block = $this->_layout->createBlock('Magento\Sales\Block\Recurring\Profile\View', 'block');
     }
 
     public function tearDown()

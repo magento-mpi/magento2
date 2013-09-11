@@ -393,13 +393,13 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         if (isset($data['product_model'])) {
             $this->_productModel = $data['product_model'];
         } else {
-            $this->_productModel = \Mage::getModel('\Magento\Catalog\Model\Product');
+            $this->_productModel = \Mage::getModel('Magento\Catalog\Model\Product');
         }
         if (isset($data['option_collection'])) {
             $this->_optionCollection = $data['option_collection'];
         } else {
             $this->_optionCollection
-                = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Option\Collection');
+                = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Option\Collection');
         }
         if (isset($data['product_entity'])) {
             $this->_productEntity = $data['product_entity'];
@@ -412,7 +412,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             $this->_byPagesIterator = $data['collection_by_pages_iterator'];
         } else {
             $this->_byPagesIterator
-                = \Mage::getResourceModel('\Magento\ImportExport\Model\Resource\CollectionByPagesIterator');
+                = \Mage::getResourceModel('Magento\ImportExport\Model\Resource\CollectionByPagesIterator');
         }
         if (isset($data['page_size'])) {
             $this->_pageSize = $data['page_size'];

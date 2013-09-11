@@ -87,7 +87,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             'legend' => __('Store View Specific Labels'),
             'class' => 'store-scope',
         ));
-        $renderer = $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset');
+        $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset');
         $fieldset->setRenderer($renderer);
 
         foreach (\Mage::app()->getWebsites() as $website) {

@@ -21,13 +21,13 @@ class Magento_Cms_Helper_PageTest extends PHPUnit_Framework_TestCase
             'request' => new Magento_TestFramework_Request(),
             'response' => new Magento_TestFramework_Response()
         );
-        $context = Mage::getModel('\Magento\Core\Controller\Varien\Action\Context', $arguments);
+        $context = Mage::getModel('Magento\Core\Controller\Varien\Action\Context', $arguments);
         $page = Mage::getSingleton('Magento\Cms\Model\Page');
         $page->load('page_design_blank', 'identifier'); // fixture
         /** @var $pageHelper \Magento\Cms\Helper\Page */
         $pageHelper = Mage::helper('Magento\Cms\Helper\Page');
         $result = $pageHelper->renderPage(
-            Mage::getModel('\Magento\Core\Controller\Front\Action', array('context' => $context)),
+            Mage::getModel('Magento\Core\Controller\Front\Action', array('context' => $context)),
             $page->getId()
         );
         $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()

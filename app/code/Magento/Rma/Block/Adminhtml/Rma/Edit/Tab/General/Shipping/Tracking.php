@@ -47,7 +47,7 @@ class Tracking extends \Magento\Adminhtml\Block\Template
      */
     public function getAllTracks()
     {
-        return \Mage::getResourceModel('\Magento\Rma\Model\Resource\Shipping\Collection')
+        return \Mage::getResourceModel('Magento\Rma\Model\Resource\Shipping\Collection')
             ->addFieldToFilter('rma_entity_id', $this->getRma()->getId())
             ->addFieldToFilter('is_admin', array("neq" => \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL))
         ;
@@ -63,7 +63,7 @@ class Tracking extends \Magento\Adminhtml\Block\Template
         $onclick = "submitAndReloadArea($('shipment_tracking_info').parentNode, '".$this->getSubmitUrl()."')";
         $this->setChild(
             'save_button',
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
                     array(
                         'label'   => __('Add'),

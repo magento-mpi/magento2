@@ -240,7 +240,7 @@ class Website extends \Magento\Core\Model\AbstractModel
      */
     public function getGroupCollection()
     {
-        return \Mage::getModel('\Magento\Core\Model\Store\Group')
+        return \Mage::getModel('Magento\Core\Model\Store\Group')
             ->getCollection()
             ->addWebsiteFilter($this->getId());
     }
@@ -346,7 +346,7 @@ class Website extends \Magento\Core\Model\AbstractModel
      */
     public function getStoreCollection()
     {
-        return \Mage::getModel('\Magento\Core\Model\Store')
+        return \Mage::getModel('Magento\Core\Model\Store')
             ->getCollection()
             ->addWebsiteFilter($this->getId());
     }
@@ -414,7 +414,7 @@ class Website extends \Magento\Core\Model\AbstractModel
             return false;
         }
         if (is_null($this->_isCanDelete)) {
-            $this->_isCanDelete = (\Mage::getModel('\Magento\Core\Model\Website')->getCollection()->getSize() > 2)
+            $this->_isCanDelete = (\Mage::getModel('Magento\Core\Model\Website')->getCollection()->getSize() > 2)
                 && !$this->getIsDefault();
         }
         return $this->_isCanDelete;
@@ -485,7 +485,7 @@ class Website extends \Magento\Core\Model\AbstractModel
     {
         $currency = $this->getData('base_currency');
         if (is_null($currency)) {
-            $currency = \Mage::getModel('\Magento\Directory\Model\Currency')->load($this->getBaseCurrencyCode());
+            $currency = \Mage::getModel('Magento\Directory\Model\Currency')->load($this->getBaseCurrencyCode());
             $this->setData('base_currency', $currency);
         }
         return $currency;

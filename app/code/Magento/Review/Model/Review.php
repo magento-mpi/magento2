@@ -56,12 +56,12 @@ class Review extends \Magento\Core\Model\AbstractModel
 
     public function getProductCollection()
     {
-        return \Mage::getResourceModel('\Magento\Review\Model\Resource\Review\Product\Collection');
+        return \Mage::getResourceModel('Magento\Review\Model\Resource\Review\Product\Collection');
     }
 
     public function getStatusCollection()
     {
-        return \Mage::getResourceModel('\Magento\Review\Model\Resource\Review\Status\Collection');
+        return \Mage::getResourceModel('Magento\Review\Model\Resource\Review\Status\Collection');
     }
 
     public function getTotalReviews($entityPkValue, $approvedOnly=false, $storeId=0)
@@ -77,7 +77,7 @@ class Review extends \Magento\Core\Model\AbstractModel
 
     public function getEntitySummary($product, $storeId=0)
     {
-        $summaryData = \Mage::getModel('\Magento\Review\Model\Review\Summary')
+        $summaryData = \Mage::getModel('Magento\Review\Model\Review\Summary')
             ->setStoreId($storeId)
             ->load($product->getId());
         $summary = new \Magento\Object();
@@ -145,7 +145,7 @@ class Review extends \Magento\Core\Model\AbstractModel
             return $this;
         }
 
-        $summaryData = \Mage::getResourceModel('\Magento\Review\Model\Resource\Review\Summary\Collection')
+        $summaryData = \Mage::getResourceModel('Magento\Review\Model\Resource\Review\Summary\Collection')
             ->addEntityFilter($entityIds)
             ->addStoreFilter(\Mage::app()->getStore()->getId())
             ->load();

@@ -27,7 +27,7 @@ class Settings extends \Magento\Adminhtml\Block\Widget\Form
     protected function _prepareLayout()
     {
         $onclick = "jQuery('[data-form=edit-product]').attr('action', "
-            . $this->helper('\Magento\Core\Helper\Data')->jsonEncode($this->getContinueUrl())
+            . $this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getContinueUrl())
             . ").addClass('ignore-validate').submit();";
         $this->addChild('continue_button', '\Magento\Backend\Block\Widget\Button', array(
             'label'   => __('Generate Variations'),

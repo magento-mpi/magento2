@@ -44,7 +44,7 @@ class Url extends \Magento\Object
     public function getUrlInstance()
     {
         if (!self::$_url) {
-            self::$_url = \Mage::getModel('\Magento\Core\Model\Url');
+            self::$_url = \Mage::getModel('Magento\Core\Model\Url');
         }
         return self::$_url;
     }
@@ -57,7 +57,7 @@ class Url extends \Magento\Object
     public function getUrlRewrite()
     {
         if (!self::$_urlRewrite) {
-            self::$_urlRewrite = \Mage::getModel('\Magento\Core\Model\Url\Rewrite');
+            self::$_urlRewrite = \Mage::getModel('Magento\Core\Model\Url\Rewrite');
         }
         return self::$_urlRewrite;
     }

@@ -18,7 +18,7 @@ class Magento_Customer_Model_Address_ConfigTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->_model= Mage::getModel('\Magento\Customer\Model\Address\Config');
+        $this->_model= Mage::getModel('Magento\Customer\Model\Address\Config');
     }
 
     /**

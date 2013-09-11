@@ -89,7 +89,7 @@ class Index extends \Magento\Core\Controller\Front\Action
     protected function _getWishlist()
     {
         if (is_null($this->_wishlist)) {
-            $this->_wishlist = \Mage::getModel('\Magento\Wishlist\Model\Wishlist');
+            $this->_wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist');
             $wishlistId = $this->getRequest()->getParam('wishlist_id');
             if ($wishlistId) {
                 $this->_wishlist->load($wishlistId);
@@ -110,7 +110,7 @@ class Index extends \Magento\Core\Controller\Front\Action
     protected function _getCustomer()
     {
         if (is_null($this->_customer)) {
-            $this->_customer = \Mage::getModel('\Magento\Customer\Model\Customer');
+            $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer');
 
             $params = \Mage::helper('Magento\Core\Helper\Data')->urlDecode($this->getRequest()->getParam('data'));
             $data   = explode(',', $params);

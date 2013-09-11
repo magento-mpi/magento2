@@ -44,7 +44,7 @@ class Stock extends \Magento\Core\Model\AbstractModel
 
     public function getCustomerCollection()
     {
-        return \Mage::getResourceModel('\Magento\ProductAlert\Model\Resource\Stock\Customer\Collection');
+        return \Mage::getResourceModel('Magento\ProductAlert\Model\Resource\Stock\Customer\Collection');
     }
 
     public function loadByParam()

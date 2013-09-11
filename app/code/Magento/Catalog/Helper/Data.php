@@ -154,14 +154,14 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getLastViewedUrl()
     {
         if ($productId = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedProductId()) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($productId);
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
             /* @var $product \Magento\Catalog\Model\Product */
             if (\Mage::helper('Magento\Catalog\Helper\Product')->canShow($product, 'catalog')) {
                 return $product->getProductUrl();
             }
         }
         if ($categoryId = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedCategoryId()) {
-            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($categoryId);
+            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
             /* @var $category \Magento\Catalog\Model\Category */
             if (!\Mage::helper('Magento\Catalog\Helper\Category')->canShow($category)) {
                 return '';
@@ -346,7 +346,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         }
 
         if (is_numeric($product)) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->setStoreId(\Mage::app()->getStore()->getId())
                 ->load($product);
         }
@@ -395,7 +395,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     {
         if($this->_mapApplyToProductType === null) {
             /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
-            $attribute = \Mage::getModel('\Magento\Catalog\Model\Resource\Eav\Attribute')
+            $attribute = \Mage::getModel('Magento\Catalog\Model\Resource\Eav\Attribute')
                 ->loadByCode(\Magento\Catalog\Model\Product::ENTITY, 'msrp_enabled');
             $this->_mapApplyToProductType = $attribute->getApplyTo();
         }

@@ -406,7 +406,7 @@ class Option extends \Magento\Core\Model\AbstractModel
      */
     public function getOptionValuesByOptionId($optionIds, $store_id)
     {
-        $collection = \Mage::getModel('\Magento\Catalog\Model\Product\Option\Value')
+        $collection = \Mage::getModel('Magento\Catalog\Model\Product\Option\Value')
             ->getValuesByOption($optionIds, $this->getId(), $store_id);
 
         return $collection;

@@ -44,7 +44,7 @@ class Info extends \Magento\Core\Block\Template
     public function getSubscriptionObject()
     {
         if (!$this->_subscription) {
-            $this->_subscription = \Mage::getModel('\Magento\Newsletter\Model\Subscriber');
+            $this->_subscription = \Mage::getModel('Magento\Newsletter\Model\Subscriber');
             $this->_subscription->loadByCustomer(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer());
         }
         return $this->_subscription;
@@ -67,6 +67,6 @@ class Info extends \Magento\Core\Block\Template
      */
     public function isNewsletterEnabled()
     {
-        return $this->getLayout()->getBlockSingleton('\Magento\Customer\Block\Form\Register')->isNewsletterEnabled();
+        return $this->getLayout()->getBlockSingleton('Magento\Customer\Block\Form\Register')->isNewsletterEnabled();
     }
 }

@@ -26,7 +26,7 @@ class Selection extends \Magento\Adminhtml\Controller\Action
     {
         $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('\Magento\GoogleShopping\Block\Adminhtml\Items\Product')
+                ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Items\Product')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->setFirstShow(true)
                 ->toHtml()
@@ -41,7 +41,7 @@ class Selection extends \Magento\Adminhtml\Controller\Action
         $this->loadLayout();
         $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('\Magento\GoogleShopping\Block\Adminhtml\Items\Product')
+                ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Items\Product')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()
            );

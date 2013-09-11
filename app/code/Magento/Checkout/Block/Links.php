@@ -30,7 +30,7 @@ class Links extends \Magento\Core\Block\Template
         $parentBlock = $this->getParentBlock();
         if ($parentBlock && \Mage::helper('Magento\Core\Helper\Data')->isModuleOutputEnabled('Magento_Checkout')) {
             $count = $this->getSummaryQty() ? $this->getSummaryQty()
-                : $this->helper('\Magento\Checkout\Helper\Cart')->getSummaryCount();
+                : $this->helper('Magento\Checkout\Helper\Cart')->getSummaryCount();
             if ($count == 1) {
                 $text = __('My Cart (%1 item)', $count);
             } elseif ($count > 0) {
@@ -63,7 +63,7 @@ class Links extends \Magento\Core\Block\Template
      */
     public function addCheckoutLink()
     {
-        if (!$this->helper('\Magento\Checkout\Helper\Data')->canOnepageCheckout()) {
+        if (!$this->helper('Magento\Checkout\Helper\Data')->canOnepageCheckout()) {
             return $this;
         }
 

@@ -12,7 +12,7 @@
  */
 
 /** @var $banner \Magento\CatalogRule\Model\Rule */
-$catalogRule = Mage::getModel('\Magento\CatalogRule\Model\Rule');
+$catalogRule = Mage::getModel('Magento\CatalogRule\Model\Rule');
 
 $catalogRule->setIsActive(1)
     ->setName('Test Catalog Rule')

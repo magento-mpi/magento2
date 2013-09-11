@@ -21,7 +21,7 @@ class Cc extends \Magento\Payment\Block\Form
      */
     public function getMethodFormBlock()
     {
-        return $this->getLayout()->createBlock('\Magento\Payment\Block\Form\Cc')
+        return $this->getLayout()->createBlock('Magento\Payment\Block\Form\Cc')
             ->setMethod($this->getMethod());
     }
 
@@ -32,7 +32,7 @@ class Cc extends \Magento\Payment\Block\Form
      */
     public function getCardsBlock()
     {
-        return $this->getLayout()->createBlock('\Magento\Paygate\Block\Authorizenet\Info\Cc')
+        return $this->getLayout()->createBlock('Magento\Paygate\Block\Authorizenet\Info\Cc')
             ->setMethod($this->getMethod())
             ->setInfo($this->getMethod()->getInfoInstance())
             ->setCheckoutProgressBlock(false)
@@ -154,7 +154,7 @@ class Cc extends \Magento\Payment\Block\Form
      */
     public function getCancelButtonHtml()
     {
-        $cancelButton = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+        $cancelButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'id'      => 'payment_cancel',
                 'label'   => __('Cancel'),

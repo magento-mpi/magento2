@@ -12,7 +12,7 @@ class Magento_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
     public function testGetMethods()
     {
         /** @var  \Magento\Webhook\Model\Endpoint $endpoint */
-        $endpoint = Mage::getModel('\Magento\Webhook\Model\Endpoint');
+        $endpoint = Mage::getModel('Magento\Webhook\Model\Endpoint');
 
         $endpoint->setEndpointUrl('endpoint.url.com');
         $this->assertEquals('endpoint.url.com', $endpoint->getEndpointUrl());
@@ -41,7 +41,7 @@ class Magento_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
     public function testBeforeSave()
     {
         /** @var  \Magento\Webhook\Model\Endpoint $endpoint */
-        $endpoint = Mage::getModel('\Magento\Webhook\Model\Endpoint');
+        $endpoint = Mage::getModel('Magento\Webhook\Model\Endpoint');
         $endpoint->setUpdatedAt('-1')
             ->save();
 

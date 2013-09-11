@@ -34,9 +34,9 @@ abstract class AbstractItems extends \Magento\Sales\Model\Order\Pdf\Items\Abstra
      */
     public function getLinks()
     {
-        $this->_purchasedLinks = \Mage::getModel('\Magento\Downloadable\Model\Link\Purchased')
+        $this->_purchasedLinks = \Mage::getModel('Magento\Downloadable\Model\Link\Purchased')
             ->load($this->getOrder()->getId(), 'order_id');
-        $purchasedItems = \Mage::getModel('\Magento\Downloadable\Model\Link\Purchased\Item')->getCollection()
+        $purchasedItems = \Mage::getModel('Magento\Downloadable\Model\Link\Purchased\Item')->getCollection()
             ->addFieldToFilter('order_item_id', $this->getItem()->getOrderItem()->getId());
         $this->_purchasedLinks->setPurchasedItems($purchasedItems);
 

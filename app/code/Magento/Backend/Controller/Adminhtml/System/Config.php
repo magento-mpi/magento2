@@ -85,7 +85,7 @@ class Config extends \Magento\Backend\Controller\System\ConfigAbstract
     {
         $fileName   = 'tablerates.csv';
         /** @var $gridBlock \Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid */
-        $gridBlock  = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid');
+        $gridBlock  = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid');
         $website    = \Mage::app()->getWebsite($this->getRequest()->getParam('website'));
         if ($this->getRequest()->getParam('conditionName')) {
             $conditionName = $this->getRequest()->getParam('conditionName');

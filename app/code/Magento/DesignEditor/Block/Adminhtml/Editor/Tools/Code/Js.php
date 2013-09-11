@@ -129,7 +129,7 @@ class Js extends \Magento\Backend\Block\Widget\Form
     {
         $customization = $this->_themeContext->getStagingTheme()->getCustomization();
         $jsFiles = $customization->getFilesByType(\Magento\Core\Model\Theme\Customization\File\Js::TYPE);
-        return $this->helper('\Magento\Core\Helper\Data')->jsonEncode($customization->generateFileInfo($jsFiles));
+        return $this->helper('Magento\Core\Helper\Data')->jsonEncode($customization->generateFileInfo($jsFiles));
     }
 
     /**

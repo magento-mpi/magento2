@@ -10,7 +10,7 @@
  */
 
 /** @var $eventClosed \Magento\CatalogEvent\Model\Event */
-$eventClosed = Mage::getModel('\Magento\CatalogEvent\Model\Event');
+$eventClosed = Mage::getModel('Magento\CatalogEvent\Model\Event');
 $eventClosed
     ->setCategoryId(null)
     ->setDateStart(date('Y-m-d H:i:s', strtotime('-1 year')))
@@ -27,7 +27,7 @@ $eventClosed
 ;
 
 /** @var $eventOpen \Magento\CatalogEvent\Model\Event */
-$eventOpen = Mage::getModel('\Magento\CatalogEvent\Model\Event');
+$eventOpen = Mage::getModel('Magento\CatalogEvent\Model\Event');
 $eventOpen
     ->setCategoryId(1)
     ->setDateStart(date('Y-m-d H:i:s', strtotime('-1 month')))
@@ -39,7 +39,7 @@ $eventOpen
 ;
 
 /** @var $eventUpcoming \Magento\CatalogEvent\Model\Event */
-$eventUpcoming = Mage::getModel('\Magento\CatalogEvent\Model\Event');
+$eventUpcoming = Mage::getModel('Magento\CatalogEvent\Model\Event');
 $eventUpcoming
     ->setCategoryId(2)
     ->setDateStart(date('Y-m-d H:i:s', strtotime('+1 month')))

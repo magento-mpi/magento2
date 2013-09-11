@@ -53,7 +53,7 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
      */
     public function getAddressesHtmlSelect($item, $index)
     {
-        $select = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setName('ship['.$index.']['.$item->getQuoteItemId().'][address]')
             ->setId('ship_'.$index.'_'.$item->getQuoteItemId().'_address')
             ->setValue($item->getCustomerAddressId())

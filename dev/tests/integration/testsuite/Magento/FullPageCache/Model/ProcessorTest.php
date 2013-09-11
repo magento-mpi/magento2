@@ -25,7 +25,7 @@ class Magento_FullPageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('\Magento\FullPageCache\Model\Processor');
+        $this->_model = Mage::getModel('Magento\FullPageCache\Model\Processor');
     }
 
     public function testIsAllowedHttps()

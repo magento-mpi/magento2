@@ -79,7 +79,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 
         \Mage::register('current_category_filter', $this->getCategory(), true);
 
-        $this->_appliedCategory = \Mage::getModel('\Magento\Catalog\Model\Category')
+        $this->_appliedCategory = \Mage::getModel('Magento\Catalog\Model\Category')
             ->setStoreId(\Mage::app()->getStore()->getId())
             ->load($filter);
 
@@ -124,7 +124,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     public function getCategory()
     {
         if (!is_null($this->_categoryId)) {
-            $category = \Mage::getModel('\Magento\Catalog\Model\Category')
+            $category = \Mage::getModel('Magento\Catalog\Model\Category')
                 ->load($this->_categoryId);
             if ($category->getId()) {
                 return $category;

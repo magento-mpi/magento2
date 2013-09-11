@@ -32,7 +32,7 @@ class Form extends
         $form->setHtmlIdPrefix($prefix);
         $form->setFieldNameSuffix('customerbalance');
 
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($this->getRequest()->getParam('id'));
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($this->getRequest()->getParam('id'));
 
         /** @var $fieldset \Magento\Data\Form\Element\Fieldset */
         $fieldset = $form->addFieldset('storecreidt_fieldset',
@@ -78,7 +78,7 @@ class Form extends
                 'title' => __('Send Email Notification From the Following Store View'),
             ));
             $renderer = $this->getLayout()
-                ->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 
@@ -116,7 +116,7 @@ class Form extends
         $html = parent::_afterToHtml($html);
         if (!\Mage::app()->isSingleStoreMode()) {
             $block = $this->getLayout()
-                ->createBlock('\Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Js',
+                ->createBlock('Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Js',
                 'customerbalance_edit_js'
             );
             $block->setTemplate('edit/js.phtml');

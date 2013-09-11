@@ -173,7 +173,7 @@ class Visibility extends \Magento\Object
      */
     public function getFlatUpdateSelect($store)
     {
-        return \Mage::getResourceSingleton('\Magento\Eav\Model\Resource\Entity\Attribute')
+        return \Mage::getResourceSingleton('Magento\Eav\Model\Resource\Entity\Attribute')
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 

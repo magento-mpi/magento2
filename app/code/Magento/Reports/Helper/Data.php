@@ -74,7 +74,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $intervals = $this->getIntervals($from, $to, $periodType);
 
         foreach ($intervals as $interval) {
-            $item = \Mage::getModel('\Magento\Adminhtml\Model\Report\Item');
+            $item = \Mage::getModel('Magento\Adminhtml\Model\Report\Item');
             $item->setPeriod($interval);
             $item->setIsEmpty();
             $collection->addItem($item);

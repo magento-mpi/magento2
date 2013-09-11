@@ -138,7 +138,7 @@ class Layer extends \Magento\Object
                 $this->setData('current_category', $category);
             }
             else {
-                $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($this->getCurrentStore()->getRootCategoryId());
+                $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($this->getCurrentStore()->getRootCategoryId());
                 $this->setData('current_category', $category);
             }
         }
@@ -155,7 +155,7 @@ class Layer extends \Magento\Object
     public function setCurrentCategory($category)
     {
         if (is_numeric($category)) {
-            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($category);
+            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($category);
         }
         if (!$category instanceof \Magento\Catalog\Model\Category) {
             \Mage::throwException(__('The category must be an instance of \Magento\Catalog\Model\Category.'));
@@ -196,7 +196,7 @@ class Layer extends \Magento\Object
             return array();
         }
         /** @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
-        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Attribute\Collection');
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection');
         $collection
             ->setItemObjectClass('\Magento\Catalog\Model\Resource\Eav\Attribute')
             ->setAttributeSetFilter($setIds)
@@ -216,7 +216,7 @@ class Layer extends \Magento\Object
      */
     protected function _prepareAttribute($attribute)
     {
-        \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product')->getAttribute($attribute);
+        \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product')->getAttribute($attribute);
         return $attribute;
     }
 
@@ -242,7 +242,7 @@ class Layer extends \Magento\Object
         $state = $this->getData('state');
         if (is_null($state)) {
             \Magento\Profiler::start(__METHOD__);
-            $state = \Mage::getModel('\Magento\Catalog\Model\Layer\State');
+            $state = \Mage::getModel('Magento\Catalog\Model\Layer\State');
             $this->setData('state', $state);
             \Magento\Profiler::stop(__METHOD__);
         }

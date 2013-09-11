@@ -45,7 +45,7 @@ class Stock extends \Magento\ProductAlert\Model\Resource\AbstractResource
             }
         }
         if (is_null($object->getAddDate())) {
-            $object->setAddDate(\Mage::getModel('\Magento\Core\Model\Date')->gmtDate());
+            $object->setAddDate(\Mage::getModel('Magento\Core\Model\Date')->gmtDate());
             $object->setStatus(0);
         }
         return parent::_beforeSave($object);

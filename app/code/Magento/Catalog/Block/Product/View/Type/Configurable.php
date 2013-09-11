@@ -127,7 +127,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
 
         foreach ($this->getAllowProducts() as $product) {
             $productId  = $product->getId();
-            $image = $this->helper('\Magento\Catalog\Helper\Image')->init($product, 'image');
+            $image = $this->helper('Magento\Catalog\Helper\Image')->init($product, 'image');
 
             foreach ($this->getAllowAttributes() as $attribute) {
                 $productAttribute   = $attribute->getProductAttribute();

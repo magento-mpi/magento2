@@ -30,7 +30,7 @@ class Observer
 
         if (\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->isLoggedIn()) {
 
-            $feedModel  = \Mage::getModel('\Magento\AdminNotification\Model\Feed');
+            $feedModel  = \Mage::getModel('Magento\AdminNotification\Model\Feed');
             /* @var $feedModel \Magento\AdminNotification\Model\Feed */
 
             $feedModel->checkUpdate();

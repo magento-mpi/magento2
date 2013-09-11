@@ -82,7 +82,7 @@ class Edit extends \Magento\Adminhtml\Controller\Catalog\Product
     public function linkAction()
     {
         $linkId = $this->getRequest()->getParam('id', 0);
-        $link = \Mage::getModel('\Magento\Downloadable\Model\Link')->load($linkId);
+        $link = \Mage::getModel('Magento\Downloadable\Model\Link')->load($linkId);
         if ($link->getId()) {
             $resource = '';
             $resourceType = '';

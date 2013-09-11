@@ -48,7 +48,7 @@ class Magento_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
 
         $this->_themeMock = $this->getMock('Magento\Core\Model\Theme', null, array(), '', false, false);
         $this->_uploaderMock = $this->getMock('Magento\Core\Model\Theme\Image\Uploader',
-            array(), array(), 'Magento_Core_Model_Theme_Image_UploaderProxy', false, false);
+            array(), array(), 'Magento\Core\Model\Theme\Image\UploaderProxy', false, false);
         $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false, false);
 
         $this->_model = new \Magento\Core\Model\Theme\Image(

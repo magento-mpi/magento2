@@ -19,7 +19,7 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('\Magento\Eav\Model\Entity\AbstractEntity');
+        $this->_model = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\AbstractEntity');
     }
 
     protected function tearDown()

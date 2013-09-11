@@ -31,10 +31,10 @@ class Pickup
             return false;
         }
 
-        $result = \Mage::getModel('\Magento\Shipping\Model\Rate\Result');
+        $result = \Mage::getModel('Magento\Shipping\Model\Rate\Result');
 
         if (!empty($rate)) {
-            $method = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Method');
+            $method = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Method');
 
             $method->setCarrier('pickup');
             $method->setCarrierTitle($this->getConfigData('title'));

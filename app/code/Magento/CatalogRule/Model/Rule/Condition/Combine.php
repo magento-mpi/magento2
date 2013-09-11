@@ -30,7 +30,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
      */
     public function getNewChildSelectOptions()
     {
-        $productCondition = \Mage::getModel('\Magento\CatalogRule\Model\Rule\Condition\Product');
+        $productCondition = \Mage::getModel('Magento\CatalogRule\Model\Rule\Condition\Product');
         $productAttributes = $productCondition->loadAttributeOptions()->getAttributeOption();
         $attributes = array();
         foreach ($productAttributes as $code => $label) {

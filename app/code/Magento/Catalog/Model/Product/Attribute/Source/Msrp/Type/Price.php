@@ -76,7 +76,7 @@ class Price
      */
     public function getFlatUpdateSelect($store)
     {
-        return \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute')
+        return \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute')
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

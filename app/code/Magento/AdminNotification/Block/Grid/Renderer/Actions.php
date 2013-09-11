@@ -30,7 +30,7 @@ class Actions
                 __('Mark as Read') .'</a> | '
             : '';
 
-        $encodedUrl = $this->helper('\Magento\Core\Helper\Url')->getEncodedUrl();
+        $encodedUrl = $this->helper('Magento\Core\Helper\Url')->getEncodedUrl();
         return sprintf('%s%s<a href="%s" onClick="deleteConfirm(\'%s\', this.href); return false;">%s</a>',
             $readDetailsHtml,
             $markAsReadHtml,

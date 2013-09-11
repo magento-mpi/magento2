@@ -44,7 +44,7 @@ class Role extends \Magento\Backend\Controller\ActionAbstract
     {
         $this->_title(__('Roles'));
 
-        $role = \Mage::getModel('\Magento\User\Model\Role')->load($this->getRequest()->getParam($requestVariable));
+        $role = \Mage::getModel('Magento\User\Model\Role')->load($this->getRequest()->getParam($requestVariable));
         // preventing edit of relation role
         if ($role->getId() && $role->getRoleType() != 'G') {
             $role->unsetData($role->getIdFieldName());
@@ -114,7 +114,7 @@ class Role extends \Magento\Backend\Controller\ActionAbstract
     {
         $rid = $this->getRequest()->getParam('rid', false);
 
-        $currentUser = \Mage::getModel('\Magento\User\Model\User')->setId(
+        $currentUser = \Mage::getModel('Magento\User\Model\User')->setId(
             \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId()
         );
 
@@ -181,7 +181,7 @@ class Role extends \Magento\Backend\Controller\ActionAbstract
             );
             $role->save();
 
-            \Mage::getModel('\Magento\User\Model\Rules')
+            \Mage::getModel('Magento\User\Model\Rules')
                 ->setRoleId($role->getId())
                 ->setResources($resource)
                 ->saveRel();
@@ -227,7 +227,7 @@ class Role extends \Magento\Backend\Controller\ActionAbstract
     protected function _deleteUserFromRole($userId, $roleId)
     {
         try {
-            \Mage::getModel('\Magento\User\Model\User')
+            \Mage::getModel('Magento\User\Model\User')
                 ->setRoleId($roleId)
                 ->setUserId($userId)
                 ->deleteFromRole();
@@ -247,7 +247,7 @@ class Role extends \Magento\Backend\Controller\ActionAbstract
      */
     protected function _addUserToRole($userId, $roleId)
     {
-        $user = \Mage::getModel('\Magento\User\Model\User')->load($userId);
+        $user = \Mage::getModel('Magento\User\Model\User')->load($userId);
         $user->setRoleId($roleId);
 
         if ($user->roleUserExists() === true ) {

@@ -48,7 +48,7 @@ class Form extends \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
 
         $model = $this->_getModel();
         /** @var $cmsPageUrlrewrite \Magento\Cms\Model\Page\Urlrewrite */
-        $cmsPageUrlrewrite = \Mage::getModel('\Magento\Cms\Model\Page\Urlrewrite');
+        $cmsPageUrlrewrite = \Mage::getModel('Magento\Cms\Model\Page\Urlrewrite');
         if (!$model->getId()) {
             $idPath->setValue($cmsPageUrlrewrite->generateIdPath($cmsPage));
 
@@ -104,7 +104,7 @@ class Form extends \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
     protected function _getCmsPage()
     {
         if (!$this->hasData('cms_page')) {
-            $this->setCmsPage(\Mage::getModel('\Magento\Cms\Model\Page'));
+            $this->setCmsPage(\Mage::getModel('Magento\Cms\Model\Page'));
         }
         return $this->getCmsPage();
     }

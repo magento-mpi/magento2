@@ -200,7 +200,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function addRateVotes()
     {
         foreach ($this->getItems() as $item) {
-            $votesCollection = \Mage::getModel('\Magento\Rating\Model\Rating\Option\Vote')
+            $votesCollection = \Mage::getModel('Magento\Rating\Model\Rating\Option\Vote')
                 ->getResourceCollection()
                 ->setReviewFilter($item->getId())
                 ->setStoreFilter(\Mage::app()->getStore()->getId())

@@ -195,7 +195,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
         $adapter = $this->getReadConnection();
         $expression = new \Zend_Db_Expr('(' . $adapter->quoteIdentifier('qty_shipped') . ' - '
             . $adapter->quoteIdentifier('qty_returned') . ')');
-        return \Mage::getModel('\Magento\Sales\Model\Order\Item')
+        return \Mage::getModel('Magento\Sales\Model\Order\Item')
             ->getCollection()
             ->addExpressionFieldToSelect(
                 'available_qty',
@@ -234,7 +234,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
         $parent = array();
 
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
 
         foreach ($orderItemsCollection as $item) {
             /* retrieves only bundle and children by $parentId */

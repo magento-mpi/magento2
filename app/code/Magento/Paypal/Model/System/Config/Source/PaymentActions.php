@@ -22,7 +22,7 @@ class PaymentActions
      */
     public function toOptionArray()
     {
-        $configModel = \Mage::getModel('\Magento\Paypal\Model\Config');
+        $configModel = \Mage::getModel('Magento\Paypal\Model\Config');
         return $configModel->getPaymentActions();
     }
 }

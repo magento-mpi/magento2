@@ -50,7 +50,7 @@ class AbstractView extends \Magento\Core\Block\Template
     {
         if (is_null($this->_designCollection)) {
             $store = \Mage::app()->getStore($this->getStoreId());
-            $this->_designCollection = \Mage::getModel('\Magento\GiftWrapping\Model\Wrapping')->getCollection()
+            $this->_designCollection = \Mage::getModel('Magento\GiftWrapping\Model\Wrapping')->getCollection()
                 ->addStoreAttributesToResult($store->getId())
                 ->applyStatusFilter()
                 ->applyWebsiteFilter($store->getWebsiteId());
@@ -82,7 +82,7 @@ class AbstractView extends \Magento\Core\Block\Template
      */
     protected function _preparePrices($basePrice, $price)
     {
-        return $this->helper('\Magento\Adminhtml\Helper\Sales')->displayPrices($this->getOrder(), $basePrice, $price);
+        return $this->helper('Magento\Adminhtml\Helper\Sales')->displayPrices($this->getOrder(), $basePrice, $price);
     }
 
     /**

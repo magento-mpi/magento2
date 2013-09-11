@@ -28,7 +28,7 @@ class Country extends \Magento\Eav\Model\Entity\Attribute\Source\Table
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = \Mage::getResourceModel('\Magento\Directory\Model\Resource\Country\Collection')
+            $this->_options = \Mage::getResourceModel('Magento\Directory\Model\Resource\Country\Collection')
                 ->loadByStore($this->getAttribute()->getStoreId())->toOptionArray();
         }
         return $this->_options;

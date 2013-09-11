@@ -27,7 +27,7 @@ class Currency extends \Magento\Adminhtml\Controller\Action
     protected function _initCurrency()
     {
         $code = $this->getRequest()->getParam('currency');
-        $currency = \Mage::getModel('\Magento\Directory\Model\Currency')
+        $currency = \Mage::getModel('Magento\Directory\Model\Currency')
             ->load($code);
 
         \Mage::register('currency', $currency);
@@ -43,7 +43,7 @@ class Currency extends \Magento\Adminhtml\Controller\Action
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_CurrencySymbol::system_currency_rates');
-        $this->_addContent($this->getLayout()->createBlock('\Magento\CurrencySymbol\Block\Adminhtml\System\Currency'));
+        $this->_addContent($this->getLayout()->createBlock('Magento\CurrencySymbol\Block\Adminhtml\System\Currency'));
         $this->renderLayout();
     }
 
@@ -96,7 +96,7 @@ class Currency extends \Magento\Adminhtml\Controller\Action
                     }
                 }
 
-                \Mage::getModel('\Magento\Directory\Model\Currency')->saveRates($data);
+                \Mage::getModel('Magento\Directory\Model\Currency')->saveRates($data);
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('All valid rates have been saved.'));
             } catch (\Exception $e) {
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());

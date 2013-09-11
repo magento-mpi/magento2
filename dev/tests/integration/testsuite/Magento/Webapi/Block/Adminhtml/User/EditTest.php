@@ -37,7 +37,7 @@ class Magento_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_Tes
 
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
-        $this->_block = $this->_layout->createBlock('\Magento\Webapi\Block\Adminhtml\User\Edit');
+        $this->_block = $this->_layout->createBlock('Magento\Webapi\Block\Adminhtml\User\Edit');
     }
 
     /**

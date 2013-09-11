@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_WebsiteTest extends PHPUnit
 
         $registryData = array(
             'store_type' => 'website',
-            'store_data' => Mage::getModel('\Magento\Core\Model\Website'),
+            'store_data' => Mage::getModel('Magento\Core\Model\Website'),
             'store_action' => 'add'
         );
         foreach ($registryData as $key => $value) {
@@ -34,9 +34,9 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_WebsiteTest extends PHPUnit
         }
 
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $layout = Mage::getModel('Magento\Core\Model\Layout');
 
-        $this->_block = $layout->createBlock('\Magento\Adminhtml\Block\System\Store\Edit\Form\Website');
+        $this->_block = $layout->createBlock('Magento\Adminhtml\Block\System\Store\Edit\Form\Website');
 
         $this->_block->toHtml();
     }

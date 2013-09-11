@@ -26,7 +26,7 @@ class Edit extends \Magento\Adminhtml\Controller\Sales\Order\Create
     {
         $this->_getSession()->clear();
         $orderId = $this->getRequest()->getParam('order_id');
-        $order = \Mage::getModel('\Magento\Sales\Model\Order')->load($orderId);
+        $order = \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
 
         try {
             if ($order->getId()) {

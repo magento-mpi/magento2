@@ -26,7 +26,7 @@ class ListCustomer
      */
     protected function _prepareLayout()
     {
-        $pager = $this->getLayout()->createBlock('\Magento\Page\Block\Html\Pager', 'giftregistry.list.pager')
+        $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager', 'giftregistry.list.pager')
             ->setCollection($this->getEntityCollection())->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
         return parent::_prepareLayout();
@@ -40,7 +40,7 @@ class ListCustomer
     public function getEntityCollection()
     {
         if (!$this->hasEntityCollection()) {
-            $this->setData('entity_collection', \Mage::getModel('\Magento\GiftRegistry\Model\Entity')->getCollection()
+            $this->setData('entity_collection', \Mage::getModel('Magento\GiftRegistry\Model\Entity')->getCollection()
                 ->filterByCustomerId(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId())
             );
         }
@@ -54,7 +54,7 @@ class ListCustomer
      */
     public function canAddNewEntity()
     {
-        $collection = \Mage::getModel('\Magento\GiftRegistry\Model\Type')->getCollection()
+        $collection = \Mage::getModel('Magento\GiftRegistry\Model\Type')->getCollection()
             ->addStoreData(\Mage::app()->getStore()->getId())
             ->applyListedFilter();
 

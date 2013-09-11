@@ -60,6 +60,6 @@ class Sku
             'onclick' => 'addBySku.submitSkuForm()',
             'class' => 'action-add',
         );
-        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')->setData($addButtonData)->toHtml();
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData($addButtonData)->toHtml();
     }
 }

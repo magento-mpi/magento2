@@ -37,7 +37,7 @@ class View
     public function getGroupName()
     {
         if ($groupId = $this->getCustomer()->getGroupId()) {
-            return \Mage::getModel('\Magento\Customer\Model\Group')
+            return \Mage::getModel('Magento\Customer\Model\Group')
                 ->load($groupId)
                 ->getCustomerGroupCode();
         }
@@ -51,7 +51,7 @@ class View
     public function getCustomerLog()
     {
         if (!$this->_customerLog) {
-            $this->_customerLog = \Mage::getModel('\Magento\Log\Model\Customer')
+            $this->_customerLog = \Mage::getModel('Magento\Log\Model\Customer')
                 ->loadByCustomer($this->getCustomer()->getId());
         }
         return $this->_customerLog;

@@ -76,7 +76,7 @@ class Samples
      */
     public function getAddButtonHtml()
     {
-        $addButton = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
+        $addButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label' => __('Add New Row'),
                 'id' => 'add_sample_item',
@@ -183,7 +183,7 @@ class Samples
      */
     public function getConfigJson()
     {
-        $this->getConfig()->setUrl(\Mage::getModel('\Magento\Backend\Model\Url')
+        $this->getConfig()->setUrl(\Mage::getModel('Magento\Backend\Model\Url')
             ->addSessionParam()
             ->getUrl('*/downloadable_file/upload', array('type' => 'samples', '_secure' => true)));
         $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));

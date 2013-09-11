@@ -40,7 +40,7 @@ class Stock extends \Magento\Adminhtml\Block\Widget\Grid
             $websiteId = \Mage::app()->getStore($store)->getWebsiteId();
         }
         if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_ProductAlert')) {
-            $collection = \Mage::getModel('\Magento\ProductAlert\Model\Stock')
+            $collection = \Mage::getModel('Magento\ProductAlert\Model\Stock')
                 ->getCustomerCollection()
                 ->join($productId, $websiteId);
             $this->setCollection($collection);

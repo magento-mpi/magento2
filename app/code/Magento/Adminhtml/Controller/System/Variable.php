@@ -44,7 +44,7 @@ class Variable extends \Magento\Adminhtml\Controller\Action
         $variableId = $this->getRequest()->getParam('variable_id', null);
         $storeId = (int)$this->getRequest()->getParam('store', 0);
         /* @var $emailVariable \Magento\Core\Model\Variable */
-        $variable = \Mage::getModel('\Magento\Core\Model\Variable');
+        $variable = \Mage::getModel('Magento\Core\Model\Variable');
         if ($variableId) {
             $variable->setStoreId($storeId)
                 ->load($variableId);
@@ -85,8 +85,8 @@ class Variable extends \Magento\Adminhtml\Controller\Action
         $this->_title($variable->getId() ? $variable->getCode() : __('New Custom Variable'));
 
         $this->_initLayout()
-            ->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\System\Variable\Edit'))
-            ->_addJs($this->getLayout()->createBlock('\Magento\Core\Block\Template', '', array(
+            ->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\System\Variable\Edit'))
+            ->_addJs($this->getLayout()->createBlock('Magento\Core\Block\Template', '', array(
                 'data' => array('template' => 'Magento_Adminhtml::system/variable/js.phtml')
             )))
             ->renderLayout();
@@ -104,7 +104,7 @@ class Variable extends \Magento\Adminhtml\Controller\Action
         $result = $variable->validate();
         if ($result !== true && is_string($result)) {
             $this->_getSession()->addError($result);
-            $this->_initLayoutMessages('\Magento\Adminhtml\Model\Session');
+            $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
@@ -173,8 +173,8 @@ class Variable extends \Magento\Adminhtml\Controller\Action
      */
     public function wysiwygPluginAction()
     {
-        $customVariables = \Mage::getModel('\Magento\Core\Model\Variable')->getVariablesOptionArray(true);
-        $storeContactVariabls = \Mage::getModel('\Magento\Core\Model\Source\Email\Variables')->toOptionArray(true);
+        $customVariables = \Mage::getModel('Magento\Core\Model\Variable')->getVariablesOptionArray(true);
+        $storeContactVariabls = \Mage::getModel('Magento\Core\Model\Source\Email\Variables')->toOptionArray(true);
         $variables = array($storeContactVariabls, $customVariables);
         $this->getResponse()->setBody(\Zend_Json::encode($variables));
     }

@@ -93,7 +93,7 @@ class Row
     public function getWebsiteCollection()
     {
         if (!$this->hasData('website_collection')) {
-            $collection = \Mage::getModel('\Magento\Core\Model\Website')->getCollection();
+            $collection = \Mage::getModel('Magento\Core\Model\Website')->getCollection();
             $this->setData('website_collection', $collection);
         }
 
@@ -108,7 +108,7 @@ class Row
     public function getCustomerGroupCollection()
     {
         if (!$this->hasData('customer_group_collection')) {
-            $collection = \Mage::getModel('\Magento\Customer\Model\Group')->getCollection();
+            $collection = \Mage::getModel('Magento\Customer\Model\Group')->getCollection();
             $this->setData('customer_group_collection', $collection);
         }
 

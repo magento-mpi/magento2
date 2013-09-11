@@ -28,7 +28,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_EventTest extends Magent
     public function testEditActionMultipleStore()
     {
         /** @var $event \Magento\CatalogEvent\Model\Event */
-        $event = Mage::getModel('\Magento\CatalogEvent\Model\Event');
+        $event = Mage::getModel('Magento\CatalogEvent\Model\Event');
         $event->load(\Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE, 'display_state');
         $this->dispatch('backend/admin/catalog_event/edit/id/' . $event->getId());
         $body = $this->getResponse()->getBody();

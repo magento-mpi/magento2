@@ -40,14 +40,14 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
     {
         $productId = \Mage::app()->getRequest()->getParam('product');
         if ($productId) {
-            $product = \Mage::getModel('\Magento\Catalog\Model\Product')->setId($productId);
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')->setId($productId);
             $this->_allowedCategoryIds = $product->getCategoryIds();
             unset($product);
         }
 
         $result = array();
         if ($parentId) {
-            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($parentId);
+            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($parentId);
             if (!empty($category)) {
                 $tree = $this->_getNodesArray($this->getNode($category, $recursionLevel));
                 if (!empty($tree) && !empty($tree['children'])) {
@@ -76,7 +76,7 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
     {
         $collection = $this->_getData('category_collection');
         if (is_null($collection)) {
-            $collection = \Mage::getModel('\Magento\Catalog\Model\Category')->getCollection()
+            $collection = \Mage::getModel('Magento\Catalog\Model\Category')->getCollection()
                 ->addAttributeToSelect(array('name', 'is_active'))
                 ->setLoadProductCount(true);
             $this->setData('category_collection', $collection);

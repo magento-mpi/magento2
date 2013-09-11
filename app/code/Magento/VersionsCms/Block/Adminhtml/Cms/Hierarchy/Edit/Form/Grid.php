@@ -41,7 +41,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('\Magento\Cms\Model\Page')->getCollection();
+        $collection = \Mage::getModel('Magento\Cms\Model\Page')->getCollection();
 
         $store = $this->_getStore();
         if ($store->getId()) {

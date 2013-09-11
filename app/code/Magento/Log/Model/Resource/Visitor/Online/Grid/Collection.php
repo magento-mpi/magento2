@@ -20,7 +20,7 @@ class Collection extends \Magento\Log\Model\Resource\Visitor\Online\Collection
     protected function _initSelect()
     {
         parent::_initSelect();
-        \Mage::getModel('\Magento\Log\Model\Visitor\Online')
+        \Mage::getModel('Magento\Log\Model\Visitor\Online')
            ->prepare();
         $this->addCustomerData();
         return $this;

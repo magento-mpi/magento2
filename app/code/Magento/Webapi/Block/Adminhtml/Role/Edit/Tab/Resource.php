@@ -71,7 +71,7 @@ class Resource extends \Magento\Backend\Block\Widget\Form
     protected function _prepareForm()
     {
         /** @var $translator \Magento\Webapi\Helper\Data */
-        $translator = $this->helper('\Magento\Webapi\Helper\Data');
+        $translator = $this->helper('Magento\Webapi\Helper\Data');
         $resources = $this->_resourceProvider->getAclResources();
         $this->_aclResourcesTree = $this->_mapResources(
             $resources[1]['children'],

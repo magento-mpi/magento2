@@ -17,11 +17,11 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
     public function testDependenceHtml()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('\Magento\Core\Model\Layout', array('area' => 'adminhtml'));
+        $layout = Mage::getModel('Magento\Core\Model\Layout', array('area' => 'adminhtml'));
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
         /** @var $block \Magento\Backend\Block\System\Config\Form */
-        $block = $layout->createBlock('\Magento\Backend\Block\System\Config\Form', 'block');
+        $block = $layout->createBlock('Magento\Backend\Block\System\Config\Form', 'block');
 
         /** @var $childBlock \Magento\Core\Block\Text */
         $childBlock = $layout->addBlock('\Magento\Core\Block\Text', 'element_dependence', 'block');
@@ -179,7 +179,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
         );
         Mage::app()->getRequest()->setParam('section', 'general');
         /** @var $block \Magento\Backend\Block\System\Config\Form */
-        $block = Mage::app()->getLayout()->createBlock('\Magento\Backend\Block\System\Config\Form');
+        $block = Mage::app()->getLayout()->createBlock('Magento\Backend\Block\System\Config\Form');
         $block->initForm();
         $expectedIds = array(
             'general_country' => array(

@@ -46,7 +46,7 @@ class Info extends \Magento\Wishlist\Block\AbstractBlock
      */
     public function getWishlistOwner()
     {
-        $owner = \Mage::getModel('\Magento\Customer\Model\Customer');
+        $owner = \Mage::getModel('Magento\Customer\Model\Customer');
         $owner->load($this->_getWishlist()->getCustomerId());
         return $owner;
     }

@@ -135,7 +135,7 @@ class Giftcard
     public function getEmailTemplates()
     {
         $result = array();
-        $template = \Mage::getModel('\Magento\Backend\Model\Config\Source\Email\Template');
+        $template = \Mage::getModel('Magento\Backend\Model\Config\Source\Email\Template');
         $template->setPath(\Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_TEMPLATE);
         foreach ($template->toOptionArray() as $one) {
             $result[$one['value']] = $this->escapeHtml($one['label']);

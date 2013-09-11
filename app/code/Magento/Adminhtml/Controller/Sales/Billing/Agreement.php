@@ -141,7 +141,7 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
     protected function _initBillingAgreement()
     {
         $agreementId = $this->getRequest()->getParam('agreement');
-        $agreementModel = \Mage::getModel('\Magento\Sales\Model\Billing\Agreement')->load($agreementId);
+        $agreementModel = \Mage::getModel('Magento\Sales\Model\Billing\Agreement')->load($agreementId);
 
         if (!$agreementModel->getId()) {
             $this->_getSession()->addError(__('Please specify the correct billing agreement ID and try again.'));
@@ -160,7 +160,7 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
     protected function _initCustomer()
     {
         $customerId = (int) $this->getRequest()->getParam('id');
-        $customer = \Mage::getModel('\Magento\Customer\Model\Customer');
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer');
 
         if ($customerId) {
             $customer->load($customerId);

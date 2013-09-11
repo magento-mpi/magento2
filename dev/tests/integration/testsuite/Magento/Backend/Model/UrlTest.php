@@ -24,7 +24,7 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = Mage::getModel('\Magento\Backend\Model\Url');
+        $this->_model = Mage::getModel('Magento\Backend\Model\Url');
     }
 
     /**
@@ -81,7 +81,7 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
     public function testGetSecretKey($routeName, $controller, $action, $expectedHash)
     {
         /** @var $request \Magento\Core\Controller\Request\Http */
-        $request = Mage::getModel('\Magento\Core\Controller\Request\Http');
+        $request = Mage::getModel('Magento\Core\Controller\Request\Http');
         $request->setControllerName('default_controller')
             ->setActionName('default_action')
             ->setRouteName('default_router');
@@ -126,7 +126,7 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         /** @var $helper \Magento\Core\Helper\Data */
         $helper = Mage::getObjectManager()->get('Magento\Core\Helper\Data');
         /** @var $request \Magento\Core\Controller\Request\Http */
-        $request = Mage::getModel('\Magento\Core\Controller\Request\Http');
+        $request = Mage::getModel('Magento\Core\Controller\Request\Http');
         $request->setControllerName('controller')->setActionName('action');
         $request->initForward()->setControllerName(uniqid())->setActionName(uniqid());
         $this->_model->setRequest($request);

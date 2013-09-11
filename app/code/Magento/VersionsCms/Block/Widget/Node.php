@@ -87,7 +87,7 @@ class Node
     protected function _toHtml()
     {
         if ($this->getNodeId()) {
-            $this->_node = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node')
+            $this->_node = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node')
                 ->load($this->getNodeId());
         } else {
             $this->_node = \Mage::registry('current_cms_hierarchy_node');

@@ -49,7 +49,7 @@ class Session extends \Magento\Core\Helper\Data
     public function getSession()
     {
         if (is_null($this->_sessionModel)) {
-            $this->_sessionModel = \Mage::getModel('\Magento\Persistent\Model\Session');
+            $this->_sessionModel = \Mage::getModel('Magento\Persistent\Model\Session');
             $this->_sessionModel->loadByCookieKey();
         }
         return $this->_sessionModel;
@@ -120,7 +120,7 @@ class Session extends \Magento\Core\Helper\Data
     {
         if (is_null($this->_customer)) {
             $customerId = $this->getSession()->getCustomerId();
-            $this->_customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($customerId);
+            $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($customerId);
         }
         return $this->_customer;
     }

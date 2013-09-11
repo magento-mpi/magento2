@@ -62,7 +62,7 @@ class Created extends \Magento\Adminhtml\Block\Widget
         if ($this->getRequest()->getParam('product_tab') == 'variations') {
             /** @var $attribute \Magento\Eav\Model\Entity\Attribute */
             $attribute =
-                \Mage::getModel('\Magento\Eav\Model\Entity\Attribute')->load($this->getRequest()->getParam('attribute'));
+                \Mage::getModel('Magento\Eav\Model\Entity\Attribute')->load($this->getRequest()->getParam('attribute'));
             $result = array(
                 'tab' => $this->getRequest()->getParam('product_tab'),
                 'attribute' => array(
@@ -76,7 +76,7 @@ class Created extends \Magento\Adminhtml\Block\Widget
         $newAttributeSetId = $this->getRequest()->getParam('new_attribute_set_id');
         if ($newAttributeSetId) {
             /** @var $attributeSet \Magento\Eav\Model\Entity\Attribute\Set */
-            $attributeSet = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')->load($newAttributeSetId);
+            $attributeSet = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')->load($newAttributeSetId);
             $result['set'] = array(
                 'id' => $attributeSet->getId(),
                 'label' => $attributeSet->getAttributeSetName(),

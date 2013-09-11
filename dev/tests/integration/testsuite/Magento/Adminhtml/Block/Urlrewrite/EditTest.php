@@ -139,9 +139,9 @@ class Magento_Adminhtml_Block_Urlrewrite_EditTest extends PHPUnit_Framework_Test
     public function prepareLayoutDataProvider()
     {
         /** @var $urlRewrite \Magento\Core\Model\Url\Rewrite */
-        $urlRewrite = Mage::getModel('\Magento\Core\Model\Url\Rewrite');
+        $urlRewrite = Mage::getModel('Magento\Core\Model\Url\Rewrite');
         /** @var $existingUrlRewrite \Magento\Core\Model\Url\Rewrite */
-        $existingUrlRewrite = Mage::getModel('\Magento\Core\Model\Url\Rewrite',
+        $existingUrlRewrite = Mage::getModel('Magento\Core\Model\Url\Rewrite',
             array('data' => array('url_rewrite_id' => 1))
         );
 

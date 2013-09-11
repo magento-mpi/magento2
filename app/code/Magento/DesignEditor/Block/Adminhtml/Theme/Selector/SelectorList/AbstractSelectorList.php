@@ -80,7 +80,7 @@ abstract class AbstractSelectorList
         $themeId = $themeBlock->getTheme()->getId();
 
         /** @var $assignButton \Magento\Backend\Block\Widget\Button */
-        $assignButton = $this->getLayout()->createBlock('\Magento\DesignEditor\Block\Adminhtml\Theme\Button');
+        $assignButton = $this->getLayout()->createBlock('Magento\DesignEditor\Block\Adminhtml\Theme\Button');
         $assignButton->setData(array(
             'title' => __('Duplicate'),
             'label' => __('Duplicate'),
@@ -114,7 +114,7 @@ abstract class AbstractSelectorList
         $themeId = $themeBlock->getTheme()->getId();
 
         /** @var $assignButton \Magento\Backend\Block\Widget\Button */
-        $assignButton = $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button');
+        $assignButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button');
         $assignButton->setData(array(
             'label'   => __('Assign to a Store View'),
             'data_attribute'  => array(
@@ -148,7 +148,7 @@ abstract class AbstractSelectorList
     protected function _addEditButtonHtml($themeBlock)
     {
         /** @var $editButton \Magento\Backend\Block\Widget\Button */
-        $editButton = $this->getLayout()->createBlock('\Magento\DesignEditor\Block\Adminhtml\Theme\Button');
+        $editButton = $this->getLayout()->createBlock('Magento\DesignEditor\Block\Adminhtml\Theme\Button');
         $editButton->setData(array(
             'title'  => __('Edit'),
             'label'  => __('Edit'),

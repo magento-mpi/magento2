@@ -41,7 +41,7 @@ class Magento_Code_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('\Magento\Code\Generator\EntityAbstract');
+        $this->_model = $this->getMockForAbstractClass('Magento\Code\Generator\EntityAbstract');
     }
 
     protected function tearDown()

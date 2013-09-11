@@ -36,7 +36,7 @@ class Accordion extends \Magento\Adminhtml\Block\Widget\Accordion
             $website = \Mage::app()->getWebsite($websiteId);
 
             // count cart items
-            $cartItemsCount = \Mage::getModel('\Magento\Sales\Model\Quote')
+            $cartItemsCount = \Mage::getModel('Magento\Sales\Model\Quote')
                 ->setWebsite($website)->loadByCustomer($customer)
                 ->getItemsCollection(false)
                 ->addFieldToFilter('parent_item_id', array('null' => true))
@@ -56,7 +56,7 @@ class Accordion extends \Magento\Adminhtml\Block\Widget\Accordion
         }
 
         // count wishlist items
-        $wishlistCount = \Mage::getModel('\Magento\Wishlist\Model\Item')->getCollection()
+        $wishlistCount = \Mage::getModel('Magento\Wishlist\Model\Item')->getCollection()
             ->addCustomerIdFilter($customer->getId())
             ->addStoreData()
             ->getSize();

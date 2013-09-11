@@ -28,11 +28,11 @@ class Magento_Catalog_Model_Layer_Filter_CategoryTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->_category = Mage::getModel('\Magento\Catalog\Model\Category');
+        $this->_category = Mage::getModel('Magento\Catalog\Model\Category');
         $this->_category->load(5);
-        $this->_model = Mage::getModel('\Magento\Catalog\Model\Layer\Filter\Category');
+        $this->_model = Mage::getModel('Magento\Catalog\Model\Layer\Filter\Category');
         $this->_model->setData(array(
-            'layer' => Mage::getModel('\Magento\Catalog\Model\Layer', array(
+            'layer' => Mage::getModel('Magento\Catalog\Model\Layer', array(
                 'data' => array('current_category' => $this->_category)
             )),
         ));
@@ -47,7 +47,7 @@ class Magento_Catalog_Model_Layer_Filter_CategoryTest extends PHPUnit_Framework_
     {
         $this->_model->apply(
             new Magento_TestFramework_Request(),
-            Mage::app()->getLayout()->createBlock('\Magento\Core\Block\Text')
+            Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text')
         );
 
         $this->assertNull(Mage::registry('current_category_filter'));
@@ -57,7 +57,7 @@ class Magento_Catalog_Model_Layer_Filter_CategoryTest extends PHPUnit_Framework_
     {
         $request = new Magento_TestFramework_Request();
         $request->setParam('cat', 3);
-        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('\Magento\Core\Block\Text'));
+        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text'));
 
         /** @var $category \Magento\Catalog\Model\Category */
         $category = Mage::registry('current_category_filter');

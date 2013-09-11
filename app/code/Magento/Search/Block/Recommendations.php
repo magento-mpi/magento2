@@ -33,7 +33,7 @@ class Recommendations extends \Magento\Core\Block\Template
             return array();
         }
 
-        $recommendationsModel = \Mage::getModel('\Magento\Search\Model\Recommendations');
+        $recommendationsModel = \Mage::getModel('Magento\Search\Model\Recommendations');
         $recommendations = $recommendationsModel->getSearchRecommendations();
 
         if (!count($recommendations)) {

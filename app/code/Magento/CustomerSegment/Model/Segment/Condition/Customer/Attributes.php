@@ -70,7 +70,7 @@ class Attributes
      */
     public function loadAttributeOptions()
     {
-        $productAttributes = \Mage::getResourceSingleton('\Magento\Customer\Model\Resource\Customer')
+        $productAttributes = \Mage::getResourceSingleton('Magento\Customer\Model\Resource\Customer')
             ->loadAllAttributes()
             ->getAttributesByCode();
 

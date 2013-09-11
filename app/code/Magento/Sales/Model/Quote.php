@@ -392,7 +392,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
             } else {
                 $defaultBillingAddress = $customer->getDefaultBillingAddress();
                 if ($defaultBillingAddress && $defaultBillingAddress->getId()) {
-                    $billingAddress = \Mage::getModel('\Magento\Sales\Model\Quote\Address')
+                    $billingAddress = \Mage::getModel('Magento\Sales\Model\Quote\Address')
                         ->importCustomerAddress($defaultBillingAddress);
                     $this->setBillingAddress($billingAddress);
                 }
@@ -401,10 +401,10 @@ class Quote extends \Magento\Core\Model\AbstractModel
             if (null === $shippingAddress) {
                 $defaultShippingAddress = $customer->getDefaultShippingAddress();
                 if ($defaultShippingAddress && $defaultShippingAddress->getId()) {
-                    $shippingAddress = \Mage::getModel('\Magento\Sales\Model\Quote\Address')
+                    $shippingAddress = \Mage::getModel('Magento\Sales\Model\Quote\Address')
                         ->importCustomerAddress($defaultShippingAddress);
                 } else {
-                    $shippingAddress = \Mage::getModel('\Magento\Sales\Model\Quote\Address');
+                    $shippingAddress = \Mage::getModel('Magento\Sales\Model\Quote\Address');
                 }
             }
             $this->setShippingAddress($shippingAddress);
@@ -435,7 +435,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     public function getCustomer()
     {
         if (null === $this->_customer) {
-            $this->_customer = \Mage::getModel('\Magento\Customer\Model\Customer');
+            $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer');
             $customerId = $this->getCustomerId();
             if ($customerId) {
                 $this->_customer->load($customerId);
@@ -473,7 +473,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         * we need to retrieve from db every time to get the correct tax class
         */
         //if (!$this->getData('customer_group_id') && !$this->getData('customer_tax_class_id')) {
-        $classId = \Mage::getModel('\Magento\Customer\Model\Group')->getTaxClassId($this->getCustomerGroupId());
+        $classId = \Mage::getModel('Magento\Customer\Model\Group')->getTaxClassId($this->getCustomerGroupId());
         $this->setCustomerTaxClassId($classId);
         //}
 
@@ -488,7 +488,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     public function getAddressesCollection()
     {
         if (null === $this->_addresses) {
-            $this->_addresses = \Mage::getModel('\Magento\Sales\Model\Quote\Address')->getCollection()
+            $this->_addresses = \Mage::getModel('Magento\Sales\Model\Quote\Address')->getCollection()
                 ->setQuoteFilter($this->getId());
 
             if ($this->getId()) {
@@ -514,7 +514,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
             }
         }
 
-        $address = \Mage::getModel('\Magento\Sales\Model\Quote\Address')->setAddressType($type);
+        $address = \Mage::getModel('Magento\Sales\Model\Quote\Address')->setAddressType($type);
         $this->addAddress($address);
         return $address;
     }
@@ -739,7 +739,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
             return $this->getData('items_collection');
         }
         if (null === $this->_items) {
-            $this->_items = \Mage::getModel('\Magento\Sales\Model\Quote\Item')->getCollection();
+            $this->_items = \Mage::getModel('Magento\Sales\Model\Quote\Item')->getCollection();
             $this->_items->setQuote($this);
         }
         return $this->_items;
@@ -1056,7 +1056,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         $newItem = false;
         $item = $this->getItemByProduct($product);
         if (!$item) {
-            $item = \Mage::getModel('\Magento\Sales\Model\Quote\Item');
+            $item = \Mage::getModel('Magento\Sales\Model\Quote\Item');
             $item->setQuote($this);
             if (\Mage::app()->getStore()->isAdmin()) {
                 $item->setStoreId($this->getStore()->getId());
@@ -1114,7 +1114,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
 
         //We need to create new clear product instance with same $productId
         //to set new option values from $buyRequest
-        $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+        $product = \Mage::getModel('Magento\Catalog\Model\Product')
             ->setStoreId($this->getStore()->getId())
             ->load($productId);
 
@@ -1242,7 +1242,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     public function getPaymentsCollection()
     {
         if (null === $this->_payments) {
-            $this->_payments = \Mage::getModel('\Magento\Sales\Model\Quote\Payment')->getCollection()
+            $this->_payments = \Mage::getModel('Magento\Sales\Model\Quote\Payment')->getCollection()
                 ->setQuoteFilter($this->getId());
 
             if ($this->getId()) {
@@ -1264,7 +1264,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
                 return $payment;
             }
         }
-        $payment = \Mage::getModel('\Magento\Sales\Model\Quote\Payment');
+        $payment = \Mage::getModel('Magento\Sales\Model\Quote\Payment');
         $this->addPayment($payment);
         return $payment;
     }
@@ -1572,7 +1572,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     public function addErrorInfo($type = 'error', $origin = null, $code = null, $message = null, $additionalData = null)
     {
         if (!isset($this->_errorInfoGroups[$type])) {
-            $this->_errorInfoGroups[$type] = \Mage::getModel('\Magento\Sales\Model\Status\ListStatus');
+            $this->_errorInfoGroups[$type] = \Mage::getModel('Magento\Sales\Model\Status\ListStatus');
         }
 
         $this->_errorInfoGroups[$type]->addItem($origin, $code, $message, $additionalData);
@@ -1903,7 +1903,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         foreach ($this->getAllVisibleItems() as $item) {
             $product = $item->getProduct();
             if (is_object($product) && ($product->isRecurring())
-                && $profile = \Mage::getModel('\Magento\Sales\Model\Recurring\Profile')->importProduct($product)
+                && $profile = \Mage::getModel('Magento\Sales\Model\Recurring\Profile')->importProduct($product)
             ) {
                 $profile->importQuote($this);
                 $profile->importQuoteItem($item);

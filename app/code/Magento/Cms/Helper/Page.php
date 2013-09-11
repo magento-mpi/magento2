@@ -100,7 +100,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
             $handle = ($page->getCustomRootTemplate()
                         && $page->getCustomRootTemplate() != 'empty'
                         && $inRange) ? $page->getCustomRootTemplate() : $page->getRootTemplate();
-            $action->getLayout()->helper('\Magento\Page\Helper\Layout')->applyHandle($handle);
+            $action->getLayout()->helper('Magento\Page\Helper\Layout')->applyHandle($handle);
         }
 
         \Mage::dispatchEvent('cms_page_render', array('page' => $page, 'controller_action' => $action));
@@ -120,7 +120,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
         }
 
         if ($page->getRootTemplate()) {
-            $action->getLayout()->helper('\Magento\Page\Helper\Layout')
+            $action->getLayout()->helper('Magento\Page\Helper\Layout')
                 ->applyTemplate($page->getRootTemplate());
         }
 
@@ -164,7 +164,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
      */
     public function getPageUrl($pageId = null)
     {
-        $page = \Mage::getModel('\Magento\Cms\Model\Page');
+        $page = \Mage::getModel('Magento\Cms\Model\Page');
         if (!is_null($pageId) && $pageId !== $page->getId()) {
             $page->setStoreId(\Mage::app()->getStore()->getId());
             if (!$page->load($pageId)) {

@@ -125,7 +125,7 @@ class Switcher extends \Magento\Backend\Block\Template
      */
     public function getHintHtml()
     {
-        return \Mage::getBlockSingleton('\Magento\Backend\Block\Store\Switcher')->getHintHtml();
+        return \Mage::getBlockSingleton('Magento\Backend\Block\Store\Switcher')->getHintHtml();
     }
 
     /**

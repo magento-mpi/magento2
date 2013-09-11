@@ -20,7 +20,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
      */
     public function popupAction()
     {
-        $shippingInfoModel = \Mage::getModel('\Magento\Rma\Model\Shipping\Info')
+        $shippingInfoModel = \Mage::getModel('Magento\Rma\Model\Shipping\Info')
             ->loadByHash($this->getRequest()->getParam('hash'));
 
         \Mage::register('rma_current_shipping', $shippingInfoModel);
@@ -44,7 +44,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
      */
     public function packageAction()
     {
-        $shippingInfoModel = \Mage::getModel('\Magento\Rma\Model\Shipping\Info')
+        $shippingInfoModel = \Mage::getModel('Magento\Rma\Model\Shipping\Info')
             ->loadPackage($this->getRequest()->getParam('hash'));
 
         \Mage::register('rma_package_shipping', $shippingInfoModel);
@@ -98,7 +98,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
             return false;
         }
 
-        $rma = \Mage::getModel('\Magento\Rma\Model\Rma')->load($entityId);
+        $rma = \Mage::getModel('Magento\Rma\Model\Rma')->load($entityId);
 
         if ($this->_canViewRma($rma)) {
             \Mage::register('current_rma', $rma);
@@ -125,10 +125,10 @@ class Tracking extends \Magento\Core\Controller\Front\Action
                     $rmaIncrementId = \Mage::registry('current_rma')->getIncrementId();
                 }
             }
-            $model = \Mage::getModel('\Magento\Rma\Model\Shipping\Info')
+            $model = \Mage::getModel('Magento\Rma\Model\Shipping\Info')
                 ->loadPackage($this->getRequest()->getParam('hash'));
 
-            $shipping = \Mage::getModel('\Magento\Rma\Model\Shipping');
+            $shipping = \Mage::getModel('Magento\Rma\Model\Shipping');
             $labelContent = $model->getShippingLabel();
             if ($labelContent) {
                 $pdfContent = null;
@@ -172,13 +172,13 @@ class Tracking extends \Magento\Core\Controller\Front\Action
         if ($data['key'] == 'rma_id') {
             $this->_loadValidRma($data['id']);
         }
-        $model = \Mage::getModel('\Magento\Rma\Model\Shipping\Info')
+        $model = \Mage::getModel('Magento\Rma\Model\Shipping\Info')
             ->loadPackage($this->getRequest()->getParam('hash'));
 
         if ($model) {
-            $pdf = \Mage::getModel('\Magento\Sales\Model\Order\Pdf\Shipment\Packaging')
+            $pdf = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Shipment\Packaging')
                     ->setPackageShippingBlock(
-                        \Mage::getBlockSingleton('\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod')
+                        \Mage::getBlockSingleton('Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod')
                     )
                     ->getPdf($model)
             ;

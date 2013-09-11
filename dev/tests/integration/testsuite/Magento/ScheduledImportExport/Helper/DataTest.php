@@ -25,7 +25,7 @@ class Magento_ScheduledImportExport_Helper_DataTest extends PHPUnit_Framework_Te
     protected function setUp()
     {
         $this->_moduleManagerMock = $this->getMock('Magento\Core\Model\ModuleManager', array(), array(), '', false);
-        $context = Mage::getModel('\Magento\Core\Helper\Context', array('moduleManager' => $this->_moduleManagerMock));
+        $context = Mage::getModel('Magento\Core\Helper\Context', array('moduleManager' => $this->_moduleManagerMock));
         $this->_importExportHelper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
             '\Magento\ScheduledImportExport\Helper\Data', array('context' => $context)
         );

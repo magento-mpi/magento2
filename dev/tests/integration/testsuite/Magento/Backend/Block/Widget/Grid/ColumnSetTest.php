@@ -42,7 +42,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
             array($this->_columnMock)
         ));
 
-        $context = Mage::getModel('\Magento\Core\Block\Template\Context', array('layout' => $this->_layoutMock));
+        $context = Mage::getModel('Magento\Core\Block\Template\Context', array('layout' => $this->_layoutMock));
         $this->_block = Mage::app()->getLayout()->createBlock(
             '\Magento\Backend\Block\Widget\Grid\ColumnSet', '', array('context' => $context)
         );

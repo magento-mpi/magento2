@@ -48,7 +48,7 @@ class Subscriber extends \Magento\Adminhtml\Block\Template
     {
         if (is_null($this->_queueCollection)) {
             /** @var $this->_queueCollection \Magento\Newsletter\Model\Resource\Queue\Collection */
-            $this->_queueCollection = \Mage::getResourceSingleton('\Magento\Newsletter\Model\Resource\Queue\Collection')
+            $this->_queueCollection = \Mage::getResourceSingleton('Magento\Newsletter\Model\Resource\Queue\Collection')
                 ->addTemplateInfo()
                 ->addOnlyUnsentFilter()
                 ->load();

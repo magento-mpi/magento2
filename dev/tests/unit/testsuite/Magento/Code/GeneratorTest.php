@@ -46,7 +46,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_generator = $this->getMockForAbstractClass('\Magento\Code\Generator\EntityAbstract',
+        $this->_generator = $this->getMockForAbstractClass('Magento\Code\Generator\EntityAbstract',
             array(), '', true, true, true, array('generate')
         );
         $this->_autoloader = $this->getMock('Magento\Autoload\IncludePath',

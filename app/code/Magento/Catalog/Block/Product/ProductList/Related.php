@@ -41,7 +41,7 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct
         ;
 
         if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_Checkout')) {
-            \Mage::getResourceSingleton('\Magento\Checkout\Model\Resource\Cart')
+            \Mage::getResourceSingleton('Magento\Checkout\Model\Resource\Cart')
                 ->addExcludeProductFilter(
                     $this->_itemCollection,
                     \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuoteId()

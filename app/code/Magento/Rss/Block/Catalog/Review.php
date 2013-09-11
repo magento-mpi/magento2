@@ -30,7 +30,7 @@ class Review extends \Magento\Core\Block\AbstractBlock
         $title = __('Pending product review(s)');
         \Mage::helper('Magento\Rss\Helper\Data')->disableFlat();
 
-        $rssObj = \Mage::getModel('\Magento\Rss\Model\Rss');
+        $rssObj = \Mage::getModel('Magento\Rss\Model\Rss');
         $data = array(
             'title' => $title,
             'description' => $title,
@@ -39,7 +39,7 @@ class Review extends \Magento\Core\Block\AbstractBlock
         );
         $rssObj->_addHeader($data);
 
-        $reviewModel = \Mage::getModel('\Magento\Review\Model\Review');
+        $reviewModel = \Mage::getModel('Magento\Review\Model\Review');
 
         $collection = $reviewModel->getProductCollection()
             ->addStatusFilter($reviewModel->getPendingStatus())
@@ -67,7 +67,7 @@ class Review extends \Magento\Core\Block\AbstractBlock
         $row = $args['row'];
 
         $store = \Mage::app()->getStore($row['store_id']);
-        $urlModel = \Mage::getModel('\Magento\Core\Model\Url')->setStore($store);
+        $urlModel = \Mage::getModel('Magento\Core\Model\Url')->setStore($store);
         $productUrl = $urlModel->getUrl('catalog/product/view', array('id' => $row['entity_id']));
         $reviewUrl = \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl(
             'adminhtml/catalog_product_review/edit/',

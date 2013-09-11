@@ -46,7 +46,7 @@ class Edit extends \Magento\Adminhtml\Block\Template
 
 
         $this->setChild('form',
-            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Newsletter\Queue\Edit\Form','form')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Newsletter\Queue\Edit\Form','form')
         );
 
         return parent::_beforeToHtml();
