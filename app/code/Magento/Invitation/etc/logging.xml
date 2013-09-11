@@ -13,7 +13,7 @@
     <magento_invitation translate="label">
         <label>Customer Invitations</label>
         <expected_models>
-            <Magento\Invitation\Model\Invitation/>
+            <Magento_Invitation_Model_Invitation/>
         </expected_models>
         <actions>
             <adminhtml_invitation_view>

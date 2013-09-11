@@ -13,7 +13,7 @@
     <magento_banner translate="label">
         <label>Manage Banners</label>
         <expected_models>
-            <Magento\Banner\Model\Banner/>
+            <Magento_Banner_Model_Banner/>
         </expected_models>
         <actions>
             <adminhtml_banner_edit>

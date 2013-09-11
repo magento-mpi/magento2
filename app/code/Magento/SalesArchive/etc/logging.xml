@@ -21,7 +21,7 @@
     <magento_salesarchive translate="label">
         <label>Sales Archive</label>
         <expected_models>
-            <Magento\SalesArchive\Model\Archive />
+            <Magento_SalesArchive_Model_Archive />
         </expected_models>
         <actions>
             <adminhtml_sales_archive_add>

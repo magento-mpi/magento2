@@ -22,7 +22,7 @@
     <magento_versionscms_hierarchy translate="label">
         <label>CMS Hierarchy</label>
         <expected_models>
-            <Magento\VersionsCms\Model\Hierarchy\Node/>
+            <Magento_VersionsCms_Model_Hierarchy_Node/>
         </expected_models>
         <actions>
             <adminhtml_cms_hierarchy_index>
@@ -48,21 +48,21 @@
             <adminhtml_cms_page_massDeleteVersions>
                 <action>massDelete</action>
                 <expected_models>
-                    <Magento\VersionsCms\Model\Page\Version/>
+                    <Magento_VersionsCms_Model_Page_Version/>
                 </expected_models>
             </adminhtml_cms_page_massDeleteVersions>
 
             <adminhtml_cms_page_version_edit>
                 <action>view</action>
                 <expected_models>
-                    <Magento\VersionsCms\Model\Page\Version/>
+                    <Magento_VersionsCms_Model_Page_Version/>
                 </expected_models>
             </adminhtml_cms_page_version_edit>
 
             <adminhtml_cms_page_version_save>
                 <action>save</action>
                 <expected_models>
-                    <Magento\VersionsCms\Model\Page\Version/>
+                    <Magento_VersionsCms_Model_Page_Version/>
                 </expected_models>
                 <skip_on_back>
                     <adminhtml_cms_page_version_edit />
@@ -72,7 +72,7 @@
             <adminhtml_cms_page_version_new>
                 <action>save</action>
                 <expected_models>
-                    <Magento\VersionsCms\Model\Page\Version/>
+                    <Magento_VersionsCms_Model_Page_Version/>
                 </expected_models>
                 <skip_on_back>
                     <adminhtml_cms_page_revision_edit />
@@ -82,7 +82,7 @@
             <adminhtml_cms_page_version_delete>
                 <action>delete</action>
                 <expected_models>
-                    <Magento\VersionsCms\Model\Page\Version/>
+                    <Magento_VersionsCms_Model_Page_Version/>
                 </expected_models>
             </adminhtml_cms_page_version_delete>
 <!--
@@ -91,14 +91,14 @@
             <adminhtml_cms_page_version_massDeleteRevisions>
                 <action>massDelete</action>
                 <expected_models>
-                    <Magento\VersionsCms\Model\Page\Revision/>
+                    <Magento_VersionsCms_Model_Page_Revision/>
                 </expected_models>
             </adminhtml_cms_page_version_massDeleteRevisions>
 
             <adminhtml_cms_page_revision_edit>
                 <action>view</action>
                 <expected_models>
-                    <Magento\VersionsCms\Model\Page\Revision/>
+                    <Magento_VersionsCms_Model_Page_Revision/>
                 </expected_models>
             </adminhtml_cms_page_revision_edit>
 
@@ -111,7 +111,7 @@
             <adminhtml_cms_page_revision_save>
                 <action>save</action>
                 <expected_models>
-                    <Magento\VersionsCms\Model\Page\Revision/>
+                    <Magento_VersionsCms_Model_Page_Revision/>
                 </expected_models>
                 <skip_on_back>
                     <adminhtml_cms_page_revision_edit />
@@ -121,7 +121,7 @@
             <adminhtml_cms_page_revision_delete>
                 <action>delete</action>
                 <expected_models>
-                    <Magento\VersionsCms\Model\Page\Revision/>
+                    <Magento_VersionsCms_Model_Page_Revision/>
                 </expected_models>
             </adminhtml_cms_page_revision_delete>
 

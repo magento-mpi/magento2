@@ -78,7 +78,8 @@ class Generator
             // if $className string ends on $entitySuffix substring
             if (strrpos($className, $entitySuffix) === strlen($className) - strlen($entitySuffix)) {
                 $entity = $entityType;
-                $entityName = rtrim(substr($className, 0, -1 * strlen($entitySuffix)), '\\');
+                $entityName = rtrim(substr($className, 0, -1 * strlen($entitySuffix)),
+                    \Magento\Autoload\IncludePath::NS_SEPARATOR);
                 break;
             }
         }
