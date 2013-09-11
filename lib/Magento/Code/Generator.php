@@ -78,7 +78,7 @@ class Generator
             // if $className string ends on $entitySuffix substring
             if (strrpos($className, $entitySuffix) === strlen($className) - strlen($entitySuffix)) {
                 $entity = $entityType;
-                $entityName = rtrim(substr($className, 0, -1 * strlen($entitySuffix)), '_');
+                $entityName = rtrim(substr($className, 0, -1 * strlen($entitySuffix)), '\\');
                 break;
             }
         }
