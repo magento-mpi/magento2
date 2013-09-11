@@ -552,7 +552,6 @@ return array(
     array('sales_order_afterPlace'),
     array('sales_quote_address_discount_item'),
     array('salesEventConvertQuoteItemToOrderItem', 'Magento_GiftMessage_Model_Observer'),
-    array('salesEventOrderItemToQuoteItem', 'Magento_GiftMessage_Model_Observer'),
     array('salesOrderPaymentPlaceEnd'),
     array('saveCache', 'Magento_Core_Model_Config'),
     array('saveConfig', 'Magento_Core_Model_Config'),
