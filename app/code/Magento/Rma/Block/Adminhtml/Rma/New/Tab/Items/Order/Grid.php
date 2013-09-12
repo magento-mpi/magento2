@@ -67,7 +67,6 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
-        Magento_Core_Model_Registry $coreRegistry,
         $this->_rmaData = $rmaData;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
