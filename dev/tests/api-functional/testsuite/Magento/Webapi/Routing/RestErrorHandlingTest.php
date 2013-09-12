@@ -201,10 +201,7 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
 
                 );
             } else {
-                $this->assertTrue(
-                    in_array(0, (array)$errorCodes),
-                    sprintf("Error code was expected")
-                );
+                $this->assertTrue(in_array(0, $errorCodes), "Error code was expected");
             }
 
             $errorMessages = is_array($errorMessage) ? $errorMessage : array($errorMessage);

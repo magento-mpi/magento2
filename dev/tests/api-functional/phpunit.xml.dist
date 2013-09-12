@@ -55,6 +55,8 @@
         <const name="TESTS_CLEANUP" value="disabled"/>
         <!--Defines if Magento should be installed before tests execution-->
         <const name="TESTS_MAGENTO_INSTALLATION" value="disabled"/>
+        <!-- Magento mode for tests execution. Possible values are "default", "developer" and "production". -->
+        <const name="TESTS_MAGENTO_MODE" value="default"/>
     </php>
 
     <!-- Test listeners -->
