@@ -89,30 +89,27 @@ class Magento_Test_Legacy_LayoutTest extends PHPUnit_Framework_TestCase
 
         $this->_testObsoleteReferences($layoutXml);
 
-        $selectorHeadBlock = '
-            (name()="block" or name()="reference") and (@name="head" or @name="convert_root_head" or @name="vde_head")
-        ';
+        $selectorHeadBlock = '(name()="block" or name()="reference") and '
+            . '(@name="head" or @name="convert_root_head" or @name="vde_head")';
         $this->assertSame(array(),
             $layoutXml->xpath(
-                '//*[' . $selectorHeadBlock . ']/action[@method="addItem"]'
+                '//block[@class="Magento_Page_Block_Html_Head_Css" '
+                    . 'or @class="Magento_Page_Block_Html_Head_Link" '
+                    . 'or @class="Magento_Page_Block_Html_Head_Script"]'
+                    . '/parent::*[not(' . $selectorHeadBlock . ')]'
             ),
-            'Magento_Page_Block_Html_Head::addItem is obsolete. Use addCss()/addJs() instead.'
-        );
-        $this->assertSame(array(),
-            $layoutXml->xpath(
-                '//action[@method="addJs" or @method="addCss"]/parent::*[not(' . $selectorHeadBlock . ')]'
-            ),
-            "Calls addCss/addJs are allowed within the 'head' block only. Verify integrity of the nodes nesting."
+            'Blocks Magento_Page_Block_Html_Head_{Css,Link,Script} are allowed within the "head" block only. '
+                . 'Verify integrity of the nodes nesting.'
         );
         $this->assertSame(array(),
             $layoutXml->xpath('/layout//*[@output="toHtml"]'), 'output="toHtml" is obsolete. Use output="1"'
         );
         foreach ($layoutXml as $handle) {
-            $this->assertNotContains($handle->getName(), $this->_obsoleteNodes, 'Layout handle was removed.');
+            $this->assertNotContains((string)$handle['id'], $this->_obsoleteNodes, 'This layout handle is obsolete.');
         }
         foreach ($layoutXml->xpath('@helper') as $action) {
-            $this->assertNotContains('/', $action->getAtrtibute('helper'));
-            $this->assertContains('::', $action->getAtrtibute('helper'));
+            $this->assertNotContains('/', $action->getAttribute('helper'));
+            $this->assertContains('::', $action->getAttribute('helper'));
         }
 
         if (false !== strpos($layoutFile, 'app/code/Magento/Adminhtml/view/adminhtml/layout/adminhtml_sales_order')) {
@@ -121,7 +118,7 @@ class Magento_Test_Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             );
         }
         $this->assertSame(array(),
-            $layoutXml->xpath('/layout//block[@type="Magento_Core_Block_Text_List"]'),
+            $layoutXml->xpath('/layout//block[@class="Magento_Core_Block_Text_List"]'),
             'The class Magento_Core_Block_Text_List is not supposed to be used in layout anymore.'
         );
     }
