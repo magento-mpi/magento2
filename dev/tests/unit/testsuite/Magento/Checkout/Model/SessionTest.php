@@ -27,8 +27,10 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($orderMock));
 
+        $validatorMock = $this->getMock('Magento_Core_Model_Session_Validator', array(), array(), '', false);
+
         $session = $this->getMockBuilder('Magento_Checkout_Model_Session')
-            ->setConstructorArgs(array($orderFactory))
+            ->setConstructorArgs(array($orderFactory, $validatorMock))
             ->setMethods(array('init'))
             ->getMock();
         $session->setLastRealOrderId($orderId);
