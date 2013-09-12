@@ -37,7 +37,7 @@ class Magento_Webhook_Model_Job_FactoryTest extends PHPUnit_Framework_TestCase
         $this->_mockObjectManager->expects($this->once())
             ->method('create')
             ->with(
-                $this->equalTo('\Magento\Webhook\Model\Job'),
+                $this->equalTo('Magento\Webhook\Model\Job'),
                 $this->equalTo(
                     array(
                          'data' => array(

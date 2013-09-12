@@ -61,7 +61,7 @@ class Column extends \Magento\Backend\Block\Widget
         'currency'         => '\Magento\Backend\Block\Widget\Grid\Column\Renderer\Currency',
         'date'             => '\Magento\Backend\Block\Widget\Grid\Column\Renderer\Date',
         'datetime'         => '\Magento\Backend\Block\Widget\Grid\Column\Renderer\Datetime',
-        'default'          => '\Magento\Backend\Block\Widget\Grid\Column\Renderer\Text',
+        'default'          => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Text',
         'draggable-handle' => '\Magento\Backend\Block\Widget\Grid\Column\Renderer\DraggableHandle',
         'input'            => '\Magento\Backend\Block\Widget\Grid\Column\Renderer\Input',
         'massaction'       => '\Magento\Backend\Block\Widget\Grid\Column\Renderer\Massaction',
