@@ -21,7 +21,7 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         $this->_segmentHelper = $this->getMock(
-            '\Magento\CustomerSegment\Helper\Data', array('isEnabled', 'addSegmentFieldsToForm'), array(), '', false
+            'Magento\CustomerSegment\Helper\Data', array('isEnabled', 'addSegmentFieldsToForm'), array(), '', false
         );
         $this->_model = new \Magento\CustomerSegment\Model\Observer($this->_segmentHelper);
     }
@@ -37,7 +37,7 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
 
         $formDependency = $this->getMock(
-            '\Magento\Backend\Block\Widget\Form\Element\Dependence', array(), array(), '', false
+            'Magento\Backend\Block\Widget\Form\Element\Dependence', array(), array(), '', false
         );
 
         $layout = $this->getMock('Magento\Core\Model\Layout', array('createBlock'), array(), '', false);

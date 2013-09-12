@@ -177,7 +177,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
                             : array();
                         // find invoice for this order item
                         $invoiceItemCollection = \Mage::getResourceModel(
-                            '\Magento\Sales\Model\Resource\Order\Invoice\Item\Collection'
+                            'Magento\Sales\Model\Resource\Order\Invoice\Item\Collection'
                         )->addFieldToFilter('order_item_id', $item->getId());
 
                         foreach ($invoiceItemCollection as $invoiceItem) {
@@ -338,7 +338,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
     public function initOptionRenderer(\Magento\Event\Observer $observer)
     {
         $block = $observer->getBlock();
-        $block->addOptionsRenderCfg('giftcard', '\Magento\GiftCard\Helper\Catalog\Product\Configuration');
+        $block->addOptionsRenderCfg('giftcard', 'Magento\GiftCard\Helper\Catalog\Product\Configuration');
         return $this;
     }
 }

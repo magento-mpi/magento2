@@ -139,7 +139,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
     {
         $response = $observer->getEvent()->getResponse();
         $types    = $response->getTypes();
-        $types['weee'] = '\Magento\Weee\Block\Element\Weee\Tax';
+        $types['weee'] = 'Magento\Weee\Block\Element\Weee\Tax';
         $response->setTypes($types);
         return $this;
     }

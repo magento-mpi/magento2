@@ -107,7 +107,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         if (null === $this->_storeGroupCollection) {
             $this->_storeGroupCollection = \Mage::getResourceSingleton(
-                    '\Magento\Core\Model\Resource\Store\Group\Collection'
+                    'Magento\Core\Model\Resource\Store\Group\Collection'
                 );
         }
         return $this->_storeGroupCollection;
@@ -333,7 +333,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         if (!$callback = $this->_pickCallback('collection_load_before', $collection)) {
             return;
         }
-        $this->_invokeCallback($callback, '\Magento\AdminGws\Model\Collections', $collection);
+        $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Collections', $collection);
     }
 
     /**
@@ -350,7 +350,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         if (!$callback = $this->_pickCallback('model_save_before', $model)) {
             return;
         }
-        $this->_invokeCallback($callback, '\Magento\AdminGws\Model\Models', $model);
+        $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Models', $model);
     }
 
     /**
@@ -368,7 +368,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         if (!$callback = $this->_pickCallback('model_load_after', $model)) {
             return;
         }
-        $this->_invokeCallback($callback, '\Magento\AdminGws\Model\Models', $model);
+        $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Models', $model);
     }
 
     /**
@@ -387,7 +387,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         if (!$callback = $this->_pickCallback('model_delete_before', $model)) {
             return;
         }
-        $this->_invokeCallback($callback, '\Magento\AdminGws\Model\Models', $model);
+        $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Models', $model);
     }
 
     /**
@@ -438,7 +438,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         if ($callback) {
             $this->_invokeCallback(
                 $callback,
-                '\Magento\AdminGws\Model\Controllers',
+                'Magento\AdminGws\Model\Controllers',
                 $observer->getEvent()->getControllerAction()
             );
         }
@@ -461,7 +461,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return;
         }
         /* the $observer is used intentionally */
-        $this->_invokeCallback($callback, '\Magento\AdminGws\Model\Blocks', $observer);
+        $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Blocks', $observer);
     }
 
     /**

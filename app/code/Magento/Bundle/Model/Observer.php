@@ -235,7 +235,7 @@ class Observer
         $product = $observer->getEvent()->getProduct();
         if ($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
             \Mage::helper('Magento\Adminhtml\Helper\Catalog')
-                ->setAttributeTabBlock('\Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes');
+                ->setAttributeTabBlock('Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes');
         }
         return $this;
     }
@@ -249,7 +249,7 @@ class Observer
     public function initOptionRenderer(\Magento\Event\Observer $observer)
     {
         $block = $observer->getBlock();
-        $block->addOptionsRenderCfg('bundle', '\Magento\Bundle\Helper\Catalog\Product\Configuration');
+        $block->addOptionsRenderCfg('bundle', 'Magento\Bundle\Helper\Catalog\Product\Configuration');
         return $this;
     }
 }

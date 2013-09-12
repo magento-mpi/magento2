@@ -47,7 +47,7 @@ class Magento_GoogleAdwords_Model_ObserverTest extends PHPUnit_Framework_TestCas
         $this->_eventMock = $this->getMock('Magento\Event', array('getOrderIds'), array(), '', false);
 
         $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectManager->getObject('\Magento\GoogleAdwords\Model\Observer', array(
+        $this->_model = $objectManager->getObject('Magento\GoogleAdwords\Model\Observer', array(
             'helper' => $this->_helperMock,
             'collection' => $this->_collectionMock,
             'registry' => $this->_registryMock

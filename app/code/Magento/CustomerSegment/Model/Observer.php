@@ -42,7 +42,7 @@ class Observer
         $additional = $observer->getEvent()->getAdditional();
         $additional->setConditions(array(array(
             'label' => __('Customer Segment'),
-            'value' => '\Magento\CustomerSegment\Model\Segment\Condition\Segment'
+            'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Segment'
         )));
     }
 

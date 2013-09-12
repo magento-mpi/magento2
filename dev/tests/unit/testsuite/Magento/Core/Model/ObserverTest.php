@@ -47,7 +47,7 @@ class Magento_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_cacheFrontendMock = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
 
         $this->_frontendPoolMock = $this->getMock(
-            '\Magento\Core\Model\Cache\Frontend\Pool',
+            'Magento\Core\Model\Cache\Frontend\Pool',
             array(),
             array(),
             '',
@@ -65,7 +65,7 @@ class Magento_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
         ;
 
         $this->_themeCustomization = $this->getMock(
-            '\Magento\Core\Model\Theme\Customization',
+            'Magento\Core\Model\Theme\Customization',
             array(),
             array(),
             '',
@@ -91,7 +91,7 @@ class Magento_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject(
-            '\Magento\Core\Model\Observer',
+            'Magento\Core\Model\Observer',
             array(
                 'cacheFrontendPool' => $this->_frontendPoolMock,
                 'design'            => $designMock,

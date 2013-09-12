@@ -29,7 +29,7 @@ class Magento_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_Test
     {
         $parentBlock = $this->_layout->createBlock('Magento\Adminhtml\Block\Template', 'admin.product.options');
         $optionsBlock = $this->_layout->addBlock(
-            '\Magento\Adminhtml\Block\Template',
+            'Magento\Adminhtml\Block\Template',
             'options_box',
             'admin.product.options'
         );
@@ -44,11 +44,11 @@ class Magento_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_Test
     public function testAdminhtmlBlockHtmlBeforeBundleOpt()
     {
         $parentBlock = $this->_layout->createBlock(
-            '\Magento\Adminhtml\Block\Template',
+            'Magento\Adminhtml\Block\Template',
             'adminhtml.catalog.product.edit.tab.bundle.option'
         );
         $selectionBlock = $this->_layout->addBlock(
-            '\Magento\Adminhtml\Block\Template',
+            'Magento\Adminhtml\Block\Template',
             'selection_template',
             'adminhtml.catalog.product.edit.tab.bundle.option'
         );

@@ -260,7 +260,7 @@ class Observer
         //if (\Mage::helper('Magento\CatalogPermissions\Helper\Data')->isAllowedCategory($tabs->getCategory())) {
             $tabs->addTab(
                 'permissions',
-                '\Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions'
+                'Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions'
             );
         //}
 
