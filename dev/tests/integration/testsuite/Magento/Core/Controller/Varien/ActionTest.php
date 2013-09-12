@@ -277,9 +277,6 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @magentoConfigFixture install/design/theme/full_name magento_basic
-     * @magentoConfigFixture frontend/design/theme/full_name magento_demo
-     * @magentoConfigFixture adminhtml/design/theme/full_name magento_basic
      * @magentoAppIsolation enabled
      * @dataProvider controllerAreaDesignDataProvider
      *
@@ -291,16 +288,19 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
      */
     public function testPreDispatch($controllerClass, $expectedArea, $expectedStore, $expectedDesign, $context)
     {
-        Mage::app()->loadArea($expectedArea);
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+        $themes = array('frontend' => 'magento_blank', 'adminhtml' => 'magento_backend', 'install' => 'magento_basic');
+        $design = $objectManager->create('Magento_Core_Model_View_Design', array('themes' => $themes));
+        $objectManager->addSharedInstance($design, 'Magento_Core_Model_View_Design');
+
+        Mage::app()->loadArea($expectedArea);
         /** @var $controller Magento_Core_Controller_Varien_Action */
-        $context =
         $context = $objectManager->create($context, array('response' => new Magento_TestFramework_Response()));
         $controller = $objectManager->create($controllerClass, array('context' => $context));
         $controller->preDispatch();
 
-        $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_View_DesignInterface');
+        $design = $objectManager->get('Magento_Core_Model_View_DesignInterface');
         $this->assertEquals($expectedArea, $design->getArea());
         $this->assertEquals($expectedStore, Mage::app()->getStore()->getCode());
         if ($expectedDesign) {
@@ -325,14 +325,14 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
                 'Magento_Core_Controller_Front_Action',
                 'frontend',
                 'default',
-                'magento_demo',
+                'magento_blank',
                 'Magento_Core_Controller_Varien_Action_Context'
             ),
             'backend' => array(
                 'Magento_Adminhtml_Controller_Action',
                 'adminhtml',
                 'admin',
-                'magento_basic',
+                'magento_backend',
                 'Magento_Backend_Controller_Context'
             ),
         );

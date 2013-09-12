@@ -77,7 +77,9 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
     private $_storeConfig;
 
     /**
-     * @var Magento_Core_Model_Theme_FlyweightFactory
+     * List of themes for all areas
+     *
+     * @var array
      */
     protected $_themes;
 
@@ -95,7 +97,7 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
         Magento_Core_Model_Theme_FlyweightFactory $themeFactory,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $storeConfig,
-        $themes = array()
+        $themes
     ) {
         $this->_storeManager = $storeManager;
         $this->_themeFactory = $themeFactory;
@@ -180,7 +182,7 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
             $theme = $this->_themes[$area];
         }
 
-        return $theme ;//(string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
+        return $theme;
     }
 
     /**
