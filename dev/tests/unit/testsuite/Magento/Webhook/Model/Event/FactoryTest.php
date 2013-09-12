@@ -46,7 +46,7 @@ class Magento_Webhook_Model_Event_FactoryTest extends PHPUnit_Framework_TestCase
         $this->_objectManager->expects($this->once())
             ->method('create')
             ->with(
-                $this->equalTo('\Magento\Webhook\Model\Event'),
+                $this->equalTo('Magento\Webhook\Model\Event'),
                 $this->equalTo(
                     array(
                          'data' => array(

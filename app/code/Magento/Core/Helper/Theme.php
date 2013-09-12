@@ -37,7 +37,7 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
     /**
      * Layout merge factory
      *
-     * @var Magento_Core_Model_Layout_MergeFactory
+     * @var \Magento\Core\Model\Layout\MergeFactory
      */
     protected $_layoutMergeFactory;
 
@@ -56,14 +56,14 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
     /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Dir $dirs
-     * @param Magento_Core_Model_Layout_MergeFactory $layoutMergeFactory
+     * @param \Magento\Core\Model\Layout\MergeFactory $layoutMergeFactory
      * @param \Magento\Core\Model\Resource\Theme\Collection $themeCollection
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Dir $dirs,
-        Magento_Core_Model_Layout_MergeFactory $layoutMergeFactory,
+        \Magento\Core\Model\Layout\MergeFactory $layoutMergeFactory,
         \Magento\Core\Model\Resource\Theme\Collection $themeCollection,
         \Magento\Core\Model\View\FileSystem $viewFileSystem
     ) {

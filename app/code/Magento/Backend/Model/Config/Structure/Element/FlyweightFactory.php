@@ -23,9 +23,9 @@ class FlyweightFactory
      * @var array
      */
     protected $_flyweightMap = array(
-        'section' => '\Magento\Backend\Model\Config\Structure\Element\Section',
-        'group' => '\Magento\Backend\Model\Config\Structure\Element\Group',
-        'field' => '\Magento\Backend\Model\Config\Structure\Element\Field'
+        'section' => 'Magento\Backend\Model\Config\Structure\Element\Section',
+        'group' => 'Magento\Backend\Model\Config\Structure\Element\Group',
+        'field' => 'Magento\Backend\Model\Config\Structure\Element\Field'
     );
 
     /**

@@ -51,19 +51,19 @@ class Magento_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_Test
         $this->_objectFactoryMock->expects($this->once())
             ->method('create')
             ->with(
-                $this->equalTo('\Magento\Backend\Model\Menu\Item'),
+                $this->equalTo('Magento\Backend\Model\Menu\Item'),
                 $this->equalTo(array(
                     'helper' => 'user_helper',
                     'data' => array(
                         'title' => 'item1',
-                        'dependsOnModule' => '\Magento\User\Helper\Data',
+                        'dependsOnModule' => 'Magento\User\Helper\Data',
                     )
                 ))
             );
         $this->_model->create(array(
-            'module' => '\Magento\User\Helper\Data',
+            'module' => 'Magento\User\Helper\Data',
             'title' => 'item1',
-            'dependsOnModule' => '\Magento\User\Helper\Data'
+            'dependsOnModule' => 'Magento\User\Helper\Data'
         ));
     }
 
@@ -72,7 +72,7 @@ class Magento_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_Test
         $this->_objectFactoryMock->expects($this->once())
             ->method('create')
             ->with(
-                $this->equalTo('\Magento\Backend\Model\Menu\Item'),
+                $this->equalTo('Magento\Backend\Model\Menu\Item'),
                 $this->equalTo(array(
                     'helper' => 'backend_helper',
                     'data' => array()

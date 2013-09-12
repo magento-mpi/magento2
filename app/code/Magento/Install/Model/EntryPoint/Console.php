@@ -68,7 +68,7 @@ class Console extends \Magento\Core\Model\EntryPointAbstract
          * @var $installer \Magento\Install\Model\Installer\Console
          */
         $installer = $this->_objectManager->create(
-            '\Magento\Install\Model\Installer\Console',
+            'Magento\Install\Model\Installer\Console',
             array('installArgs' => $this->_params)
         );
         if (isset($this->_params['show_locales'])) {

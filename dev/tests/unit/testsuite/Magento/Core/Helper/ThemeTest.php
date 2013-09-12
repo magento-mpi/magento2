@@ -513,7 +513,7 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $layoutStr
-     * @return Magento_Core_Model_Layout_MergeFactory|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Model\Layout\MergeFactory | PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getLayoutMergeFactory($layoutStr)
     {
