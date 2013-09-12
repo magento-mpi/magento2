@@ -94,9 +94,9 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
                 $catalogData,
                 $storage,
                 $filesystem,
-                $coreRegistry,
                 $this->_storeManagerMock,
                 $locale,
+                $coreRegistry,
             )
         );
     }

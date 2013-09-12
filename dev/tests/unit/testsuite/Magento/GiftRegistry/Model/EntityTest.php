@@ -92,7 +92,7 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
         $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
 
         $this->_model = new Magento_GiftRegistry_Model_Entity(
-            $coreData, $coreRegistry, $giftRegistryData, $context, $app, $this->_storeManagerMock, $translate, $factory,
+            $coreData, $giftRegistryData, $context, $coreRegistry, $app, $this->_storeManagerMock, $translate, $factory,
             $resource, null, array()
         );
     }
