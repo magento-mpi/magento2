@@ -18,13 +18,34 @@
 class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Grid extends Magento_Adminhtml_Block_Template
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Return collection of shipment items
      *
      * @return array
      */
     public function getCollection()
     {
-        return Mage::registry('current_rma')->getShippingMethods(true);
+        return $this->_coreRegistry->registry('current_rma')->getShippingMethods(true);
     }
 
     /**
@@ -34,8 +55,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Grid extends Mag
      */
     public function displayCustomsValue()
     {
-        $storeId = Mage::registry('current_rma')->getStoreId();
-        $order = Mage::registry('current_rma')->getOrder();
+        $storeId = $this->_coreRegistry->registry('current_rma')->getStoreId();
+        $order = $this->_coreRegistry->registry('current_rma')->getOrder();
         $address = $order->getShippingAddress();
         $shippingSourceCountryCode = $address->getCountryId();
 

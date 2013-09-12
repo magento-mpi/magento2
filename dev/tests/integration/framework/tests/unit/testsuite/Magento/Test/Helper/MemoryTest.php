@@ -19,7 +19,7 @@ class Magento_Test_Helper_MemoryTest extends PHPUnit_Framework_TestCase
 
     public function testGetRealMemoryUsageUnix()
     {
-        $object = new Magento_Test_Helper_Memory($this->_shell);
+        $object = new Magento_TestFramework_Helper_Memory($this->_shell);
         $this->_shell
             ->expects($this->at(0))
             ->method('execute')
@@ -43,7 +43,7 @@ class Magento_Test_Helper_MemoryTest extends PHPUnit_Framework_TestCase
             ->with($this->stringStartsWith('tasklist.exe '))
             ->will($this->returnValue('"php.exe","12345","N/A","0","26,321 K"'))
         ;
-        $object = new Magento_Test_Helper_Memory($this->_shell);
+        $object = new Magento_TestFramework_Helper_Memory($this->_shell);
         $this->assertEquals(26952704, $object->getRealMemoryUsage());
     }
 
@@ -54,7 +54,7 @@ class Magento_Test_Helper_MemoryTest extends PHPUnit_Framework_TestCase
      */
     public function testConvertToBytes($number, $expected)
     {
-        $this->assertEquals($expected, Magento_Test_Helper_Memory::convertToBytes($number));
+        $this->assertEquals($expected, Magento_TestFramework_Helper_Memory::convertToBytes($number));
     }
 
     /**
@@ -83,7 +83,7 @@ class Magento_Test_Helper_MemoryTest extends PHPUnit_Framework_TestCase
      */
     public function testConvertToBytesBadFormat($number)
     {
-        Magento_Test_Helper_Memory::convertToBytes($number);
+        Magento_TestFramework_Helper_Memory::convertToBytes($number);
     }
 
     /**
@@ -108,7 +108,7 @@ class Magento_Test_Helper_MemoryTest extends PHPUnit_Framework_TestCase
         if (PHP_INT_SIZE <= 4) {
             $this->markTestSkipped('A 64-bit system is required to perform this test.');
         }
-        $this->assertEquals($expected, Magento_Test_Helper_Memory::convertToBytes($number));
+        $this->assertEquals($expected, Magento_TestFramework_Helper_Memory::convertToBytes($number));
     }
 
     /**
@@ -128,7 +128,7 @@ class Magento_Test_Helper_MemoryTest extends PHPUnit_Framework_TestCase
      */
     public function testConvertToBytesInvalidArgument()
     {
-        Magento_Test_Helper_Memory::convertToBytes('3Z');
+        Magento_TestFramework_Helper_Memory::convertToBytes('3Z');
     }
 
     /**
@@ -139,6 +139,6 @@ class Magento_Test_Helper_MemoryTest extends PHPUnit_Framework_TestCase
         if (PHP_INT_SIZE > 4) {
             $this->markTestSkipped('A 32-bit system is required to perform this test.');
         }
-        Magento_Test_Helper_Memory::convertToBytes('2P');
+        Magento_TestFramework_Helper_Memory::convertToBytes('2P');
     }
 }

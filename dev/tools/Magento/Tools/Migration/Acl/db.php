@@ -1,0 +1,63 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category   Tools
+ * @package    acl_db
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+
+$rootDir = realpath(__DIR__ . '/../../../..');
+require $rootDir . '/app/autoload.php';
+Magento_Autoload_IncludePath::addIncludePath(array($rootDir . '/lib', $rootDir . '/dev'));
+$defaultReportFile = 'report.log';
+
+try {
+    $options = new Zend_Console_Getopt(array(
+        'file=s' => "File containing json encoded acl identifier map (old => new)",
+        'mode|w' => "Application mode.  Preview mode is default. If set to 'write' - database is updated.",
+        'output|f-w' => "Report output type. Report is flushed to console by default."
+        . "If set to 'file', report is written to file /log/report.log",
+        'dbprovider=w' => "Database adapter class name. Default: Varien_Db_Adapter_Pdo_Mysql",
+        'dbhost=s' => "Database server host",
+        'dbuser=s' => "Database server user",
+        'dbpassword=s' => "Database server password",
+        'dbname=s' => "Database name",
+        'dbtable=s' => "Table containing resource ids",
+    ));
+
+    $fileReader = new Magento_Tools_Migration_Acl_Db_FileReader();
+
+    $map = $fileReader->extractData($options->getOption('file'));
+
+    $dbAdapterFactory = new Magento_Tools_Migration_Acl_Db_Adapter_Factory();
+
+    $dbAdapter = $dbAdapterFactory->getAdapter(
+        $dbConfig = array(
+            'host' => $options->getOption('dbhost'),
+            'username' => $options->getOption('dbuser'),
+            'password' => $options->getOption('dbpassword'),
+            'dbname' => $options->getOption('dbname'),
+        ),
+        $options->getOption('dbprovider')
+    );
+
+    $loggerFactory = new Magento_Tools_Migration_Acl_Db_Logger_Factory();
+    $logger = $loggerFactory->getLogger($options->getOption('output'), $defaultReportFile);
+
+    $writer = new Magento_Tools_Migration_Acl_Db_Writer($dbAdapter, $options->getOption('dbtable'));
+    $reader = new Magento_Tools_Migration_Acl_Db_Reader($dbAdapter, $options->getOption('dbtable'));
+
+    $updater = new Magento_Tools_Migration_Acl_Db_Updater($reader, $writer, $logger, $options->getOption('mode'));
+    $updater->migrate($map);
+
+    $logger->report();
+} catch (Zend_Console_Getopt_Exception $e) {
+    echo $e->getUsageMessage();
+    exit;
+} catch (InvalidArgumentException $exp) {
+    echo $exp->getMessage();
+} catch (Exception $exp) {
+    echo $exp->getMessage();
+}

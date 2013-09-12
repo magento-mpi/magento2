@@ -15,13 +15,33 @@
 class Magento_Centinel_Controller_Index extends Magento_Core_Controller_Front_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Process autentication start action
      *
      */
     public function authenticationStartAction()
     {
-        if ($validator = $this->_getValidator()) {
-            Mage::register('current_centinel_validator', $validator);
+        $validator = $this->_getValidator();
+        if ($validator) {
+            $this->_coreRegistry->register('current_centinel_validator', $validator);
         }
         $this->loadLayout()->renderLayout();
     }
@@ -33,7 +53,8 @@ class Magento_Centinel_Controller_Index extends Magento_Core_Controller_Front_Ac
     public function authenticationCompleteAction()
     {
         try {
-           if ($validator = $this->_getValidator()) {
+            $validator = $this->_getValidator();
+            if ($validator) {
                 $request = $this->getRequest();
 
                 $data = new Magento_Object();
@@ -41,10 +62,10 @@ class Magento_Centinel_Controller_Index extends Magento_Core_Controller_Front_Ac
                 $data->setPaResPayload($request->getParam('PaRes'));
 
                 $validator->authenticate($data);
-                Mage::register('current_centinel_validator', $validator);
+                $this->_coreRegistry->register('current_centinel_validator', $validator);
             }
         } catch (Exception $e) {
-            Mage::register('current_centinel_validator', false);
+            $this->_coreRegistry->register('current_centinel_validator', false);
         }
         $this->loadLayout()->renderLayout();
     }

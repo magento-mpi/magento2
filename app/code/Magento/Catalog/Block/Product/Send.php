@@ -18,7 +18,6 @@
  */
 class Magento_Catalog_Block_Product_Send extends Magento_Catalog_Block_Product_Abstract
 {
-
     /**
      * Retrieve username for form field
      *
@@ -41,7 +40,7 @@ class Magento_Catalog_Block_Product_Send extends Magento_Catalog_Block_Product_A
 
     public function getMaxRecipients()
     {
-        $sendToFriendModel = Mage::registry('send_to_friend_model');
+        $sendToFriendModel = $this->_coreRegistry->registry('send_to_friend_model');
         return $sendToFriendModel->getMaxRecipients();
     }
 }

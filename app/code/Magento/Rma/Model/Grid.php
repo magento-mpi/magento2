@@ -20,7 +20,8 @@ class Magento_Rma_Model_Grid extends Magento_Core_Model_Abstract
     /**
      * Init resource model
      */
-    protected function _construct() {
+    protected function _construct()
+    {
         $this->_init('Magento_Rma_Model_Resource_Grid');
         parent::_construct();
     }
@@ -50,9 +51,9 @@ class Magento_Rma_Model_Grid extends Magento_Core_Model_Abstract
      */
     public function getStatusLabel()
     {
-        if (is_null(parent::getStatusLabel())){
+        if (is_null(parent::getStatusLabel())) {
             $this->setStatusLabel(Mage::getModel('Magento_Rma_Model_Rma_Source_Status')->getItemLabel($this->getStatus()));
-    }
+        }
         return parent::getStatusLabel();
     }
 }

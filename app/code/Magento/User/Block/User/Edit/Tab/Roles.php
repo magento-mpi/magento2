@@ -10,13 +10,37 @@
 
 class Magento_User_Block_User_Edit_Tab_Roles extends Magento_Backend_Block_Widget_Grid_Extended
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
         $this->setId('permissionsUserRolesGrid');
         $this->setDefaultSort('sort_order');
         $this->setDefaultDir('asc');
-        //$this->setDefaultFilter(array('assigned_user_role'=>1));
         $this->setTitle(__('User Roles Information'));
         $this->setUseAjax(true);
     }
@@ -62,16 +86,9 @@ class Magento_User_Block_User_Edit_Tab_Roles extends Magento_Backend_Block_Widge
             'index'     => 'role_id'
         ));
 
-        /*$this->addColumn('role_id', array(
-            'header'    =>__('Role ID'),
-            'index'     =>'role_id',
-            'align'     => 'right',
-            'width'    => '50px'
-        ));*/
-
         $this->addColumn('role_name', array(
-            'header'    =>__('Role'),
-            'index'     =>'role_name'
+            'header'    => __('Role'),
+            'index'     => 'role_name'
         ));
 
         return parent::_prepareColumns();
@@ -79,7 +96,8 @@ class Magento_User_Block_User_Edit_Tab_Roles extends Magento_Backend_Block_Widge
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/rolesGrid', array('user_id' => Mage::registry('permissions_user')->getUserId()));
+        $userPermissions = $this->_coreRegistry->registry('permissions_user');
+        return $this->getUrl('*/*/rolesGrid', array('user_id' => $userPermissions->getUserId()));
     }
 
     public function getSelectedRoles($json=false)
@@ -88,7 +106,7 @@ class Magento_User_Block_User_Edit_Tab_Roles extends Magento_Backend_Block_Widge
             return $this->getRequest()->getParam('user_roles');
         }
         /* @var $user Magento_User_Model_User */
-        $user = Mage::registry('permissions_user');
+        $user = $this->_coreRegistry->registry('permissions_user');
         //checking if we have this data and we
         //don't need load it through resource model
         if ($user->hasData('roles')) {

@@ -84,7 +84,7 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
         $shortCacheId = array(
             'CATALOG_NAVIGATION',
             Mage::app()->getStore()->getId(),
-            Mage::getDesign()->getDesignTheme()->getId(),
+            $this->_design->getDesignTheme()->getId(),
             Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId(),
             'template' => $this->getTemplate(),
             'name' => $this->getNameInLayout(),
@@ -110,7 +110,7 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
     public function getCurrenCategoryKey()
     {
         if (!$this->_currentCategoryKey) {
-            $category = Mage::registry('current_category');
+            $category = $this->_registry->registry('current_category');
             if ($category) {
                 $this->_currentCategoryKey = $category->getPath();
             } else {

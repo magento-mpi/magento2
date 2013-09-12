@@ -22,7 +22,7 @@ class Magento_AdminNotification_Block_ToolbarEntryTest extends PHPUnit_Framework
      */
     protected function _getBlockInstance($unreadNotifications)
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         // mock collection of unread notifications
         $notificationList = $this->getMock(
             'Magento_AdminNotification_Model_Resource_Inbox_Collection_Unread',

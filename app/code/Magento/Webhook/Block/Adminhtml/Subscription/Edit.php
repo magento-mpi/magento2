@@ -21,13 +21,13 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit extends Magento_Backend_
     protected $_subscriptionData;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -72,7 +72,7 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit extends Magento_Backend_
 
     /**
      * Check whether subscription was generated from configuration.
-     * 
+     *
      * Return false if subscription created within UI.
      *
      * @return bool

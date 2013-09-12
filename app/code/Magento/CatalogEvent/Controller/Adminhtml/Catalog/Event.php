@@ -10,13 +10,28 @@
 
 /**
  * Catalog Events Adminhtml controller
- *
- * @category   Magento
- * @package    Magento_CatalogEvent
  */
-
 class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Adminhtml_Controller_Action
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
     /**
      * Check is enabled module in config
      *
@@ -41,14 +56,8 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
     public function _initAction()
     {
         $this->loadLayout()
-            ->_addBreadcrumb(
-                __('Catalog'),
-                __('Catalog')
-            )
-            ->_addBreadcrumb(
-                __('Events'),
-                __('Events')
-            )
+            ->_addBreadcrumb(__('Catalog'), __('Catalog'))
+            ->_addBreadcrumb(__('Events'), __('Events'))
             ->_setActiveMenu('Magento_CatalogEvent::catalog_magento_catalogevent_events');
         return $this;
     }
@@ -61,7 +70,6 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
     public function indexAction()
     {
         $this->_title(__('Events'));
-
         $this->_initAction();
         $this->renderLayout();
     }
@@ -85,7 +93,8 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
 
         $event = Mage::getModel('Magento_CatalogEvent_Model_Event')
             ->setStoreId($this->getRequest()->getParam('store', 0));
-        if ($eventId = $this->getRequest()->getParam('id', false)) {
+        $eventId = $this->getRequest()->getParam('id', false);
+        if ($eventId) {
             $event->load($eventId);
         } else {
             $event->setCategoryId($this->getRequest()->getParam('category_id'));
@@ -98,7 +107,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
             $event->addData($sessionData);
         }
 
-        Mage::register('magento_catalogevent_event', $event);
+        $this->_coreRegistry->register('magento_catalogevent_event', $event);
 
         $this->_initAction();
         $layout = $this->getLayout();
@@ -117,15 +126,14 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
 
     /**
      * Save action
-     *
-     * @return void
      */
     public function saveAction()
     {
         $event = Mage::getModel('Magento_CatalogEvent_Model_Event')
             ->setStoreId($this->getRequest()->getParam('store', 0));
         /* @var $event Magento_CatalogEvent_Model_Event */
-        if ($eventId = $this->getRequest()->getParam('id', false)) {
+        $eventId = $this->getRequest()->getParam('id', false);
+        if ($eventId) {
             $event->load($eventId);
         } else {
             $event->setCategoryId($this->getRequest()->getParam('category_id'));
@@ -198,14 +206,10 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
             $this->_getSession()->setEventData($event->getData());
             $this->_redirect('*/*/edit', array('_current' => true));
         }
-
-
     }
 
     /**
      * Delete action
-     *
-     * @return void
      */
     public function deleteAction()
     {
@@ -231,7 +235,6 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
 
     /**
      * Ajax categories tree loader action
-     *
      */
     public function categoriesJsonAction()
     {
@@ -255,7 +258,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
     /**
      * Filtering posted data. Converting localized data if needed
      *
-     * @param array
+     * @param array $data
      * @return array
      */
     protected function _filterPostData($data)

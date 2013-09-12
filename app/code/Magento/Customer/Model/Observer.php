@@ -10,8 +10,6 @@
 
 /**
  * Customer module observer
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Customer_Model_Observer
 {
@@ -24,6 +22,22 @@ class Magento_Customer_Model_Observer
      * VAT ID validation currently saved address flag
      */
     const VIV_CURRENTLY_SAVED_ADDRESS = 'currently_saved_address';
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+    }
 
     /**
      * Check whether specified billing address is default for its customer
@@ -61,7 +75,7 @@ class Magento_Customer_Model_Observer
             return true;
         }
 
-        if (Mage::registry(self::VIV_CURRENTLY_SAVED_ADDRESS) != $address->getId()) {
+        if ($this->_coreRegistry->registry(self::VIV_CURRENTLY_SAVED_ADDRESS) != $address->getId()) {
             return false;
         }
 
@@ -79,14 +93,14 @@ class Magento_Customer_Model_Observer
      */
     public function beforeAddressSave($observer)
     {
-        if (Mage::registry(self::VIV_CURRENTLY_SAVED_ADDRESS)) {
-            Mage::unregister(self::VIV_CURRENTLY_SAVED_ADDRESS);
+        if ($this->_coreRegistry->registry(self::VIV_CURRENTLY_SAVED_ADDRESS)) {
+            $this->_coreRegistry->unregister(self::VIV_CURRENTLY_SAVED_ADDRESS);
         }
 
         /** @var $customerAddress Magento_Customer_Model_Address */
         $customerAddress = $observer->getCustomerAddress();
         if ($customerAddress->getId()) {
-            Mage::register(self::VIV_CURRENTLY_SAVED_ADDRESS, $customerAddress->getId());
+            $this->_coreRegistry->register(self::VIV_CURRENTLY_SAVED_ADDRESS, $customerAddress->getId());
         } else {
             $configAddressType = Mage::helper('Magento_Customer_Helper_Address')->getTaxCalculationAddressType();
 
@@ -96,7 +110,7 @@ class Magento_Customer_Model_Observer
             if ($forceProcess) {
                 $customerAddress->setForceProcess(true);
             } else {
-                Mage::register(self::VIV_CURRENTLY_SAVED_ADDRESS, 'new_address');
+                $this->_coreRegistry->register(self::VIV_CURRENTLY_SAVED_ADDRESS, 'new_address');
             }
         }
     }
@@ -113,21 +127,21 @@ class Magento_Customer_Model_Observer
         $customer = $customerAddress->getCustomer();
 
         if (!Mage::helper('Magento_Customer_Helper_Address')->isVatValidationEnabled($customer->getStore())
-            || Mage::registry(self::VIV_PROCESSED_FLAG)
+            || $this->_coreRegistry->registry(self::VIV_PROCESSED_FLAG)
             || !$this->_canProcessAddress($customerAddress)
         ) {
             return;
         }
 
         try {
-            Mage::register(self::VIV_PROCESSED_FLAG, true);
+            $this->_coreRegistry->register(self::VIV_PROCESSED_FLAG, true);
 
             /** @var $customerHelper Magento_Customer_Helper_Data */
             $customerHelper = Mage::helper('Magento_Customer_Helper_Data');
 
             if ($customerAddress->getVatId() == ''
-                || !Mage::helper('Magento_Core_Helper_Data')->isCountryInEU($customerAddress->getCountry()))
-            {
+                || !Mage::helper('Magento_Core_Helper_Data')->isCountryInEU($customerAddress->getCountry())
+            ) {
                 $defaultGroupId = $customerHelper->getDefaultCustomerGroupId($customer->getStore());
 
                 if (!$customer->getDisableAutoGroupChange() && $customer->getGroupId() != $defaultGroupId) {
@@ -135,7 +149,6 @@ class Magento_Customer_Model_Observer
                     $customer->save();
                 }
             } else {
-
                 $result = $customerHelper->checkVatNumber(
                     $customerAddress->getCountryId(),
                     $customerAddress->getVatId()
@@ -151,8 +164,11 @@ class Magento_Customer_Model_Observer
                 }
 
                 if (!Mage::app()->getStore()->isAdmin()) {
-                    $validationMessage = Mage::helper('Magento_Customer_Helper_Data')->getVatValidationUserMessage($customerAddress,
-                        $customer->getDisableAutoGroupChange(), $result);
+                    $validationMessage = Mage::helper('Magento_Customer_Helper_Data')->getVatValidationUserMessage(
+                        $customerAddress,
+                        $customer->getDisableAutoGroupChange(),
+                        $result
+                    );
 
                     if (!$validationMessage->getIsError()) {
                         Mage::getSingleton('Magento_Customer_Model_Session')->addSuccess($validationMessage->getMessage());
@@ -162,7 +178,7 @@ class Magento_Customer_Model_Observer
                 }
             }
         } catch (Exception $e) {
-            Mage::register(self::VIV_PROCESSED_FLAG, false, true);
+            $this->_coreRegistry->register(self::VIV_PROCESSED_FLAG, false, true);
         }
     }
 

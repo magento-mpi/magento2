@@ -16,9 +16,26 @@
 class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Adminhtml_Controller_Action
 {
     /**
-     * Recurring profiles list
+     * Core registry
      *
-     * @return void
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
+     * Recurring profiles list
      */
     public function indexAction()
     {
@@ -30,7 +47,7 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
     }
 
     /**
-     * View recurring profile detales
+     * View recurring profile details
      */
     public function viewAction()
     {
@@ -40,8 +57,7 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
             $this->loadLayout()
                 ->_setActiveMenu('Magento_Sales::sales_recurring_profile')
                 ->_title(__('Profile #%1', $profile->getReferenceId()))
-                ->renderLayout()
-            ;
+                ->renderLayout();
             return;
         } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -144,7 +160,7 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
     }
 
     /**
-     * Cutomer billing agreements ajax action
+     * Customer billing agreements ajax action
      *
      */
     public function customerGridAction()
@@ -168,7 +184,7 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
             $customer->load($customerId);
         }
 
-        Mage::register('current_customer', $customer);
+        $this->_coreRegistry->register('current_customer', $customer);
         return $this;
     }
 
@@ -183,7 +199,7 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
         if (!$profile->getId()) {
             Mage::throwException(__('The profile you specified does not exist.'));
         }
-        Mage::register('current_recurring_profile', $profile);
+        $this->_coreRegistry->register('current_recurring_profile', $profile);
         return $profile;
     }
 }

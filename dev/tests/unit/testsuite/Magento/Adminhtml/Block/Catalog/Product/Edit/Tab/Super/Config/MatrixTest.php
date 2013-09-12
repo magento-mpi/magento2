@@ -29,10 +29,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_MatrixTest e
         $this->_context = $this->getMock('Magento_Backend_Block_Template_Context', array(), array(), '', false);
         $this->_application = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
         $this->_locale = $this->getMock('Magento_Core_Model_LocaleInterface', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
         $this->_block = new Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix(
             $this->_context,
             $this->_application,
-            $this->_locale
+            $this->_locale,
+            $coreRegistry
         );
     }
 

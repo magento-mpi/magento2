@@ -18,6 +18,25 @@
 class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Initialize layout.
      *
      * @return Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation
@@ -27,7 +46,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
         try {
             $this->_title(__('Scheduled Imports/Exports'))
                 ->loadLayout()
-                ->_setActiveMenu('Magento_ScheduledImportExport::system_convert_enterprise_scheduled_operation');
+                ->_setActiveMenu('Magento_ScheduledImportExport::system_convert_magento_scheduled_operation');
         } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/scheduled_operation/index');
@@ -43,7 +62,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Magento_ScheduledImportExport::enterprise_scheduled_operation');
+        return $this->_authorization->isAllowed('Magento_ScheduledImportExport::magento_scheduled_operation');
     }
 
     /**
@@ -83,7 +102,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
         $this->_initAction();
 
         /** @var $operation Magento_ScheduledImportExport_Model_Scheduled_Operation */
-        $operation = Mage::registry('current_operation');
+        $operation = $this->_coreRegistry->registry('current_operation');
         $operationType = $operation->getOperationType();
 
         /** @var $helper Magento_ScheduledImportExport_Helper_Data */
@@ -310,10 +329,11 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
                 Add: After elimination of skins and refactoring of themes we can't just switch area,
                 cause we can't be sure that theme set for previous area exists in new one
             */
-            $area = Mage::getDesign()->getArea();
-            $theme = Mage::getDesign()->getDesignTheme();
-            Mage::getDesign()->setDesignTheme(
-                Mage::getDesign()->getConfigurationDesignTheme(Magento_Core_Model_App_Area::AREA_FRONTEND)
+            $design = $this->_objectManager->get('Magento_Core_Model_View_DesignInterface');
+            $area = $design->getArea();
+            $theme = $design->getDesignTheme();
+            $design->setDesignTheme(
+                $design->getConfigurationDesignTheme(Magento_Core_Model_App_Area::AREA_FRONTEND)
             );
 
             /** @var $observer Magento_ScheduledImportExport_Model_Observer */
@@ -321,7 +341,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
             $result = $observer->processScheduledOperation($schedule, true);
 
             // restore current design area and theme
-            Mage::getDesign()->setDesignTheme($theme, $area);
+            $design->setDesignTheme($theme, $area);
         } catch (Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }

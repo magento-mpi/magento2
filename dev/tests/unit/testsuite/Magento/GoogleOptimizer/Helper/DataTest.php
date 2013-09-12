@@ -29,7 +29,7 @@ class Magento_GoogleOptimizer_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->_googleAnalyticsHelperMock = $this->getMock('Magento_GoogleAnalytics_Helper_Data', array(), array(), '',
             false);
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_helper = $objectManagerHelper->getObject('Magento_GoogleOptimizer_Helper_Data', array(
             'storeConfig' => $this->_storeConfigMock,
             'analyticsHelper' => $this->_googleAnalyticsHelperMock,

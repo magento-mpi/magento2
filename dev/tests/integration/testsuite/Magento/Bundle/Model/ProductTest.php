@@ -63,7 +63,7 @@ class Magento_Bundle_Model_ProductTest extends PHPUnit_Framework_TestCase
             ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
             ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
         ;
-        $crud = new Magento_Test_Entity($this->_model, array('sku' => uniqid()));
+        $crud = new Magento_TestFramework_Entity($this->_model, array('sku' => uniqid()));
         $crud->testCrud();
     }
 

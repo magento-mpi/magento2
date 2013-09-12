@@ -10,9 +10,30 @@
 
 class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     public function _construct()
     {
-        $order = Mage::registry('current_order');
+        $order = $this->_coreRegistry->registry('current_order');
         if (!$order) {
             return;
         }

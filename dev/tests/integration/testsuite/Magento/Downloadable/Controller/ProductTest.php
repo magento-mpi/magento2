@@ -12,7 +12,7 @@
 /**
  * Test class for Magento_Catalog_Controller_Product (downloadable product type)
  */
-class Magento_Downloadable_Controller_ProductTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Downloadable_Controller_ProductTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * @magentoDataFixture Magento/Downloadable/_files/product.php

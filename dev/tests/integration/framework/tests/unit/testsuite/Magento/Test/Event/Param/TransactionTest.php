@@ -10,18 +10,18 @@
  */
 
 /**
- * Test class for Magento_Test_Event_Param_Transaction.
+ * Test class for Magento_TestFramework_Event_Param_Transaction.
  */
 class Magento_Test_Event_Param_TransactionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_Event_Param_Transaction
+     * @var Magento_TestFramework_Event_Param_Transaction
      */
     protected $_object;
 
     protected function setUp()
     {
-        $this->_object = new Magento_Test_Event_Param_Transaction();
+        $this->_object = new Magento_TestFramework_Event_Param_Transaction();
     }
 
     public function testConstructor()

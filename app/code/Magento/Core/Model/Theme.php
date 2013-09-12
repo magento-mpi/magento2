@@ -112,6 +112,7 @@ class Magento_Core_Model_Theme extends Magento_Core_Model_Abstract implements Ma
      * Initialize dependencies
      *
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Theme_FlyweightFactory $themeFactory
      * @param Magento_Core_Model_Theme_Domain_Factory $domainFactory
      * @param Magento_Core_Model_Theme_ImageFactory $imageFactory
@@ -120,9 +121,12 @@ class Magento_Core_Model_Theme extends Magento_Core_Model_Abstract implements Ma
      * @param Magento_Core_Model_Resource_Theme $resource
      * @param Magento_Core_Model_Resource_Theme_Collection $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Theme_FlyweightFactory $themeFactory,
         Magento_Core_Model_Theme_Domain_Factory $domainFactory,
         Magento_Core_Model_Theme_ImageFactory $imageFactory,
@@ -132,7 +136,7 @@ class Magento_Core_Model_Theme extends Magento_Core_Model_Abstract implements Ma
         Magento_Core_Model_Resource_Theme_Collection $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_themeFactory = $themeFactory;
         $this->_domainFactory = $domainFactory;
         $this->_imageFactory = $imageFactory;

@@ -26,6 +26,25 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
     protected $_product = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Get current product instance
      *
      * @return Magento_Catalog_Model_Product
@@ -35,7 +54,7 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
         if (!is_null($this->_product)) {
             return $this->_product;
         }
-        return Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     /**

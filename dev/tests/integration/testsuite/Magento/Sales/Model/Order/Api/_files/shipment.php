@@ -17,4 +17,6 @@ $shipment->getOrder()->setIsInProcess(true);
 $transaction = Mage::getModel('Magento_Core_Model_Resource_Transaction');
 $transaction->addObject($shipment)->addObject($order)->save();
 
-Mage::register('shipment', $shipment);
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+$objectManager->get('Magento_Core_Model_Registry')->register('shipment', $shipment);

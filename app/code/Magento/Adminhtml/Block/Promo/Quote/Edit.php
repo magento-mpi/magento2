@@ -11,9 +11,28 @@
 /**
  * Shopping cart rule edit form block
  */
-
 class Magento_Adminhtml_Block_Promo_Quote_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
 
     /**
      * Initialize form
@@ -45,11 +64,10 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit extends Magento_Adminhtml_Block_W
      */
     public function getHeaderText()
     {
-        $rule = Mage::registry('current_promo_quote_rule');
+        $rule = $this->_coreRegistry->registry('current_promo_quote_rule');
         if ($rule->getRuleId()) {
             return __("Edit Rule '%1'", $this->escapeHtml($rule->getName()));
-        }
-        else {
+        } else {
             return __('New Rule');
         }
     }

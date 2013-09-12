@@ -11,6 +11,27 @@
 class Magento_Rma_Block_Adminhtml_Rma_New extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Initialize RMA new page. Set management buttons
      *
      */
@@ -25,13 +46,11 @@ class Magento_Rma_Block_Adminhtml_Rma_New extends Magento_Adminhtml_Block_Widget
         $this->_updateButton('reset', 'label', __('Cancel'));
         $this->_updateButton('reset', 'class', 'cancel');
 
-        $orderId    = false;
-        $link       = $this->getUrl('*/*/');
+        $link = $this->getUrl('*/*/');
+        $order = $this->_coreRegistry->registry('current_order');
 
-        if (Mage::registry('current_order') && Mage::registry('current_order')->getId()) {
-            $order      = Mage::registry('current_order');
+        if ($order && $order->getId()) {
             $orderId    = $order->getId();
-
             $referer    = $this->getRequest()->getServer('HTTP_REFERER');
 
             if (strpos($referer, 'customer') !== false) {
@@ -73,6 +92,6 @@ class Magento_Rma_Block_Adminhtml_Rma_New extends Magento_Adminhtml_Block_Widget
      */
     public function getFormActionUrl()
     {
-        return $this->getUrl('*/*/save', array('order_id' => Mage::registry('current_order')->getId()));
+        return $this->getUrl('*/*/save', array('order_id' => $this->_coreRegistry->registry('current_order')->getId()));
     }
 }

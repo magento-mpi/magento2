@@ -27,7 +27,7 @@ class Magento_User_Model_Resource_Role_CollectionTest extends PHPUnit_Framework_
     public function testSetUserFilter()
     {
         $user = Mage::getModel('Magento_User_Model_User');
-        $user->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
+        $user->loadByUsername(Magento_TestFramework_Bootstrap::ADMIN_NAME);
         $this->_collection->setUserFilter($user->getId());
 
         $selectQueryStr = $this->_collection->getSelect()->__toString();

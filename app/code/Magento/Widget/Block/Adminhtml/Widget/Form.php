@@ -19,6 +19,27 @@
 class Magento_Widget_Block_Adminhtml_Widget_Form extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Form with widget to select
      */
     protected function _prepareForm()
@@ -111,6 +132,6 @@ class Magento_Widget_Block_Adminhtml_Widget_Form extends Magento_Adminhtml_Block
      */
     protected function _getSkippedWidgets()
     {
-        return Mage::registry('skip_widgets');
+        return $this->_coreRegistry->registry('skip_widgets');
     }
 }

@@ -22,6 +22,22 @@ class Magento_CatalogRule_Model_Observer
     protected $_rulePrices = array();
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+    }
+
+    /**
      * Apply all catalog price rules for specific product
      *
      * @param   Magento_Event_Observer $observer
@@ -144,14 +160,14 @@ class Magento_CatalogRule_Model_Observer
         $date = Mage::app()->getLocale()->storeDate($storeId);
         $key = false;
 
-        if ($ruleData = Mage::registry('rule_data')) {
+        $ruleData = $this->_coreRegistry->registry('rule_data');
+        if ($ruleData) {
             $wId = $ruleData->getWebsiteId();
             $gId = $ruleData->getCustomerGroupId();
             $pId = $product->getId();
 
             $key = "$date|$wId|$gId|$pId";
-        }
-        elseif (!is_null($product->getWebsiteId()) && !is_null($product->getCustomerGroupId())) {
+        } elseif (!is_null($product->getWebsiteId()) && !is_null($product->getCustomerGroupId())) {
             $wId = $product->getWebsiteId();
             $gId = $product->getCustomerGroupId();
             $pId = $product->getId();

@@ -57,7 +57,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version extends Magento_
             $version->loadWithRestrictions($accessLevel, $userId, $versionId);
         }
 
-        Mage::register('cms_page_version', $version);
+        $this->_coreRegistry->register('cms_page_version', $version);
         return $version;
     }
 

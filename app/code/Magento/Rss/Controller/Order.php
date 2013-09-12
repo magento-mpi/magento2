@@ -24,13 +24,23 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
     protected $_configScope;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Config_Scope $configScope
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Config_Scope $configScope
     ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_configScope = $configScope;
         parent::__construct($context);
     }
@@ -96,7 +106,7 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
     {
         $order = Mage::helper('Magento_Rss_Helper_Order')->getOrderByStatusUrlKey((string)$this->getRequest()->getParam('data'));
         if (!is_null($order)) {
-            Mage::register('current_order', $order);
+            $this->_coreRegistry->register('current_order', $order);
             $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
             $this->loadLayout(false);
             $this->renderLayout();

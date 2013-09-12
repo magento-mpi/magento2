@@ -27,7 +27,7 @@ class Magento_Backend_Model_Auth_SessionTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         $this->_auth  = Mage::getModel('Magento_Backend_Model_Auth');
         $this->_model = Mage::getModel('Magento_Backend_Model_Auth_Session');
@@ -37,7 +37,7 @@ class Magento_Backend_Model_Auth_SessionTest extends PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         $this->_model = null;
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(null);
     }
 
@@ -47,7 +47,8 @@ class Magento_Backend_Model_Auth_SessionTest extends PHPUnit_Framework_TestCase
      */
     public function testIsLoggedIn()
     {
-        $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
+        $this->_auth->login(
+            Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
         $this->assertTrue($this->_model->isLoggedIn());
 
         $this->_model->setUpdatedAt(time() - 101);
@@ -60,7 +61,8 @@ class Magento_Backend_Model_Auth_SessionTest extends PHPUnit_Framework_TestCase
      */
     public function testIsLoggedInWithIgnoredLifetime()
     {
-        $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
+        $this->_auth->login(
+            Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
         $this->assertTrue($this->_model->isLoggedIn());
 
         $this->_model->setUpdatedAt(time() - 101);
