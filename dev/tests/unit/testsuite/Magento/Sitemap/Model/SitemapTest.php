@@ -80,8 +80,8 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         $coreRegisterMock->expects($this->any())
             ->method('registry')
             ->will($this->returnValueMap(array(
-                array('_helper/Magento_Core_Helper_Data', $helperMockCore),
-                array('_helper/Magento_Sitemap_Helper_Data', $helperMockSitemap),
+                array('_helper/Magento_Core_Helper_Data', $this->_helperMockCore),
+                array('_helper/Magento_Sitemap_Helper_Data', $this->_helperMockSitemap),
                 array('_singleton/Magento_Core_Model_Date', $dateMock)
         )));
 
