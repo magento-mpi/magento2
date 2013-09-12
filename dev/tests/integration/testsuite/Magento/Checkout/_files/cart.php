@@ -9,8 +9,8 @@
  * @license     {license_link}
  */
 
-Mage::unregister('_singleton/\Magento\Checkout\Model\Session');
-Mage::unregister('_singleton/\Magento\Checkout\Model\Cart');
+Mage::unregister('_singleton/Magento\Checkout\Model\Session');
+Mage::unregister('_singleton/Magento\Checkout\Model\Cart');
 /** @var $cart \Magento\Checkout\Model\Cart */
 $cart = Mage::getSingleton('Magento\Checkout\Model\Cart');
 
@@ -19,5 +19,5 @@ $cart->save();
 
 $quoteItemId = $cart->getQuote()->getItemByProduct($product)->getId();
 Mage::register('product/quoteItemId', $quoteItemId);
-Mage::unregister('_singleton/\Magento\Checkout\Model\Session');
-Mage::unregister('_singleton/\Magento\Checkout\Model\Cart');
+Mage::unregister('_singleton/Magento\Checkout\Model\Session');
+Mage::unregister('_singleton/Magento\Checkout\Model\Cart');

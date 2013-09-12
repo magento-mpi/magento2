@@ -323,7 +323,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         $dateMock = $this->getMockBuilder('Magento\Core\Model\Date')
             ->disableOriginalConstructor()
             ->getMock();
-        Mage::register('_singleton/\Magento\Core\Model\Date', $dateMock, true);
+        Mage::register('_singleton/Magento\Core\Model\Date', $dateMock, true);
 
         $fileMock = $this->getMockBuilder('Magento\Io\File')
             ->setMethods(array('streamWrite', 'open', 'streamOpen', 'streamClose',

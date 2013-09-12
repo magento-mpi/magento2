@@ -32,7 +32,7 @@ $cart = Mage::getModel('Magento\Checkout\Model\Cart');
 $cart->addProduct($product, $requestInfo);
 $cart->save();
 
-Mage::unregister('_singleton/\Magento\Checkout\Model\Session');
+Mage::unregister('_singleton/Magento\Checkout\Model\Session');
 
 /** @var $objectManager Magento_TestFramework_ObjectManager */
 $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
