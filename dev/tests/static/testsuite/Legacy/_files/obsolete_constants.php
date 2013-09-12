@@ -161,6 +161,9 @@ return array(
         'Magento_Core_Model_Session_Validator::XML_PATH_USE_USER_AGENT'
     ),
     array('XML_NODE_USET_AGENT_SKIP', 'Magento_Core_Model_Session_Abstract'),
+    array('XML_PAGE_TYPE_RENDER_INHERITED', 'Magento_Core_Controller_Varien_Action'),
+    array('XML_PATH_ALLOW_MAP_UPDATE', 'Magento_Core_Model_Design_FileResolution_StrategyPool'),
+
     array('XML_PATH_WEBAPI_REQUEST_INTERPRETERS', 'Magento_Webapi_Controller_Request_Rest_Interpreter_Factory'),
     array('XML_PATH_WEBAPI_RESPONSE_RENDERS', 'Magento_Webapi_Controller_Response_Rest_Renderer_Factor'),
 );
