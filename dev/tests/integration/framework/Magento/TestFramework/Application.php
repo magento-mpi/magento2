@@ -187,8 +187,8 @@ class Magento_TestFramework_Application
         } else {
             $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
             $config->configure($objectManager);
-            $objectManager->addSharedInstance($config, '\Magento\Core\Model\Config\Primary');
-            $objectManager->addSharedInstance($config->getDirectories(), '\Magento\Core\Model\Dir');
+            $objectManager->addSharedInstance($config, 'Magento\Core\Model\Config\Primary');
+            $objectManager->addSharedInstance($config->getDirectories(), 'Magento\Core\Model\Dir');
             $objectManager->loadPrimaryConfig($this->_primaryConfig);
             /** @var $configResource \Magento\Core\Model\Config\Resource */
             $configResource = $objectManager->get('Magento\Core\Model\Config\Resource');
@@ -357,7 +357,7 @@ class Magento_TestFramework_Application
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->clearCache();
 
-        $resource = Mage::registry('_singleton/\Magento\Core\Model\Resource');
+        $resource = Mage::registry('_singleton/Magento\Core\Model\Resource');
 
         Mage::reset();
         Mage::setObjectManager($objectManager);
@@ -367,7 +367,7 @@ class Magento_TestFramework_Application
         $this->_appArea = null;
 
         if ($resource) {
-            Mage::register('_singleton/\Magento\Core\Model\Resource', $resource);
+            Mage::register('_singleton/Magento\Core\Model\Resource', $resource);
         }
     }
 
