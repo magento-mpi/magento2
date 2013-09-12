@@ -18,13 +18,6 @@
 class Magento_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-    
-    /**
      * Rma data
      *
      * @var Magento_Rma_Helper_Data
@@ -40,16 +33,15 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Backend_Block_Wi
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
         Magento_Rma_Helper_Data $rmaData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
-        $this->_coreRegistry = $registry;
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     /**
