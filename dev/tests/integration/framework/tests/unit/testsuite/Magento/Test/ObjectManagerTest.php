@@ -43,10 +43,10 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
         $model = new Magento_TestFramework_ObjectManager(
             $primaryConfig, $instanceConfig,
             array(
-                '\Magento\Core\Model\Dir\Verification' => $verification,
-                '\Magento\Core\Model\Cache\Type\Config' => $cache,
-                '\Magento\Core\Model\ObjectManager\ConfigLoader' => $configLoader,
-                '\Magento\Core\Model\ObjectManager\ConfigCache' => $configCache,
+                'Magento\Core\Model\Dir\Verification' => $verification,
+                'Magento\Core\Model\Cache\Type\Config' => $cache,
+                'Magento\Core\Model\ObjectManager\ConfigLoader' => $configLoader,
+                'Magento\Core\Model\ObjectManager\ConfigCache' => $configCache,
                 'Magento\Config\ReaderInterface' => $this->getMock('Magento\Config\ReaderInterface'),
                 'Magento\Config\ScopeInterface' => $this->getMock('Magento\Config\ScopeInterface'),
                 'Magento\Config\CacheInterface' => $this->getMock('Magento\Config\CacheInterface'),
@@ -55,7 +55,7 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
             $primaryLoaderMock
         );
 
-        $model->addSharedInstance($resource, '\Magento\Core\Model\Resource');
+        $model->addSharedInstance($resource, 'Magento\Core\Model\Resource');
         $instance1 = $model->get('Magento_TestFramework_Request');
 
         $this->assertSame($instance1, $model->get('Magento_TestFramework_Request'));
