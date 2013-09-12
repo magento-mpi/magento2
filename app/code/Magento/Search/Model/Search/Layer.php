@@ -28,16 +28,18 @@ class Magento_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Laye
      * attributes This behavior may change in child classes
      *
      * @param Magento_Search_Helper_Data $searchData
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param array $data
      */
     public function __construct(
         Magento_Search_Helper_Data $searchData,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
         array $data = array()
     ) {
         $this->_searchData = $searchData;
-        parent::__construct($catalogSearchData, $data);
+        parent::__construct($coreRegistry, $catalogSearchData, $data);
     }
 
     /**
