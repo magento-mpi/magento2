@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-$baseDir = realpath(__DIR__ . '/../../../../');
-require $baseDir . '/app/autoload.php';
+define('BASE_DIR', realpath(__DIR__ . '/../../../../'));
+require BASE_DIR . '/app/autoload.php';
 Magento_Autoload_IncludePath::addIncludePath(array(
     __DIR__,
     dirname(__DIR__) . '/testsuite',
-    $baseDir . '/lib',
+    BASE_DIR . '/lib',
 ));
-Magento_TestFramework_Utility_Files::init(new Magento_TestFramework_Utility_Files($baseDir));
+Magento_TestFramework_Utility_Files::init(new Magento_TestFramework_Utility_Files(BASE_DIR));

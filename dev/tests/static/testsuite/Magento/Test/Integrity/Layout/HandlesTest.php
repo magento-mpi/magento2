@@ -84,7 +84,7 @@ class Magento_Test_Integrity_Layout_HandlesTest extends PHPUnit_Framework_TestCa
      */
     public function testLayoutFormat($layoutFile)
     {
-        $schemaFile = __DIR__ . '/../../../../../../app/code/Magento/Core/etc/layouts.xsd';
+        $schemaFile = BASE_DIR . '/app/code/Magento/Core/etc/layouts.xsd';
         $domLayout = new Magento_Config_Dom(file_get_contents($layoutFile));
         $result = $domLayout->validate($schemaFile, $errors);
         $this->assertTrue($result, print_r($errors, true));

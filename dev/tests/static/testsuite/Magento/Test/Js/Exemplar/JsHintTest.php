@@ -26,7 +26,7 @@ class Magento_Test_Js_Exemplar_JsHintTest extends PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         $reportFile = __DIR__ . '/../../../tmp/js_report.txt';
-        $fileName = __DIR__ . '/../../../../../../pub/lib/mage/mage.js';
+        $fileName = BASE_DIR . '/pub/lib/mage/mage.js';
         self::$_cmd = new Magento_TestFramework_Inspection_JsHint_Command($fileName, $reportFile);
     }
 
