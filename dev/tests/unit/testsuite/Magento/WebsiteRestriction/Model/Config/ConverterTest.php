@@ -14,6 +14,7 @@ class Magento_WebsiteRestriction_Model_Config_ConverterTest extends PHPUnit_Fram
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-14185');
         /** @todo Implement test logic here */
         
         $this->_model = new Magento_WebsiteRestriction_Model_Config_Converter();
@@ -21,6 +22,7 @@ class Magento_WebsiteRestriction_Model_Config_ConverterTest extends PHPUnit_Fram
 
     public function testConvert()
     {
+        $this->markTestIncomplete('MAGETWO-14185');
         /** @todo Implement test logic here */
         
         $source = null;

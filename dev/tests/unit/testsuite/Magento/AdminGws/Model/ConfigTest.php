@@ -29,6 +29,7 @@ class Magento_AdminGws_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-14185');
         /** @todo Implement test logic here */
         
         $this->_readerMock = $this->getMock('Magento_AdminGws_Model_Config_Reader', array(), array(), '', false);
@@ -46,6 +47,7 @@ class Magento_AdminGws_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetCallbacks()
     {
+        $this->markTestIncomplete('MAGETWO-14185');
         /** @todo Implement test logic here */
         
         $groupName = null;
@@ -55,6 +57,7 @@ class Magento_AdminGws_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetDeniedAclResources()
     {
+        $this->markTestIncomplete('MAGETWO-14185');
         /** @todo Implement test logic here */
         
         $level = null;

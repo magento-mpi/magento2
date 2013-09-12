@@ -19,6 +19,7 @@ class Magento_AdminGws_Model_Config_SchemaLocatorTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-14185');
         /** @todo Implement test logic here */
         
         $this->_moduleReaderMock = $this->getMock(
@@ -31,6 +32,7 @@ class Magento_AdminGws_Model_Config_SchemaLocatorTest extends PHPUnit_Framework_
 
     public function testGetSchema()
     {
+        $this->markTestIncomplete('MAGETWO-14185');
         /** @todo Implement test logic here */
         
         $this->_model->getSchema();
@@ -38,6 +40,7 @@ class Magento_AdminGws_Model_Config_SchemaLocatorTest extends PHPUnit_Framework_
 
     public function testGetPerFileSchema()
     {
+        $this->markTestIncomplete('MAGETWO-14185');
         /** @todo Implement test logic here */
         
         $this->_model->getPerFileSchema();

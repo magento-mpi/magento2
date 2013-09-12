@@ -34,6 +34,7 @@ class Magento_WebsiteRestriction_Model_ConfigTest extends PHPUnit_Framework_Test
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-14185');
         /** @todo Implement test logic here */
         
         $this->_readerMock = $this->getMock(
@@ -56,6 +57,7 @@ class Magento_WebsiteRestriction_Model_ConfigTest extends PHPUnit_Framework_Test
 
     public function testGetGenericActions()
     {
+        $this->markTestIncomplete('MAGETWO-14185');
         /** @todo Implement test logic here */
         
         $this->_model->getGenericActions();
@@ -63,6 +65,7 @@ class Magento_WebsiteRestriction_Model_ConfigTest extends PHPUnit_Framework_Test
 
     public function testGetRegisterActions()
     {
+        $this->markTestIncomplete('MAGETWO-14185');
         /** @todo Implement test logic here */
         
         $this->_model->getRegisterActions();
@@ -70,6 +73,7 @@ class Magento_WebsiteRestriction_Model_ConfigTest extends PHPUnit_Framework_Test
 
     public function testIsRestrictionEnabled()
     {
+        $this->markTestIncomplete('MAGETWO-14185');
         /** @todo Implement test logic here */
         
         $store = null;
@@ -79,6 +83,7 @@ class Magento_WebsiteRestriction_Model_ConfigTest extends PHPUnit_Framework_Test
 
     public function testGetMode()
     {
+        $this->markTestIncomplete('MAGETWO-14185');
         /** @todo Implement test logic here */
         
         $this->_model->getMode();
@@ -93,6 +98,7 @@ class Magento_WebsiteRestriction_Model_ConfigTest extends PHPUnit_Framework_Test
 
     public function testGetHTTPRedirectCode()
     {
+        $this->markTestIncomplete('MAGETWO-14185');
         /** @todo Implement test logic here */
         
         $this->_model->getHTTPRedirectCode();
@@ -100,6 +106,7 @@ class Magento_WebsiteRestriction_Model_ConfigTest extends PHPUnit_Framework_Test
 
     public function testGetLandingPageCode()
     {
+        $this->markTestIncomplete('MAGETWO-14185');
         /** @todo Implement test logic here */
         
         $this->_model->getLandingPageCode();
