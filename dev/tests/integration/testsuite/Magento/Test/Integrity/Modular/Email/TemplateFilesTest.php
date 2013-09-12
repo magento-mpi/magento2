@@ -26,11 +26,11 @@ class Magento_Test_Integrity_Modular_Email_TemplateFilesTest extends PHPUnit_Fra
 
     public function loadBaseContentsDataProvider()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $templateModel = $objectManager->create('Magento_Core_Model_Email_Template');
 
         $data = array();
-        $config = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
+        $config = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
         foreach ($templateModel->getDefaultTemplates() as $row) {
             $data[] = array($config->determineOmittedNamespace($row['@']['module'], true), $row['file']);
         }
