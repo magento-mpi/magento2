@@ -82,23 +82,21 @@ class Magento_Webapi_Controller_Soap_Security
     }
 
     /**
-     * Process SOAP security header.
+     * Extract client credentials from SOAP security security header and store them for future reference.
      *
      * @param string $header
      * @param array $arguments
      */
     public function processSecurityHeader($header, $arguments)
     {
-        switch ($header) {
-            case self::HEADER_SECURITY:
-                foreach ($arguments as $argument) {
-                    // @codingStandardsIgnoreStart
-                    if (is_object($argument) && isset($argument->UsernameToken)) {
-                        $this->_usernameToken = $argument->UsernameToken;
-                    }
-                    // @codingStandardsIgnoreEnd
+        if ($header == self::HEADER_SECURITY) {
+            foreach ($arguments as $argument) {
+                // @codingStandardsIgnoreStart
+                if (is_object($argument) && isset($argument->UsernameToken)) {
+                    $this->_usernameToken = $argument->UsernameToken;
                 }
-                break;
+                // @codingStandardsIgnoreEnd
+            }
         }
     }
 

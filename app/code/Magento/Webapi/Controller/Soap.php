@@ -9,6 +9,13 @@
  */
 class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInterface
 {
+    /**#@+
+     * Content types used for responses processed by SOAP web API.
+     */
+    const CONTENT_TYPE_SOAP_CALL = 'application/soap+xml';
+    const CONTENT_TYPE_WSDL_REQUEST = 'text/xml';
+    /**#@-*/
+
     /** @var Magento_Webapi_Model_Soap_Server */
     protected $_soapServer;
 
@@ -88,10 +95,10 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
                     $this->_request->getRequestedServices(),
                     $this->_soapServer->generateUri()
                 );
-                $this->_setResponseContentType('text/xml');
+                $this->_setResponseContentType(self::CONTENT_TYPE_WSDL_REQUEST);
             } else {
                 $responseBody = $this->_soapServer->handle();
-                $this->_setResponseContentType('application/soap+xml');
+                $this->_setResponseContentType(self::CONTENT_TYPE_SOAP_CALL);
             }
             $this->_setResponseBody($responseBody);
         } catch (Exception $e) {
@@ -119,11 +126,15 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
     protected function _prepareErrorResponse($exception)
     {
         $maskedException = $this->_errorProcessor->maskException($exception);
-        $this->_setResponseContentType('text/xml');
         $soapFault = new Magento_Webapi_Model_Soap_Fault($this->_application, $maskedException);
-        $httpCode = $this->_isWsdlRequest()
-            ? $maskedException->getHttpCode()
-            : Magento_Webapi_Controller_Response::HTTP_OK;
+        if ($this->_isWsdlRequest()) {
+            $httpCode = $maskedException->getHttpCode();
+            $contentType = self::CONTENT_TYPE_WSDL_REQUEST;
+        } else {
+            $httpCode = Magento_Webapi_Controller_Response::HTTP_OK;
+            $contentType = self::CONTENT_TYPE_SOAP_CALL;
+        }
+        $this->_setResponseContentType($contentType);
         $this->_response->setHttpResponseCode($httpCode);
         // TODO: Generate list of available URLs when invalid WSDL URL specified
         $this->_setResponseBody($soapFault->toXml());
