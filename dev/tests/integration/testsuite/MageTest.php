@@ -193,8 +193,8 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function helperDataProvider()
     {
         return array(
-            'module name' => array('Magento_Core',           '\Magento\Core\Helper\Data'),
-            'class name'  => array('Magento\Core\Helper\Js', '\Magento\Core\Helper\Js'),
+            'module name' => array('Magento_Core',           'Magento\Core\Helper\Data'),
+            'class name'  => array('Magento\Core\Helper\Js', 'Magento\Core\Helper\Js'),
         );
     }
 }

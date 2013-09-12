@@ -33,14 +33,14 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_FormTest extends Magen
     {
         parent::setUp();
         $this->_registry = new \Magento\Core\Model\Registry();
-        $this->_coreHelperMock = $this->_makeMock('\Magento\Core\Helper\Data');
-        $this->_formFactoryMock = $this->_makeMock('\Magento\Data\Form\Factory');
+        $this->_coreHelperMock = $this->_makeMock('Magento\Core\Helper\Data');
+        $this->_formFactoryMock = $this->_makeMock('Magento\Data\Form\Factory');
 
-        $this->_dataFormMock = $this->_makeMock('\Magento\Data\Form');
+        $this->_dataFormMock = $this->_makeMock('Magento\Data\Form');
         $this->_setStub($this->_formFactoryMock, 'create', $this->_dataFormMock);
 
-        $selectMock = $this->_makeMock('\Magento\DB\Select');
-        $collectionMock = $this->_makeMock('\Magento\Data\Collection\Db');
+        $selectMock = $this->_makeMock('Magento\DB\Select');
+        $collectionMock = $this->_makeMock('Magento\Data\Collection\Db');
         $this->_setStub($collectionMock, 'getSelect', $selectMock);
 
         $arguments = array(
@@ -71,7 +71,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_FormTest extends Magen
 
     public function testPrepareColumns()
     {
-        $columnsSetMock = $this->_makeMock('\Magento\Backend\Block\Widget\Grid\ColumnSet');
+        $columnsSetMock = $this->_makeMock('Magento\Backend\Block\Widget\Grid\ColumnSet');
         $this->_setStub($this->_formMock, 'getChildBlock', $columnsSetMock);
 
         $this->_dataFormMock->expects($this->exactly(4))

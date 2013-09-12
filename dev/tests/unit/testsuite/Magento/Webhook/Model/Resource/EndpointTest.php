@@ -31,7 +31,7 @@ class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_Test
     public function setUp()
     {
         // Select mock
-        $this->_selectMock = $this->_makeMock('\Magento\DB\Select');
+        $this->_selectMock = $this->_makeMock('Magento\DB\Select');
         // Select stubs
         $this->_selectMock->expects($this->once())
             ->method('from')
@@ -39,7 +39,7 @@ class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_Test
             ->will($this->returnSelf());
 
         // Adapter mock
-        $this->_adapterMock = $this->_makeMock('\Magento\DB\Adapter\Pdo\Mysql');
+        $this->_adapterMock = $this->_makeMock('Magento\DB\Adapter\Pdo\Mysql');
         // Adapter stubs
         $this->_adapterMock->expects($this->once())
             ->method('select')
@@ -51,7 +51,7 @@ class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_Test
             ->will($this->returnValue(1));
 
         // Resources mock
-        $this->_resourceMock = $this->_makeMock('\Magento\Core\Model\Resource');
+        $this->_resourceMock = $this->_makeMock('Magento\Core\Model\Resource');
         // Resources stubs
         $stubReturnMap = array(
             array('core_read', $this->_adapterMock),

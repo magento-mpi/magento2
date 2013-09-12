@@ -67,27 +67,27 @@ class Magento_Test_Block_Adminhtml extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         // These mocks are accessed via context
-        $this->_designMock         = $this->_makeMock('\Magento\Core\Model\View\DesignInterface');
-        $this->_sessionMock         = $this->_makeMock('\Magento\Core\Model\Session');
-        $this->_translatorMock      = $this->_makeMock('\Magento\Core\Model\Translate');
-        $this->_layoutMock          = $this->_makeMock('\Magento\Core\Model\Layout');
-        $this->_requestMock         = $this->_makeMock('\Magento\Core\Controller\Request\Http');
-        $this->_messagesMock        = $this->_makeMock('\Magento\Core\Block\Messages');
-        $this->_urlMock             = $this->_makeMock('\Magento\Core\Model\UrlInterface');
-        $this->_eventManagerMock    = $this->_makeMock('\Magento\Core\Model\Event\Manager');
-        $this->_controllerMock      = $this->_makeMock('\Magento\Core\Controller\Varien\Front');
-        $this->_dirMock             = $this->_makeMock('\Magento\Core\Model\Dir');
-        $this->_loggerMock          = $this->_makeMock('\Magento\Core\Model\Logger');
-        $this->_filesystemMock      = $this->_makeMock('\Magento\Filesystem');
-        $this->_cacheMock           = $this->_makeMock('\Magento\Core\Model\CacheInterface');
-        $this->_storeConfigMock     = $this->_makeMock('\Magento\Core\Model\Store\Config');
-        $this->_helperFactoryMock   = $this->_makeMock('\Magento\Core\Model\Factory\Helper');
-        $viewUrlMock                = $this->_makeMock('\Magento\Core\Model\View\Url');
-        $viewConfigMock             = $this->_makeMock('\Magento\Core\Model\View\Config');
-        $viewFileSystemMock         = $this->_makeMock('\Magento\Core\Model\View\FileSystem');
-        $templateFactoryMock        = $this->_makeMock('\Magento\Core\Model\TemplateEngine\Factory');
-        $authorizationMock          = $this->_makeMock('\Magento\AuthorizationInterface');
-        $cacheStateMock             = $this->_makeMock('\Magento\Core\Model\Cache\StateInterface');
+        $this->_designMock         = $this->_makeMock('Magento\Core\Model\View\DesignInterface');
+        $this->_sessionMock         = $this->_makeMock('Magento\Core\Model\Session');
+        $this->_translatorMock      = $this->_makeMock('Magento\Core\Model\Translate');
+        $this->_layoutMock          = $this->_makeMock('Magento\Core\Model\Layout');
+        $this->_requestMock         = $this->_makeMock('Magento\Core\Controller\Request\Http');
+        $this->_messagesMock        = $this->_makeMock('Magento\Core\Block\Messages');
+        $this->_urlMock             = $this->_makeMock('Magento\Core\Model\UrlInterface');
+        $this->_eventManagerMock    = $this->_makeMock('Magento\Core\Model\Event\Manager');
+        $this->_controllerMock      = $this->_makeMock('Magento\Core\Controller\Varien\Front');
+        $this->_dirMock             = $this->_makeMock('Magento\Core\Model\Dir');
+        $this->_loggerMock          = $this->_makeMock('Magento\Core\Model\Logger');
+        $this->_filesystemMock      = $this->_makeMock('Magento\Filesystem');
+        $this->_cacheMock           = $this->_makeMock('Magento\Core\Model\CacheInterface');
+        $this->_storeConfigMock     = $this->_makeMock('Magento\Core\Model\Store\Config');
+        $this->_helperFactoryMock   = $this->_makeMock('Magento\Core\Model\Factory\Helper');
+        $viewUrlMock                = $this->_makeMock('Magento\Core\Model\View\Url');
+        $viewConfigMock             = $this->_makeMock('Magento\Core\Model\View\Config');
+        $viewFileSystemMock         = $this->_makeMock('Magento\Core\Model\View\FileSystem');
+        $templateFactoryMock        = $this->_makeMock('Magento\Core\Model\TemplateEngine\Factory');
+        $authorizationMock          = $this->_makeMock('Magento\AuthorizationInterface');
+        $cacheStateMock             = $this->_makeMock('Magento\Core\Model\Cache\StateInterface');
 
         $this->_translatorMock
             ->expects($this->any())

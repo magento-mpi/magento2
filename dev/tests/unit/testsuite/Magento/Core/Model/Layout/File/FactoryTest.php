@@ -32,7 +32,7 @@ class Magento_Core_Model_Layout_File_FactoryTest extends PHPUnit_Framework_TestC
             ->expects($this->once())
             ->method('create')
             ->with(
-                '\Magento\Core\Model\Layout\File',
+                'Magento\Core\Model\Layout\File',
                 $this->identicalTo(array(
                     'filename' => __FILE__,
                     'module' => 'Fixture_Module',
