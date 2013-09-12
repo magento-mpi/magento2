@@ -33,6 +33,7 @@ class Magento_Adminhtml_Block_Tax_Rate_Form extends Magento_Backend_Block_Widget
 
     /**
      * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -40,13 +41,14 @@ class Magento_Adminhtml_Block_Tax_Rate_Form extends Magento_Backend_Block_Widget
      */
     public function __construct(
         Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     protected function _construct()

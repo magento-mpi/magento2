@@ -15,7 +15,7 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento_Adminhtml_Block_Template
+class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento_Backend_Block_Template
 {
     protected $_template = 'catalog/product/attribute/set/main.phtml';
 

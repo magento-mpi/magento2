@@ -25,13 +25,6 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
      * @var Magento_SalesRule_Helper_Coupon
      */
     protected $_salesRuleCoupon = null;
-    
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
 
     /**
      * @param Magento_Data_Form_Factory $formFactory
@@ -49,9 +42,8 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
         $this->_salesRuleCoupon = $salesRuleCoupon;
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     /**
