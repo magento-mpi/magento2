@@ -39,13 +39,7 @@ class Magento_Banner_Block_Adminhtml_Widget_Chooser extends Magento_Banner_Block
         array $data = array()
     ) {
         $this->_elementFactory = $elementFactory;
-        parent::__construct(
-            $coreData,
-            $context,
-            $storeManager,
-            $urlModel,
-            $data
-        );
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
     /**
