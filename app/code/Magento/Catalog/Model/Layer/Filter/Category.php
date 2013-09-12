@@ -32,11 +32,24 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
     protected $_appliedCategory = null;
 
     /**
-     * Class constructor
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
      */
-    public function __construct()
-    {
-        parent::__construct();
+    protected $_coreRegistry = null;
+
+    /**
+     * Class constructor
+     *
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($data);
         $this->_requestVar = 'cat';
     }
 
@@ -69,13 +82,12 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
      */
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
     {
-        $filter = (int) $request->getParam($this->getRequestVar());
+        $filter = (int)$request->getParam($this->getRequestVar());
         if (!$filter) {
             return $this;
         }
         $this->_categoryId = $filter;
-
-        Mage::register('current_category_filter', $this->getCategory(), true);
+        $this->_coreRegistry->register('current_category_filter', $this->getCategory(), true);
 
         $this->_appliedCategory = Mage::getModel('Magento_Catalog_Model_Category')
             ->setStoreId(Mage::app()->getStore()->getId())
@@ -139,7 +151,7 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
     protected function _getItemsData()
     {
         $categoty   = $this->getCategory();
-        /** @var $categoty Magento_Catalog_Model_Categeory */
+        /** @var $category Magento_Catalog_Model_Categeory */
         $categories = $categoty->getChildrenCategories();
 
         $this->getLayer()->getProductCollection()

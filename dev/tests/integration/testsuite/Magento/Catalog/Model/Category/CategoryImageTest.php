@@ -64,8 +64,12 @@ class Magento_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework
      */
     public function testSaveCategoryWithoutImage()
     {
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
         /** @var $category Magento_Catalog_Model_Category */
-        $category = Mage::registry('_fixture/Magento_Catalog_Model_Category');
+        $category = $objectManager->get('Magento_Core_Model_Registry')
+            ->registry('_fixture/Magento_Catalog_Model_Category');
         $this->assertNotEmpty($category->getId());
 
         foreach (Magento_Catalog_Model_Category_CategoryImageTest_StubZendLogWriterStreamTest::$exceptions

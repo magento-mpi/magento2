@@ -18,6 +18,24 @@
  */
 class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller_Action
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
 
     /**
      * Init actions
@@ -86,15 +104,14 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
         }
 
         // 4. Register model to use later in blocks
-        Mage::register('cms_page', $model);
+        $this->_coreRegistry->register('cms_page', $model);
 
         // 5. Build edit form
         $this->_initAction()
             ->_addBreadcrumb(
-                $id ? __('Edit Page')
-                    : __('New Page'),
-                $id ? __('Edit Page')
-                    : __('New Page'));
+                $id ? __('Edit Page') : __('New Page'),
+                $id ? __('Edit Page') : __('New Page')
+        );
 
         $this->renderLayout();
     }
@@ -105,12 +122,14 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
     public function saveAction()
     {
         // check if data sent
-        if ($data = $this->getRequest()->getPost()) {
+        $data = $this->getRequest()->getPost();
+        if ($data) {
             $data = $this->_filterPostData($data);
             //init model and set data
             $model = Mage::getModel('Magento_Cms_Model_Page');
 
-            if ($id = $this->getRequest()->getParam('page_id')) {
+            $id = $this->getRequest()->getParam('page_id');
+            if ($id) {
                 $model->load($id);
             }
 
@@ -145,8 +164,7 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
 
             } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 $this->_getSession()->addException($e,
                     __('Something went wrong while saving the page.'));
             }
@@ -164,7 +182,8 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
     public function deleteAction()
     {
         // check if we know what should be deleted
-        if ($id = $this->getRequest()->getParam('page_id')) {
+        $id = $this->getRequest()->getParam('page_id');
+        if ($id) {
             $title = "";
             try {
                 // init model and delete
@@ -206,13 +225,10 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
             case 'new':
             case 'save':
                 return $this->_authorization->isAllowed('Magento_Cms::save');
-                break;
             case 'delete':
                 return $this->_authorization->isAllowed('Magento_Cms::page_delete');
-                break;
             default:
                 return $this->_authorization->isAllowed('Magento_Cms::page');
-                break;
         }
     }
 
@@ -244,7 +260,8 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
                 $errorNo = false;
             }
             if (!empty($data['custom_layout_update_xml'])
-            && !$validatorCustomLayout->isValid($data['custom_layout_update_xml'])) {
+                && !$validatorCustomLayout->isValid($data['custom_layout_update_xml'])
+            ) {
                 $errorNo = false;
             }
             foreach ($validatorCustomLayout->getMessages() as $message) {

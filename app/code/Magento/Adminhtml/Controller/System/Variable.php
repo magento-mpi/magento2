@@ -18,6 +18,25 @@
 class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Initialize Layout and set breadcrumbs
      *
      * @return Magento_Adminhtml_Controller_System_Variable
@@ -47,13 +66,12 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
             $variable->setStoreId($storeId)
                 ->load($variableId);
         }
-        Mage::register('current_variable', $variable);
+        $this->_coreRegistry->register('current_variable', $variable);
         return $variable;
     }
 
     /**
      * Index Action
-     *
      */
     public function indexAction()
     {
@@ -65,7 +83,6 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
 
     /**
      * New Action (forward to edit action)
-     *
      */
     public function newAction()
     {
@@ -74,7 +91,6 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
 
     /**
      * Edit Action
-     *
      */
     public function editAction()
     {
@@ -92,7 +108,6 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
 
     /**
      * Validate Action
-     *
      */
     public function validateAction()
     {
@@ -111,7 +126,6 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
 
     /**
      * Save Action
-     *
      */
     public function saveAction()
     {
@@ -144,7 +158,6 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
 
     /**
      * Delete Action
-     *
      */
     public function deleteAction()
     {
@@ -167,7 +180,6 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
 
     /**
      * WYSIWYG Plugin Action
-     *
      */
     public function wysiwygPluginAction()
     {

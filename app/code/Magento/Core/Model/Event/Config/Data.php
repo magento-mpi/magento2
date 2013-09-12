@@ -25,15 +25,15 @@ class Magento_Core_Model_Event_Config_Data extends Magento_Config_Data
      * @param Magento_Core_Model_Event_Config_Reader $reader
      * @param Magento_Config_ScopeInterface $configScope
      * @param Magento_Config_CacheInterface $cache
-     * @param Magento_Core_Model_App_State $appState
      * @param string $cacheId
+     * @param Magento_Core_Model_App_State $appState
      */
     public function __construct(
         Magento_Core_Model_Event_Config_Reader $reader,
         Magento_Config_ScopeInterface $configScope,
         Magento_Config_CacheInterface $cache,
         Magento_Core_Model_App_State $appState,
-        $cacheId = "event_config_cache"
+        $cacheId = 'event_config_cache'
     ) {
         $this->_appState = $appState;
         parent::__construct($reader, $configScope, $cache, $cacheId);

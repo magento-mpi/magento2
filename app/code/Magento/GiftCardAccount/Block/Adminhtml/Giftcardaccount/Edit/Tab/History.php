@@ -8,10 +8,35 @@
  * @license     {license_link}
  */
 
-
-class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History extends Magento_Adminhtml_Block_Widget_Grid
+class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History
+    extends Magento_Adminhtml_Block_Widget_Grid
 {
     protected $_collection;
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -25,7 +50,10 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History e
     {
         $collection = Mage::getModel('Magento_GiftCardAccount_Model_History')
             ->getCollection()
-            ->addFieldToFilter('giftcardaccount_id', Mage::registry('current_giftcardaccount')->getId());
+            ->addFieldToFilter(
+                'giftcardaccount_id',
+                $this->_coreRegistry->registry('current_giftcardaccount')->getId()
+        );
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
@@ -57,7 +85,8 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History e
             'options'   => Mage::getSingleton('Magento_GiftCardAccount_Model_History')->getActionNamesArray(),
         ));
 
-        $currency = Mage::app()->getWebsite(Mage::registry('current_giftcardaccount')->getWebsiteId())->getBaseCurrencyCode();
+        $giftCardAccount = $this->_coreRegistry->registry('current_giftcardaccount');
+        $currency = Mage::app()->getWebsite($giftCardAccount->getWebsiteId())->getBaseCurrencyCode();
         $this->addColumn('balance_delta', array(
             'header'        => __('Balance Change'),
             'width'         => 50,
@@ -89,6 +118,6 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History e
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/gridHistory', array('_current'=> true));
+        return $this->getUrl('*/*/gridHistory', array('_current' => true));
     }
 }

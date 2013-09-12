@@ -10,12 +10,7 @@
 
 /**
  * Catalog product attribute controller
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adminhtml_Controller_Action
 {
     /**
@@ -24,18 +19,31 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
     private $_attributeLabelCache;
 
     /**
+     * @var string
+     */
+    protected $_entityTypeId;
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Cache_FrontendInterface $attributeLabelCache
+     * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
-        Magento_Cache_FrontendInterface $attributeLabelCache
+        Magento_Cache_FrontendInterface $attributeLabelCache,
+        Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
         $this->_attributeLabelCache = $attributeLabelCache;
     }
-
-    protected $_entityTypeId;
 
     public function preDispatch()
     {
@@ -114,7 +122,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
             $model->addData($attributeData);
         }
 
-        Mage::register('entity_attribute', $model);
+        $this->_coreRegistry->register('entity_attribute', $model);
 
         $this->_initAction();
 
@@ -348,8 +356,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
 
             try {
                 $model->save();
-                $session->addSuccess(
-                    __('You saved the product attribute.'));
+                $session->addSuccess(__('You saved the product attribute.'));
 
                 $this->_attributeLabelCache->clean();
                 $session->setAttributeData(false);
@@ -382,7 +389,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
 
     public function deleteAction()
     {
-        if ($id = $this->getRequest()->getParam('attribute_id')) {
+        $id = $this->getRequest()->getParam('attribute_id');
+        if ($id) {
             $model = Mage::getModel('Magento_Catalog_Model_Resource_Eav_Attribute');
 
             // entity type check
@@ -400,8 +408,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
                     __('The product attribute has been deleted.'));
                 $this->_redirect('*/*/');
                 return;
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('attribute_id' => $this->getRequest()->getParam('attribute_id')));
                 return;

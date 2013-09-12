@@ -11,6 +11,27 @@
 class Magento_Rma_Block_Adminhtml_Product_Bundle_Js extends Magento_Adminhtml_Block_Template
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Get url for Bundle AJAX Action
      *
      * @return string
@@ -28,7 +49,7 @@ class Magento_Rma_Block_Adminhtml_Product_Bundle_Js extends Magento_Adminhtml_Bl
     public function getLoadAttributesUrl()
     {
         return $this->getUrl('*/*/loadNewAttributes', array(
-            'order_id' => Mage::registry('current_order')->getId()
+            'order_id' => $this->_coreRegistry->registry('current_order')->getId()
         ));
     }
 
