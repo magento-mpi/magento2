@@ -18,6 +18,6 @@ $this->updateAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'weight',
     'frontend_input_renderer',
-    'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer'
+    '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight\Renderer'
 );
 $this->updateAttribute(\Magento\Catalog\Model\Product::ENTITY, 'weight', 'apply_to', implode(',', $applyTo));
