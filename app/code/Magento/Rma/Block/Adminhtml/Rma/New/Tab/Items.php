@@ -33,23 +33,23 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Backend_Bloc
 
     /**
      * @param Magento_Rma_Helper_Eav $rmaEav
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
         Magento_Rma_Helper_Eav $rmaEav,
+        Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_rmaEav = $rmaEav;
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     /**

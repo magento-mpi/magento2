@@ -11,7 +11,7 @@
 /**
  * Recurring profiles grid
  */
-class Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Magento_Adminhtml_Block_Widget_Grid
+class Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Magento_Backend_Block_Widget_Grid
 {
     /**
      * Set ajax/session parameters

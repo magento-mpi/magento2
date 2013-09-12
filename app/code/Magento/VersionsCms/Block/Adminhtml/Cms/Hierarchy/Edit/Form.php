@@ -40,13 +40,6 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
     protected $_cmsHierarchy = null;
 
     /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -64,9 +57,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
         $this->_cmsHierarchy = $cmsHierarchy;
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
 
         $this->setTemplate('hierarchy/edit.phtml');
 

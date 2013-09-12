@@ -29,6 +29,7 @@ class Magento_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_Blo
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -36,10 +37,11 @@ class Magento_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_Blo
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_searchData = $searchData;
-        parent::__construct($catalogSearchData, $coreData, $context, $data);
+        parent::__construct($catalogSearchData, $coreData, $context, $registry, $data);
     }
 
     /**

@@ -23,13 +23,6 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form
     protected $_template = 'page/version/form.phtml';
 
     /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-    
-    /**
      * Cms data
      *
      * @var Magento_VersionsCms_Helper_Data
@@ -53,8 +46,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
-        $this->_coreRegistry = $registry;
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     /**

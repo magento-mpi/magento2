@@ -103,7 +103,7 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
             $collection->setOrder('profile_id', 'desc');
         }
         $this->setCollection($collection);
-        return Magento_Adminhtml_Block_Widget_Grid::_prepareCollection();
+        return parent::_prepareCollection();
     }
 
     /**
