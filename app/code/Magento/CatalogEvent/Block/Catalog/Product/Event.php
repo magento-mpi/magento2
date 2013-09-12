@@ -32,8 +32,9 @@ class Magento_CatalogEvent_Block_Catalog_Product_Event extends Magento_CatalogEv
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
         parent::__construct($context, $locale, $data);
+
+        $this->_coreRegistry = $registry;
     }
 
     /**

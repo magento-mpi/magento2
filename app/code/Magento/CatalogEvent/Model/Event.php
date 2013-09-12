@@ -71,7 +71,7 @@ class Magento_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
     protected $_dir;
 
     /**
-     * Store model manager
+     * Store manager
      *
      * @var Magento_Core_Model_StoreManagerInterface
      */
