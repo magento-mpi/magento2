@@ -18,7 +18,8 @@ class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $logger = $objectManager->get('Magento_Core_Model_Logger');
         $this->_model = $this->getMockForAbstractClass('Magento_Core_Model_Session_Abstract', array($logger));
     }
 

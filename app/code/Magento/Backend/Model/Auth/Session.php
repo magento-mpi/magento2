@@ -37,12 +37,14 @@ class Magento_Backend_Model_Auth_Session
     protected $_aclBuilder;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Acl_Builder $aclBuilder
      */
-    public function __construct(Magento_Acl_Builder $aclBuilder)
+    public function __construct(Magento_Core_Model_Logger $logger, Magento_Acl_Builder $aclBuilder)
     {
         $this->_aclBuilder = $aclBuilder;
         $this->init('admin');
+        parent::__construct($logger);
     }
 
     /**
