@@ -1110,7 +1110,10 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     public function addUrlRewrite($categoryId = '')
     {
         $this->_addUrlRewrite = true;
-        if ($this->_coreStoreConfig->getConfig(Magento_Catalog_Helper_Product::XML_PATH_PRODUCT_URL_USE_CATEGORY, $this->getStoreId())) {
+        $useCategoryUrl = $this->_coreStoreConfig->getConfig(
+            Magento_Catalog_Helper_Product::XML_PATH_PRODUCT_URL_USE_CATEGORY, $this->getStoreId()
+        );
+        if ($useCategoryUrl) {
             $this->_urlRewriteCategory = $categoryId;
         } else {
             $this->_urlRewriteCategory = 0;

@@ -237,7 +237,9 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
         }
 
         if (!isset($this->_productUrlSuffix[$storeId])) {
-            $this->_productUrlSuffix[$storeId] = $this->_coreStoreConfig->getConfig(self::XML_PATH_PRODUCT_URL_SUFFIX, $storeId);
+            $this->_productUrlSuffix[$storeId] = $this->_coreStoreConfig->getConfig(
+                self::XML_PATH_PRODUCT_URL_SUFFIX, $storeId
+            );
         }
         return $this->_productUrlSuffix[$storeId];
     }

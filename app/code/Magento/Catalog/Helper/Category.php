@@ -143,7 +143,9 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
         }
 
         if (!isset($this->_categoryUrlSuffix[$storeId])) {
-            $this->_categoryUrlSuffix[$storeId] = $this->_coreStoreConfig->getConfig(self::XML_PATH_CATEGORY_URL_SUFFIX, $storeId);
+            $this->_categoryUrlSuffix[$storeId] = $this->_coreStoreConfig->getConfig(
+                self::XML_PATH_CATEGORY_URL_SUFFIX, $storeId
+            );
         }
         return $this->_categoryUrlSuffix[$storeId];
     }

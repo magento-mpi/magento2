@@ -157,7 +157,8 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
             if ($this->_canReturnToStock) {
                 $canReturnToStock = false;
                 foreach ($this->getCreditmemo()->getAllItems() as $item) {
-                    $product = Mage::getModel('Magento_Catalog_Model_Product')->load($item->getOrderItem()->getProductId());
+                    $product = Mage::getModel('Magento_Catalog_Model_Product')
+                        ->load($item->getOrderItem()->getProductId());
                     if ( $product->getId() && $product->getStockItem()->getManageStock() ) {
                         $item->setCanReturnToStock($canReturnToStock = true);
                     } else {
@@ -172,6 +173,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
 
     public function canSendCreditmemoEmail()
     {
-        return Mage::helper('Magento_Sales_Helper_Data')->canSendNewCreditmemoEmail($this->getOrder()->getStore()->getId());
+        return Mage::helper('Magento_Sales_Helper_Data')
+            ->canSendNewCreditmemoEmail($this->getOrder()->getStore()->getId());
     }
 }

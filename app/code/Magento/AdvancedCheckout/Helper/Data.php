@@ -231,7 +231,9 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     public function getSkuCustomerGroups()
     {
         if ($this->_allowedGroups === null) {
-            $this->_allowedGroups = explode(',', trim($this->_coreStoreConfig->getConfig(self::XML_PATH_SKU_ALLOWED_GROUPS)));
+            $this->_allowedGroups = explode(
+                ',', trim($this->_coreStoreConfig->getConfig(self::XML_PATH_SKU_ALLOWED_GROUPS))
+            );
         }
         return $this->_allowedGroups;
     }
@@ -307,10 +309,13 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
                             $quoteItem->setCanApplyMsrp(true);
                             $itemProduct->setRealPriceHtml(
                                 Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
-                                    Mage::helper('Magento_Tax_Helper_Data')->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
+                                    Mage::helper('Magento_Tax_Helper_Data')
+                                        ->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
                                 ))
                             );
-                            $itemProduct->setAddToCartUrl(Mage::helper('Magento_Checkout_Helper_Cart')->getAddUrl($itemProduct));
+                            $itemProduct->setAddToCartUrl(
+                                Mage::helper('Magento_Checkout_Helper_Cart')->getAddUrl($itemProduct)
+                            );
                         } else {
                             $quoteItem->setCanApplyMsrp(false);
                         }

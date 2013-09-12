@@ -328,7 +328,9 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
         if (!$file) {
             $this->_isBaseFilePlaceholder = true;
             // check if placeholder defined in config
-            $isConfigPlaceholder = $this->_coreStoreConfig->getConfig("catalog/placeholder/{$this->getDestinationSubdir()}_placeholder");
+            $isConfigPlaceholder = $this->_coreStoreConfig->getConfig(
+                "catalog/placeholder/{$this->getDestinationSubdir()}_placeholder"
+            );
             $configPlaceholder   = '/placeholder/' . $isConfigPlaceholder;
             if (!empty($isConfigPlaceholder) && $this->_fileExists($baseDir . $configPlaceholder)) {
                 $file = $configPlaceholder;
