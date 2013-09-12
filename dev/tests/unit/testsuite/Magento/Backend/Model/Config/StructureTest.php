@@ -182,7 +182,7 @@ class Magento_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestC
     public function getFieldPathsByAttributeDataProvider()
     {
         return array(
-            array('backend_model', '\Magento\Backend\Model\Config\Backend\Encrypted', array(
+            array('backend_model', 'Magento\Backend\Model\Config\Backend\Encrypted', array(
                 'section_1/group_1/field_2',
                 'section_1/group_level_1/group_level_2/group_level_3/field_3.1.1',
                 'section_2/group_3/field_4',
