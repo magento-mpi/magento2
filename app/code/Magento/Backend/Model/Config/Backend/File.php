@@ -11,9 +11,7 @@
 /**
  * System config file field backend model
  *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Config_Value
 {

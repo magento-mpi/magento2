@@ -531,8 +531,11 @@ class Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Blo
      * @param Magento_Sales_Model_Order_Creditmemo_Item $item
      * @return bool
      */
-    public function canReturnItemToStock($item=null) {
-        $canReturnToStock = Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT);
+    public function canReturnItemToStock($item = null)
+    {
+        $canReturnToStock = $this->_storeConfig->getConfig(
+            Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT
+        );
         if (!is_null($item)) {
             if (!$item->hasCanReturnToStock()) {
                 $product = Mage::getModel('Magento_Catalog_Model_Product')->load($item->getOrderItem()->getProductId());
@@ -554,7 +557,9 @@ class Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Blo
      */
     public function canParentReturnToStock($item = null)
     {
-        $canReturnToStock = $this->_storeConfig->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT);
+        $canReturnToStock = $this->_storeConfig->getConfig(
+            Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT
+        );
         if (!is_null($item)) {
             if ( $item->getCreditmemo()->getOrder()->hasCanReturnToStock() ) {
                 $canReturnToStock = $item->getCreditmemo()->getOrder()->getCanReturnToStock();
