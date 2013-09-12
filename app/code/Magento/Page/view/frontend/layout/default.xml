@@ -17,7 +17,7 @@
             <block class="\Magento\Page\Block\Html\Notices" name="global_notices" as="global_notices" template="html/notices.phtml"/>
             <block class="\Magento\Page\Block\Html\Header" name="header" as="header">
                 <block class="\Magento\Page\Block\Template\Links" name="top.links" as="topLinks"/>
-                <block class="\Magento\Page\Block\Switch" name="store_language" as="store_language" template="switch/languages.phtml"/>
+                <block class="\Magento\Page\Block\Switcher" name="store_language" as="store_language" template="switch/languages.phtml"/>
                 <container name="top.menu" as="topMenu" label="Navigation Bar">
                     <block class="\Magento\Page\Block\Html\Topmenu" name="catalog.topnav" template="html/topmenu.phtml"/>
                 </container>
@@ -31,7 +31,7 @@
             <container name="right" as="right" label="Right Column"/>
             <block class="\Magento\Page\Block\Html\Footer" name="footer" as="footer" template="html/footer.phtml">
                 <container name="bottom.container" as="bottomContainer" label="Page Footer" htmlTag="div" htmlClass="bottom-container"/>
-                <block class="\Magento\Page\Block\Switch" name="store_switcher" as="store_switcher" template="switch/stores.phtml"/>
+                <block class="\Magento\Page\Block\Switcher" name="store_switcher" as="store_switcher" template="switch/stores.phtml"/>
                 <block class="\Magento\Page\Block\Template\Links" name="footer_links" as="footer_links" template="template/links.phtml"/>
             </block>
             <container name="before_body_end" as="before_body_end" label="Page Bottom"/>

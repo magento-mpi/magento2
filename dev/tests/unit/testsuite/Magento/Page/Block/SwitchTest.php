@@ -30,7 +30,7 @@ class Magento_Page_Block_SwitchTest extends PHPUnit_Framework_TestCase
         $storeMock->expects($this->once())->method('isUseStoreInUrl')->will($this->returnValue($isUseStoreInUrl));
         $storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface');
         $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));
-        $block = $this->_objectManager->getObject('\Magento\Page\Block\Switch', array('storeManager' => $storeManager));
+        $block = $this->_objectManager->getObject('\Magento\Page\Block\Switcher', array('storeManager' => $storeManager));
 
         $this->assertEquals($block->isStoreInUrl(), $isUseStoreInUrl);
 
