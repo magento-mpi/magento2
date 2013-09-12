@@ -32,7 +32,7 @@ class Magento_TestFramework_ObjectManager extends \Magento\Core\Model\ObjectMana
         }
 
         \Magento\Core\Model\Config\Base::destroy();
-        $sharedInstances = array('Magento\ObjectManager' => $this, '\Magento\Core\Model\ObjectManager' => $this);
+        $sharedInstances = array('Magento\ObjectManager' => $this, 'Magento\Core\Model\ObjectManager' => $this);
         if (isset($this->_sharedInstances['Magento\Core\Model\Resource'])) {
             $sharedInstances['Magento\Core\Model\Resource'] = $this->_sharedInstances['Magento\Core\Model\Resource'];
         }
