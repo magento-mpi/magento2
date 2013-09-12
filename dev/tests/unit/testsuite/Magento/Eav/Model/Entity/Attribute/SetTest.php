@@ -48,7 +48,7 @@ class Magento_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestC
             ->method('validate')
             ->will($this->returnValue(false));
 
-        $this->setExpectedException('\Magento\Eav\Exception', $exceptionMessage);
+        $this->setExpectedException('Magento\Eav\Exception', $exceptionMessage);
         $this->_model->setAttributeSetName($attributeSetName);
         $this->_model->validate();
     }

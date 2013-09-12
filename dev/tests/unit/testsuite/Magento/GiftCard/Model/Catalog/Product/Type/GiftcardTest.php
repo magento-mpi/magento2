@@ -63,17 +63,17 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
     protected function _mockModel($mockedMethods)
     {
         $helpers = array(
-            '\Magento\GiftCard\Helper\Data'        => $this->getMock(
-                '\Magento\GiftCard\Helper\Data', array(), array(), '', false, false
+            'Magento\GiftCard\Helper\Data'        => $this->getMock(
+                'Magento\GiftCard\Helper\Data', array(), array(), '', false, false
             ),
-            '\Magento\Core\Helper\Data'                  => $this->getMock(
-                '\Magento\Core\Helper\Data', array(), array(), '', false, false
+            'Magento\Core\Helper\Data'                  => $this->getMock(
+                'Magento\Core\Helper\Data', array(), array(), '', false, false
             ),
-            '\Magento\Catalog\Helper\Data'               => $this->getMock(
-                '\Magento\Catalog\Helper\Data', array(), array(), '', false, false
+            'Magento\Catalog\Helper\Data'               => $this->getMock(
+                'Magento\Catalog\Helper\Data', array(), array(), '', false, false
             ),
-            '\Magento\Core\Helper\File\Storage\Database' => $this->getMock(
-                '\Magento\Core\Helper\File\Storage\Database', array(), array(), '', false, false
+            'Magento\Core\Helper\File\Storage\Database' => $this->getMock(
+                'Magento\Core\Helper\File\Storage\Database', array(), array(), '', false, false
             )
         );
 
