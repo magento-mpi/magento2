@@ -112,6 +112,13 @@ final class Mage
     static private $_app;
 
     /**
+     * Config Model
+     *
+     * @var Magento_Core_Model_Config
+     */
+    static private $_config;
+
+    /**
      * Object manager interface
      *
      * @var Magento_ObjectManager
