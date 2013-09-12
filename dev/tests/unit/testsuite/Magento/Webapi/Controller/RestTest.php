@@ -12,9 +12,6 @@ class Magento_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
     /** @var Magento_Webapi_Controller_Rest */
     protected $_restController;
 
-    /** @var Magento_Webapi_Controller_Rest_Authentication */
-    protected $_authenticationMock;
-
     /** @var Magento_Webapi_Controller_Rest_Request */
     protected $_requestMock;
 
@@ -61,11 +58,6 @@ class Magento_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_authenticationMock = $this->getMockBuilder('Magento_Webapi_Controller_Rest_Authentication')
-            ->setMethods(array('isSecure'))
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
@@ -84,7 +76,6 @@ class Magento_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
             $this->_requestMock,
             $this->_responseMock,
             $this->_routerMock,
-            $this->_authenticationMock,
             $this->_objectManagerMock,
             $this->_appStateMock
         );
@@ -111,12 +102,10 @@ class Magento_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         unset($this->_restController);
-        unset($this->_authenticationMock);
         unset($this->_requestMock);
         unset($this->_responseMock);
         unset($this->_routerMock);
         unset($this->_objectManagerMock);
-        unset($this->_authorizationMock);
         unset($this->_appStateMock);
         parent::tearDown();
     }
