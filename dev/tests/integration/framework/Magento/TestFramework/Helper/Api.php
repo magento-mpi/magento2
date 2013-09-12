@@ -40,8 +40,11 @@ class Magento_TestFramework_Helper_Api
         $serverMock = $testCase->getMock('Magento_Api_Model_Server', array('getAdapter'));
         $serverMock->expects($testCase->any())->method('getAdapter')->will($testCase->returnValue($soapAdapterMock));
 
+        $registryMock = $testCase->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
         $apiSessionMock = $testCase->getMock(
-            'Magento_Api_Model_Session', array('isAllowed', 'isLoggedIn'), array($storeConfig, $coreConfig)
+            'Magento_Api_Model_Session',
+            array('isAllowed', 'isLoggedIn'),
+            array($storeConfig, $coreConfig, $registryMock)
         );
         $apiSessionMock->expects($testCase->any())->method('isAllowed')->will($testCase->returnValue(true));
         $apiSessionMock->expects($testCase->any())->method('isLoggedIn')->will($testCase->returnValue(true));
