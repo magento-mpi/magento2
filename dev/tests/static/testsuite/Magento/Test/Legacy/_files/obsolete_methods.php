@@ -680,4 +680,5 @@ return array(
     array('register', 'Mage', 'use Magento_Core_Model_Registry'),
     array('unregister', 'Mage', 'use Magento_Core_Model_Registry'),
     array('registry', 'Mage', 'use Magento_Core_Model_Registry'),
+    array('getObjectManager', 'Mage'),
 );
