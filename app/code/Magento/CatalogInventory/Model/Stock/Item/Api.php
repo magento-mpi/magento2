@@ -2,23 +2,30 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Catalog inventory api
- *
- * @category   Magento
- * @package    Magento_CatalogInventory
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_CatalogInventory_Model_Stock_Item_Api extends Magento_Catalog_Model_Api_Resource
 {
-    public function __construct()
+    /**
+     * Product model factory
+     *
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     */
+    public function __construct(Magento_Catalog_Model_ProductFactory $productFactory)
     {
+        $this->_productFactory = $productFactory;
         $this->_storeIdSessionField = 'product_store_id';
     }
 
@@ -28,7 +35,8 @@ class Magento_CatalogInventory_Model_Stock_Item_Api extends Magento_Catalog_Mode
             $productIds = array($productIds);
         }
 
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var \Magento_Catalog_Model_Product $product */
+        $product = $this->_productFactory->create();
 
         foreach ($productIds as &$productId) {
             if ($newId = $product->getIdBySku($productId)) {
@@ -36,7 +44,7 @@ class Magento_CatalogInventory_Model_Stock_Item_Api extends Magento_Catalog_Mode
             }
         }
 
-        $collection = Mage::getModel('Magento_Catalog_Model_Product')
+        $collection = $this->_productFactory->create()
             ->getCollection()
             ->setFlag('require_stock_items', true)
             ->addFieldToFilter('entity_id', array('in'=>$productIds));

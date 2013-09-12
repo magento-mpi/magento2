@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,10 +9,6 @@
 
 /**
  * Stock resource model
- *
- * @category    Magento
- * @package     Magento_CatalogInventory
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_Resource_Db_Abstract
 {
@@ -66,6 +60,28 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
      * @var Magento_CatalogInventory_Model_Stock
      */
     protected $_stock;
+
+    /**
+     * Stock model factory
+     *
+     * @var Magento_CatalogInventory_Model_StockFactory
+     */
+    protected $_stockFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_CatalogInventory_Model_StockFactory $stockFactory
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_CatalogInventory_Model_StockFactory $stockFactory
+    ) {
+        parent::__construct($resource);
+
+        $this->_stockFactory = $stockFactory;
+    }
 
     /**
      * Define main table and initialize connection
@@ -207,7 +223,7 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
             }
 
             $this->_isConfig = true;
-            $this->_stock = Mage::getModel('Magento_CatalogInventory_Model_Stock');
+            $this->_stock = $this->_stockFactory->create();
             $this->_configTypeIds = array_keys(Mage::helper('Magento_CatalogInventory_Helper_Data')->getIsQtyTypeIds(true));
         }
     }

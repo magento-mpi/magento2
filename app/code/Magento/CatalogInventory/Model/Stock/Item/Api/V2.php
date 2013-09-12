@@ -19,8 +19,8 @@ class Magento_CatalogInventory_Model_Stock_Item_Api_V2 extends Magento_CatalogIn
      */
     public function update($productId, $data)
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var \Magento_Catalog_Model_Product $product */
+        $product = $this->_productFactory->create();
         $productId = $product->getIdBySku($productId) ?: $productId;
 
         $product->setStoreId($this->_getStoreId())

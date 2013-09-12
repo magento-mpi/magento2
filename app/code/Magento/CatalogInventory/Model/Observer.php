@@ -10,10 +10,6 @@
 
 /**
  * Catalog inventory module observer
- *
- * @category   Magento
- * @package    Magento_CatalogInventory
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_CatalogInventory_Model_Observer
 {
@@ -36,6 +32,44 @@ class Magento_CatalogInventory_Model_Observer
     protected $_stockItemsArray = array();
 
     /**
+     * Stock item factory
+     *
+     * @var Magento_CatalogInventory_Model_Stock_ItemFactory
+     */
+    protected $_stockItemFactory;
+
+    /**
+     * Stock model factory
+     *
+     * @var Magento_CatalogInventory_Model_StockFactory
+     */
+    protected $_stockFactory;
+
+    /**
+     * Stock status factory
+     *
+     * @var Magento_CatalogInventory_Model_Stock_StatusFactory
+     */
+    protected $_stockStatusFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory
+     * @param Magento_CatalogInventory_Model_StockFactory $stockFactory
+     * @param Magento_CatalogInventory_Model_Stock_StatusFactory $stockStatusFactory
+     */
+    public function __construct(
+        Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory,
+        Magento_CatalogInventory_Model_StockFactory $stockFactory,
+        Magento_CatalogInventory_Model_Stock_StatusFactory $stockStatusFactory
+    ) {
+        $this->_stockItemFactory = $stockItemFactory;
+        $this->_stockFactory = $stockFactory;
+        $this->_stockStatusFactory = $stockStatusFactory;
+    }
+
+    /**
      * Add stock information to product
      *
      * @param   Magento_Event_Observer $observer
@@ -47,7 +81,7 @@ class Magento_CatalogInventory_Model_Observer
         if ($product instanceof Magento_Catalog_Model_Product) {
             $productId = intval($product->getId());
             if (!isset($this->_stockItemsArray[$productId])) {
-                $this->_stockItemsArray[$productId] = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
+                $this->_stockItemsArray[$productId] = $this->_stockItemFactory->create();
             }
             $productStockItem = $this->_stockItemsArray[$productId];
             $productStockItem->assignProduct($product);
@@ -83,9 +117,9 @@ class Magento_CatalogInventory_Model_Observer
     {
         $productCollection = $observer->getEvent()->getCollection();
         if ($productCollection->hasFlag('require_stock_items')) {
-            Mage::getModel('Magento_CatalogInventory_Model_Stock')->addItemsToProducts($productCollection);
+            $this->_stockFactory->create()->addItemsToProducts($productCollection);
         } else {
-            Mage::getModel('Magento_CatalogInventory_Model_Stock_Status')->addStockStatusToProducts($productCollection);
+            $this->_stockStatusFactory->create()->addStockStatusToProducts($productCollection);
         }
         return $this;
     }
@@ -99,7 +133,7 @@ class Magento_CatalogInventory_Model_Observer
     public function addInventoryDataToCollection($observer)
     {
         $productCollection = $observer->getEvent()->getProductCollection();
-        Mage::getModel('Magento_CatalogInventory_Model_Stock')->addItemsToProducts($productCollection);
+        $this->_stockFactory->create()->addItemsToProducts($productCollection);
         return $this;
     }
 
@@ -123,7 +157,7 @@ class Magento_CatalogInventory_Model_Observer
 
         $item = $product->getStockItem();
         if (!$item) {
-            $item = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
+            $item = $this->_stockItemFactory->create();
         }
         $this->_prepareItemForSave($item, $product);
         $item->save();
@@ -268,6 +302,7 @@ class Magento_CatalogInventory_Model_Observer
      *
      * @param  Magento_Event_Observer $observer
      * @return Magento_CatalogInventory_Model_Observer
+     * @throws Magento_Core_Exception
      */
     public function checkQuoteItemQty($observer)
     {
@@ -356,9 +391,7 @@ class Magento_CatalogInventory_Model_Observer
 
                 /* @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
                 if (!$stockItem instanceof Magento_CatalogInventory_Model_Stock_Item) {
-                    Mage::throwException(
-                        __('The stock item for Product in option is not valid.')
-                    );
+                    throw new Magento_Core_Exception(__('The stock item for Product in option is not valid.'));
                 }
 
                 /**
@@ -424,7 +457,7 @@ class Magento_CatalogInventory_Model_Observer
         } else {
             /* @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
             if (!$stockItem instanceof Magento_CatalogInventory_Model_Stock_Item) {
-                Mage::throwException(__('The stock item for Product is not valid.'));
+                throw new Magento_Core_Exception(__('The stock item for Product is not valid.'));
             }
 
             /**
