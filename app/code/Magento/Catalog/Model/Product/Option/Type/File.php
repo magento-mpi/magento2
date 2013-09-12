@@ -39,13 +39,18 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
      * By default is looking for first argument as array and assigns it as object attributes
      * This behavior may change in child classes
      *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Filesystem $filesystem
      * @param array $data
      */
-    public function __construct(Magento_Filesystem $filesystem, $data = array())
-    {
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Filesystem $filesystem,
+        $data = array()
+    ) {
         $this->_filesystem = $filesystem;
         $this->_data = $data;
+        parent::__construct($coreStoreConfig, $data);
     }
 
 

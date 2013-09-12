@@ -31,13 +31,19 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
      */
     protected $_importModel;
 
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_ImportExport_Model_Import $importModel
+     * @param array $data
+     */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_ImportExport_Model_Import $importModel,
         array $data = array()
-    )
-    {
-        parent::__construct($context, $data);
+    ) {
+        parent::__construct($context, $registry, $data);
         $this->_importModel = $importModel;
     }
 

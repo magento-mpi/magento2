@@ -34,9 +34,7 @@ class Magento_Customer_Model_Resource_Customer_Collection extends Magento_Eav_Mo
         Magento_Core_Model_Config $coreConfig
     ) {
         $this->_coreConfig = $coreConfig;
-        parent::__construct(
-            $fetchStrategy
-        );
+        parent::__construct($fetchStrategy);
     }
 
     /**

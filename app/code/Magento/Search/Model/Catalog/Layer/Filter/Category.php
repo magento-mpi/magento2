@@ -27,11 +27,16 @@ class Magento_Search_Model_Catalog_Layer_Filter_Category extends Magento_Catalog
 
     /**
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($coreRegistry, $data);
     }
 
     /**

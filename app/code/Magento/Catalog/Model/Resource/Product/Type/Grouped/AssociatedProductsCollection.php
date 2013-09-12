@@ -26,41 +26,27 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
     protected $_coreRegistry = null;
 
     /**
-     * Collection constructor
-     *
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Registry $coreRegistry
-     */
-    public function __construct(
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Registry $coreRegistry
-    ) {
-        $this->_coreRegistry = $coreRegistry;
-        parent::__construct($fetchStrategy);
-    }
-
-    /**
      * @var Magento_Core_Model_Config
      */
     protected $_coreConfig;
 
     /**
-     * Constructor
+     * Collection constructor
      *
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_coreConfig = $coreConfig;
-        parent::__construct(
-            $fetchStrategy,
-            $coreStoreConfig
-        );
+        parent::__construct($fetchStrategy, $coreStoreConfig);
     }
 
     /**

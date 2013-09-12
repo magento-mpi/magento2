@@ -31,15 +31,17 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
     /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $config);
+        parent::__construct($context, $config, $coreStoreConfig);
     }
 
     /**

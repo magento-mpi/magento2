@@ -35,7 +35,7 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
     /**
      * Class construct
      *
-     * @param string $databaseConnection
+     * @param string $connectionName
      */
     public function __construct($connectionName = null)
     {

@@ -62,7 +62,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Backend_Helper_Data $backendHelper
      * @param Magento_Core_Helper_Data $coreHelper
@@ -71,7 +71,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $storeConfig,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
         Magento_Backend_Helper_Data $backendHelper,
         Magento_Core_Helper_Data $coreHelper,
@@ -80,7 +80,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
         array $data = array()
     ) {
         parent::__construct(
-            $storeConfig,
+            $coreStoreConfig,
             $coreConfig,
             $data
         );

@@ -45,6 +45,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
@@ -52,6 +53,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
@@ -59,6 +61,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
             $context,
             $storeManager,
             $urlModel,
+            $coreRegistry,
             $data
         );
         $this->_coreConfig = $coreConfig;

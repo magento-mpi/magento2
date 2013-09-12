@@ -27,14 +27,16 @@ class Magento_Reminder_Model_Resource_Customer_Collection extends Magento_Custom
      * Collection constructor
      *
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($fetchStrategy);
+        parent::__construct($fetchStrategy, $coreConfig);
     }
 
     /**

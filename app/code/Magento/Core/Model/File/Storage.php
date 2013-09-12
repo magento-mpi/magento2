@@ -56,6 +56,7 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
      * Constructor
      *
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -64,6 +65,7 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
@@ -71,7 +73,7 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_coreConfig = $coreConfig;
     }
 

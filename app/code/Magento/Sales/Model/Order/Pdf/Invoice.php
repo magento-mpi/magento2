@@ -18,30 +18,6 @@
 class Magento_Sales_Model_Order_Pdf_Invoice extends Magento_Sales_Model_Order_Pdf_Abstract
 {
     /**
-     * Core store config
-     *
-     * @var Magento_Core_Model_Store_Config
-     */
-    protected $_coreStoreConfig = null;
-
-    /**
-     * Constructor
-     *
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        array $data = array()
-    ) {
-        parent::__construct(
-            $coreStoreConfig,
-            $data
-        );
-        $this->_coreStoreConfig = $coreStoreConfig;
-    }
-
-    /**
      * Draw header for item table
      *
      * @param Zend_Pdf_Page $page
