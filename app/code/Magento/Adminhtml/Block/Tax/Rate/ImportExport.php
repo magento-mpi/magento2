@@ -19,6 +19,7 @@ class Magento_Adminhtml_Block_Tax_Rate_ImportExport extends Magento_Adminhtml_Bl
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {

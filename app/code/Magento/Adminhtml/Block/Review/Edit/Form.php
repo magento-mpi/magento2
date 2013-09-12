@@ -11,7 +11,7 @@
 /**
  * Adminhtml Review Edit Form
  */
-class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Review data
@@ -21,31 +21,23 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Adminhtml_Block_W
     protected $_reviewData = null;
 
     /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
      * @param Magento_Review_Helper_Data $reviewData
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
         Magento_Review_Helper_Data $reviewData,
+        Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
         $this->_reviewData = $reviewData;
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     protected function _prepareForm()
