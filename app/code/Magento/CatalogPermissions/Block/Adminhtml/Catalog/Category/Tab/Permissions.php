@@ -32,16 +32,18 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
      * @param Magento_CatalogPermissions_Helper_Data $catalogPermData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
         Magento_CatalogPermissions_Helper_Data $catalogPermData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_catalogPermData = $catalogPermData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($coreData, $context, $registry, $data);
     }
 
     /**
