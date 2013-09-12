@@ -25,7 +25,6 @@ class Magento_Webapi_Model_Rest_Config
     const KEY_CLASS = 'class';
     const KEY_HTTP_METHOD = 'httpMethod';
     const KEY_METHOD = 'method';
-    const KEY_VERSION = 'version';
     const KEY_ROUTE_PATH = 'routePath';
     /*#@-*/
 
@@ -54,7 +53,6 @@ class Magento_Webapi_Model_Rest_Config
      *  <pre>array(
      *      'routePath' => '/categories/:categoryId',
      *      'httpMethod' => 'GET',
-     *      'version' => 1,
      *      'class' => 'Magento_Catalog_Service_CategoryService',
      *      'serviceMethod' => 'item'
      *      'secure' => true
@@ -69,10 +67,9 @@ class Magento_Webapi_Model_Rest_Config
             strtolower($routeData[self::KEY_ROUTE_PATH])
         );
 
-        $route->setServiceId($routeData[self::KEY_CLASS])
+        $route->setServiceClass($routeData[self::KEY_CLASS])
             ->setHttpMethod($routeData[self::KEY_HTTP_METHOD])
             ->setServiceMethod($routeData[self::KEY_METHOD])
-            ->setServiceVersion(Magento_Webapi_Model_Config::VERSION_NUMBER_PREFIX . $routeData[self::KEY_VERSION])
             ->setSecure($routeData[self::KEY_IS_SECURE]);
         return $route;
     }
@@ -116,7 +113,6 @@ class Magento_Webapi_Model_Rest_Config
                 // baseurl does not match, just skip this service
                 continue;
             }
-            // TODO: skip if version is not null and does not match
             foreach ($serviceData['methods'] as $methodName => $methodInfo) {
                 if (strtoupper($methodInfo[Magento_Webapi_Model_Config::ATTR_HTTP_METHOD]) == strtoupper($httpMethod)) {
                     $secure = isset($methodInfo[Magento_Webapi_Model_Config::ATTR_IS_SECURE])
@@ -126,7 +122,6 @@ class Magento_Webapi_Model_Rest_Config
                         array(
                             self::KEY_ROUTE_PATH =>
                                 $serviceData[Magento_Webapi_Model_Config::ATTR_SERVICE_PATH] . $methodRoute,
-                            self::KEY_VERSION => $request->getServiceVersion(),
                             self::KEY_CLASS => $serviceName,
                             self::KEY_METHOD => $methodName,
                             self::KEY_HTTP_METHOD => $httpMethod,

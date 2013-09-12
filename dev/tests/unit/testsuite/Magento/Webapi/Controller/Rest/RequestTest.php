@@ -204,23 +204,4 @@ class Magento_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestC
             array('application/x-www-form-urlencoded; charset=cp1251', null, 'UTF-8 is the only supported charset.')
         );
     }
-
-    public function testGetServiceVersion()
-    {
-        $this->_request->setParam('serviceVersion', 'v1');
-        $this->assertEquals(1, $this->_request->getServiceVersion(), 'Version number was missed.');
-    }
-
-    public function testSetServiceVersionVersionIsNotSpecifiedException()
-    {
-        $exceptionMessage = 'Service version is not specified or invalid one is specified.';
-        try {
-            $this->_request->setServiceVersion('x1');
-            $this->fail("Exception is expected to be raised");
-        } catch (Magento_Webapi_Exception $e) {
-            $this->assertInstanceOf('Magento_Webapi_Exception', $e, 'Exception type is invalid');
-            $this->assertEquals($exceptionMessage, $e->getMessage(), 'Exception message is invalid');
-            $this->assertEquals(Magento_Webapi_Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
-        }
-    }
 }

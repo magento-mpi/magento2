@@ -57,7 +57,7 @@ class Magento_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->_routeMock = $this->getMockBuilder('Magento_Webapi_Controller_Rest_Router_Route')
-            ->setMethods(array('isSecure', 'getServiceMethod', 'getServiceId', 'getServiceVersion'))
+            ->setMethods(array('isSecure', 'getServiceMethod', 'getServiceClass'))
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -92,11 +92,10 @@ class Magento_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
 
         //Set default expectations used by all tests
         $this->_routeMock
-            ->expects($this->any())->method('getServiceId')->will($this->returnValue(self::SERVICE_ID));
+            ->expects($this->any())->method('getServiceClass')->will($this->returnValue(self::SERVICE_ID));
 
         $this->_routeMock
             ->expects($this->any())->method('getServiceMethod')->will($this->returnValue(self::SERVICE_METHOD));
-        $this->_routeMock->expects($this->any())->method('getServiceVersion');
         $this->_routerMock->expects($this->any())->method('match')->will($this->returnValue($this->_routeMock));
 
         $this->_objectManagerMock->expects($this->any())->method('get')->will($this->returnValue($this->_serviceMock));

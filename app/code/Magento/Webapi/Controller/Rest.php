@@ -93,14 +93,14 @@ class Magento_Webapi_Controller_Rest implements Magento_Core_Controller_FrontInt
             }
             /** @var array $inputData */
             $inputData = $this->_request->getRequestData();
-            // TODO: $this->_authorization->checkResourceAcl($route->getServiceId(), $route->getServiceMethod());
+            // TODO: $this->_authorization->checkResourceAcl($route->getServiceClass(), $route->getServiceMethod());
             $serviceMethod = $route->getServiceMethod();
-            $service = $this->_objectManager->get($route->getServiceId());
+            $service = $this->_objectManager->get($route->getServiceClass());
             $outputData = $service->$serviceMethod($inputData);
             if (!is_array($outputData)) {
                 throw new LogicException(
                     sprintf('The method "%s" of service "%s" must return an array.', $serviceMethod,
-                        $route->getServiceId())
+                        $route->getServiceClass())
                 );
             }
             $this->_response->prepareResponse($outputData);

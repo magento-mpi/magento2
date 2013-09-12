@@ -13,7 +13,6 @@
 class Magento_Webapi_Model_Config
 {
     const CACHE_ID = 'webapi';
-    const VERSION_NUMBER_PREFIX = 'V';
 
     /**#@+
      * Attributes and nodes used in webapi.xml config.

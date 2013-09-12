@@ -31,12 +31,12 @@ class Magento_Webapi_Controller_Rest_Router_RouteTest extends PHPUnit_Framework_
     public function testResourceName()
     {
         /** Assert that new object has no Resource name set. */
-        $this->assertNull($this->_restRoute->getServiceId(), 'New object has a set Resource name.');
+        $this->assertNull($this->_restRoute->getServiceClass(), 'New object has a set Resource name.');
         /** Set Resource name. */
         $resourceName = 'Resource name';
-        $this->_restRoute->setServiceId($resourceName);
+        $this->_restRoute->setServiceClass($resourceName);
         /** Assert that Resource name was set. */
-        $this->assertEquals($resourceName, $this->_restRoute->getServiceId(), 'Resource name is wrong.');
+        $this->assertEquals($resourceName, $this->_restRoute->getServiceClass(), 'Resource name is wrong.');
     }
 
     /**

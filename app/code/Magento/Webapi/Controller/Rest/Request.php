@@ -20,9 +20,6 @@ class Magento_Webapi_Controller_Rest_Request extends Magento_Webapi_Controller_R
     /** @var string */
     protected $_serviceType;
 
-    /** @var string */
-    protected $_serviceVersion;
-
     /** @var Magento_Webapi_Controller_Rest_Request_InterpreterInterface */
     protected $_interpreter;
 
@@ -154,42 +151,6 @@ class Magento_Webapi_Controller_Rest_Request extends Magento_Webapi_Controller_R
                 Magento_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         return $this->getMethod();
-    }
-
-    /**
-     * Retrieve action version.
-     *
-     * @return int
-     */
-    public function getServiceVersion()
-    {
-        if (!$this->_serviceVersion) {
-            // TODO: Default version can be identified and returned here
-            return 1;
-        }
-        return $this->_serviceVersion;
-    }
-
-    /**
-     * Set service version.
-     *
-     * @param string|int $serviceVersion Version number either with prefix or without it
-     * @throws Magento_Webapi_Exception
-     * @return Magento_Webapi_Controller_Rest_Request
-     */
-    public function setServiceVersion($serviceVersion)
-    {
-        $versionPrefix = Magento_Webapi_Model_Config::VERSION_NUMBER_PREFIX;
-        if (preg_match("/^{$versionPrefix}?(\d+)$/i", $serviceVersion, $matches)) {
-            $versionNumber = (int)$matches[1];
-        } else {
-            throw new Magento_Webapi_Exception(
-                __("Service version is not specified or invalid one is specified."),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST
-            );
-        }
-        $this->_serviceVersion = $versionNumber;
-        return $this;
     }
 
     /**

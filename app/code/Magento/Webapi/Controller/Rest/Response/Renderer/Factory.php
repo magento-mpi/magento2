@@ -51,6 +51,22 @@ class Magento_Webapi_Controller_Rest_Response_Renderer_Factory
      */
     public function get()
     {
+        $renderer = $this->_objectManager->get($this->_getRendererClass());
+        if (!$renderer instanceof Magento_Webapi_Controller_Rest_Response_RendererInterface) {
+            throw new LogicException(
+                'The renderer must implement "Magento_Webapi_Controller_Rest_Response_RendererInterface".');
+        }
+        return $renderer;
+    }
+
+    /**
+     * Find renderer which can render response in requested format.
+     *
+     * @return string
+     * @throws Magento_Webapi_Exception
+     */
+    protected function _getRendererClass()
+    {
         $acceptTypes = $this->_request->getAcceptTypes();
         $availableRenderers = (array)$this->_applicationConfig->getNode(self::XML_PATH_WEBAPI_RESPONSE_RENDERS);
         if (!is_array($acceptTypes)) {
@@ -63,23 +79,14 @@ class Magento_Webapi_Controller_Rest_Response_Renderer_Factory
                     || ($acceptType == current(explode('/', $rendererType)) . '/*')
                     || $acceptType == '*/*'
                 ) {
-                    $rendererClass = (string)$rendererConfig->model;
-                    break 2;
+                    return (string)$rendererConfig->model;
                 }
             }
         }
-        if (!isset($rendererClass)) {
-            /** If server does not have renderer for any of the accepted types it SHOULD send 406 (not acceptable). */
-            throw new Magento_Webapi_Exception(
-                __('Server cannot understand Accept HTTP header media type.'),
-                Magento_Webapi_Exception::HTTP_NOT_ACCEPTABLE
-            );
-        }
-        $renderer = $this->_objectManager->get($rendererClass);
-        if (!$renderer instanceof Magento_Webapi_Controller_Rest_Response_RendererInterface) {
-            throw new LogicException(
-                'The renderer must implement "Magento_Webapi_Controller_Rest_Response_RendererInterface".');
-        }
-        return $renderer;
+        /** If server does not have renderer for any of the accepted types it SHOULD send 406 (not acceptable). */
+        throw new Magento_Webapi_Exception(
+            __('Server cannot understand Accept HTTP header media type.'),
+            Magento_Webapi_Exception::HTTP_NOT_ACCEPTABLE
+        );
     }
 }
