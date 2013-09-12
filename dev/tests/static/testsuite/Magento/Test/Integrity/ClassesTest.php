@@ -198,7 +198,7 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $contents = file_get_contents($file);
         $relativePath = str_replace(Magento_TestFramework_Utility_Files::init()->getPathToSource(), "", $file);
 
-        $classPattern = '/^class\s[A-Z][^\s\/]+/m';
+        $classPattern = '/^(abstract\s)?class\s[A-Z][^\s\/]+/m';
 
         $classNameMatch = array();
         $className = null;
@@ -214,7 +214,8 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             return;
         }
 
-        $className = substr($classNameMatch[0], 6);
+        $classParts = explode(' ', $classNameMatch[0]);
+        $className = array_pop($classParts);
         $this->_assertClassNamespace($file, $relativePath, $contents, $className);
     }
 
