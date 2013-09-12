@@ -33,6 +33,7 @@ class Magento_GoogleShopping_Model_Attribute_Tax extends Magento_GoogleShopping_
      * @param Magento_GoogleShopping_Helper_Product $gsProduct
      * @param Magento_GoogleShopping_Helper_Price $gsPrice
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_GoogleShopping_Model_Resource_Attribute $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -43,12 +44,13 @@ class Magento_GoogleShopping_Model_Attribute_Tax extends Magento_GoogleShopping_
         Magento_GoogleShopping_Helper_Product $gsProduct,
         Magento_GoogleShopping_Helper_Price $gsPrice,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_GoogleShopping_Model_Resource_Attribute $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
-        parent::__construct($gsData, $gsProduct, $gsPrice, $context, $resource, $resourceCollection, $data);
+        parent::__construct($gsData, $gsProduct, $gsPrice, $context, $resource, $resource, $resourceCollection, $data);
     }
 
     /**

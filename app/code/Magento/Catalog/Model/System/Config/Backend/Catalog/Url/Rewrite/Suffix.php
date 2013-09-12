@@ -23,6 +23,7 @@ class Magento_Catalog_Model_System_Config_Backend_Catalog_Url_Rewrite_Suffix ext
     /**
      * @param Magento_Core_Helper_Url_Rewrite $coreUrlRewrite
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -30,12 +31,13 @@ class Magento_Catalog_Model_System_Config_Backend_Catalog_Url_Rewrite_Suffix ext
     public function __construct(
         Magento_Core_Helper_Url_Rewrite $coreUrlRewrite,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreUrlRewrite = $coreUrlRewrite;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

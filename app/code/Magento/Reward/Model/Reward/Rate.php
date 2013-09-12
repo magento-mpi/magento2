@@ -42,6 +42,7 @@ class Magento_Reward_Model_Reward_Rate extends Magento_Core_Model_Abstract
     /**
      * @param Magento_Reward_Helper_Data $rewardData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Reward_Model_Resource_Reward_Rate $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -49,12 +50,13 @@ class Magento_Reward_Model_Reward_Rate extends Magento_Core_Model_Abstract
     public function __construct(
         Magento_Reward_Helper_Data $rewardData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Reward_Model_Resource_Reward_Rate $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -66,7 +68,7 @@ class Magento_Reward_Model_Reward_Rate extends Magento_Core_Model_Abstract
      * @param string $currencyCode
      * @return string|null
      */
-    public static function getRateText($direction, $points, $amount, $currencyCode = null)
+    public function getRateText($direction, $points, $amount, $currencyCode = null)
     {
         switch ($direction) {
             case self::RATE_EXCHANGE_DIRECTION_TO_CURRENCY:

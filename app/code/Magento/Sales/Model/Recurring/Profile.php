@@ -124,6 +124,7 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -132,12 +133,13 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
         Magento_Core_Helper_Data $coreData,
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($paymentData, $context, $resource, $resourceCollection, $data);
+        parent::__construct($paymentData, $context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

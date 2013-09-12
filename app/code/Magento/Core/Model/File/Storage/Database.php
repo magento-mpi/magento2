@@ -40,13 +40,18 @@ class Magento_Core_Model_File_Storage_Database extends Magento_Core_Model_File_S
     protected $_errors = array();
 
     /**
-     * Class construct
-     *
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_File_Storage_Database $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
      * @param string $connectionName
      */
     public function __construct(
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_File_Storage_Database $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array(),
@@ -54,7 +59,7 @@ class Magento_Core_Model_File_Storage_Database extends Magento_Core_Model_File_S
     ) {
         $this->_init('Magento_Core_Model_Resource_File_Storage_Database');
 
-        parent::__construct($coreFileStorageDb, $context, $resource, $resourceCollection, $data);
+        parent::__construct($coreFileStorageDb, $context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

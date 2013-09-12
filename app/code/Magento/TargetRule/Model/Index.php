@@ -72,6 +72,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     /**
      * @param Magento_TargetRule_Helper_Data $targetRuleData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_TargetRule_Model_Resource_Index $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -79,12 +80,13 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     public function __construct(
         Magento_TargetRule_Helper_Data $targetRuleData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_TargetRule_Model_Resource_Index $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_targetRuleData = $targetRuleData;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

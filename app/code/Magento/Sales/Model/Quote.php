@@ -213,6 +213,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -223,6 +224,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
         Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -231,7 +233,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
         $this->_salesData = $salesData;
         $this->_catalogProduct = $catalogProduct;
         $this->_coreData = $coreData;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

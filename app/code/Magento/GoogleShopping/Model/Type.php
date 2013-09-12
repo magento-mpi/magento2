@@ -38,6 +38,7 @@ class Magento_GoogleShopping_Model_Type extends Magento_Core_Model_Abstract
      * @param Magento_GoogleShopping_Helper_Product $gsProduct
      * @param Magento_GoogleShopping_Helper_Data $gsData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_GoogleShopping_Model_Resource_Type $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -46,14 +47,14 @@ class Magento_GoogleShopping_Model_Type extends Magento_Core_Model_Abstract
         Magento_GoogleShopping_Helper_Product $gsProduct,
         Magento_GoogleShopping_Helper_Data $gsData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_GoogleShopping_Model_Resource_Type $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_gsProduct = $gsProduct;
         $this->_gsData = $gsData;
-        parent::__construct($context, $resource, $resourceCollection, $data);
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     protected function _construct()

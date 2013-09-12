@@ -56,6 +56,7 @@ class Magento_Catalog_Model_Category_Indexer_Flat extends Magento_Index_Model_In
     /**
      * @param Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -63,12 +64,13 @@ class Magento_Catalog_Model_Category_Indexer_Flat extends Magento_Index_Model_In
     public function __construct(
         Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogCategoryFlat = $catalogCategoryFlat;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     public function isVisible()

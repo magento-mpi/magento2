@@ -74,19 +74,21 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
     /**
      * @param Magento_GiftCardAccount_Helper_Data $giftCardAccountData
      * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_GiftCardAccount_Model_Resource_Giftcardaccount $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_GiftCardAccount_Helper_Data $giftCardAccountData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_GiftCardAccount_Model_Resource_Giftcardaccount $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_giftCardAccountData = $giftCardAccountData;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     protected function _construct()

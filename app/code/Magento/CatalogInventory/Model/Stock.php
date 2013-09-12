@@ -41,6 +41,7 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
     /**
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -48,12 +49,13 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
     public function __construct(
         Magento_CatalogInventory_Helper_Data $catalogInventoryData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogInventoryData = $catalogInventoryData;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     protected function _construct()

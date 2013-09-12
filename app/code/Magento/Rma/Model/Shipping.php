@@ -58,6 +58,7 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
     /**
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Rma_Model_Resource_Shipping $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -65,12 +66,13 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
     public function __construct(
         Magento_Rma_Helper_Data $rmaData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Rma_Model_Resource_Shipping $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

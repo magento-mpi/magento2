@@ -74,6 +74,7 @@ class Magento_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
      * @param Magento_Invitation_Helper_Data $invitationData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Invitation_Model_Resource_Invitation $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -82,13 +83,14 @@ class Magento_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
         Magento_Invitation_Helper_Data $invitationData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Invitation_Model_Resource_Invitation $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_invitationData = $invitationData;
         $this->_coreData = $coreData;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

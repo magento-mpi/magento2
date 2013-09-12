@@ -71,6 +71,7 @@ class Magento_Sales_Model_Quote_Payment extends Magento_Payment_Model_Info
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -80,12 +81,13 @@ class Magento_Sales_Model_Quote_Payment extends Magento_Payment_Model_Info
         Magento_Core_Helper_Data $coreData,
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
-        parent::__construct($coreData, $paymentData, $context, $resource, $resourceCollection, $data);
+        parent::__construct($coreData, $paymentData, $context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

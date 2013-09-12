@@ -49,6 +49,7 @@ class Magento_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -57,13 +58,14 @@ class Magento_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_catalogSearchData = $catalogSearchData;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     protected function _construct()

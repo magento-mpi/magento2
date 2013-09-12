@@ -422,6 +422,7 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Sales_Helper_Data $salesData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data

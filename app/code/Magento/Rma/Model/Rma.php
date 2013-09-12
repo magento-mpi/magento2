@@ -65,6 +65,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Rma_Model_Resource_Rma $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -73,13 +74,14 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
         Magento_Core_Helper_Data $coreData,
         Magento_Rma_Helper_Data $rmaData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Rma_Model_Resource_Rma $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
         $this->_rmaData = $rmaData;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

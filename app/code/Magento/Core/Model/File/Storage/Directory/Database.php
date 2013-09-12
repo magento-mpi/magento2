@@ -37,6 +37,7 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
      *
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_File_Storage_Directory_Database $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -45,12 +46,13 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
     public function __construct(
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_File_Storage_Directory_Database $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array(),
         $connectionName = null
     ) {
-        parent::__construct($coreFileStorageDb, $context, $resource, $resourceCollection, $data);
+        parent::__construct($coreFileStorageDb, $context, $registry, $resource, $resourceCollection, $data);
 
         $this->_init('Magento_Core_Model_Resource_File_Storage_Directory_Database');
     }

@@ -27,6 +27,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Custompath extends Magento_Core
     /**
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -34,12 +35,13 @@ class Magento_Backend_Model_Config_Backend_Admin_Custompath extends Magento_Core
     public function __construct(
         Magento_Backend_Helper_Data $backendData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_backendData = $backendData;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

@@ -55,6 +55,7 @@ class Magento_Catalog_Model_Product_Indexer_Flat extends Magento_Index_Model_Ind
     /**
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data

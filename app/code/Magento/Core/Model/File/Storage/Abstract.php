@@ -35,6 +35,7 @@ abstract class Magento_Core_Model_File_Storage_Abstract extends Magento_Core_Mod
     /**
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -42,12 +43,13 @@ abstract class Magento_Core_Model_File_Storage_Abstract extends Magento_Core_Mod
     public function __construct(
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreFileStorageDb = $coreFileStorageDb;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

@@ -28,6 +28,7 @@ class Magento_Sales_Model_Order_Pdf_Items_Shipment_Default extends Magento_Sales
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -36,12 +37,13 @@ class Magento_Sales_Model_Order_Pdf_Items_Shipment_Default extends Magento_Sales
         Magento_Core_Helper_String $coreString,
         Magento_Tax_Helper_Data $taxData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreString = $coreString;
-        parent::__construct($taxData, $context, $resource, $resourceCollection, $data);
+        parent::__construct($taxData, $context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

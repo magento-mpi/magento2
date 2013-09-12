@@ -206,6 +206,7 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Directory_Helper_Data $directoryData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -215,12 +216,13 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Directory_Helper_Data $directoryData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($eventManager, $directoryData, $context, $resource, $resourceCollection, $data);
+        parent::__construct($eventManager, $directoryData, $context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

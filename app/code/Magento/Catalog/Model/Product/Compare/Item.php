@@ -12,7 +12,6 @@
 /**
  * Catalog Compare Item Model
  *
- * @method Magento_Catalog_Model_Resource_Product_Compare_Item _getResource()
  * @method Magento_Catalog_Model_Resource_Product_Compare_Item getResource()
  * @method Magento_Catalog_Model_Product_Compare_Item setVisitorId(int $value)
  * @method Magento_Catalog_Model_Product_Compare_Item setCustomerId(int $value)
@@ -54,6 +53,7 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
     /**
      * @param Magento_Catalog_Helper_Product_Compare $catalogProductCompare
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -61,12 +61,13 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
     public function __construct(
         Magento_Catalog_Helper_Product_Compare $catalogProductCompare,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogProductCompare = $catalogProductCompare;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

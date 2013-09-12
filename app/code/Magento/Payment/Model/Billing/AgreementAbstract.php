@@ -63,6 +63,7 @@ abstract class Magento_Payment_Model_Billing_AgreementAbstract extends Magento_C
     /**
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -70,12 +71,13 @@ abstract class Magento_Payment_Model_Billing_AgreementAbstract extends Magento_C
     public function __construct(
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

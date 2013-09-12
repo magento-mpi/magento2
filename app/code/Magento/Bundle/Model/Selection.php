@@ -48,6 +48,7 @@ class Magento_Bundle_Model_Selection extends Magento_Core_Model_Abstract
     /**
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Bundle_Model_Resource_Selection $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -55,12 +56,13 @@ class Magento_Bundle_Model_Selection extends Magento_Core_Model_Abstract
     public function __construct(
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Bundle_Model_Resource_Selection $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogData = $catalogData;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

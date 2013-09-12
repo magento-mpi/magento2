@@ -85,13 +85,7 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
-        parent::__construct(
-            $context,
-            $registry,
-            $resource,
-            $resourceCollection,
-            $data
-        );
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
         $this->_init('Magento_Tax_Model_Resource_Calculation_Rule');
 
