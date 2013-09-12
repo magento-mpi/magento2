@@ -81,7 +81,7 @@ class Magento_CustomerCustomAttributes_Helper_CustomerTest extends PHPUnit_Frame
             $this->_inputValidatorMock
         );
 
-        $this->setExpectedException('\Magento\Core\Exception');
+        $this->setExpectedException('Magento\Core\Exception');
         $helper->filterPostData($data);
     }
 

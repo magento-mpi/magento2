@@ -148,7 +148,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
         $this->_setGetGiftcardAmountsReturnEmpty();
 
         $this->_setStrictProcessMode(true);
-        $this->setExpectedException('\Magento\Core\Exception', 'Please specify all the required information.');
+        $this->setExpectedException('Magento\Core\Exception', 'Please specify all the required information.');
         $this->_model->checkProductBuyState($this->_product);
     }
 
@@ -357,7 +357,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
 
         $this->_product->setCustomOptions($this->_customOptions);
 
-        $this->setExpectedException('\Magento\Core\Exception', $exceptionMessage);
+        $this->setExpectedException('Magento\Core\Exception', $exceptionMessage);
         $this->_model->checkProductBuyState($this->_product);
     }
 

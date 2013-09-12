@@ -270,7 +270,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     public function testCreateDirectoryException()
     {
         $filename = __FILE__;
-        $this->setExpectedException('\Magento\Filesystem\FilesystemException', "Failed to create '{$filename}'");
+        $this->setExpectedException('Magento\Filesystem\FilesystemException', "Failed to create '{$filename}'");
         $this->_adapter->createDirectory($filename, 0755);
     }
 
@@ -304,7 +304,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     public function testTouchException()
     {
         $filename = __FILE__ . '/invalid';
-        $this->setExpectedException('\Magento\Filesystem\FilesystemException', "Failed to touch '{$filename}'");
+        $this->setExpectedException('Magento\Filesystem\FilesystemException', "Failed to touch '{$filename}'");
         $this->_adapter->touch($filename);
     }
 

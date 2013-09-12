@@ -34,7 +34,7 @@ class Magento_Catalog_Model_Product_Option_Type_FileTest extends PHPUnit_Framewo
         }
 
         if ($throwException) {
-            $this->setExpectedException('\Magento\Core\Exception');
+            $this->setExpectedException('Magento\Core\Exception');
         }
 
         $parameters = array('filesystem' => $filesystemMock);

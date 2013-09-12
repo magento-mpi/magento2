@@ -45,7 +45,7 @@ class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Fram
      */
     public function testConstructorException($permitted, $forbidden, $exceptionMessage)
     {
-        $this->setExpectedException('\Magento\Exception', $exceptionMessage);
+        $this->setExpectedException('Magento\Exception', $exceptionMessage);
         new \Magento\Tools\View\Generator\ThemeDeployment($this->_cssHelper, $this->_tmpDir, $permitted, $forbidden);
     }
 

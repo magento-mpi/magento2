@@ -38,7 +38,7 @@ class Magento_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
     public function testCheckResourceAclMageWebapiException()
     {
         $this->_coreAuthorization->expects($this->exactly(2))->method('isAllowed')->will($this->returnValue(false));
-        $this->setExpectedException('\Magento\Webapi\Exception', 'Access to resource is forbidden.');
+        $this->setExpectedException('Magento\Webapi\Exception', 'Access to resource is forbidden.');
         $this->_webapiAuthorization->checkResourceAcl('invalidResource', 'invalidMethod');
     }
 

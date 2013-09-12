@@ -825,7 +825,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
      */
     public function testNormalizePathException($path, $isRelative)
     {
-        $this->setExpectedException('\Magento\Filesystem\FilesystemException', "Invalid path '{$path}'.");
+        $this->setExpectedException('Magento\Filesystem\FilesystemException', "Invalid path '{$path}'.");
         \Magento\Filesystem::normalizePath($path, $isRelative);
     }
 
