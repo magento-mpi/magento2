@@ -16,8 +16,8 @@ class Magento_Core_Model_EncryptionTest extends PHPUnit_Framework_TestCase
         $objectManager = $this->getMock('Magento\ObjectManager');
         $objectManager->expects($this->once())
             ->method('get')
-            ->with($this->stringContains('\Magento\Core\Helper\Data'))
-            ->will($this->returnValue($this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false)));
+            ->with($this->stringContains('Magento\Core\Helper\Data'))
+            ->will($this->returnValue($this->getMock('\Magento\Core\Helper\Data', array(), array(), '', false, false)));
 
         /**
          * @var \Magento\Core\Model\Encryption
