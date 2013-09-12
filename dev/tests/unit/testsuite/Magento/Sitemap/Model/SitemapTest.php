@@ -27,6 +27,11 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     protected $_resourceMock;
 
     /**
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistryMock;
+
+    /**
      * Set helper mocks, create resource model mock
      */
     protected function setUp()
@@ -76,8 +81,8 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $coreRegisterMock = $this->getMock('Magento_Core_Model_Registry');
-        $coreRegisterMock->expects($this->any())
+        $this->_coreRegistryMock = $this->getMock('Magento_Core_Model_Registry');
+        $this->_coreRegistryMock->expects($this->any())
             ->method('registry')
             ->will($this->returnValueMap(array(
                 array('_helper/Magento_Core_Helper_Data', $this->_helperMockCore),
@@ -89,7 +94,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         $objectManagerMock->expects($this->any())
             ->method('get')
             ->with('Magento_Core_Model_Registry')
-            ->will($this->returnValue($coreRegisterMock));
+            ->will($this->returnValue($this->_coreRegistryMock));
 
         Mage::reset();
         Mage::setObjectManager($objectManagerMock);
@@ -467,7 +472,8 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
                 $this->_helperMockCore,
                 $this->_helperMockSitemap,
                 $this->getMock('Magento_Core_Model_Context', array(), array(), '', false),
-                $this->getMock('Magento_Filesystem', array(), array(), '', false)
+                $this->getMock('Magento_Filesystem', array(), array(), '', false),
+                $this->_coreRegistryMock,
             ))
             ->getMock();
 
@@ -564,7 +570,8 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
                 $this->_helperMockCore,
                 $this->_helperMockSitemap,
                 $this->getMock('Magento_Core_Model_Context', array(), array(), '', false),
-                $filesystem
+                $filesystem,
+                $this->_coreRegistryMock,
             ))
             ->getMock();
 
