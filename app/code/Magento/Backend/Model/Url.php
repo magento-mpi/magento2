@@ -60,6 +60,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
     protected $_menuConfig;
 
     /**
+     * @param Magento_Core_Model_Url_SecurityInfo $securityInfo
      * @param Magento_Backend_Helper_Data $backendHelper
      * @param Magento_Core_Helper_Data $coreHelper
      * @param Magento_Core_Model_Session $coreSession
@@ -68,6 +69,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Url_SecurityInfo $securityInfo,
         Magento_Backend_Helper_Data $backendHelper,
         Magento_Core_Helper_Data $coreHelper,
         Magento_Core_Model_Session $coreSession,
@@ -75,7 +77,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
         Magento_Backend_Model_Menu_Config $menuConfig,
         array $data = array()
     ) {
-        parent::__construct($data);
+        parent::__construct($securityInfo, $data);
         $this->_startupMenuItemId = $storeConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM);
         $this->_backendHelper = $backendHelper;
         $this->_coreSession = $coreSession;

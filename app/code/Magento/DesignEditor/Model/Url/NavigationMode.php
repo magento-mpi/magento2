@@ -35,13 +35,15 @@ class Magento_DesignEditor_Model_Url_NavigationMode extends Magento_Core_Model_U
     protected $_themeId;
 
     /**
-     * Constructor
-     *
+     * @param Magento_Core_Model_Url_SecurityInfo $securityInfo
      * @param Magento_DesignEditor_Helper_Data $helper
      * @param array $data
      */
-    public function __construct(Magento_DesignEditor_Helper_Data $helper, array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Model_Url_SecurityInfo $securityInfo,
+        Magento_DesignEditor_Helper_Data $helper,
+        array $data = array()
+    ) {
         $this->_helper = $helper;
         if (isset($data['mode'])) {
             $this->_mode = $data['mode'];
@@ -50,7 +52,7 @@ class Magento_DesignEditor_Model_Url_NavigationMode extends Magento_Core_Model_U
         if (isset($data['themeId'])) {
             $this->_themeId = $data['themeId'];
         }
-        parent::__construct($data);
+        parent::__construct($securityInfo, $data);
     }
 
     /**

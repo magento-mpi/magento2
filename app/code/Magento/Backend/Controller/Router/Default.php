@@ -43,6 +43,7 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Config_Scope $configScope
      * @param Magento_Core_Model_Route_Config $routeConfig
+     * @param Magento_Core_Model_Url_SecurityInfo $securityInfo
      * @param Magento_Backend_Helper_Data $dataHelper
      * @param string $areaCode
      * @param string $baseController
@@ -57,13 +58,14 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
         Magento_Core_Model_App $app,
         Magento_Core_Model_Config_Scope $configScope,
         Magento_Core_Model_Route_Config $routeConfig,
+        Magento_Core_Model_Url_SecurityInfo $securityInfo,
         Magento_Backend_Helper_Data $dataHelper,
         $areaCode,
         $baseController,
         $routerId,
         $defaultRouteId
     ) {
-        parent::__construct($controllerFactory, $filesystem, $app, $configScope, $routeConfig, $areaCode,
+        parent::__construct($controllerFactory, $filesystem, $app, $configScope, $routeConfig, $securityInfo, $areaCode,
             $baseController, $routerId);
 
         $this->_areaFrontName = $dataHelper->getAreaFrontName();

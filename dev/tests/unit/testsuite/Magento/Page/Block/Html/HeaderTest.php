@@ -21,7 +21,7 @@ class Magento_Page_Block_Html_HeaderTest extends PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->will($this->returnValue('default/image.gif'));
 
-        $urlBuilder = $this->getMock('Magento_Core_Model_Url', array('getBaseUrl'));
+        $urlBuilder = $this->getMock('Magento_Core_Model_UrlInterface');
         $urlBuilder->expects($this->once())
             ->method('getBaseUrl')
             ->will($this->returnValue('http://localhost/pub/media/'));
