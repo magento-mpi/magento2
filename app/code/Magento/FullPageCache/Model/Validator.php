@@ -34,11 +34,7 @@ class Magento_FullPageCache_Model_Validator
         Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
-        if (isset($data['config'])) {
-            $this->_config = $data['config'];
-        } else {
-            $this->_config = $coreConfig;
-        }
+        $this->_config = $coreConfig;
     }
 
     /**
