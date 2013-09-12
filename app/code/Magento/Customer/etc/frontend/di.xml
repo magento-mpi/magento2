@@ -15,7 +15,9 @@
     </type>
     <type name="Magento_Core_Model_Url_SecurityInfo">
         <param name="secureUrlList">
-            <customer>/customer/</customer>
+            <value>
+                <customer>/customer/</customer>
+            </value>
         </param>
     </type>
 </config>

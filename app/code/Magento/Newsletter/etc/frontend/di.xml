@@ -15,7 +15,9 @@
     </type>
     <type name="Magento_Core_Model_Url_SecurityInfo">
         <param name="secureUrlList">
-            <newsletter_manage>/newsletter/manage/</newsletter_manage>
+            <value>
+                <newsletter_manage>/newsletter/manage/</newsletter_manage>
+            </value>
         </param>
     </type>
 </config>

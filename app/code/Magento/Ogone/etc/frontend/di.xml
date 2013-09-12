@@ -10,7 +10,9 @@
 <config>
     <type name="Magento_Core_Model_Url_SecurityInfo">
         <param name="secureUrlList">
-            <ogone_api>/ogone/api</ogone_api>
+            <value>
+                <ogone_api>/ogone/api</ogone_api>
+            </value>
         </param>
     </type>
 </config>

@@ -10,7 +10,9 @@
 <config>
     <type name="Magento_Core_Model_Url_SecurityInfo">
         <param name="secureUrlList">
-            <authorizenet_paygate>/paygate/authorizenet_payment</authorizenet_paygate>
+            <value>
+                <authorizenet_paygate>/paygate/authorizenet_payment</authorizenet_paygate>
+            </value>
         </param>
     </type>
 </config>

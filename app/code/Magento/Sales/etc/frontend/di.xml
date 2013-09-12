@@ -10,7 +10,9 @@
 <config>
     <type name="Magento_Core_Model_Url_SecurityInfo">
         <param name="secureUrlList">
-            <sales>/sales/</sales>
+            <value>
+                <sales>/sales/</sales>
+            </value>
         </param>
     </type>
 </config>

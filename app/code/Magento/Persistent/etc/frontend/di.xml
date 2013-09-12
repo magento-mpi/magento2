@@ -10,7 +10,9 @@
 <config>
     <type name="Magento_Core_Model_Url_SecurityInfo">
         <param name="secureUrlList">
-            <persistent_onepage_register>/persistent/index/saveMethod</persistent_onepage_register>
+            <value>
+                <persistent_onepage_register>/persistent/index/saveMethod</persistent_onepage_register>
+            </value>
         </param>
     </type>
 </config>

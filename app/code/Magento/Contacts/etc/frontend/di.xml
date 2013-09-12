@@ -10,7 +10,9 @@
 <config>
     <type name="Magento_Core_Model_Url_SecurityInfo">
         <param name="secureUrlList">
-            <customer>/contacts/</customer>
+            <value>
+                <customer>/contacts/</customer>
+            </value>
         </param>
     </type>
 </config>

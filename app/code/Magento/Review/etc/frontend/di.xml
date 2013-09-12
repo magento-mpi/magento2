@@ -18,7 +18,9 @@
     </virtualType>
     <type name="Magento_Core_Model_Url_SecurityInfo">
         <param name="secureUrlList">
-            <review_customer>/review/customer/</review_customer>
+            <value>
+                <review_customer>/review/customer/</review_customer>
+            </value>
         </param>
     </type>
 </config>

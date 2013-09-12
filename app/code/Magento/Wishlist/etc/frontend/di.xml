@@ -18,7 +18,9 @@
     </virtualType>
     <type name="Magento_Core_Model_Url_SecurityInfo">
         <param name="secureUrlList">
-            <wishlist>/wishlist/</wishlist>
+            <value>
+                <wishlist>/wishlist/</wishlist>
+            </value>
         </param>
     </type>
 </config>

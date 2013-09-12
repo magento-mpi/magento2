@@ -10,9 +10,11 @@
 <config>
     <type name="Magento_Core_Model_Url_SecurityInfo">
         <param name="secureUrlList">
-            <rss_catalog_review>/rss/catalog/review</rss_catalog_review>
-            <rss_order_new>/rss/order/new</rss_order_new>
-            <rss_catalog_notifystock>/rss/catalog/notifystock</rss_catalog_notifystock>
+            <value>
+                <rss_catalog_review>/rss/catalog/review</rss_catalog_review>
+                <rss_order_new>/rss/order/new</rss_order_new>
+                <rss_catalog_notifystock>/rss/catalog/notifystock</rss_catalog_notifystock>
+            </value>
         </param>
     </type>
 </config>

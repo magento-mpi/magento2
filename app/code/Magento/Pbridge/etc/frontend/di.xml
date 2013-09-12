@@ -15,8 +15,10 @@
     </type>
     <type name="Magento_Core_Model_Url_SecurityInfo">
         <param name="secureUrlList">
-            <magento_pbridge_pbridge>/magento_pbridge/pbridge/</magento_pbridge_pbridge>
-            <magento_pbridge_payment_profile>/magento_pbridge/payment_profile/</magento_pbridge_payment_profile>
+            <value>
+                <magento_pbridge_pbridge>/magento_pbridge/pbridge/</magento_pbridge_pbridge>
+                <magento_pbridge_payment_profile>/magento_pbridge/payment_profile/</magento_pbridge_payment_profile>
+            </value>
         </param>
     </type>
 </config>

@@ -18,7 +18,9 @@
     </virtualType>
     <type name="Magento_Core_Model_Url_SecurityInfo">
         <param name="secureUrlList">
-            <centinel>/centinel/</centinel>
+            <value>
+                <centinel>/centinel/</centinel>
+            </value>
         </param>
     </type>
 </config>

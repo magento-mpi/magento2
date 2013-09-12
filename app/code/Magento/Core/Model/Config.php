@@ -110,8 +110,6 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
      */
     protected $_storeCollection;
 
-    protected $_secureUrlList;
-
     /**
      * @param Magento_Core_Model_ObjectManager $objectManager
      * @param Magento_Core_Model_Config_StorageInterface $storage
@@ -136,7 +134,6 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
         $this->_moduleList = $moduleList;
         $this->_configScope = $configScope;
         $this->_sectionPool = $sectionPool;
-        $this->_secureUrlList = $secureUrlList;
         Magento_Profiler::stop('config_load');
     }
 

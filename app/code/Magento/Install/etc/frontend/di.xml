@@ -10,7 +10,9 @@
 <config>
     <type name="Magento_Core_Model_Url_SecurityInfo">
         <param name="secureUrlList">
-            <install>/install/wizard/checkSecureHost</install>
+            <value>
+                <install>/install/wizard/checkSecureHost</install>
+            </value>
         </param>
     </type>
 </config>

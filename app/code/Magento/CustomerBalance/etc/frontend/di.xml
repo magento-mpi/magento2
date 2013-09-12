@@ -10,7 +10,9 @@
 <config>
     <type name="Magento_Core_Model_Url_SecurityInfo">
         <param name="secureUrlList">
-            <storecredit_info>/storecredit/info/</storecredit_info>
+            <value>
+                <storecredit_info>/storecredit/info/</storecredit_info>
+            </value>
         </param>
     </type>
 </config>

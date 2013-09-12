@@ -18,7 +18,9 @@
     </virtualType>
     <type name="Magento_Core_Model_Url_SecurityInfo">
         <param name="secureUrlList">
-            <paypaluk_express>/paypaluk/express</paypaluk_express>
+            <value>
+                <paypaluk_express>/paypaluk/express</paypaluk_express>
+            </value>
         </param>
     </type>
 </config>
