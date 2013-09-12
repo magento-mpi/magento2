@@ -134,7 +134,6 @@ class Magento_User_Model_User
         Magento_Core_Model_Sender $sender,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Sender $sender,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()

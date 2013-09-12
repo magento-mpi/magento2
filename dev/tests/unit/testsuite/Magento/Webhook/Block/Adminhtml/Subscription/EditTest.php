@@ -37,9 +37,9 @@ class Magento_Webhook_Block_Adminhtml_Subscription_EditTest extends Magento_Test
             $subscriptionData);
 
         $this->_block = new Magento_Webhook_Block_Adminhtml_Subscription_Edit(
-            $this->_registry,
             $this->_coreData,
-            $this->_context
+            $this->_context,
+            $this->_registry
         );
         $this->assertEquals('Edit Subscription', $this->_block->getHeaderText());
 
@@ -51,9 +51,9 @@ class Magento_Webhook_Block_Adminhtml_Subscription_EditTest extends Magento_Test
     {
         $this->_registry = new Magento_Core_Model_Registry();
         $this->_block = new Magento_Webhook_Block_Adminhtml_Subscription_Edit(
-            $this->_registry,
             $this->_coreData,
-            $this->_context
+            $this->_context,
+            $this->_registry
         );
 
         $this->assertEquals('Add Subscription', $this->_block->getHeaderText());
