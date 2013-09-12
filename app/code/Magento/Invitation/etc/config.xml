@@ -28,17 +28,6 @@
             </email>
         </template>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Invitation>
-                    <files>
-                        <default>Magento_Invitation.csv</default>
-                    </files>
-                </Magento_Invitation>
-            </modules>
-        </translate>
-    </adminhtml>
     <frontend>
         <magento>
             <websiterestriction>
@@ -50,15 +39,6 @@
                 </full_action_names>
             </websiterestriction>
         </magento>
-        <translate>
-            <modules>
-                <Magento_Invitation>
-                    <files>
-                        <default>Magento_Invitation.csv</default>
-                    </files>
-                </Magento_Invitation>
-            </modules>
-        </translate>
         <secure_url>
             <invitation>/invitation/</invitation>
         </secure_url>
@@ -79,4 +59,4 @@
             </general>
         </magento_invitation>
     </default>
-</config>
+</config>

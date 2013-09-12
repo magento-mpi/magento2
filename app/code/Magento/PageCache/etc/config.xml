@@ -20,17 +20,6 @@
             </controls>
         </external_cache>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_PageCache>
-                    <files>
-                        <default>Magento_PageCache.csv</default>
-                    </files>
-                </Magento_PageCache>
-            </modules>
-        </translate>
-    </adminhtml>
     <frontend>
         <cache>
             <allowed_requests>
@@ -57,4 +46,4 @@
             </external_page_cache>
         </system>
     </default>
-</config>
+</config>
