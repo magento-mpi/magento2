@@ -8,7 +8,7 @@
  */
 -->
 <xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:element name="install">
+    <xs:element name="install_wizard">
         <xs:annotation>
             <xs:documentation>
                 Specifies install wizard configuration.
@@ -16,13 +16,13 @@
         </xs:annotation>
         <xs:complexType>
             <xs:all>
-                <xs:element name="wizard" type="wizardType" />
-                <xs:element name='filesystem_prerequisite'  type="filesystemPrerequisiteType" />
+                <xs:element name="steps" type="stepsType" />
+                <xs:element name='filesystem_prerequisites'  type="filesystemPrerequisitesType" />
             </xs:all>
         </xs:complexType>
     </xs:element>
 
-    <xs:complexType name="wizardType">
+    <xs:complexType name="stepsType">
         <xs:sequence>
             <xs:element name="step" type="stepType" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
@@ -42,7 +42,7 @@
         <xs:attribute name="action" type="xs:token" use="required"/>
     </xs:complexType>
 
-    <xs:complexType name="filesystemPrerequisiteType">
+    <xs:complexType name="filesystemPrerequisitesType">
         <xs:sequence>
             <xs:element name="directory" type="directoryType" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
@@ -55,8 +55,8 @@
             </xs:documentation>
         </xs:annotation>
         <xs:attribute name="alias" type="xs:token" use="required"/>
-        <xs:attribute name="existence" type="xs:boolean" use="required"/>
         <xs:attribute name="recursive" type="xs:boolean" use="required"/>
+        <xs:attribute name="existence" type="xs:boolean" use="required"/>
         <xs:attribute name="writable" type="xs:boolean" use="required"/>
     </xs:complexType>
 
