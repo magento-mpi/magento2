@@ -85,7 +85,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
-        array $relatedCacheTypes,
+        array $relatedCacheTypes = array(),
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
