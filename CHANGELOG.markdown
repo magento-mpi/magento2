@@ -129,6 +129,9 @@
      * Improved UI for working with webhooks in Magento backend
      * Improved test coverage
   * Removed support of callbacks from the framework
+  * Redesign of API
+     * Removed API as it existed in 1.x
+     * Introduced new WebAPI working on top of the new service layer
 * GitHub requests:
   * [#71](https://github.com/magento/magento2/pull/71) -- Add event prefix for Cms blocks
   * [#108](https://github.com/magento/magento2/pull/108) -- Fix issue with `PHP_VERSION` on Ubuntu servers
