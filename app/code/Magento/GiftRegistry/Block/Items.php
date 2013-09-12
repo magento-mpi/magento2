@@ -21,20 +21,6 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
-    }
-
-    /**
      * Tax data
      *
      * @var Magento_Tax_Helper_Data
@@ -42,6 +28,7 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
     protected $_taxData = null;
 
     /**
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
@@ -49,6 +36,7 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Registry $registry,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
@@ -56,6 +44,7 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
         array $data = array()
     ) {
         $this->_taxData = $taxData;
+        $this->_coreRegistry = $registry;
         parent::__construct($catalogData, $coreData, $context, $data);
     }
 

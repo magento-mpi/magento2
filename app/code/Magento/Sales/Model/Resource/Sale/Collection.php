@@ -59,11 +59,10 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
     /**
      * Set sales order entity and establish read connection
      *
-     *
-     *
      * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param  $fetchStrategy
-     * @param  $resource
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Sales_Model_Resource_Order $resource
+     * @todo: incorrect constructor
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,

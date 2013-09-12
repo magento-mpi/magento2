@@ -12,27 +12,6 @@ class Magento_Index_Block_Adminhtml_Process_Edit_Tab_Main
     extends Magento_Backend_Block_Widget_Form_Generic
     implements Magento_Backend_Block_Widget_Tab_Interface
 {
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
-    }
-
     protected function _prepareForm()
     {
         $model = $this->_coreRegistry->registry('current_index_process');

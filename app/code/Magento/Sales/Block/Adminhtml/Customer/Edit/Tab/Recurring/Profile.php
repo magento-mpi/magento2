@@ -15,7 +15,7 @@
  */
 class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
     extends Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Core registry
@@ -24,22 +24,19 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
      */
     protected $_coreRegistry = null;
 
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param array $data
-     */
     public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Payment_Helper_Data $paymentData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $storeManager, $urlModel, $data);
+        parent::__construct(
+            $coreData, $paymentData, $context, $storeManager, $urlModel, $data
+        );
     }
 
     /**

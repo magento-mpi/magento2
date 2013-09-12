@@ -69,20 +69,6 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_FullPageCache_Model_Cache $fpcCache
-     * @param Magento_FullPageCache_Model_Container_Placeholder $placeholder
-     * @param Magento_Core_Model_Registry $coreRegistry
-     */
-    public function __construct(
-        Magento_FullPageCache_Model_Cache $fpcCache,
-        Magento_FullPageCache_Model_Container_Placeholder $placeholder,
-        Magento_Core_Model_Registry $coreRegistry
-    ) {
-        $this->_coreRegistry = $coreRegistry;
-        parent::__construct($fpcCache, $placeholder);
-    }
-
-    /**
      * Get parent block type
      *
      * @return null|string
