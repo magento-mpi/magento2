@@ -43,7 +43,7 @@ class Magento_Wishlist_Block_Customer_Wishlist_Item_Options extends Magento_Wish
         array $data = array()
     ) {
         $this->_helperPool = $helperPool;
-        parent::__construct($wishlistData, $coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context, $data);
     }
 
     /*

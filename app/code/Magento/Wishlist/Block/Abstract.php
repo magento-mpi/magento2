@@ -64,7 +64,7 @@ abstract class Magento_Wishlist_Block_Abstract extends Magento_Catalog_Block_Pro
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry  $coreRegistry,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Wishlist_Helper_Data $wishlistData,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
