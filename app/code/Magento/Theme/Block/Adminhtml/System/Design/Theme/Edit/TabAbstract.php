@@ -46,8 +46,7 @@ abstract class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstrac
         Magento_ObjectManager $objectManager,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
         $this->_objectManager = $objectManager;
     }
 
