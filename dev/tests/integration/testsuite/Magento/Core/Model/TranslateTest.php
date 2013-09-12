@@ -68,13 +68,16 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $objectManager->get('Magento_Core_Model_Config')->setModuleDir('Magento_Catalog', 'locale',
             dirname(__FILE__) . '/_files/Magento/Catalog/locale');
 
+        /** @var Magento_TestFramework_ObjectManager  $objectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
         $this->_designModel = $this->getMock('Magento_Core_Model_View_Design',
             array('getDesignTheme'),
             array(
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface'),
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Theme_FlyweightFactory'),
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Store_Config'),
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config')
+                $objectManager->get('Magento_Core_Model_StoreManagerInterface'),
+                $objectManager->get('Magento_Core_Model_Theme_FlyweightFactory'),
+                $objectManager->get('Magento_Core_Model_Store_Config'),
+                $objectManager->get('Magento_Core_Model_Config')
             )
         );
 

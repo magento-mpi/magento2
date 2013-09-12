@@ -49,8 +49,7 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
             )
         );
 
-
-        $storeConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Store_Config');
+        $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
         $coreStoreConfig = new ReflectionProperty($emailTemplate, '_coreStoreConfig');
         $coreStoreConfig->setAccessible(true);
         $coreStoreConfig->setValue($emailTemplate, $storeConfig);
@@ -93,7 +92,7 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
         );
         $template->expects($this->any())->method('_getMail')->will($this->onConsecutiveCalls($mail, $brokenMail));
 
-        $storeConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Store_Config');
+        $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
         $coreStoreConfig = new ReflectionProperty($template, '_coreStoreConfig');
         $coreStoreConfig->setAccessible(true);
         $coreStoreConfig->setValue($template, $storeConfig);

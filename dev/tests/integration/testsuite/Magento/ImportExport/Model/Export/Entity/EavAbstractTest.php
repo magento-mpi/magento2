@@ -35,9 +35,12 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
 
     protected function setUp()
     {
+        /** @var Magento_TestFramework_ObjectManager  $objectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
         $customerAttributes = Mage::getResourceModel('Magento_Customer_Model_Resource_Attribute_Collection');
 
-        $storeConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Store_Config');
+        $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
         $this->_model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Export_Entity_EavAbstract',
             array($storeConfig), '', false);
         $this->_model->expects($this->any())
