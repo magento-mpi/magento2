@@ -269,7 +269,7 @@ return array(
     array('getChildGroup', '', 'Magento_Core_Block_Abstract::getGroupChildNames()'),
     array('getConfig', 'Magento_Captcha_Helper_Data'),
     array('getConfig', 'Magento_Eav_Model_Entity_Attribute_Abstract'),
-    array('getConfigAsXml','Mageento_Widget_Model_Widget'),
+    array('getConfigAsXml','Magento_Widget_Model_Widget'),
     array('getConfigDataModel', 'Magento_Core_Model_Config'),
     array('getContainers', 'Magento_Core_Model_Layout_Update', 'Magento_Core_Model_Layout_Merge'),
     array('getControllerInstance', 'Mage'),
