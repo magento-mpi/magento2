@@ -206,10 +206,8 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
             $errorMessages = is_array($errorMessage) ? $errorMessage : array($errorMessage);
             $this->assertTrue(
                 in_array($body['errors'][0]['message'], $errorMessages),
-                sprintf(
-                    "Message is invalid. Actual: {$body['errors'][0]['message']}, Expected one of: \n%s",
-                    implode("\n", $errorMessages)
-                )
+                "Message is invalid. Actual: {$body['errors'][0]['message']}. Expected one of:" .
+                implode("\n", $errorMessages)
             );
 
             if ($parameters) {
