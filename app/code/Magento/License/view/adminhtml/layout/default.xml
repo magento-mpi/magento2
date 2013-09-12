@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
+        <reference name="notifications">
+            <block class="Magento_License_Block_Adminhtml_Checker" name="license_checker" as="license_checker" template="checker/reminder.phtml" after="-"/>
+        </reference>
+    </handle>
+</layout>

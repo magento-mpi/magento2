@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
+        <reference name="top.links">
+            <action method="addLink">
+                <argument translate="true" name="label" xsi:type="string">My Account</argument>
+                <argument name="url" xsi:type="helper" helper="Magento_Customer_Helper_Data::getAccountUrl"/>
+                <argument translate="true" name="title" xsi:type="string">My Account</argument>
+                <argument name="prepare" xsi:type="string"/>
+                <argument name="urlParams" xsi:type="string"/>
+                <argument name="position" xsi:type="string">10</argument>
+            </action>
+        </reference>
+        <reference name="account.links">
+            <action method="addLink">
+                <argument translate="true" name="label" xsi:type="string">Register</argument>
+                <argument name="url" xsi:type="helper" helper="Magento_Customer_Helper_Data::getRegisterUrl"/>
+                <argument translate="true" name="title" xsi:type="string">Register</argument>
+                <argument name="prepare" xsi:type="string"/>
+                <argument name="urlParams" xsi:type="string"/>
+                <argument name="position" xsi:type="string">100</argument>
+            </action>
+        </reference>
+    </handle>
+</layout>

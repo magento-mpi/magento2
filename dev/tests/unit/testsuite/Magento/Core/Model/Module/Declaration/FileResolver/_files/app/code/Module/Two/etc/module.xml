@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Module_Two" version="1.0.0.0" active="true">
+        <sequence>
+            <module name="Module_One" />
+        </sequence>
+        <depends>
+            <extension name="spl" />
+        </depends>
+    </module>
+</config>

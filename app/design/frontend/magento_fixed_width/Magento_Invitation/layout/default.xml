@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
+        <reference name="account_links">
+            <action method="removeRegisterLink" ifconfig="magento_invitation/general/registration_required_invitation">
+                <argument name="target" xsi:type="string">account.links</argument>
+            </action>
+        </reference>
+    </handle>
+</layout>

@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Guest Order Invoice View" id="sales_guest_invoice" type="page" parent="sales_guest_view">
+        <reference name="root">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">1column.phtml</argument>
+            </action>
+        </reference>
+        <reference name="content">
+            <block class="Magento_Sales_Block_Order_Info" as="info" name="sales.order.info">
+                <block class="Magento_Sales_Block_Order_Info_Buttons" as="buttons" name="sales.order.info.buttons"/>
+            </block>
+            <block class="Magento_Sales_Block_Order_Invoice" name="sales.order.invoice" after="sales.order.info">
+                <block class="Magento_Sales_Block_Order_Invoice_Items" name="invoice_items" template="order/invoice/items.phtml">
+                    <action method="addItemRender">
+                        <argument name="type" xsi:type="string">default</argument>
+                        <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
+                        <argument name="template" xsi:type="string">Magento_Sales::order/invoice/items/renderer/default.phtml</argument>
+                    </action>
+                    <action method="addItemRender">
+                        <argument name="type" xsi:type="string">grouped</argument>
+                        <argument name="block" xsi:type="string">Magento_Sales_Block_Order_Item_Renderer_Grouped</argument>
+                        <argument name="template" xsi:type="string">order/invoice/items/renderer/default.phtml</argument>
+                    </action>
+                    <block class="Magento_Sales_Block_Order_Invoice_Totals" name="invoice_totals" template="order/totals.phtml">
+                        <action method="setLabelProperties">
+                            <argument name="value" xsi:type="string">colspan="4" class="a-right"</argument>
+                        </action>
+                        <action method="setValueProperties">
+                            <argument name="value" xsi:type="string">class="last a-right"</argument>
+                        </action>
+                        <block class="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
+                    </block>
+                    <block class="Magento_Sales_Block_Order_Comments" name="invoice_comments" template="order/comments.phtml"/>
+                </block>
+            </block>
+        </reference>
+        <reference name="sales.order.info">
+            <action method="addLink">
+                <argument name="name" xsi:type="string">view</argument>
+                <argument name="path" xsi:type="string">*/*/view</argument>
+                <argument translate="true" name="label" xsi:type="string">Order Information</argument>
+            </action>
+            <action method="addLink">
+                <argument name="name" xsi:type="string">invoice</argument>
+                <argument name="path" xsi:type="string"/>
+                <argument translate="true" name="label" xsi:type="string">Invoices</argument>
+            </action>
+            <action method="addLink">
+                <argument name="name" xsi:type="string">shipment</argument>
+                <argument name="path" xsi:type="string">*/*/shipment</argument>
+                <argument translate="true" name="label" xsi:type="string">Shipments</argument>
+            </action>
+            <action method="addLink">
+                <argument name="name" xsi:type="string">creditmemo</argument>
+                <argument name="path" xsi:type="string">*/*/creditmemo</argument>
+                <argument translate="true" name="label" xsi:type="string">Refunds</argument>
+            </action>
+        </reference>
+    </handle>
+</layout>

@@ -18,7 +18,6 @@ return array(
                 ),
                 array(
                     'id' => 'Custom_Module::resource_two',
-                    'module' => 'Custom_Module',
                     'title' => 'Resource Two Title',
                     'sortOrder' => 20,
                     'disabled' => false,
@@ -32,14 +31,12 @@ return array(
                     'children' => array(
                         array(
                             'id' => 'Custom_Module::child_resource_one',
-                            'module' => 'Custom_Module',
                             'title' => 'Resource Child Title',
                             'sortOrder' => 30,
                             'disabled' => false,
                             'children' => array(
                                 array(
                                     'id' => 'Custom_Module::child_resource_two',
-                                    'module' => 'Custom_Module',
                                     'title' => 'Resource Child Level 2 Title',
                                     'sortOrder' => 10,
                                     'disabled' => false,

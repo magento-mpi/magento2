@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_BannerCustomerSegment_Model_Observer">
+        <param name="segmentCustomer">
+            <instance type="Magento_CustomerSegment_Model_Customer_Proxy" />
+        </param>
+    </type>
+</config>

@@ -12,20 +12,20 @@
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     protected $_bootstrap;
 
     protected function setUp()
     {
         if (!Mage::getObjectManager()) {
-            $instanceConfig = new Magento_Test_ObjectManager_Config();
-            $primaryConfig = $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false);
-            $dirs = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
+            $instanceConfig = new Magento_TestFramework_ObjectManager_Config();
+            $primaryConfig = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
+            $dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
             $primaryConfig->expects($this->any())->method('getDirectories')->will($this->returnValue($dirs));
 
             Mage::setObjectManager(
-                new Magento_Test_ObjectManager(
+                new Magento_TestFramework_ObjectManager(
                     $primaryConfig,
                     $instanceConfig
                 )
@@ -34,44 +34,45 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
         parent::setUp();
 
         // emulate session messages
-        $messagesCollection = new Mage_Core_Model_Message_Collection();
+        $messagesCollection = new Magento_Core_Model_Message_Collection();
         $messagesCollection
-            ->add(new Mage_Core_Model_Message_Warning('some_warning'))
-            ->add(new Mage_Core_Model_Message_Error('error_one'))
-            ->add(new Mage_Core_Model_Message_Error('error_two'))
-            ->add(new Mage_Core_Model_Message_Notice('some_notice'))
+            ->add(new Magento_Core_Model_Message_Warning('some_warning'))
+            ->add(new Magento_Core_Model_Message_Error('error_one'))
+            ->add(new Magento_Core_Model_Message_Error('error_two'))
+            ->add(new Magento_Core_Model_Message_Notice('some_notice'))
         ;
         $sessionModelFixture = new Magento_Object(array('messages' => $messagesCollection));
-        $this->_objectManager->addSharedInstance($sessionModelFixture, 'Mage_Core_Model_Session');
+        $this->_objectManager->addSharedInstance($sessionModelFixture, 'Magento_Core_Model_Session');
     }
 
     /**
      * Bootstrap instance getter.
      * Mocking real bootstrap
      *
-     * @return Magento_Test_Bootstrap
+     * @return Magento_TestFramework_Bootstrap
      */
     protected function _getBootstrap()
     {
         if (!$this->_bootstrap) {
-            $this->_bootstrap = $this->getMock('Magento_Test_Bootstrap', array('getAllOptions'), array(), '', false);
+            $this->_bootstrap = $this->getMock(
+                'Magento_TestFramework_Bootstrap', array('getAllOptions'), array(), '', false);
         }
         return $this->_bootstrap;
     }
 
     public function testGetRequest()
     {
-        $this->_objectManager = $this->getMock('Magento_Test_ObjectManager', array(), array(), '', false);
+        $this->_objectManager = $this->getMock('Magento_TestFramework_ObjectManager', array(), array(), '', false);
         $request = $this->getRequest();
-        $this->assertInstanceOf('Magento_Test_Request', $request);
+        $this->assertInstanceOf('Magento_TestFramework_Request', $request);
         $this->assertSame($request, $this->getRequest());
     }
 
     public function testGetResponse()
     {
-        $this->_objectManager = $this->getMock('Magento_Test_ObjectManager', array(), array(), '', false);
+        $this->_objectManager = $this->getMock('Magento_TestFramework_ObjectManager', array(), array(), '', false);
         $response = $this->getResponse();
-        $this->assertInstanceOf('Magento_Test_Response', $response);
+        $this->assertInstanceOf('Magento_TestFramework_Response', $response);
         $this->assertSame($response, $this->getResponse());
     }
 
@@ -80,7 +81,7 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
      */
     public function testAssert404NotFound()
     {
-        $this->_objectManager = $this->getMock('Magento_Test_ObjectManager', array(), array(), '', false);
+        $this->_objectManager = $this->getMock('Magento_TestFramework_ObjectManager', array(), array(), '', false);
         $this->getRequest()->setActionName('noRoute');
         $this->getResponse()->setBody(
             '404 Not Found test <h3>We are sorry, but the page you are looking for cannot be found.</h3>'
@@ -101,7 +102,7 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
      */
     public function testAssertRedirectFailure()
     {
-        $this->_objectManager = $this->getMock('Magento_Test_ObjectManager', array(), array(), '', false);
+        $this->_objectManager = $this->getMock('Magento_TestFramework_ObjectManager', array(), array(), '', false);
         $this->assertRedirect();
     }
 
@@ -110,10 +111,11 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
      */
     public function testAssertRedirect()
     {
-        $this->_objectManager = $this->getMock('Magento_Test_ObjectManager', array(), array(), '', false);
+        $this->_objectManager = $this->getMock('Magento_TestFramework_ObjectManager', array(), array(), '', false);
         /*
-         * Prevent calling Mage_Core_Controller_Response_Http::setRedirect() because it executes Mage::dispatchEvent(),
-         * which requires fully initialized application environment intentionally not available for unit tests
+         * Prevent calling Magento_Core_Controller_Response_Http::setRedirect() because it executes
+         * Mage::dispatchEvent(), which requires fully initialized application environment intentionally not available
+         * for unit tests
          */
         $setRedirectMethod = new ReflectionMethod('Zend_Controller_Response_Http', 'setRedirect');
         $setRedirectMethod->invoke($this->getResponse(), 'http://magentocommerce.com');
@@ -142,7 +144,7 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
     {
         return array(
             'no message type filtering' => array(array('some_warning', 'error_one', 'error_two', 'some_notice'), null),
-            'message type filtering'    => array(array('error_one', 'error_two'), Mage_Core_Model_Message::ERROR),
+            'message type filtering'    => array(array('error_one', 'error_two'), Magento_Core_Model_Message::ERROR),
         );
     }
 

@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Enterprise
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <enterprise_setup>
+                <setup>
+                    <module>Magento_Enterprise</module>
+                    <class>Magento_Core_Model_Resource_Setup</class>
+                </setup>
+            </enterprise_setup>
+        </resources>
+    </global>
+    <frontend>
+        <design>
+            <theme>
+                <full_name>magento_fixed_width</full_name>
+            </theme>
+        </design>
+    </frontend>
+    <adminhtml>
+        <design>
+            <theme>
+                <full_name>magento_backend</full_name>
+            </theme>
+        </design>
+    </adminhtml>
+    <install>
+        <eula_file>LICENSE_EE.html</eula_file>
+        <design>
+            <theme>
+                <full_name>magento_enterprise</full_name>
+            </theme>
+        </design>
+    </install>
+    <default>
+        <design>
+            <head>
+                <default_title>Magento Enterprise Edition</default_title>
+                <default_keywords>Magento, Varien, E-commerce</default_keywords>
+            </head>
+            <footer>
+                <copyright>&amp;copy; 2012 Magento Enterprise Edition Demo Store. All Rights Reserved.</copyright>
+            </footer>
+        </design>
+        <system>
+            <media_storage_configuration>
+                <allowed_resources>
+                    <enterprise_folder>enterprise</enterprise_folder>
+                </allowed_resources>
+            </media_storage_configuration>
+            <adminnotification>
+                <feed_url>notifications.magentocommerce.com/enterprise/notifications.rss</feed_url>
+            </adminnotification>
+        </system>
+    </default>
+</config>

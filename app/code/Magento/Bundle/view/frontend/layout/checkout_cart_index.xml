@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_cart_index">
+        <reference name="checkout.cart">
+            <action method="addItemRender">
+                <argument name="type" xsi:type="string">bundle</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Checkout_Cart_Item_Renderer</argument>
+                <argument name="template" xsi:type="string">Magento_Checkout::cart/item/default.phtml</argument>
+            </action>
+        </reference>
+        <reference name="checkout.cart.crosssell">
+            <action method="addPriceBlockType">
+                <argument name="type" xsi:type="string">bundle</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_Price</argument>
+                <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
+            </action>
+        </reference>
+    </handle>
+</layout>

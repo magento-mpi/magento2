@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_user_index">
+        <update handle="adminhtml_user_grid_block"/>
+        <reference name="content">
+            <block class="Magento_User_Block_User" name="adminhtml.user.grid.container"/>
+        </reference>
+    </handle>
+</layout>

@@ -18,7 +18,7 @@ class Magento_Cache_Frontend_Adapter_ZendTest extends PHPUnit_Framework_TestCase
     {
         $frontendMock = $this->getMock('Zend_Cache_Core');
         $object = new Magento_Cache_Frontend_Adapter_Zend($frontendMock);
-        $helper = new Magento_Test_Helper_ProxyTesting();
+        $helper = new Magento_TestFramework_Helper_ProxyTesting();
         $result = $helper->invokeWithExpectations($object, $frontendMock, $method, $params, $expectedResult, $method,
             $expectedParams);
         $this->assertSame($expectedResult, $result);

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
+        <remove name="checkout_page_head_components"/>
+        <move element="checkout_cart_link" destination="checkout.links"/>
+        <reference name="checkout_cart_link">
+            <action method="removeParentCartLink"/>
+        </reference>
+        <move element="cart_sidebar" destination="header" as="topCart"/>
+        <reference name="cart_sidebar">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">cart/cartheader.phtml</argument>
+            </action>
+        </reference>
+    </handle>
+</layout>

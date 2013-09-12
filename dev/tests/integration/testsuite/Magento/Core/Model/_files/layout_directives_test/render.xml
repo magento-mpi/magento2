@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout>
+    <handle id="test_render">
+        <!-- Despite reference element is not declared yet, it will "save this action for later" -->
+        <reference name="block1">
+            <action method="addText">
+                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="value" xsi:type="string">1</argument>
+            </action>
+        </reference>
+        <container name="container1" label="Container 1">
+            <block class="Magento_Core_Block_Text" name="block1">
+                <action method="addText">
+                    <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="value" xsi:type="string">2</argument>
+                </action>
+            </block>
+            <block class="Magento_Core_Block_Text" name="block2">
+                <action method="setText">
+                    <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="value" xsi:type="string">3</argument>
+                </action>
+            </block>
+        </container>
+        <!-- A conventional use of reference - after element is declared -->
+        <reference name="block2">
+            <action method="setText">
+                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="value" xsi:type="string">4</argument>
+            </action>
+        </reference>
+        <!-- Reference to non-existing element will remain ignored -->
+        <reference name="nonexistent">
+            <action method="addText">
+                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="value" xsi:type="string">5</argument>
+            </action>
+        </reference>
+    </handle>
+</layout>

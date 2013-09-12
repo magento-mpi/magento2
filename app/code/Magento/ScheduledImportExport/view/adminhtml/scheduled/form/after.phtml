@@ -1,0 +1,54 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Magento_ImportExport_Block_Adminhtml_Form_After */ ?>
+<?php
+/** @var $operation Magento_ScheduledImportExport_Model_Scheduled_Operation */
+$operation = $this->getOperation();
+$operationType = $operation->getOperationType();
+$entityBehavior = $operation->getBehavior();
+?>
+<script type="text/javascript">
+    if (!$('export_filter_grid') && $('export_filter_container')) {
+        $('export_filter_container').hide();
+    }
+
+    var serverType = $('server_type'),
+        onChangeCallback = function(e) {
+            var serverTypeValue = $(this).value;
+            $(this.form).getElementsBySelector('.server-dependent').each(function(e){
+                if (!e.parentNode.parentNode)alert(e.nodeName);
+                var s = e.parentNode.parentNode.style;
+                if ($(e).hasClassName(serverTypeValue + '-server')) {
+                    s.display = '';
+                    e.disabled = false;
+                } else {
+                    s.display = 'none';
+                    e.disabled = true;
+                }
+            });
+        };
+    serverType.observe('change', onChangeCallback);
+    onChangeCallback.call(serverType, {type: 'change'});
+
+    if ('<?php echo $operationType ?>' == 'import') {
+        // hide all behavior fields
+        varienImportExportScheduled.handleEntityTypeSelector();
+        // set current behavior
+        if ($('entity') && $F('entity')) {
+            var requiredBehavior = varienImportExportScheduled.entityBehaviors[$F('entity')];
+            $(requiredBehavior).value = '<?php echo $entityBehavior ?>';
+        }
+    }
+    if ('<?php echo $operationType ?>' == 'export') {
+        // show/hide checkboxes depending on current export entity (edit scheduled export page)
+        varienImportExportScheduled.modifyFilterGrid();
+    }
+</script>

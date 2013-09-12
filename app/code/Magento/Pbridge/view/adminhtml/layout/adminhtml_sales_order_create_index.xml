@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_create_index">
+        <reference name="js">
+            <block class="Magento_Adminhtml_Block_Template" name="pbridge.js" template="Magento_Pbridge::sales/order/create/js.phtml"/>
+        </reference>
+    </handle>
+</layout>

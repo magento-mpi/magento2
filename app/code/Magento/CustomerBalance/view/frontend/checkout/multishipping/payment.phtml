@@ -1,0 +1,32 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     magento_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if ($this->isAllowed()): ?>
+<div class="checkout-multishipping-payment-customerbalance" id="customerbalance-block">
+    <input type="hidden" name="payment[use_customer_balance]" value="0"/>
+    <input type="checkbox" class="checkbox" name="payment[use_customer_balance]" value="1"
+           id="use-customer-balance" <?php echo ($this->isCustomerBalanceUsed() ? 'checked' : '') ?>/>
+
+    <?php $balance = $this->helper('Magento_Core_Helper_Data')->currency($this->getBalance()); ?>
+    <label
+        for="use-customer-balance"><strong><?php echo __('Use Store Credit (%1 available)', $balance); ?></strong></label>
+</div>
+<script type="text/javascript">
+    head.js(
+        "<?php echo $this->getViewFileUrl('Magento_Customer::js/checkout-balance.js') ?>",
+        function() {
+            jQuery('#use-customer-balance').checkoutBalance({
+                amountSubstracted: <?php if ($this->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>,
+                usedAmount: <?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>,
+                balance: <?php echo (float)$this->getBalance(); ?>
+            });
+        });
+</script>
+<?php endif; ?>

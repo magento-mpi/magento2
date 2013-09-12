@@ -8,30 +8,31 @@
  */
 -->
 <config>
-    <preference for="Mage_Core_Model_Db_UpdaterInterface" type="Mage_Core_Model_Db_Updater" />
-    <preference for="Mage_Core_Model_AppInterface" type="Mage_Core_Model_App_Proxy" />
-    <preference for="Mage_Core_Model_Config_InvalidatorInterface" type="Mage_Core_Model_Config_Invalidator_Proxy" />
-    <preference for="Mage_Core_Model_CacheInterface" type="Mage_Core_Model_Cache_Proxy" />
-    <preference for="Mage_Core_Model_Cache_StateInterface" type="Mage_Core_Model_Cache_State" />
-    <preference for="Mage_Core_Model_Cache_TypeListInterface" type="Mage_Core_Model_Cache_TypeList" />
-    <preference for="Mage_Core_Model_Store_ConfigInterface" type="Mage_Core_Model_Store_Config" />
-    <preference for="Mage_Core_Model_StoreManagerInterface" type="Mage_Core_Model_StoreManager" />
-    <preference for="Mage_Core_Model_View_DesignInterface" type="Mage_Core_Model_View_Design" />
-    <preference for="Mage_Core_Model_LocaleInterface" type="Mage_Core_Model_Locale" />
-    <preference for="Mage_Core_Model_UrlInterface" type="Mage_Core_Model_Url" />
-    <preference for="Mage_Core_Model_Event_InvokerInterface" type="Mage_Core_Model_Event_Invoker_InvokerDefault" />
+    <preference for="Magento_Core_Model_Db_UpdaterInterface" type="Magento_Core_Model_Db_Updater" />
+    <preference for="Magento_Core_Model_AppInterface" type="Magento_Core_Model_App_Proxy" />
+    <preference for="Magento_Core_Model_CacheInterface" type="Magento_Core_Model_Cache_Proxy" />
+    <preference for="Magento_Core_Model_Cache_StateInterface" type="Magento_Core_Model_Cache_State" />
+    <preference for="Magento_Core_Model_Cache_TypeListInterface" type="Magento_Core_Model_Cache_TypeList" />
+    <preference for="Magento_Core_Model_Store_ConfigInterface" type="Magento_Core_Model_Store_Config" />
+    <preference for="Magento_Core_Model_StoreManagerInterface" type="Magento_Core_Model_StoreManager" />
+    <preference for="Magento_Core_Model_View_DesignInterface" type="Magento_Core_Model_View_Design" />
+    <preference for="Magento_Core_Model_LocaleInterface" type="Magento_Core_Model_Locale" />
+    <preference for="Magento_Core_Model_UrlInterface" type="Magento_Core_Model_Url" />
+    <preference for="Magento_Core_Model_Event_InvokerInterface" type="Magento_Core_Model_Event_Invoker_InvokerDefault" />
     <preference for="Magento_Data_Collection_Db_FetchStrategyInterface" type="Magento_Data_Collection_Db_FetchStrategy_Query" />
-    <preference for="Magento_Config_ScopeInterface" type="Mage_Core_Model_Config_Scope" />
-    <preference for="Magento_Config_FileResolverInterface" type="Mage_Core_Model_Config_FileResolver" />
-    <preference for="Magento_Config_CacheInterface" type="Mage_Core_Model_Cache_Type_Config" />
-    <preference for="Magento_Config_ValidationStateInterface" type="Mage_Core_Model_Config_ValidationState" />
-    <preference for="Mage_Core_Model_ModuleListInterface" type="Mage_Core_Model_ModuleList" />
-    <type name="Mage_Core_Model_App_State">
+    <preference for="Magento_Config_ScopeInterface" type="Magento_Core_Model_Config_Scope" />
+    <preference for="Magento_Config_FileResolverInterface" type="Magento_Core_Model_Config_FileResolver" />
+    <preference for="Magento_Config_CacheInterface" type="Magento_Core_Model_Cache_Type_Config" />
+    <preference for="Magento_Config_ValidationStateInterface" type="Magento_Core_Model_Config_ValidationState" />
+    <preference for="Magento_Core_Model_ModuleListInterface" type="Magento_Core_Model_ModuleList" />
+    <preference for="Magento_Core_Model_Event_ConfigInterface" type="Magento_Core_Model_Event_Config" />
+    <preference for="Magento_Interception_PluginList" type="Magento_Interception_PluginList_PluginList" />
+    <type name="Magento_Core_Model_App_State">
         <param name="mode">
             <value type="argument">Mage::PARAM_MODE</value>
         </param>
     </type>
-    <type name="Mage_Core_Model_Config_Loader_Local">
+    <type name="Magento_Core_Model_Config_Loader_Local">
         <param name="customFile">
             <value type="argument">Mage::PARAM_CUSTOM_LOCAL_FILE</value>
         </param>
@@ -39,22 +40,22 @@
             <value type="argument">Mage::PARAM_CUSTOM_LOCAL_CONFIG</value>
         </param>
     </type>
-    <type name="Mage_Core_Model_Module_Declaration_Reader_Filesystem">
+    <type name="Magento_Core_Model_Module_Declaration_Reader_Filesystem">
         <param name="allowedModules">
             <value type="argument">Mage::PARAM_ALLOWED_MODULES</value>
         </param>
     </type>
-    <type name="Mage_Core_Model_Cache_Frontend_Factory">
+    <type name="Magento_Core_Model_Cache_Frontend_Factory">
         <param name="enforcedOptions">
             <value type="argument">Mage::PARAM_CACHE_OPTIONS</value>
         </param>
     </type>
-    <type name="Mage_Core_Model_Cache_State">
+    <type name="Magento_Core_Model_Cache_State">
         <param name="banAll">
             <value type="argument">Mage::PARAM_BAN_CACHE</value>
         </param>
     </type>
-    <type name="Mage_Core_Model_StoreManager">
+    <type name="Magento_Core_Model_StoreManager">
         <param name="scopeCode">
             <value type="argument">Mage::PARAM_RUN_CODE</value>
         </param>
@@ -62,75 +63,47 @@
             <value type="argument">Mage::PARAM_RUN_TYPE</value>
         </param>
     </type>
-    <type name="Mage_Core_Model_Config">
-        <param name="storage">
-            <instance type="Mage_Core_Model_Config_Storage" />
+    <type name="Magento_Core_Model_Cache">
+        <param name="cacheTypes">
+            <instance type="Magento_Core_Model_Cache_Types_Proxy" />
         </param>
-    </type>
-    <type name="Mage_Core_Model_Config_Container">
-        <param name="configCache">
-            <instance type="Mage_Core_Model_Config_Cache_Proxy" />
-        </param>
-    </type>
-    <type name="Mage_Core_Model_Config_Resource">
         <param name="config">
-            <instance type="Mage_Core_Model_Config_Primary" />
+            <instance type="Magento_Core_Model_Config_Proxy" />
         </param>
     </type>
-    <type name="Mage_Core_Model_Config_Locales">
+    <type name="Magento_Core_Model_Config">
         <param name="storage">
-            <instance type="Mage_Core_Model_Config_Storage_Locales" />
+            <instance type="Magento_Core_Model_Config_Storage" />
         </param>
     </type>
-    <type name="Mage_Core_Model_Config_Modules">
-        <param name="storage">
-            <instance type="Mage_Core_Model_Config_Storage_Modules" />
-        </param>
-    </type>
-    <type name="Mage_Core_Model_Config_Storage">
-        <param name="loader">
-            <instance type="Mage_Core_Model_Config_Loader_Proxy" />
-        </param>
-    </type>
-    <type name="Mage_Core_Model_Config_Storage_Modules">
-        <param name="loader">
-            <instance type="Mage_Core_Model_Config_Loader_Modules_Proxy" />
-        </param>
-    </type>
-    <type name="Mage_Core_Model_Config_Storage_Locales">
-        <param name="loader">
-            <instance type="Mage_Core_Model_Config_Loader_Locales_Proxy" />
-        </param>
-    </type>
-    <type name="Mage_Core_Model_Event_Config">
+    <type name="Magento_Core_Model_Config_Resource">
         <param name="config">
-            <instance type="Mage_Core_Model_Config_Modules_Proxy" />
+            <instance type="Magento_Core_Model_Config_Primary" />
         </param>
     </type>
-    <type name="Mage_Core_Model_Translate">
+    <type name="Magento_Core_Model_Config_Storage">
+        <param name="loader">
+            <instance type="Magento_Core_Model_Config_Loader_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Event_Config">
+        <param name="config">
+            <instance type="Magento_Core_Model_Config_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Translate">
         <param name="cache">
-            <instance type="Mage_Core_Model_Cache_Type_Translate" />
+            <instance type="Magento_Core_Model_Cache_Type_Translate" />
         </param>
     </type>
-    <type name="Mage_Install_Model_Installer">
+    <type name="Magento_Install_Model_Installer">
         <param name="config">
-            <instance type="Mage_Core_Model_Config_Proxy" />
+            <instance type="Magento_Core_Model_Config_Proxy" />
         </param>
     </type>
-    <type name="Mage_Core_Model_Config_Invalidator">
-        <param name="primaryConfig">
-            <instance type="Mage_Core_Model_Config_Primary" />
-        </param>
-        <param name="modulesConfig">
-            <instance type="Mage_Core_Model_Config_Modules" />
-        </param>
-        <param name="localesConfig">
-            <instance type="Mage_Core_Model_Config_Locales" />
-        </param>
-    </type>
-    <type name="Mage_Core_Model_Store_StorageFactory">
+    <type name="Magento_Core_Model_Store_StorageFactory">
         <param name="config">
-            <instance type="Mage_Core_Model_Config_Proxy" />
+            <instance type="Magento_Core_Model_Config_Proxy" />
         </param>
     </type>
     <type name="Magento_Filesystem" shared="false">
@@ -144,69 +117,101 @@
             <value>
                 <app>
                     <sortOrder>50</sortOrder>
-                    <class>Mage_Core_Model_App_Handler</class>
+                    <class>Magento_Core_Model_App_Handler</class>
                 </app>
             </value>
         </param>
     </type>
-    <type name="Mage_Core_Model_DataService_Path_Composite">
+    <type name="Magento_Core_Model_DataService_Path_Composite">
         <param name="items">
             <value>
-                <data>Mage_Core_Model_DataService_Repository</data>
-                <request>Mage_Core_Model_DataService_Path_Request</request>
+                <data>Magento_Core_Model_DataService_Repository</data>
+                <request>Magento_Core_Model_DataService_Path_Request</request>
             </value>
         </param>
     </type>
-    <type name="Mage_Core_Helper_Url">
+    <type name="Magento_Core_Helper_Url">
         <param name="translate">
-            <instance type="Mage_Core_Model_Translate_Proxy" />
+            <instance type="Magento_Core_Model_Translate_Proxy" />
         </param>
     </type>
-    <type name="Mage_Core_Model_Design">
+    <type name="Magento_Core_Model_Design">
         <param name="eventDispatcher">
-            <instance type="Mage_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
     </type>
-    <type name="Mage_Core_Model_View_Design">
+    <type name="Magento_Core_Model_View_Design">
         <param name="storeManager">
-            <instance type="Mage_Core_Model_StoreManager_Proxy" />
+            <instance type="Magento_Core_Model_StoreManager_Proxy" />
         </param>
     </type>
     <type name="Magento_Acl" shared="false" />
-    <type name="Mage_Core_Model_Context">
+    <type name="Magento_Core_Model_Context">
         <param name="eventDispatcher">
-            <instance type="Mage_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
     </type>
-    <type name="Mage_Core_Model_ModuleManager">
+    <type name="Magento_Core_Model_ModuleManager">
         <param name="config">
-            <instance type="Mage_Core_Model_Config_Proxy" />
+            <instance type="Magento_Core_Model_Config_Proxy" />
         </param>
     </type>
-    <type name="Mage_Core_Model_ObjectManager_ConfigLoader">
+    <type name="Magento_Core_Model_ObjectManager_ConfigLoader">
         <param name="cache">
-            <instance type="Mage_Core_Model_Cache_Type_Config"/>
+            <instance type="Magento_Core_Model_Cache_Type_Config"/>
         </param>
         <param name="modulesReader">
-            <instance type="Mage_Core_Model_Config_Modules_Reader_Proxy" />
+            <instance type="Magento_Core_Model_Config_Modules_Reader_Proxy" />
         </param>
         <param name="mode">
             <value type="argument">Mage::PARAM_MODE</value>
         </param>
     </type>
-    <type name="Mage_Core_Model_ObjectManager_ConfigCache">
+    <type name="Magento_Core_Model_ObjectManager_ConfigCache">
         <param name="cacheFrontend">
-            <instance type="Mage_Core_Model_Cache_Type_Config"/>
+            <instance type="Magento_Core_Model_Cache_Type_Config"/>
         </param>
     </type>
-    <type name="Mage_Core_Model_Cache_Config_Reader">
+    <type name="Magento_Core_Model_Cache_Config_Reader">
         <param name="fileName">
             <value>cache.xml</value>
         </param>
     </type>
-    <type name="Mage_Core_Model_Cache_Config_Data">
+    <type name="Magento_Core_Model_Cache_Config_Data">
         <param name="cacheId">
             <value>config_cache</value>
+        </param>
+    </type>
+    <type name="Magento_Interception_Config_Config">
+        <param name="cache">
+            <instance type="Magento_Core_Model_Cache_Type_Config" />
+        </param>
+        <param name="reader">
+            <instance type="Magento_ObjectManager_Config_Reader_Dom" />
+        </param>
+        <param name="cacheId">
+            <value>interception</value>
+        </param>
+        <param name="scopePriorityScheme">
+            <value>
+                <first>global</first>
+            </value>
+        </param>
+    </type>
+    <type name="Magento_Interception_PluginList_PluginList">
+        <param name="cache">
+            <instance type="Magento_Core_Model_Cache_Type_Config" />
+        </param>
+        <param name="reader">
+            <instance type="Magento_ObjectManager_Config_Reader_Dom" />
+        </param>
+        <param name="cacheId">
+            <value>plugin-list</value>
+        </param>
+        <param name="scopePriorityScheme">
+            <value>
+                <first>global</first>
+            </value>
         </param>
     </type>
 </config>

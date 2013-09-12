@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_SalesArchive
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<logging>
+    <actions>
+        <massAdd translate="label">
+            <label>Mass Add</label>
+        </massAdd>
+        <add translate="label">
+            <label>Add</label>
+        </add>
+    </actions>
+    <magento_salesarchive translate="label">
+        <label>Sales Archive</label>
+        <expected_models>
+            <Magento_SalesArchive_Model_Archive />
+        </expected_models>
+        <actions>
+            <adminhtml_sales_archive_add>
+                <action>add</action>
+                <skip_on_back>
+                    <adminhtml_sales_order_view />
+                </skip_on_back>
+                <post_dispatch>postDispatchSalesArchiveManagement</post_dispatch>
+            </adminhtml_sales_archive_add>
+
+            <adminhtml_sales_archive_remove>
+                <action>delete</action>
+                <skip_on_back>
+                    <adminhtml_sales_order_view />
+                </skip_on_back>
+                <post_dispatch>postDispatchSalesArchiveManagement</post_dispatch>
+            </adminhtml_sales_archive_remove>
+
+            <adminhtml_sales_archive_massAdd>
+                <action>massAdd</action>
+                <post_dispatch>postDispatchSalesArchiveManagement</post_dispatch>
+            </adminhtml_sales_archive_massAdd>
+
+            <adminhtml_sales_archive_massRemove>
+                <action>massDelete</action>
+                <post_dispatch>postDispatchSalesArchiveManagement</post_dispatch>
+            </adminhtml_sales_archive_massRemove>
+        </actions>
+    </magento_salesarchive>
+</logging>

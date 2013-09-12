@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Oauth
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <oauth_setup>
+                <setup>
+                    <module>Magento_Oauth</module>
+                    <class>Magento_Oauth_Model_Resource_Setup</class>
+                </setup>
+            </oauth_setup>
+        </resources>
+        <template>
+            <email>
+                <oauth_email_template translate="label" module="Magento_Oauth">
+                    <label>Token Status Change</label>
+                    <file>email/token.html</file>
+                    <type>html</type>
+                </oauth_email_template>
+            </email>
+        </template>
+    </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_Oauth>
+                    <files>
+                        <default>Magento_Oauth.csv</default>
+                    </files>
+                </Magento_Oauth>
+            </modules>
+        </translate>
+    </adminhtml>
+    <frontend>
+        <translate>
+            <modules>
+                <Magento_Oauth>
+                    <files>
+                        <default>Magento_Oauth.csv</default>
+                    </files>
+                </Magento_Oauth>
+            </modules>
+        </translate>
+    </frontend>
+    <default>
+        <oauth>
+            <cleanup>
+                <cleanup_probability>100</cleanup_probability>
+                <expiration_period>120</expiration_period>
+            </cleanup>
+            <email>
+                <identity>general</identity>
+                <template>oauth_email_template</template>
+            </email>
+        </oauth>
+    </default>
+</config>

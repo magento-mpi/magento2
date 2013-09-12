@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Adminhtml
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <adminhtml>
+        <global_search>
+            <products>
+                <class>Magento_Adminhtml_Model_Search_Catalog</class>
+                <acl>Magento_Catalog::catalog</acl>
+            </products>
+            <customers>
+                <class>Magento_Adminhtml_Model_Search_Customer</class>
+                <acl>Magento_Customer::customer</acl>
+            </customers>
+            <sales>
+                <class>Magento_Adminhtml_Model_Search_Order</class>
+                <acl>Magento_Sales::sales</acl>
+            </sales>
+        </global_search>
+        <translate>
+            <modules>
+                <Magento_Adminhtml>
+                    <files>
+                        <default>Magento_Adminhtml.csv</default>
+                    </files>
+                </Magento_Adminhtml>
+            </modules>
+        </translate>
+        <sales>
+            <order>
+                <create>
+                    <available_product_types>
+                        <simple />
+                        <virtual />
+                        <configurable />
+                        <grouped />
+                    </available_product_types>
+                </create>
+            </order>
+        </sales>
+    </adminhtml>
+    <default>
+        <system>
+            <media_storage_configuration>
+                <allowed_resources>
+                    <email_folder>email</email_folder>
+                </allowed_resources>
+            </media_storage_configuration>
+            <emails>
+                <forgot_email_template>system_emails_forgot_email_template</forgot_email_template>
+                <forgot_email_identity>general</forgot_email_identity>
+            </emails>
+            <dashboard>
+                <enable_charts>1</enable_charts>
+            </dashboard>
+        </system>
+        <general>
+            <file>
+                <sitemap_generate_valid_paths>
+                    <available>
+                        <any_path>/*/sitemap.xml</any_path>
+                    </available>
+                </sitemap_generate_valid_paths>
+            </file>
+            <validator_data>
+                <input_types>
+                    <price>price</price>
+                    <media_image>media_image</media_image>
+                    <gallery>gallery</gallery>
+                </input_types>
+            </validator_data>
+        </general>
+        <hints>
+            <store_switcher>
+                <url>
+                    <![CDATA[http://www.magentocommerce.com/knowledge-base/entry/understanding-store-scopes]]>
+</url>
+                <enabled>1</enabled>
+            </store_switcher>
+        </hints>
+    </default>
+    <stores>
+        <admin>
+            <design>
+                <package>
+                    <name>default</name>
+                </package>
+                <theme>
+                    <default>default</default>
+                </theme>
+            </design>
+        </admin>
+    </stores>
+    <websites>
+        <admin>
+            <web>
+                <routers>
+                    <frontend>
+                        <disabled>true</disabled>
+                    </frontend>
+                </routers>
+                <default>
+                    <no_route>admin/index/noRoute</no_route>
+                </default>
+            </web>
+        </admin>
+    </websites>
+</config>

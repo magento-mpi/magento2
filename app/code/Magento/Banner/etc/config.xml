@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Banner
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <banner_setup>
+                <setup>
+                    <module>Magento_Banner</module>
+                    <class>Magento_Banner_Model_Resource_Setup</class>
+                </setup>
+            </banner_setup>
+        </resources>
+        <magento>
+            <banner>
+                <types translate="content footer header leftcol rightcol">
+                    <content>Content Area</content>
+                    <footer>Footer</footer>
+                    <header>Header</header>
+                    <leftcol>Left Column</leftcol>
+                    <rightcol>Right Column</rightcol>
+                </types>
+            </banner>
+        </magento>
+    </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_Banner>
+                    <files>
+                        <default>Magento_Banner.csv</default>
+                    </files>
+                </Magento_Banner>
+            </modules>
+        </translate>
+    </adminhtml>
+</config>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <router id="standard">
+        <route id="rss" frontName="rss">
+            <module name="Magento_Rss" />
+        </route>
+    </router>
+</config>

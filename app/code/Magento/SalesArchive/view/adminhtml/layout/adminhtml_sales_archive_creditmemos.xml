@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_archive_creditmemos">
+        <reference name="content">
+            <block class="Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo" name="archive">
+                <block class="Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo_Grid" name="archive.grid" as="grid"/>
+            </block>
+        </reference>
+    </handle>
+</layout>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Checkout
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<jstranslator>
+    <!-- opcheckout.js -->
+    <validate-guest translate="message">
+        <message>Please choose to register or to checkout as a guest.</message>
+    </validate-guest>
+    <validate-shipping-methods-not-available translate="message">
+        <message>We are not able to ship to the selected shipping address. Please choose another address or edit the current address.</message>
+    </validate-shipping-methods-not-available>
+    <validate-shipping-methods-required translate="message">
+        <message>Please specify a shipping method.</message>
+    </validate-shipping-methods-required>
+    <validate-payment-methods-not-available translate="message">
+        <message>We can't complete your order because you don't have a payment method available.</message>
+    </validate-payment-methods-not-available>
+    <validate-shipping-methods-required translate="message">
+        <message>Please specify a payment method.</message>
+    </validate-shipping-methods-required>
+    <!-- end opcheckout.js -->
+</jstranslator>

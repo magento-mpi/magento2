@@ -1,0 +1,27 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Magento_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Tools Files content template
+ *
+ * @var $this Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content
+ */
+?>
+<?php echo $this->getChildHtml('editor_files.js') ?>
+
+<div class="content-header skip-header" id="content_header">
+    <h3 data-content-text="header"><?php echo $this->getHeaderText() ?></h3>
+    <span class="uploaded no-display"><span></span>&nbsp;<?php echo __('Files Uploaded'); ?></span>
+</div>
+
+<div id="contents-newfolder" class="no-display"><?php echo $this->getChildHtml('editor_files.newfolder') ?></div>
+
+<div id="contents-uploader"><?php echo $this->getChildHtml('editor_files.uploader') ?></div>

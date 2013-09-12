@@ -288,7 +288,7 @@ END;
         $packageXmlV1x = simplexml_load_string($packageXmlV1xStub);
         // Note: The previous version of MCM requires precise node order in package.xml file
         $packageXmlV1x->addChild('name', (string)$newPackageXml->name);
-        $packageXmlV1x->addChild('channel', Mage::helper('Mage_Connect_Helper_Data')->convertChannelToV1x((string)$newPackageXml->channel));
+        $packageXmlV1x->addChild('channel', Mage::helper('Magento_Connect_Helper_Data')->convertChannelToV1x((string)$newPackageXml->channel));
         $packageXmlV1x->addChild('summary', (string)$newPackageXml->summary);
         $packageXmlV1x->addChild('description', (string)$newPackageXml->description);
         // Import authors
@@ -335,7 +335,7 @@ END;
             $packageNode->addChild('name', (string)$package->name);
             // Convert channel to previous version format
             $channel = (string)$package->channel;
-            $channel = Mage::helper('Mage_Connect_Helper_Data')->convertChannelToV1x($channel);
+            $channel = Mage::helper('Magento_Connect_Helper_Data')->convertChannelToV1x($channel);
             $packageNode->addChild('channel', $channel);
             $minVersion = (string)$package->min;
             if ($minVersion) {

@@ -1,0 +1,16 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if ((float) $this->getSource()->getRewardPointsBalanceRefund()): ?>
+    <tr>
+        <td class="label"><strong><?php echo __('Reward Points refunded to customer') ?></strong></td>
+        <td><strong><?php echo $this->getSource()->getRewardPointsBalanceRefund(); ?></strong></td>
+    </tr>
+<?php endif; ?>

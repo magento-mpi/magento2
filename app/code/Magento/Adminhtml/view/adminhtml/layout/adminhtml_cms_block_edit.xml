@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_cms_block_edit">
+        <update handle="editor"/>
+        <reference name="head">
+            <action method="addCss">
+                <argument name="file" xsi:type="string">jquery/fileUploader/css/jquery.fileupload-ui.css</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.iframe-transport.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">jquery/fileUploader/load-image.min.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">jquery/fileUploader/canvas-to-blob.min.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload-fp.js</argument>
+            </action>
+        </reference>
+        <reference name="content">
+            <block class="Magento_Adminhtml_Block_Cms_Block_Edit" name="cms_block_edit"/>
+        </reference>
+    </handle>
+</layout>

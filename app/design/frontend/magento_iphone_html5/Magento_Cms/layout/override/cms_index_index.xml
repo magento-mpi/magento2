@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="CMS Home Page" id="cms_index_index" type="page" parent="cms_page_view">
+        <reference name="root">
+            <container name="homepage.banner" label="Home Page Banner(Mobile)" htmlTag="div" htmlClass="front-banner"/>
+        </reference>
+        <reference name="content">
+            <block class="Magento_Catalog_Block_Navigation" name="hp_nav" template="navigation/top.phtml"/>
+        </reference>
+        <remove name="cms.wrapper"/>
+    </handle>
+</layout>

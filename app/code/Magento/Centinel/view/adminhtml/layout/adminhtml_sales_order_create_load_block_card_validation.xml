@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_create_load_block_card_validation">
+        <reference name="content">
+            <block class="Magento_Centinel_Block_Adminhtml_Validation" as="card_validation" name="card_validation" template="Magento_Adminhtml::sales/order/create/abstract.phtml">
+                <block class="Magento_Centinel_Block_Adminhtml_Validation_Form" template="validation/form.phtml" name="form"/>
+            </block>
+        </reference>
+    </handle>
+</layout>

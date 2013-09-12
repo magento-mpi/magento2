@@ -8,7 +8,7 @@
 class Magento_Test_Annotation_AppAreaTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_Annotation_AppArea
+     * @var Magento_TestFramework_Annotation_AppArea
      */
     protected $_object;
 
@@ -25,8 +25,8 @@ class Magento_Test_Annotation_AppAreaTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_testCaseMock = $this->getMock('PHPUnit_Framework_TestCase', array(), array(), '', false);
-        $this->_applicationMock = $this->getMock('Magento_Test_Application', array(), array(), '', false);
-        $this->_object = new Magento_Test_Annotation_AppArea($this->_applicationMock);
+        $this->_applicationMock = $this->getMock('Magento_TestFramework_Application', array(), array(), '', false);
+        $this->_object = new Magento_TestFramework_Annotation_AppArea($this->_applicationMock);
     }
 
     /**

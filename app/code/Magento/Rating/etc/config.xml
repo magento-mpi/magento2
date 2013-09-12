@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Rating
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <rating_setup>
+                <setup>
+                    <module>Magento_Rating</module>
+                </setup>
+            </rating_setup>
+        </resources>
+    </global>
+    <frontend>
+        <translate>
+            <modules>
+                <Magento_Rating>
+                    <files>
+                        <default>Magento_Rating.csv</default>
+                    </files>
+                </Magento_Rating>
+            </modules>
+        </translate>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_Rating>
+                    <files>
+                        <default>Magento_Rating.csv</default>
+                    </files>
+                </Magento_Rating>
+            </modules>
+        </translate>
+    </adminhtml>
+</config>

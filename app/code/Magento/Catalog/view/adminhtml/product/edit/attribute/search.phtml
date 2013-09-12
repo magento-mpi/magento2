@@ -1,0 +1,75 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Search */
+?>
+<div id="product-attribute-search-container" class="suggest-expandable attribute-selector">
+    <div class="actions-split">
+        <button class="action-toggle action-choose" data-toggle="dropdown">
+            <span><?php echo __('Add Attribute') ?></span>
+        </button>
+        <div class="dropdown-menu">
+            <input data-role="product-attribute-search"
+                   data-group="<?php echo $this->escapeHtml($this->getGroupCode()); ?>"
+                   class="search" type="text"
+                   placeholder="start typing to search attribute"/>
+        </div>
+    </div>
+
+<script data-template-for="product-attribute-search" type="text/x-jquery-tmpl">
+    <ul data-mage-init="{menu:[]}">
+        {{if items.length}}
+        {{each items}}
+        <li {{html optionData($value)}}><a href="#">${$value.label}</a></li>
+        {{/each}}
+        {{else}}<span class="mage-suggest-no-records">${noRecordsText}</span>{{/if}}
+    </ul>
+    <div class="actions"><?php echo $this->getAttributeCreate()?></div>
+</script>
+
+<script>
+    jQuery(function($) {
+        var $suggest = $('[data-role="product-attribute-search"][data-group="<?php echo $this->escapeHtml($this->getGroupCode()); ?>"]');
+
+        $suggest.on('suggestclose', function(e) {
+            $suggest.closest('.dropdown-menu').siblings('[data-toggle=dropdown]').trigger('close.dropdown');
+        })
+        $suggest.closest('.dropdown-menu').siblings('[data-toggle=dropdown]').on('click.toggleDropdown', function () {
+            if ($(this).hasClass('active')) {
+                $suggest.click();
+            }
+        });
+
+        $('[data-form=edit-product]').on('changeAttributeSet', function(event, data) {
+            $suggest.mage('suggest', 'option', 'ajaxOptions', {
+                data: {'template_id': data.id}
+            });
+        });
+        $suggest.mage('suggest',<?php echo $this->helper('Magento_Core_Helper_Data')->jsonEncode($this->getSelectorOptions())?>)
+            .on('suggestselect', function (e, ui) {
+                $(this).val('');
+                var templateId = $('#attribute_set_id').val();
+                if (ui.item.id) {
+                    $.ajax({
+                        url: '<?php echo $this->getAddAttributeUrl()?>',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {attribute_id: ui.item.id, template_id: templateId, group: $(this).data('group')},
+                        showLoader: true
+                    }).done(function() {
+                        setTimeout(function() { //do defered
+                            $('[data-form=edit-product]').trigger('changeAttributeSet', {id: templateId});
+                        }, 10);
+                    });
+                }
+        });
+    });
+</script>
+</div>

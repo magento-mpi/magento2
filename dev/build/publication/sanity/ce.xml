@@ -20,6 +20,7 @@
         <word>ukpromerchant</word>
         <word>pinba</word>
         <word>saas</word>
+        <word>Magento_JobQueue</word>
     </words>
     <whitelist>
         <item>
@@ -115,27 +116,43 @@
             <path>dev/build</path>
         </item>
         <item>
-            <path>dev/tools/license_placeholder</path>
+            <path>dev/tools/Magento/Tools/license_placeholder</path>
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tools/migration/Acl/log</path>
+            <path>dev/tools/Magento/Tools/Migration/Acl/log</path>
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tools/translate/config.inc.php</path>
+            <path>dev/tools/Magento/Tools/Translate/config.inc.php</path>
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tools/translate/ModuleTranslations.php</path>
+            <path>dev/tools/Magento/Tools/Translate/ModuleTranslations.php</path>
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tools/translate/generate_emailtemplates.php</path>
+            <path>dev/tools/Magento/Tools/Translate/generate_emailtemplates.php</path>
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tests/integration/testsuite/integrity/modular/BlockInstantiationTest.php</path>
+            <path>dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/BlockInstantiationTest.php</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>dev/tests/static/framework/Magento/TestFramework/Dependency/_files/tables_ee.php</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>dev/tests/static/testsuite/Magento/Test/Integrity/ClassesTest.php</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>dev/tests/static/testsuite/Magento/Test/Legacy/ClassesTest.php</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>static_tests_no_js.xml</path>
         </item>
     </whitelist>
 </config>

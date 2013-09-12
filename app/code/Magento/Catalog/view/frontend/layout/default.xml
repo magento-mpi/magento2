@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
+        <reference name="head">
+            <action method="addCss">
+                <argument name="file" xsi:type="string">Magento_Catalog::widgets.css</argument>
+            </action>
+        </reference>
+        <reference name="left">
+            <block class="Magento_Core_Block_Template" name="left.permanent.callout" template="Magento_Page::callouts/left_col.phtml">
+                <action method="setImgSrc">
+                    <argument name="src" xsi:type="string">Magento_Catalog::images/media/col_left_callout.jpg</argument>
+                </action>
+                <action method="setImgAlt">
+                    <argument translate="true" name="alt" xsi:type="string">Our customer service is available 24/7.</argument>
+                </action>
+                <action method="setLinkUrl">
+                    <argument name="url" xsi:type="string">checkout/cart</argument>
+                </action>
+            </block>
+        </reference>
+        <reference name="right">
+            <block class="Magento_Catalog_Block_Product_Compare_Sidebar" before="cart_sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
+            <block class="Magento_Core_Block_Template" name="right.permanent.callout" template="Magento_Page::callouts/right_col.phtml">
+                <action method="setImgSrc">
+                    <argument name="src" xsi:type="string">Magento_Catalog::images/media/col_right_callout.jpg</argument>
+                </action>
+                <action method="setImgAlt">
+                    <argument translate="true" name="alt" xsi:type="string">Look for our special back-to-school items and save bunches!</argument>
+                </action>
+            </block>
+        </reference>
+        <block class="Magento_Catalog_Block_Product_Price_Template" name="catalog_product_price_template"/>
+        <reference name="catalog_product_price_template">
+            <action method="addPriceBlockType">
+                <argument name="type" xsi:type="string">msrp</argument>
+                <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
+                <argument name="template" xsi:type="string">product/price_msrp.phtml</argument>
+            </action>
+            <action method="addPriceBlockType">
+                <argument name="type" xsi:type="string">msrp_item</argument>
+                <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
+                <argument name="template" xsi:type="string">product/price_msrp_item.phtml</argument>
+            </action>
+            <action method="addPriceBlockType">
+                <argument name="type" xsi:type="string">msrp_noform</argument>
+                <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
+                <argument name="template" xsi:type="string">product/price_msrp_noform.phtml</argument>
+            </action>
+        </reference>
+    </handle>
+</layout>

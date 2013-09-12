@@ -10,19 +10,19 @@
  */
 
 /**
- * Test class for Magento_Test_Annotation_ConfigFixture.
+ * Test class for Magento_TestFramework_Annotation_ConfigFixture.
  */
 class Magento_Test_Annotation_ConfigFixtureTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_Annotation_ConfigFixture|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_TestFramework_Annotation_ConfigFixture|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_object;
 
     protected function setUp()
     {
         $this->_object = $this->getMock(
-            'Magento_Test_Annotation_ConfigFixture',
+            'Magento_TestFramework_Annotation_ConfigFixture',
             array('_getConfigValue', '_setConfigValue')
         );
     }

@@ -1,0 +1,46 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Currency switcher
+ *
+ * @var $this Magento_Directory_Block_Currency
+ */
+?>
+<?php if ($this->getCurrencyCount() > 1): ?>
+<?php $currencies = $this->getCurrencies(); ?>
+<?php $currentCurrencyCode = $this->getCurrentCurrencyCode(); ?>
+<div class="switch switcher-currency">
+    <label><?php echo __('Currency') ?>:</label>
+    <div class="switch-wrapper" id="currency-select" tabindex="-1">
+        <strong class="current language-<?php echo $this->escapeHtml($this->getStoreCode()) ?>">
+            <?php echo $this->escapeHtml($currentCurrencyCode) ?> - <?php echo @$this->escapeHtml($currencies[$currentCurrencyCode]) ?>
+        </strong>
+        <span class="switcher-holder">(<span class="switcher"><?php echo __('Change')?></span>)</span>
+        <ul style="display:none" id="popup-currency-select">
+            <?php foreach ($currencies as $_code => $_name): ?>
+                <?php if($_code != $currentCurrencyCode): ?>
+                    <li class="currency-<?php echo $_code ?>">
+                        <a href="<?php echo $this->getSwitchCurrencyUrl($_code) ?>"><?php echo $_code ?> - <?php echo $_name ?></a>
+                    </li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    (function($) {
+        head.js("<?php echo $this->getViewFileUrl('Magento_Page::js/popup-menu.js')?>", function() {
+            $('#currency-select').popUpMenu({menu: '#popup-currency-select'});
+        });
+    })(jQuery);
+</script>
+<?php endif; ?>

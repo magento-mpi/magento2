@@ -20,15 +20,15 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
     /** @var  PHPUnit_Framework_MockObject_MockObject */
     private $_responseMock;
 
-    /** @var  Mage_Webhook_Model_Event */
+    /** @var  Magento_Webhook_Model_Event */
     private $_event;
 
-    /** @var  Mage_Webhook_Model_Subscription */
+    /** @var  Magento_Webhook_Model_Subscription */
     private $_subscription;
     
     public function setUp()
     {
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         // Must mock transport to avoid actual network actions
         $this->_transportMock = $this->getMockBuilder('Magento_Outbound_Transport_Http')
@@ -41,19 +41,19 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
             ->method('dispatch')
             ->will($this->returnValue($this->_responseMock));
 
-        /** Mage_Webapi_Model_Acl_User $user */
-        $user = $this->_objectManager->create('Mage_Webapi_Model_Acl_User')
+        /** Magento_Webapi_Model_Acl_User $user */
+        $user = $this->_objectManager->create('Magento_Webapi_Model_Acl_User')
             ->setSecret('shhh...')
             ->setApiKey(uniqid())
             ->save();
 
-        /** @var Mage_Webhook_Model_Event $_event */
-        $this->_event = Mage::getModel('Mage_Webhook_Model_Event')
+        /** @var Magento_Webhook_Model_Event $_event */
+        $this->_event = Mage::getModel('Magento_Webhook_Model_Event')
             ->setTopic('topic')
             ->setBodyData(array('body data'))
             ->save();
-        /** @var Mage_Webhook_Model_Subscription $_subscription */
-        $this->_subscription = $this->_objectManager->create('Mage_Webhook_Model_Subscription')
+        /** @var Magento_Webhook_Model_Subscription $_subscription */
+        $this->_subscription = $this->_objectManager->create('Magento_Webhook_Model_Subscription')
             ->setFormat('json')
             ->setAuthenticationType('hmac')
             ->setApiUserId($user->getId())
@@ -71,8 +71,8 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
 
         $queueWriter = $this->_objectManager->create('Magento_PubSub_Job_QueueWriterInterface');
 
-        /** @var Mage_Webhook_Model_Job $job */
-        $job = Mage::getObjectManager()->create('Mage_Webhook_Model_Job');
+        /** @var Magento_Webhook_Model_Job $job */
+        $job = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Webhook_Model_Job');
         $job->setEventId($this->_event->getId());
         $job->setSubscriptionId($this->_subscription->getId());
         $jobId = $job->save()
@@ -80,8 +80,8 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
         $queueWriter->offer($job);
 
         // Must clear collection to avoid interaction with other tests
-        /** @var Mage_Webhook_Model_Resource_Job_Collection $collection */
-        $collection = $this->_objectManager->create('Mage_Webhook_Model_Resource_Job_Collection');
+        /** @var Magento_Webhook_Model_Resource_Job_Collection $collection */
+        $collection = $this->_objectManager->create('Magento_Webhook_Model_Resource_Job_Collection');
         $collection->removeAllItems();
         $queueArgs = array(
             'collection' => $collection
@@ -97,7 +97,7 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
         /** @var Magento_PubSub_Job_QueueHandler $queueHandler */
         $queueHandler = $this->_objectManager->create('Magento_PubSub_Job_QueueHandler', $queueHandlerArgs);
         $queueHandler->handle();
-        $loadedJob = $this->_objectManager->create('Mage_Webhook_Model_Job')
+        $loadedJob = $this->_objectManager->create('Magento_Webhook_Model_Job')
             ->load($jobId);
 
         $this->assertEquals(Magento_PubSub_JobInterface::STATUS_SUCCEEDED, $loadedJob->getStatus());
@@ -111,8 +111,8 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
 
         $queueWriter = $this->_objectManager->create('Magento_PubSub_Job_QueueWriterInterface');
 
-        /** @var Mage_Webhook_Model_Job $job */
-        $job = Mage::getObjectManager()->create('Mage_Webhook_Model_Job');
+        /** @var Magento_Webhook_Model_Job $job */
+        $job = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Webhook_Model_Job');
         $job->setEventId($this->_event->getId());
         $job->setSubscriptionId($this->_subscription->getId());
         $jobId = $job->save()
@@ -120,8 +120,8 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
         $queueWriter->offer($job);
 
         // Must clear collection to avoid interaction with other tests
-        /** @var Mage_Webhook_Model_Resource_Job_Collection $collection */
-        $collection = $this->_objectManager->create('Mage_Webhook_Model_Resource_Job_Collection');
+        /** @var Magento_Webhook_Model_Resource_Job_Collection $collection */
+        $collection = $this->_objectManager->create('Magento_Webhook_Model_Resource_Job_Collection');
         $collection->removeAllItems();
         $queueArgs = array(
             'collection' => $collection
@@ -137,7 +137,7 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
         /** @var Magento_PubSub_Job_QueueHandler $queueHandler */
         $queueHandler = $this->_objectManager->create('Magento_PubSub_Job_QueueHandler', $queueHandlerArgs);
         $queueHandler->handle();
-        $loadedJob = $this->_objectManager->create('Mage_Webhook_Model_Job')
+        $loadedJob = $this->_objectManager->create('Magento_Webhook_Model_Job')
             ->load($jobId);
 
         $this->assertEquals(Magento_PubSub_JobInterface::STATUS_RETRY, $loadedJob->getStatus());

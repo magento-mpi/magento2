@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="wishlist_shared_index">
+        <update handle="MAP_popup"/>
+        <update handle="MAP_price_msrp_wishlist_item"/>
+    </handle>
+</layout>

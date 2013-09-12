@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_system_backup_grid">
+        <update handle="formkey"/>
+        <update handle="adminhtml_system_backup_block"/>
+        <container label="Mage Adminhtml Block Backup" name="adminhtml.system.backup.container" output="1"/>
+    </handle>
+</layout>

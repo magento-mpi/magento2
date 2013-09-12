@@ -4,7 +4,7 @@
  *
  * {license_notice}
  *
- * @category   Mage
+ * @category   Magento
  * @package    Mage
  * @copyright  {copyright}
  * @license    {license_link}
@@ -38,7 +38,7 @@ if (file_exists($configCacheFile) && is_readable($configCacheFile)) {
 }
 
 // Serve file if it's materialized
-$request = new Mage_Core_Model_File_Storage_Request(__DIR__);
+$request = new Magento_Core_Model_File_Storage_Request(__DIR__);
 if ($mediaDirectory) {
     if (0 !== stripos($request->getPathInfo(), $mediaDirectory . '/') || is_dir($request->getFilePath())) {
         header('HTTP/1.0 404 Not Found');
@@ -60,12 +60,12 @@ if ($mediaDirectory) {
 // Materialize file in application
 $params = $_SERVER;
 if (empty($mediaDirectory)) {
-    $params[Mage::PARAM_ALLOWED_MODULES] = array('Mage_Core');
+    $params[Mage::PARAM_ALLOWED_MODULES] = array('Magento_Core');
     $params[Mage::PARAM_CACHE_OPTIONS]['frontend_options']['disable_save'] = true;
 }
 
-$config = new Mage_Core_Model_Config_Primary(dirname(__DIR__), $params);
-$entryPoint = new Mage_Core_Model_EntryPoint_Media(
+$config = new Magento_Core_Model_Config_Primary(dirname(__DIR__), $params);
+$entryPoint = new Magento_Core_Model_EntryPoint_Media(
     $config, $request, $isAllowed, __DIR__, $mediaDirectory, $configCacheFile, $relativeFilename
 );
 $entryPoint->processRequest();

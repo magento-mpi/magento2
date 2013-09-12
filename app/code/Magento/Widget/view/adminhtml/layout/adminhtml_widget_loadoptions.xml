@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_widget_loadoptions">
+        <block class="Magento_Widget_Block_Adminhtml_Widget_Options" name="wysiwyg_widget.options" output="1"/>
+    </handle>
+</layout>

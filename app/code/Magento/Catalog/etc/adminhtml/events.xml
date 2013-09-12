@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="cms_wysiwyg_images_static_urls_allowed">
+        <observer name="catalog_wysiwyg" instance="Magento_Catalog_Model_Observer" method="catalogCheckIsUsingStaticUrlsAllowed" />
+    </event>
+</config>

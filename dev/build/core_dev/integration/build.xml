@@ -45,7 +45,6 @@
     </target>
 
     <target name="_integration_tests_magento_xdebug" depends="_integration_tests_configuration" description="Product integration tests with Xdebug">
-        <chmod perm="u+x" file="${basedir}/dev/build/bin/phpunit-with-xdebug.sh" />
         <exec dir="${product_root_dir}/dev/tests/integration" executable="${basedir}/dev/build/bin/phpunit-with-xdebug.sh" failonerror="true">
             <arg line="--stderr --log-junit ${basedir}/integration_tests_magento_xdebug.xml"/>
         </exec>
@@ -111,7 +110,7 @@
 
     <target name="_integration_integrity_tests_magento" depends="_integration_tests_configuration" description="Product integration integrity tests">
         <exec dir="${product_root_dir}/dev/tests/integration" executable="phpunit" failonerror="true">
-            <arg line="--log-junit ${basedir}/integration_integrity_tests_magento.xml testsuite/integrity"/>
+            <arg line="--log-junit ${product_root_dir}/integration_integrity_tests_magento.xml testsuite/Magento/Test/Integrity"/>
         </exec>
     </target>
 
@@ -133,6 +132,20 @@
         <antcall target="_integration_integrity_tests_magento">
             <param name="app_mode" value="default"/>
         </antcall>
+    </target>
+
+    <target name="integration_tests_ce_xd_mysql_code_coverage" depends="_product_location" description="Code Coverage CE Integration Tests with Xdebug">
+        <antcall target="_code_coverage_configuration">
+            <param name="configuration_file" value="${product_root_dir}/dev/build/core_dev/integration/phpunit.xml"/>
+        </antcall>
+        <antcall target="integration_tests_ce_xd_mysql"/>
+    </target>
+
+    <target name="integration_tests_ee_xd_mysql_code_coverage" depends="_product_location" description="Code Coverage EE Integration Tests with Xdebug">
+        <antcall target="_code_coverage_configuration">
+            <param name="configuration_file" value="${product_root_dir}/dev/build/core_dev/integration/phpunit.xml"/>
+        </antcall>
+        <antcall target="integration_tests_ee_xd_mysql"/>
     </target>
 
 </project>

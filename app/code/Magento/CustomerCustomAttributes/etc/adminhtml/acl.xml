@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_CustomerCustomAttributes
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Adminhtml::stores">
+                    <resource id="Magento_Adminhtml::stores_attributes">
+                        <resource id="Magento_CustomerCustomAttributes::attributes" title="Customer Attributes" sortOrder="10">
+                            <resource id="Magento_CustomerCustomAttributes::customer_attributes" title="Customer" sortOrder="10" />
+                            <resource id="Magento_CustomerCustomAttributes::customer_address_attributes" title="Customer Address" sortOrder="20" />
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

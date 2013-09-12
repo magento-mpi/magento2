@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_Rating" version="1.6.0.1" active="true">
+        <sequence>
+            <module name="Magento_Core"/>
+            <module name="Magento_Review"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Core"/>
+            <module name="Magento_Review"/>
+            <module name="Magento_Customer"/>
+        </depends>
+    </module>
+</config>

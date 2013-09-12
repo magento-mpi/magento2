@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="GoogleCheckout Redirect" id="googlecheckout_redirect_redirect" type="page" parent="default">
+        <reference name="root">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">2columns-right.phtml</argument>
+            </action>
+        </reference>
+        <reference name="content">
+            <block class="Magento_GoogleCheckout_Block_Redirect" name="googlecheckout_redirect" template="Magento_Page::redirect.phtml"/>
+        </reference>
+    </handle>
+</layout>

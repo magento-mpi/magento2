@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_Usa" version="1.6.0.1" active="true">
+        <sequence>
+            <module name="Magento_Sales"/>
+            <module name="Magento_Shipping"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Shipping"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Directory"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Paypal"/>
+        </depends>
+    </module>
+</config>

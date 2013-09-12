@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
+        <reference name="root">
+            <container name="breadcrumbs.container" as="breadcrumbsContainer" after="header" label="Breadcrumbs"/>
+            <container name="footer.before" as="footer_before" before="footer" label="Page Footer" htmlTag="div" htmlClass="footer-before-container"/>
+        </reference>
+        <move element="breadcrumbs" destination="breadcrumbs.container"/>
+        <reference name="head">
+            <action method="addCss">
+                <argument name="file" xsi:type="string">css/styles.css</argument>
+            </action>
+            <action method="addCss">
+                <argument name="file" xsi:type="string">css/styles-ie.css</argument>
+                <argument name="params" xsi:type="string"/>
+                <argument name="if" xsi:type="string">lt IE 8</argument>
+            </action>
+            <action method="addCss">
+                <argument name="file" xsi:type="string">css/print.css</argument>
+                <argument name="params" xsi:type="string">media="print"</argument>
+            </action>
+        </reference>
+        <reference name="header">
+            <block class="Magento_Page_Block_Template_Links" name="account.links" as="accountLinks" before="top.links"/>
+            <block class="Magento_Page_Block_Template_Links" name="checkout.links" as="checkoutLinks" after="top.links"/>
+            <container name="top.switches" as="switches" label="Store Language" after="checkout.links"/>
+            <block class="Magento_Page_Block_Html_Welcome" name="welcome" as="welcome" after="top.container"/>
+        </reference>
+        <move element="store_language" destination="top.switches"/>
+        <move element="store_switcher" destination="footer" as="store_switcher" after="-"/>
+        <remove name="bottom.container"/>
+    </handle>
+</layout>

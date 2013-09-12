@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="cms_controller_router_match_before">
+        <observer name="magento_versionscms" instance="Magento_VersionsCms_Model_Observer" method="cmsControllerRouterMatchBefore" />
+    </event>
+    <event name="page_block_html_topmenu_gethtml_before">
+        <observer name="magento_versionscms_add_topmenu_items" instance="Magento_VersionsCms_Model_Observer" method="addCmsToTopmenuItems" />
+    </event>
+</config>

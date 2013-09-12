@@ -14,7 +14,8 @@ class Magento_Outbound_Formatter_FactoryTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_formatterFactory = Mage::getObjectManager()->get('Magento_Outbound_Formatter_Factory');
+        $this->_formatterFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Outbound_Formatter_Factory');
     }
 
     public function testGetFormatter()
