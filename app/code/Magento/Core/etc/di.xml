@@ -258,7 +258,11 @@
     </type>
     <type name="Magento_Core_Model_View_Design">
         <param name="themes">
-            <value><frontend>magento_demo</frontend><adminhtml>magento_backend</adminhtml><install>magento_basic</install></value>
+            <value>
+                <frontend>magento_demo</frontend>
+                <adminhtml>magento_backend</adminhtml>
+                <install>magento_basic</install>
+            </value>
         </param>
     </type>
     <type name="Magento_Core_Model_View_Publisher">

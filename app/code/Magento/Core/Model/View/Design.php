@@ -97,7 +97,7 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
         Magento_Core_Model_Theme_FlyweightFactory $themeFactory,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $storeConfig,
-        $themes
+        array $themes
     ) {
         $this->_storeManager = $storeManager;
         $this->_themeFactory = $themeFactory;
