@@ -16,9 +16,6 @@ class Magento_Webapi_Controller_Soap_Handler
     /** @var Magento_Core_Model_App */
     protected $_application;
 
-    /** @var Magento_Webapi_Controller_Soap_Security */
-    protected $_security;
-
     /** @var Magento_Webapi_Controller_Soap_Request */
     protected $_request;
 
@@ -35,20 +32,17 @@ class Magento_Webapi_Controller_Soap_Handler
      * @param Magento_Webapi_Controller_Soap_Request $request
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Webapi_Model_Soap_Config $apiConfig
-     * @param Magento_Webapi_Controller_Soap_Security $security
      */
     public function __construct(
         Magento_Core_Model_App $application,
         Magento_Webapi_Controller_Soap_Request $request,
         Magento_ObjectManager $objectManager,
-        Magento_Webapi_Model_Soap_Config $apiConfig,
-        Magento_Webapi_Controller_Soap_Security $security
+        Magento_Webapi_Model_Soap_Config $apiConfig
     ) {
         $this->_application = $application;
         $this->_request = $request;
         $this->_objectManager = $objectManager;
         $this->_apiConfig = $apiConfig;
-        $this->_security = $security;
     }
 
     /**
@@ -61,33 +55,27 @@ class Magento_Webapi_Controller_Soap_Handler
      */
     public function __call($operation, $arguments)
     {
-        if ($this->_security->isSecurityHeader($operation)) {
-            $this->_security->processSecurityHeader($operation, $arguments);
-        } else {
-            $this->_security->checkPermissions($operation, $arguments);
+        $requestedServices = $this->_request->getRequestedServices();
+        $serviceMethodInfo = $this->_apiConfig->getServiceMethodInfo($operation, $requestedServices);
+        $serviceId = $serviceMethodInfo[Magento_Webapi_Model_Soap_Config::KEY_CLASS];
+        $serviceMethod = $serviceMethodInfo[Magento_Webapi_Model_Soap_Config::KEY_METHOD];
 
-            $requestedServices = $this->_request->getRequestedServices();
-            $serviceMethodInfo = $this->_apiConfig->getServiceMethodInfo($operation, $requestedServices);
-            $serviceId = $serviceMethodInfo[Magento_Webapi_Model_Soap_Config::KEY_CLASS];
-            $serviceMethod = $serviceMethodInfo[Magento_Webapi_Model_Soap_Config::KEY_METHOD];
-
-            // check if the operation is a secure operation & whether the request was made in HTTPS
-            if ($serviceMethodInfo[Magento_Webapi_Model_Soap_Config::KEY_IS_SECURE] && !$this->_request->isSecure()) {
-                throw new Magento_Webapi_Exception(
-                    __("Operation allowed only in HTTPS"),
-                    Magento_Webapi_Exception::HTTP_BAD_REQUEST
-                );
-            }
-
-            $service = $this->_objectManager->get($serviceId);
-            $outputData = $service->$serviceMethod($this->_prepareParameters($arguments));
-            if (!is_array($outputData)) {
-                throw new LogicException(
-                    sprintf('The method "%s" of service "%s" must return an array.', $serviceMethod, $serviceId)
-                );
-            }
-            return $outputData;
+        // check if the operation is a secure operation & whether the request was made in HTTPS
+        if ($serviceMethodInfo[Magento_Webapi_Model_Soap_Config::KEY_IS_SECURE] && !$this->_request->isSecure()) {
+            throw new Magento_Webapi_Exception(
+                __("Operation allowed only in HTTPS"),
+                Magento_Webapi_Exception::HTTP_BAD_REQUEST
+            );
         }
+
+        $service = $this->_objectManager->get($serviceId);
+        $outputData = $service->$serviceMethod($this->_prepareParameters($arguments));
+        if (!is_array($outputData)) {
+            throw new LogicException(
+                sprintf('The method "%s" of service "%s" must return an array.', $serviceMethod, $serviceId)
+            );
+        }
+        return $outputData;
     }
 
     /**
