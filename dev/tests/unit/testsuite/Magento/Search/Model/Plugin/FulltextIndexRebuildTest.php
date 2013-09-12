@@ -60,7 +60,7 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
             'Magento_Search_Model_Catalog_Layer_Filter_Price', array(), array(), '', false
         );
 
-        $this->_arguments = array('storeId' => 1, 'productIds' => array(1,2));
+        $this->_arguments = array(1, array(1,2));
 
         $this->_model = new Magento_Search_Model_Plugin_FulltextIndexRebuild(
             $this->_searchHelperMock,
@@ -129,7 +129,7 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
             ->will($this->returnValue($this->_searchEngineMock));
 
         $arguments = $this->_arguments;
-        $arguments['productIds'] = null;
+        unset($arguments[1]);
         $this->assertEquals($arguments, $this->_model->beforeRebuildIndex($arguments));
     }
 
