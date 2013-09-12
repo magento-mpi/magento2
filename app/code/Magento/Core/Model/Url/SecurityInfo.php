@@ -12,7 +12,7 @@ class Magento_Core_Model_Url_SecurityInfo
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManager
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -31,10 +31,10 @@ class Magento_Core_Model_Url_SecurityInfo
     protected $_secureUrlCache = array();
 
     /**
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $secureUrlList
      */
-    public function __construct(Magento_Core_Model_StoreManager $storeManager, array $secureUrlList = array())
+    public function __construct(Magento_Core_Model_StoreManagerInterface $storeManager, array $secureUrlList = array())
     {
         $this->_storeManager = $storeManager;
         $this->_secureUrlList = $secureUrlList;
