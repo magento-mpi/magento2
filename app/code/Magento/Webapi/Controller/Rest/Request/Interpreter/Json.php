@@ -10,19 +10,20 @@
 class Magento_Webapi_Controller_Rest_Request_Interpreter_Json implements
     Magento_Webapi_Controller_Rest_Request_InterpreterInterface
 {
-    /** @var Magento_Core_Model_Factory_Helper */
-    protected $_helperFactory;
+    /** @var Magento_Core_Helper_Data */
+    protected $_helper;
 
     /** @var Magento_Core_Model_App */
     protected $_app;
 
     /**
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
+     * Initialize dependencies.
+     *
+     * @param Magento_Core_Helper_Data $helper
      * @param Magento_Core_Model_App $app
      */
-    public function __construct(Magento_Core_Model_Factory_Helper $helperFactory, Magento_Core_Model_App $app)
-    {
-        $this->_helperFactory = $helperFactory;
+    public function __construct(Magento_Core_Helper_Data $helper, Magento_Core_Model_App $app) {
+        $this->_helper = $helper;
         $this->_app = $app;
     }
 
@@ -43,9 +44,7 @@ class Magento_Webapi_Controller_Rest_Request_Interpreter_Json implements
             ));
         }
         try {
-            /** @var Magento_Core_Helper_Data $jsonHelper */
-            $jsonHelper = $this->_helperFactory->get('Magento_Core_Helper_Data');
-            $decodedBody = $jsonHelper->jsonDecode($encodedBody);
+            $decodedBody = $this->_helper->jsonDecode($encodedBody);
         } catch (Zend_Json_Exception $e) {
             if (!$this->_app->isDeveloperMode()) {
                 throw new Magento_Webapi_Exception(__('Decoding error.'),

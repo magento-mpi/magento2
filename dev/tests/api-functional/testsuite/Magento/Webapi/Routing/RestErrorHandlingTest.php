@@ -41,7 +41,13 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
         );
 
         // Magento_Service_ResourceNotFoundException
-        $this->_errorTest($serviceInfo, array(), Magento_Webapi_Exception::HTTP_NOT_FOUND, 2345, 'Resource not found');
+        $this->_errorTest(
+            $serviceInfo,
+            array(),
+            Magento_Webapi_Exception::HTTP_NOT_FOUND,
+            2345,
+            "Resource with ID 'resourceY' not found."
+        );
     }
 
     public function testUnauthorized()
@@ -59,7 +65,7 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
             array(),
             Magento_Webapi_Exception::HTTP_UNAUTHORIZED,
             4567,
-            'Service authorization exception'
+            "User with ID '30' is not authorized to access resource with ID 'resourceN'."
         );
     }
 
@@ -117,16 +123,17 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
             ),
         );
 
-        // Something other than Magento_Service_Exception
-        $expectedErrorCode = Mage::app()->isDeveloperMode() ? 5678 : null;
-        $expectedErrorMessage = Mage::app()->isDeveloperMode() ? 'Non service exception'
-            : 'Internal Error. Details are available in Magento log file. Report ID: %1';
+        $expectedErrorCodes = array(5678, null);
+        $expectedErrorMessages = array(
+            'Non service exception',
+            'Internal Error. Details are available in Magento log file. Report ID: %1'
+        );
         $this->_errorTest(
             $serviceInfo,
             array(),
             Magento_Webapi_Exception::HTTP_INTERNAL_ERROR,
-            $expectedErrorCode,
-            $expectedErrorMessage
+            $expectedErrorCodes,
+            $expectedErrorMessages
         );
     }
 
@@ -138,20 +145,18 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
                 'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET
             ),
         );
-        if (!Mage::app()->isDeveloperMode()) {
-            /** Developer mode changes tested behavior and it cannot properly be tested for now */
-            $expectedMessage = 'Internal Error. Details are available in Magento log file. Report ID: %1';
-        } else {
-            $expectedMessage = 'The method "returnIncompatibleDataType" of service '
-                . '"Magento_TestModule3_Service_ErrorV1Interface" must return an array.';
-        }
+        $expectedMessages = array(
+            'Internal Error. Details are available in Magento log file. Report ID: %1',
+            'The method "returnIncompatibleDataType" of service '
+            . '"Magento_TestModule3_Service_ErrorV1Interface" must return an array.'
+        );
         // Magento_Service_Exception
         $this->_errorTest(
             $serviceInfo,
             array(),
             Magento_Webapi_Exception::HTTP_INTERNAL_ERROR,
             0,
-            $expectedMessage,
+            $expectedMessages,
             null
         );
     }
@@ -162,8 +167,8 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
      * @param string $serviceInfo - REST Service information (i.e. resource path and HTTP method)
      * @param array $data - Data for the cal
      * @param int $httpStatus - Expected HTTP status
-     * @param int $errorCode - Expected error code
-     * @param string $errorMessage - Exception error message
+     * @param int|array $errorCode - Expected error code
+     * @param string|array $errorMessage - Exception error message
      * @param array $parameters - Optional parameters array, or null if no parameters
      */
     protected function _errorTest(
@@ -181,10 +186,35 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
             $this->assertEquals($httpStatus, $e->getCode(), 'Checking HTTP status code');
 
             $body = json_decode($e->getMessage(), true);
-            if ($errorCode) {
-                $this->assertEquals($errorCode, $body['errors'][0]['code'], 'Checking body code');
+
+            $errorCodes = is_array($errorCode) ? $errorCode : array($errorCode);
+            if (isset($body['errors'][0]['code'])) {
+                $this->assertTrue(
+                    in_array(
+                        $body['errors'][0]['code'],
+                        $errorCodes
+                    ),
+                    sprintf(
+                        "Error code is invalid. Actual: {$body['errors'][0]['code']}, Expected one of: \n%s",
+                        implode("\n", $errorCodes)
+                    )
+
+                );
+            } else {
+                $this->assertTrue(
+                    in_array(0, (array)$errorCodes),
+                    sprintf("Error code was expected")
+                );
             }
-            $this->assertEquals($errorMessage, $body['errors'][0]['message'], 'Checking body message');
+
+            $errorMessages = is_array($errorMessage) ? $errorMessage : array($errorMessage);
+            $this->assertTrue(
+                in_array($body['errors'][0]['message'], $errorMessages),
+                sprintf(
+                    "Message is invalid. Actual: {$body['errors'][0]['message']}, Expected one of: \n%s",
+                    implode("\n", $errorMessages)
+                )
+            );
 
             if ($parameters) {
                 $this->assertEquals($parameters, $body['errors'][0]['parameters'], 'Checking body parameters');
