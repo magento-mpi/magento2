@@ -797,9 +797,6 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             if ($this->_scheduledStructure->hasStructureElement($parentName)) {
                 $this->_scheduleElement($parentName, $this->_scheduledStructure->getStructureElement($parentName));
             }
-            if ($parentName == 'cart_sidebar' && $alias == 'bundle') {
-                $parentName = $parentName;
-            }
             if ($this->_structure->hasElement($parentName)) {
                 $this->_structure->setAsChild($name, $parentName, $alias);
             } else {
