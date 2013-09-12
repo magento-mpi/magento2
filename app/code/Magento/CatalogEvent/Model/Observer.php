@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,15 +23,47 @@ class Magento_CatalogEvent_Model_Observer
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * Store manager model
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Event collection factory
+     *
+     * @var Magento_CatalogEvent_Model_Resource_Event_CollectionFactory
+     */
+    protected $_eventCollectionFactory;
+
+    /**
+     * Event model factory
+     *
+     * @var Magento_CatalogEvent_Model_Resource_EventFactory
+     */
+    protected $_eventFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $eventCollectionFactory
+     * @param Magento_CatalogEvent_Model_Resource_EventFactory $eventFactory
      */
     public function __construct(
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $eventCollectionFactory,
+        Magento_CatalogEvent_Model_Resource_EventFactory $eventFactory
     ) {
-        $this->_coreRegistry = $coreRegistry;
+        $this->_coreRegistry = $registry;
+        $this->_storeManager = $storeManager;
+        $this->_eventFactory = $eventFactory;
+        $this->_eventCollectionFactory = $eventCollectionFactory;
     }
 
     /**
@@ -283,8 +313,8 @@ class Magento_CatalogEvent_Model_Observer
         }
 
         if ($this->_eventsToCategories === null) {
-            $this->_eventsToCategories = Mage::getModel('Magento_CatalogEvent_Model_Event')->getCategoryIdsWithEvent(
-                Mage::app()->getStore()->getId()
+            $this->_eventsToCategories = $this->_eventFactory->create()->getCategoryIdsWithEvent(
+                $this->_storeManager->getStore()->getId()
             );
 
             $eventCollection = $this->_getEventCollection(array_keys($this->_eventsToCategories));
@@ -311,7 +341,8 @@ class Magento_CatalogEvent_Model_Observer
      */
     protected function _getEventCollection(array $categoryIds = null)
     {
-        $collection = Mage::getModel('Magento_CatalogEvent_Model_Event')->getCollection();
+        /** @var Magento_CatalogEvent_Model_Resource_Event_Collection $collection */
+        $collection = $this->_eventCollectionFactory->create();
         if ($categoryIds !== null) {
             $collection->addFieldToFilter('category_id',
                 array(
