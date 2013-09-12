@@ -50,7 +50,8 @@ class Magento_TestFramework_Annotation_ConfigFixture
             $result = $configModel->getNode($configPath);
         } else {
             /** @var $storeConfig Magento_Core_Model_Store_Config */
-            $storeConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Store_Config');
+            $storeConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Model_Store_Config');
             $result = $storeConfig->getConfig($configPath, $storeCode);
         }
         if ($result instanceof SimpleXMLElement) {
