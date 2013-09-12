@@ -450,7 +450,7 @@ class Editor extends \Magento\Adminhtml\Controller\Action
      */
     protected function _isFirstEntrance()
     {
-        $isCustomized = (bool)$this->_objectManager->get('\Magento\Core\Model\Resource\Theme\CollectionFactory')
+        $isCustomized = (bool)$this->_objectManager->get('Magento\Core\Model\Resource\Theme\CollectionFactory')
             ->create()
             ->addTypeFilter(\Magento\Core\Model\Theme::TYPE_VIRTUAL)
             ->getSize();

@@ -208,7 +208,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 'shortDescription' => 'Retrieve ObjectManager from the global scope',
             ),
             'body' => '$this->_objectManager = \Mage::getObjectManager();'
-                . "\n\$this->_pluginList = \$this->_objectManager->get('\Magento\Interception\PluginList');",
+                . "\n\$this->_pluginList = \$this->_objectManager->get('Magento\Interception\PluginList');",
         );
 
         $reflectionClass = new \ReflectionClass($this->_getSourceClassName());
