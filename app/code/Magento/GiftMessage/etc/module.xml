@@ -20,7 +20,6 @@
             <module name="Magento_Backend"/>
             <module name="Magento_Core"/>
             <module name="Magento_Customer"/>
-            <module name="Magento_Checkout"/>
             <module name="Magento_Eav"/>
         </depends>
     </module>
