@@ -26,12 +26,6 @@
                 <tempate_filter>Magento_Widget_Model_Template_Filter</tempate_filter>
             </block>
         </cms>
-        <widget>
-            <related_cache_types>
-                <block_html />
-                <layout />
-            </related_cache_types>
-        </widget>
     </global>
     <adminhtml>
         <translate>
@@ -44,4 +38,4 @@
             </modules>
         </translate>
     </adminhtml>
-</config>
+</config>

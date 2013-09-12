@@ -21,11 +21,6 @@
         <ignore_user_agents>
             <cache_crawler>MagentoCrawler</cache_crawler>
         </ignore_user_agents>
-        <widget>
-            <related_cache_types>
-                <full_page />
-            </related_cache_types>
-        </widget>
     </global>
     <adminhtml>
         <translate>
@@ -111,4 +106,4 @@
             </magento_full_page_cache_crawler>
         </jobs>
     </crontab>
-</config>
+</config>
