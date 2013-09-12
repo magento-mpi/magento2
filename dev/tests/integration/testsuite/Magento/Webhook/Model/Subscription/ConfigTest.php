@@ -38,7 +38,7 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
     {
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $dirs = $this->_objectManager->create(
-            '\Magento\Core\Model\Dir',
+            'Magento\Core\Model\Dir',
             array(
                 'baseDir' => BP,
                 'dirs'    => array(
@@ -49,13 +49,13 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
         );
 
         $fileResolver = $this->_objectManager->create(
-            '\Magento\Core\Model\Module\Declaration\FileResolver', array('applicationDirs' => $dirs)
+            'Magento\Core\Model\Module\Declaration\FileResolver', array('applicationDirs' => $dirs)
         );
         $filesystemReader = $this->_objectManager->create('Magento\Core\Model\Module\Declaration\Reader\Filesystem',
             array('fileResolver' => $fileResolver)
         );
         $moduleList = $this->_objectManager->create(
-            '\Magento\Core\Model\ModuleList',
+            'Magento\Core\Model\ModuleList',
             array('reader' => $filesystemReader, 'cache' => $this->getMock("Magento\Config\CacheInterface"))
         );
 
@@ -74,26 +74,26 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
 
         /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
         $moduleReader = $this->_objectManager->create(
-            '\Magento\Core\Model\Config\Modules\Reader', array(
+            'Magento\Core\Model\Config\Modules\Reader', array(
                 'dirs' => $dirs,
                 'moduleList' => $moduleList
             )
         );
 
         $loader = $this->_objectManager->create(
-            '\Magento\Core\Model\Config\Loader',
+            'Magento\Core\Model\Config\Loader',
             array('fileReader' => $moduleReader)
         );
         /** @var \Magento\Core\Model\Config\Storage $storage */
         $storage = $this->_objectManager->create(
-            '\Magento\Core\Model\Config\Storage', array(
+            'Magento\Core\Model\Config\Storage', array(
                 'loader' => $loader,
                 'cache' => $cache
             )
         );
 
         $mageConfig = $this->_objectManager->create(
-            '\Magento\Core\Model\Config',
+            'Magento\Core\Model\Config',
             array('storage' => $storage, 'moduleReader' => $moduleReader)
         );
 

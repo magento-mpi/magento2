@@ -47,12 +47,12 @@ class Magento_Test_Tools_Di_Code_Scanner_XmlScannerTest extends PHPUnit_Framewor
     {
         $actual = $this->_model->collectEntities($this->_testFiles);
         $expected = array(
-            'Magento_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput_Proxy',
-            '\Magento\Core\Model\App\Proxy',
-            '\Magento\Core\Model\Cache\Proxy',
-            '\Magento\Backend\Block\Menu\Proxy',
-            '\Magento_Core_Model\StoreManager\Proxy',
-            '\Magento\Core\Model\Layout\Factory',
+            'Magento\Backend\Block\System\Config\Form\Fieldset\Modules\DisableOutput\Proxy',
+            'Magento\Core\Model\App\Proxy',
+            'Magento\Core\Model\Cache\Proxy',
+            'Magento\Backend\Block\Menu\Proxy',
+            'Magento\Core\Model\StoreManager\Proxy',
+            'Magento\Core\Model\Layout\Factory',
         );
         $this->assertEquals($expected, $actual);
     }

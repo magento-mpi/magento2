@@ -42,7 +42,7 @@ class Magento_Core_Utility_Layout
             ->will(PHPUnit_Framework_TestCase::returnValue(array($file)));
         $cache = $this->_testCase->getMockForAbstractClass('Magento\Cache\FrontendInterface');
         return $objectManager->create(
-            '\Magento\Core\Model\Layout\Merge', array('fileSource' => $fileSource, 'cache' => $cache)
+            'Magento\Core\Model\Layout\Merge', array('fileSource' => $fileSource, 'cache' => $cache)
         );
     }
 

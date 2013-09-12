@@ -162,7 +162,7 @@ class Magento_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
 
         /** Initialize SUT. */
         $apiConfig = $objectManager->create(
-            '\Magento\Webapi\Model\Config\Rest',
+            'Magento\Webapi\Model\Config\Rest',
             array('reader' => $reader, 'application' => $this->_appClone)
         );
         return $apiConfig;

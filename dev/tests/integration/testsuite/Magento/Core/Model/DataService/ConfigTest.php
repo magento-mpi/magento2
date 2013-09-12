@@ -19,7 +19,7 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var \Magento\Core\Model\Dir $dirs */
         $dirs = $objectManager->create(
-            '\Magento\Core\Model\Dir',
+            'Magento\Core\Model\Dir',
             array(
                 'baseDir' => BP,
                 'dirs' => array(
@@ -30,13 +30,13 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
         );
 
         $moduleList = $objectManager->create(
-            '\Magento\Core\Model\ModuleList',
+            'Magento\Core\Model\ModuleList',
             array(
                 'reader' => $objectManager->create(
-                    '\Magento\Core\Model\Module\Declaration\Reader\Filesystem',
+                    'Magento\Core\Model\Module\Declaration\Reader\Filesystem',
                     array(
                         'fileResolver' => $objectManager->create(
-                            '\Magento\Core\Model\Module\Declaration\FileResolver',
+                            'Magento\Core\Model\Module\Declaration\FileResolver',
                             array(
                                 'applicationDirs' => $dirs
                             )
@@ -49,7 +49,7 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
 
         /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
         $moduleReader = $objectManager->create(
-            '\Magento\Core\Model\Config\Modules\Reader',
+            'Magento\Core\Model\Config\Modules\Reader',
             array(
                 'dirs' => $dirs,
                 'moduleList' => $moduleList

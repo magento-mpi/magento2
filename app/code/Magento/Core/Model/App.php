@@ -309,7 +309,7 @@ class App implements \Magento\Core\Model\AppInterface
     {
         if (!isset($this->_areas[$code])) {
             $this->_areas[$code] = $this->_objectManager->create(
-                '\Magento\Core\Model\App\Area',
+                'Magento\Core\Model\App\Area',
                 array('areaCode' => $code)
             );
         }

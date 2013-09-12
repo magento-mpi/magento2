@@ -22,12 +22,12 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_Te
             . DS . 'TestProduct.php';
         include $fixtureFileName;
         $invoker = $objectManager->create(
-            '\Magento\Core\Model\DataService\Invoker',
+            'Magento\Core\Model\DataService\Invoker',
             array('config' => $config)
         );
         /** @var \Magento\Core\Model\DataService\Graph $dataServiceGraph */
         $this->_dataServiceGraph = $objectManager->create(
-            '\Magento\Core\Model\DataService\Graph',
+            'Magento\Core\Model\DataService\Graph',
             array('dataServiceInvoker' => $invoker)
         );
     }
@@ -37,7 +37,7 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_Te
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var \Magento\Core\Model\Dir $dirs */
         $dirs = $objectManager->create(
-            '\Magento\Core\Model\Dir',
+            'Magento\Core\Model\Dir',
             array(
                 'baseDir' => BP,
                 'dirs' => array(\Magento\Core\Model\Dir::MODULES => __DIR__ . '/LayoutTest')
@@ -46,7 +46,7 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_Te
 
         /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
         $moduleReader = $objectManager->create(
-            '\Magento\Core\Model\Config\Modules\Reader',
+            'Magento\Core\Model\Config\Modules\Reader',
             array(
                 'dirs' => $dirs,
             )
@@ -54,7 +54,7 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_Te
 
         /** @var \Magento\Core\Model\DataService\Config\Reader\Factory $dsCfgReaderFactory */
         $dsCfgReaderFactory = $objectManager->create(
-            '\Magento\Core\Model\DataService\Config\Reader\Factory'
+            'Magento\Core\Model\DataService\Config\Reader\Factory'
         );
 
         /** @var \Magento\Core\Model\DataService\Config $config */

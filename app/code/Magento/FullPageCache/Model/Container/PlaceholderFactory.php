@@ -36,7 +36,7 @@ class PlaceholderFactory
     public function create($definition)
     {
         return $this->_objectManager->create(
-            '\Magento\FullPageCache\Model\Container\Placeholder',
+            'Magento\FullPageCache\Model\Container\Placeholder',
             array('definition' => $definition)
         );
     }

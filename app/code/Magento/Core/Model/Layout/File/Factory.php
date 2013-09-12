@@ -37,7 +37,7 @@ class Factory
     public function create($filename, $module, \Magento\Core\Model\ThemeInterface $theme = null)
     {
         return $this->_objectManager->create(
-            '\Magento\Core\Model\Layout\File',
+            'Magento\Core\Model\Layout\File',
             array('filename' => $filename, 'module' => $module, 'theme' => $theme)
         );
     }

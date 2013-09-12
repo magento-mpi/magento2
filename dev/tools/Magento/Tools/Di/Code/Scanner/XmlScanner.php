@@ -15,7 +15,7 @@ class XmlScanner extends FileScanner
      *
      * @var string
      */
-    protected $_pattern = '/[\n\'"<>]{1}([A-Z]{1}[a-zA-Z0-9]*_[A-Z]{1}[a-zA-Z0-9_]*(Proxy|Factory))[\n\'"<>]{1}/';
+    protected $_pattern = '/[\n\'"<>]{1}([A-Z]{1}[a-zA-Z0-9]*[_\\\\][A-Z]{1}[a-zA-Z0-9_\\\\]*(Proxy|Factory))[\n\'"<>]{1}/';
 
     /**
      * Prepare xml file content
@@ -48,7 +48,7 @@ class XmlScanner extends FileScanner
     {
         $filteredEntities = array();
         foreach ($output as $className) {
-            $entityName = rtrim(preg_replace('/(Proxy|Factory)$/', '', $className), '_');
+            $entityName = rtrim(preg_replace('/(Proxy|Factory)$/', '', $className), '\\');
             // Skip aliases that are declared in Di configuration
             if (class_exists($entityName)) {
                 array_push($filteredEntities, $className);

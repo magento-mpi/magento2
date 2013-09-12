@@ -38,7 +38,7 @@ class Magento_DesignEditor_Model_Config_QuickStylesTest extends PHPUnit_Framewor
         $quickStylesPath = $this->_viewFileSystem->getFilename('Magento_DesignEditor::controls/quick_styles.xml');
         $this->assertFileExists($quickStylesPath);
         $this->_model = $objectManager->create(
-            '\Magento\DesignEditor\Model\Config\Control\QuickStyles',
+            'Magento\DesignEditor\Model\Config\Control\QuickStyles',
             array('configFiles' => array($quickStylesPath))
         );
     }

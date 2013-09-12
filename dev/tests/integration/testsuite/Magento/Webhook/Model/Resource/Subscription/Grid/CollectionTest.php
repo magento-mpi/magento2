@@ -90,7 +90,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $dirs = $objectManager->create(
-            '\Magento\Core\Model\Dir',
+            'Magento\Core\Model\Dir',
             array(
                 'baseDir' => BP,
                 'dirs' => array(
@@ -104,7 +104,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
             'reader' => $objectManager->create('Magento\Core\Model\Module\Declaration\Reader\Filesystem',
                 array(
                     'fileResolver' => $objectManager->create(
-                        '\Magento\Core\Model\Module\Declaration\FileResolver',
+                        'Magento\Core\Model\Module\Declaration\FileResolver',
                         array(
                             'applicationDirs' => $dirs
                         )
@@ -122,7 +122,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
 
         /** @var \Magento\Core\Model\Config\Loader $modulesLoader */
         $modulesLoader = $objectManager->create(
-            '\Magento\Core\Model\Config\Loader', array(
+            'Magento\Core\Model\Config\Loader', array(
                 'fileReader' => $moduleReader
         ));
 
@@ -145,7 +145,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
 
         /** @var \Magento\Core\Model\Config\Storage $storage */
         $storage = $objectManager->create(
-            '\Magento\Core\Model\Config\Storage', array(
+            'Magento\Core\Model\Config\Storage', array(
                 'loader' => $modulesLoader,
                 'cache' => $cache
             )

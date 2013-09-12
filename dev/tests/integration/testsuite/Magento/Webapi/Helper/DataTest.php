@@ -36,7 +36,7 @@ class Magento_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
         $pathToFixtures = __DIR__ . '/../_files/autodiscovery';
         /** @var \Magento\Webapi\Model\Config\Reader\Soap $reader */
         $reader = $objectManager->create(
-            '\Magento\Webapi\Model\Config\Reader\Soap',
+            'Magento\Webapi\Model\Config\Reader\Soap',
             array(
                 'cache' => $this->getMock('Magento\Core\Model\Cache', array(), array(), '', false)
             )

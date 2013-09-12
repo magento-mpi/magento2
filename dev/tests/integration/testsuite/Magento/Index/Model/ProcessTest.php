@@ -63,7 +63,7 @@ class Magento_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
 
         // get existing indexer process
         $this->_model = $this->_objectManager->create(
-            '\Magento\Index\Model\Process', array('eventRepository' => $this->_eventRepositoryMock)
+            'Magento\Index\Model\Process', array('eventRepository' => $this->_eventRepositoryMock)
         );
         $this->_model->load(self::INDEXER_CODE, 'indexer_code');
         if ($this->_model->isObjectNew()) {

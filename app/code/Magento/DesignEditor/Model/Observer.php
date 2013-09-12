@@ -92,7 +92,7 @@ class Observer
             $content = $renderer->render($configuration->getAllControlsData());
             /** @var $cssService \Magento\DesignEditor\Model\Theme\Customization\File\QuickStyleCss */
             $cssService = $this->_objectManager->create(
-                '\Magento\DesignEditor\Model\Theme\Customization\File\QuickStyleCss'
+                'Magento\DesignEditor\Model\Theme\Customization\File\QuickStyleCss'
             );
             /** @var $singleFile \Magento\Theme\Model\Theme\SingleFile */
             $singleFile = $this->_objectManager->create('Magento\Theme\Model\Theme\SingleFile',

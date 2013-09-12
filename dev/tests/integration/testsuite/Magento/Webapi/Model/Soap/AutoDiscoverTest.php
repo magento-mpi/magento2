@@ -72,7 +72,7 @@ class Magento_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestC
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_helper = $objectManager->get('Magento\Webapi\Helper\Config');
         $reader = $objectManager->create(
-            '\Magento\Webapi\Model\Config\Reader\Soap',
+            'Magento\Webapi\Model\Config\Reader\Soap',
             array(
                 'cache' => $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false)
             )
