@@ -160,6 +160,9 @@ return array(
     array('XML_PATH_USE_USER_AGENT', 'Magento_Core_Model_Session_Abstract',
         'Magento_Core_Model_Session_Validator::XML_PATH_USE_USER_AGENT'
     ),
+
+    array('XML_NODE_DIRECT_FRONT_NAMES', 'Magento_Core_Controller_Request_Http'),
+
     array('XML_NODE_USET_AGENT_SKIP', 'Magento_Core_Model_Session_Abstract'),
     array('XML_PAGE_TYPE_RENDER_INHERITED', 'Magento_Core_Controller_Varien_Action'),
     array('XML_PATH_ALLOW_MAP_UPDATE', 'Magento_Core_Model_Design_FileResolution_StrategyPool'),
