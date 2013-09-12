@@ -676,7 +676,7 @@ return array(
     array('getInsertFromSelectUsingAnalytic', 'Magento_Eav_Model_Resource_Helper_Mysql4'),
     array('setOneRowLimit', 'Magento_Eav_Model_Resource_Helper_Mysql4'),
     array('getCastToIntExpression', 'Magento_Eav_Model_Resource_Helper_Mysql4'),
-    array('getConfig', 'Mage', 'Magento_Core_Model_Config', true),
+    array('getConfig', 'Mage', 'Magento_Core_Model_Config'),
     array('getStoreConfig', 'Mage', 'Magento_Core_Model_Store_Config'),
     array('getStoreConfigFlag', 'Mage', 'Magento_Core_Model_Store_Config'),
     array('resetRegistry', 'Mage', 'use Magento_Core_Model_Registry'),

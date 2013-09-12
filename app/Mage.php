@@ -336,22 +336,6 @@ final class Mage
     }
 
     /**
-     * Retrieve a config instance
-     *
-     * This method doesn't suit Magento 2 anymore, it is left only until refactoring, when all calls
-     * will be removed in favor of config dependency injection.
-     *
-     * @return Magento_Core_Model_Config
-     */
-    public static function getConfig()
-    {
-        if (!self::$_config) {
-            self::$_config = self::getObjectManager()->get('Magento_Core_Model_Config');
-        }
-        return self::$_config;
-    }
-
-    /**
      * Dispatch event
      *
      * Calls all observer callbacks registered for this event

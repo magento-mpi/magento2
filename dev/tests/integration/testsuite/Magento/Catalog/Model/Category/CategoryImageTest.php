@@ -31,7 +31,9 @@ class Magento_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework
     {
         $this->_oldLogActive = Mage::app()->getStore()->getConfig('dev/log/active');
         $this->_oldExceptionFile = Mage::app()->getStore()->getConfig('dev/log/exception_file');
-        $this->_oldWriterModel = (string)Mage::getConfig()->getNode('global/log/core/writer_model');
+        $this->_oldWriterModel = (string)Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_Config')
+            ->getNode('global/log/core/writer_model');
         $this->_oldWriterModel = (string)Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_Config')
             ->getNode('global/log/core/writer_model');
