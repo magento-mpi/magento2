@@ -47,7 +47,7 @@ class Magento_GiftRegistry_Block_Wishlist_Item_Column_Registry
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         parent::__construct(
-            $wishlistData, $coreRegistry, $taxData, $catalogData, $coreData, $context, $data
+            $coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context, $data
         );
     }
 

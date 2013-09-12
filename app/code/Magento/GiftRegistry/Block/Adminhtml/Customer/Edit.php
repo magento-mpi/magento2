@@ -31,7 +31,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct(coreData, $context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
