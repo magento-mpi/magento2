@@ -28,6 +28,7 @@ class Magento_Backend_Block_Widget_Form_Generic extends Magento_Backend_Block_Wi
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context

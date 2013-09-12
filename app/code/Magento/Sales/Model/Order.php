@@ -432,6 +432,7 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
         Magento_Payment_Helper_Data $paymentData,
         Magento_Sales_Helper_Data $salesData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -440,7 +441,7 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
         $this->_coreData = $coreData;
         $this->_paymentData = $paymentData;
         $this->_salesData = $salesData;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
