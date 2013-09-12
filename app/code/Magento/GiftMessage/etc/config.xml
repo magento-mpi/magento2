@@ -19,15 +19,6 @@
                 </setup>
             </giftmessage_setup>
         </resources>
-        <sales>
-            <quote>
-                <item>
-                    <product_attributes>
-                        <gift_message_available />
-                    </product_attributes>
-                </item>
-            </quote>
-        </sales>
     </global>
     <default>
         <sales>
@@ -59,4 +50,4 @@
             </modules>
         </translate>
     </frontend>
-</config>
+</config>

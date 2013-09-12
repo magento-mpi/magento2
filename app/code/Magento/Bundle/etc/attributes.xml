@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <group name="catalog_product">
+        <attribute name="price_view"/>
+        <attribute name="price_type"/>
+    </group>
+    <group name="sales_quote_item">
+        <attribute name="price_view"/>
+        <attribute name="price_type"/>
+        <attribute name="shipment_type"/>
+        <attribute name="weight_type"/>
+        <attribute name="sku_type"/>
+    </group>
+</config>

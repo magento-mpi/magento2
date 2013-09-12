@@ -2,19 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-
-/**
- * Category tree model
- *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
 {
@@ -22,6 +11,11 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     const PATH_FIELD  = 'path';
     const ORDER_FIELD = 'order';
     const LEVEL_FIELD = 'level';
+
+    /**
+     * @var Magento_Catalog_Model_Attribute_Config
+     */
+    private $_attributeConfig;
 
     /**
      * Categories resource collection
@@ -59,13 +53,13 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     protected $_storeId                          = null;
 
     /**
-     * Initialize tree
-     *
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Catalog_Model_Attribute_Config $attributeConfig
      */
-    public function __construct()
-    {
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
-
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Catalog_Model_Attribute_Config $attributeConfig
+    ) {
         parent::__construct(
             $resource->getConnection('catalog_write'),
             $resource->getTableName('catalog_category_entity'),
@@ -76,6 +70,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
                 Magento_Data_Tree_Dbp::LEVEL_FIELD    => 'level',
             )
         );
+        $this->_attributeConfig = $attributeConfig;
     }
 
     /**
@@ -358,11 +353,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
         $collection = Mage::getModel('Magento_Catalog_Model_Category')->getCollection();
         /** @var $collection Magento_Catalog_Model_Resource_Category_Collection */
 
-        $attributes = Mage::getConfig()->getNode('frontend/category/collection/attributes');
-        if ($attributes) {
-            $attributes = $attributes->asArray();
-            $attributes = array_keys($attributes);
-        }
+        $attributes = $this->_attributeConfig->getAttributeNames('catalog_category');
         $collection->addAttributeToSelect($attributes);
 
         if ($sorted) {

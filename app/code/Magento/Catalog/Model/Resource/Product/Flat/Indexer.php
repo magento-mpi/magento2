@@ -19,7 +19,17 @@
 class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_Model_Resource_Abstract
 {
     const XML_NODE_MAX_INDEX_COUNT  = 'global/catalog/product/flat/max_index_count';
-    const XML_NODE_ATTRIBUTE_NODES  = 'global/catalog/product/flat/attribute_nodes';
+    const XML_NODE_ATTRIBUTE_GROUPS = 'global/catalog/product/flat/attribute_groups';
+
+    /**
+     * @var Magento_Core_Model_ConfigInterface
+     */
+    private $_config;
+
+    /**
+     * @var Magento_Catalog_Model_Attribute_Config
+     */
+    private $_attributeConfig;
 
     /**
      * Attribute codes for flat
@@ -85,6 +95,21 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
     protected $_preparedFlatTables   = array();
 
     /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_ConfigInterface $config
+     * @param Magento_Catalog_Model_Attribute_Config $attributeConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_ConfigInterface $config,
+        Magento_Catalog_Model_Attribute_Config $attributeConfig
+    ) {
+        parent::__construct($resource);
+        $this->_config = $config;
+        $this->_attributeConfig = $attributeConfig;
+    }
+
+    /**
      * Initialize connection
      *
      */
@@ -144,12 +169,10 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
             $adapter               = $this->_getReadAdapter();
             $this->_attributeCodes = array();
 
-            $attributeNodes = Mage::getConfig()
-                ->getNode(self::XML_NODE_ATTRIBUTE_NODES)
-                ->children();
-            foreach ($attributeNodes as $node) {
-                $attributes = Mage::getConfig()->getNode((string)$node)->asArray();
-                $attributes = array_keys($attributes);
+            $attributeGroupNodes = $this->_config->getNode(self::XML_NODE_ATTRIBUTE_GROUPS)->children();
+            foreach ($attributeGroupNodes as $attributeGroupNode) {
+                $attributeGroupName = (string)$attributeGroupNode;
+                $attributes = $this->_attributeConfig->getAttributeNames($attributeGroupName);
                 $this->_systemAttributes = array_unique(array_merge($attributes, $this->_systemAttributes));
             }
 

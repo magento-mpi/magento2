@@ -62,19 +62,6 @@
                 </attributes>
             </product>
         </catalog>
-        <sales>
-            <quote>
-                <item>
-                    <product_attributes>
-                        <price_view />
-                        <price_type />
-                        <shipment_type />
-                        <weight_type />
-                        <sku_type />
-                    </product_attributes>
-                </item>
-            </quote>
-        </sales>
         <pdf>
             <invoice>
                 <bundle>Magento_Bundle_Model_Sales_Order_Pdf_Items_Invoice</bundle>
@@ -97,14 +84,6 @@
                 </Magento_Bundle>
             </modules>
         </translate>
-        <product>
-            <collection>
-                <attributes>
-                    <price_view />
-                    <price_type />
-                </attributes>
-            </collection>
-        </product>
     </frontend>
     <adminhtml>
         <translate>
@@ -126,4 +105,4 @@
             </order>
         </sales>
     </adminhtml>
-</config>
+</config>

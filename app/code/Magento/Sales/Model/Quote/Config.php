@@ -2,28 +2,45 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 class Magento_Sales_Model_Quote_Config
 {
-    const XML_PATH_QUOTE_PRODUCT_ATTRIBUTES = 'global/sales/quote/item/product_attributes';
+    /**
+     * @var Magento_Catalog_Model_Attribute_Config
+     */
+    private $_attributeConfig;
 
-    public function getProductAttributes()
-    {
-        $attributes = Mage::getConfig()->getNode(self::XML_PATH_QUOTE_PRODUCT_ATTRIBUTES)->asArray();
-        $transfer = new Magento_Object($attributes);
-        Mage::dispatchEvent('sales_quote_config_get_product_attributes', array('attributes' => $transfer));
-        $attributes = $transfer->getData();
-        return array_keys($attributes);
+    /**
+     * @var Magento_Core_Model_Event_Manager
+     */
+    private $_eventManager;
+
+    /**
+     * @param Magento_Catalog_Model_Attribute_Config $attributeConfig
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     */
+    public function __construct(
+        Magento_Catalog_Model_Attribute_Config $attributeConfig,
+        Magento_Core_Model_Event_Manager $eventManager
+    ) {
+        $this->_attributeConfig = $attributeConfig;
+        $this->_eventManager = $eventManager;
     }
 
-    public function getTotalModels()
+    /**
+     * @return array
+     */
+    public function getProductAttributes()
     {
-
+        $attributes = $this->_attributeConfig->getAttributeNames('sales_quote_item');
+        $transport = new Magento_Object();
+        foreach ($attributes as $attributeCode) {
+            $transport->setData($attributeCode, true);
+        }
+        $this->_eventManager->dispatch('sales_quote_config_get_product_attributes', array('attributes' => $transport));
+        $result = array_keys($transport->getData());
+        return $result;
     }
 }

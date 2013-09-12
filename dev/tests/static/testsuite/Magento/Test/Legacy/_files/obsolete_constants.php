@@ -94,6 +94,8 @@ return array(
     array('TYPE_TINYINT', null, 'Magento_DB_Ddl_Table::TYPE_SMALLINT'),
     array('TYPE_VARCHAR', null, 'Magento_DB_Ddl_Table::TYPE_TEXT'),
     array('URL_TYPE_SKIN'),
+    array('XML_NODE_ATTRIBUTE_NODES', 'Magento_Catalog_Model_Resource_Product_Flat_Indexer',
+        'XML_NODE_ATTRIBUTE_GROUPS'),
     array('XML_PATH_ALLOW_CODES', 'Magento_Core_Model_Locale', 'Magento_Core_Model_LocaleInterface::XML_PATH_ALLOW_CODES'),
     array('XML_PATH_ALLOW_CURRENCIES', 'Magento_Core_Model_Locale',
         'Magento_Core_Model_LocaleInterface::XML_PATH_ALLOW_CURRENCIES'
@@ -117,6 +119,8 @@ return array(
     ),
     array('XML_PATH_INSTALL_DATE', 'Mage_Core_Model_App', 'Mage_Core_Model_Config_Primary::XML_PATH_INSTALL_DATE'),
     array('XML_PATH_LOCALE_INHERITANCE', 'Mage_Core_Model_Translate'),
+    array('XML_PATH_PRODUCT_ATTRIBUTES', 'Magento_Wishlist_Model_Config'),
+    array('XML_PATH_PRODUCT_COLLECTION_ATTRIBUTES', 'Magento_Catalog_Model_Config'),
     array('XML_PATH_SENDING_SET_RETURN_PATH', 'Mage_Newsletter_Model_Subscriber'),
     array('XML_PATH_SKIP_PROCESS_MODULES_UPDATES', 'Mage_Core_Model_App',
         'Mage_Core_Model_Db_UpdaterInterface::XML_PATH_SKIP_PROCESS_MODULES_UPDATES'
