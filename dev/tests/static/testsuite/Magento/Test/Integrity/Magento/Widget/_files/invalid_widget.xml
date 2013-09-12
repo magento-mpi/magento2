@@ -15,7 +15,7 @@
             placeholder_image="Mage_Catalog::images/product_widget_new.gif" translate="label description">
         <label>Catalog New Products List</label>
         <description>List of Products that are set as New</description>
-        <parameter name="display_type" xsi:type="select" required="true" visible="true" translate="label description">
+        <parameter name="display_type" type="select" required="true" visible="true" translate="label description">
             <label>Display Type</label>
             <description>All products - recently added products, New products - products marked as new</description>
             <option name="default" value="all_products" selected="true" translate="label">
@@ -25,22 +25,22 @@
                 <label>New products</label>
             </option>
         </parameter>
-        <parameter name="show_pager" xsi:type="select" visible="true" source_model="Mage_Backend_Model_Config_Source_Yesno"
+        <parameter name="show_pager" type="select" visible="true" source_model="Mage_Backend_Model_Config_Source_Yesno"
                    translate="label" >
             <label>Display Page Control</label>
         </parameter>
-        <parameter name="products_per_page" xsi:type="text" required="true" visible="true" translate="label">
+        <parameter name="products_per_page" type="text" required="true" visible="true" translate="label">
             <label>Number of Products per Page</label>
             <value>5</value>
             <depends>
                 <parameter name="show_pager" value="1"/>
             </depends>
         </parameter>
-        <parameter name="products_count" xsi:type="text" required="true" visible="true" translate="label">
+        <parameter name="products_count" type="text" required="true" visible="true" translate="label">
             <label>Number of Products to Display</label>
             <value>10</value>
         </parameter>
-        <parameter name="template" xsi:type="select" required="true" visible="true" translate="label">
+        <parameter name="template" type="select" required="true" visible="true" translate="label">
             <label>Template</label>
             <option name="default" value="product/widget/new/content/new_grid.phtml" selected="true" translate="label">
                 <label>New Products Grid Template</label>
@@ -58,7 +58,7 @@
                 <label>New Products Images Only Template</label>
             </option>
         </parameter>
-        <parameter name="cache_lifetime" xsi:type="text" visible="true" translate="label description">
+        <parameter name="cache_lifetime" type="text" visible="true" translate="label description">
             <label>Cache Lifetime (Seconds)</label>
             <description>86400 by default, if not set. To refresh instantly, clear the Blocks HTML Output cache.</description>
         </parameter>
@@ -83,24 +83,24 @@
             placeholder_image="Mage_Catalog::images/product_widget_link.gif" translate="label description">
         <label>Catalog Product Link</label>
         <description>Link to a Specified Product</description>
-        <parameter name="id_path" xsi:type="block" visible="true" required="true" sort_order="10" translate="label">
+        <parameter name="id_path" type="block" visible="true" required="true" sort_order="10" translate="label">
             <label>Product</label>
             <block class="Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser">
                 <data>
-                    <item name="button" xsi:type="array">
-                        <item name="open" xsi:type="string">Select Product...</item>
+                    <item name="button" type="array">
+                        <item name="open" type="string">Select Product...</item>
                     </item>
                 </data>
             </block>
         </parameter>
-        <parameter name="anchor_text" xsi:type="text" visible="true" translate="label description">
+        <parameter name="anchor_text" type="text" visible="true" translate="label description">
             <label>Anchor Custom Text</label>
             <description>If empty, the Product Name will be used</description>
         </parameter>
-        <parameter name="title" xsi:type="text" visible="true" translate="label">
+        <parameter name="title" type="text" visible="true" translate="label">
             <label>Anchor Custom Title</label>
         </parameter>
-        <parameter name="template" xsi:type="select" visible="true" translate="label" >
+        <parameter name="template" type="select" visible="true" translate="label" >
             <label>Template</label>
             <option name="default" value="product/widget/link/link_block.phtml" selected="true" translate="label">
                 <label>Product Link Block Template</label>
@@ -115,24 +115,24 @@
             placeholder_image="Mage_Catalog::images/category_widget_link.gif" translate="label description">
         <label>Catalog Category Link</label>
         <description>Link to a Specified Category</description>
-        <parameter name="id_path" xsi:type="block" visible="true" required="true" sort_order="10" translate="label">
+        <parameter name="id_path" type="block" visible="true" required="true" sort_order="10" translate="label">
             <label>Category</label>
             <block class="Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser">
                 <data>
-                    <item name="button" xsi:type="array">
-                        <item name="open" xsi:type="string">Select Category...</item>
+                    <item name="button" type="array">
+                        <item name="open" type="string">Select Category...</item>
                     </item>
                 </data>
             </block>
         </parameter>
-        <parameter name="anchor_text" xsi:type="text" visible="true" translate="label description">
+        <parameter name="anchor_text" type="text" visible="true" translate="label description">
             <label>Anchor Custom Text</label>
             <description>If empty, the Category Name will be used</description>
         </parameter>
-        <parameter name="title" xsi:type="text" visible="true" translate="label">
+        <parameter name="title" type="text" visible="true" translate="label">
             <label>Anchor Custom Title</label>
         </parameter>
-        <parameter name="template" xsi:type="select" visible="true" translate="label">
+        <parameter name="template" type="select" visible="true" translate="label">
             <label>Template</label>
             <option name="default" value="category/widget/link/link_block.phtml" selected="true" translate="label">
                 <label>Category Link Block Template</label>
