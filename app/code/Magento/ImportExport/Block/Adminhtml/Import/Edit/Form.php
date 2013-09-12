@@ -28,8 +28,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_Admi
         Magento_Backend_Block_Template_Context $context,
         Magento_ImportExport_Model_Import $importModel,
         array $data = array()
-    )
-    {
+    ) {
         parent::__construct($context, $data);
         $this->_importModel = $importModel;
     }

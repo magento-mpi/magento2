@@ -18,11 +18,37 @@
 abstract class Magento_Install_Model_Installer_Db_Abstract
 {
     /**
+     *  Adapter instance
+     *
+     * @var Magento_DB_Adapter_Interface
+     */
+    protected $_connection;
+
+    /**
+     *  Connection configuration
+     *
+     * @var array
+     */
+    protected $_connectionData;
+
+    /**
+     *  Connection configuration
+     *
+     * @var array
+     */
+    protected $_configData;
+
+    /**
      * Resource model
      *
      * @var Magento_Core_Model_Resource
      */
     protected $_resource;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
 
     /**
      * Constructor
@@ -37,33 +63,6 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
         $this->_resource = $resource;
         $this->_coreConfig = $coreConfig;
     }
-
-    /**
-     *  Adapter instance
-     *
-     * @var Magento_DB_Adapter_Interface
-     */
-    protected $_connection;
-
-    /**
-     *  Connection configuration
-     *
-     * @var array
-     */
-    protected $_connectionData;
-
-
-    /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_coreConfig;
-    /**
-     *  Connection configuration
-     *
-     * @var array
-     */
-    protected $_configData;
-
 
     /**
      * Return the name of DB model from config
