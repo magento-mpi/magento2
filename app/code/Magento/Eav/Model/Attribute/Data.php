@@ -55,7 +55,7 @@ class Data
             }
         } else {
             if (empty(self::$_dataModels[$attribute->getFrontendInput()])) {
-                $dataModelClass = sprintf('Magento_Eav_Model_Attribute_Data_%s', uc_words($attribute->getFrontendInput()));
+                $dataModelClass = sprintf('Magento\Eav\Model\Attribute\Data\\%s', uc_words($attribute->getFrontendInput()));
                 $dataModel      = \Mage::getModel($dataModelClass);
                 self::$_dataModels[$attribute->getFrontendInput()] = $dataModel;
             } else {

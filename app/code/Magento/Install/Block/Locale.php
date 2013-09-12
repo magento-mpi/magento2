@@ -100,8 +100,8 @@ class Locale extends \Magento\Install\Block\AbstractBlock
      */
     public function getTimezone()
     {
-        $timezone = \Mage::getSingleton('Magento_Install_Model_Session')->getTimezone()
-            ? \Mage::getSingleton('Magento_Install_Model_Session')->getTimezone()
+        $timezone = \Mage::getSingleton('Magento\Install\Model\Session')->getTimezone()
+            ? \Mage::getSingleton('Magento\Install\Model\Session')->getTimezone()
             : \Mage::app()->getLocale()->getTimezone();
         if ($timezone == \Mage::DEFAULT_TIMEZONE) {
             $timezone = 'America/Los_Angeles';
@@ -134,8 +134,8 @@ class Locale extends \Magento\Install\Block\AbstractBlock
      */
     public function getCurrency()
     {
-        return \Mage::getSingleton('Magento_Install_Model_Session')->getCurrency()
-            ? \Mage::getSingleton('Magento_Install_Model_Session')->getCurrency()
+        return \Mage::getSingleton('Magento\Install\Model\Session')->getCurrency()
+            ? \Mage::getSingleton('Magento\Install\Model\Session')->getCurrency()
             : \Mage::app()->getLocale()->getCurrency();
     }
 

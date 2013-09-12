@@ -23,7 +23,7 @@ class Observer
     {
         $locale = $observer->getEvent()->getLocale();
         if ($locale) {
-            $choosedLocale = \Mage::getSingleton('Magento_Install_Model_Session')->getLocale();
+            $choosedLocale = \Mage::getSingleton('Magento\Install\Model\Session')->getLocale();
             if ($choosedLocale) {
                 $locale->setLocaleCode($choosedLocale);
             }

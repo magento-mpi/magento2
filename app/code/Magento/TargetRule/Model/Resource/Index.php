@@ -73,7 +73,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
                 );
         }
 
-        return \Mage::getResourceSingleton('Magento_TargetRule_Model_Resource_Index_' . $model);
+        return \Mage::getResourceSingleton('Magento\TargetRule\Model\Resource\Index\\' . $model);
     }
 
     /**

@@ -49,7 +49,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function getSession()
     {
-        return \Mage::getSingleton('Magento_Paypal_Model_Session');
+        return \Mage::getSingleton('Magento\Paypal\Model\Session');
     }
 
     /**

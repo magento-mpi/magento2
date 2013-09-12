@@ -20,7 +20,7 @@ class CustomerTaxClass
     /**
      * @param Magento_Tax_Model_Resource_TaxClass_CollectionFactory $collectionFactory
      */
-    public function __construct(Magento_Tax_Model_Resource_TaxClass_CollectionFactory $collectionFactory)
+    public function __construct(\Magento\Tax\Model\Resource\TaxClass\CollectionFactory $collectionFactory)
     {
         $this->_collectionFactory = $collectionFactory;
     }

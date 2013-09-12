@@ -33,7 +33,7 @@ class Combine
      */
     public function getNewChildSelectOptions()
     {
-        $prefix = 'Magento_CustomerSegment_Model_Segment_Condition_Order_Address_';
+        $prefix = 'Magento\CustomerSegment\Model\Segment\Condition\Order\Address\\';
         $result = array_merge_recursive(parent::getNewChildSelectOptions(), array(
             array(
                 'value' => $this->getType(),

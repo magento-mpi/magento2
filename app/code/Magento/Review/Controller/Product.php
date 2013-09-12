@@ -41,7 +41,7 @@ class Product extends \Magento\Core\Controller\Front\Action
             if (!\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
                 \Mage::getSingleton('Magento\Customer\Model\Session')->setBeforeAuthUrl(\Mage::getUrl('*/*/*', array('_current' => true)));
-                \Mage::getSingleton('Magento_Review_Model_Session')->setFormData($this->getRequest()->getPost())
+                \Mage::getSingleton('Magento\Review\Model\Session')->setFormData($this->getRequest()->getPost())
                     ->setRedirectUrl($this->_getRefererUrl());
                 $this->_redirectUrl(\Mage::helper('Magento\Customer\Helper\Data')->getLoginUrl());
             }
@@ -141,7 +141,7 @@ class Product extends \Magento\Core\Controller\Front\Action
      */
     public function postAction()
     {
-        if ($data = \Mage::getSingleton('Magento_Review_Model_Session')->getFormData(true)) {
+        if ($data = \Mage::getSingleton('Magento\Review\Model\Session')->getFormData(true)) {
             $rating = array();
             if (isset($data['ratings']) && is_array($data['ratings'])) {
                 $rating = $data['ratings'];
@@ -197,7 +197,7 @@ class Product extends \Magento\Core\Controller\Front\Action
             }
         }
 
-        if ($redirectUrl = \Mage::getSingleton('Magento_Review_Model_Session')->getRedirectUrl(true)) {
+        if ($redirectUrl = \Mage::getSingleton('Magento\Review\Model\Session')->getRedirectUrl(true)) {
             $this->_redirectUrl($redirectUrl);
             return;
         }
@@ -255,7 +255,7 @@ class Product extends \Magento\Core\Controller\Front\Action
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_Review_Model_Session');
+        $this->_initLayoutMessages('Magento\Review\Model\Session');
         $this->_initLayoutMessages('Magento\Catalog\Model\Session');
         $this->renderLayout();
     }

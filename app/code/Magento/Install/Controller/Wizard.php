@@ -106,7 +106,7 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
 
         $this->_prepareLayout();
-        $this->_initLayoutMessages('Magento_Install_Model_Session');
+        $this->_initLayoutMessages('Magento\Install\Model\Session');
 
         $this->getLayout()->addBlock('\Magento\Install\Block\Begin', 'install.begin', 'content');
 
@@ -138,7 +138,7 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
 
         $this->_prepareLayout();
-        $this->_initLayoutMessages('Magento_Install_Model_Session');
+        $this->_initLayoutMessages('Magento\Install\Model\Session');
         $this->getLayout()->addBlock('\Magento\Install\Block\Locale', 'install.locale', 'content');
 
         $this->renderLayout();
@@ -155,9 +155,9 @@ class Wizard extends \Magento\Install\Controller\Action
         $timezone = $this->getRequest()->getParam('timezone');
         $currency = $this->getRequest()->getParam('currency');
         if ($locale) {
-            \Mage::getSingleton('Magento_Install_Model_Session')->setLocale($locale);
-            \Mage::getSingleton('Magento_Install_Model_Session')->setTimezone($timezone);
-            \Mage::getSingleton('Magento_Install_Model_Session')->setCurrency($currency);
+            \Mage::getSingleton('Magento\Install\Model\Session')->setLocale($locale);
+            \Mage::getSingleton('Magento\Install\Model\Session')->setTimezone($timezone);
+            \Mage::getSingleton('Magento\Install\Model\Session')->setCurrency($currency);
         }
 
         $this->_redirect('*/*/locale');
@@ -173,7 +173,7 @@ class Wizard extends \Magento\Install\Controller\Action
 
         $data = $this->getRequest()->getPost('config');
         if ($data) {
-            \Mage::getSingleton('Magento_Install_Model_Session')->setLocaleData($data);
+            \Mage::getSingleton('Magento\Install\Model\Session')->setLocaleData($data);
         }
 
         $this->getResponse()->setRedirect($step->getNextUrl());
@@ -189,7 +189,7 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
 
         $this->_prepareLayout();
-        $this->_initLayoutMessages('Magento_Install_Model_Session');
+        $this->_initLayoutMessages('Magento\Install\Model\Session');
         $this->getLayout()->addBlock('\Magento\Install\Block\Download', 'install.download', 'content');
 
         $this->renderLayout();
@@ -301,11 +301,11 @@ class Wizard extends \Magento\Install\Controller\Action
 
         $data = $this->getRequest()->getQuery('config');
         if ($data) {
-            \Mage::getSingleton('Magento_Install_Model_Session')->setLocaleData($data);
+            \Mage::getSingleton('Magento\Install\Model\Session')->setLocaleData($data);
         }
 
         $this->_prepareLayout();
-        $this->_initLayoutMessages('Magento_Install_Model_Session');
+        $this->_initLayoutMessages('Magento\Install\Model\Session');
         $this->getLayout()->addBlock('\Magento\Install\Block\Config', 'install.config', 'content');
 
         $this->renderLayout();
@@ -326,7 +326,7 @@ class Wizard extends \Magento\Install\Controller\Action
 
             $data = array_merge($config, $connectionConfig[$config['db_model']]);
 
-            \Mage::getSingleton('Magento_Install_Model_Session')
+            \Mage::getSingleton('Magento\Install\Model\Session')
                 ->setConfigData($data)
                 ->setSkipUrlValidation($this->getRequest()->getPost('skip_url_validation'))
                 ->setSkipBaseUrlValidation($this->getRequest()->getPost('skip_base_url_validation'));
@@ -335,7 +335,7 @@ class Wizard extends \Magento\Install\Controller\Action
                 $this->_redirect('*/*/installDb');
                 return $this;
             } catch (\Exception $e) {
-                \Mage::getSingleton('Magento_Install_Model_Session')->addError($e->getMessage());
+                \Mage::getSingleton('Magento\Install\Model\Session')->addError($e->getMessage());
                 $this->getResponse()->setRedirect($step->getUrl());
             }
         }
@@ -354,14 +354,14 @@ class Wizard extends \Magento\Install\Controller\Action
             /**
              * Clear session config data
              */
-            \Mage::getSingleton('Magento_Install_Model_Session')->getConfigData(true);
+            \Mage::getSingleton('Magento\Install\Model\Session')->getConfigData(true);
 
             \Mage::app()->getStore()->resetConfig();
             \Mage::getSingleton('Magento\Core\Model\Db\UpdaterInterface')->updateData();
 
             $this->getResponse()->setRedirect(\Mage::getUrl($step->getNextUrlPath()));
         } catch (\Exception $e) {
-            \Mage::getSingleton('Magento_Install_Model_Session')->addError($e->getMessage());
+            \Mage::getSingleton('Magento\Install\Model\Session')->addError($e->getMessage());
             $this->getResponse()->setRedirect($step->getUrl());
         }
     }
@@ -374,7 +374,7 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->_checkIfInstalled();
 
         $this->_prepareLayout();
-        $this->_initLayoutMessages('Magento_Install_Model_Session');
+        $this->_initLayoutMessages('Magento\Install\Model\Session');
 
         $this->getLayout()->addBlock('\Magento\Install\Block\Admin', 'install.administrator', 'content');
         $this->renderLayout();
@@ -398,7 +398,7 @@ class Wizard extends \Magento\Install\Controller\Action
             $this->getResponse()->setRedirect($step->getNextUrl());
         } catch (\Exception $e) {
             /** @var $session \Magento\Core\Model\Session\Generic */
-            $session = \Mage::getSingleton('Magento_Install_Model_Session');
+            $session = \Mage::getSingleton('Magento\Install\Model\Session');
             $session->setAdminData($adminData);
             if ($e instanceof \Magento\Core\Exception) {
                 $session->addMessages($e->getMessages());
@@ -427,10 +427,10 @@ class Wizard extends \Magento\Install\Controller\Action
         \Magento\AdminNotification\Model\Survey::saveSurveyViewed(true);
 
         $this->_prepareLayout();
-        $this->_initLayoutMessages('Magento_Install_Model_Session');
+        $this->_initLayoutMessages('Magento\Install\Model\Session');
 
         $this->getLayout()->addBlock('\Magento\Install\Block\End', 'install.end', 'content');
         $this->renderLayout();
-        \Mage::getSingleton('Magento_Install_Model_Session')->clear();
+        \Mage::getSingleton('Magento\Install\Model\Session')->clear();
     }
 }

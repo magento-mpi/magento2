@@ -229,7 +229,7 @@ class Option extends \Magento\Core\Model\AbstractModel
     {
         $group = $this->getGroupByType($type);
         if (!empty($group)) {
-            return \Mage::getModel('Magento_Catalog_Model_Product_Option_Type_' . uc_words($group));
+            return \Mage::getModel('Magento\Catalog\Model\Product\Option\Type\\' . uc_words($group));
         }
         \Mage::throwException(__('The option type to get group instance is incorrect.'));
     }

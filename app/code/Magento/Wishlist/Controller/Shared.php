@@ -60,7 +60,7 @@ class Shared extends \Magento\Wishlist\Controller\AbstractController
 
         $this->loadLayout();
         $this->_initLayoutMessages('Magento\Checkout\Model\Session');
-        $this->_initLayoutMessages('Magento_Wishlist_Model_Session');
+        $this->_initLayoutMessages('Magento\Wishlist\Model\Session');
         $this->renderLayout();
     }
 
@@ -80,7 +80,7 @@ class Shared extends \Magento\Wishlist\Controller\AbstractController
 
 
         /* @var $session \Magento\Core\Model\Session\Generic */
-        $session    = \Mage::getSingleton('Magento_Wishlist_Model_Session');
+        $session    = \Mage::getSingleton('Magento\Wishlist\Model\Session');
         $cart       = \Mage::getSingleton('Magento\Checkout\Model\Cart');
 
         $redirectUrl = $this->_getRefererUrl();

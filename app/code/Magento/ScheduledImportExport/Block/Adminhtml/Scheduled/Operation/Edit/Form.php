@@ -103,7 +103,7 @@ abstract class Form
         ));
 
         $entities = \Mage::getModel(
-            'Magento_ImportExport_Model_Source_' . uc_words($operation->getOperationType()) . '_Entity'
+            'Magento\ImportExport\Model\Source\\' . uc_words($operation->getOperationType()) . '\Entity'
         )->toOptionArray();
 
         $fieldset->addField('entity', 'select', array(

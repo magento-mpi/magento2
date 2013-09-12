@@ -34,7 +34,7 @@ class Shoppingcart
      */
     public function getNewChildSelectOptions()
     {
-        $prefix = 'Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_';
+        $prefix = 'Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart\\';
         return array(
             'value' => array(
                 \Mage::getModel($prefix . 'Amount')->getNewChildSelectOptions(),

@@ -41,7 +41,7 @@ class Config extends \Magento\Install\Block\AbstractBlock
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $data = \Mage::getSingleton('Magento_Install_Model_Session')->getConfigData(true);
+            $data = \Mage::getSingleton('Magento\Install\Model\Session')->getConfigData(true);
             if (empty($data)) {
                 $data = \Mage::getModel('Magento\Install\Model\Installer\Config')->getFormData();
             } else {
@@ -57,7 +57,7 @@ class Config extends \Magento\Install\Block\AbstractBlock
      */
     public function getSkipUrlValidation()
     {
-        return \Mage::getSingleton('Magento_Install_Model_Session')->getSkipUrlValidation();
+        return \Mage::getSingleton('Magento\Install\Model\Session')->getSkipUrlValidation();
     }
 
     /**
@@ -65,7 +65,7 @@ class Config extends \Magento\Install\Block\AbstractBlock
      */
     public function getSkipBaseUrlValidation()
     {
-        return \Mage::getSingleton('Magento_Install_Model_Session')->getSkipBaseUrlValidation();
+        return \Mage::getSingleton('Magento\Install\Model\Session')->getSkipBaseUrlValidation();
     }
 
     /**

@@ -32,7 +32,7 @@ class Adapter
         if (!is_string($type) || !$type) {
             \Mage::throwException(__('The adapter type must be a non empty string.'));
         }
-        $adapterClass = 'Magento_ImportExport_Model_Import_Source_' . ucfirst(strtolower($type));
+        $adapterClass = 'Magento\ImportExport\Model\Import\Source\\' . ucfirst(strtolower($type));
 
         if (!class_exists($adapterClass)) {
             \Mage::throwException("'{$type}' file extension is not supported");

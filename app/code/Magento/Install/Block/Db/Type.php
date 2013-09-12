@@ -43,7 +43,7 @@ class Type extends \Magento\Core\Block\Template
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $data = \Mage::getSingleton('Magento_Install_Model_Session')->getConfigData(true);
+            $data = \Mage::getSingleton('Magento\Install\Model\Session')->getConfigData(true);
             if (empty($data)) {
                 $data = \Mage::getModel('Magento\Install\Model\Installer\Config')->getFormData();
             } else {

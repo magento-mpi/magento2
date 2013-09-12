@@ -96,7 +96,7 @@ class Installer extends \Magento\Object
     public function getDataModel()
     {
         if (null === $this->_dataModel) {
-            $this->setDataModel(\Mage::getSingleton('Magento_Install_Model_Session'));
+            $this->setDataModel(\Mage::getSingleton('Magento\Install\Model\Session'));
         }
         return $this->_dataModel;
     }

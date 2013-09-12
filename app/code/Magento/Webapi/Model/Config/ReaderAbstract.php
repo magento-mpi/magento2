@@ -19,7 +19,7 @@ abstract class ReaderAbstract
     /**
      * Pattern for API action controllers class name.
      */
-    const RESOURCE_CLASS_PATTERN = '/^(.*)_(.*)_Controller_Webapi(_.*)+$/';
+    const RESOURCE_CLASS_PATTERN = '/^(.*)\\(.*)\\Controller_Webapi(\\.*)+$/';
 
     /**
      * @var \Zend\Code\Scanner\DirectoryScanner

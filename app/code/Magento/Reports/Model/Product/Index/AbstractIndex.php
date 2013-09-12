@@ -136,7 +136,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
      */
     protected function _getSession()
     {
-        return \Mage::getSingleton('Magento_Reports_Model_Session');
+        return \Mage::getSingleton('Magento\Reports\Model\Session');
     }
 
     /**

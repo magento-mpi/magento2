@@ -63,7 +63,7 @@ class Test extends \Magento\Object
 
     public function getAllLinearExample( )
     {
-        $session = \Mage::getModel('Magento_Reports_Model_Session');
+        $session = \Mage::getModel('Magento\Reports\Model\Session');
 
         $startPoint = time() - 24*60*60;
 
@@ -84,7 +84,7 @@ class Test extends \Magento\Object
 
     public function getNewLinearData()
     {
-        $session = \Mage::getModel('Magento_Reports_Model_Session');
+        $session = \Mage::getModel('Magento\Reports\Model\Session');
 
 
         $startPoint = $session -> getData('startPoint');
