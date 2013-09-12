@@ -55,6 +55,11 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuild
      */
     public function beforeRebuildIndex(array $arguments)
     {
+        /* default value setting as in original method*/
+        if (!isset($arguments['productIds'])) {
+            $arguments['productIds'] = null;
+        }
+
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
             $engine = $this->_catalogSearchHelper->getEngine();
             if ($engine->holdCommit() && is_null($arguments['productIds'])) {
