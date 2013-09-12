@@ -24,7 +24,8 @@ $scenarioHandler
     ->register('php', new Magento_TestFramework_Performance_Scenario_Handler_Php($shell))
 ;
 
-$testsuite = new Magento_Performance_Testsuite($config, new Magento_TestFramework_Application($config, $shell),
+$testsuite =
+    new Magento_TestFramework_Performance_Testsuite($config, new Magento_TestFramework_Application($config, $shell),
     $scenarioHandler);
 
 $scenarioTotalCount = count($config->getScenarios());
