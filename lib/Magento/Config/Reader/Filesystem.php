@@ -80,7 +80,7 @@ class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
         Magento_Config_SchemaLocatorInterface $schemaLocator,
         Magento_Config_ValidationStateInterface $validationState,
         $fileName,
-        $idAttributes,
+        $idAttributes = array(),
         $domDocumentClass = 'Magento_Config_Dom'
     ) {
         $this->_fileResolver = $fileResolver;
