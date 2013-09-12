@@ -173,7 +173,7 @@ class Magento_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
             ->method('_getResource')
             ->will($this->returnValue($this->_mockResourceEndpnt));
 
-        $mockResourceAbstract = $this->getMockBuilder('Magento_webhook_Model_Resource_Endpoint')
+        $mockResourceAbstract = $this->getMockBuilder('Magento\Webhook\Model\Resource\Endpoint')
             ->disableOriginalConstructor()
             ->getMock();
 
