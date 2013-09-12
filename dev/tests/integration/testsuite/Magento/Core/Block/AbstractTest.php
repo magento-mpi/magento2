@@ -671,7 +671,7 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $blocks = array(); $names = array();
         $layout = false;
         if ($withLayout) {
-            $layout = $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
                 ->get('Magento_Core_Model_Layout');
         }
         for ($i = 0; $i < $qty; $i++) {
