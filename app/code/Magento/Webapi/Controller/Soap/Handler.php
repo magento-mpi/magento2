@@ -65,9 +65,6 @@ class Magento_Webapi_Controller_Soap_Handler
             $this->_security->processSecurityHeader($operation, $arguments);
         } else {
             $this->_security->checkPermissions($operation, $arguments);
-            $arguments = reset($arguments);
-            $this->_unpackArguments($arguments);
-            $arguments = get_object_vars($arguments);
 
             $requestedServices = $this->_request->getRequestedServices();
             $serviceMethodInfo = $this->_apiConfig->getServiceMethodInfo($operation, $requestedServices);
@@ -83,7 +80,7 @@ class Magento_Webapi_Controller_Soap_Handler
             }
 
             $service = $this->_objectManager->get($serviceId);
-            $outputData = $service->$serviceMethod($arguments);
+            $outputData = $service->$serviceMethod($this->_prepareParameters($arguments));
             if (!is_array($outputData)) {
                 throw new LogicException(
                     sprintf('The method "%s" of service "%s" must return an array.', $serviceMethod, $serviceId)
@@ -94,12 +91,29 @@ class Magento_Webapi_Controller_Soap_Handler
     }
 
     /**
+     * Extract service method parameters from SOAP operation arguments.
+     *
+     * @param stdClass|array $arguments
+     * @return array
+     */
+    protected function _prepareParameters($arguments)
+    {
+        /** SoapServer wraps parameters into array. Thus this wrapping should be removed to get access to parameters. */
+        $arguments = reset($arguments);
+        $this->_associativeObjectToArray($arguments);
+        $arguments = get_object_vars($arguments);
+        return $arguments;
+    }
+
+    /**
      * Go through an object parameters and unpack associative object to array.
      *
-     * @param Object $obj - Link to Object
-     * @return Object
+     * This function uses recursion and operates by reference.
+     *
+     * @param stdClass|array $obj
+     * @return bool
      */
-    protected function _unpackArguments(&$obj)
+    protected function _associativeObjectToArray(&$obj)
     {
         if (is_object($obj)) {
             if (property_exists($obj, 'key') && property_exists($obj, 'value')) {
@@ -109,14 +123,14 @@ class Magento_Webapi_Controller_Soap_Handler
                 }
             } else {
                 foreach (array_keys(get_object_vars($obj)) as $key) {
-                    $this->_unpackArguments($obj->$key);
+                    $this->_associativeObjectToArray($obj->$key);
                 }
             }
         } else if (is_array($obj)) {
             $arr = array();
             $object = $obj;
             foreach ($obj as &$value) {
-                if ($this->_unpackArguments($value)) {
+                if ($this->_associativeObjectToArray($value)) {
                     array_walk($value, function ($val, $key) use (&$arr) {
                         $arr[$key] = $val;
                     });
