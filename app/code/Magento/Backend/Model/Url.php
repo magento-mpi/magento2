@@ -84,7 +84,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
             $coreConfig,
             $data
         );
-        $this->_startupMenuItemId = $storeConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM);
+        $this->_startupMenuItemId = $coreStoreConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM);
         $this->_backendHelper = $backendHelper;
         $this->_coreSession = $coreSession;
         $this->_coreHelper = $coreHelper;
