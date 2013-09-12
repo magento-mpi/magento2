@@ -9,27 +9,27 @@
  * @license     {license_link}
  */
 -->
-<install xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./install_wizard.xsd">
-    <wizard>
-            <step id="begin" controller="wizard" action="begin">
-                <label translate="true">License Agreement</label>
-            </step>
-            <step id="locale" controller="wizard" action="locale">
-                <label translate="true">Localization</label>
-            </step>
-            <step id="config" controller="wizard" action="config">
-                <label translate="true">Configuration</label>
-            </step>
-            <step id="administrator" controller="administrator" action="administrator">
-                <label translate="true">Create Admin Account</label>
-            </step>
-            <step id="end" controller="wizard" action="end">
-                <label translate="true">You're All Set!</label>
-            </step>
-    </wizard>
-    <filesystem_prerequisite>
-        <directory alias="etc" existence="true" recursive="false" writable="true" />
-        <directory alias="var" existence="true" recursive="true" writable="true" />
-        <directory alias="media" existence="true" recursive="true" writable="true" />
-    </filesystem_prerequisite>
-</install>
+<install_wizard xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./install_wizard.xsd">
+    <steps>
+        <step id="begin" controller="wizard" action="begin">
+            <label translate="true">License Agreement</label>
+        </step>
+        <step id="locale" controller="wizard" action="locale">
+            <label translate="true">Localization</label>
+        </step>
+        <step id="config" controller="wizard" action="config">
+            <label translate="true">Configuration</label>
+        </step>
+        <step id="administrator" controller="administrator" action="administrator">
+            <label translate="true">Create Admin Account</label>
+        </step>
+        <step id="end" controller="wizard" action="end">
+            <label translate="true">You're All Set!</label>
+        </step>
+    </steps>
+    <filesystem_prerequisites>
+        <directory alias="etc" recursive="false" existence="true" writable="true" />
+        <directory alias="var" recursive="true" existence="true" writable="true" />
+        <directory alias="media" recursive="true" existence="true" writable="true" />
+    </filesystem_prerequisites>
+</install_wizard>
