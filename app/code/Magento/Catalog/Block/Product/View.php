@@ -34,6 +34,7 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
     protected $_coreString = null;
 
     /**
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -42,6 +43,7 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Helper_String $coreString,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
@@ -50,7 +52,7 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
         array $data = array()
     ) {
         $this->_coreString = $coreString;
-        parent::__construct($taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
     }
 
     /**

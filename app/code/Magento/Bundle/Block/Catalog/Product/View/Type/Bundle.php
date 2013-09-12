@@ -36,6 +36,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
     protected $_catalogProduct = null;
 
     /**
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -44,6 +45,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
@@ -52,7 +54,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
-        parent::__construct($taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
     }
 
     public function getOptions()

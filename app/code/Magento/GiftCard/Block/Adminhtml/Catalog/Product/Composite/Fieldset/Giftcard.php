@@ -34,7 +34,7 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Giftca
         Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
-        parent::__construct($taxData, $catalogData, $coreData, $context, $registry, $data);
+        parent::__construct($registry, $taxData, $catalogData, $coreData, $context, $data);
         $this->_storeManager = $storeManager;
     }
 

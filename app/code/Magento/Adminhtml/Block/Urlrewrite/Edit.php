@@ -42,18 +42,18 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
     /**
      * Adminhtml data
      *
-     * @var Magento_Adminhtml_Helper_Data
+     * @var Magento_Backend_Helper_Data
      */
     protected $_adminhtmlData = null;
 
     /**
-     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param Magento_Backend_Helper_Data $adminhtmlData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Data $adminhtmlData,
+        Magento_Backend_Helper_Data $adminhtmlData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()

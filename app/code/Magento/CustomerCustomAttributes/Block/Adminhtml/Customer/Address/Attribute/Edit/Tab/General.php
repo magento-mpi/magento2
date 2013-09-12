@@ -33,6 +33,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
      * @param Magento_Eav_Helper_Data $eavData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -41,10 +42,11 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
         Magento_Eav_Helper_Data $eavData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
-        parent::__construct($formFactory, $eavData, $coreData, $context, $data);
+        parent::__construct($formFactory, $eavData, $coreData, $context, $registry, $data);
     }
 
     /**

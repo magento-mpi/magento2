@@ -34,13 +34,6 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Bac
     protected $_wysiwygConfig;
 
     /**
-     * Registry model
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_registryManager;
-
-    /**
      * Application model
      *
      * @var Magento_Core_Model_App
@@ -66,10 +59,9 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Bac
         array $data = array()
     ) {
         $this->_wysiwygConfigModel = $wysiwygConfig;
-        $this->_registryManager = $registry;
         $this->_app = $app;
 
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
 
@@ -124,7 +116,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Bac
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('banner_content_');
 
-        $model = $this->_registryManager->registry('current_banner');
+        $model = $this->_coreRegistry->registry('current_banner');
 
         $this->_eventManager->dispatch(
             'adminhtml_banner_edit_tab_content_before_prepare_form',
@@ -192,7 +184,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Bac
      */
     protected function _createStoreDefaultContentField($fieldset, $model, $form)
     {
-        $storeContents = $this->_registryManager->registry('current_banner')->getStoreContents();
+        $storeContents = $this->_coreRegistry->registry('current_banner')->getStoreContents();
         $isDisabled = (bool)$model->getIsReadonly() || ($model->getCanSaveAllStoreViewsContent() === false)
             || (isset($storeContents[0]) ? false : (!$model->getId() ? false : true));
         $isVisible = (bool)$model->getIsReadonly() || ($model->getCanSaveAllStoreViewsContent() === false);
@@ -221,7 +213,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Bac
      */
     protected function _createDefaultContentForStoresField($fieldset, $form, $model)
     {
-        $storeContents = $this->_registryManager->registry('current_banner')->getStoreContents();
+        $storeContents = $this->_coreRegistry->registry('current_banner')->getStoreContents();
         $onclickScript = "$('store_default_content').toggle(); \n $('"
             . $form->getHtmlIdPrefix() . "store_default_content').disabled = !$('"
             . $form->getHtmlIdPrefix() . "store_default_content').disabled;";
@@ -253,7 +245,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Bac
      */
     protected function _createStoresContentFieldset($form, $model)
     {
-        $storeContents = $this->_registryManager->registry('current_banner')->getStoreContents();
+        $storeContents = $this->_coreRegistry->registry('current_banner')->getStoreContents();
         $fieldset = $form->addFieldset('scopes_fieldset', array(
             'legend' => __('Store View Specific Content'),
             'class' => 'store-scope',

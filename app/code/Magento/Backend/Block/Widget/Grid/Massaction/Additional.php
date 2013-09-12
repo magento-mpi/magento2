@@ -25,6 +25,7 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Additional extends Magento_Ba
     protected $_handlerFactory;
 
     /**
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -32,13 +33,14 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Additional extends Magento_Ba
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Layout_Argument_HandlerFactory $handlerFactory,
         array $data = array()
     ) {
-        parent::__construct($formFactory,$coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
 
         $this->_handlerFactory = $handlerFactory;
     }

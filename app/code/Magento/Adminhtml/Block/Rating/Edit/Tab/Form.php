@@ -11,7 +11,7 @@
 /**
  * Poll edit form
  */
-class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block_Widget_Form
+class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Store manager instance
@@ -19,13 +19,6 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block
      * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
-
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
 
     /**
      * @param Magento_Data_Form_Factory $formFactory
@@ -43,9 +36,8 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $coreRegistry;
         $this->_storeManager = $storeManager;
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($coreRegistry, $formFactory, $coreData, $context, $data);
     }
 
 

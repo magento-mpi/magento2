@@ -36,6 +36,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -44,10 +45,11 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_adminhtmlSales = $adminhtmlSales;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
     }
 
     protected function _construct()
