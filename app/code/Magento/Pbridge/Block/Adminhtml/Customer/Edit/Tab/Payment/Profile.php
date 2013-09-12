@@ -48,17 +48,19 @@ class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
     /**
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Pbridge_Helper_Data $pbridgeData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Registry $registry,
         Magento_Pbridge_Helper_Data $pbridgeData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($pbridgeData, $context, $data);
+        parent::__construct($pbridgeData, $coreData, $context, $data);
     }
 
     /**

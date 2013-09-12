@@ -56,6 +56,7 @@ abstract class Magento_Wishlist_Block_Abstract extends Magento_Catalog_Block_Pro
     /**
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Wishlist_Helper_Data $wishlistData
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData

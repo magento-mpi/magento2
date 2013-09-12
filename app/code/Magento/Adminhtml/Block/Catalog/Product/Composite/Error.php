@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Error extends Magento_Co
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Helper $coreData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()

@@ -24,6 +24,7 @@ class Magento_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block_Cu
      * @param Magento_Catalog_Helper_Product_ConfigurationPool $helperPool
      * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
      * @param Magento_Wishlist_Helper_Data $wishlistData
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
@@ -34,6 +35,7 @@ class Magento_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block_Cu
         Magento_Catalog_Helper_Product_ConfigurationPool $helperPool,
         Magento_GiftRegistry_Helper_Data $giftRegistryData,
         Magento_Wishlist_Helper_Data $wishlistData,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
@@ -42,7 +44,7 @@ class Magento_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block_Cu
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         parent::__construct(
-            $helperPool, $wishlistData, $taxData, $catalogData, $coreData, $context, $data
+            $helperPool, $wishlistData, $coreRegistry, $taxData, $catalogData, $coreData, $context, $data
         );
     }
 
