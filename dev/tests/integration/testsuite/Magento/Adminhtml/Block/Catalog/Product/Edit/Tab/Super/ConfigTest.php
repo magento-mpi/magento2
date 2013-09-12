@@ -19,7 +19,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_ConfigTest extends 
      */
     public function testGetSelectedAttributesForSimpleProductType()
     {
-        Mage::register('current_product', Mage::getModel('Magento_Catalog_Model_Product'));
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')
+            ->register('current_product', Mage::getModel('Magento_Catalog_Model_Product'));
         /** @var $block Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config */
         $block = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config');
         $this->assertEquals(array(), $block->getSelectedAttributes());
@@ -31,7 +34,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_ConfigTest extends 
      */
     public function testGetSelectedAttributesForConfigurableProductType()
     {
-        Mage::register('current_product', Mage::getModel('Magento_Catalog_Model_Product')->load(1));
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')
+            ->register('current_product', Mage::getModel('Magento_Catalog_Model_Product')->load(1));
         Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text', 'head');
         $usedAttribute = Mage::getSingleton('Magento_Catalog_Model_Entity_Attribute')->loadByCode(
             Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('catalog_product')->getId(),

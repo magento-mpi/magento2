@@ -57,7 +57,7 @@ class Magento_Backend_Block_Widget_ButtonTest extends PHPUnit_Framework_TestCase
             'layout' => $this->_layoutMock
         );
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_blockMock =
             $objectManagerHelper->getObject('Magento_Backend_Block_Widget_Button', $arguments);
     }

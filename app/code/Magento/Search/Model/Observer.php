@@ -8,15 +8,27 @@
  * @license     {license_link}
  */
 
- /**
+/**
  * Enterprise search model observer
- *
- * @category   Magento
- * @package    Magento_Search
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Search_Model_Observer
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+    }
+
     /**
      * Add search weight field to attribute edit form (only for quick search)
      * @see Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
@@ -87,62 +99,6 @@ class Magento_Search_Model_Observer
             Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext')
                 ->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         }
-    }
-
-    /**
-     * Hold commit at indexation start if needed
-     *
-     * @param Magento_Event_Observer $observer
-     */
-    public function holdCommit(Magento_Event_Observer $observer)
-    {
-        if (!Mage::helper('Magento_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
-            return;
-        }
-
-        $engine = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine();
-        if (!$engine->holdCommit()) {
-            return;
-        }
-
-        /*
-         * Index needs to be optimized if all products were affected
-         */
-        $productIds = $observer->getEvent()->getProductIds();
-        if (is_null($productIds)) {
-            $engine->setIndexNeedsOptimization();
-        }
-    }
-
-    /**
-     * Apply changes in search engine index.
-     * Make index optimization if documents were added to index.
-     * Allow commit if it was held.
-     *
-     * @param Magento_Event_Observer $observer
-     */
-    public function applyIndexChanges(Magento_Event_Observer $observer)
-    {
-        if (!Mage::helper('Magento_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
-            return;
-        }
-
-        $engine = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine();
-        if (!$engine->allowCommit()) {
-            return;
-        }
-
-        if ($engine->getIndexNeedsOptimization()) {
-            $engine->optimizeIndex();
-        } else {
-            $engine->commitChanges();
-        }
-
-        /**
-         * Cleaning MAXPRICE cache
-         */
-        $cacheTag = Mage::getSingleton('Magento_Search_Model_Catalog_Layer_Filter_Price')->getCacheTag();
-        Mage::app()->cleanCache(array($cacheTag));
     }
 
     /**
@@ -228,7 +184,7 @@ class Magento_Search_Model_Observer
     public function resetCurrentCatalogLayer(Magento_Event_Observer $observer)
     {
         if (Mage::helper('Magento_Search_Helper_Data')->getIsEngineAvailableForNavigation()) {
-            Mage::register('current_layer', Mage::getSingleton('Magento_Search_Model_Catalog_Layer'));
+            $this->_coreRegistry->register('current_layer', Mage::getSingleton('Magento_Search_Model_Catalog_Layer'));
         }
     }
 
@@ -240,7 +196,7 @@ class Magento_Search_Model_Observer
     public function resetCurrentSearchLayer(Magento_Event_Observer $observer)
     {
         if (Mage::helper('Magento_Search_Helper_Data')->getIsEngineAvailableForNavigation(false)) {
-            Mage::register('current_layer', Mage::getSingleton('Magento_Search_Model_Search_Layer'));
+            $this->_coreRegistry->register('current_layer', Mage::getSingleton('Magento_Search_Model_Search_Layer'));
         }
     }
 

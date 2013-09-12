@@ -18,6 +18,25 @@ class Magento_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Magento_Adminh
     protected $_entityType;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Return RMA Item Entity Type instance
      *
      * @return Magento_Eav_Model_Entity_Type
@@ -121,7 +140,7 @@ class Magento_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Magento_Adminh
             $attributeObject->setData($attributeData);
         }
         $attributeObject->setCanManageOptionLabels(true);
-        Mage::register('entity_attribute', $attributeObject);
+        $this->_coreRegistry->register('entity_attribute', $attributeObject);
 
         $label = $attributeObject->getId()
             ? __('Edit Return Item Attribute')
@@ -242,10 +261,6 @@ class Magento_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Magento_Adminh
             $attributeObject->setCanManageOptionLabels(true);
 
             try {
-                $this->_eventManager->dispatch('magento_rma_item_attribute_before_save', array(
-                    'attribute' => $attributeObject
-                ));
-
                 $attributeObject->save();
 
                 $this->_getSession()->addSuccess(

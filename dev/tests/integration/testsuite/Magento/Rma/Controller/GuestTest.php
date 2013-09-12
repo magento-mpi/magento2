@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Controller_GuestTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Rma_Controller_GuestTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * @param string $uri

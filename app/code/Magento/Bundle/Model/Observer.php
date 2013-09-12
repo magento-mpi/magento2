@@ -130,26 +130,6 @@ class Magento_Bundle_Model_Observer
     }
 
     /**
-     * Append selection attributes to selection's order item
-     *
-     * @param Magento_Object $observer
-     * @return Magento_Bundle_Model_Observer
-     */
-    public function appendBundleSelectionData($observer)
-    {
-        $orderItem = $observer->getEvent()->getOrderItem();
-        $quoteItem = $observer->getEvent()->getItem();
-
-        if ($attributes = $quoteItem->getProduct()->getCustomOption('bundle_selection_attributes')) {
-            $productOptions = $orderItem->getProductOptions();
-            $productOptions['bundle_selection_attributes'] = $attributes->getValue();
-            $orderItem->setProductOptions($productOptions);
-        }
-
-        return $this;
-    }
-
-    /**
      * Add price index data for catalog product collection
      * only for front end
      *

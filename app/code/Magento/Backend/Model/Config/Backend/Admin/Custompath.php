@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Config backend model for "Custom Admin Path" option
  *
@@ -27,7 +26,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Custompath extends Magento_Core
     {
         if ($this->getOldValue() != $this->getValue()) {
             Mage::helper('Magento_Backend_Helper_Data')->clearAreaFrontName();
-            Mage::register('custom_admin_path_redirect', true, true);
+            $this->_coreRegistry->register('custom_admin_path_redirect', true, true);
         }
         return $this;
     }

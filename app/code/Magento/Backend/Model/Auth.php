@@ -161,7 +161,6 @@ class Magento_Backend_Model_Auth
     public function logout()
     {
         $this->getAuthStorage()->processLogout();
-        Mage::dispatchEvent('admin_session_user_logout');
     }
 
     /**

@@ -59,11 +59,6 @@ class Magento_FullPageCache_Model_Container_Accountlinks extends Magento_FullPag
                     );
                 }
             }
-        } else {
-            Mage::dispatchEvent('render_block_accountlinks', array(
-                'block' => $block,
-                'placeholder' => $this->_placeholder,
-            ));
         }
         Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
 

@@ -23,7 +23,7 @@ class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_Test
 
     public function setUp()
     {
-        $this->_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_endpointResource = $this->_objectManager->get('Magento_Webhook_Model_Resource_Endpoint');
     }
 

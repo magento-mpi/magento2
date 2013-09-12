@@ -18,15 +18,29 @@
 class Magento_AdvancedCheckout_Block_Adminhtml_Customer_Edit_Buttons extends Magento_Adminhtml_Block_Customer_Edit
 {
     /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $data);
+    }
+
+    /**
      * Add "Manage Shopping Cart" button on customer management page
      *
      * @return Magento_AdvancedCheckout_Block_Adminhtml_Customer_Edit_Buttons
      */
     public function addButtons()
     {
+        $customer = $this->_coreRegistry->registry('current_customer');
         if (!$this->_authorization->isAllowed('Magento_AdvancedCheckout::view')
             && !$this->_authorization->isAllowed('Magento_AdvancedCheckout::update')
-            || Mage::app()->getStore()->getWebsiteId() == Mage::registry('current_customer')->getWebsiteId()
+            || Mage::app()->getStore()->getWebsiteId() == $customer->getWebsiteId()
         ) {
             return $this;
         }

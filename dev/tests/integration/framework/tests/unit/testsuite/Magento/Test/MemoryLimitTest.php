@@ -10,7 +10,7 @@ class Magento_Test_MemoryLimitTest extends PHPUnit_Framework_TestCase
 {
     public function testPrintHeader()
     {
-        $result = Magento_Test_MemoryLimit::printHeader();
+        $result = Magento_TestFramework_MemoryLimit::printHeader();
         $this->assertNotEmpty($result);
         $this->assertStringEndsWith(PHP_EOL, $result);
     }
@@ -50,12 +50,13 @@ class Magento_Test_MemoryLimitTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $memCap
      * @param string $leakCap
-     * @return Magento_Test_MemoryLimit
+     * @return Magento_TestFramework_MemoryLimit
      */
     protected function _createObject($memCap, $leakCap)
     {
-        $helper = $this->getMock('Magento_Test_Helper_Memory', array('getRealMemoryUsage'), array(), '', false);
+        $helper = $this->getMock(
+            'Magento_TestFramework_Helper_Memory', array('getRealMemoryUsage'), array(), '', false);
         $helper->expects($this->any())->method('getRealMemoryUsage')->will($this->returnValue(1024 * 1024));
-        return new Magento_Test_MemoryLimit($memCap, $leakCap, $helper);
+        return new Magento_TestFramework_MemoryLimit($memCap, $leakCap, $helper);
     }
 }

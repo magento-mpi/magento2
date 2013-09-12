@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Install_IndexTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Install_IndexTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     public function testIndexAction()
     {

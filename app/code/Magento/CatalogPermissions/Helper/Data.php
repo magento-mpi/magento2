@@ -39,24 +39,6 @@ class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstrac
     }
 
     /**
-     * Check category permission is allowed
-     *
-     * @param Magento_Catalog_Model_Category $category
-     * @return boolean
-     */
-    public function isAllowedCategory($category)
-    {
-        $options = new Magento_Object();
-        $options->setCategory($category);
-        $options->setIsAllowed(true);
-
-        Mage::dispatchEvent('magento_catalog_permissions_is_allowed_category', array('options' => $options));
-
-        return $options->getIsAllowed();
-    }
-
-
-    /**
      * Retrieve config value for category access permission
      *
      * @param int $customerGroupId

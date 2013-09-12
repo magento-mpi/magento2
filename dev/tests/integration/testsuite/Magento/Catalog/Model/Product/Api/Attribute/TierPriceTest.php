@@ -34,7 +34,7 @@ class Magento_Catalog_Model_Product_Api_Attribute_TierPriceTest extends PHPUnit_
      */
     public function testUpdate()
     {
-        $result = Magento_Test_Helper_Api::call(
+        $result = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductAttributeTierPriceUpdate',
             array(

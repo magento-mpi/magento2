@@ -18,6 +18,27 @@
 class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magento_Adminhtml_Block_Catalog_Form
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Load Wysiwyg on demand and prepare layout
      */
     protected function _prepareLayout()
@@ -41,8 +62,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
         $group = $this->getGroup();
         if ($group) {
             $form = new Magento_Data_Form();
-            $product = Mage::registry('product');
-            $isWrapped = Mage::registry('use_wrapper');
+            $product = $this->_coreRegistry->registry('product');
+            $isWrapped = $this->_coreRegistry->registry('use_wrapper');
             if (!isset($isWrapped)) {
                 $isWrapped = true;
             }

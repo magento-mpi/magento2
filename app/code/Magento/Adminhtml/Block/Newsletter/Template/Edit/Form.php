@@ -18,6 +18,26 @@
  */
 class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
 
     /**
      * Retrieve template object
@@ -26,7 +46,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Admi
      */
     public function getModel()
     {
-        return Mage::registry('_current_template');
+        return $this->_coreRegistry->registry('_current_template');
     }
 
     /**
@@ -80,7 +100,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Admi
             'label'     => __('Sender Name'),
             'title'     => __('Sender Name'),
             'required'  => true,
-            'value'     => $model->getId() !== null 
+            'value'     => $model->getId() !== null
                 ? $model->getTemplateSenderName()
                 : $identityName,
         ));
@@ -91,7 +111,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Admi
             'title'     => __('Sender Email'),
             'class'     => 'validate-email',
             'required'  => true,
-            'value'     => $model->getId() !== null 
+            'value'     => $model->getId() !== null
                 ? $model->getTemplateSenderEmail()
                 : $identityEmail
         ));

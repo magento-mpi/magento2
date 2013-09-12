@@ -23,7 +23,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
         $model = new Magento_Catalog_Model_Resource_Eav_Attribute(
-            Mage::getModel('Magento_Core_Model_Context')
+            Mage::getModel('Magento_Core_Model_Context'),
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Registry')
         );
         $model->load($postData['attribute_id']);
         $this->assertNull($model->getData('apply_to'));
@@ -38,7 +39,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
         $model = new Magento_Catalog_Model_Resource_Eav_Attribute(
-            Mage::getModel('Magento_Core_Model_Context')
+            Mage::getModel('Magento_Core_Model_Context'),
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Registry')
         );
         $model->load($postData['attribute_id']);
         $this->assertEquals('simple,configurable', $model->getData('apply_to'));
@@ -54,7 +56,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
         $model = new Magento_Catalog_Model_Resource_Eav_Attribute(
-            Mage::getModel('Magento_Core_Model_Context')
+            Mage::getModel('Magento_Core_Model_Context'),
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Registry')
         );
         $model->load($postData['attribute_id']);
         $this->assertEquals(array('simple', 'configurable'), $model->getApplyTo());
@@ -98,7 +101,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
     {
         // emulate admin store and design
         Mage::app()->setCurrentStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
-        Mage::getDesign()->setDesignTheme(1);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->setDesignTheme(1);
         /** @var Magento_Core_Model_Translate $translate */
         $translate = Mage::getModel('Magento_Core_Model_Translate');
         $translate->init(Magento_Backend_Helper_Data::BACKEND_AREA_CODE, null);

@@ -126,24 +126,6 @@ class Magento_WebsiteRestriction_Model_Observer
     }
 
     /**
-     * Attempt to disallow customers registration
-     *
-     * @param Magento_Event_Observer $observer
-     */
-    public function restrictCustomersRegistration($observer)
-    {
-        $result = $observer->getEvent()->getResult();
-        if ((!Mage::app()->getStore()->isAdmin()) && $result->getIsAllowed()) {
-            $restrictionMode = (int)Mage::getStoreConfig(
-                Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_MODE
-            );
-            $result->setIsAllowed((!Mage::helper('Magento_WebsiteRestriction_Helper_Data')->getIsRestrictionEnabled())
-                || (Magento_WebsiteRestriction_Model_Mode::ALLOW_REGISTER === $restrictionMode)
-            );
-        }
-    }
-
-    /**
      * Make layout load additional handler when in private sales mode
      *
      * @param Magento_Event_Observer $observer

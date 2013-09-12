@@ -20,10 +20,21 @@ class Magento_GiftRegistry_Model_Observer
     protected $_isEnabled;
 
     /**
-     * Class constructor
+     * Design package instance
+     *
+     * @var Magento_Core_Model_View_DesignInterface
      */
-    public function __construct()
-    {
+    protected $_design = null;
+
+    /**
+     * Class constructor
+     *
+     * @param Magento_Core_Model_View_DesignInterface $design
+     */
+    public function __construct(
+        Magento_Core_Model_View_DesignInterface $design
+    ) {
+        $this->_design = $design;
         $this->_isEnabled = Mage::helper('Magento_GiftRegistry_Helper_Data')->isEnabled();
     }
 
@@ -112,7 +123,7 @@ class Magento_GiftRegistry_Model_Observer
      */
     public function addressFormatAdmin($observer)
     {
-        if (Mage::getDesign()->getArea() == Magento_Core_Model_App_Area::AREA_FRONTEND) {
+        if ($this->_design->getArea() == Magento_Core_Model_App_Area::AREA_FRONTEND) {
             $this->_addressFormat($observer);
         }
         return $this;
@@ -136,29 +147,6 @@ class Magento_GiftRegistry_Model_Observer
             $type->setDefaultFormat(__("Ship to the recipient's address."));
         } elseif ($type->getPrevFormat()) {
             $type->setDefaultFormat($type->getPrevFormat());
-        }
-        return $this;
-    }
-
-    /**
-     * Copy gift registry item id flag from quote item to order item
-     *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GiftRegistry_Model_Observer
-     */
-    public function convertItems($observer)
-    {
-        $orderItem = $observer->getEvent()->getOrderItem();
-        $item = $observer->getEvent()->getItem();
-
-        if ($item instanceof Magento_Sales_Model_Quote_Address_Item) {
-            $registryItemId = $item->getQuoteItem()->getGiftregistryItemId();
-        } else {
-            $registryItemId = $item->getGiftregistryItemId();
-        }
-
-        if ($registryItemId) {
-            $orderItem->setGiftregistryItemId($registryItemId);
         }
         return $this;
     }

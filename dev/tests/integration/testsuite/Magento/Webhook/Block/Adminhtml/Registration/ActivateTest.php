@@ -19,7 +19,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_ActivateTest extends PHPUnit_
     {
         // Data for the block object
         $topics = array('array', 'of', 'topics');
-        $subscriptionId = Magento_Test_Helper_Bootstrap::getObjectManager()
+        $subscriptionId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Webhook_Model_Subscription')
             ->setDataChanges(true)
             ->save()
@@ -31,15 +31,16 @@ class Magento_Webhook_Block_Adminhtml_Registration_ActivateTest extends PHPUnit_
         );
 
         /** @var Magento_Core_Model_Registry $registry */
-        $registry = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Registry');
+        $registry = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Registry');
         $registry->register(Magento_Webhook_Block_Adminhtml_Registration_Activate::REGISTRY_KEY_CURRENT_SUBSCRIPTION,
             $subscriptionData);
 
         /** @var Magento_Core_Block_Template_Context $context */
-        $context = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Block_Template_Context');
+        $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Block_Template_Context');
 
         /** @var Magento_Webhook_Block_Adminhtml_Registration_Activate $block */
-        $block = Magento_Test_Helper_Bootstrap::getObjectManager()
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Webhook_Block_Adminhtml_Registration_Activate', array($context, $registry));
 
         $urlBuilder = $context->getUrlBuilder();

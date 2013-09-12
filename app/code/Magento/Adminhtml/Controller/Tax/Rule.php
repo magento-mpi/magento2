@@ -17,10 +17,28 @@
  */
 class Magento_Adminhtml_Controller_Tax_Rule extends Magento_Adminhtml_Controller_Action
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
     public function indexAction()
     {
         $this->_title(__('Tax Rules'));
-
         $this->_initAction();
         $this->renderLayout();
 
@@ -55,7 +73,7 @@ class Magento_Adminhtml_Controller_Tax_Rule extends Magento_Adminhtml_Controller
 
         $this->_title($ruleModel->getId() ? sprintf("%s", $ruleModel->getCode()) : __('New Tax Rule'));
 
-        Mage::register('tax_rule', $ruleModel);
+        $this->_coreRegistry->register('tax_rule', $ruleModel);
 
         $this->_initAction()
             ->_addBreadcrumb($taxRuleId ? __('Edit Rule') :  __('New Rule'), $taxRuleId ?  __('Edit Rule') :  __('New Rule'))
@@ -64,7 +82,8 @@ class Magento_Adminhtml_Controller_Tax_Rule extends Magento_Adminhtml_Controller
 
     public function saveAction()
     {
-        if ($postData = $this->getRequest()->getPost()) {
+        $postData = $this->getRequest()->getPost();
+        if ($postData) {
 
             $ruleModel = Mage::getSingleton('Magento_Tax_Model_Calculation_Rule');
             $ruleModel->setData($postData);
@@ -81,11 +100,9 @@ class Magento_Adminhtml_Controller_Tax_Rule extends Magento_Adminhtml_Controller
 
                 $this->_redirect('*/*/');
                 return;
-            }
-            catch (Magento_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('Something went wrong saving this tax rule.'));
             }
 
@@ -114,11 +131,9 @@ class Magento_Adminhtml_Controller_Tax_Rule extends Magento_Adminhtml_Controller
             $this->_redirect('*/*/');
 
             return;
-        }
-        catch (Magento_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('Something went wrong deleting this tax rule.'));
         }
 
@@ -135,8 +150,7 @@ class Magento_Adminhtml_Controller_Tax_Rule extends Magento_Adminhtml_Controller
         $this->loadLayout()
             ->_setActiveMenu('Magento_Tax::sales_tax_rules')
             ->_addBreadcrumb(__('Tax'), __('Tax'))
-            ->_addBreadcrumb(__('Tax Rules'), __('Tax Rules'))
-        ;
+            ->_addBreadcrumb(__('Tax Rules'), __('Tax Rules'));
         return $this;
     }
 

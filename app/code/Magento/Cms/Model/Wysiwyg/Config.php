@@ -36,17 +36,33 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
     protected $_viewUrl;
 
     /**
+     * @var Magento_Core_Model_Variable_Config
+     */
+    protected $_variableConfig;
+
+    /**
+     * @var Magento_Widget_Model_Widget_Config
+     */
+    protected $_widgetConfig;
+
+    /**
      * @param Magento_AuthorizationInterface $authorization
      * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_Variable_Config $variableConfig
+     * @param Magento_Widget_Model_Widget_Config $widgetConfig
      * @param array $data
      */
     public function __construct(
         Magento_AuthorizationInterface $authorization,
         Magento_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_Variable_Config $variableConfig,
+        Magento_Widget_Model_Widget_Config $widgetConfig,
         array $data = array()
     ) {
         $this->_authorization = $authorization;
         $this->_viewUrl = $viewUrl;
+        $this->_variableConfig = $variableConfig;
+        $this->_widgetConfig = $widgetConfig;
         parent::__construct($data);
     }
 
@@ -106,7 +122,15 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
             $config->addData($data);
         }
 
-        Mage::dispatchEvent('cms_wysiwyg_config_prepare', array('config' => $config));
+        if ($config->getData('add_variables')) {
+            $settings = $this->_variableConfig->getWysiwygPluginSettings($config);
+            $config->addData($settings);
+        }
+
+        if ($config->getData('add_widgets')) {
+            $settings = $this->_widgetConfig->getPluginSettings($config);
+            $config->addData($settings);
+        }
 
         return $config;
     }

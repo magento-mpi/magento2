@@ -31,7 +31,8 @@
  */
 class Magento_GiftRegistry_Model_Person extends Magento_Core_Model_Abstract
 {
-    function _construct() {
+    function _construct()
+    {
         $this->_init('Magento_GiftRegistry_Model_Resource_Person');
     }
 
@@ -75,7 +76,8 @@ class Magento_GiftRegistry_Model_Person extends Magento_Core_Model_Abstract
      *
      * @return $this
      */
-    public function unserialiseCustom() {
+    public function unserialiseCustom()
+    {
         if (is_string($this->getCustomValues())) {
             $this->setCustom(unserialize($this->getCustomValues()));
         }

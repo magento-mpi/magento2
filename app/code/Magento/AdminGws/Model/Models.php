@@ -320,26 +320,6 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     }
 
     /**
-     * Catalog product validate after add|remove to|from websites on mass update attributes
-     *
-     * @param Magento_Event_Observer $observer
-     */
-    public function catalogProductActionWithWebsitesAfter(Magento_Event_Observer $observer)
-    {
-        if ($this->_role->getIsAll()) {
-            return ;
-        }
-        if (in_array($observer->getEvent()->getAction(), array('remove', 'add'))) {
-            if (!$this->_role->getIsWebsiteLevel()) {
-                $this->_throwSave();
-            }
-            if (!$this->_role->hasWebsiteAccess($observer->getWebsiteIds(), true)) {
-                $this->_throwSave();
-            }
-        }
-    }
-
-    /**
      * Catalog product validate after
      *
      * @param Magento_Event_Observer $observer
@@ -744,43 +724,6 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
             if ($this->_role->hasStoreAccess($model->getStoreId())) {
                 $model->setImageReadonly(false);
             }
-        }
-    }
-
-    /**
-     * Check whether category can be moved
-     *
-     * @param Magento_Event_Observer $observer
-     */
-    public function catalogCategoryMoveBefore($observer)
-    {
-        if ($this->_role->getIsAll()) {
-            return;
-        }
-
-        $parentCategory = $observer->getEvent()->getParent();
-        $currentCategory = $observer->getEvent()->getCategory();
-
-        foreach (array($parentCategory, $currentCategory) as $category) {
-            if (!$this->_role->hasExclusiveCategoryAccess($category->getData('path'))) {
-                $this->_throwSave();
-            }
-        }
-    }
-
-    /**
-     * Check whether catalog permissions can be edited per category
-     *
-     * @param Magento_Event_Observer $observer
-     */
-    public function catalogCategoryIsCatalogPermissionsAllowed($observer)
-    {
-        if ($this->_role->getIsAll()) {
-            return;
-        }
-        if (!$this->_role->hasExclusiveCategoryAccess(
-            $observer->getEvent()->getOptions()->getCategory()->getPath())) {
-            $observer->getEvent()->getOptions()->setIsAllowed(false);
         }
     }
 

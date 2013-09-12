@@ -30,10 +30,27 @@ class Magento_VersionsCms_Model_Observer
     protected $_authorization;
 
     /**
-     * Constructor
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
      */
-    public function __construct(Magento_VersionsCms_Model_Config $config, Magento_AuthorizationInterface $authorization)
-    {
+    protected $_coreRegistry = null;
+
+    /**
+     * Constructor
+     *
+     *
+     *
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param  $config
+     * @param  $authorization
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_VersionsCms_Model_Config $config,
+        Magento_AuthorizationInterface $authorization
+    ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_config = $config;
         $this->_authorization = $authorization;
     }
@@ -63,7 +80,7 @@ class Magento_VersionsCms_Model_Observer
          * Adding link to current published revision
          */
         /* @var $page Magento_VersionsCms_Model_Page */
-        $page = Mage::registry('cms_page');
+        $page = $this->_coreRegistry->registry('cms_page');
         $revisionAvailable = false;
         if ($page) {
 
@@ -183,7 +200,7 @@ class Magento_VersionsCms_Model_Observer
             }
 
             // register hierarchy and node
-            Mage::register('current_cms_hierarchy_node', $node);
+            $this->_coreRegistry->register('current_cms_hierarchy_node', $node);
 
             $condition->setContinue(true);
             $condition->setIdentifier($node->getPageIdentifier());
@@ -428,20 +445,6 @@ class Magento_VersionsCms_Model_Observer
     }
 
     /**
-     * Modify status's label from 'Enabled' to 'Published'.
-     *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_VersionsCms_Model_Observer
-     */
-    public function modifyPageStatuses(Magento_Event_Observer $observer)
-    {
-        $statuses = $observer->getEvent()->getStatuses();
-        $statuses->setData(Magento_Cms_Model_Page::STATUS_ENABLED, __('Published'));
-
-        return $this;
-    }
-
-    /**
      * Removing unneeded data from increment table for removed page.
      *
      * @param $observer
@@ -506,12 +509,12 @@ class Magento_VersionsCms_Model_Observer
     {
         /* @var $helper Magento_VersionsCms_Helper_Hierarchy */
         $helper = Mage::helper('Magento_VersionsCms_Helper_Hierarchy');
-        if (!is_object(Mage::registry('current_cms_hierarchy_node')) || !$helper->isEnabled()) {
+        if (!is_object($this->_coreRegistry->registry('current_cms_hierarchy_node')) || !$helper->isEnabled()) {
             return $this;
         }
 
         /* @var $node Magento_VersionsCms_Model_Hierarchy_Node */
-        $node = Mage::registry('current_cms_hierarchy_node');
+        $node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
 
         /* @var $action Magento_Core_Controller_Varien_Action */
         $action = $observer->getEvent()->getControllerAction();
@@ -607,7 +610,7 @@ class Magento_VersionsCms_Model_Observer
      */
     protected function _isCmsNodeActive($cmsNode)
     {
-        $currentNode = Mage::registry('current_cms_hierarchy_node');
+        $currentNode = $this->_coreRegistry->registry('current_cms_hierarchy_node');
 
         if (!$currentNode) {
             return false;

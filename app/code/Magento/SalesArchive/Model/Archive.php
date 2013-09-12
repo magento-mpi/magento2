@@ -216,11 +216,6 @@ class Magento_SalesArchive_Model_Archive
                 $this->_getResource()->rollBack();
                 throw $e;
             }
-
-            Mage::dispatchEvent(
-                'magento_salesarchive_archive_remove_orders_from_archive',
-                array('order_ids' => $orderIds)
-            );
         }
 
         return $orderIds;

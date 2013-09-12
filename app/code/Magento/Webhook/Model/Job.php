@@ -45,6 +45,7 @@ class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements M
      * @param Magento_Webhook_Model_Event_Factory $eventFactory
      * @param Magento_Webhook_Model_Subscription_Factory $subscriptionFactory
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -53,13 +54,14 @@ class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements M
         Magento_Webhook_Model_Event_Factory $eventFactory,
         Magento_Webhook_Model_Subscription_Factory $subscriptionFactory,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventFactory = $eventFactory;
         $this->_subscriptionFactory = $subscriptionFactory;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $coreRegistry, $resource, $resourceCollection, $data);
     }
 
     /**

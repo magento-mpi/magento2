@@ -30,7 +30,6 @@ class Magento_Catalog_Helper_Output extends Magento_Core_Helper_Abstract
     public function __construct(Magento_Core_Helper_Context $context)
     {
         parent::__construct($context);
-        Mage::dispatchEvent('catalog_helper_output_construct', array('helper'=>$this));
     }
 
     protected function _getTemplateProcessor()

@@ -114,6 +114,13 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
     protected $_storeManager;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction
      * @param Magento_FullPageCache_Model_Cache $fpcCache
      * @param Magento_FullPageCache_Model_Cache_SubProcessorFactory $subProcessorFactory
@@ -125,6 +132,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
      * @param Magento_FullPageCache_Model_Metadata $metadata
      * @param Magento_FullPageCache_Model_Store_Identifier $storeIdentifier
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
         Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction,
@@ -137,8 +145,10 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
         Magento_FullPageCache_Model_DesignPackage_Info $designInfo,
         Magento_FullPageCache_Model_Metadata $metadata,
         Magento_FullPageCache_Model_Store_Identifier $storeIdentifier,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_containerFactory = $containerFactory;
         $this->_placeholderFactory = $placeholderFactory;
         $this->_subProcessorFactory = $subProcessorFactory;
@@ -341,8 +351,8 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
         if ($isProcessed) {
             return $content;
         } else {
-            Mage::register('cached_page_content', $content);
-            Mage::register('cached_page_containers', $containers);
+            $this->_coreRegistry->register('cached_page_content', $content);
+            $this->_coreRegistry->register('cached_page_containers', $containers);
             $request->setModuleName('pagecache')
                 ->setControllerName('request')
                 ->setActionName('process')
@@ -492,8 +502,6 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
                 $this->_metadata->setMetadata('sid_cookie_name',
                     Mage::getSingleton('Magento_Core_Model_Session')->getSessionName()
                 );
-
-                Mage::dispatchEvent('pagecache_processor_metadata_before_save', array('processor' => $this));
 
                 $this->_metadata->saveMetadata($this->getRequestTags());
             }

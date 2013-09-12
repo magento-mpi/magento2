@@ -31,7 +31,7 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_TreeTest extends PHPUnit_Frame
         $this->_helperStorage = $this->getMock('Magento_Theme_Helper_Storage', array(), array(), '', false);
         $this->_urlBuilder = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false);
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $constructArguments =  $objectManagerHelper->getConstructArguments(
             'Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content',
             array('urlBuilder'    => $this->_urlBuilder)
