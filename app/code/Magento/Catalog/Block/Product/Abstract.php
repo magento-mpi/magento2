@@ -100,7 +100,7 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_codeRegistry = $coreRegistry;
+        $this->_coreRegistry = $coreRegistry;
         $this->_taxData = $taxData;
         $this->_catalogData = $catalogData;
         parent::__construct($coreData, $context, $data);
