@@ -30,7 +30,7 @@ class Magento_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_factoryMock = $this->getMock("\Magento\Backend\Model\Menu\Item\Factory", array(), array(), '', false);
+        $this->_factoryMock = $this->getMock("Magento\Backend\Model\Menu\Item\Factory", array(), array(), '', false);
         $this->_menuMock = $this->getMock('Magento\Backend\Model\Menu', array(),
             array($this->getMock('Magento\Core\Model\Logger', array(), array(), '', false)));
 
@@ -56,11 +56,11 @@ class Magento_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
 
     public function testGetResultBuildsTreeStructure()
     {
-        $item1 = $this->getMock("\Magento\Backend\Model\Menu\Item", array(), array(), '', false);
+        $item1 = $this->getMock("Magento\Backend\Model\Menu\Item", array(), array(), '', false);
         $item1->expects($this->once())->method('getChildren')->will($this->returnValue($this->_menuMock));
         $this->_factoryMock->expects($this->any())->method('create')->will($this->returnValue($item1));
 
-        $item2 = $this->getMock("\Magento\Backend\Model\Menu\Item", array(), array(), '', false);
+        $item2 = $this->getMock("Magento\Backend\Model\Menu\Item", array(), array(), '', false);
         $this->_factoryMock->expects($this->at(1))->method('create')->will($this->returnValue($item2));
 
         $this->_menuMock->expects($this->at(0))
@@ -131,7 +131,7 @@ class Magento_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
      */
     public function testGetResultSkipItemsWithInvalidParent()
     {
-        $item1 = $this->getMock("\Magento\Backend\Model\Menu\Item", array(), array(), '', false);
+        $item1 = $this->getMock("Magento\Backend\Model\Menu\Item", array(), array(), '', false);
         $this->_factoryMock->expects($this->any())->method('create')
             ->will($this->returnValue($item1));
 

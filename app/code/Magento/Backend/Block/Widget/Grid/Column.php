@@ -95,7 +95,7 @@ class Column extends \Magento\Backend\Block\Widget
         'skip-list' => '\Magento\Backend\Block\Widget\Grid\Column\Filter\SkipList',
         'store' => '\Magento\Backend\Block\Widget\Grid\Column\Filter\Store',
         'theme' => '\Magento\Backend\Block\Widget\Grid\Column\Filter\Theme',
-        'default' => '\Magento\Backend\Block\Widget\Grid\Column\Filter\Text',
+        'default' => 'Magento\Backend\Block\Widget\Grid\Column\Filter\Text',
     );
 
     /**

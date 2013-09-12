@@ -56,7 +56,7 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
         );
         $moduleList = $this->_objectManager->create(
             '\Magento\Core\Model\ModuleList',
-            array('reader' => $filesystemReader, 'cache' => $this->getMock("\Magento\Config\CacheInterface"))
+            array('reader' => $filesystemReader, 'cache' => $this->getMock("Magento\Config\CacheInterface"))
         );
 
         /**
