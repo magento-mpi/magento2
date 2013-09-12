@@ -25,16 +25,24 @@ class Magento_Newsletter_Model_TemplateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     //* @magentoConfigFixture install/design/theme/full_name   magento_basic
-     //* @magentoConfigFixture adminhtml/design/theme/full_name magento_basic
-     //* @magentoConfigFixture current_store design/theme/full_name magento_iphone
-     //* @magentoConfigFixture fixturestore_store design/theme/full_name magento_blank
+     * This test expects next themes for areas:
+     * install/design/theme/full_name   magento_basic
+     * adminhtml/design/theme/full_name magento_basic
+     * current_store design/theme/full_name magento_iphone
+     * fixturestore_store design/theme/full_name magento_blank
+     *
      * @magentoAppIsolation  enabled
      * @dataProvider         getProcessedTemplateDataProvider
      */
     public function testGetProcessedTemplate($area, $store, $design)
     {
         $this->markTestIncomplete('Test partially fails bc of MAGETWO-557.');
+
+        /* This test expects next themes for areas:
+        * @magentoConfigFixture install/design/theme/full_name   magento_basic
+        * @magentoConfigFixture adminhtml/design/theme/full_name magento_basic
+        * @magentoConfigFixture current_store design/theme/full_name magento_iphone
+        * @magentoConfigFixture fixturestore_store design/theme/full_name magento_blank*/
         $this->_model->setTemplateText('{{view url="Magento_Page::favicon.ico"}}');
         $this->assertStringEndsWith('theme/frontend/magento_demo/en_US/Magento_Page/favicon.ico',
             $this->_model->getProcessedTemplate()
