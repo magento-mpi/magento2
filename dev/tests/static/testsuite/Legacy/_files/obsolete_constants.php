@@ -131,5 +131,35 @@ return array(
         'Magento_Core_Model_Design_Package::XML_PATH_THEME_ID'
     ),
     array('XML_STORE_ROUTERS_PATH', 'Mage_Core_Controller_Varien_Front'),
+    array('XML_PATH_SESSION_MESSAGE_MODELS', 'Magento_Catalog_Helper_Product_View'),
+
+    array('VALIDATOR_KEY', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Validator::VALIDATOR_KEY'
+    ),
+    array('VALIDATOR_HTTP_USER_AGENT_KEY', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Validator::VALIDATOR_HTTP_USER_AGENT_KEY'
+    ),
+    array('VALIDATOR_HTTP_X_FORVARDED_FOR_KEY', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Validator::VALIDATOR_HTTP_X_FORWARDED_FOR_KEY'
+    ),
+    array('VALIDATOR_HTTP_VIA_KEY', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Validator::VALIDATOR_HTTP_VIA_KEY'
+    ),
+    array('VALIDATOR_REMOTE_ADDR_KEY', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Validator::VALIDATOR_REMOTE_ADDR_KEY'
+    ),
+    array('XML_PATH_USE_REMOTE_ADDR', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Validator::XML_PATH_USE_REMOTE_ADDR'
+    ),
+    array('XML_PATH_USE_HTTP_VIA', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Validator::XML_PATH_USE_HTTP_VIA'
+    ),
+    array('XML_PATH_USE_X_FORWARDED', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Validator::XML_PATH_USE_X_FORWARDED'
+    ),
+    array('XML_PATH_USE_USER_AGENT', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Validator::XML_PATH_USE_USER_AGENT'
+    ),
+    array('XML_NODE_USET_AGENT_SKIP', 'Magento_Core_Model_Session_Abstract'),
 );
 

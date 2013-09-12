@@ -676,4 +676,8 @@ return array(
     array('getInsertFromSelectUsingAnalytic', 'Magento_Eav_Model_Resource_Helper_Mysql4'),
     array('setOneRowLimit', 'Magento_Eav_Model_Resource_Helper_Mysql4'),
     array('getCastToIntExpression', 'Magento_Eav_Model_Resource_Helper_Mysql4'),
+    array('validate', 'Magento_Core_Model_Session_Abstract'),
+    array('_validate', 'Magento_Core_Model_Session_Abstract'),
+    array('_getSessionEnvironment', 'Magento_Core_Model_Session_Abstract'),
+    array('getValidateHttpUserAgentSkip', 'Magento_Core_Model_Session_Abstract'),
 );
