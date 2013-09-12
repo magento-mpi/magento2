@@ -81,6 +81,7 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -88,12 +89,13 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
