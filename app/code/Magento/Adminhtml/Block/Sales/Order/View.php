@@ -25,41 +25,25 @@ class Magento_Adminhtml_Block_Sales_Order_View extends Magento_Adminhtml_Block_W
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
-    }
-
-    /**
      * @var Magento_Core_Model_Config
      */
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_coreConfig = $coreConfig;
-        parent::__construct(
-            $context,
-            $data
-        );
+        parent::__construct($context, $data);
     }
 
     protected function _construct()
