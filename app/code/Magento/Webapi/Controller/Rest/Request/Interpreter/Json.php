@@ -22,7 +22,8 @@ class Magento_Webapi_Controller_Rest_Request_Interpreter_Json implements
      * @param Magento_Core_Helper_Data $helper
      * @param Magento_Core_Model_App $app
      */
-    public function __construct(Magento_Core_Helper_Data $helper, Magento_Core_Model_App $app) {
+    public function __construct(Magento_Core_Helper_Data $helper, Magento_Core_Model_App $app)
+    {
         $this->_helper = $helper;
         $this->_app = $app;
     }

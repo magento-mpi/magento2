@@ -198,7 +198,6 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
                         "Error code is invalid. Actual: {$body['errors'][0]['code']}, Expected one of: \n%s",
                         implode("\n", $errorCodes)
                     )
-
                 );
             } else {
                 $this->assertTrue(in_array(0, $errorCodes), "Error code was expected");

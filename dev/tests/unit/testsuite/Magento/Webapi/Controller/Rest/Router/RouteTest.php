@@ -39,20 +39,6 @@ class Magento_Webapi_Controller_Rest_Router_RouteTest extends PHPUnit_Framework_
         $this->assertEquals($resourceName, $this->_restRoute->getServiceClass(), 'Resource name is wrong.');
     }
 
-    /**
-     * Test setServiceType and getServiceType methods.
-     */
-    public function testResourceType()
-    {
-        /** Assert that new object has no Resource type set. */
-        $this->assertNull($this->_restRoute->getHttpMethod(), 'New object has a set Resource type.');
-        /** Set Resource type. */
-        $resourceType = 'Resource type';
-        $this->_restRoute->setHttpMethod($resourceType);
-        /** Assert that Resource type was set. */
-        $this->assertEquals($resourceType, $this->_restRoute->getHttpMethod(), 'Resource type is wrong.');
-    }
-
     public function testMatch()
     {
         $areaName = 'rest';

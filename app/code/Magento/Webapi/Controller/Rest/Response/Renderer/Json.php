@@ -23,7 +23,8 @@ class Magento_Webapi_Controller_Rest_Response_Renderer_Json implements
      *
      * @param Magento_Core_Helper_Data $helper
      */
-    public function __construct(Magento_Core_Helper_Data $helper) {
+    public function __construct(Magento_Core_Helper_Data $helper)
+    {
         $this->_helper = $helper;
     }
 

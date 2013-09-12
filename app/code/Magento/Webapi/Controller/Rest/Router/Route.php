@@ -15,9 +15,6 @@ class Magento_Webapi_Controller_Rest_Router_Route extends Zend_Controller_Router
     /** @var string */
     protected $_serviceMethod;
 
-    /** @var string */
-    protected $_httpMethod;
-
     /** @var boolean */
     protected $_secure;
 
@@ -63,28 +60,6 @@ class Magento_Webapi_Controller_Rest_Router_Route extends Zend_Controller_Router
     public function getServiceMethod()
     {
         return $this->_serviceMethod;
-    }
-
-    /**
-     * Set route HTTP method.
-     *
-     * @param string $httpMethod
-     * @return Magento_Webapi_Controller_Rest_Router_Route
-     */
-    public function setHttpMethod($httpMethod)
-    {
-        $this->_httpMethod = $httpMethod;
-        return $this;
-    }
-
-    /**
-     * Get route service type.
-     *
-     * @return string
-     */
-    public function getHttpMethod()
-    {
-        return $this->_httpMethod;
     }
 
     /**

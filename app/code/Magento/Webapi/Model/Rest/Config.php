@@ -23,7 +23,6 @@ class Magento_Webapi_Model_Rest_Config
      */
     const KEY_IS_SECURE = 'isSecure';
     const KEY_CLASS = 'class';
-    const KEY_HTTP_METHOD = 'httpMethod';
     const KEY_METHOD = 'method';
     const KEY_ROUTE_PATH = 'routePath';
     /*#@-*/
@@ -52,7 +51,6 @@ class Magento_Webapi_Model_Rest_Config
      * @param array $routeData Expected format:
      *  <pre>array(
      *      'routePath' => '/categories/:categoryId',
-     *      'httpMethod' => 'GET',
      *      'class' => 'Magento_Catalog_Service_CategoryService',
      *      'serviceMethod' => 'item'
      *      'secure' => true
@@ -68,7 +66,6 @@ class Magento_Webapi_Model_Rest_Config
         );
 
         $route->setServiceClass($routeData[self::KEY_CLASS])
-            ->setHttpMethod($routeData[self::KEY_HTTP_METHOD])
             ->setServiceMethod($routeData[self::KEY_METHOD])
             ->setSecure($routeData[self::KEY_IS_SECURE]);
         return $route;
@@ -89,7 +86,7 @@ class Magento_Webapi_Model_Rest_Config
     }
 
     /**
-     * Generate the list of available REST routes.
+     * Generate the list of available REST routes. Current HTTP method is taken into account.
      *
      * @param Magento_Webapi_Controller_Rest_Request $request
      * @return array
@@ -124,7 +121,6 @@ class Magento_Webapi_Model_Rest_Config
                                 $serviceData[Magento_Webapi_Model_Config::ATTR_SERVICE_PATH] . $methodRoute,
                             self::KEY_CLASS => $serviceName,
                             self::KEY_METHOD => $methodName,
-                            self::KEY_HTTP_METHOD => $httpMethod,
                             self::KEY_IS_SECURE => $secure
                         )
                     );
