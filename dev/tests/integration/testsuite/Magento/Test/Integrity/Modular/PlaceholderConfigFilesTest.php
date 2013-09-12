@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Integrity_Modular_PlaceholderConfigFilesTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Integrity_Modular_PlaceholderConfigFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_FullPageCache_Model_Placeholder_Config_Reader
@@ -15,7 +15,7 @@ class Integrity_Modular_PlaceholderConfigFilesTest extends PHPUnit_Framework_Tes
     public function setUp()
     {
         // List of all available placeholders.xml
-        $xmlFiles = Utility_Files::init()->getConfigFiles(
+        $xmlFiles = Magento_TestFramework_Utility_Files::init()->getConfigFiles(
             '{*/placeholders.xml,placeholders.xml}',
             array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'),
             false
@@ -28,7 +28,7 @@ class Integrity_Modular_PlaceholderConfigFilesTest extends PHPUnit_Framework_Tes
         $validationStateMock->expects($this->any())
             ->method('isValidated')
             ->will($this->returnValue(true));
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_model = $objectManager->create('Magento_FullPageCache_Model_Placeholder_Config_Reader', array(
             'fileResolver' => $fileResolverMock,
             'validationState' => $validationStateMock,
