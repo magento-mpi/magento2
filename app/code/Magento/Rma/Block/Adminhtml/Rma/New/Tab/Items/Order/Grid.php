@@ -68,6 +68,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
+        $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -323,7 +324,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
             if ($column->getFilter()->getValue()) {
                 $this->getCollection()->addFieldToFilter('item_id', array('in'=>$productIds));
             } else {
-                if($productIds) {
+                if ($productIds) {
                     $this->getCollection()->addFieldToFilter('item_id', array('nin'=>$productIds));
                 }
             }
