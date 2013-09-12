@@ -38,7 +38,7 @@
                 <visible>1</visible>
                 <label>Display Page Control</label>
                 <type>select</type>
-                <source_model>\Magento\Backend\Model\Config\Source\Yesno</source_model>
+                <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
             </show_pager>
             <products_per_page translate="label">
                 <required>1</required>

@@ -24,13 +24,13 @@
                 <type>
                     <bundle translate="label">
                         <label>Bundle Product</label>
-                        <model>\Magento\Bundle\Model\Product\Type</model>
+                        <model>Magento\Bundle\Model\Product\Type</model>
                         <composite>1</composite>
                         <allowed_selection_types>
                             <simple />
                             <virtual />
                         </allowed_selection_types>
-                        <price_model>\Magento\Bundle\Model\Product\Price</price_model>
+                        <price_model>Magento\Bundle\Model\Product\Price</price_model>
                         <index_priority>40</index_priority>
                         <price_indexer>\Magento\Bundle\Model\Resource\Indexer\Price</price_indexer>
                         <stock_indexer>\Magento\Bundle\Model\Resource\Indexer\Stock</stock_indexer>

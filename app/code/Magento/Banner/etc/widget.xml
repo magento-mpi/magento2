@@ -40,7 +40,7 @@
                 <visible>1</visible>
                 <label>Restrict by Banner Types</label>
                 <type>multiselect</type>
-                <source_model>\Magento\Banner\Model\Config</source_model>
+                <source_model>Magento\Banner\Model\Config</source_model>
             </types>
             <rotate translate="label">
                 <visible>1</visible>

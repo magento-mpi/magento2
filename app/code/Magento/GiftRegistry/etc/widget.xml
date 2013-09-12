@@ -20,7 +20,7 @@
                 <required>1</required>
                 <label>Quick Search Form Types</label>
                 <type>multiselect</type>
-                <source_model>\Magento\GiftRegistry\Model\Source\Search</source_model>
+                <source_model>Magento\GiftRegistry\Model\Source\Search</source_model>
             </types>
             <template>
                 <values>

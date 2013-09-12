@@ -42,7 +42,7 @@
                 <email_customer>0</email_customer>
                 <login backend_model="\Magento\Backend\Model\Config\Backend\Encrypted" />
                 <merchant_email />
-                <model>\Magento\Authorizenet\Model\Directpost</model>
+                <model>Magento\Authorizenet\Model\Directpost</model>
                 <order_status>processing</order_status>
                 <payment_action>authorize</payment_action>
                 <test>1</test>
@@ -55,4 +55,4 @@
             </authorizenet_directpost>
         </payment>
     </default>
-</config>
+</config>

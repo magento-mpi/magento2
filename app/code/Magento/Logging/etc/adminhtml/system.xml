@@ -20,7 +20,7 @@
                 </field>
                 <field id="frequency" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Log Archiving Frequency</label>
-                    <source_model>\Magento\Logging\Model\Source\Frequency</source_model>
+                    <source_model>Magento\Logging\Model\Source\Frequency</source_model>
                 </field>
             </group>
         </section>
@@ -30,8 +30,8 @@
                 <label>Admin Actions Logging</label>
                 <field id="actions" translate="label" showInDefault="1">
                     <label>Enabled Actions</label>
-                    <frontend_model>\Magento\Logging\Block\Adminhtml\System\Config\Actions</frontend_model>
-                    <backend_model>\Magento\Backend\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                    <frontend_model>Magento\Logging\Block\Adminhtml\System\Config\Actions</frontend_model>
+                    <backend_model>Magento\Backend\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                 </field>
             </group>
         </section>

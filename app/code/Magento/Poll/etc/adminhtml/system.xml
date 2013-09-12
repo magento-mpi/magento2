@@ -15,7 +15,7 @@
             <group id="polls">
                 <field id="poll_check_by_ip" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Disallow Voting in a Poll Multiple Times from Same IP-address</label>
-                    <source_model>\Magento\Backend\Model\Config\Source\Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
         </section>

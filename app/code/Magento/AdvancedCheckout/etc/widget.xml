@@ -21,7 +21,7 @@
                 <description>Defines whether a link to My Account &amp;gt; Order by SKU page will be displayed on the widget</description>
                 <type>select</type>
                 <sort_order>10</sort_order>
-                <source_model>\Magento\Backend\Model\Config\Source\Yesno</source_model>
+                <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
             </link_display>
             <link_text translate="label description value">
                 <required>1</required>
