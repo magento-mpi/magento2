@@ -70,9 +70,9 @@ class Container extends \Magento\Backend\Block\Widget\Container
                 'grid',
                 $this->getLayout()->createBlock(
                     $this->_blockGroup
-                        . '_Block_'
-                        . str_replace(' ', '_', ucwords(str_replace('_', ' ', $this->_controller)))
-                        . '_Grid',
+                        . '\\Block\\'
+                        . str_replace(' ', '\\', ucwords(str_replace('\\', ' ', $this->_controller)))
+                        . '\\Grid',
                     $this->_controller . '.grid')
                     ->setSaveParametersInSession(true)
             );

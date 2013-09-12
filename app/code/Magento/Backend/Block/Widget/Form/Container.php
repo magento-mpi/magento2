@@ -88,9 +88,9 @@ class Container extends \Magento\Backend\Block\Widget\Container
     protected function _buildFormClassName()
     {
         return $this->_blockGroup
-            . '_Block_'
-            . str_replace(' ', '_', ucwords(str_replace('_', ' ', $this->_controller . '_' . $this->_mode)))
-            . '_Form';
+            . '\\Block\\'
+            . str_replace(' ', '\\', ucwords(str_replace('\\', ' ', $this->_controller . '\\' . $this->_mode)))
+            . '\\Form';
     }
 
     /**

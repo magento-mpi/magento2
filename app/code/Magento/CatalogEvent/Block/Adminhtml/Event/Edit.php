@@ -56,7 +56,7 @@ class Edit
             $this->setChild(
                 'form',
                 $this->getLayout()->createBlock($this->_blockGroup
-                    . '_Block_'
+                    . '\\Block\\'
                     . str_replace(' ', '_', ucwords(str_replace('_', ' ', $this->_controller . '_' . $this->_mode)))
                     . '_Category',
                     $this->getNameInLayout() . 'catalog_event_form'
