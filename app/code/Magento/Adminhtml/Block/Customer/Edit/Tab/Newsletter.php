@@ -19,27 +19,6 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Magento_Backe
 {
     protected $_template = 'customer/tab/newsletter.phtml';
 
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
-    }
-
     public function initForm()
     {
         /** @var Magento_Data_Form $form */

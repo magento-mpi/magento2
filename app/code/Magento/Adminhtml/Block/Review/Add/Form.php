@@ -27,6 +27,7 @@ class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Backend_Block_Widg
 
     /**
      * @param Magento_Review_Helper_Data $reviewData
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -34,13 +35,14 @@ class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Backend_Block_Widg
      */
     public function __construct(
         Magento_Review_Helper_Data $reviewData,
+        Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_reviewData = $reviewData;
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     protected function _prepareForm()

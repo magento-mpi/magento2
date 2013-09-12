@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Adminhtml_Block_Widget_Grid
+class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Backend_Block_Widget_Grid_Extended
 {
     /**
      * Core registry

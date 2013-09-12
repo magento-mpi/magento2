@@ -13,27 +13,6 @@
  */
 class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price extends Magento_Backend_Block_Widget_Form_Generic
 {
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
-    }
-
     protected function _prepareForm()
     {
         $product = $this->_coreRegistry->registry('product');

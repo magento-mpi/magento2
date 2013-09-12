@@ -20,6 +20,7 @@
 class Magento_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
      * @param Magento_Core_Helper_Data $coreData
@@ -27,13 +28,14 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Magento_B
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
         Magento_Catalog_Model_CategoryFactory $categoryFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
         $this->setUseContainer(true);
         $this->_categoryFactory = $categoryFactory;
     }

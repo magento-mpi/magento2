@@ -11,7 +11,7 @@
 /**
  * Acl role user grid
  */
-class Magento_Adminhtml_Block_Api_Role_Grid_User extends Magento_Adminhtml_Block_Widget_Grid
+class Magento_Adminhtml_Block_Api_Role_Grid_User extends Magento_Backend_Block_Widget_Grid_Extended
 {
     /**
      * Core registry

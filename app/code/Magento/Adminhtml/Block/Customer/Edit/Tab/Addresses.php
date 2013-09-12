@@ -27,13 +27,6 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
     protected $_adminhtmlAddresses = null;
 
     /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses
      * @param Magento_Core_Helper_Data $coreData
@@ -49,9 +42,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
         $this->_adminhtmlAddresses = $adminhtmlAddresses;
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     public function getRegionsUrl()

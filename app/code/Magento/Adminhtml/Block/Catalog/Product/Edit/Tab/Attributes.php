@@ -25,13 +25,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
     protected $_catalogData = null;
 
     /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
@@ -47,9 +40,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
         $this->_catalogData = $catalogData;
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     /**

@@ -53,7 +53,7 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
     ) {
         $this->_coreRegistry = $registry;
         $this->_eavData = $eavData;
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     public function setAttributeObject($attribute)

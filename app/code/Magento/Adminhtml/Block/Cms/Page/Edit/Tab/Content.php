@@ -43,9 +43,8 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $coreRegistry;
         $this->_eventManager = $eventManager;
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($coreRegistry, $formFactory, $coreData, $context, $data);
     }
 
     /**
