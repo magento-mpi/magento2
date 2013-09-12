@@ -39,12 +39,12 @@ class Magento_Wishlist_Model_Config
     private $_sharingTextLimit;
 
     /**
-     * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $storeConfig
      * @param Magento_Catalog_Model_Config $catalogConfig
      * @param Magento_Catalog_Model_Attribute_Config $attributeConfig
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $storeConfig,
+        Magento_Core_Model_Store_ConfigInterface $storeConfig,
         Magento_Catalog_Model_Config $catalogConfig,
         Magento_Catalog_Model_Attribute_Config $attributeConfig
     ) {

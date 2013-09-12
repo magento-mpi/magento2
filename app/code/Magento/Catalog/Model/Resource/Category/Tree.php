@@ -18,6 +18,11 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     private $_attributeConfig;
 
     /**
+     * @var Magento_Catalog_Model_Resource_Category_Collection_Factory
+     */
+    private $_collectionFactory;
+
+    /**
      * Categories resource collection
      *
      * @var Magento_Catalog_Model_Resource_Category_Collection
@@ -55,10 +60,12 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     /**
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Catalog_Model_Attribute_Config $attributeConfig
+     * @param Magento_Catalog_Model_Resource_Category_Collection_Factory $collectionFactory
      */
     public function __construct(
         Magento_Core_Model_Resource $resource,
-        Magento_Catalog_Model_Attribute_Config $attributeConfig
+        Magento_Catalog_Model_Attribute_Config $attributeConfig,
+        Magento_Catalog_Model_Resource_Category_Collection_Factory $collectionFactory
     ) {
         parent::__construct(
             $resource->getConnection('catalog_write'),
@@ -71,6 +78,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
             )
         );
         $this->_attributeConfig = $attributeConfig;
+        $this->_collectionFactory = $collectionFactory;
     }
 
     /**
@@ -350,9 +358,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     protected function _getDefaultCollection($sorted = false)
     {
         $this->_joinUrlRewriteIntoCollection = true;
-        $collection = Mage::getModel('Magento_Catalog_Model_Category')->getCollection();
-        /** @var $collection Magento_Catalog_Model_Resource_Category_Collection */
-
+        $collection = $this->_collectionFactory->create();
         $attributes = $this->_attributeConfig->getAttributeNames('catalog_category');
         $collection->addAttributeToSelect($attributes);
 
