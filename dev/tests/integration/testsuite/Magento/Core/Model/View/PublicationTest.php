@@ -50,18 +50,6 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Set allowFilesDuplication for Magento_Core_Model_View_Publisher
-     *
-     * @param bool $value
-     */
-    protected function setAllowFilesDuplication($value = true)
-    {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $design = $objectManager->create('Magento_Core_Model_View_Publisher', array('allowFilesDuplication' => $value));
-        $objectManager->addSharedInstance($design, 'Magento_Core_Model_View_Publisher');
-    }
-
-    /**
      * @magentoAppIsolation enabled
      */
     public function testGetPublicDir()
