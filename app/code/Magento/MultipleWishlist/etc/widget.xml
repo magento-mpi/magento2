@@ -21,7 +21,7 @@
                 <label>Quick Search Form Types</label>
                 <type>multiselect</type>
                 <sort_order>10</sort_order>
-                <source_model>\Magento\MultipleWishlist\Model\Config\Source\Search</source_model>
+                <source_model>Magento\MultipleWishlist\Model\Config\Source\Search</source_model>
             </types>
             <template translate="label">
                 <required>1</required>

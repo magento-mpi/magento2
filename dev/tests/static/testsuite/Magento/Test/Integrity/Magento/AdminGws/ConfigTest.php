@@ -27,7 +27,7 @@ class Magento_Test_Integrity_Magento_AdminGws_ConfigTest extends PHPUnit_Framewo
         $errors = array();
         /** @var SimpleXMLElement $node */
         foreach ($nodes as $node) {
-            $class = implode('_', array_map('ucfirst', explode('_', $node->getName())));
+            $class = implode('\\', array_map('ucfirst', explode('_', $node->getName())));
             if (!Magento_TestFramework_Utility_Files::init()->classFileExists($class, $path)) {
                 $errors[] = "'{$node->getName()}' => '{$path}'";
             }

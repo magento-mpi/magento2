@@ -53,7 +53,7 @@
                     <grouped translate="label">
                         <label>Grouped Product</label>
                         <model>Magento\Catalog\Model\Product\Type\Grouped</model>
-                        <price_model>\Magento\Catalog\Model\Product\Type\Grouped\Price</price_model>
+                        <price_model>Magento\Catalog\Model\Product\Type\Grouped\Price</price_model>
                         <composite>1</composite>
                         <allow_product_types>
                             <simple />
@@ -65,7 +65,7 @@
                     <configurable translate="label">
                         <label>Configurable Product</label>
                         <model>Magento\Catalog\Model\Product\Type\Configurable</model>
-                        <price_model>\Magento\Catalog\Model\Product\Type\Configurable\Price</price_model>
+                        <price_model>Magento\Catalog\Model\Product\Type\Configurable\Price</price_model>
                         <composite>1</composite>
                         <allow_product_types>
                             <simple />

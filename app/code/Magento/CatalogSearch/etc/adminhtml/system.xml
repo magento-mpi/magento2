@@ -15,7 +15,7 @@
             <group id="seo">
                 <field id="search_terms" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Popular Search Terms</label>
-                    <source_model>\Magento\Backend\Model\Config\Source\Enabledisable</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Enabledisable</source_model>
                 </field>
             </group>
             <group id="search" translate="label" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -35,8 +35,8 @@
                 </field>
                 <field id="search_type" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Search Type</label>
-                    <backend_model>\Magento\CatalogSearch\Model\Config\Backend\Search\Type</backend_model>
-                    <source_model>\Magento\CatalogSearch\Model\Config\Source\Search\Type</source_model>
+                    <backend_model>Magento\CatalogSearch\Model\Config\Backend\Search\Type</backend_model>
+                    <source_model>Magento\CatalogSearch\Model\Config\Source\Search\Type</source_model>
                 </field>
                 <field id="use_layered_navigation_count" translate="label comment" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Apply Layered Navigation if Search Results are Less Than</label>
