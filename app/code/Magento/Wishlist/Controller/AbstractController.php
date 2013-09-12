@@ -147,7 +147,7 @@ abstract class AbstractController extends \Magento\Core\Controller\Front\Action
                 }
                 $redirectUrl = $item->getProductUrl();
             } else {
-                $wishlistSession = \Mage::getSingleton('Magento_Wishlist_Model_Session');
+                $wishlistSession = \Mage::getSingleton('Magento\Wishlist\Model\Session');
                 foreach ($messages as $message) {
                     $wishlistSession->addError($message);
                 }
@@ -161,7 +161,7 @@ abstract class AbstractController extends \Magento\Core\Controller\Front\Action
                 $wishlist->save();
             }
             catch (\Exception $e) {
-                \Mage::getSingleton('Magento_Wishlist_Model_Session')->addError(__('We can\'t update wish list.'));
+                \Mage::getSingleton('Magento\Wishlist\Model\Session')->addError(__('We can\'t update wish list.'));
                 $redirectUrl = $indexUrl;
             }
 

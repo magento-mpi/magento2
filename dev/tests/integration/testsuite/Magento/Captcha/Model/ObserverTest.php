@@ -97,7 +97,7 @@ class Magento_Captcha_Model_ObserverTest extends Magento_TestFramework_TestCase_
         $this->dispatch('backend/admin/auth/forgotpassword');
         $this->assertSessionMessages(
             $this->equalTo(array('Incorrect CAPTCHA')), \Magento\Core\Model\Message::ERROR,
-            '\Magento\Backend\Model\Session'
+            'Magento\Backend\Model\Session'
         );
     }
 }

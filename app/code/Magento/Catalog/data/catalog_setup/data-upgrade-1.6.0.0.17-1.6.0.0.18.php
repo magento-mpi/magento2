@@ -18,7 +18,7 @@ if ($attribute) {
         'frontend_label' => 'Categories',
         'input' => 'categories',
         'group' => 'General Information',
-        'backend_model' => '\Magento\Catalog\Model\Product\Attribute\Backend\Category',
+        'backend_model' => 'Magento\Catalog\Model\Product\Attribute\Backend\Category',
         'frontend_input_renderer' => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Category',
     );
     foreach ($properties as $key => $value) {

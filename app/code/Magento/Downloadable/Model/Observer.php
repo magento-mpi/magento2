@@ -319,7 +319,7 @@ class Observer
     public function initOptionRenderer(\Magento\Event\Observer $observer)
     {
         $block = $observer->getBlock();
-        $block->addOptionsRenderCfg('downloadable', '\Magento\Downloadable\Helper\Catalog\Product\Configuration');
+        $block->addOptionsRenderCfg('downloadable', 'Magento\Downloadable\Helper\Catalog\Product\Configuration');
         return $this;
     }
 

@@ -26,8 +26,8 @@ class Simple
      * @var array
      */
     protected $_attributeOverrides = array(
-        'has_options'      => array('source_model' => '\Magento\Eav\Model\Entity\Attribute\Source\Boolean'),
-        'required_options' => array('source_model' => '\Magento\Eav\Model\Entity\Attribute\Source\Boolean'),
+        'has_options'      => array('source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean'),
+        'required_options' => array('source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean'),
         'created_at'       => array('backend_type' => 'datetime'),
         'updated_at'       => array('backend_type' => 'datetime')
     );

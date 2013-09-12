@@ -444,7 +444,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      */
     public function getInstance()
     {
-        $operation = \Mage::getModel('Magento_ScheduledImportExport_Model_' . uc_words($this->getOperationType()));
+        $operation = \Mage::getModel('Magento\ScheduledImportExport\Model\\' . uc_words($this->getOperationType()));
         if (!$operation || !($operation instanceof \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface)) {
             \Mage::throwException(
                 __('Please correct the scheduled operation.')

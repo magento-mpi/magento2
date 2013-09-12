@@ -36,6 +36,6 @@ class CommandFactory
     public function create($commandName, array $data = array())
     {
         return $this->_objectManager->
-            create('Magento_Backend_Model_Menu_Builder_Command_' . ucfirst($commandName), $data);
+            create('Magento\Backend\Model\Menu\Builder\Command\\' . ucfirst($commandName), $data);
     }
 }

@@ -113,7 +113,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                 $type = self::DEFAULT_CAPTCHA_TYPE;
             }
             $this->_captcha[$formId] = $this->_factory->create(
-                'Magento_Captcha_Model_' . $type,
+                'Magento\Captcha\Model\\' . $type,
                 array(
                     'params' => array('formId' => $formId, 'helper' => $this)
                 )

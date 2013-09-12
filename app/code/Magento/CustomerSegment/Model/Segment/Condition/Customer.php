@@ -33,7 +33,7 @@ class Customer
      */
     public function getNewChildSelectOptions()
     {
-        $prefix = 'Magento_CustomerSegment_Model_Segment_Condition_Customer_';
+        $prefix = 'Magento\CustomerSegment\Model\Segment\Condition\Customer\\';
         $conditions = \Mage::getModel($prefix . 'Attributes')->getNewChildSelectOptions();
         $conditions = array_merge($conditions, \Mage::getModel($prefix . 'Newsletter')->getNewChildSelectOptions());
         $conditions = array_merge($conditions, \Mage::getModel($prefix . 'Storecredit')->getNewChildSelectOptions());

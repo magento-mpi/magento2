@@ -335,7 +335,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     {
         $dbConfig = $this->_resourceConfig
             ->getResourceConnectionConfig(\Magento\Core\Model\Resource::DEFAULT_SETUP_RESOURCE);
-        $modelName = 'Magento_Install_Model_Installer_Db_' . ucfirst($dbConfig->model);
+        $modelName = 'Magento\Install\Model\Installer\Db\\' . ucfirst($dbConfig->model);
 
         if (!class_exists($modelName)) {
             $this->addError('Database uninstall is not supported for the ' . ucfirst($dbConfig->model) . '.');

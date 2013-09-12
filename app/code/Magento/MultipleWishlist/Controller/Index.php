@@ -214,7 +214,7 @@ class Index extends \Magento\Wishlist\Controller\Index
             }
             $wishlist->delete();
             \Mage::helper('Magento\Wishlist\Helper\Data')->calculate();
-            \Mage::getSingleton('Magento_Wishlist_Model_Session')->addSuccess(
+            \Mage::getSingleton('Magento\Wishlist\Model\Session')->addSuccess(
                 __('Wish list "%1" has been deleted.', \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($wishlist->getName()))
             );
         } catch (\Magento\Core\Exception $e) {

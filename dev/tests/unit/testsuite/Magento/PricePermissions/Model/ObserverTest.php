@@ -82,7 +82,7 @@ class Magento_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_Test
         $this->_setGetNameInLayoutExpects('admin.customer.view.cart');
 
         $this->_observer->expects($this->exactly(2))->method('_removeColumnFromGrid')
-            ->with($this->isInstanceOf('\Magento\Adminhtml\Block\Widget\Grid'),
+            ->with($this->isInstanceOf('Magento\Adminhtml\Block\Widget\Grid'),
             $this->logicalOr(
                 $this->equalTo('price'),
                 $this->equalTo('total')
@@ -210,7 +210,7 @@ class Magento_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_Test
         $this->_setGetNameInLayoutExpects('adminhtml.catalog.product.edit.tab.attributes');
 
         $this->_observer->expects($this->once())->method('_hidePriceElements')
-            ->with($this->isInstanceOf('\Magento\Adminhtml\Block\Widget\Grid'));
+            ->with($this->isInstanceOf('Magento\Adminhtml\Block\Widget\Grid'));
 
         $this->_observer->adminhtmlBlockHtmlBefore($this->_varienObserver);
     }
@@ -246,7 +246,7 @@ class Magento_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_Test
             ->will($this->returnValue($parentBlock));
 
         $this->_observer->expects($this->exactly(2))->method('_removeColumnFromGrid')
-            ->with($this->isInstanceOf('\Magento\Adminhtml\Block\Widget\Grid'),
+            ->with($this->isInstanceOf('Magento\Adminhtml\Block\Widget\Grid'),
             $this->logicalOr(
                 $this->equalTo('price'),
                 $this->equalTo('total')
@@ -259,7 +259,7 @@ class Magento_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_Test
     protected function _assertPriceColumnRemove()
     {
         $this->_observer->expects($this->once())->method('_removeColumnFromGrid')
-            ->with($this->isInstanceOf('\Magento\Adminhtml\Block\Widget\Grid'), $this->equalTo('price'));
+            ->with($this->isInstanceOf('Magento\Adminhtml\Block\Widget\Grid'), $this->equalTo('price'));
     }
 
     protected function _setGetNameInLayoutExpects($blockName)

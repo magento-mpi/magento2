@@ -52,8 +52,8 @@ class Customer
      */
     protected $_attributeOverrides = array(
         'created_at'                  => array('backend_type' => 'datetime'),
-        'reward_update_notification'  => array('source_model' => '\Magento\Eav\Model\Entity\Attribute\Source\Boolean'),
-        'reward_warning_notification' => array('source_model' => '\Magento\Eav\Model\Entity\Attribute\Source\Boolean')
+        'reward_update_notification'  => array('source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean'),
+        'reward_warning_notification' => array('source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean')
     );
 
     /**

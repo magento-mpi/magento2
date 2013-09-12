@@ -53,7 +53,7 @@ class Magento_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestCase
         ));
         $item = $this->_giftRegistry->addItem($product->getId(), $buyRequest);
         $items = $this->_giftRegistry->getItemsCollection();
-        $this->assertInstanceOf('\Magento\GiftRegistry\Model\Item', $item);
+        $this->assertInstanceOf('Magento\GiftRegistry\Model\Item', $item);
         $this->assertNotEmpty($items->count());
 
         $cartProduct = $model->prepareForCart($buyRequest, $product);
@@ -64,7 +64,7 @@ class Magento_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestCase
             }
         }
 
-        $this->assertInstanceOf('\Magento\Catalog\Model\Product', $simple);
+        $this->assertInstanceOf('Magento\Catalog\Model\Product', $simple);
         $simple->delete();
 
         $giftRegistryTwo = Mage::getModel('Magento\GiftRegistry\Model\Entity');

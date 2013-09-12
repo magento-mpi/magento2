@@ -59,7 +59,7 @@ class Service extends \Magento\Object
      */
     protected function _getSession()
     {
-        return \Mage::getSingleton('Magento_Centinel_Model_Session');
+        return \Mage::getSingleton('Magento\Centinel\Model\Session');
     }
 
     /**

@@ -41,18 +41,18 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
     protected function setUp()
     {
         $this->_bannerSegmentLink = $this->getMock(
-            '\Magento\BannerCustomerSegment\Model\Resource\BannerSegmentLink',
+            'Magento\BannerCustomerSegment\Model\Resource\BannerSegmentLink',
             array('loadBannerSegments', 'saveBannerSegments', 'addBannerSegmentFilter'),
             array(), '', false
         );
         $this->_segmentCustomer = $this->getMock(
-            '\Magento\CustomerSegment\Model\Customer', array('getCurrentCustomerSegmentIds'), array(), '', false
+            'Magento\CustomerSegment\Model\Customer', array('getCurrentCustomerSegmentIds'), array(), '', false
         );
         $this->_segmentHelper = $this->getMock(
-            '\Magento\CustomerSegment\Helper\Data', array('isEnabled', 'addSegmentFieldsToForm'), array(), '', false
+            'Magento\CustomerSegment\Helper\Data', array('isEnabled', 'addSegmentFieldsToForm'), array(), '', false
         );
         $this->_segmentCollection = $this->getMock(
-            '\Magento\CustomerSegment\Model\Resource\Segment\Collection', array(), array(), '', false
+            'Magento\CustomerSegment\Model\Resource\Segment\Collection', array(), array(), '', false
         );
         $this->_model = new \Magento\BannerCustomerSegment\Model\Observer(
             $this->_segmentCustomer, $this->_segmentHelper, $this->_segmentCollection, $this->_bannerSegmentLink

@@ -116,10 +116,10 @@ class Index
 
             \Mage::register('wishlist', $wishlist);
         } catch (\Magento\Core\Exception $e) {
-            \Mage::getSingleton('Magento_Wishlist_Model_Session')->addError($e->getMessage());
+            \Mage::getSingleton('Magento\Wishlist\Model\Session')->addError($e->getMessage());
             return false;
         } catch (\Exception $e) {
-            \Mage::getSingleton('Magento_Wishlist_Model_Session')->addException($e,
+            \Mage::getSingleton('Magento\Wishlist\Model\Session')->addException($e,
                 __('Wish List could not be created.')
             );
             return false;
@@ -151,7 +151,7 @@ class Index
         $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $this->_initLayoutMessages('Magento\Checkout\Model\Session');
         $this->_initLayoutMessages('Magento\Catalog\Model\Session');
-        $this->_initLayoutMessages('Magento_Wishlist_Model_Session');
+        $this->_initLayoutMessages('Magento\Wishlist\Model\Session');
 
         $this->renderLayout();
     }
@@ -484,7 +484,7 @@ class Index
         }
 
         /* @var $session \Magento\Core\Model\Session\Generic */
-        $session    = \Mage::getSingleton('Magento_Wishlist_Model_Session');
+        $session    = \Mage::getSingleton('Magento\Wishlist\Model\Session');
         $cart       = \Mage::getSingleton('Magento\Checkout\Model\Cart');
 
         $redirectUrl = \Mage::getUrl('*/*');
@@ -586,7 +586,7 @@ class Index
         $this->_getWishlist();
         $this->loadLayout();
         $this->_initLayoutMessages('Magento\Customer\Model\Session');
-        $this->_initLayoutMessages('Magento_Wishlist_Model_Session');
+        $this->_initLayoutMessages('Magento\Wishlist\Model\Session');
         $this->renderLayout();
     }
 
@@ -633,8 +633,8 @@ class Index
         }
 
         if ($error) {
-            \Mage::getSingleton('Magento_Wishlist_Model_Session')->addError($error);
-            \Mage::getSingleton('Magento_Wishlist_Model_Session')->setSharingForm($this->getRequest()->getPost());
+            \Mage::getSingleton('Magento\Wishlist\Model\Session')->addError($error);
+            \Mage::getSingleton('Magento\Wishlist\Model\Session')->setSharingForm($this->getRequest()->getPost());
             $this->_redirect('*/*/share');
             return;
         }
@@ -698,8 +698,8 @@ class Index
             $this->_redirect('*/*', array('wishlist_id' => $wishlist->getId()));
         } catch (\Exception $e) {
             $translate->setTranslateInline(true);
-            \Mage::getSingleton('Magento_Wishlist_Model_Session')->addError($e->getMessage());
-            \Mage::getSingleton('Magento_Wishlist_Model_Session')->setSharingForm($this->getRequest()->getPost());
+            \Mage::getSingleton('Magento\Wishlist\Model\Session')->addError($e->getMessage());
+            \Mage::getSingleton('Magento\Wishlist\Model\Session')->setSharingForm($this->getRequest()->getPost());
             $this->_redirect('*/*/share');
         }
     }

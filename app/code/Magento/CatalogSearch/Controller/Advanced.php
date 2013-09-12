@@ -23,7 +23,7 @@ class Advanced extends \Magento\Core\Controller\Front\Action
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_CatalogSearch_Model_Session');
+        $this->_initLayoutMessages('Magento\CatalogSearch\Model\Session');
         $this->renderLayout();
     }
 
@@ -33,7 +33,7 @@ class Advanced extends \Magento\Core\Controller\Front\Action
         try {
             \Mage::getSingleton('Magento\CatalogSearch\Model\Advanced')->addFilters($this->getRequest()->getQuery());
         } catch (\Magento\Core\Exception $e) {
-            \Mage::getSingleton('Magento_CatalogSearch_Model_Session')->addError($e->getMessage());
+            \Mage::getSingleton('Magento\CatalogSearch\Model\Session')->addError($e->getMessage());
             $this->_redirectError(
                 \Mage::getModel('Magento\Core\Model\Url')
                     ->setQueryParams($this->getRequest()->getQuery())

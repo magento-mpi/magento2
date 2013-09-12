@@ -168,7 +168,7 @@ class Type extends \Magento\Core\Model\AbstractModel
      */
     protected function _createAttribute($name)
     {
-        $modelName = 'Magento_GoogleShopping_Model_Attribute_' . $this->_prepareModelName($name);
+        $modelName = 'Magento\GoogleShopping\Model\Attribute\\' . $this->_prepareModelName($name);
         $useDefault = false;
         try {
             $attributeModel = \Mage::getModel($modelName);

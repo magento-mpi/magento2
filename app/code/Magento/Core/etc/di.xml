@@ -42,7 +42,7 @@
             <value>global_acl_resources</value>
         </param>
     </type>
-    <virtualType name="Magento_Core_Model_Resource_Website_Collection_FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
+    <virtualType name="Magento\Core\Model\Resource\Website\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cache">
             <instance type="Magento\Core\Model\Cache\Type\Collection" />
         </param>
@@ -58,7 +58,7 @@
             <value type="bool">false</value>
         </param>
     </virtualType>
-    <virtualType name="Magento_Core_Model_Resource_Store_Group_Collection_FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
+    <virtualType name="Magento\Core\Model\Resource\Store\Group\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cache">
             <instance type="Magento\Core\Model\Cache\Type\Collection" />
         </param>
@@ -74,7 +74,7 @@
             <value type="bool">false</value>
         </param>
     </virtualType>
-    <virtualType name="Magento_Core_Model_Resource_Store_Collection_FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
+    <virtualType name="Magento\Core\Model\Resource\Store\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cache">
             <instance type="Magento\Core\Model\Cache\Type\Collection" />
         </param>
@@ -92,17 +92,17 @@
     </virtualType>
     <type name="Magento\Core\Model\Resource\Website\Collection">
         <param name="fetchStrategy">
-            <instance type="Magento_Core_Model_Resource_Website_Collection_FetchStrategy" />
+            <instance type="Magento\Core\Model\Resource\Website\Collection\FetchStrategy" />
         </param>
     </type>
     <type name="Magento\Core\Model\Resource\Store\Group\Collection">
         <param name="fetchStrategy">
-            <instance type="Magento_Core_Model_Resource_Store_Group_Collection_FetchStrategy" />
+            <instance type="Magento\Core\Model\Resource\Store\Group\Collection\FetchStrategy" />
         </param>
     </type>
     <type name="Magento\Core\Model\Resource\Store\Collection">
         <param name="fetchStrategy">
-            <instance type="Magento_Core_Model_Resource_Store_Collection_FetchStrategy" />
+            <instance type="Magento\Core\Model\Resource\Store\Collection\FetchStrategy" />
         </param>
     </type>
     <type name="Magento\Core\Model\Page\Asset\Collection" shared="false" />

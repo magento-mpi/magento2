@@ -178,8 +178,8 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     public function getHelperDataProvider()
     {
         return array(
-            'class name'  => array('Magento\Core\Helper\Data', '\Magento\Core\Helper\Data'),
-            'module name' => array('Magento_Core',             '\Magento\Core\Helper\Data'),
+            'class name'  => array('Magento\Core\Helper\Data', 'Magento\Core\Helper\Data'),
+            'module name' => array('Magento_Core',             'Magento\Core\Helper\Data'),
         );
     }
 

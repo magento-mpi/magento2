@@ -1139,7 +1139,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     private function _throwLoad()
     {
         throw \Mage::exception(
-            'Magento_AdminGws_Controller',
+            'Magento\AdminGws\Controller',
             __('You need more permissions to view this item.')
         );
     }

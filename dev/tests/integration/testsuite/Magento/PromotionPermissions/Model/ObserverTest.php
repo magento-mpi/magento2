@@ -28,7 +28,7 @@ class Magento_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_
     {
         $this->_moduleListMock = $this->getMock('Magento\Core\Model\ModuleListInterface');
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->addSharedInstance($this->_moduleListMock, '\Magento\Core\Model\ModuleList');
+        $objectManager->addSharedInstance($this->_moduleListMock, 'Magento\Core\Model\ModuleList');
         $objectManager->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
         $this->_layout = Mage::getModel('Magento\Core\Model\Layout');
@@ -40,9 +40,9 @@ class Magento_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_
     public function testAdminhtmlBlockHtmlBefore($parentBlock, $childBlock)
     {
         $block = $this->_layout->createBlock('Magento\Adminhtml\Block\Template', $parentBlock);
-        $this->_layout->addBlock('\Magento\Adminhtml\Block\Template', $childBlock, $parentBlock);
+        $this->_layout->addBlock('Magento\Adminhtml\Block\Template', $childBlock, $parentBlock);
         $gridBlock = $this->_layout->addBlock(
-            '\Magento\Adminhtml\Block\Template',
+            'Magento\Adminhtml\Block\Template',
             'banners_grid_serializer',
             $childBlock
         );

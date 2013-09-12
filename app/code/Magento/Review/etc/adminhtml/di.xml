@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <virtualType name="Magento_Review_Model_Session" type="Magento\Core\Model\Session\Generic">
+    <virtualType name="Magento\Review\Model\Session" type="Magento\Core\Model\Session\Generic">
         <param name="sessionNamespace">
             <value>review</value>
         </param>

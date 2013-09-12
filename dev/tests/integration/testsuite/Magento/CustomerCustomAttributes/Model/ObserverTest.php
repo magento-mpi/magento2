@@ -20,7 +20,7 @@ class Magento_CustomerCustomAttributes_Model_ObserverTest extends PHPUnit_Framew
      * @var array
      */
     protected $_blockInjections = array(
-        '\Magento\Core\Model\Context',
+        'Magento\Core\Model\Context',
         null,
         null
     );

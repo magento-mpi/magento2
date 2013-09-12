@@ -70,7 +70,7 @@ class Magento_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         $factoryMock->expects($this->once())
             ->method('create')
-            ->with('Magento_Captcha_Model_Zend')
+            ->with('Magento\Captcha\Model\Zend')
             ->will($this->returnValue(
                 new \Magento\Captcha\Model\DefaultModel($objectManager, array('formId' => 'user_create')))
             );

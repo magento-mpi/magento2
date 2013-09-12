@@ -72,12 +72,12 @@ abstract class AbstractModel extends \Magento\Object
                 $this->getOperationType(),
                 $this->getEntity()
             ));
-            $dirPath = \Mage::getBaseDir('var') . DS . Magento_ImportExport_Model_Scheduled_Operation::LOG_DIRECTORY
+            $dirPath = \Mage::getBaseDir('var') . DS . \Magento\ImportExport\Model\Scheduled\Operation::LOG_DIRECTORY
                 . $dirName;
             if (!is_dir($dirPath)) {
                 mkdir($dirPath, 0777, true);
             }
-            $fileName = substr(strstr(Magento_ImportExport_Model_Scheduled_Operation::LOG_DIRECTORY, DS), 1)
+            $fileName = substr(strstr(\Magento\ImportExport\Model\Scheduled\Operation::LOG_DIRECTORY, DS), 1)
                 . $dirName . $fileName . '.log';
             $this->_logInstance = \Mage::getModel('Magento\Core\Model\Log\Adapter', array('fileName' => $fileName))
                 ->setFilterDataKeys($this->_debugReplacePrivateDataKeys);

@@ -50,7 +50,7 @@ class Pear extends \Magento\Install\Model\Installer\AbstractInstaller
                         if (is_array($message)) {
                             $message = $message['message'];
                         }
-                        \Mage::getSingleton('Magento_Install_Model_Session')->addError($message);
+                        \Mage::getSingleton('Magento\Install\Model\Session')->addError($message);
                     }
                 } else {
                     print_r($obj->getUserInfo());

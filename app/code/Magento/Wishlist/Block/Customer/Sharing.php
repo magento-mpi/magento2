@@ -80,7 +80,7 @@ class Sharing extends \Magento\Core\Block\Template
     public function getEnteredData($key)
     {
         if (is_null($this->_enteredData)) {
-            $this->_enteredData = \Mage::getSingleton('Magento_Wishlist_Model_Session')
+            $this->_enteredData = \Mage::getSingleton('Magento\Wishlist\Model\Session')
                 ->getData('sharing_form', true);
         }
 

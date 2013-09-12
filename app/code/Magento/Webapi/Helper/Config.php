@@ -118,7 +118,7 @@ class Config extends \Magento\Core\Helper\AbstractHelper
      */
     public function translateTypeName($class)
     {
-        if (preg_match('/(.*)_(.*)_Model_Webapi_\2?(.*)/', $class, $matches)) {
+        if (preg_match('/(.*)\\(.*)\\Model\\Webapi\\\2?(.*)/', $class, $matches)) {
             $moduleNamespace = $matches[1] == 'Magento' ? '' : $matches[1];
             $moduleName = $matches[2];
             $typeNameParts = explode('_', $matches[3]);

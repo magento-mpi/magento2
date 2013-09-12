@@ -13,10 +13,10 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
 {
     public function testConstructor()
     {
-        $fetchStrategyMock = $this->_makeMock('\Magento\Data\Collection\Db\FetchStrategyInterface');
-        $endpointResMock = $this->_makeMock('\Magento\Webhook\Model\Resource\Endpoint');
+        $fetchStrategyMock = $this->_makeMock('Magento\Data\Collection\Db\FetchStrategyInterface');
+        $endpointResMock = $this->_makeMock('Magento\Webhook\Model\Resource\Endpoint');
 
-        $configMock = $this->_makeMock('\Magento\Webhook\Model\Subscription\Config');
+        $configMock = $this->_makeMock('Magento\Webhook\Model\Subscription\Config');
         $configMock->expects($this->once())
             ->method('updateSubscriptionCollection');
 
@@ -24,11 +24,11 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
         $selectMock->expects($this->any())
             ->method('from')
             ->with(array('main_table' => null));
-        $connectionMock = $this->_makeMock('\Magento\DB\Adapter\Pdo\Mysql');
+        $connectionMock = $this->_makeMock('Magento\DB\Adapter\Pdo\Mysql');
         $connectionMock->expects($this->any())
             ->method('select')
             ->will($this->returnValue($selectMock));
-        $resourceMock = $this-> _makeMock('\Magento\Webhook\Model\Resource\Subscription');
+        $resourceMock = $this-> _makeMock('Magento\Webhook\Model\Resource\Subscription');
         $resourceMock->expects($this->any())
             ->method('getReadConnection')
             ->will($this->returnValue($connectionMock));

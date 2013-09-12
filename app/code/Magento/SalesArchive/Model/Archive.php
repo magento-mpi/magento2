@@ -28,19 +28,19 @@ class Archive
     protected $_entities = array(
         self::ORDER => array(
             'model' => '\Magento\Sales\Model\Order',
-            'resource_model' => '\Magento\Sales\Model\Resource\Order'
+            'resource_model' => 'Magento\Sales\Model\Resource\Order'
         ),
         self::INVOICE => array(
             'model' => '\Magento\Sales\Model\Order\Invoice',
-            'resource_model' => '\Magento\Sales\Model\Resource\Order\Invoice'
+            'resource_model' => 'Magento\Sales\Model\Resource\Order\Invoice'
         ),
         self::SHIPMENT  => array(
             'model' => '\Magento\Sales\Model\Order\Shipment',
-            'resource_model' => '\Magento\Sales\Model\Resource\Order\Shipment'
+            'resource_model' => 'Magento\Sales\Model\Resource\Order\Shipment'
         ),
         self::CREDITMEMO => array(
             'model' => '\Magento\Sales\Model\Order\Creditmemo',
-            'resource_model' => '\Magento\Sales\Model\Resource\Order\Creditmemo'
+            'resource_model' => 'Magento\Sales\Model\Resource\Order\Creditmemo'
         )
     );
 

@@ -33,7 +33,7 @@ class Address
      */
     public function getNewChildSelectOptions()
     {
-        $prefix = 'Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_';
+        $prefix = 'Magento\CustomerSegment\Model\Segment\Condition\Customer\Address\\';
         $result = array_merge_recursive(parent::getNewChildSelectOptions(), array(
             array(
                 'value' => $this->getType(),

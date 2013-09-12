@@ -173,7 +173,7 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
         $this->assertInstanceOf(
             '\Magento\Backend\Block\Widget\Grid\Column',
             $gridMassactionColumn,
-            'Massaction column is not an instance of Magento_Backend_Block_Widget_Column'
+            'Massaction column is not an instance of Magento\Backend\Block\Widget\Column'
         );
     }
 }

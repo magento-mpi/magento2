@@ -197,7 +197,7 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
             $this->_initCheckout();
             $this->_checkout->prepareOrderReview($this->_initToken());
             $this->loadLayout();
-            $this->_initLayoutMessages('Magento_Paypal_Model_Session');
+            $this->_initLayoutMessages('Magento\Paypal\Model\Session');
             $reviewBlock = $this->getLayout()->getBlock('paypal.express.review');
             $reviewBlock->setQuote($this->_getQuote());
             $reviewBlock->getChildBlock('details')->setQuote($this->_getQuote());
@@ -445,7 +445,7 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
      */
     private function _getSession()
     {
-        return \Mage::getSingleton('Magento_Paypal_Model_Session');
+        return \Mage::getSingleton('Magento\Paypal\Model\Session');
     }
 
     /**

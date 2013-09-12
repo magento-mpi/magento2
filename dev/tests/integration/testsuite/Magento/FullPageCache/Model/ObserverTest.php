@@ -26,10 +26,10 @@ class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCas
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var \Magento\Core\Model\Cache\StateInterface $cacheState */
         $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get(
-            '\Magento\Core\Model\Cache\StateInterface');
+            'Magento\Core\Model\Cache\StateInterface');
         $cacheState->setEnabled('full_page', true);
         $this->_cookie = $this->getMock(
-            '\Magento\FullPageCache\Model\Cookie',
+            'Magento\FullPageCache\Model\Cookie',
             array('set', 'delete', 'updateCustomerCookies'),
             array(),
             '',
@@ -58,7 +58,7 @@ class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCas
             ->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
         $observerData->setEvent(new \Magento\Event(array(
             'controller_action' => Mage::getModel(
-                '\Magento\Core\Controller\Front\Action',
+                'Magento\Core\Controller\Front\Action',
                 array('context' => $context)
             )
         )));
@@ -67,7 +67,7 @@ class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCas
 
         /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
         $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get(
-            '\Magento\Core\Model\Cache\StateInterface');
+            'Magento\Core\Model\Cache\StateInterface');
 
         $cacheState->setEnabled(\Magento\Core\Block\AbstractBlock::CACHE_GROUP, true);
 
@@ -97,7 +97,7 @@ class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCas
             ->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
         $observerData->setEvent(new \Magento\Event(array(
             'controller_action' => Mage::getModel(
-                '\Magento\Core\Controller\Front\Action',
+                'Magento\Core\Controller\Front\Action',
                 array('context' => $context)
             )
         )));

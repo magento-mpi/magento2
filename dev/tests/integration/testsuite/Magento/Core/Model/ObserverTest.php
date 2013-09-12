@@ -45,7 +45,7 @@ class Magento_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_eventObserver->getEvent()->setPathPattern($pattern);
 
         $themeRegistration = $this->getMock(
-            '\Magento\Core\Model\Theme\Registration',
+            'Magento\Core\Model\Theme\Registration',
             array('register'),
             array(
                 $this->_objectManager->create('Magento\Core\Model\Resource\Theme\CollectionFactory'),
@@ -55,7 +55,7 @@ class Magento_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $themeRegistration->expects($this->once())
             ->method('register')
             ->with($baseDir, $pattern);
-        $this->_objectManager->addSharedInstance($themeRegistration, '\Magento\Core\Model\Theme\Registration');
+        $this->_objectManager->addSharedInstance($themeRegistration, 'Magento\Core\Model\Theme\Registration');
 
         /** @var $observer \Magento\Core\Model\Observer */
         $observer = $this->_objectManager->create('Magento\Core\Model\Observer');

@@ -384,7 +384,7 @@ class Observer
         $widgetModel = \Mage::getModel('Magento\Widget\Model\Widget\Instance');
         $widgets = $widgetModel->getResourceCollection()
                 ->addStoreFilter(array($storeId, false))
-                ->addFieldToFilter('instance_type', '\Magento\VersionsCms\Block\Widget\Node');
+                ->addFieldToFilter('instance_type', 'Magento\VersionsCms\Block\Widget\Node');
 
         /* @var $widgetInstance \Magento\Widget\Model\Widget\Instance */
         foreach ($widgets as $widgetInstance) {

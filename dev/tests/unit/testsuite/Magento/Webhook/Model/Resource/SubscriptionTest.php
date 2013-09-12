@@ -48,9 +48,9 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
 
     public function setUp()
     {
-        $this->_selectMock = $this->_makeMock('\Magento\DB\Select');
-        $this->_resourceMock = $this->_makeMock('\Magento\Core\Model\Resource');
-        $this->_adapterMock = $this->_makeMock('\Magento\DB\Adapter\Pdo\Mysql');
+        $this->_selectMock = $this->_makeMock('Magento\DB\Select');
+        $this->_resourceMock = $this->_makeMock('Magento\Core\Model\Resource');
+        $this->_adapterMock = $this->_makeMock('Magento\DB\Adapter\Pdo\Mysql');
         $this->_adapterMock->expects($this->any())
             ->method('select')
             ->with()
@@ -101,7 +101,7 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
             ->will($this->returnSelf());
 
         // Subscription model mock
-        $subscriptionMock = $this->_makeMock('\Magento\Webhook\Model\Subscription');
+        $subscriptionMock = $this->_makeMock('Magento\Webhook\Model\Subscription');
         $subscriptionMock->expects($this->any())
             ->method('getId')
             ->with()
@@ -168,7 +168,7 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
             ->will($this->returnSelf());
 
         // Subscription model mock
-        $subscriptionMock = $this->_makeMock('\Magento\Webhook\Model\Subscription');
+        $subscriptionMock = $this->_makeMock('Magento\Webhook\Model\Subscription');
         $subscriptionMock->expects($this->any())
             ->method('getId')
             ->with()

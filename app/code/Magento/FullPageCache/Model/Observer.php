@@ -535,7 +535,7 @@ class Observer
             ->create('WISHLISTS');
 
         $blockContainer = \Mage::getModel(
-            '\Magento\FullPageCache\Model\Container\Wishlists', array('placeholder' => $placeholder)
+            'Magento\FullPageCache\Model\Container\Wishlists', array('placeholder' => $placeholder)
         );
         $this->_fpcCache->remove($blockContainer->getCacheId());
 

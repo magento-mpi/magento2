@@ -25,7 +25,7 @@ class Form extends \Magento\Core\Block\Template
 
         parent::_construct();
 
-        $data = \Mage::getSingleton('Magento_Review_Model_Session')->getFormData(true);
+        $data = \Mage::getSingleton('Magento\Review\Model\Session')->getFormData(true);
         $data = new \Magento\Object((array)$data);
 
         // add logged in customer name as nickname
@@ -53,7 +53,7 @@ class Form extends \Magento\Core\Block\Template
 
         $this->setTemplate('form.phtml')
             ->assign('data', $data)
-            ->assign('messages', \Mage::getSingleton('Magento_Review_Model_Session')->getMessages(true));
+            ->assign('messages', \Mage::getSingleton('Magento\Review\Model\Session')->getMessages(true));
     }
 
     public function getProductInfo()

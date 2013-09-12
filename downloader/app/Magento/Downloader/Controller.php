@@ -590,7 +590,7 @@ final class Controller
         if (is_null($model)) {
             $class = '\Magento\Downloader\Model';
         } else {
-            $class = 'Magento_Downloader_Model_' . str_replace(' ', '_', ucwords(str_replace('_', ' ', $model)));
+            $class = 'Magento\Downloader\Model\\' . str_replace(' ', '\\', ucwords(str_replace('\\', ' ', $model)));
             if (!class_exists($class, false)) {
                 include_once str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
             }
