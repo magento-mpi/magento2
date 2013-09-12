@@ -75,13 +75,6 @@ class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Wid
     protected $_configFactory;
 
     /**
-     * Magento_Data_Form_Factory
-     *
-     * @var Magento_Data_Form_Factory
-     */
-    protected $_formFactory;
-
-    /**
      * System config structure
      *
      * @var Magento_Backend_Model_Config_Structure
