@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class \Magento\Adminhtml\Block\Sales\Items\AbstractItemsTest extends PHPUnit_Framework_TestCase
+class Magento_Adminhtml_Block_Sales_Items_AbstractTest extends PHPUnit_Framework_TestCase
 {
     public function testGetItemExtraInfoHtml()
     {
