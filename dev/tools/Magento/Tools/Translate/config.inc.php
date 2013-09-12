@@ -19,7 +19,7 @@ $CONFIG['translates'] = array(
     'Magento_AdminNotification' => array(
         'app/code/Magento/AdminNotification/',
     ),
-    '\Magento\Backup' => array(
+    'Magento_Backup' => array(
         'app/code/Magento/Backup/',
     ),
     'Magento_Bundle' => array(
