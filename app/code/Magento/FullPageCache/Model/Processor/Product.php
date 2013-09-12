@@ -44,7 +44,7 @@ class Magento_FullPageCache_Model_Processor_Product extends Magento_FullPageCach
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_FullPageCache_Model_Cache $fpcCache

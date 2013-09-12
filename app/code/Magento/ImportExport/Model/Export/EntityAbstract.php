@@ -160,7 +160,7 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Core_Model_Store_Config $coreStoreConfig

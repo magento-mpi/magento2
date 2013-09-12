@@ -25,7 +25,7 @@ abstract class Magento_Backend_Model_Config_Backend_Currency_Abstract extends Ma
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * Constructor

@@ -32,7 +32,7 @@ class Magento_Directory_Model_Currency_Import_Webservicex extends Magento_Direct
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      *

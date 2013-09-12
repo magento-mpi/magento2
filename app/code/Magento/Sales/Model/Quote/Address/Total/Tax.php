@@ -18,7 +18,7 @@ class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Qu
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Core_Model_Store_Config $coreStoreConfig

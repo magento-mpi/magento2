@@ -28,7 +28,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Api_Helper_Data $apiHelper

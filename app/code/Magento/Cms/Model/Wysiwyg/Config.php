@@ -40,7 +40,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @var Magento_Core_Model_Config

@@ -81,7 +81,7 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Search_Model_Client_FactoryInterface $clientFactory

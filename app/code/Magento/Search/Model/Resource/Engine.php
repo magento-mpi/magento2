@@ -59,7 +59,7 @@ class Magento_Search_Model_Resource_Engine
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * Check if hold commit action is possible depending on current commit mode

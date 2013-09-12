@@ -25,7 +25,7 @@ abstract class Magento_GoogleCheckout_Model_Api_Xml_Abstract extends Magento_Obj
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Core_Model_Translate $translator

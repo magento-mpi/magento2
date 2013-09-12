@@ -29,7 +29,7 @@ class Magento_Downloadable_Model_Observer
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Core_Model_Store_Config $coreStoreConfig

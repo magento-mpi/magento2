@@ -25,7 +25,6 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
      */
     public function testCollection()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
         $oldTotalRecords = self::_getThemesCollection()->getSize();
 
         $collection = $this->setThemeFixture();

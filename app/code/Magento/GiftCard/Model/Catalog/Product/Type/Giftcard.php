@@ -52,7 +52,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * Initialize data

@@ -93,7 +93,7 @@ class Magento_FullPageCache_Model_Observer
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_FullPageCache_Model_Processor $processor

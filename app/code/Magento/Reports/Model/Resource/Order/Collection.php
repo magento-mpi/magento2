@@ -37,7 +37,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy

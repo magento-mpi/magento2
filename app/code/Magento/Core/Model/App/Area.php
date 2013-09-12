@@ -81,7 +81,7 @@ class Magento_Core_Model_App_Area
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager

@@ -59,7 +59,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @var Magento_Core_Model_Config

@@ -74,7 +74,7 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Core_Helper_Context $context
@@ -86,11 +86,9 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
         Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
-        parent::__construct(
-            $context
-        );
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
+        parent::__construct($context);
     }
 
     /**

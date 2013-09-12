@@ -106,7 +106,7 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @var Magento_Core_Model_Config

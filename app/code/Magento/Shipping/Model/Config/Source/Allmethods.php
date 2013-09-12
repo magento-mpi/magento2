@@ -15,7 +15,7 @@ class Magento_Shipping_Model_Config_Source_Allmethods implements Magento_Core_Mo
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Core_Model_Store_Config $coreStoreConfig

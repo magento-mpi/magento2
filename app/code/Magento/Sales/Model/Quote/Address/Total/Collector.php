@@ -55,7 +55,7 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @var Magento_Core_Model_Config

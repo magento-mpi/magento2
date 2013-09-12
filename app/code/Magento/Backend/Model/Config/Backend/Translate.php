@@ -29,7 +29,7 @@ class Magento_Backend_Model_Config_Backend_Translate extends Magento_Core_Model_
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * Constructor

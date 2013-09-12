@@ -95,7 +95,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @var Magento_Core_Model_Config

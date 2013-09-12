@@ -23,7 +23,7 @@ class Magento_GiftMessage_Block_Adminhtml_Product_Helper_Form_Config
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param $attributes

@@ -39,7 +39,7 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock_Default
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * Class constructor

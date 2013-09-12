@@ -30,7 +30,7 @@ abstract class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Abstract extends
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Core_Model_Context $context

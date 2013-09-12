@@ -37,7 +37,7 @@ class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_M
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Core_Helper_String $stringHelper

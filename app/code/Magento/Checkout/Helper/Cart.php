@@ -27,7 +27,7 @@ class Magento_Checkout_Helper_Cart extends Magento_Core_Helper_Url
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Core_Helper_Context $context

@@ -24,7 +24,7 @@ class Magento_CatalogEvent_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Core_Helper_Context $context

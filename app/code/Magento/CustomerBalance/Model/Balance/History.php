@@ -52,7 +52,7 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
     
     /**
      * @param Magento_Core_Model_View_DesignInterface $design

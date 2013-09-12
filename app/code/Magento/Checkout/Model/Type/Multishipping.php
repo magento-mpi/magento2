@@ -29,7 +29,7 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * Constructor

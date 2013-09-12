@@ -69,7 +69,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Core_Model_Resource $resource

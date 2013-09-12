@@ -23,7 +23,7 @@ class Magento_Search_Model_Catalog_Layer_Filter_Category extends Magento_Catalog
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Core_Model_Store_Config $coreStoreConfig

@@ -76,7 +76,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * Initialize operation model

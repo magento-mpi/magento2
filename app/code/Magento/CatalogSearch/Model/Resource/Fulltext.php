@@ -65,7 +65,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Core_Model_Resource $resource

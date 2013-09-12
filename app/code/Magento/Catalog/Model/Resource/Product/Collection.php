@@ -188,7 +188,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy

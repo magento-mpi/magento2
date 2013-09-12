@@ -182,7 +182,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Core_Model_View_DesignInterface $design

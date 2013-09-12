@@ -19,7 +19,7 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Core_Model_Validator_Factory $validatorFactory

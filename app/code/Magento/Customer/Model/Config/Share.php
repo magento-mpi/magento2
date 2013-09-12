@@ -35,7 +35,7 @@ class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Valu
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * Constructor

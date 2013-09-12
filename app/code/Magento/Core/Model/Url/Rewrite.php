@@ -55,7 +55,7 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Core_Model_Context $context

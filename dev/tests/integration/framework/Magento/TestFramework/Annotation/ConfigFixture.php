@@ -45,13 +45,14 @@ class Magento_TestFramework_Annotation_ConfigFixture
     protected function _getConfigValue($configPath, $storeCode = false)
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var Magento_Core_Model_Config $configModel */
-        $configModel = $objectManager->get('Magento_Core_Model_Config');
-        /** @var Magento_Core_Model_Store_Config $storeConfig */
-        $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
+
         if ($storeCode === false) {
+            /** @var Magento_Core_Model_Config $configModel */
+            $configModel = $objectManager->get('Magento_Core_Model_Config');
             $result = $configModel->getNode($configPath);
         } else {
+            /** @var Magento_Core_Model_Store_Config $storeConfig */
+            $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
             $result = $storeConfig->getConfig($configPath, $storeCode);
         }
         if ($result instanceof SimpleXMLElement) {

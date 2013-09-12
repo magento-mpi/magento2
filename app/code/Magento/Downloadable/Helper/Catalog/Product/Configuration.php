@@ -23,7 +23,7 @@ class Magento_Downloadable_Helper_Catalog_Product_Configuration extends Magento_
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Core_Helper_Context $context
