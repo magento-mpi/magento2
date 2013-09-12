@@ -54,7 +54,7 @@
                 <email_customer>0</email_customer>
                 <login backend_model="\Magento\Backend\Model\Config\Backend\Encrypted" />
                 <merchant_email />
-                <model>\Magento\Paygate\Model\Authorizenet</model>
+                <model>Magento\Paygate\Model\Authorizenet</model>
                 <order_status>processing</order_status>
                 <payment_action>authorize</payment_action>
                 <test>1</test>

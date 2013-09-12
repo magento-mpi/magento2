@@ -132,7 +132,7 @@ abstract class AbstractHelper
     {
         if (!$this->_moduleName) {
             $class = get_class($this);
-            $this->_moduleName = substr($class, 0, strpos($class, '_Helper'));
+            $this->_moduleName = substr($class, 0, strpos($class, '\\Helper'));
         }
         return $this->_moduleName;
     }

@@ -47,7 +47,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>\Magento\SalesArchive\Model\Observer::archiveOrdersByCron</model>
+                    <model>Magento\SalesArchive\Model\Observer::archiveOrdersByCron</model>
                 </run>
             </magento_salesarchive_archive_orders>
         </jobs>

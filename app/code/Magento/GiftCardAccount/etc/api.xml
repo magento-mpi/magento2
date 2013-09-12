@@ -13,7 +13,7 @@
     <api>
         <resources>
             <giftcard_account translate="title" module="Magento_GiftCardAccount">
-                <model>\Magento\GiftCardAccount\Model\Api</model>
+                <model>Magento\GiftCardAccount\Model\Api</model>
                 <title>GiftCard Account API</title>
                 <acl>giftcard_account</acl>
                 <methods>

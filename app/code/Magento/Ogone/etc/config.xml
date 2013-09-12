@@ -85,7 +85,7 @@
     <default>
         <payment>
             <ogone>
-                <model>\Magento\Ogone\Model\Api</model>
+                <model>Magento\Ogone\Model\Api</model>
                 <title>Ogone</title>
                 <secret_key backend_model="\Magento\Backend\Model\Config\Backend\Encrypted" />
                 <payment_action>authorize</payment_action>

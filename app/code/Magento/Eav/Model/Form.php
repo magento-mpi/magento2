@@ -130,7 +130,7 @@ abstract class Form
      */
     protected function _getFormAttributeCollection()
     {
-        return \Mage::getResourceModel($this->_moduleName . '_Model_Resource_Form_Attribute_Collection');
+        return \Mage::getResourceModel($this->_moduleName . '\Model\Resource\Form\Attribute\Collection');
     }
 
     /**

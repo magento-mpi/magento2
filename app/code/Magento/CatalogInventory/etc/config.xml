@@ -40,7 +40,7 @@
         <index>
             <indexer>
                 <cataloginventory_stock>
-                    <model>\Magento\CatalogInventory\Model\Indexer\Stock</model>
+                    <model>Magento\CatalogInventory\Model\Indexer\Stock</model>
                 </cataloginventory_stock>
                 <catalog_product_attribute>
                     <depends>

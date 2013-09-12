@@ -13,7 +13,7 @@
     <api>
         <resources>
             <giftmessage translate="title" module="Magento_GiftMessage">
-                <model>\Magento\GiftMessage\Model\Api</model>
+                <model>Magento\GiftMessage\Model\Api</model>
                 <title>Gift Message API</title>
                 <acl>giftmessage/set</acl>
                 <methods>

@@ -13,7 +13,7 @@
     <api>
         <resources>
             <directory_country translate="title" module="Magento_Directory">
-                <model>\Magento\Directory\Model\Country\Api</model>
+                <model>Magento\Directory\Model\Country\Api</model>
                 <title>Country API</title>
                 <acl>directory/country</acl>
                 <methods>
@@ -24,7 +24,7 @@
                 </methods>
             </directory_country>
             <directory_region translate="title" module="Magento_Directory">
-                <model>\Magento\Directory\Model\Region\Api</model>
+                <model>Magento\Directory\Model\Region\Api</model>
                 <title>Region API</title>
                 <acl>directory/region</acl>
                 <methods>

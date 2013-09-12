@@ -60,7 +60,7 @@
                     <cron_expr>*/15 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>\Magento\Reminder\Model\Observer::scheduledNotification</model>
+                    <model>Magento\Reminder\Model\Observer::scheduledNotification</model>
                 </run>
             </send_notification>
         </jobs>

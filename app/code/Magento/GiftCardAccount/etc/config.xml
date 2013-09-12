@@ -129,7 +129,7 @@
                     <cron_expr>0 1 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>\Magento\GiftCardAccount\Model\Cron::updateStates</model>
+                    <model>Magento\GiftCardAccount\Model\Cron::updateStates</model>
                 </run>
             </magento_giftcardaccount_update_states>
             <magento_giftcardaccount_generage_codes_pool>
@@ -137,7 +137,7 @@
                     <cron_expr>30 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>\Magento\GiftCardAccount\Model\Pool::applyCodesGeneration</model>
+                    <model>Magento\GiftCardAccount\Model\Pool::applyCodesGeneration</model>
                 </run>
             </magento_giftcardaccount_generage_codes_pool>
         </jobs>

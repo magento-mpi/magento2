@@ -16,7 +16,7 @@
                 <services>
                     <webservicex>
                         <name>Webservicex</name>
-                        <model>\Magento\Directory\Model\Currency\Import\Webservicex</model>
+                        <model>Magento\Directory\Model\Currency\Import\Webservicex</model>
                     </webservicex>
                 </services>
             </import>
@@ -103,7 +103,7 @@
         <jobs>
             <currency_rates_update>
                 <run>
-                    <model>\Magento\Directory\Model\Observer::scheduledUpdateCurrencyRates</model>
+                    <model>Magento\Directory\Model\Observer::scheduledUpdateCurrencyRates</model>
                 </run>
             </currency_rates_update>
         </jobs>

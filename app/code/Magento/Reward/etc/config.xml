@@ -126,7 +126,7 @@
                     <cron_expr>1 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>\Magento\Reward\Model\Observer::scheduledBalanceExpireNotification</model>
+                    <model>Magento\Reward\Model\Observer::scheduledBalanceExpireNotification</model>
                 </run>
             </magento_reward_balance_warning_notification>
             <magento_reward_expire_points>
@@ -134,7 +134,7 @@
                     <cron_expr>1 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>\Magento\Reward\Model\Observer::scheduledPointsExpiration</model>
+                    <model>Magento\Reward\Model\Observer::scheduledPointsExpiration</model>
                 </run>
             </magento_reward_expire_points>
         </jobs>

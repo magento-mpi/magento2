@@ -134,7 +134,7 @@ class Tabs extends \Magento\Backend\Block\Widget
      */
     protected function _addTabByName($tab, $tabId)
     {
-        if (strpos($tab, '_Block_')) {
+        if (strpos($tab, '\\Block\\')) {
             $this->_tabs[$tabId] = $this->getLayout()->createBlock(
                 $tab,
                 $this->getNameInLayout() . '_tab_' . $tabId

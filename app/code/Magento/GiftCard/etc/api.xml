@@ -13,7 +13,7 @@
     <api>
         <resources>
             <giftcard_customer translate="title" module="Magento_GiftCard">
-                <model>\Magento\GiftCard\Model\Customer\Api</model>
+                <model>Magento\GiftCard\Model\Customer\Api</model>
                 <title>Gift Card API</title>
                 <acl>giftcard_customer</acl>
                 <methods>
@@ -46,7 +46,7 @@
                 </faults>
             </giftcard_customer>
             <cart_giftcard translate="title" module="Magento_GiftCard">
-                <model>\Magento\GiftCard\Model\Checkout\Cart\Api</model>
+                <model>Magento\GiftCard\Model\Checkout\Cart\Api</model>
                 <title>Gift Card for Shopping Cart API</title>
                 <acl>cart_giftcard</acl>
                 <methods>
