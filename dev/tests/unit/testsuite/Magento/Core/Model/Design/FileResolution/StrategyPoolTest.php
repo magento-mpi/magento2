@@ -85,7 +85,7 @@ class Magento_Core_Model_Design_FileResolution_StrategyPoolTest extends PHPUnit_
                 ),
                 $strategy
             ),
-            array('Magento\Core\Model\Design\FileResolution\Strategy\Fallback', array(), $strategy),
+            array('\Magento\Core\Model\Design\FileResolution\Strategy\Fallback', array(), $strategy),
         );
         $this->_objectManager->expects($this->atLeastOnce())
             ->method('create')
