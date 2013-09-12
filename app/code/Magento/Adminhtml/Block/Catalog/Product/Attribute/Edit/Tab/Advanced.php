@@ -170,7 +170,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
                 'name' => 'frontend_class',
                 'label' => __('Input Validation for Store Owner'),
                 'title' => __('Input Validation for Store Owner'),
-                'values' => Mage::helper('Magento_Eav_Helper_Data')->getFrontendClasses(
+                'values' => $this->_eavData->getFrontendClasses(
                     $attributeObject->getEntityType()->getEntityTypeCode()
                 )
             )
@@ -231,6 +231,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
      */
     private function getAttributeObject()
     {
-        return Mage::registry('entity_attribute');
+        return $this->_coreRegistry->registry('entity_attribute');
     }
 }

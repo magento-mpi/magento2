@@ -157,7 +157,7 @@ class Magento_Customer_Model_Observer
         $customer = $customerAddress->getCustomer();
 
         if (!$this->_customerAddress->isVatValidationEnabled($customer->getStore())
-            || Mage::registry(self::VIV_PROCESSED_FLAG)
+            || $this->_coreRegistry->registry(self::VIV_PROCESSED_FLAG)
             || !$this->_canProcessAddress($customerAddress)
         ) {
             return;

@@ -35,7 +35,7 @@ class Magento_Catalog_Block_Product_List_Upsell extends Magento_Catalog_Block_Pr
         $this->_itemCollection = $product->getUpSellProductCollection()
             ->setPositionOrder()
             ->addStoreFilter();
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_Checkout')) {
+        if ($this->_catalogData->isModuleEnabled('Magento_Checkout')) {
             Mage::getResourceSingleton('Magento_Checkout_Model_Resource_Cart')
                 ->addExcludeProductFilter(
                     $this->_itemCollection,

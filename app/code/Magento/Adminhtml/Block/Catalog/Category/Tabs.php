@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Backend_Block_Widget_Tabs
 {
     /**
      * Default Attribute Tab Block
@@ -79,17 +79,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Bl
      */
     public function getCategory()
     {
-        return Mage::registry('current_category');
-    }
-
-    /**
-     * Return Adminhtml Catalog Helper
-     *
-     * @return Magento_Adminhtml_Helper_Catalog
-     */
-    public function getCatalogHelper()
-    {
-        return Mage::helper('Magento_Adminhtml_Helper_Catalog');
+        return $this->_coreRegistry->registry('current_category');
     }
 
     /**
@@ -99,7 +89,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Bl
      */
     public function getAttributeTabBlock()
     {
-        if ($block = $this->getCatalogHelper()->getCategoryAttributeTabBlock()) {
+        if ($block = $this->_adminhtmlCatalog->getCategoryAttributeTabBlock()) {
             return $block;
         }
         return $this->_attributeTabBlock;
@@ -174,7 +164,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Bl
         ));
 
         // dispatch event add custom tabs
-        Mage::dispatchEvent('adminhtml_catalog_category_tabs', array(
+        $this->_eventManager->dispatch('adminhtml_catalog_category_tabs', array(
             'tabs'  => $this
         ));
 

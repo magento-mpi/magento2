@@ -60,7 +60,7 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Adminhtml_Block_W
                 'id'        => 'edit_form',
                 'action'    => $this->getUrl('*/*/save', array(
                     'id' => $this->getRequest()->getParam('id'),
-                    'ret' => Mage::registry('ret')
+                    'ret' => $this->_coreRegistry->registry('ret')
                 )),
                 'method'    => 'post'
             ))

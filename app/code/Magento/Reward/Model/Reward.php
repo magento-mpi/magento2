@@ -638,10 +638,10 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
             'unsubscription_url' => $this->_rewardCustomer
                 ->getUnsubscribeUrl('update', $store->getId()),
             'points_balance' => $this->getPointsBalance(),
-            'reward_amount_was' => Mage::helper('Magento_Reward_Helper_Data')->formatAmount(
+            'reward_amount_was' => $this->_rewardData->formatAmount(
                 $this->getCurrencyAmount() - $history->getCurrencyDelta(), true, $store->getStoreId()
             ),
-            'reward_amount_now' => Mage::helper('Magento_Reward_Helper_Data')->formatAmount(
+            'reward_amount_now' => $this->_rewardData->formatAmount(
                 $this->getCurrencyAmount(), true, $store->getStoreId()
             ),
             'reward_pts_was' => ($this->getPointsBalance() - $delta),
