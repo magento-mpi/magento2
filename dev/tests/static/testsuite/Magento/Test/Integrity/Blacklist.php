@@ -11,6 +11,8 @@
  * @license     {license_link}
  */
 $webapiDir = '/dev/tests/integration/testsuite/Magento/Webapi/';
+$i18nFixtureDir = '/dev/tests/integration/testsuite/Magento/Test/Tools/I18n/Code/Dictionary/_files/';
+$i18nLibDir = '/dev/tools/Magento/Tools/I18n/Zend/';
 
 return array(
     '/dev/tests/unit/testsuite/Magento/Test/Tools/Di/_files/app/code/Magento/SomeModule/Model/Test.php',
@@ -36,5 +38,11 @@ return array(
     $webapiDir . 'Model/_files/autodiscovery/no_resources/class.php',
     $webapiDir . 'Model/_files/autodiscovery/reference_to_invalid_type/class.php',
     $webapiDir . 'Model/_files/autodiscovery/several_classes_in_one_file/file_with_classes.php',
+    $i18nLibDir . 'Exception.php',
+    $i18nLibDir . 'Console/Getopt/Exception.php',
+    $i18nLibDir . 'Console/Getopt.php',
+    $i18nFixtureDir . 'source/app/code/Magento/FirstModule/Model/Model.php',
+    $i18nFixtureDir . 'source/app/code/Magento/SecondModule/Model/Model.php',
+    $i18nFixtureDir . 'source/unused/Model.php',
+    $i18nFixtureDir . 'source/app/code/Magento/FirstModule/Helper/Helper.php',
 );
-
