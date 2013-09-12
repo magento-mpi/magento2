@@ -864,7 +864,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 $this->recollectCart();
                 throw $e;
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_logger->logException($e);
             }
             $this->recollectCart();
         }
