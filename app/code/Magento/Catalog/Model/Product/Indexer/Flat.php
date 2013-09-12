@@ -62,12 +62,13 @@ class Magento_Catalog_Model_Product_Indexer_Flat extends Magento_Index_Model_Ind
     public function __construct(
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogProductFlat = $catalogProductFlat;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     public function isVisible()
