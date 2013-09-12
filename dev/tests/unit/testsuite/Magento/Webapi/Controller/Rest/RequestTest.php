@@ -16,17 +16,17 @@ class Magento_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestC
      */
     protected $_request;
 
-    /** @var Magento_Webapi_Controller_Rest_Request_Interpreter_Factory */
-    protected $_interpreterFactory;
+    /** @var Magento_Webapi_Controller_Rest_Request_Deserializer_Factory */
+    protected $_deserializerFactory;
 
     protected function setUp()
     {
-        parent::setUp();
         /** Prepare mocks for request constructor arguments. */
-        $this->_interpreterFactory = $this->getMockBuilder('Magento_Webapi_Controller_Rest_Request_Interpreter_Factory')
-            ->setMethods(array('interpret', 'get'))
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_deserializerFactory =
+            $this->getMockBuilder('Magento_Webapi_Controller_Rest_Request_Deserializer_Factory')
+                ->setMethods(array('deserialize', 'get'))
+                ->disableOriginalConstructor()
+                ->getMock();
         $applicationMock = $this->getMockBuilder('Magento_Core_Model_App')
             ->disableOriginalConstructor()
             ->getMock();
@@ -40,13 +40,14 @@ class Magento_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestC
         $this->_request = $this->getMock(
             'Magento_Webapi_Controller_Rest_Request',
             array('getHeader', 'getMethod', 'isGet', 'isPost', 'isPut', 'isDelete', 'getRawBody'),
-            array($applicationMock, $this->_interpreterFactory)
+            array($applicationMock, $this->_deserializerFactory)
         );
+        parent::setUp();
     }
 
     protected function tearDown()
     {
-        unset($this->_interpreterFactory);
+        unset($this->_deserializerFactory);
         unset($this->_request);
         parent::tearDown();
     }
@@ -99,18 +100,18 @@ class Magento_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestC
             ->method('getHeader')
             ->with('Content-Type')
             ->will($this->returnValue($contentType));
-        $interpreter = $this->getMockBuilder('Magento_Webapi_Controller_Rest_Request_Interpreter_Json')
+        $deserializer = $this->getMockBuilder('Magento_Webapi_Controller_Rest_Request_Deserializer_Json')
             ->disableOriginalConstructor()
-            ->setMethods(array('interpret'))
+            ->setMethods(array('deserialize'))
             ->getMock();
-        $interpreter->expects($this->once())
-            ->method('interpret')
+        $deserializer->expects($this->once())
+            ->method('deserialize')
             ->with($rawBody)
             ->will($this->returnValue($params));
-        $this->_interpreterFactory->expects($this->once())
+        $this->_deserializerFactory->expects($this->once())
             ->method('get')
             ->with($contentType)
-            ->will($this->returnValue($interpreter));
+            ->will($this->returnValue($deserializer));
     }
 
     /**

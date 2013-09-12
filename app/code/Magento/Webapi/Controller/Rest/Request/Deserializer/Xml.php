@@ -1,14 +1,14 @@
 <?php
 /**
- * XML interpreter of REST request content.
+ * XML deserializer of REST request content.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_Request_Interpreter_Xml implements
-    Magento_Webapi_Controller_Rest_Request_InterpreterInterface
+class Magento_Webapi_Controller_Rest_Request_Deserializer_Xml implements
+    Magento_Webapi_Controller_Rest_Request_DeserializerInterface
 {
     /** @var Magento_Xml_Parser */
     protected $_xmlParser;
@@ -47,7 +47,7 @@ class Magento_Webapi_Controller_Rest_Request_Interpreter_Xml implements
      * @throws InvalidArgumentException In case of invalid argument type.
      * @throws Magento_Webapi_Exception If decoding error occurs.
      */
-    public function interpret($xmlRequestBody)
+    public function deserialize($xmlRequestBody)
     {
         if (!is_string($xmlRequestBody)) {
             throw new InvalidArgumentException(

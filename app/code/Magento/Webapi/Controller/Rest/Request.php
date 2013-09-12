@@ -20,14 +20,14 @@ class Magento_Webapi_Controller_Rest_Request extends Magento_Webapi_Controller_R
     /** @var string */
     protected $_serviceType;
 
-    /** @var Magento_Webapi_Controller_Rest_Request_InterpreterInterface */
-    protected $_interpreter;
+    /** @var Magento_Webapi_Controller_Rest_Request_DeserializerInterface */
+    protected $_deserializer;
 
     /** @var array */
     protected $_bodyParams;
 
-    /** @var Magento_Webapi_Controller_Rest_Request_Interpreter_Factory */
-    protected $_interpreterFactory;
+    /** @var Magento_Webapi_Controller_Rest_Request_Deserializer_Factory */
+    protected $_deserializerFactory;
 
     /** @var Magento_Core_Model_App */
     protected $_application;
@@ -36,29 +36,29 @@ class Magento_Webapi_Controller_Rest_Request extends Magento_Webapi_Controller_R
      * Initialize dependencies.
      *
      * @param Magento_Core_Model_App $application
-     * @param Magento_Webapi_Controller_Rest_Request_Interpreter_Factory $interpreterFactory
+     * @param Magento_Webapi_Controller_Rest_Request_Deserializer_Factory $deserializerFactory
      * @param string|null $uri
      */
     public function __construct(
         Magento_Core_Model_App $application,
-        Magento_Webapi_Controller_Rest_Request_Interpreter_Factory $interpreterFactory,
+        Magento_Webapi_Controller_Rest_Request_Deserializer_Factory $deserializerFactory,
         $uri = null
     ) {
         parent::__construct($application, $uri);
-        $this->_interpreterFactory = $interpreterFactory;
+        $this->_deserializerFactory = $deserializerFactory;
     }
 
     /**
-     * Get request interpreter.
+     * Get request deserializer.
      *
-     * @return Magento_Webapi_Controller_Rest_Request_InterpreterInterface
+     * @return Magento_Webapi_Controller_Rest_Request_DeserializerInterface
      */
-    protected function _getInterpreter()
+    protected function _getDeserializer()
     {
-        if (null === $this->_interpreter) {
-            $this->_interpreter = $this->_interpreterFactory->get($this->getContentType());
+        if (null === $this->_deserializer) {
+            $this->_deserializer = $this->_deserializerFactory->get($this->getContentType());
         }
-        return $this->_interpreter;
+        return $this->_deserializer;
     }
 
     /**
@@ -106,7 +106,7 @@ class Magento_Webapi_Controller_Rest_Request extends Magento_Webapi_Controller_R
     public function getBodyParams()
     {
         if (null == $this->_bodyParams) {
-            $this->_bodyParams = $this->_getInterpreter()->interpret((string)$this->getRawBody());
+            $this->_bodyParams = $this->_getDeserializer()->deserialize((string)$this->getRawBody());
         }
         return $this->_bodyParams;
     }

@@ -33,26 +33,26 @@
         <webapi>
             <rest>
                 <request>
-                    <interpreters>
+                    <deserializers>
                         <!-- JSON -->
                         <application_json>
                             <type>application/json</type>
-                            <model>Magento_Webapi_Controller_Rest_Request_Interpreter_Json</model>
+                            <model>Magento_Webapi_Controller_Rest_Request_Deserializer_Json</model>
                         </application_json>
                         <!-- XML -->
                         <application_xml>
                             <type>application/xml</type>
-                            <model>Magento_Webapi_Controller_Rest_Request_Interpreter_Xml</model>
+                            <model>Magento_Webapi_Controller_Rest_Request_Deserializer_Xml</model>
                         </application_xml>
                         <application_xhtml_xml>
                             <type>application/xhtml+xml</type>
-                            <model>Magento_Webapi_Controller_Rest_Request_Interpreter_Xml</model>
+                            <model>Magento_Webapi_Controller_Rest_Request_Deserializer_Xml</model>
                         </application_xhtml_xml>
                         <text_xml>
                             <type>text/xml</type>
-                            <model>Magento_Webapi_Controller_Rest_Request_Interpreter_Xml</model>
+                            <model>Magento_Webapi_Controller_Rest_Request_Deserializer_Xml</model>
                         </text_xml>
-                    </interpreters>
+                    </deserializers>
                 </request>
                 <response>
                     <renders>

@@ -1,14 +1,14 @@
 <?php
 /**
- * JSON interpreter of REST request content.
+ * JSON deserializer of REST request content.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_Request_Interpreter_Json implements
-    Magento_Webapi_Controller_Rest_Request_InterpreterInterface
+class Magento_Webapi_Controller_Rest_Request_Deserializer_Json implements
+    Magento_Webapi_Controller_Rest_Request_DeserializerInterface
 {
     /** @var Magento_Core_Helper_Data */
     protected $_helper;
@@ -36,7 +36,7 @@ class Magento_Webapi_Controller_Rest_Request_Interpreter_Json implements
      * @throws InvalidArgumentException
      * @throws Magento_Webapi_Exception If decoding error was encountered.
      */
-    public function interpret($encodedBody)
+    public function deserialize($encodedBody)
     {
         if (!is_string($encodedBody)) {
             throw new InvalidArgumentException(sprintf(
