@@ -497,7 +497,7 @@ class DefaultModel extends \Zend_Captcha_Image implements \Magento\Captcha\Model
     /**
      * Set captcha word
      *
-     * @return Magento_Captcha_Model_Zend
+     * @return \Magento\Captcha\Model\Zend
      */
     protected function _clearWord()
     {
