@@ -68,11 +68,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
     {
         $attributeObject = $this->getAttributeObject();
 
-        $form = new Magento_Data_Form(array(
+        $form = $this->_formFactory->create(array('attributes' => array(
             'id' => 'edit_form',
             'action' => $this->getData('action'),
             'method' => 'post'
-        ));
+        )));
 
         $fieldset = $form->addFieldset(
             'advanced_fieldset',
