@@ -76,6 +76,7 @@ abstract class Magento_TargetRule_Block_Product_Abstract extends Magento_Catalog
     protected $_targetRuleData = null;
 
     /**
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_TargetRule_Helper_Data $targetRuleData
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -84,6 +85,7 @@ abstract class Magento_TargetRule_Block_Product_Abstract extends Magento_Catalog
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_TargetRule_Helper_Data $targetRuleData,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
@@ -92,7 +94,7 @@ abstract class Magento_TargetRule_Block_Product_Abstract extends Magento_Catalog
         array $data = array()
     ) {
         $this->_targetRuleData = $targetRuleData;
-        parent::__construct($taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
     }
 
     /**

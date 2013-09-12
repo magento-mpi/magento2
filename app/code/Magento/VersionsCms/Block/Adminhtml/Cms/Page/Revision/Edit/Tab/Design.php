@@ -29,6 +29,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Design
 
     /**
      * @param Magento_VersionsCms_Helper_Data $cmsData
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -36,13 +37,14 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Design
      */
     public function __construct(
         Magento_VersionsCms_Helper_Data $cmsData,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($coreRegistry, $formFactory, $coreData, $context, $data);
     }
 
     /**
