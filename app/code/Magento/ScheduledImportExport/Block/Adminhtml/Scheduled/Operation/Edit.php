@@ -54,7 +54,7 @@ class Edit
     protected function _prepareLayout()
     {
         $operation = \Mage::registry('current_operation');
-        $blockName = 'Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_'
+        $blockName = 'Magento\\ScheduledImportExport\\Block\\Adminhtml\\Scheduled\\Operation\\Edit\\Form\\'
             . ucfirst($operation->getOperationType());
         $formBlock = $this->getLayout()
             ->createBlock($blockName);

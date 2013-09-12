@@ -212,7 +212,7 @@ class Attribute
         $types = array('Select', 'Date', 'Country');
 
         foreach ($types as $type) {
-            $renderer = 'Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_' . $type;
+            $renderer = 'Magento\\GiftRegistry\\Block\\Adminhtml\\Giftregistry\\Edit\\Attribute\\Type\\' . $type;
             $block = $this->getLayout()->createBlock($renderer)->setFieldPrefix($this->getFieldPrefix());
             $templates[] = $block->toHtml();
         }
