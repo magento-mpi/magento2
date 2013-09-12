@@ -18,6 +18,11 @@
 class Magento_Adminhtml_Block_Sales_Order_View extends Magento_Backend_Block_Widget_Form_Container
 {
     /**
+     * @var string
+     */
+    protected $_blockGroup = 'Magento_Adminhtml';
+
+    /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry

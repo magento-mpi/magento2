@@ -121,7 +121,8 @@ class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
             ->method('create')
             ->with($this->equalTo($type), $this->equalTo(array()))
             ->will($this->returnValue($elementMock));
-        $this->_factory->create($type);    }
+        $this->_factory->create($type);
+    }
 
     /**
      * @return array

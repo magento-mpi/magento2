@@ -20,15 +20,17 @@ class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
     protected $_catalogSearchData = null;
 
     /**
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
         array $data = array()
     ) {
         $this->_catalogSearchData = $catalogSearchData;
-        parent::__construct($data);
+        parent::__construct($coreRegistry, $data);
     }
 
     /**
