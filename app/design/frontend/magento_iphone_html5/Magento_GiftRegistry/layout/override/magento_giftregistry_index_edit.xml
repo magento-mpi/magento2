@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account GiftRegistry Edit" module="Magento_GiftRegistry" type="page" parent="magento_giftregistry_view_index">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account GiftRegistry Edit" type="page" parent="magento_giftregistry_view_index">
     <update handle="customer_account"/>
     <update handle="page_calendar"/>
     <reference name="customer_account_navigation">
