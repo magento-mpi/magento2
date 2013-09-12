@@ -671,14 +671,15 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $blocks = array(); $names = array();
         $layout = false;
         if ($withLayout) {
-            $layout = Mage::getSingleton('Magento_Core_Model_Layout');
+            $layout = $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Model_Layout');
         }
         for ($i = 0; $i < $qty; $i++) {
             $name = uniqid('block.');
             if ($layout) {
                 $block = $layout->createBlock($className, $name);
             } else {
-                $block = new $className;
+                $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($className);
                 $block->setNameInLayout($name);
             }
             $blocks[] = $block;
