@@ -77,7 +77,7 @@ class Magento_Logging_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
     {
         $fileList = array(
             __DIR__ . '/_files/customerBalance.xml',
-            __DIR__ . '/_files/reward.xml'
+            __DIR__ . '/_files/Reward.xml'
         );
         $fileResolverMock = $this->getMockBuilder('Magento_Config_FileResolverInterface')
             ->setMethods(array('get'))
