@@ -89,7 +89,7 @@ class Magento_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_T
             ->expects($this->once())
             ->method('create')
             ->with(
-                '\Magento\Core\Model\Page\Asset\Merged',
+                'Magento\Core\Model\Page\Asset\Merged',
                 array('assets' => $assets, 'mergeStrategy' => $mergeStrategyMock)
             )
             ->will($this->returnValue($mergedAsset))
