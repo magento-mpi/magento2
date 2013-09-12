@@ -98,19 +98,22 @@ class Magento_Config_Dom
 
         /* Update matched node attributes and value */
         if ($matchedNode) {
-            foreach ($node->attributes as $attribute) {
-                $matchedNode->setAttribute($this->_getAttributeName($attribute), $attribute->value);
-            }
+            $this->_mergeAttributes($matchedNode, $node);
+
             /* Merge child nodes */
-            if ($node->hasChildNodes()) {
-                /* override node value */
-                if ($node->childNodes->length == 1 && $node->childNodes->item(0) instanceof DOMText) {
+            if (!$node->hasChildNodes()) {
+                return;
+            }
+            /* override node value */
+            if ($this->_isTextNode($node)) {
+                /* skip the case when the matched node has children, otherwise they get overriden */
+                if (!$matchedNode->hasChildNodes() || $this->_isTextNode($matchedNode)) {
                     $matchedNode->nodeValue = $node->childNodes->item(0)->nodeValue;
-                } else { /* recursive merge for all child nodes */
-                    foreach ($node->childNodes as $childNode) {
-                        if ($childNode instanceof DOMElement) {
-                            $this->_mergeNode($childNode, $path);
-                        }
+                }
+            } else { /* recursive merge for all child nodes */
+                foreach ($node->childNodes as $childNode) {
+                    if ($childNode instanceof DOMElement) {
+                        $this->_mergeNode($childNode, $path);
                     }
                 }
             }
@@ -119,6 +122,31 @@ class Magento_Config_Dom
             $parentMatchedNode = $this->_getMatchedNode($parentPath);
             $newNode = $this->_dom->importNode($node, true);
             $parentMatchedNode->appendChild($newNode);
+        }
+    }
+
+    /**
+     * Check if the node content is text
+     *
+     * @param $node
+     * @return bool
+     */
+    protected function _isTextNode($node)
+    {
+        return $node->childNodes->length == 1 && $node->childNodes->item(0) instanceof DOMText;
+    }
+
+    /**
+     * Merges attributes of the merge node to the base node
+     *
+     * @param $baseNode
+     * @param $mergeNode
+     * @return null
+     */
+    protected function _mergeAttributes($baseNode, $mergeNode)
+    {
+        foreach ($mergeNode->attributes as $attribute) {
+            $baseNode->setAttribute($this->_getAttributeName($attribute), $attribute->value);
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Widget_Model_Config_Reader
+ * Magento_Core_Model_Fieldset_Config_Reader
  *
  * {license_notice}
  *
@@ -65,12 +65,9 @@ class Magento_Core_Model_Fieldset_Config_ReaderTest extends PHPUnit_Framework_Te
             )
         );
 
-        $schema = __DIR__ . '/../../../../../../../../../app/code/Magento/Core/etc/fieldset.xsd';
         $this->_model = Mage::getObjectManager()->create(
             'Magento_Core_Model_Fieldset_Config_Reader', array(
-                'moduleReader' => $moduleReader,
                 'fileResolver' => $fileResolver,
-                'schema' => $schema
             )
         );
     }
@@ -80,5 +77,44 @@ class Magento_Core_Model_Fieldset_Config_ReaderTest extends PHPUnit_Framework_Te
         $result = $this->_model->read('global');
         $expected = include '_files/expectedArray.php';
         $this->assertEquals($expected, $result);
+    }
+
+    public function testMergeCompleteAndPartial()
+    {
+        $fileList = array(
+            __DIR__ . '/_files/partialFieldsetFirst.xml',
+            __DIR__ . '/_files/partialFieldsetSecond.xml'
+        );
+        $fileResolverMock = $this->getMockBuilder('Magento_Config_FileResolverInterface')
+            ->setMethods(array('get'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $fileResolverMock->expects($this->once())
+            ->method('get')
+            ->with($this->equalTo('fieldset.xml'), $this->equalTo('global'))
+            ->will($this->returnValue($fileList));
+
+        /** @var Magento_Core_Model_Fieldset_Config_Reader $model */
+        $model = Mage::getObjectManager()->create(
+            'Magento_Core_Model_Fieldset_Config_Reader', array(
+                'fileResolver' => $fileResolverMock,
+            )
+        );
+        $expected = array(
+            'global' => array(
+                'sales_convert_quote_item' => array(
+                    'event_id' => array(
+                        'to_order_item' => "*",
+                    ),
+                    'event_name' => array(
+                        'to_order_item' => "*"
+                    ),
+                    'event_description' => array(
+                        'to_order_item' => "complexDesciption"
+                    )
+                )
+            )
+        );
+        $this->assertEquals($expected, $model->read('global'));
     }
 }
