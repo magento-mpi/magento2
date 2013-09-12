@@ -14,7 +14,7 @@
 <phpunit bootstrap="./framework/bootstrap.php">
     <testsuites>
         <testsuite name="Code Legacy Tests">
-            <directory>testsuite/Legacy</directory>
+            <directory>testsuite/Magento/Test/Legacy</directory>
         </testsuite>
     </testsuites>
     <php>

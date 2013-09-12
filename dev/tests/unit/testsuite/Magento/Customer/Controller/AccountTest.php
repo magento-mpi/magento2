@@ -46,7 +46,7 @@ class Magento_Customer_Controller_AccountTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $constructArguments = $objectManagerHelper->getConstructArguments('Magento_Customer_Controller_Account');
         $this->_model = $objectManagerHelper->getObject('Magento_Customer_Controller_Account', $constructArguments);
     }

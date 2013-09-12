@@ -26,7 +26,7 @@ class Magento_Webapi_Model_Acl_Role_FactoryTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $this->_objectManager = $this->getMockBuilder('Magento_ObjectManager')
             ->disableOriginalConstructor()

@@ -12,6 +12,25 @@ class Magento_TargetRule_Controller_Adminhtml_Targetrule extends Magento_Adminht
 {
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Initial actions
      *
      * @return unknown
@@ -80,7 +99,7 @@ class Magento_TargetRule_Controller_Adminhtml_Targetrule extends Magento_Adminht
             $model->addData($data);
         }
 
-        Mage::register('current_target_rule', $model);
+        $this->_coreRegistry->register('current_target_rule', $model);
 
         $this->_initAction();
         $this->renderLayout();

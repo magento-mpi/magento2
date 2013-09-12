@@ -43,7 +43,7 @@ class Magento_GoogleAdwords_Model_Config_Source_LanguageTest extends PHPUnit_Fra
         $this->_uppercaseFilterMock = $this->getMock('Magento_GoogleAdwords_Model_Filter_UppercaseTitle', array(),
             array(), '', false);
 
-        $objectManager = new Magento_Test_Helper_ObjectManager($this);
+        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $objectManager->getObject('Magento_GoogleAdwords_Model_Config_Source_Language', array(
             'locale' => $this->_localeModelMock,
             'helper' => $this->_helperMock,

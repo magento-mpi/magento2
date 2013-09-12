@@ -17,6 +17,24 @@
  */
 class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Action
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
 
     public function indexAction()
     {
@@ -40,7 +58,7 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
         if ($pollModel->getId() || $pollId == 0) {
             $this->_title($pollModel->getId() ? $pollModel->getPollTitle() : __('New Poll'));
 
-            Mage::register('poll_data', $pollModel);
+            $this->_coreRegistry->register('poll_data', $pollModel);
 
             $this->loadLayout();
             $this->_setActiveMenu('Magento_Poll::cms_poll');
@@ -60,7 +78,8 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
 
     public function deleteAction()
     {
-        if ($id = $this->getRequest()->getParam('id')) {
+        $id = $this->getRequest()->getParam('id');
+        if ($id) {
             try {
                 $model = Mage::getModel('Magento_Poll_Model_Poll');
                 $model->setId($id);
@@ -68,8 +87,7 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You deleted the poll.'));
                 $this->_redirect('*/*/');
                 return;
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
@@ -97,26 +115,26 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
         $response = new Magento_Object();
         $response->setError(false);
 
-        if ( $this->getRequest()->getPost() ) {
+        if ($this->getRequest()->getPost()) {
             try {
                 $pollModel = Mage::getModel('Magento_Poll_Model_Poll');
 
-                if( !$this->getRequest()->getParam('id') ) {
+                if (!$this->getRequest()->getParam('id')) {
                     $pollModel->setDatePosted(now());
                 }
 
-                if( $this->getRequest()->getParam('closed') && !$this->getRequest()->getParam('was_closed') ) {
+                if ($this->getRequest()->getParam('closed') && !$this->getRequest()->getParam('was_closed')) {
                     $pollModel->setDateClosed(now());
                 }
 
-                if( !$this->getRequest()->getParam('closed') ) {
+                if (!$this->getRequest()->getParam('closed')) {
                     $pollModel->setDateClosed(new Zend_Db_Expr('null'));
                 }
 
                 $pollModel->setPollTitle($this->getRequest()->getParam('poll_title'))
                       ->setClosed($this->getRequest()->getParam('closed'));
 
-                if( $this->getRequest()->getParam('id') > 0 ) {
+                if ($this->getRequest()->getParam('id') > 0) {
                     $pollModel->setId($this->getRequest()->getParam('id'));
                 }
 
@@ -129,11 +147,11 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
                     $storeIds = array();
                     foreach ($stores as $storeIdList) {
                         $storeIdList = explode(',', $storeIdList);
-                        if(!$storeIdList) {
+                        if (!$storeIdList) {
                             continue;
                         }
-                        foreach($storeIdList as $storeId) {
-                            if( $storeId > 0 ) {
+                        foreach ($storeIdList as $storeId) {
+                            if ($storeId > 0) {
                                 $storeIds[] = $storeId;
                             }
                         }
@@ -146,11 +164,11 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
 
                 $answers = $this->getRequest()->getParam('answer');
 
-                if( !is_array($answers) || sizeof($answers) == 0 ) {
+                if (!is_array($answers) || sizeof($answers) == 0) {
                     Mage::throwException(__('Please enter answer options for this poll.'));
                 }
 
-                if( is_array($answers) ) {
+                if (is_array($answers)) {
                     $_titles = array();
                     foreach( $answers as $key => $answer ) {
                         if( in_array($answer['title'], $_titles) ) {
@@ -171,18 +189,17 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
 
                 $pollModel->save();
 
-                Mage::register('current_poll_model', $pollModel);
+                $this->_coreRegistry->register('current_poll_model', $pollModel);
 
                 $answersDelete = $this->getRequest()->getParam('deleteAnswer');
-                if( is_array($answersDelete) ) {
-                    foreach( $answersDelete as $answer ) {
+                if (is_array($answersDelete)) {
+                    foreach ($answersDelete as $answer) {
                         $answerModel = Mage::getModel('Magento_Poll_Model_Poll_Answer');
                         $answerModel->setId($answer)
                             ->delete();
                     }
                 }
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
                 $response->setError(true);
@@ -196,5 +213,4 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
     {
         return $this->_authorization->isAllowed('Magento_Poll::poll');
     }
-
 }

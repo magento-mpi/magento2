@@ -19,12 +19,14 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
     protected function setUp()
     {
         Mage::getConfig();
-        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
+            ->setDefaultDesignTheme();
         $arguments = array(
-            'request'  => new Magento_Test_Request(),
-            'response' => new Magento_Test_Response(),
+            'request'  => new Magento_TestFramework_Request(),
+            'response' => new Magento_TestFramework_Response(),
         );
-        $context = Magento_Test_Helper_Bootstrap::getObjectManager()
+        $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
         $this->_model = $this->getMockForAbstractClass(
             'Magento_Core_Controller_Varien_Action',
@@ -40,12 +42,12 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
 
     public function testGetRequest()
     {
-        $this->assertInstanceOf('Magento_Test_Request', $this->_model->getRequest());
+        $this->assertInstanceOf('Magento_TestFramework_Request', $this->_model->getRequest());
     }
 
     public function testGetResponse()
     {
-        $this->assertInstanceOf('Magento_Test_Response', $this->_model->getResponse());
+        $this->assertInstanceOf('Magento_TestFramework_Response', $this->_model->getResponse());
     }
 
     public function testSetGetFlag()
@@ -80,7 +82,7 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
      */
     public function testGetLayout($controllerClass, $expectedArea)
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Config_Scope')->setCurrentScope($expectedArea);
         /** @var $controller Magento_Core_Controller_Varien_Action */
         $controller = $objectManager->create($controllerClass);
@@ -227,16 +229,16 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
      */
     public function testDispatch()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         if (headers_sent()) {
             $this->markTestSkipped('Can\' dispatch - headers already sent');
         }
-        $request = new Magento_Test_Request();
+        $request = new Magento_TestFramework_Request();
         $request->setDispatched();
 
         $arguments = array(
             'request'  => $request,
-            'response' => new Magento_Test_Response(),
+            'response' => new Magento_TestFramework_Response(),
         );
         $context = $objectManager->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
 
@@ -290,16 +292,19 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
     public function testPreDispatch($controllerClass, $expectedArea, $expectedStore, $expectedDesign, $context)
     {
         Mage::app()->loadArea($expectedArea);
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var $controller Magento_Core_Controller_Varien_Action */
-        $context = $objectManager->create($context, array('response' => new Magento_Test_Response()));
+        $context =
+        $context = $objectManager->create($context, array('response' => new Magento_TestFramework_Response()));
         $controller = $objectManager->create($controllerClass, array('context' => $context));
         $controller->preDispatch();
 
-        $this->assertEquals($expectedArea, Mage::getDesign()->getArea());
+        $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_View_DesignInterface');
+        $this->assertEquals($expectedArea, $design->getArea());
         $this->assertEquals($expectedStore, Mage::app()->getStore()->getCode());
         if ($expectedDesign) {
-            $this->assertEquals($expectedDesign, Mage::getDesign()->getDesignTheme()->getThemePath());
+            $this->assertEquals($expectedDesign, $design->getDesignTheme()->getThemePath());
         }
     }
 

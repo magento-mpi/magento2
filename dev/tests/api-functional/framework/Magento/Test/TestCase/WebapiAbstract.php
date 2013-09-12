@@ -328,9 +328,12 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
      */
     static protected function _enableSecureArea($flag = true)
     {
-        Mage::unregister('isSecureArea');
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+        $objectManager->get('Magento_Core_Model_Registry')->unregister('isSecureArea');
         if ($flag) {
-            Mage::register('isSecureArea', $flag);
+            $objectManager->get('Magento_Core_Model_Registry')->register('isSecureArea', $flag);
         }
     }
 
@@ -410,8 +413,8 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
             $currentCacheDir = $options->getCacheDir();
             $currentEtcDir = $options->getEtcDir();
 
-            $options->setCacheDir(Magento_Test_Bootstrap::getInstance()->getMagentoDir() . DS . 'var' . DS . 'cache');
-            $options->setEtcDir(Magento_Test_Bootstrap::getInstance()->getMagentoDir() . DS . 'app' . DS . 'etc');
+            $options->setCacheDir(Magento_TestFramework_Bootstrap::getInstance()->getMagentoDir() . '/var/cache');
+            $options->setEtcDir(Magento_TestFramework_Bootstrap::getInstance()->getMagentoDir() . '/app/etc');
 
             $this->_appCache = Mage::getObjectManager()->get('Magento_Core_Model_Cache');
 

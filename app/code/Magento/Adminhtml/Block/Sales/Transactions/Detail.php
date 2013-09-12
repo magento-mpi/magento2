@@ -25,6 +25,27 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail extends Magento_Adminhtm
     protected $_txn;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Add control buttons
      *
      */
@@ -32,7 +53,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail extends Magento_Adminhtm
     {
         parent::_construct();
 
-        $this->_txn = Mage::registry('current_transaction');
+        $this->_txn = $this->_coreRegistry->registry('current_transaction');
         if (!$this->_txn) {
             return;
         }

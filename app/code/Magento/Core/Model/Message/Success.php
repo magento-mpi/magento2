@@ -8,9 +8,11 @@
  * @license     {license_link}
  */
 
-
 class Magento_Core_Model_Message_Success extends Magento_Core_Model_Message_Abstract
 {
+    /**
+     * @param string $code
+     */
     public function __construct($code)
     {
         parent::__construct(Magento_Core_Model_Message::SUCCESS, $code);

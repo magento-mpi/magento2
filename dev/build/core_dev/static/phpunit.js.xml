@@ -14,7 +14,7 @@
 <phpunit bootstrap="./framework/bootstrap.php">
     <testsuites>
         <testsuite name="Javascript Static Code Analysis">
-            <file>testsuite/Js/LiveCodeTest.php</file>
+            <file>testsuite/Magento/Test/Js/LiveCodeTest.php</file>
         </testsuite>
     </testsuites>
     <php>

@@ -39,7 +39,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPU
     {
         $this->_objectManager = $this->getMock('Magento_ObjectManager');
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $constructArguments = $objectManagerHelper->getConstructArguments(
             'Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css',
             array(

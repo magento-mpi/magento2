@@ -5,13 +5,13 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-require_once __DIR__ . '/../_files/app/code/Custom/Module/Model/Item.php';
-require_once __DIR__ . '/../_files/app/code/Custom/Module/Model/Item/Enhanced.php';
-require_once __DIR__ . '/../_files/app/code/Custom/Module/Model/ItemContainer.php';
-require_once __DIR__ . '/../_files/app/code/Custom/Module/Model/ItemContainer/Enhanced.php';
-require_once __DIR__ . '/../_files/app/code/Custom/Module/Model/ItemContainerPlugin/Simple.php';
-require_once __DIR__ . '/../_files/app/code/Custom/Module/Model/ItemPlugin/Simple.php';
-require_once __DIR__ . '/../_files/app/code/Custom/Module/Model/ItemPlugin/Advanced.php';
+require_once __DIR__ . '/../Custom/Module/Model/Item.php';
+require_once __DIR__ . '/../Custom/Module/Model/Item/Enhanced.php';
+require_once __DIR__ . '/../Custom/Module/Model/ItemContainer.php';
+require_once __DIR__ . '/../Custom/Module/Model/ItemContainer/Enhanced.php';
+require_once __DIR__ . '/../Custom/Module/Model/ItemContainerPlugin/Simple.php';
+require_once __DIR__ . '/../Custom/Module/Model/ItemPlugin/Simple.php';
+require_once __DIR__ . '/../Custom/Module/Model/ItemPlugin/Advanced.php';
 
 class Magento_Interception_Config_ConfigTest extends PHPUnit_Framework_TestCase
 {
@@ -27,7 +27,7 @@ class Magento_Interception_Config_ConfigTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $fixtureBasePath = __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/../_files/app/code');
+        $fixtureBasePath = __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/..');
         $fileResolverMock = $this->getMock('Magento_Config_FileResolverInterface');
         $fileResolverMock->expects($this->any())
             ->method('get')
@@ -90,20 +90,20 @@ class Magento_Interception_Config_ConfigTest extends PHPUnit_Framework_TestCase
             // item container has plugins only in the backend scope
             array(
                 true,
-                'Custom_Module_Model_ItemContainer',
+                'Magento_Interception_Custom_Module_Model_ItemContainer',
             ),
             array(
                 true,
-                'Custom_Module_Model_Item',
+                'Magento_Interception_Custom_Module_Model_Item',
             ),
             array(
                 true,
-                'Custom_Module_Model_Item_Enhanced',
+                'Magento_Interception_Custom_Module_Model_Item_Enhanced',
             ),
             array(
                 // the following model has only inherited plugins
                 true,
-                'Custom_Module_Model_ItemContainer_Enhanced',
+                'Magento_Interception_Custom_Module_Model_ItemContainer_Enhanced',
             )
         );
     }

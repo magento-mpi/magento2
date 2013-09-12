@@ -10,14 +10,30 @@
 
 /**
  * Poll edit form
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Adminhtml_Block_Poll_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -33,8 +49,9 @@ class Magento_Adminhtml_Block_Poll_Edit extends Magento_Adminhtml_Block_Widget_F
 
     public function getHeaderText()
     {
-        if( Mage::registry('poll_data') && Mage::registry('poll_data')->getId() ) {
-            return __("Edit Poll '%1'", $this->escapeHtml(Mage::registry('poll_data')->getPollTitle()));
+        $pollData = $this->_coreRegistry->registry('poll_data');
+        if ($pollData && $pollData->getId()) {
+            return __("Edit Poll '%1'", $this->escapeHtml($pollData->getPollTitle()));
         } else {
             return __('New Poll');
         }

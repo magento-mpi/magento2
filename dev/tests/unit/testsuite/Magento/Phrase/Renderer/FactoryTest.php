@@ -21,7 +21,7 @@ class Magento_Phrase_Renderer_FactoryTest extends PHPUnit_Framework_TestCase
     {
         $this->_objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_factory = $objectManagerHelper->getObject('Magento_Phrase_Renderer_Factory', array(
             'objectManager' => $this->_objectManager,
         ));

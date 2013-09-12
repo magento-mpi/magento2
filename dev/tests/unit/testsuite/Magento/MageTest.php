@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class MageTest extends PHPUnit_Framework_TestCase
+class Magento_MageTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Variable value before test

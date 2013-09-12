@@ -97,7 +97,7 @@ class Magento_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
             array(), '', false, false, true, array('getIdFieldName')
         );
         $resource->expects($this->any())->method('getIdFieldName')->will($this->returnValue('process_id'));
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_indexProcess = $helper->getObject('Magento_Index_Model_Process', array(
             'lockStorage' => $lockStorage,
             'resource' => $resource,

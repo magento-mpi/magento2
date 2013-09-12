@@ -10,17 +10,30 @@
 
 /**
  * Invitation adminhtml controller
- *
- * @category   Magento
- * @package    Magento_Invitation
  */
-
 class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminhtml_Controller_Action
 {
     /**
-     * Invitation list
+     * Core registry
      *
-     * @return void
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
+     * Invitation list
      */
     public function indexAction()
     {
@@ -42,7 +55,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
         if (!$invitation->getId()) {
             Mage::throwException(__("We couldn't find this invitation."));
         }
-        Mage::register('current_invitation', $invitation);
+        $this->_coreRegistry->register('current_invitation', $invitation);
 
         return $invitation;
     }
@@ -56,8 +69,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
             $this->_initInvitation();
             $this->loadLayout()->_setActiveMenu('Magento_Invitation::customer_magento_invitation');
             $this->renderLayout();
-        }
-        catch (Magento_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
         }
@@ -89,8 +101,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
                 $email = trim($email);
                 if (empty($email)) {
                     unset($emails[$key]);
-                }
-                else {
+                } else {
                     $emails[$key] = $email;
                 }
             }
@@ -99,8 +110,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
             }
             if (Mage::app()->hasSingleStore()) {
                 $storeId = Mage::app()->getStore(true)->getId();
-            }
-            else {
+            } else {
                 $storeId = $this->getRequest()->getParam('store_id');
             }
 
@@ -118,19 +128,16 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
                     ))->save();
                     if ($invitation->sendInvitationEmail()) {
                         $sentCount++;
-                    }
-                    else {
+                    } else {
                         $failedCount++;
                     }
-                }
-                catch (Magento_Core_Exception $e) {
+                } catch (Magento_Core_Exception $e) {
                     if ($e->getCode()) {
                         $failedCount++;
                         if ($e->getCode() == Magento_Invitation_Model_Invitation::ERROR_CUSTOMER_EXISTS) {
                             $customerExistsCount++;
                         }
-                    }
-                    else {
+                    } else {
                         throw $e;
                     }
                 }
@@ -147,8 +154,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
             $this->_getSession()->unsInvitationFormData();
             $this->_redirect('*/*/');
             return;
-        }
-        catch (Magento_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/new');
@@ -183,8 +189,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
 
                 $this->_getSession()->addSuccess(__('The invitation has been saved.'));
             }
-        }
-        catch (Magento_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/view', array('_current' => true));
@@ -213,8 +218,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
                     if ($invitation->sendInvitationEmail()) {
                         $sent++;
                     }
-                }
-                catch (Magento_Core_Exception $e) {
+                } catch (Magento_Core_Exception $e) {
                     // jam all exceptions with codes
                     if (!$e->getCode()) {
                         throw $e;
@@ -232,7 +236,8 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
             if ($sent) {
                 $this->_getSession()->addSuccess(__('We sent %1 of %2 invitations.', $sent, $found));
             }
-            if ($failed = ($found - $sent)) {
+            $failed = $found - $sent;
+            if ($failed) {
                 $this->_getSession()->addError(__('Something went wrong sending %1 invitations.', $failed));
             }
             if ($customerExists) {
@@ -240,8 +245,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
                     __('We discarded %1 invitation(s) addressed to current customers.', $customerExists)
                 );
             }
-        }
-        catch (Magento_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/');
@@ -269,8 +273,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
                         $invitation->cancel();
                         $cancelled++;
                     }
-                }
-                catch (Magento_Core_Exception $e) {
+                } catch (Magento_Core_Exception $e) {
                     // jam all exceptions with codes
                     if (!$e->getCode()) {
                         throw $e;
@@ -280,11 +283,11 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
             if ($cancelled) {
                 $this->_getSession()->addSuccess(__('We discarded %1 of %2 invitations.', $cancelled, $found));
             }
-            if ($failed = ($found - $cancelled)) {
+            $failed = $found - $cancelled;
+            if ($failed) {
                 $this->_getSession()->addNotice(__('We skipped %1 of the selected invitations.', $failed));
             }
-        }
-        catch (Magento_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/');

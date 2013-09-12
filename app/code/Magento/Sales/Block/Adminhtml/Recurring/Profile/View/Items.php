@@ -35,7 +35,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Items extends Magento
      */
     public function _getRecurringProfile()
     {
-        return Mage::registry('current_recurring_profile');
+        return $this->_coreRegistry->registry('current_recurring_profile');
     }
 
     /**

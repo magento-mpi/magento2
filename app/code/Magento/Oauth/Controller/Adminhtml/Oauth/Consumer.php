@@ -18,6 +18,25 @@
 class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Perform layout initialization actions
      *
      * @return Magento_Oauth_Controller_Adminhtml_Oauth_Consumer
@@ -95,7 +114,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtm
             $this->_setFormData($model->getData());
         }
 
-        Mage::register('current_consumer', $model);
+        $this->_coreRegistry->register('current_consumer', $model);
 
         $this->_initAction();
         $this->renderLayout();
@@ -125,7 +144,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtm
         }
 
         $model->addData($this->_filter($this->getRequest()->getParams()));
-        Mage::register('current_consumer', $model);
+        $this->_coreRegistry->register('current_consumer', $model);
 
         $this->_initAction();
         $this->renderLayout();

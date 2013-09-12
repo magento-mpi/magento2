@@ -86,7 +86,7 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
             $wishlistIds = array($singleWishlistId);
         }
 
-        if (count($wishlistIds) && $request->getParam('wishlist_next')){
+        if (count($wishlistIds) && $request->getParam('wishlist_next')) {
             $wishlistId = array_shift($wishlistIds);
 
             if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
@@ -101,9 +101,10 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
 
             $wishlist->getItemCollection()->load();
 
-            foreach($wishlist->getItemCollection() as $wishlistItem){
-                if ($wishlistItem->getId() == $wishlistId)
+            foreach($wishlist->getItemCollection() as $wishlistItem) {
+                if ($wishlistItem->getId() == $wishlistId) {
                     $wishlistItem->delete();
+                }
             }
             Mage::getSingleton('Magento_Checkout_Model_Session')->setWishlistIds($wishlistIds);
             Mage::getSingleton('Magento_Checkout_Model_Session')->setSingleWishlistId(null);
@@ -148,5 +149,4 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
 
         return $this;
     }
-
 }

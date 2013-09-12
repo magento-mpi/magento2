@@ -59,7 +59,8 @@ class Magento_Rma_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Init resource model
      */
-    protected function _construct() {
+    protected function _construct()
+    {
         $this->_init('Magento_Rma_Model_Resource_Item');
     }
 
@@ -99,7 +100,7 @@ class Magento_Rma_Model_Item extends Magento_Core_Model_Abstract
      */
     public function getStatusLabel()
     {
-        if (is_null(parent::getStatusLabel())){
+        if (is_null(parent::getStatusLabel())) {
             $this->setStatusLabel(
                 Mage::getModel('Magento_Rma_Model_Item_Attribute_Source_Status')->getItemLabel($this->getStatus())
             );

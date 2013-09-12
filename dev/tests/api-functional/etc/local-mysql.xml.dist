@@ -44,7 +44,7 @@
             <connection>
                 <types>
                     <pdo_mysql>
-                        <adapter><![CDATA[Magento_Test_Db_Adapter_Mysql]]></adapter>
+                        <adapter><![CDATA[Magento_TestFramework_Db_Adapter_Mysql]]></adapter>
                     </pdo_mysql>
                 </types>
             </connection>
