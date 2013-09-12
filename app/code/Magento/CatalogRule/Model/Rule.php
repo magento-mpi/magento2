@@ -399,7 +399,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
      */
     protected function _invalidateCache()
     {
-        if (is_array($this->_relatedCacheTypes)) {
+        if (is_array($this->_relatedCacheTypes) && count($this->_relatedCacheTypes)) {
             $this->_cacheTypesList->invalidate(array_keys($this->_relatedCacheTypes));
         }
         return $this;
