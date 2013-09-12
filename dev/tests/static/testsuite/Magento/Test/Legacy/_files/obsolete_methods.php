@@ -417,6 +417,7 @@ return array(
     array('getPathFromArray', '', 'direct usage of /'),
     array('getPathVars', 'Magento_Core_Model_Config'),
     array('getParentProductIds', 'Magento_Catalog_Model_Resource_Product'),
+    array('getPopupObjectUrl', 'Magento_AdminNotification_Helper_Data'),
     array('getPostMaxSize', 'Magento_Adminhtml_Block_Media_Uploader', 'Magento_File_Size::getPostMaxSize()'),
     array('getPriceFormatted', 'Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales'),
     array('getPrices', 'Magento_Bundle_Model_Product_Price'),

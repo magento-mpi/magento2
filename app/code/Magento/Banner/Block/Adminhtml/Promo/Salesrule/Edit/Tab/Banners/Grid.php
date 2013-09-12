@@ -12,18 +12,22 @@ class Magento_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners_Grid
     extends Magento_Banner_Block_Adminhtml_Banner_Grid
 {
     /**
-     * Core registry
-     *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_registry;
+
+    /**
+     * @var Magento_Banner_Model_BannerFactory
+     */
+    protected $_bannerFactory;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Banner_Model_BannerFactory $bannerFactory
      * @param array $data
      */
     public function __construct(
@@ -31,11 +35,13 @@ class Magento_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners_Grid
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Registry $registry,
+        Magento_Banner_Model_BannerFactory $bannerFactory,
         array $data = array()
     ) {
-        $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        $this->_registry = $registry;
+        $this->_bannerFactory = $bannerFactory;
     }
 
     /**
@@ -146,8 +152,7 @@ class Magento_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners_Grid
      */
     public function getRelatedBannersByRule()
     {
-        return Mage::getModel('Magento_Banner_Model_Banner')
-            ->getRelatedBannersBySalesRuleId($this->_getRule()->getRuleId());
+        return $this->_bannerFactory->create()->getRelatedBannersBySalesRuleId($this->_getRule()->getRuleId());
     }
 
     /**
@@ -157,6 +162,6 @@ class Magento_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners_Grid
      */
     protected function _getRule()
     {
-        return $this->_coreRegistry->registry('current_promo_quote_rule');
+        return $this->_registry->registry('current_promo_quote_rule');
     }
 }

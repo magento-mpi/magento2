@@ -16,7 +16,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_registry = null;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
@@ -24,7 +24,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_CatalogRule_Model_Resource_Rule_Collection $ruleCollection
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -33,11 +33,11 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_CatalogRule_Model_Resource_Rule_Collection $ruleCollection,
-        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        $this->_registry = $registry;
         $this->setCollection($ruleCollection);
     }
 
@@ -181,6 +181,6 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule
      */
     protected function _getBanner()
     {
-        return $this->_coreRegistry->registry('current_banner');
+        return $this->_registry->registry('current_banner');
     }
 }

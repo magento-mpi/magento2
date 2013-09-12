@@ -15,7 +15,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit extends Magento_Adminhtml_Block
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_registry = null;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
@@ -29,8 +29,8 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit extends Magento_Adminhtml_Block
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
+        $this->_registry = $registry;
     }
 
     /**
@@ -65,7 +65,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit extends Magento_Adminhtml_Block
      */
     public function getBannerId()
     {
-        return $this->_coreRegistry->registry('current_banner')->getId();
+        return $this->_registry->registry('current_banner')->getId();
     }
 
     /**
@@ -74,8 +74,8 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit extends Magento_Adminhtml_Block
      */
     public function getHeaderText()
     {
-        if ($this->_coreRegistry->registry('current_banner')->getId()) {
-            return $this->escapeHtml($this->_coreRegistry->registry('current_banner')->getName());
+        if ($this->_registry->registry('current_banner')->getId()) {
+            return $this->escapeHtml($this->_registry->registry('current_banner')->getName());
         } else {
             return __('New Banner');
         }

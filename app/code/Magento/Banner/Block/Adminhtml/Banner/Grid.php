@@ -11,6 +11,21 @@
 class Magento_Banner_Block_Adminhtml_Banner_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Set defaults
      */
     protected function _construct()
@@ -69,7 +84,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Grid extends Magento_Adminhtml_Block
         /**
          * Check is single store mode
          */
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('visible_in', array(
                 'header'                => __('Visibility'),
                 'type'                  => 'store',
