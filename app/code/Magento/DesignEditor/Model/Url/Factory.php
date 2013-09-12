@@ -15,7 +15,7 @@ class Factory
     /**
      * Default url model class name
      */
-    const CLASS_NAME = '\Magento\Core\Model\Url';
+    const CLASS_NAME = 'Magento\Core\Model\Url';
 
     /**
      * @var \Magento\ObjectManager

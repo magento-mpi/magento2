@@ -28,8 +28,8 @@ class Cashondelivery extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @var string
      */
-    protected $_formBlockType = '\Magento\Payment\Block\Form\Cashondelivery';
-    protected $_infoBlockType = '\Magento\Payment\Block\Info\Instructions';
+    protected $_formBlockType = 'Magento\Payment\Block\Form\Cashondelivery';
+    protected $_infoBlockType = 'Magento\Payment\Block\Info\Instructions';
 
     /**
      * Get instructions text from config

@@ -66,7 +66,7 @@ class Magento_Page_Model_Asset_GroupedCollectionTest extends PHPUnit_Framework_T
         $actualGroups = array();
         /** @var $actualGroup \Magento\Page\Model\Asset\PropertyGroup */
         foreach ($actualGroupObjects as $actualGroup) {
-            $this->assertInstanceOf('\Magento\Page\Model\Asset\PropertyGroup', $actualGroup);
+            $this->assertInstanceOf('Magento\Page\Model\Asset\PropertyGroup', $actualGroup);
             $actualGroups[] = array(
                 'properties' => $actualGroup->getProperties(),
                 'assets' => $actualGroup->getAll(),

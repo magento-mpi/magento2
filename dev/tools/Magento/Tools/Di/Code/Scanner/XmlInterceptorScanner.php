@@ -73,7 +73,7 @@ class XmlInterceptorScanner implements ScannerInterface
                 $this->_handleControllerClassName($entityName);
             }
             if (class_exists($entityName) || interface_exists($entityName)) {
-                array_push($filteredEntities, $entityName . '_Interceptor');
+                array_push($filteredEntities, $entityName . '\\Interceptor');
             }
         }
         return $filteredEntities;

@@ -23,7 +23,7 @@ class Virtual
     protected $_theme;
 
     /**
-     * @var Magento_Core_Model_ThemeFactory $themeFactory
+     * @var \Magento\Core\Model\ThemeFactory $themeFactory
      */
     protected $_themeFactory;
 
@@ -48,13 +48,13 @@ class Virtual
 
     /**
      * @param \Magento\Core\Model\Theme $theme
-     * @param Magento_Core_Model_ThemeFactory $themeFactory
+     * @param \Magento\Core\Model\ThemeFactory $themeFactory
      * @param \Magento\Core\Model\Theme\CopyService $themeCopyService
      * @param \Magento\Theme\Model\Config\Customization $customizationConfig
      */
     public function __construct(
         \Magento\Core\Model\Theme $theme,
-        Magento_Core_Model_ThemeFactory $themeFactory,
+        \Magento\Core\Model\ThemeFactory $themeFactory,
         \Magento\Core\Model\Theme\CopyService $themeCopyService,
         \Magento\Theme\Model\Config\Customization $customizationConfig
     ) {

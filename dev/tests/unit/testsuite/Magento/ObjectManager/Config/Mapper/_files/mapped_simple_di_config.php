@@ -7,11 +7,11 @@
  */
 return array(
     'preferences' => array(
-        '\Magento\Core\Model\Db\UpdaterInterface' => '\Magento\Core\Model\Db\Updater',
-        '\Magento\Core\Model\AppInterface' => '\Magento\Core\Model\App\Proxy',
+        'Magento\Core\Model\Db\UpdaterInterface' => 'Magento\Core\Model\Db\Updater',
+        'Magento\Core\Model\AppInterface' => 'Magento\Core\Model\App\Proxy',
     ),
 
-    '\Magento\Core\Model\App\State' => array(
+    'Magento\Core\Model\App\State' => array(
         'parameters' => array(
             'mode' => array(
                 'argument' => 'MAGE_MODE',
@@ -89,7 +89,7 @@ return array(
 
     'customCacheInstance' => array(
         'shared' => true,
-        'type' => '\Magento\Core\Model\Cache',
+        'type' => 'Magento\Core\Model\Cache',
         'parameters' => array(),
     ),
 

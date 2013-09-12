@@ -131,28 +131,28 @@ class Magento_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
     public function testGetUrlInstance()
     {
         $instance = $this->_model->getUrlInstance();
-        $this->assertInstanceOf('\Magento\Core\Model\Url', $instance);
+        $this->assertInstanceOf('Magento\Core\Model\Url', $instance);
         $this->assertSame($instance, $this->_model->getUrlInstance());
     }
 
     public function testGetUrlRewrite()
     {
         $rewrite = $this->_model->getUrlRewrite();
-        $this->assertInstanceOf('\Magento\Core\Model\Url\Rewrite', $rewrite);
+        $this->assertInstanceOf('Magento\Core\Model\Url\Rewrite', $rewrite);
         $this->assertSame($rewrite, $this->_model->getUrlRewrite());
     }
 
     public function testGetTreeModel()
     {
         $model = $this->_model->getTreeModel();
-        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Category\Tree', $model);
+        $this->assertInstanceOf('Magento\Catalog\Model\Resource\Category\Tree', $model);
         $this->assertNotSame($model, $this->_model->getTreeModel());
     }
 
     public function testGetTreeModelInstance()
     {
         $model = $this->_model->getTreeModelInstance();
-        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Category\Tree', $model);
+        $this->assertInstanceOf('Magento\Catalog\Model\Resource\Category\Tree', $model);
         $this->assertSame($model, $this->_model->getTreeModelInstance());
     }
 
@@ -165,7 +165,7 @@ class Magento_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
     public function testGetProductCollection()
     {
         $collection = $this->_model->getProductCollection();
-        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Product\Collection', $collection);
+        $this->assertInstanceOf('Magento\Catalog\Model\Resource\Product\Collection', $collection);
         $this->assertEquals($this->_model->getStoreId(), $collection->getStoreId());
     }
 

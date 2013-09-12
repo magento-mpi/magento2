@@ -59,7 +59,7 @@ class FrontendPool
             }
             /** @var $frontendInstance \Magento\Core\Model\Cache\Type\AccessProxy */
             $frontendInstance = $this->_objectManager->create(
-                '\Magento\Core\Model\Cache\Type\AccessProxy', array(
+                'Magento\Core\Model\Cache\Type\AccessProxy', array(
                     'frontend' => $frontendInstance,
                     'identifier' => $identifier,
                 )

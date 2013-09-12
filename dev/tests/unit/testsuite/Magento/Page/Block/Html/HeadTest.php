@@ -48,7 +48,7 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
             ->method('add')
             ->with(
                 \Magento\Core\Model\View\Publisher::CONTENT_TYPE_CSS . '/test.css',
-                $this->isInstanceOf('\Magento\Core\Model\Page\Asset\ViewFile')
+                $this->isInstanceOf('Magento\Core\Model\Page\Asset\ViewFile')
             );
         $assetViewFile = $this->getMock('Magento\Core\Model\Page\Asset\ViewFile', array(), array(), '', false);
         $this->_objectManager->expects($this->once(''))
@@ -64,7 +64,7 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
             ->method('add')
             ->with(
                 \Magento\Core\Model\View\Publisher::CONTENT_TYPE_JS . '/test.js',
-                $this->isInstanceOf('\Magento\Core\Model\Page\Asset\ViewFile')
+                $this->isInstanceOf('Magento\Core\Model\Page\Asset\ViewFile')
             );
         $assetViewFile = $this->getMock('Magento\Core\Model\Page\Asset\ViewFile', array(), array(), '', false);
         $this->_objectManager->expects($this->once(''))
@@ -80,7 +80,7 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
             ->method('add')
             ->with(
                 'link/http://127.0.0.1/test.rss',
-                $this->isInstanceOf('\Magento\Core\Model\Page\Asset\Remote'),
+                $this->isInstanceOf('Magento\Core\Model\Page\Asset\Remote'),
                 array('attributes' => 'rel="alternate" type="application/rss+xml" title="RSS Feed"')
             );
         $assetRemoteFile = $this->getMock('Magento\Core\Model\Page\Asset\Remote', array(), array(), '', false);
@@ -98,7 +98,7 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
             ->method('add')
             ->with(
                 'link/http://127.0.0.1/',
-                $this->isInstanceOf('\Magento\Core\Model\Page\Asset\Remote'),
+                $this->isInstanceOf('Magento\Core\Model\Page\Asset\Remote'),
                 array('attributes' => 'rel="rel"')
             );
         $assetRemoteFile = $this->getMock('Magento\Core\Model\Page\Asset\Remote', array(), array(), '', false);

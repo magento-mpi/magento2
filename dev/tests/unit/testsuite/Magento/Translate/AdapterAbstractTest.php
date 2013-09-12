@@ -34,7 +34,7 @@ class Magento_Translate_AdapterAbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testSetLocale()
     {
-        $this->assertInstanceOf('\Magento\Translate\AdapterAbstract', $this->_model->setLocale('en_US'));
+        $this->assertInstanceOf('Magento\Translate\AdapterAbstract', $this->_model->setLocale('en_US'));
     }
 
     /**

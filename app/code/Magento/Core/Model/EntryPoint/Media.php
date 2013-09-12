@@ -70,7 +70,7 @@ class Media extends \Magento\Core\Model\EntryPointAbstract
     public function __construct(
         \Magento\Core\Model\Config\Primary $config,
         \Magento\Core\Model\File\Storage\Request $request,
-        Closure $isAllowed,
+        \Closure $isAllowed,
         $workingDirectory,
         $mediaDirectory,
         $configCacheFile,
@@ -101,7 +101,7 @@ class Media extends \Magento\Core\Model\EntryPointAbstract
             }
             if (!$this->_mediaDirectory) {
                 $config = $this->_objectManager->create(
-                    '\Magento\Core\Model\File\Storage\Config', array('cacheFile' => $this->_configCacheFile)
+                    'Magento\Core\Model\File\Storage\Config', array('cacheFile' => $this->_configCacheFile)
                 );
                 $config->save();
                 $this->_mediaDirectory = str_replace($this->_workingDirectory, '', $config->getMediaDirectory());

@@ -22,11 +22,11 @@ class Magento_Core_Model_NoRouteHandlerListTest extends PHPUnit_Framework_TestCa
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $handlersList = array(
             'default_handler' => array(
-                'instance' => '\Magento\Core\Model\Router\NoRouteHandler',
+                'instance' => 'Magento\Core\Model\Router\NoRouteHandler',
                 'sortOrder' => 100
             ),
             'backend_handler' => array(
-                'instance'  => '\Magento\Backend\Model\Router\NoRouteHandler',
+                'instance'  => 'Magento\Backend\Model\Router\NoRouteHandler',
                 'sortOrder' => 10
             ),
         );
@@ -37,7 +37,7 @@ class Magento_Core_Model_NoRouteHandlerListTest extends PHPUnit_Framework_TestCa
     public function testGetHandlers()
     {
         $backendHandlerMock = $this->getMock(
-            '\Magento\Backend\Model\Router\NoRouteHandler', array(), array(), '', false
+            'Magento\Backend\Model\Router\NoRouteHandler', array(), array(), '', false
         );
         $defaultHandlerMock = $this->getMock('Magento\Core\Model\Router\NoRouteHandler', array(), array(), '', false);
 

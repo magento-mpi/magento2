@@ -33,7 +33,7 @@ class Uploader
     protected $_transferAdapter;
 
     /**
-     * @var Magento_File_UploaderFactory
+     * @var \Magento\File\UploaderFactory
      */
     protected $_uploaderFactory;
 

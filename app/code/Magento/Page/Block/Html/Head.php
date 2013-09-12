@@ -89,7 +89,7 @@ class Head extends \Magento\Core\Block\Template
     {
         $contentType = \Magento\Core\Model\View\Publisher::CONTENT_TYPE_CSS;
         $asset = $this->_objectManager->create(
-            '\Magento\Core\Model\Page\Asset\ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
+            'Magento\Core\Model\Page\Asset\ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
         );
         $this->_pageAssets->add("$contentType/$file", $asset, array(
             'attributes'    => (string)$attributes,
@@ -112,7 +112,7 @@ class Head extends \Magento\Core\Block\Template
     {
         $contentType = \Magento\Core\Model\View\Publisher::CONTENT_TYPE_JS;
         $asset = $this->_objectManager->create(
-            '\Magento\Core\Model\Page\Asset\ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
+            'Magento\Core\Model\Page\Asset\ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
         );
         $this->_pageAssets->add("$contentType/$file", $asset, array(
             'attributes'    => (string)$attributes,
@@ -159,7 +159,7 @@ class Head extends \Magento\Core\Block\Template
     {
         $attributes = 'rel="alternate" type="application/rss+xml" title="' . $title . '"';
         $asset = $this->_objectManager->create(
-            '\Magento\Core\Model\Page\Asset\Remote', array('url' => (string)$href)
+            'Magento\Core\Model\Page\Asset\Remote', array('url' => (string)$href)
         );
         $this->_pageAssets->add("link/$href", $asset, array('attributes' => $attributes));
         return $this;
@@ -175,7 +175,7 @@ class Head extends \Magento\Core\Block\Template
     public function addLinkRel($rel, $href)
     {
         $asset = $this->_objectManager->create(
-            '\Magento\Core\Model\Page\Asset\Remote', array('url' => (string)$href)
+            'Magento\Core\Model\Page\Asset\Remote', array('url' => (string)$href)
         );
         $this->_pageAssets->add("link/$href", $asset, array('attributes' => 'rel="' . $rel . '"'));
         return $this;

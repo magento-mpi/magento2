@@ -61,7 +61,7 @@ class Service
     /**
      * @param \Magento\Io\File $fileIo
      * @param \Magento\File\Size $fileSize
-     * @param Magento_Core_Model_File_UploaderFactory $uploaderFactory
+     * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      */
     public function __construct(
         \Magento\Io\File $fileIo,

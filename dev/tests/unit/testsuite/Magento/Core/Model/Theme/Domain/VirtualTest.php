@@ -99,7 +99,7 @@ class Magento_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_Test
     public function testIsAssigned()
     {
         $customizationConfig = $this->getMock(
-            '\Magento\Theme\Model\Config\Customization', array('isThemeAssignedToStore'), array(), '', false
+            'Magento\Theme\Model\Config\Customization', array('isThemeAssignedToStore'), array(), '', false
         );
         $themeMock = $this->getMock('Magento\Core\Model\Theme', array('getCollection', 'getId'), array(), '', false,
             false);
@@ -107,14 +107,14 @@ class Magento_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_Test
             ->with($themeMock)
             ->will($this->returnValue(true));
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $constructArguments = $objectManagerHelper->getConstructArguments('\Magento\Core\Model\Theme\Domain\Virtual',
+        $constructArguments = $objectManagerHelper->getConstructArguments('Magento\Core\Model\Theme\Domain\Virtual',
             array(
                  'theme' => $themeMock,
                  'customizationConfig' => $customizationConfig,
             )
         );
         /** @var $model \Magento\Core\Model\Theme\Domain\Virtual */
-        $model = $objectManagerHelper->getObject('\Magento\Core\Model\Theme\Domain\Virtual', $constructArguments);
+        $model = $objectManagerHelper->getObject('Magento\Core\Model\Theme\Domain\Virtual', $constructArguments);
         $this->assertEquals(true, $model->isAssigned());
     }
 }

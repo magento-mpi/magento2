@@ -71,7 +71,7 @@ class GroupedCollection extends \Magento\Core\Model\Page\Asset\Collection
         }
         /** @var $newGroup \Magento\Page\Model\Asset\PropertyGroup */
         $newGroup = $this->_objectManager->create(
-            '\Magento\Page\Model\Asset\PropertyGroup', array('properties' => $properties)
+            'Magento\Page\Model\Asset\PropertyGroup', array('properties' => $properties)
         );
         $this->_groups[] = $newGroup;
         return $newGroup;

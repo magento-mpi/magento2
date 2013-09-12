@@ -33,7 +33,7 @@ class ImageUploader extends \Magento\Object
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Model_File_UploaderFactory
+     * @var \Magento\Core\Model\File\UploaderFactory
      */
     protected $_uploaderFactory;
 
@@ -48,12 +48,12 @@ class ImageUploader extends \Magento\Object
     /**
      * Generic constructor of change instance
      *
-     * @param Magento_Core_Model_File_UploaderFactory $uploaderFactory
+     * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_File_UploaderFactory $uploaderFactory,
+        \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Filesystem $filesystem,
         array $data = array()
     ) {

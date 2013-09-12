@@ -22,7 +22,7 @@ abstract class AdapterAbstract extends \Zend_Translate_Adapter
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @param mixed $data
-     * @param string|Zend_Locale $locale
+     * @param string|\Zend_Locale $locale
      * @param array $options (optional)
      * @return array
      */
@@ -51,7 +51,7 @@ abstract class AdapterAbstract extends \Zend_Translate_Adapter
      * Stub for setLocale functionality
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     * @param string|Zend_Locale $locale
+     * @param string|\Zend_Locale $locale
      * @return \Zend_Translate_Adapter
      */
     public function setLocale($locale)
@@ -67,6 +67,6 @@ abstract class AdapterAbstract extends \Zend_Translate_Adapter
      */
     public function toString()
     {
-        return '\Magento\Translate\Adapter';
+        return 'Magento\Translate\Adapter';
     }
 }
