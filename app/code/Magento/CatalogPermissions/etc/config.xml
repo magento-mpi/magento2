@@ -22,7 +22,7 @@
         <index>
             <indexer>
                 <catalogpermissions>
-                    <model>\Magento\CatalogPermissions\Model\Permission\Index</model>
+                    <model>Magento\CatalogPermissions\Model\Permission\Index</model>
                 </catalogpermissions>
             </indexer>
         </index>

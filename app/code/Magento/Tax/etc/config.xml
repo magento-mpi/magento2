@@ -71,18 +71,18 @@
         <pdf>
             <totals>
                 <subtotal>
-                    <model>\Magento\Tax\Model\Sales\Pdf\Subtotal</model>
+                    <model>Magento\Tax\Model\Sales\Pdf\Subtotal</model>
                 </subtotal>
                 <shipping>
-                    <model>\Magento\Tax\Model\Sales\Pdf\Shipping</model>
+                    <model>Magento\Tax\Model\Sales\Pdf\Shipping</model>
                 </shipping>
                 <grand_total>
-                    <model>\Magento\Tax\Model\Sales\Pdf\Grandtotal</model>
+                    <model>Magento\Tax\Model\Sales\Pdf\Grandtotal</model>
                 </grand_total>
                 <tax translate="title">
                     <title>Tax</title>
                     <source_field>tax_amount</source_field>
-                    <model>\Magento\Tax\Model\Sales\Pdf\Tax</model>
+                    <model>Magento\Tax\Model\Sales\Pdf\Tax</model>
                     <font_size>7</font_size>
                     <display_zero>0</display_zero>
                     <sort_order>300</sort_order>
@@ -172,7 +172,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>\Magento\Tax\Model\Observer::aggregateSalesReportTaxData</model>
+                    <model>Magento\Tax\Model\Observer::aggregateSalesReportTaxData</model>
                 </run>
             </aggregate_sales_report_tax_data>
         </jobs>

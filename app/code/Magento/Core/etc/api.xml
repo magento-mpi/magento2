@@ -13,7 +13,7 @@
     <api>
         <resources>
             <core_store translate="title" module="Magento_Core">
-                <model>\Magento\Core\Model\Store\Api</model>
+                <model>Magento\Core\Model\Store\Api</model>
                 <title>Store API</title>
                 <acl>core/store</acl>
                 <methods>
@@ -35,7 +35,7 @@
                 </faults>
             </core_store>
             <core_magento translate="title" module="Magento_Core">
-                <model>\Magento\Core\Model\Magento\Api</model>
+                <model>Magento\Core\Model\Magento\Api</model>
                 <title>Magento info API</title>
                 <acl>core/magento</acl>
                 <methods>

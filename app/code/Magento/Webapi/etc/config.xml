@@ -33,20 +33,20 @@
                         <!-- JSON -->
                         <application_json>
                             <type>application/json</type>
-                            <model>\Magento\Webapi\Controller\Request\Rest\Interpreter\Json</model>
+                            <model>Magento\Webapi\Controller\Request\Rest\Interpreter\Json</model>
                         </application_json>
                         <!-- XML -->
                         <application_xml>
                             <type>application/xml</type>
-                            <model>\Magento\Webapi\Controller\Request\Rest\Interpreter\Xml</model>
+                            <model>Magento\Webapi\Controller\Request\Rest\Interpreter\Xml</model>
                         </application_xml>
                         <application_xhtml_xml>
                             <type>application/xhtml+xml</type>
-                            <model>\Magento\Webapi\Controller\Request\Rest\Interpreter\Xml</model>
+                            <model>Magento\Webapi\Controller\Request\Rest\Interpreter\Xml</model>
                         </application_xhtml_xml>
                         <text_xml>
                             <type>text/xml</type>
-                            <model>\Magento\Webapi\Controller\Request\Rest\Interpreter\Xml</model>
+                            <model>Magento\Webapi\Controller\Request\Rest\Interpreter\Xml</model>
                         </text_xml>
                     </interpreters>
                 </request>
@@ -55,28 +55,28 @@
                         <!-- JSON -->
                         <default>
                             <type>*/*</type>
-                            <model>\Magento\Webapi\Controller\Response\Rest\Renderer\Json</model>
+                            <model>Magento\Webapi\Controller\Response\Rest\Renderer\Json</model>
                         </default>
                         <application_json>
                             <type>application/json</type>
-                            <model>\Magento\Webapi\Controller\Response\Rest\Renderer\Json</model>
+                            <model>Magento\Webapi\Controller\Response\Rest\Renderer\Json</model>
                         </application_json>
                         <!-- XML -->
                         <text_xml>
                             <type>text/xml</type>
-                            <model>\Magento\Webapi\Controller\Response\Rest\Renderer\Xml</model>
+                            <model>Magento\Webapi\Controller\Response\Rest\Renderer\Xml</model>
                         </text_xml>
                         <application_xml>
                             <type>application/xml</type>
-                            <model>\Magento\Webapi\Controller\Response\Rest\Renderer\Xml</model>
+                            <model>Magento\Webapi\Controller\Response\Rest\Renderer\Xml</model>
                         </application_xml>
                         <application_xhtml_xml>
                             <type>application/xhtml+xml</type>
-                            <model>\Magento\Webapi\Controller\Response\Rest\Renderer\Xml</model>
+                            <model>Magento\Webapi\Controller\Response\Rest\Renderer\Xml</model>
                         </application_xhtml_xml>
                     </renders>
                 </response>
             </rest>
         </webapi>
     </global>
-</config>
+</config>

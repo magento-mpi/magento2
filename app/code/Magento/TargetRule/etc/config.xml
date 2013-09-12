@@ -22,7 +22,7 @@
         <index>
             <indexer>
                 <targetrule>
-                    <model>\Magento\TargetRule\Model\Index</model>
+                    <model>Magento\TargetRule\Model\Index</model>
                 </targetrule>
             </indexer>
         </index>
@@ -60,7 +60,7 @@
                     <cron_expr>0 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>\Magento\TargetRule\Model\Index::cron</model>
+                    <model>Magento\TargetRule\Model\Index::cron</model>
                 </run>
             </magento_targetrule_index_reindex>
         </jobs>

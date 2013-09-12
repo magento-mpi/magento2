@@ -81,7 +81,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>\Magento\SalesRule\Model\Observer::aggregateSalesReportCouponsData</model>
+                    <model>Magento\SalesRule\Model\Observer::aggregateSalesReportCouponsData</model>
                 </run>
             </aggregate_sales_report_coupons_data>
         </jobs>

@@ -24,7 +24,7 @@
                 <type>
                     <giftcard translate="label">
                         <label>Gift Card</label>
-                        <model>\Magento\GiftCard\Model\Catalog\Product\Type\Giftcard</model>
+                        <model>Magento\GiftCard\Model\Catalog\Product\Type\Giftcard</model>
                         <price_model>\Magento\GiftCard\Model\Catalog\Product\Price\Giftcard</price_model>
                         <index_priority>45</index_priority>
                         <composite>0</composite>

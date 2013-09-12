@@ -28,20 +28,20 @@
     <default>
         <payment>
             <pbridge translate="title">
-                <model>\Magento\Pbridge\Model\Payment\Method\Pbridge</model>
+                <model>Magento\Pbridge\Model\Payment\Method\Pbridge</model>
                 <title>Payment Bridge</title>
                 <debug>0</debug>
             </pbridge>
             <pbridge_paypal_direct>
-                <model>\Magento\Pbridge\Model\Payment\Method\Paypal</model>
+                <model>Magento\Pbridge\Model\Payment\Method\Paypal</model>
                 <active>1</active>
             </pbridge_paypal_direct>
             <pbridge_paypaluk_direct>
-                <model>\Magento\Pbridge\Model\Payment\Method\Paypaluk</model>
+                <model>Magento\Pbridge\Model\Payment\Method\Paypaluk</model>
                 <active>1</active>
             </pbridge_paypaluk_direct>
             <pbridge_authorizenet>
-                <model>\Magento\Pbridge\Model\Payment\Method\Authorizenet</model>
+                <model>Magento\Pbridge\Model\Payment\Method\Authorizenet</model>
                 <enabled>1</enabled>
                 <active>0</active>
                 <debug>0</debug>
@@ -56,18 +56,18 @@
             <eway_direct>
                 <active>0</active>
                 <title>eWAY Direct</title>
-                <model>\Magento\Pbridge\Model\Payment\Method\Eway\Direct</model>
+                <model>Magento\Pbridge\Model\Payment\Method\Eway\Direct</model>
                 <using_pbridge>1</using_pbridge>
                 <payment_action>authorize_capture</payment_action>
                 <order_status>processing</order_status>
                 <allowspecific>0</allowspecific>
             </eway_direct>
             <pbridge_verisign>
-                <model>\Magento\Pbridge\Model\Payment\Method\Payflow\Pro</model>
+                <model>Magento\Pbridge\Model\Payment\Method\Payflow\Pro</model>
                 <enabled>1</enabled>
             </pbridge_verisign>
             <pbridge_ogone_direct>
-                <model>\Magento\Pbridge\Model\Payment\Method\Ogone</model>
+                <model>Magento\Pbridge\Model\Payment\Method\Ogone</model>
                 <title>Ogone Direct Link</title>
                 <userid backend_model="\Magento\Backend\Model\Config\Backend\Encrypted" />
                 <password backend_model="\Magento\Backend\Model\Config\Backend\Encrypted" />
@@ -79,13 +79,13 @@
                 <title>Worldpay</title>
                 <payment_action>authorize</payment_action>
                 <using_pbridge>1</using_pbridge>
-                <model>\Magento\Pbridge\Model\Payment\Method\Worldpay\Direct</model>
+                <model>Magento\Pbridge\Model\Payment\Method\Worldpay\Direct</model>
                 <active>0</active>
             </worldpay_direct>
             <cybersource_soap>
                 <active>0</active>
                 <title>Credit Card (Cybersource)</title>
-                <model>\Magento\Pbridge\Model\Payment\Method\Cybersource\Soap</model>
+                <model>Magento\Pbridge\Model\Payment\Method\Cybersource\Soap</model>
                 <using_pbridge>1</using_pbridge>
                 <payment_action>authorize</payment_action>
                 <order_status>processing</order_status>
@@ -94,17 +94,17 @@
             <dibs>
                 <title>Credit Card (DIBS)</title>
                 <using_pbridge>1</using_pbridge>
-                <model>\Magento\Pbridge\Model\Payment\Method\Dibs</model>
+                <model>Magento\Pbridge\Model\Payment\Method\Dibs</model>
                 <active>0</active>
             </dibs>
             <braintree_basic>
-                <model>\Magento\Pbridge\Model\Payment\Method\Braintree\Basic</model>
+                <model>Magento\Pbridge\Model\Payment\Method\Braintree\Basic</model>
                 <title>Braintree</title>
                 <payment_action>authorize</payment_action>
                 <using_pbridge>1</using_pbridge>
             </braintree_basic>
             <sagepay_direct>
-                <model>\Magento\Pbridge\Model\Payment\Method\Sagepay\Direct</model>
+                <model>Magento\Pbridge\Model\Payment\Method\Sagepay\Direct</model>
                 <payment_action>authorize</payment_action>
                 <title>Credit Card (Sage Pay Direct)</title>
                 <using_pbridge>1</using_pbridge>
@@ -113,18 +113,18 @@
                 <title>First Data Global Gateway</title>
                 <currency>USD</currency>
                 <using_pbridge>1</using_pbridge>
-                <model>\Magento\Pbridge\Model\Payment\Method\Firstdata</model>
+                <model>Magento\Pbridge\Model\Payment\Method\Firstdata</model>
             </firstdata>
             <payone_gate>
                 <title>Payone.de</title>
-                <model>\Magento\Pbridge\Model\Payment\Method\Payone\Gate</model>
+                <model>Magento\Pbridge\Model\Payment\Method\Payone\Gate</model>
                 <currency>EUR</currency>
                 <using_pbridge>1</using_pbridge>
             </payone_gate>
             <paybox_direct>
                 <active>0</active>
                 <title>Paybox Direct</title>
-                <model>\Magento\Pbridge\Model\Payment\Method\Paybox\Direct</model>
+                <model>Magento\Pbridge\Model\Payment\Method\Paybox\Direct</model>
                 <using_pbridge>1</using_pbridge>
                 <payment_action>authorize</payment_action>
                 <order_status>processing</order_status>
@@ -134,9 +134,9 @@
                 <title>Psigate</title>
                 <payment_action>authorize</payment_action>
                 <using_pbridge>1</using_pbridge>
-                <model>\Magento\Pbridge\Model\Payment\Method\Psigate\Basic</model>
+                <model>Magento\Pbridge\Model\Payment\Method\Psigate\Basic</model>
                 <active>0</active>
             </psigate_basic>
         </payment>
     </default>
-</config>
+</config>

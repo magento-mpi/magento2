@@ -90,9 +90,9 @@
                     <cron_expr>*/5 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>\Magento\Newsletter\Model\Observer::scheduledSend</model>
+                    <model>Magento\Newsletter\Model\Observer::scheduledSend</model>
                 </run>
             </newsletter_send_all>
         </jobs>
     </crontab>
-</config>
+</config>

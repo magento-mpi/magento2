@@ -75,7 +75,7 @@
             <jobs>
                 <magento_scheduled_import_export_log_clean>
                     <run>
-                        <model>\Magento\ScheduledImportExport\Model\Observer::scheduledLogClean</model>
+                        <model>Magento\ScheduledImportExport\Model\Observer::scheduledLogClean</model>
                     </run>
                 </magento_scheduled_import_export_log_clean>
             </jobs>

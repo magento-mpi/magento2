@@ -60,13 +60,13 @@
         <carriers>
             <googlecheckout>
                 <active>1</active>
-                <model>\Magento\GoogleCheckout\Model\Shipping</model>
+                <model>Magento\GoogleCheckout\Model\Shipping</model>
             </googlecheckout>
         </carriers>
         <payment>
             <googlecheckout>
                 <active>1</active>
-                <model>\Magento\GoogleCheckout\Model\Payment</model>
+                <model>Magento\GoogleCheckout\Model\Payment</model>
                 <title>Google Checkout</title>
             </googlecheckout>
         </payment>

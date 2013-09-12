@@ -63,9 +63,9 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>\Magento\Persistent\Model\Observer::clearExpiredCronJob</model>
+                    <model>Magento\Persistent\Model\Observer::clearExpiredCronJob</model>
                 </run>
             </persistent_clear_expired>
         </jobs>
     </crontab>
-</config>
+</config>

@@ -13,7 +13,7 @@
     <api>
         <resources>
             <customer translate="title" module="Magento_Customer">
-                <model>\Magento\Customer\Model\Customer\Api</model>
+                <model>Magento\Customer\Model\Customer\Api</model>
                 <title>Customer API</title>
                 <acl>customer</acl>
                 <methods>
@@ -59,7 +59,7 @@
                 </faults>
             </customer>
             <customer_group>
-                <model>\Magento\Customer\Model\Group\Api</model>
+                <model>Magento\Customer\Model\Group\Api</model>
                 <title>Customer's Groups API</title>
                 <acl>customer</acl>
                 <methods>
@@ -70,7 +70,7 @@
                 </methods>
             </customer_group>
             <customer_address>
-                <model>\Magento\Customer\Model\Address\Api</model>
+                <model>Magento\Customer\Model\Address\Api</model>
                 <title>Customer Address API</title>
                 <acl>customer/address</acl>
                 <methods>

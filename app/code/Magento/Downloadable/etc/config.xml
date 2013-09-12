@@ -34,7 +34,7 @@
                 <type>
                     <downloadable translate="label">
                         <label>Downloadable Product</label>
-                        <model>\Magento\Downloadable\Model\Product\Type</model>
+                        <model>Magento\Downloadable\Model\Product\Type</model>
                         <is_qty>1</is_qty>
                         <price_model>\Magento\Downloadable\Model\Product\Price</price_model>
                         <composite>0</composite>
