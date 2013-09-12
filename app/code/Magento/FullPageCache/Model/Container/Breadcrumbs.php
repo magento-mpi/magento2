@@ -24,14 +24,16 @@ class Magento_FullPageCache_Model_Container_Breadcrumbs extends Magento_FullPage
      * @param Magento_FullPageCache_Model_Cache $fpcCache
      * @param Magento_FullPageCache_Model_Container_Placeholder $placeholder
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_FullPageCache_Helper_Url $urlHelper
      */
     public function __construct(
         Magento_FullPageCache_Model_Cache $fpcCache,
         Magento_FullPageCache_Model_Container_Placeholder $placeholder,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_FullPageCache_Helper_Url $urlHelper
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($fpcCache, $placeholder);
+        parent::__construct($fpcCache, $placeholder, $urlHelper);
     }
 
     /**
