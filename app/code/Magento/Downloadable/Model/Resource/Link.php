@@ -19,6 +19,29 @@
 class Magento_Downloadable_Model_Resource_Link extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize connection and define resource
      *
      */
@@ -108,7 +131,7 @@ class Magento_Downloadable_Model_Resource_Link extends Magento_Core_Model_Resour
                 } else {
                     $_isNew = false;
                 }
-                if ($linkObject->getWebsiteId() == 0 && $_isNew && !Mage::helper('Magento_Catalog_Helper_Data')->isPriceGlobal()) {
+                if ($linkObject->getWebsiteId() == 0 && $_isNew && !$this->_catalogData->isPriceGlobal()) {
                     $websiteIds = $linkObject->getProductWebsiteIds();
                     foreach ($websiteIds as $websiteId) {
                         $baseCurrency = Mage::app()->getBaseCurrencyCode();

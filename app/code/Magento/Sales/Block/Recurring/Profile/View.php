@@ -61,17 +61,26 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
      */
     protected $_template = 'recurring/profile/view/info.phtml';
 
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Helper_Data $coreData
+     * @param array $data
+     */
     public function __construct(
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Helper_Data $coreData,
         array $data = array()
     ) {
+        parent::__construct($coreData, $context, $data);
         $this->_registry = $registry;
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
-        parent::__construct($context, $data);
     }
 
     /**

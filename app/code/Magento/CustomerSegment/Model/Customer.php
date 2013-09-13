@@ -34,17 +34,17 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * @var Magento_Core_Model_Registry
      */
-    private $_registry;
+    protected $_registry;
 
     /**
      * @var Magento_Customer_Model_Session
      */
-    private $_customerSession;
+    protected $_customerSession;
 
     /**
      * @var int
      */
-    private $_currentWebsiteId;
+    protected $_currentWebsiteId;
 
     /**
      * Array of Segments collections per event name
@@ -61,6 +61,14 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
     protected $_customerWebsiteSegments = array();
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -70,6 +78,7 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -78,6 +87,7 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_registry = $registry;
         $this->_customerSession = $customerSession;
@@ -204,7 +214,7 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
             $segmentIds = $allSegments[$websiteId];
         }
 
-        Mage::dispatchEvent('magento_customersegment_ids_changed', array('segment_ids' => $segmentIds));
+        $this->_eventManager->dispatch('magento_customersegment_ids_changed', array('segment_ids' => $segmentIds));
 
         return $this;
     }

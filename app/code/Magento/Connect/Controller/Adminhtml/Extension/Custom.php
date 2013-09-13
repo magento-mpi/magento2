@@ -61,7 +61,7 @@ class Magento_Connect_Controller_Adminhtml_Extension_Custom extends Magento_Admi
         if ($packageName) {
             $session = Mage::getSingleton('Magento_Connect_Model_Session');
             try {
-                $data = Mage::helper('Magento_Connect_Helper_Data')->loadLocalPackage($packageName);
+                $data = $this->_objectManager->get('Magento_Connect_Helper_Data')->loadLocalPackage($packageName);
                 if (!$data) {
                     Mage::throwException(__('Something went wrong loading the package data.'));
                 }
@@ -128,10 +128,10 @@ class Magento_Connect_Controller_Adminhtml_Extension_Custom extends Magento_Admi
     {
         $session = Mage::getSingleton('Magento_Connect_Model_Session');
         try {
-            $p = $this->getRequest()->getPost();
-            $session->setCustomExtensionPackageFormData($p);
+            $post = $this->getRequest()->getPost();
+            $session->setCustomExtensionPackageFormData($post);
             $ext = Mage::getModel('Magento_Connect_Model_Extension');
-            $ext->setData($p);
+            $ext->setData($post);
             $packageVersion = $this->getRequest()->getPost('version_ids');
             if (is_array($packageVersion)) {
                 if (in_array(Magento_Connect_Package::PACKAGE_VERSION_2X, $packageVersion)) {

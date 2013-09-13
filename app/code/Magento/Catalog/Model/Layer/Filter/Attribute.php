@@ -27,12 +27,22 @@ class Magento_Catalog_Model_Layer_Filter_Attribute extends Magento_Catalog_Model
     protected $_resource;
 
     /**
-     * Construct attribute filter
+     * Core string
      *
+     * @var Magento_Core_Helper_String
      */
-    public function __construct()
-    {
-        parent::__construct();
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        array $data = array()
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($data);
         $this->_requestVar = 'attribute';
     }
 
@@ -110,7 +120,7 @@ class Magento_Catalog_Model_Layer_Filter_Attribute extends Magento_Catalog_Model
             if (is_array($option['value'])) {
                 continue;
             }
-            if (Mage::helper('Magento_Core_Helper_String')->strlen($option['value'])) {
+            if ($this->_coreString->strlen($option['value'])) {
                 // Check filter type
                 if ($this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS) {
                     if (!empty($optionsCount[$option['value']])) {

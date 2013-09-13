@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main extends Magento_Adminhtml_Block_Template
+class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main extends Magento_Backend_Block_Template
 {
     /**
      * @var string
@@ -45,7 +45,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main extends
 
     protected function _toHtml()
     {
-        Mage::dispatchEvent('adminhtml_catalog_product_attribute_set_toolbar_main_html_before', array('block' => $this));
+        $this->_eventManager->dispatch('adminhtml_catalog_product_attribute_set_toolbar_main_html_before', array(
+            'block' => $this,
+        ));
         return parent::_toHtml();
     }
 }

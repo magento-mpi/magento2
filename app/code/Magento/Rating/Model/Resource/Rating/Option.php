@@ -60,18 +60,37 @@ class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Res
     protected $_ratingStoreTable;
 
     /**
-    * Option data
-    *
-    * @var array
-    */
+     * Option data
+     *
+     * @var array
+     */
     protected $_optionData;
 
     /**
-    * Option id
-    *
-    * @var int
-    */
+     * Option id
+     *
+     * @var int
+     */
     protected $_optionId;
+
+    /**
+     * Core http
+     *
+     * @var Magento_Core_Helper_Http
+     */
+    protected $_coreHttp = null;
+
+    /**
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_coreHttp = $coreHttp;
+        parent::__construct($resource);
+    }
 
     /**
      * Resource initialization. Define other tables name
@@ -107,8 +126,8 @@ class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Res
         );
 
         if (!$option->getDoUpdate()) {
-            $data['remote_ip']       = Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr();
-            $data['remote_ip_long']  = Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr(true);
+            $data['remote_ip']       = $this->_coreHttp->getRemoteAddr();
+            $data['remote_ip_long']  = $this->_coreHttp->getRemoteAddr(true);
             $data['customer_id']     = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
             $data['entity_pk_value'] = $option->getEntityPkValue();
             $data['rating_id']       = $option->getRatingId();
@@ -201,7 +220,8 @@ class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Res
                 'vote_count'       => $row['vote_count'],
                 'vote_value_sum'   => $row['vote_value_sum'],
                 'percent'          => (($row['vote_value_sum']/$row['vote_count'])/5) * 100,
-                'percent_approved' => ($row['app_vote_count'] ? ((($row['app_vote_value_sum']/$row['app_vote_count'])/5) * 100) : 0),
+                'percent_approved' => ($row['app_vote_count']
+                    ? ((($row['app_vote_value_sum']/$row['app_vote_count'])/5) * 100) : 0),
                 'store_id'         => $row['store_id'],
             );
 
@@ -247,5 +267,4 @@ class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Res
 
         return $this->_optionData;
     }
-
 }

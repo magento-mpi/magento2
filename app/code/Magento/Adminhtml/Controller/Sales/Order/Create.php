@@ -24,7 +24,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
     protected function _construct()
     {
         // During order creation in the backend admin has ability to add any products to order
-        Mage::helper('Magento_Catalog_Helper_Product')->setSkipSaleableCheck(true);
+        $this->_objectManager->get('Magento_Catalog_Helper_Product')->setSkipSaleableCheck(true);
     }
 
     /**
@@ -160,15 +160,16 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
         /**
          * Change shipping address flag
          */
-        if (!$this->_getOrderCreateModel()->getQuote()->isVirtual() && $this->getRequest()->getPost('reset_shipping')) {
+        if (!$this->_getOrderCreateModel()->getQuote()->isVirtual()
+            && $this->getRequest()->getPost('reset_shipping')) {
             $this->_getOrderCreateModel()->resetShippingMethod(true);
         }
 
         /**
          * Collecting shipping rates
          */
-        if (!$this->_getOrderCreateModel()->getQuote()->isVirtual() &&
-            $this->getRequest()->getPost('collect_shipping_rates')
+        if (!$this->_getOrderCreateModel()->getQuote()->isVirtual()
+            && $this->getRequest()->getPost('collect_shipping_rates')
         ) {
             $this->_getOrderCreateModel()->collectShippingRates();
         }
@@ -191,7 +192,8 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
         /**
          * Adding products to quote from special grid
          */
-        if ($this->getRequest()->has('item') && !$this->getRequest()->getPost('update_items') && !($action == 'save')) {
+        if ($this->getRequest()->has('item')
+            && !$this->getRequest()->getPost('update_items') && !($action == 'save')) {
             $items = $this->getRequest()->getPost('item');
             $items = $this->_processFiles($items);
             $this->_getOrderCreateModel()->addProducts($items);
@@ -220,8 +222,9 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
          */
         $moveItemId = (int) $this->getRequest()->getPost('move_item');
         $moveTo = (string) $this->getRequest()->getPost('to');
+        $moveQty = (int) $this->getRequest()->getPost('qty');
         if ($moveItemId && $moveTo) {
-            $this->_getOrderCreateModel()->moveQuoteItem($moveItemId, $moveTo);
+            $this->_getOrderCreateModel()->moveQuoteItem($moveItemId, $moveTo, $moveQty);
         }
 
         if ($paymentData = $this->getRequest()->getPost('payment')) {
@@ -256,7 +259,9 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
          */
         if ($data = $this->getRequest()->getPost('add_products')) {
             $this->_getGiftmessageSaveModel()
-                ->importAllowQuoteItemsFromProducts(Mage::helper('Magento_Core_Helper_Data')->jsonDecode($data));
+                ->importAllowQuoteItemsFromProducts(
+                    $this->_objectManager->get('Magento_Core_Helper_Data')->jsonDecode($data)
+                );
         }
 
         /**
@@ -293,7 +298,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
     protected function _processFiles($items)
     {
         /* @var $productHelper Magento_Catalog_Helper_Product */
-        $productHelper = Mage::helper('Magento_Catalog_Helper_Product');
+        $productHelper = $this->_objectManager->get('Magento_Catalog_Helper_Product');
         foreach ($items as $id => $item) {
             $buyRequest = new Magento_Object($item);
             $params = array('files_prefix' => 'item_' . $id . '_');
@@ -324,7 +329,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
         $this->_getSession()->clear();
         $orderId = $this->getRequest()->getParam('order_id');
         $order = Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
-        if (!Mage::helper('Magento_Sales_Helper_Reorder')->canReorder($order)) {
+        if (!$this->_objectManager->get('Magento_Sales_Helper_Reorder')->canReorder($order)) {
             return $this->_forward('noRoute');
         }
 
@@ -546,9 +551,8 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
         $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
 
         // Render page
-        /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Composite');
-        $helper->renderConfigureResult($this, $configureResult);
+        $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Composite')
+            ->renderConfigureResult($this, $configureResult);
 
         return $this;
     }
@@ -590,9 +594,8 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
         }
 
         // Render page
-        /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Composite');
-        $helper->renderConfigureResult($this, $configureResult);
+        $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Composite')
+            ->renderConfigureResult($this, $configureResult);
 
         return $this;
     }
@@ -606,7 +609,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
     public function showUpdateResultAction()
     {
         $session = Mage::getSingleton('Magento_Adminhtml_Model_Session');
-        if ($session->hasUpdateResult() && is_scalar($session->getUpdateResult())){
+        if ($session->hasUpdateResult() && is_scalar($session->getUpdateResult())) {
             $this->getResponse()->setBody($session->getUpdateResult());
             $session->unsUpdateResult();
         } else {

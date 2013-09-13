@@ -109,12 +109,15 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
     protected $_attributeCollection;
 
     /**
-     * Constructor
-     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_String $coreString
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_String $coreString,
+        array $data = array()
+    ) {
         if (isset($data['attribute_collection'])) {
             $this->_attributeCollection = $data['attribute_collection'];
             unset($data['attribute_collection']);
@@ -124,7 +127,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
             $data['attribute_collection'] = $this->_attributeCollection;
         }
 
-        parent::__construct($data);
+        parent::__construct($coreData, $coreString, $data);
 
         $this->_specialAttributes[] = self::COLUMN_WEBSITE;
         $this->_specialAttributes[] = self::COLUMN_STORE;

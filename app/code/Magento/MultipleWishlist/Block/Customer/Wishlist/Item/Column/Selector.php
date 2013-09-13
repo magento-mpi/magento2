@@ -25,7 +25,7 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Selector
      */
     public function isEnabled()
     {
-        return Mage::helper('Magento_MultipleWishlist_Helper_Data')->isMultipleEnabled() || $this->getIsEnabled();
+        return $this->_wishlistData->isMultipleEnabled() || $this->getIsEnabled();
     }
 
     /**

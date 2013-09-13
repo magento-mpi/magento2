@@ -19,6 +19,29 @@
 class Magento_Checkout_Model_Resource_Agreement extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
+     * Checkout data
+     *
+     * @var Magento_Checkout_Helper_Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Magento_Checkout_Helper_Data $checkoutData
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Checkout_Helper_Data $checkoutData,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_checkoutData = $checkoutData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Model initialization
      *
      */
@@ -37,7 +60,7 @@ class Magento_Checkout_Model_Resource_Agreement extends Magento_Core_Model_Resou
     {
         // format height
         $height = $object->getContentHeight();
-        $height = Mage::helper('Magento_Checkout_Helper_Data')->stripTags($height);
+        $height = $this->_checkoutData->stripTags($height);
         if (!$height) {
             $height = '';
         }

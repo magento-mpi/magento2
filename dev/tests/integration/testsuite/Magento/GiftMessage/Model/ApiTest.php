@@ -9,6 +9,12 @@
  */
 class Magento_GiftMessage_Model_ApiTest extends PHPUnit_Framework_TestCase
 {
+
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test setting gift message fot the whole shopping cart.
      *

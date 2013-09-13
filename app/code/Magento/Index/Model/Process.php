@@ -80,6 +80,14 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     protected $_eventRepository;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Index_Model_Lock_Storage $lockStorage
@@ -89,6 +97,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Index_Model_Lock_Storage $lockStorage,
@@ -97,6 +106,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_lockStorage = $lockStorage;
         $this->_eventRepository = $eventRepository;
@@ -232,7 +242,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
             $this->_getResource()->failProcess($this);
             throw $e;
         }
-        Mage::dispatchEvent('after_reindex_process_' . $this->getIndexerCode());
+        $this->_eventManager->dispatch('after_reindex_process_' . $this->getIndexerCode());
     }
 
     /**
@@ -489,7 +499,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
      */
     public function changeStatus($status)
     {
-        Mage::dispatchEvent('index_process_change_status', array(
+        $this->_eventManager->dispatch('index_process_change_status', array(
             'process' => $this,
             'status' => $status
         ));

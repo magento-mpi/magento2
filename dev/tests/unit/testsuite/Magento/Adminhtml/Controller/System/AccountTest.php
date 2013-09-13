@@ -78,7 +78,7 @@ class Magento_Adminhtml_Controller_System_AccountTest extends PHPUnit_Framework_
 
         $this->_userMock = $this->getMockBuilder('Magento_User_Model_User')
             ->disableOriginalConstructor()
-            ->setMethods(array('load', 'save', 'sendPasswordResetNotificationEmail'))
+            ->setMethods(array('load', 'save', 'sendPasswordResetNotificationEmail', '__sleep', '__wakeup'))
             ->getMock();
 
         $this->_validatorMock = $this->getMockBuilder('Magento_Core_Model_Locale_Validator')

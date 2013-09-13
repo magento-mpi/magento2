@@ -15,7 +15,7 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage extends Magento_Adminhtml_Block_Widget_Form_Container
+class Magento_AdvancedCheckout_Block_Adminhtml_Manage extends Magento_Backend_Block_Widget_Form_Container
 {
     /**
      * Core registry
@@ -25,17 +25,19 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage extends Magento_Adminhtml_
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     protected function _construct()
@@ -204,7 +206,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage extends Magento_Adminhtml_
             'store_id' => $this->_getStore()->getId()
         );
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
+        return $this->_coreData->jsonEncode($data);
     }
 
     /**

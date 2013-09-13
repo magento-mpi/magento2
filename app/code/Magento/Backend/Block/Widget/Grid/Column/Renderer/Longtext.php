@@ -19,6 +19,27 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Longtext
     extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Backend_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Backend_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Render contents as a long text
      *
      * Text will be truncated as specified in string_limit, truncate or 250 by default
@@ -37,7 +58,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Longtext
         if ($this->getColumn()->getTruncate()) {
             $truncateLength = $this->getColumn()->getTruncate();
         }
-        $text = Mage::helper('Magento_Core_Helper_String')->truncate(parent::_getValue($row), $truncateLength);
+        $text = $this->_coreString->truncate(parent::_getValue($row), $truncateLength);
         if ($this->getColumn()->getEscape()) {
             $text = $this->escapeHtml($text);
         }

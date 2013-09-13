@@ -152,16 +152,6 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     }
 
     /**
-     * Retrieve TargetRule data helper
-     *
-     * @return Magento_TargetRule_Helper_Data
-     */
-    public function getTargetRuleHelper()
-    {
-        return Mage::helper('Magento_TargetRule_Helper_Data');
-    }
-
-    /**
      * Retrieve Target Rule Index instance
      *
      * @return Magento_TargetRule_Model_Index
@@ -181,7 +171,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
      */
     public function getPositionLimit()
     {
-        return $this->getTargetRuleHelper()->getMaximumNumberOfProduct(Magento_TargetRule_Model_Rule::CROSS_SELLS);
+        return $this->_targetRuleData->getMaximumNumberOfProduct(Magento_TargetRule_Model_Rule::CROSS_SELLS);
     }
 
     /**
@@ -191,7 +181,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
      */
     public function getPositionBehavior()
     {
-        return $this->getTargetRuleHelper()->getShowProducts(Magento_TargetRule_Model_Rule::CROSS_SELLS);
+        return $this->_targetRuleData->getShowProducts(Magento_TargetRule_Model_Rule::CROSS_SELLS);
     }
 
     /**

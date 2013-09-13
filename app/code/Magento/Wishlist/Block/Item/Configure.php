@@ -19,6 +19,13 @@
 class Magento_Wishlist_Block_Item_Configure extends Magento_Core_Block_Template
 {
     /**
+     * Wishlist data
+     *
+     * @var Magento_Wishlist_Helper_Data
+     */
+    protected $_wishlistData = null;
+
+    /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -26,17 +33,22 @@ class Magento_Wishlist_Block_Item_Configure extends Magento_Core_Block_Template
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Wishlist_Helper_Data $wishlistData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Wishlist_Helper_Data $wishlistData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_wishlistData = $wishlistData;
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -69,7 +81,7 @@ class Magento_Wishlist_Block_Item_Configure extends Magento_Core_Block_Template
         // Set custom add to cart url
         $block = $this->getLayout()->getBlock('product.info');
         if ($block) {
-            $url = Mage::helper('Magento_Wishlist_Helper_Data')->getAddToCartUrl($this->getWishlistItem());
+            $url = $this->_wishlistData->getAddToCartUrl($this->getWishlistItem());
             $block->setCustomAddToCartUrl($url);
         }
 

@@ -30,7 +30,7 @@ class Magento_MultipleWishlist_Block_Rss extends Magento_Rss_Block_Wishlist
             if ($wishlistId) {
                 $this->_wishlist->load($wishlistId);
             } else {
-                if($this->_getCustomer()->getId()) {
+                if ($this->_getCustomer()->getId()) {
                     $this->_wishlist->loadByCustomer($this->_getCustomer());
                 }
             }
@@ -49,8 +49,8 @@ class Magento_MultipleWishlist_Block_Rss extends Magento_Rss_Block_Wishlist
         if ($this->_getWishlist()->getCustomerId() !== $customer->getId()) {
             $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($this->_getWishlist()->getCustomerId());
         }
-        if (Mage::helper('Magento_MultipleWishlist_Helper_Data')->isWishlistDefault($this->_getWishlist())
-            && $this->_getWishlist()->getName() == Mage::helper('Magento_MultipleWishlist_Helper_Data')->getDefaultWishlistName()
+        if ($this->_wishlistData->isWishlistDefault($this->_getWishlist())
+            && $this->_getWishlist()->getName() == $this->_wishlistData->getDefaultWishlistName()
         ) {
             return __("%1's Wish List", $customer->getName());
         } else {

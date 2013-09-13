@@ -779,9 +779,6 @@ abstract class Magento_Core_Block_Abstract extends Magento_Object
      */
     public function helper($name)
     {
-        if ($this->getLayout()) {
-            return $this->getLayout()->helper($name);
-        }
         return $this->_helperFactory->get($name);
     }
 

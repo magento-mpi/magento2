@@ -27,8 +27,6 @@ class Magento_Paypal_Controller_Standard extends Magento_Core_Controller_Front_A
      */
     public function getOrder()
     {
-        if ($this->_order == null) {
-        }
         return $this->_order;
     }
 

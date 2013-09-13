@@ -15,10 +15,17 @@
  * @package    Magento_Invitation
  */
 class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Magento_Adminhtml_Block_Template
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     protected $_template = 'view/tab/general.phtml';
 
+    /**
+     * Invitation data
+     *
+     * @var Magento_Invitation_Helper_Data
+     */
+    protected $_invitationData = null;
+    
     /**
      * Core registry
      *
@@ -27,17 +34,22 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Invitation_Helper_Data $invitationData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Invitation_Helper_Data $invitationData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        $this->_invitationData = $invitationData;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -244,7 +256,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
             Mage::app()->getStore($this->getInvitation()->getStoreId())->getWebsiteId())) {
             return false;
         }
-        return Mage::helper('Magento_Invitation_Helper_Data')->getInvitationUrl($this->getInvitation());
+        return $this->_invitationData->getInvitationUrl($this->getInvitation());
     }
 
     /**

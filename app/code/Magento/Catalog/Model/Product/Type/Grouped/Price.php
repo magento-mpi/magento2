@@ -51,7 +51,7 @@ class Magento_Catalog_Model_Product_Type_Grouped_Price extends Magento_Catalog_M
         }
 
         $product->setFinalPrice($finalPrice);
-        Mage::dispatchEvent('catalog_product_type_grouped_price', array('product' => $product));
+        $this->_eventManager->dispatch('catalog_product_type_grouped_price', array('product' => $product));
 
         return max(0, $product->getData('final_price'));
     }

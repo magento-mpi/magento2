@@ -281,7 +281,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
     {
         return $this->_authorization
             ->isAllowed('Magento_CustomerSegment::customersegment')
-            && Mage::helper('Magento_CustomerSegment_Helper_Data')->isEnabled();
+            && $this->_objectManager->get('Magento_CustomerSegment_Helper_Data')->isEnabled();
     }
 
     /**

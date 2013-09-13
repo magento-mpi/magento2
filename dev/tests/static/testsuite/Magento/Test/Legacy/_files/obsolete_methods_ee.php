@@ -87,4 +87,5 @@ return array(
     array('_saveCustomerSegmentRelations', 'Magento_TargetRule_Model_Resource_Rule'),
     array('_prepareRuleProducts', 'Magento_TargetRule_Model_Resource_Rule'),
     array('getInetNtoaExpr', 'Magento_Logging_Model_Resource_Helper_Mysql4'),
+    array('_helper', 'Magento_GiftRegistry_Model_Entity'),
 );

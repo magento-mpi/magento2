@@ -33,6 +33,25 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends
     protected $_priceTable;
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Inititalize connection and define tables
      *
      */
@@ -50,7 +69,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends
      */
     public function getCatalogHelper()
     {
-        return Mage::helper('Magento_Catalog_Helper_Data');
+        return $this->_catalogData;
     }
 
     /**

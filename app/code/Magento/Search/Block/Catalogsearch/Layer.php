@@ -18,13 +18,40 @@
 class Magento_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_Block_Layer
 {
     /**
+     * Search data
+     *
+     * @var Magento_Search_Helper_Data
+     */
+    protected $_searchData = null;
+
+    /**
+     * @param Magento_Search_Helper_Data $searchData
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Search_Helper_Data $searchData,
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_searchData = $searchData;
+        parent::__construct($catalogSearchData, $coreData, $context, $registry, $data);
+    }
+
+    /**
      * Initialize blocks names
      */
     protected function _initBlocks()
     {
         parent::_initBlocks();
 
-        if (Mage::helper('Magento_Search_Helper_Data')->getIsEngineAvailableForNavigation(false)) {
+        if ($this->_searchData->getIsEngineAvailableForNavigation(false)) {
             $this->_categoryBlockName        = 'Magento_Search_Block_Catalog_Layer_Filter_Category';
             $this->_attributeFilterBlockName = 'Magento_Search_Block_Catalogsearch_Layer_Filter_Attribute';
             $this->_priceFilterBlockName     = 'Magento_Search_Block_Catalog_Layer_Filter_Price';
@@ -39,7 +66,7 @@ class Magento_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_Blo
      */
     protected function _prepareLayout()
     {
-        $helper = Mage::helper('Magento_Search_Helper_Data');
+        $helper = $this->_searchData;
         if ($helper->isThirdPartSearchEngine() && $helper->getIsEngineAvailableForNavigation(false)) {
             $stateBlock = $this->getLayout()->createBlock($this->_stateBlockName)
                 ->setLayer($this->getLayer());
@@ -87,7 +114,7 @@ class Magento_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_Blo
      */
     public function canShowBlock()
     {
-        $helper = Mage::helper('Magento_Search_Helper_Data');
+        $helper = $this->_searchData;
         if ($helper->isThirdPartSearchEngine() && $helper->isActiveEngine()) {
             return ($this->canShowOptions() || count($this->getLayer()->getState()->getFilters()));
         }
@@ -101,7 +128,7 @@ class Magento_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_Blo
      */
     public function getLayer()
     {
-        $helper = Mage::helper('Magento_Search_Helper_Data');
+        $helper = $this->_searchData;
         if ($helper->isThirdPartSearchEngine() && $helper->isActiveEngine()) {
             return Mage::getSingleton('Magento_Search_Model_Search_Layer');
         }

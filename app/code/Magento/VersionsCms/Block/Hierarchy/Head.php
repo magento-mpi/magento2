@@ -23,21 +23,28 @@ class Magento_VersionsCms_Block_Hierarchy_Head extends Magento_Core_Block_Abstra
      * @var Magento_Core_Model_Registry
      */
     protected $_coreRegistry = null;
+    
+    /**
+     * @var Magento_VersionsCms_Helper_Hierarchy|null
+     */
+    protected $_cmsHierarchy = null;
 
     /**
+     * @param Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy
      * @param Magento_Core_Block_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy,
         Magento_Core_Block_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_cmsHierarchy = $cmsHierarchy;
         parent::__construct($context, $data);
     }
-
     /**
      * Prepare Global Layout
      *
@@ -46,17 +53,19 @@ class Magento_VersionsCms_Block_Hierarchy_Head extends Magento_Core_Block_Abstra
     protected function _prepareLayout()
     {
         /* @var $node Magento_VersionsCms_Model_Hierarchy_Node */
-        $node      = $this->_coreRegistry->registry('current_cms_hierarchy_node');
+        $node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
         /* @var $head Magento_Page_Block_Html_Head */
-        $head      = $this->getLayout()->getBlock('head');
+        $head = $this->getLayout()->getBlock('head');
 
-        if (Mage::helper('Magento_VersionsCms_Helper_Hierarchy')->isMetadataEnabled() && $node && $head) {
+        if ($this->_cmsHierarchy->isMetadataEnabled() && $node && $head) {
             $treeMetaData = $node->getTreeMetaData();
             if (is_array($treeMetaData)) {
                 /* @var $linkNode Magento_VersionsCms_Model_Hierarchy_Node */
 
                 if ($treeMetaData['meta_cs_enabled']) {
-                    $linkNode = $node->getMetaNodeByType(Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_CHAPTER);
+                    $linkNode = $node->getMetaNodeByType(
+                        Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_CHAPTER
+                    );
                     if ($linkNode->getId()) {
                         $head->addChild(
                             'magento-page-head-chapter-link',
@@ -70,7 +79,9 @@ class Magento_VersionsCms_Block_Hierarchy_Head extends Magento_Core_Block_Abstra
                         );
                     }
 
-                    $linkNode = $node->getMetaNodeByType(Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_SECTION);
+                    $linkNode = $node->getMetaNodeByType(
+                        Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_SECTION
+                    );
                     if ($linkNode->getId()) {
                         $head->addChild(
                             'magento-page-head-section-link',
@@ -86,7 +97,9 @@ class Magento_VersionsCms_Block_Hierarchy_Head extends Magento_Core_Block_Abstra
                 }
 
                 if ($treeMetaData['meta_next_previous']) {
-                    $linkNode = $node->getMetaNodeByType(Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_NEXT);
+                    $linkNode = $node->getMetaNodeByType(
+                        Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_NEXT
+                    );
                     if ($linkNode->getId()) {
                         $head->addChild(
                             'magento-page-head-next-link',
@@ -100,7 +113,9 @@ class Magento_VersionsCms_Block_Hierarchy_Head extends Magento_Core_Block_Abstra
                         );
                     }
 
-                    $linkNode = $node->getMetaNodeByType(Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_PREVIOUS);
+                    $linkNode = $node->getMetaNodeByType(
+                        Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_PREVIOUS
+                    );
                     if ($linkNode->getId()) {
                         $head->addChild(
                             'magento-page-head-previous-link',
@@ -116,7 +131,9 @@ class Magento_VersionsCms_Block_Hierarchy_Head extends Magento_Core_Block_Abstra
                 }
 
                 if ($treeMetaData['meta_first_last']) {
-                    $linkNode = $node->getMetaNodeByType(Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_FIRST);
+                    $linkNode = $node->getMetaNodeByType(
+                        Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_FIRST
+                    );
                     if ($linkNode->getId()) {
                         $head->addChild(
                             'magento-page-head-first-link',

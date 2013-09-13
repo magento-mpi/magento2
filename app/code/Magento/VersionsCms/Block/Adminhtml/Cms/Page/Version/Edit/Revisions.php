@@ -17,8 +17,14 @@
  */
 
 class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
-    extends Magento_Adminhtml_Block_Widget_Grid
+    extends Magento_Backend_Block_Widget_Grid_Extended
 {
+    /**
+     * Cms data
+     *
+     * @var Magento_VersionsCms_Helper_Data
+     */
+    protected $_cmsData = null;
     /**
      * Core registry
      *
@@ -27,6 +33,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_VersionsCms_Helper_Data $cmsData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
@@ -34,6 +42,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
      * @param array $data
      */
     public function __construct(
+        Magento_VersionsCms_Helper_Data $cmsData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
@@ -41,7 +51,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $storeManager, $urlModel, $data);
+        $this->_cmsData = $cmsData;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
     protected function _construct()
@@ -98,31 +109,6 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
      */
     protected function _prepareColumns()
     {
-/*
-        $this->addColumn('version_number', array(
-            'header' => __('Version #'),
-            'width' => 100,
-            'index' => 'version_number',
-            'type' => 'options',
-            'options' => Mage::helper('Magento_VersionsCms_Helper_Data')->getVersionsArray($this->getPage())
-        ));
-
-        $this->addColumn('label', array(
-            'header' => __('Version Label'),
-            'index' => 'label',
-            'type' => 'options',
-            'options' => Mage::helper('Magento_VersionsCms_Helper_Data')
-                                ->getVersionsArray('label', 'label', $this->getPage())
-        ));
-
-        $this->addColumn('access_level', array(
-            'header' => __('Access Level'),
-            'index' => 'access_level',
-            'type' => 'options',
-            'width' => 100,
-            'options' => Mage::helper('Magento_VersionsCms_Helper_Data')->getVersionAccessLevels()
-        ));
-*/
         $this->addColumn('revision_number', array(
             'header' => __('Revision'),
             'width' => 200,

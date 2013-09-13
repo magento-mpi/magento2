@@ -33,7 +33,7 @@ class Magento_Sales_Block_Recurring_Profile_ViewTest extends PHPUnit_Framework_T
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_recurring_profile', $this->_profile);
 
-        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
+        $this->_layout = Mage::getSingleton('Magento_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Magento_Sales_Block_Recurring_Profile_View', 'block');
     }
 
@@ -45,6 +45,17 @@ class Magento_Sales_Block_Recurring_Profile_ViewTest extends PHPUnit_Framework_T
         $this->_profile = null;
         $this->_block = null;
         $this->_layout = null;
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     */
+    public function testPrepareAddressInfo()
+    {
+        $this->_profile->setData('billing_address_info', array('city' => 'Los Angeles'));
+        $this->_block->prepareAddressInfo();
+        $info = $this->_block->getRenderedInfo();
+        $this->assertContains('Los Angeles', $info[0]->getValue());
     }
 
     public function testToHtmlPropagatesUrl()
