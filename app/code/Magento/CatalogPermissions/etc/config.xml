@@ -27,28 +27,6 @@
             </indexer>
         </index>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_CatalogPermissions>
-                    <files>
-                        <default>Magento_CatalogPermissions.csv</default>
-                    </files>
-                </Magento_CatalogPermissions>
-            </modules>
-        </translate>
-    </adminhtml>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_CatalogPermissions>
-                    <files>
-                        <default>Magento_CatalogPermissions.csv</default>
-                    </files>
-                </Magento_CatalogPermissions>
-            </modules>
-        </translate>
-    </frontend>
     <default>
         <catalog>
             <magento_catalogpermissions>
@@ -61,4 +39,4 @@
             </magento_catalogpermissions>
         </catalog>
     </default>
-</config>
+</config>

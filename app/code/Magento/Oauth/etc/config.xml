@@ -29,28 +29,6 @@
             </email>
         </template>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Oauth>
-                    <files>
-                        <default>Magento_Oauth.csv</default>
-                    </files>
-                </Magento_Oauth>
-            </modules>
-        </translate>
-    </adminhtml>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Oauth>
-                    <files>
-                        <default>Magento_Oauth.csv</default>
-                    </files>
-                </Magento_Oauth>
-            </modules>
-        </translate>
-    </frontend>
     <default>
         <oauth>
             <cleanup>
@@ -63,4 +41,4 @@
             </email>
         </oauth>
     </default>
-</config>
+</config>

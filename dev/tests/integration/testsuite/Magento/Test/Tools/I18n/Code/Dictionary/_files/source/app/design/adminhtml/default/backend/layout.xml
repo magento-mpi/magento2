@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding="utf-8" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+-->
+
+<layout>
+    <default>
+        <reference translate="description, label">
+            <description>Theme layout description</description>
+            <label>Theme layout label</label>
+            <title translate="true">Theme layout title</title>
+        </reference>
+    </default>
+</layout>
