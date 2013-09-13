@@ -27,23 +27,23 @@ class Magento_Widget_Model_Template_Filter extends Magento_Cms_Model_Template_Fi
     protected $_coreApp;
 
     /**
-     * Constructor
-     *
      * @param Magento_Widget_Model_Widget $widget
      * @param Magento_Widget_Model_Resource_Widget $widgetResource
      * @param Magento_Core_Model_App $coreApp
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_View_Url $viewUrl
      */
     public function __construct(
         Magento_Widget_Model_Widget $widget,
         Magento_Widget_Model_Resource_Widget $widgetResource,
         Magento_Core_Model_App $coreApp,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_View_Url $viewUrl
     ) {
         $this->_widget = $widget;
         $this->_widgetResource = $widgetResource;
         $this->_coreApp = $coreApp;
-        parent::__construct($viewUrl);
+        parent::__construct($coreData, $viewUrl);
     }
     /**
      * Generate widget
