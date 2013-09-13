@@ -28,7 +28,10 @@ class Magento_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
         $viewFileSystem = $this->getMockBuilder('Magento_Core_Model_View_FileSystem')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_model = new Magento_Widget_Model_Widget($this->_storage, $viewUrl, $viewFileSystem);
+        $coreData = $this->getMockBuilder('Magento_Core_Helper_Data')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_model = new Magento_Widget_Model_Widget($coreData, $this->_storage, $viewUrl, $viewFileSystem);
     }
 
     public function testGetWidgets()
