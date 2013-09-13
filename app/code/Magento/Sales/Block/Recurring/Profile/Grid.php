@@ -46,13 +46,14 @@ class Magento_Sales_Block_Recurring_Profile_Grid extends Magento_Sales_Block_Rec
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Helper_Data $coreData,
         array $data = array()
     ) {
+        parent::__construct($coreData, $context, $data);
         $this->_recurringProfile = $profile;
         $this->_registry = $registry;
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
-        parent::__construct($context, $data);
     }
 
     /**

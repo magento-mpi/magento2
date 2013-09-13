@@ -14,10 +14,18 @@
  */
 class Magento_Sales_Block_Recurring_Profile_Related_Orders_GridTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Magento_TestFramework_Helper_ObjectManager
+     */
+    protected $_objectManagerHelper;
+
+    public function setUp()
+    {
+        $this->_objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+    }
+
     public function testPrepareLayout()
     {
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-
         $customer = $this->getMockBuilder('Magento_Customer_Model_Customer')
             ->disableOriginalConstructor()
             ->setMethods(array('getId'))
@@ -76,13 +84,16 @@ class Magento_Sales_Block_Recurring_Profile_Related_Orders_GridTest extends PHPU
         $storeManager->expects($this->once())->method('getStore')
             ->will($this->returnValue($store));
 
-        $block = $objectManager->getObject(
+        $context = $this->_getContext();
+
+        $block = $this->_objectManagerHelper->getObject(
             'Magento_Sales_Block_Recurring_Profile_Related_Orders_Grid',
             array(
                 'profile' => $profile,
                 'registry' => $registry,
                 'storeManager' => $storeManager,
-                'collection' => $collection
+                'collection' => $collection,
+                'context' => $context
             )
         );
 
@@ -113,7 +124,16 @@ class Magento_Sales_Block_Recurring_Profile_Related_Orders_GridTest extends PHPU
 
     protected function _getMockLayout()
     {
-        $helper = $this->getMockBuilder('Magento_Core_Helper_Data')
+        $layout = $this->getMockBuilder('Magento_Core_Model_Layout')
+            ->disableOriginalConstructor()
+            ->setMethods(array('createBlock', 'getChildName', 'setChild'))
+            ->getMock();
+        return $layout;
+    }
+
+    protected function _getContext()
+    {
+        $helper = $this->getMockBuilder('Magento_Customer_Helper_Data')
             ->disableOriginalConstructor()
             ->setMethods(array('formatCurrency', 'formatDate'))
             ->getMock();
@@ -122,12 +142,17 @@ class Magento_Sales_Block_Recurring_Profile_Related_Orders_GridTest extends PHPU
         $helper->expects($this->once())->method('formatDate')
             ->will($this->returnValue('11-11-1999'));
 
-        $layout = $this->getMockBuilder('Magento_Core_Model_Layout')
+        $helperFactory = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')
             ->disableOriginalConstructor()
-            ->setMethods(array('createBlock', 'getChildName', 'setChild', 'helper'))
+            ->setMethods(array('get'))
             ->getMock();
-        $layout->expects($this->any())->method('helper')
-            ->will($this->returnValue($helper));
-        return $layout;
+        $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
+
+        /** @var  Magento_Core_Block_Template_Context $context */
+        $context = $this->_objectManagerHelper->getObject(
+            'Magento_Core_Block_Template_Context',
+            array('helperFactory' => $helperFactory)
+        );
+        return $context;
     }
 }

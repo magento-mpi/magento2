@@ -29,11 +29,12 @@ class Magento_Sales_Block_Recurring_Profile_View_Item extends Magento_Sales_Bloc
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Catalog_Model_Product_Option $option,
         Magento_Catalog_Model_Product $product,
+        Magento_Core_Helper_Data $coreData,
         array $data = array()
     ) {
         $this->_option = $option;
         $this->_product = $product;
-        parent::__construct($context, $registry, $storeManager, $locale, $data);
+        parent::__construct($context, $registry, $storeManager, $locale, $coreData, $data);
     }
 
     /**

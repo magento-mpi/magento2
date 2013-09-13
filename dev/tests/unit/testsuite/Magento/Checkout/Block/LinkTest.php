@@ -47,11 +47,12 @@ class Magento_Checkout_Block_LinkTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('canOnepageCheckout', 'isModuleOutputEnabled'))
             ->getMock();
-        $layout = $this->getMockBuilder('Magento_Core_Model_Layout')
+
+        $helperFactory = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')
             ->disableOriginalConstructor()
-            ->setMethods(array('helper'))
+            ->setMethods(array('get'))
             ->getMock();
-        $layout->expects($this->once())->method('helper')->will($this->returnValue($helper));
+        $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
 
         $moduleManager = $this->getMockBuilder('Magento_Core_Model_ModuleManager')
             ->disableOriginalConstructor()
@@ -61,7 +62,7 @@ class Magento_Checkout_Block_LinkTest extends PHPUnit_Framework_TestCase
         /** @var  Magento_Core_Block_Template_Context $context */
         $context = $this->_objectManagerHelper->getObject(
             'Magento_Core_Block_Template_Context',
-            array('layout' => $layout)
+            array('helperFactory' => $helperFactory)
         );
 
         /** @var Magento_Invitation_Block_Link $block */

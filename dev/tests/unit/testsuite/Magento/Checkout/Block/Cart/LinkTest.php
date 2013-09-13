@@ -25,6 +25,10 @@ class Magento_Checkout_Block_Cart_LinkTest extends PHPUnit_Framework_TestCase
         $urlBuilder = $this->getMockForAbstractClass('Magento_Core_Model_UrlInterface');
         $urlBuilder->expects($this->once())->method('getUrl')->with($path)->will($this->returnValue($url . $path));
 
+        $helper = $this->getMockBuilder('Magento_Core_Helper_Data')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $context = $this->_objectManagerHelper->getObject(
             'Magento_Core_Block_Template_Context',
             array('urlBuilder' => $urlBuilder)
@@ -32,7 +36,8 @@ class Magento_Checkout_Block_Cart_LinkTest extends PHPUnit_Framework_TestCase
         $link = $this->_objectManagerHelper->getObject(
             'Magento_Checkout_Block_Cart_Link',
             array(
-                'context' => $context,
+                'coreData' => $helper,
+                'context' => $context
             )
         );
         $this->assertSame($url . $path, $link->getHref());
@@ -44,10 +49,21 @@ class Magento_Checkout_Block_Cart_LinkTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('isOutputEnabled'))
             ->getMock();
+        $helper = $this->getMockBuilder('Magento_Customer_Helper_Data')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $helperFactory = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')
+            ->disableOriginalConstructor()
+            ->setMethods(array('get'))
+            ->getMock();
+        $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
 
         /** @var  Magento_Core_Block_Template_Context $context */
         $context = $this->_objectManagerHelper->getObject(
-            'Magento_Core_Block_Template_Context'
+            'Magento_Core_Block_Template_Context',
+            array(
+                'helperFactory' => $helperFactory
+            )
         );
 
         /** @var Magento_Invitation_Block_Link $block */
@@ -74,16 +90,18 @@ class Magento_Checkout_Block_Cart_LinkTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('getSummaryCount'))
             ->getMock();
-        $layout = $this->getMockBuilder('Magento_Core_Model_Layout')
+        $helperFactory = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')
             ->disableOriginalConstructor()
-            ->setMethods(array('helper'))
+            ->setMethods(array('get'))
             ->getMock();
-        $layout->expects($this->once())->method('helper')->will($this->returnValue($helper));
+        $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
 
         /** @var  Magento_Core_Block_Template_Context $context */
         $context = $this->_objectManagerHelper->getObject(
             'Magento_Core_Block_Template_Context',
-            array('layout' => $layout)
+            array(
+                'helperFactory' => $helperFactory
+            )
         );
 
         /** @var Magento_Invitation_Block_Link $block */
