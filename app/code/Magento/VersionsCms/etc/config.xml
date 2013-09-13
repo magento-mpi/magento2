@@ -49,17 +49,6 @@
             </hierarchy>
         </magento_versionscms>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_VersionsCms>
-                    <files>
-                        <default>Magento_VersionsCms.csv</default>
-                    </files>
-                </Magento_VersionsCms>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <cms>
             <hierarchy>
@@ -72,4 +61,4 @@
             </content>
         </cms>
     </default>
-</config>
+</config>

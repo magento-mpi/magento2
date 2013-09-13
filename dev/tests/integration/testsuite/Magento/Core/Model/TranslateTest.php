@@ -31,15 +31,13 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $pathChunks = array(dirname(__FILE__), '_files', 'design', 'frontend', 'test_default', 'locale', 'en_US',
-            'translate.csv');
+        $pathChunks = array(dirname(__FILE__), '_files', 'design', 'frontend', 'test_default', 'i18n', 'en_US.csv');
 
         $this->_viewFileSystem = $this->getMock('Magento_Core_Model_View_FileSystem',
-            array('getLocaleFileName', 'getDesignTheme'), array(), '', false);
-
+            array('getFilename', 'getDesignTheme'), array(), '', false);
 
         $this->_viewFileSystem->expects($this->any())
-            ->method('getLocaleFileName')
+            ->method('getFilename')
             ->will($this->returnValue(implode(DIRECTORY_SEPARATOR, $pathChunks)));
 
         $theme = $this->getMock('Magento_Core_Model_Theme', array('getId', 'getCollection'), array(), '', false);
@@ -65,10 +63,8 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
         /** @var $configModel Magento_Core_Model_Config */
         $configModel = $objectManager->get('Magento_Core_Model_Config');
-        $configModel->setModuleDir('Magento_Core', 'locale', dirname(__FILE__) . '/_files/Magento/Core/locale');
-        $configModel->setModuleDir('Magento_Catalog', 'locale',
-            dirname(__FILE__) . '/_files/Magento/Catalog/locale');
-
+        $configModel->setModuleDir('Magento_Core', 'i18n', dirname(__FILE__) . '/_files/Magento/Core/i18n');
+        $configModel->setModuleDir('Magento_Catalog', 'i18n', dirname(__FILE__) . '/_files/Magento/Catalog/i18n');
 
         $this->_designModel = $this->getMock('Magento_Core_Model_View_Design',
             array('getDesignTheme'),
@@ -114,31 +110,6 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             'New Db Translation', $this->_model->translate(array('Fixture String')),
             'Forced load should not use cache'
         );
-    }
-
-    public function testGetModulesConfig()
-    {
-        /** @var $modulesConfig Magento_Core_Model_Config_Element */
-        $modulesConfig = $this->_model->getModulesConfig();
-
-        $this->assertInstanceOf('Magento_Core_Model_Config_Element', $modulesConfig);
-
-        /* Number of nodes is the number of enabled modules, that support translation */
-        $checkedNode = 'Magento_Core';
-        $this->assertGreaterThan(1, count($modulesConfig));
-        $this->assertNotEmpty($modulesConfig->$checkedNode);
-        $this->assertXmlStringEqualsXmlString(
-            '<Magento_Core>
-                <files>
-                    <default>Magento_Core.csv</default>
-                    <fixture>../../../../../../dev/tests/integration/testsuite/Magento/Core/_files/fixture.csv</fixture>
-                </files>
-            </Magento_Core>',
-            $modulesConfig->$checkedNode->asXML()
-        );
-
-        $this->_model->init('non_existing_area', null, true);
-        $this->assertEquals(array(), $this->_model->getModulesConfig());
     }
 
     public function testGetConfig()

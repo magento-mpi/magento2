@@ -50,26 +50,8 @@
                 <full_name>magento_demo</full_name>
             </theme>
         </design>
-        <translate>
-            <modules>
-                <Magento_Core>
-                    <files>
-                        <default>Magento_Core.csv</default>
-                    </files>
-                </Magento_Core>
-            </modules>
-        </translate>
     </frontend>
     <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Core>
-                    <files>
-                        <default>Magento_Core.csv</default>
-                    </files>
-                </Magento_Core>
-            </modules>
-        </translate>
         <design>
             <theme>
                 <full_name>magento_backend</full_name>
@@ -77,15 +59,6 @@
         </design>
     </adminhtml>
     <install>
-        <translate>
-            <modules>
-                <Magento_Core>
-                    <files>
-                        <default>Magento_Core.csv</default>
-                    </files>
-                </Magento_Core>
-            </modules>
-        </translate>
         <design>
             <theme>
                 <full_name>magento_basic</full_name>
