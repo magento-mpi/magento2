@@ -22,10 +22,10 @@ class Magento_Install_Model_Config_ConverterTest extends PHPUnit_Framework_TestC
     public function testConvert()
     {
         $dom = new DOMDocument();
-        $xmlFile = __DIR__ . '/../_files/install_wizard.xml';
+        $xmlFile = __DIR__ . '/_files/install_wizard.xml';
         $dom->loadXML(file_get_contents($xmlFile));
 
-        $convertedFile = __DIR__ . '/../_files/install_wizard_config.php';
+        $convertedFile = __DIR__ . '/_files/install_wizard_config.php';
         $expectedResult = include $convertedFile;
         $this->assertEquals($expectedResult, $this->_model->convert($dom), '', 0, 20);
     }
