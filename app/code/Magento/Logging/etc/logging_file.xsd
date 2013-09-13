@@ -116,7 +116,13 @@
         </xs:all>
         <xs:attribute name="controller_action" type="xs:token" use="required" />
         <xs:attribute name="action_alias" type="xs:token" use="optional" />
-        <xs:attribute name="post_dispatch" type="xs:token" use="optional" />
+        <xs:attribute name="post_dispatch" use="optional">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:pattern value="([^:]+)(::[^:]+)?" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="skipOnBackType">
