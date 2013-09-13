@@ -261,10 +261,6 @@ class Magento_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Magento_Adminh
             $attributeObject->setCanManageOptionLabels(true);
 
             try {
-                $this->_eventManager->dispatch('magento_rma_item_attribute_before_save', array(
-                    'attribute' => $attributeObject
-                ));
-
                 $attributeObject->save();
 
                 $this->_getSession()->addSuccess(

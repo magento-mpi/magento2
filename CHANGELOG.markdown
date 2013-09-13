@@ -1,3 +1,33 @@
+* Various improvements:
+  * Removed some events (plugins must be used instead):
+    * adminhtml_widget_container_html_before
+    * admin_session_user_logout
+    * model_config_data_save_before
+    * admin_system_config_section_save_after
+    * backend_menu_load_after
+    * catalog_controller_category_init_before
+    * catalog_helper_output_construct
+    * catalog_controller_product_init
+    * catalog_category_tree_move_before
+    * catalog_category_tree_move_after
+    * catalog_product_website_update_before
+    * catalog_product_website_update
+    * catalog_product_media_save_before
+    * catalog_product_media_add_image
+    * catalog_product_type_grouped_price
+    * catalog_product_collection_load_before
+    * catalogsearch_index_process_start
+    * catalogsearch_index_process_complete
+    * cms_page_get_available_statuses
+    * cms_wysiwyg_config_prepare
+    * application_clean_cache
+    * theme_copy_after
+    * customer_registration_is_allowed
+    * log_log_clean_before
+    * log_log_clean_after
+    * sales_convert_quote_payment_to_order_payment
+    * sales_convert_quote_item_to_order_item
+    * sales_quote_config_get_product_attributes
 * Redesign and reimplementation of Api functionality
   * Removed the legacy Api module and all existing legacy V1 and V2 Api code
   * Redesigned and reimplemented the existing Webapi module according to a new set of requirements
