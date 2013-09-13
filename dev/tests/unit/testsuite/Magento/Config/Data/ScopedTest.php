@@ -59,7 +59,7 @@ class Magento_Config_Data_ScopedTest extends PHPUnit_Framework_TestCase
                 ),
             )
         );
-        $this->_cacheMock->expects($this->any())->method('get')->will($this->returnValue(array()));
+        $this->_cacheMock->expects($this->any())->method('load')->will($this->returnValue(array()));
         $this->_model->merge($testData);
         $this->assertEquals($expectedValue, $this->_model->get($path, $default));
     }
@@ -89,8 +89,8 @@ class Magento_Config_Data_ScopedTest extends PHPUnit_Framework_TestCase
 
         /** set empty cache data */
         $this->_cacheMock->expects($this->once())
-            ->method('get')
-            ->with('adminhtml', 'tag')
+            ->method('load')
+            ->with('adminhtml::tag')
             ->will($this->returnValue(false));
 
         /** get data from reader  */
@@ -100,7 +100,7 @@ class Magento_Config_Data_ScopedTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($testValue));
 
         /** test cache saving  */
-        $this->_cacheMock->expects($this->once())->method('put')->with($testValue, 'adminhtml', 'tag');
+        $this->_cacheMock->expects($this->once())->method('save')->with($testValue, 'adminhtml::tag');
 
         /** test config value existence */
         $this->assertEquals('testValue', $this->_model->get('some'));
@@ -120,15 +120,15 @@ class Magento_Config_Data_ScopedTest extends PHPUnit_Framework_TestCase
 
         /** set cache data */
         $this->_cacheMock->expects($this->once())
-            ->method('get')
-            ->with('adminhtml', 'tag')
+            ->method('load')
+            ->with('adminhtml::tag')
             ->will($this->returnValue($testValue));
 
         /** test preventing of getting data from reader  */
         $this->_readerMock->expects($this->never())->method('read');
 
         /** test preventing of cache saving  */
-        $this->_cacheMock->expects($this->never())->method('put');
+        $this->_cacheMock->expects($this->never())->method('save');
 
         /** test config value existence */
         $this->assertEquals('testValue', $this->_model->get('some'));

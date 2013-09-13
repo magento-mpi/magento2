@@ -183,8 +183,8 @@ class Magento_Interception_PluginList_PluginList
             if (false == in_array($scope, $this->_scopePriorityScheme)) {
                 $this->_scopePriorityScheme[] = $scope;
             }
-            $cacheScope = implode('|', $this->_scopePriorityScheme);
-            $data = $this->_cache->get($cacheScope, $this->_cacheId);
+            $cacheId = implode('|', $this->_scopePriorityScheme) . "|" . $this->_cacheId;
+            $data = $this->_cache->load($cacheId);
             if ($data) {
                 $this->_data = unserialize($data);
                 foreach ($this->_scopePriorityScheme as $scope) {
@@ -211,7 +211,7 @@ class Magento_Interception_PluginList_PluginList
                         $this->_inheritPlugins($class);
                     }
                 }
-                $this->_cache->put(serialize($this->_data), $cacheScope, $this->_cacheId);
+                $this->_cache->save(serialize($this->_data), $cacheId);
             }
         }
     }

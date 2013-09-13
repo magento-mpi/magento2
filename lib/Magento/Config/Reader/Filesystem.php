@@ -19,7 +19,7 @@ class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
     /**
      * Config converter
      *
-     * @var Magento_Config_Converter_Dom
+     * @var Magento_Config_ConverterInterface
      */
     protected $_converter;
 
