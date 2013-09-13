@@ -1,3 +1,10 @@
+2.0.0.0-dev46
+=============
+* Various improvements:
+  * Static method `getObjectManager` of Mage class was eliminated
+  * Removed "translate" node from configuration XML files
+  * Added I18n tools for translation dictionary generation and language package generation
+
 2.0.0.0-dev45
 =============
 * Product management improvements:
@@ -129,7 +136,6 @@
      * Improved UI for working with webhooks in Magento backend
      * Improved test coverage
   * Removed support of callbacks from the framework
-  * Static method `getObjectManager` of Mage class was eliminated
 * GitHub requests:
   * [#71](https://github.com/magento/magento2/pull/71) -- Add event prefix for Cms blocks
   * [#108](https://github.com/magento/magento2/pull/108) -- Fix issue with `PHP_VERSION` on Ubuntu servers

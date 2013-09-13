@@ -28,7 +28,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
     /**
      * @var Magento_Theme_Model_Config_Customization
      */
-    protected $_customiztion;
+    protected $_customization;
 
     /**
      * Set of templates to render
@@ -57,7 +57,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
         array $data = array()
     ) {
         $this->_themeContext = $themeContext;
-        $this->_customiztion = $customization;
+        $this->_customization = $customization;
         parent::__construct($context, $data);
     }
 
@@ -109,7 +109,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
      */
     public function getStoresList()
     {
-        $stores = $this->_customiztion->getStoresByThemes();
+        $stores = $this->_customization->getStoresByThemes();
         return isset($stores[$this->_themeContext->getEditableTheme()->getId()])
             ? $stores[$this->_themeContext->getEditableTheme()->getId()]
             : null;
