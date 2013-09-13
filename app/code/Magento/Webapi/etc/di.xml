@@ -11,7 +11,6 @@
     <preference for="Magento_Authorization_Policy" type="Magento_Authorization_Policy_Acl" />
     <preference for="Magento_Authorization_RoleLocator" type="Magento_Webapi_Model_Authorization_RoleLocator" />
     <preference for="Magento_Webapi_Model_Acl_Resource_ProviderInterface" type="Magento_Webapi_Model_Acl_Resource_Provider"/>
-    <preference for="Magento_Webapi_Model_Soap_Server_FactoryInterface" type="Magento_Webapi_Model_Soap_Server_Factory" />
     <type name="Magento_Acl_Builder">
         <param name="resourceLoader">
             <instance type="Magento_Webapi_Model_Authorization_Loader_Resource" />

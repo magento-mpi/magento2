@@ -27,9 +27,6 @@ class Magento_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     /** @var Magento_DomDocument_Factory */
     protected $_domDocumentFactory;
 
-    /** @var Magento_Webapi_Controller_Soap_Handler */
-    protected $_soapHandler;
-
     /** @var Magento_Core_Model_StoreManagerInterface */
     protected $_storeManagerMock;
 
@@ -63,9 +60,6 @@ class Magento_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         $this->_domDocumentFactory = $this->getMockBuilder('Magento_DomDocument_Factory')
             ->disableOriginalConstructor()->getMock();
 
-        $this->_soapHandler = $this->getMockBuilder('Magento_Webapi_Controller_Soap_Handler')
-            ->disableOriginalConstructor()->getMock();
-
         $this->_soapServerFactory = $this->getMockBuilder('Magento_Webapi_Model_Soap_Server_Factory')
             ->disableOriginalConstructor()->getMock();
 
@@ -74,7 +68,6 @@ class Magento_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
             $this->_appMock,
             $this->_requestMock,
             $this->_domDocumentFactory,
-            $this->_soapHandler,
             $this->_storeManagerMock,
             $this->_soapServerFactory
         );
@@ -89,7 +82,6 @@ class Magento_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         unset($this->_requestMock);
         unset($this->_domDocumentFactory);
         unset($this->_storeMock);
-        unset($this->_soapHandler);
         unset($this->_storeManagerMock);
         unset($this->_soapServerFactory);
         parent::tearDown();

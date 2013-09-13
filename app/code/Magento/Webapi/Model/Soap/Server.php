@@ -21,17 +21,14 @@ class Magento_Webapi_Model_Soap_Server
     const REQUEST_PARAM_SERVICES = 'services';
     const REQUEST_PARAM_WSDL = 'wsdl';
 
-    /** @var Magento_Core_Model_App */
-    protected $_application;
+    /** @var Magento_Core_Model_Config */
+    protected $_applicationConfig;
 
     /** @var Magento_DomDocument_Factory */
     protected $_domDocumentFactory;
 
     /** @var Magento_Webapi_Controller_Soap_Request */
     protected $_request;
-
-    /** @var Magento_Webapi_Controller_Soap_Handler */
-    protected $_soapHandler;
 
     /** @var Magento_Core_Model_StoreManagerInterface */
     protected $_storeManager;
@@ -42,30 +39,27 @@ class Magento_Webapi_Model_Soap_Server
     /**
      * Initialize dependencies, initialize WSDL cache.
      *
-     * @param Magento_Core_Model_App $application
+     * @param Magento_Core_Model_Config $applicationConfig
      * @param Magento_Webapi_Controller_Soap_Request $request
      * @param Magento_DomDocument_Factory $domDocumentFactory
-     * @param Magento_Webapi_Controller_Soap_Handler
      * @param Magento_Core_Model_StoreManagerInterface
-     * @param Magento_Webapi_Model_Soap_Server_FactoryInterface
+     * @param Magento_Webapi_Model_Soap_Server_Factory
      * @throws Magento_Webapi_Exception with invalid SOAP extension
      */
     public function __construct(
-        Magento_Core_Model_App $application,
+        Magento_Core_Model_Config $applicationConfig,
         Magento_Webapi_Controller_Soap_Request $request,
         Magento_DomDocument_Factory $domDocumentFactory,
-        Magento_Webapi_Controller_Soap_Handler $soapHandler,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Webapi_Model_Soap_Server_FactoryInterface $soapServerFactory
+        Magento_Webapi_Model_Soap_Server_Factory $soapServerFactory
     ) {
         if (!extension_loaded('soap')) {
             throw new Magento_Webapi_Exception('SOAP extension is not loaded.', 0,
                 Magento_Webapi_Exception::HTTP_INTERNAL_ERROR);
         }
-        $this->_application = $application;
+        $this->_applicationConfig = $applicationConfig;
         $this->_request = $request;
         $this->_domDocumentFactory = $domDocumentFactory;
-        $this->_soapHandler = $soapHandler;
         $this->_storeManager = $storeManager;
         $this->_soapServerFactory = $soapServerFactory;
         /** Enable or disable SOAP extension WSDL cache depending on Magento configuration. */
@@ -90,7 +84,7 @@ class Magento_Webapi_Model_Soap_Server
             'encoding' => $this->getApiCharset(),
             'soap_version' => SOAP_1_2
         );
-        $soap = $this->_soapServerFactory->create($this->generateUri(true), $options, $this->_soapHandler);
+        $soap = $this->_soapServerFactory->create($this->generateUri(true), $options);
         return $soap->handle($rawRequestBody);
     }
 
@@ -132,7 +126,7 @@ class Magento_Webapi_Model_Soap_Server
      */
     public function getEndpointUri()
     {
-        return $this->_storeManager->getStore()->getBaseUrl() . $this->_application->getConfig()->getAreaFrontName();
+        return $this->_storeManager->getStore()->getBaseUrl() . $this->_applicationConfig->getAreaFrontName();
     }
 
     /**
