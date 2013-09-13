@@ -15,7 +15,7 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\New\Tab;
+namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab;
 
 class Items extends \Magento\Adminhtml\Block\Widget\Form
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
@@ -63,7 +63,7 @@ class Items extends \Magento\Adminhtml\Block\Widget\Form
     /**
      * Prepare form before rendering HTML
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items
+     * @return \Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items
      */
     protected function _prepareForm()
     {
@@ -120,7 +120,7 @@ class Items extends \Magento\Adminhtml\Block\Widget\Form
             'name' => 'reason',
             'required' => false
         ))->setRenderer(
-            $this->getLayout()->createBlock('Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items\Renderer\Reason')
+            $this->getLayout()->createBlock('Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Renderer\Reason')
         );
 
         $fieldset->addField('condition', 'select', array(

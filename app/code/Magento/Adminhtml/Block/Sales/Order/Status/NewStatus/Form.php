@@ -11,7 +11,7 @@
 /**
  * Create order status form
  */
-namespace Magento\Adminhtml\Block\Sales\Order\Status\New;
+namespace Magento\Adminhtml\Block\Sales\Order\Status\NewStatus;
 
 class Form extends \Magento\Adminhtml\Block\Widget\Form
 {

@@ -10,7 +10,7 @@
 
 namespace Magento\Rma\Block\Adminhtml\Rma;
 
-class New extends \Magento\Adminhtml\Block\Widget\Form\Container
+class NewRma extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Initialize RMA new page. Set management buttons

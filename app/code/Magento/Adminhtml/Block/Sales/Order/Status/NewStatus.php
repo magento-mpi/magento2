@@ -10,7 +10,7 @@
 
 namespace Magento\Adminhtml\Block\Sales\Order\Status;
 
-class New extends \Magento\Adminhtml\Block\Widget\Form\Container
+class NewStatus extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
 
     protected function _construct()

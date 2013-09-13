@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-namespace Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items;
+namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items;
 
 class Grid
     extends \Magento\Adminhtml\Block\Widget\Grid

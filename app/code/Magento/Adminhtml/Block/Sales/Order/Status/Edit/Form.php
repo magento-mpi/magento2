@@ -13,7 +13,7 @@
  */
 namespace Magento\Adminhtml\Block\Sales\Order\Status\Edit;
 
-class Form extends \Magento\Adminhtml\Block\Sales\Order\Status\New\Form
+class Form extends \Magento\Adminhtml\Block\Sales\Order\Status\NewStatus\Form
 {
     protected function _construct()
     {

@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-namespace Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items\Order;
+namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order;
 
 class Grid
     extends \Magento\Adminhtml\Block\Widget\Grid
@@ -74,7 +74,7 @@ class Grid
      * Filter items collection due to RMA needs. Remove forbidden items, non-applicable
      * bundles (and their children) and configurables
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items\Order\Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order\Grid
      */
     protected function _afterLoadCollection()
     {
@@ -276,7 +276,7 @@ class Grid
      * Setting column filters to collection
      *
      * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
-     * @return \Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items\Order\Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order\Grid
      */
     protected function _addColumnFilterToCollection($column)
     {
