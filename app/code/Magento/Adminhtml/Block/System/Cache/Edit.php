@@ -31,7 +31,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
 
     protected function _prepareLayout()
     {
-        $this->addChild('save_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('save_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Save Cache Settings'),
             'class' => 'save',
             'data_attribute'  => array(

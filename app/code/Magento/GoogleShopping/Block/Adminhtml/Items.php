@@ -29,9 +29,9 @@ class Items extends \Magento\Adminhtml\Block\Widget\Grid\Container
      */
     protected function _prepareLayout()
     {
-        $this->addChild('item', '\Magento\GoogleShopping\Block\Adminhtml\Items\Item');
-        $this->addChild('product', '\Magento\GoogleShopping\Block\Adminhtml\Items\Product');
-        $this->addChild('store_switcher', '\Magento\GoogleShopping\Block\Adminhtml\Store\Switcher');
+        $this->addChild('item', 'Magento\GoogleShopping\Block\Adminhtml\Items\Item');
+        $this->addChild('product', 'Magento\GoogleShopping\Block\Adminhtml\Items\Product');
+        $this->addChild('store_switcher', 'Magento\GoogleShopping\Block\Adminhtml\Store\Switcher');
 
         return $this;
     }

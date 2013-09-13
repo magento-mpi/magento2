@@ -169,7 +169,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
         );
 
 
-        $this->addChild('form', '\Magento\Adminhtml\Block\System\Email\Template\Edit\Form');
+        $this->addChild('form', 'Magento\Adminhtml\Block\System\Email\Template\Edit\Form');
         return parent::_prepareLayout();
     }
 

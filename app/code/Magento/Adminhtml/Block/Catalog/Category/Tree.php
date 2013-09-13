@@ -39,7 +39,7 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
             '_query' => false
         ));
 
-        $this->addChild('add_sub_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('add_sub_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Add Subcategory'),
             'onclick'   => "addNew('".$addUrl."', false)",
             'class'     => 'add',
@@ -48,7 +48,7 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
         ));
 
         if ($this->canAddRootCategory()) {
-            $this->addChild('add_root_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+            $this->addChild('add_root_button', 'Magento\Adminhtml\Block\Widget\Button', array(
                 'label'     => __('Add Root Category'),
                 'onclick'   => "addNew('".$addUrl."', true)",
                 'class'     => 'add',

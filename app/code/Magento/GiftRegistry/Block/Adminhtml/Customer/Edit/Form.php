@@ -23,10 +23,10 @@ class Form
      */
     protected function _prepareLayout()
     {
-        $this->addChild('entity_items', '\Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Items');
-        $this->addChild('cart_items', '\Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Cart');
-        $this->addChild('sharing_form', '\Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Sharing');
-        $this->addChild('update_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('entity_items', 'Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Items');
+        $this->addChild('cart_items', 'Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Cart');
+        $this->addChild('sharing_form', 'Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Sharing');
+        $this->addChild('update_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Update Items and Qty\'s'),
             'type'  => 'submit'
         ));

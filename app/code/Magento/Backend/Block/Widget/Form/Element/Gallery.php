@@ -49,13 +49,13 @@ class Gallery extends \Magento\Backend\Block\Template
 
     protected function _prepareLayout()
     {
-        $this->addChild('delete_button', '\Magento\Backend\Block\Widget\Button', array(
+        $this->addChild('delete_button', 'Magento\Backend\Block\Widget\Button', array(
             'label'     => __('Delete'),
             'onclick'   => "deleteImage(#image#)",
             'class' => 'delete'
         ));
 
-        $this->addChild('add_button', '\Magento\Backend\Block\Widget\Button', array(
+        $this->addChild('add_button', 'Magento\Backend\Block\Widget\Button', array(
             'label'     => __('Add New Image'),
             'onclick'   => 'addNewImage()',
             'class' => 'add'

@@ -28,14 +28,14 @@ class Addresses extends \Magento\Adminhtml\Block\Widget\Form
 
     protected function _prepareLayout()
     {
-        $this->addChild('delete_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('delete_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'  => __('Delete Address'),
             'name'   => 'delete_address',
             'element_name' => 'delete_address',
             'disabled' => $this->isReadonly(),
             'class'  => 'delete' . ($this->isReadonly() ? ' disabled' : '')
         ));
-        $this->addChild('add_address_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('add_address_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'  => __('Add New Address'),
             'id'     => 'add_address_button',
             'name'   => 'add_address_button',
@@ -43,7 +43,7 @@ class Addresses extends \Magento\Adminhtml\Block\Widget\Form
             'disabled' => $this->isReadonly(),
             'class'  => 'add'  . ($this->isReadonly() ? ' disabled' : '')
         ));
-        $this->addChild('cancel_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('cancel_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'  => __('Cancel'),
             'id'     => 'cancel_add_address'.$this->getTemplatePrefix(),
             'name'   => 'cancel_address',

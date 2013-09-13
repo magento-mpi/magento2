@@ -29,7 +29,7 @@ class Online extends \Magento\Adminhtml\Block\Template
 
     protected function _prepareLayout()
     {
-        $this->addChild('filterForm', '\Magento\Adminhtml\Block\Customer\Online\Filter');
+        $this->addChild('filterForm', 'Magento\Adminhtml\Block\Customer\Online\Filter');
         return parent::_prepareLayout();
     }
 

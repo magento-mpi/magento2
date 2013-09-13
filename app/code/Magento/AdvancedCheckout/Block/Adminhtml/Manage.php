@@ -45,33 +45,33 @@ class Manage extends \Magento\Adminhtml\Block\Widget\Form\Container
             return $this;
         }
 
-        $this->addChild('add_products_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('add_products_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Add Products'),
             'onclick' => 'checkoutObj.searchProducts()',
             'class' => 'add',
             'id' => 'add_products_btn'
         ));
 
-        $this->addChild('update_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('update_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Update Items and Qty\'s'),
             'onclick' => 'checkoutObj.updateItems()',
             'style' => 'float:right; margin-left: 5px;'
         ));
         $deleteAllConfirmString = __('Are you sure you want to clear your shopping cart?');
-        $this->addChild('empty_customer_cart_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('empty_customer_cart_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Clear the shopping cart.'),
             'onclick' => 'confirm(\'' . $deleteAllConfirmString . '\') '
                 . ' && checkoutObj.updateItems({\'empty_customer_cart\': 1})',
             'style' => 'float:right;'
         ));
 
-        $this->addChild('addto_cart_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('addto_cart_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Add Selected Product(s) to Shopping Cart'),
             'onclick' => 'checkoutObj.addToCart()',
             'class' => 'add button-to-cart'
         ));
 
-        $this->addChild('cancel_add_products_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('cancel_add_products_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Cancel'),
             'onclick' => 'checkoutObj.cancelSearch()',
             'class' => 'cancel'

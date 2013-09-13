@@ -25,7 +25,7 @@ class Add extends \Magento\Adminhtml\Block\Template
 
     protected function _prepareLayout()
     {
-        $this->addChild('addButton', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('addButton', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Add New Tax Rate'),
             'onclick' => 'window.location.href=\''.$this->getUrl('*/tax_rate/add').'\'',
             'class' => 'add'

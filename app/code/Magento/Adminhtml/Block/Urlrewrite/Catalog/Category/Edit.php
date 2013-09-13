@@ -68,7 +68,7 @@ class Edit
     {
         /** @var $helper \Magento\Adminhtml\Helper\Data */
         $helper = \Mage::helper('Magento\Adminhtml\Helper\Data');
-        $this->addChild('category_link', '\Magento\Adminhtml\Block\Urlrewrite\Link', array(
+        $this->addChild('category_link', 'Magento\Adminhtml\Block\Urlrewrite\Link', array(
             'item_url'  => $helper->getUrl('*/*/*') . 'category',
             'item_name' => $this->_getCategory()->getName(),
             'label'     => __('Category:')
@@ -80,7 +80,7 @@ class Edit
      */
     private function _addCategoryTreeBlock()
     {
-        $this->addChild('categories_tree', '\Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree');
+        $this->addChild('categories_tree', 'Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree');
     }
 
     /**

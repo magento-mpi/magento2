@@ -29,7 +29,7 @@ class Created extends \Magento\Adminhtml\Block\Widget
 
     protected function _prepareLayout()
     {
-        $this->addChild('close_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('close_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'   => __('Close Window'),
             'onclick' => 'addProduct(true)'
         ));

@@ -26,18 +26,18 @@ class Group extends \Magento\Adminhtml\Block\Template
 
         $this->setTemplate('system/store/delete_group.phtml');
         $this->setAction($this->getUrl('*/*/deleteGroupPost', array('group_id'=>$itemId)));
-        $this->addChild('confirm_deletion_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('confirm_deletion_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Delete Store'),
             'onclick'   => "deleteForm.submit()",
             'class'     => 'cancel'
         ));
         $onClick = "setLocation('".$this->getUrl('*/*/editGroup', array('group_id'=>$itemId))."')";
-        $this->addChild('cancel_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('cancel_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Cancel'),
             'onclick'   => $onClick,
             'class'     => 'cancel'
         ));
-        $this->addChild('back_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Back'),
             'onclick'   => $onClick,
             'class'     => 'cancel'

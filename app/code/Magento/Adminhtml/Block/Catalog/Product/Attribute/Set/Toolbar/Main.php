@@ -27,7 +27,7 @@ class Main extends \Magento\Adminhtml\Block\Template
 
     protected function _prepareLayout()
     {
-        $this->addChild('addButton', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('addButton', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Add New Set'),
             'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/add') . '\')',
             'class' => 'add',

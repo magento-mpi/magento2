@@ -369,7 +369,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
      */
     protected function _prepareFilterButtons()
     {
-        $this->addChild('refresh_button', '\Magento\Backend\Block\Widget\Button', array(
+        $this->addChild('refresh_button', 'Magento\Backend\Block\Widget\Button', array(
             'label'     => __('Refresh'),
             'onclick'   => "{$this->getJsObjectName()}.doFilter();",
             'class'     => 'task'
