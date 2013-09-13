@@ -37,7 +37,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             ->setQuote($quote)
             ->setCustomer($quote->getCustomer());
 
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldset('sales_convert_quote', 'to_order', $quote, $order);
+        Mage::helper('Magento_Core_Helper_Data')->copyFieldsetToTarget('sales_convert_quote', 'to_order', $quote, $order);
         Mage::dispatchEvent('sales_convert_quote_to_order', array('order'=>$order, 'quote'=>$quote));
         return $order;
     }
@@ -54,7 +54,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             $order = $this->toOrder($address->getQuote());
         }
 
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldset(
+        Mage::helper('Magento_Core_Helper_Data')->copyFieldsetToTarget(
             'sales_convert_quote_address',
             'to_order',
             $address,
@@ -79,7 +79,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             ->setCustomerId($address->getCustomerId())
             ->setCustomerAddressId($address->getCustomerAddressId());
 
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldset(
+        Mage::helper('Magento_Core_Helper_Data')->copyFieldsetToTarget(
             'sales_convert_quote_address',
             'to_order_address',
             $address,
@@ -104,7 +104,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             ->setStoreId($payment->getStoreId())
             ->setCustomerPaymentId($payment->getCustomerPaymentId());
 
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldset(
+        Mage::helper('Magento_Core_Helper_Data')->copyFieldsetToTarget(
             'sales_convert_quote_payment',
             'to_order_payment',
             $payment,
@@ -141,7 +141,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             $options = $item->getProduct()->getTypeInstance()->getOrderOptions($item->getProduct());
         }
         $orderItem->setProductOptions($options);
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldset(
+        Mage::helper('Magento_Core_Helper_Data')->copyFieldsetToTarget(
             'sales_convert_quote_item',
             'to_order_item',
             $item,
@@ -153,7 +153,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
         }
 
         if (!$item->getNoDiscount()) {
-            Mage::helper('Magento_Core_Helper_Data')->copyFieldset(
+            Mage::helper('Magento_Core_Helper_Data')->copyFieldsetToTarget(
                 'sales_convert_quote_item',
                 'to_order_item_discount',
                 $item,

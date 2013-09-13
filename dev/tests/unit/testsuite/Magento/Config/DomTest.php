@@ -49,6 +49,9 @@ class Magento_Config_DomTest extends PHPUnit_Framework_TestCase
                 ),
                 'namespaced_merged.xml'
             ),
+            array('override_node.xml', 'override_node_new.xml', array(), 'override_node_merged.xml'),
+            array('override_node_new.xml', 'override_node.xml', array(), 'override_node_merged.xml'),
+            array('text_node.xml', 'text_node_new.xml', array(), 'text_node_merged.xml'),
         );
     }
 

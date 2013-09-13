@@ -421,7 +421,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     {
         $this->_customer = $customer;
         $this->setCustomerId($customer->getId());
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldset('customer_account', 'to_quote', $customer, $this);
+        Mage::helper('Magento_Core_Helper_Data')->copyFieldsetToTarget('customer_account', 'to_quote', $customer, $this);
         return $this;
     }
 

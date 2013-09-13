@@ -17,7 +17,8 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $contextMock = $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false);
         $configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
-        $this->_helper = new Magento_Core_Helper_Data($contextMock, $configMock);
+        $objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $this->_helper = new Magento_Core_Helper_Data($contextMock, $configMock, $objectManagerMock);
     }
 
     /**

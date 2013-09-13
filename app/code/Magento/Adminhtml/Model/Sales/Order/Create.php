@@ -329,7 +329,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             $quote->collectTotals();
         }
 
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldset('sales_copy_order', 'to_edit', $order, $quote);
+        Mage::helper('Magento_Core_Helper_Data')->copyFieldsetToTarget('sales_copy_order', 'to_edit', $order, $quote);
 
         Mage::dispatchEvent('sales_convert_order_to_quote', array('order' => $order, 'quote' => $quote));
 
@@ -360,7 +360,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     protected function _initBillingAddressFromOrder(Magento_Sales_Model_Order $order)
     {
         $this->getQuote()->getBillingAddress()->setCustomerAddressId('');
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldset(
+        Mage::helper('Magento_Core_Helper_Data')->copyFieldsetToTarget(
             'sales_copy_order_billing_address',
             'to_order',
             $order->getBillingAddress(),
@@ -374,7 +374,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         $quoteShippingAddress = $this->getQuote()->getShippingAddress()
             ->setCustomerAddressId('')
             ->setSameAsBilling($orderShippingAddress && $orderShippingAddress->getSameAsBilling());
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldset(
+        Mage::helper('Magento_Core_Helper_Data')->copyFieldsetToTarget(
             'sales_copy_order_shipping_address',
             'to_order',
             $orderShippingAddress,

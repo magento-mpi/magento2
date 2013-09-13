@@ -218,6 +218,7 @@ return array(
     array('composeLocaleHierarchy', 'Mage_Core_Helper_Translate'),
     array('convertOldTaxData', 'Mage_Tax_Model_Resource_Setup'),
     array('convertOldTreeToNew', 'Mage_Catalog_Model_Resource_Setup'),
+    array('copyFieldset', 'Magento_Core_Helper_Data', 'copyFieldsetToTarget'),
     array('countChildren', 'Mage_Core_Block_Abstract'),
     array('crear'),
     array('createDirIfNotExists', '', 'mkdir()'),

@@ -281,7 +281,7 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
      */
     public function importCustomerAddress(Magento_Customer_Model_Address $address)
     {
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldset('customer_address', 'to_quote_address', $address, $this);
+        Mage::helper('Magento_Core_Helper_Data')->copyFieldsetToTarget('customer_address', 'to_quote_address', $address, $this);
         $email = null;
         if ($address->hasEmail()) {
             $email =  $address->getEmail();
@@ -303,7 +303,7 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
     {
         $address = Mage::getModel('Magento_Customer_Model_Address');
         Mage::helper('Magento_Core_Helper_Data')
-            ->copyFieldset('sales_convert_quote_address', 'to_customer_address', $this, $address);
+            ->copyFieldsetToTarget('sales_convert_quote_address', 'to_customer_address', $this, $address);
         return $address;
     }
 
@@ -321,7 +321,7 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
             ->setEmail($address->getEmail());
 
         Mage::helper('Magento_Core_Helper_Data')
-            ->copyFieldset('sales_convert_order_address', 'to_quote_address', $address, $this);
+            ->copyFieldsetToTarget('sales_convert_order_address', 'to_quote_address', $address, $this);
 
         return $this;
     }
