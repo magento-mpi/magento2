@@ -19,17 +19,6 @@
             </adminnotification_setup>
         </resources>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_AdminNotification>
-                    <files>
-                        <default>Magento_AdminNotification.csv</default>
-                    </files>
-                </Magento_AdminNotification>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <system>
             <adminnotification>
@@ -42,4 +31,4 @@
             </adminnotification>
         </system>
     </default>
-</config>
+</config>
