@@ -85,7 +85,7 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_User extends Magento_Backend_Co
 
         // Update title and breadcrumb record.
         $actionTitle = $user->getId()
-            ? $this->_objectManager->get('Magento_Webapi_Helper_Data')->escapeHtml($user->getApiKey())
+            ? $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($user->getApiKey())
             : __('New API User');
         $this->_title($actionTitle);
         $this->_addBreadcrumb($actionTitle, $actionTitle);

@@ -28,13 +28,11 @@ class Magento_Webapi_Model_Soap_ConfigTest extends PHPUnit_Framework_TestCase
         $fileSystemMock = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
         $dirMock = $this->getMockBuilder('Magento_Core_Model_Dir')->disableOriginalConstructor()->getMock();
         $configMock = $this->getMockBuilder('Magento_Webapi_Model_Config')->disableOriginalConstructor()->getMock();
-        $helperMock = $this->getMockBuilder('Magento_Webapi_Helper_Data')->disableOriginalConstructor()->getMock();
         $this->_soapConfig = new Magento_Webapi_Model_Soap_Config(
             $objectManagerMock,
             $fileSystemMock,
             $dirMock,
-            $configMock,
-            $helperMock
+            $configMock
         );
         parent::setUp();
     }
