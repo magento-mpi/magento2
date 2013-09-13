@@ -1,5 +1,3 @@
-X.X.X.X-devXX
-=============
 * XML Validation
   * Altered format of `widget.xml` and added `widget.xsd` to allow for validation of XML files.
   * Altered format of `fieldset.xml` and added `fieldset.xsd` to allow for validation of XML files.
