@@ -27,10 +27,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
     {
         $coreHelper = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
         $factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
+        $session = $this->getMock('Magento_Core_Model_Session', array(), array(), '', false);
         $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array('create'),
             array(), '', false);
 
-        $form = new Magento_Data_Form($factory, $collectionFactory);
+        $form = new Magento_Data_Form($session, $factory, $collectionFactory);
 
         $helper = $this->getMock('Magento_Catalog_Helper_Product', array('getTypeSwitcherControlLabel'),
             array(), '', false, false
