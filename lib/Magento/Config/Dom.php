@@ -99,8 +99,6 @@ class Magento_Config_Dom
         /* Update matched node attributes and value */
         if ($matchedNode) {
             $this->_mergeAttributes($matchedNode, $node);
-
-            /* Merge child nodes */
             if (!$node->hasChildNodes()) {
                 return;
             }
