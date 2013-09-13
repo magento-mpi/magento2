@@ -35,6 +35,8 @@ class Magento_TestFramework_CodingStandard_Tool_CopyPasteDetector
     /**
      * Whether the tool can be ran on the current environment
      *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     *
      * @return bool
      */
     public function canRun()
@@ -75,5 +77,4 @@ class Magento_TestFramework_CodingStandard_Tool_CopyPasteDetector
 
         return !(bool)$exitCode;
     }
-
 }
