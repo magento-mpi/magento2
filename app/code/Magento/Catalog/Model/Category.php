@@ -257,9 +257,9 @@ class Magento_Catalog_Model_Category extends Magento_Catalog_Model_Abstract
 
         $this->_getResource()->beginTransaction();
         try {
-            $this->_eventManager->dispatchEvent($this->_eventPrefix . '_move_before', $eventParams);
+            $this->_eventManager->dispatch($this->_eventPrefix . '_move_before', $eventParams);
             $this->getResource()->changeParent($this, $parent, $afterCategoryId);
-            $this->_eventManager->dispatchEvent($this->_eventPrefix . '_move_after', $eventParams);
+            $this->_eventManager->dispatch($this->_eventPrefix . '_move_after', $eventParams);
             $this->_getResource()->commit();
 
             // Set data for indexer
