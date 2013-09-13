@@ -24,12 +24,12 @@ class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template impleme
     protected $_blockTemplateFilter;
 
     /**
-     * @param Magento_Core_Block_Context $context
+     * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Filter_Template $blockTemplateFilter
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Context $context,
+        Magento_Core_Block_Template_Context $context,
         Magento_Filter_Template $blockTemplateFilter,
         array $data = array()
     ) {

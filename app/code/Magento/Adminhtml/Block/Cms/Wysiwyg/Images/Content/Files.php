@@ -25,6 +25,25 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
     protected $_filesCollection;
 
     /**
+     * @var Magento_Cms_Model_Wysiwyg_Images_Storage
+     */
+    protected $_imageStorage;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Cms_Model_Wysiwyg_Images_Storage $imageStorage
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Cms_Model_Wysiwyg_Images_Storage $imageStorage,
+        array $data = array()
+    ) {
+        $this->_imageStorage = $imageStorage;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Prepared Files collection for current directory
      *
      * @return Magento_Data_Collection_Filesystem
@@ -32,8 +51,7 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
     public function getFiles()
     {
         if (! $this->_filesCollection) {
-            $this->_filesCollection = Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Images_Storage')
-                ->getFilesCollection(
+            $this->_filesCollection = $this->_imageStorage->getFilesCollection(
                     Mage::helper('Magento_Cms_Helper_Wysiwyg_Images')->getCurrentPath(), $this->_getMediaType()
                 );
         }
@@ -117,14 +135,24 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
         return $file->getShortName();
     }
 
+    /**
+     * Get image width
+     *
+     * @return int
+     */
     public function getImagesWidth()
     {
-        return Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Images_Storage')->getConfigData('resize_width');
+        return $this->_imageStorage->getResizeWidth();
     }
 
+    /**
+     * Get image height
+     *
+     * @return int
+     */
     public function getImagesHeight()
     {
-        return Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Images_Storage')->getConfigData('resize_height');
+        return $this->_imageStorage->getResizeHeight();
     }
 
     /**

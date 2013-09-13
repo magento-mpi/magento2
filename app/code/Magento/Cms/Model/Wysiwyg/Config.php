@@ -36,17 +36,25 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
     protected $_viewUrl;
 
     /**
+     * @var array
+     */
+    protected $_windowSize;
+
+    /**
      * @param Magento_AuthorizationInterface $authorization
      * @param Magento_Core_Model_View_Url $viewUrl
+     * @param array $windowSize
      * @param array $data
      */
     public function __construct(
         Magento_AuthorizationInterface $authorization,
         Magento_Core_Model_View_Url $viewUrl,
+        array $windowSize = array(),
         array $data = array()
     ) {
         $this->_authorization = $authorization;
         $this->_viewUrl = $viewUrl;
+        $this->_windowSize = $windowSize;
         parent::__construct($data);
     }
 
@@ -78,7 +86,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
             'add_variables'                 => true,
             'add_widgets'                   => true,
             'no_display'                    => false,
-            'translator'                    => Mage::helper('Magento_Core_Helper_Data'),
+            'translator'                    => Mage::helper('Magento_Cms_Helper_Data'),
             'encode_directives'             => true,
             'directives_url'                =>
                 Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/cms_wysiwyg/directive'),
@@ -97,8 +105,8 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
                 'add_images' => true,
                 'files_browser_window_url' => Mage::getSingleton('Magento_Backend_Model_Url')
                     ->getUrl('*/cms_wysiwyg_images/index'),
-                'files_browser_window_width' => (int) Mage::getConfig()->getNode('adminhtml/cms/browser/window_width'),
-                'files_browser_window_height'=> (int) Mage::getConfig()->getNode('adminhtml/cms/browser/window_height'),
+                'files_browser_window_width' => $this->_windowSize['width'],
+                'files_browser_window_height'=> $this->_windowSize['height'],
             ));
         }
 
