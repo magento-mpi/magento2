@@ -232,7 +232,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Magen
      */
     public function formatPriceString($price, $includeContainer = true)
     {
-        $taxHelper  = Mage::helper('Magento_Tax_Helper_Data');
+        $taxHelper  = $this->_taxData;
         $coreHelper = $this->helper('Magento_Core_Helper_Data');
         $currentProduct = $this->getProduct();
         if ($currentProduct->getPriceType() == Magento_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC

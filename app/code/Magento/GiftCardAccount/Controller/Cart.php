@@ -55,7 +55,7 @@ class Magento_GiftCardAccount_Controller_Cart extends Magento_Core_Controller_Fr
                     ->loadByCode($code)
                     ->addToCart();
                 Mage::getSingleton('Magento_Checkout_Model_Session')->addSuccess(
-                    __('Gift Card "%1" was added.', Mage::helper('Magento_Core_Helper_Data')->escapeHtml($code))
+                    __('Gift Card "%1" was added.', $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($code))
                 );
             } catch (Magento_Core_Exception $e) {
                 $this->_eventManager->dispatch(
@@ -80,7 +80,7 @@ class Magento_GiftCardAccount_Controller_Cart extends Magento_Core_Controller_Fr
                     ->loadByCode($code)
                     ->removeFromCart();
                 Mage::getSingleton('Magento_Checkout_Model_Session')->addSuccess(
-                    __('Gift Card "%1" was removed.', Mage::helper('Magento_Core_Helper_Data')->escapeHtml($code))
+                    __('Gift Card "%1" was removed.', $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($code))
                 );
             } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Checkout_Model_Session')->addError(

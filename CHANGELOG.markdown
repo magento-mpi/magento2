@@ -129,6 +129,9 @@
      * Improved UI for working with webhooks in Magento backend
      * Improved test coverage
   * Removed support of callbacks from the framework
+  * Removed "translate" node from configuration XML files
+  * Added I18n tools for translation dictionary generation and language package generation
+  * Eliminated Mage::helper and Mage::dispatchEvent in code
   * Redesign of API
      * Removed API as it existed in 1.x
      * Introduced new WebAPI working on top of the new service layer

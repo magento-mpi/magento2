@@ -31,6 +31,7 @@ class Magento_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_Test
         $this->_observer = $this->getMock('Magento_PricePermissions_Model_Observer',
             array('_removeColumnFromGrid', '_hidePriceElements'),
             array(
+                $this->getMock('Magento_PricePermissions_Helper_Data', array(), array(), '', false),
                 $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false),
                 array(
                     'request' => false,
@@ -38,7 +39,9 @@ class Magento_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_Test
                     'can_read_product_price' => false,
                     'can_edit_product_status' => false,
                     'default_product_price_string' => 'default'
-            )));
+                ),
+            )
+        );
         $this->_block = $this->getMock('Magento_Adminhtml_Block_Widget_Grid',
             array('getNameInLayout', 'getMassactionBlock', 'setCanReadPrice', 'setCanEditPrice', 'setTabData',
                 'getChildBlock', 'getParentBlock', 'setDefaultProductPrice', 'getForm'),

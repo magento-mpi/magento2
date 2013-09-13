@@ -35,13 +35,26 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
     /**
      * Class construct
      *
-     * @param string $databaseConnection
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_File_Storage_Directory_Database $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     * @param null $connectionName
      */
-    public function __construct($connectionName = null)
-    {
-        $this->_init('Magento_Core_Model_Resource_File_Storage_Directory_Database');
+    public function __construct(
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_File_Storage_Directory_Database $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array(),
+        $connectionName = null
+    ) {
+        parent::__construct($coreFileStorageDb, $context, $registry, $resource, $resourceCollection, $data);
 
-        parent::__construct($connectionName);
+        $this->_init('Magento_Core_Model_Resource_File_Storage_Directory_Database');
     }
 
     /**
@@ -212,7 +225,7 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
      */
     public function getSubdirectories($directory)
     {
-        $directory = Mage::helper('Magento_Core_Helper_File_Storage_Database')->getMediaRelativePath($directory);
+        $directory = $this->_coreFileStorageDb->getMediaRelativePath($directory);
 
         return $this->_getResource()->getSubdirectories($directory);
     }
@@ -225,7 +238,7 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
      */
     public function deleteDirectory($dirPath)
     {
-        $dirPath = Mage::helper('Magento_Core_Helper_File_Storage_Database')->getMediaRelativePath($dirPath);
+        $dirPath = $this->_coreFileStorageDb->getMediaRelativePath($dirPath);
         $name = basename($dirPath);
         $path = dirname($dirPath);
 

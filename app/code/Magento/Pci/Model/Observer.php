@@ -23,10 +23,21 @@ class Magento_Pci_Model_Observer
     protected $_authorization;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_AuthorizationInterface $authorization
      */
-    public function __construct(Magento_AuthorizationInterface $authorization)
-    {
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_AuthorizationInterface $authorization
+    ) {
+        $this->_coreData = $coreData;
         $this->_authorization = $authorization;
     }
 
@@ -110,7 +121,7 @@ class Magento_Pci_Model_Observer
         }
 
         // upgrade admin password
-        if (!Mage::helper('Magento_Core_Helper_Data')->getEncryptor()->validateHashByVersion($password, $user->getPassword())) {
+        if (!$this->_coreData->getEncryptor()->validateHashByVersion($password, $user->getPassword())) {
             Mage::getModel('Magento_User_Model_User')->load($user->getId())
                 ->setNewPassword($password)->setForceNewPassword(true)
                 ->save();
@@ -145,7 +156,7 @@ class Magento_Pci_Model_Observer
     {
         $password = $observer->getEvent()->getPassword();
         $model    = $observer->getEvent()->getModel();
-        if (!Mage::helper('Magento_Core_Helper_Data')->getEncryptor()->validateHashByVersion($password, $model->getPassword())) {
+        if (!$this->_coreData->getEncryptor()->validateHashByVersion($password, $model->getPassword())) {
             $model->changePassword($password, false);
         }
     }
@@ -171,13 +182,13 @@ class Magento_Pci_Model_Observer
         }
 
         if ($password && !$user->getForceNewPassword() && $user->getId()) {
-            if (Mage::helper('Magento_Core_Helper_Data')->validateHash($password, $user->getOrigData('password'))) {
+            if ($this->_coreData->validateHash($password, $user->getOrigData('password'))) {
                 Mage::throwException(__('Sorry, but this password has already been used. Please create another.'));
             }
 
             // check whether password was used before
             $resource     = Mage::getResourceSingleton('Magento_Pci_Model_Resource_Admin_User');
-            $passwordHash = Mage::helper('Magento_Core_Helper_Data')->getHash($password, false);
+            $passwordHash = $this->_coreData->getHash($password, false);
             foreach ($resource->getOldPasswords($user) as $oldPasswordHash) {
                 if ($passwordHash === $oldPasswordHash) {
                     Mage::throwException(__('Sorry, but this password has already been used. Please create another.'));
@@ -200,7 +211,7 @@ class Magento_Pci_Model_Observer
             $passwordLifetime = $this->getAdminPasswordLifetime();
             if ($passwordLifetime && $password && !$user->getForceNewPassword()) {
                 $resource     = Mage::getResourceSingleton('Magento_Pci_Model_Resource_Admin_User');
-                $passwordHash = Mage::helper('Magento_Core_Helper_Data')->getHash($password, false);
+                $passwordHash = $this->_coreData->getHash($password, false);
                 $resource->trackPassword($user, $passwordHash, $passwordLifetime);
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')
                         ->getMessages()

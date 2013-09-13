@@ -47,7 +47,7 @@ class Magento_Reward_Controller_Customer extends Magento_Core_Controller_Front_A
         if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront()) {
+        if (!$this->_objectManager->get('Magento_Reward_Helper_Data')->isEnabledOnFront()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }

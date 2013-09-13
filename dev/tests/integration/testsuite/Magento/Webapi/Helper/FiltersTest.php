@@ -14,7 +14,7 @@ class Magento_Webapi_Helper_FiltersTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$_helper = Mage::helper('Magento_Webapi_Helper_Filters');
+        self::$_helper = Mage::getObjectManager()->get('Magento_Webapi_Helper_Filters');
     }
 
     /**

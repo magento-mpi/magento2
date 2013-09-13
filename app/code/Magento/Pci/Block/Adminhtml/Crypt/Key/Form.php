@@ -12,7 +12,7 @@
  * Encryption key change form block
  *
  */
-class Magento_Pci_Block_Adminhtml_Crypt_Key_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Pci_Block_Adminhtml_Crypt_Key_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Add form fields
@@ -21,7 +21,14 @@ class Magento_Pci_Block_Adminhtml_Crypt_Key_Form extends Magento_Adminhtml_Block
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
         $fieldset = $form->addFieldset('main_fieldset', array('legend' => __('New Encryption Key')));
         $fieldset->addField('enc_key_note', 'note', array(
             'text' => __('The encryption key is used to protect passwords and other sensitive data.')

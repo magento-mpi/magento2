@@ -27,6 +27,7 @@ class Magento_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Frame
      */
     protected function setUp()
     {
+        $this->markTestIncomplete("These tests should be removed");
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_objectManager->addSharedInstance(
             Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir'),

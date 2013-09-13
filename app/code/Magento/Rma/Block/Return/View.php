@@ -17,6 +17,20 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
     protected $_realValueAttributes = array();
 
     /**
+     * Rma data
+     *
+     * @var Magento_Rma_Helper_Data
+     */
+    protected $_rmaData = null;
+
+    /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -24,17 +38,25 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Customer_Helper_Data $customerData
+     * @param Magento_Rma_Helper_Data $rmaData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Customer_Helper_Data $customerData,
+        Magento_Rma_Helper_Data $rmaData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_customerData = $customerData;
+        $this->_rmaData = $rmaData;
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     public function _construct()
@@ -232,7 +254,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
 
     public function getAddress()
     {
-        return  Mage::helper('Magento_Rma_Helper_Data')->getReturnAddress();
+        return  $this->_rmaData->getReturnAddress();
     }
 
     public function getSubmitUrl()
@@ -243,7 +265,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
     public function getCustomerName()
     {
         if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
-            return Mage::helper('Magento_Customer_Helper_Data')->getCustomerName();
+            return $this->_customerData->getCustomerName();
         } else {
             $billingAddress = $this->_coreRegistry->registry('current_order')->getBillingAddress();
 
@@ -376,7 +398,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
      */
     public function getCarriers()
     {
-        return Mage::helper('Magento_Rma_Helper_Data')->getShippingCarriers($this->getRma()->getStoreId());
+        return $this->_rmaData->getShippingCarriers($this->getRma()->getStoreId());
     }
 
     /**

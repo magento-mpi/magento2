@@ -23,18 +23,28 @@ class Magento_Adminhtml_Block_Catalog_Product_Options_Ajax extends Magento_Backe
      * @var Magento_Core_Model_Registry
      */
     protected $_coreRegistry = null;
+    
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_coreData = $coreData;
         parent::__construct($context, $data);
     }
 
@@ -69,6 +79,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Options_Ajax extends Magento_Backe
             $output[] = $resultObject->getData();
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($output);
+        return $this->_coreData->jsonEncode($output);
     }
 }

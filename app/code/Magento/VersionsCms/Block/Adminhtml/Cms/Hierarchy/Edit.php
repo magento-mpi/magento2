@@ -15,8 +15,31 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit extends Magento_Backend_Block_Widget_Form_Container
 {
+    /**
+     * Cms data
+     *
+     * @var Magento_VersionsCms_Helper_Data
+     */
+    protected $_cmsData = null;
+
+    /**
+     * @param Magento_VersionsCms_Helper_Data $cmsData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_VersionsCms_Helper_Data $cmsData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_cmsData = $cmsData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Initialize Form Container
      *
@@ -39,7 +62,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit extends Magento_Adm
 
         if (!Mage::app()->hasSingleStore()) {
             $this->_addButton('delete_multiple', array(
-                'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->getDeleteMultipleHierarchiesText(),
+                'label'     => $this->_cmsData->getDeleteMultipleHierarchiesText(),
                 'class'     => 'delete',
                 'onclick'   => "openHierarchyDialog('delete')",
             ), -1, 7);

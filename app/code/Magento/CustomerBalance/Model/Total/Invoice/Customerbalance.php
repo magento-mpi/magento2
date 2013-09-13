@@ -11,6 +11,25 @@
 class Magento_CustomerBalance_Model_Total_Invoice_Customerbalance extends Magento_Sales_Model_Order_Invoice_Total_Abstract
 {
     /**
+     * Customer balance data
+     *
+     * @var Magento_CustomerBalance_Helper_Data
+     */
+    protected $_customerBalanceData = null;
+
+    /**
+     * @param Magento_CustomerBalance_Helper_Data $customerBalanceData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_CustomerBalance_Helper_Data $customerBalanceData,
+        array $data = array()
+    ) {
+        $this->_customerBalanceData = $customerBalanceData;
+        parent::__construct($data);
+    }
+
+    /**
      * Collect customer balance totals for invoice
      *
      * @param Magento_Sales_Model_Order_Invoice $invoice
@@ -18,7 +37,7 @@ class Magento_CustomerBalance_Model_Total_Invoice_Customerbalance extends Magent
      */
     public function collect(Magento_Sales_Model_Order_Invoice $invoice)
     {
-        if (!Mage::helper('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             return $this;
         }
         $order = $invoice->getOrder();

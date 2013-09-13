@@ -47,17 +47,19 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -237,7 +239,7 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
             if ($value) {
                 $this->_addInfo(array(
                     'label' => $this->_profile->getFieldLabel($key),
-                    'value' => Mage::helper('Magento_Core_Helper_Data')->formatCurrency($value, false),
+                    'value' => $this->_coreData->formatCurrency($value, false),
                     'is_amount' => true,
                 ));
             }
@@ -321,7 +323,7 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
                 'increment_id' => $order->getIncrementId(),
                 'created_at' => $this->formatDate($order->getCreatedAt()),
                 'customer_name' => $order->getCustomerName(),
-                'base_grand_total' => Mage::helper('Magento_Core_Helper_Data')->formatCurrency(
+                'base_grand_total' => $this->_coreData->formatCurrency(
                     $order->getBaseGrandTotal(), false
                 ),
                 'status' => $order->getStatusLabel(),

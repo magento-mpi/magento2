@@ -45,6 +45,29 @@ abstract class Magento_Catalog_Block_Layer_Filter_Abstract extends Magento_Core_
     protected $_template = 'Magento_Catalog::layer/filter.phtml';
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Initialize filter model object
      *
      * @return Magento_Catalog_Block_Layer_Filter_Abstract
@@ -120,7 +143,7 @@ abstract class Magento_Catalog_Block_Layer_Filter_Abstract extends Magento_Core_
     public function shouldDisplayProductCount()
     {
         if ($this->_displayProductCount === null) {
-            $this->_displayProductCount = Mage::helper('Magento_Catalog_Helper_Data')->shouldDisplayProductCountOnLayer();
+            $this->_displayProductCount = $this->_catalogData->shouldDisplayProductCountOnLayer();
         }
         return $this->_displayProductCount;
     }

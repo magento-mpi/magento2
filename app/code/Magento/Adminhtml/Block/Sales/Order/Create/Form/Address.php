@@ -26,6 +26,31 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
     protected $_addressForm;
 
     /**
+     * Adminhtml addresses
+     *
+     * @var Magento_Adminhtml_Helper_Addresses
+     */
+    protected $_adminhtmlAddresses = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_adminhtmlAddresses = $adminhtmlAddresses;
+        parent::__construct($formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Get config
      *
      * @param string $path
@@ -72,7 +97,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
 
         $emptyAddress = $this->getCustomer()
             ->getAddressById(null)
-            ->setCountryId(Mage::helper('Magento_Core_Helper_Data')->getDefaultCountry($this->getStore()));
+            ->setCountryId($this->_coreData->getDefaultCountry($this->getStore()));
         $data[0] = $addressForm->setEntity($emptyAddress)
             ->outputData(Magento_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON);
 
@@ -82,7 +107,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
                 Magento_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON
             );
         }
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
+        return $this->_coreData->jsonEncode($data);
     }
 
     /**
@@ -103,8 +128,8 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
             ->setEntity($addressModel);
 
         $attributes = $addressForm->getAttributes();
-        if(isset($attributes['street'])) {
-            Mage::helper('Magento_Adminhtml_Helper_Addresses')
+        if (isset($attributes['street'])) {
+            $this->_adminhtmlAddresses
                 ->processStreetAttribute($attributes['street']);
         }
         $this->_addAttributesToForm($attributes, $fieldset);
@@ -162,7 +187,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
         }
         if (is_null($this->_form->getElement('country_id')->getValue())) {
             $this->_form->getElement('country_id')->setValue(
-                Mage::helper('Magento_Core_Helper_Data')->getDefaultCountry($this->getStore())
+                $this->_coreData->getDefaultCountry($this->getStore())
             );
         }
 
@@ -170,7 +195,8 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
         $vatIdElement = $this->_form->getElement('vat_id');
         if ($vatIdElement && $this->getDisplayVatValidationButton() !== false) {
             $vatIdElement->setRenderer(
-                $this->getLayout()->createBlock('Magento_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat')
+                $this->getLayout()
+                    ->createBlock('Magento_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat')
                     ->setJsVariablePrefix($this->getJsVariablePrefix())
             );
         }

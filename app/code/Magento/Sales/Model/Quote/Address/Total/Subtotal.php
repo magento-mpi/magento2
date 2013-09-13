@@ -12,6 +12,22 @@
 class Magento_Sales_Model_Quote_Address_Total_Subtotal extends Magento_Sales_Model_Quote_Address_Total_Abstract
 {
     /**
+     * Sales data
+     *
+     * @var Magento_Sales_Helper_Data
+     */
+    protected $_salesData = null;
+
+    /**
+     * @param Magento_Sales_Helper_Data $salesData
+     */
+    public function __construct(
+        Magento_Sales_Helper_Data $salesData
+    ) {
+        $this->_salesData = $salesData;
+    }
+
+    /**
      * Collect address subtotal
      *
      * @param   Magento_Sales_Model_Quote_Address $address
@@ -49,8 +65,8 @@ class Magento_Sales_Model_Quote_Address_Total_Subtotal extends Magento_Sales_Mod
         /**
          * Initialize grand totals
          */
-        Mage::helper('Magento_Sales_Helper_Data')->checkQuoteAmount($address->getQuote(), $address->getSubtotal());
-        Mage::helper('Magento_Sales_Helper_Data')->checkQuoteAmount($address->getQuote(), $address->getBaseSubtotal());
+        $this->_salesData->checkQuoteAmount($address->getQuote(), $address->getSubtotal());
+        $this->_salesData->checkQuoteAmount($address->getQuote(), $address->getBaseSubtotal());
         return $this;
     }
 

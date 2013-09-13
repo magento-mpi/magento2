@@ -23,6 +23,7 @@
             <module name="Magento_Checkout"/>
             <module name="Magento_Eav"/>
             <module name="Magento_Index"/>
+            <module name="Magento_Tax"/>
             <module name="Magento_Wishlist" type="soft"/>
             <module name="Magento_Rss" type="soft"/>
             <module name="Magento_CatalogSearch" type="soft"/>

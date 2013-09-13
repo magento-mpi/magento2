@@ -83,6 +83,20 @@
 class Magento_Core_Model_Input_Filter implements Zend_Filter_Interface
 {
     /**
+     * @var Magento_Core_Model_Factory_Helper
+     */
+    protected $_helperFactory;
+
+    /**
+     * @param Magento_Core_Model_Factory_Helper $helperFactory
+     */
+    function __construct(
+        Magento_Core_Model_Factory_Helper $helperFactory
+    ) {
+        $this->_helperFactory = $helperFactory;
+    }
+
+    /**
      * Filters data collectors
      *
      * @var array
@@ -261,10 +275,9 @@ class Magento_Core_Model_Input_Filter implements Zend_Filter_Interface
         if (isset($filterData['helper'])) {
             $helper = $filterData['helper'];
             if (is_string($helper)) {
-                $helper = Mage::helper($helper);
-            }
-            if (!($helper instanceof Magento_Core_Helper_Abstract)) {
-                throw new Exception("Filter '{$filterData['helper']}' not found");
+                $helper = $this->_helperFactory->get($helper);
+            } elseif (!($helper instanceof Magento_Core_Helper_Abstract)) {
+                throw new Exception("Filter '{$helper}' not found");
             }
         }
         return $helper;

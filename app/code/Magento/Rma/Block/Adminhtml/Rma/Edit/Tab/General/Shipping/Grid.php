@@ -15,8 +15,15 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Grid extends Magento_Adminhtml_Block_Template
+class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Grid extends Magento_Backend_Block_Template
 {
+    /**
+     * Rma data
+     *
+     * @var Magento_Rma_Helper_Data
+     */
+    protected $_rmaData = null;
+
     /**
      * Core registry
      *
@@ -25,17 +32,22 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Grid extends Mag
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Rma_Helper_Data $rmaData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Helper_Data $rmaData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_rmaData = $rmaData;
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -60,7 +72,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Grid extends Mag
         $address = $order->getShippingAddress();
         $shippingSourceCountryCode = $address->getCountryId();
 
-        $shippingDestinationInfo = Mage::helper('Magento_Rma_Helper_Data')->getReturnAddressModel($storeId);
+        $shippingDestinationInfo = $this->_rmaData->getReturnAddressModel($storeId);
         $shippingDestinationCountryCode = $shippingDestinationInfo->getCountryId();
 
         if ($shippingSourceCountryCode != $shippingDestinationCountryCode) {
