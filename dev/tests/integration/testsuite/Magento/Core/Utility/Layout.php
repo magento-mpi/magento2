@@ -73,6 +73,7 @@ class Magento_Core_Utility_Layout
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         return array(
+            'logger'             => $objectManager->get('Magento_Core_Model_Logger'),
             'design'             => $objectManager->get('Magento_Core_Model_View_DesignInterface'),
             'blockFactory'       => $objectManager->create('Magento_Core_Model_BlockFactory', array()),
             'structure'          => $objectManager->create('Magento_Data_Structure', array()),
