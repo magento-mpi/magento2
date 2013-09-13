@@ -11,7 +11,7 @@
     <type name="Magento_Widget_Model_Widget_Instance">
         <param name="relatedCacheTypes">
             <value>
-                <full_page />
+                <fullPageCache>full_page</fullPageCache>
             </value>
         </param>
     </type>

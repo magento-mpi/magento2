@@ -449,8 +449,8 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      */
     protected function _invalidateCache()
     {
-        if (is_array($this->_relatedCacheTypes) && count($this->_relatedCacheTypes)) {
-            $this->_cacheTypeList->invalidate(array_keys($this->_relatedCacheTypes));
+        if (count($this->_relatedCacheTypes)) {
+            $this->_cacheTypeList->invalidate($this->_relatedCacheTypes);
         }
         return $this;
     }
