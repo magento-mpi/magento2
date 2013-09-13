@@ -10,14 +10,14 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_report_grid">
         <reference name="adminhtml.report.grid.container">
-            <block class="\Magento\Reports\Block\Adminhtml\Grid" name="adminhtml.report.grid" as="grid">
+            <block class="Magento\Reports\Block\Adminhtml\Grid" name="adminhtml.report.grid" as="grid">
                 <arguments>
                     <argument name="use_ajax" xsi:type="string">0</argument>
                     <argument name="pager_visibility" xsi:type="string">0</argument>
                     <argument name="id" xsi:type="string">gridReport</argument>
                     <argument name="dataSource" xsi:type="object">\Magento\Reports\Model\Resource\Report\Collection</argument>
                 </arguments>
-                <block class="\Magento\Backend\Block\Store\Switcher" name="adminhtml.report.grid.store_switcher" as="store_switcher" template="Magento_Reports::store/switcher.phtml">
+                <block class="Magento\Backend\Block\Store\Switcher" name="adminhtml.report.grid.store_switcher" as="store_switcher" template="Magento_Reports::store/switcher.phtml">
                     <arguments>
                         <argument name="use_confirm" xsi:type="string">0</argument>
                         <argument name="switch_url" xsi:type="url" path="*/*/*">
@@ -25,7 +25,7 @@
                         </argument>
                     </arguments>
                 </block>
-                <block class="\Magento\Backend\Block\Widget\Grid\Export" name="adminhtml.report.grid.export" as="grid.export">
+                <block class="Magento\Backend\Block\Widget\Grid\Export" name="adminhtml.report.grid.export" as="grid.export">
                     <arguments>
                         <argument name="exportTypes" xsi:type="array">
                             <item name="csv" xsi:type="array">
@@ -39,13 +39,13 @@
                         </argument>
                     </arguments>
                 </block>
-                <block class="\Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="adminhtml.report.grid.columnSet">
+                <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="adminhtml.report.grid.columnSet">
                     <arguments>
                         <argument name="filter_visibility" xsi:type="string">0</argument>
                         <argument name="empty_text" xsi:type="string" translate="true">We couldn't find records for this period.</argument>
                         <argument name="empty_cell_label" xsi:type="string" translate="true">We couldn't find records for this period.</argument>
                     </arguments>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="period">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="period">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Interval</argument>
                             <argument name="sortable" xsi:type="string">0</argument>

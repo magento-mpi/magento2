@@ -15,7 +15,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="\Magento\Review\Block\View" name="review_view"/>
+            <block class="Magento\Review\Block\View" name="review_view"/>
         </reference>
     </handle>
 </layout>

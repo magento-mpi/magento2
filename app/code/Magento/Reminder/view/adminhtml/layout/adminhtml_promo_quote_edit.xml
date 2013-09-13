@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_promo_quote_edit">
         <reference name="content">
-            <block class="\Magento\Reminder\Block\Adminhtml\Promo\Notice" name="promo_edit_notice"/>
+            <block class="Magento\Reminder\Block\Adminhtml\Promo\Notice" name="promo_edit_notice"/>
         </reference>
     </handle>
 </layout>

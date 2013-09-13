@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_giftregistry_edit">
         <reference name="left">
-            <block class="\Magento\Backend\Block\Store\Switcher" name="store_switcher" before="-"/>
+            <block class="Magento\Backend\Block\Store\Switcher" name="store_switcher" before="-"/>
         </reference>
     </handle>
 </layout>

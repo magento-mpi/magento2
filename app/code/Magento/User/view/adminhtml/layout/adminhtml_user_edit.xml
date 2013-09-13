@@ -10,13 +10,13 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_user_edit">
         <reference name="left">
-            <block class="\Magento\User\Block\User\Edit\Tabs" name="adminhtml.user.edit.tabs"/>
+            <block class="Magento\User\Block\User\Edit\Tabs" name="adminhtml.user.edit.tabs"/>
         </reference>
         <reference name="content">
-            <block class="\Magento\User\Block\User\Edit" name="adminhtml.user.edit"/>
+            <block class="Magento\User\Block\User\Edit" name="adminhtml.user.edit"/>
         </reference>
         <reference name="js">
-            <block class="\Magento\Backend\Block\Template" name="adminhtml.user.roles.grid.js" template="Magento_User::user/roles_grid_js.phtml"/>
+            <block class="Magento\Backend\Block\Template" name="adminhtml.user.roles.grid.js" template="Magento_User::user/roles_grid_js.phtml"/>
         </reference>
     </handle>
 </layout>

@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="newsletter_manage_index">
         <reference name="customer.newsletter.form.before">
-            <block class="\Magento\Reward\Block\Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml">
+            <block class="Magento\Reward\Block\Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml">
                 <action method="initRewardType">
                     <argument name="type" xsi:type="string">\Magento\Reward\Model\Action\Newsletter</argument>
                 </action>

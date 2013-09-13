@@ -18,10 +18,10 @@
             </action>
         </reference>
         <reference name="left">
-            <block class="\Magento\Adminhtml\Block\Promo\Catalog\Edit\Tabs" name="promo_catalog_edit_tabs">
-                <block class="\Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab\Main" name="promo_catalog_edit_tab_main"/>
-                <block class="\Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab\Conditions" name="promo_catalog_edit_tab_conditions"/>
-                <block class="\Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab\Actions" name="promo_catalog_edit_tab_actions"/>
+            <block class="Magento\Adminhtml\Block\Promo\Catalog\Edit\Tabs" name="promo_catalog_edit_tabs">
+                <block class="Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab\Main" name="promo_catalog_edit_tab_main"/>
+                <block class="Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab\Conditions" name="promo_catalog_edit_tab_conditions"/>
+                <block class="Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab\Actions" name="promo_catalog_edit_tab_actions"/>
                 <action method="addTab">
                     <argument name="name" xsi:type="string">main_section</argument>
                     <argument name="block" xsi:type="string">promo_catalog_edit_tab_main</argument>
@@ -37,10 +37,10 @@
             </block>
         </reference>
         <reference name="content">
-            <block class="\Magento\Adminhtml\Block\Promo\Catalog\Edit" name="promo_catalog_edit"/>
+            <block class="Magento\Adminhtml\Block\Promo\Catalog\Edit" name="promo_catalog_edit"/>
         </reference>
         <reference name="js">
-            <block class="\Magento\Adminhtml\Block\Promo\Catalog\Edit\Js" template="promo/js.phtml"/>
+            <block class="Magento\Adminhtml\Block\Promo\Catalog\Edit\Js" template="promo/js.phtml"/>
         </reference>
     </handle>
 </layout>

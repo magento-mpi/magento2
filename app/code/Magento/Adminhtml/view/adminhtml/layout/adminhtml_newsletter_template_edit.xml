@@ -31,7 +31,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="\Magento\Adminhtml\Block\Newsletter\Template\Edit" name="template_edit" template="newsletter/template/edit.phtml"/>
+            <block class="Magento\Adminhtml\Block\Newsletter\Template\Edit" name="template_edit" template="newsletter/template/edit.phtml"/>
         </reference>
     </handle>
 </layout>

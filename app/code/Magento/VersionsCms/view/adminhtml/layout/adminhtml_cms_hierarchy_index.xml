@@ -15,11 +15,11 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="\Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit" name="magento_versionscms_hierarchy_edit_tree">
-                <block class="\Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Manage" name="hierarchy_manage" template="hierarchy/manage.phtml"/>
-                <block class="\Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form\Grid" name="cms_page_grid"/>
+            <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit" name="magento_versionscms_hierarchy_edit_tree">
+                <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Manage" name="hierarchy_manage" template="hierarchy/manage.phtml"/>
+                <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form\Grid" name="cms_page_grid"/>
             </block>
         </reference>
-        <block class="\Magento\VersionsCms\Block\Adminhtml\Scope\Switcher" name="scope_switcher" template="hierarchy/scope/switcher.phtml"/>
+        <block class="Magento\VersionsCms\Block\Adminhtml\Scope\Switcher" name="scope_switcher" template="hierarchy/scope/switcher.phtml"/>
     </handle>
 </layout>

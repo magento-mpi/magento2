@@ -32,7 +32,7 @@
             <arguments>
                 <argument name="count_totals" xsi:type="string">1</argument>
             </arguments>
-            <block class="\Magento\Backend\Block\Widget\Grid\Column" as="name">
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="name">
                 <arguments>
                     <argument name="header" xsi:type="string" translate="true">Customer</argument>
                     <argument name="sortable" xsi:type="string">0</argument>
@@ -43,7 +43,7 @@
                     <argument name="header_css_class" xsi:type="string">col-name</argument>
                 </arguments>
             </block>
-            <block class="\Magento\Backend\Block\Widget\Grid\Column" as="orders_count">
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="orders_count">
                 <arguments>
                     <argument name="header" xsi:type="string" translate="true">Orders</argument>
                     <argument name="sortable" xsi:type="string">0</argument>
@@ -55,7 +55,7 @@
                     <argument name="header_css_class" xsi:type="string">col-qty</argument>
                 </arguments>
             </block>
-            <block class="\Magento\Backend\Block\Widget\Grid\Column" as="orders_avg_amount">
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="orders_avg_amount">
                 <arguments>
                     <argument name="header" xsi:type="string" translate="true">Average</argument>
                     <argument name="sortable" xsi:type="string">0</argument>
@@ -67,7 +67,7 @@
                     <argument name="header_css_class" xsi:type="string">col-average</argument>
                 </arguments>
             </block>
-            <block class="\Magento\Backend\Block\Widget\Grid\Column" as="orders_sum_amount">
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="orders_sum_amount">
                 <arguments>
                     <argument name="header" xsi:type="string" translate="true">Total</argument>
                     <argument name="sortable" xsi:type="string">0</argument>

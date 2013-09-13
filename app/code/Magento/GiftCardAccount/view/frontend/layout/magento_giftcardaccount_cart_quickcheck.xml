@@ -9,8 +9,8 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle label="Gift Card Balance Quick Check Form" id="magento_giftcardaccount_cart_quickcheck" type="fragment" owner="magento_giftcardaccount_cart_check">
-        <block class="\Magento\Page\Block\Html" name="root" output="1" template="page_fragment.phtml">
-            <block class="\Magento\GiftCardAccount\Block\Check" template="check.phtml"/>
+        <block class="Magento\Page\Block\Html" name="root" output="1" template="page_fragment.phtml">
+            <block class="Magento\GiftCardAccount\Block\Check" template="check.phtml"/>
         </block>
     </handle>
 </layout>

@@ -18,7 +18,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="\Magento\Core\Block\Html\Calendar" name="html_calendar" as="html_calendar" template="Magento_Page::js/calendar.phtml"/>
+            <block class="Magento\Core\Block\Html\Calendar" name="html_calendar" as="html_calendar" template="Magento_Page::js/calendar.phtml"/>
         </reference>
     </handle>
 </layout>

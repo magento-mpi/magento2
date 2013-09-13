@@ -11,7 +11,7 @@
     <handle id="checkout_cart_index">
         <reference name="checkout.cart">
             <!-- remove name="checkout.cart.crosssell" / -->
-            <block class="\Magento\TargetRule\Block\Checkout\Cart\Crosssell" name="checkout.cart.crosssell" as="crosssell" template="checkout/cart/crosssell.phtml">
+            <block class="Magento\TargetRule\Block\Checkout\Cart\Crosssell" name="checkout.cart.crosssell" as="crosssell" template="checkout/cart/crosssell.phtml">
             </block>
         </reference>
     </handle>

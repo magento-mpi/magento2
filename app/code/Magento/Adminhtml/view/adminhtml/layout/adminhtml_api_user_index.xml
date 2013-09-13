@@ -12,7 +12,7 @@
         <update handle="formkey"/>
         <update handle="adminhtml_api_user_block"/>
         <reference name="content">
-            <block class="\Magento\Adminhtml\Block\Api\User" name="adminhtml.api.user.container"/>
+            <block class="Magento\Adminhtml\Block\Api\User" name="adminhtml.api.user.container"/>
         </reference>
     </handle>
 </layout>

@@ -10,13 +10,13 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_sales_order_create_load_block_data">
         <reference name="order_item_extra_info">
-            <block class="\Magento\GiftMessage\Block\Adminhtml\Sales\Order\Create\Giftoptions" name="gift_options_link" template="sales/order/create/giftoptions.phtml">
-                <block class="\Magento\GiftMessage\Block\Adminhtml\Sales\Order\Create\Items" name="gift_options_item_data" template="sales/order/create/items.phtml"/>
+            <block class="Magento\GiftMessage\Block\Adminhtml\Sales\Order\Create\Giftoptions" name="gift_options_link" template="sales/order/create/giftoptions.phtml">
+                <block class="Magento\GiftMessage\Block\Adminhtml\Sales\Order\Create\Items" name="gift_options_item_data" template="sales/order/create/items.phtml"/>
             </block>
         </reference>
         <reference name="items_grid">
-            <block class="\Magento\Adminhtml\Block\Template" name="popup_window" template="Magento_GiftMessage::popup.phtml">
-                <block class="\Magento\GiftMessage\Block\Adminhtml\Sales\Order\Create\Form" name="gift_options_form" template="giftoptionsform.phtml"/>
+            <block class="Magento\Adminhtml\Block\Template" name="popup_window" template="Magento_GiftMessage::popup.phtml">
+                <block class="Magento\GiftMessage\Block\Adminhtml\Sales\Order\Create\Form" name="gift_options_form" template="giftoptionsform.phtml"/>
             </block>
         </reference>
     </handle>

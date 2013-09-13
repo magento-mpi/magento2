@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_sales_order_create_load_block_form_account">
         <reference name="content">
-            <block class="\Magento\Adminhtml\Block\Sales\Order\Create\Form\Account" template="sales/order/create/form/account.phtml" name="form_account"/>
+            <block class="Magento\Adminhtml\Block\Sales\Order\Create\Form\Account" template="sales/order/create/form/account.phtml" name="form_account"/>
         </reference>
     </handle>
 </layout>

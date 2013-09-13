@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="sales_email_order_invoice_items">
         <reference name="invoice_totals">
-            <block class="\Magento\CustomerBalance\Block\Sales\Order\Customerbalance" name="customerbalance" template="order/customerbalance.phtml"/>
+            <block class="Magento\CustomerBalance\Block\Sales\Order\Customerbalance" name="customerbalance" template="order/customerbalance.phtml"/>
         </reference>
     </handle>
 </layout>

@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_denied">
         <reference name="content">
-            <block class="\Magento\Adminhtml\Block\Denied" name="content.denied" template="admin/access_denied.phtml"/>
+            <block class="Magento\Adminhtml\Block\Denied" name="content.denied" template="admin/access_denied.phtml"/>
         </reference>
     </handle>
 </layout>

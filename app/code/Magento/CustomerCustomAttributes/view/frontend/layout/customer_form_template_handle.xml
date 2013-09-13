@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="customer_form_template_handle">
         <reference name="content">
-            <block class="\Magento\CustomerCustomAttributes\Block\Form\Template" name="customer_form_template">
+            <block class="Magento\CustomerCustomAttributes\Block\Form\Template" name="customer_form_template">
                 <action method="addRenderer">
                     <argument name="type" xsi:type="string">text</argument>
                     <argument name="renderer_block" xsi:type="string">\Magento\CustomerCustomAttributes\Block\Form\Renderer\Text</argument>

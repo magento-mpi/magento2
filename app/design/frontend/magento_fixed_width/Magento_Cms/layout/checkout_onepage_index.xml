@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="checkout_onepage_index">
         <reference name="checkout.onepage">
-            <block class="\Magento\Cms\Block\Block" name="checkout.callout" as="checkoutCallout" before="checkout.progress">
+            <block class="Magento\Cms\Block\Block" name="checkout.callout" as="checkoutCallout" before="checkout.progress">
                 <action method="setBlockId">
                     <argument name="block_id" xsi:type="string">checkout_callout</argument>
                 </action>

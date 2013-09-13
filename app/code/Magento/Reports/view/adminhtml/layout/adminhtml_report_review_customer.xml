@@ -11,7 +11,7 @@
     <handle id="adminhtml_report_review_customer">
         <update handle="adminhtml_report_review_customer_grid"/>
         <reference name="content">
-            <block class="\Magento\Adminhtml\Block\Report\Review\Customer" name="adminhtml.report.grid.container"/>
+            <block class="Magento\Adminhtml\Block\Report\Review\Customer" name="adminhtml.report.grid.container"/>
         </reference>
     </handle>
 </layout>

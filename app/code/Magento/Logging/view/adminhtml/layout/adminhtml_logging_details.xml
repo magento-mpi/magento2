@@ -10,8 +10,8 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_logging_details">
         <reference name="content">
-            <block class="\Magento\Logging\Block\Adminhtml\Details" name="enterprise.logging.details" template="details.phtml">
-                <block class="\Magento\Logging\Block\Adminhtml\Details\Grid" name="enterprise.logging.details.grid" as="details_grid"/>
+            <block class="Magento\Logging\Block\Adminhtml\Details" name="enterprise.logging.details" template="details.phtml">
+                <block class="Magento\Logging\Block\Adminhtml\Details\Grid" name="enterprise.logging.details.grid" as="details_grid"/>
             </block>
         </reference>
     </handle>

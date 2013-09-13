@@ -11,7 +11,7 @@
     <handle id="adminhtml_newsletter_queue_index">
         <update handle="adminhtml_newsletter_queue_grid_block"/>
         <reference name="content">
-            <block class="\Magento\Backend\Block\Template" template="Magento_Newsletter::queue/list.phtml" name="adminhtml.newsletter.queue.grid.container"/>
+            <block class="Magento\Backend\Block\Template" template="Magento_Newsletter::queue/list.phtml" name="adminhtml.newsletter.queue.grid.container"/>
         </reference>
     </handle>
 </layout>

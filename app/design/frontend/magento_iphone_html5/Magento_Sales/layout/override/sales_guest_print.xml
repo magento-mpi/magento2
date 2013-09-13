@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle label="Sales Order Print View" id="sales_guest_print" type="page" parent="print">
         <reference name="content">
-            <block class="\Magento\Sales\Block\Order\Print" name="sales.order.print" template="order/print.phtml">
+            <block class="Magento\Sales\Block\Order\Print" name="sales.order.print" template="order/print.phtml">
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">default</argument>
                     <argument name="block" xsi:type="string">\Magento\Catalog\Block\Product\Price</argument>
@@ -21,14 +21,14 @@
                     <argument name="block" xsi:type="string">\Magento\Sales\Block\Order\Item\Renderer\Grouped</argument>
                     <argument name="template" xsi:type="string">order/items/renderer/default.phtml</argument>
                 </action>
-                <block class="\Magento\Sales\Block\Order\Totals" name="order_totals" template="order/totals.phtml">
+                <block class="Magento\Sales\Block\Order\Totals" name="order_totals" template="order/totals.phtml">
                     <action method="setLabelProperties">
                         <argument name="value" xsi:type="string">colspan="4" class="a-right"</argument>
                     </action>
                     <action method="setValueProperties">
                         <argument name="value" xsi:type="string">class="last a-right"</argument>
                     </action>
-                    <block class="\Magento\Tax\Block\Sales\Order\Tax" name="tax" template="order/tax.phtml">
+                    <block class="Magento\Tax\Block\Sales\Order\Tax" name="tax" template="order/tax.phtml">
                         <action method="setIsPlaneMode">
                             <argument name="value" xsi:type="string">1</argument>
                         </action>

@@ -24,7 +24,7 @@
             </action>
         </reference>
         <reference name="left">
-            <block class="\Magento\Sales\Block\Reorder\Sidebar" name="sale.reorder.sidebar" as="reorder" template="reorder/sidebar.phtml"/>
+            <block class="Magento\Sales\Block\Reorder\Sidebar" name="sale.reorder.sidebar" as="reorder" template="reorder/sidebar.phtml"/>
         </reference>
         <reference name="customer_account_navigation">
             <action method="addLink">

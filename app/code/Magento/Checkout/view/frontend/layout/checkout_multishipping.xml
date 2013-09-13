@@ -15,7 +15,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="\Magento\Checkout\Block\Multishipping\State" name="checkout_state" template="multishipping/state.phtml"/>
+            <block class="Magento\Checkout\Block\Multishipping\State" name="checkout_state" template="multishipping/state.phtml"/>
         </reference>
     </handle>
 </layout>

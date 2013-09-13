@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_user_role_editrolegrid">
-        <block class="\Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Role" name="adminhtml.user.role.grid"/>
+        <block class="Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Role" name="adminhtml.user.role.grid"/>
     </handle>
 </layout>

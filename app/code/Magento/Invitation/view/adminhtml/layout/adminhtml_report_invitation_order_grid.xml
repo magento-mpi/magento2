@@ -29,7 +29,7 @@
             </arguments>
         </reference>
         <reference name="adminhtml.report.grid.columnSet">
-            <block class="\Magento\Backend\Block\Widget\Grid\Column" as="sent">
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="sent">
                 <arguments>
                     <argument name="header" xsi:type="string" translate="true">Invitations Sent</argument>
                     <argument name="type" xsi:type="string">number</argument>
@@ -39,7 +39,7 @@
                     <argument name="column_css_class" xsi:type="string">col-inv-sent</argument>
                 </arguments>
             </block>
-            <block class="\Magento\Backend\Block\Widget\Grid\Column" as="accepted">
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="accepted">
                 <arguments>
                     <argument name="header" xsi:type="string" translate="true">Invitations Accepted</argument>
                     <argument name="type" xsi:type="string">number</argument>
@@ -49,7 +49,7 @@
                     <argument name="column_css_class" xsi:type="string">col-inv-acc</argument>
                 </arguments>
             </block>
-            <block class="\Magento\Backend\Block\Widget\Grid\Column" as="purchased">
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="purchased">
                 <arguments>
                     <argument name="header" xsi:type="string" translate="true">Accepted and Purchased</argument>
                     <argument name="type" xsi:type="string">number</argument>
@@ -59,7 +59,7 @@
                     <argument name="column_css_class" xsi:type="string">col-acc</argument>
                 </arguments>
             </block>
-            <block class="\Magento\Backend\Block\Widget\Grid\Column" as="purchased_rate">
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="purchased_rate">
                 <arguments>
                     <argument name="header" xsi:type="string" translate="true">Conversion Rate</argument>
                     <argument name="renderer" xsi:type="string">\Magento\Invitation\Block\Adminhtml\Grid\Column\Renderer\Percent</argument>

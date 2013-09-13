@@ -10,10 +10,10 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="cms_page_view">
         <reference name="content">
-            <block class="\Magento\VersionsCms\Block\Hierarchy\Pagination" name="hierarchy_pagination" template="hierarchy/pagination.phtml"/>
+            <block class="Magento\VersionsCms\Block\Hierarchy\Pagination" name="hierarchy_pagination" template="hierarchy/pagination.phtml"/>
         </reference>
         <reference name="head">
-            <block class="\Magento\VersionsCms\Block\Hierarchy\Head" name="magento_versionscms_hierarchy_head"/>
+            <block class="Magento\VersionsCms\Block\Hierarchy\Head" name="magento_versionscms_hierarchy_head"/>
         </reference>
     </handle>
 </layout>

@@ -27,7 +27,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="\Magento\Ogone\Block\Paypage" name="ogone_paypage" template="paypage.phtml"/>
+            <block class="Magento\Ogone\Block\Paypage" name="ogone_paypage" template="paypage.phtml"/>
         </reference>
     </handle>
 </layout>

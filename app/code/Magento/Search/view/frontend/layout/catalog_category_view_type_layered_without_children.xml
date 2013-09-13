@@ -11,7 +11,7 @@
     <handle id="catalog_category_view_type_layered_without_children">
         <reference name="left">
             <remove name="catalog.leftnav"/>
-            <block class="\Magento\Search\Block\Catalog\Layer\View" name="enterprisecatalog.leftnav" before="-" template="Magento_Catalog::layer/view.phtml"/>
+            <block class="Magento\Search\Block\Catalog\Layer\View" name="enterprisecatalog.leftnav" before="-" template="Magento_Catalog::layer/view.phtml"/>
         </reference>
     </handle>
 </layout>

@@ -10,6 +10,6 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_oauth_admin_token_grid">
         <remove name="root"/>
-        <block class="\Magento\Oauth\Block\Adminhtml\Oauth\Admin\Token\Grid" name="oauth_admin_token.grid" output="1"/>
+        <block class="Magento\Oauth\Block\Adminhtml\Oauth\Admin\Token\Grid" name="oauth_admin_token.grid" output="1"/>
     </handle>
 </layout>

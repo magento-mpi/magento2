@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="sales_email_order_items">
         <reference name="order_totals">
-            <block class="\Magento\GiftCardAccount\Block\Sales\Order\Giftcards" name="giftcards" template="order/giftcards.phtml" after="-"/>
+            <block class="Magento\GiftCardAccount\Block\Sales\Order\Giftcards" name="giftcards" template="order/giftcards.phtml" after="-"/>
         </reference>
     </handle>
 </layout>

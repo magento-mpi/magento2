@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_googleshopping_types_block">
         <reference name="googleshopping.types.container">
-            <block class="\Magento\Backend\Block\Widget\Grid" name="adminhtml.googleshopping.types.grid" as="grid">
+            <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.googleshopping.types.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">types_grid</argument>
                     <argument name="dataSource" xsi:type="object">\Magento\GoogleShopping\Model\Resource\Grid\Collection</argument>
@@ -20,7 +20,7 @@
                         <param name="_current">1</param>
                     </argument>
                 </arguments>
-                <block class="\Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="googleshopping.types.grid.columnSet">
+                <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="googleshopping.types.grid.columnSet">
                     <arguments>
                         <argument name="id" xsi:type="string">types_grid</argument>
                         <argument name="rowUrl" xsi:type="array">
@@ -33,13 +33,13 @@
                             </item>
                         </argument>
                     </arguments>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="attribute_set_name">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="attribute_set_name">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Attributes Set</argument>
                             <argument name="index" xsi:type="string">attribute_set_name</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="target_country">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="target_country">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Target Country</argument>
                             <argument name="index" xsi:type="string">target_country</argument>
@@ -48,7 +48,7 @@
                             <argument name="filter" xsi:type="string">0</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="items_total">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="items_total">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Total Qty Content Items</argument>
                             <argument name="index" xsi:type="string">items_total</argument>

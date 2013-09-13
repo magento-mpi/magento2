@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="checkout_onepage_success">
         <reference name="content">
-            <block class="\Magento\GoogleAdwords\Block\Code" name="google.adwords.code" template="code.phtml"/>
+            <block class="Magento\GoogleAdwords\Block\Code" name="google.adwords.code" template="code.phtml"/>
         </reference>
     </handle>
 </layout>

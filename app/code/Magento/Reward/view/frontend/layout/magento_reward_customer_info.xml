@@ -11,10 +11,10 @@
     <handle label="Customer Reward Info" id="magento_reward_customer_info" type="page" parent="customer_account">
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block class="\Magento\Reward\Block\Customer\Reward" name="customer.reward" template="customer/reward.phtml">
-                <block class="\Magento\Reward\Block\Customer\Reward\Info" name="customer.reward.info" template="customer/reward/info.phtml"/>
-                <block class="\Magento\Reward\Block\Customer\Reward\History" name="customer.reward.history" template="customer/reward/history.phtml"/>
-                <block class="\Magento\Reward\Block\Customer\Reward\Subscription" name="customer.reward.subscription" template="customer/reward/subscription.phtml"/>
+            <block class="Magento\Reward\Block\Customer\Reward" name="customer.reward" template="customer/reward.phtml">
+                <block class="Magento\Reward\Block\Customer\Reward\Info" name="customer.reward.info" template="customer/reward/info.phtml"/>
+                <block class="Magento\Reward\Block\Customer\Reward\History" name="customer.reward.history" template="customer/reward/history.phtml"/>
+                <block class="Magento\Reward\Block\Customer\Reward\Subscription" name="customer.reward.subscription" template="customer/reward/subscription.phtml"/>
             </block>
         </reference>
     </handle>

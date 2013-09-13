@@ -16,7 +16,7 @@
             </action>
         </reference>
         <reference name="my.account.wrapper">
-            <block class="\Magento\GiftRegistry\Block\Items" name="giftregistry.customer.items" template="customer/items.phtml">
+            <block class="Magento\GiftRegistry\Block\Items" name="giftregistry.customer.items" template="customer/items.phtml">
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">default</argument>
                     <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer</argument>

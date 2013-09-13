@@ -11,7 +11,7 @@
     <handle id="adminhtml_webapi_role_index">
         <update handle="adminhtml_webapi_role_grid_block"/>
         <reference name="content">
-            <block class="\Magento\Webapi\Block\Adminhtml\Role" name="webapi_role.grid.container"/>
+            <block class="Magento\Webapi\Block\Adminhtml\Role" name="webapi_role.grid.container"/>
         </reference>
     </handle>
 </layout>

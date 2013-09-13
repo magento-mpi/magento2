@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_dashboard_productsviewed">
         <container name="root" label="Root" output="1">
-            <block class="\Magento\Adminhtml\Block\Dashboard\Tab\Products\Viewed" name="adminhtml.dashboard.tab.products.viewed"/>
+            <block class="Magento\Adminhtml\Block\Dashboard\Tab\Products\Viewed" name="adminhtml.dashboard.tab.products.viewed"/>
         </container>
     </handle>
 </layout>

@@ -64,22 +64,22 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="\Magento\Adminhtml\Block\Catalog\Product\Edit" name="product_edit">
+            <block class="Magento\Adminhtml\Block\Catalog\Product\Edit" name="product_edit">
                 <container name="product-type-tabs" label="Tabs">
                 </container>
             </block>
-            <block class="\Magento\Adminhtml\Block\Catalog\Product\Edit\AttributeSet" name="attribute-set-info" template="Magento_Adminhtml::catalog/product/edit/attribute_set.phtml"/>
-            <block class="\Magento\Adminhtml\Block\Catalog\Product\Edit\NewCategory" name="new-category" template="Magento_Adminhtml::catalog/product/edit/category/new/form.phtml"/>
-            <block class="\Magento\Core\Block\Template" name="affected-attribute-set-form" template="Magento_Catalog::product/configurable/affected-attribute-set-selector/form.phtml"/>
+            <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\AttributeSet" name="attribute-set-info" template="Magento_Adminhtml::catalog/product/edit/attribute_set.phtml"/>
+            <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\NewCategory" name="new-category" template="Magento_Adminhtml::catalog/product/edit/category/new/form.phtml"/>
+            <block class="Magento\Core\Block\Template" name="affected-attribute-set-form" template="Magento_Catalog::product/configurable/affected-attribute-set-selector/form.phtml"/>
         </reference>
         <reference name="left">
-            <block class="\Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs" name="product_tabs"/>
+            <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs" name="product_tabs"/>
         </reference>
         <reference name="js">
-            <block class="\Magento\Adminhtml\Block\Catalog\Product\Edit\Js" name="catalog_product_js" template="catalog/product/js.phtml"/>
-            <block class="\Magento\Core\Block\Template" template="Magento_Adminhtml::catalog/wysiwyg/js.phtml"/>
-            <block class="\Magento\Catalog\Block\Product\Configurable\AttributeSelector" template="Magento_Catalog::product/configurable/attribute-selector/js.phtml"/>
-            <block class="\Magento\Catalog\Block\Product\Configurable\AttributeSelector" template="Magento_Catalog::product/configurable/affected-attribute-set-selector/js.phtml"/>
+            <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\Js" name="catalog_product_js" template="catalog/product/js.phtml"/>
+            <block class="Magento\Core\Block\Template" template="Magento_Adminhtml::catalog/wysiwyg/js.phtml"/>
+            <block class="Magento\Catalog\Block\Product\Configurable\AttributeSelector" template="Magento_Catalog::product/configurable/attribute-selector/js.phtml"/>
+            <block class="Magento\Catalog\Block\Product\Configurable\AttributeSelector" template="Magento_Catalog::product/configurable/affected-attribute-set-selector/js.phtml"/>
         </reference>
     </handle>
 </layout>

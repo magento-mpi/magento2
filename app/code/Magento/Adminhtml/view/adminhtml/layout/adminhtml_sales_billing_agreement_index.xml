@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_sales_billing_agreement_index">
         <reference name="content">
-            <block class="\Magento\Sales\Block\Adminhtml\Billing\Agreement" name="sales.billing.agreement.grid.container"/>
+            <block class="Magento\Sales\Block\Adminhtml\Billing\Agreement" name="sales.billing.agreement.grid.container"/>
         </reference>
     </handle>
 </layout>

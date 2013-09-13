@@ -15,9 +15,9 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="\Magento\Customer\Block\Form\Register" name="customer_form_register" template="form/register.phtml">
+            <block class="Magento\Customer\Block\Form\Register" name="customer_form_register" template="form/register.phtml">
                 <container name="customer.form.register.fields.before" as="form_fields_before" label="Form Fields Before" htmlTag="div" htmlClass="customer-form-before"/>
-                <block class="\Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
+                <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
                     <action method="setFormCode">
                         <argument name="code" xsi:type="string">customer_account_create</argument>
                     </action>
@@ -25,7 +25,7 @@
                         <argument name="code" xsi:type="string">\Magento\Customer\Model\Customer</argument>
                     </action>
                 </block>
-                <block class="\Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_address_user_attributes">
+                <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_address_user_attributes">
                     <action method="setFormCode">
                         <argument name="code" xsi:type="string">customer_register_address</argument>
                     </action>

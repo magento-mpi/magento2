@@ -23,7 +23,7 @@
             </action>
         </reference>
         <reference name="product.info">
-            <block class="\Magento\Catalog\Block\Product\View" name="product.tierprices" as="tierprices" template="product/view/tierprices.phtml"/>
+            <block class="Magento\Catalog\Block\Product\View" name="product.tierprices" as="tierprices" template="product/view/tierprices.phtml"/>
         </reference>
         <move element="catalog.product.related" destination="product.info" as="relatedProducts"/>
         <move element="product.clone_prices" destination="product.info.options.wrapper.bottom" after="product.info.addto.additional"/>

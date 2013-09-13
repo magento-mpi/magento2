@@ -11,7 +11,7 @@
     <handle id="adminhtml_promo_catalog_index">
         <update handle="adminhtml_promo_catalog_block"/>
         <reference name="content">
-            <block class="\Magento\Adminhtml\Block\Promo\Catalog" name="adminhtml.promo.catalog.grid.container"/>
+            <block class="Magento\Adminhtml\Block\Promo\Catalog" name="adminhtml.promo.catalog.grid.container"/>
         </reference>
     </handle>
 </layout>

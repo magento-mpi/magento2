@@ -16,15 +16,15 @@
         </reference>
         <update handle="customer_account"/>
         <reference name="content">
-            <block class="\Magento\Rma\Block\Return\Info" as="info" name="sales.order.info">
-                <block class="\Magento\Sales\Block\Order\Info\Buttons" as="buttons" name="sales.order.info.buttons">
-                    <block class="\Magento\Rma\Block\Order\Button" name="enterprise.rma.info.button" template="order/button.phtml"/>
+            <block class="Magento\Rma\Block\Return\Info" as="info" name="sales.order.info">
+                <block class="Magento\Sales\Block\Order\Info\Buttons" as="buttons" name="sales.order.info.buttons">
+                    <block class="Magento\Rma\Block\Order\Button" name="enterprise.rma.info.button" template="order/button.phtml"/>
                 </block>
             </block>
-            <block class="\Magento\Rma\Block\Return\View" name="rma.return.history">
+            <block class="Magento\Rma\Block\Return\View" name="rma.return.history">
                 <container name="rma.return.history.info" as="info" label="View Return"/>
             </block>
-            <block class="\Magento\Rma\Block\Return\View" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
+            <block class="Magento\Rma\Block\Return\View" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
         </reference>
         <update handle="magento_rma_return_view_handle"/>
         <reference name="sales.order.info">
@@ -54,6 +54,6 @@
                 <argument translate="true" name="label" xsi:type="string">Returns</argument>
             </action>
         </reference>
-        <block class="\Magento\Rma\Block\Return\Tracking" name="rma.return.tracking" as="tracking"/>
+        <block class="Magento\Rma\Block\Return\Tracking" name="rma.return.tracking" as="tracking"/>
     </handle>
 </layout>

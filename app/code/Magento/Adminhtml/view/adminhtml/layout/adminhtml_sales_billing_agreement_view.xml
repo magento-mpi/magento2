@@ -21,15 +21,15 @@
         <remove name="sales.order.grid.export"/>
         <remove name="sales.order.grid.massaction"/>
         <reference name="content">
-            <block class="\Magento\Sales\Block\Adminhtml\Billing\Agreement\View" name="sales.billing.agreement.view"/>
+            <block class="Magento\Sales\Block\Adminhtml\Billing\Agreement\View" name="sales.billing.agreement.view"/>
         </reference>
         <reference name="left">
-            <block class="\Magento\Sales\Block\Adminhtml\Billing\Agreement\View\Tabs" name="sales.billing.agreement.tabs">
+            <block class="Magento\Sales\Block\Adminhtml\Billing\Agreement\View\Tabs" name="sales.billing.agreement.tabs">
                 <action method="addTab">
                     <argument name="name" xsi:type="string">billing_agreement_info</argument>
                     <argument name="block" xsi:type="string">\Magento\Sales\Block\Adminhtml\Billing\Agreement\View\Tab\Info</argument>
                 </action>
-                <block class="\Magento\Sales\Block\Adminhtml\Billing\Agreement\View\Tab\Orders" name="sales_order.grid.container"/>
+                <block class="Magento\Sales\Block\Adminhtml\Billing\Agreement\View\Tab\Orders" name="sales_order.grid.container"/>
                 <action method="addTab">
                     <argument name="name" xsi:type="string">billing_agreement_orders</argument>
                     <argument name="block" xsi:type="string">sales_order.grid.container</argument>

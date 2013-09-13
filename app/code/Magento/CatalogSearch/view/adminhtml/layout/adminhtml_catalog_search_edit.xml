@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_catalog_search_edit">
         <reference name="content">
-            <block class="\Magento\Adminhtml\Block\Catalog\Search\Edit" name="adminhtml.catalog.search.edit"/>
+            <block class="Magento\Adminhtml\Block\Catalog\Search\Edit" name="adminhtml.catalog.search.edit"/>
         </reference>
     </handle>
 </layout>

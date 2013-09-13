@@ -104,11 +104,11 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $this->_layout->setXml(simplexml_load_string(
             '<layout>
-                <block class="\Magento\Core\Block\Text" name="block1">
-                    <block class="\Magento\Core\Block\Text"/>
+                <block class="Magento\Core\Block\Text" name="block1">
+                    <block class="Magento\Core\Block\Text"/>
                 </block>
-                <block class="\Magento\Core\Block\Text" template="test"/>
-                <block class="\Magento\Core\Block\Text"/>
+                <block class="Magento\Core\Block\Text" template="test"/>
+                <block class="Magento\Core\Block\Text"/>
             </layout>',
             '\Magento\Core\Model\Layout\Element'
         ));

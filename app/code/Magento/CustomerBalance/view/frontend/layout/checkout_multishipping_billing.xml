@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="checkout_multishipping_billing">
         <reference name="payment_methods_before">
-            <block class="\Magento\CustomerBalance\Block\Checkout\Onepage\Payment\Additional" template="checkout/multishipping/payment.phtml" name="customerbalance"/>
+            <block class="Magento\CustomerBalance\Block\Checkout\Onepage\Payment\Additional" template="checkout/multishipping/payment.phtml" name="customerbalance"/>
         </reference>
     </handle>
 </layout>

@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_sales_order_status_assign">
         <reference name="content">
-            <block class="\Magento\Adminhtml\Block\Sales\Order\Status\Assign" name="sales_order_status.assign.container"/>
+            <block class="Magento\Adminhtml\Block\Sales\Order\Status\Assign" name="sales_order_status.assign.container"/>
         </reference>
     </handle>
 </layout>

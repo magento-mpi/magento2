@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_import_busy">
         <reference name="content">
-            <block class="\Magento\Core\Block\Template" template="Magento_ImportExport::busy.phtml" name="busy" alias="busy"/>
+            <block class="Magento\Core\Block\Template" template="Magento_ImportExport::busy.phtml" name="busy" alias="busy"/>
         </reference>
     </handle>
 </layout>

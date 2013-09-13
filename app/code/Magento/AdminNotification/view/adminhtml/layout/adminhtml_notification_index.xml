@@ -11,7 +11,7 @@
     <handle id="adminhtml_notification_index">
         <update handle="adminhtml_notification_block"/>
         <reference name="content">
-            <block class="\Magento\AdminNotification\Block\Inbox" name="adminhtml.notification.container"/>
+            <block class="Magento\AdminNotification\Block\Inbox" name="adminhtml.notification.container"/>
         </reference>
     </handle>
 </layout>

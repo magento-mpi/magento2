@@ -15,20 +15,20 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="\Magento\Rma\Block\Adminhtml\Rma\New" name="magento_rma_new"/>
+            <block class="Magento\Rma\Block\Adminhtml\Rma\New" name="magento_rma_new"/>
         </reference>
         <reference name="left">
-            <block class="\Magento\Rma\Block\Adminhtml\Rma\Edit\Tabs" name="magento_rma_edit_tabs">
-                <block class="\Magento\Rma\Block\Adminhtml\Rma\New\Tab\General" template="new/general.phtml" name="magento_rma_new_tab_general">
-                    <block class="\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Details" template="new/general/details.phtml" name="request_details"/>
-                    <block class="\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingaddress" template="edit/general/shippingaddress.phtml" name="shipping_address"/>
-                    <block class="\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Returnaddress" template="edit/general/returnadress.phtml" name="return_address"/>
-                    <block class="\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\History" template="new/general/history.phtml" name="comments_history"/>
-                    <block class="\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\History" template="new/general/confirmation.phtml" name="return_confirmation"/>
+            <block class="Magento\Rma\Block\Adminhtml\Rma\Edit\Tabs" name="magento_rma_edit_tabs">
+                <block class="Magento\Rma\Block\Adminhtml\Rma\New\Tab\General" template="new/general.phtml" name="magento_rma_new_tab_general">
+                    <block class="Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Details" template="new/general/details.phtml" name="request_details"/>
+                    <block class="Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingaddress" template="edit/general/shippingaddress.phtml" name="shipping_address"/>
+                    <block class="Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Returnaddress" template="edit/general/returnadress.phtml" name="return_address"/>
+                    <block class="Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\History" template="new/general/history.phtml" name="comments_history"/>
+                    <block class="Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\History" template="new/general/confirmation.phtml" name="return_confirmation"/>
                 </block>
-                <block class="\Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items" name="magento_rma_new_tab_items" template="new/items.phtml">
-                    <block class="\Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items\Grid" name="rma_items_grid"/>
-                    <block class="\Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items\Order\Grid" name="order_items_grid"/>
+                <block class="Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items" name="magento_rma_new_tab_items" template="new/items.phtml">
+                    <block class="Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items\Grid" name="rma_items_grid"/>
+                    <block class="Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items\Order\Grid" name="order_items_grid"/>
                 </block>
                 <action method="addTab">
                     <argument name="name" xsi:type="string">general_section</argument>
@@ -41,8 +41,8 @@
             </block>
         </reference>
         <reference name="before_body_end">
-            <block class="\Magento\Adminhtml\Block\Template" template="Magento_Rma::edit/mask.phtml"/>
-            <block class="\Magento\Rma\Block\Adminhtml\Product\Bundle\Js" template="edit/bundle/js.phtml" name="magento_rma_js_create"/>
+            <block class="Magento\Adminhtml\Block\Template" template="Magento_Rma::edit/mask.phtml"/>
+            <block class="Magento\Rma\Block\Adminhtml\Product\Bundle\Js" template="edit/bundle/js.phtml" name="magento_rma_js_create"/>
         </reference>
     </handle>
 </layout>

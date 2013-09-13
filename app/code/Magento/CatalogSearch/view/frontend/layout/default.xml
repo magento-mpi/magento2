@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="default">
         <reference name="header">
-            <block class="\Magento\Core\Block\Template" name="top.search" as="topSearch" template="Magento_CatalogSearch::form.mini.phtml"/>
+            <block class="Magento\Core\Block\Template" name="top.search" as="topSearch" template="Magento_CatalogSearch::form.mini.phtml"/>
         </reference>
         <reference name="footer_links">
             <action method="addLink" ifconfig="catalog/seo/search_terms">

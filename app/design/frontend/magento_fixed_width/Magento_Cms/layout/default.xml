@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="default">
         <reference name="header">
-            <block class="\Magento\Cms\Block\Block" name="header.callout" as="headerCallout">
+            <block class="Magento\Cms\Block\Block" name="header.callout" as="headerCallout">
                 <action method="setBlockId">
                     <argument name="block_id" xsi:type="string">header_callout</argument>
                 </action>

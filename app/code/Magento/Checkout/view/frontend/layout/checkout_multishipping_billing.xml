@@ -11,7 +11,7 @@
     <handle label="Multishipping Checkout Billing Information Step" id="checkout_multishipping_billing" type="page" parent="checkout_multishipping">
         <update handle="checkout_multishipping"/>
         <reference name="content">
-            <block class="\Magento\Checkout\Block\Multishipping\Billing" name="checkout_billing" template="multishipping/billing.phtml">
+            <block class="Magento\Checkout\Block\Multishipping\Billing" name="checkout_billing" template="multishipping/billing.phtml">
                 <action method="setMethodFormTemplate">
                     <argument name="method" xsi:type="string">purchaseorder</argument>
                     <argument name="template" xsi:type="string">Magento_Payment::form/purchaseorder.phtml</argument>

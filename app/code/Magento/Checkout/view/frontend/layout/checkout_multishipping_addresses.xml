@@ -11,7 +11,7 @@
     <handle label="Multishipping Checkout Address (Any) Form" id="checkout_multishipping_addresses" type="page" parent="checkout_multishipping">
         <update handle="checkout_multishipping"/>
         <reference name="content">
-            <block class="\Magento\Checkout\Block\Multishipping\Addresses" name="checkout_addresses" template="multishipping/addresses.phtml">
+            <block class="Magento\Checkout\Block\Multishipping\Addresses" name="checkout_addresses" template="multishipping/addresses.phtml">
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">default</argument>
                     <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer</argument>

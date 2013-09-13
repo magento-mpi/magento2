@@ -10,8 +10,8 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_system_design_editor_loadthemelist">
         <container name="root" label="Root" output="1">
-            <block class="\Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\Available" name="available.theme.list" template="Magento_DesignEditor::theme/list/available_ajax.phtml">
-                <block class="\Magento\DesignEditor\Block\Adminhtml\Theme" name="design.editor.theme" as="theme" template="Magento_DesignEditor::theme/available.phtml"/>
+            <block class="Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\Available" name="available.theme.list" template="Magento_DesignEditor::theme/list/available_ajax.phtml">
+                <block class="Magento\DesignEditor\Block\Adminhtml\Theme" name="design.editor.theme" as="theme" template="Magento_DesignEditor::theme/available.phtml"/>
             </block>
         </container>
     </handle>

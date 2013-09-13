@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_sales_order_create_index">
         <reference name="sidebar">
-            <block class="\Magento\MultipleWishlist\Block\Adminhtml\Sales\Order\Create\Sidebar\Wishlist" template="sales/order/create/sidebar/items.phtml" name="wishlist"/>
+            <block class="Magento\MultipleWishlist\Block\Adminhtml\Sales\Order\Create\Sidebar\Wishlist" template="sales/order/create/sidebar/items.phtml" name="wishlist"/>
         </reference>
     </handle>
 </layout>

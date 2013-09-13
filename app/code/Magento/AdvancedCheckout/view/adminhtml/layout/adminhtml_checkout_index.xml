@@ -22,24 +22,24 @@
         </reference>
         <reference name="content">
             <update handle="adminhtml_sku_errors_block"/>
-            <block class="\Magento\Adminhtml\Block\Catalog\Product\Composite\Configure" name="configure.popup"/>
-            <block class="\Magento\AdvancedCheckout\Block\Adminhtml\Manage" name="ID" template="manage.phtml">
-                <block class="\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Store\Switcher" name="checkout.store.switcher"/>
-                <block class="\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Messages" name="checkout.message"/>
-                <block class="\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Items" name="checkout.items" template="manage/items.phtml"/>
-                <block class="\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Sku\Errors" name="errors"/>
-                <block class="\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion" name="checkout.accordion">
-                    <block class="\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Products" name="products"/>
-                    <block class="\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Sku" name="sku.accordion"/>
-                    <block class="\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Wishlist" name="wishlist"/>
-                    <block class="\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Compared" name="compared"/>
-                    <block class="\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Rcompared" name="rcompared"/>
-                    <block class="\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Rviewed" name="rviewed"/>
-                    <block class="\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Ordered" name="ordered"/>
+            <block class="Magento\Adminhtml\Block\Catalog\Product\Composite\Configure" name="configure.popup"/>
+            <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage" name="ID" template="manage.phtml">
+                <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Store\Switcher" name="checkout.store.switcher"/>
+                <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Messages" name="checkout.message"/>
+                <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Items" name="checkout.items" template="manage/items.phtml"/>
+                <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Sku\Errors" name="errors"/>
+                <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion" name="checkout.accordion">
+                    <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Products" name="products"/>
+                    <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Sku" name="sku.accordion"/>
+                    <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Wishlist" name="wishlist"/>
+                    <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Compared" name="compared"/>
+                    <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Rcompared" name="rcompared"/>
+                    <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Rviewed" name="rviewed"/>
+                    <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Ordered" name="ordered"/>
                 </block>
-                <block class="\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Form\Coupon" template="form/coupon.phtml" name="checkout.form_coupon"/>
+                <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Form\Coupon" template="form/coupon.phtml" name="checkout.form_coupon"/>
             </block>
-            <block class="\Magento\Adminhtml\Block\Catalog\Product\Composite\Configure" name="configure.popup"/>
+            <block class="Magento\Adminhtml\Block\Catalog\Product\Composite\Configure" name="configure.popup"/>
         </reference>
     </handle>
 </layout>

@@ -15,7 +15,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="\Magento\GiftCardAccount\Block\Check" template="check.phtml" name="check.result" as="check_result"/>
+            <block class="Magento\GiftCardAccount\Block\Check" template="check.phtml" name="check.result" as="check_result"/>
         </reference>
     </handle>
 </layout>

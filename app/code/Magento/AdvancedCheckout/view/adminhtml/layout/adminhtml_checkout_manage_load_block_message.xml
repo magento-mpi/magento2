@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_checkout_manage_load_block_message">
         <reference name="content">
-            <block class="\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Messages" name="message"/>
+            <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Messages" name="message"/>
         </reference>
     </handle>
 </layout>

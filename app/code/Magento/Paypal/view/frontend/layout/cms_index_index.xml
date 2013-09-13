@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="cms_index_index">
         <reference name="right">
-            <block class="\Magento\Paypal\Block\Logo" name="paypal.partner.right.logo" template="partner/logo.phtml"/>
+            <block class="Magento\Paypal\Block\Logo" name="paypal.partner.right.logo" template="partner/logo.phtml"/>
         </reference>
     </handle>
 </layout>

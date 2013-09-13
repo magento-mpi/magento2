@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_sales_order_create_load_block_totals">
-        <block class="\Magento\GiftWrapping\Block\Adminhtml\Order\Create\Totals" name="giftwrapping_total_renderer" template="order/create/totals.phtml"/>
+        <block class="Magento\GiftWrapping\Block\Adminhtml\Order\Create\Totals" name="giftwrapping_total_renderer" template="order/create/totals.phtml"/>
     </handle>
 </layout>

@@ -12,8 +12,8 @@
         <update handle="formkey"/>
         <update handle="adminhtml_giftcardaccount_block"/>
         <reference name="content">
-            <block class="\Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount" name="adminhtml.gift.card.account.grid.container" as="giftcardaccount_list">
-                <block class="\Magento\Backend\Block\Store\Switcher" name="store_switcher" as="store_switcher">
+            <block class="Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount" name="adminhtml.gift.card.account.grid.container" as="giftcardaccount_list">
+                <block class="Magento\Backend\Block\Store\Switcher" name="store_switcher" as="store_switcher">
                     <action method="setUseConfirm">
                         <argument name="params" xsi:type="string">0</argument>
                     </action>

@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_invitation_block">
         <reference name="invitation_grid_container">
-            <block class="\Magento\Backend\Block\Widget\Grid" name="invitation.grid.grid" as="grid">
+            <block class="Magento\Backend\Block\Widget\Grid" name="invitation.grid.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">invitationGrid</argument>
                     <argument name="dataSource" xsi:type="object">\Magento\Invitation\Model\Resource\Invitation\Grid\Collection</argument>
@@ -18,7 +18,7 @@
                     <argument name="default_dir" xsi:type="string">DESC</argument>
                     <argument name="save_parameters_in_session" xsi:type="string">1</argument>
                 </arguments>
-                <block class="\Magento\Backend\Block\Widget\Grid\Massaction" name="adminhtml.block.invitation.massactions" as="grid.massaction">
+                <block class="Magento\Backend\Block\Widget\Grid\Massaction" name="adminhtml.block.invitation.massactions" as="grid.massaction">
                     <arguments>
                         <argument name="massaction_id_field" xsi:type="string">invitation_id</argument>
                         <argument name="form_field_name" xsi:type="string">invitations</argument>
@@ -36,7 +36,7 @@
                         </argument>
                     </arguments>
                 </block>
-                <block class="\Magento\Backend\Block\Widget\Grid\ColumnSet" name="adminhtml.catalog.product.set.grid.columnSet" as="grid.columnSet">
+                <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" name="adminhtml.catalog.product.set.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <argument name="id" xsi:type="string">tax_rate_grid</argument>
                         <argument name="rowUrl" xsi:type="array">
@@ -46,7 +46,7 @@
                             </item>
                         </argument>
                     </arguments>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="magento_invitation_id">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="magento_invitation_id">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">ID</argument>
                             <argument name="width" xsi:type="string">80</argument>
@@ -55,14 +55,14 @@
                             <argument name="index" xsi:type="string">invitation_id</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="email">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="email">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Email</argument>
                             <argument name="type" xsi:type="string">text</argument>
                             <argument name="index" xsi:type="string">invitation_email</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="invitee">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="invitee">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Invitee</argument>
                             <argument name="type" xsi:type="string">text</argument>
@@ -70,7 +70,7 @@
                             <argument name="renderer" xsi:type="string">\Magento\Invitation\Block\Adminhtml\Invitation\Grid\Column\Invitee</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="invitation_date">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="invitation_date">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Sent</argument>
                             <argument name="type" xsi:type="string">datetime</argument>
@@ -79,7 +79,7 @@
                             <argument name="index" xsi:type="string">invitation_date</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="signup_date">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="signup_date">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Registered</argument>
                             <argument name="type" xsi:type="string">datetime</argument>
@@ -88,7 +88,7 @@
                             <argument name="index" xsi:type="string">signup_date</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="status">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="status">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Status</argument>
                             <argument name="type" xsi:type="string">options</argument>
@@ -97,7 +97,7 @@
                             <argument name="options" xsi:type="options" model="\Magento\Invitation\Model\Source\Invitation\Options"/>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="website_id">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="website_id">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Valid Website</argument>
                             <argument name="type" xsi:type="string">options</argument>
@@ -106,7 +106,7 @@
                             <argument name="options" xsi:type="options" model="\Magento\Invitation\Model\Source\Invitation\WebsiteId"/>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="group_id">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="group_id">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Invitee Group</argument>
                             <argument name="type" xsi:type="string">options</argument>

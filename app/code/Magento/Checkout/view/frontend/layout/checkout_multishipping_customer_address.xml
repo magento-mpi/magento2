@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle label="Multishipping Checkout Customer Address Edit Form" id="checkout_multishipping_customer_address" type="page" parent="customer_address_form">
         <reference name="content">
-            <block class="\Magento\Customer\Block\Address\Edit" name="customer_address_edit" template="address/edit.phtml"/>
+            <block class="Magento\Customer\Block\Address\Edit" name="customer_address_edit" template="address/edit.phtml"/>
         </reference>
     </handle>
 </layout>

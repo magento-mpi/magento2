@@ -16,7 +16,7 @@
             </action>
         </reference>
         <reference name="my.account.wrapper">
-            <block class="\Magento\Customer\Block\Form\Edit" name="customer_edit" template="form/edit.phtml"/>
+            <block class="Magento\Customer\Block\Form\Edit" name="customer_edit" template="form/edit.phtml"/>
         </reference>
         <reference name="left">
             <action method="unsetChild">

@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_customer_attribute_index">
         <reference name="content">
-            <block class="\Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute" name="magento_customercustomattributes_attribute"/>
+            <block class="Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute" name="magento_customercustomattributes_attribute"/>
         </reference>
     </handle>
 </layout>

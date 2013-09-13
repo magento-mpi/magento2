@@ -10,10 +10,10 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="checkout_cart_index">
         <reference name="checkout.cart.extra">
-            <block class="\Magento\GiftRegistry\Block\Cart\Link" name="giftregistry.cart.link" template="cart/link.phtml"/>
+            <block class="Magento\GiftRegistry\Block\Cart\Link" name="giftregistry.cart.link" template="cart/link.phtml"/>
         </reference>
         <reference name="additional.product.info">
-            <block class="\Magento\GiftRegistry\Block\Cart\Product\Mark" name="giftregistry.product.mark" template="cart/product/mark.phtml"/>
+            <block class="Magento\GiftRegistry\Block\Cart\Product\Mark" name="giftregistry.product.mark" template="cart/product/mark.phtml"/>
         </reference>
     </handle>
 </layout>

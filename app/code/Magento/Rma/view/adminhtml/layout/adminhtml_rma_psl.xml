@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_rma_psl">
-        <block class="\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Packaging" name="magento_rma_shipment_packaging" template="edit/shipping/popup.phtml"/>
+        <block class="Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Packaging" name="magento_rma_shipment_packaging" template="edit/shipping/popup.phtml"/>
     </handle>
 </layout>

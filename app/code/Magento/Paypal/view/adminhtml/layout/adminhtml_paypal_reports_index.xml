@@ -11,7 +11,7 @@
     <handle id="adminhtml_paypal_reports_index">
         <update handle="adminhtml_paypal_reports_block"/>
         <reference name="content">
-            <block class="\Magento\Paypal\Block\Adminhtml\Settlement\Report" name="adminhtml.paypal.report.grid.container"/>
+            <block class="Magento\Paypal\Block\Adminhtml\Settlement\Report" name="adminhtml.paypal.report.grid.container"/>
         </reference>
     </handle>
 </layout>

@@ -21,10 +21,10 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="\Magento\Reminder\Block\Adminhtml\Reminder\Edit" name="adminhtml_reminder_edit"/>
+            <block class="Magento\Reminder\Block\Adminhtml\Reminder\Edit" name="adminhtml_reminder_edit"/>
         </reference>
         <reference name="left">
-            <block class="\Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tabs" name="adminhtml_reminder_edit_tabs"/>
+            <block class="Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tabs" name="adminhtml_reminder_edit_tabs"/>
         </reference>
     </handle>
 </layout>

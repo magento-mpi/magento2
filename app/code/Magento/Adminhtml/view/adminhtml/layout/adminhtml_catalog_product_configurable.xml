@@ -11,11 +11,11 @@
     <handle id="adminhtml_catalog_product_configurable">
         <update handle="adminhtml_catalog_product_superconfig_config"/>
         <reference name="product_tabs">
-            <block class="\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config" name="admin.product.edit.tab.super.config.grid.container">
-                <block class="\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config" template="Magento_Adminhtml::catalog/product/edit/super/generator.phtml" name="product-variations-generator" as="generator">
-                    <block class="\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config" template="Magento_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml" as="template"/>
-                    <block class="\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Attribute" template="Magento_Adminhtml::catalog/product/edit/super/attribute-template.phtml" as="attribute-renderer"/>
-                    <block class="\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Matrix" template="Magento_Adminhtml::catalog/product/edit/super/matrix.phtml" as="matrix"/>
+            <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config" name="admin.product.edit.tab.super.config.grid.container">
+                <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config" template="Magento_Adminhtml::catalog/product/edit/super/generator.phtml" name="product-variations-generator" as="generator">
+                    <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config" template="Magento_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml" as="template"/>
+                    <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Attribute" template="Magento_Adminhtml::catalog/product/edit/super/attribute-template.phtml" as="attribute-renderer"/>
+                    <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Matrix" template="Magento_Adminhtml::catalog/product/edit/super/matrix.phtml" as="matrix"/>
                 </block>
             </block>
             <action method="addTab">

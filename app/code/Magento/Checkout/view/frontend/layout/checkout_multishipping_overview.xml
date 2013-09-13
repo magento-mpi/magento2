@@ -11,7 +11,7 @@
     <handle label="Multishipping Checkout Overview" id="checkout_multishipping_overview" type="page" parent="checkout_multishipping">
         <update handle="checkout_multishipping"/>
         <reference name="content">
-            <block class="\Magento\Checkout\Block\Multishipping\Overview" name="checkout_overview" template="multishipping/overview.phtml">
+            <block class="Magento\Checkout\Block\Multishipping\Overview" name="checkout_overview" template="multishipping/overview.phtml">
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">default</argument>
                     <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer</argument>
@@ -37,14 +37,14 @@
                     <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer\Configurable</argument>
                     <argument name="template" xsi:type="string">multishipping/overview/item.phtml</argument>
                 </action>
-                <block class="\Magento\Checkout\Block\Multishipping\Payment\Info" name="payment_info">
+                <block class="Magento\Checkout\Block\Multishipping\Payment\Info" name="payment_info">
                     <action method="setInfoTemplate">
                         <argument name="method" xsi:type="string"/>
                         <argument name="template" xsi:type="string"/>
                     </action>
                 </block>
-                <block class="\Magento\Checkout\Block\Agreements" name="checkout.multishipping.agreements" as="agreements" template="multishipping/agreements.phtml"/>
-                <block class="\Magento\Checkout\Block\Cart\Totals" name="totals"/>
+                <block class="Magento\Checkout\Block\Agreements" name="checkout.multishipping.agreements" as="agreements" template="multishipping/agreements.phtml"/>
+                <block class="Magento\Checkout\Block\Cart\Totals" name="totals"/>
                 <container name="checkout.multishipping.overview.items.after" as="items_after" label="Overview Items After"/>
             </block>
         </reference>

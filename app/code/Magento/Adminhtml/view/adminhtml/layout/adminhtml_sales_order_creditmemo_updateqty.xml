@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_sales_order_creditmemo_updateqty">
-        <block class="\Magento\Adminhtml\Block\Sales\Order\Creditmemo\Create\Items" name="order_items" template="sales/order/creditmemo/create/items.phtml">
+        <block class="Magento\Adminhtml\Block\Sales\Order\Creditmemo\Create\Items" name="order_items" template="sales/order/creditmemo/create/items.phtml">
             <action method="addItemRender">
                 <argument name="type" xsi:type="string">default</argument>
                 <argument name="block" xsi:type="string">\Magento\Adminhtml\Block\Sales\Items\Renderer\DefaultRenderer</argument>
@@ -31,21 +31,21 @@
                 <argument name="template" xsi:type="string">sales/items/column/name.phtml</argument>
                 <argument name="type" xsi:type="string">grouped</argument>
             </action>
-            <block class="\Magento\Core\Block\Text\ListText" name="order_item_extra_info"/>
-            <block class="\Magento\Adminhtml\Block\Sales\Order\Totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"/>
-            <block class="\Magento\Adminhtml\Block\Sales\Order\Creditmemo\Totals" name="creditmemo_totals" template="sales/order/totals.phtml">
-                <block class="\Magento\Adminhtml\Block\Sales\Order\Creditmemo\Create\Adjustments" name="adjustments" template="sales/order/creditmemo/create/totals/adjustments.phtml"/>
-                <block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Tax" name="tax" template="sales/order/totals/tax.phtml"/>
-                <!--<block class="\Magento\Adminhtml\Block\Sales\Order\Totals" name="order_totals" template="sales/order/totals.phtml"/>
-                <block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="footer" template="sales/order/totals/footer.phtml">
-                    <block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="grand" template="sales/order/totals/grand.phtml">
+            <block class="Magento\Core\Block\Text\ListText" name="order_item_extra_info"/>
+            <block class="Magento\Adminhtml\Block\Sales\Order\Totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"/>
+            <block class="Magento\Adminhtml\Block\Sales\Order\Creditmemo\Totals" name="creditmemo_totals" template="sales/order/totals.phtml">
+                <block class="Magento\Adminhtml\Block\Sales\Order\Creditmemo\Create\Adjustments" name="adjustments" template="sales/order/creditmemo/create/totals/adjustments.phtml"/>
+                <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Tax" name="tax" template="sales/order/totals/tax.phtml"/>
+                <!--<block class="Magento\Adminhtml\Block\Sales\Order\Totals" name="order_totals" template="sales/order/totals.phtml"/>
+                <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="footer" template="sales/order/totals/footer.phtml">
+                    <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="grand" template="sales/order/totals/grand.phtml">
                         <action method="setGrandTotalTitle">
                             <argument name="title" xsi:type="string">Total Refund</argument>
                         </action>
                     </block>
                 </block>
-                <block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="sales.order.view.totals.main" as="main" template="sales/order/totals/main.phtml">
-                    <block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="tax" template="sales/order/totals/item.phtml">
+                <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="sales.order.view.totals.main" as="main" template="sales/order/totals/main.phtml">
+                    <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="tax" template="sales/order/totals/item.phtml">
                         <action method="setSourceField">
                             <argument name="value" xsi:type="string">tax_amount</argument>
                         </action>
@@ -53,7 +53,7 @@
                             <argument name="value" xsi:type="string">Tax</argument>
                         </action>
                     </block>
-                    <block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="discount" template="sales/order/totals/item.phtml">
+                    <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="discount" template="sales/order/totals/item.phtml">
                         <action method="setSourceField">
                             <argument name="value" xsi:type="string">discount_amount</argument>
                         </action>
@@ -61,7 +61,7 @@
                             <argument name="value" xsi:type="string">Discount</argument>
                         </action>
                     </block>
-                    <block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="adjustments" template="sales/order/creditmemo/create/totals/adjustments.phtml"/>
+                    <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="adjustments" template="sales/order/creditmemo/create/totals/adjustments.phtml"/>
                 </block>-->
             </block>
             <container name="submit_before" label="Submit Before"/>

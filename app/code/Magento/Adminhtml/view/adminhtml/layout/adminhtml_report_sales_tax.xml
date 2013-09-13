@@ -11,13 +11,13 @@
     <handle id="adminhtml_report_sales_tax">
         <update handle="report_sales"/>
         <reference name="content">
-            <block class="\Magento\Adminhtml\Block\Report\Sales\Tax" template="report/grid/container.phtml" name="sales.report.grid.container">
-                <block class="\Magento\Backend\Block\Store\Switcher" template="Magento_Reports::store/switcher/enhanced.phtml" name="store.switcher">
+            <block class="Magento\Adminhtml\Block\Report\Sales\Tax" template="report/grid/container.phtml" name="sales.report.grid.container">
+                <block class="Magento\Backend\Block\Store\Switcher" template="Magento_Reports::store/switcher/enhanced.phtml" name="store.switcher">
                     <action method="setStoreVarName">
                         <argument name="var_name" xsi:type="string">store_ids</argument>
                     </action>
                 </block>
-                <block class="\Magento\Sales\Block\Adminhtml\Report\Filter\Form" name="grid.filter.form">
+                <block class="Magento\Sales\Block\Adminhtml\Report\Filter\Form" name="grid.filter.form">
                     <action method="addReportTypeOption">
                         <argument name="key" xsi:type="string">created_at_order</argument>
                         <argument translate="true" name="value" xsi:type="string">Order Created Date</argument>

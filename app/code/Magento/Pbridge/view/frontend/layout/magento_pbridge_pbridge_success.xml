@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="magento_pbridge_pbridge_success">
-        <block class="\Magento\Core\Block\Template" name="pbridge.checkout.review.success" template="Magento_Pbridge::checkout/review/success.phtml" output="1"/>
+        <block class="Magento\Core\Block\Template" name="pbridge.checkout.review.success" template="Magento_Pbridge::checkout/review/success.phtml" output="1"/>
     </handle>
 </layout>

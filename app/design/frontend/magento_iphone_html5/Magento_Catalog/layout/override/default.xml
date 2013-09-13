@@ -10,16 +10,16 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="default">
         <reference name="top.container">
-            <block class="\Magento\Cms\Block\Block" name="cms.top.callout" before="-">
+            <block class="Magento\Cms\Block\Block" name="cms.top.callout" before="-">
                 <action method="setBlockId">
                     <argument name="block_id" xsi:type="string">top_callout</argument>
                 </action>
             </block>
         </reference>
         <reference name="right">
-            <block class="\Magento\Catalog\Block\Product\Compare\Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
+            <block class="Magento\Catalog\Block\Product\Compare\Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
         </reference>
-        <block class="\Magento\Catalog\Block\Product\Price\Template" name="catalog_product_price_template"/>
+        <block class="Magento\Catalog\Block\Product\Price\Template" name="catalog_product_price_template"/>
         <reference name="catalog_product_price_template">
             <action method="addPriceBlockType">
                 <argument name="type" xsi:type="string">msrp</argument>

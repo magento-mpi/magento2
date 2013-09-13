@@ -11,7 +11,7 @@
     <handle label="Sales Reorder" id="sales_order_reorder" type="page" parent="sales_order_view">
         <update handle="customer_account"/>
         <reference name="content">
-            <block class="\Magento\Sales\Block\Order\View" name="sales.order.view"/>
+            <block class="Magento\Sales\Block\Order\View" name="sales.order.view"/>
         </reference>
     </handle>
 </layout>

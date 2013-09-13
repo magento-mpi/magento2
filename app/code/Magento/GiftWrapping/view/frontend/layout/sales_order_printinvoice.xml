@@ -10,10 +10,10 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="sales_order_printinvoice">
         <reference name="additional.product.info">
-            <block class="\Magento\GiftWrapping\Block\Product\Info" name="giftwrapping.product.info" template="product/info.phtml"/>
+            <block class="Magento\GiftWrapping\Block\Product\Info" name="giftwrapping.product.info" template="product/info.phtml"/>
         </reference>
         <reference name="invoice_totals">
-            <block class="\Magento\GiftWrapping\Block\Sales\Totals" name="giftwrapping"/>
+            <block class="Magento\GiftWrapping\Block\Sales\Totals" name="giftwrapping"/>
         </reference>
     </handle>
 </layout>

@@ -16,10 +16,10 @@
             </action>
         </reference>
         <reference name="data">
-            <block class="\Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku" name="additional_area" template="Magento_Adminhtml::sales/order/create/abstract.phtml">
-                <block class="\Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku\Add"/>
+            <block class="Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku" name="additional_area" template="Magento_Adminhtml::sales/order/create/abstract.phtml">
+                <block class="Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku\Add"/>
             </block>
-            <block class="\Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku\Errors" name="errors"/>
+            <block class="Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku\Errors" name="errors"/>
         </reference>
     </handle>
 </layout>

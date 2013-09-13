@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_centinel_index_authenticationcomplete">
-        <block class="\Magento\Centinel\Block\Authentication\Complete" name="root" output="1" template="authentication/complete.phtml"/>
+        <block class="Magento\Centinel\Block\Authentication\Complete" name="root" output="1" template="authentication/complete.phtml"/>
     </handle>
 </layout>

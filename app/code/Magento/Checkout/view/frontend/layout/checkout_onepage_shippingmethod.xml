@@ -9,8 +9,8 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle label="One Page Checkout Choose Shipping Method" id="checkout_onepage_shippingmethod" type="fragment" owner="checkout_onepage_index">
-        <block class="\Magento\Page\Block\Html" name="root" output="1" template="page_fragment.phtml">
-            <block class="\Magento\Checkout\Block\Onepage\Shipping\Method\Available" name="shipping_method" template="onepage/shipping_method/available.phtml"/>
+        <block class="Magento\Page\Block\Html" name="root" output="1" template="page_fragment.phtml">
+            <block class="Magento\Checkout\Block\Onepage\Shipping\Method\Available" name="shipping_method" template="onepage/shipping_method/available.phtml"/>
         </block>
     </handle>
 </layout>

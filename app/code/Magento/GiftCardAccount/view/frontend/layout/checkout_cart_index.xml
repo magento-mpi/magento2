@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="checkout_cart_index">
         <reference name="checkout.cart.extra">
-            <block class="\Magento\GiftCardAccount\Block\Checkout\Cart\Giftcardaccount" template="cart/block.phtml" name="checkout.cart.giftcardaccount" as="giftcards"/>
+            <block class="Magento\GiftCardAccount\Block\Checkout\Cart\Giftcardaccount" template="cart/block.phtml" name="checkout.cart.giftcardaccount" as="giftcards"/>
         </reference>
     </handle>
 </layout>

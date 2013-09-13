@@ -10,6 +10,6 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_sales_recurring_profile_orders">
         <remove name="root"/>
-        <block class="\Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Tab\Orders" name="sales.recurring.profile.tab.orders" output="1"/>
+        <block class="Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Tab\Orders" name="sales.recurring.profile.tab.orders" output="1"/>
     </handle>
 </layout>

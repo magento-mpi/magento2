@@ -11,7 +11,7 @@
     <handle id="catalog_category_view">
         <update handle="SHORTCUT_popup"/>
         <reference name="right">
-            <block class="\Magento\Paypal\Block\Logo" name="paypal.partner.right.logo" template="partner/logo.phtml"/>
+            <block class="Magento\Paypal\Block\Logo" name="paypal.partner.right.logo" template="partner/logo.phtml"/>
         </reference>
     </handle>
 </layout>

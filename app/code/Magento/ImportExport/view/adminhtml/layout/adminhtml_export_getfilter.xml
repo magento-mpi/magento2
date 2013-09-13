@@ -10,8 +10,8 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_export_getfilter">
         <container name="root" label="Root" output="1">
-            <block class="\Magento\ImportExport\Block\Adminhtml\Export\Filter" name="export.filter"/>
-            <block class="\Magento\Adminhtml\Block\Template" template="Magento_ImportExport::export/form/filter/after.phtml" name="export.form.after" alias="form_after"/>
+            <block class="Magento\ImportExport\Block\Adminhtml\Export\Filter" name="export.filter"/>
+            <block class="Magento\Adminhtml\Block\Template" template="Magento_ImportExport::export/form/filter/after.phtml" name="export.form.after" alias="form_after"/>
         </container>
     </handle>
 </layout>

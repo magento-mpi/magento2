@@ -12,7 +12,7 @@
         <update handle="formkey"/>
         <update handle="adminhtml_logging_archive_grid_block"/>
         <reference name="content">
-            <block class="\Magento\Logging\Block\Adminhtml\Container" name="adminhtml.logging.archive.grid.container">
+            <block class="Magento\Logging\Block\Adminhtml\Container" name="adminhtml.logging.archive.grid.container">
                 <arguments>
                     <argument name="header_text" xsi:type="string">Admin Actions Log Archive</argument>
                 </arguments>

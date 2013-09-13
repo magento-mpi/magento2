@@ -15,9 +15,9 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="\Magento\GiftRegistry\Block\View" name="enterprise.giftregistry.view" template="view.phtml">
-                <block class="\Magento\GiftRegistry\Block\Items" name="giftregistry_items" template="view/items.phtml">
-                    <block class="\Magento\Catalog\Block\Product\Price" template="product/price_msrp_item.phtml" name="enterprise.giftregistry.item.price"/>
+            <block class="Magento\GiftRegistry\Block\View" name="enterprise.giftregistry.view" template="view.phtml">
+                <block class="Magento\GiftRegistry\Block\Items" name="giftregistry_items" template="view/items.phtml">
+                    <block class="Magento\Catalog\Block\Product\Price" template="product/price_msrp_item.phtml" name="enterprise.giftregistry.item.price"/>
                     <action method="addItemRender">
                         <argument name="type" xsi:type="string">default</argument>
                         <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer</argument>
@@ -49,13 +49,13 @@
                         <argument name="template" xsi:type="string">Magento_GiftRegistry::view/items/default.phtml</argument>
                     </action>
                 </block>
-                <block class="\Magento\GiftRegistry\Block\Customer\Items" name="giftregistry.view.items" template="view/items.phtml"/>
+                <block class="Magento\GiftRegistry\Block\Customer\Items" name="giftregistry.view.items" template="view/items.phtml"/>
             </block>
         </reference>
         <update handle="MAP_popup"/>
         <reference name="product.tooltip">
             <container name="product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper" htmlTag="div">
-                <block class="\Magento\Paypal\Block\Express\Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml">
+                <block class="Magento\Paypal\Block\Express\Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml">
                     <action method="setIsInCatalogProduct">
                         <argument name="value" xsi:type="string">1</argument>
                     </action>

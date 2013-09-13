@@ -21,7 +21,7 @@
         </reference>
         <update handle="page_calendar"/>
         <reference name="content">
-            <block class="\Magento\Catalog\Block\Product\View" name="product.info" template="product/view.phtml">
+            <block class="Magento\Catalog\Block\Product\View" name="product.info" template="product/view.phtml">
                 <!--
                 <action method="addReviewSummaryTemplate">
                     <argument name="type" xsi:type="string">default</argument>
@@ -36,9 +36,9 @@
                     <argument name="template" xsi:type="string">...</argument>
                 </action>
                 -->
-                <block class="\Magento\Catalog\Block\Product\View\Media" name="product.info.media" as="media" template="product/view/media.phtml"/>
+                <block class="Magento\Catalog\Block\Product\View\Media" name="product.info.media" as="media" template="product/view/media.phtml"/>
                 <container name="alert.urls" as="alert_urls" label="Alert Urls"/>
-                <block class="\Magento\Catalog\Block\Product\ProductList\Upsell" name="product.info.upsell" as="upsell_products" template="product/list/upsell.phtml">
+                <block class="Magento\Catalog\Block\Product\ProductList\Upsell" name="product.info.upsell" as="upsell_products" template="product/list/upsell.phtml">
                     <action method="setColumnCount">
                         <argument name="columns" xsi:type="string">4</argument>
                     </action>
@@ -47,8 +47,8 @@
                         <argument name="limit" xsi:type="string">4</argument>
                     </action>
                 </block>
-                <block class="\Magento\Catalog\Block\Product\View\Additional" name="product.info.additional" as="product_additional_data"/>
-                <block class="\Magento\Catalog\Block\Product\View\Description" name="product.description" as="description" template="product/view/description.phtml">
+                <block class="Magento\Catalog\Block\Product\View\Additional" name="product.info.additional" as="product_additional_data"/>
+                <block class="Magento\Catalog\Block\Product\View\Description" name="product.description" as="description" template="product/view/description.phtml">
                     <action method="addToParentGroup">
                         <argument name="group" xsi:type="string">detailed_info</argument>
                     </action>
@@ -56,7 +56,7 @@
                         <argument translate="true" name="value" xsi:type="string">Details</argument>
                     </action>
                 </block>
-                <block class="\Magento\Catalog\Block\Product\View\Attributes" name="product.attributes" as="additional" template="product/view/attributes.phtml">
+                <block class="Magento\Catalog\Block\Product\View\Attributes" name="product.attributes" as="additional" template="product/view/attributes.phtml">
                     <action method="addToParentGroup">
                         <argument name="group" xsi:type="string">detailed_info</argument>
                     </action>
@@ -64,12 +64,12 @@
                         <argument translate="true" name="value" xsi:type="string">Additional Information</argument>
                     </action>
                 </block>
-                <block class="\Magento\Catalog\Block\Product\View" name="product.info.addto" as="addto" template="product/view/addto.phtml"/>
-                <block class="\Magento\Catalog\Block\Product\View" name="product.info.addtocart" as="addtocart" template="product/view/addtocart.phtml"/>
+                <block class="Magento\Catalog\Block\Product\View" name="product.info.addto" as="addto" template="product/view/addto.phtml"/>
+                <block class="Magento\Catalog\Block\Product\View" name="product.info.addtocart" as="addtocart" template="product/view/addtocart.phtml"/>
                 <container name="product.info.extrahint" as="extrahint" label="Product View Extra Hint"/>
-                <block class="\Magento\Core\Block\Template" name="product.info.container" as="options_container">
-                    <block class="\Magento\Catalog\Block\Product\View" name="product.info.options.wrapper" as="product_options_wrapper" template="product/view/options/wrapper.phtml">
-                        <block class="\Magento\Catalog\Block\Product\View\Options" name="product.info.options" as="product_options" template="product/view/options.phtml">
+                <block class="Magento\Core\Block\Template" name="product.info.container" as="options_container">
+                    <block class="Magento\Catalog\Block\Product\View" name="product.info.options.wrapper" as="product_options_wrapper" template="product/view/options/wrapper.phtml">
+                        <block class="Magento\Catalog\Block\Product\View\Options" name="product.info.options" as="product_options" template="product/view/options.phtml">
                             <action method="addOptionRenderer">
                                 <argument name="type" xsi:type="string">text</argument>
                                 <argument name="block" xsi:type="string">\Magento\Catalog\Block\Product\View\Options\Type\Text</argument>
@@ -91,19 +91,19 @@
                                 <argument name="template" xsi:type="string">product/view/options/type/date.phtml</argument>
                             </action>
                         </block>
-                        <block class="\Magento\Core\Block\Html\Calendar" name="html_calendar" as="html_calendar" template="Magento_Page::js/calendar.phtml"/>
+                        <block class="Magento\Core\Block\Html\Calendar" name="html_calendar" as="html_calendar" template="Magento_Page::js/calendar.phtml"/>
                     </block>
-                    <block class="\Magento\Catalog\Block\Product\View" name="product.info.options.wrapper.bottom" as="product_options_wrapper_bottom" template="product/view/options/wrapper/bottom.phtml">
-                        <block class="\Magento\Catalog\Block\Product\View" name="product.tierprices.additional" as="product.tierprices" template="product/view/tierprices.phtml"/>
-                        <block class="\Magento\Catalog\Block\Product\View" name="product.clone_prices" as="prices" template="product/view/price_clone.phtml"/>
-                        <block class="\Magento\Catalog\Block\Product\View" name="product.info.addtocart.additional" as="addtocart" template="product/view/addtocart.phtml"/>
-                        <block class="\Magento\Catalog\Block\Product\View" name="product.info.addto.additional" as="addto" template="product/view/addto.phtml"/>
+                    <block class="Magento\Catalog\Block\Product\View" name="product.info.options.wrapper.bottom" as="product_options_wrapper_bottom" template="product/view/options/wrapper/bottom.phtml">
+                        <block class="Magento\Catalog\Block\Product\View" name="product.tierprices.additional" as="product.tierprices" template="product/view/tierprices.phtml"/>
+                        <block class="Magento\Catalog\Block\Product\View" name="product.clone_prices" as="prices" template="product/view/price_clone.phtml"/>
+                        <block class="Magento\Catalog\Block\Product\View" name="product.info.addtocart.additional" as="addtocart" template="product/view/addtocart.phtml"/>
+                        <block class="Magento\Catalog\Block\Product\View" name="product.info.addto.additional" as="addto" template="product/view/addto.phtml"/>
                     </block>
                 </block>
             </block>
         </reference>
         <reference name="right">
-            <block class="\Magento\Catalog\Block\Product\ProductList\Related" name="catalog.product.related" before="-" template="product/list/related.phtml"/>
+            <block class="Magento\Catalog\Block\Product\ProductList\Related" name="catalog.product.related" before="-" template="product/list/related.phtml"/>
         </reference>
         <update handle="MAP_popup"/>
         <update handle="MAP_price_msrp_item"/>

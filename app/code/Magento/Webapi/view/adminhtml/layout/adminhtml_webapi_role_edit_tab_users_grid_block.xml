@@ -17,7 +17,7 @@
             </arguments>
         </reference>
         <reference name="webapi.role.edit.tab.users.grid.container">
-            <block class="\Magento\Backend\Block\Widget\Grid" name="webapi.role.edit.tab.users.grid" as="grid">
+            <block class="Magento\Backend\Block\Widget\Grid" name="webapi.role.edit.tab.users.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">roleUserGrid</argument>
                     <argument name="dataSource" xsi:type="object">\Magento\Webapi\Model\Resource\Acl\User\Collection</argument>
@@ -36,8 +36,8 @@
                         <item name="in_role_users" xsi:type="string">1</item>
                     </argument>
                 </action>
-                <block class="\Magento\Backend\Block\Widget\Grid\ColumnSet" name="webapi.role.edit.tab.users.grid.columnSet" as="grid.columnSet">
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" name="webapi.role.edit.tab.users.grid.columnSet.in_role_users" as="in_role_users">
+                <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" name="webapi.role.edit.tab.users.grid.columnSet" as="grid.columnSet">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" name="webapi.role.edit.tab.users.grid.columnSet.in_role_users" as="in_role_users">
                         <arguments>
                             <argument name="id" xsi:type="string">in_role_users</argument>
                             <argument name="html_name" xsi:type="string">in_role_users</argument>
@@ -51,7 +51,7 @@
                             <argument name="index" xsi:type="string">user_id</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="role_user_id">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="role_user_id">
                         <arguments>
                             <argument name="id" xsi:type="string">role_name</argument>
                             <argument name="header" xsi:type="string" translate="true">User ID</argument>
@@ -61,7 +61,7 @@
                             <argument name="index" xsi:type="string">user_id</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="role_user_contactemail">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="role_user_contactemail">
                         <arguments>
                             <argument name="id" xsi:type="string">role_user_contactemail</argument>
                             <argument name="header" xsi:type="string" translate="true">Contact Email</argument>
@@ -69,7 +69,7 @@
                             <argument name="index" xsi:type="string">contact_email</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="role_user_apikey">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="role_user_apikey">
                         <arguments>
                             <argument name="id" xsi:type="string">role_user_apikey</argument>
                             <argument name="header" xsi:type="string" translate="true">API Key</argument>

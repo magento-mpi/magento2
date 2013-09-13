@@ -10,8 +10,8 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_customer_edit">
         <reference name="customer_edit_tabs">
-            <block class="\Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward" name="customer_edit_tab_reward" template="customer/reward.phtml">
-                <block class="\Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management" name="reward_management"/>
+            <block class="Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward" name="customer_edit_tab_reward" template="customer/reward.phtml">
+                <block class="Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management" name="reward_management"/>
             </block>
             <action method="addTab">
                 <argument name="name" xsi:type="string">customer_edit_tab_reward</argument>
@@ -19,7 +19,7 @@
             </action>
         </reference>
         <reference name="customer_edit_tab_view">
-            <block class="\Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance" name="reward.points.balance" before="-"/>
+            <block class="Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance" name="reward.points.balance" before="-"/>
         </reference>
     </handle>
 </layout>

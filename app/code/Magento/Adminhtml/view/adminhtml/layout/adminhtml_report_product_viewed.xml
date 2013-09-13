@@ -15,13 +15,13 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="\Magento\Adminhtml\Block\Report\Product\Viewed" template="report/grid/container.phtml" name="product.report.grid.container">
-                <block class="\Magento\Backend\Block\Store\Switcher" template="Magento_Reports::store/switcher/enhanced.phtml" name="store.switcher">
+            <block class="Magento\Adminhtml\Block\Report\Product\Viewed" template="report/grid/container.phtml" name="product.report.grid.container">
+                <block class="Magento\Backend\Block\Store\Switcher" template="Magento_Reports::store/switcher/enhanced.phtml" name="store.switcher">
                     <action method="setStoreVarName">
                         <argument name="var_name" xsi:type="string">store_ids</argument>
                     </action>
                 </block>
-                <block class="\Magento\Adminhtml\Block\Report\Filter\Form" name="grid.filter.form">
+                <block class="Magento\Adminhtml\Block\Report\Filter\Form" name="grid.filter.form">
                     <action method="setFieldVisibility">
                         <argument name="field" xsi:type="string">report_type</argument>
                         <argument name="visibility" xsi:type="string">0</argument>

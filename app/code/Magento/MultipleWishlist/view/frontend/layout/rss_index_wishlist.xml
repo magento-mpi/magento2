@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="rss_index_wishlist">
-        <block class="\Magento\MultipleWishlist\Block\Rss" name="rss.wishlist" output="1">
+        <block class="Magento\MultipleWishlist\Block\Rss" name="rss.wishlist" output="1">
             <action method="addPriceBlockType">
                 <argument name="type" xsi:type="string">msrp_rss</argument>
                 <argument name="block" xsi:type="string">\Magento\Catalog\Block\Product\Price</argument>

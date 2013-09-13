@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="customer_account_create">
         <reference name="customer.form.register.fields.before">
-            <block class="\Magento\Reward\Block\Tooltip" name="reward.tooltip.register" template="tooltip.phtml">
+            <block class="Magento\Reward\Block\Tooltip" name="reward.tooltip.register" template="tooltip.phtml">
                 <action method="initRewardType">
                     <argument name="type" xsi:type="string">\Magento\Reward\Model\Action\Register</argument>
                 </action>
@@ -21,7 +21,7 @@
                     <argument translate="true" name="message" xsi:type="string">Register on our site now and earn %1.</argument>
                 </action>
             </block>
-            <block class="\Magento\Reward\Block\Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml" after="reward.tooltip.register">
+            <block class="Magento\Reward\Block\Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml" after="reward.tooltip.register">
                 <action method="initRewardType">
                     <argument name="type" xsi:type="string">\Magento\Reward\Model\Action\Newsletter</argument>
                 </action>

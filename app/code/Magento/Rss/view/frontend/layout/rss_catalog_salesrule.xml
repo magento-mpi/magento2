@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="rss_catalog_salesrule">
-        <block class="\Magento\Rss\Block\Catalog\Salesrule" output="1" name="rss.catalog.salesrule"/>
+        <block class="Magento\Rss\Block\Catalog\Salesrule" output="1" name="rss.catalog.salesrule"/>
     </handle>
 </layout>

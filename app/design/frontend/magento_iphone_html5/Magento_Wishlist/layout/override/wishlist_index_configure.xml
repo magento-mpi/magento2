@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle label="Configure Wishlist Item" id="wishlist_index_configure" type="page" parent="catalog_product_view">
         <reference name="product.info">
-            <block class="\Magento\Wishlist\Block\Item\Configure" name="product.info.addto" as="addto" template="item/configure/addto.phtml"/>
+            <block class="Magento\Wishlist\Block\Item\Configure" name="product.info.addto" as="addto" template="item/configure/addto.phtml"/>
         </reference>
         <reference name="product.info.options.wrapper.bottom">
             <action method="unsetChild">

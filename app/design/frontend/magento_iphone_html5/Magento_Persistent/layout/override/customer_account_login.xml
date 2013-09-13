@@ -13,8 +13,8 @@
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">Magento_Persistent::customer/form/login.phtml</argument>
             </action>
-            <block class="\Magento\Persistent\Block\Form\Remember" name="persistent.remember.me" template="remember_me.phtml"/>
-            <block class="\Magento\Core\Block\Template" name="persistent.remember.me.tooltip" template="Magento_Persistent::remember_me_tooltip.phtml"/>
+            <block class="Magento\Persistent\Block\Form\Remember" name="persistent.remember.me" template="remember_me.phtml"/>
+            <block class="Magento\Core\Block\Template" name="persistent.remember.me.tooltip" template="Magento_Persistent::remember_me_tooltip.phtml"/>
         </reference>
     </handle>
 </layout>

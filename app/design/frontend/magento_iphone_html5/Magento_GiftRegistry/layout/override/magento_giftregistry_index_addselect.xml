@@ -16,7 +16,7 @@
             </action>
         </reference>
         <reference name="my.account.wrapper">
-            <block class="\Magento\GiftRegistry\Block\Customer\Edit" name="giftregistry_addselect" template="edit/addselect.phtml"/>
+            <block class="Magento\GiftRegistry\Block\Customer\Edit" name="giftregistry_addselect" template="edit/addselect.phtml"/>
         </reference>
     </handle>
 </layout>

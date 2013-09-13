@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_rma_showshippingmethods">
-        <block class="\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Methods" name="magento_rma_shipping_available" output="1" template="edit/shipping/methods.phtml"/>
+        <block class="Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Methods" name="magento_rma_shipping_available" output="1" template="edit/shipping/methods.phtml"/>
     </handle>
 </layout>

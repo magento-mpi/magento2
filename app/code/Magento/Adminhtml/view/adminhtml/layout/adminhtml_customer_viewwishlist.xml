@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_customer_viewwishlist">
         <container name="root" label="Root" output="1">
-            <block class="\Magento\Adminhtml\Block\Customer\Edit\Tab\View\Wishlist" name="admin.customer.view.wishlist"/>
+            <block class="Magento\Adminhtml\Block\Customer\Edit\Tab\View\Wishlist" name="admin.customer.view.wishlist"/>
         </container>
     </handle>
 </layout>

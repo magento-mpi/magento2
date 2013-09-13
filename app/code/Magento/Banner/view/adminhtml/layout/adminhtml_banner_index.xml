@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_banner_index">
         <reference name="content">
-            <block class="\Magento\Banner\Block\Adminhtml\Banner" name="banner_list"/>
+            <block class="Magento\Banner\Block\Adminhtml\Banner" name="banner_list"/>
         </reference>
     </handle>
 </layout>

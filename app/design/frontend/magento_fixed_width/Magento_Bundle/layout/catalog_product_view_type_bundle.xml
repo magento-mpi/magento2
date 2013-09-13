@@ -13,18 +13,18 @@
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">Magento_Bundle::catalog/product/view.phtml</argument>
             </action>
-            <block class="\Magento\Bundle\Block\Catalog\Product\View" name="bundle.summary" as="bundleSummary" after="product.info.bundle" template="catalog/product/view/summary.phtml">
-                <block class="\Magento\Catalog\Block\Product\View" name="product.info.addtocart.bundle" as="addtocart" template="product/view/addtocart.phtml"/>
-                <block class="\Magento\Catalog\Block\Product\View" name="product.info.addto.bundle" as="addto" template="product/view/addto.phtml"/>
+            <block class="Magento\Bundle\Block\Catalog\Product\View" name="bundle.summary" as="bundleSummary" after="product.info.bundle" template="catalog/product/view/summary.phtml">
+                <block class="Magento\Catalog\Block\Product\View" name="product.info.addtocart.bundle" as="addtocart" template="product/view/addtocart.phtml"/>
+                <block class="Magento\Catalog\Block\Product\View" name="product.info.addto.bundle" as="addto" template="product/view/addto.phtml"/>
             </block>
-            <block class="\Magento\Bundle\Block\Catalog\Product\View" name="customize.button" as="customize_button" template="catalog/product/view/customize.phtml"/>
+            <block class="Magento\Bundle\Block\Catalog\Product\View" name="customize.button" as="customize_button" template="catalog/product/view/customize.phtml"/>
         </reference>
         <move element="bundle.prices" destination="bundle.summary" before="-"/>
         <reference name="product.info.options.wrapper">
-            <block class="\Magento\Catalog\Block\Product\View" name="bundle.product.view.options.notice" after="-" template="Magento_Bundle::catalog/product/view/options/notice.phtml"/>
+            <block class="Magento\Catalog\Block\Product\View" name="bundle.product.view.options.notice" after="-" template="Magento_Bundle::catalog/product/view/options/notice.phtml"/>
         </reference>
         <reference name="product.info.options.wrapper.bottom">
-            <block class="\Magento\Bundle\Block\Catalog\Product\View" name="bundle.back.button" as="backButton" after="-" template="catalog/product/view/backbutton.phtml"/>
+            <block class="Magento\Bundle\Block\Catalog\Product\View" name="bundle.back.button" as="backButton" after="-" template="catalog/product/view/backbutton.phtml"/>
             <action method="unsetChild">
                 <argument name="block" xsi:type="string">addtocart</argument>
             </action>

@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle label="Customer Shared Wishlist View" id="wishlist_shared_index" type="page" parent="wishlist_index_share">
         <reference name="content">
-            <block class="\Magento\Wishlist\Block\Share\Wishlist" name="customer.wishlist" template="shared.phtml"/>
+            <block class="Magento\Wishlist\Block\Share\Wishlist" name="customer.wishlist" template="shared.phtml"/>
         </reference>
     </handle>
 </layout>

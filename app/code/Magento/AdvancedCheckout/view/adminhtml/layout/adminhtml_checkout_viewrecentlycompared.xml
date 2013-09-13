@@ -10,6 +10,6 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_checkout_viewrecentlycompared">
         <remove name="root"/>
-        <block class="\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Rcompared" name="checkout.accordion.rcompared" output="1"/>
+        <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Rcompared" name="checkout.accordion.rcompared" output="1"/>
     </handle>
 </layout>

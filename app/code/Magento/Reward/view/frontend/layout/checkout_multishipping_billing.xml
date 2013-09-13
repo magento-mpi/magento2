@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="checkout_multishipping_billing">
         <reference name="payment_methods_before">
-            <block class="\Magento\Reward\Block\Checkout\Payment\Additional" template="checkout/multishipping/payment/additional.phtml" name="reward_points" before="-"/>
+            <block class="Magento\Reward\Block\Checkout\Payment\Additional" template="checkout/multishipping/payment/additional.phtml" name="reward_points" before="-"/>
         </reference>
     </handle>
 </layout>

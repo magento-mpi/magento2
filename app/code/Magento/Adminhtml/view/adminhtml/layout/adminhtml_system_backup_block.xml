@@ -10,14 +10,14 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_system_backup_block">
         <reference name="adminhtml.system.backup.container">
-            <block class="\Magento\Backend\Block\Widget\Grid" name="adminhtml.system.backup.grid" as="grid">
+            <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.system.backup.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">backupsGrid</argument>
                     <argument name="dataSource" xsi:type="object">\Magento\Backup\Model\Fs\Collection</argument>
                     <argument name="default_sort" xsi:type="string">time</argument>
                     <argument name="default_dir" xsi:type="string">desc</argument>
                 </arguments>
-                <block class="\Magento\Backend\Block\Widget\Grid\Massaction" name="adminhtml.system.backup.grid.massaction" as="grid.massaction">
+                <block class="Magento\Backend\Block\Widget\Grid\Massaction" name="adminhtml.system.backup.grid.massaction" as="grid.massaction">
                     <arguments>
                         <argument name="massaction_id_field" xsi:type="string">id</argument>
                         <argument name="form_field_name" xsi:type="string">ids</argument>
@@ -31,11 +31,11 @@
                         </argument>
                     </arguments>
                 </block>
-                <block class="\Magento\Backend\Block\Widget\Grid\ColumnSet" name="adminhtml.catalog.product.set.grid.columnSet" as="grid.columnSet">
+                <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" name="adminhtml.catalog.product.set.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <argument name="id" xsi:type="string">backupsGrid</argument>
                     </arguments>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="time">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="time">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Time</argument>
                             <argument name="index" xsi:type="string">date_object</argument>
@@ -43,7 +43,7 @@
                             <argument name="width" xsi:type="string">200px</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="display_name">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="display_name">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Name</argument>
                             <argument name="index" xsi:type="string">display_name</argument>
@@ -52,7 +52,7 @@
                             <argument name="width" xsi:type="string">350px</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="size">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="size">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Size(bytes)</argument>
                             <argument name="index" xsi:type="string">size</argument>
@@ -61,7 +61,7 @@
                             <argument name="sortable" xsi:type="string">1</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="type">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="type">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Type</argument>
                             <argument name="index" xsi:type="string">type</argument>
@@ -70,7 +70,7 @@
                             <argument name="width" xsi:type="string">300px</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="download">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="download">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Download</argument>
                             <argument name="index" xsi:type="string">type</argument>
@@ -80,7 +80,7 @@
                             <argument name="renderer" xsi:type="string">\Magento\Backup\Block\Adminhtml\Grid\Column\Renderer\Download</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backup\Block\Adminhtml\Grid\Column\Rollback" as="action">
+                    <block class="Magento\Backup\Block\Adminhtml\Grid\Column\Rollback" as="action">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Action</argument>
                             <argument name="index" xsi:type="string">type</argument>

@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_sales_order_create_load_block_sidebar_pcompared">
         <reference name="content">
-            <block class="\Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\Pcompared" template="sales/order/create/sidebar/items.phtml" name="sidebar_pcompared"/>
+            <block class="Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\Pcompared" template="sales/order/create/sidebar/items.phtml" name="sidebar_pcompared"/>
         </reference>
     </handle>
 </layout>

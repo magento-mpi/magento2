@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_logging_archive_grid_block">
         <reference name="adminhtml.logging.archive.grid.container">
-            <block class="\Magento\Backend\Block\Widget\Grid" name="adminhtml.logging.archive.grid" as="grid">
+            <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.logging.archive.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">loggingArchiveGrid</argument>
                     <argument name="dataSource" xsi:type="object">\Magento\Logging\Model\Archive\Collection</argument>
@@ -22,15 +22,15 @@
                         <param name="_current">1</param>
                     </argument>
                 </arguments>
-                <block class="\Magento\Backend\Block\Widget\Grid\ColumnSet" name="adminhtml.logging.archive.grid.columnSet" as="grid.columnSet">
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="download">
+                <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" name="adminhtml.logging.archive.grid.columnSet" as="grid.columnSet">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="download">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Archive File</argument>
                             <argument name="index" xsi:type="string">basename</argument>
                             <argument name="renderer" xsi:type="string">\Magento\Logging\Block\Adminhtml\Grid\Renderer\Download</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="date">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="date">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Date</argument>
                             <argument name="index" xsi:type="string">time</argument>

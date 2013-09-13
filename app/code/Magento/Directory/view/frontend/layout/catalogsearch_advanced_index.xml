@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="catalogsearch_advanced_index">
         <reference name="left">
-            <block class="\Magento\Directory\Block\Currency" name="right_currency" before="-" template="currency.phtml"/>
+            <block class="Magento\Directory\Block\Currency" name="right_currency" before="-" template="currency.phtml"/>
         </reference>
     </handle>
 </layout>

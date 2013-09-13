@@ -11,8 +11,8 @@
     <handle label="Customer GiftRegistry Search Results List" id="magento_giftregistry_search_results" type="page" parent="magento_giftregistry_search_index">
         <update handle="page_calendar"/>
         <reference name="content">
-            <block class="\Magento\GiftRegistry\Block\Search\Form" name="giftregistry.search.form" template="search/form.phtml"/>
-            <block class="\Magento\GiftRegistry\Block\Search\Results" name="giftregistry.search.results" template="search/results.phtml"/>
+            <block class="Magento\GiftRegistry\Block\Search\Form" name="giftregistry.search.form" template="search/form.phtml"/>
+            <block class="Magento\GiftRegistry\Block\Search\Results" name="giftregistry.search.results" template="search/results.phtml"/>
         </reference>
     </handle>
 </layout>

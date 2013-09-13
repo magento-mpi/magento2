@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle label="Email Shipment Items List" id="sales_email_order_shipment_items" type="page" parent="sales_order_shipment">
-        <block class="\Magento\Sales\Block\Order\Email\Shipment\Items" name="items" template="email/shipment/items.phtml">
+        <block class="Magento\Sales\Block\Order\Email\Shipment\Items" name="items" template="email/shipment/items.phtml">
             <action method="addItemRender">
                 <argument name="type" xsi:type="string">default</argument>
                 <argument name="block" xsi:type="string">\Magento\Sales\Block\Order\Email\Items\DefaultItems</argument>

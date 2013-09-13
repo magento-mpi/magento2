@@ -11,7 +11,7 @@
     <handle label="Multishipping Checkout Success" id="checkout_multishipping_success" type="page" parent="checkout_multishipping">
         <update handle="checkout_multishipping"/>
         <reference name="content">
-            <block class="\Magento\Checkout\Block\Multishipping\Success" name="checkout_success" template="multishipping/success.phtml"/>
+            <block class="Magento\Checkout\Block\Multishipping\Success" name="checkout_success" template="multishipping/success.phtml"/>
         </reference>
     </handle>
 </layout>

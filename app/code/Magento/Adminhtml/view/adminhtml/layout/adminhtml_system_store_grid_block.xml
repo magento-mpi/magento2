@@ -10,17 +10,17 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_system_store_grid_block">
         <reference name="adminhtml.system.store.container">
-            <block class="\Magento\Backend\Block\Widget\Grid" name="adminhtml.system.store.grid" as="grid">
+            <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.system.store.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">storeGrid</argument>
                     <argument name="save_parameters_in_session" xsi:type="string">1</argument>
                     <argument name="dataSource" xsi:type="object">\Magento\Core\Model\Resource\Website\Grid\Collection</argument>
                 </arguments>
-                <block class="\Magento\Backend\Block\Widget\Grid\ColumnSet" name="adminhtml.system.store.grid.columnSet" as="grid.columnSet">
+                <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" name="adminhtml.system.store.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <argument name="id" xsi:type="string">storeGrid</argument>
                     </arguments>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="website_title">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="website_title">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Web Site</argument>
                             <argument name="align" xsi:type="string">left</argument>
@@ -29,7 +29,7 @@
                             <argument name="renderer" xsi:type="string">\Magento\Adminhtml\Block\System\Store\Grid\Render\Website</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="group_title">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="group_title">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Store</argument>
                             <argument name="align" xsi:type="string">left</argument>
@@ -38,7 +38,7 @@
                             <argument name="renderer" xsi:type="string">\Magento\Adminhtml\Block\System\Store\Grid\Render\Group</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="store_title">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="store_title">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Store View</argument>
                             <argument name="align" xsi:type="string">left</argument>

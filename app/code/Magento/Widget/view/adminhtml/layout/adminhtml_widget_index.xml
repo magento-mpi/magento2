@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_widget_index">
-        <block class="\Magento\Widget\Block\Adminhtml\Widget" name="wysiwyg_widget" output="1"/>
+        <block class="Magento\Widget\Block\Adminhtml\Widget" name="wysiwyg_widget" output="1"/>
     </handle>
 </layout>

@@ -15,8 +15,8 @@
             </action>
         </reference>
         <reference name="data">
-            <block class="\Magento\Centinel\Block\Adminhtml\Validation" as="card_validation" name="card_validation" template="Magento_Adminhtml::sales/order/create/abstract.phtml">
-                <block class="\Magento\Centinel\Block\Adminhtml\Validation\Form" template="validation/form.phtml" name="centinel.validation.form" as="form"/>
+            <block class="Magento\Centinel\Block\Adminhtml\Validation" as="card_validation" name="card_validation" template="Magento_Adminhtml::sales/order/create/abstract.phtml">
+                <block class="Magento\Centinel\Block\Adminhtml\Validation\Form" template="validation/form.phtml" name="centinel.validation.form" as="form"/>
             </block>
         </reference>
     </handle>

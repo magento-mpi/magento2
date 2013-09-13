@@ -31,7 +31,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="\Magento\Adminhtml\Block\Cms\Block\Edit" name="cms_block_edit"/>
+            <block class="Magento\Adminhtml\Block\Cms\Block\Edit" name="cms_block_edit"/>
         </reference>
     </handle>
 </layout>

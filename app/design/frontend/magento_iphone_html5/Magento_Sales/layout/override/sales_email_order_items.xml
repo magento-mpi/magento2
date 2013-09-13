@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="sales_email_order_items">
-        <block class="\Magento\Sales\Block\Order\Email\Items" name="items" template="email/items.phtml">
+        <block class="Magento\Sales\Block\Order\Email\Items" name="items" template="email/items.phtml">
             <action method="addItemRender">
                 <argument name="type" xsi:type="string">default</argument>
                 <argument name="block" xsi:type="string">\Magento\Sales\Block\Order\Email\Items\Order\DefaultOrder</argument>
@@ -20,14 +20,14 @@
                 <argument name="block" xsi:type="string">\Magento\Sales\Block\Order\Email\Items\Order\Grouped</argument>
                 <argument name="template" xsi:type="string">email/items/order/default.phtml</argument>
             </action>
-            <block class="\Magento\Sales\Block\Order\Totals" name="order_totals" template="order/totals.phtml">
+            <block class="Magento\Sales\Block\Order\Totals" name="order_totals" template="order/totals.phtml">
                 <action method="setLabelProperties">
                     <argument name="value" xsi:type="string">colspan="3" align="right" style="padding:3px 9px"</argument>
                 </action>
                 <action method="setValueProperties">
                     <argument name="value" xsi:type="string">align="right" style="padding:3px 9px"</argument>
                 </action>
-                <block class="\Magento\Tax\Block\Sales\Order\Tax" name="tax" template="order/tax.phtml">
+                <block class="Magento\Tax\Block\Sales\Order\Tax" name="tax" template="order/tax.phtml">
                     <action method="setIsPlaneMode">
                         <argument name="value" xsi:type="string">1</argument>
                     </action>

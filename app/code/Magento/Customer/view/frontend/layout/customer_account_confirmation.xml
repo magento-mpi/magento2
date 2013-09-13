@@ -18,7 +18,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="\Magento\Core\Block\Template" name="accountConfirmation" template="Magento_Customer::form/confirmation.phtml"/>
+            <block class="Magento\Core\Block\Template" name="accountConfirmation" template="Magento_Customer::form/confirmation.phtml"/>
         </reference>
     </handle>
 </layout>

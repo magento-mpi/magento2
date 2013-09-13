@@ -13,8 +13,8 @@
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">newsletter/preview/iframeswitcher.phtml</argument>
             </action>
-            <block class="\Magento\Adminhtml\Block\Newsletter\Queue\Preview\Form" name="preview_form"/>
-            <block class="\Magento\Backend\Block\Store\Switcher" name="store_switcher" template="Magento_Adminhtml::newsletter/preview/store.phtml"/>
+            <block class="Magento\Adminhtml\Block\Newsletter\Queue\Preview\Form" name="preview_form"/>
+            <block class="Magento\Backend\Block\Store\Switcher" name="store_switcher" template="Magento_Adminhtml::newsletter/preview/store.phtml"/>
         </reference>
     </handle>
 </layout>

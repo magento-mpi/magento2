@@ -16,15 +16,15 @@
             </action>
         </reference>
         <reference name="head.components">
-            <block class="\Magento\Adminhtml\Block\Page\Js\Components" name="cms_page_head_components" template="Magento_VersionsCms::page/js/components.phtml"/>
+            <block class="Magento\Adminhtml\Block\Page\Js\Components" name="cms_page_head_components" template="Magento_VersionsCms::page/js/components.phtml"/>
         </reference>
         <reference name="content">
-            <block class="\Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit" name="cms_page_revision_edit">
-                <block class="\Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Info" name="revision_info" template="page/revision/info.phtml"/>
+            <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit" name="cms_page_revision_edit">
+                <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Info" name="revision_info" template="page/revision/info.phtml"/>
             </block>
         </reference>
         <reference name="left">
-            <block class="\Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tabs" name="cms_page_revision_edit_tabs">
+            <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tabs" name="cms_page_revision_edit_tabs">
                 <action method="addTab">
                     <argument name="name" xsi:type="string">content_section</argument>
                     <argument name="block" xsi:type="string">\Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Content</argument>

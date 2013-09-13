@@ -16,7 +16,7 @@
             </action>
         </reference>
         <reference name="my.account.wrapper">
-            <block class="\Magento\Rma\Block\Return\Create" as="create" name="rma.return.create" template="return/create.phtml">
+            <block class="Magento\Rma\Block\Return\Create" as="create" name="rma.return.create" template="return/create.phtml">
                 <action method="setFormCode">
                     <argument name="code" xsi:type="string">default</argument>
                 </action>

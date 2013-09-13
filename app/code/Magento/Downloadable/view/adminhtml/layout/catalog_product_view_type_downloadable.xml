@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="catalog_product_view_type_downloadable">
         <reference name="product.composite.fieldset">
-            <block class="\Magento\Downloadable\Block\Adminhtml\Catalog\Product\Composite\Fieldset\Downloadable" name="product.composite.fieldset.downloadable" before="product.composite.fieldset.options" template="product/composite/fieldset/downloadable.phtml"/>
+            <block class="Magento\Downloadable\Block\Adminhtml\Catalog\Product\Composite\Fieldset\Downloadable" name="product.composite.fieldset.downloadable" before="product.composite.fieldset.options" template="product/composite/fieldset/downloadable.phtml"/>
         </reference>
     </handle>
 </layout>

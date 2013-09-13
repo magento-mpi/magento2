@@ -12,7 +12,7 @@
         <update handle="formkey"/>
         <update handle="adminhtml_catalog_product_set_block"/>
         <reference name="content">
-            <block class="\Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar\Main" name="adminhtml.catalog.product.set.container"/>
+            <block class="Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar\Main" name="adminhtml.catalog.product.set.container"/>
         </reference>
     </handle>
 </layout>

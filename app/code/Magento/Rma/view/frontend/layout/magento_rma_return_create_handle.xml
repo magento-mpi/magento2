@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle label="RMA Return Create" id="magento_rma_return_create_handle" type="page" parent="default">
         <reference name="content">
-            <block class="\Magento\CustomAttribute\Block\Form\Template" name="magento_rma_item_form_template">
+            <block class="Magento\CustomAttribute\Block\Form\Template" name="magento_rma_item_form_template">
                 <action method="addRenderer">
                     <argument name="type" xsi:type="string">text</argument>
                     <argument name="renderer_block" xsi:type="string">\Magento\CustomAttribute\Block\Form\Renderer\Text</argument>

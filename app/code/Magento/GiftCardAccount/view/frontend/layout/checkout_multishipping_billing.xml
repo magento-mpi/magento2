@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="checkout_multishipping_billing">
         <reference name="payment_methods_after">
-            <block class="\Magento\GiftCardAccount\Block\Checkout\Onepage\Payment\Additional" template="multishipping/payment.phtml" name="giftcardaccount"/>
+            <block class="Magento\GiftCardAccount\Block\Checkout\Onepage\Payment\Additional" template="multishipping/payment.phtml" name="giftcardaccount"/>
         </reference>
     </handle>
 </layout>

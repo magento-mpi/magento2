@@ -11,7 +11,7 @@
     <handle label="Confirm OAuth token authorization" id="oauth_authorize_confirm" type="page" parent="default">
         <update handle="oauth_root_handle"/>
         <reference name="content">
-            <block class="\Magento\Oauth\Block\Authorize\Button" name="oauth.authorize.confirm" template="authorize/confirm.phtml"/>
+            <block class="Magento\Oauth\Block\Authorize\Button" name="oauth.authorize.confirm" template="authorize/confirm.phtml"/>
         </reference>
     </handle>
 </layout>

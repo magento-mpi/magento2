@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_checkout_index">
         <reference name="checkout.accordion">
-            <block class="\Magento\MultipleWishlist\Block\Adminhtml\Manage\Accordion\Wishlist" name="wishlist"/>
+            <block class="Magento\MultipleWishlist\Block\Adminhtml\Manage\Accordion\Wishlist" name="wishlist"/>
         </reference>
     </handle>
 </layout>

@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_scheduled_operation_block">
         <reference name="adminhtml.block.scheduled.operation.grid.container">
-            <block class="\Magento\Backend\Block\Widget\Grid" name="adminhtml.block.scheduled.operation.grid" as="grid">
+            <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.block.scheduled.operation.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">operationGrid</argument>
                     <argument name="dataSource" xsi:type="object">\Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection</argument>
@@ -21,7 +21,7 @@
                         <param name="_current">1</param>
                     </argument>
                 </arguments>
-                <block class="\Magento\Backend\Block\Widget\Grid\Massaction" name="adminhtml.block.scheduled.operation.massactions" as="grid.massaction">
+                <block class="Magento\Backend\Block\Widget\Grid\Massaction" name="adminhtml.block.scheduled.operation.massactions" as="grid.massaction">
                     <arguments>
                         <argument name="massaction_id_field" xsi:type="string">id</argument>
                         <argument name="form_field_name" xsi:type="string">operation</argument>
@@ -39,7 +39,7 @@
                             </item>
                         </argument>
                     </arguments>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Massaction\Additional" name="adminhtml.block.scheduled.operation.massactions.status" as="status">
+                    <block class="Magento\Backend\Block\Widget\Grid\Massaction\Additional" name="adminhtml.block.scheduled.operation.massactions.status" as="status">
                         <arguments>
                             <argument name="fields" xsi:type="array">
                                 <item name="visibility" xsi:type="array">
@@ -53,7 +53,7 @@
                         </arguments>
                     </block>
                 </block>
-                <block class="\Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet">
+                <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet">
                     <arguments>
                         <argument name="id" xsi:type="string">operationGrid</argument>
                         <argument name="rowUrl" xsi:type="array">
@@ -63,7 +63,7 @@
                             </item>
                         </argument>
                     </arguments>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="name">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="name">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Name</argument>
                             <argument name="index" xsi:type="string">name</argument>
@@ -71,7 +71,7 @@
                             <argument name="escape" xsi:type="string">1</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="operation_type">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="operation_type">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Operation</argument>
                             <argument name="index" xsi:type="string">operation_type</argument>
@@ -80,7 +80,7 @@
                             <argument name="options" xsi:type="options" model="\Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Options\Operations"/>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="entity_type">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="entity_type">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Entity Type</argument>
                             <argument name="index" xsi:type="string">entity_type</argument>
@@ -88,14 +88,14 @@
                             <argument name="options" xsi:type="options" model="\Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Options\Entities"/>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="last_run_date">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="last_run_date">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Last Run</argument>
                             <argument name="index" xsi:type="string">last_run_date</argument>
                             <argument name="type" xsi:type="string">datetime</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="freq">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="freq">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Frequency</argument>
                             <argument name="index" xsi:type="string">freq</argument>
@@ -104,7 +104,7 @@
                             <argument name="options" xsi:type="options" model="\Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Options\Frequency"/>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="status">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="status">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Status</argument>
                             <argument name="index" xsi:type="string">status</argument>
@@ -112,7 +112,7 @@
                             <argument name="options" xsi:type="options" model="\Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Options\Statuses"/>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="is_success">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="is_success">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Last Outcome</argument>
                             <argument name="index" xsi:type="string">is_success</argument>
@@ -121,7 +121,7 @@
                             <argument name="options" xsi:type="options" model="\Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Options\Result"/>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="action">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="action">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Action</argument>
                             <argument name="index" xsi:type="string">id</argument>

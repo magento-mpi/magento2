@@ -15,7 +15,7 @@
             </action>
         </reference>
         <reference name="top.links">
-            <block class="\Magento\Customer\Block\Account\Navigation" name="customer_account_navigation" before="-" template="account/navigation.phtml">
+            <block class="Magento\Customer\Block\Account\Navigation" name="customer_account_navigation" before="-" template="account/navigation.phtml">
                 <action method="setPosition">
                     <argument name="value" xsi:type="string">20</argument>
                 </action>
@@ -43,7 +43,7 @@
             <container name="my.account.wrapper" label="My Account Wrapper" htmlTag="div" htmlClass="my-account"/>
         </reference>
         <reference name="left">
-            <block class="\Magento\Catalog\Block\Product\Compare\Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
+            <block class="Magento\Catalog\Block\Product\Compare\Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
             <remove name="tags_popular"/>
         </reference>
     </handle>

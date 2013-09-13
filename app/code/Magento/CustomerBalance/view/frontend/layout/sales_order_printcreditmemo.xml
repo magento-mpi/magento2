@@ -10,8 +10,8 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="sales_order_printcreditmemo">
         <reference name="creditmemo_totals">
-            <block class="\Magento\CustomerBalance\Block\Sales\Order\Customerbalance" name="customerbalance" template="order/customerbalance.phtml"/>
-            <block class="\Magento\CustomerBalance\Block\Sales\Order\Customerbalance" name="customerbalance_total_refunded" template="order/customerbalance_refunded.phtml" after="-">
+            <block class="Magento\CustomerBalance\Block\Sales\Order\Customerbalance" name="customerbalance" template="order/customerbalance.phtml"/>
+            <block class="Magento\CustomerBalance\Block\Sales\Order\Customerbalance" name="customerbalance_total_refunded" template="order/customerbalance_refunded.phtml" after="-">
                 <action method="setAfterTotal">
                     <argument name="value" xsi:type="string">grand_total</argument>
                 </action>

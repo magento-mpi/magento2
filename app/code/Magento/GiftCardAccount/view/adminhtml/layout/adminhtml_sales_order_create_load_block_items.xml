@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_sales_order_create_load_block_items">
         <reference name="items_grid">
-            <block class="\Magento\GiftCardAccount\Block\Adminhtml\Sales\Order\Create\Payment" template="sales/order/create/items.phtml" name="giftcardaccount" after="-"/>
+            <block class="Magento\GiftCardAccount\Block\Adminhtml\Sales\Order\Create\Payment" template="sales/order/create/items.phtml" name="giftcardaccount" after="-"/>
         </reference>
     </handle>
 </layout>

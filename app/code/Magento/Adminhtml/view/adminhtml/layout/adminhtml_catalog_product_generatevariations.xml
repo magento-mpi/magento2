@@ -10,10 +10,10 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_catalog_product_generatevariations">
         <container name="root" label="Root" output="1">
-            <block class="\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config" template="Magento_Adminhtml::catalog/product/edit/super/generator.phtml" name="product-variations-generator" as="generator">
-                <block class="\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config" template="Magento_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml" as="template"/>
-                <block class="\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Attribute" template="Magento_Adminhtml::catalog/product/edit/super/attribute-template.phtml" as="attribute-renderer"/>
-                <block class="\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Matrix" template="Magento_Adminhtml::catalog/product/edit/super/matrix.phtml" as="matrix"/>
+            <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config" template="Magento_Adminhtml::catalog/product/edit/super/generator.phtml" name="product-variations-generator" as="generator">
+                <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config" template="Magento_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml" as="template"/>
+                <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Attribute" template="Magento_Adminhtml::catalog/product/edit/super/attribute-template.phtml" as="attribute-renderer"/>
+                <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Matrix" template="Magento_Adminhtml::catalog/product/edit/super/matrix.phtml" as="matrix"/>
             </block>
         </container>
     </handle>

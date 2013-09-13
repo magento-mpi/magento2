@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="sales_order_view">
         <reference name="order_totals">
-            <block class="\Magento\Reward\Block\Sales\Order\Total" name="reward.sales.order.total"/>
+            <block class="Magento\Reward\Block\Sales\Order\Total" name="reward.sales.order.total"/>
         </reference>
     </handle>
 </layout>

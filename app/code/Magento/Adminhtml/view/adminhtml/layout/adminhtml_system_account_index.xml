@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_system_account_index">
         <reference name="content">
-            <block class="\Magento\Adminhtml\Block\System\Account\Edit" name="adminhtml.system.account.edit"/>
+            <block class="Magento\Adminhtml\Block\System\Account\Edit" name="adminhtml.system.account.edit"/>
         </reference>
     </handle>
 </layout>

@@ -10,8 +10,8 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="checkout_cart_index">
         <reference name="checkout.cart">
-            <block class="\Magento\AdvancedCheckout\Block\Sku\Products" name="sku.failed.products" template="cart/sku/failed.phtml" as="shopping.cart.table.after">
-                <block class="\Magento\AdvancedCheckout\Block\Sku\Products\Info" name="additional.product.info" template="cart/sku/failed/info.phtml"/>
+            <block class="Magento\AdvancedCheckout\Block\Sku\Products" name="sku.failed.products" template="cart/sku/failed.phtml" as="shopping.cart.table.after">
+                <block class="Magento\AdvancedCheckout\Block\Sku\Products\Info" name="additional.product.info" template="cart/sku/failed/info.phtml"/>
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">default</argument>
                     <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer</argument>

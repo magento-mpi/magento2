@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_user_role_editrolegrid">
         <container name="root" label="Root" output="1">
-            <block class="\Magento\User\Block\Role\Grid\User" name="adminhtml.user.role.grid.user"/>
+            <block class="Magento\User\Block\Role\Grid\User" name="adminhtml.user.role.grid.user"/>
         </container>
     </handle>
 </layout>

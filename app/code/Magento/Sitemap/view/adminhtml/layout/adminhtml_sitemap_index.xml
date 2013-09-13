@@ -11,7 +11,7 @@
     <handle id="adminhtml_sitemap_index">
         <update handle="adminhtml_sitemap_index_grid_block"/>
         <reference name="content">
-            <block class="\Magento\Adminhtml\Block\Sitemap" name="adminhtml.sitemap.container"/>
+            <block class="Magento\Adminhtml\Block\Sitemap" name="adminhtml.sitemap.container"/>
         </reference>
     </handle>
 </layout>

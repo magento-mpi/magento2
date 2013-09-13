@@ -11,7 +11,7 @@
     <handle id="customer_account_login">
         <reference name="customer_form_login">
             <container name="form.additional.info" label="Form Additional Info">
-                <block class="\Magento\Captcha\Block\Captcha" name="captcha">
+                <block class="Magento\Captcha\Block\Captcha" name="captcha">
                     <action method="setFormId">
                         <argument name="formId" xsi:type="string">user_login</argument>
                     </action>

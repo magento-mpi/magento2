@@ -10,12 +10,12 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_invitation_view">
         <reference name="content">
-            <block class="\Magento\Invitation\Block\Adminhtml\Invitation\View" name="invitation_view_page" template="view.phtml">
+            <block class="Magento\Invitation\Block\Adminhtml\Invitation\View" name="invitation_view_page" template="view.phtml">
                 
             </block>
         </reference>
         <reference name="left">
-            <block class="\Magento\Invitation\Block\Adminhtml\Invitation\View\Tabs" name="invitation_view_tabs" as="tabs">
+            <block class="Magento\Invitation\Block\Adminhtml\Invitation\View\Tabs" name="invitation_view_tabs" as="tabs">
                 <action method="addTab">
                     <argument name="tab" xsi:type="string">general</argument>
                     <argument name="content" xsi:type="string">\Magento\Invitation\Block\Adminhtml\Invitation\View\Tab\General</argument>

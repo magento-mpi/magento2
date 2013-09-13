@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_sales_order_grid_block">
         <reference name="sales_order.grid.container">
-            <block class="\Magento\Adminhtml\Block\Sales\Order\Grid" name="sales.order.grid" as="grid">
+            <block class="Magento\Adminhtml\Block\Sales\Order\Grid" name="sales.order.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">sales_order_grid</argument>
                     <argument name="dataSource" xsi:type="object">\Magento\Sales\Model\Resource\Order\Grid\Collection</argument>
@@ -28,7 +28,7 @@
                         </item>
                     </argument>
                 </arguments>
-                <block class="\Magento\Backend\Block\Widget\Grid\Massaction" name="sales.order.grid.massaction" as="grid.massaction">
+                <block class="Magento\Backend\Block\Widget\Grid\Massaction" name="sales.order.grid.massaction" as="grid.massaction">
                     <arguments>
                         <argument name="massaction_id_field" xsi:type="string">entity_id</argument>
                         <argument name="form_field_name" xsi:type="string">order_ids</argument>
@@ -70,7 +70,7 @@
                         </argument>
                     </arguments>
                 </block>
-                <block class="\Magento\Backend\Block\Widget\Grid\Export" name="sales.order.grid.export" as="grid.export">
+                <block class="Magento\Backend\Block\Widget\Grid\Export" name="sales.order.grid.export" as="grid.export">
                     <arguments>
                         <argument name="exportTypes" xsi:type="array">
                             <item name="csv" xsi:type="array">
@@ -84,7 +84,7 @@
                         </argument>
                     </arguments>
                 </block>
-                <block class="\Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="sales.order.grid.columnSet">
+                <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="sales.order.grid.columnSet">
                     <arguments>
                         <argument name="id" xsi:type="string">sales_order_grid</argument>
                         <argument name="rowUrl" xsi:type="array">
@@ -95,7 +95,7 @@
                             </item>
                         </argument>
                     </arguments>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="real_order_id">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="real_order_id">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Order</argument>
                             <argument name="type" xsi:type="string">text</argument>
@@ -105,7 +105,7 @@
                             <argument name="column_css_class" xsi:type="string">col-order-number</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column\Multistore" as="store_id">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column\Multistore" as="store_id">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Purchase Point</argument>
                             <argument name="type" xsi:type="string">store</argument>
@@ -117,7 +117,7 @@
                             <argument name="column_css_class" xsi:type="string">col-from-store</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="created_at">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="created_at">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Purchase Date</argument>
                             <argument name="type" xsi:type="string">datetime</argument>
@@ -127,7 +127,7 @@
                             <argument name="column_css_class" xsi:type="string">col-period</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="billing_name">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="billing_name">
                         <arguments>
                             <argument name="id" xsi:type="string">billing_name</argument>
                             <argument name="header" xsi:type="string" translate="true">Bill-to Name</argument>
@@ -136,7 +136,7 @@
                             <argument name="column_css_class" xsi:type="string">col-bill-to-name</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="shipping_name">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="shipping_name">
                         <arguments>
                             <argument name="id" xsi:type="string">shipping_name</argument>
                             <argument name="header" xsi:type="string" translate="true">Ship-to Name</argument>
@@ -145,7 +145,7 @@
                             <argument name="column_css_class" xsi:type="string">col-ship-to-name</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="base_grand_total">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="base_grand_total">
                         <arguments>
                             <argument name="id" xsi:type="string">base_grand_total</argument>
                             <argument name="header" xsi:type="string" translate="true">Grand Total (Base)</argument>
@@ -156,7 +156,7 @@
                             <argument name="column_css_class" xsi:type="string">col-gtbase</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="grand_total">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="grand_total">
                         <arguments>
                             <argument name="id" xsi:type="string">grand_total</argument>
                             <argument name="header" xsi:type="string" translate="true">Grand Total (Purchased)</argument>
@@ -168,7 +168,7 @@
                             <argument name="column_css_class" xsi:type="string">col-gtpurchased</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="status">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="status">
                         <arguments>
                             <argument name="id" xsi:type="string">status</argument>
                             <argument name="header" xsi:type="string" translate="true">Status</argument>
@@ -180,7 +180,7 @@
                             <argument name="column_css_class" xsi:type="string">col-status</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="action" acl="Magento_Sales::actions_view">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="action" acl="Magento_Sales::actions_view">
                         <arguments>
                             <argument name="id" xsi:type="string">action</argument>
                             <argument name="header" xsi:type="string" translate="true">Action</argument>

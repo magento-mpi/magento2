@@ -11,7 +11,7 @@
     <handle label="Customer My Account Product Reviews" id="review_customer_index" type="page" parent="customer_account_index">
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block class="\Magento\Review\Block\Customer\ListCustomer" name="review_customer_list" template="customer/list.phtml"/>
+            <block class="Magento\Review\Block\Customer\ListCustomer" name="review_customer_list" template="customer/list.phtml"/>
         </reference>
     </handle>
 </layout>

@@ -29,10 +29,10 @@
             </action>
         </reference>
         <reference name="header">
-            <block class="\Magento\Page\Block\Template\Links" name="account.links" as="accountLinks" before="top.links"/>
-            <block class="\Magento\Page\Block\Template\Links" name="checkout.links" as="checkoutLinks" after="top.links"/>
+            <block class="Magento\Page\Block\Template\Links" name="account.links" as="accountLinks" before="top.links"/>
+            <block class="Magento\Page\Block\Template\Links" name="checkout.links" as="checkoutLinks" after="top.links"/>
             <container name="top.switches" as="switches" label="Store Language" after="checkout.links"/>
-            <block class="\Magento\Page\Block\Html\Welcome" name="welcome" as="welcome" after="top.container"/>
+            <block class="Magento\Page\Block\Html\Welcome" name="welcome" as="welcome" after="top.container"/>
         </reference>
         <move element="store_language" destination="top.switches"/>
         <move element="store_switcher" destination="footer" as="store_switcher" after="-"/>

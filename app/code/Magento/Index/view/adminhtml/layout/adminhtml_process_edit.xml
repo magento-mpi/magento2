@@ -10,10 +10,10 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_process_edit">
         <reference name="content">
-            <block class="\Magento\Index\Block\Adminhtml\Process\Edit" name="process_edit"/>
+            <block class="Magento\Index\Block\Adminhtml\Process\Edit" name="process_edit"/>
         </reference>
         <reference name="left">
-            <block class="\Magento\Index\Block\Adminhtml\Process\Edit\Tabs" name="index_edit_tabs">
+            <block class="Magento\Index\Block\Adminhtml\Process\Edit\Tabs" name="index_edit_tabs">
                 <action method="addTab">
                     <argument name="name" xsi:type="string">main_section</argument>
                     <argument name="block" xsi:type="string">\Magento\Index\Block\Adminhtml\Process\Edit\Tab\Main</argument>

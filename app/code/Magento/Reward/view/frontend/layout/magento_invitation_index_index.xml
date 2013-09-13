@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="magento_invitation_index_index">
         <reference name="invitations.list.list.before">
-            <block class="\Magento\Reward\Block\Tooltip" name="reward.tooltip.invitation" template="tooltip.phtml">
+            <block class="Magento\Reward\Block\Tooltip" name="reward.tooltip.invitation" template="tooltip.phtml">
                 <action method="initRewardType">
                     <argument name="type" xsi:type="string">\Magento\Reward\Model\Action\InvitationCustomer</argument>
                 </action>
@@ -27,7 +27,7 @@
                     <argument translate="true" name="message" xsi:type="string">You can reward up to %s invitee registration(s).</argument>
                 </action>
             </block>
-            <block class="\Magento\Reward\Block\Tooltip" name="reward.tooltip.invitation.order" template="tooltip.phtml">
+            <block class="Magento\Reward\Block\Tooltip" name="reward.tooltip.invitation.order" template="tooltip.phtml">
                 <action method="initRewardType">
                     <argument name="type" xsi:type="string">\Magento\Reward\Model\Action\InvitationOrder</argument>
                 </action>

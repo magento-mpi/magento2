@@ -10,8 +10,8 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_oauth_consumer_new">
         <reference name="content">
-            <block class="\Magento\Oauth\Block\Adminhtml\Oauth\Consumer\Edit" name="oauth_consumer.edit">
-                <block class="\Magento\Oauth\Block\Adminhtml\Oauth\Consumer\Edit\Form" name="form"/>
+            <block class="Magento\Oauth\Block\Adminhtml\Oauth\Consumer\Edit" name="oauth_consumer.edit">
+                <block class="Magento\Oauth\Block\Adminhtml\Oauth\Consumer\Edit\Form" name="form"/>
             </block>
         </reference>
     </handle>

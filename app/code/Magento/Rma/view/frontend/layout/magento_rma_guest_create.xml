@@ -16,8 +16,8 @@
         </reference>
         <update handle="customer_account"/>
         <reference name="content">
-            <block class="\Magento\Rma\Block\Return\Info" as="info" name="sales.order.info"/>
-            <block class="\Magento\Rma\Block\Return\Create" as="create" name="rma.return.create" template="return/create.phtml">
+            <block class="Magento\Rma\Block\Return\Info" as="info" name="sales.order.info"/>
+            <block class="Magento\Rma\Block\Return\Create" as="create" name="rma.return.create" template="return/create.phtml">
                 <action method="setFormCode">
                     <argument name="code" xsi:type="string">default</argument>
                 </action>

@@ -20,7 +20,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="\Magento\CatalogSearch\Block\Term" name="seo.searchterm" template="term.phtml"/>
+            <block class="Magento\CatalogSearch\Block\Term" name="seo.searchterm" template="term.phtml"/>
         </reference>
     </handle>
 </layout>

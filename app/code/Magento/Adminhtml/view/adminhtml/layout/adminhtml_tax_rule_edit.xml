@@ -27,10 +27,10 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="\Magento\Adminhtml\Block\Tax\Rule\Edit"/>
-            <block class="\Magento\Adminhtml\Block\Tax\Rule\Edit\Form" name="tax-rule-edit" template="Magento_Adminhtml::tax/rule/edit.phtml"/>
-            <block class="\Magento\Adminhtml\Block\Tax\Rate\Form" name="tax-rate-form" template="tax/rule/rate/form.phtml"/>
-            <block class="\Magento\Adminhtml\Block\Tax\Rate\ImportExport" name="tax-rate-importExport" template="tax/importExport.phtml"/>
+            <block class="Magento\Adminhtml\Block\Tax\Rule\Edit"/>
+            <block class="Magento\Adminhtml\Block\Tax\Rule\Edit\Form" name="tax-rule-edit" template="Magento_Adminhtml::tax/rule/edit.phtml"/>
+            <block class="Magento\Adminhtml\Block\Tax\Rate\Form" name="tax-rate-form" template="tax/rule/rate/form.phtml"/>
+            <block class="Magento\Adminhtml\Block\Tax\Rate\ImportExport" name="tax-rate-importExport" template="tax/importExport.phtml"/>
         </reference>
     </handle>
 </layout>

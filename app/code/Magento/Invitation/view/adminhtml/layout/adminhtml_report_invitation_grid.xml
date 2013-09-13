@@ -17,7 +17,7 @@
             </arguments>
         </reference>
         <reference name="adminhtml.report.grid.columnSet">
-            <block class="\Magento\Backend\Block\Widget\Grid\Column" as="sent">
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="sent">
                 <arguments>
                     <argument name="header" xsi:type="string" translate="true">Sent</argument>
                     <argument name="type" xsi:type="string">number</argument>
@@ -27,7 +27,7 @@
                     <argument name="column_css_class" xsi:type="string">col-inv-sent</argument>
                 </arguments>
             </block>
-            <block class="\Magento\Backend\Block\Widget\Grid\Column" as="accepted">
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="accepted">
                 <arguments>
                     <argument name="header" xsi:type="string" translate="true">Accepted</argument>
                     <argument name="type" xsi:type="string">number</argument>
@@ -37,7 +37,7 @@
                     <argument name="column_css_class" xsi:type="string">col-inv-acc</argument>
                 </arguments>
             </block>
-            <block class="\Magento\Backend\Block\Widget\Grid\Column" as="canceled">
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="canceled">
                 <arguments>
                     <argument name="header" xsi:type="string" translate="true">Discarded</argument>
                     <argument name="type" xsi:type="string">number</argument>
@@ -47,7 +47,7 @@
                     <argument name="column_css_class" xsi:type="string">col-inv-disc</argument>
                 </arguments>
             </block>
-            <block class="\Magento\Backend\Block\Widget\Grid\Column" as="accepted_rate">
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="accepted_rate">
                 <arguments>
                     <argument name="header" xsi:type="string" translate="true">Accept Rate</argument>
                     <argument name="type" xsi:type="string">string</argument>
@@ -59,7 +59,7 @@
                     <argument name="column_css_class" xsi:type="string">col-inv-acc-rate</argument>
                 </arguments>
             </block>
-            <block class="\Magento\Backend\Block\Widget\Grid\Column" as="canceled_rate">
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="canceled_rate">
                 <arguments>
                     <argument name="header" xsi:type="string" translate="true">Discard Rate</argument>
                     <argument name="type" xsi:type="string">number</argument>

@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="default">
         <reference name="notifications">
-            <block class="\Magento\License\Block\Adminhtml\Checker" name="license_checker" as="license_checker" template="checker/reminder.phtml" after="-"/>
+            <block class="Magento\License\Block\Adminhtml\Checker" name="license_checker" as="license_checker" template="checker/reminder.phtml" after="-"/>
         </reference>
     </handle>
 </layout>

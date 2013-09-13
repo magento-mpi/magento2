@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="checkout_onepage_index">
         <reference name="content">
-            <block class="\Magento\GiftRegistry\Block\Customer\Checkout" name="giftregistry.customer.checkout" template="customer/checkout/onepage.phtml"/>
+            <block class="Magento\GiftRegistry\Block\Customer\Checkout" name="giftregistry.customer.checkout" template="customer/checkout/onepage.phtml"/>
         </reference>
     </handle>
 </layout>

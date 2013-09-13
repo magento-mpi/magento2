@@ -24,7 +24,7 @@
                 <argument name="arg" xsi:type="string">some_template.phtml</argument>
             </action>
         </block>
-        <block class="\Magento\Page\Block\Html" name="content_schedule_block"/>
+        <block class="Magento\Page\Block\Html" name="content_schedule_block"/>
     </container>
 </block>
 <reference name="head">

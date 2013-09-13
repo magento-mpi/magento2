@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="magento_customerbalance_info_index">
         <reference name="customerbalance.wrapper">
-            <block class="\Magento\GiftCardAccount\Block\Account\Redeem" name="redeem" template="account/redeem_link.phtml" after="balance"/>
+            <block class="Magento\GiftCardAccount\Block\Account\Redeem" name="redeem" template="account/redeem_link.phtml" after="balance"/>
         </reference>
     </handle>
 </layout>

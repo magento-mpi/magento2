@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="magento_versionscms_hierarchy_menu_right_column">
         <reference name="right">
-            <block class="\Magento\VersionsCms\Block\Hierarchy\Menu" name="hierarchy_menu" template="hierarchy/menu.phtml" before="-"/>
+            <block class="Magento\VersionsCms\Block\Hierarchy\Menu" name="hierarchy_menu" template="hierarchy/menu.phtml" before="-"/>
         </reference>
     </handle>
 </layout>

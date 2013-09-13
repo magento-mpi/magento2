@@ -12,7 +12,7 @@
 $cmsBlock = array(
     'title'         => 'Catalog Events Lister',
     'identifier'    => 'catalog_events_lister',
-    'content'       => '{{block class="\Magento\CatalogEvent\Block\Event\Lister" name="catalog.event.lister" template="catalogevent/lister.phtml"}}',
+    'content'       => '{{block class="Magento\CatalogEvent\Block\Event\Lister" name="catalog.event.lister" template="catalogevent/lister.phtml"}}',
     'is_active'     => 1,
     'stores'        => 0,
 );

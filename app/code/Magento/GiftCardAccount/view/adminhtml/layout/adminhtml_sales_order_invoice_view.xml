@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_sales_order_invoice_view">
         <reference name="invoice_totals">
-            <block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="giftcardaccount" template="Magento_GiftCardAccount::sales/invoice/totals/giftcardaccount.phtml"/>
+            <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="giftcardaccount" template="Magento_GiftCardAccount::sales/invoice/totals/giftcardaccount.phtml"/>
         </reference>
     </handle>
 </layout>

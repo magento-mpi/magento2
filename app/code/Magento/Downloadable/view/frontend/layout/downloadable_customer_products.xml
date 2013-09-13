@@ -11,7 +11,7 @@
     <handle label="Customer My Account Downloadable Items" id="downloadable_customer_products" type="page" parent="customer_account">
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block class="\Magento\Downloadable\Block\Customer\Products\ListProducts" name="downloadable_customer_products_list" template="customer/products/list.phtml"/>
+            <block class="Magento\Downloadable\Block\Customer\Products\ListProducts" name="downloadable_customer_products_list" template="customer/products/list.phtml"/>
         </reference>
         <reference name="root">
             <action method="setHeaderTitle">

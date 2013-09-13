@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="ADMINHTML_CATALOG_PRODUCT_COMPOSITE_CONFIGURE_ERROR">
-        <block class="\Magento\Adminhtml\Block\Catalog\Product\Composite\Error" name="product.composite.error" output="1"/>
+        <block class="Magento\Adminhtml\Block\Catalog\Product\Composite\Error" name="product.composite.error" output="1"/>
     </handle>
 </layout>

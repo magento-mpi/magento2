@@ -18,7 +18,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="\Magento\Catalog\Block\Product\Gallery" name="catalog_product_gallery" template="product/gallery.phtml"/>
+            <block class="Magento\Catalog\Block\Product\Gallery" name="catalog_product_gallery" template="product/gallery.phtml"/>
         </reference>
     </handle>
 </layout>

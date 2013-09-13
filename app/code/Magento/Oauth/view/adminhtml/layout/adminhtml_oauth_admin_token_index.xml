@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_oauth_admin_token_index">
         <reference name="content">
-            <block class="\Magento\Oauth\Block\Adminhtml\Oauth\Admin\Token" name="oauth_admin_token"/>
+            <block class="Magento\Oauth\Block\Adminhtml\Oauth\Admin\Token" name="oauth_admin_token"/>
         </reference>
     </handle>
 </layout>

@@ -15,7 +15,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="\Magento\Checkout\Block\Onepage\Success" name="checkout.success" template="success.phtml"/>
+            <block class="Magento\Checkout\Block\Onepage\Success" name="checkout.success" template="success.phtml"/>
         </reference>
     </handle>
 </layout>

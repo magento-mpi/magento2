@@ -11,8 +11,8 @@
     <handle id="adminhtml_catalog_search_edit">
         <update handle="adminhtml_catalog_search_block"/>
         <reference name="content">
-            <block class="\Magento\Search\Block\Adminhtml\Search\Edit" name="related_grid_edit"/>
-            <block class="\Magento\Adminhtml\Block\Widget\Grid\Serializer" name="related_grid_serializer">
+            <block class="Magento\Search\Block\Adminhtml\Search\Edit" name="related_grid_edit"/>
+            <block class="Magento\Adminhtml\Block\Widget\Grid\Serializer" name="related_grid_serializer">
                 <reference name="related_grid_serializer">
                     <action method="initSerializerBlock">
                         <argument name="grid_block_name" xsi:type="string">search.edit.grid</argument>

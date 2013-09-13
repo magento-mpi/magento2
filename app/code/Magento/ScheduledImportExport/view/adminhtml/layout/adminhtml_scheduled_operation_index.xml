@@ -12,7 +12,7 @@
         <update handle="formkey"/>
         <update handle="adminhtml_scheduled_operation_block"/>
         <reference name="content">
-            <block class="\Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation" name="adminhtml.block.scheduled.operation.grid.container"/>
+            <block class="Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation" name="adminhtml.block.scheduled.operation.grid.container"/>
         </reference>
     </handle>
 </layout>

@@ -11,7 +11,7 @@
     <handle id="adminhtml_report_search">
         <update handle="adminhtml_report_search_block"/>
         <reference name="content">
-            <block class="\Magento\Adminhtml\Block\Report\Search" name="report.search.grid.container"/>
+            <block class="Magento\Adminhtml\Block\Report\Search" name="report.search.grid.container"/>
         </reference>
     </handle>
 </layout>

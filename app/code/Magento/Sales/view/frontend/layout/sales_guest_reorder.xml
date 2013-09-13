@@ -15,7 +15,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="\Magento\Sales\Block\Order\View" name="sales.order.view"/>
+            <block class="Magento\Sales\Block\Order\View" name="sales.order.view"/>
         </reference>
     </handle>
 </layout>

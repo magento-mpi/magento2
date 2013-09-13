@@ -15,12 +15,12 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="\Magento\Rma\Block\Return\Info" as="info" name="sales.order.info">
-                <block class="\Magento\Sales\Block\Order\Info\Buttons" as="buttons" name="sales.order.info.buttons">
-                    <block class="\Magento\Rma\Block\Order\Button" name="enterprise.rma.info.button" template="order/button.phtml"/>
+            <block class="Magento\Rma\Block\Return\Info" as="info" name="sales.order.info">
+                <block class="Magento\Sales\Block\Order\Info\Buttons" as="buttons" name="sales.order.info.buttons">
+                    <block class="Magento\Rma\Block\Order\Button" name="enterprise.rma.info.button" template="order/button.phtml"/>
                 </block>
             </block>
-            <block class="\Magento\Rma\Block\Return\Returns" name="rma.return.returns"/>
+            <block class="Magento\Rma\Block\Return\Returns" name="rma.return.returns"/>
         </reference>
         <reference name="sales.order.info">
             <action method="addLink">

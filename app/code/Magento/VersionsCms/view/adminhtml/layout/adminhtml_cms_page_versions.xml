@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_cms_page_versions">
         <remove name="root"/>
-        <block class="\Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Versions" output="1" name="cms_page_edit_versions"/>
+        <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Versions" output="1" name="cms_page_edit_versions"/>
         <update handle="formkey"/>
     </handle>
 </layout>

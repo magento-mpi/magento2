@@ -10,8 +10,8 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_sales_archive_creditmemos">
         <reference name="content">
-            <block class="\Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo" name="archive">
-                <block class="\Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo\Grid" name="archive.grid" as="grid"/>
+            <block class="Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo" name="archive">
+                <block class="Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo\Grid" name="archive.grid" as="grid"/>
             </block>
         </reference>
     </handle>

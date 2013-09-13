@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="catalog_product_view">
         <reference name="product.info">
-            <block class="\Magento\Payment\Block\Catalog\Product\View\Profile" name="product.info.additional.recurring.schedule" as="recurring_info" template="catalog/product/view/profile/schedule.phtml">
+            <block class="Magento\Payment\Block\Catalog\Product\View\Profile" name="product.info.additional.recurring.schedule" as="recurring_info" template="catalog/product/view/profile/schedule.phtml">
                 <action method="addToParentGroup">
                     <argument name="group" xsi:type="string">detailed_info</argument>
                 </action>
@@ -20,7 +20,7 @@
             </block>
         </reference>
         <reference name="product.info.options.wrapper">
-            <block class="\Magento\Payment\Block\Catalog\Product\View\Profile" name="product.info.options.recurring" as="recurring_options" template="catalog/product/view/profile/options.phtml"/>
+            <block class="Magento\Payment\Block\Catalog\Product\View\Profile" name="product.info.options.recurring" as="recurring_options" template="catalog/product/view/profile/options.phtml"/>
         </reference>
     </handle>
 </layout>

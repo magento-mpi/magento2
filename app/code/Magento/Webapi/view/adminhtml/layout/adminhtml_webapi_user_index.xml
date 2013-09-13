@@ -11,7 +11,7 @@
     <handle id="adminhtml_webapi_user_index">
         <update handle="adminhtml_webapi_user_grid_block"/>
         <reference name="content">
-            <block class="\Magento\Webapi\Block\Adminhtml\User" name="webapi_user.grid.container"/>
+            <block class="Magento\Webapi\Block\Adminhtml\User" name="webapi_user.grid.container"/>
         </reference>
     </handle>
 </layout>

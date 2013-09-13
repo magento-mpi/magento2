@@ -11,7 +11,7 @@
     <handle id="adminhtml_checkout_manage_load_block_errors">
         <update handle="adminhtml_sku_errors_block"/>
         <reference name="content">
-            <block class="\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Sku\Errors" name="errors"/>
+            <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Sku\Errors" name="errors"/>
         </reference>
     </handle>
 </layout>

@@ -11,7 +11,7 @@
     <handle label="Payment Bridge Frame with Saved Payment Profiles" id="magento_pbridge_payment_profile_index" type="page">
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block class="\Magento\Pbridge\Block\Payment\Profile" name="pbridge.payment.profile" template="payment/profile.phtml"/>
+            <block class="Magento\Pbridge\Block\Payment\Profile" name="pbridge.payment.profile" template="payment/profile.phtml"/>
         </reference>
     </handle>
 </layout>

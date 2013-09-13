@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle label="Customer GiftRegistry Advanced Search Form" id="magento_giftregistry_search_advanced" type="page" parent="magento_giftregistry_search_index">
-        <block class="\Magento\GiftRegistry\Block\Search\Advanced" name="root" template="search/advanced.phtml"/>
+        <block class="Magento\GiftRegistry\Block\Search\Advanced" name="root" template="search/advanced.phtml"/>
     </handle>
 </layout>

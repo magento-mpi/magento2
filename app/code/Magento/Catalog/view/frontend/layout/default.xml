@@ -15,7 +15,7 @@
             </action>
         </reference>
         <reference name="left">
-            <block class="\Magento\Core\Block\Template" name="left.permanent.callout" template="Magento_Page::callouts/left_col.phtml">
+            <block class="Magento\Core\Block\Template" name="left.permanent.callout" template="Magento_Page::callouts/left_col.phtml">
                 <action method="setImgSrc">
                     <argument name="src" xsi:type="string">Magento_Catalog::images/media/col_left_callout.jpg</argument>
                 </action>
@@ -28,8 +28,8 @@
             </block>
         </reference>
         <reference name="right">
-            <block class="\Magento\Catalog\Block\Product\Compare\Sidebar" before="cart_sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
-            <block class="\Magento\Core\Block\Template" name="right.permanent.callout" template="Magento_Page::callouts/right_col.phtml">
+            <block class="Magento\Catalog\Block\Product\Compare\Sidebar" before="cart_sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
+            <block class="Magento\Core\Block\Template" name="right.permanent.callout" template="Magento_Page::callouts/right_col.phtml">
                 <action method="setImgSrc">
                     <argument name="src" xsi:type="string">Magento_Catalog::images/media/col_right_callout.jpg</argument>
                 </action>
@@ -38,7 +38,7 @@
                 </action>
             </block>
         </reference>
-        <block class="\Magento\Catalog\Block\Product\Price\Template" name="catalog_product_price_template"/>
+        <block class="Magento\Catalog\Block\Product\Price\Template" name="catalog_product_price_template"/>
         <reference name="catalog_product_price_template">
             <action method="addPriceBlockType">
                 <argument name="type" xsi:type="string">msrp</argument>

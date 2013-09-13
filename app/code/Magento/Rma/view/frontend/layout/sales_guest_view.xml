@@ -10,10 +10,10 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="sales_guest_view">
         <reference name="my.account.wrapper">
-            <block class="\Magento\Rma\Block\Order\Guest" name="enterprise.rma.info"/>
+            <block class="Magento\Rma\Block\Order\Guest" name="enterprise.rma.info"/>
         </reference>
         <reference name="sales.order.info.buttons">
-            <block class="\Magento\Rma\Block\Order\Button" name="enterprise.rma.info.button" template="order/button.phtml"/>
+            <block class="Magento\Rma\Block\Order\Button" name="enterprise.rma.info.button" template="order/button.phtml"/>
         </reference>
     </handle>
 </layout>

@@ -10,14 +10,14 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_widget_instance_block">
         <reference name="adminhtml.widget.instance.grid.container">
-            <block class="\Magento\Backend\Block\Widget\Grid" name="adminhtml.widget.instance.grid" as="grid">
+            <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.widget.instance.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">widgetInstanceGrid</argument>
                     <argument name="default_sort" xsi:type="string">instance_id</argument>
                     <argument name="default_dir" xsi:type="string">ASC</argument>
                     <argument name="dataSource" xsi:type="object">\Magento\Widget\Model\Resource\Widget\Instance\Collection</argument>
                 </arguments>
-                <block class="\Magento\Backend\Block\Widget\Grid\ColumnSet" name="adminhtml.widget.instance.grid.columnSet" as="grid.columnSet">
+                <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" name="adminhtml.widget.instance.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <argument name="rowUrl" xsi:type="array">
                             <item name="path" xsi:type="string">*/*/edit</item>
@@ -26,21 +26,21 @@
                             </item>
                         </argument>
                     </arguments>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="instance_id">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="instance_id">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Widget ID</argument>
                             <argument name="align" xsi:type="string">left</argument>
                             <argument name="index" xsi:type="string">instance_id</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="title">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="title">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Widget Instance</argument>
                             <argument name="align" xsi:type="string">left</argument>
                             <argument name="index" xsi:type="string">title</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="type">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="type">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Type</argument>
                             <argument name="align" xsi:type="string">left</argument>
@@ -49,7 +49,7 @@
                             <argument name="options" xsi:type="options" model="\Magento\Widget\Model\Resource\Widget\Instance\Options\Types"/>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="theme_id">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="theme_id">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Design Theme</argument>
                             <argument name="align" xsi:type="string">left</argument>
@@ -59,7 +59,7 @@
                             <argument name="with_empty" xsi:type="string">1</argument>
                         </arguments>
                     </block>
-                    <block class="\Magento\Backend\Block\Widget\Grid\Column" as="sort_order">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="sort_order">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Sort Order</argument>
                             <argument name="align" xsi:type="string">center</argument>

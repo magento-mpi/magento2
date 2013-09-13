@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_catalog_product_attribute_edit">
         <reference name="js">
-            <block class="\Magento\Search\Block\Adminhtml\Catalog\Attribute\Edit" template="js.phtml"/>
+            <block class="Magento\Search\Block\Adminhtml\Catalog\Attribute\Edit" template="js.phtml"/>
         </reference>
     </handle>
 </layout>

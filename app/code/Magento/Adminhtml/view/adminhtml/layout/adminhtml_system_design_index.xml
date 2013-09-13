@@ -12,7 +12,7 @@
         <update handle="formkey"/>
         <update handle="adminhtml_system_design_grid_block"/>
         <reference name="content">
-            <block class="\Magento\Adminhtml\Block\System\Design" name="adminhtml.system.design.container"/>
+            <block class="Magento\Adminhtml\Block\System\Design" name="adminhtml.system.design.container"/>
         </reference>
     </handle>
 </layout>
