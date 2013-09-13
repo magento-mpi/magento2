@@ -17,6 +17,29 @@ class Magento_GiftRegistry_Block_Customer_Share
     protected $_formData = null;
 
     /**
+     * Gift registry data
+     *
+     * @var Magento_GiftRegistry_Helper_Data
+     */
+    protected $_giftRegistryData = null;
+
+    /**
+     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GiftRegistry_Helper_Data $giftRegistryData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_giftRegistryData = $giftRegistryData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve form header
      *
      * @return string
@@ -54,7 +77,7 @@ class Magento_GiftRegistry_Block_Customer_Share
      */
     public function getRecipientsLimit()
     {
-        return (int)Mage::helper('Magento_GiftRegistry_Helper_Data')->getRecipientsLimit();
+        return (int)$this->_giftRegistryData->getRecipientsLimit();
     }
 
     /**

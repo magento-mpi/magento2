@@ -18,27 +18,20 @@
  */
 class Magento_GiftMessage_Model_Observer extends Magento_Object
 {
+    /**
+     * Gift message message
+     *
+     * @var Magento_GiftMessage_Helper_Message
+     */
+    protected $_giftMessageMessage = null;
 
     /**
-     * Set gift messages to order item on import item
-     *
-     * @param Magento_Object $observer
-     * @return Magento_GiftMessage_Model_Observer
+     * @param Magento_GiftMessage_Helper_Message $giftMessageMessage
      */
-    public function salesEventConvertQuoteItemToOrderItem($observer)
-    {
-        $orderItem = $observer->getEvent()->getOrderItem();
-        $quoteItem = $observer->getEvent()->getItem();
-
-        $isAvailable = Mage::helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable(
-            'item',
-            $quoteItem,
-            $quoteItem->getStoreId()
-        );
-
-        $orderItem->setGiftMessageId($quoteItem->getGiftMessageId())
-            ->setGiftMessageAvailable($isAvailable);
-        return $this;
+    public function __construct(
+        Magento_GiftMessage_Helper_Message $giftMessageMessage
+    ) {
+        $this->_giftMessageMessage = $giftMessageMessage;
     }
 
     /**
@@ -49,7 +42,7 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
      */
     public function salesEventConvertQuoteAddressToOrder($observer)
     {
-        if($observer->getEvent()->getAddress()->getGiftMessageId()) {
+        if ($observer->getEvent()->getAddress()->getGiftMessageId()) {
             $observer->getEvent()->getOrder()
                 ->setGiftMessageId($observer->getEvent()->getAddress()->getGiftMessageId());
         }
@@ -80,7 +73,7 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
         $giftMessages = $observer->getEvent()->getRequest()->getParam('giftmessage');
         $quote = $observer->getEvent()->getQuote();
         /* @var $quote Magento_Sales_Model_Quote */
-        if(is_array($giftMessages)) {
+        if (is_array($giftMessages)) {
             foreach ($giftMessages as $entityId=>$message) {
 
                 $giftMessage = Mage::getModel('Magento_GiftMessage_Model_Message');
@@ -103,12 +96,12 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
                         break;
                 }
 
-                if($entity->getGiftMessageId()) {
+                if ($entity->getGiftMessageId()) {
                     $giftMessage->load($entity->getGiftMessageId());
                 }
 
-                if(trim($message['message'])=='') {
-                    if($giftMessage->getId()) {
+                if (trim($message['message'])=='') {
+                    if ($giftMessage->getId()) {
                         try{
                             $giftMessage->delete();
                             $entity->setGiftMessageId(0)
@@ -149,11 +142,11 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
             return $this;
         }
 
-        if (!Mage::helper('Magento_GiftMessage_Helper_Message')->isMessagesAvailable('order', $order, $order->getStore())){
+        if (!$this->_giftMessageMessage->isMessagesAvailable('order', $order, $order->getStore())) {
             return $this;
         }
         $giftMessageId = $order->getGiftMessageId();
-        if($giftMessageId) {
+        if ($giftMessageId) {
             $giftMessage = Mage::getModel('Magento_GiftMessage_Model_Message')->load($giftMessageId)
                 ->setId(null)
                 ->save();
@@ -179,7 +172,7 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
             return $this;
         }
 
-        $isAvailable = Mage::helper('Magento_GiftMessage_Helper_Message')->isMessagesAvailable(
+        $isAvailable = $this->_giftMessageMessage->isMessagesAvailable(
             'order_item',
             $orderItem,
             $orderItem->getStoreId()

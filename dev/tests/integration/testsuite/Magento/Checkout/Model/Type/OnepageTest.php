@@ -29,7 +29,7 @@ class Magento_Checkout_Model_Type_OnepageTest extends PHPUnit_Framework_TestCase
         /** @var Magento_Sales_Model_Resource_Quote_Collection $quoteCollection */
         $quoteCollection = Mage::getModel('Magento_Sales_Model_Resource_Quote_Collection');
         /** @var Magento_Sales_Model_Quote $quote */
-        $quote = $quoteCollection->getFirstItem();
+        $quote = $quoteCollection->getLastItem();
 
         $model->setQuote($quote);
         $model->saveBilling($customerData, null);

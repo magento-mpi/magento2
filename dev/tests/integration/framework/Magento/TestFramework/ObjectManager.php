@@ -75,4 +75,15 @@ class Magento_TestFramework_ObjectManager extends Magento_Core_Model_ObjectManag
             $this->configure($configData);
         }
     }
+
+    /**
+     * Set objectManager
+     *
+     * @param Magento_ObjectManager $objectManager
+     * @return Magento_ObjectManager
+     */
+    public static function setInstance(Magento_ObjectManager $objectManager)
+    {
+        return self::$_instance = $objectManager;
+    }
 }

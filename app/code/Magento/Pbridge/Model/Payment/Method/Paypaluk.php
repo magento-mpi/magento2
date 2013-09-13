@@ -47,13 +47,29 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
     protected $_proType = 'Magento_Pbridge_Model_Payment_Method_Paypaluk_Pro';
 
     /**
+     * Pbridge data
+     *
+     * @var Magento_Pbridge_Helper_Data
+     */
+    protected $_pbridgeData = null;
+
+    /**
      * Constructor
      *
-     * @param array $params
+     * @param Magento_Pbridge_Helper_Data $pbridgeData
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param array $data
      */
-    public function __construct($params = array())
-    {
-        parent::__construct($params);
+    public function __construct(
+        Magento_Pbridge_Helper_Data $pbridgeData,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Payment_Helper_Data $paymentData,
+        array $data = array()
+    ) {
+        $this->_pbridgeData = $pbridgeData;
+        parent::__construct($eventManager, $moduleList, $paymentData, $data);
         $this->_pro->setPaymentMethod($this);
     }
 
@@ -75,7 +91,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = $this->_paymentData->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
         }
         return $this->_pbridgeMethodInstance;
@@ -274,7 +290,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
     public function setStore($store)
     {
         $this->setData('store', $store);
-        Mage::helper('Magento_Pbridge_Helper_Data')->setStoreId(is_object($store) ? $store->getId() : $store);
+        $this->_pbridgeData->setStoreId(is_object($store) ? $store->getId() : $store);
         parent::setStore($store);
 
         return $this;

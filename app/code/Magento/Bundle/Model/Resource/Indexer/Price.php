@@ -21,7 +21,8 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
     /**
      * Reindex temporary (price result data) for all products
      *
-     * @return Magento_Bundle_Model_Resource_Indexer_Price
+     * @return $this|Magento_Catalog_Model_Resource_Product_Indexer_Price_Default
+     * @throws Exception
      */
     public function reindexAll()
     {
@@ -168,7 +169,7 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
         // add enable products limitation
         $statusCond = $write->quoteInto('=?', Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
         $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id', $statusCond, true);
-        if (Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Magento_Tax')) {
+        if ($this->_coreData->isModuleEnabled('Magento_Tax')) {
             $taxClassId = $this->_addAttributeToSelect($select, 'tax_class_id', 'e.entity_id', 'cs.store_id');
         } else {
             $taxClassId = new Zend_Db_Expr('0');
@@ -272,7 +273,7 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
         /**
          * Add additional external limitation
          */
-        Mage::dispatchEvent('catalog_product_prepare_index_select', array(
+        $this->_eventManager->dispatch('catalog_product_prepare_index_select', array(
             'select'        => $select,
             'entity_field'  => new Zend_Db_Expr('e.entity_id'),
             'website_field' => new Zend_Db_Expr('cw.website_id'),
@@ -544,7 +545,7 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
                 'i.website_id = wd.website_id',
                 array()
             );
-        Mage::dispatchEvent('prepare_catalog_product_price_index_table', array(
+        $this->_eventManager->dispatch('prepare_catalog_product_price_index_table', array(
             'index_table'       => array('i' => $this->_getBundlePriceTable()),
             'select'            => $select,
             'entity_id'         => 'i.entity_id',

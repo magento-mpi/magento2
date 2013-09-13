@@ -24,7 +24,7 @@ class Magento_Review_Model_Resource_Review_Summary_Collection extends Magento_Da
     protected $_summaryTable;
 
     /**
-     * @param Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(

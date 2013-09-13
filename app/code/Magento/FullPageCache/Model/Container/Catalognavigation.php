@@ -14,27 +14,6 @@
 class Magento_FullPageCache_Model_Container_Catalognavigation extends Magento_FullPageCache_Model_Container_Abstract
 {
     /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_FullPageCache_Model_Cache $fpcCache
-     * @param Magento_FullPageCache_Model_Container_Placeholder $placeholder
-     * @param Magento_Core_Model_Registry $coreRegistry
-     */
-    public function __construct(
-        Magento_FullPageCache_Model_Cache $fpcCache,
-        Magento_FullPageCache_Model_Container_Placeholder $placeholder,
-        Magento_Core_Model_Registry $coreRegistry
-    ) {
-        $this->_coreRegistry = $coreRegistry;
-        parent::__construct($fpcCache, $placeholder);
-    }
-
-    /**
      * @return string
      */
     protected function _getBlockCacheId()
@@ -133,7 +112,7 @@ class Magento_FullPageCache_Model_Container_Catalognavigation extends Magento_Fu
             $this->_coreRegistry->register('current_category', $category);
         }
 
-        Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+        $this->_eventManager->dispatch('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
 
         return $block->toHtml();
     }

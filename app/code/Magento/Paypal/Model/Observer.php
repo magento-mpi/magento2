@@ -22,13 +22,33 @@ class Magento_Paypal_Model_Observer
      * @var Magento_Core_Model_Registry
      */
     protected $_coreRegistry = null;
+    
+    /**
+     * Paypal hss
+     *
+     * @var Magento_Paypal_Helper_Hss
+     */
+    protected $_paypalHss = null;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Paypal_Helper_Hss $paypalHss
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Paypal_Helper_Hss $paypalHss,
         Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_coreData = $coreData;
+        $this->_paypalHss = $paypalHss;
         $this->_coreRegistry = $coreRegistry;
     }
 
@@ -93,10 +113,10 @@ class Magento_Paypal_Model_Observer
 
         if ($order && $order->getId()) {
             $payment = $order->getPayment();
-            if ($payment && in_array($payment->getMethod(), Mage::helper('Magento_Paypal_Helper_Hss')->getHssMethods())) {
+            if ($payment && in_array($payment->getMethod(), $this->_paypalHss->getHssMethods())) {
                 /* @var $controller Magento_Core_Controller_Varien_Action */
                 $controller = $observer->getEvent()->getData('controller_action');
-                $result = Mage::helper('Magento_Core_Helper_Data')->jsonDecode(
+                $result = $this->_coreData->jsonDecode(
                     $controller->getResponse()->getBody('default'),
                     Zend_Json::TYPE_ARRAY
                 );
@@ -111,7 +131,7 @@ class Magento_Paypal_Model_Observer
                     $result['redirect'] = false;
                     $result['success'] = false;
                     $controller->getResponse()->clearHeader('Location');
-                    $controller->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+                    $controller->getResponse()->setBody($this->_coreData->jsonEncode($result));
                 }
             }
         }

@@ -7,7 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Block_Adminhtml_Role_Edit_Form extends Magento_Backend_Block_Widget_Form
+/**
+ * Class Magento_Webapi_Block_Adminhtml_Role_Edit_Form
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
+class Magento_Webapi_Block_Adminhtml_Role_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Prepare form container.
@@ -16,11 +21,14 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Form extends Magento_Backend_Bloc
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array(
-            'action' => $this->getUrl('*/*/save'),
-            'id' => 'edit_form',
-            'method' => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'action' => $this->getUrl('*/*/save'),
+                'id' => 'edit_form',
+                'method' => 'post',
+            ))
+        );
         $form->setUseContainer(true);
         $this->setForm($form);
 

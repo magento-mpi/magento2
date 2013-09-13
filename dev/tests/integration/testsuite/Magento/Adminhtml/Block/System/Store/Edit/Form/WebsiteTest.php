@@ -36,7 +36,7 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_WebsiteTest extends PHPUnit
         }
 
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
 
         $this->_block = $layout->createBlock('Magento_Adminhtml_Block_System_Store_Edit_Form_Website');
 

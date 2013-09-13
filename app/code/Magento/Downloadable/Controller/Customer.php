@@ -25,7 +25,7 @@ class Magento_Downloadable_Controller_Customer extends Magento_Core_Controller_F
     {
         parent::preDispatch();
         $action = $this->getRequest()->getActionName();
-        $loginUrl = Mage::helper('Magento_Customer_Helper_Data')->getLoginUrl();
+        $loginUrl = $this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl();
 
         if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this, $loginUrl)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);

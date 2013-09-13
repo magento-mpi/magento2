@@ -19,26 +19,4 @@
             </rating_setup>
         </resources>
     </global>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Rating>
-                    <files>
-                        <default>Magento_Rating.csv</default>
-                    </files>
-                </Magento_Rating>
-            </modules>
-        </translate>
-    </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Rating>
-                    <files>
-                        <default>Magento_Rating.csv</default>
-                    </files>
-                </Magento_Rating>
-            </modules>
-        </translate>
-    </adminhtml>
-</config>
+</config>

@@ -16,10 +16,35 @@
  */
 class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions
     extends Magento_Adminhtml_Block_Catalog_Category_Abstract
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
 
     protected $_template = 'catalog/category/tab/permissions.phtml';
+
+    /**
+     * Catalog permissions data
+     *
+     * @var Magento_CatalogPermissions_Helper_Data
+     */
+    protected $_catalogPermData = null;
+
+    /**
+     * @param Magento_CatalogPermissions_Helper_Data $catalogPermData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_CatalogPermissions_Helper_Data $catalogPermData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_catalogPermData = $catalogPermData;
+        parent::__construct($coreData, $context, $registry, $data);
+    }
 
     /**
      * Prepare layout
@@ -73,7 +98,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
             $config = array_merge($additionalConfig, $config);
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
+        return $this->_coreData->jsonEncode($config);
     }
 
     /**
@@ -128,7 +153,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
         $groups   = Mage::getModel('Magento_Customer_Model_Group')->getCollection()->getAllIds();
 
         /* @var $helper Magento_CatalogPermissions_Helper_Data */
-        $helper   = Mage::helper('Magento_CatalogPermissions_Helper_Data');
+        $helper   = $this->_catalogPermData;
 
         $parent = (string)Magento_CatalogPermissions_Model_Permission::PERMISSION_PARENT;
         $allow  = (string)Magento_CatalogPermissions_Model_Permission::PERMISSION_ALLOW;

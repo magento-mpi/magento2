@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Adminhtml_Block_Widget_Grid
+class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Backend_Block_Widget_Grid_Extended
 {
     /**
      * Core registry
@@ -18,6 +18,7 @@ class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Adminhtml_
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Core_Helper_Data $coreHelper
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
@@ -25,6 +26,7 @@ class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Adminhtml_
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreHelper,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
@@ -32,7 +34,7 @@ class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Adminhtml_
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $storeManager, $urlModel, $data);
+        parent::__construct($coreHelper, $context, $storeManager, $urlModel, $data);
     }
 
     protected function _construct()
@@ -108,10 +110,10 @@ class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Adminhtml_
         $uRoles = $this->_coreRegistry->registry('api_user')->getRoles();
         if ($json) {
             $jsonRoles = Array();
-            foreach ($uRoles as $usrId) {
-                $jsonRoles[$usrId] = 0;
+            foreach ($uRoles as $urid) {
+                $jsonRoles[$urid] = 0;
             }
-            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode((object)$jsonRoles);
+            return $this->_coreData->jsonEncode((object)$jsonRoles);
         } else {
             return $uRoles;
         }

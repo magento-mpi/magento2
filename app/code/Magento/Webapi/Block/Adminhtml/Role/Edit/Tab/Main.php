@@ -9,8 +9,10 @@
  *
  * @method Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main setApiRole(Magento_Webapi_Model_Acl_Role $role)
  * @method Magento_Webapi_Model_Acl_Role getApiRole()
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Magento_Backend_Block_Widget_Form
+class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Prepare Form.
@@ -19,7 +21,8 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Magento_Backend_
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend' => __('Role Information'))

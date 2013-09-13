@@ -13,7 +13,6 @@
  */
 class Magento_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Product_Abstract
 {
-
     /**
      * Return gift registry form header
      */
@@ -29,9 +28,9 @@ class Magento_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Pr
      */
     public function getItemCollection()
     {
-         if (!$this->hasItemCollection()) {
-             $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
-             $collection = Mage::getModel('Magento_GiftRegistry_Model_Item')->getCollection()
+        if (!$this->hasItemCollection()) {
+            $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
+            $collection = Mage::getModel('Magento_GiftRegistry_Model_Item')->getCollection()
                 ->addRegistryFilter($this->getEntity()->getId());
             $this->setData('item_collection', $collection);
         }
@@ -122,6 +121,6 @@ class Magento_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Pr
     {
         $product = $item->getProduct();
         $product->setCustomOptions($item->getOptionsByCode());
-        return Mage::helper('Magento_Core_Helper_Data')->currency($product->getFinalPrice(),true,true);
+        return $this->_coreData->currency($product->getFinalPrice(), true, true);
     }
 }

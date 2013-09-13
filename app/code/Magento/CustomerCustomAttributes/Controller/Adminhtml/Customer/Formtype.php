@@ -248,7 +248,8 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Formtype ex
                 $formType->setLabel($request->getPost('label'));
                 $formType->save();
 
-                $treeData = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($request->getPost('form_type_data'));
+                $treeData = $this->_objectManager->get('Magento_Core_Helper_Data')
+                    ->jsonDecode($request->getPost('form_type_data'));
                 if (!empty($treeData) && is_array($treeData)) {
                     $this->_saveTreeData($formType, $treeData);
                 }

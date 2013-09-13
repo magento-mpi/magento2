@@ -188,7 +188,6 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Collection extends Magento_Cor
      * Specify exclude attribute set filter
      *
      * @param $setId
-     * @internal param array $setIds
      * @return Magento_Eav_Model_Resource_Entity_Attribute_Collection
      */
     public function setExcludeSetFilter($setId)

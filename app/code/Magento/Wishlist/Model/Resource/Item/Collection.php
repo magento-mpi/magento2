@@ -75,6 +75,39 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     protected $_isProductNameJoined = false;
 
     /**
+     * Adminhtml sales
+     *
+     * @var Magento_Adminhtml_Helper_Sales
+     */
+    protected $_adminhtmlSales = null;
+
+    /**
+     * Catalog inventory data
+     *
+     * @var Magento_CatalogInventory_Helper_Data
+     */
+    protected $_inventoryData = null;
+
+    /**
+     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
+     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Wishlist_Model_Resource_Item $resource
+     */
+    public function __construct(
+        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
+        Magento_Adminhtml_Helper_Sales $adminhtmlSales,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Wishlist_Model_Resource_Item $resource
+    ) {
+        $this->_inventoryData = $catalogInventoryData;
+        $this->_adminhtmlSales = $adminhtmlSales;
+        parent::__construct($eventManager, $fetchStrategy, $resource);
+    }
+
+    /**
      * Initialize resource model for collection
      *
      * @return void
@@ -170,14 +203,14 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
             ->addUrlRewrite();
 
         if ($this->_productSalable) {
-            $productCollection = Mage::helper('Magento_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($productCollection);
+            $productCollection = $this->_adminhtmlSales->applySalableProductTypesFilter($productCollection);
         }
 
-        Mage::dispatchEvent('wishlist_item_collection_products_after_load', array(
+        $this->_eventManager->dispatch('wishlist_item_collection_products_after_load', array(
             'product_collection' => $productCollection
         ));
 
-        $checkInStock = $this->_productInStock && !Mage::helper('Magento_CatalogInventory_Helper_Data')->isShowOutOfStock();
+        $checkInStock = $this->_productInStock && !$this->_inventoryData->isShowOutOfStock();
 
         foreach ($this as $item) {
             $product = $productCollection->getItemById($item->getProductId());

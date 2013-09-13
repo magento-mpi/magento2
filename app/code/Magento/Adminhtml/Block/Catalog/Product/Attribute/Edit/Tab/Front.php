@@ -16,29 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends Magento_Backend_Block_Widget_Form
+class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
-    }
-
     /**
      * @inheritdoc
      * @return $this
@@ -47,7 +27,14 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends M
     {
         $attributeObject = $this->_coreRegistry->registry('entity_attribute');
 
-        $form = new Magento_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
 
         $yesnoSource = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();;
 

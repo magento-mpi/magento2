@@ -20,28 +20,6 @@
             </multiplewishlist_setup>
         </resources>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_MultipleWishlist>
-                    <files>
-                        <default>Magento_MultipleWishlist.csv</default>
-                    </files>
-                </Magento_MultipleWishlist>
-            </modules>
-        </translate>
-    </adminhtml>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_MultipleWishlist>
-                    <files>
-                        <default>Magento_MultipleWishlist.csv</default>
-                    </files>
-                </Magento_MultipleWishlist>
-            </modules>
-        </translate>
-    </frontend>
     <default>
         <wishlist>
             <general>
@@ -49,4 +27,4 @@
             </general>
         </wishlist>
     </default>
-</config>
+</config>

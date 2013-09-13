@@ -23,11 +23,34 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
     protected $_request = null;
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Controller_Request_Http $request
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Controller_Request_Http $request
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_catalogData = $catalogData;
+        parent::__construct($catalogProduct);
         $this->_request = $request;
     }
 
@@ -120,7 +143,7 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
                         $this->_fault('invalid_data');
                     } else {
                         foreach ($row as $key => $value) {
-                            $row[$key] = Mage::helper('Magento_Catalog_Helper_Data')->stripTags($value);
+                            $row[$key] = $this->_catalogData->stripTags($value);
                         }
                         if (!empty($row['value_id'])) {
                             // map 'value_id' to 'option_type_id'
@@ -148,7 +171,7 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
     {
         foreach ($data as $key => $value) {
             if (is_string($value)) {
-                $data[$key] = Mage::helper('Magento_Catalog_Helper_Data')->stripTags($value);
+                $data[$key] = $this->_catalogData->stripTags($value);
             }
         }
 
@@ -162,7 +185,7 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
 
                 // an empty request can be set as event parameter
                 // because it is not used for options changing in observers
-                Mage::dispatchEvent(
+                $this->_eventManager->dispatch(
                     'catalog_product_prepare_save',
                     array(
                         'product' => $product,

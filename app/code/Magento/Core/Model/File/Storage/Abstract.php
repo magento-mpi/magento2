@@ -26,6 +26,33 @@ abstract class Magento_Core_Model_File_Storage_Abstract extends Magento_Core_Mod
     protected $_mediaBaseDirectory = null;
 
     /**
+     * Core file storage database
+     *
+     * @var Magento_Core_Helper_File_Storage_Database
+     */
+    protected $_coreFileStorageDb = null;
+
+    /**
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreFileStorageDb = $coreFileStorageDb;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Retrieve media base directory path
      *
      * @return string
@@ -34,7 +61,7 @@ abstract class Magento_Core_Model_File_Storage_Abstract extends Magento_Core_Mod
     {
         if (null === $this->_mediaBaseDirectory) {
             /** @var $helper Magento_Core_Helper_File_Storage_Database */
-            $helper = Mage::helper('Magento_Core_Helper_File_Storage_Database');
+            $helper = $this->_coreFileStorageDb;
             $this->_mediaBaseDirectory = $helper->getMediaBaseDir();
         }
 

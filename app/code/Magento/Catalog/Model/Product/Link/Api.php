@@ -29,8 +29,13 @@ class Magento_Catalog_Model_Product_Link_Api extends Magento_Catalog_Model_Api_R
         'grouped'       => Magento_Catalog_Model_Product_Link::LINK_TYPE_GROUPED
     );
 
-    public function __construct()
-    {
+    /**
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct
+    ) {
+        parent::__construct($catalogProduct);
         $this->_storeIdSessionField = 'product_store_id';
     }
 
@@ -285,7 +290,7 @@ class Magento_Catalog_Model_Product_Link_Api extends Magento_Catalog_Model_Api_R
      */
     protected function _initProduct($productId, $identifierType = null)
     {
-        $product = Mage::helper('Magento_Catalog_Helper_Product')->getProduct($productId, null, $identifierType);
+        $product = $this->_catalogProduct->getProduct($productId, null, $identifierType);
         if (!$product->getId()) {
             $this->_fault('product_not_exists');
         }

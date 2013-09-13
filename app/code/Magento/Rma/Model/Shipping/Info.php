@@ -25,6 +25,30 @@ class Magento_Rma_Model_Shipping_Info extends Magento_Object
     protected $_trackingInfo = array();
 
     /**
+     * Rma data
+     *
+     * @var Magento_Rma_Helper_Data
+     */
+    protected $_rmaData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Rma_Helper_Data $rmaData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Rma_Helper_Data $rmaData,
+        array $data = array()
+    ) {
+        $this->_rmaData = $rmaData;
+        parent::__construct($data);
+    }
+
+    /**
      * Generating tracking info
      *
      * @param string $hash
@@ -32,7 +56,7 @@ class Magento_Rma_Model_Shipping_Info extends Magento_Object
      */
     public function loadByHash($hash)
     {
-        $data = Mage::helper('Magento_Rma_Helper_Data')->decodeTrackingHash($hash);
+        $data = $this->_rmaData->decodeTrackingHash($hash);
 
         if (!empty($data)) {
             $this->setData($data['key'], $data['id']);
@@ -55,7 +79,7 @@ class Magento_Rma_Model_Shipping_Info extends Magento_Object
      */
     public function loadPackage($hash)
     {
-        $data = Mage::helper('Magento_Rma_Helper_Data')->decodeTrackingHash($hash);
+        $data = $this->_rmaData->decodeTrackingHash($hash);
         $package = array();
         if (!empty($data)) {
             $this->setData($data['key'], $data['id']);

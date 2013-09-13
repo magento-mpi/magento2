@@ -49,7 +49,10 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
             ->will($this->returnValue($formDependency))
         ;
 
-        $form = new Magento_Data_Form();
+        $factoryElement = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
+        $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array('create'),
+            array(), '', false);
+        $form = new Magento_Data_Form($factoryElement, $collectionFactory);
         $model = new Magento_Object();
         $block = new Magento_Object(array('layout' => $layout));
 
@@ -68,7 +71,10 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
         $layout = $this->getMock('Magento_Core_Model_Layout', array('createBlock'), array(), '', false);
         $layout->expects($this->never())->method('createBlock');
 
-        $form = new Magento_Data_Form();
+        $factoryElement = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
+        $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array('create'),
+            array(), '', false);
+        $form = new Magento_Data_Form($factoryElement, $collectionFactory);
         $model = new Magento_Object();
         $block = new Magento_Object(array('layout' => $layout));
 

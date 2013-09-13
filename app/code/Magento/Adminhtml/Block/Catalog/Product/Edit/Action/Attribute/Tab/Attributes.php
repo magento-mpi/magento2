@@ -18,7 +18,7 @@
  */
 class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes
     extends Magento_Adminhtml_Block_Catalog_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     protected function _construct()
     {
@@ -38,9 +38,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attribut
             'recurring_profile',
             'tier_price',
         ));
-        Mage::dispatchEvent('adminhtml_catalog_product_form_prepare_excluded_field_list', array('object'=>$this));
+        $this->_eventManager->dispatch('adminhtml_catalog_product_form_prepare_excluded_field_list', array(
+            'object' => $this,
+        ));
 
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset('fields', array(
             'legend' => __('Attributes'),
         ));

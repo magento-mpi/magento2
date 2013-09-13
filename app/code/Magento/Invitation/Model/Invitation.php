@@ -57,6 +57,43 @@ class Magento_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
     protected $_eventObject = 'invitation';
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Invitation data
+     *
+     * @var Magento_Invitation_Helper_Data
+     */
+    protected $_invitationData = null;
+
+    /**
+     * @param Magento_Invitation_Helper_Data $invitationData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Invitation_Model_Resource_Invitation $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Invitation_Helper_Data $invitationData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Invitation_Model_Resource_Invitation $resource,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_invitationData = $invitationData;
+        $this->_coreData = $coreData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Intialize resource
      */
     protected function _construct()
@@ -101,6 +138,7 @@ class Magento_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
     /**
      * Model before save
      *
+     * @throws Magento_Core_Exception
      * @return Magento_Invitation_Model_Invitation
      */
     protected function _beforeSave()
@@ -108,7 +146,7 @@ class Magento_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
         if (!$this->getId()) {
             // set initial data for new one
             $this->addData(array(
-                'protection_code' => Mage::helper('Magento_Core_Helper_Data')->uniqHash(),
+                'protection_code' => $this->_coreData->uniqHash(),
                 'status'          => self::STATUS_NEW,
                 'invitation_date' => $this->getResource()->formatDate(time()),
                 'store_id'        => $this->getStoreId(),
@@ -122,7 +160,8 @@ class Magento_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
                     $this->setGroupId($inviter->getGroupId());
                 }
                 if (!$this->hasGroupId()) {
-                    throw new Magento_Core_Exception(__('You need to specify a customer ID group.'), self::ERROR_INVALID_DATA);
+                    throw new Magento_Core_Exception(__('You need to specify a customer ID group.'),
+                        self::ERROR_INVALID_DATA);
                 }
             } else {
                 $this->unsetData('group_id');
@@ -167,11 +206,13 @@ class Magento_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
         $this->makeSureCanBeSent();
         $store = Mage::app()->getStore($this->getStoreId());
         $mail  = Mage::getModel('Magento_Core_Model_Email_Template');
-        $mail->setDesignConfig(array('area' => Magento_Core_Model_App_Area::AREA_FRONTEND, 'store' => $this->getStoreId()))
-            ->sendTransactional(
+        $mail->setDesignConfig(array(
+            'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
+            'store' => $this->getStoreId()
+        ))->sendTransactional(
                 $store->getConfig(self::XML_PATH_EMAIL_TEMPLATE), $store->getConfig(self::XML_PATH_EMAIL_IDENTITY),
                 $this->getEmail(), null, array(
-                    'url'           => Mage::helper('Magento_Invitation_Helper_Data')->getInvitationUrl($this),
+                    'url'           => $this->_invitationData->getInvitationUrl($this),
                     'allow_message' => Mage::app()->getStore()->isAdmin()
                         || Mage::getSingleton('Magento_Invitation_Model_Config')->isInvitationMessageAllowed(),
                     'message'       => $this->getMessage(),
@@ -221,7 +262,8 @@ class Magento_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
     public function makeSureCanBeSent()
     {
         if (!$this->getId()) {
-            throw new Magento_Core_Exception(__("We couldn't find an ID for this invitation."), self::ERROR_INVALID_DATA);
+            throw new Magento_Core_Exception(__("We couldn't find an ID for this invitation."),
+                self::ERROR_INVALID_DATA);
         }
         if ($this->getStatus() !== self::STATUS_NEW) {
             throw new Magento_Core_Exception(
@@ -229,7 +271,8 @@ class Magento_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
             );
         }
         if (!$this->getEmail() || !Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
-            throw new Magento_Core_Exception(__('Please correct the invalid or empty invitation email.'), self::ERROR_INVALID_DATA);
+            throw new Magento_Core_Exception(__('Please correct the invalid or empty invitation email.'),
+                self::ERROR_INVALID_DATA);
         }
         $this->makeSureCustomerNotExists();
     }
@@ -258,7 +301,8 @@ class Magento_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
 
         // lookup customer by specified email/website id
         if (!isset(self::$_customerExistsLookup[$email]) || !isset(self::$_customerExistsLookup[$email][$websiteId])) {
-            $customer = Mage::getModel('Magento_Customer_Model_Customer')->setWebsiteId($websiteId)->loadByEmail($email);
+            $customer = Mage::getModel('Magento_Customer_Model_Customer')
+                ->setWebsiteId($websiteId)->loadByEmail($email);
             self::$_customerExistsLookup[$email][$websiteId] = ($customer->getId() ? $customer->getId() : false);
         }
         if (false === self::$_customerExistsLookup[$email][$websiteId]) {
