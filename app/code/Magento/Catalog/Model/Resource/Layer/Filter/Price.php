@@ -165,19 +165,6 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Price extends Magento_Core_Mod
         $response = new Magento_Object();
         $response->setAdditionalCalculations(array());
 
-        // prepare event arguments
-        $eventArgs = array(
-            'select'          => $select,
-            'table'           => $this->_getIndexTableAlias(),
-            'store_id'        => $filter->getStoreId(),
-            'response_object' => $response
-        );
-
-        /**
-         * @since 1.4
-         */
-        $this->_eventManager->dispatch('catalog_prepare_price_select', $eventArgs);
-
         return $response;
     }
 
