@@ -11,9 +11,6 @@
     <event name="catalog_product_prepare_save">
         <observer name="bundle_observer" instance="Magento_Bundle_Model_Observer" method="prepareProductSave" />
     </event>
-    <event name="sales_convert_quote_item_to_order_item">
-        <observer name="bundle_observer" instance="Magento_Bundle_Model_Observer" method="appendBundleSelectionData" />
-    </event>
     <event name="catalog_model_product_duplicate">
         <observer name="bundle_observer" instance="Magento_Bundle_Model_Observer" method="duplicateProduct" />
     </event>
@@ -23,4 +20,4 @@
     <event name="catalog_product_new_action">
         <observer name="bundle_observer" instance="Magento_Bundle_Model_Observer" method="setAttributeTabBlock" />
     </event>
-</config>
+</config>
