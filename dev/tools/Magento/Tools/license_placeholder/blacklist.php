@@ -51,4 +51,5 @@ return array(
     'pub/lib/head.load.min.js',
     'pub/media',
     'var',
+    'dev/tools/Magento/Tools/I18n/Zend',
 );
