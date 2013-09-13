@@ -25,8 +25,8 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
         Magento_Backend_Controller_Context $context,
         Magento_Core_Model_Registry $registry
     ) {
-        parent::__construct($context);
         $this->_registry = $registry;
+        parent::__construct($context);
     }
 
     /**

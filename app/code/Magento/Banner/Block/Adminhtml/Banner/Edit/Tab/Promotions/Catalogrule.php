@@ -36,8 +36,8 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
         $this->_registry = $registry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
         $this->setCollection($ruleCollection);
     }
 

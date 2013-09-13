@@ -43,8 +43,8 @@ class Magento_Banner_Block_Adminhtml_Promo_Catalogrule_Edit_Tab_Banners_Grid
         Magento_Banner_Model_BannerFactory $bannerFactory,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
         $this->_registry = $registry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
         $this->_bannerFactory = $bannerFactory;
     }
 

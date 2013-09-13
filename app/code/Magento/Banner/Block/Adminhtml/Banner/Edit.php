@@ -29,8 +29,8 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit extends Magento_Adminhtml_Block
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
         $this->_registry = $registry;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
