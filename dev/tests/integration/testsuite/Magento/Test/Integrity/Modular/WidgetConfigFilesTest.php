@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Integrity_Modular_WidgetConfigFilesTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Integrity_Modular_WidgetConfigFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var string
