@@ -20,7 +20,6 @@
             </eav_setup>
         </resources>
         <eav_frontendclasses />
-        <eav_attributes />
     </global>
     <default>
         <general>

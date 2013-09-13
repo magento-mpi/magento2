@@ -202,39 +202,6 @@
                 <tempate_filter>Magento_Catalog_Model_Template_Filter</tempate_filter>
             </content>
         </catalog>
-        <eav_attributes>
-            <catalog_product>
-                <sku>
-                    <code>sku</code>
-                    <locked_fields>
-                        <is_global />
-                        <is_unique />
-                    </locked_fields>
-                </sku>
-                <url_key>
-                    <code>url_key</code>
-                    <locked_fields>
-                        <is_unique />
-                    </locked_fields>
-                </url_key>
-                <status>
-                    <code>status</code>
-                    <locked_fields>
-                        <is_configurable />
-                        <is_filterable />
-                        <is_filterable_in_search />
-                    </locked_fields>
-                </status>
-                <visibility>
-                    <code>visibility</code>
-                    <locked_fields>
-                        <is_configurable />
-                        <is_filterable />
-                        <is_filterable_in_search />
-                    </locked_fields>
-                </visibility>
-            </catalog_product>
-        </eav_attributes>
     </global>
     <frontend>
         <default>
