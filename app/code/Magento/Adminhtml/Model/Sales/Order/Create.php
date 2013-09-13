@@ -348,7 +348,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             $quote->collectTotals();
         }
 
-        $this->_coreData->copyFieldset('sales_copy_order', 'to_edit', $order, $quote);
+        $this->_coreData->copyFieldsetToTarget('sales_copy_order', 'to_edit', $order, $quote);
 
         $this->_eventManager->dispatch('sales_convert_order_to_quote', array('order' => $order, 'quote' => $quote));
 
