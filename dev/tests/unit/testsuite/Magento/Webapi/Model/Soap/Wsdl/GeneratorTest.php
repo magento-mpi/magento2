@@ -21,6 +21,9 @@ class Magento_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_Tes
     /** @var Magento_Webapi_Model_Cache_Type */
     protected $_cacheMock;
 
+    /** @var Magento_DomDocument_Factory */
+    protected $_domDocumentFactory;
+
     protected function setUp()
     {
         $this->_soapConfigMock = $this->getMockBuilder('Magento_Webapi_Model_Soap_Config')
@@ -58,10 +61,14 @@ class Magento_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_Tes
         $this->_cacheMock->expects($this->any())->method('load')->will($this->returnValue(false));
         $this->_cacheMock->expects($this->any())->method('save')->will($this->returnValue(true));
 
+        $this->_domDocumentFactory = $this->getMockBuilder('Magento_DomDocument_Factory')
+            ->disableOriginalConstructor()->getMock();
+
         $this->_wsdlGenerator = new Magento_Webapi_Model_Soap_Wsdl_Generator(
             $this->_soapConfigMock,
             $this->_wsdlFactoryMock,
-            $this->_cacheMock
+            $this->_cacheMock,
+            $this->_domDocumentFactory
         );
 
         parent::setUp();
@@ -266,7 +273,8 @@ class Magento_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_Tes
                 array(
                     $this->_soapConfigMock,
                     $this->_wsdlFactoryMock,
-                    $this->_cacheMock
+                    $this->_cacheMock,
+                    $this->_domDocumentFactory
                 )
             )
             ->getMock();

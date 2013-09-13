@@ -87,6 +87,7 @@ class Magento_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         unset($this->_soapServer);
         unset($this->_appMock);
         unset($this->_requestMock);
+        unset($this->_domDocumentFactory);
         unset($this->_storeMock);
         unset($this->_soapHandler);
         unset($this->_storeManagerMock);
