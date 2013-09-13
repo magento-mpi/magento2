@@ -32,14 +32,22 @@ class Magento_TargetRule_Model_Actions_Condition_Product_Attributes
      *
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Rule_Model_Condition_Context $context
+     * @param Magento_Eav_Model_Config $config
+     * @param Magento_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Resource_Product $productResource
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection $attrSetCollection
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Helper_Data $backendData,
         Magento_Rule_Model_Condition_Context $context,
+        Magento_Eav_Model_Config $config,
+        Magento_Catalog_Model_Product $product,
+        Magento_Catalog_Model_Resource_Product $productResource,
+        Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection $attrSetCollection,
         array $data = array()
     ) {
-        parent::__construct($backendData, $context, $data);
+        parent::__construct($backendData, $context, $config, $product, $productResource, $attrSetCollection, $data);
         $this->setType('Magento_TargetRule_Model_Actions_Condition_Product_Attributes');
         $this->setValue(null);
         $this->setValueType(self::VALUE_TYPE_SAME_AS);

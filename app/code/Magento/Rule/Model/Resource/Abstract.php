@@ -217,6 +217,7 @@ abstract class Magento_Rule_Model_Resource_Abstract extends Magento_Core_Model_R
      *
      * @param string $entityType
      *
+     * @throws Magento_Core_Exception
      * @return array
      */
     protected function _getAssociatedEntityInfo($entityType)
@@ -225,12 +226,8 @@ abstract class Magento_Rule_Model_Resource_Abstract extends Magento_Core_Model_R
             return $this->_associatedEntitiesMap[$entityType];
         }
 
-        $e = Mage::exception(
-            'Magento_Core',
-            __(
-                'There is no information about associated entity type "%1".', $entityType
-            )
+        throw new Magento_Core_Exception(
+            __('There is no information about associated entity type "%1".', $entityType), 0
         );
-        throw $e;
     }
 }

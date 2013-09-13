@@ -19,11 +19,24 @@ class Magento_Rule_Model_Condition_Combine extends Magento_Rule_Model_Condition_
     static protected $_conditionModels = array();
 
     /**
+     * @var Magento_Rule_Model_ConditionFactory
+     */
+    protected $_conditionFactory;
+
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
     public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
+        $this->_conditionFactory = $context->getConditionFactory();
+        $this->_logger = $context->getLogger();
+
         parent::__construct($context, $data);
         $this->setType('Magento_Rule_Model_Condition_Combine')
             ->setAggregator('all')
@@ -58,7 +71,7 @@ class Magento_Rule_Model_Condition_Combine extends Magento_Rule_Model_Condition_
         }
 
         if (!array_key_exists($modelClass, self::$_conditionModels)) {
-            $model = Mage::getModel($modelClass);
+            $model = $this->_conditionFactory->create($modelClass);
             self::$_conditionModels[$modelClass] = $model;
         } else {
             $model = self::$_conditionModels[$modelClass];
@@ -121,7 +134,7 @@ class Magento_Rule_Model_Condition_Combine extends Magento_Rule_Model_Condition_
             'values' => $this->getAggregatorSelectOptions(),
             'value' => $this->getAggregator(),
             'value_name' => $this->getAggregatorName(),
-        ))->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Editable'));
+        ))->setRenderer($this->_layout->getBlockSingleton('Magento_Rule_Block_Editable'));
     }
     /* end aggregator methods */
 
@@ -235,7 +248,7 @@ class Magento_Rule_Model_Condition_Combine extends Magento_Rule_Model_Condition_
                         $cond->loadArray($condArr, $key);
                     }
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                 }
             }
         }
@@ -278,7 +291,7 @@ class Magento_Rule_Model_Condition_Combine extends Magento_Rule_Model_Condition_
             'name' => 'rule[' . $this->getPrefix() . '][' . $this->getId() . '][new_child]',
             'values' => $this->getNewChildSelectOptions(),
             'value_name' => $this->getNewChildName(),
-        ))->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Newchild'));
+        ))->setRenderer($this->_layout->getBlockSingleton('Magento_Rule_Block_Newchild'));
     }
 
     /**
