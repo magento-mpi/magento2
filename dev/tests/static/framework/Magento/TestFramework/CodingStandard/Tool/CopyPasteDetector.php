@@ -71,7 +71,7 @@ class Magento_TestFramework_CodingStandard_Tool_CopyPasteDetector
             . ' --log-pmd ' . escapeshellarg($this->_reportFile)
             . ' --min-lines 13'
             . $blackListStr
-            . ' ' .BASE_DIR;
+            . ' ' .BP;
 
         exec($command, $output, $exitCode);
 
