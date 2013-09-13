@@ -12,9 +12,6 @@ class Magento_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     /** @var Magento_Webapi_Model_Soap_Server */
     protected $_soapServer;
 
-    /** @var Magento_Core_Model_App */
-    protected $_appMock;
-
     /** @var Magento_Core_Model_Store */
     protected $_storeMock;
 
@@ -50,9 +47,6 @@ class Magento_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
         $this->_configMock->expects($this->any())->method('getAreaFrontName')->will($this->returnValue('soap'));
 
-        $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')->disableOriginalConstructor()->getMock();
-        $this->_appMock->expects($this->any())->method('getConfig')->will($this->returnValue($this->_configMock));
-
         $this->_requestMock = $this->getMockBuilder('Magento_Webapi_Controller_Soap_Request')
             ->disableOriginalConstructor()
             ->getMock();
@@ -65,7 +59,7 @@ class Magento_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
 
         /** Init SUT. */
         $this->_soapServer = new Magento_Webapi_Model_Soap_Server(
-            $this->_appMock,
+            $this->_configMock,
             $this->_requestMock,
             $this->_domDocumentFactory,
             $this->_storeManagerMock,
@@ -78,7 +72,7 @@ class Magento_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         unset($this->_soapServer);
-        unset($this->_appMock);
+        unset($this->_configMock);
         unset($this->_requestMock);
         unset($this->_domDocumentFactory);
         unset($this->_storeMock);
