@@ -10,7 +10,7 @@
 
 namespace Magento\Adminhtml\Block\Sales\Order\Status;
 
-class Edit extends \Magento\Adminhtml\Block\Sales\Order\Status\New
+class Edit extends \Magento\Adminhtml\Block\Sales\Order\Status\NewStatus
 {
     protected function _construct()
     {

@@ -15,7 +15,7 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items\Renderer;
+namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Renderer;
 
 class Reason
     extends \Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element

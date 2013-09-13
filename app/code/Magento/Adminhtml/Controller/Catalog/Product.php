@@ -950,7 +950,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
         $this->loadLayout('popup');
         $this->_initProduct();
         $this->_addContent(
-            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Attribute\New\Product\Created')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Attribute\NewAttribute\Product\Created')
         );
         $this->renderLayout();
     }

@@ -123,12 +123,12 @@ class Config
      */
     protected function _prepareLayout()
     {
-        $this->addChild('create_empty', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('create_empty', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Create Empty'),
             'class' => 'add',
             'onclick' => 'superProduct.createEmptyProduct()'
         ));
-        $this->addChild('super_settings', '\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Settings');
+        $this->addChild('super_settings', 'Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Settings');
 
 // @todo: Remove unused code and blocks
 //        if ($this->getProduct()->getId()) {

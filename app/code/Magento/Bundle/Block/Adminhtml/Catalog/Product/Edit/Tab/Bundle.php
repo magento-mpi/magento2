@@ -41,7 +41,7 @@ class Bundle extends \Magento\Adminhtml\Block\Widget
      */
     protected function _prepareLayout()
     {
-        $this->addChild('add_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('add_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Create New Option'),
             'class' => 'add',
             'id'    => 'add_new_option',

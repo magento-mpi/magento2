@@ -30,46 +30,46 @@ class Main extends \Magento\Adminhtml\Block\Template
     {
         $setId = $this->_getSetId();
 
-        $this->addChild('group_tree', '\Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main\Tree\Group');
+        $this->addChild('group_tree', 'Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main\Tree\Group');
 
-        $this->addChild('edit_set_form', '\Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main\Formset');
+        $this->addChild('edit_set_form', 'Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main\Formset');
 
-        $this->addChild('delete_group_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('delete_group_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Delete Selected Group'),
             'onclick'   => 'editSet.submit();',
             'class'     => 'delete'
         ));
 
-        $this->addChild('add_group_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('add_group_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Add New'),
             'onclick'   => 'editSet.addGroup();',
             'class'     => 'add'
         ));
 
-        $this->addChild('back_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Back'),
             'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
             'class'     => 'back'
         ));
 
-        $this->addChild('reset_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('reset_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Reset'),
             'onclick'   => 'window.location.reload()'
         ));
 
-        $this->addChild('save_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('save_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Save Attribute Set'),
             'onclick'   => 'editSet.save();',
             'class'     => 'save'
         ));
 
-        $this->addChild('delete_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('delete_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Delete Attribute Set'),
             'onclick'   => 'deleteConfirm(\''. $this->jsQuoteEscape(__('You are about to delete all products in this set. Are you sure you want to delete this attribute set?')) . '\', \'' . $this->getUrl('*/*/delete', array('id' => $setId)) . '\')',
             'class'     => 'delete'
         ));
 
-        $this->addChild('rename_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('rename_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('New Set Name'),
             'onclick'   => 'editSet.rename()'
         ));

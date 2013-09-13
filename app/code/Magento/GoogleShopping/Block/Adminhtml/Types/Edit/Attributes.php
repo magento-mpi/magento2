@@ -30,13 +30,13 @@ class Attributes
      */
     protected function _prepareLayout()
     {
-        $this->addChild('add_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('add_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Add New Attribute'),
             'class' => 'add',
             'id'    => 'add_new_attribute',
             'on_click' => 'gContentAttribute.add()'
         ));
-        $this->addChild('delete_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('delete_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Remove'),
             'class' => 'delete delete-product-option',
             'on_click' => 'gContentAttribute.remove(event)'

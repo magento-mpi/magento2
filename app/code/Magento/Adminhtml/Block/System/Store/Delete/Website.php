@@ -26,18 +26,18 @@ class Website extends \Magento\Adminhtml\Block\Template
 
         $this->setTemplate('system/store/delete_website.phtml');
         $this->setAction($this->getUrl('*/*/deleteWebsitePost', array('website_id'=>$itemId)));
-        $this->addChild('confirm_deletion_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('confirm_deletion_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Delete Web Site'),
             'onclick'   => "deleteForm.submit()",
             'class'     => 'cancel'
         ));
         $onClick = "setLocation('".$this->getUrl('*/*/editWebsite', array('website_id'=>$itemId))."')";
-        $this->addChild('cancel_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('cancel_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Cancel'),
             'onclick'   => $onClick,
             'class'     => 'cancel'
         ));
-        $this->addChild('back_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Back'),
             'onclick'   => $onClick,
             'class'     => 'cancel'

@@ -56,8 +56,8 @@ class Form extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
 //            ->setOrder($this->getShipment()->getOrder());
 //        $this->setChild('order_info', $infoBlock);
 
-        $this->addChild('items', '\Magento\Adminhtml\Block\Sales\Order\Shipment\Create\Items');
-        $this->addChild('tracking', '\Magento\Adminhtml\Block\Sales\Order\Shipment\Create\Tracking');
+        $this->addChild('items', 'Magento\Adminhtml\Block\Sales\Order\Shipment\Create\Items');
+        $this->addChild('tracking', 'Magento\Adminhtml\Block\Sales\Order\Shipment\Create\Tracking');
 //        $paymentInfoBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Sales\Order\Payment')
 //            ->setPayment($this->getShipment()->getOrder()->getPayment());
 //        $this->setChild('payment_info', $paymentInfoBlock);

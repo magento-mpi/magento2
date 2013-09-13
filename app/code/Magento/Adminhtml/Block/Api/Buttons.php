@@ -17,18 +17,18 @@ class Buttons extends \Magento\Adminhtml\Block\Template
 
     protected function _prepareLayout()
     {
-        $this->addChild('backButton', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('backButton', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Back'),
             'onclick'   => 'window.location.href=\''.$this->getUrl('*/*/').'\'',
             'class' => 'back'
         ));
 
-        $this->addChild('resetButton', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('resetButton', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Reset'),
             'onclick'   => 'window.location.reload()'
         ));
 
-        $this->addChild('saveButton', '\Magento\Backend\Block\Widget\Button', array(
+        $this->addChild('saveButton', 'Magento\Backend\Block\Widget\Button', array(
             'label'     => __('Save Role'),
             'class' => 'save',
             'data_attribute'  => array(
@@ -38,7 +38,7 @@ class Buttons extends \Magento\Adminhtml\Block\Template
             )
         ));
 
-        $this->addChild('deleteButton', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('deleteButton', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Delete Role'),
             'onclick'   => 'deleteConfirm(\'' . __('Are you sure you want to do this?') . '\', \'' . $this->getUrl('*/*/delete', array('rid' => $this->getRequest()->getParam('rid'))) . '\')',
             'class' => 'delete'

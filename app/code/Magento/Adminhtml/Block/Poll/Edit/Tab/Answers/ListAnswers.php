@@ -38,12 +38,12 @@ class ListAnswers extends \Magento\Adminhtml\Block\Template
 
     protected function _prepareLayout()
     {
-        $this->addChild('deleteButton', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('deleteButton', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Delete'),
             'class' => 'action-delete action- delete icon-btn'
         ));
 
-        $this->addChild('addButton', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('addButton', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Add New Answer'),
             'class' => 'action-add'
         ));

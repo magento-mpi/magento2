@@ -24,7 +24,7 @@ class Add extends \Magento\Adminhtml\Block\Template
 
     protected function _prepareLayout()
     {
-        $this->addChild('save_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('save_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Save Attribute Set'),
             'class' => 'save',
             'data_attribute' => array(
@@ -33,13 +33,13 @@ class Add extends \Magento\Adminhtml\Block\Template
                 ),
             ),
         ));
-        $this->addChild('back_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Back'),
             'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
             'class' => 'back'
         ));
 
-        $this->addChild('setForm', '\Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main\Formset');
+        $this->addChild('setForm', 'Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main\Formset');
         return parent::_prepareLayout();
     }
 

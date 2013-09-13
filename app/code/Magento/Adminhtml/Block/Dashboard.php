@@ -23,15 +23,15 @@ class Dashboard extends \Magento\Adminhtml\Block\Template
 
     protected function _prepareLayout()
     {
-        $this->addChild('lastOrders', '\Magento\Adminhtml\Block\Dashboard\Orders\Grid');
+        $this->addChild('lastOrders', 'Magento\Adminhtml\Block\Dashboard\Orders\Grid');
 
-        $this->addChild('totals', '\Magento\Adminhtml\Block\Dashboard\Totals');
+        $this->addChild('totals', 'Magento\Adminhtml\Block\Dashboard\Totals');
 
-        $this->addChild('sales', '\Magento\Adminhtml\Block\Dashboard\Sales');
+        $this->addChild('sales', 'Magento\Adminhtml\Block\Dashboard\Sales');
 
-        $this->addChild('lastSearches', '\Magento\Adminhtml\Block\Dashboard\Searches\Last');
+        $this->addChild('lastSearches', 'Magento\Adminhtml\Block\Dashboard\Searches\Last');
 
-        $this->addChild('topSearches', '\Magento\Adminhtml\Block\Dashboard\Searches\Top');
+        $this->addChild('topSearches', 'Magento\Adminhtml\Block\Dashboard\Searches\Top');
 
         if (\Mage::getStoreConfig(self::XML_PATH_ENABLE_CHARTS)) {
             $block = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Dashboard\Diagrams');
@@ -42,7 +42,7 @@ class Dashboard extends \Magento\Adminhtml\Block\Template
         }
         $this->setChild('diagrams', $block);
 
-        $this->addChild('grids', '\Magento\Adminhtml\Block\Dashboard\Grids');
+        $this->addChild('grids', 'Magento\Adminhtml\Block\Dashboard\Grids');
 
         parent::_prepareLayout();
     }

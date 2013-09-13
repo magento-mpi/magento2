@@ -55,7 +55,7 @@ class Form extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
            ->setOrder($this->getInvoice()->getOrder());
        $this->setChild('order_info', $infoBlock);
 */
-     /*  $this->addChild('items', '\Magento\Adminhtml\Block\Sales\Order\Invoice\Create\Items');
+     /*  $this->addChild('items', 'Magento\Adminhtml\Block\Sales\Order\Invoice\Create\Items');
         */
         $trackingBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Sales\Order\Invoice\Create\Tracking');
        //$this->setChild('order_tracking', $trackingBlock);

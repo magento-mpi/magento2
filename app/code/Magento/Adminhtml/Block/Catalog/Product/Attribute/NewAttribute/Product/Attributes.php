@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\New\Product;
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\NewAttribute\Product;
 
 class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
 {

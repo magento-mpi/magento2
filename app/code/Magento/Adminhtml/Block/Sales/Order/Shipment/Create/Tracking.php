@@ -26,7 +26,7 @@ class Tracking extends \Magento\Adminhtml\Block\Template
      */
     protected function _prepareLayout()
     {
-        $this->addChild('add_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('add_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'   => __('Add Tracking Number'),
             'class'   => '',
             'onclick' => 'trackingControl.add()'

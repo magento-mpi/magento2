@@ -29,23 +29,23 @@ class Backup extends \Magento\Adminhtml\Block\Template
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $this->addChild('createButton', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('createButton', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Database Backup'),
             'onclick' => "return backup.backup('" . \Magento\Backup\Helper\Data::TYPE_DB . "')",
             'class'  => 'task'
         ));
-        $this->addChild('createSnapshotButton', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('createSnapshotButton', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('System Backup'),
             'onclick' => "return backup.backup('" . \Magento\Backup\Helper\Data::TYPE_SYSTEM_SNAPSHOT . "')",
             'class'  => ''
         ));
-        $this->addChild('createMediaBackupButton', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('createMediaBackupButton', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Database and Media Backup'),
             'onclick' => "return backup.backup('" . \Magento\Backup\Helper\Data::TYPE_MEDIA . "')",
             'class'  => ''
         ));
 
-        $this->addChild('dialogs', '\Magento\Adminhtml\Block\Backup\Dialogs');
+        $this->addChild('dialogs', 'Magento\Adminhtml\Block\Backup\Dialogs');
     }
 
     public function getCreateButtonHtml()

@@ -24,7 +24,7 @@ class Row
 
     protected function _prepareLayout()
     {
-        $this->addChild('delete_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('delete_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             //'label' => __('Remove Permission'),
             'class' => 'delete' . ($this->isReadonly() ? ' disabled' : ''),
             'disabled' => $this->isReadonly(),

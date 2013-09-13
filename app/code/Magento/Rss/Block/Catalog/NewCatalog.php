@@ -17,7 +17,7 @@
  */
 namespace Magento\Rss\Block\Catalog;
 
-class New extends \Magento\Rss\Block\Catalog\AbstractCatalog
+class NewCatalog extends \Magento\Rss\Block\Catalog\AbstractCatalog
 {
     protected function _construct()
     {
@@ -116,7 +116,7 @@ getFinalPrice() - used in shopping cart calculations
 
         $product->setAllowedInRss(true);
         $product->setAllowedPriceInRss(true);
-        \Mage::dispatchEvent('rss_catalog_new_xml_callback', $args);
+        \Mage::dispatchEvent('rss_catalog_newcatalog_xml_callback', $args);
 
         if (!$product->getAllowedInRss()) {
             //Skip adding product to RSS

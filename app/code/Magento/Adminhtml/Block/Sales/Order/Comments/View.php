@@ -38,7 +38,7 @@ class View extends \Magento\Adminhtml\Block\Template
      */
     protected function _prepareLayout()
     {
-        $this->addChild('submit_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('submit_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'id'      => 'submit_comment_button',
             'label'   => __('Submit Comment'),
             'class'   => 'save'

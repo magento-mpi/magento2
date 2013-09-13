@@ -25,7 +25,7 @@ class Magento_TestFramework_Helper_Config
         $moduleList = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\ModuleListInterface');
         foreach ($moduleList->getModules() as $module) {
-            $result[] = $module['name'];
+            $result[] = str_replace('_','\\',$module['name']);
         }
         return $result;
     }

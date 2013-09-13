@@ -17,7 +17,7 @@
  */
 namespace Magento\Rss\Block\Order;
 
-class New extends \Magento\Core\Block\AbstractBlock
+class NewOrder extends \Magento\Core\Block\AbstractBlock
 {
     protected function _toHtml()
     {

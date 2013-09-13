@@ -27,13 +27,13 @@ class Attribute
      */
     protected function _prepareLayout()
     {
-        $this->addChild('add_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('add_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Add Attribute'),
             'class' => 'action-add',
             'id'    => $this->getFieldPrefix() . '_add_new_attribute'
         ));
 
-        $this->addChild('delete_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('delete_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Delete Attribute'),
             'class' => 'action-delete delete-attribute-option'
         ));
