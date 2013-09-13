@@ -24,7 +24,7 @@ class Magento_Sales_Block_Order_Print_InvoiceTest extends PHPUnit_Framework_Test
 
         $layout = Mage::getModel('Magento\Core\Model\Layout');
         $block = $layout->createBlock('Magento\Sales\Block\Order\Print\Invoice', 'block');
-        $childBlock = $layout->addBlock('\Magento\Core\Block\Text', 'invoice_totals', 'block');
+        $childBlock = $layout->addBlock('Magento\Core\Block\Text', 'invoice_totals', 'block');
 
         $expectedHtml = '<b>Any html</b>';
         $invoice = Mage::getModel('Magento\Sales\Model\Order\Invoice');

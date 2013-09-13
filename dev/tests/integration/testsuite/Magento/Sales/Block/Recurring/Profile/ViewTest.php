@@ -54,9 +54,9 @@ class Magento_Sales_Block_Recurring_Profile_ViewTest extends PHPUnit_Framework_T
     public function testToHtmlPropagatesUrl()
     {
         $this->_block->setShouldPrepareInfoTabs(true);
-        $childOne = $this->_layout->addBlock('\Magento\Core\Block\Text', 'child1', 'block');
+        $childOne = $this->_layout->addBlock('Magento\Core\Block\Text', 'child1', 'block');
         $this->_layout->addToParentGroup('child1', 'info_tabs');
-        $childTwo = $this->_layout->addBlock('\Magento\Core\Block\Text', 'child2', 'block');
+        $childTwo = $this->_layout->addBlock('Magento\Core\Block\Text', 'child2', 'block');
         $this->_layout->addToParentGroup('child2', 'info_tabs');
 
         $this->assertEmpty($childOne->getViewUrl());

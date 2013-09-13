@@ -19,10 +19,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_AddTest exte
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = Mage::getModel('Magento\Core\Model\Layout');
 
-        $block = $layout->addBlock('\Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar\Add', 'block');
+        $block = $layout->addBlock('Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar\Add', 'block');
         $block->setArea('adminhtml')->unsetChild('setForm');
 
-        $childBlock = $layout->addBlock('\Magento\Core\Block\Template', 'setForm', 'block');
+        $childBlock = $layout->addBlock('Magento\Core\Block\Template', 'setForm', 'block');
         $form = new \Magento\Object();
         $childBlock->setForm($form);
 

@@ -28,7 +28,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_MainTest extends PHPUnit_Fram
         Mage::register('current_promo_quote_rule', $objectManager->create('Magento\SalesRule\Model\Rule'));
 
         $layout = $objectManager->create('Magento\Core\Model\Layout');
-        $block = $layout->addBlock('\Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Main');
+        $block = $layout->addBlock('Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Main');
         $prepareFormMethod = new ReflectionMethod(
             '\Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Main', '_prepareForm'
         );

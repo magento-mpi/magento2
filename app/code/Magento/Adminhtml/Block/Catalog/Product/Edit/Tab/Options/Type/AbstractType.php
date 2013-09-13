@@ -25,7 +25,7 @@ class AbstractType extends \Magento\Adminhtml\Block\Widget
     protected function _prepareLayout()
     {
         $this->setChild('option_price_type',
-            $this->getLayout()->addBlock('\Magento\Adminhtml\Block\Html\Select', '', $this->getNameInLayout())
+            $this->getLayout()->addBlock('Magento\Adminhtml\Block\Html\Select', '', $this->getNameInLayout())
                 ->setData(array(
                     'id' => 'product_option_${option_id}_price_type',
                     'class' => 'select product-option-price-type'

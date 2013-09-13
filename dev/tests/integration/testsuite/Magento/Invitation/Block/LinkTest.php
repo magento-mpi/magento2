@@ -30,7 +30,7 @@ class Magento_Invitation_Block_LinkTest extends PHPUnit_Framework_TestCase
     {
         $layout = Mage::app()->getLayout();
         $this->_block->setLayout($layout);
-        $layout->addBlock('\Magento\Page\Block\Template\Links', 'account.links');
+        $layout->addBlock('Magento\Page\Block\Template\Links', 'account.links');
 
         /* @var \Magento\Page\Block\Template\Links $links */
         $links = $layout->getBlock('account.links');

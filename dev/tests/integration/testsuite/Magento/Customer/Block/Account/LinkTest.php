@@ -27,7 +27,7 @@ class Magento_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = Mage::getModel('Magento\Core\Model\Layout');
         $this->_block->setLayout($layout);
-        $layout->addBlock('\Magento\Page\Block\Template\Links', 'links');
+        $layout->addBlock('Magento\Page\Block\Template\Links', 'links');
         $this->_links = $layout->getBlock('links');
     }
 

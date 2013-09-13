@@ -45,10 +45,10 @@ class Magento_Core_Block_Text_ListTest extends PHPUnit_Framework_TestCase
     public function testToHtmlWithContainer()
     {
         $listName = $this->_block->getNameInLayout();
-        $block1 = $this->_layout->addBlock('\Magento\Core\Block\Text', '', $listName);
+        $block1 = $this->_layout->addBlock('Magento\Core\Block\Text', '', $listName);
         $this->_layout->addContainer('container', 'Container', array(), $listName);
-        $block2 = $this->_layout->addBlock('\Magento\Core\Block\Text', '', 'container');
-        $block3 = $this->_layout->addBlock('\Magento\Core\Block\Text', '', $listName);
+        $block2 = $this->_layout->addBlock('Magento\Core\Block\Text', '', 'container');
+        $block3 = $this->_layout->addBlock('Magento\Core\Block\Text', '', $listName);
         $block1->setText('text1');
         $block2->setText('text2');
         $block3->setText('text3');

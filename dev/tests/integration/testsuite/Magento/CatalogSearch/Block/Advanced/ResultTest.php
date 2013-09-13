@@ -46,7 +46,7 @@ class Magento_CatalogSearch_Block_Advanced_ResultTest extends PHPUnit_Framework_
         $category->setId(100500); // Any id - just for layer navigation
         Mage::getSingleton('Magento\Catalog\Model\Layer')->setCurrentCategory($category);
 
-        $childBlock = $this->_layout->addBlock('\Magento\Core\Block\Text', 'search_result_list', 'block');
+        $childBlock = $this->_layout->addBlock('Magento\Core\Block\Text', 'search_result_list', 'block');
 
         $expectedOptions = array(
             'option1' => 'Label Option 1',
@@ -60,7 +60,7 @@ class Magento_CatalogSearch_Block_Advanced_ResultTest extends PHPUnit_Framework_
     public function testSetListModes()
     {
         /** @var $childBlock \Magento\Core\Block\Text */
-        $childBlock = $this->_layout->addBlock('\Magento\Core\Block\Text', 'search_result_list', 'block');
+        $childBlock = $this->_layout->addBlock('Magento\Core\Block\Text', 'search_result_list', 'block');
         $this->assertEmpty($childBlock->getModes());
         $this->_block->setListModes();
         $this->assertNotEmpty($childBlock->getModes());
@@ -69,7 +69,7 @@ class Magento_CatalogSearch_Block_Advanced_ResultTest extends PHPUnit_Framework_
     public function testSetListCollection()
     {
         /** @var $childBlock \Magento\Core\Block\Text */
-        $childBlock = $this->_layout->addBlock('\Magento\Core\Block\Text', 'search_result_list', 'block');
+        $childBlock = $this->_layout->addBlock('Magento\Core\Block\Text', 'search_result_list', 'block');
         $this->assertEmpty($childBlock->getCollection());
         $this->_block->setListCollection();
         $this->assertInstanceOf(

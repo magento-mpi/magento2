@@ -37,10 +37,10 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_LoadTest extends PHPUnit_F
         $containerContent = 'Content in container';
 
         $parent = $this->_block->getNameInLayout();
-        $this->_layout->addBlock('\Magento\Core\Block\Text', $blockName, $parent)->setText($content);
+        $this->_layout->addBlock('Magento\Core\Block\Text', $blockName, $parent)->setText($content);
         $this->_layout->addContainer($containerName, 'Container', array(), $parent);
-        $this->_layout->addBlock('\Magento\Core\Block\Text', '', $containerName)->setText($containerContent);
-        $this->_layout->addBlock('\Magento\Core\Block\Text', $blockNameOne, $parent)->setText($contentOne);
+        $this->_layout->addBlock('Magento\Core\Block\Text', '', $containerName)->setText($containerContent);
+        $this->_layout->addBlock('Magento\Core\Block\Text', $blockNameOne, $parent)->setText($contentOne);
 
         $result = $this->_block->toHtml();
         $expectedDecoded = array(

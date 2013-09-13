@@ -24,8 +24,8 @@ class Magento_Wishlist_Block_Customer_Wishlist_Item_ColumnTest extends PHPUnit_F
     protected function setUp()
     {
         $this->_layout = Mage::getModel('Magento\Core\Model\Layout');
-        $this->_block = $this->_layout->addBlock('\Magento\Wishlist\Block\Customer\Wishlist\Item\Column', 'test');
-        $this->_layout->addBlock('\Magento\Core\Block\Text', 'child', 'test');
+        $this->_block = $this->_layout->addBlock('Magento\Wishlist\Block\Customer\Wishlist\Item\Column', 'test');
+        $this->_layout->addBlock('Magento\Core\Block\Text', 'child', 'test');
     }
 
     public function testToHtml()

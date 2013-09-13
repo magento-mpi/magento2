@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_Widget_Form_ContainerTest extends PHPUnit_Framewor
         );
 
         $layout->addBlock($block, 'block');
-        $form = $layout->addBlock('\Magento\Core\Block\Text', 'form', 'block');
+        $form = $layout->addBlock('Magento\Core\Block\Text', 'form', 'block');
 
         $expectedHtml = '<b>html</b>';
         $this->assertNotEquals($expectedHtml, $block->getFormHtml());

@@ -33,7 +33,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_TabsTest extends PHPUnit_Fram
 
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = Mage::getModel('Magento\Core\Model\Layout');
-        $layout->addBlock('\Magento\Core\Block\Text', 'head');
+        $layout->addBlock('Magento\Core\Block\Text', 'head');
         $layout->setArea('nonexisting'); // prevent block templates rendering
         /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs */
         $block = $layout->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs');

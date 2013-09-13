@@ -35,7 +35,7 @@ class Magento_Sales_Block_Order_Invoice_ItemsTest extends PHPUnit_Framework_Test
 
     public function testGetInvoiceTotalsHtml()
     {
-        $childBlock = $this->_layout->addBlock('\Magento\Core\Block\Text', 'invoice_totals', 'block');
+        $childBlock = $this->_layout->addBlock('Magento\Core\Block\Text', 'invoice_totals', 'block');
 
         $expectedHtml = '<b>Any html</b>';
         $this->assertEmpty($childBlock->getInvoice());
@@ -49,7 +49,7 @@ class Magento_Sales_Block_Order_Invoice_ItemsTest extends PHPUnit_Framework_Test
 
     public function testGetInvoiceCommentsHtml()
     {
-        $childBlock = $this->_layout->addBlock('\Magento\Core\Block\Text', 'invoice_comments', 'block');
+        $childBlock = $this->_layout->addBlock('Magento\Core\Block\Text', 'invoice_comments', 'block');
 
         $expectedHtml = '<b>Any html</b>';
         $this->assertEmpty($childBlock->getEntity());

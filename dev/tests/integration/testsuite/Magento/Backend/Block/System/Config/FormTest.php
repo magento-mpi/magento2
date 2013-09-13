@@ -24,7 +24,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
         $block = $layout->createBlock('Magento\Backend\Block\System\Config\Form', 'block');
 
         /** @var $childBlock \Magento\Core\Block\Text */
-        $childBlock = $layout->addBlock('\Magento\Core\Block\Text', 'element_dependence', 'block');
+        $childBlock = $layout->addBlock('Magento\Core\Block\Text', 'element_dependence', 'block');
 
         $expectedValue = 'dependence_html_relations';
         $this->assertNotContains($expectedValue, $block->toHtml());

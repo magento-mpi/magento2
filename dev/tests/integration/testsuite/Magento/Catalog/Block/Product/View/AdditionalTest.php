@@ -19,12 +19,12 @@ class Magento_Catalog_Block_Product_View_AdditionalTest extends PHPUnit_Framewor
         $block = $layout->createBlock('Magento\Catalog\Block\Product\View\Additional', 'block');
 
         /** @var $childFirst \Magento\Core\Block\Text */
-        $childFirst = $layout->addBlock('\Magento\Core\Block\Text', 'child1', 'block');
+        $childFirst = $layout->addBlock('Magento\Core\Block\Text', 'child1', 'block');
         $htmlFirst = '<b>Any html of child1</b>';
         $childFirst->setText($htmlFirst);
 
         /** @var $childSecond \Magento\Core\Block\Text */
-        $childSecond = $layout->addBlock('\Magento\Core\Block\Text', 'child2', 'block');
+        $childSecond = $layout->addBlock('Magento\Core\Block\Text', 'child2', 'block');
         $htmlSecond = '<b>Any html of child2</b>';
         $childSecond->setText($htmlSecond);
 

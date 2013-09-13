@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Widget_TabsTest extends PHPUnit_Framework_TestCase
         $layout = Mage::getModel('Magento\Core\Model\Layout');
         /** @var $block \Magento\Adminhtml\Block\Widget\Tabs */
         $block = $layout->createBlock('Magento\Adminhtml\Block\Widget\Tabs', 'block');
-        $layout->addBlock('\Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main', 'child_tab', 'block');
+        $layout->addBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main', 'child_tab', 'block');
         $block->addTab('tab_id', 'child_tab');
 
         $this->assertEquals(array('tab_id'), $block->getTabsIds());

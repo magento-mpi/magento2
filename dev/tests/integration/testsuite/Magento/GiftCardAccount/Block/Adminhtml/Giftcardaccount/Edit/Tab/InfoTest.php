@@ -98,7 +98,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTest 
             ->setDefaultDesignTheme();
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = Mage::getModel('Magento\Core\Model\Layout');
-        $block = $layout->addBlock('\Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Info');
+        $block = $layout->addBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Info');
 
         $element = $block->initForm()->getForm()->getElement('date_expires');
         $this->assertNotNull($element);

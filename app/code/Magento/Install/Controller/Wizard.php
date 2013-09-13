@@ -68,7 +68,7 @@ class Wizard extends \Magento\Install\Controller\Action
             $step->setActive(true);
         }
 
-        $this->getLayout()->addBlock('\Magento\Install\Block\State', 'install.state', 'left');
+        $this->getLayout()->addBlock('Magento\Install\Block\State', 'install.state', 'left');
         return $this;
     }
 
@@ -108,7 +108,7 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->_prepareLayout();
         $this->_initLayoutMessages('Magento\Install\Model\Session');
 
-        $this->getLayout()->addBlock('\Magento\Install\Block\Begin', 'install.begin', 'content');
+        $this->getLayout()->addBlock('Magento\Install\Block\Begin', 'install.begin', 'content');
 
         $this->renderLayout();
     }
@@ -139,7 +139,7 @@ class Wizard extends \Magento\Install\Controller\Action
 
         $this->_prepareLayout();
         $this->_initLayoutMessages('Magento\Install\Model\Session');
-        $this->getLayout()->addBlock('\Magento\Install\Block\Locale', 'install.locale', 'content');
+        $this->getLayout()->addBlock('Magento\Install\Block\Locale', 'install.locale', 'content');
 
         $this->renderLayout();
     }
@@ -190,7 +190,7 @@ class Wizard extends \Magento\Install\Controller\Action
 
         $this->_prepareLayout();
         $this->_initLayoutMessages('Magento\Install\Model\Session');
-        $this->getLayout()->addBlock('\Magento\Install\Block\Download', 'install.download', 'content');
+        $this->getLayout()->addBlock('Magento\Install\Block\Download', 'install.download', 'content');
 
         $this->renderLayout();
     }
@@ -306,7 +306,7 @@ class Wizard extends \Magento\Install\Controller\Action
 
         $this->_prepareLayout();
         $this->_initLayoutMessages('Magento\Install\Model\Session');
-        $this->getLayout()->addBlock('\Magento\Install\Block\Config', 'install.config', 'content');
+        $this->getLayout()->addBlock('Magento\Install\Block\Config', 'install.config', 'content');
 
         $this->renderLayout();
     }
@@ -376,7 +376,7 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->_prepareLayout();
         $this->_initLayoutMessages('Magento\Install\Model\Session');
 
-        $this->getLayout()->addBlock('\Magento\Install\Block\Admin', 'install.administrator', 'content');
+        $this->getLayout()->addBlock('Magento\Install\Block\Admin', 'install.administrator', 'content');
         $this->renderLayout();
     }
 
@@ -429,7 +429,7 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->_prepareLayout();
         $this->_initLayoutMessages('Magento\Install\Model\Session');
 
-        $this->getLayout()->addBlock('\Magento\Install\Block\End', 'install.end', 'content');
+        $this->getLayout()->addBlock('Magento\Install\Block\End', 'install.end', 'content');
         $this->renderLayout();
         \Mage::getSingleton('Magento\Install\Model\Session')->clear();
     }

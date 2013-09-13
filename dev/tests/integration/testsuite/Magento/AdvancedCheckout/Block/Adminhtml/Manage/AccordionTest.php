@@ -47,7 +47,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_AccordionTest extends PHPU
         // set first child - block
         $title = 'Block 1';
         $url = 'http://content.url.1/';
-        $this->_layout->addBlock('\Magento\Core\Block\Text', 'block1', $parentName)
+        $this->_layout->addBlock('Magento\Core\Block\Text', 'block1', $parentName)
             ->setHeaderText($title)
             ->setData('content_url', $url);
 
@@ -55,12 +55,12 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_AccordionTest extends PHPU
         $containerName = 'container';
         $this->_layout->addContainer($containerName, 'Container', array(), $parentName);
         $containerText = 'Block in container';
-        $this->_layout->addBlock('\Magento\Core\Block\Text', 'container_block', $containerName)->setText($containerText);
+        $this->_layout->addBlock('Magento\Core\Block\Text', 'container_block', $containerName)->setText($containerText);
 
         // set third child - block
         $titleOne = 'Block 2';
         $blockContent = 'Block 2 Text';
-        $this->_layout->addBlock('\Magento\Core\Block\Text', 'block2', $parentName)
+        $this->_layout->addBlock('Magento\Core\Block\Text', 'block2', $parentName)
             ->setHeaderText($titleOne)
             ->setText($blockContent);
 

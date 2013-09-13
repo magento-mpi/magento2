@@ -18,7 +18,7 @@ class Magento_Catalog_Block_Product_ProductList_ToolbarTest extends PHPUnit_Fram
         /** @var $block \Magento\Catalog\Block\Product\ProductList\Toolbar */
         $block = $layout->createBlock('Magento\Catalog\Block\Product\ProductList\Toolbar', 'block');
         /** @var $childBlock \Magento\Core\Block\Text */
-        $childBlock = $layout->addBlock('\Magento\Core\Block\Text', 'product_list_toolbar_pager', 'block');
+        $childBlock = $layout->addBlock('Magento\Core\Block\Text', 'product_list_toolbar_pager', 'block');
 
         $expectedHtml = '<b>Any text there</b>';
         $this->assertNotEquals($expectedHtml, $block->getPagerHtml());

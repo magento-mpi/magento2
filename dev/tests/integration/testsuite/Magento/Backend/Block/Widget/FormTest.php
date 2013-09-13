@@ -25,7 +25,7 @@ class Magento_Backend_Block_Widget_FormTest extends PHPUnit_Framework_TestCase
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
         $layout = $objectManager->create('Magento\Core\Model\Layout');
-        $formBlock = $layout->addBlock('\Magento\Backend\Block\Widget\Form');
+        $formBlock = $layout->addBlock('Magento\Backend\Block\Widget\Form');
         $fieldSet = $objectManager->create('Magento\Data\Form\Element\Fieldset');
         $arguments = array(
             'data' => array(

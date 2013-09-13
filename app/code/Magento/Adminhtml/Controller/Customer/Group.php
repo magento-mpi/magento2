@@ -65,7 +65,7 @@ class Group extends \Magento\Adminhtml\Controller\Action
 
         $this->_title($currentGroup->getId() ? $currentGroup->getCode() : __('New Customer Group'));
 
-        $this->getLayout()->addBlock('\Magento\Adminhtml\Block\Customer\Group\Edit', 'group', 'content')
+        $this->getLayout()->addBlock('Magento\Adminhtml\Block\Customer\Group\Edit', 'group', 'content')
             ->setEditMode((bool)\Mage::registry('current_group')->getId());
 
         $this->renderLayout();

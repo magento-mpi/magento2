@@ -24,7 +24,7 @@ class Magento_Adminhtml_Block_Report_Filter_FormTest extends PHPUnit_Framework_T
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
         $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
-        $block = $layout->addBlock('\Magento\Adminhtml\Block\Report\Filter\Form');
+        $block = $layout->addBlock('Magento\Adminhtml\Block\Report\Filter\Form');
         $prepareFormMethod = new ReflectionMethod(
             '\Magento\Adminhtml\Block\Report\Filter\Form', '_prepareForm');
         $prepareFormMethod->setAccessible(true);

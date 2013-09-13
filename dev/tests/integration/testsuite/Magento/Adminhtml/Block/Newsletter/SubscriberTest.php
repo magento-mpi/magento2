@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Newsletter_SubscriberTest extends PHPUnit_Framewor
         /** @var $block \Magento\Adminhtml\Block\Newsletter\Subscriber */
         $block = $layout->createBlock('Magento\Adminhtml\Block\Newsletter\Subscriber', 'block');
         /** @var $childBlock \Magento\Core\Block\Template */
-        $childBlock = $layout->addBlock('\Magento\Core\Block\Template', 'grid', 'block');
+        $childBlock = $layout->addBlock('Magento\Core\Block\Template', 'grid', 'block');
 
         $expected = 'test_data';
         $this->assertNotEquals($expected, $block->getShowQueueAdd());
