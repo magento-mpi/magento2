@@ -43,7 +43,7 @@ class Magento_Poll_Controller_Vote extends Magento_Core_Controller_Front_Action
         if ($poll->getId() && !$poll->getClosed() && !$poll->isVoted()) {
             $vote = Mage::getModel('Magento_Poll_Model_Poll_Vote')
                 ->setPollAnswerId($answerId)
-                ->setIpAddress(Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr(true))
+                ->setIpAddress($this->_objectManager->get('Magento_Core_Helper_Http')->getRemoteAddr(true))
                 ->setCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId());
 
             $poll->addVote($vote);

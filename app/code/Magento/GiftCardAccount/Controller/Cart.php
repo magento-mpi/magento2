@@ -11,6 +11,25 @@
 class Magento_GiftCardAccount_Controller_Cart extends Magento_Core_Controller_Front_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * No index action, forward to 404
      *
      */
@@ -36,7 +55,7 @@ class Magento_GiftCardAccount_Controller_Cart extends Magento_Core_Controller_Fr
                     ->loadByCode($code)
                     ->addToCart();
                 Mage::getSingleton('Magento_Checkout_Model_Session')->addSuccess(
-                    __('Gift Card "%1" was added.', Mage::helper('Magento_Core_Helper_Data')->escapeHtml($code))
+                    __('Gift Card "%1" was added.', $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($code))
                 );
             } catch (Magento_Core_Exception $e) {
                 $this->_eventManager->dispatch(
@@ -54,13 +73,14 @@ class Magento_GiftCardAccount_Controller_Cart extends Magento_Core_Controller_Fr
 
     public function removeAction()
     {
-        if ($code = $this->getRequest()->getParam('code')) {
+        $code = $this->getRequest()->getParam('code');
+        if ($code) {
             try {
                 Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount')
                     ->loadByCode($code)
                     ->removeFromCart();
                 Mage::getSingleton('Magento_Checkout_Model_Session')->addSuccess(
-                    __('Gift Card "%1" was removed.', Mage::helper('Magento_Core_Helper_Data')->escapeHtml($code))
+                    __('Gift Card "%1" was removed.', $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($code))
                 );
             } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Checkout_Model_Session')->addError(
@@ -84,11 +104,10 @@ class Magento_GiftCardAccount_Controller_Cart extends Magento_Core_Controller_Fr
         /* @var $card Magento_GiftCardAccount_Model_Giftcardaccount */
         $card = Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount')
             ->loadByCode($this->getRequest()->getParam('giftcard_code', ''));
-        Mage::register('current_giftcardaccount', $card);
+        $this->_coreRegistry->register('current_giftcardaccount', $card);
         try {
             $card->isValid(true, true, true, false);
-        }
-        catch (Magento_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $card->unsetData();
         }
 

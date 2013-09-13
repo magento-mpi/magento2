@@ -138,8 +138,8 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
      */
     protected function _initConfirmPage($simple = false)
     {
-        /** @var $helper Magento_Oauth_Helper_Data */
-        $helper = Mage::helper('Magento_Oauth_Helper_Data');
+        /** @var $oauthData Magento_Oauth_Helper_Data */
+        $oauthData = $this->_objectManager->get('Magento_Oauth_Helper_Data');
 
         /** @var $session Magento_Backend_Model_Auth_Session */
         $session = Mage::getSingleton($this->_sessionName);
@@ -148,7 +148,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
         $user = $session->getData('user');
         if (!$user) {
             $session->addError(__('Please login to proceed authorization.'));
-            $url = $helper->getAuthorizeUrl(Magento_Oauth_Model_Token::USER_TYPE_ADMIN);
+            $url = $oauthData->getAuthorizeUrl(Magento_Oauth_Model_Token::USER_TYPE_ADMIN);
             $this->_redirectUrl($url);
             return $this;
         }
@@ -165,7 +165,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
 
             $token = $server->authorizeToken($user->getId(), Magento_Oauth_Model_Token::USER_TYPE_ADMIN);
 
-            if (($callback = $helper->getFullCallbackUrl($token))) { //false in case of OOB
+            if (($callback = $oauthData->getFullCallbackUrl($token))) { //false in case of OOB
                 $this->getResponse()->setRedirect($callback . ($simple ? '&simple=1' : ''));
                 return $this;
             } else {
@@ -208,10 +208,9 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
 
         try {
             $token = $server->checkAuthorizeRequest();
-            /** @var $helper Magento_Oauth_Helper_Data */
-            $helper = Mage::helper('Magento_Oauth_Helper_Data');
-
-            if (($callback = $helper->getFullCallbackUrl($token, true))) {
+            /** @var $oauthData Magento_Oauth_Helper_Data */
+            $oauthData = $this->_objectManager->get('Magento_Oauth_Helper_Data');
+            if (($callback = $oauthData->getFullCallbackUrl($token, true))) {
                 $this->_redirectUrl($callback . ($simple ? '&simple=1' : ''));
                 return $this;
             } else {

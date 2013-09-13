@@ -17,9 +17,15 @@
  */
 class Magento_Checkout_Model_Cart_Customer_Api extends Magento_Checkout_Model_Api_Resource_Customer
 {
-    public function __construct(Magento_Api_Helper_Data $apiHelper)
-    {
-        parent::__construct($apiHelper);
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param  $apiHelper
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Api_Helper_Data $apiHelper
+    ) {
+        parent::__construct($coreData, $apiHelper);
         $this->_storeIdSessionField = "cart_store_id";
 
         $this->_attributesMap['quote'] = array('quote_id' => 'entity_id');

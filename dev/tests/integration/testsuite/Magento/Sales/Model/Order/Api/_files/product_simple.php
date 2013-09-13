@@ -29,4 +29,6 @@ $product->setTypeId('simple')
     ->save();
 // to make stock item visible from created product it should be reloaded
 $product = Mage::getModel('Magento_Catalog_Model_Product')->load($product->getId());
-Mage::register('product_simple', $product);
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+$objectManager->get('Magento_Core_Model_Registry')->register('product_simple', $product);

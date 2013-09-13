@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Info
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return $this->_coreRegistry->registry('current_order');
     }
 
     /**

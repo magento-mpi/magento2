@@ -27,17 +27,6 @@
             </indexer>
         </index>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_TargetRule>
-                    <files>
-                        <default>Magento_TargetRule.csv</default>
-                    </files>
-                </Magento_TargetRule>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <catalog>
             <magento_targetrule>
@@ -65,4 +54,4 @@
             </magento_targetrule_index_reindex>
         </jobs>
     </crontab>
-</config>
+</config>

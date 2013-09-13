@@ -18,6 +18,29 @@
 class Magento_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Link extends Magento_Adminhtml_Block_Template
 {
     /**
+     * Gift wrapping data
+     *
+     * @var Magento_GiftWrapping_Helper_Data
+     */
+    protected $_giftWrappingData = null;
+
+    /**
+     * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GiftWrapping_Helper_Data $giftWrappingData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_giftWrappingData = $giftWrappingData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get order item from parent block
      *
      * @return Magento_Sales_Model_Order_Item
@@ -35,7 +58,8 @@ class Magento_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Link extends Magen
     public function getDesign()
     {
         if ($this->getItem()->getGwId()) {
-            $wrappingModel = Mage::getModel('Magento_GiftWrapping_Model_Wrapping')->load($this->getItem()->getGwId());
+            $wrappingModel = Mage::getModel('Magento_GiftWrapping_Model_Wrapping')
+                ->load($this->getItem()->getGwId());
             if ($wrappingModel->getId()) {
                 return $this->escapeHtml($wrappingModel->getDesign());
             }
@@ -53,6 +77,6 @@ class Magento_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Link extends Magen
         $product = $this->getItem()->getProduct();
         $allowed = !$product->getTypeInstance()->isVirtual($product) && $product->getGiftWrappingAvailable();
         $storeId = $this->getItem()->getStoreId();
-        return Mage::helper('Magento_GiftWrapping_Helper_Data')->isGiftWrappingAvailableForProduct($allowed, $storeId);
+        return $this->_giftWrappingData->isGiftWrappingAvailableForProduct($allowed, $storeId);
     }
 }

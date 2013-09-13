@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_MultipleWishlist_RssTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_MultipleWishlist_RssTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * @magentoConfigFixture current_store rss/wishlist/active 1

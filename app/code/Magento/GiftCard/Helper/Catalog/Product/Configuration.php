@@ -19,10 +19,30 @@ class Magento_GiftCard_Helper_Catalog_Product_Configuration extends Magento_Core
     implements Magento_Catalog_Helper_Product_Configuration_Interface
 {
     /**
+     * Catalog product configuration
+     *
+     * @var Magento_Catalog_Helper_Product_Configuration
+     */
+    protected $_ctlgProdConfigur = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_ctlgProdConfigur = $ctlgProdConfigur;
+        parent::__construct($context);
+    }
+
+    /**
      * Prepare custom option for display, returns false if there's no value
      *
-     * @param string $code
-     * @return mixed
+     * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
+     * @param $code
+     * @return bool|mixed
      */
     public function prepareCustomOption(Magento_Catalog_Model_Product_Configuration_Item_Interface $item, $code)
     {
@@ -39,6 +59,7 @@ class Magento_GiftCard_Helper_Catalog_Product_Configuration extends Magento_Core
     /**
      * Get gift card option list
      *
+     * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
      * @return array
      */
     public function getGiftcardOptions(Magento_Catalog_Model_Product_Configuration_Item_Interface $item)
@@ -89,7 +110,7 @@ class Magento_GiftCard_Helper_Catalog_Product_Configuration extends Magento_Core
     {
         return array_merge(
             $this->getGiftcardOptions($item),
-            Mage::helper('Magento_Catalog_Helper_Product_Configuration')->getCustomOptions($item)
+            $this->_ctlgProdConfigur->getCustomOptions($item)
         );
     }
 }

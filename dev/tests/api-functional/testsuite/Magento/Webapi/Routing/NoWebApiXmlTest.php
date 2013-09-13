@@ -9,7 +9,7 @@
 /**
  * Class to test routing with a service that has no webapi.xml
  */
-class Magento_TestModule2_Service_NoWebApiXmlTestTest extends Magento_Webapi_Routing_BaseService
+class Magento_Webapi_Routing_NoWebApiXmlTest extends Magento_Webapi_Routing_BaseService
 {
     /**
      * @var string

@@ -10,7 +10,7 @@
 class Magento_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_Helper_ObjectManager
+     * @var Magento_TestFramework_Helper_ObjectManager
      */
     protected $_helper;
 
@@ -26,7 +26,7 @@ class Magento_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $this->_objectManager = $this->getMockBuilder('Magento_ObjectManager')
             ->disableOriginalConstructor()
@@ -82,13 +82,14 @@ class Magento_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCollection()
     {
+        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
         $fetchStrategy = $this->getMockForAbstractClass('Magento_Data_Collection_Db_FetchStrategyInterface');
 
         /** @var PHPUnit_Framework_MockObject_MockObject $collection */
         $collection = $this->getMock(
             'Magento_Webapi_Model_Resource_Acl_Role_Collection',
             array('_initSelect', 'setModel'),
-            array($fetchStrategy, $this->_roleService)
+            array($eventManager, $fetchStrategy, $this->_roleService)
         );
 
         $collection->expects($this->any())->method('setModel')->with('Magento_Webapi_Model_Resource_Acl_Role');

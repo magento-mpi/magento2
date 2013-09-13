@@ -42,9 +42,14 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
     protected $_layoutMock;
 
     /**
-     * @var Magento_Test_Helper_ObjectManager
+     * @var Magento_TestFramework_Helper_ObjectManager
      */
     protected $_testHelper;
+
+    /**
+     * @var Magento_Core_Model_Factory_Helper
+     */
+    protected $_helperFactoryMock;
 
     protected function setUp()
     {
@@ -55,16 +60,20 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
         $groupMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Group', array(), array(), '',
             false);
         $groupMock->expects($this->once())->method('getFieldsetCss')->will($this->returnValue('test_fieldset_css'));
+        $this->_helperFactoryMock = $this->getMock(
+            'Magento_Core_Model_Factory_Helper', array('get'), array(), '', false, false
+        );
 
         $data = array(
             'request' => $this->_requestMock,
             'urlBuilder' => $this->_urlModelMock,
             'layout' => $this->_layoutMock,
+            'helperFactory' => $this->_helperFactoryMock,
             'data' => array(
                 'group' => $groupMock
-            )
+            ),
         );
-        $this->_testHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_object = $this->_testHelper->getObject('Magento_Backend_Block_System_Config_Form_Fieldset', $data);
 
         $this->_testData = array(
@@ -101,8 +110,11 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
     {
         $helperMock = $this->getMock('Magento_Core_Helper_Js', array(), array(), '', false, false);
 
-        $this->_layoutMock->expects($this->any())->method('helper')
-            ->with('Magento_Core_Helper_Js')->will($this->returnValue($helperMock));
+        $this->_helperFactoryMock
+            ->expects($this->once())
+            ->method('get')
+            ->with('Magento_Core_Helper_Js')
+            ->will($this->returnValue($helperMock));
 
         $collection = $this->_testHelper->getObject('Magento_Data_Form_Element_Collection');
         $this->_elementMock->expects($this->any())->method('getElements')->will($this->returnValue($collection));
@@ -117,8 +129,11 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
         $helperMock = $this->getMock('Magento_Core_Helper_Js', array(), array(), '', false, false);
         $helperMock->expects($this->any())->method('getScript')->will($this->returnArgument(0));
 
-        $this->_layoutMock->expects($this->any())->method('helper')
-            ->with('Magento_Core_Helper_Js')->will($this->returnValue($helperMock));
+        $this->_helperFactoryMock
+            ->expects($this->once())
+            ->method('get')
+            ->with('Magento_Core_Helper_Js')
+            ->will($this->returnValue($helperMock));
 
         $fieldMock = $this->getMock('Magento_Data_Form_Element_Text',
             array('getId', 'getTooltip', 'toHtml'),
@@ -133,9 +148,12 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
         $fieldMock->expects($this->any())->method('getTooltip')->will($this->returnValue('test_field_tootip'));
         $fieldMock->expects($this->any())->method('toHtml')->will($this->returnValue('test_field_toHTML'));
 
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
+        $factoryColl = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array(), array(), '', false);
+        $formMock = $this->getMock('Magento_Data_Form_Abstract', array(), array($factory, $factoryColl));
         $collection = $helper->getObject('Magento_Data_Form_Element_Collection', array(
-            'container' => $this->getMock('Magento_Data_Form_Abstract')
+            'container' => $formMock
         ));
         $collection->add($fieldMock);
         $this->_elementMock->expects($this->any())->method('getElements')

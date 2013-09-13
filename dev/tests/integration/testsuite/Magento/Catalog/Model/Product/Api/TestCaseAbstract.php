@@ -33,6 +33,11 @@ abstract class Magento_Catalog_Model_Product_Api_TestCaseAbstract extends PHPUni
         )
     );
 
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Get current test suite helper if class name not specified.
      *
@@ -61,7 +66,7 @@ abstract class Magento_Catalog_Model_Product_Api_TestCaseAbstract extends PHPUni
     protected function _createProductWithErrorMessagesCheck($productData, $expectedMessages)
     {
         $formattedData = $this->_prepareProductDataForSoap($productData);
-        $exception = Magento_Test_Helper_Api::callWithException($this, 'catalogProductCreate', $formattedData);
+        $exception = Magento_TestFramework_Helper_Api::callWithException($this, 'catalogProductCreate', $formattedData);
         $this->_checkErrorMessagesInResponse($exception, $expectedMessages);
     }
 
@@ -87,7 +92,7 @@ abstract class Magento_Catalog_Model_Product_Api_TestCaseAbstract extends PHPUni
     protected function _tryToCreateProductWithApi($productData)
     {
         $formattedData = $this->_prepareProductDataForSoap($productData);
-        $response = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $formattedData);
+        $response = Magento_TestFramework_Helper_Api::call($this, 'catalogProductCreate', $formattedData);
         return $response;
     }
 

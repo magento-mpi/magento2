@@ -23,7 +23,7 @@ class Magento_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testSaveWithSingleStoreModeEnabled($groups)
     {
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         /** @var $_configDataObject Magento_Backend_Model_Config */
         $_configDataObject = Mage::getModel('Magento_Backend_Model_Config');
@@ -80,8 +80,9 @@ class Magento_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
             $_configData = $_configDataObject->setSection($group)->setWebsite('base')
                 ->load();
             if (array_key_exists('payment/payflow_link/pwd', $_configData)) {
-                $_configData['payment/payflow_link/pwd'] = Mage::helper('Magento_Core_Helper_Data')
-                    ->decrypt($_configData['payment/payflow_link/pwd']);
+                $_configData['payment/payflow_link/pwd'] =
+                    Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
+                        ->decrypt($_configData['payment/payflow_link/pwd']);
             }
             $this->assertEquals($expectedData, $_configData);
         }

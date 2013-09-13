@@ -6,10 +6,12 @@
  * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Backend_Block_Widget_Form_Generic
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Prepare form tab configuration
@@ -30,17 +32,16 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
         /*
          * Checking if user have permissions to save information
          */
-        if ($this->_isAllowedAction('Magento_Cms::save')) {
-            $isElementDisabled = false;
-        } else {
-            $isElementDisabled = true;
-        }
+        $isElementDisabled = !$this->_isAllowedAction('Magento_Cms::save');
 
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form   = $this->_formFactory->create(array(
+            'attributes' => array(
+                'html_id_prefix' => 'page_',
+            ))
+        );
 
-        $form->setHtmlIdPrefix('page_');
-
-        $model = Mage::registry('cms_page');
+        $model = $this->_coreRegistry->registry('cms_page');
 
         $layoutFieldset = $form->addFieldset('layout_fieldset', array(
             'legend' => __('Page Layout'),
@@ -116,7 +117,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
             'disabled'  => $isElementDisabled
         ));
 
-        Mage::dispatchEvent('adminhtml_cms_page_edit_tab_design_prepare_form', array('form' => $form));
+        $this->_eventManager->dispatch('adminhtml_cms_page_edit_tab_design_prepare_form', array('form' => $form));
 
         $form->setValues($model->getData());
 

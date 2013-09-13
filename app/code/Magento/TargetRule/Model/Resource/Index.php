@@ -26,6 +26,45 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     protected $_bindIncrement  = 0;
 
     /**
+     * Target rule data
+     *
+     * @var Magento_TargetRule_Helper_Data
+     */
+    protected $_targetRuleData = null;
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Customer segment data
+     *
+     * @var Magento_CustomerSegment_Helper_Data
+     */
+    protected $_customerSegmentData = null;
+
+    /**
+     * @param Magento_CustomerSegment_Helper_Data $customerSegmentData
+     * @param Magento_TargetRule_Helper_Data $targetRuleData
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_CustomerSegment_Helper_Data $customerSegmentData,
+        Magento_TargetRule_Helper_Data $targetRuleData,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        $this->_customerSegmentData = $customerSegmentData;
+        $this->_targetRuleData = $targetRuleData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize connection and define main table
      *
      */
@@ -104,7 +143,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
             ->where('store_id = :store_id')
             ->where('customer_group_id = :customer_group_id');
 
-        $rotationMode = Mage::helper('Magento_TargetRule_Helper_Data')->getRotationMode($object->getType());
+        $rotationMode = $this->_targetRuleData->getRotationMode($object->getType());
         if ($rotationMode == Magento_TargetRule_Model_Rule::ROTATION_SHUFFLE) {
             $this->orderRand($select);
         }
@@ -153,7 +192,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
         $limit = $object->getLimit() + $this->getOverfillLimit();
         $productIds = array();
         $ruleCollection = $object->getRuleCollection();
-        if (Mage::helper('Magento_CustomerSegment_Helper_Data')->isEnabled()) {
+        if ($this->_customerSegmentData->isEnabled()) {
             $ruleCollection->addSegmentFilter($segmentId);
         }
         foreach ($ruleCollection as $rule) {
@@ -591,8 +630,8 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     protected function _getSegmentsIdsFromCurrentCustomer()
     {
         $segmentIds = array();
-        if (Mage::helper('Magento_CustomerSegment_Helper_Data')->isEnabled()) {
-            $customer = Mage::registry('segment_customer');
+        if ($this->_customerSegmentData->isEnabled()) {
+            $customer = $this->_coreRegistry->registry('segment_customer');
             if (!$customer) {
                 $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
             }

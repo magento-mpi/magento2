@@ -16,7 +16,7 @@ class Magento_Payment_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     public function testGetInfoBlock()
     {
-        $helper = Mage::helper('Magento_Payment_Helper_Data');
+        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Payment_Helper_Data');
         $paymentInfo = Mage::getModel('Magento_Payment_Model_Info');
         $paymentInfo->setMethod('checkmo');
         $result = $helper->getInfoBlock($paymentInfo);

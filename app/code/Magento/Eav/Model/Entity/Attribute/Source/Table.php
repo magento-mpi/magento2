@@ -19,6 +19,22 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
     protected $_optionsDefault = array();
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData
+    ) {
+        $this->_coreData = $coreData;
+    }
+
+    /**
      * Retrieve Full Option values array
      *
      * @param bool $withEmpty       Add empty option to array
@@ -134,7 +150,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
         $attributeCode = $this->getAttribute()->getAttributeCode();
         $isMulti = $this->getAttribute()->getFrontend()->getInputType() == 'multiselect';
 
-        if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
+        if ($this->_coreData->useDbCompatibleMode()) {
             $columns[$attributeCode] = array(
                 'type'      => $isMulti ? 'varchar(255)' : 'int',
                 'unsigned'  => false,

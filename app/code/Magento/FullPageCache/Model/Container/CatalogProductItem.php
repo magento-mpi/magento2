@@ -62,6 +62,13 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
     );
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * Get parent block type
      *
      * @return null|string
@@ -197,15 +204,15 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
                 $parentBlock = $this->_getParentBlock();
                 if ($parentBlock) {
                     $productId = $this->_getProductId();
-                    if ($productId && !Mage::registry('product')) {
+                    if ($productId && !$this->_coreRegistry->registry('product')) {
                         $product = Mage::getModel('Magento_Catalog_Model_Product')
                             ->setStoreId(Mage::app()->getStore()->getId())
                             ->load($productId);
                         if ($product) {
-                            Mage::register('product', $product);
+                            $this->_coreRegistry->register('product', $product);
                         }
                     }
-                    $ids = Mage::registry('product') ? $parentBlock->getAllIds() : array();
+                    $ids = $this->_coreRegistry->registry('product') ? $parentBlock->getAllIds() : array();
                     $this->_setSharedParam('shuffled', $parentBlock->isShuffled());
                 }
                 if (!$ids) {
@@ -317,7 +324,7 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
             );
         }
 
-        Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+        $this->_eventManager->dispatch('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
 
         return $block->toHtml();
     }

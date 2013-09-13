@@ -18,6 +18,25 @@
 class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Initialize requested category object
      *
      * @return Magento_Catalog_Model_Category
@@ -25,7 +44,7 @@ class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_
     protected function _initCategory()
     {
         $this->_eventManager->dispatch('catalog_controller_category_init_before', array('controller_action' => $this));
-        $categoryId = (int) $this->getRequest()->getParam('id', false);
+        $categoryId = (int)$this->getRequest()->getParam('id', false);
         if (!$categoryId) {
             return false;
         }
@@ -34,11 +53,11 @@ class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($categoryId);
 
-        if (!Mage::helper('Magento_Catalog_Helper_Category')->canShow($category)) {
+        if (!$this->_objectManager->get('Magento_Catalog_Helper_Category')->canShow($category)) {
             return false;
         }
         Mage::getSingleton('Magento_Catalog_Model_Session')->setLastVisitedCategoryId($category->getId());
-        Mage::register('current_category', $category);
+        $this->_coreRegistry->register('current_category', $category);
         try {
             $this->_eventManager->dispatch(
                 'catalog_controller_category_init_after',
@@ -92,7 +111,7 @@ class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_
             $this->generateLayoutXml()->generateLayoutBlocks();
             // apply custom layout (page) template once the blocks are generated
             if ($settings->getPageLayout()) {
-                $this->getLayout()->helper('Magento_Page_Helper_Layout')->applyTemplate($settings->getPageLayout());
+                $this->_objectManager->get('Magento_Page_Helper_Layout')->applyTemplate($settings->getPageLayout());
             }
 
             $root = $this->getLayout()->getBlock('root');

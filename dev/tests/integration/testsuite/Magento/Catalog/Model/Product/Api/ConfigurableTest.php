@@ -18,6 +18,11 @@ class Magento_Catalog_Model_Product_Api_ConfigurableTest extends Magento_Catalog
      */
     protected $_defaultHelper = 'Magento_Catalog_Model_Product_Api_Helper_Configurable';
 
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test successful configurable product create.
      * Scenario:

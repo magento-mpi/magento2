@@ -12,7 +12,7 @@
 class Magento_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_ObjectManager
+     * @var Magento_TestFramework_ObjectManager
      */
     protected $_objectManager;
 
@@ -23,7 +23,8 @@ class Magento_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-        $this->_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $this->markTestIncomplete("These tests should be removed");
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_ruleResource = $this->_objectManager->get('Magento_Webapi_Model_Resource_Acl_Rule');
     }
 

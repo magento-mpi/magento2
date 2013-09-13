@@ -84,7 +84,7 @@ class Magento_Test_EntityTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue('id'));
 
         $test = $this->getMock(
-            'Magento_Test_Entity',
+            'Magento_TestFramework_Entity',
             array('_getEmptyModel'),
             array($this->_model, array('test' => 'test'))
         );

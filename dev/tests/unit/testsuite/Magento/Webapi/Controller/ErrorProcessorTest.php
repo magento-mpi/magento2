@@ -24,18 +24,30 @@ class Magento_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_Tes
     protected function setUp()
     {
         /** Set up mocks for SUT. */
-        $this->_helperMock = $this->getMockBuilder('Magento_Core_Helper_Data')->disableOriginalConstructor()->getMock();
-        $helperFactoryMock = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')->getMock();
-        $helperFactoryMock->expects($this->any())->method('get')->will($this->returnValue($this->_helperMock));
-        $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')->disableOriginalConstructor()->getMock();
-        $this->_loggerMock = $this->getMockBuilder('Magento_Core_Model_Logger')->disableOriginalConstructor()
+        $this->_helperMock = $this->getMockBuilder('Magento_Core_Helper_Data')
+            ->disableOriginalConstructor()
             ->getMock();
+
+        $helperFactoryMock = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $helperFactoryMock->expects($this->once())->method('get')->will($this->returnValue($this->_helperMock));
+
+        $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->_loggerMock = $this->getMockBuilder('Magento_Core_Model_Logger')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         /** Initialize SUT. */
         $this->_errorProcessor = new Magento_Webapi_Controller_ErrorProcessor(
             $helperFactoryMock,
             $this->_appMock,
             $this->_loggerMock
         );
+
         parent::setUp();
     }
 

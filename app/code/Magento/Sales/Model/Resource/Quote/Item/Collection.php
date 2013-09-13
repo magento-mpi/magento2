@@ -168,11 +168,11 @@ class Magento_Sales_Model_Resource_Quote_Item_Collection extends Magento_Core_Mo
             ->addUrlRewrite()
             ->addTierPriceData();
 
-        Mage::dispatchEvent('prepare_catalog_product_collection_prices', array(
+        $this->_eventManager->dispatch('prepare_catalog_product_collection_prices', array(
             'collection'            => $productCollection,
             'store_id'              => $this->getStoreId(),
         ));
-        Mage::dispatchEvent('sales_quote_item_collection_products_after_load', array(
+        $this->_eventManager->dispatch('sales_quote_item_collection_products_after_load', array(
             'product_collection'    => $productCollection
         ));
 

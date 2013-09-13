@@ -114,6 +114,35 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
     protected $_workflow = null;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($paymentData, $context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Load order by system increment identifier
      *
      * @param string $incrementId
@@ -132,9 +161,9 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
     {
         $this->_getResource()->beginTransaction();
         try {
-            $this->setInternalReferenceId(Mage::helper('Magento_Core_Helper_Data')->uniqHash('temporary-'));
+            $this->setInternalReferenceId($this->_coreData->uniqHash('temporary-'));
             $this->save();
-            $this->setInternalReferenceId(Mage::helper('Magento_Core_Helper_Data')->uniqHash($this->getId() . '-'));
+            $this->setInternalReferenceId($this->_coreData->uniqHash($this->getId() . '-'));
             $this->getMethodInstance()->submitRecurringProfile($this, $this->getQuote()->getPayment());
             $this->save();
             $this->_getResource()->commit();

@@ -35,22 +35,44 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
     protected $_itemLevelPositions = array();
 
     /**
+     * Catalog category
+     *
+     * @var Magento_Catalog_Helper_Category
+     */
+    protected $_catalogCategory = null;
+
+    /**
+     * Catalog category flat
+     *
+     * @var Magento_Catalog_Helper_Category_Flat
+     */
+    protected $_catalogCategoryFlat = null;
+
+    /**
      * @var Magento_Core_Model_Registry
      */
     protected $_registry;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat
+     * @param Magento_Catalog_Helper_Category $catalogCategory
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
+        Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat,
+        Magento_Catalog_Helper_Category $catalogCategory,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_catalogCategoryFlat = $catalogCategoryFlat;
+        $this->_catalogCategory = $catalogCategory;
         $this->_registry = $registry;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     protected function _construct()
@@ -84,7 +106,7 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
         $shortCacheId = array(
             'CATALOG_NAVIGATION',
             Mage::app()->getStore()->getId(),
-            Mage::getDesign()->getDesignTheme()->getId(),
+            $this->_design->getDesignTheme()->getId(),
             Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId(),
             'template' => $this->getTemplate(),
             'name' => $this->getNameInLayout(),
@@ -110,7 +132,7 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
     public function getCurrenCategoryKey()
     {
         if (!$this->_currentCategoryKey) {
-            $category = Mage::registry('current_category');
+            $category = $this->_registry->registry('current_category');
             if ($category) {
                 $this->_currentCategoryKey = $category->getPath();
             } else {
@@ -128,7 +150,7 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
      */
     public function getStoreCategories()
     {
-        $helper = Mage::helper('Magento_Catalog_Helper_Category');
+        $helper = $this->_catalogCategory;
         return $helper->getStoreCategories();
     }
 
@@ -240,7 +262,7 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
 
         // get all children
         // If Flat Data enabled then use it but only on frontend
-        if (Mage::helper('Magento_Catalog_Helper_Category_Flat')->isAvailable() && !Mage::app()->getStore()->isAdmin()) {
+        if ($this->_catalogCategoryFlat->isAvailable() && !Mage::app()->getStore()->isAdmin()) {
             $children = (array)$category->getChildrenNodes();
             $childrenCount = count($children);
         } else {

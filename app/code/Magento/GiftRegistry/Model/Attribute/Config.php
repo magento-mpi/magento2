@@ -34,6 +34,7 @@ class Magento_GiftRegistry_Model_Attribute_Config extends Magento_Core_Model_Abs
 
     /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Config_Modules_Reader $configReader
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -42,6 +43,7 @@ class Magento_GiftRegistry_Model_Attribute_Config extends Magento_Core_Model_Abs
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Config_Modules_Reader $configReader,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_Core_Model_Resource_Abstract $resource = null,
@@ -50,7 +52,7 @@ class Magento_GiftRegistry_Model_Attribute_Config extends Magento_Core_Model_Abs
     ) {
         $this->_configCacheType = $configCacheType;
         $this->_configReader = $configReader;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -61,7 +63,8 @@ class Magento_GiftRegistry_Model_Attribute_Config extends Magento_Core_Model_Abs
     public function getXmlConfig()
     {
         if (is_null($this->_config)) {
-            if ($cachedXml = $this->_configCacheType->load('giftregistry_config')) {
+            $cachedXml = $this->_configCacheType->load('giftregistry_config');
+            if ($cachedXml) {
                 $xmlConfig = new Magento_Simplexml_Config($cachedXml);
             } else {
                 $xmlConfig = new Magento_Simplexml_Config();
@@ -137,7 +140,8 @@ class Magento_GiftRegistry_Model_Attribute_Config extends Magento_Core_Model_Abs
      */
     public function getAttributeGroups()
     {
-        if ($groups = $this->getXmlConfig()->getNode(self::XML_ATTRIBUTE_GROUPS_PATH)) {
+        $groups = $this->getXmlConfig()->getNode(self::XML_ATTRIBUTE_GROUPS_PATH);
+        if ($groups) {
             return $groups->asCanonicalArray();
         }
     }
@@ -152,7 +156,8 @@ class Magento_GiftRegistry_Model_Attribute_Config extends Magento_Core_Model_Abs
         if (is_null($this->_staticTypes)) {
             $staticTypes = array();
             foreach (array('registry', 'registrant') as $node) {
-                if ($node = $this->getXmlConfig()->getNode('prototype/' . $node . '/attributes/static')) {
+                $node = $this->getXmlConfig()->getNode('prototype/' . $node . '/attributes/static');
+                if ($node) {
                     $staticTypes = array_merge($staticTypes, $node->asCanonicalArray());
                 }
             }
@@ -194,7 +199,7 @@ class Magento_GiftRegistry_Model_Attribute_Config extends Magento_Core_Model_Abs
      */
     public function getStaticDateType()
     {
-        foreach ($this->getStaticTypes() as $code =>$type) {
+        foreach ($this->getStaticTypes() as $code => $type) {
             if (isset($type['type']) && $type['type'] == 'date') {
                 return $code;
             }

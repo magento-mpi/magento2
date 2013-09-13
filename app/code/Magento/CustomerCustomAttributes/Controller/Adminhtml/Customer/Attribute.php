@@ -22,6 +22,25 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
     protected $_entityType;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Return Customer Address Entity Type instance
      *
      * @return Magento_Eav_Model_Entity_Type
@@ -125,7 +144,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
         if (!empty($attributeData)) {
             $attributeObject->setData($attributeData);
         }
-        Mage::register('entity_attribute', $attributeObject);
+        $this->_coreRegistry->register('entity_attribute', $attributeObject);
 
         $label = $attributeObject->getId()
             ? __('Edit Customer Attribute')
@@ -170,7 +189,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
      */
     protected function _filterPostData($data)
     {
-        return Mage::helper('Magento_CustomerCustomAttributes_Helper_Customer')->filterPostData($data);
+        return $this->_objectManager->get('Magento_CustomerCustomAttributes_Helper_Customer')->filterPostData($data);
     }
 
     /**
@@ -184,7 +203,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
             /* @var $attributeObject Magento_Customer_Model_Attribute */
             $attributeObject = $this->_initAttribute();
             /* @var $helper Magento_CustomerCustomAttributes_Helper_Data */
-            $helper = Mage::helper('Magento_CustomerCustomAttributes_Helper_Data');
+            $helper = $this->_objectManager->get('Magento_CustomerCustomAttributes_Helper_Data');
 
             //filtering
             try {
@@ -257,18 +276,19 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
             /**
              * Check "Use Default Value" checkboxes values
              */
-            if ($useDefaults = $this->getRequest()->getPost('use_default')) {
+            $useDefaults = $this->getRequest()->getPost('use_default');
+            if ($useDefaults) {
                 foreach ($useDefaults as $key) {
                     $attributeObject->setData('scope_' . $key, null);
                 }
             }
 
             try {
-                $this->_eventManager->dispatch('enterprise_customer_attribute_before_save', array(
+                $this->_eventManager->dispatch('magento_customercustomattributes_attribute_before_save', array(
                     'attribute' => $attributeObject
                 ));
                 $attributeObject->save();
-                $this->_eventManager->dispatch('enterprise_customer_attribute_save', array(
+                $this->_eventManager->dispatch('magento_customercustomattributes_attribute_save', array(
                     'attribute' => $attributeObject
                 ));
 
@@ -323,7 +343,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
             }
             try {
                 $attributeObject->delete();
-                $this->_eventManager->dispatch('enterprise_customer_attribute_delete', array(
+                $this->_eventManager->dispatch('magento_customercustomattributes_attribute_delete', array(
                     'attribute' => $attributeObject
                 ));
 

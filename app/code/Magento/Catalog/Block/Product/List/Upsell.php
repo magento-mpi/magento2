@@ -10,12 +10,7 @@
 
 /**
  * Catalog product related items block
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Catalog_Block_Product_List_Upsell extends Magento_Catalog_Block_Product_Abstract
 {
     /**
@@ -35,13 +30,12 @@ class Magento_Catalog_Block_Product_List_Upsell extends Magento_Catalog_Block_Pr
 
     protected function _prepareData()
     {
-        $product = Mage::registry('product');
+        $product = $this->_coreRegistry->registry('product');
         /* @var $product Magento_Catalog_Model_Product */
         $this->_itemCollection = $product->getUpSellProductCollection()
             ->setPositionOrder()
-            ->addStoreFilter()
-        ;
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_Checkout')) {
+            ->addStoreFilter();
+        if ($this->_catalogData->isModuleEnabled('Magento_Checkout')) {
             Mage::getResourceSingleton('Magento_Checkout_Model_Resource_Cart')
                 ->addExcludeProductFilter(
                     $this->_itemCollection,
@@ -63,7 +57,7 @@ class Magento_Catalog_Block_Product_List_Upsell extends Magento_Catalog_Block_Pr
         /**
          * Updating collection with desired items
          */
-        Mage::dispatchEvent('catalog_product_upsell', array(
+        $this->_eventManager->dispatch('catalog_product_upsell', array(
             'product'       => $product,
             'collection'    => $this->_itemCollection,
             'limit'         => $this->getItemLimit()
@@ -149,8 +143,7 @@ class Magento_Catalog_Block_Product_List_Upsell extends Magento_Catalog_Block_Pr
         }
         if (isset($this->_itemLimits[$type])) {
             return $this->_itemLimits[$type];
-        }
-        else {
+        } else {
             return 0;
         }
     }

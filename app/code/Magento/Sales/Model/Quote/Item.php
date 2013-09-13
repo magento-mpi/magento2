@@ -178,21 +178,33 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
     protected $_errorInfos;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Sales_Model_Status_ListFactory $statusListFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Sales_Model_Status_ListFactory $statusListFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_errorInfos = $statusListFactory->create();
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
 
@@ -306,7 +318,7 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
         $oldQty = $this->_getData('qty');
         $this->setData('qty', $qty);
 
-        Mage::dispatchEvent('sales_quote_item_qty_set_after', array('item'=>$this));
+        $this->_eventManager->dispatch('sales_quote_item_qty_set_after', array('item'=>$this));
 
         if ($this->getQuote() && $this->getQuote()->getIgnoreOldQty()) {
             return $this;
@@ -393,7 +405,7 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
             $this->setIsQtyDecimal($product->getStockItem()->getIsQtyDecimal());
         }
 
-        Mage::dispatchEvent('sales_quote_item_set_product', array(
+        $this->_eventManager->dispatch('sales_quote_item_set_product', array(
             'product' => $product,
             'quote_item'=>$this
         ));

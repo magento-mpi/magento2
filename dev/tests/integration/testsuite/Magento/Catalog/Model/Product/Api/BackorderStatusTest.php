@@ -19,6 +19,7 @@ class Magento_Catalog_Model_Product_Api_BackorderStatusTest extends PHPUnit_Fram
      */
     protected function setUp()
     {
+        $this->markTestSkipped('Api tests were skipped');
         $productData = require dirname(__FILE__) . '/_files/ProductData.php';
         $product = Mage::getModel('Magento_Catalog_Model_Product');
 
@@ -43,7 +44,7 @@ class Magento_Catalog_Model_Product_Api_BackorderStatusTest extends PHPUnit_Fram
             'backorders' => 1,
         );
 
-        $result = Magento_Test_Helper_Api::call(
+        $result = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogInventoryStockItemUpdate',
             array(

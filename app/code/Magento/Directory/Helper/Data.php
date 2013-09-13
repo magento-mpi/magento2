@@ -71,11 +71,23 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_configCacheType;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_Cache_Type_Config $configCacheType)
-    {
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Cache_Type_Config $configCacheType
+    ) {
+        $this->_coreData = $coreData;
         parent::__construct($context);
         $this->_configCacheType = $configCacheType;
     }
@@ -144,7 +156,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
                         'name' => __($region->getName())
                     );
                 }
-                $json = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($regions);
+                $json = $this->_coreData->jsonEncode($regions);
 
                 $this->_configCacheType->save($json, $cacheKey);
             }
@@ -188,7 +200,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
                 Mage::getStoreConfig(self::OPTIONAL_ZIP_COUNTRIES_CONFIG_PATH), 0, PREG_SPLIT_NO_EMPTY);
         }
         if ($asJson) {
-            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->_optionalZipCountries);
+            return $this->_coreData->jsonEncode($this->_optionalZipCountries);
         }
         return $this->_optionalZipCountries;
     }
@@ -215,7 +227,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
     {
         $countryList = explode(',', Mage::getStoreConfig(self::XML_PATH_STATES_REQUIRED));
         if ($asJson) {
-            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($countryList);
+            return $this->_coreData->jsonEncode($countryList);
         }
         return $countryList;
     }

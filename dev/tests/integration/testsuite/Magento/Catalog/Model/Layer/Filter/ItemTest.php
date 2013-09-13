@@ -51,8 +51,9 @@ class Magento_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_Test
         $action = Mage::getModel(
             'Magento_Core_Controller_Front_Action',
             array(
-                'request' => new Magento_Test_Request(),
-                'response' => new Magento_Test_Response(),
+                'request' => new Magento_TestFramework_Request(),
+                'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                    ->get('Magento_TestFramework_Response'),
             )
         );
         Mage::app()->getFrontController()->setAction($action); // done in action's constructor
@@ -70,7 +71,7 @@ class Magento_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_Test
             'requested_action'     => 'z',
         ));
 
-        $request = new Magento_Test_Request();
+        $request = new Magento_TestFramework_Request();
         $request->setParam('cat', 4);
         $this->_model->getFilter()->apply($request, Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text'));
 

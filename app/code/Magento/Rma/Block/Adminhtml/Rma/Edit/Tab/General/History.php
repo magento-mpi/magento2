@@ -75,7 +75,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
 
     public function getComments() {
         return Mage::getResourceModel('Magento_Rma_Model_Resource_Rma_Status_History_Collection')
-            ->addFieldToFilter('rma_entity_id', Mage::registry('current_rma')->getId());
+            ->addFieldToFilter('rma_entity_id', $this->_coreRegistry->registry('current_rma')->getId());
     }
 
 }

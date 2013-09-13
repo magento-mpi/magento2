@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
+Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
     Mage::PARAM_APP_DIRS => array(
         Magento_Core_Model_Dir::THEMES => dirname(__DIR__) . '/design'
     )

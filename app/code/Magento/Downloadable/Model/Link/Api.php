@@ -18,6 +18,55 @@
 class Magento_Downloadable_Model_Link_Api extends Magento_Catalog_Model_Api_Resource
 {
     /**
+     * Core file storage database
+     *
+     * @var Magento_Core_Helper_File_Storage_Database
+     */
+    protected $_coreFileStorageDb = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Downloadable file
+     *
+     * @var Magento_Downloadable_Helper_File
+     */
+    protected $_downloadableFile = null;
+
+    /**
+     * Downloadable data
+     *
+     * @var Magento_Downloadable_Helper_Data
+     */
+    protected $_downloadableData = null;
+
+    /**
+     * @param Magento_Downloadable_Helper_Data $downloadableData
+     * @param Magento_Downloadable_Helper_File $downloadableFile
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     */
+    public function __construct(
+        Magento_Downloadable_Helper_Data $downloadableData,
+        Magento_Downloadable_Helper_File $downloadableFile,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
+        Magento_Catalog_Helper_Product $catalogProduct
+    ) {
+        $this->_downloadableData = $downloadableData;
+        $this->_downloadableFile = $downloadableFile;
+        $this->_coreData = $coreData;
+        $this->_coreFileStorageDb = $coreFileStorageDb;
+        parent::__construct($catalogProduct);
+    }
+
+    /**
      * Return validator instance
      *
      * @return Magento_Downloadable_Model_Link_Api_Validator
@@ -47,14 +96,14 @@ class Magento_Downloadable_Model_Link_Api extends Magento_Catalog_Model_Api_Reso
 
         $result = array();
         try {
-            $uploader = Mage::getModel('Magento_Downloadable_Model_Link_Api_Uploader', array('file' => $fileInfo));
+            $uploader = Mage::getModel('Magento_Downloadable_Model_Link_Api_Uploader', array('fileId' => $fileInfo));
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
             $result = $uploader->save($tmpPath);
 
             if (isset($result['file'])) {
                 $fullPath = rtrim($tmpPath, DS) . DS . ltrim($result['file'], DS);
-                Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFile($fullPath);
+                $this->_coreFileStorageDb->saveFile($fullPath);
             }
         } catch (Exception $e) {
             if ($e->getMessage() != '') {
@@ -66,7 +115,7 @@ class Magento_Downloadable_Model_Link_Api extends Magento_Catalog_Model_Api_Reso
 
         $result['status'] = 'new';
         $result['name'] = substr($result['file'], strrpos($result['file'], '/')+1);
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array($result));
+        return $this->_coreData->jsonEncode(array($result));
     }
 
     /**
@@ -139,7 +188,7 @@ class Magento_Downloadable_Model_Link_Api extends Magento_Catalog_Model_Api_Reso
 
         $linkArr = array();
         $links = $product->getTypeInstance()->getLinks($product);
-        $fileHelper = Mage::helper('Magento_Downloadable_Helper_File');
+        $fileHelper = $this->_downloadableFile;
         foreach ($links as $item) {
             $tmpLinkItem = array(
                 'link_id' => $item->getId(),
@@ -159,7 +208,7 @@ class Magento_Downloadable_Model_Link_Api extends Magento_Catalog_Model_Api_Reso
             );
 
             if ($item->getLinkFile() && !is_file($file)) {
-                Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFileToFilesystem($file);
+                $this->_coreFileStorageDb->saveFileToFilesystem($file);
             }
 
             if ($item->getLinkFile() && is_file($file)) {
@@ -190,7 +239,7 @@ class Magento_Downloadable_Model_Link_Api extends Magento_Catalog_Model_Api_Reso
             if ($product->getStoreId() && $item->getStoreTitle()) {
                 $tmpLinkItem['store_title'] = $item->getStoreTitle();
             }
-            if ($product->getStoreId() && Mage::helper('Magento_Downloadable_Helper_Data')->getIsPriceWebsiteScope()) {
+            if ($product->getStoreId() && $this->_downloadableData->getIsPriceWebsiteScope()) {
                 $tmpLinkItem['website_price'] = $item->getWebsitePrice();
             }
             $linkArr[] = $tmpLinkItem;

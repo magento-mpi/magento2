@@ -1,0 +1,19 @@
+# A list similar to "common.txt", but these items are not to be published for any reason
+# These items are mentioned in "extruder" configuration of publication build: dev/build/publication/extruder/common.txt
+# This file will not be published, too
+#
+dev/tests/functional/testsuite/Enterprise/Mage/Acl/CatalogManageCategoryTest.php
+dev/tests/functional/testsuite/Enterprise/Mage/Acl/CmsPoll.php
+dev/tests/functional/testsuite/Enterprise/Mage/Acl/SystemPermissionTest.php
+dev/tests/functional/testsuite/Enterprise/Mage/AddBySku/BackendAddBySkuTest.php
+dev/tests/functional/testsuite/Enterprise/Mage/AddBySku/BackendOrderTest.php
+dev/tests/functional/testsuite/Enterprise/Mage/AddBySku/FrontendOrderBySkuTest.php
+dev/tests/functional/testsuite/Enterprise/Mage/AddBySku/FrontendSkuTabValidationTest.php
+dev/tests/functional/testsuite/Enterprise/Mage/AddBySku/FrontendSkuWidgetTest.php
+dev/tests/functional/testsuite/Enterprise/Mage/AddBySku/Helper.php
+dev/tests/functional/testsuite/Enterprise/Mage/AddBySku/ProductTest.php
+dev/tests/functional/testsuite/Enterprise/Mage/Attributes/CustomerAddressAttribute/Create/AttachmentFileTest.php
+dev/tests/functional/testsuite/Enterprise/Mage/Store/SingleStoreMode/EnableSingleStoreModeTest.php
+dev/tests/functional/testsuite/Enterprise/Mage/Tags/RewardPoints.php
+dev/tests/functional/testsuite/Enterprise/Mage/Various/ChangingStoreViewOnFrontendTest.php
+dev/tests/functional/testsuite/Core/Mage/Product/Create/ChangeAttributeSetTest.php

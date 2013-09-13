@@ -31,7 +31,7 @@ class Magento_Payment_Block_Info_InstructionsTest extends PHPUnit_Framework_Test
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_method = new Magento_Object();
         $this->_info = $objectManagerHelper->getObject('Magento_Payment_Model_Info');
         $this->_instructions = $objectManagerHelper->getObject('Magento_Payment_Block_Info_Instructions');

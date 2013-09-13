@@ -61,7 +61,16 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
     protected $_viewFileSystem;
 
     /**
+     * Core file storage database
+     *
+     * @var Magento_Core_Helper_File_Storage_Database
+     */
+    protected $_coreFileStorageDatabase = null;
+
+    /**
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_Image_Factory $imageFactory
      * @param Magento_Core_Model_View_Url $viewUrl
@@ -71,7 +80,9 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_Image_Factory $imageFactory,
         Magento_Core_Model_View_Url $viewUrl,
@@ -80,7 +91,8 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $baseDir = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
         $this->_filesystem = $filesystem;
         $this->_filesystem->setIsAllowCreateDirectories(true);
@@ -197,8 +209,9 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
         list($width, $height) = explode('x', strtolower($size), 2);
         foreach (array('width', 'height') as $wh) {
             $$wh  = (int)$$wh;
-            if (empty($$wh))
+            if (empty($$wh)) {
                 $$wh = null;
+            }
         }
 
         // set sizes
@@ -209,11 +222,8 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
 
     protected function _checkMemory($file = null)
     {
-//        print '$this->_getMemoryLimit() = '.$this->_getMemoryLimit();
-//        print '$this->_getMemoryUsage() = '.$this->_getMemoryUsage();
-//        print '$this->_getNeedMemoryForBaseFile() = '.$this->_getNeedMemoryForBaseFile();
-
-        return $this->_getMemoryLimit() > ($this->_getMemoryUsage() + $this->_getNeedMemoryForFile($file)) || $this->_getMemoryLimit() == -1;
+        return $this->_getMemoryLimit() > ($this->_getMemoryUsage() + $this->_getNeedMemoryForFile($file))
+            || $this->_getMemoryLimit() == -1;
     }
 
     protected function _getMemoryLimit()
@@ -511,7 +521,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
         }
         $filename = $this->getNewFile();
         $this->getImageProcessor()->save($filename);
-        Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFile($filename);
+        $this->_coreFileStorageDatabase->saveFile($filename);
         return $this;
     }
 
@@ -721,7 +731,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
         $directory = Mage::getBaseDir('media') . DS . 'catalog' . DS . 'product' . DS.'cache' . DS;
         $this->_filesystem->delete($directory);
 
-        Mage::helper('Magento_Core_Helper_File_Storage_Database')->deleteFolder($directory);
+        $this->_coreFileStorageDatabase->deleteFolder($directory);
     }
 
     /**
@@ -736,7 +746,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
         if ($this->_filesystem->isFile($filename)) {
             return true;
         } else {
-            return Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFileToFilesystem($filename);
+            return $this->_coreFileStorageDatabase->saveFileToFilesystem($filename);
         }
     }
 }

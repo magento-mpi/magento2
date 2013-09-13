@@ -9,13 +9,18 @@
  */
 class Magento_Customer_Model_Group_ApiTest extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test item method.
      */
     public function testList()
     {
         /** Retrieve the list of customer groups. */
-        $groupsList = Magento_Test_Helper_Api::call($this, 'customerGroupList', array());
+        $groupsList = Magento_TestFramework_Helper_Api::call($this, 'customerGroupList', array());
         /** Assert customers group list is not empty. */
         $this->assertNotEmpty($groupsList, 'Customers list retrieving was unsuccessful.');
         /** Assert base fields are present in the response. */

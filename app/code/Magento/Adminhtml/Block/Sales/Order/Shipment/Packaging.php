@@ -10,12 +10,7 @@
 
 /**
  * Adminhtml shipment packaging
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adminhtml_Block_Template
 {
     /**
@@ -24,17 +19,29 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
     protected $_sourceSizeModel;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size $sourceSizeModel
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size $sourceSizeModel,
+        Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_sourceSizeModel = $sourceSizeModel;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -44,7 +51,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
      */
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return $this->_coreRegistry->registry('current_shipment');
     }
 
     /**
@@ -104,7 +111,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
             'shipmentItemsOrderItemId'  => $itemsOrderItemId,
             'customizable'              => $this->_getCustomizableContainers(),
         );
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
+        return $this->_coreData->jsonEncode($data);
     }
 
     /**

@@ -68,7 +68,7 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
 
         $form->getElement('email_template')
             ->setValues(Mage::getModel('Magento_Backend_Model_Config_Source_Email_Template')
-                ->setPath('enterprise_importexport_import_failed')
+                ->setPath('magento_scheduledimportexport_import_failed')
                 ->toOptionArray()
             );
 
@@ -85,7 +85,7 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
         $element->setData('onchange', 'varienImportExportScheduled.handleEntityTypeSelector();');
 
         /** @var $operation Magento_ScheduledImportExport_Model_Scheduled_Operation */
-        $operation = Mage::registry('current_operation');
+        $operation = $this->_coreRegistry->registry('current_operation');
         $this->_setFormValues($operation->getData());
 
         return $this;

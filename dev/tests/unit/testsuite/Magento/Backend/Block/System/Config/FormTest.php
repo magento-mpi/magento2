@@ -80,10 +80,8 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
 
         $this->_urlModelMock = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false, false);
         $configFactoryMock = $this->getMock('Magento_Backend_Model_Config_Factory', array(), array(), '', false, false);
-        $this->_formFactoryMock = $this->getMock('Magento_Data_Form_Factory', array(), array(), '', false, false);
-        $cloneFactoryMock = $this->getMock('Magento_Backend_Model_Config_Clone_Factory',
-            array(), array(), '', false, false
-        );
+        $this->_formFactoryMock = $this->getMock('Magento_Data_Form_Factory', array('create'),
+            array(), '', false, false);
         $this->_fieldsetFactoryMock = $this->getMock('Magento_Backend_Block_System_Config_Form_Fieldset_Factory',
             array(), array(), '', false, false
         );
@@ -117,13 +115,12 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
             'configStructure' => $this->_systemConfigMock,
             'configFactory' => $configFactoryMock,
             'formFactory' => $this->_formFactoryMock,
-            'cloneModelFactory' => $cloneFactoryMock,
             'fieldsetFactory' => $this->_fieldsetFactoryMock,
             'fieldFactory' => $this->_fieldFactoryMock,
             'coreConfig' => $this->_coreConfigMock,
         );
 
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_object = $helper->getObject('Magento_Backend_Block_System_Config_Form', $data);
         $this->_object->setData('scope_id', 1);
     }

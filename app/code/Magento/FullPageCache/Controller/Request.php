@@ -10,6 +10,25 @@
 class Magento_FullPageCache_Controller_Request extends Magento_Core_Controller_Front_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Request processing action
      */
     public function processAction()
@@ -19,11 +38,11 @@ class Magento_FullPageCache_Controller_Request extends Magento_Core_Controller_F
          */
         $processor  = $this->_objectManager->get('Magento_FullPageCache_Model_Processor');
 
-        $content    = Mage::registry('cached_page_content');
+        $content    = $this->_coreRegistry->registry('cached_page_content');
         /**
          * @var $containers Magento_FullPageCache_Model_ContainerInterface[]
          */
-        $containers = Mage::registry('cached_page_containers');
+        $containers = $this->_coreRegistry->registry('cached_page_containers');
 
         $cacheInstance = $this->_objectManager->get('Magento_FullPageCache_Model_Cache');
 

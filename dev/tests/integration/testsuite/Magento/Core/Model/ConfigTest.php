@@ -21,7 +21,8 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** @var Magento_Core_Model_Cache_StateInterface $cacheState */
-        $cacheState = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
+        $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_Cache_StateInterface');
         $cacheState->setEnabled('config', false);
     }
 
@@ -45,7 +46,7 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetModuleDir()
     {
         $model = $this->_createModel();
-        foreach (array('etc', 'controllers', 'sql', 'data', 'locale') as $type) {
+        foreach (array('etc', 'sql', 'data', 'i18n') as $type) {
             $dir = $model->getModuleDir($type, 'Magento_Core');
             $this->assertStringEndsWith($type, $dir);
             $this->assertContains('Magento' . DIRECTORY_SEPARATOR . 'Core', $dir);

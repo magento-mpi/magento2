@@ -17,28 +17,6 @@
             </googleoptimizer_setup>
         </resources>
     </global>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_GoogleOptimizer>
-                    <files>
-                        <default>Magento_GoogleOptimizer.csv</default>
-                    </files>
-                </Magento_GoogleOptimizer>
-            </modules>
-        </translate>
-    </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_GoogleOptimizer>
-                    <files>
-                        <default>Magento_GoogleOptimizer.csv</default>
-                    </files>
-                </Magento_GoogleOptimizer>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <google>
             <optimizer>
@@ -46,4 +24,4 @@
             </optimizer>
         </google>
     </default>
-</config>
+</config>

@@ -19,6 +19,29 @@ class Magento_Backend_Block_System_Config_Form_Field_Regexceptions
     extends Magento_Backend_Block_System_Config_Form_Field_Array_Abstract
 {
     /**
+     * @var Magento_Data_Form_Element_Factory
+     */
+    protected $_elementFactory;
+
+    /**
+     * @param Magento_Data_Form_Element_Factory $elementFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_App $application
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Data_Form_Element_Factory $elementFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_App $application,
+        array $data = array()
+    ) {
+        $this->_elementFactory = $elementFactory;
+        parent::__construct($coreData, $context, $application, $data);
+    }
+
+    /**
      * Initialise form fields
      */
     protected function _construct()
@@ -48,7 +71,7 @@ class Magento_Backend_Block_System_Config_Form_Field_Regexceptions
             /** @var $label Magento_Core_Model_Theme_Label */
             $label = Mage::getModel('Magento_Core_Model_Theme_Label');
             $options = $label->getLabelsCollection(__('-- No Theme --'));
-            $element = new Magento_Data_Form_Element_Select();
+            $element = $this->_elementFactory->create('select');
             $element
                 ->setForm($this->getForm())
                 ->setName($this->_getCellInputElementName($columnName))

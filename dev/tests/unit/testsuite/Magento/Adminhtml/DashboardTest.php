@@ -93,15 +93,16 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
     protected function _factory($request, $response = null, $objectManager = null)
     {
         if (!$response) {
+            $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
             /** @var $response Magento_Core_Controller_Response_Http|PHPUnit_Framework_MockObject_MockObject */
-            $response = $this->getMockForAbstractClass('Magento_Core_Controller_Response_Http');
+            $response = $this->getMockForAbstractClass('Magento_Core_Controller_Response_Http', array($eventManager));
             $response->headersSentThrowsException = false;
         }
         if (!$objectManager) {
             $objectManager = new Magento_ObjectManager_ObjectManager();
         }
         $rewriteFactory = $this->getMock('Magento_Core_Model_Url_RewriteFactory', array('create'), array(), '', false);
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $varienFront = $helper->getObject('Magento_Core_Controller_Varien_Front',
             array('rewriteFactory' => $rewriteFactory)
         );

@@ -26,7 +26,7 @@ class Magento_Webapi_Model_Authorization_Role_FactoryTest extends PHPUnit_Framew
 
     protected function setUp()
     {
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $this->_objectManager = $this->getMockForAbstractClass('Magento_ObjectManager', array(), '',
             true, true, true, array('create'));

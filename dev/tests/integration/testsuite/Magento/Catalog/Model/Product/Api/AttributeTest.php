@@ -10,6 +10,11 @@
  */
 class Magento_Catalog_Model_Product_Api_AttributeTest extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Tests attribute creation with invalid characters in attribute code (possible SQL injection)
      */
@@ -26,7 +31,7 @@ class Magento_Catalog_Model_Product_Api_AttributeTest extends PHPUnit_Framework_
 
         $expectedMessage = 'Please correct the attribute code. Use only letters (a-z), numbers (0-9)'
             .' or underscores (_) in this field, and begin the code with a letter.';
-        $exception = Magento_Test_Helper_Api::callWithException($this,
+        $exception = Magento_TestFramework_Helper_Api::callWithException($this,
             'catalogProductAttributeCreate', array('data' => $attributeData), $expectedMessage
         );
         $this->assertEquals(103, $exception->faultcode, 'Unexpected fault code');

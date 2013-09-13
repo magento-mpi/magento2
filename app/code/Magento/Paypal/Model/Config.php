@@ -236,12 +236,21 @@ class Magento_Paypal_Model_Config
     );
 
     /**
-     * Set method and store id, if specified
+     * Core data
      *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param array $params
      */
-    public function __construct($params = array())
-    {
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        $params = array()
+    ) {
+        $this->_coreData = $coreData;
         if ($params) {
             $method = array_shift($params);
             $this->setMethod($method);
@@ -437,7 +446,7 @@ class Magento_Paypal_Model_Config
     {
         $countryCode = Mage::getStoreConfig($this->_mapGeneralFieldset('merchant_country'), $this->_storeId);
         if (!$countryCode) {
-            $countryCode = Mage::helper('Magento_Core_Helper_Data')->getDefaultCountry($this->_storeId);
+            $countryCode = $this->_coreData->getDefaultCountry($this->_storeId);
         }
         return $countryCode;
     }

@@ -83,7 +83,7 @@ abstract class Magento_Pbridge_Block_Payment_Form_Abstract extends Magento_Pbrid
             $shipping = $this->getQuote()->getShippingAddress();
             $requestParams['shipping'] = $this->getMethod()->getPbridgeMethodInstance()->getAddressInfo($shipping);
         }
-        $sourceUrl = Mage::helper('Magento_Pbridge_Helper_Data')->getGatewayFormUrl($requestParams, $this->getQuote());
+        $sourceUrl = $this->_pbridgeData->getGatewayFormUrl($requestParams, $this->getQuote());
         return $sourceUrl;
     }
 

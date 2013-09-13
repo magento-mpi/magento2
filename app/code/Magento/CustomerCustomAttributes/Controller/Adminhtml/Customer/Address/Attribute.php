@@ -27,6 +27,25 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Address_Att
     protected $_entityType;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Return Customer Address Entity Type instance
      *
      * @return Magento_Eav_Model_Entity_Type
@@ -135,7 +154,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Address_Att
         }
 
         // register attribute object
-        Mage::register('entity_attribute', $attributeObject);
+        $this->_coreRegistry->register('entity_attribute', $attributeObject);
 
         $label = $attributeObject->getId()
             ? __('Edit Customer Address Attribute')
@@ -180,7 +199,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Address_Att
      */
     protected function _filterPostData($data)
     {
-        return Mage::helper('Magento_CustomerCustomAttributes_Helper_Address')->filterPostData($data);
+        return $this->_objectManager->get('Magento_CustomerCustomAttributes_Helper_Address')->filterPostData($data);
     }
 
     /**
@@ -194,7 +213,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Address_Att
             /* @var $attributeObject Magento_Customer_Model_Attribute */
             $attributeObject = $this->_initAttribute();
             /* @var $helper Magento_CustomerCustomAttributes_Helper_Data */
-            $helper = Mage::helper('Magento_CustomerCustomAttributes_Helper_Data');
+            $helper = $this->_objectManager->get('Magento_CustomerCustomAttributes_Helper_Data');
 
             //filtering
             try {
@@ -258,7 +277,8 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Address_Att
             /**
              * Check "Use Default Value" checkboxes values
              */
-            if ($useDefaults = $this->getRequest()->getPost('use_default')) {
+            $useDefaults = $this->getRequest()->getPost('use_default');
+            if ($useDefaults) {
                 foreach ($useDefaults as $key) {
                     $attributeObject->setData('scope_' . $key, null);
                 }

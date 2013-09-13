@@ -9,6 +9,11 @@
  */
 class Magento_Checkout_Model_Cart_Payment_ApiTest extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test retrieving list of available payment methods for a particular quote
      *
@@ -16,7 +21,7 @@ class Magento_Checkout_Model_Cart_Payment_ApiTest extends PHPUnit_Framework_Test
      */
     public function testShoppingCartPaymentList()
     {
-        $paymentMethods = Magento_Test_Helper_Api::call(
+        $paymentMethods = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartPaymentList',
             array(
@@ -46,7 +51,7 @@ class Magento_Checkout_Model_Cart_Payment_ApiTest extends PHPUnit_Framework_Test
             'cc_exp_month' => null
         );
 
-        $result = Magento_Test_Helper_Api::call(
+        $result = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartPaymentMethod',
             array(

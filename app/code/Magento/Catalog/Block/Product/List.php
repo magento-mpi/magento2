@@ -47,9 +47,9 @@ class Magento_Catalog_Block_Product_List extends Magento_Catalog_Block_Product_A
             }
 
             // if this is a product view page
-            if (Mage::registry('product')) {
+            if ($this->_coreRegistry->registry('product')) {
                 // get collection of categories this product is associated with
-                $categories = Mage::registry('product')->getCategoryCollection()
+                $categories = $this->_coreRegistry->registry('product')->getCategoryCollection()
                     ->setPage(1, 1)
                     ->load();
                 // if the product is associated with any category
@@ -86,7 +86,7 @@ class Magento_Catalog_Block_Product_List extends Magento_Catalog_Block_Product_A
      */
     public function getLayer()
     {
-        $layer = Mage::registry('current_layer');
+        $layer = $this->_coreRegistry->registry('current_layer');
         if ($layer) {
             return $layer;
         }
@@ -125,16 +125,20 @@ class Magento_Catalog_Block_Product_List extends Magento_Catalog_Block_Product_A
         $collection = $this->_getProductCollection();
 
         // use sortable parameters
-        if ($orders = $this->getAvailableOrders()) {
+        $orders = $this->getAvailableOrders();
+        if ($orders) {
             $toolbar->setAvailableOrders($orders);
         }
-        if ($sort = $this->getSortBy()) {
+        $sort = $this->getSortBy();
+        if ($sort) {
             $toolbar->setDefaultOrder($sort);
         }
-        if ($dir = $this->getDefaultDirection()) {
+        $dir = $this->getDefaultDirection();
+        if ($dir) {
             $toolbar->setDefaultDirection($dir);
         }
-        if ($modes = $this->getModes()) {
+        $modes = $this->getModes();
+        if ($modes) {
             $toolbar->setModes($modes);
         }
 
@@ -142,7 +146,7 @@ class Magento_Catalog_Block_Product_List extends Magento_Catalog_Block_Product_A
         $toolbar->setCollection($collection);
 
         $this->setChild('toolbar', $toolbar);
-        Mage::dispatchEvent('catalog_block_product_list_collection', array(
+        $this->_eventManager->dispatch('catalog_block_product_list_collection', array(
             'collection' => $this->_getProductCollection()
         ));
 
@@ -158,8 +162,10 @@ class Magento_Catalog_Block_Product_List extends Magento_Catalog_Block_Product_A
      */
     public function getToolbarBlock()
     {
-        if ($blockName = $this->getToolbarBlockName()) {
-            if ($block = $this->getLayout()->getBlock($blockName)) {
+        $blockName = $this->getToolbarBlockName();
+        if ($blockName) {
+            $block = $this->getLayout()->getBlock($blockName);
+            if ($block) {
                 return $block;
             }
         }
@@ -226,7 +232,8 @@ class Magento_Catalog_Block_Product_List extends Magento_Catalog_Block_Product_A
         }
         $availableOrders = $this->getAvailableOrders();
         if (!$this->getSortBy()) {
-            if ($categorySortBy = $category->getDefaultSortBy()) {
+            $categorySortBy = $category->getDefaultSortBy();
+            if ($categorySortBy) {
                 if (!$availableOrders) {
                     $availableOrders = $this->_getConfig()->getAttributeUsedForSortByArray();
                 }

@@ -35,7 +35,7 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Copy
      */
     public function isMultipleEnabled()
     {
-        return Mage::helper('Magento_MultipleWishlist_Helper_Data')->isMultipleEnabled();
+        return $this->_wishlistData->isMultipleEnabled();
     }
 
     /**

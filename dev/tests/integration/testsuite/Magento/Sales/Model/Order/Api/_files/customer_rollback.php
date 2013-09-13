@@ -5,5 +5,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-Mage::unregister('customer');
-Mage::unregister('customer_address');
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+$objectManager->get('Magento_Core_Model_Registry')->unregister('customer');
+$objectManager->get('Magento_Core_Model_Registry')->unregister('customer_address');

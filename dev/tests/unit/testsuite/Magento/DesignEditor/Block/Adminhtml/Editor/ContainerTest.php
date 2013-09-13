@@ -16,13 +16,13 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_ContainerTest extends PHPUnit_
     /**
      * Object manager helper
      *
-     * @var Magento_Test_Helper_ObjectManager
+     * @var Magento_TestFramework_Helper_ObjectManager
      */
     protected $_helper;
 
     protected function setUp()
     {
-        $this->_helper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_helper = new Magento_TestFramework_Helper_ObjectManager($this);
     }
 
     protected function tearDown()
@@ -37,7 +37,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_ContainerTest extends PHPUnit_
      */
     protected function _getBlockArguments()
     {
-        $helperFactory = $this->getMock('Magento_Core_Model_Factory_Helper', array('get'));
+        $helperFactory = $this->getMock('Magento_Core_Model_Factory_Helper', array('get'), array(), '', false);
 
         return array(
             'urlBuilder'    => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false),

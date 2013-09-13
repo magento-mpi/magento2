@@ -11,7 +11,9 @@
 
 class Magento_Payment_Block_Form_Cc extends Magento_Payment_Block_Form
 {
-
+    /**
+     * @var string
+     */
     protected $_template = 'Magento_Payment::form/cc.phtml';
 
     /**
@@ -132,8 +134,8 @@ class Magento_Payment_Block_Form_Cc extends Magento_Payment_Block_Form
      */
     protected function _toHtml()
     {
-        Mage::dispatchEvent('payment_form_block_to_html_before', array(
-            'block'     => $this
+        $this->_eventManager->dispatch('payment_form_block_to_html_before', array(
+            'block'     => $this,
         ));
         return parent::_toHtml();
     }

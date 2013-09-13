@@ -36,7 +36,7 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
 
     public function setUp()
     {
-        $this->_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $dirs = $this->_objectManager->create(
             'Magento_Core_Model_Dir',
             array(

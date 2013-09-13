@@ -10,6 +10,7 @@
 
 /**
  * Resource setup model with methods needed for migration process between Magento versions
+ * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
 class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Resource_Setup
 {
@@ -128,33 +129,39 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
     protected $_filesystem;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Helper_Data $helper
      * @param $resourceName
+     * @param Magento_Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Filesystem $filesystem,
+        Magento_Core_Helper_Data $helper,
         $resourceName,
         array $data = array()
     ) {
         $this->_filesystem = $filesystem;
+        $this->_coreHelper = $helper;
         if (!isset($data['resource_config'])
             || !isset($data['connection_config'])
             || !isset($data['module_config'])
             || !isset($data['connection'])
         ) {
             parent::__construct(
-                $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
+                $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
             );
         } else {
             $this->_resourceModel = $resource;
@@ -165,11 +172,6 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
             }
 
             $this->_initConfigs($data);
-        }
-        if (isset($data['core_helper'])) {
-            $this->_coreHelper = $data['core_helper'];
-        } else {
-            $this->_coreHelper = Mage::helper('Magento_Core_Helper_Data');
         }
 
         if (isset($data['base_dir'])) {

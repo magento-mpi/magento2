@@ -18,7 +18,6 @@
 class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     extends Magento_Adminhtml_Block_Widget implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
-
     /**
      * Reference to product objects that is being edited
      *
@@ -31,24 +30,27 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     protected $_template = 'product/edit/downloadable.phtml';
 
     /**
-     * Get tab URL
+     * Core registry
      *
-     * @return string
+     * @var Magento_Core_Model_Registry
      */
-//    public function getTabUrl()
-//    {
-//        return $this->getUrl('downloadable/product_edit/form', array('_current' => true));
-//    }
+    protected $_coreRegistry = null;
 
     /**
-     * Get tab class
-     *
-     * @return string
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
      */
-//    public function getTabClass()
-//    {
-//        return 'ajax';
-//    }
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Check is readonly block
@@ -67,7 +69,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**
@@ -148,5 +150,4 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
 
         return parent::_toHtml();
     }
-
 }

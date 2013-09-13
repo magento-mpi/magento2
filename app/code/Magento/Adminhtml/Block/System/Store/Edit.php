@@ -10,28 +10,46 @@
 
 /**
  * Adminhtml store edit
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Adminhtml_Block_System_Store_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Init class
      *
      */
     protected function _construct()
     {
-        switch (Mage::registry('store_type')) {
+        switch ($this->_coreRegistry->registry('store_type')) {
             case 'website':
                 $this->_objectId = 'website_id';
                 $saveLabel   = __('Save Web Site');
                 $deleteLabel = __('Delete Web Site');
                 $deleteUrl   = $this->getUrl(
                     '*/*/deleteWebsite',
-                    array('item_id' => Mage::registry('store_data')->getId())
+                    array('item_id' => $this->_coreRegistry->registry('store_data')->getId())
                 );
                 break;
             case 'group':
@@ -40,7 +58,7 @@ class Magento_Adminhtml_Block_System_Store_Edit extends Magento_Adminhtml_Block_
                 $deleteLabel = __('Delete Store');
                 $deleteUrl   = $this->getUrl(
                     '*/*/deleteGroup',
-                    array('item_id' => Mage::registry('store_data')->getId())
+                    array('item_id' => $this->_coreRegistry->registry('store_data')->getId())
                 );
                 break;
             case 'store':
@@ -49,7 +67,7 @@ class Magento_Adminhtml_Block_System_Store_Edit extends Magento_Adminhtml_Block_
                 $deleteLabel = __('Delete Store View');
                 $deleteUrl   = $this->getUrl(
                     '*/*/deleteStore',
-                    array('item_id' => Mage::registry('store_data')->getId())
+                    array('item_id' => $this->_coreRegistry->registry('store_data')->getId())
                 );
                 break;
             default:
@@ -65,14 +83,14 @@ class Magento_Adminhtml_Block_System_Store_Edit extends Magento_Adminhtml_Block_
         $this->_updateButton('delete', 'label', $deleteLabel);
         $this->_updateButton('delete', 'onclick', 'setLocation(\''.$deleteUrl.'\');');
 
-        if (!Mage::registry('store_data')) {
+        if (!$this->_coreRegistry->registry('store_data')) {
             return;
         }
 
-        if (!Mage::registry('store_data')->isCanDelete()) {
+        if (!$this->_coreRegistry->registry('store_data')->isCanDelete()) {
             $this->_removeButton('delete');
         }
-        if (Mage::registry('store_data')->isReadOnly()) {
+        if ($this->_coreRegistry->registry('store_data')->isReadOnly()) {
             $this->_removeButton('save')->_removeButton('reset');
         }
     }
@@ -84,7 +102,7 @@ class Magento_Adminhtml_Block_System_Store_Edit extends Magento_Adminhtml_Block_
      */
     public function getHeaderText()
     {
-        switch (Mage::registry('store_type')) {
+        switch ($this->_coreRegistry->registry('store_type')) {
             case 'website':
                 $editLabel = __('Edit Web Site');
                 $addLabel  = __('New Web Site');
@@ -99,7 +117,7 @@ class Magento_Adminhtml_Block_System_Store_Edit extends Magento_Adminhtml_Block_
                 break;
         }
 
-        return Mage::registry('store_action') == 'add' ? $addLabel : $editLabel;
+        return $this->_coreRegistry->registry('store_action') == 'add' ? $addLabel : $editLabel;
     }
 
     /**
@@ -109,6 +127,6 @@ class Magento_Adminhtml_Block_System_Store_Edit extends Magento_Adminhtml_Block_
      */
     protected function _buildFormClassName()
     {
-        return parent::_buildFormClassName() . '_' . ucwords(Mage::registry('store_type'));
+        return parent::_buildFormClassName() . '_' . ucwords($this->_coreRegistry->registry('store_type'));
     }
 }

@@ -9,6 +9,12 @@
  */
 class Magento_GiftMessage_Model_ApiTest extends PHPUnit_Framework_TestCase
 {
+
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test setting gift message fot the whole shopping cart.
      *
@@ -22,7 +28,7 @@ class Magento_GiftMessage_Model_ApiTest extends PHPUnit_Framework_TestCase
         $quoteId = $this->_getQuote()->getId();
 
         /** Call tested method. */
-        $status = Magento_Test_Helper_Api::call(
+        $status = Magento_TestFramework_Helper_Api::call(
             $this,
             'giftMessageSetForQuote',
             array($quoteId, $this->_getGiftMessageData())
@@ -52,7 +58,7 @@ class Magento_GiftMessage_Model_ApiTest extends PHPUnit_Framework_TestCase
         $quoteItem = reset($quoteItems);
 
         /** Call tested method. */
-        $status = Magento_Test_Helper_Api::call(
+        $status = Magento_TestFramework_Helper_Api::call(
             $this,
             'giftMessageSetForQuoteItem',
             array($quoteItem->getId(), $this->_getGiftMessageData())
@@ -83,7 +89,7 @@ class Magento_GiftMessage_Model_ApiTest extends PHPUnit_Framework_TestCase
         $quoteItem = reset($quoteItems);
 
         /** Call tested method. */
-        $status = Magento_Test_Helper_Api::call(
+        $status = Magento_TestFramework_Helper_Api::call(
             $this,
             'giftMessageSetForQuoteProduct',
             array(

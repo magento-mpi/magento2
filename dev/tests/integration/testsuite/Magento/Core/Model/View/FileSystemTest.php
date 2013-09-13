@@ -22,13 +22,14 @@ class Magento_Core_Model_View_FileSystemTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
+        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
                 Magento_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design'
             )
         ));
-        $this->_model = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_View_FileSystem');
-        Magento_Test_Helper_Bootstrap::getObjectManager()
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_FileSystem');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_View_DesignInterface')
             ->setDesignTheme('test_default');
     }
@@ -40,10 +41,10 @@ class Magento_Core_Model_View_FileSystemTest extends PHPUnit_Framework_TestCase
         $this->_testExpectedVersusActualFilename($expected, $actual);
     }
 
-    public function testGetLocaleFileName()
+    public function testGetFileNameAccordingToLocale()
     {
-        $expected = '%s/frontend/test_default/locale/en_US/translate.csv';
-        $actual = $this->_model->getLocaleFileName('translate.csv', array());
+        $expected = '%s/frontend/test_default/i18n/fr_FR/logo.gif';
+        $actual = $this->_model->getLocaleFileName('logo.gif', array('locale' => 'fr_FR'));
         $this->_testExpectedVersusActualFilename($expected, $actual);
     }
 

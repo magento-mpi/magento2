@@ -18,6 +18,29 @@
 class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Magento_Adminhtml_Block_Template
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Prepares layout of block
      *
      * @return Magento_Adminhtml_Block_Sales_Order_View_Giftmessage
@@ -39,7 +62,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Magento
      */
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return $this->_coreRegistry->registry('current_shipment');
     }
 
     /**
@@ -110,10 +133,10 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Magento
 
     public function getCarrierTitle($code)
     {
-        if ($carrier = Mage::getSingleton('Magento_Shipping_Model_Config')->getCarrierInstance($code)) {
+        $carrier = Mage::getSingleton('Magento_Shipping_Model_Config')->getCarrierInstance($code);
+        if ($carrier) {
             return $carrier->getConfigData('title');
-        }
-        else {
+        } else {
             return __('Custom Value');
         }
         return false;

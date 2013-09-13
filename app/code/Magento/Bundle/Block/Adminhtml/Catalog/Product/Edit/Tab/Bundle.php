@@ -22,6 +22,29 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle extends Mag
 
     protected $_template = 'product/edit/bundle.phtml';
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getTabUrl()
     {
         return $this->getUrl('*/bundle_product_edit/form', array('_current' => true));
@@ -81,21 +104,24 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle extends Mag
 
     public function getProduct()
     {
-        return Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     public function getTabLabel()
     {
         return __('Bundle Items');
     }
+
     public function getTabTitle()
     {
         return __('Bundle Items');
     }
+
     public function canShowTab()
     {
         return true;
     }
+
     public function isHidden()
     {
         return false;

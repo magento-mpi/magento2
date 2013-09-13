@@ -10,12 +10,12 @@
  */
 
 /**
- * Test class for Magento_Test_Bootstrap_Settings.
+ * Test class for Magento_TestFramework_Bootstrap_Settings.
  */
 class Magento_Test_Bootstrap_SettingsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_Bootstrap_Settings
+     * @var Magento_TestFramework_Bootstrap_Settings
      */
     protected $_object;
 
@@ -39,7 +39,7 @@ class Magento_Test_Bootstrap_SettingsTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_object = new Magento_Test_Bootstrap_Settings($this->_fixtureDir, array(
+        $this->_object = new Magento_TestFramework_Bootstrap_Settings($this->_fixtureDir, array(
             'item_label'                => 'Item Label',
             'number_of_items'           => 42,
             'item_price'                => 12.99,
@@ -67,7 +67,7 @@ class Magento_Test_Bootstrap_SettingsTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructorNonExistingBaseDir()
     {
-        new Magento_Test_Bootstrap_Settings('non_existing_dir', array());
+        new Magento_TestFramework_Bootstrap_Settings('non_existing_dir', array());
     }
 
     /**

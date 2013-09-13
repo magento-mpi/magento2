@@ -16,7 +16,7 @@
  * @package    Magento_VersionsCms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Currently selected store in store switcher
@@ -33,16 +33,32 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
     protected $_nodePreviewStoreId;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
+     * Cms hierarchy
+     *
+     * @var Magento_VersionsCms_Helper_Hierarchy
+     */
+    protected $_cmsHierarchy = null;
+
+    /**
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy,
         Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        $this->_cmsHierarchy = $cmsHierarchy;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
 
         $this->setTemplate('hierarchy/edit.phtml');
 
@@ -58,11 +74,14 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getUrl('*/*/save'),
-            'method'    => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getUrl('*/*/save'),
+                'method'    => 'post',
+            ))
+        );
 
         /**
          * Define general properties for each node
@@ -142,7 +161,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
         /**
          * Define field set with elements for root nodes
          */
-        if (Mage::helper('Magento_VersionsCms_Helper_Hierarchy')->isMetadataEnabled()) {
+        if ($this->_cmsHierarchy->isMetadataEnabled()) {
             $fieldset   = $form->addFieldset('metadata_fieldset', array(
                 'legend'    => __('Render Metadata in HTML Head.')
             ));
@@ -401,7 +420,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
     public function getNodesJson()
     {
         /** @var $nodeModel Magento_VersionsCms_Model_Hierarchy_Node */
-        $nodeModel = Mage::registry('current_hierarchy_node');
+        $nodeModel = $this->_coreRegistry->registry('current_hierarchy_node');
         $this->setData('current_scope', $nodeModel->getScope());
         $this->setData('current_scope_id', $nodeModel->getScopeId());
 
@@ -431,7 +450,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
             }
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($nodes);
+        return $this->_coreData->jsonEncode($nodes);
     }
 
     /**
@@ -602,7 +621,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
             $result[$listType][$type] = $label;
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 
     /**

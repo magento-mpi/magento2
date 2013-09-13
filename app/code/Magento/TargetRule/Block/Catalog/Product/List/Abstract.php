@@ -46,7 +46,7 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
      */
     public function getProduct()
     {
-        return Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     /**
@@ -116,10 +116,10 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
     {
         $limit = $this->getProduct()->getData($this->_getPositionLimitField());
         if (is_null($limit)) { // use configuration settings
-            $limit = $this->getTargetRuleHelper()->getMaximumNumberOfProduct($this->getProductListType());
+            $limit = $this->_targetRuleData->getMaximumNumberOfProduct($this->getProductListType());
             $this->getProduct()->setData($this->_getPositionLimitField(), $limit);
         }
-        return $this->getTargetRuleHelper()->getMaxProductsListResult($limit);
+        return $this->_targetRuleData->getMaxProductsListResult($limit);
     }
 
     /**
@@ -131,7 +131,7 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
     {
         $behavior = $this->getProduct()->getData($this->_getPositionBehaviorField());
         if (is_null($behavior)) { // use configuration settings
-            $behavior = $this->getTargetRuleHelper()->getShowProducts($this->getProductListType());
+            $behavior = $this->_targetRuleData->getShowProducts($this->getProductListType());
             $this->getProduct()->setData($this->_getPositionBehaviorField(), $behavior);
         }
         return $behavior;

@@ -36,7 +36,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_ContentTest extend
         $this->_urlBuilder = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false);
         $this->_request = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $constructArguments =  $objectManagerHelper->getConstructArguments(
             'Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content',
             array(

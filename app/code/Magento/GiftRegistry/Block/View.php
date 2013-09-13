@@ -21,7 +21,7 @@ class Magento_GiftRegistry_Block_View extends Magento_GiftRegistry_Block_Custome
      */
     public function getEntity()
     {
-        return Mage::registry('current_entity');
+        return $this->_coreRegistry->registry('current_entity');
     }
 
     /**
@@ -62,10 +62,12 @@ class Magento_GiftRegistry_Block_View extends Magento_GiftRegistry_Block_Custome
      */
     public function getRegistrantRoles($attributeCode, $type)
     {
-        if ($registrantRoles = $this->getEntity()->getRegistrantRoles()) {
+        $registrantRoles = $this->getEntity()->getRegistrantRoles();
+        if ($registrantRoles) {
             $roles = array();
             foreach ($registrantRoles as $code) {
-                if ($label = $type->getOptionLabel($attributeCode, $code)) {
+                $label = $type->getOptionLabel($attributeCode, $code);
+                if ($label) {
                     $roles[] = $label;
                 }
             }
@@ -115,6 +117,7 @@ class Magento_GiftRegistry_Block_View extends Magento_GiftRegistry_Block_Custome
                     break;
                 default :
                     $attributeValue = $this->getEntity()->getDataUsingMethod($attributeCode);
+                    break;
             }
 
             if ((string)$attributeValue == '') {

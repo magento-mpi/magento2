@@ -17,6 +17,31 @@ class Magento_GiftRegistry_Block_Search_Advanced extends Magento_GiftRegistry_Bl
     protected $_formData = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $configCacheType, $data);
+    }
+
+    /**
      * Get config
      *
      * @param string $path
@@ -62,7 +87,7 @@ class Magento_GiftRegistry_Block_Search_Advanced extends Magento_GiftRegistry_Bl
     public function getAttributes()
     {
         if (is_null($this->_attributes)) {
-            $type = Mage::registry('current_giftregistry_type');
+            $type = $this->_coreRegistry->registry('current_giftregistry_type');
             $config = Mage::getSingleton('Magento_GiftRegistry_Model_Attribute_Config');
             $staticTypes = $config->getStaticTypesCodes();
 
@@ -114,7 +139,8 @@ class Magento_GiftRegistry_Block_Search_Advanced extends Magento_GiftRegistry_Bl
                 $regionAttribute['code'] = $region;
                 $regionAttribute['type'] = 'region';
 
-                if ($formValue = $this->getFormData($isCountry)) {
+                $formValue = $this->getFormData($isCountry);
+                if ($formValue) {
                     $regionAttribute['country'] = $formValue;
                 }
                 $attributes[$region] = $regionAttribute;

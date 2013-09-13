@@ -18,20 +18,19 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_TabAbstractTest extends 
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $objectManagerModel = $this->getMock('Magento_ObjectManager');
-
-        $constructArguments = $objectManagerHelper->getConstructArguments(
-            'Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js',
-            array(
-                 'objectManager' => $objectManagerModel,
-                 'urlBuilder'    => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false)
-            )
-        );
-
         $this->_model = $this->getMockForAbstractClass(
             'Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstract',
-            $constructArguments, '', true, false, true,
+            array(
+                $this->getMock('Magento_Data_Form_Factory', array(), array(), '', false),
+                $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false),
+                $this->getMock('Magento_Backend_Block_Template_Context', array(), array(), '', false),
+                $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false),
+                $this->getMock('Magento_ObjectManager', array(), array(), '', false)
+            ),
+            '',
+            true,
+            false,
+            true,
             array('_getCurrentTheme', 'getTabLabel')
         );
     }

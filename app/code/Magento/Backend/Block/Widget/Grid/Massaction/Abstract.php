@@ -117,7 +117,7 @@ abstract class Magento_Backend_Block_Widget_Grid_Massaction_Abstract extends Mag
             $result[$itemId] = $item->toArray();
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 
     /**

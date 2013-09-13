@@ -21,6 +21,7 @@ class Magento_CustomerCustomAttributes_Model_ObserverTest extends PHPUnit_Framew
      */
     protected $_blockInjections = array(
         'Magento_Core_Model_Context',
+        'Magento_Core_Model_Registry',
         null,
         null
     );
@@ -62,6 +63,7 @@ class Magento_CustomerCustomAttributes_Model_ObserverTest extends PHPUnit_Framew
         $address = Mage::getModel('Magento_Sales_Model_Order_Address');
         $address->load('admin@example.com', 'email');
         $arguments = $this->_prepareConstructorArguments();
+
         $arguments[] = array('id' => $address->getId());
         $entity = $this->getMockForAbstractClass('Magento_Core_Model_Abstract', $arguments);
         $observer = new Magento_Event_Observer(array(

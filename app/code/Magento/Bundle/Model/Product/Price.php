@@ -32,6 +32,25 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
      *
      * @return bool
      */
+    /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     */
+    public function __construct(
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Model_Event_Manager $eventManager
+    ) {
+        $this->_taxData = $taxData;
+        parent::__construct($eventManager);
+    }
+
     public function getIsPricesCalculatedByIndex()
     {
         return $this->_isPricesCalculatedByIndex;
@@ -68,7 +87,7 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
                 $selectionIds = unserialize($customOption->getValue());
                 $selections = $product->getTypeInstance()->getSelectionsByIds($selectionIds, $product);
                 $selections->addTierPriceData();
-                Mage::dispatchEvent('prepare_catalog_product_collection_prices', array(
+                $this->_eventManager->dispatch('prepare_catalog_product_collection_prices', array(
                     'collection' => $selections,
                     'store_id' => $product->getStoreId(),
                 ));
@@ -101,7 +120,7 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
 
         $finalPrice = $this->getBasePrice($product, $qty);
         $product->setFinalPrice($finalPrice);
-        Mage::dispatchEvent('catalog_product_get_final_price', array('product' => $product, 'qty' => $qty));
+        $this->_eventManager->dispatch('catalog_product_get_final_price', array('product' => $product, 'qty' => $qty));
         $finalPrice = $product->getData('final_price');
 
         $finalPrice = $this->_applyOptionsPrice($product, $qty, $finalPrice);
@@ -138,8 +157,8 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
     {
         // check calculated price index
         if ($product->getData('min_price') && $product->getData('max_price')) {
-            $minimalPrice = Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $product->getData('min_price'), $includeTax);
-            $maximalPrice = Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $product->getData('max_price'), $includeTax);
+            $minimalPrice = $this->_taxData->getPrice($product, $product->getData('min_price'), $includeTax);
+            $maximalPrice = $this->_taxData->getPrice($product, $product->getData('max_price'), $includeTax);
             $this->_isPricesCalculatedByIndex = true;
         } else {
             /**
@@ -147,7 +166,7 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
              */
             $finalPrice = $product->getFinalPrice();
             if ($product->getPriceType() == self::PRICE_TYPE_FIXED) {
-                $minimalPrice = $maximalPrice = Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $finalPrice, $includeTax);
+                $minimalPrice = $maximalPrice = $this->_taxData->getPrice($product, $finalPrice, $includeTax);
             } else { // PRICE_TYPE_DYNAMIC
                 $minimalPrice = $maximalPrice = 0;
             }
@@ -176,12 +195,12 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
 
                             $item = $product->getPriceType() == self::PRICE_TYPE_FIXED ? $product : $selection;
 
-                            $selectionMinimalPrices[] = Mage::helper('Magento_Tax_Helper_Data')->getPrice(
+                            $selectionMinimalPrices[] = $this->_taxData->getPrice(
                                 $item,
                                 $this->getSelectionFinalTotalPrice($product, $selection, 1, $qty, true, $takeTierPrice),
                                 $includeTax
                             );
-                            $selectionMaximalPrices[] = Mage::helper('Magento_Tax_Helper_Data')->getPrice(
+                            $selectionMaximalPrices[] = $this->_taxData->getPrice(
                                 $item,
                                 $this->getSelectionFinalTotalPrice($product, $selection, 1, null, true, $takeTierPrice),
                                 $includeTax
@@ -229,7 +248,7 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
                         }
                         if (count($prices)) {
                             if ($customOption->getIsRequire()) {
-                                $minimalPrice += Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, min($prices), $includeTax);
+                                $minimalPrice += $this->_taxData->getPrice($product, min($prices), $includeTax);
                             }
 
                             $multiTypes = array(
@@ -243,15 +262,15 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
                             } else {
                                 $maximalValue = max($prices);
                             }
-                            $maximalPrice += Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $maximalValue, $includeTax);
+                            $maximalPrice += $this->_taxData->getPrice($product, $maximalValue, $includeTax);
                         }
                     } else {
                         $valuePrice = $customOption->getPrice(true);
 
                         if ($customOption->getIsRequire()) {
-                            $minimalPrice += Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $valuePrice, $includeTax);
+                            $minimalPrice += $this->_taxData->getPrice($product, $valuePrice, $includeTax);
                         }
-                        $maximalPrice += Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $valuePrice, $includeTax);
+                        $maximalPrice += $this->_taxData->getPrice($product, $valuePrice, $includeTax);
                     }
                 }
             }
@@ -367,7 +386,7 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
             if ($selectionProduct->getSelectionPriceType()) { // percent
                 $product = clone $bundleProduct;
                 $product->setFinalPrice($this->getPrice($product));
-                Mage::dispatchEvent(
+                $this->_eventManager->dispatch(
                     'catalog_product_get_final_price',
                     array('product' => $product, 'qty' => $bundleQty)
                 );

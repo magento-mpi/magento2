@@ -37,12 +37,49 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     protected $_skipRequestLogging = false;
 
     /**
+     * Core http
+     *
+     * @var Magento_Core_Helper_Http
+     */
+    protected $_coreHttp = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_coreHttp = $coreHttp;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Onject initialization
      */
     protected function _construct()
     {
         $this->_init('Magento_Log_Model_Resource_Visitor');
-        $userAgent = Mage::helper('Magento_Core_Helper_Http')->getHttpUserAgent();
+        $userAgent = $this->_coreHttp->getHttpUserAgent();
         $ignoreAgents = Mage::getConfig()->getNode('global/ignore_user_agents');
         if ($ignoreAgents) {
             $ignoreAgents = $ignoreAgents->asArray();
@@ -69,20 +106,17 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      */
     public function initServerData()
     {
-        /* @var $helper Magento_Core_Helper_Http */
-        $helper = Mage::helper('Magento_Core_Helper_Http');
-
         $this->addData(array(
-            'server_addr'           => $helper->getServerAddr(true),
-            'remote_addr'           => $helper->getRemoteAddr(true),
+            'server_addr'           => $this->_coreHttp->getServerAddr(true),
+            'remote_addr'           => $this->_coreHttp->getRemoteAddr(true),
             'http_secure'           => Mage::app()->getStore()->isCurrentlySecure(),
-            'http_host'             => $helper->getHttpHost(true),
-            'http_user_agent'       => $helper->getHttpUserAgent(true),
-            'http_accept_language'  => $helper->getHttpAcceptLanguage(true),
-            'http_accept_charset'   => $helper->getHttpAcceptCharset(true),
-            'request_uri'           => $helper->getRequestUri(true),
+            'http_host'             => $this->_coreHttp->getHttpHost(true),
+            'http_user_agent'       => $this->_coreHttp->getHttpUserAgent(true),
+            'http_accept_language'  => $this->_coreHttp->getHttpAcceptLanguage(true),
+            'http_accept_charset'   => $this->_coreHttp->getHttpAcceptCharset(true),
+            'request_uri'           => $this->_coreHttp->getRequestUri(true),
             'session_id'            => $this->_getSession()->getSessionId(),
-            'http_referer'          => $helper->getHttpReferer(true),
+            'http_referer'          => $this->_coreHttp->getHttpReferer(true),
         ));
 
         return $this;
@@ -150,7 +184,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
             $this->setFirstVisitAt(now());
             $this->setIsNewVisitor(true);
             $this->save();
-            Mage::dispatchEvent('visitor_init', array('visitor' => $this));
+            $this->_eventManager->dispatch('visitor_init', array('visitor' => $this));
         }
         return $this;
     }
