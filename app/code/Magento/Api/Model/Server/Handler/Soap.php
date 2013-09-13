@@ -20,6 +20,14 @@ class Magento_Api_Model_Server_Handler_Soap extends Magento_Api_Model_Server_Han
     protected $_resourceSuffix = '_V2';
 
     /**
+     * @param Magento_Core_Model_Logger $logger
+     */
+    public function __construct(Magento_Core_Model_Logger $logger)
+    {
+        parent::__construct($logger);
+    }
+
+    /**
      * Interceptor for all interfaces
      *
      * @param string $function
