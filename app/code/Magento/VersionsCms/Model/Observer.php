@@ -459,20 +459,6 @@ class Magento_VersionsCms_Model_Observer
     }
 
     /**
-     * Modify status's label from 'Enabled' to 'Published'.
-     *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_VersionsCms_Model_Observer
-     */
-    public function modifyPageStatuses(Magento_Event_Observer $observer)
-    {
-        $statuses = $observer->getEvent()->getStatuses();
-        $statuses->setData(Magento_Cms_Model_Page::STATUS_ENABLED, __('Published'));
-
-        return $this;
-    }
-
-    /**
      * Removing unneeded data from increment table for removed page.
      *
      * @param $observer

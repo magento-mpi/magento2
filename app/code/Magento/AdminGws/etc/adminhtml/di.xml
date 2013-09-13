@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Catalog_Model_Resource_Category">
+        <plugin name="admingws_category_resource_plugin" type="Magento_AdminGws_Model_Plugin_CategoryResource"/>
+    </type>
+    <type name="Magento_Catalog_Model_Product_Action">
+        <plugin name="admingws_product_action_plugin" type="Magento_AdminGws_Model_Plugin_ProductAction"/>
+    </type>
+</config>

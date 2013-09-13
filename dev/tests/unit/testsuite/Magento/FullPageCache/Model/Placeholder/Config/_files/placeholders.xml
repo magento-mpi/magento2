@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <placeholder name="nameOne" code="codeOne" cacheLifeTime="86400">
+        <container instance="containerInstanceOne" />
+        <block instance="blockInstanceOne" />
+    </placeholder>
+    <placeholder name="nameTwo" code="codeTwo" cacheLifeTime="86400">
+        <container instance="containerInstanceTwo" />
+        <block instance="blockInstanceTwo" name="blockNameTwo"/>
+    </placeholder>
+    <placeholder name="nameThree" code="codeTwo">
+        <container instance="containerInstanceTwo" />
+        <block instance="blockInstanceOne" name="blockNameThree"/>
+    </placeholder>
+</config>

@@ -29,11 +29,21 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
      * @var Magento_AuthorizationInterface
      */
     protected $_authorization;
-    
+
     /**
      * @var Magento_Core_Model_View_Url
      */
     protected $_viewUrl;
+
+    /**
+     * @var Magento_Core_Model_Variable_Config
+     */
+    protected $_variableConfig;
+
+    /**
+     * @var Magento_Widget_Model_Widget_Config
+     */
+    protected $_widgetConfig;
 
     /**
      * Cms data
@@ -54,6 +64,8 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
      * @param Magento_Cms_Helper_Data $cmsData
      * @param Magento_AuthorizationInterface $authorization
      * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_Variable_Config $variableConfig
+     * @param Magento_Widget_Model_Widget_Config $widgetConfig
      * @param array $data
      */
     public function __construct(
@@ -61,12 +73,16 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
         Magento_Cms_Helper_Data $cmsData,
         Magento_AuthorizationInterface $authorization,
         Magento_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_Variable_Config $variableConfig,
+        Magento_Widget_Model_Widget_Config $widgetConfig,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_cmsData = $cmsData;
         $this->_authorization = $authorization;
         $this->_viewUrl = $viewUrl;
+        $this->_variableConfig = $variableConfig;
+        $this->_widgetConfig = $widgetConfig;
         parent::__construct($data);
     }
 
@@ -126,7 +142,15 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
             $config->addData($data);
         }
 
-        $this->_eventManager->dispatch('cms_wysiwyg_config_prepare', array('config' => $config));
+        if ($config->getData('add_variables')) {
+            $settings = $this->_variableConfig->getWysiwygPluginSettings($config);
+            $config->addData($settings);
+        }
+
+        if ($config->getData('add_widgets')) {
+            $settings = $this->_widgetConfig->getPluginSettings($config);
+            $config->addData($settings);
+        }
 
         return $config;
     }

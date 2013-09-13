@@ -324,15 +324,4 @@ class Magento_Backend_Block_Widget_Container extends Magento_Backend_Block_Templ
         }
         return false;
     }
-
-    /**
-     * Prepare html output
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        $this->_eventManager->dispatch('adminhtml_widget_container_html_before', array('block' => $this));
-        return parent::_toHtml();
-    }
 }
