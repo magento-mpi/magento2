@@ -8,11 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="rss_catalog_new">
-        <reference name="rss.catalog.new">
+    <handle id="rss_catalog_newcatalog">
+        <reference name="rss.catalog.newcatalog">
             <action method="addPriceBlockType">
-                <argument name="type" xsi:type="string">giftcard</argument>
-                <argument name="block" xsi:type="string">\Magento\GiftCard\Block\Catalog\Product\Price</argument>
+                <argument name="type" xsi:type="string">bundle</argument>
+                <argument name="block" xsi:type="string">\Magento\Bundle\Block\Catalog\Product\Price</argument>
                 <argument name="template" xsi:type="string">rss/catalog/product/price.phtml</argument>
             </action>
         </reference>
