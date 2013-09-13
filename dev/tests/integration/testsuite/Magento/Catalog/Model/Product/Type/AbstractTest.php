@@ -22,8 +22,9 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
         $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
         $fileStorageDb = $this->getMock('Magento_Core_Helper_File_Storage_Database', array(), array(), '', false);
         $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $registry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
         $this->_model = $this->getMockForAbstractClass('Magento_Catalog_Model_Product_Type_Abstract',
-            array($eventManager, $coreData, $fileStorageDb, $filesystem), ''
+            array($eventManager, $coreData, $fileStorageDb, $filesystem, $registry), ''
         );
     }
 
@@ -128,7 +129,6 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
     }
 
     /**
-     * @param array $requestData
      * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Catalog/_files/multiple_products.php
      * multiple_products.php because there are products without options, and they don't intersect

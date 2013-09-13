@@ -27,8 +27,7 @@ class Magento_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $context = $objectManager->get('Magento_Core_Block_Template_Context');
 
         $this->_block = $this->getMockForAbstractClass('Magento_Wishlist_Block_Abstract', array(
-            $coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context,
-            $objectManager->get('Magento_Core_Model_Registry')
+            $coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context
         ));
     }
 

@@ -21,7 +21,8 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_object = Mage::getModel('Magento_CatalogRule_Model_Rule');
+        $this->_object = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_CatalogRule_Model_Rule');
     }
 
     /**
@@ -37,6 +38,8 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue('id'));
         $contextMock = $this->getMock('Magento_Core_Model_Context',
             array(), array(), '', false);
+        $registryMock = $this->getMock('Magento_Core_Model_Registry',
+            array(), array(), '', false);
         $formFactoryMock = $this->getMock('Magento_Data_Form_Factory',
             array(), array(), '', false);
         $ctlgRuleHlprMock = $this->getMock('Magento_CatalogRule_Helper_Data',
@@ -47,6 +50,7 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
                 $ctlgRuleHlprMock,
                 $formFactoryMock,
                 $contextMock,
+                $registryMock,
                 $resourceMock
             ), '');
 
@@ -54,7 +58,8 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
             ->method('_getRulesFromProduct')
             ->will($this->returnValue($this->_getCatalogRulesFixtures()));
 
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $this->assertEquals($catalogRule->calcProductPriceRule($product, 100), 45);
         $product->setParentId(true);
         $this->assertEquals($catalogRule->calcProductPriceRule($product, 50), 5);
