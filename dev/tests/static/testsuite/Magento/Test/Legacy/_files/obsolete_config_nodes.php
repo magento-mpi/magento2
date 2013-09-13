@@ -31,4 +31,5 @@ return array(
     '/config/global/cache/types/*/tags' => 'use /config/global/cache/types/*/class node instead',
     '/config/global/disable_local_modules' => '',
     '/config/*/layout' => 'Use convention for layout files placement instead of configuration',
+    '/config/global/customer/address/formats' => 'Use /config/format of address_formats.xml',
 );
