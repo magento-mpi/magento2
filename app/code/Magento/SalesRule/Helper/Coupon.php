@@ -47,10 +47,9 @@ class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
      * @param Magento_Core_Helper_Context $context
      * @param array $couponParameters
      */
-    public function __construct(
-        Magento_Core_Helper_Context $context,
-        array $couponParameters
-    ) {
+    public function __construct(Magento_Core_Helper_Context $context, array $couponParameters)
+    {
+        $this->_couponParameters = $couponParameters;
         parent::__construct($context);
     }
 
@@ -126,7 +125,7 @@ class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
      */
     public function getCharset($format)
     {
-        return str_split((string)$this->_couponParameters['charset'][$format]);
+        return str_split($this->_couponParameters['charset'][$format]);
     }
 
     /**
@@ -136,6 +135,6 @@ class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
      */
     public function getCodeSeparator()
     {
-        return (string)$this->_couponParameters['separator'];
+        return $this->_couponParameters['separator'];
     }
 }
