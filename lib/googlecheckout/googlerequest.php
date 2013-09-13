@@ -54,6 +54,14 @@
     var $certPath='';
     var $log;
 
+      /**
+       * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
+       */
+      public function __construct(Magento_Core_Model_Log_AdapterFactory $logAdapterFactory)
+      {
+          $this->_logAdapterFactory = $logAdapterFactory;
+      }
+
     /**
 		 * @param string $id the merchant id
 		 * @param string $key the merchant key
@@ -612,7 +620,7 @@
 
       if (Mage::getStoreConfig('google/checkout/debug')) {
             $file = "payment_googlecheckout.log";
-            $debug = Mage::getModel('Magento_Core_Model_Log_Adapter', array('fileName' => $file));
+            $debug = $this->_logAdapterFactory->create(array('fileName' => $file));
             $debug->log(
                 array(
                     'url' => $url,
