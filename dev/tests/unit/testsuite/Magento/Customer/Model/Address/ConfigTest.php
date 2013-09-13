@@ -24,13 +24,13 @@ class Magento_Customer_Model_Address_ConfigTest extends PHPUnit_Framework_TestCa
     protected $_cacheMock;
 
     /**
-      * @var PHPUnit_Framework_MockObject_MockObject
-      */
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_storeManagerMock;
 
     /**
-      * @var PHPUnit_Framework_MockObject_MockObject
-      */
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_addressHelperMock;
 
     /**

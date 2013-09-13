@@ -121,8 +121,14 @@ class Magento_Customer_Model_Address_Config extends Magento_Config_Data
             foreach ($this->get() as $typeCode => $typeConfig) {
                 $path = sprintf('%s%s', self::XML_PATH_ADDRESS_TEMPLATE, $typeCode);
                 $type = new Magento_Object();
-                $escapeHtml = isset($typeConfig['escapeHtml']) ? strtolower($typeConfig['escapeHtml']) : 'false';
-                $escapeHtml = $escapeHtml == 'false' || $escapeHtml == '0' ? false : true;
+                if (isset($typeConfig['escapeHtml'])
+                    && ($typeConfig['escapeHtml'] == 'true' || $typeConfig['escapeHtml'] == '1')
+                ) {
+                    $escapeHtml = true;
+                } else {
+                    $escapeHtml = false;
+                }
+
                 $type->setCode($typeCode)
                     ->setTitle((string)$typeConfig['title'])
                     ->setDefaultFormat($store->getConfig($path))
@@ -153,7 +159,7 @@ class Magento_Customer_Model_Address_Config extends Magento_Config_Data
     {
         $store = $this->getStore();
         $storeId = $store->getId();
-        if(!isset($this->_defaultType[$storeId])) {
+        if (!isset($this->_defaultType[$storeId])) {
             $this->_defaultType[$storeId] = new Magento_Object();
             $this->_defaultType[$storeId]->setCode('default')
                 ->setDefaultFormat('{{depend prefix}}{{var prefix}} {{/depend}}{{var firstname}} {{depend middlename}}'
@@ -177,8 +183,8 @@ class Magento_Customer_Model_Address_Config extends Magento_Config_Data
      */
     public function getFormatByCode($typeCode)
     {
-        foreach($this->getFormats() as $type) {
-            if($type->getCode()==$typeCode) {
+        foreach ($this->getFormats() as $type) {
+            if ($type->getCode()==$typeCode) {
                 return $type;
             }
         }

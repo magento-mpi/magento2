@@ -9,13 +9,13 @@
 class Magento_Customer_Model_Address_Config_SchemaLocatorTest extends PHPUnit_Framework_TestCase
 {
     /**
-      * @var Magento_Catalog_Model_Attribute_Config_SchemaLocator
-      */
+     * @var Magento_Catalog_Model_Attribute_Config_SchemaLocator
+     */
     protected $_model;
 
     /**
-      * @var Magento_Core_Model_Config_Modules_Reader|PHPUnit_Framework_MockObject_MockObject
-      */
+     * @var Magento_Core_Model_Config_Modules_Reader|PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_moduleReader;
 
     /**
@@ -55,4 +55,5 @@ class Magento_Customer_Model_Address_Config_SchemaLocatorTest extends PHPUnit_Fr
         $this->assertEquals($this->_xsdFile, $this->_model->getPerFileSchema());
         // Makes sure the value is calculated only once
         $this->assertEquals($this->_xsdFile, $this->_model->getPerFileSchema());
-    }}
+    }
+}

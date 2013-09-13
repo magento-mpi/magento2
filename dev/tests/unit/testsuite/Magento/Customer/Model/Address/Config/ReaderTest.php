@@ -9,28 +9,28 @@
 class Magento_Customer_Model_Address_Config_ReaderTest extends PHPUnit_Framework_TestCase
 {
     /**
-      * @var Magento_Customer_Model_Address_Config_Reader
-      */
+     * @var Magento_Customer_Model_Address_Config_Reader
+     */
     protected $_model;
 
     /**
-      * @var Magento_Config_FileResolverInterface|PHPUnit_Framework_MockObject_MockObject
-      */
+     * @var Magento_Config_FileResolverInterface|PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_fileResolverMock;
 
     /**
-      * @var Magento_Customer_Model_Address_Config_Converter|PHPUnit_Framework_MockObject_MockObject
-      */
+     * @var Magento_Customer_Model_Address_Config_Converter|PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_converter;
 
     /**
-      * @var Magento_Customer_Model_Address_Config_SchemaLocator
-      */
+     * @var Magento_Customer_Model_Address_Config_SchemaLocator
+     */
     protected $_schemaLocator;
 
     /**
-      * @var Magento_Config_ValidationStateInterface|PHPUnit_Framework_MockObject_MockObject
-      */
+     * @var Magento_Config_ValidationStateInterface|PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_validationState;
 
     protected function setUp()
@@ -89,4 +89,4 @@ class Magento_Customer_Model_Address_Config_ReaderTest extends PHPUnit_Framework
 
         $this->assertSame($expectedResult, $this->_model->read('scope'));
     }
- }
+}
