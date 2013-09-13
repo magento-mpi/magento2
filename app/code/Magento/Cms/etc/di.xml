@@ -8,6 +8,7 @@
  */
 -->
 <config>
+    <preference for="Magento_Filter_Template" type="Magento_Cms_Model_Template_Filter" />
     <type name="Magento_Core_Model_RouterList">
         <param name="routerList">
             <value>

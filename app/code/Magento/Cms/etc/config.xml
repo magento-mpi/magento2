@@ -74,14 +74,6 @@
                 </setup>
             </cms_setup>
         </resources>
-        <cms>
-            <page>
-                <tempate_filter>Magento_Cms_Model_Template_Filter</tempate_filter>
-            </page>
-            <block>
-                <tempate_filter>Magento_Cms_Model_Template_Filter</tempate_filter>
-            </block>
-        </cms>
     </global>
     <default>
         <web>

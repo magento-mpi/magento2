@@ -18,14 +18,6 @@
                 </setup>
             </widget_setup>
         </resources>
-        <cms>
-            <page>
-                <tempate_filter>Magento_Widget_Model_Template_Filter</tempate_filter>
-            </page>
-            <block>
-                <tempate_filter>Magento_Widget_Model_Template_Filter</tempate_filter>
-            </block>
-        </cms>
     </global>
     <adminhtml>
         <translate>

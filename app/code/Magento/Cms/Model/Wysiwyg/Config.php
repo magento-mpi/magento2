@@ -78,7 +78,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
             'add_variables'                 => true,
             'add_widgets'                   => true,
             'no_display'                    => false,
-            'translator'                    => Mage::helper('Magento_Cms_Helper_Data'),
+            'translator'                    => Mage::helper('Magento_Core_Helper_Data'),
             'encode_directives'             => true,
             'directives_url'                =>
                 Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/cms_wysiwyg/directive'),

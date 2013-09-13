@@ -28,7 +28,7 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 interface Zend_Filter_Interface
-{
+{+
     /**
      * Returns the result of filtering $value
      *
