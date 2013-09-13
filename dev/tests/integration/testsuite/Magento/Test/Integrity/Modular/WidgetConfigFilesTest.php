@@ -19,9 +19,11 @@ class Magento_Test_Integrity_Modular_WidgetConfigFilesTest extends PHPUnit_Frame
      */
     protected $_reader;
 
+    /** @var  PHPUnit_Framework_MockObject_MockObject */
     protected $_fileResolverMock;
+
     /**
-     * @var Magento_Test_ObjectManager
+     * @var Magento_TestFramework_ObjectManager
      */
     protected $_objectManager;
 
