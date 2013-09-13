@@ -27,8 +27,7 @@ class Magento_Directory_Helper_Url extends Magento_Core_Helper_Url
 
         if ($this->_getRequest()->getAlias('rewrite_request_path')) {
             $url = Mage::app()->getStore()->getBaseUrl() . $this->_getRequest()->getAlias('rewrite_request_path');
-        }
-        else {
+        } else {
             $url = $this->getCurrentUrl();
         }
         $params[Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED] = Mage::helper('Magento_Core_Helper_Data')
