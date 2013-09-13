@@ -31,10 +31,33 @@ class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
      */
     protected $_actionInstance = null;
 
+    /**
+     * Reward data
+     *
+     * @var Magento_Reward_Helper_Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * @param Magento_Reward_Helper_Data $rewardData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Reward_Helper_Data $rewardData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_rewardData = $rewardData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function initRewardType($action)
     {
         if ($action) {
-            if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront()) {
+            if (!$this->_rewardData->isEnabledOnFront()) {
                 return $this;
             }
             $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
@@ -57,7 +80,7 @@ class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
     public function getRewardAmount($amount = null, $asCurrency = false)
     {
         $amount = null === $amount ? $this->_getData('reward_amount') : $amount;
-        return Mage::helper('Magento_Reward_Helper_Data')->formatAmount($amount, $asCurrency);
+        return $this->_rewardData->formatAmount($amount, $asCurrency);
     }
 
     public function renderLearnMoreLink($format = '<a href="%1$s">%2$s</a>', $anchorText = null)
@@ -74,7 +97,7 @@ class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
         if ($this->_actionInstance) {
             $this->addData(array(
                 'reward_points' => $this->_rewardInstance->estimateRewardPoints($this->_actionInstance),
-                'landing_page_url' => Mage::helper('Magento_Reward_Helper_Data')->getLandingPageUrl(),
+                'landing_page_url' => $this->_rewardData->getLandingPageUrl(),
             ));
 
             if ($this->_rewardInstance->getId()) {

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Adminhtml_Block_Api_Tab_Roleinfo extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Api_Tab_Roleinfo extends Magento_Backend_Block_Widget_Form_Generic
 {
     public function _beforeToHtml() {
         $this->_initForm();
@@ -17,7 +17,8 @@ class Magento_Adminhtml_Block_Api_Tab_Roleinfo extends Magento_Adminhtml_Block_W
     {
         $roleId = $this->getRequest()->getParam('rid');
 
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Role Information')));
 

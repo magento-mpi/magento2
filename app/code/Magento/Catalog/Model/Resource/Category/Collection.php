@@ -119,7 +119,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
      */
     protected function _beforeLoad()
     {
-        Mage::dispatchEvent($this->_eventPrefix . '_load_before',
+        $this->_eventManager->dispatch($this->_eventPrefix . '_load_before',
                             array($this->_eventObject => $this));
         return parent::_beforeLoad();
     }
@@ -131,7 +131,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
      */
     protected function _afterLoad()
     {
-        Mage::dispatchEvent($this->_eventPrefix . '_load_after',
+        $this->_eventManager->dispatch($this->_eventPrefix . '_load_after',
                             array($this->_eventObject => $this));
 
         return parent::_afterLoad();
@@ -326,7 +326,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
     public function addIsActiveFilter()
     {
         $this->addAttributeToFilter('is_active', 1);
-        Mage::dispatchEvent($this->_eventPrefix . '_add_is_active_filter',
+        $this->_eventManager->dispatch($this->_eventPrefix . '_add_is_active_filter',
                             array($this->_eventObject => $this));
         return $this;
     }

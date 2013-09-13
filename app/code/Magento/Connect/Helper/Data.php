@@ -23,18 +23,30 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
     protected $_filesystem;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
-     * @param Magento_ObjectManger $objectManger
      * @param Magento_Filesystem $filesystem
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
-        Magento_ObjectManager $objectManager,
         Magento_Filesystem $filesystem
     ) {
-        parent::__construct($context, $config, $objectManager);
+        $this->_coreData = $coreData;
+        parent::__construct($eventManager, $coreHttp, $context, $config);
         $this->_filesystem = $filesystem;
     }
 
@@ -134,7 +146,7 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
 
         if ($this->_filesystem->isFile($xmlFile) && $this->_filesystem->isReadable($xmlFile)) {
             $xml  = simplexml_load_string($this->_filesystem->read($xmlFile));
-            $data = Mage::helper('Magento_Core_Helper_Data')->xmlToAssoc($xml);
+            $data = $this->_coreData->xmlToAssoc($xml);
             if (!empty($data)) {
                 return $data;
             }

@@ -123,13 +123,16 @@ class Magento_ImportExport_Model_Import_Entity_CustomerComposite
     protected $_dataSourceModels;
 
     /**
-     * Class constructor
-     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_String $coreString
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
-        parent::__construct($data);
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_String $coreString,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $coreString, $data);
 
         $this->addMessageTemplate(self::ERROR_ROW_IS_ORPHAN,
             __('Orphan rows that will be skipped due default row errors')

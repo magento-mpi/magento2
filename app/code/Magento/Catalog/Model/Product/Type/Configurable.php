@@ -888,7 +888,7 @@ class Magento_Catalog_Model_Product_Type_Configurable extends Magento_Catalog_Mo
         $generatedProductIds = array();
         foreach ($productsData as $simpleProductData) {
             $newSimpleProduct = Mage::getModel('Magento_Catalog_Model_Product');
-            $configurableAttribute = Mage::helper('Magento_Core_Helper_Data')->jsonDecode(
+            $configurableAttribute = $this->_coreData->jsonDecode(
                 $simpleProductData['configurable_attribute']
             );
             unset($simpleProductData['configurable_attribute']);

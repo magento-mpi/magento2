@@ -14,6 +14,37 @@ class Magento_Rule_Block_Editable
     implements Magento_Data_Form_Element_Renderer_Interface
 {
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_coreString = $coreString;
+        $this->_coreData = $coreData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Render element
      *
      * @see Magento_Data_Form_Element_Renderer_Interface::render()
@@ -29,9 +60,6 @@ class Magento_Rule_Block_Editable
             $valueName = '...';
         }
 
-        $coreHelper = Mage::helper('Magento_Core_Helper_Data');
-        $stringHelper = Mage::helper('Magento_Core_Helper_String');
-
         if ($element->getShowAsText()) {
             $html = ' <input type="hidden" class="hidden" id="' . $element->getHtmlId()
                 . '" name="' . $element->getName() . '" value="' . $element->getValue() . '"/> '
@@ -42,9 +70,9 @@ class Magento_Rule_Block_Editable
                 . '<a href="javascript:void(0)" class="label">';
 
             if ($this->_translator->isAllowed()) {
-                $html .= $coreHelper->escapeHtml($valueName);
+                $html .= $this->_coreData->escapeHtml($valueName);
             } else {
-                $html .= $coreHelper->escapeHtml($stringHelper->truncate($valueName, 33, '...'));
+                $html .= $this->_coreData->escapeHtml($this->_coreString->truncate($valueName, 33, '...'));
             }
 
             $html .= '</a><span class="element"> ' . $element->getElementHtml();

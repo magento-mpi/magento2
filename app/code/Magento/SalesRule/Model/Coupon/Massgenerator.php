@@ -34,6 +34,33 @@ class Magento_SalesRule_Model_Coupon_Massgenerator extends Magento_Core_Model_Ab
     protected $_generatedCount = 0;
 
     /**
+     * Sales rule coupon
+     *
+     * @var Magento_SalesRule_Helper_Coupon
+     */
+    protected $_salesRuleCoupon = null;
+
+    /**
+     * @param Magento_SalesRule_Helper_Coupon $salesRuleCoupon
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_SalesRule_Helper_Coupon $salesRuleCoupon,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_salesRuleCoupon = $salesRuleCoupon;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource
      */
     protected function _construct()
@@ -58,7 +85,7 @@ class Magento_SalesRule_Model_Coupon_Massgenerator extends Magento_Core_Model_Ab
         $prefix  = $this->getPrefix();
 
         $splitChar = $this->getDelimiter();
-        $charset = Mage::helper('Magento_SalesRule_Helper_Coupon')->getCharset($format);
+        $charset = $this->_salesRuleCoupon->getCharset($format);
 
         $code = '';
         $charsetSize = count($charset);
@@ -84,7 +111,7 @@ class Magento_SalesRule_Model_Coupon_Massgenerator extends Magento_Core_Model_Ab
         if ($this->getData('delimiter')) {
             return $this->getData('delimiter');
         } else {
-            return Mage::helper('Magento_SalesRule_Helper_Coupon')->getCodeSeparator();
+            return $this->_salesRuleCoupon->getCodeSeparator();
         }
     }
 
@@ -104,7 +131,7 @@ class Magento_SalesRule_Model_Coupon_Massgenerator extends Magento_Core_Model_Ab
         /** @var $coupon Magento_SalesRule_Model_Coupon */
         $coupon = Mage::getModel('Magento_SalesRule_Model_Coupon');
 
-        $chars = count(Mage::helper('Magento_SalesRule_Helper_Coupon')->getCharset($this->getFormat()));
+        $chars = count($this->_salesRuleCoupon->getCharset($this->getFormat()));
         $length = (int) $this->getLength();
         $maxCodes = pow($chars, $length);
         $probability = $size / $maxCodes;

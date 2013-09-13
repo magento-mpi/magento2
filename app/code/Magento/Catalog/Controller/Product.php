@@ -31,7 +31,7 @@ class Magento_Catalog_Controller_Product
         $params = new Magento_Object();
         $params->setCategoryId($categoryId);
 
-        return Mage::helper('Magento_Catalog_Helper_Product')->initProduct($productId, $this, $params);
+        return $this->_objectManager->get('Magento_Catalog_Helper_Product')->initProduct($productId, $this, $params);
     }
 
     /**
@@ -42,7 +42,7 @@ class Magento_Catalog_Controller_Product
      */
     protected function _initProductLayout($product)
     {
-        Mage::helper('Magento_Catalog_Helper_Product_View')->initProductLayout($product, $this);
+        $this->_objectManager->get('Magento_Catalog_Helper_Product_View')->initProductLayout($product, $this);
         return $this;
     }
 
@@ -58,7 +58,7 @@ class Magento_Catalog_Controller_Product
 
         // Prepare helper and params
         /** @var Magento_Catalog_Helper_Product_View $viewHelper */
-        $viewHelper = Mage::helper('Magento_Catalog_Helper_Product_View');
+        $viewHelper = $this->_objectManager->get('Magento_Catalog_Helper_Product_View');
 
         $params = new Magento_Object();
         $params->setCategoryId($categoryId);

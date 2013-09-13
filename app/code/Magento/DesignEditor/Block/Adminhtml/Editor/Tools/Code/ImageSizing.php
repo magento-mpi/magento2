@@ -10,8 +10,11 @@
 
 /**
  * Block that renders Custom tab
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Magento_Backend_Block_Widget_Form
+class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * @var Magento_Eav_Model_Config
@@ -29,6 +32,9 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends
     protected $_themeContext;
 
     /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $controlFactory
@@ -36,13 +42,16 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Eav_Model_Config $eavConfig,
         Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $controlFactory,
         Magento_DesignEditor_Model_Theme_Context $themeContext,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
         $this->_eavConfig = $eavConfig;
         $this->_controlFactory = $controlFactory;
         $this->_themeContext = $themeContext;
@@ -66,10 +75,13 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array(
-            'action'   => '#',
-            'method'   => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'action'   => '#',
+                'method'   => 'post',
+            ))
+        );
         $form->setId('product_image_sizing_form');
         $this->setForm($form);
         $form->setUseContainer(true);

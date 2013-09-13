@@ -20,6 +20,23 @@ class Magento_Api_Model_Server_Handler_Soap_Wsi extends Magento_Api_Model_Server
     protected $_resourceSuffix = '_V2';
 
     /**
+     * Api data
+     *
+     * @var Magento_Api_Helper_Data
+     */
+    protected $_apiData = null;
+
+    /**
+     * @param Magento_Api_Helper_Data $apiData
+     */
+    public function __construct(
+        Magento_Api_Helper_Data $apiData
+    ) {
+        $this->_apiData = $apiData;
+        parent::__construct();
+    }
+
+    /**
      * Interceptor for all interfaces
      *
      * @param string $function
@@ -30,10 +47,7 @@ class Magento_Api_Model_Server_Handler_Soap_Wsi extends Magento_Api_Model_Server
     {
         $args = $args[0];
 
-        /** @var Magento_Api_Helper_Data */
-        $helper = Mage::helper('Magento_Api_Helper_Data');
-
-        $helper->wsiArrayUnpacker($args);
+        $this->_apiData->wsiArrayUnpacker($args);
         $args = get_object_vars($args);
 
         if (isset($args['sessionId'])) {
@@ -61,7 +75,7 @@ class Magento_Api_Model_Server_Handler_Soap_Wsi extends Magento_Api_Model_Server
 
         $res = $this->_call($sessionId, $apiKey, $args);
 
-        $obj = $helper->wsiArrayPacker($res);
+        $obj = $this->_apiData->wsiArrayPacker($res);
         $stdObj = new stdClass();
         $stdObj->result = $obj;
 

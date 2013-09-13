@@ -14,17 +14,19 @@ class Magento_Search_Model_Resource_Search_Grid_Collection
     protected $_registryManager;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_Registry $registry,
         $resource = null
     ) {
         $this->_registryManager = $registry;
-        parent::__construct($fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $resource);
     }
 
     /**

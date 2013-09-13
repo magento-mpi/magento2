@@ -19,6 +19,35 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
 {
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_coreData = $coreData;
+        parent::__construct($data);
+    }
+
+    /**
      * Convert quote model to order model
      *
      * @param   Magento_Sales_Model_Quote $quote
@@ -37,8 +66,8 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             ->setQuote($quote)
             ->setCustomer($quote->getCustomer());
 
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldsetToTarget('sales_convert_quote', 'to_order', $quote, $order);
-        Mage::dispatchEvent('sales_convert_quote_to_order', array('order'=>$order, 'quote'=>$quote));
+        $this->_coreData->copyFieldsetToTarget('sales_convert_quote', 'to_order', $quote, $order);
+        $this->_eventManager->dispatch('sales_convert_quote_to_order', array('order'=>$order, 'quote'=>$quote));
         return $order;
     }
 
@@ -54,14 +83,14 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             $order = $this->toOrder($address->getQuote());
         }
 
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldsetToTarget(
+        $this->_coreData->copyFieldsetToTarget(
             'sales_convert_quote_address',
             'to_order',
             $address,
             $order
         );
 
-        Mage::dispatchEvent('sales_convert_quote_address_to_order', array('address'=>$address, 'order'=>$order));
+        $this->_eventManager->dispatch('sales_convert_quote_address_to_order', array('address'=>$address, 'order'=>$order));
         return $order;
     }
 
@@ -79,14 +108,14 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             ->setCustomerId($address->getCustomerId())
             ->setCustomerAddressId($address->getCustomerAddressId());
 
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldsetToTarget(
+        $this->_coreData->copyFieldsetToTarget(
             'sales_convert_quote_address',
             'to_order_address',
             $address,
             $orderAddress
         );
 
-        Mage::dispatchEvent('sales_convert_quote_address_to_order_address',
+        $this->_eventManager->dispatch('sales_convert_quote_address_to_order_address',
             array('address' => $address, 'order_address' => $orderAddress));
 
         return $orderAddress;
@@ -104,14 +133,14 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             ->setStoreId($payment->getStoreId())
             ->setCustomerPaymentId($payment->getCustomerPaymentId());
 
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldsetToTarget(
+        $this->_coreData->copyFieldsetToTarget(
             'sales_convert_quote_payment',
             'to_order_payment',
             $payment,
             $orderPayment
         );
 
-        Mage::dispatchEvent('sales_convert_quote_payment_to_order_payment',
+        $this->_eventManager->dispatch('sales_convert_quote_payment_to_order_payment',
             array('order_payment' => $orderPayment, 'quote_payment' => $payment));
 
         return $orderPayment;
@@ -141,7 +170,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             $options = $item->getProduct()->getTypeInstance()->getOrderOptions($item->getProduct());
         }
         $orderItem->setProductOptions($options);
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldsetToTarget(
+        $this->_coreData->copyFieldsetToTarget(
             'sales_convert_quote_item',
             'to_order_item',
             $item,
@@ -153,7 +182,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
         }
 
         if (!$item->getNoDiscount()) {
-            Mage::helper('Magento_Core_Helper_Data')->copyFieldsetToTarget(
+            $this->_coreData->copyFieldsetToTarget(
                 'sales_convert_quote_item',
                 'to_order_item_discount',
                 $item,
@@ -161,7 +190,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             );
         }
 
-        Mage::dispatchEvent('sales_convert_quote_item_to_order_item',
+        $this->_eventManager->dispatch('sales_convert_quote_item_to_order_item',
             array('order_item'=>$orderItem, 'item'=>$item)
         );
         return $orderItem;

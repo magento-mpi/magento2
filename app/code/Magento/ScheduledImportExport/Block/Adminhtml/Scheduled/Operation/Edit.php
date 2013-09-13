@@ -16,8 +16,15 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit
-    extends Magento_Adminhtml_Block_Widget_Form_Container
+    extends Magento_Backend_Block_Widget_Form_Container
 {
+    /**
+     * Import export data
+     *
+     * @var Magento_ScheduledImportExport_Helper_Data
+     */
+    protected $_importExportData = null;
+
     /**
      * Core registry
      *
@@ -26,17 +33,22 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_ScheduledImportExport_Helper_Data $importExportData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_ScheduledImportExport_Helper_Data $importExportData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        $this->_importExportData = $importExportData;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -84,7 +96,7 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit
         }
 
         $this->_updateButton('delete', 'onclick', 'deleteConfirm(\''
-            . Mage::helper('Magento_ScheduledImportExport_Helper_Data')->getConfirmationDeleteMessage($operation->getOperationType())
+            . $this->_importExportData->getConfirmationDeleteMessage($operation->getOperationType())
             .'\', \'' . $this->getDeleteUrl() . '\')'
         );
 
@@ -117,7 +129,7 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit
         } else {
             $action = 'new';
         }
-        return Mage::helper('Magento_ScheduledImportExport_Helper_Data')->getOperationHeaderText(
+        return $this->_importExportData->getOperationHeaderText(
             $operation->getOperationType(),
             $action
         );

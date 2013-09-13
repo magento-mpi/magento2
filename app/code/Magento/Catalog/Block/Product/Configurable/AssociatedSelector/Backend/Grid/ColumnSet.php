@@ -35,6 +35,7 @@ class Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid
     protected $_productType;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory
      * @param Magento_Backend_Model_Widget_Grid_SubTotals $subtotals
@@ -44,6 +45,7 @@ class Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory,
         Magento_Backend_Model_Widget_Grid_SubTotals $subtotals,
@@ -52,7 +54,7 @@ class Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid
         Magento_Core_Model_Registry $registryManager,
         array $data = array()
     ) {
-        parent::__construct($context, $generatorFactory, $subtotals, $totals, $data);
+        parent::__construct($coreData, $context, $generatorFactory, $subtotals, $totals, $data);
 
         $this->_registryManager = $registryManager;
         $this->_productType = $productType;

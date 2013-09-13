@@ -15,6 +15,11 @@
  */
 class Magento_Core_Model_Store_ApiTest extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test store info.
      */

@@ -32,21 +32,21 @@ class Magento_Adminhtml_Controller_Tax_Class extends Magento_Adminhtml_Controlle
             $class = Mage::getModel('Magento_Tax_Model_Class')
                 ->setData($classData)
                 ->save();
-            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => true,
                 'error_message' => '',
                 'class_id' => $class->getId(),
                 'class_name' => $class->getClassName()
             ));
         } catch (Magento_Core_Exception $e) {
-            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => $e->getMessage(),
                 'class_id' => '',
                 'class_name' => ''
             ));
         } catch (Exception $e) {
-            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => __('Something went wrong saving this tax class.'),
                 'class_id' => '',
@@ -67,17 +67,17 @@ class Magento_Adminhtml_Controller_Tax_Class extends Magento_Adminhtml_Controlle
             $classModel = $this->_objectManager->create('Magento_Tax_Model_Class')->load($classId);
             $classModel->checkClassCanBeDeleted();
             $classModel->delete();
-            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => true,
                 'error_message' => ''
             ));
         } catch (Magento_Core_Exception $e) {
-            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => $e->getMessage()
             ));
         } catch (Exception $e) {
-            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => __('Something went wrong deleting this tax class.')
             ));
@@ -113,7 +113,7 @@ class Magento_Adminhtml_Controller_Tax_Class extends Magento_Adminhtml_Controlle
      */
     protected function _processClassName($className)
     {
-        $className = trim(Mage::helper('Magento_Tax_Helper_Data')->escapeHtml($className));
+        $className = trim($this->_objectManager->get('Magento_Tax_Helper_Data')->escapeHtml($className));
         if ($className == '') {
             Mage::throwException(__('Invalid name of tax class specified.'));
         }

@@ -131,6 +131,7 @@
   * Removed support of callbacks from the framework
   * Removed "translate" node from configuration XML files
   * Added I18n tools for translation dictionary generation and language package generation
+  * Eliminated Mage::helper and Mage::dispatchEvent in code
 * GitHub requests:
   * [#71](https://github.com/magento/magento2/pull/71) -- Add event prefix for Cms blocks
   * [#108](https://github.com/magento/magento2/pull/108) -- Fix issue with `PHP_VERSION` on Ubuntu servers

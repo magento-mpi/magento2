@@ -17,6 +17,11 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
      */
     protected $_defaultHelper = 'Magento_Catalog_Model_Product_Api_Helper_Simple';
 
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test product resource post
      * @magentoDbIsolation enabled

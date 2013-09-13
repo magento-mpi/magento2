@@ -15,7 +15,8 @@ if (!$objectManager->get('Magento_Core_Model_Registry')->registry('order')) {
 /** @var $order Magento_Sales_Model_Order */
 $order = $objectManager->get('Magento_Core_Model_Registry')->registry('order');
 
-$orderService = new Magento_Sales_Model_Service_Order($order);
+$orderService = Magento_TestFramework_ObjectManager::getInstance()->create('Magento_Sales_Model_Service_Order',
+    array('order' => $order));
 $invoice = $orderService->prepareInvoice();
 $invoice->register();
 $invoice->getOrder()->setIsInProcess(true);
@@ -26,7 +27,8 @@ $transactionSave->addObject($invoice)
 
 $objectManager->get('Magento_Core_Model_Registry')->register('invoice', $invoice);
 $order2 = $objectManager->get('Magento_Core_Model_Registry')->registry('order2');
-$orderService2 = new Magento_Sales_Model_Service_Order($order2);
+$orderService2 = Magento_TestFramework_ObjectManager::getInstance()->create('Magento_Sales_Model_Service_Order',
+    array('order' => $order2));
 $invoice2 = $orderService2->prepareInvoice();
 $invoice2->register();
 $invoice2->getOrder()->setIsInProcess(true);

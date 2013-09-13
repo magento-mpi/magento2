@@ -83,7 +83,7 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Magento_Adminht
             'showBreadcrumbs' => true
         ));
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($setupObject);
+        return $this->_coreData->jsonEncode($setupObject);
     }
 
     /**

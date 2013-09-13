@@ -32,6 +32,13 @@ class Magento_Widget_Model_Widget
      */
     protected $_viewFileSystem;
 
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
     /** @var  array */
     protected $_widgetsArray = array();
 
@@ -41,10 +48,12 @@ class Magento_Widget_Model_Widget
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Widget_Model_Config_Data $dataStorage,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_FileSystem $viewFileSystem
     ) {
+        $this->_coreData = $coreData;
         $this->_dataStorage = $dataStorage;
         $this->_viewUrl = $viewUrl;
         $this->_viewFileSystem = $viewFileSystem;
@@ -225,7 +234,7 @@ class Magento_Widget_Model_Widget
         $html = sprintf('<img id="%s" src="%s" title="%s">',
             $this->_idEncode($directive),
             $this->getPlaceholderImageUrl($type),
-            Mage::helper('Magento_Core_Helper_Data')->escapeUrl($directive)
+            $this->_coreData->escapeUrl($directive)
         );
         return $html;
     }

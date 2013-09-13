@@ -19,6 +19,31 @@ class Magento_Usa_Block_Adminhtml_Dhl_Unitofmeasure extends Magento_Backend_Bloc
 {
 
     /**
+     * Usa data
+     *
+     * @var Magento_Usa_Helper_Data
+     */
+    protected $_usaData = null;
+
+    /**
+     * @param Magento_Usa_Helper_Data $usaData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_App $application
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Usa_Helper_Data $usaData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_App $application,
+        array $data = array()
+    ) {
+        $this->_usaData = $usaData;
+        parent::__construct($coreData, $context, $application, $data);
+    }
+
+    /**
      * Define params and variables
      *
      * @return void
@@ -43,7 +68,7 @@ class Magento_Usa_Block_Adminhtml_Dhl_Unitofmeasure extends Magento_Backend_Bloc
         );
 
         $weight = round(
-            Mage::helper('Magento_Usa_Helper_Data')->convertMeasureWeight(
+            $this->_usaData->convertMeasureWeight(
                 $kgWeight, Zend_Measure_Weight::KILOGRAM, Zend_Measure_Weight::POUND), 3);
 
         $this->setDivideOrderWeightNoteLbp(

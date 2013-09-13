@@ -17,8 +17,13 @@
  */
 class Magento_Catalog_Model_Category_Attribute_Api extends Magento_Catalog_Model_Api_Resource
 {
-    public function __construct()
-    {
+    /**
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct
+    ) {
+        parent::__construct($catalogProduct);
         $this->_storeIdSessionField = 'category_store_id';
     }
 

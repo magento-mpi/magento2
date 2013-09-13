@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Tax_Rate_Form extends Magento_Backend_Block_Widget_Form
+class Magento_Adminhtml_Block_Tax_Rate_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     const FORM_ELEMENT_ID = 'rate-form';
 
@@ -24,6 +24,32 @@ class Magento_Adminhtml_Block_Tax_Rate_Form extends Magento_Backend_Block_Widget
 
     protected $_template = 'tax/rate/form.phtml';
 
+    /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_taxData = $taxData;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
 
     protected function _construct()
     {
@@ -35,17 +61,22 @@ class Magento_Adminhtml_Block_Tax_Rate_Form extends Magento_Backend_Block_Widget
     protected function _prepareForm()
     {
         $rateObject = new Magento_Object(Mage::getSingleton('Magento_Tax_Model_Calculation_Rate')->getData());
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         $countries = Mage::getModel('Magento_Directory_Model_Config_Source_Country')->toOptionArray(false, 'US');
         unset($countries[0]);
 
         if (!$rateObject->hasTaxCountryId()) {
-            $rateObject->setTaxCountryId(Mage::getStoreConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_COUNTRY));
+            $rateObject->setTaxCountryId(
+                Mage::getStoreConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_COUNTRY)
+            );
         }
 
         if (!$rateObject->hasTaxRegionId()) {
-            $rateObject->setTaxRegionId(Mage::getStoreConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_REGION));
+            $rateObject->setTaxRegionId(
+                Mage::getStoreConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_REGION)
+            );
         }
 
         $regionCollection = Mage::getModel('Magento_Directory_Model_Region')
@@ -84,13 +115,16 @@ class Magento_Adminhtml_Block_Tax_Rate_Form extends Magento_Backend_Block_Widget
         ));
 
         if (!$rateObject->hasTaxPostcode()) {
-            $rateObject->setTaxPostcode(Mage::getStoreConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_POSTCODE));
+            $rateObject->setTaxPostcode(
+                Mage::getStoreConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_POSTCODE)
+            );
         }
 
         $fieldset->addField('tax_postcode', 'text', array(
             'name'  => 'tax_postcode',
             'label' => __('Zip/Post Code'),
-            'note'  => __("'*' - matches any; 'xyz*' - matches any that begins on 'xyz' and are not longer than %1.", Mage::helper('Magento_Tax_Helper_Data')->getPostCodeSubStringLength()),
+            'note'  => __("'*' - matches any; 'xyz*' - matches any that begins on 'xyz' and are not longer than %1.",
+                $this->_taxData->getPostCodeSubStringLength()),
         ));
 
         $fieldset->addField('zip_from', 'text', array(

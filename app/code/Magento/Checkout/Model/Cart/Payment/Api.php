@@ -20,6 +20,29 @@ class Magento_Checkout_Model_Cart_Payment_Api extends Magento_Checkout_Model_Api
 {
 
     /**
+     * Payment data
+     *
+     * @var Magento_Payment_Helper_Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * Initialize dependencies.
+     *
+     *
+     *
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Api_Helper_Data $apiHelper
+     */
+    public function __construct(
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Api_Helper_Data $apiHelper
+    ) {
+        $this->_paymentData = $paymentData;
+        parent::__construct($apiHelper);
+    }
+
+    /**
      * Returns payment data or empty array in case it is not valid
      *
      * @param array $data
@@ -98,7 +121,7 @@ class Magento_Checkout_Model_Cart_Payment_Api extends Magento_Checkout_Model_Api
         $total = $quote->getBaseSubtotal();
 
         $methodsResult = array();
-        $methods = Mage::helper('Magento_Payment_Helper_Data')->getStoreMethods($store, $quote);
+        $methods = $this->_paymentData->getStoreMethods($store, $quote);
 
         foreach ($methods as $method) {
             /** @var $method Magento_Payment_Model_Method_Abstract */
@@ -154,7 +177,7 @@ class Magento_Checkout_Model_Cart_Payment_Api extends Magento_Checkout_Model_Api
         }
 
         $total = $quote->getBaseSubtotal();
-        $methods = Mage::helper('Magento_Payment_Helper_Data')->getStoreMethods($store, $quote);
+        $methods = $this->_paymentData->getStoreMethods($store, $quote);
 
         foreach ($methods as $method) {
             /** @var $method Magento_Payment_Model_Method_Abstract */
