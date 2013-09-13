@@ -44,6 +44,11 @@ class Magento_Config_DomTest extends PHPUnit_Framework_TestCase
             ),
             array('no_ids.xml', 'no_ids_new.xml', array(), 'no_ids_merged.xml'),
             array('ambiguous_one.xml', 'ambiguous_new_two.xml', array(), 'ambiguous_merged.xml'),
+            array('namespaced.xml', 'namespaced_new.xml', array(
+                '/root/node'     => 'id',
+                ),
+                'namespaced_merged.xml'
+            ),
         );
     }
 
