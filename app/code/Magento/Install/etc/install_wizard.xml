@@ -20,7 +20,7 @@
         <step id="config" controller="wizard" action="config">
             <label translate="true">Configuration</label>
         </step>
-        <step id="administrator" controller="administrator" action="administrator">
+        <step id="administrator" controller="wizard" action="administrator">
             <label translate="true">Create Admin Account</label>
         </step>
         <step id="end" controller="wizard" action="end">
