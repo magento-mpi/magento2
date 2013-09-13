@@ -11,7 +11,7 @@
     <type name="Magento_CatalogRule_Model_Rule">
         <param name="relatedCacheTypes">
             <value>
-                <block_html />
+                <blockCache>block_html</blockCache>
             </value>
         </param>
     </type>
