@@ -36,8 +36,9 @@ class Magento_Api_Model_Wsdl_Config_Element extends Magento_Simplexml_Element
      * Extends one node
      *
      * @param Magento_Simplexml_Element $source
-     * @param boolean $overwrite
-     * @return Magento_Simplexml_Element
+     * @param bool $overwrite
+     * @param string $elmNamespace
+     * @return $this|Magento_Simplexml_Element
      */
     public function extendChild($source, $overwrite = false, $elmNamespace = '')
     {
@@ -159,7 +160,7 @@ class Magento_Api_Model_Wsdl_Config_Element extends Magento_Simplexml_Element
         $namespaces = $source->getNamespaces(true);
 
         /** @var Magento_Api_Helper_Data $helper */
-        $helper = Mage::helper('Magento_Api_Helper_Data');
+        $helper = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Api_Helper_Data');
         $isWsi = $helper->isWsiCompliant();
 
         foreach ($namespaces as $key => $value) {
@@ -219,9 +220,9 @@ class Magento_Api_Model_Wsdl_Config_Element extends Magento_Simplexml_Element
 //                    }
                     foreach ($attributes as $key => $value) {
                         if (is_null($child->getAttribute($key, $namespace)) || $child->getAttribute(
-                            $key,
-                            $namespace
-                        ) != $value
+                                $key,
+                                $namespace
+                            ) != $value
                         ) {
                             $elm = false;
                         }

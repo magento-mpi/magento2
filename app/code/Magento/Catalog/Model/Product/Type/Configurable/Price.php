@@ -33,7 +33,7 @@ class Magento_Catalog_Model_Product_Type_Configurable_Price extends Magento_Cata
         $basePrice = $this->getBasePrice($product, $qty);
         $finalPrice = $basePrice;
         $product->setFinalPrice($finalPrice);
-        Mage::dispatchEvent('catalog_product_get_final_price', array('product' => $product, 'qty' => $qty));
+        $this->_eventManager->dispatch('catalog_product_get_final_price', array('product' => $product, 'qty' => $qty));
         $finalPrice = $product->getData('final_price');
 
         $finalPrice += $this->getTotalConfigurableItemsPrice($product, $finalPrice);
@@ -75,7 +75,7 @@ class Magento_Catalog_Model_Product_Type_Configurable_Price extends Magento_Cata
             if ($value) {
                 if ($value['pricing_value'] != 0) {
                     $product->setConfigurablePrice($this->_calcSelectionPrice($value, $finalPrice));
-                    Mage::dispatchEvent(
+                    $this->_eventManager->dispatch(
                         'catalog_product_type_configurable_price',
                         array('product' => $product)
                     );

@@ -25,17 +25,19 @@ class Magento_Page_Block_Switch extends Magento_Core_Block_Template
     protected $_storeManager;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
         $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
     }
 
     public function getCurrentWebsiteId()

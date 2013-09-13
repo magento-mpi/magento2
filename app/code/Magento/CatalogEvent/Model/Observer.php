@@ -26,13 +26,23 @@ class Magento_CatalogEvent_Model_Observer
      * @var Magento_Core_Model_Registry
      */
     protected $_coreRegistry = null;
+    
+    /**
+     * Catalog event data
+     *
+     * @var Magento_CatalogEvent_Helper_Data
+     */
+    protected $_catalogEventData = null;
 
     /**
+     * @param Magento_CatalogEvent_Helper_Data $catalogEventData
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
+        Magento_CatalogEvent_Helper_Data $catalogEventData,
         Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_catalogEventData = $catalogEventData;
         $this->_coreRegistry = $coreRegistry;
     }
 
@@ -44,7 +54,7 @@ class Magento_CatalogEvent_Model_Observer
      */
     public function applyEventToCategory(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
+        if (!$this->_catalogEventData->isEnabled()) {
             return $this;
         }
 
@@ -64,7 +74,7 @@ class Magento_CatalogEvent_Model_Observer
      */
     public function applyEventToCategoryCollection(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
+        if (!$this->_catalogEventData->isEnabled()) {
             return $this;
         }
 
@@ -95,7 +105,7 @@ class Magento_CatalogEvent_Model_Observer
      */
     public function applyEventToProduct(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
+        if (!$this->_catalogEventData->isEnabled()) {
             return $this;
         }
 
@@ -147,7 +157,7 @@ class Magento_CatalogEvent_Model_Observer
      */
     public function applyEventOnQuoteItemSetProduct(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
+        if (!$this->_catalogEventData->isEnabled()) {
             return $this;
         }
 
@@ -175,7 +185,7 @@ class Magento_CatalogEvent_Model_Observer
      */
     public function applyEventOnQuoteItemSetQty(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
+        if (!$this->_catalogEventData->isEnabled()) {
             return $this;
         }
 
@@ -217,7 +227,7 @@ class Magento_CatalogEvent_Model_Observer
      */
     public function applyEventToProductCollection(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
+        if (!$this->_catalogEventData->isEnabled()) {
             return $this;
         }
 

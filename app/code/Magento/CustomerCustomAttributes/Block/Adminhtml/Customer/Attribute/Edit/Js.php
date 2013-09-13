@@ -17,8 +17,31 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Js
-    extends Magento_Adminhtml_Block_Template
+    extends Magento_Backend_Block_Template
 {
+    /**
+     * Customer data
+     *
+     * @var Magento_CustomerCustomAttributes_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * @param Magento_CustomerCustomAttributes_Helper_Data $customerData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_CustomerCustomAttributes_Helper_Data $customerData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_customerData = $customerData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Retrieve allowed Input Validate Filters in JSON format
      *
@@ -26,8 +49,8 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_J
      */
     public function getValidateFiltersJson()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode
-            (Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->getAttributeValidateFilters()
+        return $this->_coreData->jsonEncode
+            ($this->_customerData->getAttributeValidateFilters()
         );
     }
 
@@ -38,8 +61,8 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_J
      */
     public function getFilteTypesJson()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode(
-            Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->getAttributeFilterTypes()
+        return $this->_coreData->jsonEncode(
+            $this->_customerData->getAttributeFilterTypes()
         );
     }
 
@@ -50,6 +73,6 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_J
      */
     public function getAttributeInputTypes()
     {
-        return Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->getAttributeInputTypes();
+        return $this->_customerData->getAttributeInputTypes();
     }
 }

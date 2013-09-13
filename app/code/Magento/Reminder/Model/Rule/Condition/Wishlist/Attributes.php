@@ -15,12 +15,16 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes
     extends Magento_Rule_Model_Condition_Product_Abstract
 {
     /**
+     * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        Magento_Backend_Helper_Data $backendData,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($backendData, $context, $data);
         $this->setType('Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes');
         $this->setValue(null);
     }

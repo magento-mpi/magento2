@@ -18,9 +18,14 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->_model = $this->getMockBuilder('Magento_Catalog_Model_Product_Type_Abstract')
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
+        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array('dispatch'), array(), '', false);
+        $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $fileStorageDb = $this->getMock('Magento_Core_Helper_File_Storage_Database', array(), array(), '', false);
+        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $registry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $this->_model = $this->getMockForAbstractClass('Magento_Catalog_Model_Product_Type_Abstract',
+            array($eventManager, $coreData, $fileStorageDb, $filesystem, $registry), ''
+        );
     }
 
     public function testGetRelationInfo()
@@ -124,7 +129,6 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
     }
 
     /**
-     * @param array $requestData
      * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Catalog/_files/multiple_products.php
      * multiple_products.php because there are products without options, and they don't intersect
@@ -381,7 +385,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
 
     public function testCheckProductConfiguration()
     {
-        $product = new Magento_Object;
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
         $buyRequest = new Magento_Object(array('qty' => 5));
         $this->_model->checkProductConfiguration($product, $buyRequest);
     }

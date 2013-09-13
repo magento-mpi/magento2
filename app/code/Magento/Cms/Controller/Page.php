@@ -26,7 +26,7 @@ class Magento_Cms_Controller_Page extends Magento_Core_Controller_Front_Action
     {
         $pageId = $this->getRequest()
             ->getParam('page_id', $this->getRequest()->getParam('id', false));
-        if (!Mage::helper('Magento_Cms_Helper_Page')->renderPage($this, $pageId)) {
+        if (!$this->_objectManager->get('Magento_Cms_Helper_Page')->renderPage($this, $pageId)) {
             $this->_forward('noRoute');
         }
     }

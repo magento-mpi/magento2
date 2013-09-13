@@ -83,7 +83,8 @@ class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Magento_Backend_
                 $body
             );
         } else {
-            $result = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($body);
+            $result = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
+                ->jsonDecode($body);
             $this->assertArrayHasKey('messages', $result);
             $this->assertFalse($result['error']);
             $category = $result['category'];

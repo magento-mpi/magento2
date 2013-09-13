@@ -68,6 +68,14 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_regionFactory;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Store_Config $storeConfig
@@ -75,12 +83,14 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Directory_Model_RegionFactory $regionFactory
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_App $app,
         Magento_Core_Model_Store_Config $storeConfig,
         Magento_Directory_Model_CountryFactory $countryFactory,
         Magento_Directory_Model_RegionFactory $regionFactory
     ) {
+        $this->_coreData = $coreData;
         $this->_app = $app;
         $this->_storeConfig = $storeConfig;
         $this->_countryFactory = $countryFactory;
@@ -386,7 +396,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
         $key    = 'rma_id';
         $method = 'getId';
         $param = array(
-             'hash' => Mage::helper('Magento_Core_Helper_Data')->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
+             'hash' => $this->_coreData->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
         );
 
          $storeId = is_object($model) ? $model->getStoreId() : null;
@@ -420,7 +430,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     protected function _getTrackingUrl($key, $model, $method = 'getId')
     {
          $param = array(
-             'hash' => Mage::helper('Magento_Core_Helper_Data')->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
+             'hash' => $this->_coreData->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
          );
 
          $storeId = is_object($model) ? $model->getStoreId() : null;
@@ -436,7 +446,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function decodeTrackingHash($hash)
     {
-        $hash = explode(':', Mage::helper('Magento_Core_Helper_Data')->urlDecode($hash));
+        $hash = explode(':', $this->_coreData->urlDecode($hash));
         if (count($hash) === 3 && in_array($hash[0], $this->_allowedHashKeys)) {
             return array('key' => $hash[0], 'id' => (int)$hash[1], 'hash' => $hash[2]);
         }
@@ -478,7 +488,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
         $storeDate = Mage::app()->getLocale()
             ->storeDate(Mage::app()->getStore(), Magento_Date::toTimestamp($date), true);
 
-        return Mage::helper('Magento_Core_Helper_Data')
+        return $this->_coreData
             ->formatDate($storeDate, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
     }
 

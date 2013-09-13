@@ -37,7 +37,7 @@ class Magento_AdvancedCheckout_Controller_Sku extends Magento_Core_Controller_Fr
         }
 
         /** @var $helper Magento_AdvancedCheckout_Helper_Data */
-        $helper = Mage::helper('Magento_AdvancedCheckout_Helper_Data');
+        $helper = $this->_objectManager->get('Magento_AdvancedCheckout_Helper_Data');
         if (!$helper->isSkuEnabled() || !$helper->isSkuApplied()) {
             $this->_redirect('customer/account');
         }
@@ -69,7 +69,7 @@ class Magento_AdvancedCheckout_Controller_Sku extends Magento_Core_Controller_Fr
     public function uploadFileAction()
     {
         /** @var $helper Magento_AdvancedCheckout_Helper_Data */
-        $helper = Mage::helper('Magento_AdvancedCheckout_Helper_Data');
+        $helper = $this->_objectManager->get('Magento_AdvancedCheckout_Helper_Data');
         $rows = $helper->isSkuFileUploaded($this->getRequest())
             ? $helper->processSkuFileUploading($this->_getSession())
             : array();

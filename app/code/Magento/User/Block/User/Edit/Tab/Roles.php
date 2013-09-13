@@ -18,6 +18,7 @@ class Magento_User_Block_User_Edit_Tab_Roles extends Magento_Backend_Block_Widge
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
@@ -25,6 +26,7 @@ class Magento_User_Block_User_Edit_Tab_Roles extends Magento_Backend_Block_Widge
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
@@ -32,7 +34,7 @@ class Magento_User_Block_User_Edit_Tab_Roles extends Magento_Backend_Block_Widge
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $storeManager, $urlModel, $data);
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
     protected function _construct()
@@ -120,7 +122,7 @@ class Magento_User_Block_User_Edit_Tab_Roles extends Magento_Backend_Block_Widge
             foreach ($uRoles as $urid) {
                 $jsonRoles[$urid] = 0;
             }
-            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode((object)$jsonRoles);
+            return $this->_coreData->jsonEncode((object)$jsonRoles);
         } else {
             return $uRoles;
         }

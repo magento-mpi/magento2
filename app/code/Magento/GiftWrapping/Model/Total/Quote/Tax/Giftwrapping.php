@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Magento
+ * @category    Enterprise
  * @package     Magento_GiftWrapping
  * @copyright   {copyright}
  * @license     {license_link}
@@ -41,18 +41,22 @@ class Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping extends Magento_Sa
     protected $_rate;
 
     /**
+     * Gift wrapping data
+     *
      * @var Magento_GiftWrapping_Helper_Data
      */
-    protected $_helper;
+    protected $_giftWrappingData = null;
 
     /**
-     * Init total model, set total code
+     * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
      */
-    public function __construct()
-    {
+    public function __construct(
+        Magento_GiftWrapping_Helper_Data $giftWrappingData
+    ) {
+        $this->_giftWrappingData = $giftWrappingData;
         $this->setCode('tax_giftwrapping');
+
         $this->_taxCalculationModel = Mage::getSingleton('Magento_Tax_Model_Calculation');
-        $this->_helper = Mage::helper('Magento_GiftWrapping_Helper_Data');
     }
 
     /**
@@ -254,7 +258,7 @@ class Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping extends Magento_Sa
             $custTaxClassId,
             $store
         );
-        $this->_request->setProductClassId($this->_helper->getWrappingTaxClass($store));
+        $this->_request->setProductClassId($this->_giftWrappingData->getWrappingTaxClass($store));
         $this->_rate = $this->_taxCalculationModel->getRate($this->_request);
         return $this;
     }
@@ -263,7 +267,6 @@ class Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping extends Magento_Sa
      * Calculate tax for amount
      *
      * @param   float $price
-     * @param   float $taxRate
      * @return  float
      */
     protected function _calcTaxAmount($price)

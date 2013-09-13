@@ -32,7 +32,9 @@ class Magento_Core_Controller_Varien_Action_RedirectTest extends PHPUnit_Framewo
     protected function setUp()
     {
         $this->_request  = new Magento_Core_Controller_Request_Http();
-        $this->_response = new Magento_Core_Controller_Response_Http();
+        $this->_response = new Magento_Core_Controller_Response_Http(
+            $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false)
+        );
 
         $this->_object = new Magento_Core_Controller_Varien_Action_Redirect($this->_request, $this->_response);
     }

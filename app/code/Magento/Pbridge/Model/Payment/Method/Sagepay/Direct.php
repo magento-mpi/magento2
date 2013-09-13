@@ -40,6 +40,31 @@ class Magento_Pbridge_Model_Payment_Method_Sagepay_Direct extends Magento_Paymen
     protected $_isInitializeNeeded      = false;
 
     /**
+     * Pbridge data
+     *
+     * @var Magento_Pbridge_Helper_Data
+     */
+    protected $_pbridgeData = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Pbridge_Helper_Data $pbridgeData
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Pbridge_Helper_Data $pbridgeData,
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Payment_Helper_Data $paymentData,
+        array $data = array()
+    ) {
+        $this->_pbridgeData = $pbridgeData;
+        parent::__construct($eventManager, $moduleList, $paymentData, $data);
+    }
+
+    /**
      * Disable payment method if 3D Secure is enabled
      * @return bool
      */
@@ -140,7 +165,7 @@ class Magento_Pbridge_Model_Payment_Method_Sagepay_Direct extends Magento_Paymen
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = $this->_paymentData->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
         }
         return $this->_pbridgeMethodInstance;
@@ -271,7 +296,7 @@ class Magento_Pbridge_Model_Payment_Method_Sagepay_Direct extends Magento_Paymen
     public function setStore($store)
     {
         $this->setData('store', $store);
-        Mage::helper('Magento_Pbridge_Helper_Data')->setStoreId(is_object($store) ? $store->getId() : $store);
+        $this->_pbridgeData->setStoreId(is_object($store) ? $store->getId() : $store);
         return $this;
     }
 

@@ -164,7 +164,7 @@ class Magento_GiftCard_Model_Resource_Indexer_Price extends Magento_Catalog_Mode
         /**
          * Add additional external limitation
          */
-        Mage::dispatchEvent('prepare_catalog_product_index_select', array(
+        $this->_eventManager->dispatch('prepare_catalog_product_index_select', array(
             'select'        => $select,
             'entity_field'  => new Zend_Db_Expr('e.entity_id'),
             'website_field' => new Zend_Db_Expr('cw.website_id'),

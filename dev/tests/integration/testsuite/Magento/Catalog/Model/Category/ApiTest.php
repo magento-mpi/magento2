@@ -25,6 +25,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestSkipped('Api tests were skipped');
         $this->_model = Mage::getModel('Magento_Catalog_Model_Category_Api');
         Mage::app()->setCurrentStore(Magento_Core_Model_App::ADMIN_STORE_ID);
     }

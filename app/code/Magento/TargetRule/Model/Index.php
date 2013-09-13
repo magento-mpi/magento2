@@ -12,7 +12,6 @@
 /**
  * TargetRule Product Index by Rule Product List Type Model
  *
- * @method Magento_TargetRule_Model_Resource_Index _getResource()
  * @method Magento_TargetRule_Model_Resource_Index getResource()
  * @method Magento_TargetRule_Model_Index setEntityId(int $value)
  * @method int getTypeId()
@@ -62,6 +61,33 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
      * @var bool
      */
     protected $_isVisible = false;
+
+    /**
+     * Target rule data
+     *
+     * @var Magento_TargetRule_Helper_Data
+     */
+    protected $_targetRuleData = null;
+
+    /**
+     * @param Magento_TargetRule_Helper_Data $targetRuleData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_TargetRule_Model_Resource_Index $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_TargetRule_Helper_Data $targetRuleData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_TargetRule_Model_Resource_Index $resource,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_targetRuleData = $targetRuleData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
 
     /**
      * Initialize resource model
@@ -180,7 +206,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     {
         $limit = $this->getData('limit');
         if (is_null($limit)) {
-            $limit = Mage::helper('Magento_TargetRule_Helper_Data')->getMaximumNumberOfProduct($this->getType());
+            $limit = $this->_targetRuleData->getMaximumNumberOfProduct($this->getType());
         }
         return $limit;
     }

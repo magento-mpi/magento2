@@ -11,6 +11,11 @@
  */
 class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Customer fixture
      *

@@ -13,5 +13,10 @@
             <instance type="Magento_CatalogRule_Helper_Data" />
         </param>
     </type>
+    <type name="Magento_CatalogRule_Model_Resource_Rule">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
     <type name="Magento_CatalogRule_Model_Resource_Rule_Collection" shared="false" />
 </config>

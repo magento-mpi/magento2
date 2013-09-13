@@ -15,9 +15,26 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Customer_Attribute_Backend_Password extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+class Magento_Customer_Model_Customer_Attribute_Backend_Password
+    extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     const MIN_PASSWORD_LENGTH = 6;
+
+    /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString
+    ) {
+        $this->_coreString = $coreString;
+    }
 
     /**
      * Special processing before attribute save:
@@ -30,7 +47,7 @@ class Magento_Customer_Model_Customer_Attribute_Backend_Password extends Magento
     {
         $password = $object->getPassword();
         /** @var Magento_Core_Helper_String $stringHelper */
-        $stringHelper = Mage::helper('Magento_Core_Helper_String');
+        $stringHelper = $this->_coreString;
 
         $length = $stringHelper->strlen($password);
         if ($length > 0) {

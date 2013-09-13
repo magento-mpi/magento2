@@ -42,7 +42,7 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
 
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $emailTemplate = $this->getMock('Magento_Core_Model_Email_Template',
-            array('_getMail', '_getLogoUrl'),
+            array('_getMail', '_getLogoUrl', '__wakeup'),
             array(
                 $objectManager->get('Magento_Core_Model_Context'),
                 $objectManager->get('Magento_Core_Model_Registry'),
@@ -77,7 +77,7 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
         $brokenMail->expects($this->any())->method('send')->will($this->throwException(new Exception($errorMsg, 99)));
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $template = $this->getMock('Magento_Core_Model_Email_Template',
-            array('_getMail', '_getLogoUrl'),
+            array('_getMail', '_getLogoUrl', '__wakeup'),
             array(
                 $objectManager->get('Magento_Core_Model_Context'),
                 $objectManager->get('Magento_Core_Model_Registry'),

@@ -18,7 +18,6 @@
 
 class Magento_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Magento_Adminhtml_Block_Dashboard_Grid
 {
-
     protected function _construct()
     {
         parent::_construct();
@@ -27,7 +26,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Magento_Adm
 
     protected function _prepareCollection()
     {
-        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Magento_Sales')) {
+        if (!$this->_coreData->isModuleEnabled('Magento_Sales')) {
             return $this;
         }
         if ($this->getParam('website')) {

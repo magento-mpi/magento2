@@ -10,6 +10,11 @@
  */
 class Magento_Directory_Model_Region_ApiTest extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test directoryRegionList API method
      */

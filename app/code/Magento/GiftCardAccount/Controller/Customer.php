@@ -34,13 +34,13 @@ class Magento_GiftCardAccount_Controller_Customer extends Magento_Core_Controlle
         if (isset($data['giftcard_code'])) {
             $code = $data['giftcard_code'];
             try {
-                if (!Mage::helper('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
+                if (!$this->_objectManager->get('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
                     Mage::throwException(__("You can't redeem a gift card now."));
                 }
                 Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount')->loadByCode($code)
                     ->setIsRedeemed(true)->redeem();
                 Mage::getSingleton('Magento_Customer_Model_Session')->addSuccess(
-                    __('Gift Card "%1" was redeemed.', Mage::helper('Magento_Core_Helper_Data')->escapeHtml($code))
+                    __('Gift Card "%1" was redeemed.', $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($code))
                 );
             } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Customer_Model_Session')->addError($e->getMessage());

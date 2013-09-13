@@ -19,10 +19,35 @@ class Magento_Bundle_Block_Checkout_Cart_Item_Renderer extends Magento_Checkout_
 {
     protected $_configurationHelper = null;
 
+    /**
+     * Bundle catalog product configuration
+     *
+     * @var Magento_Bundle_Helper_Catalog_Product_Configuration
+     */
+    protected $_bundleProdConfigur = null;
+
+    /**
+     * @param Magento_Bundle_Helper_Catalog_Product_Configuration $bundleProdConfigur
+     * @param Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Bundle_Helper_Catalog_Product_Configuration $bundleProdConfigur,
+        Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_bundleProdConfigur = $bundleProdConfigur;
+        parent::__construct($ctlgProdConfigur, $coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
-        $this->_configurationHelper = Mage::helper('Magento_Bundle_Helper_Catalog_Product_Configuration');
+        $this->_configurationHelper = $this->_bundleProdConfigur;
     }
 
     /**
@@ -46,7 +71,7 @@ class Magento_Bundle_Block_Checkout_Cart_Item_Renderer extends Magento_Checkout_
      */
     protected function _getSelectionFinalPrice($selectionProduct)
     {
-        $helper = Mage::helper('Magento_Bundle_Helper_Catalog_Product_Configuration');
+        $helper = $this->_bundleProdConfigur;
         $result = $helper->getSelectionFinalPrice($this->getItem(), $selectionProduct);
         return $result;
     }

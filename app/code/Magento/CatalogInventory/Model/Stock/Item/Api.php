@@ -17,8 +17,13 @@
  */
 class Magento_CatalogInventory_Model_Stock_Item_Api extends Magento_Catalog_Model_Api_Resource
 {
-    public function __construct()
-    {
+    /**
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct
+    ) {
+        parent::__construct($catalogProduct);
         $this->_storeIdSessionField = 'product_store_id';
     }
 

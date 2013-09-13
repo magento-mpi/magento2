@@ -10,6 +10,27 @@
 class Magento_GiftCard_Model_Checkout_Cart_Api extends Magento_Checkout_Model_Api_Resource
 {
     /**
+     * Gift card account data
+     *
+     * @var Magento_GiftCardAccount_Helper_Data
+     */
+    protected $_giftCardAccountData = null;
+
+    /**
+     * Initialize dependencies.
+     *
+     * @param Magento_GiftCardAccount_Helper_Data $giftCardAccountData
+     * @param Magento_Api_Helper_Data $apiHelper
+     */
+    public function __construct(
+        Magento_GiftCardAccount_Helper_Data $giftCardAccountData,
+        Magento_Api_Helper_Data $apiHelper
+    ) {
+        $this->_giftCardAccountData = $giftCardAccountData;
+        parent::__construct($apiHelper);
+    }
+
+    /**
      * List gift cards account belonging to quote
      *
      * @param  string $quoteId
@@ -21,9 +42,9 @@ class Magento_GiftCard_Model_Checkout_Cart_Api extends Magento_Checkout_Model_Ap
         /** @var $quote Magento_Sales_Model_Quote */
         $quote = $this->_getQuote($quoteId, $store);
 
-        $giftcardsList = Mage::helper('Magento_GiftCardAccount_Helper_Data')->getCards($quote);
+        $giftcardsList = $this->_giftCardAccountData->getCards($quote);
         // map short names of giftcard account attributes to long
-        foreach($giftcardsList as $id => $card) {
+        foreach ($giftcardsList as $id => $card) {
             $giftcardsList[$id] = array(
                 'giftcardaccount_id' => $card['i'],
                 'code' => $card['c'],

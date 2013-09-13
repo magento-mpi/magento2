@@ -17,8 +17,10 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * @var array
@@ -39,6 +41,33 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
      * @var array
      */
     protected $_formValues = array();
+
+    /**
+     * Adminhtml data
+     *
+     * @var Magento_Backend_Helper_Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * @param Magento_Backend_Helper_Data $adminhtmlData
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Helper_Data $adminhtmlData,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_adminhtmlData = $adminhtmlData;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
 
     /**
      * Set form id and title
@@ -91,11 +120,14 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
         $this->_initFormValues();
 
         // Prepare form
-        $form = new Magento_Data_Form(array(
-            'id'            => 'edit_form',
-            'use_container' => true,
-            'method'        => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'            => 'edit_form',
+                'use_container' => true,
+                'method'        => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend' => __('URL Rewrite Information')
@@ -206,12 +238,9 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
      */
     protected function _formPostInit($form)
     {
-        $form->setAction(
-            Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('*/*/save', array(
-                'id' => $this->_getModel()->getId()
-            ))
-        );
-
+        $form->setAction($this->_adminhtmlData->getUrl('*/*/save', array(
+            'id' => $this->_getModel()->getId()
+        )));
         return $this;
     }
 

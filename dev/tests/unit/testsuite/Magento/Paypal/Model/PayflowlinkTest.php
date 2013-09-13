@@ -74,7 +74,6 @@ class Magento_Paypal_Model_PayflowlinkTest extends PHPUnit_Framework_TestCase
             ->method('getOrder')
             ->will($this->returnValue($order));
         $request = new Magento_Paypal_Model_Payflow_Request;
-        $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
         $this->_modelClass = $this->getMock(
             'Magento_Paypal_Model_Payflowlink',
             array(
@@ -86,9 +85,7 @@ class Magento_Paypal_Model_PayflowlinkTest extends PHPUnit_Framework_TestCase
                 '_buildTokenRequest',
                 '_getCallbackUrl'
             ),
-            array(
-                $this->_moduleListMock
-            )
+            array(), '', false
         );
         $this->_modelClass->expects($this->any())
             ->method('getResponse')

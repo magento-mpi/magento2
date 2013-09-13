@@ -18,6 +18,7 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestSkipped('Api tests were skipped');
         /** @var Magento_Sales_Model_Resource_Order_Collection $orderCollection */
         $orderCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Sales_Model_Resource_Order_Collection');

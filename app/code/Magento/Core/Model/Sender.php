@@ -29,14 +29,16 @@ class Magento_Core_Model_Sender
     /**
      * @param Magento_Core_Model_Email_Template_Mailer $mailer
      * @param Magento_Core_Model_Email_Info $info
-     * @param Magento_Core_Model_Store $store
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
-    public function __construct(Magento_Core_Model_Email_Template_Mailer $mailer,
-        Magento_Core_Model_Email_Info $info, Magento_Core_Model_Store $store
+    public function __construct(
+        Magento_Core_Model_Email_Template_Mailer $mailer,
+        Magento_Core_Model_Email_Info $info,
+        Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_mailer = $mailer;
         $this->_emailInfo = $info;
-        $this->_store = $store;
+        $this->_store = $storeManager->getStore();
     }
 
     /**

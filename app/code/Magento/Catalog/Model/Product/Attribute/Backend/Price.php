@@ -26,28 +26,14 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_
     protected $_helper;
 
     /**
-     * Constructor to inject dependencies
-     *
+     * @param Magento_Catalog_Helper_Data $catalogData
      * @param array $data
      */
-    public function __construct($data = array())
-    {
-        if (isset($data['helper'])) {
-            $this->_helper = $data['helper'];
-        }
-    }
-
-    /**
-     * Get catalog helper
-     *
-     * @return Magento_Catalog_Helper_Data
-     */
-    protected function _getHelper()
-    {
-        if (empty($this->_helper)) {
-            $this->_helper = Mage::helper('Magento_Catalog_Helper_Data');
-        }
-        return $this->_helper;
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        $data = array()
+    ) {
+        $this->_helper = $catalogData;
     }
 
     /**
@@ -72,7 +58,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_
      */
     public function setScope($attribute)
     {
-        if ($this->_getHelper()->isPriceGlobal()) {
+        if ($this->_helper->isPriceGlobal()) {
             $attribute->setIsGlobal(Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL);
         } else {
             $attribute->setIsGlobal(Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE);

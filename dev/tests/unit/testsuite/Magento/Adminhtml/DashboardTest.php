@@ -93,8 +93,9 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
     protected function _factory($request, $response = null, $objectManager = null)
     {
         if (!$response) {
+            $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
             /** @var $response Magento_Core_Controller_Response_Http|PHPUnit_Framework_MockObject_MockObject */
-            $response = $this->getMockForAbstractClass('Magento_Core_Controller_Response_Http');
+            $response = $this->getMockForAbstractClass('Magento_Core_Controller_Response_Http', array($eventManager));
             $response->headersSentThrowsException = false;
         }
         if (!$objectManager) {

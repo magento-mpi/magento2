@@ -21,6 +21,37 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
     extends Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
 {
     /**
+     * Cms data
+     *
+     * @var Magento_VersionsCms_Helper_Data
+     */
+    protected $_cmsData = null;
+
+    /**
+     * @param Magento_VersionsCms_Helper_Data $cmsData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_VersionsCms_Helper_Data $cmsData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_cmsData = $cmsData;
+        parent::__construct(
+            $context, $formFactory, $coreData, $eventManager, $coreRegistry, $data
+        );
+    }
+
+    /**
      * Preparing form by adding extra fields.
      * Adding on change js call.
      *
@@ -33,7 +64,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
 
         parent::_prepareForm();
 
-        Mage::helper('Magento_VersionsCms_Helper_Data')->addOnChangeToFormElements($this->getForm(), 'dataChanged();');
+        $this->_cmsData->addOnChangeToFormElements($this->getForm(), 'dataChanged();');
 
         /* @var $fieldset Magento_Data_Form_Element_Fieldset */
         $fieldset = $this->getForm()->getElement('content_fieldset');
