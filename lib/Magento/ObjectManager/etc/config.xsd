@@ -84,7 +84,7 @@
                 With 'type' tag you can point parameters and plugins for certain class
             </xs:documentation>
         </xs:annotation>
-        <xs:choice>
+        <xs:choice maxOccurs="unbounded">
             <xs:element name="param" type="paramType" minOccurs="0" maxOccurs="unbounded" />
             <xs:element name="plugin" type="pluginType" minOccurs="0" maxOccurs="unbounded" />
         </xs:choice>

@@ -140,9 +140,6 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             $orderPayment
         );
 
-        $this->_eventManager->dispatch('sales_convert_quote_payment_to_order_payment',
-            array('order_payment' => $orderPayment, 'quote_payment' => $payment));
-
         return $orderPayment;
     }
 
@@ -190,9 +187,6 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             );
         }
 
-        $this->_eventManager->dispatch('sales_convert_quote_item_to_order_item',
-            array('order_item'=>$orderItem, 'item'=>$item)
-        );
         return $orderItem;
     }
 }

@@ -89,15 +89,7 @@ class Magento_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
      */
     public function rebuildIndex($storeId = null, $productIds = null)
     {
-        $this->_eventManager->dispatch('catalogsearch_index_process_start', array(
-            'store_id'      => $storeId,
-            'product_ids'   => $productIds
-        ));
-
         $this->getResource()->rebuildIndex($storeId, $productIds);
-
-        $this->_eventManager->dispatch('catalogsearch_index_process_complete', array());
-
         return $this;
     }
 
