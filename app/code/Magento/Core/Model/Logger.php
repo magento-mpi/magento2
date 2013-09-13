@@ -158,7 +158,8 @@ class Magento_Core_Model_Logger
         if (!$this->hasLog($file)) {
             $this->addStreamLog($file, $file);
         }
-        $logger->log($message, $level, $file);
+        /** @var $logger Zend_Log */
+        $this->log($message, $level, $file);
     }
 
     /**
