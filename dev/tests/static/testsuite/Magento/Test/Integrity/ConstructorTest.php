@@ -112,7 +112,14 @@ class Magento_Test_Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
      *
      * It can not start with lowercase letter, digit or underscore
      */
-    const PATTERN_PART_MAGENTO_CLASS = '[A-Z][a-z\d][A-Za-z\d_]+';
+    const PATTERN_PART_MAGENTO_CLASS = '[(\\\\)?A-Z][a-z\d][A-Za-z\d(_|\\\\)]+?';
+
+    /**
+     * Pattern for Magento class to be used for sprintf statements for escape characters
+     *
+     * It can not start with lowercase letter, digit or underscore
+     */
+    const PATTERN_PART_MAGENTO_CLASS_ESCAPE_BACKSLASH = '[A-Z\\][a-z\d][A-Za-z\d_\\\\]+?';
 
     /**
      * Pattern for PHP namespace
@@ -177,7 +184,7 @@ class Magento_Test_Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
         } catch (Exception $e) {
 
             if ($e->getCode() != self::EXCEPTION_CODE_NAMESPACE_DETECTED) {
-                $this->fail(sprintf('Detected problem in file "%s": %s', $file, $e->getMessage()));
+                    $this->fail(sprintf('Detected problem in file "%s": %s', $file, $e->getMessage()));
             }
         }
     }
@@ -287,7 +294,10 @@ class Magento_Test_Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
      */
     protected function _parseParams($paramsString)
     {
-        $pattern = sprintf(self::PATTERN_PARAM, self::PATTERN_PART_MAGENTO_CLASS, self::PATTERN_PART_VARIABLE);
+        $pattern = sprintf(self::PATTERN_PARAM,
+            self::PATTERN_PART_MAGENTO_CLASS_ESCAPE_BACKSLASH,
+            self::PATTERN_PART_VARIABLE
+        );
         $params = $this->_parseParamsWithRegex($paramsString, $pattern);
 
         if (!self::IGNORE_CODE_STYLE_PROBLEMS) {
@@ -417,9 +427,9 @@ class Magento_Test_Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
         $data = array();
         $matches = null;
         $pattern = sprintf(self::PATTERN_CLASS_DEFINITION,
-            self::PATTERN_PART_MAGENTO_CLASS,
-            self::PATTERN_PART_MAGENTO_CLASS,
-            self::PATTERN_PART_MAGENTO_CLASS
+            self::PATTERN_PART_MAGENTO_CLASS_ESCAPE_BACKSLASH,
+            self::PATTERN_PART_MAGENTO_CLASS_ESCAPE_BACKSLASH,
+            self::PATTERN_PART_MAGENTO_CLASS_ESCAPE_BACKSLASH
         );
 
         preg_match($pattern, $content, $matches);
