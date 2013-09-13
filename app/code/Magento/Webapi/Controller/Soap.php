@@ -154,7 +154,7 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
     }
 
     /**
-     * Set body to response object.
+     * Replace WSDL xml encoding from config, if present, else default to UTF-8 and set it to the response object.
      *
      * @param string $responseBody
      * @return Magento_Webapi_Controller_Soap
