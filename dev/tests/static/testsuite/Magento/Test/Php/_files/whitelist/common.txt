@@ -31,15 +31,15 @@ app/code/Magento/Catalog/Model/Observer/Reindex.php
 app/code/Magento/CatalogInventory/Block/Adminhtml/Form/Field/Stock.php
 app/code/Magento/Centinel/Model/State/Jcb.php
 app/code/Magento/Cms/Controller/Router.php
-app/code/Magento/Core/Block/Abstract.php
+app/code/Magento/Core/Block/AbstractBlock.php
 app/code/Magento/Core/Controller/Varien/ActionAbstract.php
 app/code/Magento/Core/Controller/Varien/Action/Factory.php
 app/code/Magento/Core/Controller/Varien/Action/Forward.php
 app/code/Magento/Core/Controller/Varien/DispatchableInterface.php
-app/code/Magento/Core/Controller/Varien/Router/Abstract.php
+app/code/Magento/Core/Controller/Varien/Router/AbstractRouter.php
 app/code/Magento/Core/data
 app/code/Magento/Core/Helper/Css.php
-app/code/Magento/Core/Model/Abstract.php
+app/code/Magento/Core/Model/AbstractModel.php
 app/code/Magento/Core/Model/Config
 app/code/Magento/Core/Model/Cache
 app/code/Magento/Core/Model/DataService
@@ -71,7 +71,7 @@ app/code/Magento/Core/Model/Theme
 app/code/Magento/Core/Model/Theme.php
 app/code/Magento/Core/Model/ThemeInterface.php
 app/code/Magento/Core/Model/Translate.php
-app/code/Magento/Core/Helper/Abstract.php
+app/code/Magento/Core/Helper/AbstractHelper.php
 app/code/Magento/Core/sql/core_setup/upgrade-1.6.0.3-1.6.0.4.php
 app/code/Magento/Directory/Model/Currency/DefaultLocator.php
 app/code/Magento/DesignEditor
@@ -81,7 +81,7 @@ app/code/Magento/ImportExport/Model/Import/Entity/Product/Option.php
 app/code/Magento/ImportExport/Model/Resource/Customer/Storage.php
 app/code/Magento/ImportExport/Model/Resource/Import/CustomerComposite/Data.php
 app/code/Magento/ImportExport/Controller/Adminhtml/Import.php
-app/code/Magento/Index/Model/Indexer/Abstract.php
+app/code/Magento/Index/Model/Indexer/AbstractIndexer.php
 app/code/Magento/Index/Model/EntryPoint/Shell.php
 app/code/Magento/Index/Model/EntryPoint/Indexer.php
 app/code/Magento/Index/Model/Shell.php
