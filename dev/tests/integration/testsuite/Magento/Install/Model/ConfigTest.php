@@ -16,8 +16,17 @@ class Magento_Install_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $cache = Mage::getModel('Magento_Core_Model_Cache');
-        $cache->clean();
+        /** @var $cacheTypeList Magento_Core_Model_Cache_TypeListInterface */
+        $cacheTypeList = Mage::getModel('Magento_Core_Model_Cache_TypeListInterface');
+        $types = array_keys($cacheTypeList->getTypes());
+
+        /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
+        $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_Cache_StateInterface');
+        foreach ($types as $type) {
+            $cacheState->setEnabled($type, false);
+        }
+        $cacheState->persist();
 
         /** @var Magento_Core_Model_Dir $dirs */
         $dirs = Mage::getObjectManager()->create(
