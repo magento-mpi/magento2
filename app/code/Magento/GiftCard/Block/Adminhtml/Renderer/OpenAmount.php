@@ -34,7 +34,7 @@ class Magento_GiftCard_Block_Adminhtml_Renderer_OpenAmount extends Magento_Data_
         Magento_Data_Form_Element_CollectionFactory $factoryCollection,
         array $attributes = array()
     ) {
-        $this->_element = $this->_factoryElement->create('checkbox');
+        $this->_element = $factoryElement->create('checkbox');
         parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
     }
 
