@@ -39,8 +39,9 @@ class Magento_TestFramework_Helper_Api
         $apiSessionMock->expects($testCase->any())->method('isAllowed')->will($testCase->returnValue(true));
         $apiSessionMock->expects($testCase->any())->method('isLoggedIn')->will($testCase->returnValue(true));
 
+        $loggerMock = $testCase->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         $handlerMock = $testCase->getMock('Magento_Api_Model_Server_Handler_Soap',
-            array('_getServer', '_getSession'), array(), '', true
+            array('_getServer', '_getSession'), array($loggerMock), '', true
         );
         self::$_previousHandler = set_error_handler(array($handlerMock, 'handlePhpError'));
 
