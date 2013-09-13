@@ -22,9 +22,9 @@ class Magento_Catalog_Model_Plugin_QuoteItemProductOption
         if (is_array($quoteItem->getOptions())) {
             foreach ($quoteItem->getOptions() as $itemOption) {
                 $code = explode('_', $itemOption->getCode());
-                $option = $quoteItem->getProduct()->getOptionById($code[1]);
-                if (isset($code[1]) && is_numeric($code[1]) && $option) {
-                    if ($option->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_FILE) {
+                if (isset($code[1]) && is_numeric($code[1])) {
+                    $option = $quoteItem->getProduct()->getOptionById($code[1]);
+                    if ($option && $option->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_FILE) {
                         try {
                             $option->groupFactory($option->getType())
                                 ->setQuoteItemOption($itemOption)

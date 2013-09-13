@@ -57,9 +57,9 @@ class Magento_Catalog_Model_Plugin_QuoteItemProductOptionTest extends PHPUnit_Fr
         $optionMock = $this->getMock('stdClass', array('getType'));
         $optionMock->expects($this->once())->method('getType');
 
-        $productMock->expects($this->exactly(2))->method('getOptionById')->will($this->returnValue($optionMock));
+        $productMock->expects($this->once())->method('getOptionById')->will($this->returnValue($optionMock));
 
-        $this->_quoteItemMock->expects($this->exactly(2))->method('getProduct')
+        $this->_quoteItemMock->expects($this->once())->method('getProduct')
             ->will($this->returnValue($productMock));
 
         $orderItem = $this->_model->aroundItemToOrderItem(array($this->_quoteItemMock), $this->_invocationChainMock);
