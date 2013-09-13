@@ -17,22 +17,32 @@
  */
 class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_Helper_Abstract
 {
-     /**
+    /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
      */
     protected $_coreRegistry = null;
+    
+     /**
+      * Catalog product
+      *
+      * @var Magento_Catalog_Helper_Product
+      */
+    protected $_catalogProduct = null;
 
     /**
+     * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_catalogProduct = $catalogProduct;
         parent::__construct($context);
     }
 
@@ -67,16 +77,16 @@ class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_He
     }
 
      /**
-     * Init composite product configuration layout
-     *
-     * $isOk - true or false, whether action was completed nicely or with some error
-     * If $isOk is FALSE (some error during configuration), so $productType must be null
-     *
-     * @param Magento_Adminhtml_Controller_Action $controller
-     * @param bool $isOk
-     * @param string $productType
-     * @return Magento_Adminhtml_Helper_Catalog_Product_Composite
-     */
+      * Init composite product configuration layout
+      *
+      * $isOk - true or false, whether action was completed nicely or with some error
+      * If $isOk is FALSE (some error during configuration), so $productType must be null
+      *
+      * @param Magento_Adminhtml_Controller_Action $controller
+      * @param bool $isOk
+      * @param string $productType
+      * @return Magento_Adminhtml_Helper_Catalog_Product_Composite
+      */
     protected function _initConfigureResultLayout($controller, $isOk, $productType)
     {
         $update = $controller->getLayout()->getUpdate();
@@ -138,7 +148,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_He
             // Prepare buy request values
             $buyRequest = $configureResult->getBuyRequest();
             if ($buyRequest) {
-                Mage::helper('Magento_Catalog_Helper_Product')->prepareProductOptions($product, $buyRequest);
+                $this->_catalogProduct->prepareProductOptions($product, $buyRequest);
             }
 
             $isOk = true;

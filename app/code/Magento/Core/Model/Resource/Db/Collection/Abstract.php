@@ -96,15 +96,23 @@ abstract class Magento_Core_Model_Resource_Db_Collection_Abstract extends Magent
     protected $_eventObject = '';
 
     /**
-     * Collection constructor
+     * Core event manager proxy
      *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
+        $this->_eventManager = $eventManager;
         parent::__construct($fetchStrategy);
         $this->_construct();
         $this->_resource = $resource;
@@ -515,9 +523,9 @@ abstract class Magento_Core_Model_Resource_Db_Collection_Abstract extends Magent
     protected function _beforeLoad()
     {
         parent::_beforeLoad();
-        Mage::dispatchEvent('core_collection_abstract_load_before', array('collection' => $this));
+        $this->_eventManager->dispatch('core_collection_abstract_load_before', array('collection' => $this));
         if ($this->_eventPrefix && $this->_eventObject) {
-            Mage::dispatchEvent($this->_eventPrefix.'_load_before', array(
+            $this->_eventManager->dispatch($this->_eventPrefix.'_load_before', array(
                 $this->_eventObject => $this
             ));
         }
@@ -564,9 +572,9 @@ abstract class Magento_Core_Model_Resource_Db_Collection_Abstract extends Magent
                 $item->setDataChanges(false);
             }
         }
-        Mage::dispatchEvent('core_collection_abstract_load_after', array('collection' => $this));
+        $this->_eventManager->dispatch('core_collection_abstract_load_after', array('collection' => $this));
         if ($this->_eventPrefix && $this->_eventObject) {
-            Mage::dispatchEvent($this->_eventPrefix.'_load_after', array(
+            $this->_eventManager->dispatch($this->_eventPrefix.'_load_after', array(
                 $this->_eventObject => $this
             ));
         }

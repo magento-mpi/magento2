@@ -9,6 +9,11 @@
  */
 class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test create and read created invoice
      *

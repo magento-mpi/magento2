@@ -12,6 +12,7 @@ class Magento_Checkout_Model_Cart_Shipping_ApiTest extends PHPUnit_Framework_Tes
 {
     protected function setUp()
     {
+        $this->markTestSkipped('Api tests were skipped');
         /** Collect rates before requesting them via API. */
         $this->_getQuoteFixture()->getShippingAddress()->setCollectShippingRates(true)->collectTotals()->save();
         parent::setUp();

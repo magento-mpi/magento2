@@ -18,6 +18,20 @@
  */
 class Magento_Page_Block_Redirect extends Magento_Core_Block_Template
 {
+    /**
+     * @var Magento_Data_FormFactory
+     */
+    protected $_formFactory;
+
+    public function __construct(
+        Magento_Data_FormFactory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_formFactory = $formFactory;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      *  HTML form hidden fields
@@ -79,7 +93,7 @@ class Magento_Page_Block_Redirect extends Magento_Core_Block_Template
      */
     public function getHtmlFormRedirect ()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_formFactory->create();
         $form->setAction($this->getTargetURL())
             ->setId($this->getFormId())
             ->setName($this->getFormId())

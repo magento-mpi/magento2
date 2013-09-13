@@ -9,6 +9,11 @@
  */
 class Magento_Catalog_Model_Product_Api_Helper_Configurable extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Retrieve valid configurable data
      *

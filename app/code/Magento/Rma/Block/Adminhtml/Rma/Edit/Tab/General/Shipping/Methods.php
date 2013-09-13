@@ -11,6 +11,13 @@
 class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Methods extends Magento_Core_Block_Template
 {
     /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -18,17 +25,22 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Methods extends 
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        $this->_taxData = $taxData;
+        parent::__construct($coreData, $context, $data);
     }
 
     public function _construct()
@@ -44,7 +56,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Methods extends 
         return $this->_coreRegistry->registry('current_rma')
             ->getStore()
             ->convertPrice(
-                Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice(
+                $this->_taxData->getShippingPrice(
                     $price
                 ),
                 true,
@@ -62,6 +74,6 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Methods extends 
         $data['PriceOriginal']  = $method->getPrice();
         $data['Code']           = $method->getCode();
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
+        return $this->_coreData->jsonEncode($data);
     }
 }

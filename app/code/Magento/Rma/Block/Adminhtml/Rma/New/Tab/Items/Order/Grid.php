@@ -17,7 +17,7 @@
  */
 
 class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
-    extends Magento_Adminhtml_Block_Widget_Grid
+    extends Magento_Backend_Block_Widget_Grid_Extended
 {
     /**
      * Variable to store store-depended string values of attributes
@@ -36,6 +36,13 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     protected $_defaultLimit = 0;
 
     /**
+     * Rma data
+     *
+     * @var Magento_Rma_Helper_Data
+     */
+    protected $_rmaData = null;
+
+    /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -43,6 +50,8 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Rma_Helper_Data $rmaData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
@@ -50,14 +59,17 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Helper_Data $rmaData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_rmaData = $rmaData;
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $storeManager, $urlModel, $data);
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
     /**
@@ -128,7 +140,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
                 $product->setStoreId($item->getStoreId());
                 $product->load($item->getProductId());
 
-                if (!Mage::helper('Magento_Rma_Helper_Data')->canReturnProduct($product, $item->getStoreId())) {
+                if (!$this->_rmaData->canReturnProduct($product, $item->getStoreId())) {
                     $allowed = false;
                 }
             }
@@ -164,13 +176,13 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
                 $productOptions     = $item->getProductOptions();
                 $product->reset();
                 $product->load($product->getIdBySku($productOptions['simple_sku']));
-                if (!Mage::helper('Magento_Rma_Helper_Data')->canReturnProduct($product, $item->getStoreId())) {
+                if (!$this->_rmaData->canReturnProduct($product, $item->getStoreId())) {
                     $this->getCollection()->removeItemByKey($item->getId());
                     continue;
                 }
             }
 
-            $item->setName(Mage::helper('Magento_Rma_Helper_Data')->getAdminProductName($item));
+            $item->setName($this->_rmaData->getAdminProductName($item));
         }
 
         return $this;
@@ -312,7 +324,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
             if ($column->getFilter()->getValue()) {
                 $this->getCollection()->addFieldToFilter('item_id', array('in'=>$productIds));
             } else {
-                if($productIds) {
+                if ($productIds) {
                     $this->getCollection()->addFieldToFilter('item_id', array('nin'=>$productIds));
                 }
             }

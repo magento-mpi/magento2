@@ -23,6 +23,7 @@ class Magento_Catalog_Model_Product_Attribute_Tierprice_ApiTest extends PHPUnit_
 
     protected function setUp()
     {
+        $this->markTestSkipped('Api tests were skipped');
         $this->_model = Mage::getModel('Magento_Catalog_Model_Product_Attribute_Tierprice_Api');
     }
 

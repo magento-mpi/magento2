@@ -150,7 +150,7 @@ abstract class Magento_Core_Model_Resource_Db_Abstract extends Magento_Core_Mode
     public function __wakeup()
     {
         if (Mage::getIsSerializable()) {
-            $this->_resources = Mage::getSingleton('Magento_Core_Model_Resource');
+            $this->_resources = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Resource');
         }
     }
 

@@ -197,9 +197,7 @@ class Magento_Downloader_Model_Session extends Magento_Downloader_Model
      */
     public function getReturnUrl()
     {
-        if (!$this->_session || !$this->_session->isLoggedIn()) {
-            return '';
-        }
-        return Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl();
+        //TODO: added logic for backend url
+        return '';
     }
 }

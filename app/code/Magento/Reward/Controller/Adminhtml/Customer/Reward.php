@@ -26,7 +26,7 @@ class Magento_Reward_Controller_Adminhtml_Customer_Reward extends Magento_Adminh
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabled()
+        if (!$this->_objectManager->get('Magento_Reward_Helper_Data')->isEnabled()
             && $this->getRequest()->getActionName() != 'noroute'
         ) {
             $this->_forward('noroute');

@@ -147,7 +147,7 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
                 $collection->setPageSize($this->getSubReportSize());
             }
 
-            Mage::dispatchEvent('adminhtml_widget_grid_filter_collection',
+            $this->_eventManager->dispatch('adminhtml_widget_grid_filter_collection',
                 array('collection' => $this->getCollection(), 'filter_values' => $this->_filterValues)
             );
         }

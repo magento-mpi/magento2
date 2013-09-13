@@ -24,6 +24,29 @@ abstract class Magento_Checkout_Block_Cart_Abstract extends Magento_Core_Block_T
     protected $_totals;
     protected $_itemRenders = array();
 
+    /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -165,7 +188,7 @@ abstract class Magento_Checkout_Block_Cart_Abstract extends Magento_Core_Block_T
      */
     public function canApplyMsrp()
     {
-        if (!$this->getQuote()->hasCanApplyMsrp() && Mage::helper('Magento_Catalog_Helper_Data')->isMsrpEnabled()) {
+        if (!$this->getQuote()->hasCanApplyMsrp() && $this->_catalogData->isMsrpEnabled()) {
             $this->getQuote()->collectTotals();
         }
         return $this->getQuote()->getCanApplyMsrp();

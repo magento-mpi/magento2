@@ -53,7 +53,7 @@ class Magento_FullPageCache_Model_Container_Orders extends Magento_FullPageCache
     protected function _renderBlock()
     {
         $block = $this->_getPlaceHolderBlock();
-        Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+        $this->_eventManager->dispatch('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
         return $block->toHtml();
     }
 }

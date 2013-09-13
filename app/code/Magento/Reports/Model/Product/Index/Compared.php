@@ -36,8 +36,34 @@ class Magento_Reports_Model_Product_Index_Compared extends Magento_Reports_Model
     protected $_countCacheKey   = 'product_index_compared_count';
 
     /**
-     * Initialize resource model
+     * Catalog product compare
      *
+     * @var Magento_Catalog_Helper_Product_Compare
+     */
+    protected $_productCompare = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product_Compare $productCompare
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product_Compare $productCompare,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_productCompare = $productCompare;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
+     * Initialize resource model
      */
     protected function _construct()
     {
@@ -52,12 +78,8 @@ class Magento_Reports_Model_Product_Index_Compared extends Magento_Reports_Model
     public function getExcludeProductIds()
     {
         $productIds = array();
-
-        /* @var $helper Magento_Catalog_Helper_Product_Compare */
-        $helper = Mage::helper('Magento_Catalog_Helper_Product_Compare');
-
-        if ($helper->hasItems()) {
-            foreach ($helper->getItemCollection() as $_item) {
+        if ($this->_productCompare->hasItems()) {
+            foreach ($this->_productCompare->getItemCollection() as $_item) {
                 $productIds[] = $_item->getEntityId();
             }
         }

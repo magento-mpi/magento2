@@ -128,13 +128,14 @@ class Magento_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCollection()
     {
+        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
         $fetchStrategy = $this->getMockForAbstractClass('Magento_Data_Collection_Db_FetchStrategyInterface');
 
         /** @var PHPUnit_Framework_MockObject_MockObject $collection */
         $collection = $this->getMock(
             'Magento_Webapi_Model_Resource_Acl_User_Collection',
             array('_initSelect', 'setModel'),
-            array($fetchStrategy, $this->_userResource)
+            array($eventManager, $fetchStrategy, $this->_userResource)
         );
 
         $collection->expects($this->any())->method('setModel')->with('Magento_Webapi_Model_Acl_User');

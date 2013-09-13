@@ -39,7 +39,7 @@ class Magento_GoogleShopping_Model_Attribute_Title extends Magento_GoogleShoppin
         } else {
             $titleText = 'no title';
         }
-        $titleText = Mage::helper('Magento_GoogleShopping_Helper_Data')->cleanAtomAttribute($titleText);
+        $titleText = $this->_gsData->cleanAtomAttribute($titleText);
         $entry->setTitle($entry->getService()->newTitle()->setText($titleText));
 
         return $entry;

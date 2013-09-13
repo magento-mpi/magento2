@@ -60,18 +60,29 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
     );
 
     /**
+     * Catalog permissions data
+     *
+     * @var Magento_CatalogPermissions_Helper_Data
+     */
+    protected $_catalogPermData = null;
+
+    /**
      * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * @param Magento_CatalogPermissions_Helper_Data $catalogPermData
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        Magento_CatalogPermissions_Helper_Data $catalogPermData,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Resource $resource
     ) {
+        $this->_catalogPermData = $catalogPermData;
         parent::__construct($resource);
         $this->_storeManager = $storeManager;
     }
@@ -758,7 +769,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
             $select->where('website_id = :website_id');
             $bind[':website_id'] = $websiteId;
         }
-        if (!Mage::helper('Magento_CatalogPermissions_Helper_Data')->isAllowedCategoryView()) {
+        if (!$this->_catalogPermData->isAllowedCategoryView()) {
             $bind[':grant_catalog_category_view'] = Magento_CatalogPermissions_Model_Permission::PERMISSION_ALLOW;
         } else {
             $bind[':grant_catalog_category_view'] = Magento_CatalogPermissions_Model_Permission::PERMISSION_DENY;
@@ -769,11 +780,11 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
         $select = $adapter->select()
             ->from($this->getTable('catalog_category_entity'), 'entity_id');
 
-        if (!empty($restrictedCatIds) && !Mage::helper('Magento_CatalogPermissions_Helper_Data')->isAllowedCategoryView()) {
+        if (!empty($restrictedCatIds) && !$this->_catalogPermData->isAllowedCategoryView()) {
             $select->where('entity_id NOT IN(?)', $restrictedCatIds);
-        } elseif (!empty($restrictedCatIds) && Mage::helper('Magento_CatalogPermissions_Helper_Data')->isAllowedCategoryView()) {
+        } elseif (!empty($restrictedCatIds) && $this->_catalogPermData->isAllowedCategoryView()) {
             $select->where('entity_id IN(?)', $restrictedCatIds);
-        } elseif (Mage::helper('Magento_CatalogPermissions_Helper_Data')->isAllowedCategoryView()) {
+        } elseif ($this->_catalogPermData->isAllowedCategoryView()) {
             $select->where('1 = 0'); // category view allowed for all
         }
 
@@ -804,7 +815,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
             );
         }
 
-        if (!Mage::helper('Magento_CatalogPermissions_Helper_Data')->isAllowedProductPrice()) {
+        if (!$this->_catalogPermData->isAllowedProductPrice()) {
             $select->where(
                 'permission_index_product.grant_catalog_product_price = ?',
                 Magento_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
@@ -844,7 +855,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
                 array()
             );
 
-        if (!Mage::helper('Magento_CatalogPermissions_Helper_Data')->isAllowedCategoryView()) {
+        if (!$this->_catalogPermData->isAllowedCategoryView()) {
             $collection->getProductCountSelect()
                 ->where('permission_index_product_count.grant_catalog_category_view = ?',
                     Magento_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
@@ -876,14 +887,14 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
         }
 
         $collection->getSelect()->joinLeft(
-            array('permission_index'=>$this->getTable('magento_catalogpermissions_index')),
+            array('permission_index'=>$this->getTable('enterprise_catalogpermissions_index')),
             'permission_index.category_id = ' . $tableAlias . '.entity_id'
             . ' AND ' . $adapter->quoteInto('permission_index.website_id = ?', $websiteId)
             . ' AND ' . $adapter->quoteInto('permission_index.customer_group_id = ?', $customerGroupId),
             array()
         );
 
-        if (!Mage::helper('Magento_CatalogPermissions_Helper_Data')->isAllowedCategoryView()) {
+        if (!$this->_catalogPermData->isAllowedCategoryView()) {
             $collection->getSelect()
                 ->where('permission_index.grant_catalog_category_view = ?',
                     Magento_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
@@ -931,13 +942,13 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
         } else {
             $collection->getSelect()
                 ->joinLeft(
-                    array('permission_index_product' => $this->getTable('magento_catalogpermissions_index_product')),
+                    array('permission_index_product' => $this->getTable('enterprise_catalogpermissions_index_product')),
                     $condition,
                     array('grant_catalog_category_view',
                         'grant_catalog_product_price',
                         'grant_checkout_items')
                 );
-            if (!Mage::helper('Magento_CatalogPermissions_Helper_Data')->isAllowedCategoryView()) {
+            if (!$this->_catalogPermData->isAllowedCategoryView()) {
                 $collection->getSelect()
                     ->where('permission_index_product.grant_catalog_category_view = ?',
                         Magento_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
@@ -964,7 +975,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
                  */
                 if (in_array($linkTypeId, $linkTypeIds)) {
 
-                    if (!Mage::helper('Magento_CatalogPermissions_Helper_Data')->isAllowedProductPrice()) {
+                    if (!$this->_catalogPermData->isAllowedProductPrice()) {
                         $collection->getSelect()
                             ->where('permission_index_product.grant_catalog_product_price = ?',
                                 Magento_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
@@ -975,7 +986,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
                                 Magento_CatalogPermissions_Model_Permission::PERMISSION_DENY);
                     }
 
-                    if (!Mage::helper('Magento_CatalogPermissions_Helper_Data')->isAllowedCheckoutItems()) {
+                    if (!$this->_catalogPermData->isAllowedCheckoutItems()) {
                         $collection->getSelect()
                             ->where('permission_index_product.grant_checkout_items = ?',
                                 Magento_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
@@ -1003,7 +1014,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
     {
         $adapter = $this->_getReadAdapter();
         $select  = $adapter->select()
-            ->from($this->getTable('magento_catalogpermissions_index_product'),
+            ->from($this->getTable('enterprise_catalogpermissions_index_product'),
                 array(
                     'grant_catalog_category_view',
                     'grant_catalog_product_price',
@@ -1050,7 +1061,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
         }
 
         $select = $adapter->select()
-            ->from($this->getTable('magento_catalogpermissions_index_product'),
+            ->from($this->getTable('enterprise_catalogpermissions_index_product'),
                 array(
                     'product_id',
                     'grant_catalog_category_view',

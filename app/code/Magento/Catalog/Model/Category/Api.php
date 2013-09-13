@@ -17,8 +17,13 @@
  */
 class Magento_Catalog_Model_Category_Api extends Magento_Catalog_Model_Api_Resource
 {
-    public function __construct()
-    {
+    /**
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct
+    ) {
+        parent::__construct($catalogProduct);
         $this->_storeIdSessionField = 'category_store_id';
     }
 
@@ -382,7 +387,7 @@ class Magento_Catalog_Model_Category_Api extends Magento_Catalog_Model_Api_Resou
      */
     protected function _getProductId($productId, $identifierType = null)
     {
-        $product = Mage::helper('Magento_Catalog_Helper_Product')->getProduct($productId, null, $identifierType);
+        $product = $this->_catalogProduct->getProduct($productId, null, $identifierType);
         if (!$product->getId()) {
             $this->_fault('product_not_exists', 'Product not exists.');
         }

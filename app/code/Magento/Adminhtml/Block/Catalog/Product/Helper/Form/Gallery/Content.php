@@ -18,7 +18,7 @@
  *
  * @method Magento_Data_Form_Element_Abstract getElement()
  */
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends Magento_Adminhtml_Block_Widget
+class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends Magento_Backend_Block_Widget
 {
     protected $_template = 'catalog/product/helper/gallery.phtml';
 
@@ -40,7 +40,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
                 )
             ));
 
-        Mage::dispatchEvent('catalog_product_gallery_prepare_layout', array('block' => $this));
+        $this->_eventManager->dispatch('catalog_product_gallery_prepare_layout', array('block' => $this));
 
         return parent::_prepareLayout();
     }
@@ -90,7 +90,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
                     $image['url'] = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')
                         ->getMediaUrl($image['file']);
                 }
-                return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($value['images']);
+                return $this->_coreData->jsonEncode($value['images']);
             }
         }
         return '[]';
@@ -105,7 +105,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
                 $attribute->getAttributeCode()
             );
         }
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($values);
+        return $this->_coreData->jsonEncode($values);
     }
 
     /**
@@ -152,7 +152,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
 
     public function getImageTypesJson()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getImageTypes());
+        return $this->_coreData->jsonEncode($this->getImageTypes());
     }
 
 }
