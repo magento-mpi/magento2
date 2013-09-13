@@ -1,6 +1,6 @@
 <?php
 /**
- * Creates new SoapServer objects.
+ * Factory to create new SoapServer objects.
  *
  * {license_notice}
  *
