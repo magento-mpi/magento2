@@ -53,7 +53,7 @@ class Magento_Test_Integrity_Modular_TemplateFilesTest extends Magento_TestFrame
                     continue;
                 }
                 $class = new ReflectionClass($blockClass);
-                if ($class->isAbstract() || !$class->isSubclassOf('\Magento\Core\Block\Template')) {
+                if ($class->isAbstract() || !$class->isSubclassOf('Magento\Core\Block\Template')) {
                     continue;
                 }
 
@@ -62,7 +62,7 @@ class Magento_Test_Integrity_Modular_TemplateFilesTest extends Magento_TestFrame
                     $area = 'install';
                 } elseif ($module == 'Magento_Adminhtml' || strpos($blockClass, '_Adminhtml_')
                     || strpos($blockClass, '_Backend_')
-                    || $class->isSubclassOf('\Magento\Backend\Block\Template'))
+                    || $class->isSubclassOf('Magento\Backend\Block\Template'))
                 {
                     $area = 'adminhtml';
                 }
