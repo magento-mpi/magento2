@@ -67,6 +67,43 @@ class Magento_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
     protected $_lastCookieValue = array();
 
     /**
+     * Sendfriend data
+     *
+     * @var Magento_Sendfriend_Helper_Data
+     */
+    protected $_sendfriendData = null;
+
+    /**
+     * Catalog image
+     *
+     * @var Magento_Catalog_Helper_Image
+     */
+    protected $_catalogImage = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Image $catalogImage
+     * @param Magento_Sendfriend_Helper_Data $sendfriendData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Image $catalogImage,
+        Magento_Sendfriend_Helper_Data $sendfriendData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_catalogImage = $catalogImage;
+        $this->_sendfriendData = $sendfriendData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
      *
      */
@@ -82,12 +119,12 @@ class Magento_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
      */
     protected function _getHelper()
     {
-        return Mage::helper('Magento_Sendfriend_Helper_Data');
+        return $this->_sendfriendData;
     }
 
     public function send()
     {
-        if ($this->isExceedLimit()){
+        if ($this->isExceedLimit()) {
             Mage::throwException(__('You\'ve met your limit of %1 sends in an hour.', $this->getMaxSendsToFriend()));
         }
 
@@ -124,7 +161,7 @@ class Magento_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
                     'message'       => $message,
                     'sender_name'   => $sender['name'],
                     'sender_email'  => $sender['email'],
-                    'product_image' => Mage::helper('Magento_Catalog_Helper_Image')->init($this->getProduct(),
+                    'product_image' => $this->_catalogImage->init($this->getProduct(),
                         'small_image')->resize(75),
                 )
             );
@@ -516,8 +553,8 @@ class Magento_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
      */
     public function register()
     {
-        if (!Mage::registry('send_to_friend_model')) {
-            Mage::register('send_to_friend_model', $this);
+        if (!$this->_coreRegistry->registry('send_to_friend_model')) {
+            $this->_coreRegistry->register('send_to_friend_model', $this);
         }
         return $this;
     }

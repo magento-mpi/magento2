@@ -17,6 +17,11 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
      */
     protected $_defaultHelper = 'Magento_Catalog_Model_Product_Api_Helper_Simple';
 
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test product resource post
      * @magentoDbIsolation enabled
@@ -279,8 +284,11 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
     public function testProductWithOptionsCrud()
     {
         $this->markTestIncomplete('TODO: Fix test');
-        $optionValueApi = Mage::registry('optionValueApi');
-        $optionValueInstaller = Mage::registry('optionValueInstaller');
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+        $optionValueApi = $objectManager->get('Magento_Core_Model_Registry')->registry('optionValueApi');
+        $optionValueInstaller = $objectManager->get('Magento_Core_Model_Registry')->registry('optionValueInstaller');
         $data = require __DIR__ . '/_files/ProductData.php';
 
         $singleData = & $data['create_with_attributes_soapv2']['productData']->additional_attributes->singleData;
@@ -352,8 +360,11 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
      */
     public function testProductUpdateCustomStore()
     {
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
         /** @var Magento_Core_Model_Store $store */
-        $store = Mage::registry('store_on_new_website');
+        $store = $objectManager->get('Magento_Core_Model_Registry')->registry('store_on_new_website');
 
         $data = require __DIR__ . '/_files/ProductData.php';
         // create product for test

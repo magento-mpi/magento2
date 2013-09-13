@@ -246,7 +246,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
         $value = trim($this->_storeManager->getStore()->getConfig(self::XML_PATH_STATES_REQUIRED));
         $countryList =  preg_split('/\,/', $value, 0, PREG_SPLIT_NO_EMPTY);
         if ($asJson) {
-            return $this->_coreHelper->jsonEncode($countryList);
+            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($countryList);
         }
         return $countryList;
     }

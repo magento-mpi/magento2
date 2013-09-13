@@ -24,7 +24,8 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
             ->setDefaultDesignTheme();
         $arguments = array(
             'request'  => new Magento_TestFramework_Request(),
-            'response' => new Magento_TestFramework_Response(),
+            'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_TestFramework_Response'),
         );
         $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
@@ -238,7 +239,8 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
 
         $arguments = array(
             'request'  => $request,
-            'response' => new Magento_TestFramework_Response(),
+            'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_TestFramework_Response'),
         );
         $context = $objectManager->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
 
@@ -295,7 +297,10 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var $controller Magento_Core_Controller_Varien_Action */
         $context =
-        $context = $objectManager->create($context, array('response' => new Magento_TestFramework_Response()));
+        $context = $objectManager->create($context, array(
+            'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_TestFramework_Response')
+        ));
         $controller = $objectManager->create($controllerClass, array('context' => $context));
         $controller->preDispatch();
 

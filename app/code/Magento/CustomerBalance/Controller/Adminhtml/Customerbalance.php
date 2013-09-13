@@ -15,6 +15,25 @@
 class Magento_CustomerBalance_Controller_Adminhtml_Customerbalance extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Check is enabled module in config
      *
      * @return Magento_CustomerBalance_Controller_Adminhtml_Customerbalance
@@ -22,7 +41,7 @@ class Magento_CustomerBalance_Controller_Adminhtml_Customerbalance extends Magen
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!$this->_objectManager->get('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }
@@ -65,7 +84,7 @@ class Magento_CustomerBalance_Controller_Adminhtml_Customerbalance extends Magen
         $balance = Mage::getSingleton('Magento_CustomerBalance_Model_Balance')->deleteBalancesByCustomerId(
             (int)$this->getRequest()->getParam('id')
         );
-        $this->_redirect('*/customer/edit/', array('_current'=>true));
+        $this->_redirect('*/customer/edit/', array('_current' => true));
     }
 
     /**
@@ -79,7 +98,7 @@ class Magento_CustomerBalance_Controller_Adminhtml_Customerbalance extends Magen
         if (!$customer->getId()) {
             Mage::throwException(__('Failed to initialize customer'));
         }
-        Mage::register('current_customer', $customer);
+        $this->_coreRegistry->register('current_customer', $customer);
     }
 
     /**

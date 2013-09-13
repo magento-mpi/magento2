@@ -20,7 +20,7 @@ class Magento_Core_Helper_JsTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_helper = Mage::helper('Magento_Core_Helper_Js');
+        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Js');
     }
 
     public function testGetTranslateJson()

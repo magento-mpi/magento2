@@ -11,6 +11,25 @@
 class Magento_CustomerBalance_Model_Total_Creditmemo_Customerbalance extends Magento_Sales_Model_Order_Creditmemo_Total_Abstract
 {
     /**
+     * Customer balance data
+     *
+     * @var Magento_CustomerBalance_Helper_Data
+     */
+    protected $_customerBalanceData = null;
+
+    /**
+     * @param Magento_CustomerBalance_Helper_Data $customerBalanceData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_CustomerBalance_Helper_Data $customerBalanceData,
+        array $data = array()
+    ) {
+        $this->_customerBalanceData = $customerBalanceData;
+        parent::__construct($data);
+    }
+
+    /**
      * Collect customer balance totals for credit memo
      *
      * @param Magento_Sales_Model_Order_Creditmemo $creditmemo
@@ -24,7 +43,7 @@ class Magento_CustomerBalance_Model_Total_Creditmemo_Customerbalance extends Mag
         $creditmemo->setBaseCustomerBalanceReturnMax(0);
         $creditmemo->setCustomerBalanceReturnMax(0);
 
-        if (!Mage::helper('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             return $this;
         }
 

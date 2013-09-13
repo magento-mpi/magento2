@@ -37,6 +37,6 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Bundle
             }
         }
         $config = array('options' => $options);
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
+        return $this->_coreData->jsonEncode($config);
     }
 }

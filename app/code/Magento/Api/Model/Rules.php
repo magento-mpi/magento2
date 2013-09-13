@@ -35,16 +35,19 @@ class Magento_Api_Model_Rules extends Magento_Core_Model_Abstract
         $this->_init('Magento_Api_Model_Resource_Rules');
     }
 
-    public function update() {
+    public function update()
+    {
         $this->getResource()->update($this);
         return $this;
     }
 
-    public function getCollection() {
+    public function getCollection()
+    {
         return Mage::getResourceModel('Magento_Api_Model_Resource_Permissions_Collection');
     }
 
-    public function saveRel() {
+    public function saveRel()
+    {
         $this->getResource()->saveRel($this);
         return $this;
     }

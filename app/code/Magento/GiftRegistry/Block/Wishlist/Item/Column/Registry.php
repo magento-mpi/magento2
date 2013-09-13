@@ -19,13 +19,46 @@ class Magento_GiftRegistry_Block_Wishlist_Item_Column_Registry
     extends Magento_Wishlist_Block_Customer_Wishlist_Item_Column
 {
     /**
+     * Gift registry data
+     *
+     * @var Magento_GiftRegistry_Helper_Data
+     */
+    protected $_giftRegistryData = null;
+
+    /**
+     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
+     * @param Magento_Wishlist_Helper_Data $wishlistData
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GiftRegistry_Helper_Data $giftRegistryData,
+        Magento_Wishlist_Helper_Data $wishlistData,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_giftRegistryData = $giftRegistryData;
+        parent::__construct(
+            $coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context, $data
+        );
+    }
+
+    /**
      * Check whether module is available
      *
      * @return bool
      */
     public function isEnabled()
     {
-        return Mage::helper('Magento_GiftRegistry_Helper_Data')->isEnabled() && count($this->getGiftRegistryList());
+        return $this->_giftRegistryData->isEnabled() && count($this->getGiftRegistryList());
     }
 
     /**
@@ -35,7 +68,7 @@ class Magento_GiftRegistry_Block_Wishlist_Item_Column_Registry
      */
     public function getGiftRegistryList()
     {
-        return Mage::helper('Magento_GiftRegistry_Helper_Data')->getCurrentCustomerEntityOptions();
+        return $this->_giftRegistryData->getCurrentCustomerEntityOptions();
     }
 
     /**
@@ -46,7 +79,7 @@ class Magento_GiftRegistry_Block_Wishlist_Item_Column_Registry
      */
     public function checkProductType($item)
     {
-        return Mage::helper('Magento_GiftRegistry_Helper_Data')->canAddToGiftRegistry($item);
+        return $this->_giftRegistryData->canAddToGiftRegistry($item);
     }
 
     /**

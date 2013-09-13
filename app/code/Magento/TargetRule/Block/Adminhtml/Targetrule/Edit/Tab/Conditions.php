@@ -16,8 +16,8 @@
  * @package    Magento_TargetRule
  */
 class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Backend_Block_Widget_Form_Generic
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Prepare target rule actions form before rendering HTML
@@ -27,9 +27,10 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions
     protected function _prepareForm()
     {
         /* @var $model Magento_TargetRule_Model_Rule */
-        $model  = Mage::registry('current_target_rule');
+        $model  = $this->_coreRegistry->registry('current_target_rule');
 
-        $form   = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset   = $form->addFieldset('conditions_fieldset', array(

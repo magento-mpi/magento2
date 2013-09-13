@@ -15,9 +15,36 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backend_Block_Widget_Form_Generic
 {
     protected $_template = 'customer/tab/addresses.phtml';
+
+    /**
+     * Adminhtml addresses
+     *
+     * @var Magento_Adminhtml_Helper_Addresses
+     */
+    protected $_adminhtmlAddresses = null;
+
+    /**
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_adminhtmlAddresses = $adminhtmlAddresses;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
 
     public function getRegionsUrl()
     {
@@ -59,7 +86,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminh
      */
     public function isReadonly()
     {
-        $customer = Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
         return $customer->isReadonly();
     }
 
@@ -76,15 +103,16 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminh
     public function initForm()
     {
         /* @var $customer Magento_Customer_Model_Customer */
-        $customer = Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
 
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset('address_fieldset', array(
             'legend'    => __("Edit Customer's Address"))
         );
 
         $addressModel = Mage::getModel('Magento_Customer_Model_Address');
-        $addressModel->setCountryId(Mage::helper('Magento_Core_Helper_Data')->getDefaultCountry($customer->getStore()));
+        $addressModel->setCountryId($this->_coreData->getDefaultCountry($customer->getStore()));
         /** @var $addressForm Magento_Customer_Model_Form */
         $addressForm = Mage::getModel('Magento_Customer_Model_Form');
         $addressForm->setFormCode('adminhtml_customer_address')
@@ -92,8 +120,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminh
             ->initDefaultValues();
 
         $attributes = $addressForm->getAttributes();
-        if(isset($attributes['street'])) {
-            Mage::helper('Magento_Adminhtml_Helper_Addresses')
+        if (isset($attributes['street'])) {
+            $this->_adminhtmlAddresses
                 ->processStreetAttribute($attributes['street']);
         }
         foreach ($attributes as $attribute) {
@@ -204,7 +232,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminh
      *
      * @return string
      */
-    public function getDefaultCountriesJson() {
+    public function getDefaultCountriesJson()
+    {
         $websites = Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(false, true);
         $result = array();
         foreach ($websites as $website) {
@@ -213,7 +242,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminh
             );
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 
     /**

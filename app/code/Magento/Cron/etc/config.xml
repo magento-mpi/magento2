@@ -31,15 +31,4 @@
             </cron>
         </system>
     </default>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Cron>
-                    <files>
-                        <default>Magento_Cron.csv</default>
-                    </files>
-                </Magento_Cron>
-            </modules>
-        </translate>
-    </adminhtml>
 </config>

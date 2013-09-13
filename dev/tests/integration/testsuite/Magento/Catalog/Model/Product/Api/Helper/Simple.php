@@ -10,6 +10,11 @@
 
 class Magento_Catalog_Model_Product_Api_Helper_Simple extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Load simple product fixture data
      *

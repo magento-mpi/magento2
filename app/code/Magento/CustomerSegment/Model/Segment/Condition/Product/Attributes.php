@@ -22,14 +22,16 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Attributes
     protected $_isUsedForRuleProperty = 'is_used_for_promo_rules';
 
     /**
-     * Init model
-     *
+     * @param Magento_Backend_Helper_Data $adminhtmlData
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        Magento_Backend_Helper_Data $adminhtmlData,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($adminhtmlData, $context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Product_Attributes');
         $this->setValue(null);
     }

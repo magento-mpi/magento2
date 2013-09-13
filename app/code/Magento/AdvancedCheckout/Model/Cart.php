@@ -97,6 +97,42 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
     protected $_currentStore = null;
 
     /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * Checkout data
+     *
+     * @var Magento_AdvancedCheckout_Helper_Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
+     * @param Magento_Customer_Helper_Data $customerData
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_AdvancedCheckout_Helper_Data $checkoutData,
+        Magento_Customer_Helper_Data $customerData
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_checkoutData = $checkoutData;
+        $this->_customerData = $customerData;
+    }
+
+    /**
      * Set context of the cart
      *
      * @param string $context
@@ -188,7 +224,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
             return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote();
         } else {
             if (!$this->getCustomer()) {
-                $customer = Mage::helper('Magento_Customer_Helper_Data')->getCustomer();
+                $customer = $this->_customerData->getCustomer();
                 if ($customer) {
                     $this->setCustomer($customer);
                 }
@@ -387,9 +423,9 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
                 ));
             }
 
-            Mage::dispatchEvent('sales_convert_order_item_to_quote_item', array(
+            $this->_eventManager->dispatch('sales_convert_order_item_to_quote_item', array(
                 'order_item' => $orderItem,
-                'quote_item' => $item
+                'quote_item' => $item,
             ));
 
             return $item;
@@ -1535,7 +1571,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
      */
     protected function _getHelper()
     {
-        return Mage::helper('Magento_AdvancedCheckout_Helper_Data');
+        return $this->_checkoutData;
     }
 
     /**

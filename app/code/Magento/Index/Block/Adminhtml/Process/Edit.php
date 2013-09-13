@@ -10,6 +10,28 @@
 
 class Magento_Index_Block_Adminhtml_Process_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     protected function _construct()
     {
@@ -20,7 +42,7 @@ class Magento_Index_Block_Adminhtml_Process_Edit extends Magento_Adminhtml_Block
         parent::_construct();
 
         $this->_updateButton('save', 'label', __('Save Process'));
-        if (Mage::registry('current_index_process')) {
+        if ($this->_coreRegistry->registry('current_index_process')) {
             $this->_addButton('reindex', array(
                 'label'     => __('Reindex Data'),
                 'onclick'   => "setLocation('{$this->getRunUrl()}')"
@@ -48,7 +70,7 @@ class Magento_Index_Block_Adminhtml_Process_Edit extends Magento_Adminhtml_Block
     public function getRunUrl()
     {
         return $this->getUrl('adminhtml/process/reindexProcess', array(
-            'process' => Mage::registry('current_index_process')->getId()
+            'process' => $this->_coreRegistry->registry('current_index_process')->getId()
         ));
     }
 
@@ -59,7 +81,7 @@ class Magento_Index_Block_Adminhtml_Process_Edit extends Magento_Adminhtml_Block
      */
     public function getHeaderText()
     {
-        $process = Mage::registry('current_index_process');
+        $process = $this->_coreRegistry->registry('current_index_process');
         if ($process && $process->getId()) {
             return __("'%1' Index Process Information", $process->getIndexer()->getName());
         }

@@ -107,17 +107,27 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
     protected $_cacheManager;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_eventDispatcher = $context->getEventDispatcher();
         $this->_cacheManager = $context->getCacheManager();
         $this->_resource = $resource;
@@ -159,7 +169,7 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
     {
         $properties = array_keys(get_object_vars($this));
         if (Mage::getIsSerializable()) {
-            $properties = array_diff($properties, array('_eventDispatcher', '_cacheManager'));
+            $properties = array_diff($properties, array('_eventDispatcher', '_cacheManager', '_coreRegistry'));
         }
         return $properties;
     }
@@ -170,8 +180,12 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
     public function __wakeup()
     {
         if (Mage::getIsSerializable()) {
-            $this->_eventDispatcher = Mage::getSingleton('Magento_Core_Model_Event_Manager');
-            $this->_cacheManager    = Mage::getSingleton('Magento_Core_Model_CacheInterface');
+            $this->_eventDispatcher = Magento_Core_Model_ObjectManager::getInstance()
+                ->get('Magento_Core_Model_Event_Manager');
+            $this->_cacheManager    = Magento_Core_Model_ObjectManager::getInstance()
+                ->get('Magento_Core_Model_CacheInterface');
+            $this->_coreRegistry    = Magento_Core_Model_ObjectManager::getInstance()
+                ->get('Magento_Core_Model_Registry');
         }
     }
 
@@ -228,9 +242,9 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
                 __('Model collection resource name is not defined.')
             );
         }
-        return $this->_resourceCollection ?
-            clone $this->_resourceCollection :
-            Mage::getResourceModel($this->_collectionName, array('resource' => $this->_getResource()));
+        return $this->_resourceCollection
+            ? clone $this->_resourceCollection
+            : Mage::getResourceModel($this->_collectionName, array('resource' => $this->_getResource()));
     }
 
     /**
@@ -597,7 +611,7 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
      */
     protected function _protectFromNonAdmin()
     {
-        if (Mage::registry('isSecureArea')) {
+        if ($this->_coreRegistry->registry('isSecureArea')) {
             return;
         }
         if (!Mage::app()->getStore()->isAdmin()) {
@@ -681,5 +695,4 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
     {
         return $this;
     }
-
 }

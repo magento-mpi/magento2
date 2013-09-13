@@ -18,6 +18,30 @@
 class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsCollection
     extends Magento_Catalog_Model_Resource_Product_Link_Product_Collection
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy);
+    }
 
     /**
      * Retrieve currently edited product model
@@ -26,7 +50,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
      */
     protected function _getProduct()
     {
-        return Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**

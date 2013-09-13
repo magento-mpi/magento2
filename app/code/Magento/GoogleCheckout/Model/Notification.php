@@ -31,10 +31,11 @@ class Magento_GoogleCheckout_Model_Notification extends Magento_Core_Model_Abstr
     const STATUS_PROCESSED = 1;
 
     /**
-     * Intialize model
+     * Initialize model
      */
-    function _construct()
+    protected function _construct()
     {
+        parent::_construct();
         $this->_init('Magento_GoogleCheckout_Model_Resource_Notification');
     }
 

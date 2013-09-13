@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Search_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Catalog_Search_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Init Form properties
@@ -36,14 +36,17 @@ class Magento_Adminhtml_Block_Catalog_Search_Edit_Form extends Magento_Adminhtml
      */
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_catalog_search');
+        $model = $this->_coreRegistry->registry('current_catalog_search');
         /* @var $model Magento_CatalogSearch_Model_Query */
 
-        $form = new Magento_Data_Form(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getData('action'),
-            'method' => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
 

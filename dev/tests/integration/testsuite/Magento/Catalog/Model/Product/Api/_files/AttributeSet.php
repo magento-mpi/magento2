@@ -8,7 +8,9 @@
 
 /** @var Magento_Catalog_Model_Product_Attribute_Set_Api $attrSetApi */
 $attrSetApi = Mage::getModel('Magento_Catalog_Model_Product_Attribute_Set_Api');
-Mage::register(
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+$objectManager->get('Magento_Core_Model_Registry')->register(
     'testAttributeSetId',
     $attrSetApi->create('Test Attribute Set Fixture ' . mt_rand(1000, 9999), 4)
 );
@@ -21,4 +23,5 @@ $testAttributeSetAttrIdsArray = array();
 
 $attrApi = Mage::getModel('Magento_Catalog_Model_Product_Attribute_Api');
 $testAttributeSetAttrIdsArray[0] = $attrApi->create($data);
-Mage::register('testAttributeSetAttrIdsArray', $testAttributeSetAttrIdsArray);
+$objectManager->get('Magento_Core_Model_Registry')
+    ->register('testAttributeSetAttrIdsArray', $testAttributeSetAttrIdsArray);

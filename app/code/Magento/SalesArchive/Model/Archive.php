@@ -43,6 +43,22 @@ class Magento_SalesArchive_Model_Archive
     );
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager
+    ) {
+        $this->_eventManager = $eventManager;
+    }
+
+    /**
      * Returns resource model class of an entity
      *
      * @param string $entity
@@ -129,7 +145,7 @@ class Magento_SalesArchive_Model_Archive
             $this->_getResource()->rollBack();
             throw $e;
         }
-        Mage::dispatchEvent(
+        $this->_eventManager->dispatch(
             'magento_salesarchive_archive_archive_orders',
             array('order_ids' => $orderIds)
         );
@@ -162,7 +178,7 @@ class Magento_SalesArchive_Model_Archive
                 $this->_getResource()->rollBack();
                 throw $e;
             }
-            Mage::dispatchEvent(
+            $this->_eventManager->dispatch(
                 'magento_salesarchive_archive_archive_orders',
                 array('order_ids' => $orderIds)
             );
@@ -217,7 +233,7 @@ class Magento_SalesArchive_Model_Archive
                 throw $e;
             }
 
-            Mage::dispatchEvent(
+            $this->_eventManager->dispatch(
                 'magento_salesarchive_archive_remove_orders_from_archive',
                 array('order_ids' => $orderIds)
             );

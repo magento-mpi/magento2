@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Sitemap edit form
  *
@@ -16,9 +15,8 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sitemap_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Sitemap_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
-
     /**
      * Init form
      */
@@ -32,13 +30,16 @@ class Magento_Adminhtml_Block_Sitemap_Edit_Form extends Magento_Adminhtml_Block_
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('sitemap_sitemap');
+        $model = $this->_coreRegistry->registry('sitemap_sitemap');
 
-        $form = new Magento_Data_Form(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getData('action'),
-            'method'    => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getData('action'),
+                'method'    => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('add_sitemap_form', array('legend' => __('Sitemap')));
 
@@ -75,8 +76,7 @@ class Magento_Adminhtml_Block_Sitemap_Edit_Form extends Magento_Adminhtml_Block_
             ));
             $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
-        }
-        else {
+        } else {
             $fieldset->addField('store_id', 'hidden', array(
                 'name'     => 'store_id',
                 'value'    => Mage::app()->getStore(true)->getId()
@@ -85,12 +85,9 @@ class Magento_Adminhtml_Block_Sitemap_Edit_Form extends Magento_Adminhtml_Block_
         }
 
         $form->setValues($model->getData());
-
         $form->setUseContainer(true);
-
         $this->setForm($form);
 
         return parent::_prepareForm();
     }
-
 }

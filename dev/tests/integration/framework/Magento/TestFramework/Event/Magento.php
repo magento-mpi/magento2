@@ -10,7 +10,7 @@
  */
 
 /**
- * Observer of Magento events triggered using Mage::dispatchEvent()
+ * Observer of Magento events triggered using Magento_Core_Model_Magento_TestFramework_EventManager::dispatch()
  */
 class Magento_TestFramework_Event_Magento
 {

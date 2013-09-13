@@ -25,6 +25,30 @@ class Magento_Reward_Model_Action_OrderExtra extends Magento_Reward_Model_Action
     protected $_quote = null;
 
     /**
+     * Reward data
+     *
+     * @var Magento_Reward_Helper_Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Reward_Helper_Data $rewardData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Reward_Helper_Data $rewardData,
+        array $data = array()
+    ) {
+        $this->_rewardData = $rewardData;
+        parent::__construct($data);
+    }
+
+    /**
      * Return action message for history log
      *
      * @param array $args Additional history data
@@ -71,7 +95,7 @@ class Magento_Reward_Model_Action_OrderExtra extends Magento_Reward_Model_Action
      */
     public function getPoints($websiteId)
     {
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isOrderAllowed($this->getReward()->getWebsiteId())) {
+        if (!$this->_rewardData->isOrderAllowed($this->getReward()->getWebsiteId())) {
             return 0;
         }
         if ($this->_quote) {
@@ -102,6 +126,6 @@ class Magento_Reward_Model_Action_OrderExtra extends Magento_Reward_Model_Action
     public function canAddRewardPoints()
     {
         return parent::canAddRewardPoints()
-            && Mage::helper('Magento_Reward_Helper_Data')->isOrderAllowed($this->getReward()->getWebsiteId());
+            && $this->_rewardData->isOrderAllowed($this->getReward()->getWebsiteId());
     }
 }

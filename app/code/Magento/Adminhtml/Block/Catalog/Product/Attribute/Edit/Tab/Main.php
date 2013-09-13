@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Product attribute add/edit form main tab
  *
@@ -16,7 +15,8 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
+class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
+    extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
 {
     /**
      * Adding product form elements for editing attribute
@@ -67,7 +67,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Ma
 
         $response = new Magento_Object();
         $response->setTypes(array());
-        Mage::dispatchEvent('adminhtml_product_attribute_types', array('response'=>$response));
+        $this->_eventManager->dispatch('adminhtml_product_attribute_types', array('response'=>$response));
         $_disabledTypes = array();
         $_hiddenFields = array();
         foreach ($response->getTypes() as $type) {
@@ -79,14 +79,14 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Ma
                 $_disabledTypes[$type['value']] = $type['disabled_types'];
             }
         }
-        Mage::register('attribute_type_hidden_fields', $_hiddenFields);
-        Mage::register('attribute_type_disabled_types', $_disabledTypes);
+        $this->_coreRegistry->register('attribute_type_hidden_fields', $_hiddenFields);
+        $this->_coreRegistry->register('attribute_type_disabled_types', $_disabledTypes);
 
         $frontendInputValues = array_merge($frontendInputElm->getValues(), $additionalTypes);
         $frontendInputElm->setValues($frontendInputValues);
 
 
-        Mage::dispatchEvent('adminhtml_catalog_product_attribute_edit_prepare_form', array(
+        $this->_eventManager->dispatch('adminhtml_catalog_product_attribute_edit_prepare_form', array(
             'form'      => $form,
             'attribute' => $attributeObject
         ));

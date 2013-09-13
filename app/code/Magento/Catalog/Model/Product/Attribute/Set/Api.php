@@ -18,6 +18,22 @@
 class Magento_Catalog_Model_Product_Attribute_Set_Api extends Magento_Api_Model_Resource_Abstract
 {
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData
+    ) {
+        $this->_catalogData = $catalogData;
+    }
+
+    /**
      * Retrieve attribute set list
      *
      * @return array
@@ -200,7 +216,7 @@ class Magento_Catalog_Model_Product_Attribute_Set_Api extends Magento_Api_Model_
         $group = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Group');
         $group->setAttributeSetId($attributeSetId)
                 ->setAttributeGroupName(
-                    Mage::helper('Magento_Catalog_Helper_Data')->stripTags($groupName)
+                    $this->_catalogData->stripTags($groupName)
                 );
         if ($group->itemExists()) {
             $this->_fault('group_already_exists');
@@ -229,7 +245,7 @@ class Magento_Catalog_Model_Product_Attribute_Set_Api extends Magento_Api_Model_
         }
 
         $model->setAttributeGroupName(
-                Mage::helper('Magento_Catalog_Helper_Data')->stripTags($groupName)
+                $this->_catalogData->stripTags($groupName)
         );
         try {
             $model->save();

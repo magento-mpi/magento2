@@ -246,30 +246,10 @@
             </catalog>
         </session>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Catalog>
-                    <files>
-                        <default>Magento_Catalog.csv</default>
-                    </files>
-                </Magento_Catalog>
-            </modules>
-        </translate>
-    </adminhtml>
     <frontend>
         <default>
             <router>catalog</router>
         </default>
-        <translate>
-            <modules>
-                <Magento_Catalog>
-                    <files>
-                        <default>Magento_Catalog.csv</default>
-                    </files>
-                </Magento_Catalog>
-            </modules>
-        </translate>
         <catalog>
             <per_page_values>
                 <grid>9,15,30</grid>

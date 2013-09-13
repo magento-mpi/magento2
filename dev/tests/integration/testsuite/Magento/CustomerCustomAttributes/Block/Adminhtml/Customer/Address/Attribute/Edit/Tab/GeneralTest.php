@@ -28,7 +28,9 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
         /** @var $model Magento_Customer_Model_Attribute */
         $model = Mage::getModel('Magento_Customer_Model_Attribute');
         $model->setEntityTypeId($entityType->getId());
-        Mage::register('entity_attribute', $model);
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')->register('entity_attribute', $model);
 
         $block = Mage::app()->getLayout()->createBlock(
             'Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General'

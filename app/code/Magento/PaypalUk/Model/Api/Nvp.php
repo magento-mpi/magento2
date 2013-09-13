@@ -326,6 +326,30 @@ class Magento_PaypalUk_Model_Api_Nvp extends Magento_Paypal_Model_Api_Nvp
     );
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Customer_Helper_Address $customerAddress
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Customer_Helper_Address $customerAddress
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($customerAddress);
+    }
+
+    /**
      * API endpoint getter
      *
      * @return string
@@ -515,11 +539,11 @@ class Magento_PaypalUk_Model_Api_Nvp extends Magento_Paypal_Model_Api_Nvp
     /**
      * Generate Request ID
      *
-     * @return
+     * @return string
      */
     protected function getRequestId()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->uniqHash();
+        return $this->_coreData->uniqHash();
     }
 
     /**

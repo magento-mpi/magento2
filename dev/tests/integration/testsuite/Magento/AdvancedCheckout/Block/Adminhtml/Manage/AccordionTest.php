@@ -25,7 +25,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_AccordionTest extends PHPU
         parent::setUp();
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
+        $this->_layout = Mage::getSingleton('Magento_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion');
     }
 

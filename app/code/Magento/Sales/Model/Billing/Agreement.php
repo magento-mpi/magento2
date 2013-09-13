@@ -212,7 +212,7 @@ class Magento_Sales_Model_Billing_Agreement extends Magento_Payment_Model_Billin
         $baData = $payment->getBillingAgreementData();
 
         $this->_paymentMethodInstance = (isset($baData['method_code']))
-            ? Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance($baData['method_code'])
+            ? $this->_paymentData->getMethodInstance($baData['method_code'])
             : $payment->getMethodInstance();
         if ($this->_paymentMethodInstance) {
             $this->_paymentMethodInstance->setStore($payment->getMethodInstance()->getStore());

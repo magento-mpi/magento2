@@ -16,25 +16,48 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Block_Customer_Edit_Tab_View
- extends Magento_Adminhtml_Block_Template
- implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Template
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
-
     protected $_customer;
 
     protected $_customerLog;
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getCustomer()
     {
         if (!$this->_customer) {
-            $this->_customer = Mage::registry('current_customer');
+            $this->_customer = $this->_coreRegistry->registry('current_customer');
         }
         return $this->_customer;
     }
 
     public function getGroupName()
     {
-        if ($groupId = $this->getCustomer()->getGroupId()) {
+        $groupId = $this->getCustomer()->getGroupId();
+        if ($groupId) {
             return Mage::getModel('Magento_Customer_Model_Group')
                 ->load($groupId)
                 ->getCustomerGroupCode();
@@ -62,7 +85,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
      */
     public function getCreateDate()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->formatDate(
+        return $this->_coreData->formatDate(
             $this->getCustomer()->getCreatedAtTimestamp(),
             Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
             true
@@ -94,7 +117,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     {
         $date = $this->getCustomerLog()->getLoginAtTimestamp();
         if ($date) {
-            return Mage::helper('Magento_Core_Helper_Data')->formatDate(
+            return $this->_coreData->formatDate(
                 $date,
                 Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
                 true
@@ -105,7 +128,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
 
     public function getStoreLastLoginDate()
     {
-        if ($date = $this->getCustomerLog()->getLoginAtTimestamp()) {
+        $date = $this->getCustomerLog()->getLoginAtTimestamp();
+        if ($date) {
             $date = Mage::app()->getLocale()->storeDate(
                 $this->getCustomer()->getStoreId(),
                 $date,
@@ -125,8 +149,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     public function getCurrentStatus()
     {
         $log = $this->getCustomerLog();
-        if ($log->getLogoutAt() ||
-            strtotime(now())-strtotime($log->getLastVisitAt())>Magento_Log_Model_Visitor::getOnlineMinutesInterval()*60) {
+        $interval = Magento_Log_Model_Visitor::getOnlineMinutesInterval();
+        if ($log->getLogoutAt() || (strtotime(now()) - strtotime($log->getLastVisitAt()) > $interval * 60)) {
             return __('Offline');
         }
         return __('Online');
@@ -156,14 +180,10 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
 
     public function getBillingAddressHtml()
     {
-        $html = '';
         if ($address = $this->getCustomer()->getPrimaryBillingAddress()) {
-            $html = $address->format('html');
+            return $address->format('html');
         }
-        else {
-            $html = __('The customer does not have default billing address.');
-        }
-        return $html;
+        return __('The customer does not have default billing address.');
     }
 
     public function getAccordionHtml()
@@ -188,7 +208,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
 
     public function canShowTab()
     {
-        if (Mage::registry('current_customer')->getId()) {
+        if ($this->_coreRegistry->registry('current_customer')->getId()) {
             return true;
         }
         return false;
@@ -196,10 +216,9 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
 
     public function isHidden()
     {
-        if (Mage::registry('current_customer')->getId()) {
+        if ($this->_coreRegistry->registry('current_customer')->getId()) {
             return false;
         }
         return true;
     }
-
 }

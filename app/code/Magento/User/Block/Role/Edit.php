@@ -10,6 +10,29 @@
 
 class Magento_User_Block_Role_Edit extends Magento_Backend_Block_Widget_Tabs
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -20,7 +43,7 @@ class Magento_User_Block_Role_Edit extends Magento_Backend_Block_Widget_Tabs
 
     protected function _prepareLayout()
     {
-        $role = Mage::registry('current_role');
+        $role = $this->_coreRegistry->registry('current_role');
 
         $this->addTab(
             'info',

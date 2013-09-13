@@ -44,7 +44,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_View_Form extends Magento_Admi
      */
     public function getInvoice()
     {
-        return Mage::registry('current_invoice');
+        return $this->_coreRegistry->registry('current_invoice');
     }
 
     /**

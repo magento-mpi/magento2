@@ -10,14 +10,31 @@
 
 /**
  * Product attribute edit page
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Magento_Backend_Block_Widget_Form_Container
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     protected function _construct()
     {
@@ -26,7 +43,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Magento_Adm
 
         parent::_construct();
 
-        if($this->getRequest()->getParam('popup')) {
+        if ($this->getRequest()->getParam('popup')) {
             $this->_removeButton('back');
             if ($this->getRequest()->getParam('product_tab') != 'variations') {
                 $this->_addButton(
@@ -64,7 +81,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Magento_Adm
             ),
         ));
 
-        if (!Mage::registry('entity_attribute') || !Mage::registry('entity_attribute')->getIsUserDefined()) {
+        $entityAttribute = $this->_coreRegistry->registry('entity_attribute');
+        if (!$entityAttribute || !$entityAttribute->getIsUserDefined()) {
             $this->_removeButton('delete');
         } else {
             $this->_updateButton('delete', 'label', __('Delete Attribute'));
@@ -78,8 +96,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Magento_Adm
      */
     public function getHeaderText()
     {
-        if (Mage::registry('entity_attribute')->getId()) {
-            $frontendLabel = Mage::registry('entity_attribute')->getFrontendLabel();
+        if ($this->_coreRegistry->registry('entity_attribute')->getId()) {
+            $frontendLabel = $this->_coreRegistry->registry('entity_attribute')->getFrontendLabel();
             if (is_array($frontendLabel)) {
                 $frontendLabel = $frontendLabel[0];
             }
@@ -105,13 +123,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Magento_Adm
      */
     public function getSaveUrl()
     {
-        return $this->getUrl(
-            '*/'.$this->_controller.'/save',
-            array(
-                '_current' => true,
-                'back' => null,
-                'product_tab' => $this->getRequest()->getParam('product_tab')
-            )
-        );
+        return $this->getUrl('*/' . $this->_controller . '/save', array(
+            '_current' => true,
+            'back' => null,
+            'product_tab' => $this->getRequest()->getParam('product_tab')
+        ));
     }
 }

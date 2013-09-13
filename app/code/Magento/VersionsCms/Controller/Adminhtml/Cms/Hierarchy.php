@@ -46,6 +46,25 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
     protected $_store = '';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Controller pre dispatch method
      *
      * @return Magento_VersionsCms_HierarchyController
@@ -53,7 +72,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('Magento_VersionsCms_Helper_Hierarchy')->isEnabled()) {
+        if (!$this->_objectManager->get('Magento_VersionsCms_Helper_Hierarchy')->isEnabled()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }
@@ -147,7 +166,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
             unset($formData);
         }
 
-        Mage::register('current_hierarchy_node', $nodeModel);
+        $this->_coreRegistry->register('current_hierarchy_node', $nodeModel);
 
         $this->_initAction()
             ->renderLayout();
@@ -261,7 +280,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
                 } else {
                     if (!empty($data['nodes_data'])) {
                         try{
-                            $nodesData = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($data['nodes_data']);
+                            $nodesData = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonDecode($data['nodes_data']);
                         }catch (Zend_Json_Exception $e){
                             $nodesData = array();
                         }

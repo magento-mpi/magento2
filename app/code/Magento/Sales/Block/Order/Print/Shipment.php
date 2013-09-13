@@ -33,6 +33,29 @@ class Magento_Sales_Block_Order_Print_Shipment extends Magento_Sales_Block_Items
     protected $_shipmentsCollection;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Load all tracks and save it to local cache by shipments
      *
      * @return Magento_Sales_Block_Order_Print_Shipment
@@ -41,13 +64,13 @@ class Magento_Sales_Block_Order_Print_Shipment extends Magento_Sales_Block_Items
     {
         $tracksCollection = $this->getOrder()->getTracksCollection();
 
-        foreach($tracksCollection->getItems() as $track) {
+        foreach ($tracksCollection->getItems() as $track) {
             $shipmentId = $track->getParentId();
             $this->_tracks[$shipmentId][] = $track;
         }
 
-        $shipment = Mage::registry('current_shipment');
-        if($shipment) {
+        $shipment = $this->_coreRegistry->registry('current_shipment');
+        if ($shipment) {
             $this->_shipmentsCollection = array($shipment);
         } else {
             $this->_shipmentsCollection = $this->getOrder()->getShipmentsCollection();
@@ -84,12 +107,12 @@ class Magento_Sales_Block_Order_Print_Shipment extends Magento_Sales_Block_Items
 
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return $this->_coreRegistry->registry('current_order');
     }
 
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return $this->_coreRegistry->registry('current_shipment');
     }
 
     protected function _prepareItem(Magento_Core_Block_Abstract $renderer)

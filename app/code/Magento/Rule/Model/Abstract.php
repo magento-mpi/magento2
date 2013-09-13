@@ -63,6 +63,31 @@ abstract class Magento_Rule_Model_Abstract extends Magento_Core_Model_Abstract
     abstract public function getActionsInstance();
 
     /**
+     * @var Magento_Data_Form_Factory
+     */
+    protected $_formFactory;
+
+    /**
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_formFactory = $formFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Prepare data before saving
      *
      * @return Magento_Rule_Model_Abstract
@@ -236,7 +261,7 @@ abstract class Magento_Rule_Model_Abstract extends Magento_Core_Model_Abstract
     public function getForm()
     {
         if (!$this->_form) {
-            $this->_form = new Magento_Data_Form();
+            $this->_form = $this->_formFactory->create();
         }
         return $this->_form;
     }

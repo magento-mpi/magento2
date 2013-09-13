@@ -33,6 +33,35 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
     protected $_resPrices   = array();
 
     /**
+     * Catalog product
+     *
+     * @var Magento_Catalog_Helper_Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogProduct = $catalogProduct;
+        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
+    /**
      * Get allowed attributes
      *
      * @return array
@@ -71,7 +100,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
     {
         if (!$this->hasAllowProducts()) {
             $products = array();
-            $skipSaleableCheck = Mage::helper('Magento_Catalog_Helper_Product')->getSkipSaleableCheck();
+            $skipSaleableCheck = $this->_catalogProduct->getSkipSaleableCheck();
             $allProducts = $this->getProduct()->getTypeInstance()
                 ->getUsedProducts($this->getProduct(), null);
             foreach ($allProducts as $product) {
@@ -114,7 +143,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
         $attributes = array();
         $options    = array();
         $store      = $this->getCurrentStore();
-        $taxHelper  = Mage::helper('Magento_Tax_Helper_Data');
+        $taxHelper  = $this->_taxData;
         $currentProduct = $this->getProduct();
 
         $preconfiguredFlag = $currentProduct->hasPreconfiguredValues();
@@ -170,7 +199,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
                         $this->_preparePrice($value['pricing_value'], $value['is_percent'])
                     );
                     $currentProduct->setParentId(true);
-                    Mage::dispatchEvent(
+                    $this->_eventManager->dispatch(
                         'catalog_product_type_configurable_price',
                         array('product' => $currentProduct)
                     );
@@ -214,8 +243,8 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
         }
 
         $taxCalculation = Mage::getSingleton('Magento_Tax_Model_Calculation');
-        if (!$taxCalculation->getCustomer() && Mage::registry('current_customer')) {
-            $taxCalculation->setCustomer(Mage::registry('current_customer'));
+        if (!$taxCalculation->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
+            $taxCalculation->setCustomer($this->_coreRegistry->registry('current_customer'));
         }
 
         $_request = $taxCalculation->getRateRequest(false, false, false);
@@ -252,7 +281,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
 
         $config = array_merge($config, $this->_getAdditionalConfig());
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
+        return $this->_coreData->jsonEncode($config);
     }
 
     /**

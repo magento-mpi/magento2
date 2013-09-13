@@ -20,6 +20,22 @@
 class Magento_Sales_Model_Quote_Address_Total_Msrp extends Magento_Sales_Model_Quote_Address_Total_Abstract
 {
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData
+    ) {
+        $this->_catalogData = $catalogData;
+    }
+
+    /**
      * Collect information about MSRP price enabled
      *
      * @param   Magento_Sales_Model_Quote_Address $address
@@ -38,7 +54,7 @@ class Magento_Sales_Model_Quote_Address_Total_Msrp extends Magento_Sales_Model_Q
 
         $canApplyMsrp = false;
         foreach ($items as $item) {
-            if (!$item->getParentItemId() && Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp(
+            if (!$item->getParentItemId() && $this->_catalogData->canApplyMsrp(
                 $item->getProductId(),
                 Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM,
                 true

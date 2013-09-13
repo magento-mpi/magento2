@@ -64,6 +64,49 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
     protected $_mapRenderer = 'msrp';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        $this->_taxData = $taxData;
+        $this->_catalogData = $catalogData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve url for add product to cart
      * Will return product view page URL if product has required options
      *
@@ -196,7 +239,7 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
     public function getPriceHtml($product, $displayMinimalPrice = false, $idSuffix = '')
     {
         $type_id = $product->getTypeId();
-        if (Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($product)) {
+        if ($this->_catalogData->canApplyMsrp($product)) {
             $realPriceHtml = $this->_preparePriceRenderer($type_id)
                 ->setProduct($product)
                 ->setDisplayMinimalPrice($displayMinimalPrice)
@@ -273,7 +316,7 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
     protected function _initReviewsHelperBlock()
     {
         if (!$this->_reviewsHelperBlock) {
-            if (!Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_Review')) {
+            if (!$this->_catalogData->isModuleEnabled('Magento_Review')) {
                 return false;
             } else {
                 $this->_reviewsHelperBlock = $this->getLayout()->createBlock('Magento_Review_Block_Helper');
@@ -291,7 +334,7 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
     public function getProduct()
     {
         if (!$this->hasData('product')) {
-            $this->setData('product', Mage::registry('product'));
+            $this->setData('product', $this->_coreRegistry->registry('product'));
         }
         return $this->getData('product');
     }
@@ -355,16 +398,16 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
                     $price['savePercent'] = ceil(100 - ((100 / $_productPrice) * $price['price']));
 
                     $tierPrice = Mage::app()->getStore()->convertPrice(
-                        Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $price['website_price'])
+                        $this->_taxData->getPrice($product, $price['website_price'])
                     );
                     $price['formated_price'] = Mage::app()->getStore()->formatPrice($tierPrice);
                     $price['formated_price_incl_tax'] = Mage::app()->getStore()->formatPrice(
                         Mage::app()->getStore()->convertPrice(
-                            Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $price['website_price'], true)
+                            $this->_taxData->getPrice($product, $price['website_price'], true)
                         )
                     );
 
-                    if (Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($product)) {
+                    if ($this->_catalogData->canApplyMsrp($product)) {
                         $oldPrice = $product->getFinalPrice();
                         $product->setPriceCalculation(false);
                         $product->setPrice($tierPrice);
@@ -411,13 +454,13 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
      *
      * @return string
      */
-    public function getImageLabel($product=null, $mediaAttributeCode='image')
+    public function getImageLabel($product = null, $mediaAttributeCode = 'image')
     {
         if (is_null($product)) {
             $product = $this->getProduct();
         }
 
-        $label = $product->getData($mediaAttributeCode.'_label');
+        $label = $product->getData($mediaAttributeCode . '_label');
         if (empty($label)) {
             $label = $product->getName();
         }
@@ -558,7 +601,7 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
     public function displayProductStockStatus()
     {
         $statusInfo = new Magento_Object(array('display_status' => true));
-        Mage::dispatchEvent('catalog_block_product_status_display', array('status' => $statusInfo));
+        $this->_eventManager->dispatch('catalog_block_product_status_display', array('status' => $statusInfo));
         return (boolean)$statusInfo->getDisplayStatus();
     }
 

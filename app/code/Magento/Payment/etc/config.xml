@@ -68,28 +68,6 @@
             </groups>
         </payment>
     </global>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Payment>
-                    <files>
-                        <default>Magento_Payment.csv</default>
-                    </files>
-                </Magento_Payment>
-            </modules>
-        </translate>
-    </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Payment>
-                    <files>
-                        <default>Magento_Payment.csv</default>
-                    </files>
-                </Magento_Payment>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <payment>
             <ccsave>

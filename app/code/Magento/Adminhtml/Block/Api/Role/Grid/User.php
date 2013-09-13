@@ -10,13 +10,35 @@
 
 /**
  * Acl role user grid
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Api_Role_Grid_User extends Magento_Adminhtml_Block_Widget_Grid
+class Magento_Adminhtml_Block_Api_Role_Grid_User extends Magento_Backend_Block_Widget_Grid_Extended
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $helper
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $helper,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($helper, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -24,7 +46,7 @@ class Magento_Adminhtml_Block_Api_Role_Grid_User extends Magento_Adminhtml_Block
         $this->setDefaultSort('role_user_id');
         $this->setDefaultDir('asc');
         $this->setId('roleUserGrid');
-        $this->setDefaultFilter(array('in_role_users'=>1));
+        $this->setDefaultFilter(array('in_role_users' => 1));
         $this->setUseAjax(true);
     }
 
@@ -36,15 +58,13 @@ class Magento_Adminhtml_Block_Api_Role_Grid_User extends Magento_Adminhtml_Block
                 $inRoleIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('user_id', array('in'=>$inRoleIds));
-            }
-            else {
-                if($inRoleIds) {
-                    $this->getCollection()->addFieldToFilter('user_id', array('nin'=>$inRoleIds));
+                $this->getCollection()->addFieldToFilter('user_id', array('in' => $inRoleIds));
+            } else {
+                if ($inRoleIds) {
+                    $this->getCollection()->addFieldToFilter('user_id', array('nin' => $inRoleIds));
                 }
             }
-        }
-        else {
+        } else {
             parent::_addColumnFilterToCollection($column);
         }
         return $this;
@@ -53,7 +73,7 @@ class Magento_Adminhtml_Block_Api_Role_Grid_User extends Magento_Adminhtml_Block
     protected function _prepareCollection()
     {
         $roleId = $this->getRequest()->getParam('rid');
-        Mage::register('RID', $roleId);
+        $this->_coreRegistry->register('RID', $roleId);
         $collection = Mage::getModel('Magento_Api_Model_Roles')->getUsersCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -111,24 +131,6 @@ class Magento_Adminhtml_Block_Api_Role_Grid_User extends Magento_Adminhtml_Block
             'options'   => array('1' => __('Active'), '0' => __('Inactive')),
         ));
 
-       /*
-        $this->addColumn('grid_actions',
-            array(
-                'header'=>__('Actions'),
-                'width'=>5,
-                'sortable'=>false,
-                'filter'    =>false,
-                'type' => 'action',
-                'actions'   => array(
-                                    array(
-                                        'caption' => __('Remove'),
-                                        'onClick' => 'role.deleteFromRole($role_id);'
-                                    )
-                                )
-            )
-        );
-        */
-
         return parent::_prepareColumns();
     }
 
@@ -138,23 +140,30 @@ class Magento_Adminhtml_Block_Api_Role_Grid_User extends Magento_Adminhtml_Block
         return $this->getUrl('*/*/editrolegrid', array('rid' => $roleId));
     }
 
-    public function getUsers($json=false)
+    public function getUsers($json = false)
     {
         if ( $this->getRequest()->getParam('in_role_user') != "" ) {
             return $this->getRequest()->getParam('in_role_user');
         }
-        $roleId = ( $this->getRequest()->getParam('rid') > 0 ) ? $this->getRequest()->getParam('rid') : Mage::registry('RID');
+        if ($this->getRequest()->getParam('rid') > 0) {
+            $roleId = $this->getRequest()->getParam('rid');
+        } else {
+            $roleId = $this->_coreRegistry->registry('RID');
+        }
+
         $users  = Mage::getModel('Magento_Api_Model_Roles')->setId($roleId)->getRoleUsers();
         if (sizeof($users) > 0) {
-            if ( $json ) {
+            if ($json) {
                 $jsonUsers = Array();
-                foreach($users as $usrid) $jsonUsers[$usrid] = 0;
-                return Mage::helper('Magento_Core_Helper_Data')->jsonEncode((object)$jsonUsers);
+                foreach ($users as $usrid) {
+                    $jsonUsers[$usrid] = 0;
+                }
+                return $this->_coreData->jsonEncode((object)$jsonUsers);
             } else {
                 return array_values($users);
             }
         } else {
-            if ( $json ) {
+            if ($json) {
                 return '{}';
             } else {
                 return array();

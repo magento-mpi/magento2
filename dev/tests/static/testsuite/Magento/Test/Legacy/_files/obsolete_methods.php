@@ -610,7 +610,6 @@ return array(
     array('getLabelValues', 'Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract'),
     array('getStoreOptionValues', 'Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract'),
     array('getAttributeObject', 'Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract'),
-
     array('substractQtyFromQuotes', 'Magento_Sales_Model_Observer',
         'Magento_Sales_Model_Observer_Backend_CatalogProductQuote::subtractQtyFromQuotes'
     ),
@@ -677,4 +676,16 @@ return array(
     array('getInsertFromSelectUsingAnalytic', 'Magento_Eav_Model_Resource_Helper_Mysql4'),
     array('setOneRowLimit', 'Magento_Eav_Model_Resource_Helper_Mysql4'),
     array('getCastToIntExpression', 'Magento_Eav_Model_Resource_Helper_Mysql4'),
+    array('_helper', 'Magento_Catalog_Model_Product_Type_Abstract'),
+    array('getHelper', 'Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection'),
+    array('getHelper', 'Magento_Cms_Model_Wysiwyg_Images_Storage'),
+    array('getHelper', 'Magento_Core_Model_AppProxy'),
+    array('getHelper', 'Magento_Core_Model_App'),
+    array('helper', 'Mage'),
+    array('dispatchEvent', 'Mage'),
+    array('resetRegistry', 'Mage', 'use Magento_Core_Model_Registry'),
+    array('register', 'Mage', 'use Magento_Core_Model_Registry'),
+    array('unregister', 'Mage', 'use Magento_Core_Model_Registry'),
+    array('registry', 'Mage', 'use Magento_Core_Model_Registry'),
+    array('getCatalogHelper', 'Magento_Adminhtml_Block_Catalog_Category_Tabs'),
 );

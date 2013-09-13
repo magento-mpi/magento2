@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Reward model
  *
@@ -23,10 +22,6 @@
  * @method Magento_Reward_Model_Reward setPointsDelta() setPointsDelta(int $value)
  * @method Magento_Reward_Model_Reward setAction() setAction(int $value)
  * @method Magento_Reward_Model_Reward setComment() setComment(string $value)
- *
- * @category    Magento
- * @package     Magento_Reward
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
 {
@@ -59,6 +54,43 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
      * @var boolean
      */
     protected $_rewardPointsUpdated = false;
+
+    /**
+     * Reward data
+     *
+     * @var Magento_Reward_Helper_Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * Reward customer
+     *
+     * @var Magento_Reward_Helper_Customer
+     */
+    protected $_rewardCustomer = null;
+
+    /**
+     * @param Magento_Reward_Helper_Customer $rewardCustomer
+     * @param Magento_Reward_Helper_Data $rewardData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Reward_Helper_Customer $rewardCustomer,
+        Magento_Reward_Helper_Data $rewardData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_rewardCustomer = $rewardCustomer;
+        $this->_rewardData = $rewardData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
 
     /**
      * Internal constructor
@@ -134,6 +166,7 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
      * Return instance of action wrapper
      *
      * @param string|int $action Action code or a factory name
+     * @param bool $isFactoryName
      * @return Magento_Reward_Model_Action_Abstract|null
      */
     public function getActionInstance($action, $isFactoryName = false)
@@ -144,13 +177,13 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
                 return null;
             }
         }
-        $instance = Mage::registry('_reward_actions' . $action);
+        $instance = $this->_coreRegistry->registry('_reward_actions' . $action);
         if (!$instance && array_key_exists($action, self::$_actionModelClasses)) {
             $instance = Mage::getModel(self::$_actionModelClasses[$action]);
             // setup invariant properties once
             $instance->setAction($action);
             $instance->setReward($this);
-            Mage::register('_reward_actions' . $action, $instance);
+            $this->_coreRegistry->register('_reward_actions' . $action, $instance);
         }
         if (!$instance) {
             return null;
@@ -187,6 +220,7 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
      * Save reward points
      *
      * @return Magento_Reward_Model_Reward
+     * @throws Exception
      */
     public function updateRewardPoints()
     {
@@ -418,9 +452,7 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
      */
     public function loadByCustomer()
     {
-        if (!$this->_modelLoadedByCustomer && $this->getCustomerId()
-            && $this->getWebsiteId())
-        {
+        if (!$this->_modelLoadedByCustomer && $this->getCustomerId() && $this->getWebsiteId()) {
             $this->getResource()->loadByCustomerId($this,
                 $this->getCustomerId(), $this->getWebsiteId());
             $this->_modelLoadedByCustomer = true;
@@ -438,7 +470,7 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
     {
         $websiteId = $this->getWebsiteId();
         $uncappedPts = (int)$action->getPoints($websiteId);
-        $max = (int)Mage::helper('Magento_Reward_Helper_Data')->getGeneralConfig('max_points_balance', $websiteId);
+        $max = (int)$this->_rewardData->getGeneralConfig('max_points_balance', $websiteId);
         if ($max > 0) {
             return min(max($max - (int)$this->getPointsBalance(), 0), $uncappedPts);
         }
@@ -457,7 +489,7 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
         if (!$this->getCustomerId()) {
             return null;
         }
-        $websiteId = $this->getWebsiteId();
+        $this->getWebsiteId();
         $rate = $this->getRateToCurrency();
         if (!$rate->getId()) {
             return null;
@@ -499,7 +531,7 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
         }
         $pointsBalance = 0;
         $pointsBalance = (int)$this->getPointsBalance() + $points;
-        $maxPointsBalance = (int)(Mage::helper('Magento_Reward_Helper_Data')
+        $maxPointsBalance = (int)($this->_rewardData
             ->getGeneralConfig('max_points_balance', $this->getWebsiteId()));
         if ($maxPointsBalance != 0 && ($pointsBalance > $maxPointsBalance)) {
             $pointsBalance = $maxPointsBalance;
@@ -603,15 +635,15 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
         $templateVars = array(
             'store' => $store,
             'customer' => $this->getCustomer(),
-            'unsubscription_url' => Mage::helper('Magento_Reward_Helper_Customer')
+            'unsubscription_url' => $this->_rewardCustomer
                 ->getUnsubscribeUrl('update', $store->getId()),
             'points_balance' => $this->getPointsBalance(),
-            'reward_amount_was' => Mage::helper('Magento_Reward_Helper_Data')->formatAmount(
-                $this->getCurrencyAmount() - $history->getCurrencyDelta()
-                , true, $store->getStoreId()),
-            'reward_amount_now' => Mage::helper('Magento_Reward_Helper_Data')->formatAmount(
-                $this->getCurrencyAmount()
-                , true, $store->getStoreId()),
+            'reward_amount_was' => $this->_rewardData->formatAmount(
+                $this->getCurrencyAmount() - $history->getCurrencyDelta(), true, $store->getStoreId()
+            ),
+            'reward_amount_now' => $this->_rewardData->formatAmount(
+                $this->getCurrencyAmount(), true, $store->getStoreId()
+            ),
             'reward_pts_was' => ($this->getPointsBalance() - $delta),
             'reward_pts_change' => $delta,
             'update_message' => $this->getHistory()->getMessage(),
@@ -634,7 +666,8 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
     /**
      * Send low Balance Warning Notification to customer if notification is enabled
      *
-     * @param Magento_Reward_Model_Reward_History $history
+     * @param object $item
+     * @param int $websiteId
      * @return Magento_Reward_Model_Reward
      * @see Magento_Reward_Model_Resource_Reward_History_Collection::loadExpiredSoonPoints()
      */
@@ -647,14 +680,14 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
             'store' => $item->getStoreId()
         ));
         $store = Mage::app()->getStore($item->getStoreId());
-        $helper = Mage::helper('Magento_Reward_Helper_Data');
+        $helper = $this->_rewardData;
         $amount = $helper
-            ->getRateFromRatesArray($item->getPointsBalanceTotal(),$websiteId, $item->getCustomerGroupId());
+            ->getRateFromRatesArray($item->getPointsBalanceTotal(), $websiteId, $item->getCustomerGroupId());
         $action = Mage::getSingleton('Magento_Reward_Model_Reward')->getActionInstance($item->getAction());
         $templateVars = array(
             'store' => $store,
             'customer_name' => $item->getCustomerFirstname().' '.$item->getCustomerLastname(),
-            'unsubscription_url' => Mage::helper('Magento_Reward_Helper_Customer')->getUnsubscribeUrl('warning'),
+            'unsubscription_url' => $this->_rewardCustomer->getUnsubscribeUrl('warning'),
             'remaining_days' => $store->getConfig('magento_reward/notification/expiry_day_before'),
             'points_balance' => $item->getPointsBalanceTotal(),
             'points_expiring' => $item->getTotalExpired(),
@@ -709,10 +742,10 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
     }
 
     /**
-     *  Override setter for setting customer group id  from order
+     * Override setter for setting customer group id  from order
      *
-     *  @param mixed $entity
-     *  @return Magento_Reward_Model_Reward
+     * @param mixed $entity
+     * @return Magento_Reward_Model_Reward
      */
     public function setActionEntity($entity)
     {

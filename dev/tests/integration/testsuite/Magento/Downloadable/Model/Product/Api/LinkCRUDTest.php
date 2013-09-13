@@ -9,6 +9,11 @@
  */
 class Magento_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test downloadable link create
      *
@@ -18,8 +23,10 @@ class Magento_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framew
     {
         $tagFixture = simplexml_load_file(dirname(__FILE__) . '/../../../_files/_data/xml/LinkCRUD.xml');
         $items = Magento_TestFramework_Helper_Api::simpleXmlToArray($tagFixture->items);
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
-        $productId = Mage::registry('productData')->getId();
+        $productId = $objectManager->get('Magento_Core_Model_Registry')->registry('productData')->getId();
 
         foreach ($items as $item) {
             foreach ($item as $key => $value) {
@@ -64,8 +71,11 @@ class Magento_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framew
      */
     public function testDownloadableLinkItems()
     {
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
         /** @var Magento_Catalog_Model_Product $product */
-        $product = Mage::registry('downloadable');
+        $product = $objectManager->get('Magento_Core_Model_Registry')->registry('downloadable');
         $productId = $product->getId();
 
         $result = Magento_TestFramework_Helper_Api::call(
@@ -95,8 +105,11 @@ class Magento_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framew
      */
     public function testDownloadableLinkRemove()
     {
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
         /** @var Magento_Catalog_Model_Product $product */
-        $product = Mage::registry('downloadable');
+        $product = $objectManager->get('Magento_Core_Model_Registry')->registry('downloadable');
         /** @var Magento_Downloadable_Model_Product_Type $downloadable */
         $downloadable = $product->getTypeInstance();
         $links = $downloadable->getLinks($product);

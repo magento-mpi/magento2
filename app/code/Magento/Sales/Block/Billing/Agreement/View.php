@@ -37,6 +37,29 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
     protected $_relatedOrders = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve related orders collection
      *
      * @return Magento_Sales_Model_Resource_Order_Collection
@@ -102,7 +125,7 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
     protected function _prepareLayout()
     {
         if (is_null($this->_billingAgreementInstance)) {
-            $this->_billingAgreementInstance = Mage::registry('current_billing_agreement');
+            $this->_billingAgreementInstance = $this->_coreRegistry->registry('current_billing_agreement');
         }
         parent::_prepareLayout();
 

@@ -26,7 +26,7 @@ class Magento_Sales_Controller_Guest extends Magento_Sales_Controller_Abstract
      */
     protected function _loadValidOrder($orderId = null)
     {
-        return Mage::helper('Magento_Sales_Helper_Guest')->loadValidOrder();
+        return $this->_objectManager->get('Magento_Sales_Helper_Guest')->loadValidOrder();
     }
 
     /**
@@ -37,7 +37,7 @@ class Magento_Sales_Controller_Guest extends Magento_Sales_Controller_Abstract
      */
     protected function _canViewOrder($order)
     {
-        $currentOrder = Mage::registry('current_order');
+        $currentOrder = $this->_coreRegistry->registry('current_order');
         if ($order->getId() && ($order->getId() === $currentOrder->getId())) {
             return true;
         }
@@ -51,7 +51,7 @@ class Magento_Sales_Controller_Guest extends Magento_Sales_Controller_Abstract
         }
 
         $this->loadLayout();
-        Mage::helper('Magento_Sales_Helper_Guest')->getBreadcrumbs($this);
+        $this->_objectManager->get('Magento_Sales_Helper_Guest')->getBreadcrumbs($this);
         $this->renderLayout();
     }
 
@@ -66,7 +66,7 @@ class Magento_Sales_Controller_Guest extends Magento_Sales_Controller_Abstract
         }
         $this->loadLayout();
         $this->getLayout()->getBlock('head')->setTitle(__('Orders and Returns'));
-        Mage::helper('Magento_Sales_Helper_Guest')->getBreadcrumbs($this);
+        $this->_objectManager->get('Magento_Sales_Helper_Guest')->getBreadcrumbs($this);
         $this->renderLayout();
     }
 
@@ -81,12 +81,12 @@ class Magento_Sales_Controller_Guest extends Magento_Sales_Controller_Abstract
             $invoice = Mage::getModel('Magento_Sales_Model_Order_Invoice')->load($invoiceId);
             $order = $invoice->getOrder();
         } else {
-            $order = Mage::registry('current_order');
+            $order = $this->_coreRegistry->registry('current_order');
         }
 
         if ($this->_canViewOrder($order)) {
             if (isset($invoice)) {
-                Mage::register('current_invoice', $invoice);
+                $this->_coreRegistry->register('current_invoice', $invoice);
             }
             $this->loadLayout('print');
             $this->renderLayout();
@@ -106,11 +106,11 @@ class Magento_Sales_Controller_Guest extends Magento_Sales_Controller_Abstract
             $shipment = Mage::getModel('Magento_Sales_Model_Order_Shipment')->load($shipmentId);
             $order = $shipment->getOrder();
         } else {
-            $order = Mage::registry('current_order');
+            $order = $this->_coreRegistry->registry('current_order');
         }
         if ($this->_canViewOrder($order)) {
             if (isset($shipment)) {
-                Mage::register('current_shipment', $shipment);
+                $this->_coreRegistry->register('current_shipment', $shipment);
             }
             $this->loadLayout('print');
             $this->renderLayout();
@@ -130,12 +130,12 @@ class Magento_Sales_Controller_Guest extends Magento_Sales_Controller_Abstract
             $creditmemo = Mage::getModel('Magento_Sales_Model_Order_Creditmemo')->load($creditmemoId);
             $order = $creditmemo->getOrder();
         } else {
-            $order = Mage::registry('current_order');
+            $order = $this->_coreRegistry->registry('current_order');
         }
 
         if ($this->_canViewOrder($order)) {
             if (isset($creditmemo)) {
-                Mage::register('current_creditmemo', $creditmemo);
+                $this->_coreRegistry->register('current_creditmemo', $creditmemo);
             }
             $this->loadLayout('print');
             $this->renderLayout();
