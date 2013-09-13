@@ -9,6 +9,7 @@
  */
 class Magento_Install_Model_Config_ConverterTest extends PHPUnit_Framework_TestCase
 {
+
     /**
      * @var Magento_Install_Model_Config_Converter
      */
