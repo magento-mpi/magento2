@@ -45,7 +45,7 @@ class Checker extends \Magento\Adminhtml\Block\Template
      */
     public function shouldDispalyNotification()
     {
-        $magento_license=Mage::helper('Magento\License\Helper\Data');
+        $magento_license=\Mage::helper('Magento\License\Helper\Data');
         if($magento_license->isIoncubeLoaded() && $magento_license->isIoncubeEncoded()) {
             return ($this->_daysLeftBeforeExpired < 31);
         } else {

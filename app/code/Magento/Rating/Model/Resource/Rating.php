@@ -265,7 +265,7 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         if ($onlyForCurrentStore) {
             foreach ($data as $row) {
-                if ($row['store_id']==Mage::app()->getStore()->getId()) {
+                if ($row['store_id']==\Mage::app()->getStore()->getId()) {
                     $object->addData($row);
                 }
             }

@@ -52,8 +52,8 @@ class Page extends \Magento\Core\Block\AbstractBlock
         // show breadcrumbs
         if (\Mage::getStoreConfig('web/default/show_cms_breadcrumbs')
             && ($breadcrumbs = $this->getLayout()->getBlock('breadcrumbs'))
-            && ($page->getIdentifier()!==Mage::getStoreConfig('web/default/cms_home_page'))
-            && ($page->getIdentifier()!==Mage::getStoreConfig('web/default/cms_no_route'))) {
+            && ($page->getIdentifier()!==\Mage::getStoreConfig('web/default/cms_home_page'))
+            && ($page->getIdentifier()!==\Mage::getStoreConfig('web/default/cms_no_route'))) {
                 $breadcrumbs->addCrumb('home', array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link'=>Mage::getBaseUrl()));
                 $breadcrumbs->addCrumb('cms_page', array('label'=>$page->getTitle(), 'title'=>$page->getTitle()));
         }

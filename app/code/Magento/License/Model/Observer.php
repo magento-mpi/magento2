@@ -31,7 +31,7 @@ class Observer
      */
     public function adminUserAuthenticateAfter()
     {
-        $magento_license=Mage::helper('Magento\License\Helper\Data');
+        $magento_license=\Mage::helper('Magento\License\Helper\Data');
         if($magento_license->isIoncubeLoaded() && $magento_license->isIoncubeEncoded()) {
             $this->_calculateDaysLeftToExpired();
         }
@@ -46,7 +46,7 @@ class Observer
      */
     public function preDispatch()
     {
-        $magento_license=Mage::helper('Magento\License\Helper\Data');
+        $magento_license=\Mage::helper('Magento\License\Helper\Data');
         if($magento_license->isIoncubeLoaded() && $magento_license->isIoncubeEncoded()) {
             $lastCalculation = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getDaysLeftBeforeExpired();
 
@@ -70,7 +70,7 @@ class Observer
      */
     protected function _calculateDaysLeftToExpired()
     {
-        $magento_license=Mage::helper('Magento\License\Helper\Data');
+        $magento_license=\Mage::helper('Magento\License\Helper\Data');
         if($magento_license->isIoncubeLoaded() && $magento_license->isIoncubeEncoded()) {
             $licenseProperties = \Mage::helper('Magento\License\Helper\Data')->getIoncubeLicenseProperties();
             $expiredDate = (string)$licenseProperties[self::EXPIRED_DATE_KEY]['value'];
