@@ -13,7 +13,7 @@
  */
 namespace Magento\Sales\Model\Config\Source\Order\Status;
 
-class New extends \Magento\Sales\Model\Config\Source\Order\Status
+class NewStatus extends \Magento\Sales\Model\Config\Source\Order\Status
 {
     protected $_stateStatuses = \Magento\Sales\Model\Order::STATE_NEW;
 }
