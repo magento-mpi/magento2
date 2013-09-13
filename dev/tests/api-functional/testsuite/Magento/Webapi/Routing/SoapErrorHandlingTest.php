@@ -110,8 +110,12 @@ class Magento_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase
             if (strpos($e->getMessage(), 'Internal Error') === false) {
                 $this->_checkSoapFault(
                     $e,
-                    'Non service exception',
-                    'env:Receiver'
+                    'The method "returnIncompatibleDataType" of service '
+                        . '"Magento_TestModule3_Service_ErrorV1Interface" must return an array.',
+                    'env:Receiver',
+                    null,
+                    array(),
+                    true
                 );
             } else {
                 $this->_checkSoapFault(
@@ -173,11 +177,13 @@ class Magento_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase
             }
 
             /** Check error code if present*/
-            $this->assertEquals(
-                $expectedErrorCode,
-                $errorDetails->{Magento_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_CODE},
-                "Error code in fault details is invalid."
-            );
+            if ($expectedErrorCode) {
+                $this->assertEquals(
+                    $expectedErrorCode,
+                    $errorDetails->{Magento_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_CODE},
+                    "Error code in fault details is invalid."
+                );
+            }
 
         } else {
             $this->assertNull($errorDetails, "Details are not expected.");

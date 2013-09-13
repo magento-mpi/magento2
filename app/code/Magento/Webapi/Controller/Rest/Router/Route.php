@@ -10,40 +10,34 @@
 class Magento_Webapi_Controller_Rest_Router_Route extends Zend_Controller_Router_Route
 {
     /** @var string */
-    protected $_serviceId;
+    protected $_serviceClass;
 
     /** @var string */
     protected $_serviceMethod;
-
-    /** @var string */
-    protected $_serviceVersion;
-
-    /** @var string */
-    protected $_httpMethod;
 
     /** @var boolean */
     protected $_secure;
 
     /**
-     * Set service service ID.
+     * Set service class.
      *
      * @param string $serviceClass
      * @return Magento_Webapi_Controller_Rest_Router_Route
      */
-    public function setServiceId($serviceClass)
+    public function setServiceClass($serviceClass)
     {
-        $this->_serviceId = $serviceClass;
+        $this->_serviceClass = $serviceClass;
         return $this;
     }
 
     /**
-     * Get service ID.
+     * Get service class.
      *
      * @return string
      */
-    public function getServiceId()
+    public function getServiceClass()
     {
-        return $this->_serviceId;
+        return $this->_serviceClass;
     }
 
     /**
@@ -66,50 +60,6 @@ class Magento_Webapi_Controller_Rest_Router_Route extends Zend_Controller_Router
     public function getServiceMethod()
     {
         return $this->_serviceMethod;
-    }
-
-    /**
-     * Set service version.
-     *
-     * @param string $serviceVersion
-     * @return Magento_Webapi_Controller_Rest_Router_Route
-     */
-    public function setServiceVersion($serviceVersion)
-    {
-        $this->_serviceVersion = $serviceVersion;
-        return $this;
-    }
-
-    /**
-     * Get service version.
-     *
-     * @return string
-     */
-    public function getServiceVersion()
-    {
-        return $this->_serviceVersion;
-    }
-
-    /**
-     * Set route HTTP method.
-     *
-     * @param string $httpMethod
-     * @return Magento_Webapi_Controller_Rest_Router_Route
-     */
-    public function setHttpMethod($httpMethod)
-    {
-        $this->_httpMethod = $httpMethod;
-        return $this;
-    }
-
-    /**
-     * Get route service type.
-     *
-     * @return string
-     */
-    public function getHttpMethod()
-    {
-        return $this->_httpMethod;
     }
 
     /**

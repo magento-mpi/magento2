@@ -15,6 +15,11 @@
 class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Magento_Backend_Block_Widget_Form
 {
     /**
+     * Web API ACL resources tree root ID.
+     */
+    const RESOURCES_TREE_ROOT_ID = '__root__';
+
+    /**
      * @var Magento_Acl_Resource_ProviderInterface
      */
     protected $_resourceProvider;

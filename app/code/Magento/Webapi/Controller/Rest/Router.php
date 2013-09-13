@@ -35,37 +35,16 @@ class Magento_Webapi_Controller_Rest_Router
      */
     public function match(Magento_Webapi_Controller_Rest_Request $request)
     {
-        $this->_matchVersion($request);
         /** @var Magento_Webapi_Controller_Rest_Router_Route[] $routes */
         $routes = $this->_apiConfig->getRestRoutes($request);
         foreach ($routes as $route) {
             $params = $route->match($request);
             if ($params !== false) {
                 $request->setParams($params);
-                /** Initialize additional request parameters using data from route */
-                // TODO: $request->setServiceId($route->getServiceId());
-                // $request->setHttpMethod($route->getHttpMethod());
-                // $request->setServiceVersion($route->getServiceVersion());
                 return $route;
             }
         }
-        throw new Magento_Webapi_Exception(__('Request does not match any route.'),
+        throw new Magento_Webapi_Exception(__('Request does not match any route.'), 0,
             Magento_Webapi_Exception::HTTP_NOT_FOUND);
-    }
-
-    /**
-     * Extract version from path info and set it into request.
-     * Remove version from path info if set.
-     *
-     * @param Magento_Webapi_Controller_Rest_Request $request
-     */
-    protected function _matchVersion(Magento_Webapi_Controller_Rest_Request $request)
-    {
-        $versionPattern = '/^\/(' . Magento_Webapi_Model_Config::VERSION_NUMBER_PREFIX .'\d+)/';
-        preg_match($versionPattern, $request->getPathInfo(), $matches);
-        if (isset($matches[1])) {
-            $version = $matches[1];
-            $request->setServiceVersion($version);
-        }
     }
 }

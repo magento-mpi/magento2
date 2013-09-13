@@ -16,7 +16,7 @@ class Magento_TestModule3_Service_ErrorV1 implements Magento_TestModule3_Service
 
     public function resourceNotFoundException()
     {
-        throw new Magento_Service_ResourceNotFoundException('Resource not found', 2345);
+        throw new Magento_Service_ResourceNotFoundException('', 2345, null, array(), 'resourceY');
     }
 
     public function serviceException()
@@ -31,12 +31,12 @@ class Magento_TestModule3_Service_ErrorV1 implements Magento_TestModule3_Service
 
     public function authorizationException()
     {
-        throw new Magento_Service_AuthorizationException('Service authorization exception', 4567);
+        throw new Magento_Service_AuthorizationException('', 4567, null, array(), 30, 'resourceN');
     }
 
     public function webapiException()
     {
-        throw new Magento_Webapi_Exception('Service not found', Magento_Webapi_Exception::HTTP_NOT_FOUND, 5555);
+        throw new Magento_Webapi_Exception('Service not found', 5555, Magento_Webapi_Exception::HTTP_NOT_FOUND);
     }
 
     public function otherException()

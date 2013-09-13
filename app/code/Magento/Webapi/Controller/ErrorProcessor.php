@@ -58,29 +58,37 @@ class Magento_Webapi_Controller_ErrorProcessor
      */
     public function maskException(Exception $exception)
     {
+        /** Log information about actual exception. */
+        $reportId = $this->_logException($exception);
         if ($exception instanceof Magento_Service_Exception) {
+            if ($exception instanceof Magento_Service_ResourceNotFoundException) {
+                $httpCode = Magento_Webapi_Exception::HTTP_NOT_FOUND;
+            } elseif ($exception instanceof Magento_Service_AuthorizationException) {
+                $httpCode = Magento_Webapi_Exception::HTTP_UNAUTHORIZED;
+            } else {
+                $httpCode = Magento_Webapi_Exception::HTTP_BAD_REQUEST;
+            }
             $maskedException = new Magento_Webapi_Exception(
                 $exception->getMessage(),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST,
                 $exception->getCode(),
+                $httpCode,
                 $exception->getParameters()
             );
         } else if ($exception instanceof Magento_Webapi_Exception) {
             $maskedException = $exception;
         } else {
             if (!$this->_app->isDeveloperMode()) {
-                /** Log information about actual exception. */
-                $reportId = $this->_logException($exception);
                 /** Create exception with masked message. */
                 $maskedException = new Magento_Webapi_Exception(
                     __('Internal Error. Details are available in Magento log file. Report ID: %1', $reportId),
+                    0,
                     Magento_Webapi_Exception::HTTP_INTERNAL_ERROR
                 );
             } else {
                 $maskedException = new Magento_Webapi_Exception(
                     $exception->getMessage(),
-                    Magento_Webapi_Exception::HTTP_INTERNAL_ERROR,
-                    $exception->getCode()
+                    $exception->getCode(),
+                    Magento_Webapi_Exception::HTTP_INTERNAL_ERROR
                 );
             }
         }
@@ -108,7 +116,6 @@ class Magento_Webapi_Controller_ErrorProcessor
                 $httpCode
             );
         }
-        // TODO: Move die() call to render() method when it will be covered with functional tests.
         die();
     }
 

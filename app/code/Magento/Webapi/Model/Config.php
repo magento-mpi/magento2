@@ -13,8 +13,6 @@
 class Magento_Webapi_Model_Config
 {
     const CACHE_ID = 'webapi';
-    const CACHE_TAG = 'webapi';
-    const VERSION_NUMBER_PREFIX = 'V';
 
     /**#@+
      * Attributes and nodes used in webapi.xml config.
@@ -58,12 +56,12 @@ class Magento_Webapi_Model_Config
     protected $_services;
 
     /**
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Webapi_Model_Cache_Type $configCacheType
      * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Webapi_Model_Cache_Type $configCacheType,
         Magento_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_ObjectManager $objectManager
     ) {
@@ -138,7 +136,7 @@ class Magento_Webapi_Model_Config
      */
     protected function _saveToCache($data)
     {
-        $this->_configCacheType->save($data, self::CACHE_ID);
+        $this->_configCacheType->save($data, self::CACHE_ID, array(Magento_Webapi_Model_Cache_Type::CACHE_TAG));
         return $this;
     }
 

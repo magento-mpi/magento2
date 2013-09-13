@@ -147,6 +147,7 @@ class Magento_Webapi_Model_Soap_Config
         if (!isset($soapOperations[$soapOperation])) {
             throw new Magento_Webapi_Exception(
                 __('Operation "%1" not found.', $soapOperation),
+                0,
                 Magento_Webapi_Exception::HTTP_NOT_FOUND
             );
         }

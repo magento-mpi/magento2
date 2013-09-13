@@ -20,17 +20,14 @@ class Magento_Webapi_Controller_Rest_Request extends Magento_Webapi_Controller_R
     /** @var string */
     protected $_serviceType;
 
-    /** @var string */
-    protected $_serviceVersion;
-
-    /** @var Magento_Webapi_Controller_Rest_Request_InterpreterInterface */
-    protected $_interpreter;
+    /** @var Magento_Webapi_Controller_Rest_Request_DeserializerInterface */
+    protected $_deserializer;
 
     /** @var array */
     protected $_bodyParams;
 
-    /** @var Magento_Webapi_Controller_Rest_Request_Interpreter_Factory */
-    protected $_interpreterFactory;
+    /** @var Magento_Webapi_Controller_Rest_Request_Deserializer_Factory */
+    protected $_deserializerFactory;
 
     /** @var Magento_Core_Model_App */
     protected $_application;
@@ -39,29 +36,29 @@ class Magento_Webapi_Controller_Rest_Request extends Magento_Webapi_Controller_R
      * Initialize dependencies.
      *
      * @param Magento_Core_Model_App $application
-     * @param Magento_Webapi_Controller_Rest_Request_Interpreter_Factory $interpreterFactory
+     * @param Magento_Webapi_Controller_Rest_Request_Deserializer_Factory $deserializerFactory
      * @param string|null $uri
      */
     public function __construct(
         Magento_Core_Model_App $application,
-        Magento_Webapi_Controller_Rest_Request_Interpreter_Factory $interpreterFactory,
+        Magento_Webapi_Controller_Rest_Request_Deserializer_Factory $deserializerFactory,
         $uri = null
     ) {
         parent::__construct($application, $uri);
-        $this->_interpreterFactory = $interpreterFactory;
+        $this->_deserializerFactory = $deserializerFactory;
     }
 
     /**
-     * Get request interpreter.
+     * Get request deserializer.
      *
-     * @return Magento_Webapi_Controller_Rest_Request_InterpreterInterface
+     * @return Magento_Webapi_Controller_Rest_Request_DeserializerInterface
      */
-    protected function _getInterpreter()
+    protected function _getDeserializer()
     {
-        if (null === $this->_interpreter) {
-            $this->_interpreter = $this->_interpreterFactory->get($this->getContentType());
+        if (null === $this->_deserializer) {
+            $this->_deserializer = $this->_deserializerFactory->get($this->getContentType());
         }
-        return $this->_interpreter;
+        return $this->_deserializer;
     }
 
     /**
@@ -109,7 +106,7 @@ class Magento_Webapi_Controller_Rest_Request extends Magento_Webapi_Controller_R
     public function getBodyParams()
     {
         if (null == $this->_bodyParams) {
-            $this->_bodyParams = $this->_getInterpreter()->interpret((string)$this->getRawBody());
+            $this->_bodyParams = $this->_getDeserializer()->deserialize((string)$this->getRawBody());
         }
         return $this->_bodyParams;
     }
@@ -125,17 +122,14 @@ class Magento_Webapi_Controller_Rest_Request extends Magento_Webapi_Controller_R
         $headerValue = $this->getHeader('Content-Type');
 
         if (!$headerValue) {
-            throw new Magento_Webapi_Exception(__('Content-Type header is empty.'),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new Magento_Webapi_Exception(__('Content-Type header is empty.'));
         }
         if (!preg_match('~^([a-z\d/\-+.]+)(?:; *charset=(.+))?$~Ui', $headerValue, $matches)) {
-            throw new Magento_Webapi_Exception(__('Content-Type header is invalid.'),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new Magento_Webapi_Exception(__('Content-Type header is invalid.'));
         }
         // request encoding check if it is specified in header
         if (isset($matches[2]) && self::REQUEST_CHARSET != strtolower($matches[2])) {
-            throw new Magento_Webapi_Exception(__('UTF-8 is the only supported charset.'),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new Magento_Webapi_Exception(__('UTF-8 is the only supported charset.'));
         }
 
         return $matches[1];
@@ -150,46 +144,9 @@ class Magento_Webapi_Controller_Rest_Request extends Magento_Webapi_Controller_R
     public function getHttpMethod()
     {
         if (!$this->isGet() && !$this->isPost() && !$this->isPut() && !$this->isDelete()) {
-            throw new Magento_Webapi_Exception(__('Request method is invalid.'),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new Magento_Webapi_Exception(__('Request method is invalid.'));
         }
         return $this->getMethod();
-    }
-
-    /**
-     * Retrieve action version.
-     *
-     * @return int
-     */
-    public function getServiceVersion()
-    {
-        if (!$this->_serviceVersion) {
-            // TODO: Default version can be identified and returned here
-            return 1;
-        }
-        return $this->_serviceVersion;
-    }
-
-    /**
-     * Set service version.
-     *
-     * @param string|int $serviceVersion Version number either with prefix or without it
-     * @throws Magento_Webapi_Exception
-     * @return Magento_Webapi_Controller_Rest_Request
-     */
-    public function setServiceVersion($serviceVersion)
-    {
-        $versionPrefix = Magento_Webapi_Model_Config::VERSION_NUMBER_PREFIX;
-        if (preg_match("/^{$versionPrefix}?(\d+)$/i", $serviceVersion, $matches)) {
-            $versionNumber = (int)$matches[1];
-        } else {
-            throw new Magento_Webapi_Exception(
-                __("Service version is not specified or invalid one is specified."),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST
-            );
-        }
-        $this->_serviceVersion = $versionNumber;
-        return $this;
     }
 
     /**

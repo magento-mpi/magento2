@@ -162,21 +162,6 @@ class Magento_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * Test maskException method with Magento_Webapi_Exception.
-     */
-    public function testMaskWebapiException()
-    {
-        /** Init magento_webapi_Exception. */
-        $apiException = new Magento_Webapi_Exception('Message', 400);
-        /** Assert that Webapi exception was not masked. */
-        $this->assertEquals(
-            $this->_errorProcessor->maskException($apiException),
-            $apiException,
-            'Webapi Exception was masked wrong.'
-        );
-    }
-
-    /**
      * Test maskException method with turned on developer mode.
      */
     public function testMaskExceptionInDeveloperMode()
@@ -197,27 +182,110 @@ class Magento_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * Test maskException method with turned on developer mode.
+     * Test sendResponse method with various exceptions
+     *
+     * @dataProvider dataProviderForSendResponseExceptions
      */
-    public function testMaskNonWebapiException()
+    public function testMaskException($exception, $expectedHttpCode, $expectedMessage, $expectedCode, $expectedDetails)
     {
         /** Assert that exception was logged. */
         $this->_loggerMock->expects($this->once())->method('logException');
-        $exceptionMessage = 'Exception Message';
-        $maskedException = $this->_errorProcessor->maskException(new LogicException($exceptionMessage));
-        /** Assert that masked exception type is Magento_Webapi_Exception. */
-        $this->assertInstanceOf('Magento_Webapi_Exception', $maskedException, 'Masked exception type is not Webapi.');
-        /** Assert that masked exception code is 500. */
-        $this->assertEquals(
-            Magento_Webapi_Exception::HTTP_INTERNAL_ERROR,
-            $maskedException->getHttpCode(),
-            'Masked exception code is invalid.'
+        $maskedException = $this->_errorProcessor->maskException($exception);
+        $this->assertMaskedException(
+            $maskedException,
+            $expectedHttpCode,
+            $expectedMessage,
+            $expectedCode,
+            $expectedDetails
         );
-        /** Assert masked exception message. */
+    }
+
+    public function dataProviderForSendResponseExceptions()
+    {
+        return array(
+            'Magento_Service_ResourceNotFoundException' => array(
+                new Magento_Service_ResourceNotFoundException('Resource not found', 2345),
+                Magento_Webapi_Exception::HTTP_NOT_FOUND,
+                'Resource not found',
+                2345,
+                array()
+            ),
+            'Magento_Service_AuthorizationException' => array(
+                new Magento_Service_AuthorizationException('Service authorization exception', 3456),
+                Magento_Webapi_Exception::HTTP_UNAUTHORIZED,
+                'Service authorization exception',
+                3456,
+                array()
+            ),
+            'Magento_Service_Exception' => array(
+                new Magento_Service_Exception('Generic service exception', 4567),
+                Magento_Webapi_Exception::HTTP_BAD_REQUEST,
+                'Generic service exception',
+                4567,
+                array()
+            ),
+            'Magento_Service_Exception_With_Parameters' => array(
+                new Magento_Service_Exception('Parameterized service exception', 1234, null, array("P1", "P2")),
+                Magento_Webapi_Exception::HTTP_BAD_REQUEST,
+                'Parameterized service exception',
+                1234,
+                array("P1", "P2")
+            ),
+            'Exception' => array(
+                new Exception('Non service exception', 5678),
+                Magento_Webapi_Exception::HTTP_INTERNAL_ERROR,
+                'Internal Error. Details are available in Magento log file. Report ID: webapi-',
+                0,
+                array()
+            ),
+        );
+    }
+
+    /**
+     * Assert that masked exception contains expected data.
+     *
+     * @param Exception $maskedException
+     * @param int $expectedHttpCode
+     * @param string $expectedMessage
+     * @param int $expectedCode
+     * @param array $expectedDetails
+     */
+    public function assertMaskedException(
+        $maskedException,
+        $expectedHttpCode,
+        $expectedMessage,
+        $expectedCode,
+        $expectedDetails
+    ) {
+        /** All masked exceptions must be Mage_Webapi_Exception */
+        $expectedType = 'Magento_Webapi_Exception';
+        $this->assertInstanceOf(
+            $expectedType,
+            $maskedException,
+            "Masked exception type is invalid: expected '{$expectedType}', given '" . get_class($maskedException) . "'."
+        );
+        /** @var $maskedException Magento_Webapi_Exception */
+        $this->assertEquals(
+            $expectedHttpCode,
+            $maskedException->getHttpCode(),
+            "Masked exception HTTP code is invalid: expected '{$expectedHttpCode}', "
+                . "given '{$maskedException->getHttpCode()}'."
+        );
         $this->assertContains(
-            'Internal Error. Details are available in Magento log file. Report ID:',
+            $expectedMessage,
             $maskedException->getMessage(),
-            'Masked exception message is invalid.'
+            "Masked exception message is invalid: expected '{$expectedMessage}', "
+                . "given '{$maskedException->getMessage()}'."
+        );
+        $this->assertEquals(
+            $expectedCode,
+            $maskedException->getCode(),
+            "Masked exception code is invalid: expected '{$expectedCode}', given '{$maskedException->getCode()}'."
+        );
+        $this->assertEquals(
+            $expectedDetails,
+            $maskedException->getDetails(),
+            "Masked exception details are invalid."
         );
     }
 }

@@ -38,11 +38,8 @@ class Magento_Webapi_Controller_Soap_HandlerTest extends PHPUnit_Framework_TestC
             ->setMethods(
                 array(
                     'getServiceNameByOperation',
-                    'validateVersionNumber',
                     'getControllerClassByOperationName',
                     'getMethodNameByOperation',
-                    'identifyVersionSuffix',
-                    'checkDeprecationPolicy'
                 )
             )->disableOriginalConstructor()
             ->getMock();
@@ -102,9 +99,6 @@ class Magento_Webapi_Controller_Soap_HandlerTest extends PHPUnit_Framework_TestC
         $this->_apiConfigMock->expects($this->any())
             ->method('getServiceNameByOperation')
             ->will($this->returnValueMap($getServiceValueMap));
-        $this->_apiConfigMock->expects($this->once())
-            ->method('validateVersionNumber')
-            ->with(1, 'serviceName');
         $this->setExpectedException(
             'Magento_Webapi_Model_Soap_Fault',
             'Method "operation" is not found.'

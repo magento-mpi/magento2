@@ -191,7 +191,7 @@ EXPECTED_MESSAGE;
             ->method('isInstalled')
             ->will($this->returnValue(true));
         $exceptionMessage = 'some error message';
-        $exception = new Magento_Webapi_Exception($exceptionMessage, Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+        $exception = new Magento_Webapi_Exception($exceptionMessage);
         $this->_soapServerMock->expects($this->any())
             ->method('handle')
             ->will($this->throwException($exception));

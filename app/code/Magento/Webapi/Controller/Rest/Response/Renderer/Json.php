@@ -21,12 +21,11 @@ class Magento_Webapi_Controller_Rest_Response_Renderer_Json implements
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Helper_Data $helper
      */
-    public function __construct(
-        Magento_Core_Model_Factory_Helper $helperFactory
-    ) {
-        $this->_helper = $helperFactory->get('Magento_Core_Helper_Data');
+    public function __construct(Magento_Core_Helper_Data $helper)
+    {
+        $this->_helper = $helper;
     }
 
     /**

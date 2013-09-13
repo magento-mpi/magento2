@@ -9,6 +9,13 @@
  */
 class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInterface
 {
+    /**#@+
+     * Content types used for responses processed by SOAP web API.
+     */
+    const CONTENT_TYPE_SOAP_CALL = 'application/soap+xml';
+    const CONTENT_TYPE_WSDL_REQUEST = 'text/xml';
+    /**#@-*/
+
     /** @var Magento_Webapi_Model_Soap_Server */
     protected $_soapServer;
 
@@ -78,20 +85,17 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
     {
         try {
             if (!$this->_appState->isInstalled()) {
-                throw new Magento_Webapi_Exception(
-                    __('Magento is not yet installed'),
-                    Magento_Webapi_Exception::HTTP_BAD_REQUEST
-                );
+                throw new Magento_Webapi_Exception(__('Magento is not yet installed'));
             }
             if ($this->_isWsdlRequest()) {
                 $responseBody = $this->_wsdlGenerator->generate(
                     $this->_request->getRequestedServices(),
                     $this->_soapServer->generateUri()
                 );
-                $this->_setResponseContentType('text/xml');
+                $this->_setResponseContentType(self::CONTENT_TYPE_WSDL_REQUEST);
             } else {
-                $responseBody = $this->_initSoapServer()->handle();
-                $this->_setResponseContentType('application/soap+xml');
+                $responseBody = $this->_soapServer->handle();
+                $this->_setResponseContentType(self::CONTENT_TYPE_SOAP_CALL);
             }
             $this->_setResponseBody($responseBody);
         } catch (Exception $e) {
@@ -119,11 +123,15 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
     protected function _prepareErrorResponse($exception)
     {
         $maskedException = $this->_errorProcessor->maskException($exception);
-        $this->_setResponseContentType('text/xml');
         $soapFault = new Magento_Webapi_Model_Soap_Fault($this->_application, $maskedException);
-        $httpCode = $this->_isWsdlRequest()
-            ? $maskedException->getHttpCode()
-            : Magento_Webapi_Controller_Rest_Response::HTTP_OK;
+        if ($this->_isWsdlRequest()) {
+            $httpCode = $maskedException->getHttpCode();
+            $contentType = self::CONTENT_TYPE_WSDL_REQUEST;
+        } else {
+            $httpCode = Magento_Webapi_Controller_Response::HTTP_OK;
+            $contentType = self::CONTENT_TYPE_SOAP_CALL;
+        }
+        $this->_setResponseContentType($contentType);
         $this->_response->setHttpResponseCode($httpCode);
         // TODO: Generate list of available URLs when invalid WSDL URL specified
         $this->_setResponseBody($soapFault->toXml());
@@ -143,7 +151,7 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
     }
 
     /**
-     * Set body to response object.
+     * Replace WSDL xml encoding from config, if present, else default to UTF-8 and set it to the response object.
      *
      * @param string $responseBody
      * @return Magento_Webapi_Controller_Soap
@@ -158,19 +166,5 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
             )
         );
         return $this;
-    }
-
-    /**
-     * Initialize SOAP Server.
-     *
-     * @return Magento_Webapi_Model_Soap_Server
-     */
-    protected function _initSoapServer()
-    {
-        use_soap_error_handler(false);
-        // TODO: Headers are not available at this point.
-        // $this->_soapHandler->setRequestHeaders($this->_getRequestHeaders());
-
-        return $this->_soapServer;
     }
 }

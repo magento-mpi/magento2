@@ -10,6 +10,25 @@
 class Magento_Webapi_Controller_Adminhtml_Webapi_User extends Magento_Backend_Controller_ActionAbstract
 {
     /**
+     * @var Magento_Core_Model_Validator_Factory
+     */
+    protected $_validatorFactory;
+
+    /**
+     * Initialize dependencies.
+     *
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Validator_Factory $validatorFactory
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Validator_Factory $validatorFactory
+    ) {
+        parent::__construct($context);
+        $this->_validatorFactory = $validatorFactory;
+    }
+
+    /**
      * Initialize breadcrumbs.
      *
      * @return Magento_Webapi_Controller_Adminhtml_Webapi_User
@@ -203,9 +222,7 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_User extends Magento_Backend_Co
     protected function _validateUserData($user)
     {
         $group = $user->isObjectNew() ? 'create' : 'update';
-        /** @var Magento_Core_Model_Validator_Factory $validatorFactory */
-        $validatorFactory = $this->_objectManager->get('Magento_Core_Model_Validator_Factory');
-        $validator = $validatorFactory->createValidator('api_user', $group);
+        $validator = $this->_validatorFactory->createValidator('api_user', $group);
         if (!$validator->isValid($user)) {
             throw new Magento_Validator_Exception($validator->getMessages());
         }

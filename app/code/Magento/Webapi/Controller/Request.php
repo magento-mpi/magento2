@@ -15,7 +15,7 @@ class Magento_Webapi_Controller_Request extends Zend_Controller_Request_Http
      * @param Magento_Core_Model_App $app
      * @param null|string|Zend_Uri $uri
      */
-    public function __construct($app, $uri = null)
+    public function __construct(Magento_Core_Model_App $app, $uri = null)
     {
         parent::__construct($uri);
         $this->_pathInfo = $this->_requestUri;

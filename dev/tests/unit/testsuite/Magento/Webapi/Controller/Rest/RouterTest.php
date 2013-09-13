@@ -29,7 +29,7 @@ class Magento_Webapi_Controller_Rest_RouterTest extends PHPUnit_Framework_TestCa
         $this->_apiConfigMock = $this->getMockBuilder('Magento_Webapi_Model_Rest_Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $interpreterFactory = $this->getMockBuilder('Magento_Webapi_Controller_Rest_Request_Interpreter_Factory')
+        $deserializerFactory = $this->getMockBuilder('Magento_Webapi_Controller_Rest_Request_Deserializer_Factory')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_routeMock = $this->getMockBuilder('Magento_Webapi_Controller_Rest_Router_Route')
@@ -46,7 +46,7 @@ class Magento_Webapi_Controller_Rest_RouterTest extends PHPUnit_Framework_TestCa
         $configMock->expects($this->once())->method('getAreaFrontName')->will($this->returnValue('rest'));
         $this->_request = new Magento_Webapi_Controller_Rest_Request(
             $applicationMock,
-            $interpreterFactory
+            $deserializerFactory
         );
         /** Initialize SUT. */
         $this->_router = new Magento_Webapi_Controller_Rest_Router($this->_apiConfigMock);

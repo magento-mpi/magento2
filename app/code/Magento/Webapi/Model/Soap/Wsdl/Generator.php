@@ -22,16 +22,17 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
     protected $_wsdlFactory;
 
     /**
-     * @var Magento_Core_Model_CacheInterface
+     * @var Magento_Webapi_Model_Cache_Type
      */
     protected $_cache;
 
     /**
-     * TODO: Temporary variable for step-by-step refactoring according to new requirements
-     *
      * @var Magento_Webapi_Model_Soap_Config
      */
     protected $_apiConfig;
+
+    /** @var Magento_DomDocument_Factory */
+    protected $_domDocumentFactory;
 
     /**
      * The list of registered complex types.
@@ -45,16 +46,19 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
      *
      * @param Magento_Webapi_Model_Soap_Config $apiConfig
      * @param Magento_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
-     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Webapi_Model_Cache_Type $cache
+     * @param Magento_DomDocument_Factory $domDocumentFactory
      */
     public function __construct(
         Magento_Webapi_Model_Soap_Config $apiConfig,
         Magento_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
-        Magento_Core_Model_CacheInterface $cache
+        Magento_Webapi_Model_Cache_Type $cache,
+        Magento_DomDocument_Factory $domDocumentFactory
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_wsdlFactory = $wsdlFactory;
         $this->_cache = $cache;
+        $this->_domDocumentFactory = $domDocumentFactory;
     }
 
     /**
@@ -67,6 +71,8 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
      */
     public function generate($requestedServices, $endPointUrl)
     {
+        /** Sort requested services by names to prevent caching of the same wsdl file more than once. */
+        ksort($requestedServices);
         $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedServices));
         $cachedWsdlContent = $this->_cache->load($cacheId);
         if ($cachedWsdlContent !== false) {
@@ -74,7 +80,7 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
         }
 
         $wsdlContent = $this->_generate($requestedServices, $endPointUrl);
-        $this->_cache->save($wsdlContent, $cacheId, array(Magento_Webapi_Model_Config::CACHE_TAG));
+        $this->_cache->save($wsdlContent, $cacheId, array(Magento_Webapi_Model_Cache_Type::CACHE_TAG));
 
         return $wsdlContent;
     }
@@ -89,8 +95,6 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
      */
     protected function _generate($requestedServices, $endPointUrl)
     {
-        /** Sort requested services by names to prevent caching of the same wsdl file more than once. */
-        ksort($requestedServices);
         $services = array();
 
         try {
@@ -100,7 +104,7 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
         } catch (Magento_Webapi_Exception $e) {
             throw $e;
         } catch (Exception $e) {
-            throw new Magento_Webapi_Exception($e->getMessage(), Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new Magento_Webapi_Exception($e->getMessage());
         }
 
         $wsdl = $this->_wsdlFactory->create(self::WSDL_NAME, $endPointUrl);
@@ -142,17 +146,6 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
             }
         }
         return $wsdl->toXML();
-    }
-
-    /**
-     * Method to load Service specific XSD
-     *
-     * @param string $serviceName
-     * @return DOMDocument
-     */
-    protected function _getServiceSchemaDOM($serviceName)
-    {
-        return $this->_apiConfig->getServiceSchemaDOM($serviceName);
     }
 
     /**
@@ -222,12 +215,6 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
      */
     protected function _createOperationInput(Magento_Webapi_Model_Soap_Wsdl $wsdl, $operationName, $methodData)
     {
-        /**
-         * TODO: Make sure that complex type name is taken from a single place
-         *
-         * (currently we have two sources: XSD schema
-         * and auto-generation mechanism: $this->getElementComplexTypeName($inputMessageName))
-         */
         $inputMessageName = $this->getInputMessageName($operationName);
         $elementData = array(
             'name' => $inputMessageName,
@@ -410,6 +397,7 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
         if (empty($requestedServices)) {
             throw new Magento_Webapi_Exception(
                 __('Service %1 is not available.', $serviceName),
+                0,
                 Magento_Webapi_Exception::HTTP_NOT_FOUND
             );
         }
@@ -420,7 +408,7 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
         foreach ($serviceData['methods'] as $operationData) {
             $serviceMethod = $operationData[Magento_Webapi_Model_Soap_Config::KEY_METHOD];
             /** @var $payloadSchemaDom DOMDocument */
-            $payloadSchemaDom = $this->_getServiceSchemaDOM($serviceClass);
+            $payloadSchemaDom = $this->_apiConfig->getServiceSchemaDOM($serviceClass);
             $operationName = $this->getOperationName($serviceName, $serviceMethod);
             $inputParameterName = $this->getInputMessageName($operationName);
             $inputComplexTypes = $this->getComplexTypeNodes($serviceName,
@@ -462,7 +450,7 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
      */
     protected function _generateEmptyComplexType($complexTypeName)
     {
-        $domDocument = new DOMDocument("1.0");
+        $domDocument = $this->_domDocumentFactory->createDomDocument();
         $complexTypeNode = $domDocument->createElement('xsd:complexType');
         $complexTypeNode->setAttribute('name', $complexTypeName);
         $xsdNamespace = 'http://www.w3.org/2001/XMLSchema';

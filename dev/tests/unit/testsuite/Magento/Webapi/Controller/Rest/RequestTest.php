@@ -16,17 +16,17 @@ class Magento_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestC
      */
     protected $_request;
 
-    /** @var Magento_Webapi_Controller_Rest_Request_Interpreter_Factory */
-    protected $_interpreterFactory;
+    /** @var Magento_Webapi_Controller_Rest_Request_Deserializer_Factory */
+    protected $_deserializerFactory;
 
     protected function setUp()
     {
-        parent::setUp();
         /** Prepare mocks for request constructor arguments. */
-        $this->_interpreterFactory = $this->getMockBuilder('Magento_Webapi_Controller_Rest_Request_Interpreter_Factory')
-            ->setMethods(array('interpret', 'get'))
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_deserializerFactory =
+            $this->getMockBuilder('Magento_Webapi_Controller_Rest_Request_Deserializer_Factory')
+                ->setMethods(array('deserialize', 'get'))
+                ->disableOriginalConstructor()
+                ->getMock();
         $applicationMock = $this->getMockBuilder('Magento_Core_Model_App')
             ->disableOriginalConstructor()
             ->getMock();
@@ -40,13 +40,14 @@ class Magento_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestC
         $this->_request = $this->getMock(
             'Magento_Webapi_Controller_Rest_Request',
             array('getHeader', 'getMethod', 'isGet', 'isPost', 'isPut', 'isDelete', 'getRawBody'),
-            array($applicationMock, $this->_interpreterFactory)
+            array($applicationMock, $this->_deserializerFactory)
         );
+        parent::setUp();
     }
 
     protected function tearDown()
     {
-        unset($this->_interpreterFactory);
+        unset($this->_deserializerFactory);
         unset($this->_request);
         parent::tearDown();
     }
@@ -99,18 +100,18 @@ class Magento_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestC
             ->method('getHeader')
             ->with('Content-Type')
             ->will($this->returnValue($contentType));
-        $interpreter = $this->getMockBuilder('Magento_Webapi_Controller_Rest_Request_Interpreter_Json')
+        $deserializer = $this->getMockBuilder('Magento_Webapi_Controller_Rest_Request_Deserializer_Json')
             ->disableOriginalConstructor()
-            ->setMethods(array('interpret'))
+            ->setMethods(array('deserialize'))
             ->getMock();
-        $interpreter->expects($this->once())
-            ->method('interpret')
+        $deserializer->expects($this->once())
+            ->method('deserialize')
             ->with($rawBody)
             ->will($this->returnValue($params));
-        $this->_interpreterFactory->expects($this->once())
+        $this->_deserializerFactory->expects($this->once())
             ->method('get')
             ->with($contentType)
-            ->will($this->returnValue($interpreter));
+            ->will($this->returnValue($deserializer));
     }
 
     /**
@@ -203,24 +204,5 @@ class Magento_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestC
             array('application/dialog.dot-info7+xml', 'application/dialog.dot-info7+xml'),
             array('application/x-www-form-urlencoded; charset=cp1251', null, 'UTF-8 is the only supported charset.')
         );
-    }
-
-    public function testGetServiceVersion()
-    {
-        $this->_request->setParam('serviceVersion', 'v1');
-        $this->assertEquals(1, $this->_request->getServiceVersion(), 'Version number was missed.');
-    }
-
-    public function testSetServiceVersionVersionIsNotSpecifiedException()
-    {
-        $exceptionMessage = 'Service version is not specified or invalid one is specified.';
-        try {
-            $this->_request->setServiceVersion('x1');
-            $this->fail("Exception is expected to be raised");
-        } catch (Magento_Webapi_Exception $e) {
-            $this->assertInstanceOf('Magento_Webapi_Exception', $e, 'Exception type is invalid');
-            $this->assertEquals($exceptionMessage, $e->getMessage(), 'Exception message is invalid');
-            $this->assertEquals(Magento_Webapi_Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
-        }
     }
 }
