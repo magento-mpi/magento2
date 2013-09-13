@@ -9,32 +9,19 @@
  */
 
 /**
- * Layout argument. Type object
+ * Layout argument. Type string.
  *
  * @category    Magento
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Layout_Argument_Handler_Object extends Magento_Core_Model_Layout_Argument_HandlerAbstract
+class Magento_Core_Model_Layout_Argument_Handler_String extends Magento_Core_Model_Layout_Argument_HandlerAbstract
 {
-    /**
-     * @var Magento_ObjectManager
-     */
-    protected $_objectManager;
-
-    /**
-     * @param Magento_ObjectManager $objectManager
-     */
-    public function __construct(Magento_ObjectManager $objectManager)
-    {
-        $this->_objectManager = $objectManager;
-    }
-
     /**
      * Process argument value
      *
      * @param array $argument
-     * @return mixed
+     * @return string|Magento_Phrase
      * @throws InvalidArgumentException
      */
     public function process(array $argument)
@@ -42,28 +29,30 @@ class Magento_Core_Model_Layout_Argument_Handler_Object extends Magento_Core_Mod
         $this->_validate($argument);
         $value = $argument['value'];
 
-        return $this->_objectManager->create($value['object']);
+        if (!empty($value['translate'])) {
+            $value['string'] = __($value['string']);
+        }
+
+        return $value['string'];
     }
 
     /**
-     * Validate argument
-     * @param $argument
+     * @param array $argument
      * @throws InvalidArgumentException
      */
     protected function _validate(array $argument)
     {
         parent::_validate($argument);
-        $value = $argument['value'];
 
-        if (!isset($value['object'])) {
+        if (!isset($argument['value']['string'])) {
             throw new InvalidArgumentException(
                 'Passed value has incorrect format. ' . $this->_getArgumentInfo($argument)
             );
         }
 
-        if (!is_subclass_of($value['object'], 'Magento_Data_Collection')) {
+        if (!is_string($argument['value']['string'])) {
             throw new InvalidArgumentException(
-                'Incorrect data source model. ' . $this->_getArgumentInfo($argument)
+                'Value is not string argument. ' . $this->_getArgumentInfo($argument)
             );
         }
     }
@@ -80,8 +69,10 @@ class Magento_Core_Model_Layout_Argument_Handler_Object extends Magento_Core_Mod
         if (!isset($value)) {
             return null;
         }
-        return array(
-            'object' => $value
-        );
+        $result = array('string' => $value);
+        if ($argument->getAttribute('translate')) {
+            $result['translate'] = true;
+        }
+        return $result;
     }
 }

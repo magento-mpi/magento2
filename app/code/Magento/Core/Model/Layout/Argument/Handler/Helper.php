@@ -9,13 +9,13 @@
  */
 
 /**
- * Layout argument. Type object
+ * Layout argument. Type helper.
  *
  * @category    Magento
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Layout_Argument_Handler_Object extends Magento_Core_Model_Layout_Argument_HandlerAbstract
+class Magento_Core_Model_Layout_Argument_Handler_Helper extends Magento_Core_Model_Layout_Argument_HandlerAbstract
 {
     /**
      * @var Magento_ObjectManager
@@ -42,12 +42,12 @@ class Magento_Core_Model_Layout_Argument_Handler_Object extends Magento_Core_Mod
         $this->_validate($argument);
         $value = $argument['value'];
 
-        return $this->_objectManager->create($value['object']);
+        $helper = $this->_objectManager->get($value['helperClass']);
+        return call_user_func_array(array($helper, $value['helperMethod']), $value['params']);
     }
 
     /**
-     * Validate argument
-     * @param $argument
+     * @param array $argument
      * @throws InvalidArgumentException
      */
     protected function _validate(array $argument)
@@ -55,15 +55,15 @@ class Magento_Core_Model_Layout_Argument_Handler_Object extends Magento_Core_Mod
         parent::_validate($argument);
         $value = $argument['value'];
 
-        if (!isset($value['object'])) {
+        if (!isset($value['helperClass']) || !isset($value['helperMethod'])) {
             throw new InvalidArgumentException(
-                'Passed value has incorrect format. ' . $this->_getArgumentInfo($argument)
+                'Passed helper has incorrect format. ' . $this->_getArgumentInfo($argument)
             );
         }
-
-        if (!is_subclass_of($value['object'], 'Magento_Data_Collection')) {
+        if (!method_exists($value['helperClass'], $value['helperMethod'])) {
             throw new InvalidArgumentException(
-                'Incorrect data source model. ' . $this->_getArgumentInfo($argument)
+                'Helper method "' . $value['helperClass'] . '::' . $value['helperMethod'] . '" does not exist.'
+                . ' ' . $this->_getArgumentInfo($argument)
             );
         }
     }
@@ -72,16 +72,23 @@ class Magento_Core_Model_Layout_Argument_Handler_Object extends Magento_Core_Mod
      * Retrieve value from argument
      *
      * @param Magento_Core_Model_Layout_Element $argument
-     * @return array|null
+     * @return array
      */
     protected function _getArgumentValue(Magento_Core_Model_Layout_Element $argument)
     {
-        $value = parent::_getArgumentValue($argument);
-        if (!isset($value)) {
-            return null;
-        }
-        return array(
-            'object' => $value
+        $value = array(
+            'helperClass' => '',
+            'helperMethod' => '',
+            'params' => array(),
         );
+
+        list($value['helperClass'], $value['helperMethod']) = explode('::', $argument['helper']);
+
+        if (isset($argument->param)) {
+            foreach ($argument->param as $param) {
+                $value['params'][] = (string)$param;
+            }
+        }
+        return $value;
     }
 }
