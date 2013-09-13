@@ -11,14 +11,14 @@
 -->
 <install_wizard xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./install_wizard.xsd">
     <steps>
-        <step id="collect" controller="wizard" action="collect">
-            <label translate="true">Collect</label>
+        <step id="begin" controller="wizard" action="begin">
+            <label translate="true">Begin</label>
         </step>
-        <step id="question" controller="wizard" action="question">
-            <label translate="true">Question</label>
+        <step id="middle" controller="wizard" action="middle">
+            <label translate="true">Middle</label>
         </step>
-        <step id="profit" controller="wizard" action="profit">
-            <label translate="true">Profit</label>
+        <step id="end" controller="wizard" action="end">
+            <label translate="true">End</label>
         </step>
     </steps>
     <filesystem_prerequisites>
