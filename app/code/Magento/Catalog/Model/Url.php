@@ -96,6 +96,42 @@ class Magento_Catalog_Model_Url
     static protected $_categoryForUrlPath;
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * Catalog product
+     *
+     * @var Magento_Catalog_Helper_Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * Catalog category
+     *
+     * @var Magento_Catalog_Helper_Category
+     */
+    protected $_catalogCategory = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Category $catalogCategory
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Catalog_Helper_Data $catalogData
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Category $catalogCategory,
+        Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Catalog_Helper_Data $catalogData
+    ) {
+        $this->_catalogCategory = $catalogCategory;
+        $this->_catalogProduct = $catalogProduct;
+        $this->_catalogData = $catalogData;
+    }
+
+    /**
      * Adds url_path property for non-root category - to ensure that url path is not empty.
      *
      * Sometimes attribute 'url_path' can be empty, because url_path hasn't been generated yet,
@@ -215,7 +251,7 @@ class Magento_Catalog_Model_Url
         if ($this->_saveRewritesHistory !== null) {
             return $this->_saveRewritesHistory;
         }
-        return Mage::helper('Magento_Catalog_Helper_Data')->shouldSaveUrlRewritesHistory($storeId);
+        return $this->_catalogData->shouldSaveUrlRewritesHistory($storeId);
     }
 
     /**
@@ -659,7 +695,7 @@ class Magento_Catalog_Model_Url
      */
     public function getProductUrlSuffix($storeId)
     {
-        return Mage::helper('Magento_Catalog_Helper_Product')->getProductUrlSuffix($storeId);
+        return $this->_catalogProduct->getProductUrlSuffix($storeId);
     }
 
     /**
@@ -670,7 +706,7 @@ class Magento_Catalog_Model_Url
      */
     public function getCategoryUrlSuffix($storeId)
     {
-        return Mage::helper('Magento_Catalog_Helper_Category')->getCategoryUrlSuffix($storeId);
+        return $this->_catalogCategory->getCategoryUrlSuffix($storeId);
     }
 
     /**
@@ -704,7 +740,7 @@ class Magento_Catalog_Model_Url
         elseif ($parentPath == '/') {
             $parentPath = '';
         }
-        $parentPath = Mage::helper('Magento_Catalog_Helper_Category')->getCategoryUrlPath($parentPath, true, $storeId);
+        $parentPath = $this->_catalogCategory->getCategoryUrlPath($parentPath, true, $storeId);
 
         $requestPath = $parentPath . $urlKey;
         $regexp = '/^' . preg_quote($requestPath, '/') . '(\-[0-9]+)?' . preg_quote($categoryUrlSuffix, '/') . '$/i';
@@ -762,7 +798,7 @@ class Magento_Catalog_Model_Url
         if ($category->getLevel() > 1) {
             // To ensure, that category has path either from attribute or generated now
             $this->_addCategoryUrlPath($category);
-            $categoryUrl = Mage::helper('Magento_Catalog_Helper_Category')->getCategoryUrlPath($category->getUrlPath(),
+            $categoryUrl = $this->_catalogCategory->getCategoryUrlPath($category->getUrlPath(),
                 false, $storeId);
             $requestPath = $categoryUrl . '/' . $urlKey;
         } else {
@@ -872,7 +908,7 @@ class Magento_Catalog_Model_Url
                 elseif ($parentPath == '/') {
                     $parentPath = '';
                 }
-                $parentPath = Mage::helper('Magento_Catalog_Helper_Category')->getCategoryUrlPath($parentPath,
+                $parentPath = $this->_catalogCategory->getCategoryUrlPath($parentPath,
                     true, $category->getStoreId());
 
                 return $this->getUnusedPath($category->getStoreId(), $parentPath . $urlKey . $categoryUrlSuffix,
@@ -895,7 +931,7 @@ class Magento_Catalog_Model_Url
             if ($category->getLevel() > 1) {
                 // To ensure, that category has url path either from attribute or generated now
                 $this->_addCategoryUrlPath($category);
-                $categoryUrl = Mage::helper('Magento_Catalog_Helper_Category')->getCategoryUrlPath($category->getUrlPath(),
+                $categoryUrl = $this->_catalogCategory->getCategoryUrlPath($category->getUrlPath(),
                     false, $category->getStoreId());
                 return $this->getUnusedPath(
                     $category->getStoreId(),

@@ -9,9 +9,16 @@
  */
 
 class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Tab_Giftregistry
-    extends Magento_Adminhtml_Block_Template
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Backend_Block_Template
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
+    /**
+     * Gift registry data
+     *
+     * @var Magento_GiftRegistry_Helper_Data
+     */
+    protected $_giftRegistryData = null;
+
     /**
      * Core registry
      *
@@ -20,17 +27,22 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Tab_Giftregistry
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_GiftRegistry_Helper_Data $giftRegistryData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        $this->_giftRegistryData = $giftRegistryData;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -72,7 +84,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Tab_Giftregistry
     {
         $customer = $this->_coreRegistry->registry('current_customer');
         return $customer->getId()
-           && Mage::helper('Magento_GiftRegistry_Helper_Data')->isEnabled()
+           && $this->_giftRegistryData->isEnabled()
            && $this->_authorization->isAllowed('Magento_GiftRegistry::customer_magento_giftregistry');
     }
 

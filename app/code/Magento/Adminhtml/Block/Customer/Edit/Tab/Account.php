@@ -14,34 +14,15 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Disable Auto Group Change Attribute Name
      */
     const DISABLE_ATTRIBUTE_NAME = 'disable_auto_group_change';
-
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
-    }
 
     /**
      * Initialize form
@@ -50,7 +31,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
      */
     public function initForm()
     {
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_account');
         $form->setFieldNameSuffix('account');
 
@@ -253,7 +235,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
             $form->getElement('website_id')->setAfterElementHtml(
                 '<script type="text/javascript">'
                 . "
-                var {$prefix}_websites = " . Mage::helper('Magento_Core_Helper_Data')->jsonEncode($websites) .";
+                var {$prefix}_websites = " . $this->_coreData->jsonEncode($websites) . ";
                 jQuery.validator.addMethod('validate-website-has-store', function(v, elem){
                         return {$prefix}_websites[elem.value] == true;
                     },

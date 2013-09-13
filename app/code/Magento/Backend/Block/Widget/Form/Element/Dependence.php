@@ -48,6 +48,27 @@ class Magento_Backend_Block_Widget_Form_Element_Dependence extends Magento_Backe
      * @param string $fieldName - element name in their fieldset/form namespace
      * @return Magento_Backend_Block_Widget_Form_Element_Dependence
      */
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context, $data);
+    }
+
     public function addFieldMap($fieldId, $fieldName)
     {
         $this->_fields[$fieldName] = $fieldId;
@@ -98,7 +119,7 @@ class Magento_Backend_Block_Widget_Form_Element_Dependence extends Magento_Backe
         return '<script type="text/javascript"> new FormElementDependenceController('
             . $this->_getDependsJson()
             . ($this->_configOptions ? ', '
-            . Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->_configOptions) : '')
+            . $this->_coreData->jsonEncode($this->_configOptions) : '')
             . '); </script>';
     }
 
@@ -118,6 +139,6 @@ class Magento_Backend_Block_Widget_Form_Element_Dependence extends Magento_Backe
                 );
             }
         }
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 }

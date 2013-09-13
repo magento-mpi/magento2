@@ -30,28 +30,6 @@
             </search_setup>
         </resources>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Search>
-                    <files>
-                        <default>Magento_Search.csv</default>
-                    </files>
-                </Magento_Search>
-            </modules>
-        </translate>
-    </adminhtml>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Search>
-                    <files>
-                        <default>Magento_Search.csv</default>
-                    </files>
-                </Magento_Search>
-            </modules>
-        </translate>
-    </frontend>
     <default>
         <catalog>
             <search>
@@ -83,4 +61,4 @@
             </magento_search_index_reindex_all>
         </jobs>
     </crontab>
-</config>
+</config>

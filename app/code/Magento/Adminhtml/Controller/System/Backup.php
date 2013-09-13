@@ -43,7 +43,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
     {
         $this->_title(__('Backups'));
 
-        if($this->getRequest()->getParam('ajax')) {
+        if ($this->getRequest()->getParam('ajax')) {
             $this->_forward('grid');
             return;
         }
@@ -82,7 +82,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
         /**
          * @var Magento_Backup_Helper_Data $helper
          */
-        $helper = Mage::helper('Magento_Backup_Helper_Data');
+        $helper = $this->_objectManager->get('Magento_Backup_Helper_Data');
 
         try {
             $type = $this->getRequest()->getParam('type');
@@ -108,9 +108,10 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
                 if (!$turnedOn) {
                     $response->setError(
                         __('You need more permissions to activate maintenance mode right now.')
-                            . ' ' . __('To continue with the backup, you need to either deselect "Put store on the maintenance mode" or update your permissions.')
-                    );
-                    $backupManager->setErrorMessage(__("Something went wrong putting your store into maintenance mode."));
+                        . ' ' . __('To continue with the backup, you need to either deselect '
+                        . '"Put store on the maintenance mode" or update your permissions.'));
+                    $backupManager->setErrorMessage(__("Something went wrong '
+                        . 'putting your store into maintenance mode."));
                     return $this->getResponse()->setBody($response->toJson());
                 }
             }
@@ -166,7 +167,8 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             return $this->_redirect('*/*');
         }
 
-        $fileName = Mage::helper('Magento_Backup_Helper_Data')->generateBackupDownloadName($backup);
+        $fileName = $this->_objectManager->get('Magento_Backup_Helper_Data')
+            ->generateBackupDownloadName($backup);
 
         $this->_prepareDownloadResponse($fileName, null, 'application/octet-stream', $backup->getSize());
 
@@ -183,7 +185,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
      */
     public function rollbackAction()
     {
-        if (!Mage::helper('Magento_Backup_Helper_Data')->isRollbackAllowed()){
+        if (!$this->_objectManager->get('Magento_Backup_Helper_Data')->isRollbackAllowed()) {
             return $this->_forward('denied');
         }
 
@@ -191,7 +193,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             return $this->getUrl('*/*/index');
         }
 
-        $helper = Mage::helper('Magento_Backup_Helper_Data');
+        $helper = $this->_objectManager->get('Magento_Backup_Helper_Data');
         $response = new Magento_Object();
 
         try {
@@ -236,9 +238,10 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
                 if (!$turnedOn) {
                     $response->setError(
                         __('You need more permissions to activate maintenance mode right now.')
-                            . ' ' . __('To continue with the rollback, you need to either deselect "Put store on the maintenance mode" or update your permissions.')
-                    );
-                    $backupManager->setErrorMessage(__("Something went wrong putting your store into maintenance mode."));
+                        . ' ' . __('To continue with the rollback, you need to either deselect '
+                        . '"Put store on the maintenance mode" or update your permissions.'));
+                    $backupManager->setErrorMessage(__("Something went wrong '
+                        . 'putting your store into maintenance mode."));
                     return $this->getResponse()->setBody($response->toJson());
                 }
             }

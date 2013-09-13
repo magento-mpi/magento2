@@ -27,6 +27,7 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
         );
         $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
         $this->_model = new Magento_GiftCard_Model_Observer(
+            $this->getMock('Magento_GiftCard_Helper_Data', array(), array(), '', false),
             $context,
             $coreRegistry,
             null,
@@ -50,6 +51,7 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
             $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false)
         );
         $this->_model = new Magento_GiftCard_Model_Observer(
+            $this->getMock('Magento_GiftCard_Helper_Data', array(), array(), '', false),
             $context,
             $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false),
             null,

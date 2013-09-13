@@ -18,7 +18,8 @@ class Magento_PageCache_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Mage::helper('Magento_PageCache_Helper_Data');
+        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_PageCache_Helper_Data');
     }
 
     public function testSetNoCacheCookie()

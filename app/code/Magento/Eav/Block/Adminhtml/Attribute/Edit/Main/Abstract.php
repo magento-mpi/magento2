@@ -16,7 +16,8 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Magento_Adminhtml_Block_Widget_Form
+abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
     protected $_attribute = null;
 
@@ -28,17 +29,31 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends 
     protected $_coreRegistry = null;
 
     /**
+     * Eav data
+     *
+     * @var Magento_Eav_Helper_Data
+     */
+    protected $_eavData = null;
+
+    /**
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Eav_Helper_Data $eavData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Eav_Helper_Data $eavData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        $this->_eavData = $eavData;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     public function setAttributeObject($attribute)
@@ -67,11 +82,14 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends 
     {
         $attributeObject = $this->getAttributeObject();
 
-        $form = new Magento_Data_Form(array(
-            'id' => 'edit_form',
-            'action' => $this->getData('action'),
-            'method' => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset',
             array('legend' => __('Attribute Properties'))
@@ -181,7 +199,7 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends 
             'name'  => 'frontend_class',
             'label' => __('Input Validation for Store Owner'),
             'title' => __('Input Validation for Store Owner'),
-            'values'=> Mage::helper('Magento_Eav_Helper_Data')->getFrontendClasses(
+            'values'=> $this->_eavData->getFrontendClasses(
                 $attributeObject->getEntityType()->getEntityTypeCode()
             )
         ));
@@ -206,7 +224,9 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends 
      */
     protected function _initFormValues()
     {
-        Mage::dispatchEvent('adminhtml_block_eav_attribute_edit_form_init', array('form' => $this->getForm()));
+        $this->_eventManager->dispatch('adminhtml_block_eav_attribute_edit_form_init', array(
+            'form' => $this->getForm(),
+        ));
         $this->getForm()
             ->addValues($this->getAttributeObject()->getData());
         return parent::_initFormValues();
@@ -223,7 +243,7 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends 
         $attributeObject = $this->getAttributeObject();
         if ($attributeObject->getId()) {
             $form = $this->getForm();
-            $disableAttributeFields = Mage::helper('Magento_Eav_Helper_Data')
+            $disableAttributeFields = $this->_eavData
                 ->getAttributeLockedFields($attributeObject->getEntityType()->getEntityTypeCode());
             if (isset($disableAttributeFields[$attributeObject->getAttributeCode()])) {
                 foreach ($disableAttributeFields[$attributeObject->getAttributeCode()] as $field) {

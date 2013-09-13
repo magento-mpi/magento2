@@ -46,7 +46,11 @@ class Magento_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_helper = $this->getMock('Magento_Captcha_Helper_Data', array(), array(), '', false);
         $this->_urlManager = $this->getMock('Magento_Core_Model_Url', array(), array(), '', false);
         $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $this->_coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $this->_customerData = $this->getMock('Magento_Customer_Helper_Data', array(), array(), '', false);
         $this->_observer = new Magento_Captcha_Model_Observer(
+            $this->_coreData,
+            $this->_customerData,
             $this->_customerSession,
             $this->_helper,
             $this->_urlManager,

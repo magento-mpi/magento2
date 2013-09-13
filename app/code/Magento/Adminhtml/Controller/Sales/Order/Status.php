@@ -111,7 +111,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Status extends Magento_Adminhtml_
 
             //filter tags in labels/status
             /** @var $helper Magento_Adminhtml_Helper_Data */
-            $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
+            $helper = $this->_objectManager->get('Magento_Adminhtml_Helper_Data');
             if ($isNew) {
                 $statusCode = $data['status'] = $helper->stripTags($data['status']);
             }
@@ -132,8 +132,8 @@ class Magento_Adminhtml_Controller_Sales_Order_Status extends Magento_Adminhtml_
                 return;
             }
 
-            $status->setData($data)
-                    ->setStatus($statusCode);
+            $status->setData($data) ->setStatus($statusCode);
+
             try {
                 $status->save();
                 $this->_getSession()->addSuccess(__('You have saved the order status.'));

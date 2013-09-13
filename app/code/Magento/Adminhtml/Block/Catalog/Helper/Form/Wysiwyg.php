@@ -18,6 +18,41 @@
 class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Magento_Data_Form_Element_Textarea
 {
     /**
+     * Adminhtml data
+     *
+     * @var Magento_Backend_Helper_Data
+     */
+    protected $_backendData = null;
+
+    /**
+     * Catalog data
+     *
+     * @var Magento_Core_Model_ModuleManager
+     */
+    protected $_moduleManager = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Data_Form_Element_Factory $factoryElement
+     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
+     * @param Magento_Core_Model_ModuleManager $moduleManager
+     * @param Magento_Backend_Helper_Data $backendData
+     * @param array $attributes
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Data_Form_Element_Factory $factoryElement,
+        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
+        Magento_Core_Model_ModuleManager $moduleManager,
+        Magento_Backend_Helper_Data $backendData,
+        array $attributes = array()
+    ) {
+        $this->_moduleManager = $moduleManager;
+        $this->_backendData = $backendData;
+        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
+    }
+
+    /**
      * Retrieve additional html and put it at the end of element html
      *
      * @return string
@@ -34,7 +69,7 @@ class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Magento_Data_F
                     'disabled' => $disabled,
                     'class' => ($disabled) ? 'disabled action-wysiwyg' : 'action-wysiwyg',
                     'onclick' => 'catalogWysiwygEditor.open(\''
-                        . Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/catalog_product/wysiwyg')
+                        . $this->_backendData->getUrl('adminhtml/catalog_product/wysiwyg')
                         . '\', \'' . $this->getHtmlId().'\')'
                 )))->toHtml();
             $html .= <<<HTML
@@ -70,7 +105,7 @@ HTML;
      */
     public function getIsWysiwygEnabled()
     {
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_Cms')) {
+        if ($this->_moduleManager->isEnabled('Magento_Cms')) {
             return (bool)(Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->isEnabled()
                 && $this->getEntityAttribute()->getIsWysiwygEnabled());
         }

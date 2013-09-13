@@ -66,7 +66,7 @@ class Magento_Pbridge_Block_Checkout_Payment_Review_Iframe extends Magento_Pbrid
             'customer_email' => $this->getCustomerEmail()
         );
 
-        $sourceUrl = Mage::helper('Magento_Pbridge_Helper_Data')->getGatewayFormUrl($requestParams, $this->getQuote());
+        $sourceUrl = $this->_pbridgeData->getGatewayFormUrl($requestParams, $this->getQuote());
         return $sourceUrl;
     }
 }

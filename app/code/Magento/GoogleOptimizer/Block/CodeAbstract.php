@@ -30,6 +30,7 @@ abstract class Magento_GoogleOptimizer_Block_CodeAbstract extends Magento_Core_B
     protected $_codeHelper;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_GoogleOptimizer_Helper_Data $helper
      * @param Magento_Core_Model_Registry $registry
@@ -37,6 +38,7 @@ abstract class Magento_GoogleOptimizer_Block_CodeAbstract extends Magento_Core_B
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_GoogleOptimizer_Helper_Data $helper,
         Magento_Core_Model_Registry $registry,
@@ -46,7 +48,7 @@ abstract class Magento_GoogleOptimizer_Block_CodeAbstract extends Magento_Core_B
         $this->_helper = $helper;
         $this->_registry = $registry;
         $this->_codeHelper = $codeHelper;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

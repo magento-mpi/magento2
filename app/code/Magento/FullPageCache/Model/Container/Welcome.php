@@ -44,7 +44,7 @@ class Magento_FullPageCache_Model_Container_Welcome extends Magento_FullPageCach
     protected function _renderBlock()
     {
         $block = Mage::app()->getLayout()->createBlock('Magento_Page_Block_Html_Header');
-        Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+        $this->_eventManager->dispatch('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
         return $block->getWelcome();
     }
 }

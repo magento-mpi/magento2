@@ -23,11 +23,23 @@ class Magento_Widget_Model_Widget_Config extends Magento_Object
     protected $_viewUrl;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param array $data
      */
-    public function __construct(Magento_Core_Model_View_Url $viewUrl, array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_View_Url $viewUrl,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
         $this->_viewUrl = $viewUrl;
         parent::__construct($data);
     }
@@ -90,7 +102,7 @@ class Magento_Widget_Model_Widget_Config extends Magento_Object
     {
         $widgets = is_array($widgets) ? $widgets : array($widgets);
         $param = implode(',', $widgets);
-        return Mage::helper('Magento_Core_Helper_Data')->urlEncode($param);
+        return $this->_coreData->urlEncode($param);
     }
 
     /**
@@ -101,7 +113,7 @@ class Magento_Widget_Model_Widget_Config extends Magento_Object
      */
     public function decodeWidgetsFromQuery($queryParam)
     {
-        $param = Mage::helper('Magento_Core_Helper_Data')->urlDecode($queryParam);
+        $param = $this->_coreData->urlDecode($queryParam);
         return preg_split('/\s*\,\s*/', $param, 0, PREG_SPLIT_NO_EMPTY);
     }
 

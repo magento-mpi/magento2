@@ -84,10 +84,10 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
     public function newAction()
     {
         $operationType = $this->getRequest()->getParam('type');
-        $this->_initAction()
-            ->_title(
-                Mage::helper('Magento_ScheduledImportExport_Helper_Data')->getOperationHeaderText($operationType, 'new')
-            );
+        $this->_initAction()->_title(
+            $this->_objectManager->get('Magento_ScheduledImportExport_Helper_Data')
+                ->getOperationHeaderText($operationType, 'new')
+        );
 
         $this->renderLayout();
     }
@@ -106,7 +106,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
         $operationType = $operation->getOperationType();
 
         /** @var $helper Magento_ScheduledImportExport_Helper_Data */
-        $helper = Mage::helper('Magento_ScheduledImportExport_Helper_Data');
+        $helper = $this->_objectManager->get('Magento_ScheduledImportExport_Helper_Data');
         $this->_title(
             $helper->getOperationHeaderText($operationType, 'edit')
         );
@@ -146,7 +146,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
                 $operation = Mage::getModel('Magento_ScheduledImportExport_Model_Scheduled_Operation')->setData($data);
                 $operation->save();
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Magento_ScheduledImportExport_Helper_Data')
+                    $this->_objectManager->get('Magento_ScheduledImportExport_Helper_Data')
                         ->getSuccessSaveMessage($operation->getOperationType())
                 );
             } catch (Magento_Core_Exception $e) {
@@ -174,7 +174,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
             try {
                 Mage::getModel('Magento_ScheduledImportExport_Model_Scheduled_Operation')->setId($id)->delete();
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Magento_ScheduledImportExport_Helper_Data')->getSuccessDeleteMessage(
+                    $this->_objectManager->get('Magento_ScheduledImportExport_Helper_Data')->getSuccessDeleteMessage(
                         $request->getParam('type')
                     )
                 );

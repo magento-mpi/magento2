@@ -12,30 +12,9 @@
  * Form Type Edit General Tab Block
  */
 class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Backend_Block_Widget_Form_Generic
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
-    }
-
     /**
      * Initialize Edit Form
      *
@@ -57,7 +36,8 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Ta
         /* @var $model Magento_Eav_Model_Form_Type */
         $model      = $this->_coreRegistry->registry('current_form_type');
 
-        $form       = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form       = $this->_formFactory->create();
         $fieldset   = $form->addFieldset('general_fieldset', array(
             'legend'    => __('General Information')
         ));

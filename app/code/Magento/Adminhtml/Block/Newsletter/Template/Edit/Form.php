@@ -16,29 +16,8 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
-    }
-
     /**
      * Retrieve template object
      *
@@ -61,11 +40,14 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Admi
         $identityName = Mage::getStoreConfig('trans_email/ident_'.$identity.'/name');
         $identityEmail = Mage::getStoreConfig('trans_email/ident_'.$identity.'/email');
 
-        $form   = new Magento_Data_Form(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getData('action'),
-            'method'    => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getData('action'),
+                'method'    => 'post',
+            ))
+        );
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
             'legend'    => __('Template Information'),
@@ -118,7 +100,8 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Admi
 
 
         $widgetFilters = array('is_email_compatible' => 1);
-        $wysiwygConfig = Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->getConfig(array('widget_filters' => $widgetFilters));
+        $wysiwygConfig = Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')
+            ->getConfig(array('widget_filters' => $widgetFilters));
         if ($model->isPlain()) {
             $wysiwygConfig->setEnabled(false);
         }

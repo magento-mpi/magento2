@@ -53,7 +53,7 @@ class Magento_FullPageCache_Model_Container_Messages extends Magento_FullPageCac
         foreach ($types as $type) {
             $this->_addMessagesToBlock($type, $block);
         }
-        Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+        $this->_eventManager->dispatch('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
 
         return $block->toHtml();
     }

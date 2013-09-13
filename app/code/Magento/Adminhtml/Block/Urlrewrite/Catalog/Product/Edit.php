@@ -28,9 +28,6 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Magento_Ad
      */
     protected function _prepareLayoutFeatures()
     {
-        /** @var $helper Magento_Adminhtml_Helper_Data */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
-
         if ($this->_getUrlRewrite()->getId()) {
             $this->_headerText = __('Edit URL Rewrite for a Product');
         } else {
@@ -49,13 +46,14 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Magento_Ad
             if ($this->_getCategory()->getId() || !$this->getIsCategoryMode()) {
                 $this->_addEditFormBlock();
                 $this->_updateBackButtonLink(
-                    $helper->getUrl('*/*/edit', array('product' => $this->_getProduct()->getId())) . 'category'
+                    $this->_adminhtmlData
+                        ->getUrl('*/*/edit', array('product' => $this->_getProduct()->getId())) . 'category'
                 );
             } else {
                 // categories selector & skip categories button
                 $this->_addCategoriesTreeBlock();
                 $this->_addSkipCategoriesBlock();
-                $this->_updateBackButtonLink($helper->getUrl('*/*/edit') . 'product');
+                $this->_updateBackButtonLink($this->_adminhtmlData->getUrl('*/*/edit') . 'product');
             }
         } else {
             $this->_addUrlRewriteSelectorBlock();
@@ -94,10 +92,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Magento_Ad
      */
     private function _addProductLinkBlock()
     {
-        /** @var $helper Magento_Adminhtml_Helper_Data */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
         $this->addChild('product_link', 'Magento_Adminhtml_Block_Urlrewrite_Link', array(
-            'item_url'  => $helper->getUrl('*/*/*') . 'product',
+            'item_url'  => $this->_adminhtmlData->getUrl('*/*/*') . 'product',
             'item_name' => $this->_getProduct()->getName(),
             'label'     => __('Product:')
         ));
@@ -108,10 +104,9 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Magento_Ad
      */
     private function _addCategoryLinkBlock()
     {
-        /** @var $helper Magento_Adminhtml_Helper_Data */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
         $this->addChild('category_link', 'Magento_Adminhtml_Block_Urlrewrite_Link', array(
-            'item_url'  => $helper->getUrl('*/*/*', array('product' => $this->_getProduct()->getId())) . 'category',
+            'item_url'  => $this->_adminhtmlData
+                ->getUrl('*/*/*', array('product' => $this->_getProduct()->getId())) . 'category',
             'item_name' => $this->_getCategory()->getName(),
             'label'     => __('Category:')
         ));
@@ -138,12 +133,10 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Magento_Ad
      */
     private function _addSkipCategoriesBlock()
     {
-        /** @var $helper Magento_Adminhtml_Helper_Data */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
         $this->addChild('skip_categories', 'Magento_Adminhtml_Block_Widget_Button', array(
             'label' => __('Skip Category Selection'),
             'onclick' => 'window.location = \''
-                . $helper->getUrl('*/*/*', array('product' => $this->_getProduct()->getId())) . '\'',
+                . $this->_adminhtmlData->getUrl('*/*/*', array('product' => $this->_getProduct()->getId())) . '\'',
             'class' => 'save',
             'level' => -1
         ));

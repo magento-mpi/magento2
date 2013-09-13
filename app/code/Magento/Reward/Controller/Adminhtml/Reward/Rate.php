@@ -45,7 +45,7 @@ class Magento_Reward_Controller_Adminhtml_Reward_Rate extends Magento_Adminhtml_
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabled()
+        if (!$this->_objectManager->get('Magento_Reward_Helper_Data')->isEnabled()
             && $this->getRequest()->getActionName() != 'noroute'
         ) {
             $this->_forward('noroute');

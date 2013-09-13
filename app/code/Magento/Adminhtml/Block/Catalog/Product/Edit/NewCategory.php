@@ -14,20 +14,28 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Magento_Backend_Block_Widget_Form
+class Magento_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
         Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
         $this->setUseContainer(true);
         $this->_categoryFactory = $categoryFactory;
     }
@@ -37,7 +45,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Magento_B
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array('id' => 'new_category_form'));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'new_category_form',
+            ))
+        );
         $form->setUseContainer($this->getUseContainer());
 
         $form->addField('new_category_messages', 'note', array());
@@ -103,9 +116,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Magento_B
      */
     public function getAfterElementHtml()
     {
-        /** @var $coreHelper Magento_Core_Helper_Data */
-        $coreHelper = Mage::helper('Magento_Core_Helper_Data');
-        $widgetOptions = $coreHelper->jsonEncode(array(
+        $widgetOptions = $this->_coreData->jsonEncode(array(
             'suggestOptions' => array(
                 'source' => $this->getUrl('adminhtml/catalog_category/suggestCategories'),
                 'valueField' => '#new_category_parent',

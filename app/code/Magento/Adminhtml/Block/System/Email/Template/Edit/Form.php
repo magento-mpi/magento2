@@ -11,29 +11,9 @@
 /**
  * Adminhtml system template edit form
  */
-class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+
+class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
-    }
-
     /**
      * Prepare layout.
      * Add files to use dialog windows
@@ -59,7 +39,8 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ad
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend' => __('Template Information'),

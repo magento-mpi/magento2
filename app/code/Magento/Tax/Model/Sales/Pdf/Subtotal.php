@@ -24,7 +24,7 @@ class Magento_Tax_Model_Sales_Pdf_Subtotal extends Magento_Sales_Model_Order_Pdf
     public function getTotalsForDisplay()
     {
         $store = $this->getOrder()->getStore();
-        $helper= Mage::helper('Magento_Tax_Helper_Data');
+        $helper= $this->_taxHelper;
         $amount = $this->getOrder()->formatPriceTxt($this->getAmount());
         if ($this->getSource()->getSubtotalInclTax()) {
             $amountInclTax = $this->getSource()->getSubtotalInclTax();

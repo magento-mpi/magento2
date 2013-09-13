@@ -17,6 +17,11 @@ class Magento_Catalog_Model_Product_Link_ApiTest extends PHPUnit_Framework_TestC
     protected $_upSellProductId = 11;
     protected $_relatedProductId = 12;
 
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test 'types' method of catalog product link API.
      */

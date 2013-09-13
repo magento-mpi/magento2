@@ -51,10 +51,12 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
 
         if ($this->getRequest()->getParam('captcha_token') && $this->getRequest()->getParam('captcha_url')) {
             $contentBlock->setGcontentCaptchaToken(
-                Mage::helper('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('captcha_token'))
+                $this->_objectManager->get('Magento_Core_Helper_Data')
+                    ->urlDecode($this->getRequest()->getParam('captcha_token'))
             );
             $contentBlock->setGcontentCaptchaUrl(
-                Mage::helper('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('captcha_url'))
+                $this->_objectManager->get('Magento_Core_Helper_Data')
+                    ->urlDecode($this->getRequest()->getParam('captcha_url'))
             );
         }
 
@@ -226,7 +228,8 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
         try {
             Mage::getModel('Magento_GoogleShopping_Model_Service')->getClient(
                 $storeId,
-                Mage::helper('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('captcha_token')),
+                $this->_objectManager->get('Magento_Core_Helper_Data')
+                    ->urlDecode($this->getRequest()->getParam('captcha_token')),
                 $this->getRequest()->getParam('user_confirm')
             );
             $this->_getSession()->addSuccess(__('Captcha has been confirmed.'));
@@ -237,7 +240,8 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
             return;
         } catch (Zend_Gdata_App_Exception $e) {
             $this->_getSession()->addError(
-                Mage::helper('Magento_GoogleShopping_Helper_Data')->parseGdataExceptionMessage($e->getMessage())
+                $this->_objectManager->get('Magento_GoogleShopping_Helper_Data')
+                    ->parseGdataExceptionMessage($e->getMessage())
             );
         } catch (Exception $e) {
             Mage::logException($e);
@@ -259,7 +263,9 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
             $params = array(
                 'is_running' => $this->_getFlag()->isLocked()
             );
-            return $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($params));
+            return $this->getResponse()->setBody(
+                $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($params)
+            );
         }
     }
 
@@ -274,13 +280,19 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
             '*/*/index',
             array(
                 'store' => $this->_getStore()->getId(),
-                'captcha_token' => Mage::helper('Magento_Core_Helper_Data')->urlEncode($e->getCaptchaToken()),
-                'captcha_url' => Mage::helper('Magento_Core_Helper_Data')->urlEncode($e->getCaptchaUrl())
+                'captcha_token' => $this->_objectManager->get('Magento_Core_Helper_Data')
+                    ->urlEncode($e->getCaptchaToken()),
+                'captcha_url' => $this->_objectManager->get('Magento_Core_Helper_Data')
+                    ->urlEncode($e->getCaptchaUrl())
             )
         );
         if ($this->getRequest()->isAjax()) {
             $this->getResponse()->setHeader('Content-Type', 'application/json')
-                ->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array('redirect' => $redirectUrl)));
+                ->setBody(
+                    $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(
+                        array('redirect' => $redirectUrl)
+                    )
+                );
         } else {
             $this->_redirect($redirectUrl);
         }
