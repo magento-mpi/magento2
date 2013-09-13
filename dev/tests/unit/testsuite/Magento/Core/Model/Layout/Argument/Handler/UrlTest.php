@@ -27,7 +27,7 @@ class Magento_Core_Model_Layout_Argument_Handler_UrlTest extends PHPUnit_Framewo
     protected function setUp()
     {
         $helperObjectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_urlModleMock = $this->getMock('Magento_Core_Model_Url');
+        $this->_urlModleMock = $this->getMock('Magento_Core_Model_Url', array(), array(), '', false);
         $this->_model = $helperObjectManager->getObject(
             'Magento_Core_Model_Layout_Argument_Handler_Url',
             array('urlModel' => $this->_urlModleMock)
