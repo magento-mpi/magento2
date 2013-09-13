@@ -1,3 +1,7 @@
+* Redesign and reimplementation of Api functionality
+  * Removed the legacy Api module and all existing legacy V1 and V2 Api code
+  * Redesigned and reimplemented the existing Webapi module according to a new set of requirements
+
 2.0.0.0-dev45
 =============
 * Product management improvements:
@@ -132,9 +136,6 @@
   * Removed "translate" node from configuration XML files
   * Added I18n tools for translation dictionary generation and language package generation
   * Eliminated Mage::helper and Mage::dispatchEvent in code
-  * Redesign of API
-     * Removed API as it existed in 1.x
-     * Introduced new WebAPI working on top of the new service layer
 * GitHub requests:
   * [#71](https://github.com/magento/magento2/pull/71) -- Add event prefix for Cms blocks
   * [#108](https://github.com/magento/magento2/pull/108) -- Fix issue with `PHP_VERSION` on Ubuntu servers
