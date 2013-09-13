@@ -19,9 +19,9 @@ class Magento_Checkout_Block_Link extends Magento_Page_Block_Link
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_ModuleManager $moduleManager,
+        Magento_Core_Helper_Data $coreData,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);

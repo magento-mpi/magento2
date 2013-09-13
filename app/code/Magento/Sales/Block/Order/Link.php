@@ -30,9 +30,10 @@ class Magento_Sales_Block_Order_Link extends Magento_Page_Block_Link_Current
     public function __construct(
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Helper_Data $coreData,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_registry = $registry;
     }
 
