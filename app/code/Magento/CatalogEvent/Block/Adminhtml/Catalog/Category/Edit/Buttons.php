@@ -2,22 +2,42 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Catalog Events edit form select categories
- *
- * @category   Magento
- * @package    Magento_CatalogEvent
  */
-
 class Magento_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons
     extends Magento_Adminhtml_Block_Catalog_Category_Abstract
 {
+    /**
+     * Factory for event collections
+     *
+     * @var Magento_CatalogEvent_Model_Resource_Event_CollectionFactory
+     */
+    protected $_eventCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $eventCollectionFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $eventCollectionFactory,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $data);
+
+        $this->_eventCollectionFactory = $eventCollectionFactory;
+    }
+
     /**
      * Retrieve category event
      *
@@ -26,7 +46,8 @@ class Magento_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons
     public function getEvent()
     {
         if (!$this->hasData('event')) {
-            $collection = Mage::getModel('Magento_CatalogEvent_Model_Event')->getCollection()
+            /** @var Magento_CatalogEvent_Model_Resource_Event_Collection $collection */
+            $collection = $this->_eventCollectionFactory->create()
                 ->addFieldToFilter('category_id', $this->getCategoryId());
 
             $event = $collection->getFirstItem();

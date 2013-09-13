@@ -2,21 +2,47 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Catalog Events edit form select categories
- *
- * @category   Magento
- * @package    Magento_CatalogEvent
  */
 class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Magento_Adminhtml_Block_Catalog_Category_Abstract
 {
+    /**
+     * Template
+     *
+     * @var string
+     */
     protected $_template = 'categories.phtml';
+
+    /**
+     * Category model factory
+     *
+     * @var Magento_Catalog_Model_CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $data);
+
+        $this->_categoryFactory = $categoryFactory;
+    }
 
     /**
      * Get categories tree as recursive array
@@ -30,7 +56,8 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Magento_A
     {
         $result = array();
         if ($parentId) {
-            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($parentId);
+            /** @var Magento_Catalog_Model_Category $category */
+            $category = $this->_categoryFactory->create()->load($parentId);
             if (!empty($category)) {
                 $tree = $this->_getNodesArray($this->getNode($category, $recursionLevel));
                 if (!empty($tree) && !empty($tree['children'])) {
@@ -56,7 +83,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Magento_A
     {
         $collection = $this->_getData('category_collection');
         if (is_null($collection)) {
-            $collection = Mage::getModel('Magento_Catalog_Model_Category')->getCollection()
+            $collection = $this->_categoryFactory->create()->getCollection()
                 ->addAttributeToSelect(array('name', 'is_active'))
                 ->setLoadProductCount(true)
             ;
