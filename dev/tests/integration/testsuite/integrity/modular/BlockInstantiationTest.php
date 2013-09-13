@@ -30,6 +30,11 @@ class Integrity_Modular_BlockInstantiationTest extends Magento_Test_TestCase_Int
         Magento_Test_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope($area);
+
+        /** @var Magento_Core_Model_App $app */
+        $app = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App');
+        $app->loadArea($area);
+
         $block = Mage::getModel($class);
         $this->assertNotNull($block);
     }
