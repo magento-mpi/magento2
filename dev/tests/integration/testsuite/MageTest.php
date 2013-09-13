@@ -33,16 +33,16 @@ class MageTest extends PHPUnit_Framework_TestCase
         /** @var $logger \Magento\Core\Model\Logger|PHPUnit_Framework_MockObject_MockObject */
         $logger = $this->getMock('Magento\Core\Model\Logger', array('log', 'addStreamLog'), array(), '', false);
         $realLogger = $objectManager->get('Magento\Core\Model\Logger');
-        $objectManager->addSharedInstance($logger, '\Magento\Core\Model\Logger');
+        $objectManager->addSharedInstance($logger, 'Magento\Core\Model\Logger');
         try {
             $logger->expects($this->once())->method('log')->with($message, $expectedLevel, $expectedKey);
             if ($expectsAddLog) {
                 $logger->expects($this->once())->method('addStreamLog');
             }
             Mage::log($message, $level, $file, $forceLog);
-            $objectManager->addSharedInstance($realLogger, '\Magento\Core\Model\Logger');
+            $objectManager->addSharedInstance($realLogger, 'Magento\Core\Model\Logger');
         } catch (Exception $e) {
-            $objectManager->addSharedInstance($realLogger, '\Magento\Core\Model\Logger');
+            $objectManager->addSharedInstance($realLogger, 'Magento\Core\Model\Logger');
             throw $e;
         }
 
@@ -193,7 +193,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function helperDataProvider()
     {
         return array(
-            'module name' => array('Magento_Core',           'Magento\Core\Helper\Data'),
+            'module name' => array('Magento\Core',           'Magento\Core\Helper\Data'),
             'class name'  => array('Magento\Core\Helper\Js', 'Magento\Core\Helper\Js'),
         );
     }
