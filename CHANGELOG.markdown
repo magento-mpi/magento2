@@ -1,3 +1,11 @@
+* Removed "translate" node from configuration XML files
+* Added I18n tools for translation dictionary generation and language package generation
+* Eliminated Mage::helper and Mage::dispatchEvent in code
+* Removed handle declaration from layout update files. Name of the file stands for the handle ID and handle's attributes are defined in the root <layout> node
+* Fixed bugs:
+  * Fixed address field "State/Province" on frontend, which contained "[object Object]" items instead of necessary values
+  * Fixed inability to create gift registry on frontend
+
 2.0.0.0-dev45
 =============
 * Product management improvements:
@@ -129,9 +137,6 @@
      * Improved UI for working with webhooks in Magento backend
      * Improved test coverage
   * Removed support of callbacks from the framework
-  * Removed "translate" node from configuration XML files
-  * Added I18n tools for translation dictionary generation and language package generation
-  * Eliminated Mage::helper and Mage::dispatchEvent in code
 * GitHub requests:
   * [#71](https://github.com/magento/magento2/pull/71) -- Add event prefix for Cms blocks
   * [#108](https://github.com/magento/magento2/pull/108) -- Fix issue with `PHP_VERSION` on Ubuntu servers
