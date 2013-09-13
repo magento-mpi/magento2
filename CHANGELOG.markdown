@@ -1,3 +1,11 @@
+Next
+====
+* Layout Improvements
+ * Removed access to direct execution of API through layout by removing <action> nodes
+ * Implemented ability to declare containers in layout that don't have any specific semantic value
+
+
+
 2.0.0.0-dev45
 =============
 * Product management improvements:
