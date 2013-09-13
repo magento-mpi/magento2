@@ -29,8 +29,8 @@ class Magento_Webapi_Model_Soap_FaultTest extends PHPUnit_Framework_TestCase
         $code = 111;
         $webapiException = new Magento_Webapi_Exception(
             $message,
-            Magento_Webapi_Exception::HTTP_INTERNAL_ERROR,
             $code,
+            Magento_Webapi_Exception::HTTP_INTERNAL_ERROR,
             $details
         );
         $this->_soapFault = new Magento_Webapi_Model_Soap_Fault($this->_appMock, $webapiException);
@@ -162,8 +162,8 @@ XML;
         $code = 111;
         $webapiException = new Magento_Webapi_Exception(
             $message,
-            Magento_Webapi_Exception::HTTP_INTERNAL_ERROR,
             $code,
+            Magento_Webapi_Exception::HTTP_INTERNAL_ERROR,
             $details
         );
         $soapFault = new Magento_Webapi_Model_Soap_Fault(

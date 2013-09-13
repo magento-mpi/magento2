@@ -37,8 +37,6 @@ class Magento_Webapi_Controller_Rest_Response extends Magento_Webapi_Controller_
 
     /**
      * Send response to the client, render exceptions if they are present.
-     *
-     * @SuppressWarnings(PHPMD.ExitExpression)
      */
     public function sendResponse()
     {
@@ -59,7 +57,6 @@ class Magento_Webapi_Controller_Rest_Response extends Magento_Webapi_Controller_
 
             /** If error was encountered during "error rendering" process then use error renderer. */
             $this->_errorProcessor->renderException($e, $httpCode);
-            die();
         }
     }
 

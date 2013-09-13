@@ -85,10 +85,7 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
     {
         try {
             if (!$this->_appState->isInstalled()) {
-                throw new Magento_Webapi_Exception(
-                    __('Magento is not yet installed'),
-                    Magento_Webapi_Exception::HTTP_BAD_REQUEST
-                );
+                throw new Magento_Webapi_Exception(__('Magento is not yet installed'));
             }
             if ($this->_isWsdlRequest()) {
                 $responseBody = $this->_wsdlGenerator->generate(

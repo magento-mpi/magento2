@@ -70,7 +70,7 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_Xml implements
             } else {
                 $exceptionMessage = 'Decoding Error: ' . $this->_errorMessage;
             }
-            throw new Magento_Webapi_Exception($exceptionMessage, Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new Magento_Webapi_Exception($exceptionMessage);
         }
         $data = $this->_xmlParser->xmlToArray();
         /** Data will always have exactly one element so it is safe to call reset here. */

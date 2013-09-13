@@ -59,7 +59,7 @@ class Magento_Webapi_Model_Soap_Server
         Magento_Webapi_Model_Soap_Server_FactoryInterface $soapServerFactory
     ) {
         if (!extension_loaded('soap')) {
-            throw new Magento_Webapi_Exception('SOAP extension is not loaded.',
+            throw new Magento_Webapi_Exception('SOAP extension is not loaded.', 0,
                 Magento_Webapi_Exception::HTTP_INTERNAL_ERROR);
         }
         $this->_application = $application;
@@ -167,11 +167,11 @@ class Magento_Webapi_Model_Soap_Server
     {
         $dom = new DOMDocument();
         if (strlen($soapRequest) == 0 || !$dom->loadXML($soapRequest)) {
-            throw new Magento_Webapi_Exception(__('Invalid XML'), Magento_Webapi_Exception::HTTP_INTERNAL_ERROR);
+            throw new Magento_Webapi_Exception(__('Invalid XML'), 0, Magento_Webapi_Exception::HTTP_INTERNAL_ERROR);
         }
         foreach ($dom->childNodes as $child) {
             if ($child->nodeType === XML_DOCUMENT_TYPE_NODE) {
-                throw new Magento_Webapi_Exception(__('Invalid XML: Detected use of illegal DOCTYPE'),
+                throw new Magento_Webapi_Exception(__('Invalid XML: Detected use of illegal DOCTYPE'), 0,
                     Magento_Webapi_Exception::HTTP_INTERNAL_ERROR);
             }
         }

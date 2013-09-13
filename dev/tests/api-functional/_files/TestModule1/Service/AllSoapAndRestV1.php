@@ -16,7 +16,7 @@ class Magento_TestModule1_Service_AllSoapAndRestV1 implements Magento_TestModule
     public function item($request)
     {
         if ($request['id'] == null) {
-            throw new Magento_Webapi_Exception("Invalid Id", Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new Magento_Webapi_Exception("Invalid Id");
         }
         $result = array(
             'id' => $request['id'],
@@ -64,7 +64,7 @@ class Magento_TestModule1_Service_AllSoapAndRestV1 implements Magento_TestModule
     public function update($request)
     {
         if ($request['id'] == null) {
-            throw new Magento_Webapi_Exception("Invalid Id", Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new Magento_Webapi_Exception("Invalid Id");
         }
 
         $result = array(

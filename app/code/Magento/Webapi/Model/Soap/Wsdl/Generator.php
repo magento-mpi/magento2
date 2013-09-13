@@ -104,7 +104,7 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
         } catch (Magento_Webapi_Exception $e) {
             throw $e;
         } catch (Exception $e) {
-            throw new Magento_Webapi_Exception($e->getMessage(), Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new Magento_Webapi_Exception($e->getMessage());
         }
 
         $wsdl = $this->_wsdlFactory->create(self::WSDL_NAME, $endPointUrl);
@@ -397,6 +397,7 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
         if (empty($requestedServices)) {
             throw new Magento_Webapi_Exception(
                 __('Service %1 is not available.', $serviceName),
+                0,
                 Magento_Webapi_Exception::HTTP_NOT_FOUND
             );
         }

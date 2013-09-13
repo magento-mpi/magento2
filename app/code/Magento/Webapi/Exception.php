@@ -44,7 +44,7 @@ class Magento_Webapi_Exception extends RuntimeException
      * @param array $details Additional exception details
      * @throws InvalidArgumentException
      */
-    public function __construct($message, $httpCode, $code = 0, array $details = array())
+    public function __construct($message, $code = 0, $httpCode = self::HTTP_BAD_REQUEST, array $details = array())
     {
         /** Only HTTP error codes are allowed. No success or redirect codes must be used. */
         if ($httpCode < 400 || $httpCode > 599) {

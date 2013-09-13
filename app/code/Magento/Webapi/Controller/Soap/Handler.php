@@ -62,10 +62,7 @@ class Magento_Webapi_Controller_Soap_Handler
 
         // check if the operation is a secure operation & whether the request was made in HTTPS
         if ($serviceMethodInfo[Magento_Webapi_Model_Soap_Config::KEY_IS_SECURE] && !$this->_request->isSecure()) {
-            throw new Magento_Webapi_Exception(
-                __("Operation allowed only in HTTPS"),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST
-            );
+            throw new Magento_Webapi_Exception(__("Operation allowed only in HTTPS"));
         }
 
         $service = $this->_objectManager->get($serviceId);

@@ -86,6 +86,7 @@ class Magento_Webapi_Controller_Rest_Response_Renderer_Factory
         /** If server does not have renderer for any of the accepted types it SHOULD send 406 (not acceptable). */
         throw new Magento_Webapi_Exception(
             __('Server cannot understand Accept HTTP header media type.'),
+            0,
             Magento_Webapi_Exception::HTTP_NOT_ACCEPTABLE
         );
     }

@@ -44,7 +44,7 @@ class Magento_Webapi_Controller_Rest_Router
                 return $route;
             }
         }
-        throw new Magento_Webapi_Exception(__('Request does not match any route.'),
+        throw new Magento_Webapi_Exception(__('Request does not match any route.'), 0,
             Magento_Webapi_Exception::HTTP_NOT_FOUND);
     }
 }

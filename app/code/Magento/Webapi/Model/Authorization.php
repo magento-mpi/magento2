@@ -39,6 +39,7 @@ class Magento_Webapi_Model_Authorization
         ) {
             throw new Magento_Webapi_Exception(
                 __('Access to service is forbidden.'),
+                0,
                 Magento_Webapi_Exception::HTTP_FORBIDDEN
             );
         }

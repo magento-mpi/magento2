@@ -122,17 +122,14 @@ class Magento_Webapi_Controller_Rest_Request extends Magento_Webapi_Controller_R
         $headerValue = $this->getHeader('Content-Type');
 
         if (!$headerValue) {
-            throw new Magento_Webapi_Exception(__('Content-Type header is empty.'),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new Magento_Webapi_Exception(__('Content-Type header is empty.'));
         }
         if (!preg_match('~^([a-z\d/\-+.]+)(?:; *charset=(.+))?$~Ui', $headerValue, $matches)) {
-            throw new Magento_Webapi_Exception(__('Content-Type header is invalid.'),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new Magento_Webapi_Exception(__('Content-Type header is invalid.'));
         }
         // request encoding check if it is specified in header
         if (isset($matches[2]) && self::REQUEST_CHARSET != strtolower($matches[2])) {
-            throw new Magento_Webapi_Exception(__('UTF-8 is the only supported charset.'),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new Magento_Webapi_Exception(__('UTF-8 is the only supported charset.'));
         }
 
         return $matches[1];
@@ -147,8 +144,7 @@ class Magento_Webapi_Controller_Rest_Request extends Magento_Webapi_Controller_R
     public function getHttpMethod()
     {
         if (!$this->isGet() && !$this->isPost() && !$this->isPut() && !$this->isDelete()) {
-            throw new Magento_Webapi_Exception(__('Request method is invalid.'),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new Magento_Webapi_Exception(__('Request method is invalid.'));
         }
         return $this->getMethod();
     }

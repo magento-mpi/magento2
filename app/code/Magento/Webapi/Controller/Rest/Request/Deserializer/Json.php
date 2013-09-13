@@ -48,12 +48,10 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_Json implements
             $decodedBody = $this->_helper->jsonDecode($encodedBody);
         } catch (Zend_Json_Exception $e) {
             if (!$this->_app->isDeveloperMode()) {
-                throw new Magento_Webapi_Exception(__('Decoding error.'),
-                    Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+                throw new Magento_Webapi_Exception(__('Decoding error.'));
             } else {
                 throw new Magento_Webapi_Exception(
-                    __('Decoding error: %1%2%3%4', PHP_EOL, $e->getMessage(), PHP_EOL, $e->getTraceAsString()),
-                    Magento_Webapi_Exception::HTTP_BAD_REQUEST
+                    __('Decoding error: %1%2%3%4', PHP_EOL, $e->getMessage(), PHP_EOL, $e->getTraceAsString())
                 );
             }
         }

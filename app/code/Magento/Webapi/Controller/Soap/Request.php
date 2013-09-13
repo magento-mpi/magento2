@@ -41,7 +41,7 @@ class Magento_Webapi_Controller_Soap_Request extends Magento_Webapi_Controller_R
             $notAllowed = implode(', ', $notAllowedParameters);
             $message =
                 __('Not allowed parameters: %1. Please use only %2 and %3.', $notAllowed, $wsdlParam, $servicesParam);
-            throw new Magento_Webapi_Exception($message, Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new Magento_Webapi_Exception($message);
         }
 
         $param = $this->getParam($servicesParam);
@@ -67,7 +67,7 @@ class Magento_Webapi_Controller_Soap_Request extends Magento_Webapi_Controller_R
         //Check if the $param is of valid format
         if (empty($param) || !preg_match($regexp, $param)) {
             $message = __('Incorrect format of WSDL request URI or Requested services are missing.');
-            throw new Magento_Webapi_Exception($message, Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new Magento_Webapi_Exception($message);
         }
         //Split the $param string to create an array of 'service' => 'version'
         $serviceVersionArray = explode($serviceSeparator, $param);

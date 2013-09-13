@@ -36,7 +36,7 @@ class Magento_TestModule3_Service_ErrorV1 implements Magento_TestModule3_Service
 
     public function webapiException()
     {
-        throw new Magento_Webapi_Exception('Service not found', Magento_Webapi_Exception::HTTP_NOT_FOUND, 5555);
+        throw new Magento_Webapi_Exception('Service not found', 5555, Magento_Webapi_Exception::HTTP_NOT_FOUND);
     }
 
     public function otherException()
