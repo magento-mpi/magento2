@@ -256,4 +256,18 @@
             </value>
         </param>
     </type>
+    <type name="Magento_Core_Model_View_Design">
+        <param name="themes">
+            <value>
+                <frontend>magento_demo</frontend>
+                <adminhtml>magento_backend</adminhtml>
+                <install>magento_basic</install>
+            </value>
+        </param>
+    </type>
+    <type name="Magento_Core_Model_View_Publisher">
+        <param name="allowFilesDuplication">
+            <value type="bool">true</value>
+        </param>
+    </type>
 </config>
