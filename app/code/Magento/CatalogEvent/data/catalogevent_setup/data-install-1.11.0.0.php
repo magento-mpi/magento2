@@ -15,4 +15,6 @@ $cmsBlock = array(
     'stores'     => 0,
 );
 
-$this->getModelBlockFactory()->create()->setData($cmsBlock)->save();
+/** @var Magento_Cms_Model_Block $block */
+$block = $this->getBlockFactory()->create();
+$block->setData($cmsBlock)->save();

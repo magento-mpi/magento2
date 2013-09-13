@@ -12,6 +12,13 @@
 class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry;
+
+    /**
      * Store model manager
      *
      * @var Magento_Core_Model_StoreManagerInterface
@@ -24,13 +31,6 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
      * @var Magento_CatalogEvent_Model_EventFactory
      */
     protected $_eventFactory;
-
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
 
     /**
      * Construct
@@ -46,11 +46,11 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_CatalogEvent_Model_EventFactory $eventFactory
     ) {
+        parent::__construct($context);
+
         $this->_coreRegistry = $coreRegistry;
         $this->_storeManager = $storeManager;
         $this->_eventFactory = $eventFactory;
-
-        parent::__construct($context);
     }
 
     /**

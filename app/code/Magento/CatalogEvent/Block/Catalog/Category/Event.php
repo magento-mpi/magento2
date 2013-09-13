@@ -30,8 +30,8 @@ class Magento_CatalogEvent_Block_Catalog_Category_Event extends Magento_CatalogE
      *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_CatalogEvent_Helper_Data $catalogEventData
      * @param array $data
      */
@@ -91,8 +91,8 @@ class Magento_CatalogEvent_Block_Catalog_Category_Event extends Magento_CatalogE
      */
     public function canDisplay()
     {
-        return $this->_catalogEventData->isEnabled() &&
-               $this->getEvent() &&
-               $this->getEvent()->canDisplayCategoryPage();
+        return $this->_catalogEventData->isEnabled()
+            && $this->getEvent()
+            && $this->getEvent()->canDisplayCategoryPage();
     }
 }

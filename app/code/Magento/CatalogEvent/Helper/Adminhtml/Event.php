@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Catalog Event adminhtml data helper
  */
@@ -52,10 +51,10 @@ class Magento_CatalogEvent_Helper_Adminhtml_Event extends Magento_Core_Helper_Ab
         Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $factory,
         Magento_Catalog_Model_CategoryFactory $categoryFactory
     ) {
+        parent::__construct($context);
+
         $this->_eventCollectionFactory = $factory;
         $this->_categoryFactory = $categoryFactory;
-
-        parent::__construct($context);
     }
 
     /**

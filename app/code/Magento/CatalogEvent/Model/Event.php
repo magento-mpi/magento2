@@ -82,11 +82,11 @@ class Magento_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
      *
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_CatalogEvent_Model_Resource_Event $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_Dir $dir
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_CatalogEvent_Model_Resource_Event $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
