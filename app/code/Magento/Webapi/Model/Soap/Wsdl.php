@@ -12,11 +12,6 @@ use Zend\Soap\Wsdl;
 class Magento_Webapi_Model_Soap_Wsdl extends Wsdl
 {
     /**
-     * @var string|Zend\Uri\Uri
-     */
-    protected $_uri;
-
-    /**
      * Constructor.
      * Save URI for targetNamespace generation.
      *
@@ -29,7 +24,6 @@ class Magento_Webapi_Model_Soap_Wsdl extends Wsdl
         $uri,
         Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_AnyComplexType $strategy
     ) {
-        $this->_uri = $uri;
         parent::__construct($name, $uri, $strategy);
     }
 
