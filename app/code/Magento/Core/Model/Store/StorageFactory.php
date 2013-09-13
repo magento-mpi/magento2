@@ -75,8 +75,8 @@ class StorageFactory
         \Magento\Core\Model\ConfigInterface $config,
         \Magento\Core\Model\App\Proxy $app,
         \Magento\Core\Model\App\State $appState,
-        $defaultStorageClassName = '\Magento\Core\Model\Store\Storage\DefaultStorage',
-        $installedStoreClassName = '\Magento\Core\Model\Store\Storage\Db'
+        $defaultStorageClassName = 'Magento\Core\Model\Store\Storage\DefaultStorage',
+        $installedStoreClassName = 'Magento\Core\Model\Store\Storage\Db'
     ) {
         $this->_objectManager = $objectManager;
         $this->_defaultStorageClassName = $defaultStorageClassName;

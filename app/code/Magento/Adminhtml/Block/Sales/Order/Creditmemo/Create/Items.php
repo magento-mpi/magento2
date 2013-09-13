@@ -29,7 +29,7 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
     protected function _prepareLayout()
     {
         $onclick = "submitAndReloadArea($('creditmemo_item_container'),'".$this->getUpdateUrl()."')";
-        $this->addChild('update_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('update_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Update Qty\'s'),
             'class'     => 'update-button',
             'onclick'   => $onclick,
@@ -37,13 +37,13 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
 
         if ($this->getCreditmemo()->canRefund()) {
             if ($this->getCreditmemo()->getInvoice() && $this->getCreditmemo()->getInvoice()->getTransactionId()) {
-                $this->addChild('submit_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+                $this->addChild('submit_button', 'Magento\Adminhtml\Block\Widget\Button', array(
                     'label'     => __('Refund'),
                     'class'     => 'save submit-button refund',
                     'onclick'   => 'disableElements(\'submit-button\');submitCreditMemo()',
                 ));
             }
-            $this->addChild('submit_offline', '\Magento\Adminhtml\Block\Widget\Button', array(
+            $this->addChild('submit_offline', 'Magento\Adminhtml\Block\Widget\Button', array(
                 'label'     => __('Refund Offline'),
                 'class'     => 'save submit-button',
                 'onclick'   => 'disableElements(\'submit-button\');submitCreditMemoOffline()',
@@ -51,7 +51,7 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
 
         }
         else {
-            $this->addChild('submit_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+            $this->addChild('submit_button', 'Magento\Adminhtml\Block\Widget\Button', array(
                 'label'     => __('Refund Offline'),
                 'class'     => 'save submit-button',
                 'onclick'   => 'disableElements(\'submit-button\');submitCreditMemoOffline()',

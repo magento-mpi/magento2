@@ -58,7 +58,7 @@ class Giftmessage extends \Magento\Adminhtml\Block\Widget
      */
     protected function _prepareLayout()
     {
-        $this->addChild('save_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('save_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'   => __('Save Gift Message'),
             'class'   => 'save'
         ));

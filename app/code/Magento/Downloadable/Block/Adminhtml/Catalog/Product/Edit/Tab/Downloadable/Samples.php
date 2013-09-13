@@ -158,7 +158,7 @@ class Samples
      */
     protected function _prepareLayout()
     {
-        $this->addChild('upload_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('upload_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'id'      => '',
             'label'   => __('Upload Files'),
             'type'    => 'button',

@@ -34,7 +34,7 @@ class Amount
     {
         $this->setElement($element);
         $isAddButtonDisabled = ($element->getData('readonly_disabled') === true) ? true : false;
-        $this->addChild('add_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('add_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Add Amount'),
             'onclick'   => "giftcardAmountsControl.addItem('" . $this->getElement()->getHtmlId() . "')",
             'class'     => 'action-add',

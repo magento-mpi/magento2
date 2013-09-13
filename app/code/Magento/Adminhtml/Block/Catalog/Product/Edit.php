@@ -46,7 +46,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
     protected function _prepareLayout()
     {
         if (!$this->getRequest()->getParam('popup')) {
-            $this->addChild('back_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+            $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
                 'label' => __('Back'),
                 'title' => __('Back'),
                 'onclick' => 'setLocation(\''
@@ -54,7 +54,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
                 'class' => 'action-back'
             ));
         } else {
-            $this->addChild('back_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+            $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
                 'label' => __('Close Window'),
                 'onclick' => 'window.close()',
                 'class' => 'cancel'
@@ -62,14 +62,14 @@ class Edit extends \Magento\Adminhtml\Block\Widget
         }
 
         if (!$this->getProduct()->isReadonly()) {
-            $this->addChild('reset_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+            $this->addChild('reset_button', 'Magento\Adminhtml\Block\Widget\Button', array(
                 'label' => __('Reset'),
                 'onclick' => 'setLocation(\'' . $this->getUrl('*/*/*', array('_current' => true)) . '\')'
             ));
         }
 
         if (!$this->getProduct()->isReadonly()) {
-            $this->addChild('save-split-button', '\Magento\Backend\Block\Widget\Button\Split', array(
+            $this->addChild('save-split-button', 'Magento\Backend\Block\Widget\Button\Split', array(
                 'id' => 'save-split-button',
                 'label' => __('Save'),
                 'class_name' => '\Magento\Backend\Block\Widget\Button\Split',

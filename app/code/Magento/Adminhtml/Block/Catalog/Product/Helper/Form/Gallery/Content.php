@@ -26,7 +26,7 @@ class Content extends \Magento\Adminhtml\Block\Widget
 
     protected function _prepareLayout()
     {
-        $this->addChild('uploader', '\Magento\Adminhtml\Block\Media\Uploader');
+        $this->addChild('uploader', 'Magento\Adminhtml\Block\Media\Uploader');
 
         $this->getUploader()->getConfig()
             ->setUrl(

@@ -30,9 +30,9 @@ class Permissions
      */
     protected function _prepareLayout()
     {
-        $this->addChild('row', '\Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions\Row');
+        $this->addChild('row', 'Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions\Row');
 
-        $this->addChild('add_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('add_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('New Permission'),
             'class' => 'add' . ($this->isReadonly() ? ' disabled' : ''),
             'type'  => 'button',

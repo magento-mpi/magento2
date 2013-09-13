@@ -252,7 +252,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
     protected function _getDependence()
     {
         if (!$this->getChildBlock('element_dependence')) {
-            $this->addChild('element_dependence', '\Magento\Backend\Block\Widget\Form\Element\Dependence');
+            $this->addChild('element_dependence', 'Magento\Backend\Block\Widget\Form\Element\Dependence');
         }
         return $this->getChildBlock('element_dependence');
     }

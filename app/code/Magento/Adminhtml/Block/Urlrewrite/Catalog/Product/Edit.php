@@ -98,7 +98,7 @@ class Edit extends \Magento\Adminhtml\Block\Urlrewrite\Edit
     {
         /** @var $helper \Magento\Adminhtml\Helper\Data */
         $helper = \Mage::helper('Magento\Adminhtml\Helper\Data');
-        $this->addChild('product_link', '\Magento\Adminhtml\Block\Urlrewrite\Link', array(
+        $this->addChild('product_link', 'Magento\Adminhtml\Block\Urlrewrite\Link', array(
             'item_url'  => $helper->getUrl('*/*/*') . 'product',
             'item_name' => $this->_getProduct()->getName(),
             'label'     => __('Product:')
@@ -112,7 +112,7 @@ class Edit extends \Magento\Adminhtml\Block\Urlrewrite\Edit
     {
         /** @var $helper \Magento\Adminhtml\Helper\Data */
         $helper = \Mage::helper('Magento\Adminhtml\Helper\Data');
-        $this->addChild('category_link', '\Magento\Adminhtml\Block\Urlrewrite\Link', array(
+        $this->addChild('category_link', 'Magento\Adminhtml\Block\Urlrewrite\Link', array(
             'item_url'  => $helper->getUrl('*/*/*', array('product' => $this->_getProduct()->getId())) . 'category',
             'item_name' => $this->_getCategory()->getName(),
             'label'     => __('Category:')
@@ -124,7 +124,7 @@ class Edit extends \Magento\Adminhtml\Block\Urlrewrite\Edit
      */
     private function _addProductsGridBlock()
     {
-        $this->addChild('products_grid', '\Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Grid');
+        $this->addChild('products_grid', 'Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Grid');
     }
 
     /**
@@ -132,7 +132,7 @@ class Edit extends \Magento\Adminhtml\Block\Urlrewrite\Edit
      */
     private function _addCategoriesTreeBlock()
     {
-        $this->addChild('categories_tree', '\Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree');
+        $this->addChild('categories_tree', 'Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree');
     }
 
     /**
@@ -142,7 +142,7 @@ class Edit extends \Magento\Adminhtml\Block\Urlrewrite\Edit
     {
         /** @var $helper \Magento\Adminhtml\Helper\Data */
         $helper = \Mage::helper('Magento\Adminhtml\Helper\Data');
-        $this->addChild('skip_categories', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('skip_categories', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Skip Category Selection'),
             'onclick' => 'window.location = \''
                 . $helper->getUrl('*/*/*', array('product' => $this->_getProduct()->getId())) . '\'',

@@ -30,7 +30,7 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
     protected function _beforeToHtml()
     {
         $onclick = "submitAndReloadArea($('invoice_item_container'),'".$this->getUpdateUrl()."')";
-        $this->addChild('update_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('update_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'class'     => 'update-button',
             'label'     => __('Update Qty\'s'),
             'onclick'   => $onclick,
@@ -52,7 +52,7 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
         } else {
             $_submitLabel = __('Submit Invoice');
         }
-        $this->addChild('submit_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('submit_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => $_submitLabel,
             'class'     => 'save submit-button' . $_submitButtonClass,
             'onclick'   => 'disableElements(\'submit-button\');$(\'edit_form\').submit()',

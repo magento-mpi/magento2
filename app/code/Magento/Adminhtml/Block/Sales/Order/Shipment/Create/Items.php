@@ -55,7 +55,7 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
      */
     protected function _beforeToHtml()
     {
-        $this->addChild('submit_button', '\Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('submit_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Submit Shipment'),
             'class'     => 'save submit-button',
             'onclick'   => 'submitShipment(this);',

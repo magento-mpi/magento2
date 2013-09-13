@@ -66,7 +66,7 @@ class Edit extends \Magento\Adminhtml\Block\Urlrewrite\Edit
     {
         /** @var $helper \Magento\Adminhtml\Helper\Data */
         $helper = \Mage::helper('Magento\Adminhtml\Helper\Data');
-        $this->addChild('cms_page_link', '\Magento\Adminhtml\Block\Urlrewrite\Link', array(
+        $this->addChild('cms_page_link', 'Magento\Adminhtml\Block\Urlrewrite\Link', array(
             'item_url'  => $helper->getUrl('*/*/*') . 'cms_page',
             'item_name' => $this->getCmsPage()->getTitle(),
             'label'     => __('CMS page:')
@@ -78,7 +78,7 @@ class Edit extends \Magento\Adminhtml\Block\Urlrewrite\Edit
      */
     private function _addCmsPageGridBlock()
     {
-        $this->addChild('cms_pages_grid', '\Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid');
+        $this->addChild('cms_pages_grid', 'Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid');
     }
 
     /**
