@@ -11,17 +11,17 @@ class Magento_Test_Integrity_Magento_Install_ConfigTest extends Integrity_Config
 {
     public function testFileSchemaUsingPartialXml()
     {
-        $this->markTestSkipped('countries.xml does not have a partial schema');
+        $this->markTestSkipped('invalid_install_wizard.xml does not have a partial schema');
     }
 
     public function testFileSchemaUsingInvalidXml()
     {
-        $this->markTestSkipped('countries.xml does not have a partial schema');
+        $this->markTestSkipped('invalid_install_wizard.xml does not have a partial schema');
     }
 
     public function testSchemaUsingPartialXml()
     {
-        $this->markTestSkipped('countries.xml does not have a partial schema');
+        $this->markTestSkipped('invalid_install_wizard.xml does not have a partial schema');
     }
 
     protected function _getXsd()

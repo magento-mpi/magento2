@@ -9,7 +9,8 @@
  * @license     {license_link}
  */
 -->
-<install_wizard xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./install_wizard.xsd" invalid_attribute="true">
+<install_wizard xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:noNamespaceSchemaLocation="./install_wizard.xsd" invalid_attribute="true">
     <steps>
         <step id="begin" controller="wizard" action="begin">
             <label translate="true">Begin</label>
