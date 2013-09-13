@@ -25,10 +25,11 @@ class Magento_Logging_Model_Observer
     /**
      * Initialize Magento_Logging_Model_Processor class
      *
+     * @param Magento_Logging_Model_Processor $processor
      */
-    public function __construct()
+    public function __construct(Magento_Logging_Model_Processor $processor)
     {
-        $this->_processor = Mage::getSingleton('Magento_Logging_Model_Processor');
+        $this->_processor = $processor;
     }
 
     /**
@@ -151,7 +152,7 @@ class Magento_Logging_Model_Observer
     protected function _logAdminLogin($username, $userId = null)
     {
         $eventCode = 'admin_login';
-        if (!Mage::getSingleton('Magento_Logging_Model_Config')->isActive($eventCode, true)) {
+        if (!Mage::getSingleton('Magento_Logging_Model_Config')->isEventGroupLogged($eventCode)) {
             return;
         }
         $success = (bool)$userId;

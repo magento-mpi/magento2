@@ -10,7 +10,7 @@
  */
 -->
 <logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging_file.xsd">
+         xsi:noNamespaceSchemaLocation="../../../../../../../../../app/code/Magento/Logging/etc/logging_file.xsd">
     <groups>
         <group name="magento_reward_rate">
             <label translate="true">Reward Points Rates</label>

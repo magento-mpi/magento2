@@ -879,9 +879,9 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     /**
      * Custom handler for giftregistry share email action
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
-     * @param object $processor
+     * @param Magento_Logging_Model_Processor $processor
      * @return Magento_Logging_Model_Event
      */
     public function postDispatchShare($config, $eventModel, $processor)
