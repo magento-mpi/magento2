@@ -44,9 +44,10 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Class constructor. Initialize session namespace
      *
+     * @param Magento_Core_Model_logger $logger
      * @param string $sessionName
      */
-    public function __construct($sessionName = null)
+    public function __construct(Magento_Core_Model_Logger $logger, $sessionName = null)
     {
         $namespace = 'customer';
         if ($this->getCustomerConfigShare()->isWebsiteScope()) {
@@ -55,6 +56,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
 
         $this->init($namespace, $sessionName);
         Mage::dispatchEvent('customer_session_init', array('customer_session'=>$this));
+        parent::__construct($logger);
     }
 
     /**

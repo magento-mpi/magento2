@@ -55,6 +55,23 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
     protected $_canConfigure            = true;
 
     /**
+     * Initialize data
+     *
+     * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Logger $logger
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Filesystem $filesystem,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Logger $logger,
+        array $data = array()
+    ) {
+        parent::__construct($filesystem, $coreRegistry, $logger, $data);
+    }
+
+    /**
      * Return relation info about used products
      *
      * @return Magento_Object Object with information data

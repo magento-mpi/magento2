@@ -20,6 +20,23 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     const TYPE_DOWNLOADABLE = 'downloadable';
 
     /**
+     * Initialize data
+     *
+     * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Logger $logger
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Filesystem $filesystem,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Logger $logger,
+        array $data = array()
+    ) {
+        parent::__construct($filesystem, $coreRegistry, $logger, $data);
+    }
+
+    /**
      * Get downloadable product links
      *
      * @param Magento_Catalog_Model_Product $product
