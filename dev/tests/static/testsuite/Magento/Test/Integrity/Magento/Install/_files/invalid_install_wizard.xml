@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Install
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<install_wizard xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./install_wizard.xsd" invalid_attribute="true">
+    <steps invalid_attribute="true">
+        <step id="collect" controller="wizard" action="collect">
+            <label translate="true">Collect</label>
+        </step>
+        <step id="question" controller="wizard" action="question">
+            <label translate="true">Question</label>
+        </step>
+        <step id="profit" controller="wizard" action="profit">
+            <label translate="true">Profit</label>
+        </step>
+    </steps>
+    <filesystem_prerequisites>
+        <directory alias="etc" recursive="false" existence="true" writable="true" />
+        <directory alias="var" recursive="true" existence="true" writable="true" />
+        <directory alias="media" recursive="true" existence="true" writable="true" />
+    </filesystem_prerequisites>
+</install_wizard>
