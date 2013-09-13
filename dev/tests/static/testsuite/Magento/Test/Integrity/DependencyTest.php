@@ -415,7 +415,7 @@ class Magento_Test_Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     {
         $file = self::_getRelativeFilename($absoluteFilename);
         if (preg_match('/\/(?<namespace>' . self::$_namespaces . ')[\/_]?(?<module>[^\/]+)\//', $file, $matches)) {
-            return $matches['namespace'] . '_' . $matches['module'];
+            return $matches['namespace'] . '\\' . $matches['module'];
         }
     }
 
@@ -475,7 +475,7 @@ class Magento_Test_Integrity_DependencyTest extends PHPUnit_Framework_TestCase
         $files = Magento_TestFramework_Utility_Files::init()->getConfigFiles('config.xml', array(), false);
         foreach ($files as $file) {
             if (preg_match('/(?<namespace>[A-Z][a-z]+)[_\/](?<module>[A-Z][a-zA-Z]+)/', $file, $matches)) {
-                $module = $matches['namespace'] . '_' . $matches['module'];
+                $module = $matches['namespace'] . '\\' . $matches['module'];
                 self::$_listConfigXml[$module] = $file;
             }
         }
@@ -497,7 +497,7 @@ class Magento_Test_Integrity_DependencyTest extends PHPUnit_Framework_TestCase
             if (preg_match($pattern, $file, $matches)) {
 
                 $chunks = explode('/', strtolower($matches['path']));
-                $module = $matches['namespace'] . '_' . $matches['module'];
+                $module = $matches['namespace'] . '\\' . $matches['module'];
 
                 // Read module's config.xml file
                 $config = simplexml_load_file(self::$_listConfigXml[$module]);
@@ -517,10 +517,10 @@ class Magento_Test_Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                     }
                 }
 
-                $controllerName = implode('_', $chunks);
+                $controllerName = implode('\\', $chunks);
                 foreach ($nodes as $node) {
                     /** @var SimpleXMLElement $node */
-                    $path = $node->getName() ? $node->getName() . '_' . $controllerName : $controllerName;
+                    $path = $node->getName() ? $node->getName() . '\\' . $controllerName : $controllerName;
                     if (isset(self::$_mapRouters[$path]) && (self::$_mapRouters[$path] == 'Magento_Adminhtml')) {
                         continue;
                     }
@@ -546,7 +546,7 @@ class Magento_Test_Integrity_DependencyTest extends PHPUnit_Framework_TestCase
             }
 
             if (preg_match('/(?<namespace>[A-Z][a-z]+)[_\/](?<module>[A-Z][a-zA-Z]+)/', $file, $matches)) {
-                $module = $matches['namespace'] . '_' . $matches['module'];
+                $module = $matches['namespace'] . '\\' . $matches['module'];
 
                 $xml = simplexml_load_file($file);
                 foreach ((array)$xml->xpath('//container | //block') as $element) {
@@ -581,7 +581,7 @@ class Magento_Test_Integrity_DependencyTest extends PHPUnit_Framework_TestCase
             }
 
             if (preg_match('/app\/code\/(?<namespace>[A-Z][a-z]+)[_\/](?<module>[A-Z][a-zA-Z]+)/', $file, $matches)) {
-                $module = $matches['namespace'] . '_' . $matches['module'];
+                $module = $matches['namespace'] . '\\' . $matches['module'];
 
                 $xml = simplexml_load_file($file);
                 foreach ((array)$xml->xpath('/layout/child::*') as $element) {
@@ -624,6 +624,7 @@ class Magento_Test_Integrity_DependencyTest extends PHPUnit_Framework_TestCase
 
             $module = $config->xpath("/config/module") ?: array();
             $moduleName = (string)$module[0]->attributes()->name;
+            $moduleName = str_replace('_', '\\', $moduleName);
 
             if (!isset(self::$_mapDependencies[$moduleName])) {
                 self::$_mapDependencies[$moduleName] = array();
@@ -644,7 +645,7 @@ class Magento_Test_Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                     : self::TYPE_HARD;
                 if ($dependency->getName() == 'module') {
                     self::_addDependencies($moduleName, $type, self::MAP_TYPE_DECLARED,
-                        (string)$dependency->attributes()->name);
+                        str_replace('_', '\\', (string)$dependency->attributes()->name));
                 }
             }
         }

@@ -28,8 +28,8 @@ class Magento_TestFramework_Dependency_PhpRule implements Magento_TestFramework_
             return array();
         }
 
-        $pattern = '~\b(?<class>(?<module>(' . implode('_|',
-                Magento_TestFramework_Utility_Files::init()->getNamespaces()) . '_)[a-zA-Z0-9]+)[a-zA-Z0-9_]*)\b~';
+        $pattern = '~\b(?<class>(?<module>(' . implode('_',
+                Magento_TestFramework_Utility_Files::init()->getNamespaces()) . '[_|\\\\])[a-zA-Z0-9]+)[a-zA-Z0-9_\\\\]*)\b~';
 
         $dependenciesInfo = array();
         if (preg_match_all($pattern, $contents, $matches)) {
