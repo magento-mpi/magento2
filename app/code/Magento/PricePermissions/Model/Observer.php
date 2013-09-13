@@ -81,6 +81,13 @@ class Magento_PricePermissions_Model_Observer
     );
 
     /**
+     * Price permissions data
+     *
+     * @var Magento_PricePermissions_Helper_Data
+     */
+    protected $_pricePermData = null;
+
+    /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -88,18 +95,17 @@ class Magento_PricePermissions_Model_Observer
     protected $_coreRegistry = null;
 
     /**
-     * Price Permissions Observer class constructor
-     *
-     * Sets necessary data
-     *
+     * @param Magento_PricePermissions_Helper_Data $pricePermData
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param  $data
      */
     public function __construct(
+        Magento_PricePermissions_Helper_Data $pricePermData,
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_pricePermData = $pricePermData;
         $this->_request = (isset($data['request']) && false === $data['request']) ? false : Mage::app()->getRequest();
         if (isset($data['can_edit_product_price']) && false === $data['can_edit_product_price']) {
             $this->_canEditProductPrice = false;
@@ -129,7 +135,7 @@ class Magento_PricePermissions_Model_Observer
         if ($session->isLoggedIn() && $session->getUser()->getRole()) {
             // Set all necessary flags
             /** @var $helper Magento_PricePermissions_Helper_Data */
-            $helper = Mage::helper('Magento_PricePermissions_Helper_Data');
+            $helper = $this->_pricePermData;
             $this->_canEditProductPrice = $helper->getCanAdminEditProductPrice();
             $this->_canReadProductPrice = $helper->getCanAdminReadProductPrice();
             $this->_canEditProductStatus = $helper->getCanAdminEditProductStatus();
@@ -348,7 +354,7 @@ class Magento_PricePermissions_Model_Observer
      */
     protected function _removeColumnFromGrid($block, $column)
     {
-        if (!$block instanceof Magento_Adminhtml_Block_Widget_Grid) {
+        if (!$block instanceof Magento_Backend_Block_Widget_Grid_Extended) {
             return false;
         }
         return $block->removeColumn($column);

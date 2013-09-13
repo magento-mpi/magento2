@@ -110,7 +110,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Info
      */
     public function getAllowPrintedCard()
     {
-        return Mage::helper('Magento_GiftWrapping_Helper_Data')->allowPrintedCard($this->getStoreId());
+        return $this->_giftWrappingData->allowPrintedCard($this->getStoreId());
     }
 
     /**
@@ -120,7 +120,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Info
      */
     public function getAllowGiftReceipt()
     {
-        return Mage::helper('Magento_GiftWrapping_Helper_Data')->allowGiftReceipt($this->getStoreId());
+        return $this->_giftWrappingData->allowGiftReceipt($this->getStoreId());
     }
 
     /**

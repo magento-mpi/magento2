@@ -43,7 +43,7 @@ class Magento_Persistent_Controller_Index extends Magento_Core_Controller_Front_
      */
     protected function _getHelper()
     {
-        return Mage::helper('Magento_Persistent_Helper_Session');
+        return $this->_objectManager->get('Magento_Persistent_Helper_Session');
     }
 
     /**

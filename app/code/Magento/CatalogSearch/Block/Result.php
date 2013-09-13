@@ -26,6 +26,29 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
     protected $_productCollection;
 
     /**
+     * Catalog search data
+     *
+     * @var Magento_CatalogSearch_Helper_Data
+     */
+    protected $_catalogSearchData = null;
+
+    /**
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogSearchData = $catalogSearchData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve query model object
      *
      * @return Magento_CatalogSearch_Model_Query
@@ -181,7 +204,7 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
      */
     public function getNoResultText()
     {
-        if (Mage::helper('Magento_CatalogSearch_Helper_Data')->isMinQueryLength()) {
+        if ($this->_catalogSearchData->isMinQueryLength()) {
             return __('Minimum Search query length is %1', $this->_getQuery()->getMinQueryLength());
         }
         return $this->_getData('no_result_text');
@@ -194,6 +217,6 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
      */
     public function getNoteMessages()
     {
-        return Mage::helper('Magento_CatalogSearch_Helper_Data')->getNoteMessages();
+        return $this->_catalogSearchData->getNoteMessages();
     }
 }

@@ -18,6 +18,10 @@ class Magento_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_
 
     protected function setUp()
     {
+        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+
+        $fileStorageDb = $this->getMock('Magento_Core_Helper_File_Storage_Database', array(), array(), '', false);
+        $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
         $resource = $this->getMock('StdClass', array('getMainTable'));
         $resource->expects($this->any())
             ->method('getMainTable')
@@ -27,6 +31,9 @@ class Magento_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_
         $dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
         $this->_model = new Magento_Catalog_Model_Product_Attribute_Backend_Media(
+            $eventManager,
+            $fileStorageDb,
+            $coreData,
             $mediaConfig,
             $dirs,
             $filesystem,

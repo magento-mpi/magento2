@@ -26,7 +26,7 @@ class Magento_GoogleShopping_Model_Attribute_Id extends Magento_GoogleShopping_M
      */
     public function convertAttribute($product, $entry)
     {
-        $value = Mage::helper('Magento_GoogleShopping_Helper_Data')->buildContentProductId($product->getId(), $product->getStoreId());
+        $value = $this->_gsData->buildContentProductId($product->getId(), $product->getStoreId());
         return $this->_setAttribute($entry, 'id', self::ATTRIBUTE_TYPE_TEXT, $value);
     }
 }

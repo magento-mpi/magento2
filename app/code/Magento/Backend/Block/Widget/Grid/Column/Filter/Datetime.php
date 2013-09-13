@@ -16,7 +16,8 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @todo        date format
  */
-class Magento_Backend_Block_Widget_Grid_Column_Filter_Datetime extends Magento_Backend_Block_Widget_Grid_Column_Filter_Date
+class Magento_Backend_Block_Widget_Grid_Column_Filter_Datetime
+    extends Magento_Backend_Block_Widget_Grid_Column_Filter_Date
 {
     /**
      * full day is 86400, we need 23 hours:59 minutes:59 seconds = 86399
@@ -91,7 +92,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Datetime extends Magento_B
      */
     public function getHtml()
     {
-        $htmlId = Mage::helper('Magento_Core_Helper_Data')->uniqHash($this->_getHtmlId());
+        $htmlId = $this->_coreData->uniqHash($this->_getHtmlId());
         $format = $this->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
         $timeFormat = '';
 

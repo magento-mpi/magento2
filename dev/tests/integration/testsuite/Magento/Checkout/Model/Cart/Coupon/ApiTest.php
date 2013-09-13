@@ -18,6 +18,11 @@ class Magento_Checkout_Model_Cart_Coupon_ApiTest extends PHPUnit_Framework_TestC
     /** @var Magento_SalesRule_Model_Rule */
     protected $_salesRule;
 
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * We can't put this code inside setUp() as it will be called before fixtures execution
      */

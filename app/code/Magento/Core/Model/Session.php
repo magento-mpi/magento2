@@ -21,10 +21,28 @@
 class Magento_Core_Model_Session extends Magento_Core_Model_Session_Abstract
 {
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param array $data
      * @param string $sessionName
      */
-    public function __construct($sessionName = null)
-    {
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Http $coreHttp,
+        array $data = array(),
+        $sessionName = null
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($eventManager, $coreHttp, $data);
         $this->init('core', $sessionName);
     }
 
@@ -36,7 +54,7 @@ class Magento_Core_Model_Session extends Magento_Core_Model_Session_Abstract
     public function getFormKey()
     {
         if (!$this->getData('_form_key')) {
-            $this->setData('_form_key', Mage::helper('Magento_Core_Helper_Data')->getRandomString(16));
+            $this->setData('_form_key', $this->_coreData->getRandomString(16));
         }
         return $this->getData('_form_key');
     }

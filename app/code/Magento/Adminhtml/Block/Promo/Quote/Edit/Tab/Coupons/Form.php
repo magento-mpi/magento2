@@ -17,27 +17,33 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
-    extends Magento_Adminhtml_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
-     * Core registry
+     * Sales rule coupon
      *
-     * @var Magento_Core_Model_Registry
+     * @var Magento_SalesRule_Helper_Coupon
      */
-    protected $_coreRegistry = null;
+    protected $_salesRuleCoupon = null;
 
     /**
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_SalesRule_Helper_Coupon $salesRuleCoupon
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
+        Magento_SalesRule_Helper_Coupon $salesRuleCoupon,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        $this->_salesRuleCoupon = $salesRuleCoupon;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     /**
@@ -47,12 +53,13 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         /**
          * @var Magento_SalesRule_Helper_Coupon $couponHelper
          */
-        $couponHelper = Mage::helper('Magento_SalesRule_Helper_Coupon');
+        $couponHelper = $this->_salesRuleCoupon;
 
         $model = $this->_coreRegistry->registry('current_promo_quote_rule');
         $ruleId = $model->getId();
@@ -135,7 +142,9 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
 
         $this->setForm($form);
 
-        Mage::dispatchEvent('adminhtml_promo_quote_edit_tab_coupons_form_prepare_form', array('form' => $form));
+        $this->_eventManager->dispatch('adminhtml_promo_quote_edit_tab_coupons_form_prepare_form', array(
+            'form' => $form,
+        ));
 
         return parent::_prepareForm();
     }

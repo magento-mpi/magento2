@@ -108,12 +108,12 @@ abstract class Magento_Wishlist_Controller_Abstract extends Magento_Core_Control
         }
 
         if ($isOwner) {
-            $indexUrl = Mage::helper('Magento_Wishlist_Helper_Data')->getListUrl($wishlist->getId());
+            $indexUrl = $this->_objectManager->get('Magento_Wishlist_Helper_Data')->getListUrl($wishlist->getId());
         } else {
             $indexUrl = Mage::getUrl('wishlist/shared', array('code' => $wishlist->getSharingCode()));
         }
-        if (Mage::helper('Magento_Checkout_Helper_Cart')->getShouldRedirectToCart()) {
-            $redirectUrl = Mage::helper('Magento_Checkout_Helper_Cart')->getCartUrl();
+        if ($this->_objectManager->get('Magento_Checkout_Helper_Cart')->getShouldRedirectToCart()) {
+            $redirectUrl = $this->_objectManager->get('Magento_Checkout_Helper_Cart')->getCartUrl();
         } else if ($this->_getRefererUrl()) {
             $redirectUrl = $this->_getRefererUrl();
         } else {
@@ -175,7 +175,7 @@ abstract class Magento_Wishlist_Controller_Abstract extends Magento_Core_Control
         // save cart and collect totals
         $cart->save()->getQuote()->collectTotals();
 
-        Mage::helper('Magento_Wishlist_Helper_Data')->calculate();
+        $this->_objectManager->get('Magento_Wishlist_Helper_Data')->calculate();
 
         $this->_redirectUrl($redirectUrl);
     }

@@ -31,6 +31,6 @@ class Magento_TestFramework_Response extends Magento_Core_Controller_Response_Ht
 
     public function sendResponse()
     {
-        Mage::dispatchEvent('http_response_send_before', array('response'=>$this));
+        $this->_eventManager->dispatch('http_response_send_before', array('response'=>$this));
     }
 }

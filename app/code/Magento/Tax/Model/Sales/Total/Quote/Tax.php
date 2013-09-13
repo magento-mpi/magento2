@@ -18,7 +18,7 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
      *
      * @var Magento_Tax_Helper_Data
      */
-    protected $_helper;
+    protected $_taxData;
 
     /**
      * Tax calculation model
@@ -58,10 +58,11 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
     /**
      * Class constructor
      */
-    public function __construct()
-    {
+    public function __construct(
+        Magento_Tax_Helper_Data $taxData
+    ) {
         $this->setCode('tax');
-        $this->_helper      = Mage::helper('Magento_Tax_Helper_Data');
+        $this->_taxData = $taxData;
         $this->_calculator  = Mage::getSingleton('Magento_Tax_Model_Calculation');
         $this->_config      = Mage::getSingleton('Magento_Tax_Model_Config');
     }
@@ -201,7 +202,7 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
 
         $hiddenTax      = null;
         $baseHiddenTax  = null;
-        switch ($this->_helper->getCalculationSequence($this->_store)) {
+        switch ($this->_taxData->getCalculationSequence($this->_store)) {
             case Magento_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_EXCL:
             case Magento_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
                 $tax        = $this->_calculator->calcTaxAmount($shipping, $rate, $inclTax, false);
@@ -471,7 +472,7 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
 
         $hiddenTax      = null;
         $baseHiddenTax  = null;
-        switch ($this->_helper->getCalculationSequence($this->_store)) {
+        switch ($this->_taxData->getCalculationSequence($this->_store)) {
             case Magento_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_EXCL:
             case Magento_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
                 $rowTax     = $this->_calculator->calcTaxAmount($subtotal, $rate, $inclTax);
@@ -606,7 +607,7 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
 
         $hiddenTax      = null;
         $baseHiddenTax  = null;
-        switch ($this->_helper->getCalculationSequence($this->_store)) {
+        switch ($this->_taxData->getCalculationSequence($this->_store)) {
             case Magento_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_EXCL:
             case Magento_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
                 $rowTax             = $this->_calculator->calcTaxAmount($subtotal, $rate, $inclTax, false);
@@ -614,7 +615,7 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
                 break;
             case Magento_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_EXCL:
             case Magento_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL:
-                if ($this->_helper->applyTaxOnOriginalPrice($this->_store)) {
+                if ($this->_taxData->applyTaxOnOriginalPrice($this->_store)) {
                     $discount           = $item->getOriginalDiscountAmount();
                     $baseDiscount       = $item->getBaseOriginalDiscountAmount();
                 } else {
@@ -839,7 +840,7 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
      */
     public function processConfigArray($config, $store)
     {
-        $calculationSequence = $this->_helper->getCalculationSequence($store);
+        $calculationSequence = $this->_taxData->getCalculationSequence($store);
          switch ($calculationSequence) {
             case Magento_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
                 $config['before'][] = 'discount';

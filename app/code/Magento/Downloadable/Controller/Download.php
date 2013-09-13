@@ -40,7 +40,7 @@ class Magento_Downloadable_Controller_Download extends Magento_Core_Controller_F
 
     protected function _processDownload($resource, $resourceType)
     {
-        $helper = Mage::helper('Magento_Downloadable_Helper_Download');
+        $helper = $this->_objectManager->get('Magento_Downloadable_Helper_Download');
         /* @var $helper Magento_Downloadable_Helper_Download */
 
         $helper->setResource($resource, $resourceType);
@@ -87,7 +87,7 @@ class Magento_Downloadable_Controller_Download extends Magento_Core_Controller_F
                 $resource = $sample->getSampleUrl();
                 $resourceType = Magento_Downloadable_Helper_Download::LINK_TYPE_URL;
             } elseif ($sample->getSampleType() == Magento_Downloadable_Helper_Download::LINK_TYPE_FILE) {
-                $resource = Mage::helper('Magento_Downloadable_Helper_File')->getFilePath(
+                $resource = $this->_objectManager->get('Magento_Downloadable_Helper_File')->getFilePath(
                     Magento_Downloadable_Model_Sample::getBasePath(), $sample->getSampleFile()
                 );
                 $resourceType = Magento_Downloadable_Helper_Download::LINK_TYPE_FILE;
@@ -117,7 +117,7 @@ class Magento_Downloadable_Controller_Download extends Magento_Core_Controller_F
                 $resource = $link->getSampleUrl();
                 $resourceType = Magento_Downloadable_Helper_Download::LINK_TYPE_URL;
             } elseif ($link->getSampleType() == Magento_Downloadable_Helper_Download::LINK_TYPE_FILE) {
-                $resource = Mage::helper('Magento_Downloadable_Helper_File')->getFilePath(
+                $resource = $this->_objectManager->get('Magento_Downloadable_Helper_File')->getFilePath(
                     Magento_Downloadable_Model_Link::getBaseSamplePath(), $link->getSampleFile()
                 );
                 $resourceType = Magento_Downloadable_Helper_Download::LINK_TYPE_FILE;
@@ -143,7 +143,7 @@ class Magento_Downloadable_Controller_Download extends Magento_Core_Controller_F
             $this->_getCustomerSession()->addNotice(__("We can't find the link you requested."));
             return $this->_redirect('*/customer/products');
         }
-        if (!Mage::helper('Magento_Downloadable_Helper_Data')->getIsShareable($linkPurchasedItem)) {
+        if (!$this->_objectManager->get('Magento_Downloadable_Helper_Data')->getIsShareable($linkPurchasedItem)) {
             $customerId = $this->_getCustomerSession()->getCustomerId();
             if (!$customerId) {
                 $product = Mage::getModel('Magento_Catalog_Model_Product')->load($linkPurchasedItem->getProductId());
@@ -178,7 +178,7 @@ class Magento_Downloadable_Controller_Download extends Magento_Core_Controller_F
                 $resource = $linkPurchasedItem->getLinkUrl();
                 $resourceType = Magento_Downloadable_Helper_Download::LINK_TYPE_URL;
             } elseif ($linkPurchasedItem->getLinkType() == Magento_Downloadable_Helper_Download::LINK_TYPE_FILE) {
-                $resource = Mage::helper('Magento_Downloadable_Helper_File')->getFilePath(
+                $resource = $this->_objectManager->get('Magento_Downloadable_Helper_File')->getFilePath(
                     Magento_Downloadable_Model_Link::getBasePath(), $linkPurchasedItem->getLinkFile()
                 );
                 $resourceType = Magento_Downloadable_Helper_Download::LINK_TYPE_FILE;

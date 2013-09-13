@@ -12,27 +12,8 @@
  * Reminder rules edit form email templates and labels fields
  */
 class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
-    extends Magento_Adminhtml_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
-    /**
-     * Core registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
-    }
-
     /**
      * Prepare general properties form
      *
@@ -40,9 +21,10 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $model = $this->_coreRegistry->registry('current_reminder_rule');
-
+        
         $fieldset = $form->addFieldset('email_fieldset', array(
             'legend' => __('Email Templates'),
             'class'  => 'tree-store-scope',

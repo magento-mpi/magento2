@@ -17,7 +17,7 @@ class Magento_Checkout_Block_CartTest extends PHPUnit_Framework_TestCase
     public function testGetMethods()
     {
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
         $child = $layout->createBlock('Magento_Core_Block_Text')
             ->setChild('child1', $layout->createBlock('Magento_Core_Block_Text', 'method1'))
             ->setChild('child2', $layout->createBlock('Magento_Core_Block_Text', 'method2'));
@@ -31,7 +31,7 @@ class Magento_Checkout_Block_CartTest extends PHPUnit_Framework_TestCase
     public function testGetMethodsEmptyChild()
     {
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
         $childEmpty = $layout->createBlock('Magento_Core_Block_Text');
         /** @var $block Magento_Checkout_Block_Cart */
         $block = $layout->createBlock('Magento_Checkout_Block_Cart')
@@ -43,7 +43,7 @@ class Magento_Checkout_Block_CartTest extends PHPUnit_Framework_TestCase
     public function testGetMethodsNoChild()
     {
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
         /** @var $block Magento_Checkout_Block_Cart */
         $block = $layout->createBlock('Magento_Checkout_Block_Cart');
         $methods = $block->getMethods('child');

@@ -12,6 +12,30 @@
 class Magento_Weee_Model_Total_Invoice_Weee extends Magento_Sales_Model_Order_Invoice_Total_Abstract
 {
     /**
+     * Weee data
+     *
+     * @var Magento_Weee_Helper_Data
+     */
+    protected $_weeeData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Weee_Helper_Data $weeeData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Weee_Helper_Data $weeeData,
+        array $data = array()
+    ) {
+        $this->_weeeData = $weeeData;
+        parent::__construct($data);
+    }
+
+    /**
      * Weee tax collector
      *
      * @param Magento_Sales_Model_Order_Invoice $invoice
@@ -38,7 +62,7 @@ class Magento_Weee_Model_Total_Invoice_Weee extends Magento_Sales_Model_Order_In
             $item->setWeeeTaxAppliedRowAmount($weeeTaxAmount);
             $item->setBaseWeeeTaxAppliedRowAmount($baseWeeeTaxAmount);
             $newApplied = array();
-            $applied = Mage::helper('Magento_Weee_Helper_Data')->getApplied($item);
+            $applied = $this->_weeeData->getApplied($item);
             foreach ($applied as $one) {
                 $one['base_row_amount'] = $one['base_amount'] * $item->getQty();
                 $one['row_amount'] = $one['amount'] * $item->getQty();
@@ -47,7 +71,7 @@ class Magento_Weee_Model_Total_Invoice_Weee extends Magento_Sales_Model_Order_In
 
                 $newApplied[] = $one;
             }
-            Mage::helper('Magento_Weee_Helper_Data')->setApplied($item, $newApplied);
+            $this->_weeeData->setApplied($item, $newApplied);
 
             $item->setWeeeTaxRowDisposition($item->getWeeeTaxDisposition() * $item->getQty());
             $item->setBaseWeeeTaxRowDisposition($item->getBaseWeeeTaxDisposition() * $item->getQty());
@@ -65,7 +89,7 @@ class Magento_Weee_Model_Total_Invoice_Weee extends Magento_Sales_Model_Order_In
          * it can happen that other collector will take some FPT value from shared subtotal/tax order value
          */
         $order = $invoice->getOrder();
-        if (Mage::helper('Magento_Weee_Helper_Data')->includeInSubtotal($store)) {
+        if ($this->_weeeData->includeInSubtotal($store)) {
             $allowedSubtotal = $order->getSubtotal() - $order->getSubtotalInvoiced() - $invoice->getSubtotal();
             $allowedBaseSubtotal = $order->getBaseSubtotal() - $order->getBaseSubtotalInvoiced()
                 - $invoice->getBaseSubtotal();

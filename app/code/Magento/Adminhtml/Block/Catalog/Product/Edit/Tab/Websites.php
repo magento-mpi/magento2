@@ -31,6 +31,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites extends Magento_
     /**
      * Constructor
      *
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_App $application
      * @param Magento_Core_Model_Website_Factory $websiteFactory
@@ -40,6 +41,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites extends Magento_
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_App $application,
         Magento_Core_Model_Website_Factory $websiteFactory,
@@ -49,7 +51,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites extends Magento_
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $application, $websiteFactory, $storeGroupFactory, $storeFactory, $data);
+        parent::__construct(
+            $coreData, $context, $application, $websiteFactory, $storeGroupFactory, $storeFactory, $data
+        );
     }
 
     /**

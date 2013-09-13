@@ -85,7 +85,7 @@ class Magento_Core_Model_LoggerTest extends PHPUnit_Framework_TestCase
             ->method('getNode')
             ->with('global/log/core/writer_model')
             ->will($this->returnValue('StdClass'));
-        $store = $this->getMock('Magento_Core_Model_Store', array('getConfig'), array(), '', false);
+        $store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
         $store->expects($this->at(0))->method('getConfig')->with('dev/log/active')->will($this->returnValue(false));
         $store->expects($this->at(1))->method('getConfig')->with('dev/log/active')->will($this->returnValue(true));
         $store->expects($this->at(2))->method('getConfig')->with('dev/log/file')->will($this->returnValue(''));
@@ -106,7 +106,7 @@ class Magento_Core_Model_LoggerTest extends PHPUnit_Framework_TestCase
     public function testAddStoreLog()
     {
         $this->_filesystemMock->expects($this->once())->method('checkAndCreateFolder');
-        $store = $this->getMock('Magento_Core_Model_Store', array('getConfig'), array(), '', false);
+        $store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
         $store->expects($this->at(0))->method('getConfig')->with('dev/log/active')->will($this->returnValue(false));
         $store->expects($this->at(1))->method('getConfig')->with('dev/log/active')->will($this->returnValue(true));
         $key = uniqid();

@@ -18,6 +18,11 @@
 class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_Product
 {
     /**
+     * @var Magento_Core_Controller_Request_HttpFactory
+     */
+    protected $_coreRequestHttpFactory;
+
+    /**
      * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager;
@@ -28,25 +33,32 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
     protected $_configScope;
 
     /**
+     * @param Magento_Api_Helper_Data $apiHelper
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Scope $configScope
+     * @param Magento_Core_Controller_Request_HttpFactory $coreRequestHttpFactory
+     * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Api_Helper_Data $apiHelper
      */
     public function __construct(
-        Magento_Api_Helper_Data $apiHelper,
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Config_Scope $configScope
+        Magento_Core_Model_Config_Scope $configScope,
+        Magento_Core_Controller_Request_HttpFactory $coreRequestHttpFactory,
+        Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Api_Helper_Data $apiHelper
     ) {
+        $this->_coreRequestHttpFactory = $coreRequestHttpFactory;
         $this->_configScope = $configScope;
         $this->_eventManager = $eventManager;
-        parent::__construct($apiHelper);
+        parent::__construct($catalogProduct, $apiHelper);
     }
 
     /**
      * Return an Array of attributes.
      *
-     * @param Array $arr
-     * @return array
+     * @param $arr
+     * @internal param Array $obj
+     * @return Array
      */
     protected function _prepareData($arr)
     {
@@ -108,7 +120,7 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
 
         $giftMessage['type'] = 'quote';
         $giftMessages = array($quoteId => $giftMessage);
-        $request = new Magento_Core_Controller_Request_Http();
+        $request = $this->_coreRequestHttpFactory->create();
         $request->setParam("giftmessage", $giftMessages);
 
         return $this->_setGiftMessage($quote->getId(), $request, $quote);
@@ -191,7 +203,7 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
 
         $giftMessages = array($quoteItem->getId() => $giftMessage);
 
-        $request = new Magento_Core_Controller_Request_Http();
+        $request = $this->_coreRequestHttpFactory->create();
         $request->setParam("giftmessage", $giftMessages);
 
         return $this->_setGiftMessage($quoteItemId, $request, $quote);

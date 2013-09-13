@@ -100,7 +100,7 @@ class Magento_Rss_Block_Catalog_Category extends Magento_Rss_Block_Catalog_Abstr
         $product->setAllowedInRss(true);
         $product->setAllowedPriceInRss(true);
 
-        Mage::dispatchEvent('rss_catalog_category_xml_callback', $args);
+        $this->_eventManager->dispatch('rss_catalog_category_xml_callback', $args);
 
         if (!$product->getAllowedInRss()) {
             return;

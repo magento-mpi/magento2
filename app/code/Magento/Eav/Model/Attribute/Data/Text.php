@@ -24,14 +24,14 @@ class Magento_Eav_Model_Attribute_Data_Text extends Magento_Eav_Model_Attribute_
     protected $_stringHelper;
 
     /**
-     * Constructor
-     *
+     * @param Magento_Core_Helper_String $coreString
      * @param array $arguments
      */
-    public function __construct(array $arguments = array())
-    {
-        $this->_stringHelper = isset($arguments['stringHelper'])
-            ? $arguments['stringHelper'] : Mage::helper('Magento_Core_Helper_String');
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        array $arguments = array()
+    ) {
+        $this->_stringHelper = $coreString;
     }
 
     /**

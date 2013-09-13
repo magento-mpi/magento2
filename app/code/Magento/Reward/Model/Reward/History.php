@@ -60,6 +60,33 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
 {
     protected $_reward = null;
     /**
+     * Reward data
+     *
+     * @var Magento_Reward_Helper_Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * @param Magento_Reward_Helper_Data $rewardData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Reward_Model_Resource_Reward_History $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Reward_Helper_Data $rewardData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Reward_Model_Resource_Reward_History $resource,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_rewardData = $rewardData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Internal constructor
      */
     protected function _construct()
@@ -92,7 +119,7 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
             'notification_sent' => 0
         ));
 
-        $lifetime = (int)Mage::helper('Magento_Reward_Helper_Data')->getGeneralConfig('expiration_days', $this->getWebsiteId());
+        $lifetime = (int)$this->_rewardData->getGeneralConfig('expiration_days', $this->getWebsiteId());
         if ($lifetime > 0) {
             $expires = $now + $lifetime * 86400;
             $expires = $this->getResource()->formatDate($expires);
@@ -287,7 +314,7 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
         if ($this->getPointsDelta() <= 0) {
             return null;
         }
-        return Mage::helper('Magento_Reward_Helper_Data')->getGeneralConfig('expiry_calculation') == 'static'
+        return $this->_rewardData->getGeneralConfig('expiry_calculation') == 'static'
             ? $this->getExpiredAtStatic() : $this->getExpiredAtDynamic()
         ;
     }

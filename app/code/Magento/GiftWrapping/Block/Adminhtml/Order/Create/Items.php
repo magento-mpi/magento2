@@ -96,7 +96,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Items
     public function getDisplayGiftWrappingForItem($item)
     {
         $allowed = $item->getProduct()->getGiftWrappingAvailable();
-        return Mage::helper('Magento_GiftWrapping_Helper_Data')
+        return $this->_giftWrappingData
             ->isGiftWrappingAvailableForProduct($allowed, $this->getStoreId());
     }
 }

@@ -39,6 +39,6 @@ class Magento_Adminhtml_Controller_Json extends Magento_Adminhtml_Controller_Act
                 }
             }
         }
-        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($arrRes));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($arrRes));
     }
 }

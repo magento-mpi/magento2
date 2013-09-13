@@ -16,9 +16,16 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selection
-    extends Magento_Adminhtml_Block_Widget
+    extends Magento_Backend_Block_Widget
 {
     protected $_template = 'product/edit/bundle/option/selection.phtml';
+
+    /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
 
     /**
      * Core registry
@@ -28,17 +35,22 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sele
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_catalogData = $catalogData;
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -152,7 +164,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sele
     public function isUsedWebsitePrice()
     {
         $product = $this->_coreRegistry->registry('product');
-        return !Mage::helper('Magento_Catalog_Helper_Data')->isPriceGlobal() && $product->getStoreId();
+        return !$this->_catalogData->isPriceGlobal() && $product->getStoreId();
     }
 
     /**

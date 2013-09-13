@@ -11,7 +11,7 @@
 /**
  * Acl role user grid
  */
-class Magento_Adminhtml_Block_Api_Role_Grid_User extends Magento_Adminhtml_Block_Widget_Grid
+class Magento_Adminhtml_Block_Api_Role_Grid_User extends Magento_Backend_Block_Widget_Grid_Extended
 {
     /**
      * Core registry
@@ -21,6 +21,7 @@ class Magento_Adminhtml_Block_Api_Role_Grid_User extends Magento_Adminhtml_Block
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Core_Helper_Data $helper
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
@@ -28,6 +29,7 @@ class Magento_Adminhtml_Block_Api_Role_Grid_User extends Magento_Adminhtml_Block
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $helper,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
@@ -35,7 +37,7 @@ class Magento_Adminhtml_Block_Api_Role_Grid_User extends Magento_Adminhtml_Block
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $storeManager, $urlModel, $data);
+        parent::__construct($helper, $context, $storeManager, $urlModel, $data);
     }
 
     protected function _construct()
@@ -153,10 +155,10 @@ class Magento_Adminhtml_Block_Api_Role_Grid_User extends Magento_Adminhtml_Block
         if (sizeof($users) > 0) {
             if ($json) {
                 $jsonUsers = Array();
-                foreach ($users as $usrId) {
-                    $jsonUsers[$usrId] = 0;
+                foreach ($users as $usrid) {
+                    $jsonUsers[$usrid] = 0;
                 }
-                return Mage::helper('Magento_Core_Helper_Data')->jsonEncode((object)$jsonUsers);
+                return $this->_coreData->jsonEncode((object)$jsonUsers);
             } else {
                 return array_values($users);
             }

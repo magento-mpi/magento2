@@ -18,6 +18,25 @@
 class Magento_Catalog_Model_Product_Option_Value_Api extends Magento_Catalog_Model_Api_Resource
 {
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Catalog_Helper_Data $catalogData
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Catalog_Helper_Data $catalogData
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($catalogProduct);
+    }
+
+    /**
      * Retrieve values from specified option
      *
      * @param string $optionId
@@ -96,7 +115,7 @@ class Magento_Catalog_Model_Product_Option_Value_Api extends Magento_Catalog_Mod
         $optionValueModel->setOption($option);
         foreach ($data as &$optionValue) {
             foreach ($optionValue as &$value) {
-                $value = Mage::helper('Magento_Catalog_Helper_Data')->stripTags($value);
+                $value = $this->_catalogData->stripTags($value);
             }
         }
         $optionValueModel->setValues($data);
@@ -132,7 +151,7 @@ class Magento_Catalog_Model_Product_Option_Value_Api extends Magento_Catalog_Mod
         $productOptionValue->setOption($option);
         // Sanitize data
         foreach ($data as $key => $value) {
-            $data[$key] = Mage::helper('Magento_Catalog_Helper_Data')->stripTags($value);
+            $data[$key] = $this->_catalogData->stripTags($value);
         }
         if (!isset($data['title']) OR empty($data['title'])) {
             $this->_fault('option_value_title_required');

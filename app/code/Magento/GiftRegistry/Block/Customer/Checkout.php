@@ -14,6 +14,29 @@
 class Magento_GiftRegistry_Block_Customer_Checkout extends Magento_Core_Block_Template
 {
     /**
+     * Gift registry data
+     *
+     * @var Magento_GiftRegistry_Helper_Data
+     */
+    protected $_giftRegistryData = null;
+
+    /**
+     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GiftRegistry_Helper_Data $giftRegistryData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_giftRegistryData = $giftRegistryData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get current checkout session
      *
      * @return Magento_Checkout_Model_Session
@@ -30,7 +53,7 @@ class Magento_GiftRegistry_Block_Customer_Checkout extends Magento_Core_Block_Te
      */
     public function getEnabled()
     {
-        return  Mage::helper('Magento_GiftRegistry_Helper_Data')->isEnabled();
+        return  $this->_giftRegistryData->isEnabled();
     }
 
     /**
@@ -101,7 +124,7 @@ class Magento_GiftRegistry_Block_Customer_Checkout extends Magento_Core_Block_Te
      */
     public function getAddressIdPrefix()
     {
-        return Mage::helper('Magento_GiftRegistry_Helper_Data')->getAddressIdPrefix();
+        return $this->_giftRegistryData->getAddressIdPrefix();
     }
 
     /**

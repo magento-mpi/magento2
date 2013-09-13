@@ -68,6 +68,33 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
     protected $_paymentMethods = array();
 
     /**
+     * Payment data
+     *
+     * @var Magento_Payment_Helper_Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_paymentData = $paymentData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Check whether the object data is valid
      * Returns true if valid.
      *
@@ -101,7 +128,8 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
             if (!in_array($this->getTrialPeriodUnit(), $this->getAllPeriodUnits(false), true)) {
                 $this->_errors['trial_period_unit'][] = __('The trial billing period unit is wrong.');
             }
-            if (!$this->getTrialPeriodFrequency() || !$this->_validatePeriodFrequency('trial_period_unit', 'trial_period_frequency')) {
+            if (!$this->getTrialPeriodFrequency()
+                || !$this->_validatePeriodFrequency('trial_period_unit', 'trial_period_frequency')) {
                 $this->_errors['trial_period_frequency'][] = __('The trial period frequency is wrong.');
             }
             if (!$this->getTrialPeriodMaxCycles()) {
@@ -146,6 +174,7 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
      * Getter for errors that may appear after validation
      *
      * @param bool $isGrouped
+     * @param bool $asMessage
      * @return array
      */
     public function getValidationErrors($isGrouped = true, $asMessage = false)
@@ -231,7 +260,8 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
                 $options = unserialize($options->getValue());
                 if (is_array($options)) {
                     if (isset($options['start_datetime'])) {
-                        $startDatetime = new Zend_Date($options['start_datetime'], Magento_Date::DATETIME_INTERNAL_FORMAT);
+                        $startDatetime = new Zend_Date($options['start_datetime'],
+                            Magento_Date::DATETIME_INTERNAL_FORMAT);
                         $this->setNearestStartDatetime($startDatetime);
                     }
                 }
@@ -296,7 +326,9 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
         }
         $date = $this->_locale->storeDate($this->_store, strtotime($datetime), true);
         if ($asString) {
-            return $date->toString($this->_locale->getDateTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT));
+            return $date->toString(
+                $this->_locale->getDateTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT)
+            );
         }
         return $date;
     }
@@ -355,15 +387,21 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
      * Render label for specified period unit
      *
      * @param string $unit
+     * @return \Magento_Phrase|string
      */
     public function getPeriodUnitLabel($unit)
     {
         switch ($unit) {
-            case self::PERIOD_UNIT_DAY:  return __('Day');
-            case self::PERIOD_UNIT_WEEK: return __('Week');
-            case self::PERIOD_UNIT_SEMI_MONTH: return __('Two Weeks');
-            case self::PERIOD_UNIT_MONTH: return __('Month');
-            case self::PERIOD_UNIT_YEAR:  return __('Year');
+            case self::PERIOD_UNIT_DAY:
+                return __('Day');
+            case self::PERIOD_UNIT_WEEK:
+                return __('Week');
+            case self::PERIOD_UNIT_SEMI_MONTH:
+                return __('Two Weeks');
+            case self::PERIOD_UNIT_MONTH:
+                return __('Month');
+            case self::PERIOD_UNIT_YEAR:
+                return __('Year');
         }
         return $unit;
     }
@@ -432,15 +470,19 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
     {
         switch ($field) {
             case 'subscriber_name':
-                return __('Full name of the person receiving the product or service paid for by the recurring payment.');
+                return __('Full name of the person receiving the product or service '
+                    . 'paid for by the recurring payment.');
             case 'start_datetime':
                 return __('This is the date when billing for the profile begins.');
             case 'schedule_description':
-                return __('Enter a short description of the recurring payment. By default, this description will match the product name.');
+                return __('Enter a short description of the recurring payment. '
+                    . 'By default, this description will match the product name.');
             case 'suspension_threshold':
-                return __('This is the number of scheduled payments that can fail before the profile is automatically suspended.');
+                return __('This is the number of scheduled payments '
+                    . 'that can fail before the profile is automatically suspended.');
             case 'bill_failed_later':
-                return __('Use this to automatically bill the outstanding balance amount in the next billing cycle (if there were failed payments).');
+                return __('Use this to automatically bill the outstanding balance amount in the next billing cycle '
+                    . '(if there were failed payments).');
             case 'period_unit':
                 return __('This is the unit for billing during the subscription period.');
             case 'period_frequency':
@@ -450,7 +492,8 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
             case 'init_amount':
                 return __('The initial, non-recurring payment amount is due immediately when the profile is created.');
             case 'init_may_fail':
-                return __('This sets whether to suspend the payment profile if the initial fee fails or, instead, add it to the outstanding balance.');
+                return __('This sets whether to suspend the payment profile if the initial fee fails or, '
+                    . 'instead, add it to the outstanding balance.');
         }
     }
 
@@ -468,7 +511,7 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
                 return $this->getPeriodUnitLabel($value);
             case 'method_code':
                 if (!$this->_paymentMethods) {
-                    $this->_paymentMethods = Mage::helper('Magento_Payment_Helper_Data')->getPaymentMethodList(false);
+                    $this->_paymentMethods = $this->_paymentData->getPaymentMethodList(false);
                 }
                 if (isset($this->_paymentMethods[$value])) {
                     return $this->_paymentMethods[$value];
@@ -490,8 +533,7 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
         // determine payment method/code
         if ($this->_methodInstance) {
             $this->setMethodCode($this->_methodInstance->getCode());
-        }
-        elseif ($this->getMethodCode()) {
+        } elseif ($this->getMethodCode()) {
             $this->getMethodInstance();
         }
 
@@ -547,7 +589,7 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
     protected function getMethodInstance()
     {
         if (!$this->_methodInstance) {
-            $this->setMethodInstance(Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance($this->getMethodCode()));
+            $this->setMethodInstance($this->_paymentData->getMethodInstance($this->getMethodCode()));
         }
         $this->_methodInstance->setStore($this->getStoreId());
         return $this->_methodInstance;
