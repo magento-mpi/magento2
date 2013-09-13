@@ -7,97 +7,37 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Modular_WidgetConfigFilesTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Integrity_Modular_WidgetConfigFilesTest extends Magento_TestFramework_TestCase_ConfigFilesAbstract
 {
     /**
-     * @var string
+     * Returns the reader class name that will be instantiated via ObjectManager
+     *
+     * @return string reader class name
      */
-    protected $_schemaFile;
-
-    /**
-     * @var  Magento_Widget_Model_Config_Reader
-     */
-    protected $_reader;
-
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
-    protected $_fileResolverMock;
-
-    /**
-     * @var Magento_TestFramework_ObjectManager
-     */
-    protected $_objectManager;
-
-    public function setUp()
+    protected function _getReaderClassName()
     {
-        $this->_objectManager = Mage::getObjectManager();
-        $widgetFiles = $this->getWidgetConfigFiles();
-        if (!empty($widgetFiles)) {
-
-            $this->_fileResolverMock = $this->getMockBuilder('Magento_Core_Model_Config_FileResolver_Primary')
-                ->disableOriginalConstructor()->getMock();
-
-            $this->_reader = $this->_objectManager->create('Magento_Widget_Model_Config_Reader', array(
-                'configFiles' => $widgetFiles, 'fileResolver' => $this->_fileResolverMock));
-
-            /** @var $dirs Magento_Core_Model_Dir */
-            $dirs = $this->_objectManager->get('Magento_Core_Model_Dir');
-            $modulesDir = $dirs->getDir(Magento_Core_Model_Dir::MODULES);
-            $this->_schemaFile = $modulesDir . '/Magento/Widget/etc/widget_file.xsd';
-        }
-    }
-
-    protected function tearDown()
-    {
-        $this->_objectManager->removeSharedInstance('Magento_Widget_Model_Config_Reader');
-    }
-
-    public function getWidgetConfigFiles()
-    {
-        return glob(Mage::getBaseDir('app') . '/*/*/*/etc/widget.xml');
-    }
-
-    public function widgetConfigFilesProvider()
-    {
-        $fileList = $this->getWidgetConfigFiles();
-        if (empty($fileList)) {
-            return array(array(false, true));
-        }
-
-        $dataProviderResult = array();
-        foreach ($fileList as $file) {
-            $dataProviderResult[$file] = array($file);
-        }
-        return $dataProviderResult;
+        return 'Magento_Widget_Model_Config_Reader';
     }
 
     /**
-     * @dataProvider widgetConfigFilesProvider
+     * Returns a string that represents the path to the config file, starting in the app directory.
+     *
+     * Format is glob, so * is allowed.
+     *
+     * @return string
      */
-    public function testWidgetConfigFile($file, $skip = false)
+    protected function _getConfigFilePathGlob()
     {
-        if ($skip) {
-            $this->markTestSkipped('There are no widget.xml files in the system');
-        }
-        $domConfig = new Magento_Config_Dom(file_get_contents($file));
-        $result = $domConfig->validate($this->_schemaFile, $errors);
-        $message = "Invalid XML-file: {$file}\n";
-        foreach ($errors as $error) {
-            $message .= "$error\n";
-        }
-
-        $this->assertTrue($result, $message);
+        return '/*/*/*/etc/widget.xml';
     }
 
-    public function testMergedConfig()
+    /**
+     * Returns a path to the per file XSD file, relative to the modules directory.
+     *
+     * @return string
+     */
+    protected function _getXsdPath()
     {
-        // have the file resolver return all widget.xml files
-        $this->_fileResolverMock->expects($this->once())->method('get')
-            ->will($this->returnValue($this->getWidgetConfigFiles()));
-        try {
-            // this will merge all xml files and validate them
-            $this->_reader->read('global');
-        } catch (Magento_Exception $e) {
-            $this->fail($e->getMessage());
-        }
+        return '/Magento/Widget/etc/widget_file.xsd';
     }
 }
