@@ -460,7 +460,7 @@ class TokenArrayScanner implements ScannerInterface
                     T_INCLUDE      => 'include',
                     T_INCLUDE_ONCE => 'include_once',
                     T_REQUIRE      => 'require',
-                    T_REQUIRE_ONCE => '#require_once'
+                    T_REQUIRE_ONCE => 'require_once'
                 );
 
                 $infos[$infoIndex] = array(

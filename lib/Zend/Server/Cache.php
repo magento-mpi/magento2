@@ -80,8 +80,8 @@ class Cache
      *
      * <code>
      * if (!Zend\Server\Cache::get($filename, $server)) {
-     *     #require_once 'Some/Service/ServiceClass.php';
-     *     #require_once 'Another/Service/ServiceClass.php';
+     *     require_once 'Some/Service/ServiceClass.php';
+     *     require_once 'Another/Service/ServiceClass.php';
      *
      *     // Attach Some\Service\ServiceClass with namespace 'some'
      *     $server->attach('Some\Service\ServiceClass', 'some');
