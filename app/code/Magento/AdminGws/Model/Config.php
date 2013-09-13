@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminGws_Model_Config extends Magento_Config_Data implements Magento_AdminGws_Model_ConfigInterface
+class Magento_AdminGws_Model_Config extends Magento_Config_Data_Scoped implements Magento_AdminGws_Model_ConfigInterface
 {
     /**
      * @param Magento_AdminGws_Model_Config_Reader $reader

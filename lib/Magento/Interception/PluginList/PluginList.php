@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Interception_PluginList_PluginList extends Magento_Config_Data implements Magento_Interception_PluginList
+class Magento_Interception_PluginList_PluginList
+    extends Magento_Config_Data_Scoped
+    implements Magento_Interception_PluginList
 {
     /**
      * Type config

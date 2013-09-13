@@ -70,9 +70,10 @@ class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
      * @param Magento_Config_ConverterInterface $converter
      * @param Magento_Config_SchemaLocatorInterface $schemaLocator
      * @param Magento_Config_ValidationStateInterface $validationState
-     * @param $fileName
-     * @param $idAttributes
+     * @param string $fileName
+     * @param array $idAttributes
      * @param string $domDocumentClass
+     * @param string $defaultScope
      */
     public function __construct(
         Magento_Config_FileResolverInterface $fileResolver,
@@ -81,7 +82,8 @@ class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
         Magento_Config_ValidationStateInterface $validationState,
         $fileName,
         $idAttributes,
-        $domDocumentClass = 'Magento_Config_Dom'
+        $domDocumentClass = 'Magento_Config_Dom',
+        $defaultScope = 'global'
     ) {
         $this->_fileResolver = $fileResolver;
         $this->_converter = $converter;
@@ -93,17 +95,19 @@ class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
             ? $schemaLocator->getPerFileSchema()
             : null;
         $this->_domDocumentClass = $domDocumentClass;
+        $this->_defaultScope = $defaultScope;
     }
 
     /**
      * Load configuration scope
      *
-     * @param string $scope
+     * @param string|null $scope
      * @return array
      * @throws Magento_Exception
      */
-    public function read($scope)
+    public function read($scope = null)
     {
+        $scope = $scope ?: $this->_defaultScope;
         $fileList = $this->_fileResolver->get($this->_fileName, $scope);
         if (!count($fileList)) {
             return array();

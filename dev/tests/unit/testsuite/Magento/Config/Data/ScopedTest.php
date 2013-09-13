@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Config_DataTest extends PHPUnit_Framework_TestCase
+class Magento_Config_Data_ScopedTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Config_Data
+     * @var Magento_Config_Data_Scoped
      */
     protected $_model;
 
@@ -33,7 +33,7 @@ class Magento_Config_DataTest extends PHPUnit_Framework_TestCase
         $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
         $this->_cacheMock = $this->getMock('Magento_Config_CacheInterface');
 
-        $this->_model = new Magento_Config_Data(
+        $this->_model = new Magento_Config_Data_Scoped(
             $this->_readerMock,
             $this->_configScopeMock,
             $this->_cacheMock,

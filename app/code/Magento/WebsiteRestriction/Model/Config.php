@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 class Magento_WebsiteRestriction_Model_Config
-    extends Magento_Config_Data
+    extends Magento_Config_Data_Scoped
     implements Magento_WebsiteRestriction_Model_ConfigInterface
 {
     const XML_PATH_RESTRICTION_ENABLED          = 'general/restriction/is_active';
