@@ -1,6 +1,6 @@
 <?php
 /**
- * Loads catalog attributes configuration from multiple XML files by by merging them together
+ * Loads catalog attributes configuration from multiple XML files by merging them together
  *
  * {license_notice}
  *
@@ -12,8 +12,8 @@ class Magento_Catalog_Model_Attribute_Config_Reader extends Magento_Config_Reade
     /**
      * @param Magento_Config_FileResolverInterface $fileResolver
      * @param Magento_Catalog_Model_Attribute_Config_Converter $converter
-     * @param Magento_Config_ValidationStateInterface $validationState
      * @param Magento_Catalog_Model_Attribute_Config_SchemaLocator $schemaLocator
+     * @param Magento_Config_ValidationStateInterface $validationState
      */
     public function __construct(
         Magento_Config_FileResolverInterface $fileResolver,
@@ -26,5 +26,4 @@ class Magento_Catalog_Model_Attribute_Config_Reader extends Magento_Config_Reade
             '/config/group/attribute' => 'name',
         ));
     }
-
 }

@@ -121,6 +121,7 @@ return array(
     array('XML_PATH_LOCALE_INHERITANCE', 'Mage_Core_Model_Translate'),
     array('XML_PATH_PRODUCT_ATTRIBUTES', 'Magento_Wishlist_Model_Config'),
     array('XML_PATH_PRODUCT_COLLECTION_ATTRIBUTES', 'Magento_Catalog_Model_Config'),
+    array('XML_PATH_QUOTE_PRODUCT_ATTRIBUTES', 'Magento_Sales_Model_Quote_Config'),
     array('XML_PATH_SENDING_SET_RETURN_PATH', 'Mage_Newsletter_Model_Subscriber'),
     array('XML_PATH_SKIP_PROCESS_MODULES_UPDATES', 'Mage_Core_Model_App',
         'Mage_Core_Model_Db_UpdaterInterface::XML_PATH_SKIP_PROCESS_MODULES_UPDATES'
