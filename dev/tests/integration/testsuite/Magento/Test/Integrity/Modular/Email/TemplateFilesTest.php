@@ -28,11 +28,11 @@ class Magento_Test_Integrity_Modular_Email_TemplateFilesTest extends PHPUnit_Fra
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $templateModel = $objectManager->create('Magento_Core_Model_Email_Template');
-
+        $configModel = $objectManager->get('Magento_Core_Model_Config');
+        
         $data = array();
-        $config = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
         foreach ($templateModel->getDefaultTemplates() as $row) {
-            $data[] = array($config->determineOmittedNamespace($row['@']['module'], true), $row['file']);
+            $data[] = array($configModel->determineOmittedNamespace($row['@']['module'], true), $row['file']);
         }
         return $data;
     }

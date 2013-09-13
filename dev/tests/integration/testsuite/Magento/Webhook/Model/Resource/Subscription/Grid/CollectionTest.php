@@ -167,9 +167,10 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
     protected function _createSubscriptions()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $configModel = $objectManager->get('Magento_Core_Model_Config');
         $this->_subscriptions = array();
 
+        /** @var $configModel Magento_Core_Model_Config */
+        $configModel = $objectManager->get('Magento_Core_Model_Config');
         $configModel->setNode('global/webhook/webhooks/listeners/one/label', 'One Listener');
         $configModel->setNode('global/webhook/webhooks/listeners/two/label', 'Two Listeners');
         $configModel->setNode('global/webhook/webhooks/listeners/three/label', 'Three Listeners');

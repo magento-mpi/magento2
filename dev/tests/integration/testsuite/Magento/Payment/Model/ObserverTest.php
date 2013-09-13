@@ -64,9 +64,9 @@ class Magento_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
         /** @var Magento_Sales_Model_Order_Status $status */
         $status = $this->_objectManager->get('Magento_Sales_Model_Order_Status')->load($statusCode);
 
-        /** @var Magento_Core_Model_Config $config */
-        $config = $this->_objectManager->get('Magento_Core_Model_Config');
-        $defaultStatus = (string)$config->getValue('payment/checkmo/order_status');
+        /** @var $storeConfig Magento_Core_Model_Store_Config */
+        $storeConfig = $this->_objectManager->get('Magento_Core_Model_Store_Config');
+        $defaultStatus = (string)$storeConfig->getConfig('payment/checkmo/order_status');
 
         /** @var Magento_Core_Model_Resource_Config $config */
         $config = $this->_objectManager->get('Magento_Core_Model_Resource_Config');
@@ -74,8 +74,6 @@ class Magento_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $this->_resetConfig();
 
-        /** @var Magento_Core_Model_Store_Config $storeConfig */
-        $storeConfig = $this->_objectManager->get('Magento_Core_Model_Store_Config');
         $newStatus = $storeConfig->getConfig('payment/checkmo/order_status');
 
         $status->unassignState(Magento_Sales_Model_Order::STATE_NEW);

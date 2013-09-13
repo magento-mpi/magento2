@@ -81,6 +81,7 @@ class Magento_TestFramework_Annotation_ConfigFixture
                 $objectManager->get('Magento_Core_Model_Config')->setValue($configPath, $value);
             } else {
                 $configModel->setNode($configPath, $value);
+                $objectManager->get('Magento_Core_Model_Config')->setNode($configPath, $value);
                 $objectManager->get('Magento_Core_Model_Config_Primary')->setNode($configPath, $value);
             }
         } else {

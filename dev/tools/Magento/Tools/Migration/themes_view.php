@@ -12,8 +12,9 @@ $rootDir = realpath(__DIR__ . '/../../../../..');
 try {
     $config = new Magento_Core_Model_Config_Primary($rootDir, array());
     $entryPoint = new Magento_Core_Model_EntryPoint_Cron($config);
+
     /** @var $configModel Magento_Core_Model_Config */
-    $configModel = Mage::getObjectManager()->get('Magento_Core_Model_Config');
+    $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
     $configModel->removeCache();
     $configModel->reinit();
     $config = array();

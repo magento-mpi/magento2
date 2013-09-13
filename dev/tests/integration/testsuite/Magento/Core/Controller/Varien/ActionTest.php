@@ -293,7 +293,6 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
         Mage::app()->loadArea($expectedArea);
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var $controller Magento_Core_Controller_Varien_Action */
-        $context =
         $context = $objectManager->create($context, array('response' => new Magento_TestFramework_Response()));
         $controller = $objectManager->create($controllerClass, array('context' => $context));
         $controller->preDispatch();
