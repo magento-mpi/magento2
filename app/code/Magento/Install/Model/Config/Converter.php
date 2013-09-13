@@ -16,50 +16,49 @@ class Magento_Install_Model_Config_Converter implements Magento_Config_Converter
     {
         $xpath = new DOMXPath($source);
 
-        $steps = array();
+        $result = array(
+            'steps' => array(),
+            'filesystem_prerequisites' => array(
+                'writables' => array(),
+                'notWritables' => array()
+            )
+        );
+
         /** @var $step DOMNode */
         foreach ($xpath->query('/install_wizard/steps/step') as $step) {
             $stepAttributes = $step->attributes;
             $id = $stepAttributes->getNamedItem('id')->nodeValue;
-            $steps[$id]['name'] = $id;
+            $result['steps'][$id]['name'] = $id;
 
             $controller = $stepAttributes->getNamedItem('controller')->nodeValue;
-            $steps[$id]['controller'] = $controller;
+            $result['steps'][$id]['controller'] = $controller;
 
             $action = $stepAttributes->getNamedItem('action')->nodeValue;
-            $steps[$id]['action'] = $action;
+            $result['steps'][$id]['action'] = $action;
 
             /** @var $child DOMNode */
             foreach ($step->childNodes as $child) {
                 if ($child->nodeName == 'label') {
-                    $steps[$id]['code'] = $child->nodeValue;
+                    $result['steps'][$id]['code'] = $child->nodeValue;
                 }
             }
         }
 
-        $writables = array();
-        $notWritables = array();
         /** @var $step DOMNode */
         foreach ($xpath->query('/install_wizard/filesystem_prerequisites/directory') as $directory) {
             $directoryAttributes = $directory->attributes;
             $alias = $directoryAttributes->getNamedItem('alias')->nodeValue;
-            $existence = $directoryAttributes->getNamedItem('existence')->nodeValue;
-            $recursive = $directoryAttributes->getNamedItem('recursive')->nodeValue;
+            $existence = $directoryAttributes->getNamedItem('existence')->nodeValue == 'true' ? '1' : '0';
+            $recursive = $directoryAttributes->getNamedItem('recursive')->nodeValue == 'true' ? '1' : '0';
             if ($directoryAttributes->getNamedItem('writable')->nodeValue == 'true') {
-                $writables[$alias]['existence'] = $existence == 'true' ? '1' : '0';
-                $writables[$alias]['recursive'] = $recursive == 'true' ? '1' : '0';
+                $result['filesystem_prerequisites']['writables'][$alias]['existence'] = $existence;
+                $result['filesystem_prerequisites']['writables'][$alias]['recursive'] = $recursive;
             } else {
-                $notWritables[$alias]['existence'] = $existence == 'true' ? '1' : '0';
-                $notWritables[$alias]['recursive'] = $recursive == 'true' ? '1' : '0';
+                $result['filesystem_prerequisites']['notwritables'][$alias]['existence'] = $existence;
+                $result['filesystem_prerequisites']['notwritables'][$alias]['recursive'] = $recursive;
             }
         }
 
-        return array(
-            'steps' => $steps,
-            'filesystem_prerequisites' => array(
-                'writables' => $writables,
-                'notWritables' => $notWritables
-            )
-        );
+        return $result;
     }
 }
