@@ -27,6 +27,25 @@ class Magento_Core_Helper_Http extends Magento_Core_Helper_Abstract
     protected $_remoteAddr;
 
     /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($context);
+    }
+
+    /**
      * Extract "login" and "password" credentials from HTTP-request
      *
      * Returns plain array with 2 items: login and password respectively
@@ -156,7 +175,7 @@ class Magento_Core_Helper_Http extends Magento_Core_Helper_Abstract
     {
         $value = $this->_getRequest()->getServer($var, '');
         if ($clean) {
-            $value = Mage::helper('Magento_Core_Helper_String')->cleanString($value);
+            $value = $this->_coreString->cleanString($value);
         }
 
         return $value;
@@ -228,7 +247,7 @@ class Magento_Core_Helper_Http extends Magento_Core_Helper_Abstract
     {
         $uri = $this->_getRequest()->getRequestUri();
         if ($clean) {
-            $uri = Mage::helper('Magento_Core_Helper_String')->cleanString($uri);
+            $uri = $this->_coreString->cleanString($uri);
         }
         return $uri;
     }

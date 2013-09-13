@@ -34,7 +34,7 @@ class Magento_Pbridge_Block_Payment_Profile extends Magento_Pbridge_Block_Iframe
      */
     public function getSourceUrl()
     {
-        return Mage::helper('Magento_Pbridge_Helper_Data')->getPaymentProfileUrl(
+        return $this->_pbridgeData->getPaymentProfileUrl(
             array(
                 'billing_address' => $this->_getAddressInfo(),
                 'css_url'         => $this->getCssUrl(),

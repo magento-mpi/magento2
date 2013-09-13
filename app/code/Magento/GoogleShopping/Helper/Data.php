@@ -17,6 +17,22 @@
  */
 class Magento_GoogleShopping_Helper_Data extends Magento_Core_Helper_Abstract
 {
+    /**
+     * @var Magento_Core_Helper_String|null
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($context);
+    }
 
     /**
      * Get Google Content Product ID
@@ -41,7 +57,7 @@ class Magento_GoogleShopping_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function cleanAtomAttribute($string)
     {
-        return Mage::helper('Magento_Core_Helper_String')
+        return $this->_coreString
             ->substr(preg_replace('/[\pC¢€•—™°½]|shipping/ui', '', $string), 0, 3500);
     }
 

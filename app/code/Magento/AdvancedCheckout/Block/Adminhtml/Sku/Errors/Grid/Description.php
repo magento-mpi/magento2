@@ -20,9 +20,32 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid_Description extends Magento_Adminhtml_Block_Template
+class Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid_Description extends Magento_Backend_Block_Template
 {
     protected $_template = 'sku/errors/grid/description.phtml';
+
+    /**
+     * Checkout data
+     *
+     * @var Magento_AdvancedCheckout_Helper_Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_AdvancedCheckout_Helper_Data $checkoutData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_checkoutData = $checkoutData;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Retrieves HTML code of "Configure" button
@@ -32,8 +55,8 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid_Description exten
     public function getConfigureButtonHtml()
     {
         $canConfigure = $this->getProduct()->canConfigure() && !$this->getItem()->getIsConfigureDisabled();
-        $productId = $this->escapeHtml(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getProduct()->getId()));
-        $itemSku = $this->escapeHtml(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getItem()->getSku()));
+        $productId = $this->escapeHtml($this->_coreData->jsonEncode($this->getProduct()->getId()));
+        $itemSku = $this->escapeHtml($this->_coreData->jsonEncode($this->getItem()->getSku()));
 
         /* @var $button Magento_Adminhtml_Block_Widget_Button */
         $button = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button', '', array('data' => array(
@@ -66,6 +89,6 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid_Description exten
      */
     public function getErrorMessage($item)
     {
-        return Mage::helper('Magento_AdvancedCheckout_Helper_Data')->getMessageByItem($item);
+        return $this->_checkoutData->getMessageByItem($item);
     }
 }

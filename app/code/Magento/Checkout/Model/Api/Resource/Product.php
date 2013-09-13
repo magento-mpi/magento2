@@ -21,6 +21,29 @@ class Magento_Checkout_Model_Api_Resource_Product extends Magento_Checkout_Model
     protected $_ignoredAttributeCodes = array('entity_id', 'attribute_set_id', 'entity_type_id');
 
     /**
+     * Catalog product
+     *
+     * @var Magento_Catalog_Helper_Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * Initialize dependencies.
+     *
+     *
+     *
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Api_Helper_Data $apiHelper
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Api_Helper_Data $apiHelper
+    ) {
+        $this->_catalogProduct = $catalogProduct;
+        parent::__construct($apiHelper);
+    }
+
+    /**
      * Return loaded product instance
      *
      * @param  int|string $productId (SKU or ID)
@@ -30,7 +53,7 @@ class Magento_Checkout_Model_Api_Resource_Product extends Magento_Checkout_Model
      */
     protected function _getProduct($productId, $store = null, $identifierType = null)
     {
-        $product = Mage::helper('Magento_Catalog_Helper_Product')->getProduct(
+        $product = $this->_catalogProduct->getProduct(
             $productId, $this->_getStoreId($store), $identifierType
         );
         if (is_null($product->getId())) {
@@ -71,21 +94,22 @@ class Magento_Checkout_Model_Api_Resource_Product extends Magento_Checkout_Model
      * @return Magento_Sales_Model_Quote_Item
      * @throw Magento_Core_Exception
      */
-    protected function _getQuoteItemByProduct(Magento_Sales_Model_Quote $quote,
-                            Magento_Catalog_Model_Product $product,
-                            Magento_Object $requestInfo)
-    {
+    protected function _getQuoteItemByProduct(
+        Magento_Sales_Model_Quote $quote,
+        Magento_Catalog_Model_Product $product,
+        Magento_Object $requestInfo
+    ) {
         $cartCandidates = $product->getTypeInstance()
-                        ->prepareForCartAdvanced($requestInfo,
-                                $product,
-                                Magento_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL
-        );
+            ->prepareForCartAdvanced($requestInfo,
+                    $product,
+                    Magento_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL
+            );
 
         /**
          * Error message
          */
         if (is_string($cartCandidates)) {
-            throw Mage::throwException($cartCandidates);
+            Mage::throwException($cartCandidates);
         }
 
         /**

@@ -21,7 +21,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
+        $this->_layout = Mage::getSingleton('Magento_Core_Model_Layout');
         $this->_block = $this->_layout
             ->createBlock('Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute');
     }

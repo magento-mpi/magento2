@@ -47,19 +47,47 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
     protected $_baseTmpMediaPath;
 
     /**
-     * Constructor to inject dependencies
+     * Core data
      *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Core file storage database
+     *
+     * @var Magento_Core_Helper_File_Storage_Database
+     */
+    protected $_fileStorageDb = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Catalog_Model_Product_Media_Config $mediaConfig
      * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_File_Storage_Database $fileStorageDb,
+        Magento_Core_Helper_Data $coreData,
         Magento_Catalog_Model_Product_Media_Config $mediaConfig,
         Magento_Core_Model_Dir $dirs,
         Magento_Filesystem $filesystem,
         $data = array()
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_fileStorageDb = $fileStorageDb;
+        $this->_coreData = $coreData;
         if (isset($data['resourceModel'])) {
             $this->_resourceModel = $data['resourceModel'];
         }
@@ -147,7 +175,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
         }
 
         if (!is_array($value['images']) && strlen($value['images']) > 0) {
-            $value['images'] = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($value['images']);
+            $value['images'] = $this->_coreData->jsonDecode($value['images']);
         }
 
         if (!is_array($value['images'])) {
@@ -325,7 +353,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
 
         try {
             /** @var $storageHelper Magento_Core_Helper_File_Storage_Database */
-            $storageHelper = Mage::helper('Magento_Core_Helper_File_Storage_Database');
+            $storageHelper = $this->_fileStorageDb;
             if ($move) {
                 $this->_filesystem->rename($file, $destinationFile, $this->_baseTmpMediaPath);
 
@@ -582,7 +610,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
         $destinationFile = $this->_getUniqueFileName($file);
 
         /** @var $storageHelper Magento_Core_Helper_File_Storage_Database */
-        $storageHelper = Mage::helper('Magento_Core_Helper_File_Storage_Database');
+        $storageHelper = $this->_fileStorageDb;
 
         if ($storageHelper->checkDbUsage()) {
             $storageHelper->renameFile(
@@ -612,8 +640,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
      */
     protected function _getUniqueFileName($file)
     {
-        if (Mage::helper('Magento_Core_Helper_File_Storage_Database')->checkDbUsage()) {
-            $destFile = Mage::helper('Magento_Core_Helper_File_Storage_Database')
+        if ($this->_fileStorageDb->checkDbUsage()) {
+            $destFile = $this->_fileStorageDb
                 ->getUniqueFilename(
                     Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaUrlAddition(),
                     $file
@@ -641,8 +669,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
                 throw new Exception();
             }
 
-            if (Mage::helper('Magento_Core_Helper_File_Storage_Database')->checkDbUsage()) {
-                Mage::helper('Magento_Core_Helper_File_Storage_Database')
+            if ($this->_fileStorageDb->checkDbUsage()) {
+                $this->_fileStorageDb
                     ->copyFile($this->_mediaConfig->getMediaShortUrl($file),
                                $this->_mediaConfig->getMediaShortUrl($destinationFile));
 

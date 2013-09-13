@@ -12,4 +12,24 @@
     <type name="Magento_Sales_Model_Quote_Config">
         <plugin name="append_sales_rule_keys_to_quote" type="Magento_SalesRule_Model_Plugin_QuoteConfigProductAttributes"/>
     </type>
+    <type name="Magento_SalesRule_Model_Quote_Discount">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_SalesRule_Model_Rule_Condition_Combine">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_SalesRule_Model_Rule">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_SalesRule_Model_Validator">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
 </config>

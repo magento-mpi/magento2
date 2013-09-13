@@ -15,6 +15,42 @@
 class Magento_WebsiteRestriction_Model_Observer
 {
     /**
+     * Website restriction data
+     *
+     * @var Magento_WebsiteRestriction_Helper_Data
+     */
+    protected $_websiteRestrictionData = null;
+
+    /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Customer_Helper_Data $customerData
+     * @param Magento_WebsiteRestriction_Helper_Data $websiteRestrictionData
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Customer_Helper_Data $customerData,
+        Magento_WebsiteRestriction_Helper_Data $websiteRestrictionData
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_customerData = $customerData;
+        $this->_websiteRestrictionData = $websiteRestrictionData;
+    }
+
+    /**
      * Implement website stub or private sales restriction
      *
      * @param Magento_Event_Observer $observer
@@ -26,13 +62,13 @@ class Magento_WebsiteRestriction_Model_Observer
 
         if (!Mage::app()->getStore()->isAdmin()) {
             $dispatchResult = new Magento_Object(array('should_proceed' => true, 'customer_logged_in' => false));
-            Mage::dispatchEvent('websiterestriction_frontend', array(
+            $this->_eventManager->dispatch('websiterestriction_frontend', array(
                 'controller' => $controller, 'result' => $dispatchResult
             ));
             if (!$dispatchResult->getShouldProceed()) {
                 return;
             }
-            if (!Mage::helper('Magento_WebsiteRestriction_Helper_Data')->getIsRestrictionEnabled()) {
+            if (!$this->_websiteRestrictionData->getIsRestrictionEnabled()) {
                 return;
             }
             /* @var $request Magento_Core_Controller_Request_Http */
@@ -62,14 +98,14 @@ class Magento_WebsiteRestriction_Model_Observer
 
                 // redirect to landing page/login
                 case Magento_WebsiteRestriction_Model_Mode::ALLOW_LOGIN:
-                    if (!$dispatchResult->getCustomerLoggedIn() && !Mage::helper('Magento_Customer_Helper_Data')->isLoggedIn()) {
+                    if (!$dispatchResult->getCustomerLoggedIn() && !$this->_customerData->isLoggedIn()) {
                         // see whether redirect is required and where
                         $redirectUrl = false;
                         $allowedActionNames = array_keys(Mage::getConfig()
                             ->getNode(Magento_WebsiteRestriction_Helper_Data::XML_NODE_RESTRICTION_ALLOWED_GENERIC)
                             ->asArray()
                         );
-                        if (Mage::helper('Magento_Customer_Helper_Data')->isRegistrationAllowed()) {
+                        if ($this->_customerData->isRegistrationAllowed()) {
                             foreach(array_keys(Mage::getConfig()
                                 ->getNode(
                                     Magento_WebsiteRestriction_Helper_Data::XML_NODE_RESTRICTION_ALLOWED_REGISTER
@@ -109,7 +145,7 @@ class Magento_WebsiteRestriction_Model_Observer
                         if (Mage::getStoreConfigFlag(
                             Magento_Customer_Helper_Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
                         )) {
-                            $afterLoginUrl = Mage::helper('Magento_Customer_Helper_Data')->getDashboardUrl();
+                            $afterLoginUrl = $this->_customerData->getDashboardUrl();
                         } else {
                             $afterLoginUrl = Mage::getUrl();
                         }

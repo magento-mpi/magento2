@@ -16,30 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
-    extends Magento_Adminhtml_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
-    }
-
     /**
      * Internal constructor
      *
@@ -108,11 +87,15 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
     protected function _prepareForm()
     {
         $widgetInstance = $this->getWidgetInstance();
-        $form = new Magento_Data_Form(array(
-            'id' => 'edit_form',
-            'action' => $this->getData('action'),
-            'method' => 'post'
-        ));
+
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset',
             array('legend' => __('Frontend Properties'))
@@ -161,7 +144,8 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
                 'label'     => __('Assign to Store Views'),
                 'title'     => __('Assign to Store Views'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true),
+                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')
+                    ->getStoreValuesForForm(false, true),
             ));
             $renderer = $this->getLayout()
                 ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');

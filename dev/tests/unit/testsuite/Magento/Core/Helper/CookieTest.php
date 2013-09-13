@@ -74,7 +74,7 @@ class Magento_Core_Helper_CookieTest extends PHPUnit_Framework_TestCase
      */
     protected function _getStoreStub()
     {
-        $store = $this->getMock('Magento_Core_Model_Store', array('getConfig'), array(), '', false);
+        $store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
 
         $store->expects($this->any())
             ->method('getConfig')

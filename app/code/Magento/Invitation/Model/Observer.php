@@ -23,10 +23,27 @@ class Magento_Invitation_Model_Observer
      */
     protected $_flagInCustomerRegistration = false;
 
+    /**
+     * Invitation configuration
+     *
+     * @var Magento_Invitation_Model_Config
+     */
     protected $_config;
 
-    public function __construct()
-    {
+    /**
+     * Invitation data
+     *
+     * @var Magento_Invitation_Helper_Data
+     */
+    protected $_invitationData = null;
+
+    /**
+     * @param Magento_Invitation_Helper_Data $invitationData
+     */
+    public function __construct(
+        Magento_Invitation_Helper_Data $invitationData
+    ) {
+        $this->_invitationData = $invitationData;
         $this->_config = Mage::getSingleton('Magento_Invitation_Model_Config');
     }
 

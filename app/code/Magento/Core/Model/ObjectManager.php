@@ -11,6 +11,11 @@
 class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
 {
     /**
+     * @var Magento_Core_Model_ObjectManager
+     */
+    protected static $_instance;
+
+    /**
      * @var Magento_ObjectManager_Relations
      */
     protected $_compiledRelations;
@@ -112,5 +117,20 @@ class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManag
         ));
         $this->_config->setCache($this->get('Magento_Core_Model_ObjectManager_ConfigCache'));
         $this->configure($this->get('Magento_Core_Model_ObjectManager_ConfigLoader')->load('global'));
+
+        self::$_instance = $this;
+    }
+
+    /**
+     * Return global instance
+     *
+     * Temporary solution for removing Mage God Object, removed when Serialization problem has resolved
+     *
+     * @deprecated
+     * @return Magento_ObjectManager
+     */
+    public static function getInstance()
+    {
+        return self::$_instance;
     }
 }

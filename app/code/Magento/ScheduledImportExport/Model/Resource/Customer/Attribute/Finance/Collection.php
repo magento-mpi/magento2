@@ -41,17 +41,24 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Co
     protected $_attributeFactory;
 
     /**
-     * Class constructor
+     * Import export data
+     *
+     * @var Magento_ScheduledImportExport_Helper_Data
+     */
+    protected $_importExportData = null;
+
+    /**
+     * @param Magento_ScheduledImportExport_Helper_Data $importExportData
      * @param Magento_Eav_Model_AttributeFactory $attributeFactory
      */
-    public function __construct(Magento_Eav_Model_AttributeFactory $attributeFactory)
-    {
+    public function __construct(
+        Magento_ScheduledImportExport_Helper_Data $importExportData,
+        Magento_Eav_Model_AttributeFactory $attributeFactory
+    ) {
+        $this->_importExportData = $importExportData;
         $this->_attributeFactory = $attributeFactory;
 
-        /** @var $helper Magento_ScheduledImportExport_Helper_Data */
-        $helper = Mage::helper('Magento_ScheduledImportExport_Helper_Data');
-
-        if ($helper->isCustomerBalanceEnabled()) {
+        if ($this->_importExportData->isCustomerBalanceEnabled()) {
             $storeCreditData = array(
                 'attribute_id'   => self::CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_CUSTOMER_BALANCE,
                 'attribute_code' => self::COLUMN_CUSTOMER_BALANCE,
@@ -64,7 +71,7 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Co
             );
         }
 
-        if ($helper->isRewardPointsEnabled()) {
+        if ($this->_importExportData->isRewardPointsEnabled()) {
             $rewardPointsData = array(
                 'attribute_id'   => self::CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_REWARD_POINTS,
                 'attribute_code' => self::COLUMN_REWARD_POINTS,

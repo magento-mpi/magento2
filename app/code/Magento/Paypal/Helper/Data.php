@@ -19,6 +19,25 @@ class Magento_Paypal_Helper_Data extends Magento_Core_Helper_Abstract
     protected static $_shouldAskToCreateBillingAgreement = null;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context);
+    }
+
+    /**
      * Check whether customer should be asked confirmation whether to sign a billing agreement
      *
      * @param Magento_Paypal_Model_Config $config
@@ -44,7 +63,8 @@ class Magento_Paypal_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    public function getElementBackendConfig(Magento_Data_Form_Element_Abstract $element) {
+    public function getElementBackendConfig(Magento_Data_Form_Element_Abstract $element)
+    {
         $config = $element->getFieldConfig();
         if (!array_key_exists('backend_congif', $config)) {
             return false;
@@ -57,6 +77,6 @@ class Magento_Paypal_Helper_Data extends Magento_Core_Helper_Abstract
         if (isset($config['disable_for_countries'])) {
             $config['disable_for_countries'] = explode(',', str_replace(' ', '', $config['disable_for_countries']));
         }
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
+        return $this->_coreData->jsonEncode($config);
     }
 }

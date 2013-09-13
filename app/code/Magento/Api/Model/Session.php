@@ -34,14 +34,18 @@ class Magento_Api_Model_Session extends Magento_Core_Model_Session_Abstract
      * attributes This behavior may change in child classes
      *
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($data);
+        parent::__construct($eventManager, $coreHttp, $data);
     }
 
     public function start($sessionName = null)

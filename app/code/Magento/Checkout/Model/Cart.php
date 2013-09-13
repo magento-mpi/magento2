@@ -32,6 +32,22 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     protected $_productIds;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager
+    ) {
+        $this->_eventManager = $eventManager;
+    }
+
+    /**
      * Get shopping cart resource model
      *
      * @return Magento_Checkout_Model_Resource_Cart
@@ -271,7 +287,10 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
             Mage::throwException(__('The product does not exist.'));
         }
 
-        Mage::dispatchEvent('checkout_cart_product_add_after', array('quote_item' => $result, 'product' => $product));
+        $this->_eventManager->dispatch('checkout_cart_product_add_after', array(
+            'quote_item' => $result,
+            'product' => $product,
+        ));
         $this->getCheckoutSession()->setLastAddedProductId($productId);
         return $this;
     }
@@ -371,7 +390,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
      */
     public function updateItems($data)
     {
-        Mage::dispatchEvent('checkout_cart_update_items_before', array('cart'=>$this, 'info'=>$data));
+        $this->_eventManager->dispatch('checkout_cart_update_items_before', array('cart'=>$this, 'info'=>$data));
 
         /* @var $messageFactory Magento_Core_Model_Message */
         $messageFactory = Mage::getSingleton('Magento_Core_Model_Message');
@@ -412,7 +431,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
             );
         }
 
-        Mage::dispatchEvent('checkout_cart_update_items_after', array('cart'=>$this, 'info'=>$data));
+        $this->_eventManager->dispatch('checkout_cart_update_items_after', array('cart'=>$this, 'info'=>$data));
         return $this;
     }
 
@@ -435,7 +454,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
      */
     public function save()
     {
-        Mage::dispatchEvent('checkout_cart_save_before', array('cart'=>$this));
+        $this->_eventManager->dispatch('checkout_cart_save_before', array('cart'=>$this));
 
         $this->getQuote()->getBillingAddress();
         $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
@@ -445,7 +464,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
         /**
          * Cart save usually called after changes with cart items.
          */
-        Mage::dispatchEvent('checkout_cart_save_after', array('cart'=>$this));
+        $this->_eventManager->dispatch('checkout_cart_save_after', array('cart'=>$this));
         return $this;
     }
 
@@ -580,7 +599,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
             Mage::throwException($result);
         }
 
-        Mage::dispatchEvent('checkout_cart_product_update_after', array(
+        $this->_eventManager->dispatch('checkout_cart_product_update_after', array(
             'quote_item' => $result,
             'product' => $product
         ));

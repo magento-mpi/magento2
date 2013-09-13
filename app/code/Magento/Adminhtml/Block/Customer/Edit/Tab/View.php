@@ -16,10 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Block_Customer_Edit_Tab_View
- extends Magento_Adminhtml_Block_Template
- implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Template
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
-
     protected $_customer;
 
     protected $_customerLog;
@@ -32,17 +31,19 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     public function getCustomer()
@@ -84,7 +85,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
      */
     public function getCreateDate()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->formatDate(
+        return $this->_coreData->formatDate(
             $this->getCustomer()->getCreatedAtTimestamp(),
             Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
             true
@@ -116,7 +117,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     {
         $date = $this->getCustomerLog()->getLoginAtTimestamp();
         if ($date) {
-            return Mage::helper('Magento_Core_Helper_Data')->formatDate(
+            return $this->_coreData->formatDate(
                 $date,
                 Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
                 true
@@ -148,10 +149,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     public function getCurrentStatus()
     {
         $log = $this->getCustomerLog();
-        if ($log->getLogoutAt()
-            || strtotime(now()) - strtotime($log->getLastVisitAt())
-                > Magento_Log_Model_Visitor::getOnlineMinutesInterval() * 60
-        ) {
+        $interval = Magento_Log_Model_Visitor::getOnlineMinutesInterval();
+        if ($log->getLogoutAt() || (strtotime(now()) - strtotime($log->getLastVisitAt()) > $interval * 60)) {
             return __('Offline');
         }
         return __('Online');
@@ -181,13 +180,10 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
 
     public function getBillingAddressHtml()
     {
-        $address = $this->getCustomer()->getPrimaryBillingAddress();
-        if ($address) {
-            $html = $address->format('html');
-        } else {
-            $html = __('The customer does not have default billing address.');
+        if ($address = $this->getCustomer()->getPrimaryBillingAddress()) {
+            return $address->format('html');
         }
-        return $html;
+        return __('The customer does not have default billing address.');
     }
 
     public function getAccordionHtml()

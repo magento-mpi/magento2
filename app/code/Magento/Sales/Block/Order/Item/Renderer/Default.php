@@ -17,6 +17,29 @@
  */
 class Magento_Sales_Block_Order_Item_Renderer_Default extends Magento_Core_Block_Template
 {
+    /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function setItem(Magento_Object $item)
     {
         $this->setData('item', $item);
@@ -122,13 +145,13 @@ class Magento_Sales_Block_Order_Item_Renderer_Default extends Magento_Core_Block
             $_truncatedValue = nl2br($_truncatedValue);
             return array('value' => $_truncatedValue);
         } else {
-            $_truncatedValue = Mage::helper('Magento_Core_Helper_String')->truncate($optionValue, 55, '');
+            $_truncatedValue = $this->_coreString->truncate($optionValue, 55, '');
             $_truncatedValue = nl2br($_truncatedValue);
         }
 
         $result = array('value' => $_truncatedValue);
 
-        if (Mage::helper('Magento_Core_Helper_String')->strlen($optionValue) > 55) {
+        if ($this->_coreString->strlen($optionValue) > 55) {
             $result['value'] = $result['value'] . ' <a href="#" class="dots" onclick="return false">...</a>';
             $optionValue = nl2br($optionValue);
             $result = array_merge($result, array('full_view' => $optionValue));

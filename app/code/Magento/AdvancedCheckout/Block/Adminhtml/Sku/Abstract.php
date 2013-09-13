@@ -11,7 +11,6 @@
 /**
  * Admin Checkout main form container
  *
- * @method string                                           getAdditionalJavascript()
  * @method string                                           getListType()
  * @method Magento_AdvancedCheckout_Block_Adminhtml_Sku_Abstract setListType()
  * @method string                                           getDataContainerId()
@@ -21,7 +20,7 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_AdvancedCheckout_Block_Adminhtml_Sku_Abstract extends Magento_Adminhtml_Block_Template
+abstract class Magento_AdvancedCheckout_Block_Adminhtml_Sku_Abstract extends Magento_Backend_Block_Template
 {
     /**
      * List type of current block
@@ -118,7 +117,7 @@ abstract class Magento_AdvancedCheckout_Block_Adminhtml_Sku_Abstract extends Mag
             'fileUploadUrl'    => $this->getFileUploadUrl(),
         );
 
-        $json = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
+        $json = $this->_coreData->jsonEncode($data);
         return $json;
     }
 

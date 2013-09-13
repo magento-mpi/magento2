@@ -50,7 +50,7 @@ class Magento_Sales_Model_Resource_Order_Address_Collection extends Magento_Sale
     {
         parent::_afterLoad();
 
-        Mage::dispatchEvent($this->_eventPrefix . '_load_after', array(
+        $this->_eventManager->dispatch($this->_eventPrefix . '_load_after', array(
             $this->_eventObject => $this
         ));
 

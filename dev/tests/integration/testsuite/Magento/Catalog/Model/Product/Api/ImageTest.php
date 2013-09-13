@@ -23,6 +23,7 @@ class Magento_Catalog_Model_Product_Api_ImageTest extends PHPUnit_Framework_Test
      */
     protected function setUp()
     {
+        $this->markTestSkipped('Api tests were skipped');
         $productFixture = require dirname(__FILE__) . '/_files/ProductData.php';
         $product = Mage::getModel('Magento_Catalog_Model_Product');
 

@@ -47,8 +47,17 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
      */
     protected $_order   = null;
 
-    public function __construct()
-    {
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
+        array $data = array()
+    ) {
+        parent::__construct($eventManager, $coreHttp, $data);
         $this->init('adminhtml_quote');
         if (Mage::app()->hasSingleStore()) {
             $this->setStoreId(Mage::app()->getStore(true)->getId());

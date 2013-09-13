@@ -120,7 +120,7 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
      */
     public function isNewsletterEnabled()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->isModuleOutputEnabled('Magento_Newsletter');
+        return $this->_coreData->isModuleOutputEnabled('Magento_Newsletter');
     }
 
     /**

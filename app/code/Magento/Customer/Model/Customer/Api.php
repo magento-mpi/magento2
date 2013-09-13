@@ -27,11 +27,26 @@ class Magento_Customer_Model_Customer_Api extends Magento_Customer_Model_Api_Res
      * @param stdClass $data
      * @return array
      */
+    /**
+     * Api data
+     *
+     * @var Magento_Api_Helper_Data
+     */
+    protected $_apiData = null;
+
+    /**
+     * @param Magento_Api_Helper_Data $apiData
+     */
+    public function __construct(
+        Magento_Api_Helper_Data $apiData
+    ) {
+        $this->_apiData = $apiData;
+    }
+
     protected function _prepareData($data)
     {
-       foreach ($this->_mapAttributes as $attributeAlias=>$attributeCode) {
-            if(isset($data[$attributeAlias]))
-            {
+        foreach ($this->_mapAttributes as $attributeAlias=>$attributeCode) {
+            if (isset($data[$attributeAlias])) {
                 $data[$attributeCode] = $data[$attributeAlias];
                 unset($data[$attributeAlias]);
             }
@@ -100,7 +115,7 @@ class Magento_Customer_Model_Customer_Api extends Magento_Customer_Model_Api_Res
     {
         $collection = Mage::getModel('Magento_Customer_Model_Customer')->getCollection()->addAttributeToSelect('*');
         /** @var $apiHelper Magento_Api_Helper_Data */
-        $apiHelper = Mage::helper('Magento_Api_Helper_Data');
+        $apiHelper = $this->_apiData;
         $filters = $apiHelper->parseFilters($filters, $this->_mapAttributes);
         try {
             foreach ($filters as $field => $value) {

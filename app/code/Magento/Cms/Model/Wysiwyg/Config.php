@@ -29,7 +29,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
      * @var Magento_AuthorizationInterface
      */
     protected $_authorization;
-    
+
     /**
      * @var Magento_Core_Model_View_Url
      */
@@ -46,6 +46,22 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
     protected $_widgetConfig;
 
     /**
+     * Cms data
+     *
+     * @var Magento_Cms_Helper_Data
+     */
+    protected $_cmsData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Cms_Helper_Data $cmsData
      * @param Magento_AuthorizationInterface $authorization
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_Variable_Config $variableConfig
@@ -53,12 +69,16 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Cms_Helper_Data $cmsData,
         Magento_AuthorizationInterface $authorization,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_Variable_Config $variableConfig,
         Magento_Widget_Model_Widget_Config $widgetConfig,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_cmsData = $cmsData;
         $this->_authorization = $authorization;
         $this->_viewUrl = $viewUrl;
         $this->_variableConfig = $variableConfig;
@@ -94,7 +114,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
             'add_variables'                 => true,
             'add_widgets'                   => true,
             'no_display'                    => false,
-            'translator'                    => Mage::helper('Magento_Cms_Helper_Data'),
+            'translator'                    => $this->_cmsData,
             'encode_directives'             => true,
             'directives_url'                =>
                 Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/cms_wysiwyg/directive'),

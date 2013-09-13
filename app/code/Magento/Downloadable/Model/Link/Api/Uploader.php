@@ -30,19 +30,24 @@ class Magento_Downloadable_Model_Link_Api_Uploader extends Magento_Core_Model_Fi
     const DEFAULT_FILE_TYPE = 'application/octet-stream';
 
     /**
-     * Check if the uploaded file exists
-     *
-     * @param array $fileId
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
+     * @param Magento_Core_Helper_File_Storage $coreFileStorage
+     * @param array $file
      * @throws Exception
      */
-    public function __construct($fileId)
-    {
-        $this->_setUploadFile($fileId);
-        if (!file_exists($this->_file['tmp_name'])) {
+    public function __construct(
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
+        Magento_Core_Helper_File_Storage $coreFileStorage,
+        $file
+    ) {
+        $this->_setUploadFile($file);
+        if ( !file_exists($this->_file['tmp_name']) ) {
             throw new Exception('', 'file_not_uploaded');
         } else {
             $this->_fileExists = true;
         }
+        $this->_coreFileStorageDb = $coreFileStorageDb;
+        $this->_coreFileStorage = $coreFileStorage;
     }
 
     /**

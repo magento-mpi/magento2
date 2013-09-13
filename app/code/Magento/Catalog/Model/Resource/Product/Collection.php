@@ -184,6 +184,37 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     protected $_catalogPreparePriceSelect = null;
 
     /**
+     * Catalog product flat
+     *
+     * @var Magento_Catalog_Helper_Product_Flat
+     */
+    protected $_catalogProductFlat = null;
+
+    /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+    ) {
+        $this->_catalogData = $catalogData;
+        $this->_catalogProductFlat = $catalogProductFlat;
+        parent::__construct($eventManager, $fetchStrategy);
+    }
+
+    /**
      * Get cloned Select after dispatching 'catalog_prepare_price_select' event
      *
      * @return Magento_DB_Select
@@ -219,7 +250,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
             'response_object' => $response
         );
 
-        Mage::dispatchEvent('catalog_prepare_price_select', $eventArgs);
+        $this->_eventManager->dispatch('catalog_prepare_price_select', $eventArgs);
 
         $additional   = join('', $response->getAdditionalCalculations());
         $this->_priceExpression = $table . '.min_price';
@@ -274,7 +305,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      */
     public function getFlatHelper()
     {
-        return Mage::helper('Magento_Catalog_Helper_Product_Flat');
+        return $this->_catalogProductFlat;
     }
 
     /**
@@ -485,7 +516,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
         $this->_prepareUrlDataObject();
 
         if (count($this)) {
-            Mage::dispatchEvent('catalog_product_collection_load_after', array('collection' => $this));
+            $this->_eventManager->dispatch('catalog_product_collection_load_after', array('collection' => $this));
         }
 
         foreach ($this as $product) {
@@ -986,7 +1017,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
         if ($isAnchor || $isNotAnchor) {
             $select = $this->getProductCountSelect();
 
-            Mage::dispatchEvent(
+            $this->_eventManager->dispatch(
                 'catalog_product_collection_before_add_count_to_categories',
                 array('collection' => $this)
             );
@@ -1164,7 +1195,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
 
             return $this;
         }
-        if (!Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_CatalogRule')) {
+        if (!$this->_catalogData->isModuleEnabled('Magento_CatalogRule')) {
             return $this;
         }
         $wId = Mage::app()->getWebsite()->getId();
@@ -1725,7 +1756,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
         }
 
         $this->_productLimitationJoinStore();
-        Mage::dispatchEvent('catalog_product_collection_apply_limitations_after', array('collection' => $this));
+        $this->_eventManager->dispatch('catalog_product_collection_apply_limitations_after', array('collection' => $this));
         return $this;
     }
 

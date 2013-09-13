@@ -189,7 +189,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
      */
     protected function _filterPostData($data)
     {
-        return Mage::helper('Magento_CustomerCustomAttributes_Helper_Customer')->filterPostData($data);
+        return $this->_objectManager->get('Magento_CustomerCustomAttributes_Helper_Customer')->filterPostData($data);
     }
 
     /**
@@ -203,7 +203,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
             /* @var $attributeObject Magento_Customer_Model_Attribute */
             $attributeObject = $this->_initAttribute();
             /* @var $helper Magento_CustomerCustomAttributes_Helper_Data */
-            $helper = Mage::helper('Magento_CustomerCustomAttributes_Helper_Data');
+            $helper = $this->_objectManager->get('Magento_CustomerCustomAttributes_Helper_Data');
 
             //filtering
             try {

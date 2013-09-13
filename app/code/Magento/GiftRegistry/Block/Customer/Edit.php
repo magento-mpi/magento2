@@ -31,19 +31,21 @@ class Magento_GiftRegistry_Block_Customer_Edit extends Magento_Directory_Block_D
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $configCacheType, $data);
+        parent::__construct($configCacheType, $coreData, $context, $data);
     }
 
     /**

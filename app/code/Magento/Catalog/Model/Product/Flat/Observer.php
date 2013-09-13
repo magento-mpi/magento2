@@ -19,13 +19,29 @@
 class Magento_Catalog_Model_Product_Flat_Observer
 {
     /**
+     * Catalog product flat
+     *
+     * @var Magento_Catalog_Helper_Product_Flat
+     */
+    protected $_catalogProductFlat = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+    ) {
+        $this->_catalogProductFlat = $catalogProductFlat;
+    }
+
+    /**
      * Retrieve Catalog Product Flat Helper
      *
      * @return Magento_Catalog_Helper_Product_Flat
      */
     protected function _getHelper()
     {
-        return Mage::helper('Magento_Catalog_Helper_Product_Flat');
+        return $this->_catalogProductFlat;
     }
 
     /**

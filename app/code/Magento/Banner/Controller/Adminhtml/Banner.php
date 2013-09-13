@@ -114,7 +114,7 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
 
             // prepare post data
             if (isset($data['banner_catalog_rules'])) {
-                $related = Mage::helper('Magento_Adminhtml_Helper_Js')
+                $related = $this->_objectManager->get('Magento_Adminhtml_Helper_Js')
                     ->decodeGridSerializedInput($data['banner_catalog_rules']);
                 foreach ($related as $_key => $_rid) {
                     $related[$_key] = (int)$_rid;
@@ -122,7 +122,7 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
                 $data['banner_catalog_rules'] = $related;
             }
             if (isset($data['banner_sales_rules'])) {
-                $related = Mage::helper('Magento_Adminhtml_Helper_Js')
+                $related = $this->_objectManager->get('Magento_Adminhtml_Helper_Js')
                     ->decodeGridSerializedInput($data['banner_sales_rules']);
                 foreach ($related as $_key => $_rid) {
                     $related[$_key] = (int)$_rid;

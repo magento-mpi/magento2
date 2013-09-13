@@ -39,7 +39,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Items
                     $item->getGwPrice() + $item->getGwTaxAmount()
                 );
             } else {
-                $temp['price'] = $this->_preparePrices($item->getGwBasePrice(),$item->getGwPrice());
+                $temp['price'] = $this->_preparePrices($item->getGwBasePrice(), $item->getGwPrice());
             }
             $temp['design'] = $item->getGwId();
             $data[$item->getId()] = $temp;

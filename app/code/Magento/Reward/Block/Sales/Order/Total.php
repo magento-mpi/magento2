@@ -10,6 +10,29 @@
 class Magento_Reward_Block_Sales_Order_Total extends Magento_Core_Block_Template
 {
     /**
+     * Reward data
+     *
+     * @var Magento_Reward_Helper_Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * @param Magento_Reward_Helper_Data $rewardData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Reward_Helper_Data $rewardData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_rewardData = $rewardData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get label cell tag properties
      *
      * @return string
@@ -63,7 +86,7 @@ class Magento_Reward_Block_Sales_Order_Total extends Magento_Core_Block_Template
             $this->getParentBlock()->addTotal(new Magento_Object(array(
                 'code'   => 'reward_points',
                 'strong' => false,
-                'label'  => Mage::helper('Magento_Reward_Helper_Data')->formatReward($source->getRewardPointsBalance()),
+                'label'  => $this->_rewardData->formatReward($source->getRewardPointsBalance()),
                 'value'  => $source instanceof Magento_Sales_Model_Order_Creditmemo ? - $value : $value
             )));
         }
