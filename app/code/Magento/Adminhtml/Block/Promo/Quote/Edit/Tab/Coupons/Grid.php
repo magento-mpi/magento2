@@ -80,7 +80,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
                 __('No'),
                 __('Yes')
             ),
-            'renderer' => '\Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons\Grid\Column\Renderer\Used',
+            'renderer' => 'Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons\Grid\Column\Renderer\Used',
             'filter_condition_callback' => array(
                 \Mage::getResourceModel('Magento\SalesRule\Model\Resource\Coupon\Collection'), 'addIsUsedFilterCallback'
             )

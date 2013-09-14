@@ -76,7 +76,7 @@ class Magento_Paypal_Model_PayflowlinkTest extends PHPUnit_Framework_TestCase
         $request = new \Magento\Paypal\Model\Payflow\Request;
         $this->_moduleListMock = $this->getMock('Magento\Core\Model\ModuleListInterface');
         $this->_modelClass = $this->getMock(
-            '\Magento\Paypal\Model\Payflowlink',
+            'Magento\Paypal\Model\Payflowlink',
             array(
                 'getResponse',
                 '_postRequest',

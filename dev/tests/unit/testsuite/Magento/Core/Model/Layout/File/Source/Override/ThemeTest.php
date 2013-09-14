@@ -79,7 +79,7 @@ class Magento_Core_Model_Layout_File_Source_Override_ThemeTest extends PHPUnit_F
     {
         $filePath = 'design/area/theme_path/Module_One/layout/override/parent_theme/1.xml';
         $this->setExpectedException(
-            '\Magento\Core\Exception',
+            'Magento\Core\Exception',
             "Trying to override layout file '$filePath' for theme 'parent_theme'"
                 . ", which is not ancestor of theme 'theme_path'"
         );

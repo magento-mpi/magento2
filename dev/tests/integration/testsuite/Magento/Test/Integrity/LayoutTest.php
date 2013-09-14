@@ -205,7 +205,7 @@ class Magento_Test_Integrity_LayoutTest extends PHPUnit_Framework_TestCase
         if ($themeFile === self::NO_OVERRIDDEN_THEMES_MARKER) {
             $this->markTestSkipped('No overriden themes.');
         }
-        $baseFiles = self::_getCachedFiles($theme->getArea(), '\Magento\Core\Model\Layout\File\Source\Base', $theme);
+        $baseFiles = self::_getCachedFiles($theme->getArea(), 'Magento\Core\Model\Layout\File\Source\Base', $theme);
         $fileKey = $themeFile->getModule() . '/' . $themeFile->getName();
         $this->assertArrayHasKey($fileKey, $baseFiles,
             sprintf("Could not find base file, overridden by theme file '%s'.", $themeFile->getFilename())
@@ -240,7 +240,7 @@ class Magento_Test_Integrity_LayoutTest extends PHPUnit_Framework_TestCase
 
         // Search for the overridden file in the ancestor theme
         $ancestorFiles = self::_getCachedFiles($ancestorTheme->getFullPath(),
-            '\Magento\Core\Model\Layout\File\Source\Theme', $ancestorTheme);
+            'Magento\Core\Model\Layout\File\Source\Theme', $ancestorTheme);
         $fileKey = $themeFile->getModule() . '/' . $themeFile->getName();
         $this->assertArrayHasKey($fileKey, $ancestorFiles,
             sprintf("Could not find original file in '%s' theme, overridden by file '%s'.",

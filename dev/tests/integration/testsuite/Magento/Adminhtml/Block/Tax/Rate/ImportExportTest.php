@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_Tax_Rate_ImportExportTest extends PHPUnit_Framewor
 
     public function testCreateBlock()
     {
-        $this->assertInstanceOf('\Magento\Adminhtml\Block\Tax\Rate\ImportExport', $this->_block);
+        $this->assertInstanceOf('Magento\Adminhtml\Block\Tax\Rate\ImportExport', $this->_block);
     }
 
     public function testFormExists()

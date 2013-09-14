@@ -29,7 +29,7 @@ class Options extends \Magento\Core\Block\Template
         parent::_construct();
         $this->addOptionRenderer(
             'default',
-            '\Magento\Catalog\Block\Product\View\Options\Type\DefaultType',
+            'Magento\Catalog\Block\Product\View\Options\Type\DefaultType',
             'product/view/options/type/default.phtml'
         );
     }

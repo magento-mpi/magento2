@@ -36,7 +36,7 @@ class Magento_CatalogSearch_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testCheckNotesResult()
     {
-        $this->assertInstanceOf('\Magento\CatalogSearch\Helper\Data', $this->_helper->checkNotes());
+        $this->assertInstanceOf('Magento\CatalogSearch\Helper\Data', $this->_helper->checkNotes());
     }
 
     /**
@@ -48,7 +48,7 @@ class Magento_CatalogSearch_Helper_DataTest extends PHPUnit_Framework_TestCase
         $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Helper\Context');
         /** @var $mock \Magento\CatalogSearch\Helper\Data */
         $mock = $this->getMock(
-            '\Magento\CatalogSearch\Helper\Data',
+            'Magento\CatalogSearch\Helper\Data',
             array('getQueryText'), array($context)
         );
         $mock->expects($this->any())

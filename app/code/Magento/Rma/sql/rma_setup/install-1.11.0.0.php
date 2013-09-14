@@ -689,7 +689,7 @@ $installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'is_returnable'
     'label'             => 'Enable RMA',
     'input'             => 'select',
     'class'             => '',
-    'source'            => '\Magento\Eav\Model\Entity\Attribute\Source\Boolean',
+    'source'            => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean',
     'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
     'visible'           => true,
     'required'          => false,
@@ -706,7 +706,7 @@ $installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'is_returnable'
         \Magento\Catalog\Model\Product\Type::TYPE_GROUPED . ',' .
         \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE,
     'is_configurable'   => false,
-    'input_renderer'    => '\Magento\Rma\Block\Adminhtml\Product\Renderer',
+    'input_renderer'    => 'Magento\Rma\Block\Adminhtml\Product\Renderer',
 ));
 
 $installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'use_config_is_returnable', array(

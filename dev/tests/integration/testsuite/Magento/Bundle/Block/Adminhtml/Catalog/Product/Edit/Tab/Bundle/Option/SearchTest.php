@@ -22,11 +22,11 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sear
 
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = Mage::getModel(
-            '\Magento\Core\Model\Layout',
+            'Magento\Core\Model\Layout',
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
         $block = $layout->createBlock(
-            '\Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search',
+            'Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search',
             'block2');
 
         $indexValue = 'magento_index_set_to_test';

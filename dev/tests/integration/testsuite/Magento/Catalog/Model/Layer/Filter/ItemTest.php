@@ -49,7 +49,7 @@ class Magento_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_Test
     public function testGetUrl()
     {
         $action = Mage::getModel(
-            '\Magento\Core\Controller\Front\Action',
+            'Magento\Core\Controller\Front\Action',
             array(
                 'request' => new Magento_TestFramework_Request(),
                 'response' => new Magento_TestFramework_Response(),

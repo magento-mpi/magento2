@@ -22,14 +22,14 @@ class Pro extends \Magento\Paypal\Model\Pro
      *
      * @var string
      */
-    protected $_apiType = '\Magento\PaypalUk\Model\Api\Nvp';
+    protected $_apiType = 'Magento\PaypalUk\Model\Api\Nvp';
 
     /**
      * Config model type
      *
      * @var string
      */
-    protected $_configType = '\Magento\Paypal\Model\Config';
+    protected $_configType = 'Magento\Paypal\Model\Config';
 
     /**
      * Payflow trx_id key in transaction info

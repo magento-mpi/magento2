@@ -46,7 +46,7 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Fram
 
     protected function tearDown()
     {
-        $this->_objectManager->removeSharedInstance('\Magento\Core\Model\Layout');
+        $this->_objectManager->removeSharedInstance('Magento\Core\Model\Layout');
         unset($this->_objectManager, $this->_urlBuilder, $this->_layout, $this->_blockFactory, $this->_block);
     }
 
@@ -66,10 +66,10 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Fram
         $this->_block->toHtml();
 
         $form = $this->_block->getForm();
-        $this->assertInstanceOf('\Magento\Data\Form', $form);
+        $this->assertInstanceOf('Magento\Data\Form', $form);
         /** @var \Magento\Data\Form\Element\Fieldset $fieldset */
         $fieldset = $form->getElement('base_fieldset');
-        $this->assertInstanceOf('\Magento\Data\Form\Element\Fieldset', $fieldset);
+        $this->assertInstanceOf('Magento\Data\Form\Element\Fieldset', $fieldset);
         $elements = $fieldset->getElements();
         foreach ($formElements as $elementId) {
             $element = $elements->searchById($elementId);

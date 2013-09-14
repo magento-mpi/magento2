@@ -25,7 +25,7 @@ class Combine
     public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('\Magento\Reminder\Model\Rule\Condition\Wishlist\Combine');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Wishlist\Combine');
     }
 
     /**
@@ -38,12 +38,12 @@ class Combine
         return array_merge_recursive(
             parent::getNewChildSelectOptions(), array(
                 $this->_getRecursiveChildSelectOption(),
-                \Mage::getModel("\Magento\Reminder\Model\Rule\Condition\Wishlist\Sharing")
+                \Mage::getModel("Magento\Reminder\Model\Rule\Condition\Wishlist\Sharing")
                     ->getNewChildSelectOptions(),
-                \Mage::getModel("\Magento\Reminder\Model\Rule\Condition\Wishlist\Quantity")
+                \Mage::getModel("Magento\Reminder\Model\Rule\Condition\Wishlist\Quantity")
                     ->getNewChildSelectOptions(),
                 array( // subselection combo
-                    'value' => '\Magento\Reminder\Model\Rule\Condition\Wishlist\Subselection',
+                    'value' => 'Magento\Reminder\Model\Rule\Condition\Wishlist\Subselection',
                     'label' => __('Items Subselection')
                 )
             )

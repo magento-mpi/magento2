@@ -26,7 +26,7 @@ class Magento_Catalog_Model_Observer_ReindexTest extends PHPUnit_Framework_TestC
         $affectedProduct = array(1, 2, 3);
 
         $fulltextReindex = $this->getMock(
-            '\Magento\CatalogSearch\Model\Resource\Fulltext',
+            'Magento\CatalogSearch\Model\Resource\Fulltext',
             array('rebuildIndex'),
             array(),
             '',
@@ -63,6 +63,6 @@ class Magento_Catalog_Model_Observer_ReindexTest extends PHPUnit_Framework_TestC
 
         /** @var $objectManager \Magento\ObjectManager */
         $object = new \Magento\Catalog\Model\Observer\Reindex($objectManager);
-        $this->assertInstanceOf('\Magento\Catalog\Model\Observer\Reindex', $object->fulltextReindex($observer));
+        $this->assertInstanceOf('Magento\Catalog\Model\Observer\Reindex', $object->fulltextReindex($observer));
     }
 }

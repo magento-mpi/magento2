@@ -44,14 +44,14 @@ class Basic extends \Magento\Payment\Model\Method\Cc
      *
      * @var string
      */
-    protected $_formBlockType = '\Magento\Pbridge\Block\Checkout\Payment\Braintree\Basic';
+    protected $_formBlockType = 'Magento\Pbridge\Block\Checkout\Payment\Braintree\Basic';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = '\Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Braintree\Basic';
+    protected $_backendFormBlockType = 'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Braintree\Basic';
 
     /**
      * Payment Bridge Payment Method Instance

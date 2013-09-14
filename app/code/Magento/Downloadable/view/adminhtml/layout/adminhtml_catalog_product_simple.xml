@@ -12,7 +12,7 @@
         <reference name="product_tabs">
             <action method="addTab">
                 <argument name="name" xsi:type="string">downloadable_items</argument>
-                <argument name="block" xsi:type="string">\Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable</argument>
+                <argument name="block" xsi:type="string">Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable</argument>
             </action>
         </reference>
     </handle>

@@ -11,12 +11,12 @@
     <type name="Magento\AdminNotification\Model\System\MessageList">
         <param name="messages">
             <value>
-                <baseurl>\Magento\AdminNotification\Model\System\Message\Baseurl</baseurl>
-                <security>\Magento\AdminNotification\Model\System\Message\Security</security>
-                <cacheOutdated>\Magento\AdminNotification\Model\System\Message\CacheOutdated</cacheOutdated>
-                <survey>\Magento\AdminNotification\Model\System\Message\Survey</survey>
-                <media_synchronization_error>\Magento\AdminNotification\Model\System\Message\Media\Synchronization\Error</media_synchronization_error>
-                <media_synchronization_success>\Magento\AdminNotification\Model\System\Message\Media\Synchronization\Success</media_synchronization_success>
+                <baseurl>Magento\AdminNotification\Model\System\Message\Baseurl</baseurl>
+                <security>Magento\AdminNotification\Model\System\Message\Security</security>
+                <cacheOutdated>Magento\AdminNotification\Model\System\Message\CacheOutdated</cacheOutdated>
+                <survey>Magento\AdminNotification\Model\System\Message\Survey</survey>
+                <media_synchronization_error>Magento\AdminNotification\Model\System\Message\Media\Synchronization\Error</media_synchronization_error>
+                <media_synchronization_success>Magento\AdminNotification\Model\System\Message\Media\Synchronization\Success</media_synchronization_success>
             </value>
         </param>
     </type>

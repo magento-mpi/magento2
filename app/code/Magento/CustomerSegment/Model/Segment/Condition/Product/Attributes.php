@@ -32,7 +32,7 @@ class Attributes
     public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('\Magento\CustomerSegment\Model\Segment\Condition\Product\Attributes');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Product\Attributes');
         $this->setValue(null);
     }
 

@@ -38,7 +38,7 @@ class Magento_Sales_Model_Order_InvoiceTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('canVoid'))
             ->getMock();
 
-        $this->_model = $helperManager->getObject('\Magento\Sales\Model\Order\Invoice', array());
+        $this->_model = $helperManager->getObject('Magento\Sales\Model\Order\Invoice', array());
         $this->_model->setOrder($this->_orderMock);
     }
 

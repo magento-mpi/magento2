@@ -30,7 +30,7 @@ class Magento_AdminNotification_Model_NotificationServiceTest extends PHPUnit_Fr
             'Magento\AdminNotification\Model\InboxFactory', array('create'), array(), '', false
         );
         $notification = $this->getMock(
-            '\Magento\AdminNotification\Model\Inbox',
+            'Magento\AdminNotification\Model\Inbox',
             array('load', 'getId', 'save','setIsRead'),
             array(),
             '',

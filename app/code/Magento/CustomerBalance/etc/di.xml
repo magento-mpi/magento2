@@ -11,7 +11,7 @@
     <type name="Magento\Core\Model\ModuleManager">
         <param name="outputConfigPaths">
             <value>
-                <Magento_CustomerBalance>\Magento\CustomerBalance\Helper\Data::XML_PATH_ENABLED</Magento_CustomerBalance>
+                <Magento_CustomerBalance>Magento\CustomerBalance\Helper\Data::XML_PATH_ENABLED</Magento_CustomerBalance>
             </value>
         </param>
     </type>

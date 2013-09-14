@@ -173,8 +173,8 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
     {
         Mage::getSingleton('Magento\Catalog\Model\Session')->setLastVisitedCategoryId(2);
         $this->_helper->initProduct(1, 'view');
-        $this->assertInstanceOf('\Magento\Catalog\Model\Product', Mage::registry('current_product'));
-        $this->assertInstanceOf('\Magento\Catalog\Model\Category', Mage::registry('current_category'));
+        $this->assertInstanceOf('Magento\Catalog\Model\Product', Mage::registry('current_product'));
+        $this->assertInstanceOf('Magento\Catalog\Model\Category', Mage::registry('current_category'));
     }
 
     public function testPrepareProductOptions()
@@ -184,7 +184,7 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
         $buyRequest = new \Magento\Object(array('qty' => 100, 'options' => array('option' => 'value')));
         $this->_helper->prepareProductOptions($product, $buyRequest);
         $result = $product->getPreconfiguredValues();
-        $this->assertInstanceOf('\Magento\Object', $result);
+        $this->assertInstanceOf('Magento\Object', $result);
         $this->assertEquals(100, $result->getQty());
         $this->assertEquals(array('option' => 'value'), $result->getOptions());
     }

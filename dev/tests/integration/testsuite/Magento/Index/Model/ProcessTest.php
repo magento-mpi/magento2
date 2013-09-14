@@ -58,7 +58,7 @@ class Magento_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         $this->_eventRepositoryMock = $this->getMock(
-            '\Magento\Index\Model\EventRepository', array(), array(), '', false
+            'Magento\Index\Model\EventRepository', array(), array(), '', false
         );
 
         // get existing indexer process

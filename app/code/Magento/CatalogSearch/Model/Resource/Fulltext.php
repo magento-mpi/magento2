@@ -420,7 +420,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
             $this->_searchableAttributes = array();
 
             $productAttributes = \Mage::getResourceModel(
-                '\Magento\Catalog\Model\Resource\Product\Attribute\Collection'
+                'Magento\Catalog\Model\Resource\Product\Attribute\Collection'
             );
 
             if ($this->_engine && $this->_engine->allowAdvancedIndex()) {

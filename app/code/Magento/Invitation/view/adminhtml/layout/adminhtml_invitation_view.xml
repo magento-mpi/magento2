@@ -18,11 +18,11 @@
             <block class="Magento\Invitation\Block\Adminhtml\Invitation\View\Tabs" name="invitation_view_tabs" as="tabs">
                 <action method="addTab">
                     <argument name="tab" xsi:type="string">general</argument>
-                    <argument name="content" xsi:type="string">\Magento\Invitation\Block\Adminhtml\Invitation\View\Tab\General</argument>
+                    <argument name="content" xsi:type="string">Magento\Invitation\Block\Adminhtml\Invitation\View\Tab\General</argument>
                 </action>
                 <action method="addTab">
                     <argument name="tab" xsi:type="string">history</argument>
-                    <argument name="content" xsi:type="string">\Magento\Invitation\Block\Adminhtml\Invitation\View\Tab\History</argument>
+                    <argument name="content" xsi:type="string">Magento\Invitation\Block\Adminhtml\Invitation\View\Tab\History</argument>
                 </action>
                 <action method="setDestElementId">
                     <argument name="id" xsi:type="string">invitation-elements</argument>

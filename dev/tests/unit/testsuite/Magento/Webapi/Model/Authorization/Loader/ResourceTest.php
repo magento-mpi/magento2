@@ -51,7 +51,7 @@ class Magento_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Fra
             ->method('getAclResources')
             ->will($this->returnValue(include $fixturePath . 'acl.php'));
 
-        $this->_model = $this->_helper->getObject('\Magento\Webapi\Model\Authorization\Loader\Resource', array(
+        $this->_model = $this->_helper->getObject('Magento\Webapi\Model\Authorization\Loader\Resource', array(
             'resourceFactory' => $resourceFactory,
             'resourceProvider' => $this->_resourceProvider,
         ));

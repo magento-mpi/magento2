@@ -30,7 +30,7 @@ class Magento_Core_Model_Config_MetadataProcessorTest extends PHPUnit_Framework_
     protected function setUp()
     {
         $this->_modelPoolMock = $this->getMock(
-            '\Magento\Core\Model\Config\Data\BackendModelPool', array(), array(), '', false);
+            'Magento\Core\Model\Config\Data\BackendModelPool', array(), array(), '', false);
         $this->_initialConfigMock = $this->getMock('Magento\Core\Model\Config\Initial', array(), array(), '', false);
         $this->_backendModelMock = $this->getMock('Magento\Core\Model\Config\Data\BackendModelInterface');
         $this->_initialConfigMock->expects($this->any())

@@ -40,7 +40,7 @@ class Magento_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestC
         );
         $this->_soapRequest->setParams($requestParams);
         $this->setExpectedException(
-            '\Magento\Webapi\Exception',
+            'Magento\Webapi\Exception',
             'Not allowed parameters: param_1, param_2. Please use only "'
                 . $wsdlParam . '" and "' . $resourcesParam . '".',
             \Magento\Webapi\Exception::HTTP_BAD_REQUEST
@@ -55,7 +55,7 @@ class Magento_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestC
         $requestParams = array(\Magento\Webapi\Model\Soap\Server::REQUEST_PARAM_RESOURCES => null);
         $this->_soapRequest->setParams($requestParams);
         $this->setExpectedException(
-            '\Magento\Webapi\Exception',
+            'Magento\Webapi\Exception',
             'Requested resources are missing.',
             \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );

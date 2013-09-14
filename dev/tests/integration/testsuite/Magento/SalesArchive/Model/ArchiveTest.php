@@ -69,35 +69,35 @@ class Magento_SalesArchive_Model_ArchiveTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                '\Magento\Sales\Model\Order',
+                'Magento\Sales\Model\Order',
                 \Magento\SalesArchive\Model\Archive::ORDER
             ),
             array(
-                '\Magento\Sales\Model\Resource\Order',
+                'Magento\Sales\Model\Resource\Order',
                 \Magento\SalesArchive\Model\Archive::ORDER
             ),
             array(
-                '\Magento\Sales\Model\Order\Invoice',
+                'Magento\Sales\Model\Order\Invoice',
                 \Magento\SalesArchive\Model\Archive::INVOICE
             ),
             array(
-                '\Magento\Sales\Model\Resource\Order\Invoice',
+                'Magento\Sales\Model\Resource\Order\Invoice',
                 \Magento\SalesArchive\Model\Archive::INVOICE
             ),
             array(
-                '\Magento\Sales\Model\Order\Shipment',
+                'Magento\Sales\Model\Order\Shipment',
                 \Magento\SalesArchive\Model\Archive::SHIPMENT
             ),
             array(
-                '\Magento\Sales\Model\Resource\Order\Shipment',
+                'Magento\Sales\Model\Resource\Order\Shipment',
                 \Magento\SalesArchive\Model\Archive::SHIPMENT
             ),
             array(
-                '\Magento\Sales\Model\Order\Creditmemo',
+                'Magento\Sales\Model\Order\Creditmemo',
                 \Magento\SalesArchive\Model\Archive::CREDITMEMO
             ),
             array(
-                '\Magento\Sales\Model\Resource\Order\Creditmemo',
+                'Magento\Sales\Model\Resource\Order\Creditmemo',
                 \Magento\SalesArchive\Model\Archive::CREDITMEMO
             ),
             array('Magento\Object', false)

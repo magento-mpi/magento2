@@ -23,7 +23,7 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Co
     protected function _getFinanceCollectionMock()
     {
         return $this->getMock(
-            '\Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection',
+            'Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection',
             null,
             array(),
             '',

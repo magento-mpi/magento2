@@ -107,7 +107,7 @@ class Magento_Core_Model_View_UrlTest extends PHPUnit_Framework_TestCase
     public static function getViewFileUrlProductionModeDataProvider()
     {
         $usualTheme = PHPUnit_Framework_MockObject_Generator::getMock(
-            '\Magento\Core\Model\Theme',
+            'Magento\Core\Model\Theme',
             array(),
             array(),
             '',

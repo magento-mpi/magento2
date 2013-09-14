@@ -12,22 +12,22 @@
         <block class="Magento\Adminhtml\Block\Sales\Order\Creditmemo\Create\Items" name="order_items" template="sales/order/creditmemo/create/items.phtml">
             <action method="addItemRender">
                 <argument name="type" xsi:type="string">default</argument>
-                <argument name="block" xsi:type="string">\Magento\Adminhtml\Block\Sales\Items\Renderer\DefaultRenderer</argument>
+                <argument name="block" xsi:type="string">Magento\Adminhtml\Block\Sales\Items\Renderer\DefaultRenderer</argument>
                 <argument name="template" xsi:type="string">sales/order/creditmemo/create/items/renderer/default.phtml</argument>
             </action>
             <action method="addColumnRender">
                 <argument name="column" xsi:type="string">qty</argument>
-                <argument name="block" xsi:type="string">\Magento\Adminhtml\Block\Sales\Items\Column\Qty</argument>
+                <argument name="block" xsi:type="string">Magento\Adminhtml\Block\Sales\Items\Column\Qty</argument>
                 <argument name="template" xsi:type="string">sales/items/column/qty.phtml</argument>
             </action>
             <action method="addColumnRender">
                 <argument name="column" xsi:type="string">name</argument>
-                <argument name="block" xsi:type="string">\Magento\Adminhtml\Block\Sales\Items\Column\Name</argument>
+                <argument name="block" xsi:type="string">Magento\Adminhtml\Block\Sales\Items\Column\Name</argument>
                 <argument name="template" xsi:type="string">sales/items/column/name.phtml</argument>
             </action>
             <action method="addColumnRender">
                 <argument name="column" xsi:type="string">name</argument>
-                <argument name="block" xsi:type="string">\Magento\Adminhtml\Block\Sales\Items\Column\Name\Grouped</argument>
+                <argument name="block" xsi:type="string">Magento\Adminhtml\Block\Sales\Items\Column\Name\Grouped</argument>
                 <argument name="template" xsi:type="string">sales/items/column/name.phtml</argument>
                 <argument name="type" xsi:type="string">grouped</argument>
             </action>

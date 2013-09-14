@@ -30,9 +30,9 @@ class Magento_Core_Block_Text_ListTest extends PHPUnit_Framework_TestCase
     public function testToHtml()
     {
         $children = array(
-            array('block1', '\Magento\Core\Block\Text', 'text1'),
-            array('block2', '\Magento\Core\Block\Text', 'text2'),
-            array('block3', '\Magento\Core\Block\Text', 'text3'),
+            array('block1', 'Magento\Core\Block\Text', 'text1'),
+            array('block2', 'Magento\Core\Block\Text', 'text2'),
+            array('block3', 'Magento\Core\Block\Text', 'text3'),
         );
         foreach ($children as $child) {
             $this->_layout->addBlock($child[1], $child[0], $this->_block->getNameInLayout())

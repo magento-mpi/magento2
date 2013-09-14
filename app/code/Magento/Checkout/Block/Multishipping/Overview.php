@@ -27,7 +27,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
         parent::_construct();
         $this->addItemRender(
             $this->_getRowItemType('default'),
-            '\Magento\Checkout\Block\Cart\Item\Renderer',
+            'Magento\Checkout\Block\Cart\Item\Renderer',
             'multishipping/overview/item.phtml'
         );
     }

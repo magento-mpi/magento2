@@ -21,7 +21,7 @@
             <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle" name="product.info.bundle" as="product_type_data" template="catalog/product/view/type/bundle.phtml">
                 <action method="addPriceBlockType">
                     <argument name="type" xsi:type="string">bundle</argument>
-                    <argument name="block" xsi:type="string">\Magento\Bundle\Block\Catalog\Product\Price</argument>
+                    <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\Price</argument>
                     <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
                 </action>
                 <block class="Magento\Bundle\Block\Catalog\Product\Price" name="bundle.prices" as="bundle_prices" template="catalog/product/view/price.phtml">
@@ -35,19 +35,19 @@
             <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle" name="product.info.bundle.options" as="type_bundle_options" template="catalog/product/view/type/bundle/options.phtml" before="-">
                 <action method="addRenderer">
                     <argument name="type" xsi:type="string">select</argument>
-                    <argument name="block" xsi:type="string">\Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Select</argument>
+                    <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Select</argument>
                 </action>
                 <action method="addRenderer">
                     <argument name="type" xsi:type="string">multi</argument>
-                    <argument name="block" xsi:type="string">\Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Multi</argument>
+                    <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Multi</argument>
                 </action>
                 <action method="addRenderer">
                     <argument name="type" xsi:type="string">radio</argument>
-                    <argument name="block" xsi:type="string">\Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Radio</argument>
+                    <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Radio</argument>
                 </action>
                 <action method="addRenderer">
                     <argument name="type" xsi:type="string">checkbox</argument>
-                    <argument name="block" xsi:type="string">\Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Checkbox</argument>
+                    <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Checkbox</argument>
                 </action>
             </block>
         </reference>
@@ -59,7 +59,7 @@
         <reference name="product.clone_prices">
             <action method="addPriceBlockType">
                 <argument name="type" xsi:type="string">bundle</argument>
-                <argument name="block" xsi:type="string">\Magento\Bundle\Block\Catalog\Product\Price</argument>
+                <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\Price</argument>
                 <argument name="template" xsi:type="string">catalog/product/view/price.phtml</argument>
             </action>
         </reference>

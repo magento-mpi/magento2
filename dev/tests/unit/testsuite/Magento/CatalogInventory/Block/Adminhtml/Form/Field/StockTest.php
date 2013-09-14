@@ -43,7 +43,7 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPU
     public function testSetForm()
     {
         $this->_qty->expects($this->once())->method('setForm')
-            ->with($this->isInstanceOf('\Magento\Data\Form\Element\AbstractElement'));
+            ->with($this->isInstanceOf('Magento\Data\Form\Element\AbstractElement'));
         $this->_model->setForm(new \Magento\Data\Form\Element\Text());
     }
 

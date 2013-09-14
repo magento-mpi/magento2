@@ -35,7 +35,7 @@ class Magento_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framew
     protected function setUp()
     {
         $this->_observerFactoryMock = $this->getMock(
-            '\Magento\Core\Model\ObserverFactory', array(), array(), '', false
+            'Magento\Core\Model\ObserverFactory', array(), array(), '', false
         );
         $this->_observerMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
         $this->_listenerMock = $this->getMock('Magento_Some_Model_Observer_Some', array('method_name'), array(), '',

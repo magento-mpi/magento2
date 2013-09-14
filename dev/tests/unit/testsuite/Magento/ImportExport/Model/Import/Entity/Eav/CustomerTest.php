@@ -86,7 +86,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerTest extends PHPUnit_
     {
         // entity adapter mock
         $modelMock = $this->getMock(
-            '\Magento\ImportExport\Model\Import\Entity\Eav\Customer',
+            'Magento\ImportExport\Model\Import\Entity\Eav\Customer',
             array(
                 'validateRow',
                 '_getCustomerId',
@@ -108,7 +108,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerTest extends PHPUnit_
 
         // mock to imitate data source model
         $dataSourceModelMock = $this->getMock(
-            '\Magento\ImportExport\Model\Resource\Import\Data',
+            'Magento\ImportExport\Model\Resource\Import\Data',
             array('getNextBunch'),
             array(),
             '',
@@ -122,7 +122,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerTest extends PHPUnit_
             ->will($this->returnValue(null));
 
         $property = new ReflectionProperty(
-            '\Magento\ImportExport\Model\Import\Entity\Eav\Customer',
+            'Magento\ImportExport\Model\Import\Entity\Eav\Customer',
             '_dataSourceModel'
         );
         $property->setAccessible(true);

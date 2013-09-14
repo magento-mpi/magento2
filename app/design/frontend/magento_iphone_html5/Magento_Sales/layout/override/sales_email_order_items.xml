@@ -12,12 +12,12 @@
         <block class="Magento\Sales\Block\Order\Email\Items" name="items" template="email/items.phtml">
             <action method="addItemRender">
                 <argument name="type" xsi:type="string">default</argument>
-                <argument name="block" xsi:type="string">\Magento\Sales\Block\Order\Email\Items\Order\DefaultOrder</argument>
+                <argument name="block" xsi:type="string">Magento\Sales\Block\Order\Email\Items\Order\DefaultOrder</argument>
                 <argument name="template" xsi:type="string">email/items/order/default.phtml</argument>
             </action>
             <action method="addItemRender">
                 <argument name="type" xsi:type="string">grouped</argument>
-                <argument name="block" xsi:type="string">\Magento\Sales\Block\Order\Email\Items\Order\Grouped</argument>
+                <argument name="block" xsi:type="string">Magento\Sales\Block\Order\Email\Items\Order\Grouped</argument>
                 <argument name="template" xsi:type="string">email/items/order/default.phtml</argument>
             </action>
             <block class="Magento\Sales\Block\Order\Totals" name="order_totals" template="order/totals.phtml">

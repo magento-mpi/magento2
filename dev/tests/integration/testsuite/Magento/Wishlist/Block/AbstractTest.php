@@ -19,7 +19,7 @@ class Magento_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_block = $this->getMockForAbstractClass(
-            '\Magento\Wishlist\Block\AbstractBlock',
+            'Magento\Wishlist\Block\AbstractBlock',
             array(Mage::getSingleton('Magento\Core\Block\Template\Context'))
         );
     }

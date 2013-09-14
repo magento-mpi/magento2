@@ -28,7 +28,7 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
      * @var string
      */
     protected $_priceBlockDefaultTemplate = 'rss/product/price.phtml';
-    protected $_priceBlockDefaultType = '\Magento\Catalog\Block\Product\Price';
+    protected $_priceBlockDefaultType = 'Magento\Catalog\Block\Product\Price';
 
     /**
      * Whether to show "As low as" as a link

@@ -26,7 +26,7 @@ class Address
      *
      * @var string
      */
-    protected $_parentResourceModelName = '\Magento\Sales\Model\Resource\Quote\Address';
+    protected $_parentResourceModelName = 'Magento\Sales\Model\Resource\Quote\Address';
 
     /**
      * Initialize resource

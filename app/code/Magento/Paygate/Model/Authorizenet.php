@@ -73,12 +73,12 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     /**
      * Form block type
      */
-    protected $_formBlockType = '\Magento\Paygate\Block\Authorizenet\Form\Cc';
+    protected $_formBlockType = 'Magento\Paygate\Block\Authorizenet\Form\Cc';
 
     /**
      * Info block type
      */
-    protected $_infoBlockType = '\Magento\Paygate\Block\Authorizenet\Info\Cc';
+    protected $_infoBlockType = 'Magento\Paygate\Block\Authorizenet\Info\Cc';
 
     /**
      * Availability options

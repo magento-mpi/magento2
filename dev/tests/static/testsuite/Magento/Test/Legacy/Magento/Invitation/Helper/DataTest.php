@@ -33,7 +33,7 @@ class Magento_Test_Legacy_Magento_Invitation_Helper_DataTest extends PHPUnit_Fra
             $this->assertNotRegExp(
                 '/\Magento\Invitation\Helper\Data[^;(]+?' . preg_quote($method, '/') . '\s*\(/i',
                 $content,
-                "Method '\Magento\Invitation\Helper\Data::$method' is obsolete. Use $suggestion instead"
+                "Method 'Magento\Invitation\Helper\Data::$method' is obsolete. Use $suggestion instead"
             );
         }
     }
@@ -52,7 +52,7 @@ class Magento_Test_Legacy_Magento_Invitation_Helper_DataTest extends PHPUnit_Fra
             $file = (string)$fileInfo;
             /* Exclude files that don't need to be validated */
             $content = file_get_contents($file);
-            if (strpos($content, '\Magento\Invitation\Helper\Data') === false) {
+            if (strpos($content, 'Magento\Invitation\Helper\Data') === false) {
                 continue;
             }
             $files[] = $file;

@@ -62,7 +62,7 @@ class Collection
                 'is_required'    => false,
             );
             $this->addItem(
-                $this->_attributeFactory->createAttribute('\Magento\Eav\Model\Entity\Attribute', $storeCreditData)
+                $this->_attributeFactory->createAttribute('Magento\Eav\Model\Entity\Attribute', $storeCreditData)
             );
         }
 
@@ -75,7 +75,7 @@ class Collection
                 'is_required'    => false,
             );
             $this->addItem(
-                $this->_attributeFactory->createAttribute('\Magento\Eav\Model\Entity\Attribute', $rewardPointsData)
+                $this->_attributeFactory->createAttribute('Magento\Eav\Model\Entity\Attribute', $rewardPointsData)
             );
         }
     }

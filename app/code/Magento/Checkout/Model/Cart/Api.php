@@ -226,7 +226,7 @@ class Api extends \Magento\Checkout\Model\Api\Resource
 
         $this->_configScope->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
         /** @var $customerResource \Magento\Checkout\Model\Api\Resource\Customer */
-        $customerResource = \Mage::getModel("\Magento\Checkout\Model\Api\Resource\Customer");
+        $customerResource = \Mage::getModel("Magento\Checkout\Model\Api\Resource\Customer");
         $isNewCustomer = $customerResource->prepareCustomerForQuote($quote);
 
         try {

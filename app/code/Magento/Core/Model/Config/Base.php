@@ -26,7 +26,7 @@ class Base extends \Magento\Simplexml\Config implements \Magento\Core\Model\Conf
      */
     public function __construct($sourceData = null)
     {
-        $this->_elementClass = '\Magento\Core\Model\Config\Element';
+        $this->_elementClass = 'Magento\Core\Model\Config\Element';
         parent::__construct($sourceData);
         self::$instances[] = $this;
     }

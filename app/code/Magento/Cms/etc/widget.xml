@@ -22,7 +22,7 @@
                 <label>CMS Page</label>
                 <type>label</type>
                 <helper_block>
-                    <type>\Magento\Adminhtml\Block\Cms\Page\Widget\Chooser</type>
+                    <type>Magento\Adminhtml\Block\Cms\Page\Widget\Chooser</type>
                     <data>
                         <button translate="open">
                             <open>Select Page...</open>
@@ -71,7 +71,7 @@
                 <label>Block</label>
                 <type>label</type>
                 <helper_block>
-                    <type>\Magento\Adminhtml\Block\Cms\Block\Widget\Chooser</type>
+                    <type>Magento\Adminhtml\Block\Cms\Block\Widget\Chooser</type>
                     <data>
                         <button translate="open">
                             <open>Select Block...</open>

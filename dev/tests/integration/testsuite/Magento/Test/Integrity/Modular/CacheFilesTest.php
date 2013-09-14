@@ -23,7 +23,7 @@ class Magento_Test_Integrity_Modular_CacheFilesTest extends PHPUnit_Framework_Te
 
         /** @var \Magento\Core\Model\Cache\Config\Reader $reader */
         $reader = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            '\Magento\Core\Model\Cache\Config\Reader',
+            'Magento\Core\Model\Cache\Config\Reader',
             array(
                 'validationState' => $validationStateMock,
                 'schema' => $schema,

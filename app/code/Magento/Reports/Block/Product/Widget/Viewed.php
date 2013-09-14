@@ -34,7 +34,7 @@ class Viewed
             ->addColumnCountLayoutDepend('three_columns', 3);
         $this->addPriceBlockType(
             'bundle',
-            '\Magento\Bundle\Block\Catalog\Product\Price',
+            'Magento\Bundle\Block\Catalog\Product\Price',
             'catalog/product/price.phtml'
         );
     }

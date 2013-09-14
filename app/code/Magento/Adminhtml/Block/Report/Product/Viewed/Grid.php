@@ -31,7 +31,7 @@ class Grid extends \Magento\Adminhtml\Block\Report\Grid\AbstractGrid
      *
      * @var string
      */
-    protected $_resourceCollectionName  = '\Magento\Reports\Model\Resource\Report\Product\Viewed\Collection';
+    protected $_resourceCollectionName  = 'Magento\Reports\Model\Resource\Report\Product\Viewed\Collection';
 
     /**
      * Init grid parameters
@@ -55,7 +55,7 @@ class Grid extends \Magento\Adminhtml\Block\Report\Grid\AbstractGrid
             'width'         => 100,
             'sortable'      => false,
             'period_type'   => $this->getPeriodType(),
-            'renderer'      => '\Magento\Adminhtml\Block\Report\Sales\Grid\Column\Renderer\Date',
+            'renderer'      => 'Magento\Adminhtml\Block\Report\Sales\Grid\Column\Renderer\Date',
             'totals_label'  => __('Total'),
             'html_decorators' => array('nobr'),
             'header_css_class'  => 'col-period',

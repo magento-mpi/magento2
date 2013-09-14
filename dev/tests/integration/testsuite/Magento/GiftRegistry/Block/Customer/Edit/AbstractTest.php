@@ -23,7 +23,7 @@ class Magento_GiftRegistry_Block_Customer_Edit_AbstractTest
     public function testGetCalendarDateHtml()
     {
         $this->getMockForAbstractClass(
-            '\Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit', array(), self::STUB_CLASS, false
+            'Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit', array(), self::STUB_CLASS, false
         );
         $block = Mage::app()->getLayout()->createBlock(self::STUB_CLASS);
 

@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_MainTest extends PHPUnit_Fr
         $block = $objectManager->create('Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab\Main');
         $block->setLayout($objectManager->create('Magento\Core\Model\Layout'));
         $prepareFormMethod = new ReflectionMethod(
-            '\Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab\Main', '_prepareForm'
+            'Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab\Main', '_prepareForm'
         );
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);

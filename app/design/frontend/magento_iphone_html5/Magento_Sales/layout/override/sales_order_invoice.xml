@@ -18,12 +18,12 @@
                 <block class="Magento\Sales\Block\Order\Invoice\Items" name="invoice_items" template="order/invoice/items.phtml">
                     <action method="addItemRender">
                         <argument name="type" xsi:type="string">default</argument>
-                        <argument name="block" xsi:type="string">\Magento\Catalog\Block\Product\Price</argument>
+                        <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\Price</argument>
                         <argument name="template" xsi:type="string">Magento_Sales::order/invoice/items/renderer/default.phtml</argument>
                     </action>
                     <action method="addItemRender">
                         <argument name="type" xsi:type="string">grouped</argument>
-                        <argument name="block" xsi:type="string">\Magento\Sales\Block\Order\Item\Renderer\Grouped</argument>
+                        <argument name="block" xsi:type="string">Magento\Sales\Block\Order\Item\Renderer\Grouped</argument>
                         <argument name="template" xsi:type="string">order/invoice/items/renderer/default.phtml</argument>
                     </action>
                     <block class="Magento\Sales\Block\Order\Invoice\Totals" name="invoice_totals" template="order/totals.phtml">

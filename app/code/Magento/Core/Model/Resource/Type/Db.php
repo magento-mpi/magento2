@@ -17,6 +17,6 @@ abstract class Db extends \Magento\Core\Model\Resource\Type\AbstractType
      */
     public function __construct()
     {
-        $this->_entityClass = '\Magento\Core\Model\Resource\Entity\Table';
+        $this->_entityClass = 'Magento\Core\Model\Resource\Entity\Table';
     }
 }

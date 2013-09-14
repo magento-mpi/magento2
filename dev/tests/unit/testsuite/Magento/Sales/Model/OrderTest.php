@@ -37,7 +37,7 @@ class Magento_Sales_Model_OrderTest extends PHPUnit_Framework_TestCase
             $items[] = $item;
         }
 
-        $itemsProperty = new ReflectionProperty('\Magento\Sales\Model\Order', '_items');
+        $itemsProperty = new ReflectionProperty('Magento\Sales\Model\Order', '_items');
         $itemsProperty->setAccessible(true);
         $itemsProperty->setValue($order, $items);
     }
@@ -64,7 +64,7 @@ class Magento_Sales_Model_OrderTest extends PHPUnit_Framework_TestCase
             ->method('isDeleted')
             ->will($this->returnValue(false));
 
-        $itemsProperty = new ReflectionProperty('\Magento\Sales\Model\Order', '_payments');
+        $itemsProperty = new ReflectionProperty('Magento\Sales\Model\Order', '_payments');
         $itemsProperty->setAccessible(true);
         $itemsProperty->setValue($order, array($payment));
     }

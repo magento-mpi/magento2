@@ -29,7 +29,7 @@ class Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid
         $layout = Mage::getSingleton('Magento\Core\Model\Layout');
         /** @var $block  \Magento\Catalog\Block\Product\Configurable\AssociatedSelector\Backend\Grid\ColumnSet */
         $block = $layout->createBlock(
-            '\Magento\Catalog\Block\Product\Configurable\AssociatedSelector\Backend\Grid\ColumnSet',
+            'Magento\Catalog\Block\Product\Configurable\AssociatedSelector\Backend\Grid\ColumnSet',
             'block'
         );
         $assertBlock = $block->getLayout()->getBlock('block.test_configurable');

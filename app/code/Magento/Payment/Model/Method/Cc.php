@@ -13,8 +13,8 @@ namespace Magento\Payment\Model\Method;
 
 class Cc extends \Magento\Payment\Model\Method\AbstractMethod
 {
-    protected $_formBlockType = '\Magento\Payment\Block\Form\Cc';
-    protected $_infoBlockType = '\Magento\Payment\Block\Info\Cc';
+    protected $_formBlockType = 'Magento\Payment\Block\Form\Cc';
+    protected $_infoBlockType = 'Magento\Payment\Block\Info\Cc';
     protected $_canSaveCc     = false;
 
     /**

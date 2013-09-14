@@ -58,7 +58,7 @@ class Magento_Backend_Block_System_Config_FormStub extends \Magento\Backend\Bloc
             $this->_configRoot = $this->_configRootStub;
         }
         $this->_fieldRenderer = Mage::app()->getLayout()->createBlock(
-            '\Magento\Backend\Block\System\Config\Form\Field'
+            'Magento\Backend\Block\System\Config\Form\Field'
         );
     }
 }

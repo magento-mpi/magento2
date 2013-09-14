@@ -91,7 +91,7 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
      */
     public function testGetBlockName()
     {
-        $this->assertEquals($this->_object->getBlockName(), '\Magento\Captcha\Block\Captcha\DefaultCaptcha');
+        $this->assertEquals($this->_object->getBlockName(), 'Magento\Captcha\Block\Captcha\DefaultCaptcha');
     }
 
     /**
@@ -208,13 +208,13 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     protected function _getSessionStub()
     {
         $session = $this->getMock(
-            '\Magento\Customer\Model\Session',
+            'Magento\Customer\Model\Session',
             array('isLoggedIn'),
             array(), '', false
         );
 
         $session->expects($this->any())
-            ->method('\Magento\Customer\Model\Session')
+            ->method('Magento\Customer\Model\Session')
             ->will($this->returnValue(true));
 
         $session->setData(
@@ -267,7 +267,7 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     protected function _getResourceModelStub()
     {
         $resourceModel = $this->getMock(
-            '\Magento\Captcha\Model\Resource\Log',
+            'Magento\Captcha\Model\Resource\Log',
             array('countAttemptsByRemoteAddress', 'countAttemptsByUserLogin', 'logAttempt'),
             array(), '', false
         );

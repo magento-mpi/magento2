@@ -45,8 +45,8 @@ class Magento_Install_Controller_WizardTest extends Magento_TestFramework_TestCa
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(self::$_params);
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->configure(array(
             'preferences' => array(
-                '\Magento\Core\Controller\Request\Http' => 'Magento_TestFramework_Request',
-                '\Magento\Core\Controller\Response\Http' => 'Magento_TestFramework_Response'
+                'Magento\Core\Controller\Request\Http' => 'Magento_TestFramework_Request',
+                'Magento\Core\Controller\Response\Http' => 'Magento_TestFramework_Response'
             )
         ));
         $this->dispatch('install/wizard');
@@ -65,8 +65,8 @@ class Magento_Install_Controller_WizardTest extends Magento_TestFramework_TestCa
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize($params);
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->configure(array(
             'preferences' => array(
-                '\Magento\Core\Controller\Request\Http' => 'Magento_TestFramework_Request',
-                '\Magento\Core\Controller\Response\Http' => 'Magento_TestFramework_Response'
+                'Magento\Core\Controller\Request\Http' => 'Magento_TestFramework_Request',
+                'Magento\Core\Controller\Response\Http' => 'Magento_TestFramework_Response'
             )
         ));
         $this->dispatch("install/wizard/{$action}");

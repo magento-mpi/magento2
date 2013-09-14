@@ -41,7 +41,7 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetEncryptor()
     {
-        $this->assertInstanceOf('\Magento\Core\Model\Encryption', $this->_helper->getEncryptor());
+        $this->assertInstanceOf('Magento\Core\Model\Encryption', $this->_helper->getEncryptor());
     }
 
     public function testCurrency()
@@ -100,7 +100,7 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testValidateKey()
     {
         $validKey = md5(uniqid());
-        $this->assertInstanceOf('\Magento\Crypt', $this->_helper->validateKey($validKey));
+        $this->assertInstanceOf('Magento\Crypt', $this->_helper->validateKey($validKey));
     }
 
     public function testGetRandomString()

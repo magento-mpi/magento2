@@ -15,8 +15,8 @@ class Eaccelerator extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Ex
     /**
      * Log message
      */
-    const TAGS_UNSUPPORTED_BY_CLEAN_OF_EACCELERATOR_BACKEND = '\Magento\Cache\Backend\Eaccelerator::clean() : tags are unsupported by the Eaccelerator backend';
-    const TAGS_UNSUPPORTED_BY_SAVE_OF_EACCELERATOR_BACKEND =  '\Magento\Cache\Backend\Eaccelerator::save() : tags are unsupported by the Eaccelerator backend';
+    const TAGS_UNSUPPORTED_BY_CLEAN_OF_EACCELERATOR_BACKEND = 'Magento\Cache\Backend\Eaccelerator::clean() : tags are unsupported by the Eaccelerator backend';
+    const TAGS_UNSUPPORTED_BY_SAVE_OF_EACCELERATOR_BACKEND =  'Magento\Cache\Backend\Eaccelerator::save() : tags are unsupported by the Eaccelerator backend';
 
     /**
      * Constructor
@@ -121,7 +121,7 @@ class Eaccelerator extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Ex
                 return eaccelerator_clean();
                 break;
             case \Zend_Cache::CLEANING_MODE_OLD:
-                $this->_log("\Magento\Cache\Backend\Eaccelerator::clean() : CLEANING_MODE_OLD is unsupported by the Eaccelerator backend");
+                $this->_log("Magento\Cache\Backend\Eaccelerator::clean() : CLEANING_MODE_OLD is unsupported by the Eaccelerator backend");
                 break;
             case \Zend_Cache::CLEANING_MODE_MATCHING_TAG:
             case \Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG:

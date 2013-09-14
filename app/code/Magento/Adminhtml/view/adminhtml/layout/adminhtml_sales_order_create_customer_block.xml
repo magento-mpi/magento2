@@ -15,7 +15,7 @@
                     <argument name="id" xsi:type="string">sales_order_create_customer_grid</argument>
                     <argument name="use_ajax" xsi:type="string">1</argument>
                     <argument name="default_sort" xsi:type="string">entity_id</argument>
-                    <argument name="dataSource" xsi:type="object">\Magento\Sales\Model\Resource\Order\Customer\Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\Sales\Model\Resource\Order\Customer\Collection</argument>
                     <argument name="pager_visibility" xsi:type="string">1</argument>
                     <argument name="grid_url" xsi:type="url" path="*/*/loadBlock">
                         <param name="block">customer_grid</param>
@@ -26,7 +26,7 @@
                     <arguments>
                         <argument name="filter_visibility" xsi:type="string">1</argument>
                         <argument name="rowUrl" xsi:type="array">
-                            <item name="generatorClass" xsi:type="string">\Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorId</item>
+                            <item name="generatorClass" xsi:type="string">Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorId</item>
                         </argument>
                     </arguments>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="entity_id">

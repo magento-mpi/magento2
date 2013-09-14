@@ -96,7 +96,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     {
         if (!$this->_session) {
             $sessionClassPath = \Mage::app()->getStore()->isAdmin() ?
-                    '\Magento\Adminhtml\Model\Session' : '\Magento\Customer\Model\Session';
+                    'Magento\Adminhtml\Model\Session' : 'Magento\Customer\Model\Session';
             $this->_session =  \Mage::getSingleton($sessionClassPath);
         }
 

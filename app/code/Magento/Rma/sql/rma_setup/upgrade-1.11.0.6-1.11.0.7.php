@@ -20,7 +20,7 @@ $installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'is_returnable'
     'label'             => 'Enable RMA',
     'input'             => 'select',
     'class'             => '',
-    'source'            => '\Magento\Rma\Model\Product\Source',
+    'source'            => 'Magento\Rma\Model\Product\Source',
     'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
     'visible'           => true,
     'required'          => false,
@@ -37,5 +37,5 @@ $installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'is_returnable'
         \Magento\Catalog\Model\Product\Type::TYPE_GROUPED . ',' .
         \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE,
     'is_configurable'   => false,
-    'input_renderer'    => '\Magento\Rma\Block\Adminhtml\Product\Renderer',
+    'input_renderer'    => 'Magento\Rma\Block\Adminhtml\Product\Renderer',
 ));

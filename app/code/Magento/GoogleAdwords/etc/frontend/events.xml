@@ -9,9 +9,9 @@
 -->
 <config>
     <event name="checkout_onepage_controller_success_action">
-        <observer name="googleadwords_order_success" instance="\Magento\GoogleAdwords\Model\Observer" method="setConversionValue" />
+        <observer name="googleadwords_order_success" instance="Magento\GoogleAdwords\Model\Observer" method="setConversionValue" />
     </event>
     <event name="checkout_multishipping_controller_success_action">
-        <observer name="googleadwords_order_success" instance="\Magento\GoogleAdwords\Model\Observer" method="setConversionValue" />
+        <observer name="googleadwords_order_success" instance="Magento\GoogleAdwords\Model\Observer" method="setConversionValue" />
     </event>
-</config>
+</config>

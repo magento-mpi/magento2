@@ -20,7 +20,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('\Magento\SalesRule\Model\Rule\Condition\Combine');
+        $this->setType('Magento\SalesRule\Model\Rule\Condition\Combine');
     }
 
     /**
@@ -33,19 +33,19 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
         $attributes = array();
         foreach ($addressAttributes as $code=>$label) {
             $attributes[] = array(
-                'value' => '\Magento\SalesRule\Model\Rule\Condition\Address|' . $code, 'label' => $label
+                'value' => 'Magento\SalesRule\Model\Rule\Condition\Address|' . $code, 'label' => $label
             );
         }
 
         $conditions = parent::getNewChildSelectOptions();
         $conditions = array_merge_recursive($conditions, array(
-            array('value' => '\Magento\SalesRule\Model\Rule\Condition\Product\Found',
+            array('value' => 'Magento\SalesRule\Model\Rule\Condition\Product\Found',
                 'label' => __('Product attribute combination')
             ),
-            array('value' => '\Magento\SalesRule\Model\Rule\Condition\Product\Subselect',
+            array('value' => 'Magento\SalesRule\Model\Rule\Condition\Product\Subselect',
                 'label' => __('Products subselection')
             ),
-            array('value' => '\Magento\SalesRule\Model\Rule\Condition\Combine',
+            array('value' => 'Magento\SalesRule\Model\Rule\Condition\Combine',
                 'label' => __('Conditions combination')
             ),
             array('label' => __('Cart Attribute'), 'value' => $attributes),

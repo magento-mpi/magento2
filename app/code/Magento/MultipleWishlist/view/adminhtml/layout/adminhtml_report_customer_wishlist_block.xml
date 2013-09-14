@@ -13,7 +13,7 @@
             <block class="Magento\MultipleWishlist\Block\Adminhtml\Report\Customer\Wishlist\Grid" name="adminhtml.block.report.customer.wishlist.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">gridReportWishlists</argument>
-                    <argument name="dataSource" xsi:type="object">\Magento\MultipleWishlist\Model\Resource\Item\Report\Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\MultipleWishlist\Model\Resource\Item\Report\Collection</argument>
                 </arguments>
                 <block class="Magento\Backend\Block\Widget\Grid\Export" name="adminhtml.block.report.customer.wishlist.grid.export" as="grid.export">
                     <arguments>
@@ -137,7 +137,7 @@
                             <argument name="filter" xsi:type="string">0</argument>
                             <argument name="sortable" xsi:type="string">0</argument>
                             <argument name="type" xsi:type="string">price</argument>
-                            <argument name="renderer" xsi:type="string">\Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Currency</argument>
+                            <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Currency</argument>
                             <argument name="header_css_class" xsi:type="string">col-price</argument>
                             <argument name="column_css_class" xsi:type="string">col-price</argument>
                         </arguments>

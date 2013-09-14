@@ -22,7 +22,7 @@ class Magento_DesignEditor_Model_Editor_QuickStyles_Renderer_DefaultTest
     public function testToCss($expectedResult, $data)
     {
         $rendererModel = $this->getMock(
-            '\Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\DefaultRenderer', null, array(), '', false
+            'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\DefaultRenderer', null, array(), '', false
         );
 
         $this->assertEquals($expectedResult, $rendererModel->toCss($data));

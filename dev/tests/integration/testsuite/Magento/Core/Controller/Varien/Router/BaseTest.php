@@ -20,7 +20,7 @@ class Magento_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_T
     {
         $options = array(
             'areaCode' => 'frontend',
-            'baseController' => '\Magento\Core\Controller\Front\Action',
+            'baseController' => 'Magento\Core\Controller\Front\Action',
             'routerId' => 'standard'
         );
         $this->_model = Mage::getModel('Magento\Core\Controller\Varien\Router\Base', $options);
@@ -47,9 +47,9 @@ class Magento_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_T
 
         $request = new Magento_TestFramework_Request();
 
-        $this->assertInstanceOf('\Magento\Core\Controller\Varien\Action', $this->_model->match($request));
+        $this->assertInstanceOf('Magento\Core\Controller\Varien\Action', $this->_model->match($request));
         $request->setRequestUri('core/index/index');
-        $this->assertInstanceOf('\Magento\Core\Controller\Varien\Action', $this->_model->match($request));
+        $this->assertInstanceOf('Magento\Core\Controller\Varien\Action', $this->_model->match($request));
 
         $request->setPathInfo('not_exists/not_exists/not_exists')
             ->setModuleName('not_exists')
@@ -73,7 +73,7 @@ class Magento_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_T
     public function testGetControllerClassName()
     {
         $this->assertEquals(
-            '\Magento\Core\Controller\Index',
+            'Magento\Core\Controller\Index',
             $this->_model->getControllerClassName('Magento_Core', 'index')
         );
     }

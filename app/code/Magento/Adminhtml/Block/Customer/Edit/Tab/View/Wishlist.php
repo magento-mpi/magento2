@@ -69,7 +69,7 @@ class Wishlist extends \Magento\Adminhtml\Block\Widget\Grid
         $this->addColumn('product_name', array(
             'header'    => __('Product'),
             'index'     => 'product_name',
-            'renderer'  => '\Magento\Adminhtml\Block\Customer\Edit\Tab\View\Grid\Renderer\Item'
+            'renderer'  => 'Magento\Adminhtml\Block\Customer\Edit\Tab\View\Grid\Renderer\Item'
         ));
 
         if (!\Mage::app()->isSingleStoreMode()) {

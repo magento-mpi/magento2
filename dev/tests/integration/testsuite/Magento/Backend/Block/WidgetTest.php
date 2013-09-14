@@ -22,7 +22,7 @@ class Magento_Backend_Block_WidgetTest extends PHPUnit_Framework_TestCase
     public function testGetButtonHtml()
     {
         $layout = Mage::getModel(
-            '\Magento\Core\Model\Layout',
+            'Magento\Core\Model\Layout',
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
         $layout->getUpdate()->load();
@@ -44,7 +44,7 @@ class Magento_Backend_Block_WidgetTest extends PHPUnit_Framework_TestCase
     public function testGetButtonHtmlForTwoButtonsInOneBlock()
     {
         $layout = Mage::getModel(
-            '\Magento\Core\Model\Layout',
+            'Magento\Core\Model\Layout',
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
         $layout->getUpdate()->load();

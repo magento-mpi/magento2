@@ -35,7 +35,7 @@ class Magento_Tax_Model_TaxClass_Type_CustomerTest extends PHPUnit_Framework_Tes
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         /** @var $model \Magento\Tax\Model\TaxClass\Type\Customer */
         $model = $objectManagerHelper->getObject(
-            '\Magento\Tax\Model\TaxClass\Type\Customer',
+            'Magento\Tax\Model\TaxClass\Type\Customer',
             array(
                 'modelCustomerGroup' => $customerGroupMock,
                 'data' => array('id' => 5)

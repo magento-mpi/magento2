@@ -60,8 +60,8 @@ class Magento_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_Test
     public function createDataProvider()
     {
         return array(
-            array(\Magento\Core\Model\Image\AdapterFactory::ADAPTER_GD2, '\Magento\Image\Adapter\Gd2'),
-            array(\Magento\Core\Model\Image\AdapterFactory::ADAPTER_IM, '\Magento\Image\Adapter\ImageMagick'),
+            array(\Magento\Core\Model\Image\AdapterFactory::ADAPTER_GD2, 'Magento\Image\Adapter\Gd2'),
+            array(\Magento\Core\Model\Image\AdapterFactory::ADAPTER_IM, 'Magento\Image\Adapter\ImageMagick'),
         );
     }
 
@@ -114,7 +114,7 @@ class Magento_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_Test
     protected function _getModel(array $mockObjects = array())
     {
         return $this->_objectManagerHelper->getObject(
-            '\Magento\Core\Model\Image\AdapterFactory',
+            'Magento\Core\Model\Image\AdapterFactory',
             $mockObjects
         );
     }

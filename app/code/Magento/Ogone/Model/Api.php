@@ -23,8 +23,8 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     const PAYMENT_CODE = 'ogone';
 
     protected $_code  = self::PAYMENT_CODE;
-    protected $_formBlockType = '\Magento\Ogone\Block\Form';
-    protected $_infoBlockType = '\Magento\Ogone\Block\Info';
+    protected $_formBlockType = 'Magento\Ogone\Block\Form';
+    protected $_infoBlockType = 'Magento\Ogone\Block\Info';
     protected $_config = null;
 
      /**

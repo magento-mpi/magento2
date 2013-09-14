@@ -56,7 +56,7 @@ class Checkout
      *
      * @var string
      */
-    protected $_apiType = '\Magento\Paypal\Model\Api\Nvp';
+    protected $_apiType = 'Magento\Paypal\Model\Api\Nvp';
 
     /**
      * Payment method type
@@ -441,7 +441,7 @@ class Checkout
     {
         // prepare debug data
         $logger = \Mage::getModel(
-            '\Magento\Core\Model\Log\Adapter',
+            'Magento\Core\Model\Log\Adapter',
             array('fileName' => 'payment_' . $this->_methodType . '.log')
         );
         $debugData = array('request' => $request, 'response' => array());

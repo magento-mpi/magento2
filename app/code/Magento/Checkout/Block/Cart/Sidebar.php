@@ -30,7 +30,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
         parent::_construct();
         $this->addItemRender(
             'default',
-            '\Magento\Checkout\Block\Cart\Item\Renderer',
+            'Magento\Checkout\Block\Cart\Item\Renderer',
             'cart/sidebar/default.phtml'
         );
     }

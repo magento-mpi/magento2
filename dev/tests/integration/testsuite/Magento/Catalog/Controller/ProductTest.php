@@ -38,7 +38,7 @@ class Magento_Catalog_Controller_ProductTest extends Magento_TestFramework_TestC
         $this->dispatch('catalog/product/view/id/1');
         /** @var $currentProduct \Magento\Catalog\Model\Product */
         $currentProduct = Mage::registry('current_product');
-        $this->assertInstanceOf('\Magento\Catalog\Model\Product', $currentProduct);
+        $this->assertInstanceOf('Magento\Catalog\Model\Product', $currentProduct);
         $this->assertEquals(1, $currentProduct->getId());
 
         $lastViewedProductId = Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedProductId();

@@ -187,7 +187,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstractTest extends 
     public function testCheckUniqueKey(array $rowData, array $errors, $isValid = false)
     {
         $checkUniqueKey = new ReflectionMethod(
-            '\Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract',
+            'Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract',
             '_checkUniqueKey'
         );
         $checkUniqueKey->setAccessible(true);
@@ -255,7 +255,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstractTest extends 
     {
         // clear array
         $validatedRows = new ReflectionProperty(
-            '\Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract',
+            'Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract',
             '_validatedRows'
         );
         $validatedRows->setAccessible(true);
@@ -264,7 +264,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstractTest extends 
 
         // reset counter
         $entitiesCount = new ReflectionProperty(
-            '\Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract',
+            'Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract',
             '_processedEntitiesCount'
         );
         $entitiesCount->setAccessible(true);

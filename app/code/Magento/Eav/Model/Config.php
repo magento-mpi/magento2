@@ -253,7 +253,7 @@ class Config
          */
         foreach ($entityTypesData as $typeData) {
             if (!isset($typeData['attribute_model'])) {
-                $typeData['attribute_model'] = '\Magento\Eav\Model\Entity\Attribute';
+                $typeData['attribute_model'] = 'Magento\Eav\Model\Entity\Attribute';
             }
 
             $typeCode   = $typeData['entity_type_code'];

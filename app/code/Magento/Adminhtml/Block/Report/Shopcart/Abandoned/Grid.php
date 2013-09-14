@@ -114,7 +114,7 @@ class Grid extends \Magento\Adminhtml\Block\Report\Grid\Shopcart
             'currency_code' => $currencyCode,
             'index'         => 'subtotal',
             'sortable'      => false,
-            'renderer'      => '\Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Currency',
+            'renderer'      => 'Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Currency',
             'rate'          => $this->getRate($currencyCode),
             'header_css_class'  => 'col-subtotal',
             'column_css_class'  => 'col-subtotal'

@@ -30,7 +30,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
         $block->setLayout($objectManager->create('Magento\Core\Model\Layout'));
 
         $method = new ReflectionMethod(
-            '\Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm', '_addAttributesToForm');
+            'Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm', '_addAttributesToForm');
         $method->setAccessible(true);
 
         $form = new \Magento\Data\Form();

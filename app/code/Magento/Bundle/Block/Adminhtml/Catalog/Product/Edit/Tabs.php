@@ -19,7 +19,7 @@ namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit;
 
 class Tabs extends \Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs
 {
-    protected $_attributeTabBlock = '\Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes';
+    protected $_attributeTabBlock = 'Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes';
 
     protected function _prepareLayout()
     {

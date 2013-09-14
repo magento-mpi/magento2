@@ -103,7 +103,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'width'     => 10,
             'sortable'  => false,
             'filter'    => false,
-            'renderer'  => '\Magento\Adminhtml\Block\Cms\Page\Grid\Renderer\Action',
+            'renderer'  => 'Magento\Adminhtml\Block\Cms\Page\Grid\Renderer\Action',
         ));
 
         return parent::_prepareColumns();

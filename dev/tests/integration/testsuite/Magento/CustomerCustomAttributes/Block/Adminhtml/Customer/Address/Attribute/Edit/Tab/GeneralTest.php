@@ -31,10 +31,10 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
         Mage::register('entity_attribute', $model);
 
         $block = Mage::app()->getLayout()->createBlock(
-            '\Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab\General'
+            'Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab\General'
         );
         $prepareFormMethod = new ReflectionMethod(
-            '\Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab\General',
+            'Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab\General',
             '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);

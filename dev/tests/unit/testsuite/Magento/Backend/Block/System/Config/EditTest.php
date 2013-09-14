@@ -62,7 +62,7 @@ class Magento_Backend_Block_System_Config_EditTest extends PHPUnit_Framework_Tes
         $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false, false);
 
         $this->_sectionMock = $this->getMock(
-            '\Magento\Backend\Model\Config\Structure\Element\Section', array(), array(), '', false
+            'Magento\Backend\Model\Config\Structure\Element\Section', array(), array(), '', false
         );
         $this->_systemConfigMock->expects($this->any())
             ->method('getElement')
@@ -80,7 +80,7 @@ class Magento_Backend_Block_System_Config_EditTest extends PHPUnit_Framework_Tes
         );
 
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_object = $helper->getObject('\Magento\Backend\Block\System\Config\Edit', $data);
+        $this->_object = $helper->getObject('Magento\Backend\Block\System\Config\Edit', $data);
     }
 
     public function testGetSaveButtonHtml()

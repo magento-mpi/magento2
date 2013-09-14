@@ -13,7 +13,7 @@ namespace Magento\Checkout\Block\Cart;
 class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
 {
     protected $_totalRenderers;
-    protected $_defaultRenderer = '\Magento\Checkout\Block\Total\DefaultTotal';
+    protected $_defaultRenderer = 'Magento\Checkout\Block\Total\DefaultTotal';
     protected $_totals = null;
 
     public function getTotals()

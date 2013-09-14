@@ -27,14 +27,14 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      *
      * @var string
      */
-    protected $_formBlockType = '\Magento\Pbridge\Block\Checkout\Payment\Authorizenet';
+    protected $_formBlockType = 'Magento\Pbridge\Block\Checkout\Payment\Authorizenet';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = '\Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Authorizenet';
+    protected $_backendFormBlockType = 'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Authorizenet';
 
     /**
      * Payment Bridge Payment Method Instance

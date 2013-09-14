@@ -19,6 +19,6 @@ class Magento_Core_Model_Config_BaseTest extends PHPUnit_Framework_TestCase
 XML;
         $config = Mage::getModel('Magento\Core\Model\Config\Base', array('sourceData' => $xml));
 
-        $this->assertInstanceOf('\Magento\Core\Model\Config\Element', $config->getNode('key'));
+        $this->assertInstanceOf('Magento\Core\Model\Config\Element', $config->getNode('key'));
     }
 }

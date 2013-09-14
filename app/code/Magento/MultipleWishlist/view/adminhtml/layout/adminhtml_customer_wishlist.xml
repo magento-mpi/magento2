@@ -12,7 +12,7 @@
         <reference name="customer.wishlist.edit.tab">
             <arguments>
                 <argument name="dataSource" xsi:type="object">
-                    <updater>\Magento\MultipleWishlist\Model\Resource\Item\Collection\Updater</updater>
+                    <updater>Magento\MultipleWishlist\Model\Resource\Item\Collection\Updater</updater>
                 </argument>
             </arguments>
             <reference name="customer.wishlist.edit.tab.columnSet">

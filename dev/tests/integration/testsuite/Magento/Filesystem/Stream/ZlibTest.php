@@ -13,6 +13,6 @@ class Magento_Filesystem_Stream_ZlibTest extends PHPUnit_Framework_TestCase
     {
         $stream = new \Magento\Filesystem\Stream\Zlib(__DIR__ . DS . '..' . DS . '_files' . DS . 'popup.csv');
         $stream->open('rw+9f');
-        $this->assertAttributeInstanceOf('\Magento\Filesystem\Stream\Mode\Zlib', '_mode', $stream);
+        $this->assertAttributeInstanceOf('Magento\Filesystem\Stream\Mode\Zlib', '_mode', $stream);
     }
 }

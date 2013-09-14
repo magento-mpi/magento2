@@ -24,8 +24,8 @@ abstract class AgreementAbstract extends \Magento\Payment\Model\Method\AbstractM
     const TRANSPORT_BILLING_AGREEMENT_ID = 'ba_agreement_id';
     const PAYMENT_INFO_REFERENCE_ID      = 'ba_reference_id';
 
-    protected $_infoBlockType = '\Magento\Sales\Block\Payment\Info\Billing\Agreement';
-    protected $_formBlockType = '\Magento\Sales\Block\Payment\Form\Billing\Agreement';
+    protected $_infoBlockType = 'Magento\Sales\Block\Payment\Info\Billing\Agreement';
+    protected $_formBlockType = 'Magento\Sales\Block\Payment\Form\Billing\Agreement';
 
     /**
      * Is method instance available

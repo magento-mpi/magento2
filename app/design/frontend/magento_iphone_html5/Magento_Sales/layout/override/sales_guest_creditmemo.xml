@@ -22,12 +22,12 @@
                 <block class="Magento\Sales\Block\Order\Creditmemo\Items" name="creditmemo_items" template="order/creditmemo/items.phtml">
                     <action method="addItemRender">
                         <argument name="type" xsi:type="string">default</argument>
-                        <argument name="block" xsi:type="string">\Magento\Catalog\Block\Product\Price</argument>
+                        <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\Price</argument>
                         <argument name="template" xsi:type="string">Magento_Sales::order/creditmemo/items/renderer/default.phtml</argument>
                     </action>
                     <action method="addItemRender">
                         <argument name="type" xsi:type="string">grouped</argument>
-                        <argument name="block" xsi:type="string">\Magento\Sales\Block\Order\Item\Renderer\Grouped</argument>
+                        <argument name="block" xsi:type="string">Magento\Sales\Block\Order\Item\Renderer\Grouped</argument>
                         <argument name="template" xsi:type="string">order/creditmemo/items/renderer/default.phtml</argument>
                     </action>
                     <block class="Magento\Sales\Block\Order\Creditmemo\Totals" name="creditmemo_totals" template="order/totals.phtml">

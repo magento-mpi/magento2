@@ -22,7 +22,7 @@ class Updater implements \Magento\Core\Model\Db\UpdaterInterface
      *
      * @var string
      */
-    protected $_defaultClass = '\Magento\Core\Model\Resource\Setup';
+    protected $_defaultClass = 'Magento\Core\Model\Resource\Setup';
 
     /**
      * Setup model factory

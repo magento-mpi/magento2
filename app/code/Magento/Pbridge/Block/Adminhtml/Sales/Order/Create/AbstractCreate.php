@@ -40,7 +40,7 @@ class AbstractCreate
      *
      * @var string
      */
-    protected $_iframeBlockType = '\Magento\Adminhtml\Block\Template';
+    protected $_iframeBlockType = 'Magento\Adminhtml\Block\Template';
 
     /**
      * Adminhtml iframe template

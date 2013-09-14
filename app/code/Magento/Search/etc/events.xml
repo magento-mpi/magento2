@@ -9,9 +9,9 @@
 -->
 <config>
     <event name="catalogsearch_index_process_start">
-        <observer name="magento_search" instance="\Magento\Search\Model\Observer" method="holdCommit" />
+        <observer name="magento_search" instance="Magento\Search\Model\Observer" method="holdCommit" />
     </event>
     <event name="catalogsearch_index_process_complete">
-        <observer name="magento_search" instance="\Magento\Search\Model\Observer" method="applyIndexChanges" />
+        <observer name="magento_search" instance="Magento\Search\Model\Observer" method="applyIndexChanges" />
     </event>
-</config>
+</config>

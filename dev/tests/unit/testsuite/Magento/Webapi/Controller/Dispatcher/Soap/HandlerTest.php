@@ -106,7 +106,7 @@ class Magento_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Fram
         /** Prepare mocks for SUT constructor. */
         $this->_handler->setRequestHeaders(array('invalidHeader'));
         $this->setExpectedException(
-            '\Magento\Webapi\Model\Soap\Fault',
+            'Magento\Webapi\Model\Soap\Fault',
             'WS-Security UsernameToken is not found in SOAP-request.'
         );
         /** Execute SUT. */
@@ -121,7 +121,7 @@ class Magento_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Fram
         /** Prepare mocks for SUT constructor. */
         $exceptionMessage = 'Exception message.';
         $this->setExpectedException(
-            '\Magento\Webapi\Model\Soap\Fault',
+            'Magento\Webapi\Model\Soap\Fault',
             $exceptionMessage
         );
         $exception = new Exception($exceptionMessage);
@@ -158,7 +158,7 @@ class Magento_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Fram
             ->method('validateVersionNumber')
             ->with(1, 'resourceName');
         $this->setExpectedException(
-            '\Magento\Webapi\Model\Soap\Fault',
+            'Magento\Webapi\Model\Soap\Fault',
             'Method "operation" is not found.'
         );
         /** Execute SUT. */
@@ -177,7 +177,7 @@ class Magento_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Fram
             ->method('getResourceNameByOperation')
             ->will($this->returnValue(false));
         $this->setExpectedException(
-            '\Magento\Webapi\Model\Soap\Fault',
+            'Magento\Webapi\Model\Soap\Fault',
             'The version of "operationName" operation cannot be identified.'
         );
         /** Execute SUT. */

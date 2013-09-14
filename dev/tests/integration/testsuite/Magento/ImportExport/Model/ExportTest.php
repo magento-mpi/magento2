@@ -50,15 +50,15 @@ class Magento_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
         return array(
             'product'            => array(
                 '$entity'             => 'catalog_product',
-                '$expectedEntityType' => '\Magento\ImportExport\Model\Export\Entity\Product'
+                '$expectedEntityType' => 'Magento\ImportExport\Model\Export\Entity\Product'
             ),
             'customer main data' => array(
                 '$entity'             => 'customer',
-                '$expectedEntityType' => '\Magento\ImportExport\Model\Export\Entity\Eav\Customer'
+                '$expectedEntityType' => 'Magento\ImportExport\Model\Export\Entity\Eav\Customer'
             ),
             'customer address'   => array(
                 '$entity'             => 'customer_address',
-                '$expectedEntityType' => '\Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address'
+                '$expectedEntityType' => 'Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address'
             )
         );
     }

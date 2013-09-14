@@ -52,7 +52,7 @@ class Magento_Webapi_Model_Resource_Acl_UserTest extends Magento_Webapi_Model_Re
             ->withAnyParameters()
             ->will($this->returnValue($this->_adapter));
 
-        return $this->_helper->getObject('\Magento\Webapi\Model\Resource\Acl\User', array(
+        return $this->_helper->getObject('Magento\Webapi\Model\Resource\Acl\User', array(
             'resource' => $this->_resource,
         ));
     }

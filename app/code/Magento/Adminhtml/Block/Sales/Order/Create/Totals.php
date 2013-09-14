@@ -21,7 +21,7 @@ namespace Magento\Adminhtml\Block\Sales\Order\Create;
 class Totals extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 {
     protected $_totalRenderers;
-    protected $_defaultRenderer = '\Magento\Adminhtml\Block\Sales\Order\Create\Totals\DefaultTotals';
+    protected $_defaultRenderer = 'Magento\Adminhtml\Block\Sales\Order\Create\Totals\DefaultTotals';
 
     protected function _construct()
     {

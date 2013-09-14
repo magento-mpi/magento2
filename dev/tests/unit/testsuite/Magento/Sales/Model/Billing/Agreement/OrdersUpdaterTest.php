@@ -34,7 +34,7 @@ class Magento_Sales_Model_Billing_Agreement_OrdersUpdaterTest extends PHPUnit_Fr
     protected function setUp()
     {
         $this->_argumentMock = $this->getMock(
-            '\Magento\Sales\Model\Resource\Order\Grid\Collection',
+            'Magento\Sales\Model\Resource\Order\Grid\Collection',
             array(),
             array(),
             '',
@@ -42,7 +42,7 @@ class Magento_Sales_Model_Billing_Agreement_OrdersUpdaterTest extends PHPUnit_Fr
         );
 
         $this->_agreementMock = $this->getMock(
-            '\Magento\Sales\Model\Billing\Agreement',
+            'Magento\Sales\Model\Billing\Agreement',
             array('getId'),
             array(),
             '',
@@ -50,7 +50,7 @@ class Magento_Sales_Model_Billing_Agreement_OrdersUpdaterTest extends PHPUnit_Fr
         );
 
         $this->_registryMock = $this->getMock(
-            '\Magento\Core\Model\Registry',
+            'Magento\Core\Model\Registry',
             array(),
             array(),
             '',

@@ -28,7 +28,7 @@ class Magento_DesignEditor_Model_Url_FactoryTest extends PHPUnit_Framework_TestC
 
     public function testConstruct()
     {
-        $this->assertAttributeInstanceOf('\Magento\ObjectManager', '_objectManager', $this->_model);
+        $this->assertAttributeInstanceOf('Magento\ObjectManager', '_objectManager', $this->_model);
     }
 
     public function testReplaceClassName()

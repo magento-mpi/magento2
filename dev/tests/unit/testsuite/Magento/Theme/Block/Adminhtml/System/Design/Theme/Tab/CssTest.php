@@ -24,7 +24,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPU
     protected function setUp()
     {
         $this->_model = $this->getMock(
-            '\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css',
+            'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css',
             array('_getCurrentTheme'),
             $this->_prepareModelArguments(),
             '',
@@ -41,7 +41,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPU
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $constructArguments = $objectManagerHelper->getConstructArguments(
-            '\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css',
+            'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css',
             array(
                  'objectManager'   => $this->_objectManager,
                  'dirs'            => new \Magento\Core\Model\Dir(__DIR__),
@@ -93,8 +93,8 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPU
 
         $result = $method->invokeArgs($this->_model, array());
         $expectedResult = array(
-            'links' => '\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\Links',
-            'css_file' => '\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\File'
+            'links' => 'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\Links',
+            'css_file' => 'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\File'
         );
         $this->assertEquals($expectedResult, $result);
     }
@@ -110,7 +110,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPU
      */
     protected static function getMethod($name)
     {
-        $class = new ReflectionClass('\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css');
+        $class = new ReflectionClass('Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css');
         $method = $class->getMethod($name);
         $method->setAccessible(true);
         return $method;

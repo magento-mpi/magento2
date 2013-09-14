@@ -198,7 +198,7 @@ class Layer extends \Magento\Object
         /** @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
         $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection');
         $collection
-            ->setItemObjectClass('\Magento\Catalog\Model\Resource\Eav\Attribute')
+            ->setItemObjectClass('Magento\Catalog\Model\Resource\Eav\Attribute')
             ->setAttributeSetFilter($setIds)
             ->addStoreLabel(\Mage::app()->getStore()->getId())
             ->setOrder('position', 'ASC');

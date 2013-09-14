@@ -33,7 +33,7 @@ class Factory
      * @var array
      */
     protected $_specificRenderer = array(
-        self::BACKGROUND_IMAGE => '\Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage',
+        self::BACKGROUND_IMAGE => 'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage',
     );
 
     /**
@@ -54,7 +54,7 @@ class Factory
     {
         $renderer = array_key_exists($attribute, $this->_specificRenderer)
             ? $this->_specificRenderer[$attribute]
-            : '\Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\DefaultRenderer';
+            : 'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\DefaultRenderer';
 
         return $this->_objectManager->create($renderer);
     }

@@ -79,7 +79,7 @@ class Magento_Core_Model_EntryPoint_MediaTest extends PHPUnit_Framework_TestCase
         $this->_configMock = $this->getMock('Magento\Core\Model\File\Storage\Config', array(), array(), '', false);
         $this->_sync= $this->getMock('Magento\Core\Model\File\Storage\Synchronization', array(), array(), '', false);
         $this->_dirVerificationMock = $this->getMock(
-            '\Magento\Core\Model\Dir\Verification', array(), array(), '', false
+            'Magento\Core\Model\Dir\Verification', array(), array(), '', false
         );
         $this->_responseMock = $this->getMock('Magento\Core\Model\File\Storage\Response', array(), array(), '', false);
 

@@ -31,8 +31,8 @@ class Grid extends \Magento\Adminhtml\Block\Report\Grid\AbstractGrid
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'created_at_shipment')
-            ? '\Magento\Sales\Model\Resource\Report\Shipping\Collection\Shipment'
-            : '\Magento\Sales\Model\Resource\Report\Shipping\Collection\Order';
+            ? 'Magento\Sales\Model\Resource\Report\Shipping\Collection\Shipment'
+            : 'Magento\Sales\Model\Resource\Report\Shipping\Collection\Order';
     }
 
     protected function _prepareColumns()
@@ -42,7 +42,7 @@ class Grid extends \Magento\Adminhtml\Block\Report\Grid\AbstractGrid
             'index'             => 'period',
             'sortable'          => false,
             'period_type'       => $this->getPeriodType(),
-            'renderer'          => '\Magento\Adminhtml\Block\Report\Sales\Grid\Column\Renderer\Date',
+            'renderer'          => 'Magento\Adminhtml\Block\Report\Sales\Grid\Column\Renderer\Date',
             'totals_label'      => __('Total'),
             'subtotals_label'   => __('Subtotal'),
             'html_decorators'   => array('nobr'),

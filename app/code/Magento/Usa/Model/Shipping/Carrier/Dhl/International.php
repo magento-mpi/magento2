@@ -903,7 +903,7 @@ class International
                             try {
                                 /* @var $pdf \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf */
                                 $pdf = \Mage::getModel(
-                                    '\Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf',
+                                    'Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf',
                                     array('arguments' => array('info' => $xml, 'request' => $this->_request))
                                 );
                                 $result->setShippingLabelContent($pdf->render());

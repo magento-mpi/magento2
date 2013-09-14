@@ -51,7 +51,7 @@ class Magento_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCase
 
         $this->_controllerMock = $this->getMock('Magento\Adminhtml\Controller\Action', array(), array(), '', false);
         $this->_ctrlRequestMock = $this->getMock(
-            '\Magento\Core\Controller\Request\Http',
+            'Magento\Core\Controller\Request\Http',
             array(),
             array(),
             '',
@@ -163,19 +163,19 @@ class Magento_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCase
         return array(
             array(
                 'promo_catalog',
-                '\Magento\CatalogRule\Model\Rule',
+                'Magento\CatalogRule\Model\Rule',
             ),
             array(
                 'promo_quote',
-                '\Magento\SalesRule\Model\Rule'
+                'Magento\SalesRule\Model\Rule'
             ),
             array(
                 'reminder',
-                '\Magento\Reminder\Model\Rule'
+                'Magento\Reminder\Model\Rule'
             ),
             array(
                 'customersegment',
-                '\Magento\CustomerSegment\Model\Segment'
+                'Magento\CustomerSegment\Model\Segment'
             ),
         );
     }

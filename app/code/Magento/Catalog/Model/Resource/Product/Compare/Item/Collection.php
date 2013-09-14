@@ -266,7 +266,7 @@ class Collection
      */
     public function useProductItem()
     {
-        $this->setObject('\Magento\Catalog\Model\Product');
+        $this->setObject('Magento\Catalog\Model\Product');
 
         $this->setFlag('url_data_object', true);
         $this->setFlag('do_not_use_category_id', true);

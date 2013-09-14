@@ -80,7 +80,7 @@ class Js
      */
     protected function _getAdditionalElementTypes()
     {
-        $fileElement = '\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\File';
+        $fileElement = 'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\File';
         return array('js_files' => $fileElement);
     }
 

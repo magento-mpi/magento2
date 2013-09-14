@@ -202,7 +202,7 @@ class Layout extends \Magento\Simplexml\Config
         $this->_area = $area;
         $this->_structure = $structure;
         $this->_argumentProcessor = $argumentProcessor;
-        $this->_elementClass = '\Magento\Core\Model\Layout\Element';
+        $this->_elementClass = 'Magento\Core\Model\Layout\Element';
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
         $this->_renderingOutput = new \Magento\Object;
         $this->_scheduledStructure = $scheduledStructure;

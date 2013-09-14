@@ -26,7 +26,7 @@ class Magento_ImportExport_Block_Adminhtml_Export_FilterTest
         $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento\ImportExport\Block\Adminhtml\Export\Filter');
         $method = new ReflectionMethod(
-                    '\Magento\ImportExport\Block\Adminhtml\Export\Filter', '_getDateFromToHtmlWithValue');
+                    'Magento\ImportExport\Block\Adminhtml\Export\Filter', '_getDateFromToHtmlWithValue');
         $method->setAccessible(true);
 
         $arguments = array(

@@ -227,7 +227,7 @@ class Magento_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_T
     {
         $validator = new \Magento\Eav\Model\Validator\Attribute\Data;
         $factory = $validator->getAttributeDataModelFactory();
-        $this->assertInstanceOf('\Magento\Eav\Model\Attribute\Data', $factory);
+        $this->assertInstanceOf('Magento\Eav\Model\Attribute\Data', $factory);
         $this->assertAttributeEquals($factory, '_dataModelFactory', $validator);
     }
 

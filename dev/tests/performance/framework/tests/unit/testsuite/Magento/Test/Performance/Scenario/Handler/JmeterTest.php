@@ -130,7 +130,7 @@ class Magento_Test_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Frame
             'no report created' => array(
                 "$fixtureDir/scenario_without_report.jmx",
                 "$fixtureDir/scenario_without_report.jtl",
-                '\Magento\Exception',
+                'Magento\Exception',
                 "Report file '$fixtureDir/scenario_without_report.jtl' for 'Scenario' has not been created.",
             ),
             'scenario failure in report' => array(

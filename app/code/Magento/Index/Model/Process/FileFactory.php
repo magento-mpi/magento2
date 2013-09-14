@@ -18,7 +18,7 @@ class FileFactory
     /**
      * Entity class name
      */
-    const CLASS_NAME = '\Magento\Index\Model\Process\File';
+    const CLASS_NAME = 'Magento\Index\Model\Process\File';
 
     /**
      * @var \Magento\ObjectManager

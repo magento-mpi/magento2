@@ -45,7 +45,7 @@ class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
     {
         /** @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
         $collection = $this->_model->getProductCollection();
-        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Product\Collection', $collection);
+        $this->assertInstanceOf('Magento\Catalog\Model\Resource\Product\Collection', $collection);
         $ids = $collection->getAllIds();
         $this->assertContains(1, $ids);
         $this->assertContains(2, $ids);
@@ -57,7 +57,7 @@ class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
         $this->_model->getState()
             ->addFilter(
                 Mage::getModel(
-                    '\Magento\Catalog\Model\Layer\Filter\Item',
+                    'Magento\Catalog\Model\Layer\Filter\Item',
                     array(
                         'data' => array(
                             'filter' => Mage::getModel('Magento\Catalog\Model\Layer\Filter\Category'),
@@ -68,7 +68,7 @@ class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
             )
             ->addFilter(
                 Mage::getModel(
-                    '\Magento\Catalog\Model\Layer\Filter\Item',
+                    'Magento\Catalog\Model\Layer\Filter\Item',
                     array(
                         'data' => array(
                             'filter' => Mage::getModel('Magento\Catalog\Model\Layer\Filter\Decimal'),
@@ -107,7 +107,7 @@ class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
         $model = Mage::getModel('Magento\Catalog\Model\Layer');
         $model->setCurrentCategory(3);
         $actualCategory = $model->getCurrentCategory();
-        $this->assertInstanceOf('\Magento\Catalog\Model\Category', $actualCategory);
+        $this->assertInstanceOf('Magento\Catalog\Model\Category', $actualCategory);
         $this->assertEquals(3, $actualCategory->getId());
         $this->assertSame($actualCategory, $model->getCurrentCategory());
 
@@ -148,13 +148,13 @@ class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
     {
         /** @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
         $collection = $this->_model->getFilterableAttributes();
-        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Product\Attribute\Collection', $collection);
+        $this->assertInstanceOf('Magento\Catalog\Model\Resource\Product\Attribute\Collection', $collection);
 
         $items = $collection->getItems();
         $this->assertInternalType('array', $items);
         $this->assertEquals(1, count($items), 'Number of items in collection.');
 
-        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Eav\Attribute', $collection->getFirstItem());
+        $this->assertInstanceOf('Magento\Catalog\Model\Resource\Eav\Attribute', $collection->getFirstItem());
         $this->assertEquals('price', $collection->getFirstItem()->getAttributeCode());
 
         //$this->assertNotSame($collection, $this->_model->getFilterableAttributes());
@@ -163,7 +163,7 @@ class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
     public function testGetState()
     {
         $state = $this->_model->getState();
-        $this->assertInstanceOf('\Magento\Catalog\Model\Layer\State', $state);
+        $this->assertInstanceOf('Magento\Catalog\Model\Layer\State', $state);
         $this->assertSame($state, $this->_model->getState());
 
         $state = Mage::getModel('Magento\Catalog\Model\Layer\State');

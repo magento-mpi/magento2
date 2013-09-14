@@ -21,7 +21,7 @@ class Magento_Outbound_Formatter_FactoryTest extends PHPUnit_Framework_TestCase
     public function testGetFormatter()
     {
         $formatter = $this->_formatterFactory->getFormatter(\Magento\Outbound\EndpointInterface::FORMAT_JSON);
-        $this->assertInstanceOf('\Magento\Outbound\Formatter\Json', $formatter);
+        $this->assertInstanceOf('Magento\Outbound\Formatter\Json', $formatter);
     }
 
     public function testGetFormatterIsCached()

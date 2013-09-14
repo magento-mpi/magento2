@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Poll_GridTest extends PHPUnit_Framework_TestCase
         $block = $layout->addBlock('Magento\Adminhtml\Block\Poll\Grid');
 
         $prepareColumnsMethod = new ReflectionMethod(
-            '\Magento\Adminhtml\Block\Poll\Grid', '_prepareColumns');
+            'Magento\Adminhtml\Block\Poll\Grid', '_prepareColumns');
         $prepareColumnsMethod->setAccessible(true);
         $prepareColumnsMethod->invoke($block);
 

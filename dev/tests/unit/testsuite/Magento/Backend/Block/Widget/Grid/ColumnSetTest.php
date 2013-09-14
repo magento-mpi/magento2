@@ -61,11 +61,11 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
         );
 
         $this->_subtotalsMock = $this->getMock(
-            '\Magento\Backend\Model\Widget\Grid\SubTotals', array(), array(), '', false
+            'Magento\Backend\Model\Widget\Grid\SubTotals', array(), array(), '', false
         );
 
         $this->_totalsMock = $this->getMock(
-            '\Magento\Backend\Model\Widget\Grid\Totals', array(), array(), '', false
+            'Magento\Backend\Model\Widget\Grid\Totals', array(), array(), '', false
         );
 
         $arguments = array(
@@ -76,7 +76,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
         );
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_block = $objectManagerHelper->getObject('\Magento\Backend\Block\Widget\Grid\ColumnSet', $arguments);
+        $this->_block = $objectManagerHelper->getObject('Magento\Backend\Block\Widget\Grid\ColumnSet', $arguments);
         $this->_block->setNameInLayout('grid.columnSet');
 
     }
@@ -122,7 +122,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
 
     public function testGetRowUrl()
     {
-        $generatorClass = '\Magento\Backend\Model\Widget\Grid\Row\UrlGenerator';
+        $generatorClass = 'Magento\Backend\Model\Widget\Grid\Row\UrlGenerator';
 
         $itemMock = $this->getMock('Magento\Object', array(), array(), '', false);
 
@@ -156,7 +156,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         /** @var $model \Magento\Backend\Block\Widget\Grid\ColumnSet */
-        $model = $objectManagerHelper->getObject('\Magento\Backend\Block\Widget\Grid\ColumnSet', $arguments);
+        $model = $objectManagerHelper->getObject('Magento\Backend\Block\Widget\Grid\ColumnSet', $arguments);
 
         $url = $model->getRowUrl($itemMock);
         $this->assertEquals('http://localhost/mng/item/edit', $url);

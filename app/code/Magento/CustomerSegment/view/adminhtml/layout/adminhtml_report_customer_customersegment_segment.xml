@@ -14,7 +14,7 @@
                 <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.customersegment.report.grid" as="grid">
                     <arguments>
                         <argument name="id" xsi:type="string">gridReportCustomersegments</argument>
-                        <argument name="dataSource" xsi:type="object">\Magento\CustomerSegment\Model\Resource\Segment\Report\Collection</argument>
+                        <argument name="dataSource" xsi:type="object">Magento\CustomerSegment\Model\Resource\Segment\Report\Collection</argument>
                     </arguments>
                     <block class="Magento\Backend\Block\Widget\Grid\Massaction" name="adminhtml.customersegment.report.massactions" as="grid.massaction">
                         <arguments>
@@ -39,7 +39,7 @@
                                         <item name="type" xsi:type="string">select</item>
                                         <item name="class" xsi:type="string">required-entry</item>
                                         <item name="label" xsi:type="string" translate="true">Set</item>
-                                        <item name="values" xsi:type="string">\Magento\CustomerSegment\Model\Resource\Segment\Report\Massaction\Set</item>
+                                        <item name="values" xsi:type="string">Magento\CustomerSegment\Model\Resource\Segment\Report\Massaction\Set</item>
                                     </item>
                                 </argument>
                             </arguments>
@@ -94,7 +94,7 @@
                                 <argument name="header" xsi:type="string" translate="true">Website</argument>
                                 <argument name="index" xsi:type="string">website_ids</argument>
                                 <argument name="type" xsi:type="string">options</argument>
-                                <argument name="options" xsi:type="options" model="\Magento\Backend\Model\Config\Source\Website\OptionHash"/>
+                                <argument name="options" xsi:type="options" model="Magento\Backend\Model\Config\Source\Website\OptionHash"/>
                                 <argument name="header_css_class" xsi:type="string">col-website</argument>
                                 <argument name="column_css_class" xsi:type="string">col-website</argument>
                             </arguments>

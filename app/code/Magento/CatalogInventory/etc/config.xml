@@ -29,10 +29,10 @@
                         <is_qty>1</is_qty>
                     </virtual>
                     <configurable>
-                        <stock_indexer>\Magento\CatalogInventory\Model\Resource\Indexer\Stock\Configurable</stock_indexer>
+                        <stock_indexer>Magento\CatalogInventory\Model\Resource\Indexer\Stock\Configurable</stock_indexer>
                     </configurable>
                     <grouped>
-                        <stock_indexer>\Magento\CatalogInventory\Model\Resource\Indexer\Stock\Grouped</stock_indexer>
+                        <stock_indexer>Magento\CatalogInventory\Model\Resource\Indexer\Stock\Grouped</stock_indexer>
                     </grouped>
                 </type>
             </product>

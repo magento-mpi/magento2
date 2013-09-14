@@ -63,7 +63,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
         if (is_null($this->_directoryModel)) {
             $arguments = array('connection' => $this->getConnectionName());
             $this->_directoryModel = \Mage::getModel(
-                '\Magento\Core\Model\File\Storage\Directory\Database',
+                'Magento\Core\Model\File\Storage\Directory\Database',
                 array('connectionName' => $arguments));
         }
 
@@ -193,7 +193,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
                 $arguments = array('connection' => $this->getConnectionName());
                 $file['directory_id'] = (isset($file['directory']) && strlen($file['directory']))
                     ? \Mage::getModel(
-                        '\Magento\Core\Model\File\Storage\Directory\Database',
+                        'Magento\Core\Model\File\Storage\Directory\Database',
                         array('connectionName' => $arguments))
                             ->loadByPath($file['directory'])->getId()
                     : null;

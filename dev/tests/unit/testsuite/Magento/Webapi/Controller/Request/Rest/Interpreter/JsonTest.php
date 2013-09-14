@@ -91,7 +91,7 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUni
             ->method('isDeveloperMode')
             ->will($this->returnValue(false));
         $this->setExpectedException(
-            '\Magento\Webapi\Exception',
+            'Magento\Webapi\Exception',
             'Decoding error.',
             \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );
@@ -114,7 +114,7 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUni
             ->method('isDeveloperMode')
             ->will($this->returnValue(true));
         $this->setExpectedException(
-            '\Magento\Webapi\Exception',
+            'Magento\Webapi\Exception',
             'Decoding error:' . PHP_EOL . 'Decoding failed: Syntax error',
             \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );

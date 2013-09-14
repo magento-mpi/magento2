@@ -29,7 +29,7 @@
 
             <adminhtml_giftregistry_save>
                 <action>save</action>
-                <post_dispatch>\Magento\GiftRegistry\Model\Type::postDispatchTypeSave</post_dispatch>
+                <post_dispatch>Magento\GiftRegistry\Model\Type::postDispatchTypeSave</post_dispatch>
             </adminhtml_giftregistry_save>
 
             <adminhtml_giftregistry_delete>
@@ -56,7 +56,7 @@
 
             <adminhtml_giftregistry_customer_share>
                 <action>share</action>
-                <post_dispatch>\Magento\GiftRegistry\Model\Entity::postDispatchShare</post_dispatch>
+                <post_dispatch>Magento\GiftRegistry\Model\Entity::postDispatchShare</post_dispatch>
             </adminhtml_giftregistry_customer_share>
 
             <adminhtml_giftregistry_customer_delete>

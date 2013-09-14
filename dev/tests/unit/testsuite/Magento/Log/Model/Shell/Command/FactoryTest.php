@@ -32,7 +32,7 @@ class Magento_Log_Model_Shell_Command_FactoryTest extends PHPUnit_Framework_Test
                 $this->getMock('Magento\Log\Model\Shell\Command\Clean', array(), array(), '', false)
             )
         );
-        $this->isInstanceOf('\Magento\Log\Model\Shell\CommandInterface', $this->_model->createCleanCommand(1));
+        $this->isInstanceOf('Magento\Log\Model\Shell\CommandInterface', $this->_model->createCleanCommand(1));
     }
 
     public function testCreateStatusCommand()
@@ -44,6 +44,6 @@ class Magento_Log_Model_Shell_Command_FactoryTest extends PHPUnit_Framework_Test
                 $this->getMock('Magento\Log\Model\Shell\Command\Status', array(), array(), '', false)
             )
         );
-        $this->isInstanceOf('\Magento\Log\Model\Shell\CommandInterface', $this->_model->createStatusCommand());
+        $this->isInstanceOf('Magento\Log\Model\Shell\CommandInterface', $this->_model->createStatusCommand());
     }
 }

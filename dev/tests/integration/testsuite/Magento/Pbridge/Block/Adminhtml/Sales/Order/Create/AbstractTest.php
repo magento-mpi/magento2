@@ -14,7 +14,7 @@ class Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_AbstractTest extends PH
     public function testConstruct()
     {
         $this->assertInstanceOf(
-            '\Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate',
+            'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate',
             Mage::app()->getLayout()->createBlock('Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate')
         );
     }

@@ -66,7 +66,7 @@ class Magento_Core_Model_Config_Modules_ReaderTest extends PHPUnit_Framework_Tes
             ->will($this->returnValue($modulesConfig));
 
         $result = $this->_model->loadModulesConfiguration($fileName, null, null, array());
-        $this->assertInstanceOf('\Magento\Core\Model\Config\Base', $result);
+        $this->assertInstanceOf('Magento\Core\Model\Config\Base', $result);
     }
 
     public function testLoadModulesConfigurationMergeToObject()

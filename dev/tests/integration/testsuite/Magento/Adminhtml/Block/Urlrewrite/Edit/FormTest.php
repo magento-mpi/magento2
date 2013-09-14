@@ -39,7 +39,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
     {
         // Test form was configured correctly
         $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object(array('id' => 3))));
-        $this->assertInstanceOf('\Magento\Data\Form', $form);
+        $this->assertInstanceOf('Magento\Data\Form', $form);
         $this->assertNotEmpty($form->getAction());
         $this->assertEquals('edit_form', $form->getId());
         $this->assertEquals('post', $form->getMethod());
@@ -95,7 +95,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
         $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object(array('id' => 3))));
         /** @var $storeElement \Magento\Data\Form\Element\AbstractElement */
         $storeElement = $form->getElement('store_id');
-        $this->assertInstanceOf('\Magento\Data\Form\Element\Hidden', $storeElement);
+        $this->assertInstanceOf('Magento\Data\Form\Element\Hidden', $storeElement);
 
         // Check that store value set correctly
         $defaultStore = Mage::app()->getStore(true)->getId();
@@ -115,10 +115,10 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
         $storeElement = $form->getElement('store_id');
 
         // Check store selection elements has correct type
-        $this->assertInstanceOf('\Magento\Data\Form\Element\Select', $storeElement);
+        $this->assertInstanceOf('Magento\Data\Form\Element\Select', $storeElement);
 
         // Check store selection elements has correct renderer
-        $this->assertInstanceOf('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element',
+        $this->assertInstanceOf('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element',
             $storeElement->getRenderer());
 
         // Check store elements has expected values

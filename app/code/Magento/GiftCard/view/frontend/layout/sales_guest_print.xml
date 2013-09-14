@@ -12,7 +12,7 @@
         <reference name="sales.order.print">
             <action method="addItemRender">
                 <argument name="type" xsi:type="string">giftcard</argument>
-                <argument name="block" xsi:type="string">\Magento\GiftCard\Block\Sales\Order\Item\Renderer\Noquote</argument>
+                <argument name="block" xsi:type="string">Magento\GiftCard\Block\Sales\Order\Item\Renderer\Noquote</argument>
                 <argument name="template" xsi:type="string">Magento_Sales::order/items/renderer/default.phtml</argument>
             </action>
         </reference>

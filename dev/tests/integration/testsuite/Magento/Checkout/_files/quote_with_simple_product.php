@@ -28,4 +28,4 @@ Mage::unregister('_singleton/Magento\Checkout\Model\Session');
 
 /** @var $objectManager Magento_TestFramework_ObjectManager */
 $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-$objectManager->removeSharedInstance('\Magento\Checkout\Model\Session');
+$objectManager->removeSharedInstance('Magento\Checkout\Model\Session');

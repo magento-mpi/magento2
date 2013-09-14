@@ -23,7 +23,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
     const ADVANCED_TAB_GROUP_CODE = 'advanced';
 
     /** @var string */
-    protected $_attributeTabBlock = '\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes';
+    protected $_attributeTabBlock = 'Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes';
 
     /** @var string */
     protected $_template = 'Magento_Catalog::product/edit/tabs.phtml';

@@ -50,7 +50,7 @@ class Magento_Index_Model_EntryPoint_IndexerTest extends PHPUnit_Framework_TestC
     {
         $process = $this->getMock('Magento\Index\Model\Process', array(), array(), '', false);
         $processIndexer = $this->getMockForAbstractClass(
-            '\Magento\Index\Model\Indexer\AbstractIndexer',
+            'Magento\Index\Model\Indexer\AbstractIndexer',
             array(),
             '',
             false

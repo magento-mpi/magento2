@@ -43,7 +43,7 @@ class Magento_Backend_Model_Widget_Grid_TotalsAbstractTest extends PHPUnit_Frame
             'parser' =>  $this->_parserMock
         );
         $this->_model = $this->getMockForAbstractClass(
-            '\Magento\Backend\Model\Widget\Grid\TotalsAbstract', $arguments, '', true, false, true, array()
+            'Magento\Backend\Model\Widget\Grid\TotalsAbstract', $arguments, '', true, false, true, array()
         );
         $this->_model->expects($this->any())
             ->method('_countSum')
@@ -105,7 +105,7 @@ class Magento_Backend_Model_Widget_Grid_TotalsAbstractTest extends PHPUnit_Frame
     protected function _prepareParserMock()
     {
         $this->_parserMock = $this->getMock(
-            '\Magento\Backend\Model\Widget\Grid\Parser',
+            'Magento\Backend\Model\Widget\Grid\Parser',
             array('parseExpression', 'isOperation'), array(), '', false, false, false
         );
 

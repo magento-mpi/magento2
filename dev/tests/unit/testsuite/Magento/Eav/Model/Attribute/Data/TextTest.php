@@ -31,7 +31,7 @@ class Magento_Eav_Model_Attribute_Data_TextTest extends PHPUnit_Framework_TestCa
             )
         );
 
-        $attributeClass = '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute';
+        $attributeClass = 'Magento\Eav\Model\Entity\Attribute\AbstractAttribute';
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments($attributeClass, array('data' => $attributeData));
 

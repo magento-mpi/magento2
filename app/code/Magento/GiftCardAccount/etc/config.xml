@@ -26,7 +26,7 @@
                         <class>Magento\GiftCardAccount\Model\Total\Quote\Giftcardaccount</class>
                         <after>weee,discount,tax,tax_subtotal,grand_total</after>
                         <before>customerbalance</before>
-                        <renderer>\Magento\GiftCardAccount\Block\Checkout\Cart\Total</renderer>
+                        <renderer>Magento\GiftCardAccount\Block\Checkout\Cart\Total</renderer>
                     </giftcardaccount>
                 </totals>
             </quote>

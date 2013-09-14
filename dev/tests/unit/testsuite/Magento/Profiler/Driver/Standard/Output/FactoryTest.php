@@ -54,7 +54,7 @@ class Magento_Profiler_Driver_Standard_Output_FactoryTest extends PHPUnit_Framew
     {
         $driver = $this->_factory->create($configData);
         $this->assertInstanceOf($expectedClass, $driver);
-        $this->assertInstanceOf('\Magento\Profiler\Driver\Standard\OutputInterface', $driver);
+        $this->assertInstanceOf('Magento\Profiler\Driver\Standard\OutputInterface', $driver);
     }
 
     /**
@@ -62,10 +62,10 @@ class Magento_Profiler_Driver_Standard_Output_FactoryTest extends PHPUnit_Framew
      */
     public function createDataProvider()
     {
-        $defaultOutputClass = $this->getMockClass('\Magento\Profiler\Driver\Standard\OutputInterface',
+        $defaultOutputClass = $this->getMockClass('Magento\Profiler\Driver\Standard\OutputInterface',
             array(), array(), 'Magento_Profiler_Driver_Standard_Output_Test_Default'
         );
-        $testOutputClass = $this->getMockClass('\Magento\Profiler\Driver\Standard\OutputInterface',
+        $testOutputClass = $this->getMockClass('Magento\Profiler\Driver\Standard\OutputInterface',
             array(), array(), 'Magento_Profiler_Driver_Standard_Output_Test_Test'
         );
         return array(

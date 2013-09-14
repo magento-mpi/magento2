@@ -16,7 +16,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_CatalogruleTest 
     {
         /** @var \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Catalogrule $block */
         $block = Mage::app()->getLayout()->createBlock(
-            '\Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Catalogrule'
+            'Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Catalogrule'
         );
 
         /** @var \Magento\CatalogRule\Model\Rule $catalogRule */

@@ -34,7 +34,7 @@ class Magento_Theme_Controller_Adminhtml_System_Design_ThemeTest extends PHPUnit
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
 
         $this->_request = $this->getMock(
-            '\Magento\Core\Controller\Request\Http', array('getParam', 'getPost'), array(), '', false
+            'Magento\Core\Controller\Request\Http', array('getParam', 'getPost'), array(), '', false
         );
 
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
@@ -43,7 +43,7 @@ class Magento_Theme_Controller_Adminhtml_System_Design_ThemeTest extends PHPUnit
             'objectManager' => $this->_objectManagerMock,
 
         );
-        $context = $helper->getObject('\Magento\Backend\Controller\Context', $arguments);
+        $context = $helper->getObject('Magento\Backend\Controller\Context', $arguments);
 
         $this->_model = $this->getMock('Magento\Theme\Controller\Adminhtml\System\Design\Theme',
             array('_forward', '_title', 'loadLayout', 'renderLayout', '_redirect'),

@@ -66,7 +66,7 @@ class Magento_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
         $this->_menuMock->expects($this->at(0))
             ->method('add')
             ->with(
-            $this->isInstanceOf('\Magento\Backend\Model\Menu\Item'),
+            $this->isInstanceOf('Magento\Backend\Model\Menu\Item'),
             $this->equalTo(null),
             $this->equalTo(2)
         );
@@ -74,7 +74,7 @@ class Magento_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
         $this->_menuMock->expects($this->at(1))
             ->method('add')
             ->with(
-            $this->isInstanceOf('\Magento\Backend\Model\Menu\Item'),
+            $this->isInstanceOf('Magento\Backend\Model\Menu\Item'),
             $this->equalTo(null),
             $this->equalTo(4)
         );

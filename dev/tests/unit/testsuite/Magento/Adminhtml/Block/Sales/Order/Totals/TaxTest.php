@@ -44,7 +44,7 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_TaxTest extends PHPUnit_Framewo
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         return $objectManagerHelper->getConstructArguments(
-            '\Magento\Adminhtml\Block\Sales\Order\Totals\Tax',
+            'Magento\Adminhtml\Block\Sales\Order\Totals\Tax',
             array(
                 'context'         => $this->getMock('Magento\Backend\Block\Template\Context', array(), array(), '',
                     false),

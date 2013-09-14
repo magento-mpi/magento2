@@ -40,7 +40,7 @@
                         <class>Magento\Reward\Model\Total\Quote\Reward</class>
                         <after>weee,discount,tax,tax_subtotal,grand_total</after>
                         <before>giftcardaccount,customerbalance</before>
-                        <renderer>\Magento\Reward\Block\Checkout\Total</renderer>
+                        <renderer>Magento\Reward\Block\Checkout\Total</renderer>
                     </reward>
                 </totals>
             </quote>

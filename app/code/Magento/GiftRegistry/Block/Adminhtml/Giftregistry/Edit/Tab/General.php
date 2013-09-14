@@ -37,7 +37,7 @@ class General
         }
         \Magento\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
-                '\Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Form\Renderer\Element',
+                'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Form\Renderer\Element',
                 $this->getNameInLayout() . '_element'
             )
         );

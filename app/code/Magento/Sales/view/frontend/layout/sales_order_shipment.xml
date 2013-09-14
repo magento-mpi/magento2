@@ -18,7 +18,7 @@
                 <block class="Magento\Sales\Block\Order\Shipment\Items" name="shipment_items" template="order/shipment/items.phtml">
                     <action method="addItemRender">
                         <argument name="type" xsi:type="string">default</argument>
-                        <argument name="block" xsi:type="string">\Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer</argument>
+                        <argument name="block" xsi:type="string">Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer</argument>
                         <argument name="template" xsi:type="string">order/shipment/items/renderer/default.phtml</argument>
                     </action>
                     <block class="Magento\Sales\Block\Order\Comments" name="shipment_comments" template="order/comments.phtml"/>

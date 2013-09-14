@@ -89,7 +89,7 @@ class Eav extends \Magento\Eav\Helper\Data
                 'validate_types'    => array(),
                 'validate_filters'  => array(),
                 'filter_types'      => array(),
-                'source_model'      => '\Magento\Eav\Model\Entity\Attribute\Source\Table',
+                'source_model'      => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
                 'backend_type'      => 'int',
                 'default_value'     => false,
             ),

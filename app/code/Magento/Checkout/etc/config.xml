@@ -32,7 +32,7 @@
             <quote>
                 <totals>
                     <nominal>
-                        <renderer>\Magento\Checkout\Block\Total\Nominal</renderer>
+                        <renderer>Magento\Checkout\Block\Total\Nominal</renderer>
                     </nominal>
                 </totals>
             </quote>

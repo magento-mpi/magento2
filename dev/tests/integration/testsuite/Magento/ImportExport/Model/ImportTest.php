@@ -28,19 +28,19 @@ class Magento_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
      */
     protected $_entityBehaviors = array(
         'catalog_product' => array(
-            'token' => '\Magento\ImportExport\Model\Source\Import\Behavior\Basic',
+            'token' => 'Magento\ImportExport\Model\Source\Import\Behavior\Basic',
             'code'  => 'basic_behavior',
         ),
         'customer_composite' => array(
-            'token' => '\Magento\ImportExport\Model\Source\Import\Behavior\Basic',
+            'token' => 'Magento\ImportExport\Model\Source\Import\Behavior\Basic',
             'code'  => 'basic_behavior',
         ),
         'customer' => array(
-            'token' => '\Magento\ImportExport\Model\Source\Import\Behavior\Custom',
+            'token' => 'Magento\ImportExport\Model\Source\Import\Behavior\Custom',
             'code'  => 'custom_behavior',
         ),
         'customer_address' => array(
-            'token' => '\Magento\ImportExport\Model\Source\Import\Behavior\Custom',
+            'token' => 'Magento\ImportExport\Model\Source\Import\Behavior\Custom',
             'code'  => 'custom_behavior',
         ),
     );
@@ -51,8 +51,8 @@ class Magento_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_uniqueBehaviors = array(
-        'basic_behavior'  => '\Magento\ImportExport\Model\Source\Import\Behavior\Basic',
-        'custom_behavior' => '\Magento\ImportExport\Model\Source\Import\Behavior\Custom',
+        'basic_behavior'  => 'Magento\ImportExport\Model\Source\Import\Behavior\Basic',
+        'custom_behavior' => 'Magento\ImportExport\Model\Source\Import\Behavior\Custom',
     );
 
     protected function setUp()

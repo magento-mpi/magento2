@@ -144,7 +144,7 @@
                 <?php endif; ?>
                 <?php $customerAttributes = $this->getChildBlock('customer_form_customer_user_defined_attributes');?>
                 <?php if ($customerAttributes): ?>
-                    <?php $customerAttributes->setEntityModelClass('\Magento\Customer\Model\Customer')->setFieldIdFormat('billing:%1$s');?>
+                    <?php $customerAttributes->setEntityModelClass('Magento\Customer\Model\Customer')->setFieldIdFormat('billing:%1$s');?>
                     <?php $customerAttributes->setFieldNameFormat('billing[%1$s]')->setShowContainer(false);?>
                     <?php echo $customerAttributes->setExcludeFileAttributes(true)->toHtml()?>
                 <?php endif;?>

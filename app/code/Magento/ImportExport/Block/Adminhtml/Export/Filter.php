@@ -62,7 +62,7 @@ class Filter extends \Magento\Adminhtml\Block\Widget\Grid
         );
         /** @var $selectBlock \Magento\Core\Block\Html\Date */
         $dateBlock = $this->_layout->getBlockFactory()->createBlock(
-            '\Magento\Core\Block\Html\Date', array('data' => $arguments)
+            'Magento\Core\Block\Html\Date', array('data' => $arguments)
         );
         $fromValue = null;
         $toValue   = null;
@@ -126,7 +126,7 @@ class Filter extends \Magento\Adminhtml\Block\Widget\Grid
             );
             /** @var $selectBlock \Magento\Core\Block\Html\Select */
             $selectBlock = $this->_layout->getBlockFactory()->createBlock(
-                '\Magento\Core\Block\Html\Select', array('data' => $arguments)
+                'Magento\Core\Block\Html\Select', array('data' => $arguments)
             );
             return $selectBlock->setOptions($options)
                 ->setValue($value)
@@ -195,7 +195,7 @@ class Filter extends \Magento\Adminhtml\Block\Widget\Grid
             );
             /** @var $selectBlock \Magento\Core\Block\Html\Select */
             $selectBlock = $this->_layout->getBlockFactory()->createBlock(
-                '\Magento\Core\Block\Html\Select', array('data' => $arguments)
+                'Magento\Core\Block\Html\Select', array('data' => $arguments)
             );
             return $selectBlock->setOptions($options)
                 ->setValue($value)

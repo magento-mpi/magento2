@@ -45,7 +45,7 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
             ->get('Magento\Core\Model\Config\Resource')
             ->getResourceConnectionConfig('core_read');
         $profilerConfig = $connReadConfig->addChild('profiler');
-        $profilerConfig->addChild('class', '\Magento\Core\Model\Resource\Db\Profiler');
+        $profilerConfig->addChild('class', 'Magento\Core\Model\Resource\Db\Profiler');
         $profilerConfig->addChild('enabled', 'true');
 
         return $connReadConfig;
@@ -76,7 +76,7 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
 
         /** @var \Magento\Core\Model\Resource\Db\Profiler $profiler */
         $profiler = $connection->getProfiler();
-        $this->assertInstanceOf('\Magento\Core\Model\Resource\Db\Profiler', $profiler);
+        $this->assertInstanceOf('Magento\Core\Model\Resource\Db\Profiler', $profiler);
         $this->assertAttributeEquals((string)$connReadConfig->type, '_type', $profiler);
 
         $queryProfiles = $profiler->getQueryProfiles($queryType);
@@ -129,7 +129,7 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
 
         /** @var \Magento\Core\Model\Resource\Db\Profiler $profiler */
         $profiler = $connection->getProfiler();
-        $this->assertInstanceOf('\Magento\Core\Model\Resource\Db\Profiler', $profiler);
+        $this->assertInstanceOf('Magento\Core\Model\Resource\Db\Profiler', $profiler);
 
         $queryProfiles = $profiler->getQueryProfiles(\Magento\DB\Profiler::SELECT);
         $this->assertCount(2, $queryProfiles);

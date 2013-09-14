@@ -25,6 +25,6 @@ if ($attribute) {
         $attribute['entity_type_id'],
         $attribute['attribute_id'],
         'frontend_input_renderer',
-        '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\BaseImage'
+        'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\BaseImage'
     );
 }

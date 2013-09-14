@@ -46,7 +46,7 @@ class Magento_ImportExport_Model_Source_Import_BehaviorAbstractTest
         parent::setUp();
 
         $model = $this->getMockForAbstractClass(
-            '\Magento\ImportExport\Model\Source\Import\BehaviorAbstract',
+            'Magento\ImportExport\Model\Source\Import\BehaviorAbstract',
             array(array()),
             '',
             true,

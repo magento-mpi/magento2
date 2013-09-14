@@ -24,7 +24,7 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
     {
         /** @var $model \Magento\ImportExport\Model\Export\EntityAbstract */
         $model = $this->getMockForAbstractClass(
-            '\Magento\ImportExport\Model\Export\EntityAbstract',
+            'Magento\ImportExport\Model\Export\EntityAbstract',
             array(),
             'Stub_UnitTest_Magento_ImportExport_Model_Export_Entity_TestSetAndGet',
             false

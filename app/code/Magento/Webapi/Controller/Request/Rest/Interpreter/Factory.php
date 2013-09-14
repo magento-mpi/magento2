@@ -65,7 +65,7 @@ class Factory
         $interpreter = $this->_objectManager->get($interpreterClass);
         if (!$interpreter instanceof \Magento\Webapi\Controller\Request\Rest\InterpreterInterface) {
             throw new \LogicException(
-                'The interpreter must implement "\Magento\Webapi\Controller\Request\Rest\InterpreterInterface".');
+                'The interpreter must implement "Magento\Webapi\Controller\Request\Rest\InterpreterInterface".');
         }
         return $interpreter;
     }

@@ -56,7 +56,7 @@ class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Fra
                        'label' => 'LABEL',
             ));
         $optionsModel = $this->getMock(
-            '\Magento\Core\Model\Option\ArrayInterface',
+            'Magento\Core\Model\Option\ArrayInterface',
             array(),
             array(),
             'Option_Array_Model',

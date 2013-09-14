@@ -12,7 +12,7 @@
         <reference name="invitations.list.list.before">
             <block class="Magento\Reward\Block\Tooltip" name="reward.tooltip.invitation" template="tooltip.phtml">
                 <action method="initRewardType">
-                    <argument name="type" xsi:type="string">\Magento\Reward\Model\Action\InvitationCustomer</argument>
+                    <argument name="type" xsi:type="string">Magento\Reward\Model\Action\InvitationCustomer</argument>
                 </action>
                 <action method="setWrapperClass">
                     <argument name="class" xsi:type="string">reward-invitation</argument>
@@ -29,7 +29,7 @@
             </block>
             <block class="Magento\Reward\Block\Tooltip" name="reward.tooltip.invitation.order" template="tooltip.phtml">
                 <action method="initRewardType">
-                    <argument name="type" xsi:type="string">\Magento\Reward\Model\Action\InvitationOrder</argument>
+                    <argument name="type" xsi:type="string">Magento\Reward\Model\Action\InvitationOrder</argument>
                 </action>
                 <action method="setWrapperClass">
                     <argument name="class" xsi:type="string">reward-invitation</argument>

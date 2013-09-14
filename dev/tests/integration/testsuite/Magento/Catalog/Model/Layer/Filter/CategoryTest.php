@@ -61,7 +61,7 @@ class Magento_Catalog_Model_Layer_Filter_CategoryTest extends PHPUnit_Framework_
 
         /** @var $category \Magento\Catalog\Model\Category */
         $category = Mage::registry('current_category_filter');
-        $this->assertInstanceOf('\Magento\Catalog\Model\Category', $category);
+        $this->assertInstanceOf('Magento\Catalog\Model\Category', $category);
         $this->assertEquals(3, $category->getId());
 
         return $this->_model;
@@ -91,7 +91,7 @@ class Magento_Catalog_Model_Layer_Filter_CategoryTest extends PHPUnit_Framework_
     public function testGetCategoryApplied(\Magento\Catalog\Model\Layer\Filter\Category $modelApplied)
     {
         $category = $modelApplied->getCategory();
-        $this->assertInstanceOf('\Magento\Catalog\Model\Category', $category);
+        $this->assertInstanceOf('Magento\Catalog\Model\Category', $category);
         $this->assertEquals(3, $category->getId());
     }
 
@@ -108,7 +108,7 @@ class Magento_Catalog_Model_Layer_Filter_CategoryTest extends PHPUnit_Framework_
         /** @var $item \Magento\Catalog\Model\Layer\Filter\Item */
         $item = $items[0];
 
-        $this->assertInstanceOf('\Magento\Catalog\Model\Layer\Filter\Item', $item);
+        $this->assertInstanceOf('Magento\Catalog\Model\Layer\Filter\Item', $item);
         $this->assertSame($modelApplied, $item->getFilter());
         $this->assertEquals('Category 1.1', $item->getLabel());
         $this->assertEquals(4, $item->getValue());

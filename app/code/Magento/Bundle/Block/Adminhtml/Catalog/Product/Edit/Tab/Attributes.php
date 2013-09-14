@@ -52,7 +52,7 @@ class Attributes
             $price->setRenderer(
                 $this->getLayout()
                     ->createBlock(
-                        '\Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes\Extend',
+                        'Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes\Extend',
                         'adminhtml.catalog.product.bundle.edit.tab.attributes.price')
                     ->setDisableChild(true)
             );

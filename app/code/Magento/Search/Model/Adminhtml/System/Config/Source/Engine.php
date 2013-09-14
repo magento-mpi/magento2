@@ -20,8 +20,8 @@ namespace Magento\Search\Model\Adminhtml\System\Config\Source;
 
 class Engine
 {
-    const FULLTEXT = '\Magento\CatalogSearch\Model\Resource\Fulltext\Engine';
-    const SOLR = '\Magento\Search\Model\Resource\Engine';
+    const FULLTEXT = 'Magento\CatalogSearch\Model\Resource\Fulltext\Engine';
+    const SOLR = 'Magento\Search\Model\Resource\Engine';
 
     public function toOptionArray()
     {

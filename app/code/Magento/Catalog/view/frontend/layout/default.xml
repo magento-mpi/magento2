@@ -42,17 +42,17 @@
         <reference name="catalog_product_price_template">
             <action method="addPriceBlockType">
                 <argument name="type" xsi:type="string">msrp</argument>
-                <argument name="block" xsi:type="string">\Magento\Catalog\Block\Product\Price</argument>
+                <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\Price</argument>
                 <argument name="template" xsi:type="string">product/price_msrp.phtml</argument>
             </action>
             <action method="addPriceBlockType">
                 <argument name="type" xsi:type="string">msrp_item</argument>
-                <argument name="block" xsi:type="string">\Magento\Catalog\Block\Product\Price</argument>
+                <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\Price</argument>
                 <argument name="template" xsi:type="string">product/price_msrp_item.phtml</argument>
             </action>
             <action method="addPriceBlockType">
                 <argument name="type" xsi:type="string">msrp_noform</argument>
-                <argument name="block" xsi:type="string">\Magento\Catalog\Block\Product\Price</argument>
+                <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\Price</argument>
                 <argument name="template" xsi:type="string">product/price_msrp_noform.phtml</argument>
             </action>
         </reference>

@@ -42,7 +42,7 @@ class Magento_Core_Model_ResourceTest extends PHPUnit_Framework_TestCase
         $connReadConfig = Mage::getSingleton('Magento\Core\Model\Config\Resource')
             ->getResourceConnectionConfig('core_read');
         $profilerConfig = $connReadConfig->addChild('profiler');
-        $profilerConfig->addChild('class', '\Magento\Core\Model\Resource\Db\Profiler');
+        $profilerConfig->addChild('class', 'Magento\Core\Model\Resource\Db\Profiler');
         $profilerConfig->addChild('enabled', 'true');
 
         /** @var Zend_Db_Adapter_Abstract $connection */
@@ -50,7 +50,7 @@ class Magento_Core_Model_ResourceTest extends PHPUnit_Framework_TestCase
         /** @var \Magento\Core\Model\Resource\Db\Profiler $profiler */
         $profiler = $connection->getProfiler();
 
-        $this->assertInstanceOf('\Magento\Core\Model\Resource\Db\Profiler', $profiler);
+        $this->assertInstanceOf('Magento\Core\Model\Resource\Db\Profiler', $profiler);
         $this->assertTrue($profiler->getEnabled());
         $this->assertAttributeEquals((string)$connReadConfig->host, '_host', $profiler);
         $this->assertAttributeEquals((string)$connReadConfig->type, '_type', $profiler);

@@ -51,7 +51,7 @@ class Magento_Webapi_Block_Adminhtml_Role_EditTest extends PHPUnit_Framework_Tes
             ->will($this->returnValue(1));
 
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_block = $helper->getObject('\Magento\Webapi\Block\Adminhtml\Role\Edit', array(
+        $this->_block = $helper->getObject('Magento\Webapi\Block\Adminhtml\Role\Edit', array(
             'urlBuilder' => $this->_urlBuilder,
             'layout' => $this->_layout,
             'request' => $this->_request

@@ -225,7 +225,7 @@ class General
     protected function _getAdditionalElementTypes()
     {
         $element = 
-            '\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\Image';
+            'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\Image';
         return array('image' => $element);
     }
 

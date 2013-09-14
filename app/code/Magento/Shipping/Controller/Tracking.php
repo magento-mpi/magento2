@@ -31,7 +31,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
             $tracks = $order->getTracksCollection();
 
             $block = $this->_objectManager->create('Magento\Core\Block\Template');
-            $block->setType('\Magento\Core\Block\Template')
+            $block->setType('Magento\Core\Block\Template')
                 ->setTemplate('order/trackinginfo.phtml');
 
             foreach ($tracks as $track){

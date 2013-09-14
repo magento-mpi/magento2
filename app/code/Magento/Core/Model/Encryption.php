@@ -55,7 +55,7 @@ class Encryption
                 $helper = get_class($helper);
             } else {
                 throw new \InvalidArgumentException(
-                    'Input parameter "$helper" must be either "string" or instance of "\Magento\Core\Helper\AbstractHelper"'
+                    'Input parameter "$helper" must be either "string" or instance of "Magento\Core\Helper\AbstractHelper"'
                 );
             }
         }

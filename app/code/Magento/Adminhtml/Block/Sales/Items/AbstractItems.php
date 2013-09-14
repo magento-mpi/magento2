@@ -53,8 +53,8 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
      */
     protected function _construct()
     {
-        $this->addColumnRender('qty', '\Magento\Adminhtml\Block\Sales\Items\Column\Qty', 'sales/items/column/qty.phtml');
-        $this->addColumnRender('name', '\Magento\Adminhtml\Block\Sales\Items\Column\Name', 'sales/items/column/name.phtml');
+        $this->addColumnRender('qty', 'Magento\Adminhtml\Block\Sales\Items\Column\Qty', 'sales/items/column/qty.phtml');
+        $this->addColumnRender('name', 'Magento\Adminhtml\Block\Sales\Items\Column\Name', 'sales/items/column/name.phtml');
         parent::_construct();
     }
 

@@ -30,7 +30,7 @@ class Magento_AdminNotification_Model_System_Message_Media_Synchronization_Succe
     public function setUp()
     {
         $this->_syncFlagMock = $this->getMock(
-            '\Magento\Core\Model\File\Storage\Flag', array('getState', 'getFlagData', 'setState'), array(), '', false
+            'Magento\Core\Model\File\Storage\Flag', array('getState', 'getFlagData', 'setState'), array(), '', false
         );
 
         $this->_fileStorage = $this->getMock('Magento\Core\Model\File\Storage', array(), array(), '', false);
@@ -42,7 +42,7 @@ class Magento_AdminNotification_Model_System_Message_Media_Synchronization_Succe
             'fileStorage' => $this->_fileStorage,
         );
         $this->_model = $objectManagerHelper
-            ->getObject('\Magento\AdminNotification\Model\System\Message\Media\Synchronization\Success', $arguments);
+            ->getObject('Magento\AdminNotification\Model\System\Message\Media\Synchronization\Success', $arguments);
 
     }
 
@@ -74,7 +74,7 @@ class Magento_AdminNotification_Model_System_Message_Media_Synchronization_Succe
         // create new instance to ensure that it hasn't been displayed yet (var $this->_isDisplayed is unset)
         /** @var $model \Magento\AdminNotification\Model\System\Message\Media\Synchronization\Success */
         $model = $objectManagerHelper
-            ->getObject('\Magento\AdminNotification\Model\System\Message\Media\Synchronization\Success', $arguments);
+            ->getObject('Magento\AdminNotification\Model\System\Message\Media\Synchronization\Success', $arguments);
         //check first call
         $this->assertEquals($expectedFirstRun, $model->isDisplayed());
         //check second call

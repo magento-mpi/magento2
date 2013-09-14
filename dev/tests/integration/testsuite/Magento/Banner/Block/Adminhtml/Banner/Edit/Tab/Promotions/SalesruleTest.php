@@ -21,7 +21,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_SalesruleTest ex
     protected function setUp()
     {
         $this->_block = Mage::app()->getLayout()->createBlock(
-            '\Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Salesrule'
+            'Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Salesrule'
         );
     }
 

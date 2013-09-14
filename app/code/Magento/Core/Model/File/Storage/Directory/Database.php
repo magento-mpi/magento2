@@ -174,7 +174,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
             try {
                 $arguments = array('connection' => $this->getConnectionName());
                 $directory = \Mage::getModel(
-                    '\Magento\Core\Model\File\Storage\Directory\Database',
+                    'Magento\Core\Model\File\Storage\Directory\Database',
                     array('connectionName' => $arguments)
                 );
                 $directory->setPath($dir['path']);

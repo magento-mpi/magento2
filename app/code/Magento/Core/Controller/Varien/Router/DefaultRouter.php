@@ -43,7 +43,7 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\AbstractRoute
             }
         }
 
-        return $this->_controllerFactory->createController('\Magento\Core\Controller\Varien\Action\Forward',
+        return $this->_controllerFactory->createController('Magento\Core\Controller\Varien\Action\Forward',
             array('request' => $request)
         );
     }

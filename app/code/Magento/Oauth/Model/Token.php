@@ -238,7 +238,7 @@ class Token extends \Magento\Core\Model\AbstractModel
 
         /** @var $validatorLength \Magento\Oauth\Model\Consumer\Validator\KeyLength */
         $validatorLength = \Mage::getModel(
-            '\Magento\Oauth\Model\Consumer\Validator\KeyLength');
+            'Magento\Oauth\Model\Consumer\Validator\KeyLength');
         $validatorLength->setLength(self::LENGTH_SECRET);
         $validatorLength->setName('Token Secret Key');
         if (!$validatorLength->isValid($this->getSecret())) {

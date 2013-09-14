@@ -61,7 +61,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($theme));
 
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->addSharedInstance($this->_viewFileSystem, '\Magento\Core\Model\View\FileSystem');
+        $objectManager->addSharedInstance($this->_viewFileSystem, 'Magento\Core\Model\View\FileSystem');
 
         Mage::getConfig()->setModuleDir('Magento_Core', 'locale', dirname(__FILE__) . '/_files/Magento/Core/locale');
         Mage::getConfig()->setModuleDir('Magento_Catalog', 'locale',
@@ -79,7 +79,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             ->method('getDesignTheme')
             ->will($this->returnValue($theme));
 
-        $objectManager->addSharedInstance($this->_designModel, '\Magento\Core\Model\View\Design');
+        $objectManager->addSharedInstance($this->_designModel, 'Magento\Core\Model\View\Design');
 
         $this->_model = Mage::getModel('Magento\Core\Model\Translate');
         $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND);
@@ -116,7 +116,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         /** @var $modulesConfig \Magento\Core\Model\Config\Element */
         $modulesConfig = $this->_model->getModulesConfig();
 
-        $this->assertInstanceOf('\Magento\Core\Model\Config\Element', $modulesConfig);
+        $this->assertInstanceOf('Magento\Core\Model\Config\Element', $modulesConfig);
 
         /* Number of nodes is the number of enabled modules, that support translation */
         $checkedNode = 'Magento_Core';
@@ -164,7 +164,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
     public function testGetResource()
     {
-        $this->assertInstanceOf('\Magento\Core\Model\Resource\Translate', $this->_model->getResource());
+        $this->assertInstanceOf('Magento\Core\Model\Resource\Translate', $this->_model->getResource());
     }
 
     public function testGetTranslate()

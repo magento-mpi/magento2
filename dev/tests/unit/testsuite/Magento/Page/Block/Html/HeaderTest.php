@@ -52,7 +52,7 @@ class Magento_Page_Block_Html_HeaderTest extends PHPUnit_Framework_TestCase
             'helperFactory' => $helperFactory,
             'dirs' => $dirsMock
         );
-        $block = $objectManager->getObject('\Magento\Page\Block\Html\Header', $arguments);
+        $block = $objectManager->getObject('Magento\Page\Block\Html\Header', $arguments);
 
         $this->assertEquals('http://localhost/pub/media/logo/default/image.gif', $block->getLogoSrc());
     }

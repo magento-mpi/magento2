@@ -22,7 +22,7 @@ class Magento_Reminder_Model_Resource_Rule_CollectionTest extends PHPUnit_Framew
         $this->markTestIncomplete('MAGE-5166 is incomplete');
         $this->assertEquals(1, $collection->count());
         foreach ($collection as $rule) {
-            $this->assertInstanceOf('\Magento\Reminder\Model\Rule', $rule);
+            $this->assertInstanceOf('Magento\Reminder\Model\Rule', $rule);
             $this->assertEquals('Rule 2', $rule->getName());
             return;
         }

@@ -23,7 +23,7 @@ class Sales
     public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('\Magento\CustomerSegment\Model\Segment\Condition\Sales');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Sales');
         $this->setValue(null);
     }
 
@@ -37,16 +37,16 @@ class Sales
         return array(
             'value' => array(
                 array( // order address combo
-                    'value' => '\Magento\CustomerSegment\Model\Segment\Condition\Order\Address',
+                    'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Order\Address',
                     'label' => __('Order Address')),
                 array(
-                    'value' => '\Magento\CustomerSegment\Model\Segment\Condition\Sales\Salesamount',
+                    'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Sales\Salesamount',
                     'label' => __('Sales Amount')),
                 array(
-                    'value' => '\Magento\CustomerSegment\Model\Segment\Condition\Sales\Ordersnumber',
+                    'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Sales\Ordersnumber',
                     'label' => __('Number of Orders')),
                 array(
-                    'value' => '\Magento\CustomerSegment\Model\Segment\Condition\Sales\Purchasedquantity',
+                    'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Sales\Purchasedquantity',
                     'label' => __('Purchased Quantity')),
              ),
             'label' => __('Sales')

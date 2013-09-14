@@ -75,7 +75,7 @@ class Magento_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
             false, false);
 
         $this->_logger = $this->getMock(
-            '\Magento\Core\Model\Logger', array('addStoreLog', 'log', 'logException'), array(), '', false
+            'Magento\Core\Model\Logger', array('addStoreLog', 'log', 'logException'), array(), '', false
         );
 
         $this->_menuMock = $this->getMock('Magento\Backend\Model\Menu', array(), array(), '', false);

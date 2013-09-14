@@ -98,7 +98,7 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     public function testSetGetStore()
     {
-        $this->assertInstanceOf('\Magento\Core\Model\Store', $this->_model->getStore());
+        $this->assertInstanceOf('Magento\Core\Model\Store', $this->_model->getStore());
 
         $store = Mage::getModel('Magento\Core\Model\Store');
         $this->_model->setStore($store);

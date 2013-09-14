@@ -32,7 +32,7 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
         $translator->expects($this->any())->method('translate')->will($this->returnCallback($translate));
         $this->_storeConfig = $this->getMock('Magento\Core\Model\Store\Config', array('getConfig'), array(), '', false);
         $this->_segmentCollection = $this->getMock(
-            '\Magento\CustomerSegment\Model\Resource\Segment\Collection', array('toOptionArray'), array(), '', false
+            'Magento\CustomerSegment\Model\Resource\Segment\Collection', array('toOptionArray'), array(), '', false
         );
         $helperContext = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false);
         $helperContext->expects($this->any())->method('getTranslator')->will($this->returnValue($translator));
@@ -74,7 +74,7 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
         $form = new \Magento\Data\Form(array('html_id_prefix' => 'pfx_'));
         $data = new \Magento\Object($fixtureFormData);
         $dependencies = $this->getMock(
-            '\Magento\Backend\Block\Widget\Form\Element\Dependence',
+            'Magento\Backend\Block\Widget\Form\Element\Dependence',
             array('addFieldMap', 'addFieldDependence'),
             array(), '', false
         );
@@ -108,7 +108,7 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         /** @var \Magento\Data\Form\Element\Select $useSegmentElement */
         $useSegmentElement = $form->getElement('use_customer_segment');
-        $this->assertInstanceOf('\Magento\Data\Form\Element\Select', $useSegmentElement);
+        $this->assertInstanceOf('Magento\Data\Form\Element\Select', $useSegmentElement);
         $this->assertEquals('use_customer_segment', $useSegmentElement->getData('name'));
         $this->assertEquals('Customer Segments', $useSegmentElement->getData('label'));
         $this->assertEquals(array('0' => 'All', '1' => 'Specified'), $useSegmentElement->getData('options'));
@@ -116,7 +116,7 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         /** @var \Magento\Data\Form\Element\Multiselect $segmentIdsElement */
         $segmentIdsElement = $form->getElement('customer_segment_ids');
-        $this->assertInstanceOf('\Magento\Data\Form\Element\Multiselect', $segmentIdsElement);
+        $this->assertInstanceOf('Magento\Data\Form\Element\Multiselect', $segmentIdsElement);
         $this->assertEquals('customer_segment_ids', $segmentIdsElement->getData('name'));
         $this->assertEquals(array(10 => 'Devs', 20 => 'QAs'), $segmentIdsElement->getData('values'));
         $this->assertTrue($segmentIdsElement->getData('required'));
@@ -149,7 +149,7 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
         $form = new \Magento\Data\Form(array('html_id_prefix' => 'pfx_'));
         $data = new \Magento\Object();
         $dependencies = $this->getMock(
-            '\Magento\Backend\Block\Widget\Form\Element\Dependence',
+            'Magento\Backend\Block\Widget\Form\Element\Dependence',
             array('addFieldMap', 'addFieldDependence'),
             array(), '', false
         );

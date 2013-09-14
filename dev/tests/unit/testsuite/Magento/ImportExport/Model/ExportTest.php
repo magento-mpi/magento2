@@ -30,7 +30,7 @@ class Magento_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
     {
         /** @var $mockEntityAbstract \Magento\ImportExport\Model\Export\EntityAbstract */
         $mockEntityAbstract = $this->getMockForAbstractClass(
-            '\Magento\ImportExport\Model\Export\EntityAbstract',
+            'Magento\ImportExport\Model\Export\EntityAbstract',
             array(),
             '',
             false
@@ -38,7 +38,7 @@ class Magento_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
 
         /** @var $mockAdapterTest \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter */
         $mockAdapterTest = $this->getMockForAbstractClass(
-            '\Magento\ImportExport\Model\Export\Adapter\AbstractAdapter',
+            'Magento\ImportExport\Model\Export\Adapter\AbstractAdapter',
             array(),
             '',
             false,
@@ -52,7 +52,7 @@ class Magento_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
 
         /** @var $mockModelExport \Magento\ImportExport\Model\Export */
         $mockModelExport = $this->getMock(
-            '\Magento\ImportExport\Model\Export',
+            'Magento\ImportExport\Model\Export',
             array('getEntityAdapter', '_getEntityAdapter', '_getWriter')
         );
         $mockModelExport->expects($this->any())

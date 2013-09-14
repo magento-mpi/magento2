@@ -41,7 +41,7 @@ class Magento_Core_Model_Page_Asset_MinifiedTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         $this->_asset = $this->getMockForAbstractClass(
-            '\Magento\Core\Model\Page\Asset\LocalInterface',
+            'Magento\Core\Model\Page\Asset\LocalInterface',
             array(),
             '',
             false

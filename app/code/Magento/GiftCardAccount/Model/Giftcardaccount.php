@@ -56,7 +56,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      */
     protected $_requestedCode = false;
 
-    protected $_defaultPoolModelClass = '\Magento\GiftCardAccount\Model\Pool';
+    protected $_defaultPoolModelClass = 'Magento\GiftCardAccount\Model\Pool';
 
     /**
      * Static variable to contain codes, that were saved on previous steps in series of consecutive saves

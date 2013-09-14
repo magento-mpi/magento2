@@ -56,7 +56,7 @@ class Magento_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Fr
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_modelObserver = $objectManagerHelper->getObject(
-            '\Magento\GoogleOptimizer\Model\Observer\CmsPage\Save',
+            'Magento\GoogleOptimizer\Model\Observer\CmsPage\Save',
             array(
                 'helper' => $this->_helperMock,
                 'modelCode' => $this->_codeMock,

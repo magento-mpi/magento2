@@ -28,7 +28,7 @@ class Magento_Cache_CoreTest extends PHPUnit_Framework_TestCase
         $core = new \Magento\Cache\Core($config);
         $core->setBackend($mockBackend);
 
-        $this->assertInstanceOf('\Magento\Cache\Backend\Decorator\DecoratorAbstract', $core->getBackend());
+        $this->assertInstanceOf('Magento\Cache\Backend\Decorator\DecoratorAbstract', $core->getBackend());
     }
 
     /**

@@ -49,8 +49,8 @@ class Collection
     protected function _construct()
     {
         $this->_init(
-            '\Magento\Catalog\Model\Product\Type\Configurable\Attribute',
-            '\Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute'
+            'Magento\Catalog\Model\Product\Type\Configurable\Attribute',
+            'Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute'
         );
         $this->_labelTable = $this->getTable('catalog_product_super_attribute_label');
         $this->_priceTable = $this->getTable('catalog_product_super_attribute_pricing');

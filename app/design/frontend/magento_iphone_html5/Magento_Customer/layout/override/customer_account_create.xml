@@ -22,7 +22,7 @@
                         <argument name="code" xsi:type="string">customer_account_create</argument>
                     </action>
                     <action method="setEntityModelClass">
-                        <argument name="code" xsi:type="string">\Magento\Customer\Model\Customer</argument>
+                        <argument name="code" xsi:type="string">Magento\Customer\Model\Customer</argument>
                     </action>
                 </block>
                 <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_address_user_attributes">
@@ -30,7 +30,7 @@
                         <argument name="code" xsi:type="string">customer_register_address</argument>
                     </action>
                     <action method="setEntityModelClass">
-                        <argument name="code" xsi:type="string">\Magento\Customer\Model\Address</argument>
+                        <argument name="code" xsi:type="string">Magento\Customer\Model\Address</argument>
                     </action>
                 </block>
             </block>

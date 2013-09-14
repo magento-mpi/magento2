@@ -89,7 +89,7 @@ class Magento_SalesRule_Model_ValidatorTest extends PHPUnit_Framework_TestCase
             ->method('getAddress')
             ->will($this->returnValue(true));
 
-        $this->assertInstanceOf('\Magento\SalesRule\Model\Validator', $this->_model->processFreeShipping($item));
+        $this->assertInstanceOf('Magento\SalesRule\Model\Validator', $this->_model->processFreeShipping($item));
 
         return true;
     }
@@ -106,7 +106,7 @@ class Magento_SalesRule_Model_ValidatorTest extends PHPUnit_Framework_TestCase
         $quote = $this->getMock('Magento\Sales\Model\Quote', null, array(), '', false);
         $item->setQuote($quote);
 
-        $this->assertInstanceOf('\Magento\SalesRule\Model\Validator', $this->_model->process($item));
+        $this->assertInstanceOf('Magento\SalesRule\Model\Validator', $this->_model->process($item));
 
         return true;
     }

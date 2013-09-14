@@ -33,11 +33,11 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_TreeTest extends P
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $constructArguments =  $objectManagerHelper->getConstructArguments(
-            '\Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Content',
+            'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Content',
             array('urlBuilder'    => $this->_urlBuilder)
         );
         $this->_filesTree = $this->getMock(
-            '\Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Tree', array('helper'), $constructArguments
+            'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Tree', array('helper'), $constructArguments
         );
 
         $this->_filesTree->expects($this->any())

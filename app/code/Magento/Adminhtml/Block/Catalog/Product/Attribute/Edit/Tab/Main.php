@@ -103,6 +103,6 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
      */
     protected function _getAdditionalElementTypes()
     {
-        return array('apply' => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Apply');
+        return array('apply' => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Apply');
     }
 }

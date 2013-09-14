@@ -63,8 +63,8 @@ class Magento_Webapi_Controller_Response_RestTest extends PHPUnit_Framework_Test
         $this->_responseRest->setException($apiException);
         /** Assert that \Magento\Webapi\Exception was set and presented in the list. */
         $this->assertTrue(
-            $this->_responseRest->hasExceptionOfType('\Magento\Webapi\Exception'),
-            '\Magento\Webapi\Exception was not set.'
+            $this->_responseRest->hasExceptionOfType('Magento\Webapi\Exception'),
+            'Magento\Webapi\Exception was not set.'
         );
     }
 
@@ -178,7 +178,7 @@ class Magento_Webapi_Controller_Response_RestTest extends PHPUnit_Framework_Test
     public function dataProviderForSendResponseWithException()
     {
         return array(
-            '\Magento\Webapi\Exception' => array(
+            'Magento\Webapi\Exception' => array(
                 new \Magento\Webapi\Exception('Message', 400),
                 '{"messages":{"error":[{"code":400,"message":"Message"}]}}',
                 'Response sending with \Magento\Webapi\Exception is invalid'
@@ -199,7 +199,7 @@ class Magento_Webapi_Controller_Response_RestTest extends PHPUnit_Framework_Test
     public function dataProviderForSendResponseWithExceptionInDeveloperMode()
     {
         return array(
-            '\Magento\Webapi\Exception' => array(
+            'Magento\Webapi\Exception' => array(
                 new \Magento\Webapi\Exception('Message', 400),
                 '{"messages":{"error":[{"code":400,"message":"Message","trace":"',
                 'Response sending with \Magento\Webapi\Exception in developer mode is invalid'

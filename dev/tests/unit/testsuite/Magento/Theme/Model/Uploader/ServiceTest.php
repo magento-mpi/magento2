@@ -39,7 +39,7 @@ class Magento_Theme_Model_Uploader_ServiceTest extends PHPUnit_Framework_TestCas
         /** @var $service \Magento\Theme\Model\Uploader\Service */
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments(
-            '\Magento\Theme\Model\Uploader\Service',
+            'Magento\Theme\Model\Uploader\Service',
             array('fileIo' => $this->_filesystemMock, 'uploaderFactory' => $uploaderFactory)
         );
         $this->_modelBuilder = $this->getMockBuilder('Magento\Theme\Model\Uploader\Service')

@@ -53,19 +53,19 @@ class Column
     protected function _addElementTypes()
     {
         //contains composite font element and logo uploader
-        $this->addType('logo', '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Logo');
+        $this->addType('logo', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Logo');
 
         //contains font picker, color picker
-        $this->addType('font', '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Font');
+        $this->addType('font', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Font');
 
         //contains color picker and bg uploader
-        $this->addType('background', '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Background');
+        $this->addType('background', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Background');
 
-        $this->addType('color-picker', '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ColorPicker');
-        $this->addType('font-picker', '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\FontPicker');
-        $this->addType('logo-uploader', '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\LogoUploader');
+        $this->addType('color-picker', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ColorPicker');
+        $this->addType('font-picker', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\FontPicker');
+        $this->addType('logo-uploader', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\LogoUploader');
         $this->addType('background-uploader',
-            '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\BackgroundUploader'
+            'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\BackgroundUploader'
         );
 
         return $this;

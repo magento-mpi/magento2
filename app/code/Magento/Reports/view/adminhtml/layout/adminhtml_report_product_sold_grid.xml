@@ -13,7 +13,7 @@
         <reference name="adminhtml.report.grid">
             <arguments>
                 <argument name="id" xsi:type="string">gridProductsSold</argument>
-                <argument name="dataSource" xsi:type="object">\Magento\Reports\Model\Resource\Product\Sold\Collection\Initial</argument>
+                <argument name="dataSource" xsi:type="object">Magento\Reports\Model\Resource\Product\Sold\Collection\Initial</argument>
             </arguments>
         </reference>
         <reference name="adminhtml.report.grid.export">

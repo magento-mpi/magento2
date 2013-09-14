@@ -59,9 +59,9 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Fr
             'objectManager' => $this->_objectManager,
         );
 
-        $context = $helper->getObject('\Magento\Backend\Controller\Context', $arguments);
+        $context = $helper->getObject('Magento\Backend\Controller\Context', $arguments);
 
-        $this->_controller = $helper->getObject('\Magento\Adminhtml\Controller\Sales\Order\Creditmemo',
+        $this->_controller = $helper->getObject('Magento\Adminhtml\Controller\Sales\Order\Creditmemo',
             array('context' => $context));
     }
 
@@ -84,7 +84,7 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Fr
             ->method('getParam')->will($this->returnValue(null));
 
         $creditmemoMock = $this->getMock(
-            '\Magento\Sales\Model\Order\Creditmemo', array('load', 'getGrandTotal'), array(), '', false
+            'Magento\Sales\Model\Order\Creditmemo', array('load', 'getGrandTotal'), array(), '', false
         );
         $creditmemoMock->expects($this->once())->method('load')
             ->with($this->equalTo($creditmemoId))->will($this->returnSelf());

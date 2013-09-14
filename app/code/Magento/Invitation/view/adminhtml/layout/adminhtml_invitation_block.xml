@@ -13,7 +13,7 @@
             <block class="Magento\Backend\Block\Widget\Grid" name="invitation.grid.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">invitationGrid</argument>
-                    <argument name="dataSource" xsi:type="object">\Magento\Invitation\Model\Resource\Invitation\Grid\Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\Invitation\Model\Resource\Invitation\Grid\Collection</argument>
                     <argument name="default_sort" xsi:type="string">date</argument>
                     <argument name="default_dir" xsi:type="string">DESC</argument>
                     <argument name="save_parameters_in_session" xsi:type="string">1</argument>
@@ -67,7 +67,7 @@
                             <argument name="header" xsi:type="string" translate="true">Invitee</argument>
                             <argument name="type" xsi:type="string">text</argument>
                             <argument name="index" xsi:type="string">invitee_email</argument>
-                            <argument name="renderer" xsi:type="string">\Magento\Invitation\Block\Adminhtml\Invitation\Grid\Column\Invitee</argument>
+                            <argument name="renderer" xsi:type="string">Magento\Invitation\Block\Adminhtml\Invitation\Grid\Column\Invitee</argument>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="invitation_date">
@@ -94,7 +94,7 @@
                             <argument name="type" xsi:type="string">options</argument>
                             <argument name="width" xsi:type="string">140</argument>
                             <argument name="index" xsi:type="string">status</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\Invitation\Model\Source\Invitation\Options"/>
+                            <argument name="options" xsi:type="options" model="Magento\Invitation\Model\Source\Invitation\Options"/>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="website_id">
@@ -103,7 +103,7 @@
                             <argument name="type" xsi:type="string">options</argument>
                             <argument name="width" xsi:type="string">150</argument>
                             <argument name="index" xsi:type="string">website_id</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\Invitation\Model\Source\Invitation\WebsiteId"/>
+                            <argument name="options" xsi:type="options" model="Magento\Invitation\Model\Source\Invitation\WebsiteId"/>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="group_id">
@@ -113,7 +113,7 @@
                             <argument name="width" xsi:type="string">140</argument>
                             <argument name="index" xsi:type="string">group_id</argument>
                             <argument name="filter_index" xsi:type="string">invitee_group_id</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\Invitation\Model\Source\Invitation\GroupId"/>
+                            <argument name="options" xsi:type="options" model="Magento\Invitation\Model\Source\Invitation\GroupId"/>
                         </arguments>
                     </block>
                 </block>

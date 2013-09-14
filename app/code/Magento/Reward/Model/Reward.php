@@ -70,17 +70,17 @@ class Reward extends \Magento\Core\Model\AbstractModel
         parent::_construct();
         $this->_init('Magento\Reward\Model\Resource\Reward');
         self::$_actionModelClasses = self::$_actionModelClasses + array(
-            self::REWARD_ACTION_ADMIN               => '\Magento\Reward\Model\Action\Admin',
-            self::REWARD_ACTION_ORDER               => '\Magento\Reward\Model\Action\Order',
-            self::REWARD_ACTION_REGISTER            => '\Magento\Reward\Model\Action\Register',
-            self::REWARD_ACTION_NEWSLETTER          => '\Magento\Reward\Model\Action\Newsletter',
-            self::REWARD_ACTION_INVITATION_CUSTOMER => '\Magento\Reward\Model\Action\InvitationCustomer',
-            self::REWARD_ACTION_INVITATION_ORDER    => '\Magento\Reward\Model\Action\InvitationOrder',
-            self::REWARD_ACTION_REVIEW              => '\Magento\Reward\Model\Action\Review',
-            self::REWARD_ACTION_ORDER_EXTRA         => '\Magento\Reward\Model\Action\OrderExtra',
-            self::REWARD_ACTION_CREDITMEMO          => '\Magento\Reward\Model\Action\Creditmemo',
-            self::REWARD_ACTION_SALESRULE           => '\Magento\Reward\Model\Action\Salesrule',
-            self::REWARD_ACTION_REVERT              => '\Magento\Reward\Model\Action\OrderRevert'
+            self::REWARD_ACTION_ADMIN               => 'Magento\Reward\Model\Action\Admin',
+            self::REWARD_ACTION_ORDER               => 'Magento\Reward\Model\Action\Order',
+            self::REWARD_ACTION_REGISTER            => 'Magento\Reward\Model\Action\Register',
+            self::REWARD_ACTION_NEWSLETTER          => 'Magento\Reward\Model\Action\Newsletter',
+            self::REWARD_ACTION_INVITATION_CUSTOMER => 'Magento\Reward\Model\Action\InvitationCustomer',
+            self::REWARD_ACTION_INVITATION_ORDER    => 'Magento\Reward\Model\Action\InvitationOrder',
+            self::REWARD_ACTION_REVIEW              => 'Magento\Reward\Model\Action\Review',
+            self::REWARD_ACTION_ORDER_EXTRA         => 'Magento\Reward\Model\Action\OrderExtra',
+            self::REWARD_ACTION_CREDITMEMO          => 'Magento\Reward\Model\Action\Creditmemo',
+            self::REWARD_ACTION_SALESRULE           => 'Magento\Reward\Model\Action\Salesrule',
+            self::REWARD_ACTION_REVERT              => 'Magento\Reward\Model\Action\OrderRevert'
         );
     }
 

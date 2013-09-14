@@ -93,12 +93,12 @@ class Magento_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_processFile));
 
         $resource = $this->getMockForAbstractClass(
-            '\Magento\Core\Model\Resource\Db\AbstractDb',
+            'Magento\Core\Model\Resource\Db\AbstractDb',
             array(), '', false, false, true, array('getIdFieldName')
         );
         $resource->expects($this->any())->method('getIdFieldName')->will($this->returnValue('process_id'));
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_indexProcess = $helper->getObject('\Magento\Index\Model\Process', array(
+        $this->_indexProcess = $helper->getObject('Magento\Index\Model\Process', array(
             'lockStorage' => $lockStorage,
             'resource' => $resource,
             'data' => array('process_id' => self::PROCESS_ID)

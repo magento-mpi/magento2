@@ -32,7 +32,7 @@ class Grid
      */
     protected function _getCollectionClass()
     {
-        return '\Magento\SalesArchive\Model\Resource\Order\Shipment\Collection';
+        return 'Magento\SalesArchive\Model\Resource\Order\Shipment\Collection';
     }
 
     /**

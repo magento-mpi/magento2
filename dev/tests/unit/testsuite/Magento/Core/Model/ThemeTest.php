@@ -40,14 +40,14 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             array('create'), array(), '', false);
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $arguments = $objectManagerHelper->getConstructArguments('\Magento\Core\Model\Theme', array(
+        $arguments = $objectManagerHelper->getConstructArguments('Magento\Core\Model\Theme', array(
             'customizationFactory' => $customizationFactory,
             'customizationConfig'  => $customizationConfig,
             'imageFactory'         => $this->_imageFactory,
             'resourceCollection'   => $resourceCollection
         ));
 
-        $this->_model = $objectManagerHelper->getObject('\Magento\Core\Model\Theme', $arguments);
+        $this->_model = $objectManagerHelper->getObject('Magento\Core\Model\Theme', $arguments);
     }
 
     protected function tearDown()

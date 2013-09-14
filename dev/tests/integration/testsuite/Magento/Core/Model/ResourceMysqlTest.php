@@ -24,7 +24,7 @@ class Magento_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
     public function testGetConnectionTypeInstance()
     {
         $this->assertInstanceOf(
-            '\Magento\Core\Model\Resource\Type\Db\Pdo\Mysql',
+            'Magento\Core\Model\Resource\Type\Db\Pdo\Mysql',
             $this->_model->getConnectionTypeInstance('pdo_mysql')
         );
     }
@@ -48,7 +48,7 @@ class Magento_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->_model->createConnection('test_false', 'test', 'test'));
         $this->assertInstanceOf(
-            '\Magento\DB\Adapter\Pdo\Mysql',
+            'Magento\DB\Adapter\Pdo\Mysql',
             $this->_model->createConnection(
                 'test',
                 'pdo_mysql',

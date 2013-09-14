@@ -12,7 +12,7 @@
         <block class="Magento\Sales\Block\Order\Email\Shipment\Items" name="items" template="email/shipment/items.phtml">
             <action method="addItemRender">
                 <argument name="type" xsi:type="string">default</argument>
-                <argument name="block" xsi:type="string">\Magento\Sales\Block\Order\Email\Items\DefaultItems</argument>
+                <argument name="block" xsi:type="string">Magento\Sales\Block\Order\Email\Items\DefaultItems</argument>
                 <argument name="template" xsi:type="string">email/items/shipment/default.phtml</argument>
             </action>
         </block>

@@ -17,7 +17,7 @@
                     </storeManager>
                 </parameters>
             </Node1>
-            <Node2 type ="\Magento\Core\Controller\Varien\Action\Context">
+            <Node2 type ="Magento\Core\Controller\Varien\Action\Context">
                 <plugins>
                     <first><instance>Magento_Core_Model_Action_Plugin</instance></first>
                     <second><instance>Custom_PageCache_Model_Action_Plugin</instance></second>
@@ -32,7 +32,7 @@
                 <type>Magento_Core_Model_StoreManager_Proxy</type>
             </customStoreManagerProxy>
             <customLayoutFactory>
-                <type>\Magento\Core\Model\Layout\Factory</type>
+                <type>Magento\Core\Model\Layout\Factory</type>
             </customLayoutFactory>
         </di>
     </global>

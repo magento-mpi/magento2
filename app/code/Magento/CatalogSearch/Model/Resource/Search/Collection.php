@@ -56,7 +56,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     {
         if (!$this->_attributesCollection) {
             $this->_attributesCollection = \Mage::getResourceModel(
-                    '\Magento\Catalog\Model\Resource\Product\Attribute\Collection'
+                    'Magento\Catalog\Model\Resource\Product\Attribute\Collection'
                 )
                 ->load();
 

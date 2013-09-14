@@ -50,7 +50,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_CustomTest extends 
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject(
-            '\Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Custom',
+            'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Custom',
             array(
                 'config'       => $this->getMock('Magento\Core\Model\Config', array(), array(), '', false),
                 'urlBuilder'   => $this->_urlBuilder,

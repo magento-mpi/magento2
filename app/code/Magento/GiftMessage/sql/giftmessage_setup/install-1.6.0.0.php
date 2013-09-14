@@ -67,19 +67,19 @@ $installer->addAttribute('order_item', 'gift_message_available', $options); \Mag
     \Magento\Catalog\Model\Product::ENTITY, 'gift_message_available',
     array(
         'group'         => 'Gift Options',
-        'backend'       => '\Magento\Catalog\Model\Product\Attribute\Backend\Boolean',
+        'backend'       => 'Magento\Catalog\Model\Product\Attribute\Backend\Boolean',
         'frontend'      => '',
         'label'         => 'Allow Gift Message',
         'input'         => 'select',
         'class'         => '',
-        'source'        => '\Magento\Eav\Model\Entity\Attribute\Source\Boolean',
+        'source'        => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean',
         'global'        => true,
         'visible'       => true,
         'required'      => false,
         'user_defined'  => false,
         'default'       => '',
         'apply_to'      => '',
-        'input_renderer'   => '\Magento\GiftMessage\Block\Adminhtml\Product\Helper\Form\Config',
+        'input_renderer'   => 'Magento\GiftMessage\Block\Adminhtml\Product\Helper\Form\Config',
         'is_configurable'  => 0,
         'visible_on_front' => false
     )

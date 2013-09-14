@@ -430,11 +430,11 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
         $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load($productId);
         $gallery = $product->getMediaGalleryImages();
-        $this->assertInstanceOf('\Magento\Data\Collection', $gallery);
+        $this->assertInstanceOf('Magento\Data\Collection', $gallery);
         $items = $gallery->getItems();
         $this->assertCount(1, $items);
         $item = array_pop($items);
-        $this->assertInstanceOf('\Magento\Object', $item);
+        $this->assertInstanceOf('Magento\Object', $item);
         $this->assertEquals('/m/a/magento_image.jpg', $item->getFile());
         $this->assertEquals('Image Label', $item->getLabel());
     }

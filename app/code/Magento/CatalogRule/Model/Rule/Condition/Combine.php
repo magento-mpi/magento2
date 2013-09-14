@@ -22,7 +22,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('\Magento\CatalogRule\Model\Rule\Condition\Combine');
+        $this->setType('Magento\CatalogRule\Model\Rule\Condition\Combine');
     }
 
     /**
@@ -35,13 +35,13 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
         $attributes = array();
         foreach ($productAttributes as $code => $label) {
             $attributes[] = array(
-                'value' => '\Magento\CatalogRule\Model\Rule\Condition\Product|' . $code, 'label' => $label
+                'value' => 'Magento\CatalogRule\Model\Rule\Condition\Product|' . $code, 'label' => $label
             );
         }
         $conditions = parent::getNewChildSelectOptions();
         $conditions = array_merge_recursive($conditions, array(
             array(
-                'value' => '\Magento\CatalogRule\Model\Rule\Condition\Combine',
+                'value' => 'Magento\CatalogRule\Model\Rule\Condition\Combine',
                 'label' => __('Conditions Combination')
             ),
             array(

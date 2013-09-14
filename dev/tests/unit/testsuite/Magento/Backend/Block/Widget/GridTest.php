@@ -43,7 +43,7 @@ class Magento_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
 
         /** @var $block \Magento\Backend\Block\Widget\Grid */
         $block = $this->_objectManager->getObject(
-            '\Magento\Backend\Block\Widget\Grid',
+            'Magento\Backend\Block\Widget\Grid',
             array(
                 'storeManager' => $storeManager,
                 'urlModel' => $urlMock,

@@ -37,7 +37,7 @@ class Magento_Webapi_Model_Acl_User_FactoryTest extends PHPUnit_Framework_TestCa
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_model = $helper->getObject('\Magento\Webapi\Model\Acl\User\Factory', array(
+        $this->_model = $helper->getObject('Magento\Webapi\Model\Acl\User\Factory', array(
             'objectManager' => $this->_objectManager,
         ));
     }

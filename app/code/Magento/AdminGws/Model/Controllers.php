@@ -602,11 +602,11 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     public function validateSalesOrderCreditmemoCreateAction($controller)
     {
         if ($id = $this->_request->getParam('order_id')) {
-            $className = '\Magento\Sales\Model\Order';
+            $className = 'Magento\Sales\Model\Order';
         } else if ($id = $this->_request->getParam('invoice_id')) {
-            $className = '\Magento\Sales\Model\Order\Invoice';
+            $className = 'Magento\Sales\Model\Order\Invoice';
         } else if ($id = $this->_request->getParam('creditmemo_id')) {
-            $className = '\Magento\Sales\Model\Order\Creditmemo';
+            $className = 'Magento\Sales\Model\Order\Creditmemo';
         } else {
             return true;
         }
@@ -632,9 +632,9 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     public function validateSalesOrderInvoiceCreateAction($controller)
     {
         if ($id = $this->_request->getParam('order_id')) {
-            $className = '\Magento\Sales\Model\Order';
+            $className = 'Magento\Sales\Model\Order';
         } else if ($id = $this->_request->getParam('invoice_id')) {
-            $className = '\Magento\Sales\Model\Order\Invoice';
+            $className = 'Magento\Sales\Model\Order\Invoice';
         } else {
             return true;
         }
@@ -660,9 +660,9 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     public function validateSalesOrderShipmentCreateAction($controller)
     {
         if ($id = $this->_request->getParam('order_id')) {
-            $className = '\Magento\Sales\Model\Order';
+            $className = 'Magento\Sales\Model\Order';
         } else if ($id = $this->_request->getParam('shipment_id')) {
-            $className = '\Magento\Sales\Model\Order\Shipment';
+            $className = 'Magento\Sales\Model\Order\Shipment';
         } else {
             return true;
         }
@@ -1086,16 +1086,16 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         // Determine entity model class name
         switch ($controllerName) {
             case 'promo_catalog':
-                $entityModelClassName = '\Magento\CatalogRule\Model\Rule';
+                $entityModelClassName = 'Magento\CatalogRule\Model\Rule';
                 break;
             case 'promo_quote':
-                $entityModelClassName = '\Magento\SalesRule\Model\Rule';
+                $entityModelClassName = 'Magento\SalesRule\Model\Rule';
                 break;
             case 'reminder':
-                $entityModelClassName = '\Magento\Reminder\Model\Rule';
+                $entityModelClassName = 'Magento\Reminder\Model\Rule';
                 break;
             case 'customersegment':
-                $entityModelClassName = '\Magento\CustomerSegment\Model\Segment';
+                $entityModelClassName = 'Magento\CustomerSegment\Model\Segment';
                 break;
             default:
                 $entityModelClassName = null;

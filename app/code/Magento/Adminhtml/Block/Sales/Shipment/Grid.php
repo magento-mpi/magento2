@@ -36,7 +36,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _getCollectionClass()
     {
-        return '\Magento\Sales\Model\Resource\Order\Shipment\Grid\Collection';
+        return 'Magento\Sales\Model\Resource\Order\Shipment\Grid\Collection';
     }
 
     /**

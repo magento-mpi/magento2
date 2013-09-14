@@ -13,7 +13,7 @@
             <block class="Magento\Backend\Block\Widget\Grid" name="logging.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">loggingLogGrid</argument>
-                    <argument name="dataSource" xsi:type="object">\Magento\Logging\Model\Resource\Event\Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\Logging\Model\Resource\Event\Collection</argument>
                     <argument name="default_sort" xsi:type="string">time</argument>
                     <argument name="default_dir" xsi:type="string">DESC</argument>
                     <argument name="save_parameters_in_session" xsi:type="string">1</argument>
@@ -59,7 +59,7 @@
                             <argument name="index" xsi:type="string">event_code</argument>
                             <argument name="type" xsi:type="string">options</argument>
                             <argument name="sortable" xsi:type="string">0</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\Logging\Model\Resource\Grid\ActionsGroup"/>
+                            <argument name="options" xsi:type="options" model="Magento\Logging\Model\Resource\Grid\ActionsGroup"/>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="action">
@@ -68,7 +68,7 @@
                             <argument name="index" xsi:type="string">action</argument>
                             <argument name="type" xsi:type="string">options</argument>
                             <argument name="sortable" xsi:type="string">0</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\Logging\Model\Resource\Grid\Actions"/>
+                            <argument name="options" xsi:type="options" model="Magento\Logging\Model\Resource\Grid\Actions"/>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="ip">
@@ -76,8 +76,8 @@
                             <argument name="header" xsi:type="string" translate="true">IP Address</argument>
                             <argument name="index" xsi:type="string">ip</argument>
                             <argument name="type" xsi:type="string">text</argument>
-                            <argument name="filter" xsi:type="string">\Magento\Logging\Block\Adminhtml\Grid\Filter\Ip</argument>
-                            <argument name="renderer" xsi:type="string">\Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Ip</argument>
+                            <argument name="filter" xsi:type="string">Magento\Logging\Block\Adminhtml\Grid\Filter\Ip</argument>
+                            <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Ip</argument>
                             <argument name="sortable" xsi:type="string">0</argument>
                             <argument name="width" xsi:type="string">125</argument>
                         </arguments>
@@ -88,7 +88,7 @@
                             <argument name="index" xsi:type="string">user</argument>
                             <argument name="type" xsi:type="string">text</argument>
                             <argument name="escape" xsi:type="string">1</argument>
-                            <argument name="filter" xsi:type="string">\Magento\Logging\Block\Adminhtml\Grid\Filter\User</argument>
+                            <argument name="filter" xsi:type="string">Magento\Logging\Block\Adminhtml\Grid\Filter\User</argument>
                             <argument name="sortable" xsi:type="string">0</argument>
                             <argument name="width" xsi:type="string">150</argument>
                         </arguments>
@@ -98,7 +98,7 @@
                             <argument name="header" xsi:type="string" translate="true">Result</argument>
                             <argument name="index" xsi:type="string">status</argument>
                             <argument name="type" xsi:type="string">options</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\Logging\Model\Resource\Grid\Statuses"/>
+                            <argument name="options" xsi:type="options" model="Magento\Logging\Model\Resource\Grid\Statuses"/>
                             <argument name="sortable" xsi:type="string">0</argument>
                             <argument name="width" xsi:type="string">100</argument>
                         </arguments>
@@ -117,8 +117,8 @@
                             <argument name="index" xsi:type="string">info</argument>
                             <argument name="type" xsi:type="string">text</argument>
                             <argument name="sortable" xsi:type="string">0</argument>
-                            <argument name="filter" xsi:type="string">\Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Text</argument>
-                            <argument name="renderer" xsi:type="string">\Magento\Logging\Block\Adminhtml\Grid\Renderer\Details</argument>
+                            <argument name="filter" xsi:type="string">Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Text</argument>
+                            <argument name="renderer" xsi:type="string">Magento\Logging\Block\Adminhtml\Grid\Renderer\Details</argument>
                             <argument name="width" xsi:type="string">100</argument>
                         </arguments>
                     </block>

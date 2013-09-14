@@ -160,8 +160,8 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'image' => '\Magento\Adminhtml\Block\Catalog\Category\Helper\Image',
-            'textarea' => '\Magento\Adminhtml\Block\Catalog\Helper\Form\Wysiwyg'
+            'image' => 'Magento\Adminhtml\Block\Catalog\Category\Helper\Image',
+            'textarea' => 'Magento\Adminhtml\Block\Catalog\Helper\Form\Wysiwyg'
         );
     }
 }

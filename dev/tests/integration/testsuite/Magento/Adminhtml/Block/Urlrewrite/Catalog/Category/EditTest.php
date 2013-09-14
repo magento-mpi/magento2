@@ -27,13 +27,13 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUn
     {
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = Mage::getModel(
-            '\Magento\Core\Model\Layout',
+            'Magento\Core\Model\Layout',
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
 
         /** @var $block \Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Edit */
         $block = $layout->createBlock(
-            '\Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Edit', '', array('data' => $blockAttributes)
+            'Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Edit', '', array('data' => $blockAttributes)
         );
 
         $this->_checkSelector($block, $expected);
@@ -58,7 +58,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUn
         $selectorBlock = $layout->getChildBlock($blockName, 'selector');
 
         if ($expected['selector']) {
-            $this->assertInstanceOf('\Magento\Adminhtml\Block\Urlrewrite\Selector', $selectorBlock,
+            $this->assertInstanceOf('Magento\Adminhtml\Block\Urlrewrite\Selector', $selectorBlock,
                 'Child block with entity selector is invalid');
         } else {
             $this->assertFalse($selectorBlock, 'Child block with entity selector should not present in block');
@@ -80,7 +80,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUn
         $categoryBlock = $layout->getChildBlock($blockName, 'category_link');
 
         if ($expected['category_link']) {
-            $this->assertInstanceOf('\Magento\Adminhtml\Block\Urlrewrite\Link', $categoryBlock,
+            $this->assertInstanceOf('Magento\Adminhtml\Block\Urlrewrite\Link', $categoryBlock,
                 'Child block with category link is invalid');
 
             $this->assertEquals('Category:', $categoryBlock->getLabel(),
@@ -159,7 +159,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUn
         $formBlock = $layout->getChildBlock($blockName, 'form');
 
         if ($expected['form']) {
-            $this->assertInstanceOf('\Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\Form', $formBlock,
+            $this->assertInstanceOf('Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\Form', $formBlock,
                 'Child block with form is invalid');
 
             $this->assertSame($expected['form']['category'], $formBlock->getCategory(),
@@ -187,7 +187,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUn
         $categoriesTreeBlock = $layout->getChildBlock($blockName, 'categories_tree');
 
         if ($expected['categories_tree']) {
-            $this->assertInstanceOf('\Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree', $categoriesTreeBlock,
+            $this->assertInstanceOf('Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree', $categoriesTreeBlock,
                 'Child block with categories tree is invalid');
         } else {
             $this->assertFalse($categoriesTreeBlock, 'Child block with category_tree should not present in block');

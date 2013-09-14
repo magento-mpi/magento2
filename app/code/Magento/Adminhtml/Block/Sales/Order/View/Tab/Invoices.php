@@ -35,7 +35,7 @@ class Invoices
      */
     protected function _getCollectionClass()
     {
-        return '\Magento\Sales\Model\Resource\Order\Invoice\Grid\Collection';
+        return 'Magento\Sales\Model\Resource\Order\Invoice\Grid\Collection';
     }
 
     protected function _prepareCollection()

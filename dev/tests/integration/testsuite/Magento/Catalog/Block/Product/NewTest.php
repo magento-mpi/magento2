@@ -81,7 +81,7 @@ class Magento_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($html);
         $this->assertContains('New Product', $html);
         $this->assertInstanceOf(
-            '\Magento\Catalog\Model\Resource\Product\Collection', $this->_block->getProductCollection()
+            'Magento\Catalog\Model\Resource\Product\Collection', $this->_block->getProductCollection()
         );
     }
 }

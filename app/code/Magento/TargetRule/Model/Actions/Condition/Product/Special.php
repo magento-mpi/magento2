@@ -29,7 +29,7 @@ class Special
     public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('\Magento\TargetRule\Model\Actions\Condition\Product\Special');
+        $this->setType('Magento\TargetRule\Model\Actions\Condition\Product\Special');
         $this->setValue(null);
     }
 
@@ -42,7 +42,7 @@ class Special
     {
         $conditions = array(
             array(
-                'value' => '\Magento\TargetRule\Model\Actions\Condition\Product\Special\Price',
+                'value' => 'Magento\TargetRule\Model\Actions\Condition\Product\Special\Price',
                 'label' => __('Price (percentage)')
             )
         );

@@ -72,7 +72,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
             ->will($this->returnCallback(array($this, 'jsonEncodeCallback')));
 
         $importModel = $this->getMock(
-            '\Magento\ImportExport\Model\Import',
+            'Magento\ImportExport\Model\Import',
             array('getEntityBehaviors', 'getUniqueEntityBehaviors')
         );
         $importModel->staticExpects($this->any())
@@ -88,7 +88,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
             'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
         );
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('\Magento\ImportExport\Block\Adminhtml\Import\Edit\Before',
+        $this->_model = $objectManagerHelper->getObject('Magento\ImportExport\Block\Adminhtml\Import\Edit\Before',
             $arguments
         );
     }

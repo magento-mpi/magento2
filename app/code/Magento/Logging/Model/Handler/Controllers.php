@@ -92,7 +92,7 @@ class Controllers
 
         $encryptedNodePaths = $configStructure->getFieldPathsByAttribute(
             'backend_model',
-            '\Magento\Backend\Model\Config\Backend\Encrypted'
+            'Magento\Backend\Model\Config\Backend\Encrypted'
         );
 
         $skipEncrypted = array();
@@ -243,7 +243,7 @@ class Controllers
 
         //Need when in request data there are was no period info
         if ($filter) {
-            $filterData = \Mage::app()->getHelper('\Magento\Adminhtml\Helper\Data')->prepareFilterString($filter);
+            $filterData = \Mage::app()->getHelper('Magento\Adminhtml\Helper\Data')->prepareFilterString($filter);
             $data = array_merge($data, (array)$filterData);
         }
 

@@ -13,7 +13,7 @@
             <block class="Magento\Backend\Block\Widget\Grid" name="sku_error_grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">sku_errors</argument>
-                    <argument name="dataSource" xsi:type="object">\Magento\AdvancedCheckout\Model\Resource\Sku\Errors\Grid\Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\AdvancedCheckout\Model\Resource\Sku\Errors\Grid\Collection</argument>
                     <argument name="pager_visibility" xsi:type="string">0</argument>
                 </arguments>
                 <block class="Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid\ColumnSet\SkuErrors" name="sku_error_grid.columnSet" as="grid.columnSet">
@@ -26,7 +26,7 @@
                             <argument name="index" xsi:type="string">description</argument>
                             <argument name="class" xsi:type="string">no-link</argument>
                             <argument name="sortable" xsi:type="string">0</argument>
-                            <argument name="renderer" xsi:type="string">\Magento\AdvancedCheckout\Block\Sku\Column\Renderer\Description</argument>
+                            <argument name="renderer" xsi:type="string">Magento\AdvancedCheckout\Block\Sku\Column\Renderer\Description</argument>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="price">
@@ -47,7 +47,7 @@
                             <argument name="sortable" xsi:type="string">0</argument>
                             <argument name="type" xsi:type="string">text</argument>
                             <argument name="width" xsi:type="string">40</argument>
-                            <argument name="renderer" xsi:type="string">\Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid\Renderer\Qty</argument>
+                            <argument name="renderer" xsi:type="string">Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid\Renderer\Qty</argument>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="remove">
@@ -58,7 +58,7 @@
                             <argument name="sortable" xsi:type="string">0</argument>
                             <argument name="type" xsi:type="string">text</argument>
                             <argument name="width" xsi:type="string">80</argument>
-                            <argument name="renderer" xsi:type="string">\Magento\AdvancedCheckout\Block\Sku\Column\Renderer\Remove</argument>
+                            <argument name="renderer" xsi:type="string">Magento\AdvancedCheckout\Block\Sku\Column\Renderer\Remove</argument>
                         </arguments>
                     </block>
                 </block>

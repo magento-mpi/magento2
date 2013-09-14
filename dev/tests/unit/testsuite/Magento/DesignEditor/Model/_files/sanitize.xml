@@ -11,8 +11,8 @@
  */
 -->
 <layout>
-    <block name="root" class="\Magento\Core\Block\Template" template="template.phtml">
-        <block name="head" class="\Magento\Page\Block\Html\Head">
+    <block name="root" class="Magento\Core\Block\Template" template="template.phtml">
+        <block name="head" class="Magento\Page\Block\Html\Head">
             <action method="safeMethod">
                 <argument name="arg" xsi:type="string">1</argument>
             </action>

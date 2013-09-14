@@ -25,7 +25,7 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
         );
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
-        $block = $helper->getObject('\Magento\Core\Block\Template', $arguments);
+        $block = $helper->getObject('Magento\Core\Block\Template', $arguments);
 
         $block->getTemplateFile();
     }
@@ -66,9 +66,9 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $block = $this->getMock(
-            '\Magento\Core\Block\Template',
+            'Magento\Core\Block\Template',
             array('getShowTemplateHints'),
-            $helper->getConstructArguments('\Magento\Core\Block\Template', $arguments)
+            $helper->getConstructArguments('Magento\Core\Block\Template', $arguments)
         );
         $layout->expects($this->once())->method('isDirectOutput')->will($this->returnValue(false));
 

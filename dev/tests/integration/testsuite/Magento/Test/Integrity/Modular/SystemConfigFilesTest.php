@@ -27,7 +27,7 @@ class Magento_Test_Integrity_Modular_SystemConfigFilesTest extends PHPUnit_Frame
         $fileList = glob($modulesDir . '/*/*/etc/adminhtml/system.xml');
 
         $configMock = $this->getMock(
-            '\Magento\Core\Model\Config\Modules\Reader', array('getConfigurationFiles', 'getModuleDir'),
+            'Magento\Core\Model\Config\Modules\Reader', array('getConfigurationFiles', 'getModuleDir'),
             array(), '', false
         );
         $configMock->expects($this->any())

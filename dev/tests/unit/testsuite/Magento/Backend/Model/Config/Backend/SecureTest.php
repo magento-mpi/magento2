@@ -21,7 +21,7 @@ class Magento_Backend_Model_Config_Backend_SecureTest extends PHPUnit_Framework_
         $mergeService = $this->getMock('Magento\Core\Model\Page\Asset\MergeService', array(), array(), '', false);
 
         $model = $this->getMock(
-            '\Magento\Backend\Model\Config\Backend\Secure',
+            'Magento\Backend\Model\Config\Backend\Secure',
             array('getOldValue'),
             array($context, $mergeService, $resource, $resourceCollection)
         );

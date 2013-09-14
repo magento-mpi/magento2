@@ -17,7 +17,7 @@
         <reference name="product_tabs">
             <action method="addTab">
                 <argument name="name" xsi:type="string">bundle</argument>
-                <argument name="block" xsi:type="string">\Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle</argument>
+                <argument name="block" xsi:type="string">Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle</argument>
             </action>
         </reference>
     </handle>

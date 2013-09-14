@@ -38,14 +38,14 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_ContentTest extends PHPUnit_Fr
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $constructArguments =  $objectManagerHelper->getConstructArguments(
-            '\Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content',
+            'Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content',
             array(
                 'urlBuilder'    => $this->_urlBuilder,
                 'request'       => $this->_request
             )
         );
         $this->_filesContent = $this->getMock(
-            '\Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content', array('helper'), $constructArguments
+            'Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content', array('helper'), $constructArguments
         );
 
         $this->_filesContent->expects($this->any())

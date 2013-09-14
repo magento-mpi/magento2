@@ -19,7 +19,7 @@ class Magento_FullPageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCa
     {
         /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
         $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get(
-            '\Magento\Core\Model\Cache\StateInterface');
+            'Magento\Core\Model\Cache\StateInterface');
         $cacheState->setEnabled('full_page', true);
     }
 

@@ -28,8 +28,8 @@ class Collection
     protected function _construct()
     {
         $this->_init(
-            '\Magento\CatalogPermissions\Model\Permission',
-            '\Magento\CatalogPermissions\Model\Resource\Permission'
+            'Magento\CatalogPermissions\Model\Permission',
+            'Magento\CatalogPermissions\Model\Resource\Permission'
         );
     }
 }

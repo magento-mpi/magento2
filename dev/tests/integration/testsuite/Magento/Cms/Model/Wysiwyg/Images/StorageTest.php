@@ -39,9 +39,9 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
         /** @var $model \Magento\Cms\Model\Wysiwyg\Images\Storage */
         $model = Mage::getModel('Magento\Cms\Model\Wysiwyg\Images\Storage');
         $collection = $model->getFilesCollection(self::$_baseDir, 'media');
-        $this->assertInstanceOf('\Magento\Cms\Model\Wysiwyg\Images\Storage\Collection', $collection);
+        $this->assertInstanceOf('Magento\Cms\Model\Wysiwyg\Images\Storage\Collection', $collection);
         foreach ($collection as $item) {
-            $this->assertInstanceOf('\Magento\Object', $item);
+            $this->assertInstanceOf('Magento\Object', $item);
             $this->assertStringEndsWith('/1.swf', $item->getUrl());
             $this->assertStringMatchesFormat(
                 'http://%s/static/adminhtml/%s/%s/Magento_Cms/images/placeholder_thumbnail.jpg',

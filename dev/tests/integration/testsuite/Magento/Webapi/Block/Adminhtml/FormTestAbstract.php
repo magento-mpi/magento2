@@ -56,7 +56,7 @@ class Magento_Webapi_Block_Adminhtml_FormTestAbstract extends PHPUnit_Framework_
         $this->_blockFactory = $this->_objectManager->get('Magento\Core\Model\BlockFactory');
         $this->_block = $this->_blockFactory->createBlock($this->_formClass, array(
             'context' => Mage::getModel(
-                '\Magento\Backend\Block\Template\Context',
+                'Magento\Backend\Block\Template\Context',
                 array('urlBuilder' => $this->_urlBuilder)
             )
         ));
@@ -65,7 +65,7 @@ class Magento_Webapi_Block_Adminhtml_FormTestAbstract extends PHPUnit_Framework_
 
     protected function tearDown()
     {
-        $this->_objectManager->removeSharedInstance('\Magento\Core\Model\Layout');
+        $this->_objectManager->removeSharedInstance('Magento\Core\Model\Layout');
         unset($this->_objectManager, $this->_urlBuilder, $this->_layout, $this->_blockFactory, $this->_block);
     }
 
@@ -84,7 +84,7 @@ class Magento_Webapi_Block_Adminhtml_FormTestAbstract extends PHPUnit_Framework_
         $this->_block->toHtml();
 
         $form = $this->_block->getForm();
-        $this->assertInstanceOf('\Magento\Data\Form', $form);
+        $this->assertInstanceOf('Magento\Data\Form', $form);
         $this->assertTrue($form->getUseContainer());
         $this->assertEquals('edit_form', $form->getId());
         $this->assertEquals('post', $form->getMethod());

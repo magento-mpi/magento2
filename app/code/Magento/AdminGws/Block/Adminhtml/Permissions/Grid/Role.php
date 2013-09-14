@@ -30,7 +30,7 @@ class Role extends \Magento\Backend\Block\Widget\Grid
             'width'    => '200',
             'sortable' => false,
             'filter'   => false,
-            'renderer' => '\Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Renderer\Gws'
+            'renderer' => 'Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Renderer\Gws'
         ));
 
         return $this;

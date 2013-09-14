@@ -28,7 +28,7 @@ class Magento_Adminhtml_Block_System_Design_Edit_Tab_GeneralTest extends PHPUnit
         $layout = $objectManager ->create('Magento\Core\Model\Layout');
         $block = $layout->addBlock('Magento\Adminhtml\Block\System\Design\Edit\Tab\General');
         $prepareFormMethod = new ReflectionMethod(
-            '\Magento\Adminhtml\Block\System\Design\Edit\Tab\General', '_prepareForm'
+            'Magento\Adminhtml\Block\System\Design\Edit\Tab\General', '_prepareForm'
         );
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);

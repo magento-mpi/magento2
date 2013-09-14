@@ -40,7 +40,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_SettingsTest extend
         $layout = Mage::getModel('Magento\Core\Model\Layout');
         /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Settings */
         $block = $layout->createBlock(
-            '\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Settings',
+            'Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Settings',
             'block',
             array(
                'context' => $context

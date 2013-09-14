@@ -45,7 +45,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTes
         mkdir($this->_tmpDir);
 
         $this->_fallback = $this->getMock(
-            '\Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
+            'Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
             array(),
             array(),
             '',
@@ -53,7 +53,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTes
         );
 
         $this->_themeModel = PHPUnit_Framework_MockObject_Generator::getMock(
-            '\Magento\Core\Model\Theme',
+            'Magento\Core\Model\Theme',
             array(),
             array(),
             '',
@@ -140,7 +140,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTes
     public static function proxyMethodsDataProvider()
     {
         $themeModel = PHPUnit_Framework_MockObject_Generator::getMock(
-            '\Magento\Core\Model\Theme',
+            'Magento\Core\Model\Theme',
             array(),
             array(),
             '',

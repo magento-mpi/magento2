@@ -27,7 +27,7 @@ class Grouped extends \Magento\Catalog\Block\Product\View\Type\Grouped
     {
         parent::_construct();
 
-        $this->_block = '\Magento\Adminhtml\Block\Catalog\Product\Price';
+        $this->_block = 'Magento\Adminhtml\Block\Catalog\Product\Price';
         $this->_useLinkForAsLowAs = false;
 
         $taxCalculation = \Mage::getSingleton('Magento\Tax\Model\Calculation');

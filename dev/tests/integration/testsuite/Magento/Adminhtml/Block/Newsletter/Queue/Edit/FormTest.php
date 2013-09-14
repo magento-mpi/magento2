@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_FormTest extends PHPUnit_Fra
         $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento\Adminhtml\Block\Newsletter\Queue\Edit\Form');
         $prepareFormMethod = new ReflectionMethod(
-            '\Magento\Adminhtml\Block\Newsletter\Queue\Edit\Form', '_prepareForm');
+            'Magento\Adminhtml\Block\Newsletter\Queue\Edit\Form', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
 
         $queue = Mage::getSingleton('Magento\Newsletter\Model\Queue');

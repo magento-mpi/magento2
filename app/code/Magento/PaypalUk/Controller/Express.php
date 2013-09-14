@@ -21,7 +21,7 @@ class Express extends \Magento\Paypal\Controller\Express\AbstractExpress
      *
      * @var string
      */
-    protected $_configType = '\Magento\Paypal\Model\Config';
+    protected $_configType = 'Magento\Paypal\Model\Config';
 
     /**
      * Config method type
@@ -35,5 +35,5 @@ class Express extends \Magento\Paypal\Controller\Express\AbstractExpress
      *
      * @var string
      */
-    protected $_checkoutType = '\Magento\PaypalUk\Model\Express\Checkout';
+    protected $_checkoutType = 'Magento\PaypalUk\Model\Express\Checkout';
 }

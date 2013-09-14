@@ -100,10 +100,10 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_Te
     {
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            '\Magento\Core\Model\Layout',
+            'Magento\Core\Model\Layout',
             array('dataServiceGraph' => $this->_dataServiceGraph)
         );
-        $xml = simplexml_load_file(__DIR__ . "/LayoutTest/{$fixtureFile}", '\Magento\Core\Model\Layout\Element');
+        $xml = simplexml_load_file(__DIR__ . "/LayoutTest/{$fixtureFile}", 'Magento\Core\Model\Layout\Element');
         $layout->setXml($xml);
         $layout->generateElements();
         return $layout;

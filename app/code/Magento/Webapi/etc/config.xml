@@ -14,9 +14,9 @@
         <areas>
             <webapi>
                 <frontName>webapi</frontName>
-                <front_controller>\Magento\Webapi\Controller\Front</front_controller>
+                <front_controller>Magento\Webapi\Controller\Front</front_controller>
                 <!--TODO: Utilize base action controller from config, not constant-->
-                <base_controller>\Magento\Webapi\Controller\ActionAbstract</base_controller>
+                <base_controller>Magento\Webapi\Controller\ActionAbstract</base_controller>
             </webapi>
         </areas>
         <resources>

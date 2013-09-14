@@ -18,12 +18,12 @@ class Magento_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_Te
         $result = $model->create(array('backend' => 'Zend_Cache_Backend_BlackHole'));
 
         $this->assertInstanceOf(
-            '\Magento\Cache\FrontendInterface',
+            'Magento\Cache\FrontendInterface',
             $result,
             'Created object must implement \Magento\Cache\FrontendInterface'
         );
         $this->assertInstanceOf(
-            '\Magento\Cache\Core',
+            'Magento\Cache\Core',
             $result->getLowLevelFrontend(),
             'Created object must have \Magento\Cache\Core frontend by default'
         );

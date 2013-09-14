@@ -33,7 +33,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _getCollectionClass()
     {
-        return '\Magento\Sales\Model\Resource\Order\Creditmemo\Grid\Collection';
+        return 'Magento\Sales\Model\Resource\Order\Creditmemo\Grid\Collection';
     }
 
     protected function _prepareCollection()

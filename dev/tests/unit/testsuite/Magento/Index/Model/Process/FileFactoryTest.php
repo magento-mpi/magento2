@@ -22,7 +22,7 @@ class Magento_Index_Model_Process_FileFactoryTest extends PHPUnit_Framework_Test
     /**
      * Expected class name
      */
-    const EXPECTED_CLASS_NAME = '\Magento\Index\Model\Process\File';
+    const EXPECTED_CLASS_NAME = 'Magento\Index\Model\Process\File';
 
     /**
      * @var array

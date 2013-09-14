@@ -19,7 +19,7 @@ class Magento_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
     public function testBeforeSave()
     {
         $resourceModel = $this->getMock(
-            '\Magento\Core\Model\Resource\Layout\Update',
+            'Magento\Core\Model\Resource\Layout\Update',
             array('formatDate', 'getIdFieldName', 'beginTransaction', 'save', 'addCommitCallback', 'commit'),
             array(),
             '',
@@ -35,7 +35,7 @@ class Magento_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
 
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         /** @var $model \Magento\Core\Model\Layout\Update */
-        $model = $helper->getObject('\Magento\Core\Model\Layout\Update', array('resource' => $resourceModel));
+        $model = $helper->getObject('Magento\Core\Model\Layout\Update', array('resource' => $resourceModel));
         $model->setId(0); // set any data to set _hasDataChanges flag
         $model->save();
 

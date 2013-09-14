@@ -56,7 +56,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framewo
                 : $this->throwException(new \Magento\Config\Dom\ValidationException)
             );
 
-        $model = $this->_objectHelper->getObject('\Magento\Adminhtml\Model\LayoutUpdate\Validator', array(
+        $model = $this->_objectHelper->getObject('Magento\Adminhtml\Model\LayoutUpdate\Validator', array(
             'modulesReader' => $modulesReader,
             'domConfigFactory' => $domConfigFactory,
         ));

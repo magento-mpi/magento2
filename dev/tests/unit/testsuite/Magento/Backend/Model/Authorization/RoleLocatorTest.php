@@ -24,7 +24,7 @@ class Magento_Backend_Model_Authorization_RoleLocatorTest extends PHPUnit_Framew
     public function setUp()
     {
         $this->_sessionMock = $this->getMock(
-            '\Magento\Backend\Model\Auth\Session',
+            'Magento\Backend\Model\Auth\Session',
             array('getUser', 'getAclRole', 'hasUser'),
             array(),
             '',

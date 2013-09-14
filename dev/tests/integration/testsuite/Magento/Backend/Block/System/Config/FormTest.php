@@ -140,7 +140,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
             ->will($this->returnValue(BP . '/app/code/Magento/Backend/etc'));
 
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->configure(array(
-            '\Magento\Backend\Model\Config\Structure\Reader' => array(
+            'Magento\Backend\Model\Config\Structure\Reader' => array(
                 'parameters' => array('moduleReader' => $configMock)
             )
         ));
@@ -174,7 +174,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
     public function testInitFormAddsFieldsets()
     {
         Mage::getModel(
-            '\Magento\Core\Controller\Front\Action',
+            'Magento\Core\Controller\Front\Action',
             array('request' => Mage::app()->getRequest(), 'response' => Mage::app()->getResponse())
         );
         Mage::app()->getRequest()->setParam('section', 'general');
@@ -220,7 +220,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
         $elements = $block->getForm()->getElements();
         foreach ($elements as $element) {
             /** @var $element \Magento\Data\Form\Element\Fieldset */
-            $this->assertInstanceOf('\Magento\Data\Form\Element\Fieldset', $element);
+            $this->assertInstanceOf('Magento\Data\Form\Element\Fieldset', $element);
             $this->assertArrayHasKey($element->getId(), $expectedIds);
             $fields = $element->getElements();
             $this->assertEquals(count($expectedIds[$element->getId()]), count($fields));

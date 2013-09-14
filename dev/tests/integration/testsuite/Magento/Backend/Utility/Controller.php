@@ -55,7 +55,7 @@ class Magento_Backend_Utility_Controller extends Magento_TestFramework_TestCase_
      * @param string $sessionModel
      */
     public function assertSessionMessages(
-        PHPUnit_Framework_Constraint $constraint, $messageType = null, $sessionModel = '\Magento\Backend\Model\Session'
+        PHPUnit_Framework_Constraint $constraint, $messageType = null, $sessionModel = 'Magento\Backend\Model\Session'
     ) {
         parent::assertSessionMessages($constraint, $messageType, $sessionModel);
     }

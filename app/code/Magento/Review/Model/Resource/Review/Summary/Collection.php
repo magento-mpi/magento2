@@ -40,7 +40,7 @@ class Collection extends \Magento\Data\Collection\Db
 
         $this->_select->from($this->_summaryTable);
 
-        $this->setItemObjectClass('\Magento\Review\Model\Review\Summary');
+        $this->setItemObjectClass('Magento\Review\Model\Review\Summary');
     }
 
     /**

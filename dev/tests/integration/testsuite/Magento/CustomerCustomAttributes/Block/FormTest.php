@@ -16,11 +16,11 @@ class Magento_CustomerCustomAttributes_Block_FormTest extends PHPUnit_Framework_
         $layout = Mage::getModel('Magento\Core\Model\Layout');
         $template = $layout->createBlock('Magento\Core\Block\Text', 'customer_form_template');
         $template->setData('renderers', array('test' => array(
-            'block' => '\Magento\Core\Block\Text', 'template' => '1.phtml'
+            'block' => 'Magento\Core\Block\Text', 'template' => '1.phtml'
         )));
         $block = $layout->createBlock('Magento\CustomerCustomAttributes\Block\Form');
         $testRenderer = $block->getRenderer('test');
-        $this->assertInstanceOf('\Magento\Core\Block\Text', $testRenderer);
+        $this->assertInstanceOf('Magento\Core\Block\Text', $testRenderer);
         $this->assertNotSame($template, $testRenderer);
         $this->assertEquals('1.phtml', $testRenderer->getTemplate());
     }

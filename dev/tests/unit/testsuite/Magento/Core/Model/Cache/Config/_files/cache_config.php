@@ -10,14 +10,14 @@ return array(
         'config' => array(
             'name' => 'config',
             'translate' => 'label,description',
-            'instance' => '\Magento\Core\Model\Cache\Type\Config',
+            'instance' => 'Magento\Core\Model\Cache\Type\Config',
             'label' => 'Configuration',
             'description' => 'System(config.xml, local.xml) and modules configuration files(config.xml).'
         ),
         'layout' => array(
             'name' => 'layout',
             'translate' => 'label,description',
-            'instance' => '\Magento\Core\Model\Cache\Type\Layout',
+            'instance' => 'Magento\Core\Model\Cache\Type\Layout',
             'label' => 'Layouts',
             'description' => 'Layout building instructions.'
         ),

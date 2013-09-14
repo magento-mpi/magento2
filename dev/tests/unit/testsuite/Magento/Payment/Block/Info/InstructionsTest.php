@@ -33,8 +33,8 @@ class Magento_Payment_Block_Info_InstructionsTest extends PHPUnit_Framework_Test
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_method = new \Magento\Object();
-        $this->_info = $objectManagerHelper->getObject('\Magento\Payment\Model\Info');
-        $this->_instructions = $objectManagerHelper->getObject('\Magento\Payment\Block\Info\Instructions');
+        $this->_info = $objectManagerHelper->getObject('Magento\Payment\Model\Info');
+        $this->_instructions = $objectManagerHelper->getObject('Magento\Payment\Block\Info\Instructions');
 
         $this->_info->setMethodInstance($this->_method);
         $this->_instructions->setInfo($this->_info);

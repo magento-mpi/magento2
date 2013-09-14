@@ -16,7 +16,7 @@ namespace Magento\PaypalUk\Model;
 class Express extends \Magento\Paypal\Model\Express
 {
     protected $_code = \Magento\Paypal\Model\Config::METHOD_WPP_PE_EXPRESS;
-    protected $_formBlockType = '\Magento\PaypalUk\Block\Express\Form';
+    protected $_formBlockType = 'Magento\PaypalUk\Block\Express\Form';
     protected $_canCreateBillingAgreement = false;
     protected $_canManageRecurringProfiles = false;
 
@@ -25,7 +25,7 @@ class Express extends \Magento\Paypal\Model\Express
      *
      * @var $_proType string
      */
-    protected $_proType = '\Magento\PaypalUk\Model\Pro';
+    protected $_proType = 'Magento\PaypalUk\Model\Pro';
 
     /**
      * Express Checkout payment method instance

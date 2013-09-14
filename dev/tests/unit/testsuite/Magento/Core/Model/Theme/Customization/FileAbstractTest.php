@@ -39,7 +39,7 @@ class Magento_Core_Model_Theme_Customization_FileAbstractTest extends PHPUnit_Fr
         $this->_customizationPath = $this->getMock('Magento\Core\Model\Theme\Customization\Path',
             array(), array(), '', false);
         $this->_fileFactory = $this->getMock(
-            '\Magento\Core\Model\Theme\FileFactory',
+            'Magento\Core\Model\Theme\FileFactory',
             array('create'),
             array(),
             '',

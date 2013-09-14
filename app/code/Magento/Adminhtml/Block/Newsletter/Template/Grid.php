@@ -94,7 +94,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             array(
                 'header'    => __('Sender'),
                 'index'     => 'template_sender_email',
-                'renderer'  => '\Magento\Adminhtml\Block\Newsletter\Template\Grid\Renderer\Sender',
+                'renderer'  => 'Magento\Adminhtml\Block\Newsletter\Template\Grid\Renderer\Sender',
                 'header_css_class'  => 'col-sender',
                 'column_css_class'  => 'col-sender'
         ));
@@ -119,7 +119,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'sortable'  => false,
                 'filter'    => false,
                 'no_link'   => true,
-                'renderer'  => '\Magento\Adminhtml\Block\Newsletter\Template\Grid\Renderer\Action',
+                'renderer'  => 'Magento\Adminhtml\Block\Newsletter\Template\Grid\Renderer\Action',
                 'header_css_class'  => 'col-actions',
                 'column_css_class'  => 'col-actions'
         ));

@@ -12,21 +12,21 @@
 <config>
     <placeholders>
         <wishlist>
-            <block>\Magento\MultipleWishlist\Block\Customer\Sidebar</block>
+            <block>Magento\MultipleWishlist\Block\Customer\Sidebar</block>
             <placeholder>WISHLIST</placeholder>
-            <container>\Magento\FullPageCache\Model\Container\Wishlist</container>
+            <container>Magento\FullPageCache\Model\Container\Wishlist</container>
             <cache_lifetime>86400</cache_lifetime>
         </wishlist>
         <wishlist_links>
-            <block>\Magento\MultipleWishlist\Block\Links</block>
+            <block>Magento\MultipleWishlist\Block\Links</block>
             <placeholder>WISHLISTLINKS</placeholder>
-            <container>\Magento\FullPageCache\Model\Container\Wishlistlinks</container>
+            <container>Magento\FullPageCache\Model\Container\Wishlistlinks</container>
             <cache_lifetime>86400</cache_lifetime>
         </wishlist_links>
         <wishlist_list>
-            <block>\Magento\MultipleWishlist\Block\Behaviour</block>
+            <block>Magento\MultipleWishlist\Block\Behaviour</block>
             <placeholder>WISHLISTS</placeholder>
-            <container>\Magento\FullPageCache\Model\Container\Wishlists</container>
+            <container>Magento\FullPageCache\Model\Container\Wishlists</container>
             <cache_lifetime>86400</cache_lifetime>
         </wishlist_list>
     </placeholders>

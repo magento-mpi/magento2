@@ -76,10 +76,10 @@ class Attributes
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'price' => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Price',
-            'weight' => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight',
-            'image' => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Image',
-            'boolean' => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Boolean',
+            'price' => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Price',
+            'weight' => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight',
+            'image' => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Image',
+            'boolean' => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Boolean',
         );
     }
 

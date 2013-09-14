@@ -25,7 +25,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
      *
      * @var string
      */
-    protected $_defaultPriceIndexer    = '\Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice';
+    protected $_defaultPriceIndexer    = 'Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice';
 
     /**
      * Product Type Price indexer resource models

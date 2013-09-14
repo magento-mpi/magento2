@@ -94,9 +94,9 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
          $this->addColumn('status', array(
             'header'    =>  __('Status'),
             'align'     =>  'center',
-            'filter'    =>  '\Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter\Grid\Filter\Status',
+            'filter'    =>  'Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter\Grid\Filter\Status',
             'index'     => 'queue_status',
-            'renderer'  =>  '\Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter\Grid\Renderer\Status'
+            'renderer'  =>  'Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter\Grid\Renderer\Status'
         ));
 
         $this->addColumn('action', array(
@@ -104,7 +104,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'align'     =>  'center',
             'filter'    =>  false,
             'sortable'  =>  false,
-            'renderer'  =>  '\Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter\Grid\Renderer\Action'
+            'renderer'  =>  'Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter\Grid\Renderer\Action'
         ));
 
         return parent::_prepareColumns();

@@ -31,8 +31,8 @@ class Grid extends \Magento\Adminhtml\Block\Report\Grid\AbstractGrid
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'updated_at_order')
-            ? '\Magento\Tax\Model\Resource\Report\Updatedat\Collection'
-            : '\Magento\Tax\Model\Resource\Report\Collection';
+            ? 'Magento\Tax\Model\Resource\Report\Updatedat\Collection'
+            : 'Magento\Tax\Model\Resource\Report\Collection';
     }
 
     protected function _prepareColumns()
@@ -42,7 +42,7 @@ class Grid extends \Magento\Adminhtml\Block\Report\Grid\AbstractGrid
             'index'             => 'period',
             'sortable'          => false,
             'period_type'       => $this->getPeriodType(),
-            'renderer'          => '\Magento\Adminhtml\Block\Report\Sales\Grid\Column\Renderer\Date',
+            'renderer'          => 'Magento\Adminhtml\Block\Report\Sales\Grid\Column\Renderer\Date',
             'totals_label'      => __('Total'),
             'subtotals_label'   => __('Subtotal'),
             'html_decorators' => array('nobr'),

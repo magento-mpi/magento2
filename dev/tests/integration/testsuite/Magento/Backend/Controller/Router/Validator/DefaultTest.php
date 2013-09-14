@@ -27,7 +27,7 @@ class Magento_Backend_Controller_Router_Validator_DefaultTest extends PHPUnit_Fr
 
         $options = array(
             'areaCode' => \Magento\Core\Model\App\Area::AREA_ADMINHTML,
-            'baseController' => '\Magento\Backend\Controller\ActionAbstract',
+            'baseController' => 'Magento\Backend\Controller\ActionAbstract',
             'dataHelper' => $dataHelperMock,
         );
         Mage::getModel('Magento\Backend\Controller\Router\DefaultRouter', $options);
@@ -41,7 +41,7 @@ class Magento_Backend_Controller_Router_Validator_DefaultTest extends PHPUnit_Fr
     {
         $options = array(
             'areaCode'       => \Magento\Core\Model\App\Area::AREA_ADMINHTML,
-            'baseController' => '\Magento\Backend\Controller\ActionAbstract',
+            'baseController' => 'Magento\Backend\Controller\ActionAbstract',
         );
         Mage::getModel('Magento\Backend\Controller\Router\DefaultRouter', $options);
     }

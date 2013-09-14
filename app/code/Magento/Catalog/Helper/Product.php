@@ -240,10 +240,10 @@ class Product extends \Magento\Core\Helper\Url
         */
         $inputTypes = array(
             'multiselect'   => array(
-                'backend_model'     => '\Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend'
+                'backend_model'     => 'Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend'
             ),
             'boolean'       => array(
-                'source_model'      => '\Magento\Eav\Model\Entity\Attribute\Source\Boolean'
+                'source_model'      => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean'
             )
         );
 

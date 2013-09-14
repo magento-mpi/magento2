@@ -23,7 +23,7 @@ class Magento_Core_Model_Config_FieldsetTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_configReaderMock = $this->getMock(
-            '\Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false
+            'Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false
         );
         $this->_cacheTypeMock = $this->getMock('Magento\Core\Model\Cache\Type\Config', array(), array(), '', false);
     }
@@ -42,7 +42,7 @@ class Magento_Core_Model_Config_FieldsetTest extends PHPUnit_Framework_TestCase
             ->with('fieldset_config')
             ->will($this->returnValue($cachedConfig));
         $model = new \Magento\Core\Model\Config\Fieldset($this->_configReaderMock, $this->_cacheTypeMock);
-        $this->assertInstanceOf('\Magento\Simplexml\Element', $model->getNode());
+        $this->assertInstanceOf('Magento\Simplexml\Element', $model->getNode());
     }
 
     public function testConstructorNoCacheExists()
@@ -60,6 +60,6 @@ class Magento_Core_Model_Config_FieldsetTest extends PHPUnit_Framework_TestCase
             ->method('save')
             ->with("<?xml version=\"1.0\"?>\n<config/>\n");
         $model = new \Magento\Core\Model\Config\Fieldset($this->_configReaderMock, $this->_cacheTypeMock);
-        $this->assertInstanceOf('\Magento\Simplexml\Element', $model->getNode());
+        $this->assertInstanceOf('Magento\Simplexml\Element', $model->getNode());
     }
 }

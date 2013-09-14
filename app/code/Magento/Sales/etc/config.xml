@@ -336,15 +336,15 @@
         </sales>
         <pdf>
             <invoice>
-                <default>\Magento\Sales\Model\Order\Pdf\Items\Invoice\DefaultInvoice</default>
-                <grouped>\Magento\Sales\Model\Order\Pdf\Items\Invoice\Grouped</grouped>
+                <default>Magento\Sales\Model\Order\Pdf\Items\Invoice\DefaultInvoice</default>
+                <grouped>Magento\Sales\Model\Order\Pdf\Items\Invoice\Grouped</grouped>
             </invoice>
             <shipment>
-                <default>\Magento\Sales\Model\Order\Pdf\Items\Shipment\DefaultShipment</default>
+                <default>Magento\Sales\Model\Order\Pdf\Items\Shipment\DefaultShipment</default>
             </shipment>
             <creditmemo>
-                <default>\Magento\Sales\Model\Order\Pdf\Items\Creditmemo\DefaultCreditmemo</default>
-                <grouped>\Magento\Sales\Model\Order\Pdf\Items\Creditmemo\Grouped</grouped>
+                <default>Magento\Sales\Model\Order\Pdf\Items\Creditmemo\DefaultCreditmemo</default>
+                <grouped>Magento\Sales\Model\Order\Pdf\Items\Creditmemo\Grouped</grouped>
             </creditmemo>
             <totals>
                 <subtotal translate="title">

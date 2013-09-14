@@ -24,7 +24,7 @@
             <value>frontend</value>
         </param>
         <param name="baseController">
-            <value>\Magento\Core\Controller\Varien\Action</value>
+            <value>Magento\Core\Controller\Varien\Action</value>
         </param>
         <param name="routerId">
             <value>vde</value>

@@ -25,14 +25,14 @@ class Paypal extends \Magento\Paypal\Model\Direct
      *
      * @var string
      */
-    protected $_formBlockType = '\Magento\Pbridge\Block\Checkout\Payment\Paypal';
+    protected $_formBlockType = 'Magento\Pbridge\Block\Checkout\Payment\Paypal';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = '\Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paypal';
+    protected $_backendFormBlockType = 'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paypal';
 
     /**
      * Payment Bridge Payment Method Instance
@@ -46,7 +46,7 @@ class Paypal extends \Magento\Paypal\Model\Direct
      *
      * @var $_proType string
      */
-    protected $_proType = '\Magento\Pbridge\Model\Payment\Method\Paypal\Pro';
+    protected $_proType = 'Magento\Pbridge\Model\Payment\Method\Paypal\Pro';
 
     public function __construct($params = array())
     {

@@ -120,7 +120,7 @@ class Magento_Adminhtml_Controller_System_AccountTest extends PHPUnit_Framework_
         $args = array('context' => $contextMock);
 
         $testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_controller = $testHelper->getObject('\Magento\Adminhtml\Controller\System\Account', $args);
+        $this->_controller = $testHelper->getObject('Magento\Adminhtml\Controller\System\Account', $args);
     }
 
     public function testSaveAction()

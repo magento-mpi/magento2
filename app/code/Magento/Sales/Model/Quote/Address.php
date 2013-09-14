@@ -905,7 +905,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     {
         if ($this->_totalCollector === null) {
             $this->_totalCollector = \Mage::getModel(
-                '\Magento\Sales\Model\Quote\Address\Total\Collector',
+                'Magento\Sales\Model\Quote\Address\Total\Collector',
                 array('store' => $this->getQuote()->getStore())
             );
         }

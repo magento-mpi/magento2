@@ -27,13 +27,13 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Frame
     {
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = Mage::getModel(
-            '\Magento\Core\Model\Layout',
+            'Magento\Core\Model\Layout',
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
 
         /** @var $block \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit */
         $block = $layout->createBlock(
-            '\Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit', '', array('data' => $blockAttributes)
+            'Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit', '', array('data' => $blockAttributes)
         );
 
         $this->_checkSelector($block, $expected);
@@ -58,7 +58,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Frame
         $selectorBlock = $layout->getChildBlock($blockName, 'selector');
 
         if ($expected['selector']) {
-            $this->assertInstanceOf('\Magento\Adminhtml\Block\Urlrewrite\Selector', $selectorBlock,
+            $this->assertInstanceOf('Magento\Adminhtml\Block\Urlrewrite\Selector', $selectorBlock,
                 'Child block with entity selector is invalid');
         } else {
             $this->assertFalse($selectorBlock, 'Child block with entity selector should not present in block');
@@ -80,7 +80,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Frame
         $cmsPageLinkBlock = $layout->getChildBlock($blockName, 'cms_page_link');
 
         if ($expected['cms_page_link']) {
-            $this->assertInstanceOf('\Magento\Adminhtml\Block\Urlrewrite\Link', $cmsPageLinkBlock,
+            $this->assertInstanceOf('Magento\Adminhtml\Block\Urlrewrite\Link', $cmsPageLinkBlock,
                 'Child block with CMS page link is invalid');
 
             $this->assertEquals('CMS page:', $cmsPageLinkBlock->getLabel(),
@@ -159,7 +159,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Frame
         $formBlock = $layout->getChildBlock($blockName, 'form');
 
         if ($expected['form']) {
-            $this->assertInstanceOf('\Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit\Form', $formBlock,
+            $this->assertInstanceOf('Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit\Form', $formBlock,
                 'Child block with form is invalid');
 
             $this->assertSame($expected['form']['cms_page'], $formBlock->getCmsPage(),
@@ -187,7 +187,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Frame
         $gridBlock = $layout->getChildBlock($blockName, 'cms_pages_grid');
 
         if ($expected['cms_pages_grid']) {
-            $this->assertInstanceOf('\Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid', $gridBlock,
+            $this->assertInstanceOf('Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid', $gridBlock,
                 'Child block with CMS pages grid is invalid');
         } else {
             $this->assertFalse($gridBlock, 'Child block with CMS pages grid should not present in block');

@@ -20,7 +20,7 @@ class Collection extends \Magento\Rule\Model\Action\Collection
     public function __construct(\Magento\Core\Model\View\Url $viewUrl, array $data = array())
     {
         parent::__construct($viewUrl, $data);
-        $this->setType('\Magento\SalesRule\Model\Rule\Action\Collection');
+        $this->setType('Magento\SalesRule\Model\Rule\Action\Collection');
     }
 
     /**
@@ -30,7 +30,7 @@ class Collection extends \Magento\Rule\Model\Action\Collection
     {
         $actions = parent::getNewChildSelectOptions();
         $actions = array_merge_recursive($actions, array(array(
-            'value' => '\Magento\SalesRule\Model\Rule\Action\Product',
+            'value' => 'Magento\SalesRule\Model\Rule\Action\Product',
             'label' => __('Update the Product'))
         ));
         return $actions;

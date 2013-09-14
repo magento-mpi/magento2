@@ -96,7 +96,7 @@ class Magento_Core_Model_Store_Storage_DefaultTest extends PHPUnit_Framework_Tes
     public function testGetStore()
     {
         $storeId = 'testStore';
-        $this->assertInstanceOf('\Magento\Core\Model\Store', $this->_model->getStore($storeId));
+        $this->assertInstanceOf('Magento\Core\Model\Store', $this->_model->getStore($storeId));
     }
 
     public function testGetStores()
@@ -109,7 +109,7 @@ class Magento_Core_Model_Store_Storage_DefaultTest extends PHPUnit_Framework_Tes
     public function testGetWebsite()
     {
         $websiteId = 'testWebsite';
-        $this->assertInstanceOf('\Magento\Core\Model\Website', $this->_model->getWebsite($websiteId));
+        $this->assertInstanceOf('Magento\Core\Model\Website', $this->_model->getWebsite($websiteId));
     }
 
     public function testGetWebsitesWithDefault()
@@ -119,7 +119,7 @@ class Magento_Core_Model_Store_Storage_DefaultTest extends PHPUnit_Framework_Tes
         $this->_websiteMock->expects($this->once())->method('getCode')->will($this->returnValue(0));
         $this->_websiteMock->expects($this->never())->method('getId');
         $result = $this->_model->getWebsites($withDefault, $codeKey);
-        $this->assertInstanceOf('\Magento\Core\Model\Website', $result[0]);
+        $this->assertInstanceOf('Magento\Core\Model\Website', $result[0]);
     }
 
     public function testGetWebsitesWithoutDefault()
@@ -135,7 +135,7 @@ class Magento_Core_Model_Store_Storage_DefaultTest extends PHPUnit_Framework_Tes
     public function testGetGroup()
     {
         $groupId = 'testGroup';
-        $this->assertInstanceOf('\Magento\Core\Model\Store\Group', $this->_model->getGroup($groupId));
+        $this->assertInstanceOf('Magento\Core\Model\Store\Group', $this->_model->getGroup($groupId));
     }
 
     public function testGetGroupsWithDefault()
@@ -145,7 +145,7 @@ class Magento_Core_Model_Store_Storage_DefaultTest extends PHPUnit_Framework_Tes
         $this->_groupMock->expects($this->once())->method('getCode')->will($this->returnValue(0));
         $this->_groupMock->expects($this->never())->method('getId');
         $result = $this->_model->getGroups($withDefault, $codeKey);
-        $this->assertInstanceOf('\Magento\Core\Model\Store\Group', $result[0]);
+        $this->assertInstanceOf('Magento\Core\Model\Store\Group', $result[0]);
     }
 
     public function testGetGroupsWithoutDefault()

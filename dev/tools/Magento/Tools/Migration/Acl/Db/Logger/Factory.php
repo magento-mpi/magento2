@@ -42,10 +42,10 @@ class Factory
         $loggerClassName = null;
         switch ($loggerType) {
             case 'file':
-                $loggerClassName = '\Magento\Tools\Migration\Acl\Db\Logger\File';
+                $loggerClassName = 'Magento\Tools\Migration\Acl\Db\Logger\File';
                 break;
             default:
-                $loggerClassName = '\Magento\Tools\Migration\Acl\Db\Logger\Console';
+                $loggerClassName = 'Magento\Tools\Migration\Acl\Db\Logger\Console';
                 break;
         }
 

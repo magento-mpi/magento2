@@ -46,14 +46,14 @@ class Direct extends \Magento\Payment\Model\Method\Cc
      *
      * @var string
      */
-    protected $_formBlockType = '\Magento\Pbridge\Block\Checkout\Payment\Worldpay\Direct';
+    protected $_formBlockType = 'Magento\Pbridge\Block\Checkout\Payment\Worldpay\Direct';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = '\Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Worldpay\Direct';
+    protected $_backendFormBlockType = 'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Worldpay\Direct';
 
     /**
      * Payment Bridge Payment Method Instance

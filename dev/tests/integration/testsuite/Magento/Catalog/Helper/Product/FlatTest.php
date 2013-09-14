@@ -24,7 +24,7 @@ class Magento_Catalog_Helper_Product_FlatTest extends PHPUnit_Framework_TestCase
     public function testGetFlag()
     {
         $flag = $this->_helper->getFlag();
-        $this->assertInstanceOf('\Magento\Catalog\Model\Product\Flat\Flag', $flag);
+        $this->assertInstanceOf('Magento\Catalog\Model\Product\Flat\Flag', $flag);
     }
 
     public function testIsBuilt()

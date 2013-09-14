@@ -23,7 +23,7 @@ class Magento_GiftRegistry_Block_Product_ViewTest extends PHPUnit_Framework_Test
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_urlBuilder = $this->getMockForAbstractClass('Magento\Core\Model\UrlInterface');
         $args = array('urlBuilder' => $this->_urlBuilder);
-        $this->_block = $helper->getObject('\Magento\GiftRegistry\Block\Product\View', $args);
+        $this->_block = $helper->getObject('Magento\GiftRegistry\Block\Product\View', $args);
     }
 
     /**

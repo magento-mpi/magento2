@@ -62,8 +62,8 @@ abstract class Magento_TestFramework_TestCase_ControllerAbstract extends PHPUnit
         $this->_objectManager = Mage::getObjectManager();
         $this->_objectManager->configure(array(
             'preferences' => array(
-                '\Magento\Core\Controller\Request\Http' => 'Magento_TestFramework_Request',
-                '\Magento\Core\Controller\Response\Http' => 'Magento_TestFramework_Response'
+                'Magento\Core\Controller\Request\Http' => 'Magento_TestFramework_Request',
+                'Magento\Core\Controller\Response\Http' => 'Magento_TestFramework_Response'
             )
         ));
     }
@@ -194,7 +194,7 @@ abstract class Magento_TestFramework_TestCase_ControllerAbstract extends PHPUnit
      * @param string $sessionModel Class of the session model that manages messages
      */
     public function assertSessionMessages(
-        PHPUnit_Framework_Constraint $constraint, $messageType = null, $sessionModel = '\Magento\Core\Model\Session'
+        PHPUnit_Framework_Constraint $constraint, $messageType = null, $sessionModel = 'Magento\Core\Model\Session'
     ) {
         $this->_assertSessionErrors = false;
         /** @var $session \Magento\Core\Model\Session\AbstractSession */

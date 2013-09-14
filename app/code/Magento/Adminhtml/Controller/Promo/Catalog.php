@@ -227,7 +227,7 @@ class Catalog extends \Magento\Adminhtml\Controller\Action
     public function chooserAction()
     {
         if ($this->getRequest()->getParam('attribute') == 'sku') {
-            $type = '\Magento\Adminhtml\Block\Promo\Widget\Chooser\Sku';
+            $type = 'Magento\Adminhtml\Block\Promo\Widget\Chooser\Sku';
         }
         if (!empty($type)) {
             $block = $this->getLayout()->createBlock($type);

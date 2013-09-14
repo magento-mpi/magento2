@@ -80,7 +80,7 @@ class Factory
         $renderer = $this->_objectManager->get($rendererClass);
         if (!$renderer instanceof \Magento\Webapi\Controller\Response\Rest\RendererInterface) {
             throw new \LogicException(
-                'The renderer must implement "\Magento\Webapi\Controller\Response\Rest\RendererInterface".');
+                'The renderer must implement "Magento\Webapi\Controller\Response\Rest\RendererInterface".');
         }
         return $renderer;
     }

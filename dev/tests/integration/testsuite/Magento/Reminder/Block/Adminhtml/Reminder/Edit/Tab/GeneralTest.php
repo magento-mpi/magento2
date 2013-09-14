@@ -26,10 +26,10 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_GeneralTest extends PHP
         Mage::register('current_reminder_rule', Mage::getModel('Magento\Reminder\Model\Rule'));
 
         $block = Mage::app()->getLayout()->createBlock(
-            '\Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General'
+            'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General'
         );
         $prepareFormMethod = new ReflectionMethod(
-            '\Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General', '_prepareForm');
+            'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);
 

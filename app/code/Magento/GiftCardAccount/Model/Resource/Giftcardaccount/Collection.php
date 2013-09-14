@@ -28,8 +28,8 @@ class Collection
     protected function _construct()
     {
         $this->_init(
-            '\Magento\GiftCardAccount\Model\Giftcardaccount',
-            '\Magento\GiftCardAccount\Model\Resource\Giftcardaccount'
+            'Magento\GiftCardAccount\Model\Giftcardaccount',
+            'Magento\GiftCardAccount\Model\Resource\Giftcardaccount'
         );
     }
 

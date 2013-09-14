@@ -17,7 +17,7 @@ class Magento_Core_Model_Layout_FactoryTest extends PHPUnit_Framework_TestCase
     /*
      * Test class name
      */
-    const CLASS_NAME  = '\Magento\Core\Model\Layout';
+    const CLASS_NAME  = 'Magento\Core\Model\Layout';
 
     /**
      * Test arguments
@@ -48,7 +48,7 @@ class Magento_Core_Model_Layout_FactoryTest extends PHPUnit_Framework_TestCase
 
     public function testConstruct()
     {
-        $this->assertAttributeInstanceOf('\Magento\ObjectManager', '_objectManager', $this->_model);
+        $this->assertAttributeInstanceOf('Magento\ObjectManager', '_objectManager', $this->_model);
     }
 
     public function testCreateLayoutNew()

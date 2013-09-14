@@ -17,8 +17,8 @@ class Factory
      * @var array array({api type} => {API dispatcher class})
      */
     protected $_apiDispatcherMap = array(
-        \Magento\Webapi\Controller\Front::API_TYPE_REST => '\Magento\Webapi\Controller\Dispatcher\Rest',
-        \Magento\Webapi\Controller\Front::API_TYPE_SOAP => '\Magento\Webapi\Controller\Dispatcher\Soap',
+        \Magento\Webapi\Controller\Front::API_TYPE_REST => 'Magento\Webapi\Controller\Dispatcher\Rest',
+        \Magento\Webapi\Controller\Front::API_TYPE_SOAP => 'Magento\Webapi\Controller\Dispatcher\Soap',
     );
 
     /**

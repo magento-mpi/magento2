@@ -35,7 +35,7 @@ class Shipments
      */
     protected function _getCollectionClass()
     {
-        return '\Magento\Sales\Model\Resource\Order\Shipment\Grid\Collection';
+        return 'Magento\Sales\Model\Resource\Order\Shipment\Grid\Collection';
     }
 
     protected function _prepareCollection()

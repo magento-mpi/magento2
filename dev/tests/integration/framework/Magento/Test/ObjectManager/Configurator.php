@@ -17,7 +17,7 @@ class Magento_Test_ObjectManager_Configurator implements \Magento\Core\Model\Obj
     {
         return array(
             'preferences' => array(
-                '\Magento\Core\Model\Cookie' => 'Magento_TestFramework_Cookie'
+                'Magento\Core\Model\Cookie' => 'Magento_TestFramework_Cookie'
             )
         );
     }

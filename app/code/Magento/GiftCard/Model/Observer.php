@@ -37,7 +37,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         if (isset($data['email_template_model'])) {
             if (!$data['email_template_model'] instanceof \Magento\Core\Model\Email\Template) {
                 throw new \InvalidArgumentException(
-                    'Argument "email_template_model" is expected to be an instance of "\Magento\Core\Model\Email\Template".'
+                    'Argument "email_template_model" is expected to be an instance of "Magento\Core\Model\Email\Template".'
                 );
             }
             $this->_emailTemplateModel = $data['email_template_model'];

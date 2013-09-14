@@ -13,7 +13,7 @@
             <block class="Magento\Adminhtml\Block\Newsletter\Subscriber\Grid" name="adminhtml.newslettrer.subscriber.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">subscriberGrid</argument>
-                    <argument name="dataSource" xsi:type="object">\Magento\Newsletter\Model\Resource\Subscriber\Grid\Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\Newsletter\Model\Resource\Subscriber\Grid\Collection</argument>
                     <argument name="default_sort" xsi:type="string">subscriber_id</argument>
                     <argument name="default_dir" xsi:type="string">desc</argument>
                     <argument name="use_ajax" xsi:type="string">1</argument>
@@ -136,7 +136,7 @@
                             <argument name="header" xsi:type="string" translate="true">Web Site</argument>
                             <argument name="index" xsi:type="string">website_id</argument>
                             <argument name="type" xsi:type="string">options</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\Backend\Model\Config\Source\Website\OptionHash"/>
+                            <argument name="options" xsi:type="options" model="Magento\Backend\Model\Config\Source\Website\OptionHash"/>
                             <argument name="header_css_class" xsi:type="string">col-website</argument>
                             <argument name="column_css_class" xsi:type="string">col-website</argument>
                         </arguments>
@@ -146,7 +146,7 @@
                             <argument name="header" xsi:type="string" translate="true">Store</argument>
                             <argument name="index" xsi:type="string">group_id</argument>
                             <argument name="type" xsi:type="string">options</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\Newsletter\Block\Subscribe\Grid\Options\GroupOptionHash"/>
+                            <argument name="options" xsi:type="options" model="Magento\Newsletter\Block\Subscribe\Grid\Options\GroupOptionHash"/>
                             <argument name="header_css_class" xsi:type="string">col-store</argument>
                             <argument name="column_css_class" xsi:type="string">col-store</argument>
                         </arguments>
@@ -156,7 +156,7 @@
                             <argument name="header" xsi:type="string" translate="true">Store View</argument>
                             <argument name="index" xsi:type="string">store_id</argument>
                             <argument name="type" xsi:type="string">options</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\Newsletter\Block\Subscribe\Grid\Options\StoreOptionHash"/>
+                            <argument name="options" xsi:type="options" model="Magento\Newsletter\Block\Subscribe\Grid\Options\StoreOptionHash"/>
                             <argument name="header_css_class" xsi:type="string">col-store-view</argument>
                             <argument name="column_css_class" xsi:type="string">col-store-view</argument>
                         </arguments>

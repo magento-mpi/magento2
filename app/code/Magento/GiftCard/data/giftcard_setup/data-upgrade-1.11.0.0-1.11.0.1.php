@@ -41,6 +41,6 @@ if ($attribute) {
         $entityTypeId,
         $attribute['attribute_id'],
         'frontend_input_renderer',
-        '\Magento\GiftCard\Block\Adminhtml\Renderer\OpenAmount'
+        'Magento\GiftCard\Block\Adminhtml\Renderer\OpenAmount'
     );
 }

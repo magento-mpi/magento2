@@ -93,7 +93,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $this->_initConfig();
         $builder = $this->_config->createValidatorBuilder('test_entity_a', 'check_alnum');
-        $this->assertInstanceOf('\Magento\Validator\Builder', $builder);
+        $this->assertInstanceOf('Magento\Validator\Builder', $builder);
     }
 
     /**

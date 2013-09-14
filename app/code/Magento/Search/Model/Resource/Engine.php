@@ -117,7 +117,7 @@ class Engine
      */
     public function getResourceName()
     {
-        return '\Magento\Search\Model\Resource\Advanced';
+        return 'Magento\Search\Model\Resource\Advanced';
     }
 
     /**

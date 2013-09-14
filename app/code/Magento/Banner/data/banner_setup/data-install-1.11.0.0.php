@@ -59,7 +59,7 @@ foreach ($banners as $sortOrder => $bannerData) {
             'unique_id'    => \Mage::helper('Magento\Core\Helper\Data')->uniqHash()
         ))
         ->addData(array(
-            'instance_type' => '\Magento\Banner\Block\Widget\Banner',
+            'instance_type' => 'Magento\Banner\Block\Widget\Banner',
             'theme_id'      => $theme->getId(),
             'title'         => $bannerData[1],
             'sort_order'    => $sortOrder

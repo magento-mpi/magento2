@@ -43,7 +43,7 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
         \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'module.xml',
         $idAttributes = array(),
-        $domDocumentClass = '\Magento\Config\Dom',
+        $domDocumentClass = 'Magento\Config\Dom',
         array $allowedModules = array()
     ) {
         parent::__construct(

@@ -15,7 +15,7 @@
                     <argument name="id" xsi:type="string">gridProducts</argument>
                     <argument name="default_sort" xsi:type="string">review_cnt</argument>
                     <argument name="default_dir" xsi:type="string">desc</argument>
-                    <argument name="dataSource" xsi:type="object">\Magento\Reports\Model\Resource\Review\Product\Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\Reports\Model\Resource\Review\Product\Collection</argument>
                 </arguments>
                 <block class="Magento\Backend\Block\Widget\Grid\Export" name="adminhtml.block.report.review.product.export" as="grid.export">
                     <arguments>
@@ -104,7 +104,7 @@
                             <argument name="align" xsi:type="string">center</argument>
                             <argument name="filter" xsi:type="string">0</argument>
                             <argument name="sortable" xsi:type="string">0</argument>
-                            <argument name="renderer" xsi:type="string">\Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Product</argument>
+                            <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Product</argument>
                             <argument name="id" xsi:type="string">action</argument>
                             <argument name="is_system" xsi:type="string">1</argument>
                             <argument name="column_css_class" xsi:type="string">col-actions</argument>

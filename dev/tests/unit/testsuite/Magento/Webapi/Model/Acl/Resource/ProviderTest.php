@@ -30,7 +30,7 @@ class Magento_Webapi_Model_Acl_Resource_ProviderTest extends PHPUnit_Framework_T
     protected function setUp()
     {
         $this->_configReaderMock = $this->getMock(
-            '\Magento\Webapi\Model\Acl\Resource\Config\Reader\Filesystem', array(), array(), '', false
+            'Magento\Webapi\Model\Acl\Resource\Config\Reader\Filesystem', array(), array(), '', false
         );
         $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
         $this->_treeBuilderMock =

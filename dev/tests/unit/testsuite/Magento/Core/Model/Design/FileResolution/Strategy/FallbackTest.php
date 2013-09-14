@@ -43,14 +43,14 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
     {
         $this->_fallbackFile = $this->getMockForAbstractClass('Magento\Core\Model\Design\Fallback\Rule\RuleInterface');
         $this->_fallbackLocale = $this->getMockForAbstractClass(
-            '\Magento\Core\Model\Design\Fallback\Rule\RuleInterface'
+            'Magento\Core\Model\Design\Fallback\Rule\RuleInterface'
         );
         $this->_fallbackViewFile = $this->getMockForAbstractClass(
-            '\Magento\Core\Model\Design\Fallback\Rule\RuleInterface'
+            'Magento\Core\Model\Design\Fallback\Rule\RuleInterface'
         );
 
         $this->_fallbackFactory = $this->getMock(
-            '\Magento\Core\Model\Design\Fallback\Factory',
+            'Magento\Core\Model\Design\Fallback\Factory',
             array('createLocaleFileRule', 'createFileRule', 'createViewFileRule'),
             array($this->getMock('Magento\Core\Model\Dir', array(), array(), '', false))
         );

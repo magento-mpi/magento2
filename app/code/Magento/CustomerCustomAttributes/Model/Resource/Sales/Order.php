@@ -25,7 +25,7 @@ class Order extends \Magento\CustomerCustomAttributes\Model\Resource\Sales\Abstr
      *
      * @var string
      */
-    protected $_parentResourceModelName = '\Magento\Sales\Model\Resource\Order';
+    protected $_parentResourceModelName = 'Magento\Sales\Model\Resource\Order';
 
     /**
      * Initialize resource

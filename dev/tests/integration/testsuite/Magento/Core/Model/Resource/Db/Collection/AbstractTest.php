@@ -30,7 +30,7 @@ class Magento_Core_Model_Resource_Db_Collection_AbstractTest extends PHPUnit_Fra
         $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
 
         $this->_model = $this->getMockForAbstractClass(
-            '\Magento\Core\Model\Resource\Db\Collection\AbstractCollection',
+            'Magento\Core\Model\Resource\Db\Collection\AbstractCollection',
             array($fetchStrategy, $resource)
         );
     }

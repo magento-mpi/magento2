@@ -54,7 +54,7 @@ class Custom extends \Magento\Backend\Block\Widget\Form
         $this->setForm($form);
         $form->setUseContainer(true);
 
-        $form->addType('css_file', '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Uploader');
+        $form->addType('css_file', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Uploader');
 
         $form->addField($this->getFileElementName(), 'css_file', array(
             'name'     => $this->getFileElementName(),

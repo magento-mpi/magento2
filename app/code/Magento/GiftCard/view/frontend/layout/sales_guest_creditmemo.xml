@@ -12,7 +12,7 @@
         <reference name="creditmemo_items">
             <action method="addItemRender">
                 <argument name="type" xsi:type="string">giftcard</argument>
-                <argument name="block" xsi:type="string">\Magento\GiftCard\Block\Sales\Order\Item\Renderer</argument>
+                <argument name="block" xsi:type="string">Magento\GiftCard\Block\Sales\Order\Item\Renderer</argument>
                 <argument name="template" xsi:type="string">Magento_Sales::order/creditmemo/items/renderer/default.phtml</argument>
             </action>
         </reference>

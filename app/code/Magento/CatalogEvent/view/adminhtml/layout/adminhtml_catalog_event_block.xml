@@ -13,7 +13,7 @@
             <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.catalog.event.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">catalogEventGrid</argument>
-                    <argument name="dataSource" xsi:type="object">\Magento\CatalogEvent\Model\Resource\Event\Grid\Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\CatalogEvent\Model\Resource\Event\Grid\Collection</argument>
                     <argument name="default_sort" xsi:type="string">event_id</argument>
                     <argument name="default_dir" xsi:type="string">ASC</argument>
                     <argument name="save_parameters_in_session" xsi:type="string">1</argument>
@@ -74,7 +74,7 @@
                             <argument name="type" xsi:type="string">options</argument>
                             <argument name="index" xsi:type="string">status</argument>
                             <argument name="width" xsi:type="string">140</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\CatalogEvent\Model\Resource\Event\Grid\Statuses"/>
+                            <argument name="options" xsi:type="options" model="Magento\CatalogEvent\Model\Resource\Event\Grid\Statuses"/>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="display_state">
@@ -82,8 +82,8 @@
                             <argument name="header" xsi:type="string" translate="true">Countdown Ticker</argument>
                             <argument name="type" xsi:type="string">options</argument>
                             <argument name="index" xsi:type="string">display_state</argument>
-                            <argument name="renderer" xsi:type="string">\Magento\CatalogEvent\Block\Adminhtml\Event\Grid\Column\Renderer\Bitmask</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\CatalogEvent\Model\Resource\Event\Grid\State"/>
+                            <argument name="renderer" xsi:type="string">Magento\CatalogEvent\Block\Adminhtml\Event\Grid\Column\Renderer\Bitmask</argument>
+                            <argument name="options" xsi:type="options" model="Magento\CatalogEvent\Model\Resource\Event\Grid\State"/>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="sort_order">

@@ -12,7 +12,7 @@
         <reference name="customer.newsletter.form.before">
             <block class="Magento\Reward\Block\Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml">
                 <action method="initRewardType">
-                    <argument name="type" xsi:type="string">\Magento\Reward\Model\Action\Newsletter</argument>
+                    <argument name="type" xsi:type="string">Magento\Reward\Model\Action\Newsletter</argument>
                 </action>
                 <action method="setWrapperClass">
                     <argument name="class" xsi:type="string">reward-newsletter</argument>

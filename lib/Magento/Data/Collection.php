@@ -34,7 +34,7 @@ class Collection implements \IteratorAggregate, \Countable
      *
      * @var string
      */
-    protected $_itemObjectClass = '\Magento\Object';
+    protected $_itemObjectClass = 'Magento\Object';
 
     /**
      * Order configuration
@@ -533,9 +533,9 @@ class Collection implements \IteratorAggregate, \Countable
     function setItemObjectClass($className)
     {
         /**
-         * is_subclass_of($className, '\Magento\Object') - Segmentation fault in php 5.2.3
+         * is_subclass_of($className, 'Magento\Object') - Segmentation fault in php 5.2.3
          */
-        /*if (!is_subclass_of($className, '\Magento\Object')) {
+        /*if (!is_subclass_of($className, 'Magento\Object')) {
             throw new \Exception($className.' does not extends from \Magento\Object');
         }*/
         $this->_itemObjectClass = $className;

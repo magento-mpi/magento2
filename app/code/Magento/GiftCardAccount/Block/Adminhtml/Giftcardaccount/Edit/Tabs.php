@@ -26,7 +26,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
         $this->addTab('info', array(
             'label'     => __('Information'),
             'content'   => $this->getLayout()->createBlock(
-                '\Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Info'
+                'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Info'
             )->initForm()->toHtml(),
             'active'    => true
         ));
@@ -34,7 +34,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
         $this->addTab('send', array(
             'label'     => __('Send Gift Card'),
             'content'   => $this->getLayout()->createBlock(
-                '\Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Send'
+                'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Send'
             )->initForm()->toHtml(),
         ));
 
@@ -43,7 +43,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
             $this->addTab('history', array(
                 'label'     => __('History'),
                 'content'   => $this->getLayout()->createBlock(
-                    '\Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\History'
+                    'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\History'
                 )->toHtml(),
             ));
         }

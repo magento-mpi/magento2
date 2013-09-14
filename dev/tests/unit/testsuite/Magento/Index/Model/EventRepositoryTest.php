@@ -20,7 +20,7 @@ class Magento_Index_Model_EventRepositoryTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_eventCollection = $this->getMock(
-            '\Magento\Index\Model\Resource\Event\Collection', array(), array(), '', false
+            'Magento\Index\Model\Resource\Event\Collection', array(), array(), '', false
         );
         $collectionFactory = $this->getMock(
             'Magento\Index\Model\Resource\Event\CollectionFactory', array('create'), array(), '', false

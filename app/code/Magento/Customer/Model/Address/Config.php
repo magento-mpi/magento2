@@ -20,7 +20,7 @@ namespace Magento\Customer\Model\Address;
 
 class Config extends \Magento\Core\Model\Config\Base
 {
-    const DEFAULT_ADDRESS_RENDERER  = '\Magento\Customer\Block\Address\Renderer\DefaultRenderer';
+    const DEFAULT_ADDRESS_RENDERER  = 'Magento\Customer\Block\Address\Renderer\DefaultRenderer';
     const XML_PATH_ADDRESS_TEMPLATE = 'customer/address_templates/';
     const DEFAULT_ADDRESS_FORMAT    = 'oneline';
 

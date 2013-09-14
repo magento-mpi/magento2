@@ -47,7 +47,7 @@ class Shortcut extends \Magento\Core\Block\Template
      *
      * @var string
      */
-    protected $_checkoutType = '\Magento\Paypal\Model\Express\Checkout';
+    protected $_checkoutType = 'Magento\Paypal\Model\Express\Checkout';
 
     protected function _beforeToHtml()
     {

@@ -37,14 +37,14 @@ class Magento_Theme_Model_Config_CustomizationTest extends PHPUnit_Framework_Tes
     protected function setUp()
     {
         $this->_storeManager = $this->getMockForAbstractClass(
-            '\Magento\Core\Model\StoreManagerInterface', array(), '', true, true, true, array('getStores')
+            'Magento\Core\Model\StoreManagerInterface', array(), '', true, true, true, array('getStores')
         );
         $this->_designPackage = $this->getMockForAbstractClass(
-            '\Magento\Core\Model\View\DesignInterface', array(), '', true, true, true,
+            'Magento\Core\Model\View\DesignInterface', array(), '', true, true, true,
             array('getConfigurationDesignTheme')
         );
         $this->_themeCollection = $this->getMock(
-            '\Magento\Core\Model\Resource\Theme\Collection',
+            'Magento\Core\Model\Resource\Theme\Collection',
             array('filterThemeCustomizations', 'load'), array(), '', false
         );
 

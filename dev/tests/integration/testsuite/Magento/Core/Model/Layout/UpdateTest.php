@@ -24,7 +24,7 @@ class Magento_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         $this->_model = Mage::getModel('Magento\Core\Model\Layout\Update');
-        $this->assertInstanceOf('\Magento\Core\Model\Resource\Layout\Update', $this->_model->getResource());
+        $this->assertInstanceOf('Magento\Core\Model\Resource\Layout\Update', $this->_model->getResource());
     }
 
     /**

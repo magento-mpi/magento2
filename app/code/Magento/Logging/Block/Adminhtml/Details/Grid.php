@@ -51,7 +51,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         $this->addColumn('source_name', array(
             'header'    => __('Source Data'),
             'sortable'  => false,
-            'renderer'  => '\Magento\Logging\Block\Adminhtml\Details\Renderer\Sourcename',
+            'renderer'  => 'Magento\Logging\Block\Adminhtml\Details\Renderer\Sourcename',
             'index'     => 'source_name',
             'width'     => 1
         ));
@@ -59,14 +59,14 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         $this->addColumn('original_data', array(
             'header'    => __('Value Before Change'),
             'sortable'  => false,
-            'renderer'  => '\Magento\Logging\Block\Adminhtml\Details\Renderer\Diff',
+            'renderer'  => 'Magento\Logging\Block\Adminhtml\Details\Renderer\Diff',
             'index'     => 'original_data'
         ));
 
         $this->addColumn('result_data', array(
             'header'    => __('Value After Change'),
             'sortable'  => false,
-            'renderer'  => '\Magento\Logging\Block\Adminhtml\Details\Renderer\Diff',
+            'renderer'  => 'Magento\Logging\Block\Adminhtml\Details\Renderer\Diff',
             'index'     => 'result_data'
         ));
 

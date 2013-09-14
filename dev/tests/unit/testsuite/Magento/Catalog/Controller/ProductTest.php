@@ -14,7 +14,7 @@ class Magento_Catalog_Controller_ProductTest extends PHPUnit_Framework_TestCase
     public function testControllerImplementsProductViewInterface()
     {
         $this->assertInstanceOf(
-            '\Magento\Catalog\Controller\Product\View\ViewInterface',
+            'Magento\Catalog\Controller\Product\View\ViewInterface',
             $this->getMock('Magento\Catalog\Controller\Product', array(), array(), '', false)
         );
     }

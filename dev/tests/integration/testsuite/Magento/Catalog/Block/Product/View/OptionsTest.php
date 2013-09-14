@@ -58,7 +58,7 @@ class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_T
 
         $this->assertEquals(
             array(
-                'block'     => '\Magento\Catalog\Block\Product\View\Options\Type\DefaultType',
+                'block'     => 'Magento\Catalog\Block\Product\View\Options\Type\DefaultType',
                 'template'  => 'product/view/options/type/default.phtml',
                 'renderer'  => null,
             ),
@@ -77,7 +77,7 @@ class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_T
         $options = $this->_block->getOptions();
         $this->assertNotEmpty($options);
         foreach ($options as $option) {
-            $this->assertInstanceOf('\Magento\Catalog\Model\Product\Option', $option);
+            $this->assertInstanceOf('Magento\Catalog\Model\Product\Option', $option);
         }
     }
 
@@ -97,12 +97,12 @@ class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_T
     {
         $this->_block->addOptionRenderer(
             'select',
-            '\Magento\Catalog\Block\Product\View\Options\Type\Select',
+            'Magento\Catalog\Block\Product\View\Options\Type\Select',
             'product/view/options/type/select.phtml'
         );
         $this->_block->addOptionRenderer(
             'date',
-            '\Magento\Catalog\Block\Product\View\Options\Type\Date',
+            'Magento\Catalog\Block\Product\View\Options\Type\Date',
             'product/view/options/type/date.phtml'
         );
         $this->_block->setLayout(Mage::app()->getLayout());

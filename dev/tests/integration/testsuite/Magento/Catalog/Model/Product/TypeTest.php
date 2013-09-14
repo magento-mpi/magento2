@@ -32,16 +32,16 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
     public function factoryDataProvider()
     {
         return array(
-            array(null, '\Magento\Catalog\Model\Product\Type\Simple'),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, '\Magento\Catalog\Model\Product\Type\Simple'),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, '\Magento\Catalog\Model\Product\Type\Virtual'),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_GROUPED, '\Magento\Catalog\Model\Product\Type\Grouped'),
+            array(null, 'Magento\Catalog\Model\Product\Type\Simple'),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, 'Magento\Catalog\Model\Product\Type\Simple'),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, 'Magento\Catalog\Model\Product\Type\Virtual'),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_GROUPED, 'Magento\Catalog\Model\Product\Type\Grouped'),
             array(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
-                '\Magento\Catalog\Model\Product\Type\Configurable'
+                'Magento\Catalog\Model\Product\Type\Configurable'
             ),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, '\Magento\Bundle\Model\Product\Type'),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, 'Magento\Bundle\Model\Product\Type'),
             array(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE,
-                '\Magento\Downloadable\Model\Product\Type'
+                'Magento\Downloadable\Model\Product\Type'
             ),
         );
     }
@@ -92,16 +92,16 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
     public function priceFactoryDataProvider()
     {
         return array(
-            array(null, '\Magento\Catalog\Model\Product\Type\Price'),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, '\Magento\Catalog\Model\Product\Type\Price'),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, '\Magento\Catalog\Model\Product\Type\Price'),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_GROUPED, '\Magento\Catalog\Model\Product\Type\Price'),
+            array(null, 'Magento\Catalog\Model\Product\Type\Price'),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, 'Magento\Catalog\Model\Product\Type\Price'),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, 'Magento\Catalog\Model\Product\Type\Price'),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_GROUPED, 'Magento\Catalog\Model\Product\Type\Price'),
             array(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
-                '\Magento\Catalog\Model\Product\Type\Configurable\Price'
+                'Magento\Catalog\Model\Product\Type\Configurable\Price'
             ),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, '\Magento\Bundle\Model\Product\Price'),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, 'Magento\Bundle\Model\Product\Price'),
             array(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE,
-                '\Magento\Downloadable\Model\Product\Price'
+                'Magento\Downloadable\Model\Product\Price'
             ),
         );
     }

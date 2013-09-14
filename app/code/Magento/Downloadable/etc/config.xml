@@ -38,7 +38,7 @@
                         <is_qty>1</is_qty>
                         <price_model>Magento\Downloadable\Model\Product\Price</price_model>
                         <composite>0</composite>
-                        <price_indexer>\Magento\Downloadable\Model\Resource\Indexer\Price</price_indexer>
+                        <price_indexer>Magento\Downloadable\Model\Resource\Indexer\Price</price_indexer>
                         <can_use_qty_decimals>0</can_use_qty_decimals>
                     </downloadable>
                     <configurable>
@@ -63,10 +63,10 @@
         </catalog>
         <pdf>
             <invoice>
-                <downloadable>\Magento\Downloadable\Model\Sales\Order\Pdf\Items\Invoice</downloadable>
+                <downloadable>Magento\Downloadable\Model\Sales\Order\Pdf\Items\Invoice</downloadable>
             </invoice>
             <creditmemo>
-                <downloadable>\Magento\Downloadable\Model\Sales\Order\Pdf\Items\Creditmemo</downloadable>
+                <downloadable>Magento\Downloadable\Model\Sales\Order\Pdf\Items\Creditmemo</downloadable>
             </creditmemo>
         </pdf>
     </global>

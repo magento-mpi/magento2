@@ -90,7 +90,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
      */
     protected function _getMethod($name)
     {
-        $class = new ReflectionClass('\Magento\Theme\Model\Wysiwyg\Storage');
+        $class = new ReflectionClass('Magento\Theme\Model\Wysiwyg\Storage');
         $method = $class->getMethod($name);
         $method->setAccessible(true);
         return $method;

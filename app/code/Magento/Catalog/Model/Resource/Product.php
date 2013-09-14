@@ -527,7 +527,7 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
      */
     public function getDefaultAttributeSourceModel()
     {
-        return '\Magento\Eav\Model\Entity\Attribute\Source\Table';
+        return 'Magento\Eav\Model\Entity\Attribute\Source\Table';
     }
 
     /**

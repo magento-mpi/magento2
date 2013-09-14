@@ -84,7 +84,7 @@ class Extended
      *
      * @var string
      */
-    protected $_massactionBlockName = '\Magento\Backend\Block\Widget\Grid\Massaction\Extended';
+    protected $_massactionBlockName = 'Magento\Backend\Block\Widget\Grid\Massaction\Extended';
 
     /**
      * Columns view order

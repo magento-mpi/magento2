@@ -97,8 +97,8 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
                 ) {
                     \Mage::throwException(
                         __('Entity adapter object must be an instance of %1 or %2',
-                                '\Magento\ImportExport\Model\Import\Entity\AbstractEntity',
-                                '\Magento\ImportExport\Model\Import\EntityAbstract'));
+                                'Magento\ImportExport\Model\Import\Entity\AbstractEntity',
+                                'Magento\ImportExport\Model\Import\EntityAbstract'));
                 }
 
                 // check for entity codes integrity
@@ -381,7 +381,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
         $count = self::MAX_IMPORT_CHUNKS;
         for ($i = 1; $i < $count; $i++) {
             $writer = \Mage::getModel(
-                '\Magento\ImportExport\Model\Export\Adapter\Csv',
+                'Magento\ImportExport\Model\Export\Adapter\Csv',
                 array('destination' => self::getWorkingDir() . sprintf($filenameFormat, $i))
             );
 

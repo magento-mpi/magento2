@@ -107,7 +107,7 @@ class Magento_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCa
             ->with($checkRouteData['request'])
             ->will($this->returnValue(false));
         $this->setExpectedException(
-            '\Magento\Webapi\Exception',
+            'Magento\Webapi\Exception',
             'Request does not match any route.',
             \Magento\Webapi\Exception::HTTP_NOT_FOUND
         );

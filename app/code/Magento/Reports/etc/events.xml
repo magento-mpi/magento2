@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="log_log_clean_after">
-        <observer name="reports" instance="\Magento\Reports\Model\Event\Observer" method="eventClean" />
+        <observer name="reports" instance="Magento\Reports\Model\Event\Observer" method="eventClean" />
     </event>
-</config>
+</config>

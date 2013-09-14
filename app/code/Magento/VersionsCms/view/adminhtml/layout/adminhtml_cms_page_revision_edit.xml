@@ -27,15 +27,15 @@
             <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tabs" name="cms_page_revision_edit_tabs">
                 <action method="addTab">
                     <argument name="name" xsi:type="string">content_section</argument>
-                    <argument name="block" xsi:type="string">\Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Content</argument>
+                    <argument name="block" xsi:type="string">Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Content</argument>
                 </action>
                 <action method="addTab">
                     <argument name="name" xsi:type="string">design_section</argument>
-                    <argument name="block" xsi:type="string">\Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Design</argument>
+                    <argument name="block" xsi:type="string">Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Design</argument>
                 </action>
                 <action method="addTab">
                     <argument name="name" xsi:type="string">meta_section</argument>
-                    <argument name="block" xsi:type="string">\Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Meta</argument>
+                    <argument name="block" xsi:type="string">Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Meta</argument>
                 </action>
             </block>
         </reference>

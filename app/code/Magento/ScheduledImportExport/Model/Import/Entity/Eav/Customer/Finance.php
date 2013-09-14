@@ -24,7 +24,7 @@ class Finance
     /**
      * Attribute collection name
      */
-    const ATTRIBUTE_COLLECTION_NAME = '\Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection';
+    const ATTRIBUTE_COLLECTION_NAME = 'Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection';
 
     /**#@+
      * Permanent column names

@@ -125,7 +125,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         $this->addColumn('qty_ordered', array(
             'header'=> __('Remaining'),
             'getter'   => array($this, 'getQtyOrdered'),
-            'renderer'  => '\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
             'index' => 'qty_ordered',
             'order_data' => $this->getOrderItemsData(),
             'header_css_class'  => 'col-qty',
@@ -135,7 +135,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         $this->addColumn('qty_requested', array(
             'header'=> __('Requested'),
             'index' => 'qty_requested',
-            'renderer'  => '\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textinput',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textinput',
             'validate_class' => 'validate-greater-than-zero',
             'header_css_class'  => 'col-qty',
             'column_css_class'  => 'col-qty'
@@ -144,7 +144,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         $this->addColumn('qty_authorized', array(
             'header'=> __('Authorized'),
             'index' => 'qty_authorized',
-            'renderer'  => '\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textinput',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textinput',
             'validate_class' => 'validate-greater-than-zero',
             'header_css_class'  => 'col-qty',
             'column_css_class'  => 'col-qty'
@@ -153,7 +153,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         $this->addColumn('qty_returned', array(
             'header'=> __('Returned'),
             'index' => 'qty_returned',
-            'renderer'  => '\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textinput',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textinput',
             'validate_class' => 'validate-greater-than-zero',
             'header_css_class'  => 'col-qty',
             'column_css_class'  => 'col-qty'
@@ -162,7 +162,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         $this->addColumn('qty_approved', array(
             'header'=> __('Approved'),
             'index' => 'qty_approved',
-            'renderer'  => '\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textinput',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textinput',
             'validate_class' => 'validate-greater-than-zero',
             'header_css_class'  => 'col-qty',
             'column_css_class'  => 'col-qty'
@@ -171,7 +171,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         $this->addColumn('reason', array(
             'header'=> __('Return Reason'),
             'getter'   => array($this, 'getReasonOptionStringValue'),
-            'renderer'  => '\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Reasonselect',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Reasonselect',
             'options' => \Mage::helper('Magento\Rma\Helper\Eav')->getAttributeOptionValues('reason'),
             'index' => 'reason',
             'header_css_class'  => 'col-reason',
@@ -181,7 +181,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         $this->addColumn('condition', array(
             'header'=> __('Item Condition'),
             'getter'   => array($this, 'getConditionOptionStringValue'),
-            'renderer'  => '\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textselect',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textselect',
             'options' => \Mage::helper('Magento\Rma\Helper\Eav')->getAttributeOptionValues('condition'),
             'index' => 'condition',
             'header_css_class'  => 'col-condition',
@@ -192,7 +192,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'header'=> __('Resolution'),
             'index' => 'resolution',
             'getter'   => array($this, 'getResolutionOptionStringValue'),
-            'renderer'  => '\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textselect',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textselect',
             'options' => \Mage::helper('Magento\Rma\Helper\Eav')->getAttributeOptionValues('resolution'),
             'header_css_class'  => 'col-resolution',
             'column_css_class'  => 'col-resolution'
@@ -202,7 +202,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'header'=> __('Status'),
             'index' => 'status',
             'getter'=> array($this, 'getStatusOptionStringValue'),
-            'renderer'  => '\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Status',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Status',
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));
@@ -227,7 +227,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         $this->addColumn('action',
             array(
                 'header'    =>  __('Action'),
-                'renderer'  => '\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Action',
+                'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Action',
                 'actions'   => $actionsArray,
                 'is_system' => true,
                 'header_css_class'  => 'col-actions',

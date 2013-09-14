@@ -22,7 +22,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('\Magento\TargetRule\Model\Rule\Condition\Combine');
+        $this->setType('Magento\TargetRule\Model\Rule\Condition\Combine');
     }
 
     /**

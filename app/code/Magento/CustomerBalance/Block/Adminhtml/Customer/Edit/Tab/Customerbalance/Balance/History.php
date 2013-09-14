@@ -20,7 +20,7 @@ class History extends \Magento\Adminhtml\Block\Template
         $this->setChild(
             'grid',
             $this->getLayout()->createBlock(
-                '\Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History\Grid',
+                'Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History\Grid',
                 'customer.balance.history.grid'
             )
         );

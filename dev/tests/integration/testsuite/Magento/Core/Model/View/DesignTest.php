@@ -99,7 +99,7 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
 
     public function testGetDesignTheme()
     {
-        $this->assertInstanceOf('\Magento\Core\Model\Theme', $this->_model->getDesignTheme());
+        $this->assertInstanceOf('Magento\Core\Model\Theme', $this->_model->getDesignTheme());
     }
 
     /**
@@ -188,7 +188,7 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
     {
         $this->_emulateFixtureTheme();
         $config = $this->_viewConfig->getViewConfig();
-        $this->assertInstanceOf('\Magento\Config\View', $config);
+        $this->assertInstanceOf('Magento\Config\View', $config);
         $this->assertEquals(array('var1' => 'value1', 'var2' => 'value2'), $config->getVars('Namespace_Module'));
     }
 
@@ -211,7 +211,7 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
                 <view><vars  module="Namespace_Module"><var name="customVar">custom value</var></vars></view>');
 
             $config = $this->_viewConfig->getViewConfig();
-            $this->assertInstanceOf('\Magento\Config\View', $config);
+            $this->assertInstanceOf('Magento\Config\View', $config);
             $this->assertEquals(array('customVar' => 'custom value'), $config->getVars('Namespace_Module'));
         } catch (Exception $e) {
             $filesystem->delete($customConfigFile);

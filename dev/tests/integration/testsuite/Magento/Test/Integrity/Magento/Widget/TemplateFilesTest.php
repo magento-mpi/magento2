@@ -25,7 +25,7 @@ class Magento_Test_Integrity_Magento_Widget_TemplateFilesTest extends PHPUnit_Fr
             ->get('Magento\Core\Model\BlockFactory');
         /** @var \Magento\Core\Block\Template $block */
         $block = $blockFactory->createBlock($class);
-        $this->assertInstanceOf('\Magento\Core\Block\Template', $block);
+        $this->assertInstanceOf('Magento\Core\Block\Template', $block);
         $block->setTemplate((string)$template);
         $this->assertFileExists($block->getTemplateFile());
     }
@@ -45,7 +45,7 @@ class Magento_Test_Integrity_Magento_Widget_TemplateFilesTest extends PHPUnit_Fr
             $instance = Mage::getModel('Magento\Widget\Model\Widget\Instance');
             $config = $instance->setType($row['type'])->getWidgetConfig();
             $class = $row['type'];
-            if (is_subclass_of($class, '\Magento\Core\Block\Template')) {
+            if (is_subclass_of($class, 'Magento\Core\Block\Template')) {
                 $templates = $config->xpath('/widgets/' . $row['code'] . '/parameters/template/values/*/value');
                 foreach ($templates as $template) {
                     $result[] = array($class, (string)$template);

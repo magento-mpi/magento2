@@ -15,12 +15,12 @@
         <reference name="footer_links">
             <action method="addLink" ifconfig="catalog/seo/search_terms">
                 <argument translate="true" name="label" xsi:type="string">Search Terms</argument>
-                <argument name="url" xsi:type="helper" helper="\Magento\CatalogSearch\Helper\Data::getSearchTermUrl"/>
+                <argument name="url" xsi:type="helper" helper="Magento\CatalogSearch\Helper\Data::getSearchTermUrl"/>
                 <argument translate="true" name="title" xsi:type="string">Search Terms</argument>
             </action>
             <action method="addLink">
                 <argument translate="true" name="label" xsi:type="string">Advanced Search</argument>
-                <argument name="url" xsi:type="helper" helper="\Magento\CatalogSearch\Helper\Data::getAdvancedSearchUrl"/>
+                <argument name="url" xsi:type="helper" helper="Magento\CatalogSearch\Helper\Data::getAdvancedSearchUrl"/>
                 <argument translate="true" name="title" xsi:type="string">Advanced Search</argument>
             </action>
         </reference>

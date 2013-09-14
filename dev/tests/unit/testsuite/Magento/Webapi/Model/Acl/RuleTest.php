@@ -58,7 +58,7 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
      */
     protected function _createModel($ruleResource, $resourceCollection = null)
     {
-        return $this->_helper->getObject('\Magento\Webapi\Model\Acl\Rule', array(
+        return $this->_helper->getObject('Magento\Webapi\Model\Acl\Rule', array(
             'eventDispatcher' => $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
             'cacheManager' => $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false),
             'resource' => $ruleResource,
@@ -89,7 +89,7 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
 
         $model = $this->_createModel($this->_ruleResource);
         $result = $model->saveResources();
-        $this->assertInstanceOf('\Magento\Webapi\Model\Acl\Rule', $result);
+        $this->assertInstanceOf('Magento\Webapi\Model\Acl\Rule', $result);
     }
 
     /**
@@ -101,7 +101,7 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
 
         /** @var PHPUnit_Framework_MockObject_MockObject $collection */
         $collection = $this->getMock(
-            '\Magento\Webapi\Model\Resource\Acl\Rule\Collection',
+            'Magento\Webapi\Model\Resource\Acl\Rule\Collection',
             array('_initSelect', 'setModel', 'getSelect'),
             array($fetchStrategy, $this->_ruleResource)
         );
@@ -120,6 +120,6 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
 
         // Test getByRole
         $resultColl = $result->getByRole(1);
-        $this->assertInstanceOf('\Magento\Webapi\Model\Resource\Acl\Rule\Collection', $resultColl);
+        $this->assertInstanceOf('Magento\Webapi\Model\Resource\Acl\Rule\Collection', $resultColl);
     }
 }

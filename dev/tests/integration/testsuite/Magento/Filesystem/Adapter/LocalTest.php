@@ -117,7 +117,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     {
         $filename = __DIR__;
         $this->setExpectedException(
-            '\Magento\Filesystem\FilesystemException',
+            'Magento\Filesystem\FilesystemException',
             "Failed to write contents to '{$filename}'"
         );
         $this->_adapter->write($filename, 'any contents');
@@ -215,7 +215,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     public function testCreateStream()
     {
         $stream = $this->_adapter->createStream(self::_getFixturesPath() . 'popup.csv');
-        $this->assertInstanceOf('\Magento\Filesystem\Stream\Local', $stream);
+        $this->assertInstanceOf('Magento\Filesystem\Stream\Local', $stream);
     }
 
     /**
@@ -463,7 +463,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     {
         $pattern = str_repeat('1', 20000); // Overflow the glob() length limit (Win - 260b, Linux - 1k-8k)
         $this->setExpectedException(
-            '\Magento\Filesystem\FilesystemException',
+            'Magento\Filesystem\FilesystemException',
             "Failed to resolve the file pattern '{$pattern}'"
         );
         $this->_adapter->searchKeys($pattern);

@@ -67,6 +67,6 @@ class Magento_Test_Tools_Migration_Acl_Db_Adapter_FactoryTest extends PHPUnit_Fr
      */
     public function testGetAdapterWithInvalidType()
     {
-        $this->_model->getAdapter($this->_config, '\Magento\Object');
+        $this->_model->getAdapter($this->_config, 'Magento\Object');
     }
 }

@@ -19,8 +19,8 @@ namespace Magento\Paypal\Model;
 class Standard extends \Magento\Payment\Model\Method\AbstractMethod
 {
     protected $_code  = \Magento\Paypal\Model\Config::METHOD_WPS;
-    protected $_formBlockType = '\Magento\Paypal\Block\Standard\Form';
-    protected $_infoBlockType = '\Magento\Paypal\Block\Payment\Info';
+    protected $_formBlockType = 'Magento\Paypal\Block\Standard\Form';
+    protected $_infoBlockType = 'Magento\Paypal\Block\Payment\Info';
     protected $_isInitializeNeeded      = true;
     protected $_canUseInternal          = false;
     protected $_canUseForMultishipping  = false;

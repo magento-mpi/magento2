@@ -32,8 +32,8 @@
                         </allowed_selection_types>
                         <price_model>Magento\Bundle\Model\Product\Price</price_model>
                         <index_priority>40</index_priority>
-                        <price_indexer>\Magento\Bundle\Model\Resource\Indexer\Price</price_indexer>
-                        <stock_indexer>\Magento\Bundle\Model\Resource\Indexer\Stock</stock_indexer>
+                        <price_indexer>Magento\Bundle\Model\Resource\Indexer\Price</price_indexer>
+                        <stock_indexer>Magento\Bundle\Model\Resource\Indexer\Stock</stock_indexer>
                     </bundle>
                 </type>
                 <options>
@@ -77,13 +77,13 @@
         </sales>
         <pdf>
             <invoice>
-                <bundle>\Magento\Bundle\Model\Sales\Order\Pdf\Items\Invoice</bundle>
+                <bundle>Magento\Bundle\Model\Sales\Order\Pdf\Items\Invoice</bundle>
             </invoice>
             <shipment>
-                <bundle>\Magento\Bundle\Model\Sales\Order\Pdf\Items\Shipment</bundle>
+                <bundle>Magento\Bundle\Model\Sales\Order\Pdf\Items\Shipment</bundle>
             </shipment>
             <creditmemo>
-                <bundle>\Magento\Bundle\Model\Sales\Order\Pdf\Items\Creditmemo</bundle>
+                <bundle>Magento\Bundle\Model\Sales\Order\Pdf\Items\Creditmemo</bundle>
             </creditmemo>
         </pdf>
     </global>

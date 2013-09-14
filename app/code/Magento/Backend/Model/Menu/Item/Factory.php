@@ -39,7 +39,7 @@ class Factory
      */
     public function create(array $data = array())
     {
-        $module = '\Magento\Backend\Helper\Data';
+        $module = 'Magento\Backend\Helper\Data';
         if (isset($data['module'])) {
             $module = $data['module'];
             unset($data['module']);

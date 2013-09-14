@@ -27,5 +27,5 @@ class Initial
      *
      * @var string
      */
-    protected $_reportCollection = '\Magento\Invitation\Model\Resource\Report\Invitation\Collection';
+    protected $_reportCollection = 'Magento\Invitation\Model\Resource\Report\Invitation\Collection';
 }

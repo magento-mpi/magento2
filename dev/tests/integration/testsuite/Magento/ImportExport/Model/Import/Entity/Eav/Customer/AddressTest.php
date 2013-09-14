@@ -19,7 +19,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      *
      * @var string
      */
-    protected $_testClassName = '\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address';
+    protected $_testClassName = 'Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address';
 
     /**
      * Fixture key from fixture

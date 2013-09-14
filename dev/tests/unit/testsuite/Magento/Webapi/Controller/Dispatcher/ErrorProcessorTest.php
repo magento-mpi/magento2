@@ -189,7 +189,7 @@ class Magento_Webapi_Controller_Dispatcher_ErrorProcessorTest extends PHPUnit_Fr
         $this->_loggerMock->expects($this->once())->method('logException');
         $maskedException = $this->_errorProcessor->maskException(new LogicException());
         /** Assert that masked exception type is \Magento\Webapi\Exception. */
-        $this->assertInstanceOf('\Magento\Webapi\Exception', $maskedException, 'Masked exception type is not Webapi.');
+        $this->assertInstanceOf('Magento\Webapi\Exception', $maskedException, 'Masked exception type is not Webapi.');
         /** Assert that masked exception code is 500. */
         $this->assertEquals(
             \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR,

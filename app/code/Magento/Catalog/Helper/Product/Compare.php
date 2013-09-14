@@ -175,7 +175,7 @@ class Compare extends \Magento\Core\Helper\Url
     {
         if (!$this->_itemCollection) {
             $this->_itemCollection = \Mage::getResourceModel(
-                    '\Magento\Catalog\Model\Resource\Product\Compare\Item\Collection'
+                    'Magento\Catalog\Model\Resource\Product\Compare\Item\Collection'
                 )
                 ->useProductItem(true)
                 ->setStoreId(\Mage::app()->getStore()->getId());

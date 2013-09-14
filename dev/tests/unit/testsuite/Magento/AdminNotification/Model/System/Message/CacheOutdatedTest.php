@@ -44,7 +44,7 @@ class Magento_AdminNotification_Model_System_Message_CacheOutdatedTest extends P
             'cacheTypeList' => $this->_cacheTypeListMock,
         );
         $this->_messageModel = $objectManagerHelper
-            ->getObject('\Magento\AdminNotification\Model\System\Message\CacheOutdated', $arguments);
+            ->getObject('Magento\AdminNotification\Model\System\Message\CacheOutdated', $arguments);
     }
 
     /**

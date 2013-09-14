@@ -26,7 +26,7 @@ class Magento_Webapi_Block_Adminhtml_RoleTest extends PHPUnit_Framework_TestCase
             ->getMock();
 
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_block = $helper->getObject('\Magento\Webapi\Block\Adminhtml\Role', array(
+        $this->_block = $helper->getObject('Magento\Webapi\Block\Adminhtml\Role', array(
             'urlBuilder' => $this->_urlBuilder
         ));
     }

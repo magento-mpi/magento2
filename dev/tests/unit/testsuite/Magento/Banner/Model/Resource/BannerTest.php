@@ -39,7 +39,7 @@ class Magento_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_TestCas
 
         $writeAdapter =
             $this->getMockForAbstractClass(
-                '\Magento\DB\Adapter\AdapterInterface',
+                'Magento\DB\Adapter\AdapterInterface',
                  array(),
                 '',
                 false,
@@ -51,13 +51,13 @@ class Magento_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_TestCas
         $writeAdapter->expects($this->never())->method('fetchOne');
 
         $this->_readAdapter = $this->getMockForAbstractClass(
-            '\Magento\DB\Adapter\AdapterInterface', array(), '', false, true, true,
+            'Magento\DB\Adapter\AdapterInterface', array(), '', false, true, true,
             array('select', 'prepareSqlCondition', 'fetchOne')
         );
         $this->_readAdapter->expects($this->once())->method('select')->will($this->returnValue($select));
 
         $this->_resource = $this->getMock(
-            '\Magento\Core\Model\Resource', array('getConnection', 'getTableName'), array(), '', false
+            'Magento\Core\Model\Resource', array('getConnection', 'getTableName'), array(), '', false
         );
         $this->_resource->expects($this->any())->method('getTableName')->will($this->returnArgument(0));
         $this->_resource
@@ -71,7 +71,7 @@ class Magento_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_TestCas
         ;
 
         $this->_eventManager = $this->getMock(
-            '\Magento\Core\Model\Event\Manager',
+            'Magento\Core\Model\Event\Manager',
             array('dispatch'),
             array(),
             '',
@@ -79,7 +79,7 @@ class Magento_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_TestCas
         );
 
         $this->_bannerConfig = $this->getMock(
-            '\Magento\Banner\Model\Config', array('explodeTypes'), array(), '', false
+            'Magento\Banner\Model\Config', array('explodeTypes'), array(), '', false
         );
 
         $this->_resourceModel = new \Magento\Banner\Model\Resource\Banner(

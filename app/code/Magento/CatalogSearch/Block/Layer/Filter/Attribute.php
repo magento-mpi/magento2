@@ -23,6 +23,6 @@ class Attribute extends \Magento\Catalog\Block\Layer\Filter\Attribute
     public function _construct()
     {
         parent::_construct();
-        $this->_filterModelName = '\Magento\CatalogSearch\Model\Layer\Filter\Attribute';
+        $this->_filterModelName = 'Magento\CatalogSearch\Model\Layer\Filter\Attribute';
     }
 }

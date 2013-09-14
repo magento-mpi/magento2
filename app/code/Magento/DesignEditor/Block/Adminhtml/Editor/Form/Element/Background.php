@@ -61,9 +61,9 @@ class Background
      */
     protected function _addElementTypes()
     {
-        $this->addType('color-picker', '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ColorPicker');
+        $this->addType('color-picker', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ColorPicker');
         $this->addType('background-uploader',
-            '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\BackgroundUploader'
+            'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\BackgroundUploader'
         );
 
         return $this;

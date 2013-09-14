@@ -47,14 +47,14 @@ class Dibs extends \Magento\Payment\Model\Method\Cc
      *
      * @var string
      */
-    protected $_formBlockType = '\Magento\Pbridge\Block\Checkout\Payment\Dibs';
+    protected $_formBlockType = 'Magento\Pbridge\Block\Checkout\Payment\Dibs';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = '\Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Dibs';
+    protected $_backendFormBlockType = 'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Dibs';
 
     /**
      * Payment Bridge Payment Method Instance

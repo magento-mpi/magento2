@@ -61,7 +61,7 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testGetRequest()
     {
-        $this->assertInstanceOf('\Magento\Core\Controller\Request\Http', $this->_block->getRequest());
+        $this->assertInstanceOf('Magento\Core\Controller\Request\Http', $this->_block->getRequest());
     }
 
     public function testGetParentBlock()
@@ -70,7 +70,7 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_block->getParentBlock());
 
         // Need to create blocks through layout
-        $parentBlock = $this->_createBlockWithLayout('block1', 'block1', '\Magento\Core\Block\Text');
+        $parentBlock = $this->_createBlockWithLayout('block1', 'block1', 'Magento\Core\Block\Text');
         $childBlock = $this->_createBlockWithLayout('block2', 'block2');
 
         $this->assertEmpty($childBlock->getParentBlock());
@@ -83,9 +83,9 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testAddChild()
     {
-        $parentBlock = $this->_createBlockWithLayout('testAddChild', 'testAddChild', '\Magento\Core\Block\Text');
-        $child = $parentBlock->addChild('testAddChildAlias', '\Magento\Core\Block\Text', array('content' => 'content'));
-        $this->assertInstanceOf('\Magento\Core\Block\Text', $child);
+        $parentBlock = $this->_createBlockWithLayout('testAddChild', 'testAddChild', 'Magento\Core\Block\Text');
+        $child = $parentBlock->addChild('testAddChildAlias', 'Magento\Core\Block\Text', array('content' => 'content'));
+        $this->assertInstanceOf('Magento\Core\Block\Text', $child);
         $this->assertEquals('testAddChild.testAddChildAlias', $child->getNameInLayout());
         $this->assertEquals($child, $parentBlock->getChildBlock('testAddChildAlias'));
         $this->assertEquals('content', $child->getContent());
@@ -103,9 +103,9 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $layout = Mage::app()->getLayout();
         $layout->createBlock('Magento\Core\Block\Template', $name);
         $block = $layout->getBlock($name);
-        $this->assertInstanceOf('\Magento\Core\Block\AbstractBlock', $block);
+        $this->assertInstanceOf('Magento\Core\Block\AbstractBlock', $block);
         $block->setNameInLayout($name);
-        $this->assertInstanceOf('\Magento\Core\Block\AbstractBlock', $layout->getBlock($name));
+        $this->assertInstanceOf('Magento\Core\Block\AbstractBlock', $layout->getBlock($name));
         $this->assertEquals($name, $block->getNameInLayout());
         $this->assertTrue($layout->hasElement($name));
         $newName = 'new_name';
@@ -224,7 +224,7 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
         $this->_block->setChild($childAlias, $child);
         $result = $this->_block->getChildBlock($childAlias);
-        $this->assertInstanceOf('\Magento\Core\Block\Text', $result);
+        $this->assertInstanceOf('Magento\Core\Block\Text', $result);
         $this->assertEquals($childName, $result->getNameInLayout());
         $this->assertEquals($child, $result);
     }
@@ -241,8 +241,8 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
         // With layout
         $parent = $this->_createBlockWithLayout('parent', 'parent');
-        $blockOne = $this->_createBlockWithLayout('block1', 'block1', '\Magento\Core\Block\Text');
-        $blockTwo = $this->_createBlockWithLayout('block2', 'block2', '\Magento\Core\Block\Text');
+        $blockOne = $this->_createBlockWithLayout('block1', 'block1', 'Magento\Core\Block\Text');
+        $blockTwo = $this->_createBlockWithLayout('block2', 'block2', 'Magento\Core\Block\Text');
         $blockOne->setText('one');
         $blockTwo->setText('two');
         $parent->insert($blockTwo, '-', false, 'block2'); // make block2 1st
@@ -270,10 +270,10 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $parent1 = $this->_createBlockWithLayout('parent1', 'parent1');
         $parent2 = $this->_createBlockWithLayout('parent2', 'parent2');
 
-        $block1 = $this->_createBlockWithLayout('block1', 'block1', '\Magento\Core\Block\Text');
-        $block2 = $this->_createBlockWithLayout('block2', 'block2', '\Magento\Core\Block\Text');
-        $block3 = $this->_createBlockWithLayout('block3', 'block3', '\Magento\Core\Block\Text');
-        $block4 = $this->_createBlockWithLayout('block4', 'block4', '\Magento\Core\Block\Text');
+        $block1 = $this->_createBlockWithLayout('block1', 'block1', 'Magento\Core\Block\Text');
+        $block2 = $this->_createBlockWithLayout('block2', 'block2', 'Magento\Core\Block\Text');
+        $block3 = $this->_createBlockWithLayout('block3', 'block3', 'Magento\Core\Block\Text');
+        $block4 = $this->_createBlockWithLayout('block4', 'block4', 'Magento\Core\Block\Text');
 
         $block1->setText('one');
         $block2->setText('two');
@@ -303,7 +303,7 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
         // With layout
         $expected = 'Block2';
-        $block2 = $this->_createBlockWithLayout('block2', 'block2', '\Magento\Core\Block\Text');
+        $block2 = $this->_createBlockWithLayout('block2', 'block2', 'Magento\Core\Block\Text');
         $block3 = $this->_createBlockWithLayout('block3', 'block3');
         $block2->setText($expected);
         $html = $block3->getBlockHtml('block2');
@@ -486,7 +486,7 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     {
         // Get one from layout
         $this->_block->setLayout(Mage::getModel('Magento\Core\Model\Layout'));
-        $this->assertInstanceOf('\Magento\Core\Block\Messages', $this->_block->getMessagesBlock());
+        $this->assertInstanceOf('Magento\Core\Block\Messages', $this->_block->getMessagesBlock());
 
         // Set explicitly
         $messages = Mage::app()->getLayout()->createBlock('Magento\Core\Block\Messages');
@@ -497,15 +497,15 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     public function testHelper()
     {
         // Without layout
-        $this->assertInstanceOf('\Magento\Core\Helper\Data', $this->_block->helper('Magento\Core\Helper\Data'));
+        $this->assertInstanceOf('Magento\Core\Helper\Data', $this->_block->helper('Magento\Core\Helper\Data'));
 
         // With layout
         $this->_block->setLayout(Mage::getModel('Magento\Core\Model\Layout'));
         $helper = $this->_block->helper('Magento\Core\Helper\Data');
 
         try {
-            $this->assertInstanceOf('\Magento\Core\Helper\Data', $helper);
-            $this->assertInstanceOf('\Magento\Core\Model\Layout', $helper->getLayout());
+            $this->assertInstanceOf('Magento\Core\Helper\Data', $helper);
+            $this->assertInstanceOf('Magento\Core\Model\Layout', $helper->getLayout());
             /* Helper is a 'singleton', so assigned layout may affect further helper usage */
             $helper->setLayout(null);
         } catch (Exception $e) {
@@ -634,7 +634,7 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
      * @param string $className
      * @return array
      */
-    protected function _createSampleBlocks($qty, $withLayout = true, $className = '\Magento\Core\Block\Template')
+    protected function _createSampleBlocks($qty, $withLayout = true, $className = 'Magento\Core\Block\Template')
     {
         $blocks = array(); $names = array();
         $layout = false;
@@ -664,7 +664,7 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
      * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _createBlockWithLayout($name = 'block', $alias = null,
-        $type = '\Magento\Core\Block\AbstractBlock'
+        $type = 'Magento\Core\Block\AbstractBlock'
     ) {
         $mockClass = $type . 'Mock';
         if (!isset(self::$_mocks[$mockClass])) {

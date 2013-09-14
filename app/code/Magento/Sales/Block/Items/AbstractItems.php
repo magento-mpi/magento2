@@ -35,7 +35,7 @@ class AbstractItems extends \Magento\Core\Block\Template
     protected function _construct()
     {
         parent::_construct();
-        $this->addItemRender('default', '\Magento\Checkout\Block\Cart\Item\Renderer', 'cart/item/default.phtml');
+        $this->addItemRender('default', 'Magento\Checkout\Block\Cart\Item\Renderer', 'cart/item/default.phtml');
     }
 
     /**

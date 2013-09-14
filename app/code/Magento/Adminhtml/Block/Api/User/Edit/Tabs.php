@@ -41,7 +41,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
             'label'     => __('User Role'),
             'title'     => __('User Role'),
             'content'   => $this->getLayout()->createBlock(
-                '\Magento\Adminhtml\Block\Api\User\Edit\Tab\Roles',
+                'Magento\Adminhtml\Block\Api\User\Edit\Tab\Roles',
                 'user.roles.grid'
             )->toHtml(),
         ));

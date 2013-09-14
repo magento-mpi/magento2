@@ -25,7 +25,7 @@ class Widget extends \Magento\Adminhtml\Controller\Action
         switch ($request->getParam('attribute')) {
             case 'sku':
                 $block = $this->getLayout()->createBlock(
-                    '\Magento\Adminhtml\Block\Promo\Widget\Chooser\Sku', 'promo_widget_chooser_sku',
+                    'Magento\Adminhtml\Block\Promo\Widget\Chooser\Sku', 'promo_widget_chooser_sku',
                     array('data' => array('js_form_object' => $request->getParam('form')),
                 ));
                 break;
@@ -47,7 +47,7 @@ class Widget extends \Magento\Adminhtml\Controller\Action
 
 
                 $block = $this->getLayout()->createBlock(
-                        '\Magento\Adminhtml\Block\Catalog\Category\Checkboxes\Tree', 'promo_widget_chooser_category_ids',
+                        'Magento\Adminhtml\Block\Catalog\Category\Checkboxes\Tree', 'promo_widget_chooser_category_ids',
                         array('data' => array('js_form_object' => $request->getParam('form')))
                     )
                     ->setCategoryIds($ids)

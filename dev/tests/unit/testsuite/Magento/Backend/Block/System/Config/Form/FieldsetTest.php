@@ -65,7 +65,7 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
             )
         );
         $this->_testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_object = $this->_testHelper->getObject('\Magento\Backend\Block\System\Config\Form\Fieldset', $data);
+        $this->_object = $this->_testHelper->getObject('Magento\Backend\Block\System\Config\Form\Fieldset', $data);
 
         $this->_testData = array(
             'htmlId' => 'test_field_id',
@@ -104,7 +104,7 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
         $this->_layoutMock->expects($this->any())->method('helper')
             ->with('Magento\Core\Helper\Js')->will($this->returnValue($helperMock));
 
-        $collection = $this->_testHelper->getObject('\Magento\Data\Form\Element\Collection');
+        $collection = $this->_testHelper->getObject('Magento\Data\Form\Element\Collection');
         $this->_elementMock->expects($this->any())->method('getElements')->will($this->returnValue($collection));
         $actualHtml = $this->_object->render($this->_elementMock);
         $this->assertContains($this->_testData['htmlId'], $actualHtml);
@@ -134,7 +134,7 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
         $fieldMock->expects($this->any())->method('toHtml')->will($this->returnValue('test_field_toHTML'));
 
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $collection = $helper->getObject('\Magento\Data\Form\Element\Collection', array(
+        $collection = $helper->getObject('Magento\Data\Form\Element\Collection', array(
             'container' => $this->getMock('Magento\Data\Form\AbstractForm')
         ));
         $collection->add($fieldMock);

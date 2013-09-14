@@ -9,24 +9,24 @@
 -->
 <config>
     <event name="catalog_product_save_after">
-        <observer name="googleoptimizer_observer" instance="\Magento\GoogleOptimizer\Model\Observer\Product\Save" method="saveGoogleExperimentScript" />
+        <observer name="googleoptimizer_observer" instance="Magento\GoogleOptimizer\Model\Observer\Product\Save" method="saveGoogleExperimentScript" />
     </event>
     <event name="catalog_product_delete_after">
-        <observer name="googleoptimizer_observer" instance="\Magento\GoogleOptimizer\Model\Observer\Product\Delete" method="deleteProductGoogleExperimentScript" />
+        <observer name="googleoptimizer_observer" instance="Magento\GoogleOptimizer\Model\Observer\Product\Delete" method="deleteProductGoogleExperimentScript" />
     </event>
     <event name="catalog_category_save_after">
-        <observer name="googleoptimizer_observer" instance="\Magento\GoogleOptimizer\Model\Observer\Category\Save" method="saveGoogleExperimentScript" />
+        <observer name="googleoptimizer_observer" instance="Magento\GoogleOptimizer\Model\Observer\Category\Save" method="saveGoogleExperimentScript" />
     </event>
     <event name="catalog_category_delete_after">
-        <observer name="googleoptimizer_observer" instance="\Magento\GoogleOptimizer\Model\Observer\Category\Delete" method="deleteCategoryGoogleExperimentScript" />
+        <observer name="googleoptimizer_observer" instance="Magento\GoogleOptimizer\Model\Observer\Category\Delete" method="deleteCategoryGoogleExperimentScript" />
     </event>
     <event name="cms_page_save_after">
-        <observer name="googleoptimizer_observer" instance="\Magento\GoogleOptimizer\Model\Observer\CmsPage\Save" method="saveGoogleExperimentScript" />
+        <observer name="googleoptimizer_observer" instance="Magento\GoogleOptimizer\Model\Observer\CmsPage\Save" method="saveGoogleExperimentScript" />
     </event>
     <event name="cms_page_delete_after">
-        <observer name="googleoptimizer_observer" instance="\Magento\GoogleOptimizer\Model\Observer\CmsPage\Delete" method="deleteCmsGoogleExperimentScript" />
+        <observer name="googleoptimizer_observer" instance="Magento\GoogleOptimizer\Model\Observer\CmsPage\Delete" method="deleteCmsGoogleExperimentScript" />
     </event>
     <event name="adminhtml_catalog_category_tabs">
-        <observer name="googleoptimizer_observer" instance="\Magento\GoogleOptimizer\Model\Observer\Block\Category\Tab" method="addGoogleExperimentTab" />
+        <observer name="googleoptimizer_observer" instance="Magento\GoogleOptimizer\Model\Observer\Block\Category\Tab" method="addGoogleExperimentTab" />
     </event>
-</config>
+</config>

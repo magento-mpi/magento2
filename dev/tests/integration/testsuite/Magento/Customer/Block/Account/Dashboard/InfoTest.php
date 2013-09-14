@@ -24,7 +24,7 @@ class Magento_Customer_Block_Account_Dashboard_InfoTest extends PHPUnit_Framewor
     public function testGetSubscriptionObject()
     {
         $object = $this->_block->getSubscriptionObject();
-        $this->assertInstanceOf('\Magento\Newsletter\Model\Subscriber', $object);
+        $this->assertInstanceOf('Magento\Newsletter\Model\Subscriber', $object);
 
         $object2 = $this->_block->getSubscriptionObject();
         $this->assertSame($object, $object2);

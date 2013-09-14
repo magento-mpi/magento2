@@ -25,7 +25,7 @@ class Collection extends \Magento\Data\Collection
      *
      * @var string
      */
-    protected $_itemObjectClass = '\Magento\Core\Model\Theme';
+    protected $_itemObjectClass = 'Magento\Core\Model\Theme';
 
     /**
      * Base directory with design

@@ -12,7 +12,7 @@
         <reference name="customer.wishlist.edit.tab">
             <arguments>
                 <argument name="product_configuration_helpers" xsi:type="array">
-                    <item name="bundle" xsi:type="string">\Magento\Bundle\Helper\Catalog\Product\Configuration</item>
+                    <item name="bundle" xsi:type="string">Magento\Bundle\Helper\Catalog\Product\Configuration</item>
                 </argument>
             </arguments>
         </reference>

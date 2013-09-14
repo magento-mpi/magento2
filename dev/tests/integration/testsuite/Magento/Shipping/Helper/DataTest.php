@@ -50,21 +50,21 @@ class Magento_Shipping_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                '\Magento\Sales\Model\Order',
+                'Magento\Sales\Model\Order',
                 'getId',
                 42,
                 'abc',
                 'http://localhost/index.php/shipping/tracking/popup/hash/b3JkZXJfaWQ6NDI6YWJj/'
             ),
             array(
-                '\Magento\Sales\Model\Order\Shipment',
+                'Magento\Sales\Model\Order\Shipment',
                 'getId',
                 42,
                 'abc',
                 'http://localhost/index.php/shipping/tracking/popup/hash/c2hpcF9pZDo0MjphYmM,/'
             ),
             array(
-                '\Magento\Sales\Model\Order\Shipment\Track',
+                'Magento\Sales\Model\Order\Shipment\Track',
                 'getEntityId',
                 42,
                 'abc',

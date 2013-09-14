@@ -81,7 +81,7 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetNode()
     {
-        $this->assertInstanceOf('\Magento\Core\Model\Config\Element', $this->_model->getNode(
+        $this->assertInstanceOf('Magento\Core\Model\Config\Element', $this->_model->getNode(
             'global/resources/module_setup/setup/module'));
     }
 

@@ -156,7 +156,7 @@ class Search extends \Magento\Core\Controller\Front\Action
             $block->setRefererUrl($this->_getRefererUrl());
         }
 
-        $this->_initLayoutMessages(array('Magento\Customer\Model\Session', '\Magento\Checkout\Model\Session', 'Magento\Wishlist\Model\Session'));
+        $this->_initLayoutMessages(array('Magento\Customer\Model\Session', 'Magento\Checkout\Model\Session', 'Magento\Wishlist\Model\Session'));
         $this->renderLayout();
     }
 

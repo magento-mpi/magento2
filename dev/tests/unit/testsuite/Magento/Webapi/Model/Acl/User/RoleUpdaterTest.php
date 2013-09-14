@@ -40,7 +40,7 @@ class Magento_Webapi_Model_Acl_User_RoleUpdaterTest extends PHPUnit_Framework_Te
             ->with(array())->will($this->returnValue($userModel));
 
         /** @var \Magento\Webapi\Model\Acl\Role\InRoleUserUpdater $model */
-        $model = $helper->getObject('\Magento\Webapi\Model\Acl\User\RoleUpdater', array(
+        $model = $helper->getObject('Magento\Webapi\Model\Acl\User\RoleUpdater', array(
             'request' => $request,
             'userFactory' => $userFactory
         ));

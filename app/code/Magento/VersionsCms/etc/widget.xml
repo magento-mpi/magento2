@@ -22,7 +22,7 @@
                 <required>1</required>
                 <type>label</type>
                 <helper_block>
-                    <type>\Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser</type>
+                    <type>Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser</type>
                     <data>
                         <button translate="open">
                             <open>Select a page or node.</open>

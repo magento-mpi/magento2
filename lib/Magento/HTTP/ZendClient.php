@@ -28,7 +28,7 @@ class ZendClient extends \Zend_Http_Client
 
     public function __construct($uri = null, $config = null)
     {
-        $this->config['useragent'] = '\Magento\HTTP\ZendClient';
+        $this->config['useragent'] = 'Magento\HTTP\ZendClient';
 
         parent::__construct($uri, $config);
     }

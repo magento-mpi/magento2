@@ -28,9 +28,9 @@ class HandlerFactory
      * @var array
      */
     protected $_handlerFactories = array(
-        self::LAYOUT_ARGUMENT_TYPE_OBJECT  => '\Magento\Core\Model\Layout\Argument\Handler\Object',
-        self::LAYOUT_ARGUMENT_TYPE_OPTIONS => '\Magento\Core\Model\Layout\Argument\Handler\Options',
-        self::LAYOUT_ARGUMENT_TYPE_URL     => '\Magento\Core\Model\Layout\Argument\Handler\Url'
+        self::LAYOUT_ARGUMENT_TYPE_OBJECT  => 'Magento\Core\Model\Layout\Argument\Handler\Object',
+        self::LAYOUT_ARGUMENT_TYPE_OPTIONS => 'Magento\Core\Model\Layout\Argument\Handler\Options',
+        self::LAYOUT_ARGUMENT_TYPE_URL     => 'Magento\Core\Model\Layout\Argument\Handler\Url'
     );
 
     /**

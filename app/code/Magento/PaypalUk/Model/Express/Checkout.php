@@ -21,7 +21,7 @@ class Checkout extends \Magento\Paypal\Model\Express\Checkout
      *
      * @var string
      */
-    protected $_apiType = '\Magento\PaypalUk\Model\Api\Nvp';
+    protected $_apiType = 'Magento\PaypalUk\Model\Api\Nvp';
 
     /**
      * Payment method tpye

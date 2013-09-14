@@ -16,31 +16,31 @@
                 <name_in_layout>sale.reorder.sidebar</name_in_layout>
                 <class>Magento\PersistentHistory\Model\Observer</class>
                 <method>initReorderSidebar</method>
-                <block_type>\Magento\Sales\Block\Reorder\Sidebar</block_type>
+                <block_type>Magento\Sales\Block\Reorder\Sidebar</block_type>
             </reorder_sidebar>
             <viewed_products>
                 <name_in_layout>left.reports.product.viewed</name_in_layout>
                 <class>Magento\PersistentHistory\Model\Observer</class>
                 <method>emulateViewedProductsBlock</method>
-                <block_type>\Magento\Reports\Block\Product\Viewed</block_type>
+                <block_type>Magento\Reports\Block\Product\Viewed</block_type>
             </viewed_products>
             <compared_products>
                 <name_in_layout>right.reports.product.compared</name_in_layout>
                 <class>Magento\PersistentHistory\Model\Observer</class>
                 <method>emulateComparedProductsBlock</method>
-                <block_type>\Magento\Reports\Block\Product\Compared</block_type>
+                <block_type>Magento\Reports\Block\Product\Compared</block_type>
             </compared_products>
             <compare_products>
                 <name_in_layout>catalog.compare.sidebar</name_in_layout>
                 <class>Magento\PersistentHistory\Model\Observer</class>
                 <method>emulateCompareProductsBlock</method>
-                <block_type>\Magento\Catalog\Block\Product\Compare\Sidebar</block_type>
+                <block_type>Magento\Catalog\Block\Product\Compare\Sidebar</block_type>
             </compare_products>
             <compare_products_list>
                 <name_in_layout>catalog.compare.list</name_in_layout>
                 <class>Magento\PersistentHistory\Model\Observer</class>
                 <method>emulateCompareProductsListBlock</method>
-                <block_type>\Magento\Catalog\Block\Product\Compare\ListCompare</block_type>
+                <block_type>Magento\Catalog\Block\Product\Compare\ListCompare</block_type>
             </compare_products_list>
         </blocks>
         <models />

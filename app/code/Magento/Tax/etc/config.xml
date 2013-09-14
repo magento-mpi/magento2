@@ -36,24 +36,24 @@
                         <class>Magento\Tax\Model\Sales\Total\Quote\Tax</class>
                         <after>subtotal,shipping</after>
                         <before>grand_total</before>
-                        <renderer>\Magento\Tax\Block\Checkout\Tax</renderer>
-                        <admin_renderer>\Magento\Adminhtml\Block\Sales\Order\Create\Totals\Tax</admin_renderer>
+                        <renderer>Magento\Tax\Block\Checkout\Tax</renderer>
+                        <admin_renderer>Magento\Adminhtml\Block\Sales\Order\Create\Totals\Tax</admin_renderer>
                     </tax>
                     <subtotal>
-                        <renderer>\Magento\Tax\Block\Checkout\Subtotal</renderer>
-                        <admin_renderer>\Magento\Adminhtml\Block\Sales\Order\Create\Totals\Subtotal</admin_renderer>
+                        <renderer>Magento\Tax\Block\Checkout\Subtotal</renderer>
+                        <admin_renderer>Magento\Adminhtml\Block\Sales\Order\Create\Totals\Subtotal</admin_renderer>
                     </subtotal>
                     <shipping>
-                        <renderer>\Magento\Tax\Block\Checkout\Shipping</renderer>
-                        <admin_renderer>\Magento\Adminhtml\Block\Sales\Order\Create\Totals\Shipping</admin_renderer>
+                        <renderer>Magento\Tax\Block\Checkout\Shipping</renderer>
+                        <admin_renderer>Magento\Adminhtml\Block\Sales\Order\Create\Totals\Shipping</admin_renderer>
                     </shipping>
                     <discount>
-                        <renderer>\Magento\Tax\Block\Checkout\Discount</renderer>
-                        <admin_renderer>\Magento\Adminhtml\Block\Sales\Order\Create\Totals\Discount</admin_renderer>
+                        <renderer>Magento\Tax\Block\Checkout\Discount</renderer>
+                        <admin_renderer>Magento\Adminhtml\Block\Sales\Order\Create\Totals\Discount</admin_renderer>
                     </discount>
                     <grand_total>
-                        <renderer>\Magento\Tax\Block\Checkout\Grandtotal</renderer>
-                        <admin_renderer>\Magento\Adminhtml\Block\Sales\Order\Create\Totals\Grandtotal</admin_renderer>
+                        <renderer>Magento\Tax\Block\Checkout\Grandtotal</renderer>
+                        <admin_renderer>Magento\Adminhtml\Block\Sales\Order\Create\Totals\Grandtotal</admin_renderer>
                     </grand_total>
                 </totals>
                 <nominal_totals>

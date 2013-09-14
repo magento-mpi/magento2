@@ -72,22 +72,22 @@
                         <block class="Magento\Catalog\Block\Product\View\Options" name="product.info.options" as="product_options" template="product/view/options.phtml">
                             <action method="addOptionRenderer">
                                 <argument name="type" xsi:type="string">text</argument>
-                                <argument name="block" xsi:type="string">\Magento\Catalog\Block\Product\View\Options\Type\Text</argument>
+                                <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\View\Options\Type\Text</argument>
                                 <argument name="template" xsi:type="string">product/view/options/type/text.phtml</argument>
                             </action>
                             <action method="addOptionRenderer">
                                 <argument name="type" xsi:type="string">file</argument>
-                                <argument name="block" xsi:type="string">\Magento\Catalog\Block\Product\View\Options\Type\File</argument>
+                                <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\View\Options\Type\File</argument>
                                 <argument name="template" xsi:type="string">product/view/options/type/file.phtml</argument>
                             </action>
                             <action method="addOptionRenderer">
                                 <argument name="type" xsi:type="string">select</argument>
-                                <argument name="block" xsi:type="string">\Magento\Catalog\Block\Product\View\Options\Type\Select</argument>
+                                <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\View\Options\Type\Select</argument>
                                 <argument name="template" xsi:type="string">product/view/options/type/select.phtml</argument>
                             </action>
                             <action method="addOptionRenderer">
                                 <argument name="type" xsi:type="string">date</argument>
-                                <argument name="block" xsi:type="string">\Magento\Catalog\Block\Product\View\Options\Type\Date</argument>
+                                <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\View\Options\Type\Date</argument>
                                 <argument name="template" xsi:type="string">product/view/options/type/date.phtml</argument>
                             </action>
                         </block>

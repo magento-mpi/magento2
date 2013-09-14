@@ -111,7 +111,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->loadByUsername(Magento_TestFramework_Bootstrap::ADMIN_NAME);
         $role = $this->_model->getRole();
-        $this->assertInstanceOf('\Magento\User\Model\Role', $role);
+        $this->assertInstanceOf('Magento\User\Model\Role', $role);
         $this->assertEquals(1, $role->getId());
         $this->_model->setRoleId(self::$_newRole->getId())->save();
         $role = $this->_model->getRole();
@@ -140,7 +140,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     public function testGetCollection()
     {
-        $this->assertInstanceOf('\Magento\Core\Model\Resource\Db\Collection\AbstractCollection',
+        $this->assertInstanceOf('Magento\Core\Model\Resource\Db\Collection\AbstractCollection',
             $this->_model->getCollection());
     }
 

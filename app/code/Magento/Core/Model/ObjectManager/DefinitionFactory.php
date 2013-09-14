@@ -44,11 +44,11 @@ class DefinitionFactory
     {
         switch ($format) {
             case 'igbinary':
-                return '\Magento\ObjectManager\Definition\Compiled\Binary';
+                return 'Magento\ObjectManager\Definition\Compiled\Binary';
 
             case 'serialized':
             default:
-                return '\Magento\ObjectManager\Definition\Compiled\Serialized';
+                return 'Magento\ObjectManager\Definition\Compiled\Serialized';
         }
     }
 

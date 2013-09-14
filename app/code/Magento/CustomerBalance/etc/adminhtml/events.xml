@@ -9,9 +9,9 @@
 -->
 <config>
     <event name="adminhtml_customer_prepare_save">
-        <observer name="magento_customerbalance" instance="\Magento\CustomerBalance\Model\Observer" method="prepareCustomerBalanceSave" />
+        <observer name="magento_customerbalance" instance="Magento\CustomerBalance\Model\Observer" method="prepareCustomerBalanceSave" />
     </event>
     <event name="sales_prepare_amount_expression">
-        <observer name="magento_customerbalance" instance="\Magento\CustomerBalance\Model\Observer" method="extendSalesAmountExpression" />
+        <observer name="magento_customerbalance" instance="Magento\CustomerBalance\Model\Observer" method="extendSalesAmountExpression" />
     </event>
-</config>
+</config>

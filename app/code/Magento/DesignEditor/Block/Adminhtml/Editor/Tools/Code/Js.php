@@ -56,7 +56,7 @@ class Js extends \Magento\Backend\Block\Widget\Form
         $this->setForm($form);
         $form->setUseContainer(true);
 
-        $form->addType('js_files', '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Uploader');
+        $form->addType('js_files', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Uploader');
 
         $jsConfig = array(
             'name'     => 'js_files_uploader',

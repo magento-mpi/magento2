@@ -28,7 +28,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_AccordionTest extends PHPUn
         Mage::register('current_customer', $customer);
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = Mage::getModel(
-            '\Magento\Core\Model\Layout',
+            'Magento\Core\Model\Layout',
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
         $this->_block = $layout->createBlock('Magento\Adminhtml\Block\Customer\Edit\Tab\View\Accordion');

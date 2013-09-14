@@ -43,7 +43,7 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends PHPUnit
 
         $form = $block->getForm();
 
-        $this->assertInstanceOf('\Magento\Data\Form', $form);
+        $this->assertInstanceOf('Magento\Data\Form', $form);
         $this->assertEquals('post', $form->getData('method'));
         $this->assertEquals('edit_form', $form->getId());
         $this->assertTrue($form->getUseContainer());
@@ -83,7 +83,7 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends PHPUnit
 
         foreach ($expectedFieldset as $fieldId => $field) {
             $element = $form->getElement($fieldId);
-            $this->assertInstanceOf('\Magento\Data\Form\Element\AbstractElement', $element);
+            $this->assertInstanceOf('Magento\Data\Form\Element\AbstractElement', $element);
             $this->assertEquals($field['name'], $element->getName(), 'Wrong \'' . $fieldId . '\' field name');
             $this->assertEquals($field['type'], $element->getType(), 'Wrong \'' . $fieldId . ' field type');
             $this->assertEquals(

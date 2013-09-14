@@ -67,7 +67,7 @@ class Magento_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->method('getName')
             ->will($this->returnValue($mockConfig['country_name']));
         $countryFactoryMock = $this->getMock(
-            '\Magento\Directory\Model\CountryFactory', array('create'), array(), '', false
+            'Magento\Directory\Model\CountryFactory', array('create'), array(), '', false
         );
         $countryFactoryMock->expects($this->any())->method('create')->will($this->returnValue($countryMock));
 
@@ -83,7 +83,7 @@ class Magento_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected function _getRegionFactoryMock(array $mockConfig)
     {
         $regionMock = $this->getMock(
-            '\Magento\Directory\Model\Region',
+            'Magento\Directory\Model\Region',
             array('load', 'getCode', 'getName'),
             array(),
             '',

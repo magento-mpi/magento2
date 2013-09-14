@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="customer_registration_is_allowed">
-        <observer name="magento_invitation" instance="\Magento\Invitation\Model\Observer" method="restrictCustomerRegistration" />
+        <observer name="magento_invitation" instance="Magento\Invitation\Model\Observer" method="restrictCustomerRegistration" />
     </event>
-</config>
+</config>

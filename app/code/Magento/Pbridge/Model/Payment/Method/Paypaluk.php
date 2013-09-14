@@ -25,14 +25,14 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
      *
      * @var string
      */
-    protected $_formBlockType = '\Magento\Pbridge\Block\Checkout\Payment\Paypaluk';
+    protected $_formBlockType = 'Magento\Pbridge\Block\Checkout\Payment\Paypaluk';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = '\Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paypal';
+    protected $_backendFormBlockType = 'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paypal';
 
     /**
      * Payment Bridge Payment Method Instance
@@ -46,7 +46,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
      *
      * @var $_proType string
      */
-    protected $_proType = '\Magento\Pbridge\Model\Payment\Method\Paypaluk\Pro';
+    protected $_proType = 'Magento\Pbridge\Model\Payment\Method\Paypaluk\Pro';
 
     /**
      * Constructor

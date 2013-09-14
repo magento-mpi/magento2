@@ -59,7 +59,7 @@
         <param name="cacheLifetime"><value>86400</value></param>
         <param name="cacheTags">
             <value>
-                <const type='const'>\Magento\Core\Model\Website::CACHE_TAG</const>
+                <const type='const'>Magento\Core\Model\Website::CACHE_TAG</const>
                 <boolFalse type='bool'>1</boolFalse>
                 <boolTrue type='int'>10</boolTrue>
                 <boolOne type='string' pattern="[0-9]*">1</boolOne>
@@ -70,7 +70,7 @@
             </value>
         </param>
         <param name="constParam">
-            <value type='const'>\Magento\Core\Model\Website::CACHE_TAG</value>
+            <value type='const'>Magento\Core\Model\Website::CACHE_TAG</value>
         </param>
         <param name="boolFalseParam">
             <value type='int'>100</value>

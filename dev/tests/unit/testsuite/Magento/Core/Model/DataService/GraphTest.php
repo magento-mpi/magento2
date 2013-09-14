@@ -44,7 +44,7 @@ class Magento_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCas
     {
         $this->_invokerMock = $this->getMock('Magento\Core\Model\DataService\Invoker', array(), array(), "", false);
         $this->_repositoryMock = $this->getMock(
-            '\Magento\Core\Model\DataService\Repository', array(), array(), "", false
+            'Magento\Core\Model\DataService\Repository', array(), array(), "", false
         );
         $this->_graph = new \Magento\Core\Model\DataService\Graph($this->_invokerMock, $this->_repositoryMock);
         $this->_dataServiceMock = (object)array();

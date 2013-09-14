@@ -40,7 +40,7 @@ class Tabs
         $this->addTab('general_section', array(
             'label'   => __('Rule Information'),
             'content' => $this->getLayout()->createBlock(
-                '\Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General',
+                'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General',
                 'adminhtml_reminder_edit_tab_general'
             )->toHtml(),
         ));
@@ -48,7 +48,7 @@ class Tabs
         $this->addTab('conditions_section', array(
             'label'   => __('Conditions'),
             'content' => $this->getLayout()->createBlock(
-                '\Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Conditions',
+                'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Conditions',
                 'adminhtml_reminder_edit_tab_conditions'
             )->toHtml()
         ));
@@ -56,7 +56,7 @@ class Tabs
         $this->addTab('template_section', array(
             'label'   => __('Emails and Labels'),
             'content' => $this->getLayout()->createBlock(
-                '\Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Templates',
+                'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Templates',
                 'adminhtml_reminder_edit_tab_templates'
             )->toHtml()
         ));

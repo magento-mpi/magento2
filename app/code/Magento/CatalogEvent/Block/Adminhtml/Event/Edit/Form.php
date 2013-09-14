@@ -40,7 +40,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
 
         \Magento\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
-                '\Magento\CatalogEvent\Block\Adminhtml\Form\Renderer\Fieldset\Element',
+                'Magento\CatalogEvent\Block\Adminhtml\Form\Renderer\Fieldset\Element',
                 $this->getNameInLayout() . '_fieldset_element_catalog_event'
             )
         );
@@ -197,7 +197,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _getAdditionalElementTypes()
     {
-        return array('image' => '\Magento\CatalogEvent\Block\Adminhtml\Event\Helper\Image');
+        return array('image' => 'Magento\CatalogEvent\Block\Adminhtml\Event\Helper\Image');
     }
 
 }

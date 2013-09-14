@@ -112,9 +112,9 @@ class Account extends \Magento\Adminhtml\Block\Widget\Form
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'file'      => '\Magento\Adminhtml\Block\Customer\Form\Element\File',
-            'image'     => '\Magento\Adminhtml\Block\Customer\Form\Element\Image',
-            'boolean'   => '\Magento\Adminhtml\Block\Customer\Form\Element\Boolean',
+            'file'      => 'Magento\Adminhtml\Block\Customer\Form\Element\File',
+            'image'     => 'Magento\Adminhtml\Block\Customer\Form\Element\Image',
+            'boolean'   => 'Magento\Adminhtml\Block\Customer\Form\Element\Boolean',
         );
     }
 

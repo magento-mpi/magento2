@@ -28,8 +28,8 @@ class Collection
     protected function _construct()
     {
         $this->_init(
-            '\Magento\CustomerBalance\Model\Balance\History',
-            '\Magento\CustomerBalance\Model\Resource\Balance\History'
+            'Magento\CustomerBalance\Model\Balance\History',
+            'Magento\CustomerBalance\Model\Resource\Balance\History'
         );
     }
 

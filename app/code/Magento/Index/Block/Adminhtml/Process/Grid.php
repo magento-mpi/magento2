@@ -24,7 +24,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      *
      * @var string
      */
-    protected $_massactionBlockName = '\Magento\Index\Block\Adminhtml\Process\Grid\Massaction';
+    protected $_massactionBlockName = 'Magento\Index\Block\Adminhtml\Process\Grid\Massaction';
 
     /**
      * Event repository

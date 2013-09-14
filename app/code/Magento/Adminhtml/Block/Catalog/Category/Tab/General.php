@@ -95,7 +95,7 @@ class General extends \Magento\Adminhtml\Block\Catalog\Form
 
     protected function _getAdditionalElementTypes()
     {
-        return array('image' => '\Magento\Adminhtml\Block\Catalog\Category\Helper\Image');
+        return array('image' => 'Magento\Adminhtml\Block\Catalog\Category\Helper\Image');
     }
 
     protected function _getParentCategoryOptions($node=null, &$options=array())

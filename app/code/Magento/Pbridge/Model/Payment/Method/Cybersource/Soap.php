@@ -38,14 +38,14 @@ class Soap extends \Magento\Payment\Model\Method\Cc
      *
      * @var string
      */
-    protected $_formBlockType = '\Magento\Pbridge\Block\Checkout\Payment\Cybersource';
+    protected $_formBlockType = 'Magento\Pbridge\Block\Checkout\Payment\Cybersource';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = '\Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Cybersource';
+    protected $_backendFormBlockType = 'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Cybersource';
 
     /**
      * Payment Bridge Payment Method Instance

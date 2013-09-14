@@ -36,7 +36,7 @@ class Magento_GoogleOptimizer_Helper_FormTest extends PHPUnit_Framework_TestCase
             array('getExperimentScript', 'getCodeId'), array(), '', false);
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_helper = $objectManagerHelper->getObject('\Magento\GoogleOptimizer\Helper\Form');
+        $this->_helper = $objectManagerHelper->getObject('Magento\GoogleOptimizer\Helper\Form');
     }
 
     public function testAddFieldsWithExperimentCode()

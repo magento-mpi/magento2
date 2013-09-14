@@ -90,7 +90,7 @@ class Grid
             'type'      => 'price',
             'sortable'  => false,
             'filter'    => false,
-            'renderer'  => '\Magento\CustomerBalance\Block\Adminhtml\Widget\Grid\Column\Renderer\Currency',
+            'renderer'  => 'Magento\CustomerBalance\Block\Adminhtml\Widget\Grid\Column\Renderer\Currency',
         ));
 
         $this->addColumn('balance_amount', array(
@@ -99,7 +99,7 @@ class Grid
             'index'     => 'balance_amount',
             'sortable'  => false,
             'filter'    => false,
-            'renderer'  => '\Magento\CustomerBalance\Block\Adminhtml\Widget\Grid\Column\Renderer\Currency',
+            'renderer'  => 'Magento\CustomerBalance\Block\Adminhtml\Widget\Grid\Column\Renderer\Currency',
         ));
 
         $this->addColumn('is_customer_notified', array(

@@ -27,7 +27,7 @@ class Magento_Core_Model_Theme_ValidationTest extends PHPUnit_Framework_TestCase
 
         /** @var $validatorMock \Magento\Core\Model\Theme\Validator */
         $validatorMock = $this->getMock(
-            '\Magento\Core\Model\Theme\Validator', array('_setThemeValidators'), array(), '', false
+            'Magento\Core\Model\Theme\Validator', array('_setThemeValidators'), array(), '', false
         );
 
         $versionValidators = array(
@@ -58,7 +58,7 @@ class Magento_Core_Model_Theme_ValidationTest extends PHPUnit_Framework_TestCase
 
         /** @var $validatorMock \Magento\Core\Model\Theme\Validator */
         $validatorMock = $this->getMock(
-            '\Magento\Core\Model\Theme\Validator', array('_setThemeValidators'), array($helper), '', true
+            'Magento\Core\Model\Theme\Validator', array('_setThemeValidators'), array($helper), '', true
         );
 
         $codeValidators = array(

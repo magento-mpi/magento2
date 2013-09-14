@@ -152,11 +152,11 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         );
 
         $customerFactory->expects($this->any())->method('create')
-            ->will($this->returnValue($this->getModelInstance('\Magento\Customer\Model\Customer')));
+            ->will($this->returnValue($this->getModelInstance('Magento\Customer\Model\Customer')));
         $balanceFactory->expects($this->any())->method('create')
-            ->will($this->returnValue($this->getModelInstance('\Magento\CustomerBalance\Model\Balance')));
+            ->will($this->returnValue($this->getModelInstance('Magento\CustomerBalance\Model\Balance')));
         $rewardFactory->expects($this->any())->method('create')
-            ->will($this->returnValue($this->getModelInstance('\Magento\Reward\Model\Reward')));
+            ->will($this->returnValue($this->getModelInstance('Magento\Reward\Model\Reward')));
 
         $this->_model = new \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance(
             $moduleHelper,
@@ -203,7 +203,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
             array(), '', false);
         foreach ($this->_customers as $customerData) {
             /** @var $customer \Magento\Customer\Model\Customer */
-            $arguments = $objectManagerHelper->getConstructArguments('\Magento\Customer\Model\Customer');
+            $arguments = $objectManagerHelper->getConstructArguments('Magento\Customer\Model\Customer');
             $arguments['data'] = $customerData;
             $customer = $this->getMock('Magento\Customer\Model\Customer', array('_construct'), $arguments);
             $customerStorage->addCustomer($customer);
@@ -213,7 +213,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         $attributeCollection = $this->getMock('Magento\Data\Collection', array('getEntityTypeCode'));
         foreach ($this->_attributes as $attributeData) {
             /** @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
-            $arguments = $objectManagerHelper->getConstructArguments('\Magento\Eav\Model\Entity\Attribute\AbstractAttribute');
+            $arguments = $objectManagerHelper->getConstructArguments('Magento\Eav\Model\Entity\Attribute\AbstractAttribute');
             $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 $arguments, '', true, true, true, array('_construct')
@@ -319,7 +319,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
     public function getModelInstance($modelClass = '', $constructArguments = array())
     {
         switch ($modelClass) {
-            case '\Magento\CustomerBalance\Model\Balance':
+            case 'Magento\CustomerBalance\Model\Balance':
                 $instance = $this->getMock($modelClass, array('setCustomer', 'setWebsiteId', 'loadByCustomer',
                         'getAmount', 'setAmountDelta', 'setComment', 'save'
                     ), $constructArguments, '', false
@@ -346,7 +346,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
                     ->method('save')
                     ->will($this->returnSelf());
                 break;
-            case '\Magento\Reward\Model\Reward':
+            case 'Magento\Reward\Model\Reward':
                 $instance = $this->getMock($modelClass, array('setCustomer', 'setWebsiteId', 'loadByCustomer',
                         'getPointsBalance', 'setPointsDelta', 'setAction', 'setComment', 'updateRewardPoints'
                     ), $constructArguments, '', false

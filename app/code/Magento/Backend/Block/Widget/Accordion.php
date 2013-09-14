@@ -35,7 +35,7 @@ class Accordion extends \Magento\Backend\Block\Widget
     {
         $this->_items[$itemId] = $this->getLayout()
             ->createBlock(
-                '\Magento\Backend\Block\Widget\Accordion\Item',
+                'Magento\Backend\Block\Widget\Accordion\Item',
                 $this->getNameInLayout() . '-' . $itemId
             )
             ->setData($config)

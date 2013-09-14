@@ -93,7 +93,7 @@ $installer->addAttribute('catalog_product', 'group_price', array(
     'type'                       => 'decimal',
     'label'                      => 'Group Price',
     'input'                      => 'text',
-    'backend'                    => '\Magento\Catalog\Model\Product\Attribute\Backend\Groupprice',
+    'backend'                    => 'Magento\Catalog\Model\Product\Attribute\Backend\Groupprice',
     'required'                   => false,
     'sort_order'                 => 6,
     'global'                     => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,

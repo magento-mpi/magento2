@@ -23,7 +23,7 @@ class Storeview
     public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('\Magento\Reminder\Model\Rule\Condition\Cart\Storeview');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Cart\Storeview');
         $this->setValue(null);
     }
 

@@ -54,14 +54,14 @@ class Magento_Code_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCa
         // without parameters
         $this->assertAttributeEmpty('_sourceClassName', $this->_model);
         $this->assertAttributeEmpty('_resultClassName', $this->_model);
-        $this->assertAttributeInstanceOf('\Magento\Code\Generator\Io', '_ioObject', $this->_model);
+        $this->assertAttributeInstanceOf('Magento\Code\Generator\Io', '_ioObject', $this->_model);
         $this->
-            assertAttributeInstanceOf('\Magento\Code\Generator\CodeGenerator\Zend', '_classGenerator', $this->_model);
-        $this->assertAttributeInstanceOf('\Magento\Autoload\IncludePath', '_autoloader', $this->_model);
+            assertAttributeInstanceOf('Magento\Code\Generator\CodeGenerator\Zend', '_classGenerator', $this->_model);
+        $this->assertAttributeInstanceOf('Magento\Autoload\IncludePath', '_autoloader', $this->_model);
 
         // with source class name
         $this->_model = $this->getMockForAbstractClass(
-            '\Magento\Code\Generator\EntityAbstract', array(self::SOURCE_CLASS)
+            'Magento\Code\Generator\EntityAbstract', array(self::SOURCE_CLASS)
         );
         $this->assertAttributeEquals(self::SOURCE_CLASS, '_sourceClassName', $this->_model);
         $this->assertAttributeEquals(self::SOURCE_CLASS . 'Abstract', '_resultClassName', $this->_model);
@@ -72,7 +72,7 @@ class Magento_Code_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCa
         $autoloader    = $this->getMock('Magento\Autoload\IncludePath', array(), array(), '', false);
 
         $this->_model = $this->getMockForAbstractClass(
-            '\Magento\Code\Generator\EntityAbstract',
+            'Magento\Code\Generator\EntityAbstract',
             array(self::SOURCE_CLASS, self::RESULT_CLASS, $ioObject, $codeGenerator, $autoloader)
         );
         $this->assertAttributeEquals(self::RESULT_CLASS, '_resultClassName', $this->_model);
@@ -185,7 +185,7 @@ class Magento_Code_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCa
         }
         $abstractGetters = array('_getClassProperties', '_getClassMethods');
         $this->_model = $this->getMockForAbstractClass(
-            '\Magento\Code\Generator\EntityAbstract', $arguments, '', true, true, true, $abstractGetters
+            'Magento\Code\Generator\EntityAbstract', $arguments, '', true, true, true, $abstractGetters
         );
         // we need to mock abstract methods to set correct return value type
         foreach ($abstractGetters as $methodName) {

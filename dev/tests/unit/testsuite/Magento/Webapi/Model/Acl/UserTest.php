@@ -58,7 +58,7 @@ class Magento_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
      */
     protected function _createModel($userResource, $resourceCollection = null)
     {
-        return $this->_helper->getObject('\Magento\Webapi\Model\Acl\User', array(
+        return $this->_helper->getObject('Magento\Webapi\Model\Acl\User', array(
             'eventDispatcher' => $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
             'cacheManager' => $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false),
             'resource' => $userResource,
@@ -107,7 +107,7 @@ class Magento_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
         $model = $this->_createModel($this->_userResource);
 
         $result = $model->loadByKey('key');
-        $this->assertInstanceOf('\Magento\Webapi\Model\Acl\User', $result);
+        $this->assertInstanceOf('Magento\Webapi\Model\Acl\User', $result);
     }
 
     /**
@@ -132,7 +132,7 @@ class Magento_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
 
         /** @var PHPUnit_Framework_MockObject_MockObject $collection */
         $collection = $this->getMock(
-            '\Magento\Webapi\Model\Resource\Acl\User\Collection',
+            'Magento\Webapi\Model\Resource\Acl\User\Collection',
             array('_initSelect', 'setModel'),
             array($fetchStrategy, $this->_userResource)
         );

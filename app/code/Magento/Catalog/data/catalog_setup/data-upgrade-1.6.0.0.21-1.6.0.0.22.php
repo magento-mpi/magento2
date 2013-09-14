@@ -14,7 +14,7 @@ $this->updateAttribute(
     $this->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY),
     'weight',
     'backend_model',
-    '\Magento\Catalog\Model\Product\Attribute\Backend\Weight'
+    'Magento\Catalog\Model\Product\Attribute\Backend\Weight'
 );
 $this->updateAttribute(
     $this->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY),
@@ -38,5 +38,5 @@ $this->updateAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'weight',
     'frontend_input_renderer',
-    '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight'
+    'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight'
 );

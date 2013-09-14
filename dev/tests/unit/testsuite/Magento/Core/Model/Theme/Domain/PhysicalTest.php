@@ -28,7 +28,7 @@ class Magento_Core_Model_Theme_Domain_PhysicalTest extends PHPUnit_Framework_Tes
             ->will($this->returnValue($copyService));
 
         $virtualTheme = $this->getMock(
-            '\Magento\Core\Model\Theme', array('getThemeImage', 'createPreviewImageCopy', 'save'),
+            'Magento\Core\Model\Theme', array('getThemeImage', 'createPreviewImageCopy', 'save'),
             array(), '', false, false
         );
         $virtualTheme->expects($this->once())
@@ -49,7 +49,7 @@ class Magento_Core_Model_Theme_Domain_PhysicalTest extends PHPUnit_Framework_Tes
             ->will($this->returnValue($virtualTheme));
 
         $themeCollection = $this->getMock(
-            '\Magento\Core\Model\Resource\Theme\Collection',
+            'Magento\Core\Model\Resource\Theme\Collection',
             array('addTypeFilter', 'addAreaFilter', 'addFilter', 'count'),
             array(), '', false, false
         );

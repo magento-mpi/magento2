@@ -69,7 +69,7 @@ class BackgroundUploader
      */
     protected function _addElementTypes()
     {
-        $this->addType('image-uploader', '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ImageUploader');
+        $this->addType('image-uploader', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ImageUploader');
 
         return $this;
     }

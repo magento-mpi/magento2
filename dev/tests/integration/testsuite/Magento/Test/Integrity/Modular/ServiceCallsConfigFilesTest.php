@@ -38,7 +38,7 @@ class Magento_Test_Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit
 
     protected function tearDown()
     {
-        $this->_objectManager->removeSharedInstance('\Magento\Core\Model\DataService\Config\Reader');
+        $this->_objectManager->removeSharedInstance('Magento\Core\Model\DataService\Config\Reader');
     }
 
     public function getServiceCallsConfigFiles()

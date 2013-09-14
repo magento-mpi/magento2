@@ -57,7 +57,7 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
         $this->_storeConfig->expects($this->once())
             ->method('getConfig')
             ->with('dev/js/minify_adapter')
-            ->will($this->returnValue('\Magento\Code\Minifier\AdapterInterface'));
+            ->will($this->returnValue('Magento\Code\Minifier\AdapterInterface'));
 
         $self = $this;
         $this->_objectManager->expects($this->any())
@@ -71,8 +71,8 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
         $minifiedAssets = $this->_model->getAssets(array($assetOne, $assetTwo));
         $this->assertCount(2, $minifiedAssets);
         $this->assertNotSame($minifiedAssets[0], $minifiedAssets[1]);
-        $this->assertInstanceOf('\Magento\Core\Model\Page\Asset\Minified', $minifiedAssets[0]);
-        $this->assertInstanceOf('\Magento\Core\Model\Page\Asset\Minified', $minifiedAssets[1]);
+        $this->assertInstanceOf('Magento\Core\Model\Page\Asset\Minified', $minifiedAssets[0]);
+        $this->assertInstanceOf('Magento\Core\Model\Page\Asset\Minified', $minifiedAssets[1]);
     }
 
     public function testGetAssetsDisabled()
@@ -134,7 +134,7 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
         $this->_storeConfig->expects($this->once())
             ->method('getConfig')
             ->with('dev/js/minify_adapter')
-            ->will($this->returnValue('\Magento\Code\Minifier\AdapterInterface'));
+            ->will($this->returnValue('Magento\Code\Minifier\AdapterInterface'));
 
         $this->_objectManager->expects($this->at(1))
             ->method('create')

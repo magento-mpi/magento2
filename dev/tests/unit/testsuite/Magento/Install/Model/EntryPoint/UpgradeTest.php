@@ -31,7 +31,7 @@ class Magento_Install_Model_EntryPoint_UpgradeTest extends PHPUnit_Framework_Tes
         $cacheFrontend = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
         $cacheFrontend->expects($this->once())->method('clean')->with('all', array());
         $cacheFrontendPool = $this->getMock(
-            '\Magento\Core\Model\Cache\Frontend\Pool', array('valid', 'current'), array(
+            'Magento\Core\Model\Cache\Frontend\Pool', array('valid', 'current'), array(
                 $this->getMock('Magento\Core\Model\Cache\Frontend\Factory', array(), array(), '', false),
             )
         );
@@ -39,12 +39,12 @@ class Magento_Install_Model_EntryPoint_UpgradeTest extends PHPUnit_Framework_Tes
         $cacheFrontendPool->expects($this->once())->method('current')->will($this->returnValue($cacheFrontend));
 
         $update = $this->getMock(
-            '\Magento\Core\Model\Db\Updater', array('updateScheme', 'updateData'), array(), '', false);
+            'Magento\Core\Model\Db\Updater', array('updateScheme', 'updateData'), array(), '', false);
         $update->expects($this->once())->method('updateScheme');
         $update->expects($this->once())->method('updateData');
 
         $this->_indexer = $this->getMock(
-            '\Magento\Index\Model\Indexer', array('reindexAll', 'reindexRequired'), array(), '', false
+            'Magento\Index\Model\Indexer', array('reindexAll', 'reindexRequired'), array(), '', false
         );
 
         $this->_objectManager = $this->getMock('Magento\ObjectManager');

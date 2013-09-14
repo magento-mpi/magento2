@@ -54,7 +54,7 @@ class Magento_Profiler_Driver_FactoryTest extends PHPUnit_Framework_TestCase
     {
         $driver = $this->_factory->create($config);
         $this->assertInstanceOf($expectedClass, $driver);
-        $this->assertInstanceOf('\Magento\Profiler\DriverInterface', $driver);
+        $this->assertInstanceOf('Magento\Profiler\DriverInterface', $driver);
     }
 
     /**
@@ -63,10 +63,10 @@ class Magento_Profiler_Driver_FactoryTest extends PHPUnit_Framework_TestCase
     public function createDataProvider()
     {
         $defaultDriverClass = $this->getMockClass(
-            '\Magento\Profiler\DriverInterface', array(), array(), 'Magento_Profiler_Driver_Test_Default'
+            'Magento\Profiler\DriverInterface', array(), array(), 'Magento_Profiler_Driver_Test_Default'
         );
         $testDriverClass = $this->getMockClass(
-            '\Magento\Profiler\DriverInterface', array(), array(), 'Magento_Profiler_Driver_Test_Test'
+            'Magento\Profiler\DriverInterface', array(), array(), 'Magento_Profiler_Driver_Test_Test'
         );
         return array(
             'Prefix and concrete type' => array(

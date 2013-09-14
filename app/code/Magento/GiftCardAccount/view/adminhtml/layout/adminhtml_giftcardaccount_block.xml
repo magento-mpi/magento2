@@ -13,7 +13,7 @@
             <block class="Magento\Backend\Block\Widget\Grid" name="gift.card.account.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">giftcardaccountGrid</argument>
-                    <argument name="dataSource" xsi:type="object">\Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Collection</argument>
                     <argument name="default_sort" xsi:type="string">giftcardaccount_id</argument>
                     <argument name="default_dir" xsi:type="string">desc</argument>
                     <argument name="save_parameters_in_session" xsi:type="string">1</argument>
@@ -82,7 +82,7 @@
                             <argument name="width" xsi:type="string">100</argument>
                             <argument name="column_css_class" xsi:type="string">col-store</argument>
                             <argument name="header_css_class" xsi:type="string">col-store</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\Backend\Model\Config\Source\Website\OptionHash"/>
+                            <argument name="options" xsi:type="options" model="Magento\Backend\Model\Config\Source\Website\OptionHash"/>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="date_created">
@@ -109,7 +109,7 @@
                             <argument name="width" xsi:type="string">50</argument>
                             <argument name="type" xsi:type="string">options</argument>
                             <argument name="align" xsi:type="string">center</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Grid\Active"/>
+                            <argument name="options" xsi:type="options" model="Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Grid\Active"/>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="state">
@@ -119,7 +119,7 @@
                             <argument name="width" xsi:type="string">100</argument>
                             <argument name="type" xsi:type="string">options</argument>
                             <argument name="align" xsi:type="string">center</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Grid\Status"/>
+                            <argument name="options" xsi:type="options" model="Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Grid\Status"/>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="balance">
@@ -128,7 +128,7 @@
                             <argument name="index" xsi:type="string">balance</argument>
                             <argument name="type" xsi:type="string">currency</argument>
                             <argument name="currency" xsi:type="string">base_currency_code</argument>
-                            <argument name="renderer" xsi:type="string">\Magento\GiftCardAccount\Block\Adminhtml\Widget\Grid\Column\Renderer\Currency</argument>
+                            <argument name="renderer" xsi:type="string">Magento\GiftCardAccount\Block\Adminhtml\Widget\Grid\Column\Renderer\Currency</argument>
                         </arguments>
                     </block>
                 </block>

@@ -12,7 +12,7 @@
         <reference name="order_items">
             <action method="addItemRender">
                 <argument name="type" xsi:type="string">bundle</argument>
-                <argument name="block" xsi:type="string">\Magento\Bundle\Block\Adminhtml\Sales\Order\View\Items\Renderer</argument>
+                <argument name="block" xsi:type="string">Magento\Bundle\Block\Adminhtml\Sales\Order\View\Items\Renderer</argument>
                 <argument name="template" xsi:type="string">sales/order/view/items/renderer.phtml</argument>
             </action>
         </reference>

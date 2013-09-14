@@ -29,7 +29,7 @@ class Editroles extends \Magento\Adminhtml\Block\Widget\Tabs {
             'label'     => __('Role Info'),
             'title'     => __('Role Info'),
             'content'   => $this->getLayout()->createBlock(
-                '\Magento\Adminhtml\Block\Api\Tab\Roleinfo'
+                'Magento\Adminhtml\Block\Api\Tab\Roleinfo'
             )->setRole($role)->toHtml(),
             'active'    => true
         ));
@@ -45,7 +45,7 @@ class Editroles extends \Magento\Adminhtml\Block\Widget\Tabs {
                 'label'     => __('Role Users'),
                 'title'     => __('Role Users'),
                 'content'   => $this->getLayout()->createBlock(
-                    '\Magento\Adminhtml\Block\Api\Tab\Rolesusers',
+                    'Magento\Adminhtml\Block\Api\Tab\Rolesusers',
                     'role.users.grid'
                 )->toHtml(),
             ));

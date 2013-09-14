@@ -72,9 +72,9 @@ class CatalogProductItem
     {
         $blockName = $this->_placeholder->getName();
         if ($blockName == self::BLOCK_NAME_RELATED) {
-            return '\Magento\TargetRule\Block\Catalog\Product\ProductList\Related';
+            return 'Magento\TargetRule\Block\Catalog\Product\ProductList\Related';
         } elseif ($blockName == self::BLOCK_NAME_UPSELL) {
-            return '\Magento\TargetRule\Block\Catalog\Product\ProductList\Upsell';
+            return 'Magento\TargetRule\Block\Catalog\Product\ProductList\Upsell';
         }
 
         return null;

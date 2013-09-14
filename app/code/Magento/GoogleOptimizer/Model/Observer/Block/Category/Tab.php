@@ -40,7 +40,7 @@ class Tab
     {
         if ($this->_helper->isGoogleExperimentActive()) {
             $block = $this->_layout->createBlock(
-                '\Magento\GoogleOptimizer\Block\Adminhtml\Catalog\Category\Edit\Tab\Googleoptimizer',
+                'Magento\GoogleOptimizer\Block\Adminhtml\Catalog\Category\Edit\Tab\Googleoptimizer',
                 'google-experiment-form'
             );
 

@@ -52,7 +52,7 @@ class Magento_Core_Model_Design_Fallback_FactoryTest extends PHPUnit_Framework_T
     public function testCreateLocaleFileRule()
     {
         $actualResult = $this->_model->createLocaleFileRule();
-        $this->assertInstanceOf('\Magento\Core\Model\Design\Fallback\Rule\RuleInterface', $actualResult);
+        $this->assertInstanceOf('Magento\Core\Model\Design\Fallback\Rule\RuleInterface', $actualResult);
         $this->assertNotSame($actualResult, $this->_model->createLocaleFileRule());
     }
 
@@ -99,7 +99,7 @@ class Magento_Core_Model_Design_Fallback_FactoryTest extends PHPUnit_Framework_T
     public function testCreateFileRule()
     {
         $actualResult = $this->_model->createFileRule();
-        $this->assertInstanceOf('\Magento\Core\Model\Design\Fallback\Rule\RuleInterface', $actualResult);
+        $this->assertInstanceOf('Magento\Core\Model\Design\Fallback\Rule\RuleInterface', $actualResult);
         $this->assertNotSame($actualResult, $this->_model->createFileRule());
     }
 
@@ -149,7 +149,7 @@ class Magento_Core_Model_Design_Fallback_FactoryTest extends PHPUnit_Framework_T
     public function testCreateViewFileRule()
     {
         $actualResult = $this->_model->createViewFileRule();
-        $this->assertInstanceOf('\Magento\Core\Model\Design\Fallback\Rule\RuleInterface', $actualResult);
+        $this->assertInstanceOf('Magento\Core\Model\Design\Fallback\Rule\RuleInterface', $actualResult);
         $this->assertNotSame($actualResult, $this->_model->createViewFileRule());
     }
 

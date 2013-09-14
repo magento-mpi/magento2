@@ -31,7 +31,7 @@ class Grid
      */
     protected function _getCollectionClass()
     {
-        return '\Magento\SalesArchive\Model\Resource\Order\Invoice\Collection';
+        return 'Magento\SalesArchive\Model\Resource\Order\Invoice\Collection';
     }
 
     /**

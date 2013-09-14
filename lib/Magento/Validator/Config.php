@@ -21,7 +21,7 @@ class Config extends \Magento\Config\XmlAbstract
     /**
      * @var string
      */
-    protected $_defaultBuilderClass = '\Magento\Validator\Builder';
+    protected $_defaultBuilderClass = 'Magento\Validator\Builder';
 
     /**
      * Create validator builder instance based on entity and group.
@@ -217,7 +217,7 @@ class Config extends \Magento\Config\XmlAbstract
          * Read constraint configurator callback
          *
          * <constraint class="Constraint">
-         *     <callback class="\Magento\Customer\Helper\Data" method="configureValidator"/>
+         *     <callback class="Magento\Customer\Helper\Data" method="configureValidator"/>
          * </constraint>
          */
         $callback = $this->_readCallback($children);

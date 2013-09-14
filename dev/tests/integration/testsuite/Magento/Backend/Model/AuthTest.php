@@ -40,11 +40,11 @@ class Magento_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
     public function testSetGetAuthStorage()
     {
         // by default \Magento\Backend\Model\Auth\Session class will instantiate as a Authentication Storage
-        $this->assertInstanceOf('\Magento\Backend\Model\Auth\Session', $this->_model->getAuthStorage());
+        $this->assertInstanceOf('Magento\Backend\Model\Auth\Session', $this->_model->getAuthStorage());
 
         $mockStorage = $this->getMock('Magento\Backend\Model\Auth\StorageInterface');
         $this->_model->setAuthStorage($mockStorage);
-        $this->assertInstanceOf('\Magento\Backend\Model\Auth\StorageInterface', $this->_model->getAuthStorage());
+        $this->assertInstanceOf('Magento\Backend\Model\Auth\StorageInterface', $this->_model->getAuthStorage());
 
         $incorrectStorage = new StdClass();
         try {
@@ -59,7 +59,7 @@ class Magento_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
     public function testGetCredentialStorageList()
     {
         $storage = $this->_model->getCredentialStorage();
-        $this->assertInstanceOf('\Magento\Backend\Model\Auth\Credential\StorageInterface', $storage);
+        $this->assertInstanceOf('Magento\Backend\Model\Auth\Credential\StorageInterface', $storage);
     }
 
     /**
@@ -69,7 +69,7 @@ class Magento_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->login(
             Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
-        $this->assertInstanceOf('\Magento\Backend\Model\Auth\Credential\StorageInterface', $this->_model->getUser());
+        $this->assertInstanceOf('Magento\Backend\Model\Auth\Credential\StorageInterface', $this->_model->getUser());
         $this->assertGreaterThan(time() - 10, $this->_model->getAuthStorage()->getUpdatedAt());
     }
 
@@ -124,6 +124,6 @@ class Magento_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
 
         $this->assertNotNull($this->_model->getUser());
         $this->assertGreaterThan(0, $this->_model->getUser()->getId());
-        $this->assertInstanceOf('\Magento\Backend\Model\Auth\Credential\StorageInterface', $this->_model->getUser());
+        $this->assertInstanceOf('Magento\Backend\Model\Auth\Credential\StorageInterface', $this->_model->getUser());
     }
 }

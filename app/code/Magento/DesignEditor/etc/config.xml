@@ -23,7 +23,7 @@
     <default>
         <theme>
             <customization>
-                <quick_style_css>\Magento\DesignEditor\Model\Theme\Customization\File\QuickStyleCss</quick_style_css>
+                <quick_style_css>Magento\DesignEditor\Model\Theme\Customization\File\QuickStyleCss</quick_style_css>
             </customization>
         </theme>
     </default>

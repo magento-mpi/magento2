@@ -11,7 +11,7 @@
     <type name="Magento\AdminNotification\Model\System\MessageList">
         <param name="messages">
             <value>
-                <indexer>\Magento\Index\Model\System\Message\IndexOutdated</indexer>
+                <indexer>Magento\Index\Model\System\Message\IndexOutdated</indexer>
             </value>
         </param>
     </type>

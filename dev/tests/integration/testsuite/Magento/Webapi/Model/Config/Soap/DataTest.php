@@ -52,7 +52,7 @@ class Magento_Webapi_Model_Config_Soap_DataTest extends PHPUnit_Framework_TestCa
         $reader->setDirectoryScanner($directoryScanner);
 
         $this->_config = new \Magento\Webapi\Model\Config\Soap($reader, $helper, $app);
-        $objectManager->addSharedInstance($this->_config, '\Magento\Webapi\Model\Config\Soap');
+        $objectManager->addSharedInstance($this->_config, 'Magento\Webapi\Model\Config\Soap');
     }
 
 

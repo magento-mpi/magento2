@@ -21,7 +21,7 @@
                     <argument name="code" xsi:type="string">default</argument>
                 </action>
                 <action method="setEntityModelClass">
-                    <argument name="code" xsi:type="string">\Magento\Rma\Model\Item</argument>
+                    <argument name="code" xsi:type="string">Magento\Rma\Model\Item</argument>
                 </action>
             </block>
         </reference>

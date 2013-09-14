@@ -82,7 +82,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
      */
     public function testGetAttributeCollection()
     {
-        $this->assertInstanceOf('\Magento\Customer\Model\Resource\Attribute\Collection',
+        $this->assertInstanceOf('Magento\Customer\Model\Resource\Attribute\Collection',
             $this->_model->getAttributeCollection()
         );
     }

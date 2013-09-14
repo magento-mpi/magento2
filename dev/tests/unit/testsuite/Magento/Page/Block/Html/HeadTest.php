@@ -29,10 +29,10 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         $this->_pageAssets = $this->getMock('Magento\Page\Model\Asset\GroupedCollection', array(), array(), '', false);
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments(
-            '\Magento\Page\Block\Html\Head',
+            'Magento\Page\Block\Html\Head',
             array('page' => new \Magento\Core\Model\Page($this->_pageAssets), 'objectManager' => $this->_objectManager)
         );
-        $this->_block = $objectManagerHelper->getObject('\Magento\Page\Block\Html\Head', $arguments);
+        $this->_block = $objectManagerHelper->getObject('Magento\Page\Block\Html\Head', $arguments);
     }
 
     protected function tearDown()

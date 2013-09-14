@@ -24,7 +24,7 @@ class Authorize extends \Magento\Adminhtml\Controller\Action
      *
      * @var string
      */
-    protected $_sessionName = '\Magento\Backend\Model\Auth\Session';
+    protected $_sessionName = 'Magento\Backend\Model\Auth\Session';
 
     /**
      * Array of actions which can be processed without secret key validation

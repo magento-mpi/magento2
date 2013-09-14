@@ -38,7 +38,7 @@ class Magento_Filesystem_Adapter_ZlibTest extends PHPUnit_Framework_TestCase
     public function testCreateStream()
     {
         $file = $this->_getFixturesPath() . 'data.csv';
-        $this->assertInstanceOf('\Magento\Filesystem\Stream\Zlib', $this->_adapter->createStream($file));
+        $this->assertInstanceOf('Magento\Filesystem\Stream\Zlib', $this->_adapter->createStream($file));
     }
 
     public function testRW()

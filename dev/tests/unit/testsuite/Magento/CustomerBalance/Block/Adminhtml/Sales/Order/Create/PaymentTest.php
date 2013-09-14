@@ -19,7 +19,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_PaymentTest ext
      *
      * @var string
      */
-    protected $_className = '\Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create\Payment';
+    protected $_className = 'Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create\Payment';
 
     /**
      * Test \Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create\Payment::getBalance()

@@ -27,7 +27,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_ProductsTest ext
     public function testPrepareLayout()
     {
         $searchBlock = $this->_block->getChildBlock('search_button');
-        $this->assertInstanceOf('\Magento\Backend\Block\Widget\Button', $searchBlock);
+        $this->assertInstanceOf('Magento\Backend\Block\Widget\Button', $searchBlock);
         $this->assertEquals('checkoutObj.searchProducts()', $searchBlock->getOnclick());
     }
 }

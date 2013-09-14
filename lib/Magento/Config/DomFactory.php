@@ -17,7 +17,7 @@ namespace Magento\Config;
 class DomFactory
 {
 
-    const CLASS_NAME = '\Magento\Config\Dom';
+    const CLASS_NAME = 'Magento\Config\Dom';
 
     /**
      * @var \Magento\ObjectManager

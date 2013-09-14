@@ -28,8 +28,8 @@ class Collection
     protected function _construct()
     {
         $this->_init(
-            '\Magento\Invitation\Model\Invitation\History',
-            '\Magento\Invitation\Model\Resource\Invitation\History'
+            'Magento\Invitation\Model\Invitation\History',
+            'Magento\Invitation\Model\Resource\Invitation\History'
         );
     }
 }

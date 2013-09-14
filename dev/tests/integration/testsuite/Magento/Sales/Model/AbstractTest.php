@@ -18,7 +18,7 @@ class Magento_Sales_Model_AbstractTest extends PHPUnit_Framework_TestCase
         $collection = Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Grid\Collection');
         $this->assertEquals(1, $collection->count());
         foreach ($collection as $order) {
-            $this->assertInstanceOf('\Magento\Sales\Model\Order', $order);
+            $this->assertInstanceOf('Magento\Sales\Model\Order', $order);
             $this->assertEquals('100000001', $order->getIncrementId());
         }
     }

@@ -74,7 +74,7 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         );
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $block = $this->getMockForAbstractClass('Magento\Core\Block\AbstractBlock',
-            $helper->getConstructArguments('\Magento\Core\Block\AbstractBlock', $params),
+            $helper->getConstructArguments('Magento\Core\Block\AbstractBlock', $params),
             uniqid('Magento\\Core\\Block\\AbstractBlock\\')
         );
 

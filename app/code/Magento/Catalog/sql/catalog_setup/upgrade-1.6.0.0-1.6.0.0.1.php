@@ -21,43 +21,43 @@ $productTypes = join(',', $productTypes);
 
 $installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'msrp_enabled', array(
     'group'         => 'Prices',
-    'backend'       => '\Magento\Catalog\Model\Product\Attribute\Backend\Msrp',
+    'backend'       => 'Magento\Catalog\Model\Product\Attribute\Backend\Msrp',
     'frontend'      => '',
     'label'         => 'Apply MAP',
     'input'         => 'select',
-    'source'        => '\Magento\Eav\Model\Entity\Attribute\Source\Boolean',
+    'source'        => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean',
     'global'        => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
     'visible'       => true,
     'required'      => false,
     'user_defined'  => false,
     'default'       => '',
     'apply_to'      => $productTypes,
-    'input_renderer'   => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Msrp\Enabled',
+    'input_renderer'   => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Msrp\Enabled',
     'visible_on_front' => false,
     'used_in_product_listing' => true
 ));
 
 $installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'msrp_display_actual_price_type', array(
     'group'         => 'Prices',
-    'backend'       => '\Magento\Catalog\Model\Product\Attribute\Backend\Boolean',
+    'backend'       => 'Magento\Catalog\Model\Product\Attribute\Backend\Boolean',
     'frontend'      => '',
     'label'         => 'Display Actual Price',
     'input'         => 'select',
-    'source'        => '\Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type',
+    'source'        => 'Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type',
     'global'        => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
     'visible'       => true,
     'required'      => false,
     'user_defined'  => false,
     'default'       => '',
     'apply_to'      => $productTypes,
-    'input_renderer'   => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Msrp\Price',
+    'input_renderer'   => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Msrp\Price',
     'visible_on_front' => false,
     'used_in_product_listing' => true
 ));
 
 $installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'msrp', array(
     'group'         => 'Prices',
-    'backend'       => '\Magento\Catalog\Model\Product\Attribute\Backend\Price',
+    'backend'       => 'Magento\Catalog\Model\Product\Attribute\Backend\Price',
     'frontend'      => '',
     'label'         => 'Manufacturer\'s Suggested Retail Price',
     'type'          => 'decimal',

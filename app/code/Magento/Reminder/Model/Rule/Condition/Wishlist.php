@@ -23,7 +23,7 @@ class Wishlist
     public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('\Magento\Reminder\Model\Rule\Condition\Wishlist');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Wishlist');
         $this->setValue(null);
     }
 

@@ -150,7 +150,7 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
     protected function _getTaxClassMock($callback, $filter)
     {
         $collection = $this->getMock(
-            '\Magento\Tax\Model\Resource\TaxClass\Collection',
+            'Magento\Tax\Model\Resource\TaxClass\Collection',
             array('setClassTypeFilter', 'toOptionArray'),
             array(), '', false
         );
@@ -164,7 +164,7 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
             ->will($this->returnCallback(array($this, $callback)));
 
         $mock = $this->getMock(
-            '\Magento\Tax\Model\ClassModel',
+            'Magento\Tax\Model\ClassModel',
             array('getCollection'),
             array(
                 Mage::getModel('Magento\Core\Model\Context'),

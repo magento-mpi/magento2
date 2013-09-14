@@ -42,7 +42,7 @@ class Magento_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_Tes
             ->will($this->returnValue(1));
 
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_block = $helper->getObject('\Magento\Webapi\Block\Adminhtml\User\Edit', array(
+        $this->_block = $helper->getObject('Magento\Webapi\Block\Adminhtml\User\Edit', array(
             // TODO: Remove injecting of 'urlBuilder' after MAGETWO-5038 complete
             'urlBuilder' => $this->getMockBuilder('Magento\Backend\Model\Url')
                 ->disableOriginalConstructor()

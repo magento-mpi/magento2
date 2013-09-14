@@ -18,7 +18,7 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_AbstractT
     {
         /** @var $listAbstractBlock \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList */
         $listAbstractBlock = $this->getMockForAbstractClass(
-            '\Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList',
+            'Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList',
             array(),
             '',
             false,
@@ -53,7 +53,7 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_AbstractT
     {
         /** @var $listAbstractBlock \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList */
         $listAbstractBlock = $this->getMockForAbstractClass(
-            '\Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList',
+            'Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList',
             array(),
             '',
             false,
@@ -65,7 +65,7 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_AbstractT
         $themeMock = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
         /** @var $themeBlockMock \Magento\DesignEditor\Block\Adminhtml\Theme */
         $themeBlockMock = $this->getMock(
-            '\Magento\DesignEditor\Block\Adminhtml\Theme', array('getTheme'), array(), '', false
+            'Magento\DesignEditor\Block\Adminhtml\Theme', array('getTheme'), array(), '', false
         );
         /** @var $layoutMock \Magento\Core\Model\Layout */
         $layoutMock  = $this->getMock('Magento\Core\Model\Layout', array('createBlock'), array(), '', false);

@@ -12,7 +12,7 @@
         <reference name="sales.order.print.shipment">
             <action method="addItemRender">
                 <argument name="type" xsi:type="string">bundle</argument>
-                <argument name="block" xsi:type="string">\Magento\Bundle\Block\Sales\Order\Items\Renderer</argument>
+                <argument name="block" xsi:type="string">Magento\Bundle\Block\Sales\Order\Items\Renderer</argument>
                 <argument name="template" xsi:type="string">sales/order/shipment/items/renderer.phtml</argument>
             </action>
         </reference>

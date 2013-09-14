@@ -24,7 +24,7 @@ class Entry extends \Zend_Gdata_Entry
      *
      * var @string
      */
-    protected $_entryClassName = '\Magento\Gdata\Gshopping\Entry';
+    protected $_entryClassName = 'Magento\Gdata\Gshopping\Entry';
 
     /**
      * Google Shopping attribute elements in the 'sc' and 'scp' namespaces

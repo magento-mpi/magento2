@@ -20,8 +20,8 @@ class Magento_Payment_Block_Form_ContainerTest extends PHPUnit_Framework_TestCas
     public function testSetMethodFormTemplate()
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $childBlockA = $objectManagerHelper->getObject('\Magento\Core\Block\Template');
-        $childBlockB = $objectManagerHelper->getObject('\Magento\Core\Block\Template');
+        $childBlockA = $objectManagerHelper->getObject('Magento\Core\Block\Template');
+        $childBlockB = $objectManagerHelper->getObject('Magento\Core\Block\Template');
 
         $func = function ($blockName) use ($childBlockA, $childBlockB) {
             switch ($blockName) {

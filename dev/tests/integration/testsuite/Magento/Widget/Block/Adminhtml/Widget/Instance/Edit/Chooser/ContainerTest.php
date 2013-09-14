@@ -24,7 +24,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_ContainerTest 
         parent::setUp();
 
         $this->_block = Mage::app()->getLayout()->createBlock(
-            '\Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Container'
+            'Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Container'
         );
     }
 

@@ -60,7 +60,7 @@
                             <virtual />
                         </allow_product_types>
                         <index_priority>50</index_priority>
-                        <price_indexer>\Magento\Catalog\Model\Resource\Product\Indexer\Price\Grouped</price_indexer>
+                        <price_indexer>Magento\Catalog\Model\Resource\Product\Indexer\Price\Grouped</price_indexer>
                     </grouped>
                     <configurable translate="label">
                         <label>Configurable Product</label>
@@ -72,7 +72,7 @@
                             <virtual />
                         </allow_product_types>
                         <index_priority>30</index_priority>
-                        <price_indexer>\Magento\Catalog\Model\Resource\Product\Indexer\Price\Configurable</price_indexer>
+                        <price_indexer>Magento\Catalog\Model\Resource\Product\Indexer\Price\Configurable</price_indexer>
                     </configurable>
                     <virtual translate="label">
                         <label>Virtual Product</label>
@@ -98,7 +98,7 @@
                         <groups>
                             <text translate="label">
                                 <label>Text</label>
-                                <render>\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Type\Text</render>
+                                <render>Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Type\Text</render>
                                 <types>
                                     <field translate="label">
                                         <label>Field</label>
@@ -110,7 +110,7 @@
                             </text>
                             <file translate="label">
                                 <label>File</label>
-                                <render>\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Type\File</render>
+                                <render>Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Type\File</render>
                                 <types>
                                     <file translate="label">
                                         <label>File</label>
@@ -119,7 +119,7 @@
                             </file>
                             <select translate="label">
                                 <label>Select</label>
-                                <render>\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Type\Select</render>
+                                <render>Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Type\Select</render>
                                 <types>
                                     <drop_down translate="label">
                                         <label>Drop-down</label>
@@ -137,7 +137,7 @@
                             </select>
                             <date translate="label">
                                 <label>Date</label>
-                                <render>\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Type\Date</render>
+                                <render>Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Type\Date</render>
                                 <types>
                                     <date translate="label">
                                         <label>Date</label>
@@ -199,7 +199,7 @@
                 </attributes>
             </product>
             <content>
-                <tempate_filter>\Magento\Catalog\Model\Template\Filter</tempate_filter>
+                <tempate_filter>Magento\Catalog\Model\Template\Filter</tempate_filter>
             </content>
         </catalog>
         <eav_attributes>
@@ -239,8 +239,8 @@
             <catalog>
                 <product>
                     <message_models>
-                        <catalog>\Magento\Catalog\Model\Session</catalog>
-                        <checkout>\Magento\Checkout\Model\Session</checkout>
+                        <catalog>Magento\Catalog\Model\Session</catalog>
+                        <checkout>Magento\Checkout\Model\Session</checkout>
                     </message_models>
                 </product>
             </catalog>

@@ -54,17 +54,17 @@ class Magento_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
         /** @var $this->_themeMock \Magento\Core\Model\Theme */
         $this->_themeMock = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMockForAbstractClass(
-            '\Magento\Core\Model\StoreManagerInterface', array(), '', true, true, true,
+            'Magento\Core\Model\StoreManagerInterface', array(), '', true, true, true,
             array('getStores', 'isSingleStoreMode')
         );
         $this->_configData = $this->getMock(
-            '\Magento\Core\Model\Config\Value', array('getCollection', 'addFieldToFilter'), array(), '', false
+            'Magento\Core\Model\Config\Value', array('getCollection', 'addFieldToFilter'), array(), '', false
         );
         $this->_configCacheMock = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
         $this->_layoutCacheMock = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
 
         $this->_storeConfigWriter = $this->getMock(
-            '\Magento\Core\Model\Config\Storage\WriterInterface', array('save', 'delete')
+            'Magento\Core\Model\Config\Storage\WriterInterface', array('save', 'delete')
         );
 
         $this->_model = new \Magento\Theme\Model\Config(

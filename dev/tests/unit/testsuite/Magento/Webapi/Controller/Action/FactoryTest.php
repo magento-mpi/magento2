@@ -46,7 +46,7 @@ class Magento_Webapi_Controller_Action_FactoryTest extends PHPUnit_Framework_Tes
         $this->_objectManagerMock->expects($this->once())->method('create')->will(
             $this->returnValue($actionController)
         );
-        $this->_factory->createActionController('\Magento\Webapi\Controller\ActionAbstract', $request);
+        $this->_factory->createActionController('Magento\Webapi\Controller\ActionAbstract', $request);
     }
 
     /**

@@ -97,7 +97,7 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_XmlTest extends PHPUnit
         $this->_xmlParserMock->expects($this->once())->method('loadXML');
         $invalidXml = '<?xml version="1.0"?><xml><key1>test1</xml>';
         $this->setExpectedException(
-            '\Magento\Webapi\Exception',
+            'Magento\Webapi\Exception',
             'Decoding Error: End tag for "key1" was omitted.',
             \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );
@@ -116,7 +116,7 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_XmlTest extends PHPUnit
         $this->_xmlParserMock->expects($this->once())->method('loadXML');
         $invalidXml = '<?xml version="1.0"?><xml><key1>test1</xml>';
         $this->setExpectedException(
-            '\Magento\Webapi\Exception',
+            'Magento\Webapi\Exception',
             'Decoding error.',
             \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );
