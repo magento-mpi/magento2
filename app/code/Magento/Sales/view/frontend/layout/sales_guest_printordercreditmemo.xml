@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Sales Creditmemo Print View" id="sales_guest_printcreditmemo" type="page" parent="sales_guest_print">
+    <handle label="Sales Creditmemo Print View" id="sales_guest_printordercreditmemo" type="page" parent="sales_guest_print">
         <reference name="content">
             <block class="Magento\Sales\Block\Order\PrintOrder\Creditmemo" name="sales.order.printorder.creditmemo" template="order/print/creditmemo.phtml">
                 <action method="addItemRender">

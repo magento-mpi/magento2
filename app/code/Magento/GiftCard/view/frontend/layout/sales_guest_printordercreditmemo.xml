@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="sales_guest_printcreditmemo">
+    <handle id="sales_guest_printordercreditmemo">
         <reference name="sales.order.printorder.creditmemo">
             <action method="addItemRender">
                 <argument name="type" xsi:type="string">giftcard</argument>

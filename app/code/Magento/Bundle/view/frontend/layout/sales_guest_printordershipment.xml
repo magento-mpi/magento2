@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="sales_guest_printshipment">
+    <handle id="sales_guest_printordershipment">
         <reference name="sales.order.printorder.shipment">
             <action method="addItemRender">
                 <argument name="type" xsi:type="string">bundle</argument>
