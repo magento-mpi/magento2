@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rma\Block\Return\Tracking;
+namespace Magento\Rma\Block\ReturnShipment\Tracking;
 
 class Package extends \Magento\Shipping\Block\Tracking\Popup
 {

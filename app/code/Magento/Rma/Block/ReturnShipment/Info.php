@@ -14,7 +14,7 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Block\Return;
+namespace Magento\Rma\Block\ReturnShipment;
 
 class Info extends \Magento\Core\Block\Template
 {
