@@ -43,9 +43,7 @@ class Magento_Webhook_Model_Source_Pkg extends PHPUnit_Framework_TestCase
      */
     protected function _assertElements($elements)
     {
-        /** @var Magento_Phrase $phrase */
-        $phrase = $elements[0]['label'];
-        $this->assertSame(self::CONFIG_LABEL, $phrase->render());
+        $this->assertSame(self::CONFIG_LABEL, $elements[0]['label']);
         $this->assertSame('type', $elements[0]['value']);
     }
 }
