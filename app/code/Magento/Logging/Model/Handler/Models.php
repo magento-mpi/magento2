@@ -2,18 +2,32 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Custom handlers for models logging
- *
  */
 class Magento_Logging_Model_Handler_Models
 {
+    /**
+     * Factory for event changes model
+     *
+     * @var Magento_Logging_Model_Event_ChangesFactory
+     */
+    protected $_eventChangesFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Logging_Model_Event_ChangesFactory $eventChangesFactory
+     */
+    function __construct(Magento_Logging_Model_Event_ChangesFactory $eventChangesFactory)
+    {
+        $this->_eventChangesFactory = $eventChangesFactory;
+    }
+
     /**
      * SaveAfter handler
      *
@@ -23,7 +37,7 @@ class Magento_Logging_Model_Handler_Models
     public function modelSaveAfter($model, $processor)
     {
         $processor->collectId($model);
-        $changes = Mage::getModel('Magento_Logging_Model_Event_Changes')
+        $changes = $this->_eventChangesFactory->create()
             ->setOriginalData($model->getOrigData())
             ->setResultData($model->getData());
         return $changes;
@@ -38,7 +52,7 @@ class Magento_Logging_Model_Handler_Models
     public function modelDeleteAfter($model, $processor)
     {
         $processor->collectId($model);
-        $changes = Mage::getModel('Magento_Logging_Model_Event_Changes')
+        $changes = $this->_eventChangesFactory->create()
             ->setOriginalData($model->getOrigData())
             ->setResultData(null);
         return $changes;

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -94,15 +92,51 @@ class Magento_Logging_Model_Processor
     protected $_coreHttp = null;
 
     /**
+     * Backend session
+     *
+     * @var Magento_Backend_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * Event model factory
+     *
+     * @var Magento_Logging_Model_EventFactory
+     */
+    protected $_eventFactory;
+
+    /**
+     * Request
+     *
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_request;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Logging_Model_Handler_ModelsFactory $handlerModelsFactory
+     * @param Magento_Logging_Model_Handler_ControllersFactory $handlerControllersFactory
+     * @param Magento_Backend_Model_Session $backendSession
+     * @param Magento_Logging_Model_EventFactory $eventFactory
+     * @param Magento_Core_Controller_Request_Http $request
      */
     public function __construct(
-        Magento_Core_Helper_Http $coreHttp
+        Magento_Core_Helper_Http $coreHttp,
+        Magento_Logging_Model_Handler_ModelsFactory $handlerModelsFactory,
+        Magento_Logging_Model_Handler_ControllersFactory $handlerControllersFactory,
+        Magento_Backend_Model_Session $backendSession,
+        Magento_Logging_Model_EventFactory $eventFactory,
+        Magento_Core_Controller_Request_Http $request
     ) {
         $this->_coreHttp = $coreHttp;
         $this->_config = Mage::getSingleton('Magento_Logging_Model_Config');
-        $this->_modelsHandler = Mage::getModel('Magento_Logging_Model_Handler_Models');
-        $this->_controllerActionsHandler = Mage::getModel('Magento_Logging_Model_Handler_Controllers');
+        $this->_modelsHandler = $handlerModelsFactory->create();
+        $this->_controllerActionsHandler = $handlerControllersFactory->create();
+        $this->_session = $backendSession;
+        $this->_eventFactory = $eventFactory;
+        $this->_request = $request;
     }
 
     /**
@@ -268,11 +302,11 @@ class Magento_Logging_Model_Processor
             $userId = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId();
             $username = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getUsername();
         }
-        $errors = Mage::getModel('Magento_Adminhtml_Model_Session')->getMessages()->getErrors();
+        $errors = $this->_session->getMessages()->getErrors();
         /** @var Magento_Logging_Model_Event $loggingEvent */
-        $loggingEvent = Mage::getModel('Magento_Logging_Model_Event')->setData(array(
+        $loggingEvent = $this->_eventFactory->create()->setData(array(
             'ip'            => $this->_coreHttp->getRemoteAddr(),
-            'x_forwarded_ip'=> Mage::app()->getRequest()->getServer('HTTP_X_FORWARDED_FOR'),
+            'x_forwarded_ip'=> $this->_request->getServer('HTTP_X_FORWARDED_FOR'),
             'user'          => $username,
             'user_id'       => $userId,
             'is_success'    => empty($errors),
@@ -412,6 +446,7 @@ class Magento_Logging_Model_Processor
      * @param object $defaultHandler
      * @param string $defaultFunction
      * @return array Contains two values 'handler' and 'callback' that indicate what callback function should be applied
+     * @throws Magento_Core_Exception
      */
     protected function _getCallbackFunction($srtCallback, $defaultHandler, $defaultFunction)
     {
@@ -430,7 +465,7 @@ class Magento_Logging_Model_Processor
             }
             if (!$return['handler'] || !$return['callback'] || !method_exists($return['handler'],
                 $return['callback'])) {
-                Mage::throwException("Unknown callback function: {$srtCallback}");
+                throw new Magento_Core_Exception("Unknown callback function: {$srtCallback}");
             }
         } catch (Exception $e) {
             $return['handler'] = false;

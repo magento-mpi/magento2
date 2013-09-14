@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +12,6 @@
  */
 class Magento_Logging_Model_Observer
 {
-
     /**
      * Instance of Magento_Logging_Model_Logging
      *
@@ -30,13 +27,35 @@ class Magento_Logging_Model_Observer
     protected $_coreHttp = null;
 
     /**
+     * Request
+     *
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_request;
+
+    /**
+     * Flag model factory
+     *
+     * @var Magento_Logging_Model_FlagFactory
+     */
+    protected $_flagFactory;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Logging_Model_FlagFactory $flagFactory
      */
     public function __construct(
-        Magento_Core_Helper_Http $coreHttp
+        Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Logging_Model_FlagFactory $flagFactory
     ) {
         $this->_coreHttp = $coreHttp;
         $this->_processor = Mage::getSingleton('Magento_Logging_Model_Processor');
+        $this->_request = $request;
+        $this->_flagFactory = $flagFactory;
     }
 
     /**
@@ -166,7 +185,6 @@ class Magento_Logging_Model_Observer
         if (!$userId) {
             $userId = Mage::getSingleton('Magento_User_Model_User')->loadByUsername($username)->getId();
         }
-        $request = Mage::app()->getRequest();
         /** @var Magento_Logging_Model_Event $event */
         $event = Mage::getSingleton('Magento_Logging_Model_Event');
         $event->setData(array(
@@ -174,7 +192,8 @@ class Magento_Logging_Model_Observer
             'user'       => $username,
             'user_id'    => $userId,
             'is_success' => $success,
-            'fullaction' => "{$request->getRouteName()}_{$request->getControllerName()}_{$request->getActionName()}",
+            'fullaction' => "{$this->_request->getRouteName()}_{$this->_request->getControllerName()}"
+                . "_{$this->_request->getActionName()}",
             'event_code' => $eventCode,
             'action'     => 'login',
         ));
@@ -186,7 +205,7 @@ class Magento_Logging_Model_Observer
      */
     public function rotateLogs()
     {
-        $lastRotationFlag = Mage::getModel('Magento_Logging_Model_Flag')->loadSelf();
+        $lastRotationFlag = $this->_flagFactory->create()->loadSelf();
         $lastRotationTime = $lastRotationFlag->getFlagData();
         $rotationFrequency = 3600 * 24 * (int)Mage::getConfig()->getValue('system/rotation/frequency', 'default');
         if (!$lastRotationTime || ($lastRotationTime < time() - $rotationFrequency)) {
