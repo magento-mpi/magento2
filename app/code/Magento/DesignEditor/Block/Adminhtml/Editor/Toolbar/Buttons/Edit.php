@@ -22,7 +22,7 @@ class Edit
     protected $_themeContext;
 
     /**
-     * @var Magento_DesignEditor_Model_Theme_ChangeFactory
+     * @var \Magento\DesignEditor\Model\Theme\ChangeFactory
      */
     protected $_changeFactory;
 
@@ -34,14 +34,14 @@ class Edit
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\DesignEditor\Model\Theme\Context $themeContext
-     * @param Magento_DesignEditor_Model_Theme_ChangeFactory $changeFactory
+     * @param \Magento\DesignEditor\Model\Theme\ChangeFactory $changeFactory
      * @param \Magento\Core\Model\LocaleInterface $localeModel
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\DesignEditor\Model\Theme\Context $themeContext,
-        Magento_DesignEditor_Model_Theme_ChangeFactory $changeFactory,
+        \Magento\DesignEditor\Model\Theme\ChangeFactory $changeFactory,
         \Magento\Core\Model\LocaleInterface $localeModel,
         array $data = array()
     ) {
