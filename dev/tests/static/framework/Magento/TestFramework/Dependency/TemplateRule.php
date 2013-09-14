@@ -188,7 +188,7 @@ class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFrame
         $patterns = array(
             Magento_TestFramework_Dependency_RuleInterface::TYPE_HARD =>
             '/(?<source>Mage::(?:getModel|getSingleton|getBlockSingleton)+\([\'"]'
-                . '(?<namespace>' . $this->_namespaces . ')_'
+                . '(?<namespace>' . $this->_namespaces . ')[_\\\\]'
                 . '(?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
@@ -212,8 +212,8 @@ class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFrame
     {
         $patterns = array(
             Magento_TestFramework_Dependency_RuleInterface::TYPE_HARD =>
-            '/(?<source>[$a-zA-Z0-9_\->:]+helper\([\'"](?<namespace>' . $this->_namespaces . ')_'
-                . '(?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
+            '/(?<source>[$a-zA-Z0-9_\->:]+helper\([\'"](?<namespace>' . $this->_namespaces . ')[_\\\\]'
+                . '(?<module>[A-Z][a-zA-Z]+)\w*)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
     }
@@ -235,8 +235,8 @@ class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFrame
     {
         $patterns = array(
             Magento_TestFramework_Dependency_RuleInterface::TYPE_HARD =>
-            '/[\->:]+(?<source>createBlock\([\'"](?<namespace>' . $this->_namespaces . ')_'
-                . '(?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
+            '/[\->:]+(?<source>createBlock\([\'"](?<namespace>' . $this->_namespaces . ')[_\\\\]'
+                . '(?<module>[A-Z][a-zA-Z]+)\w*)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
     }
@@ -258,8 +258,8 @@ class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFrame
     {
         $patterns = array(
             Magento_TestFramework_Dependency_RuleInterface::TYPE_HARD =>
-            '/(?<source>(?<namespace>' . $this->_namespaces . ')_(?<module>[A-Z][a-zA-Z]+)_'
-                . '(?:[A-Z][a-z]+_?){1,}::[A-Z_]+)/',
+            '/(?<source>(?<namespace>' . $this->_namespaces . ')[_\\\\](?<module>[A-Z][a-zA-Z]+)[_\\\\]'
+                . '(?:[A-Z][a-z]+[_\\\\]?){1,}::[A-Z[_\\\\]]+)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
     }
@@ -281,8 +281,8 @@ class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFrame
     {
         $patterns = array(
             Magento_TestFramework_Dependency_RuleInterface::TYPE_SOFT =>
-            '/(?<source>[$a-zA-Z0-9_\->:]+getViewFileUrl\([\'"](?<namespace>' . $this->_namespaces . ')_'
-                . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.-]+[\'"]\))/',
+            '/(?<source>[$a-zA-Z0-9_\->:]+getViewFileUrl\([\'"](?<namespace>' . $this->_namespaces . ')[_\\\\]'
+                . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.-]+)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
     }
@@ -307,7 +307,7 @@ class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFrame
         $dependencies = array();
         if (preg_match_all($pattern, $contents, $matches, PREG_SET_ORDER)) {
             foreach ($matches as $item) {
-                $router = str_replace('/', '_', $item['router']);
+                $router = str_replace('/', '\\', $item['router']);
                 if (isset($this->_mapRouters[$router])) {
                     $moduleName = $this->_mapRouters[$router];
                     if ($currentModule != $moduleName) {
@@ -370,7 +370,7 @@ class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFrame
         foreach ($patterns as $type => $pattern) {
             if (preg_match_all($pattern, $contents, $matches, PREG_SET_ORDER)) {
                 foreach ($matches as $match) {
-                    $module = $match['namespace'] . '_' . $match['module'];
+                    $module = $match['namespace'] . '\\' . $match['module'];
                     if ($currentModule != $module) {
                         $result[$module] = array(
                             'type' => $type,
