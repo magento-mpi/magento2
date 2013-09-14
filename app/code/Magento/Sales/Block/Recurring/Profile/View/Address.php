@@ -19,6 +19,7 @@ class Magento_Sales_Block_Recurring_Profile_View_Address extends Magento_Sales_B
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Sales_Model_Order_AddressFactory $addressFactory
      * @param array $data
      */

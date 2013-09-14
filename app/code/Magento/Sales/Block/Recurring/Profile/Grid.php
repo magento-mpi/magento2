@@ -40,6 +40,15 @@ class Magento_Sales_Block_Recurring_Profile_Grid extends Magento_Sales_Block_Rec
      */
     protected $_profiles = null;
 
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Sales_Model_Recurring_Profile $profile
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Helper_Data $coreData
+     * @param array $data
+     */
     public function __construct(
         Magento_Core_Block_Template_Context $context,
         Magento_Sales_Model_Recurring_Profile $profile,

@@ -29,6 +29,7 @@ class Magento_Sales_Block_Recurring_Profile_Related_Orders_Grid extends Magento_
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Sales_Model_Resource_Order_Collection $collection
      * @param Magento_Sales_Model_Order_Config $config
+     * @param Magento_Core_Helper_Data $coreData
      * @param array $data
      */
     public function __construct(

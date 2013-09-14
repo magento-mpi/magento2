@@ -21,10 +21,9 @@ class Magento_Sales_Block_Order_Link extends Magento_Page_Block_Link_Current
     protected $_registry;
 
     /**
-     * @inheritdoc
-     *
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Helper_Data $coreData
      * @param array $data
      */
     public function __construct(

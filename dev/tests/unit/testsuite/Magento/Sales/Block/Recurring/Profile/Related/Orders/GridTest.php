@@ -19,7 +19,7 @@ class Magento_Sales_Block_Recurring_Profile_Related_Orders_GridTest extends PHPU
      */
     protected $_objectManagerHelper;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
     }
@@ -122,6 +122,11 @@ class Magento_Sales_Block_Recurring_Profile_Related_Orders_GridTest extends PHPU
         $this->assertEquals($expectedResult, $block->getGridElements());
     }
 
+    /**
+     * Get layout mock
+     *
+     * @return Magento_Core_Model_Layout
+     */
     protected function _getMockLayout()
     {
         $layout = $this->getMockBuilder('Magento_Core_Model_Layout')
@@ -131,6 +136,11 @@ class Magento_Sales_Block_Recurring_Profile_Related_Orders_GridTest extends PHPU
         return $layout;
     }
 
+    /**
+     * Get context object
+     *
+     * @return Magento_Core_Block_Template_Context
+     */
     protected function _getContext()
     {
         $helper = $this->getMockBuilder('Magento_Customer_Helper_Data')
