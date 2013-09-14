@@ -1,3 +1,4 @@
+Magento_DesignEditor_Model_Theme_ChangeFactory  =>  \Magento\DesignEditor\Model\Theme\ChangeFactory
 Magento_Core_Model_Config_ValueFactory  =>  \Magento\Core\Model\Config\ValueFactory
 Magento_Core_Model_ThemeFactory => \Magento\Core\Model\ThemeFactory
 Magento_Core_Model_Page_Asset_PublicFileFactory => \Magento\Core\Model\Page\Asset\PublicFileFactory
