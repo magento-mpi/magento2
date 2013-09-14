@@ -60,8 +60,8 @@ class Magento_Test_Integrity_Modular_TemplateFilesTest extends Magento_TestFrame
                 $area = 'frontend';
                 if ($module == 'Magento_Install') {
                     $area = 'install';
-                } elseif ($module == 'Magento_Adminhtml' || strpos($blockClass, '_Adminhtml_')
-                    || strpos($blockClass, '_Backend_')
+                } elseif ($module == 'Magento_Adminhtml' || strpos($blockClass, '\\Adminhtml\\')
+                    || strpos($blockClass, '\\Backend\\')
                     || $class->isSubclassOf('Magento\Backend\Block\Template'))
                 {
                     $area = 'adminhtml';

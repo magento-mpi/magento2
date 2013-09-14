@@ -1,3 +1,4 @@
+Magento_Catalog_Model_CategoryFactory  =>  \Magento\Catalog\Model\CategoryFactory
 Magento_DesignEditor_Model_Theme_ChangeFactory  =>  \Magento\DesignEditor\Model\Theme\ChangeFactory
 Magento_Core_Model_Config_ValueFactory  =>  \Magento\Core\Model\Config\ValueFactory
 Magento_Core_Model_ThemeFactory => \Magento\Core\Model\ThemeFactory
