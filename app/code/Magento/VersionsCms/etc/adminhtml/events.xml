@@ -26,10 +26,7 @@
     <event name="store_delete_after">
         <observer name="magento_versionscms" instance="Magento_VersionsCms_Model_Observer" method="deleteStore" />
     </event>
-    <event name="cms_page_get_available_statuses">
-        <observer name="magento_versionscms" instance="Magento_VersionsCms_Model_Observer" method="modifyPageStatuses" />
-    </event>
     <event name="cms_page_delete_after">
         <observer name="magento_versionscms" instance="Magento_VersionsCms_Model_Observer" method="cmsPageDeleteAfter" />
     </event>
-</config>
+</config>

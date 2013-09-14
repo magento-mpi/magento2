@@ -43,8 +43,8 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtm
      */
     protected function  _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Oauth::system_legacy_api_oauth_consumer');
+        // TODO: Fix during Web API authentication implementation
+        // $this->loadLayout()->_setActiveMenu('Magento_Oauth::system_legacy_api_oauth_consumer');
         return $this;
     }
     /**

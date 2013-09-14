@@ -22,6 +22,12 @@ class Magento_Webapi_Controller_Response extends Zend_Controller_Response_Http
     const MESSAGE_TYPE_WARNING = 'warning';
     /**#@- */
 
+    /**#@+
+     * Success HTTP response codes.
+     */
+    const HTTP_OK = 200;
+    /**#@-*/
+
     /**
      * Messages.
      *

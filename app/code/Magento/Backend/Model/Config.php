@@ -132,8 +132,6 @@ class Magento_Backend_Model_Config extends Magento_Object
         $this->_validate();
         $this->_getScope();
 
-        $this->_eventManager->dispatch('model_config_data_save_before', array('object' => $this));
-
         $sectionId = $this->getSection();
         $groups  = $this->getGroups();
         if (empty($groups)) {
@@ -164,12 +162,6 @@ class Magento_Backend_Model_Config extends Magento_Object
             // re-init configuration
             $this->_eventManager->dispatch('application_process_reinit_config');
             $this->_storeManager->reinitStores();
-
-            $this->_eventManager->dispatch('admin_system_config_section_save_after', array(
-                'website' => $this->getWebsite(),
-                'store' => $this->getStore(),
-                'section' => $this->getSection()
-            ));
 
             // website and store codes can be used in event implementation, so set them as well
             $this->_eventManager->dispatch("admin_system_config_changed_section_{$this->getSection()}", array(
