@@ -74,6 +74,10 @@ abstract class Magento_TestFramework_TestCase_ConfigFilesAbstract extends PHPUni
 
     public function testMergedConfig()
     {
+        $files = $this->getXmlConfigFiles();
+        if (empty($files)) {
+            $this->markTestSkipped('There are no xml files in the system for this test.');
+        }
         // have the file resolver return all relevant xml files
         $this->_fileResolverMock->expects($this->once())->method('get')
             ->will($this->returnValue($this->getXmlConfigFiles()));
