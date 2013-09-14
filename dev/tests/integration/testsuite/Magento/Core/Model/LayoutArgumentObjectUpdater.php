@@ -17,15 +17,12 @@ class Magento_Core_Model_LayoutArgumentObjectUpdater implements Magento_Core_Mod
     /**
      * Update specified argument
      *
-     * @param Magento_Core_Block_Text $argument
-     * @return Magento_Core_Block_Text
+     * @param Magento_Data_Collection $argument
+     * @return Magento_Data_Collection
      */
     public function update($argument)
     {
         $calls = $argument->getUpdaterCall();
-        if (true == empty($calls)) {
-            $calls = array();
-        }
         $calls[] = 'updater call';
         $argument->setUpdaterCall($calls);
         return $argument;

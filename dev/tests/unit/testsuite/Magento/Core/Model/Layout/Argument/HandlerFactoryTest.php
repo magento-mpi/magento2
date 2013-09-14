@@ -83,9 +83,9 @@ class Magento_Core_Model_Layout_Argument_HandlerFactoryTest extends PHPUnit_Fram
     public function getArgumentHandlerFactoryByTypeWithValidTypeDataProvider()
     {
         return array(
-            'object'  => array('object', 'Magento_Core_Model_Layout_Argument_Handler_Object'),
+            'object' => array('object', 'Magento_Core_Model_Layout_Argument_Handler_Object'),
             'options' => array('options', 'Magento_Core_Model_Layout_Argument_Handler_Options'),
-            'url'     => array('url', 'Magento_Core_Model_Layout_Argument_Handler_Url')
+            'url' => array('url', 'Magento_Core_Model_Layout_Argument_Handler_Url')
         );
     }
 }

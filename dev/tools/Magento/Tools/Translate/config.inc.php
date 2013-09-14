@@ -524,11 +524,6 @@ $CONFIG['translates'] = array(
         '!app/design/adminhtml/default/default/layout/enterprise/', // ! = exclude
         '!app/design/adminhtml/default/default/template/enterprise/', // ! = exclude
     ),
-    'Magento_Api' => array(
-        'app/code/Magento/Api/',
-        'app/design/adminhtml/default/default/template/api/',
-        '!app/design/adminhtml/default/default/template/enterprise/', // ! = exclude
-    ),
     'Magento_Webapi' => array(
         'app/code/Magento/Webapi/',
         'app/design/adminhtml/default/default/template/webapi/',
@@ -553,7 +548,6 @@ $CONFIG['translates'] = array(
 $CONFIG['helpers']  = array(
     'adminhtml'         => 'Magento_Adminhtml',
     'adminnotification' => 'Magento_AdminNotification',
-    'api'               => 'Magento_Api',
     'webapi'            => 'Magento_Webapi',
     'oauth'             => 'Magento_Oauth',
     'importexport'      => 'Magento_ImportExport',

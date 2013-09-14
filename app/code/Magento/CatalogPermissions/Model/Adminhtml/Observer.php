@@ -46,24 +46,6 @@ class Magento_CatalogPermissions_Model_Adminhtml_Observer
     }
 
     /**
-     * Check permissions availability for current category
-     *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_CatalogPermissions_Model_Adminhtml_Observer
-     */
-    public function checkCategoryPermissions(Magento_Event_Observer $observer)
-    {
-        $category = $observer->getEvent()->getCategory();
-        /* @var $category Magento_Catalog_Model_Category */
-        $helper = $this->_catalogPermData;
-        if (!$helper->isAllowedCategory($category) && $category->hasData('permissions')) {
-            $category->unsetData('permissions');
-        }
-
-        return $this;
-    }
-
-    /**
      * Save category permissions on category after save event
      *
      * @param Magento_Event_Observer $observer

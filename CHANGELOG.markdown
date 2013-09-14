@@ -1,3 +1,37 @@
+* Various improvements:
+  * Removed some events (plugins must be used instead):
+    * adminhtml_widget_container_html_before
+    * admin_session_user_logout
+    * model_config_data_save_before
+    * admin_system_config_section_save_after
+    * backend_menu_load_after
+    * catalog_controller_category_init_before
+    * catalog_helper_output_construct
+    * catalog_controller_product_init
+    * catalog_category_tree_move_before
+    * catalog_category_tree_move_after
+    * catalog_product_website_update_before
+    * catalog_product_website_update
+    * catalog_product_media_save_before
+    * catalog_product_media_add_image
+    * catalog_product_type_grouped_price
+    * catalog_product_collection_load_before
+    * catalogsearch_index_process_start
+    * catalogsearch_index_process_complete
+    * cms_page_get_available_statuses
+    * cms_wysiwyg_config_prepare
+    * application_clean_cache
+    * theme_copy_after
+    * customer_registration_is_allowed
+    * log_log_clean_before
+    * log_log_clean_after
+    * sales_convert_quote_payment_to_order_payment
+    * sales_convert_quote_item_to_order_item
+    * sales_quote_config_get_product_attributes
+* Redesign and reimplementation of web services framework
+  * Removed the Api module and all existing SOAP V1, SOAP V2, and XML-RPC web services code
+  * Implemented new web services framework to support both REST and SOAP based off of a common service interface
+
 2.0.0.0-dev45
 =============
 * Product management improvements:
@@ -68,6 +102,13 @@
      * Covered new layout customization mechanism with integrity tests
   * Relocated several files, declared in layouts
   * Streamlined several design customizations
+  * Arbitrary handle name moved to handle node, id attribute
+  * New arguments format, which introduce argument types implemented
+  * Translation specified just on the level of node which is going to be translated
+  * XSD validation for Layouts XML added
+  * Type casting for all kind of types (url, option, array and simple types) added
+  * Covered introduced argument types with integrity test
+  * Types restrictions was implemented
 * Various improvements:
   * Refactored fallback paths to prevent searching of modular view files in non-module context, covered application with appropriate integrity test
   * Added configuration for limits on sending wishlist emails

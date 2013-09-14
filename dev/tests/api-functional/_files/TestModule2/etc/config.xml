@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <testmodule2_setup>
+                <setup>
+                    <module>Magento_TestModule2</module>
+                </setup>
+            </testmodule2_setup>
+        </resources>
+    </global>
+</config>

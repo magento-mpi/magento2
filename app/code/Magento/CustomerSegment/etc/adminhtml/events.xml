@@ -23,4 +23,4 @@
     <event name="targetrule_edit_tab_main_after_prepare_form">
         <observer name="magento_customersegment" instance="Magento_CustomerSegment_Model_Observer" method="addFieldsToTargetRuleForm" />
     </event>
-</config>
+</config>
