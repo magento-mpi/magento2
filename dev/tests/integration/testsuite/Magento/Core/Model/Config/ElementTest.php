@@ -34,7 +34,7 @@ class Magento_Core_Model_Config_ElementTest extends PHPUnit_Framework_TestCase
         <class>Magento\Catalog\Model\Observer</class>
     </class_test>
     <model_test>
-        <model>\Magento\Catalog\Model\Observer</model>
+        <model>Magento\Catalog\Model\Observer</model>
     </model_test>
     <no_classname_test>
         <none/>
