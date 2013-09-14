@@ -15,7 +15,8 @@
                     <argument name="label" xsi:type="string">My Account</argument>
                 </arguments>
             </block>
-            <block class="Magento_Customer_Block_Account_Authorization" name="authorization-link" after="onepage-checkout-link"/>
+            <block class="Magento_Customer_Block_Account_AuthorizationLink"
+                   name="authorization-link" after="onepage-checkout-link"/>
         </reference>
     </handle>
 </layout>

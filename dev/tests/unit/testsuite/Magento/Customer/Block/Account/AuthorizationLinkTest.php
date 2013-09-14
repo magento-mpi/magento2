@@ -10,9 +10,9 @@
  */
 
 /**
- * Test class for Magento_Customer_Block_Account_Authorization
+ * Test class for Magento_Customer_Block_Account_AuthorizationLink
  */
-class Magento_Customer_Block_Account_AuthorizationTest extends PHPUnit_Framework_TestCase
+class Magento_Customer_Block_Account_AuthorizationLinkTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_TestFramework_Helper_ObjectManager
@@ -30,7 +30,7 @@ class Magento_Customer_Block_Account_AuthorizationTest extends PHPUnit_Framework
     protected $_helper;
 
     /**
-     * @var Magento_Customer_Block_Account_Authorization
+     * @var Magento_Customer_Block_Account_AuthorizationLink
      */
     protected $_block;
 
@@ -51,7 +51,7 @@ class Magento_Customer_Block_Account_AuthorizationTest extends PHPUnit_Framework
         $context->getHelperFactory()->expects($this->any())->method('get')->will($this->returnValue($this->_helper));
 
         $this->_block = $this->_objectManager->getObject(
-            'Magento_Customer_Block_Account_Authorization',
+            'Magento_Customer_Block_Account_AuthorizationLink',
             array(
                 'context' => $context,
                 'session' => $this->_session,

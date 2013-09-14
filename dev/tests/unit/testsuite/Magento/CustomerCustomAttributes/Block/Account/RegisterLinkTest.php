@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_CustomerCustomAttributes_Block_Account_RegisterTest extends PHPUnit_Framework_TestCase
+class Magento_CustomerCustomAttributes_Block_Account_RegisterLinkTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_TestFramework_Helper_ObjectManager
@@ -38,4 +38,3 @@ class Magento_CustomerCustomAttributes_Block_Account_RegisterTest extends PHPUni
         $this->assertEquals('', $block->toHtml());
     }
 }
- 

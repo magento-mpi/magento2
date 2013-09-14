@@ -11,4 +11,4 @@
     <event name="controller_front_init_routers">
         <observer name="cms" instance="Magento_Cms_Controller_Router" method="initControllerRouters" />
     </event>
-</config>
+</config>

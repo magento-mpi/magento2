@@ -2,18 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Sales order link block
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author     Magento Core Team <core@magentocommerce.com>
+ * Sales order link
  */
 class Magento_Sales_Block_Order_Link extends Magento_Page_Block_Link_Current
 {

@@ -27,4 +27,4 @@
     <event name="backend_auth_user_login_success">
         <observer name="captcha_reset_attempt" instance="Magento_Captcha_Model_Observer" method="resetAttemptForBackend" />
     </event>
-</config>
+</config>

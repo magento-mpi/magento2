@@ -6,6 +6,9 @@
  * @license     {license_link}
  */
 
+/**
+ * UrlRewrite helper
+ */
 class Core_Mage_UrlRewrite_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
@@ -52,8 +55,8 @@ class Core_Mage_UrlRewrite_Helper extends Mage_Selenium_AbstractHelper
         $this->waitForControlEditable('fieldset', $fieldsetName);
         $categoriesOnTheWay = explode('/', $categoryPath);
         $currentCategoryIndex = 0;
-        $maxCategoryIndexToUnfold = count($categoriesOnTheWay) - 1;
-        while ($currentCategoryIndex < $maxCategoryIndexToUnfold) {
+        $maxIndexToUnfold = count($categoriesOnTheWay) - 1;
+        while ($currentCategoryIndex < $maxIndexToUnfold) {
             $this->addParameter('categoryName', $categoriesOnTheWay[$currentCategoryIndex + 1]);
             if (!$this->controlIsVisible(self::FIELD_TYPE_LINK, 'category_name')) {
                 $this->addParameter('categoryName', $categoriesOnTheWay[$currentCategoryIndex]);

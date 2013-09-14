@@ -126,14 +126,19 @@ class Magento_Sales_Block_Recurring_Profile_Grid extends Magento_Sales_Block_Rec
 
         $profiles = array();
         $store = $this->_storeManager->getStore();
-        foreach($this->_profiles as $profile) {
+        foreach ($this->_profiles as $profile) {
             $profile->setStore($store)->setLocale($this->_locale);
             $profiles[] = new Magento_Object(array(
                 'reference_id' => $profile->getReferenceId(),
-                'reference_id_link_url' => $this->getUrl('sales/recurring_profile/view/', array('profile' => $profile->getId())),
+                'reference_id_link_url' => $this->getUrl(
+                    'sales/recurring_profile/view/',
+                    array('profile' => $profile->getId())
+                ),
                 'state'       => $profile->renderData('state'),
                 'created_at'  => $this->formatDate($profile->getData('created_at'), 'medium', true),
-                'updated_at'  => $profile->getData('updated_at') ? $this->formatDate($profile->getData('updated_at'), 'short', true) : '',
+                'updated_at'  => $profile->getData('updated_at')
+                    ? $this->formatDate($profile->getData('updated_at'), 'short', true)
+                    : '',
                 'method_code' => $profile->renderData('method_code'),
             ));
         }

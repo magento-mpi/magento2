@@ -13,4 +13,4 @@
             <module name="Magento_CatalogSearch" />
         </route>
     </router>
-</config>
+</config>

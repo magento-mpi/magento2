@@ -5,7 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Customer_Block_Account_Register extends Magento_Page_Block_Link
+
+/**
+ * Customer authorization link
+ */
+class Magento_Customer_Block_Account_AuthorizationLink extends Magento_Page_Block_Link
 {
     /**
      * Customer session
@@ -35,19 +39,16 @@ class Magento_Customer_Block_Account_Register extends Magento_Page_Block_Link
      */
     public function getHref()
     {
-        return $this->_helperFactory->get('Magento_Customer_Helper_Data')->getRegisterUrl();
+        $helper = $this->_helperFactory->get('Magento_Customer_Helper_Data');
+        return $this->_customerSession->isLoggedIn() ? $helper->getLogoutUrl() : $helper->getLoginUrl();
     }
 
     /**
-     * Render block HTML
-     *
      * @return string
      */
-    protected function _toHtml()
+    public function getLabel()
     {
-        if ($this->_customerSession->isLoggedIn()) {
-            return '';
-        }
-        return parent::_toHtml();
+        return $this->_customerSession->isLoggedIn() ? __('Log Out') : __('Log In');
     }
+
 }

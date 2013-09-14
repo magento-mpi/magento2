@@ -14,4 +14,4 @@
     <event name="customer_address_save_after">
         <observer name="customer_addres_after_save_viv_observer" instance="Magento_Customer_Model_Observer" method="afterAddressSave" />
     </event>
-</config>
+</config>

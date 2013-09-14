@@ -2,19 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 /**
- * Orders and Returns Link
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
+ * "Orders and Returns" link
  */
 class Magento_Sales_Block_Guest_Link extends Magento_Page_Block_Link
 {

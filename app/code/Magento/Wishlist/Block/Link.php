@@ -2,19 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Wishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 /**
- * Links block
- *
- * @category    Magento
- * @package     Magento_Wishlist
- * @author      Magento Core Team <core@magentocommerce.com>
+ * "My Wish List" link
  */
 class Magento_Wishlist_Block_Link extends Magento_Page_Block_Link
 {

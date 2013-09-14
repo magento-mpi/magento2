@@ -2,10 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+
+/**
+ * "Returns" link
  */
 class Magento_Rma_Block_Order_Link extends Magento_Sales_Block_Order_Link
 {

@@ -11,7 +11,7 @@
     <handle id="default">
         <move element="authorization-link" destination="account.links"/>
         <reference name="account.links">
-            <block class="Magento_Customer_Block_Account_Register" name="register">
+            <block class="Magento_Customer_Block_Account_RegisterLink" name="register-link">
                 <arguments>
                     <argument name="label" xsi:type="string">register</argument>
                 </arguments>

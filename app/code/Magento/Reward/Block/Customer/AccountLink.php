@@ -2,18 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Customer Account empty block (using only just for adding RP link to tab)
- *
- * @category    Enterprise
- * @package     Magento_Reward
- * @author      Magento Core Team <core@magentocommerce.com>
+ * "Reward Points" link
  */
 class Magento_Reward_Block_Customer_AccountLink extends Magento_Page_Block_Link_Current
 {

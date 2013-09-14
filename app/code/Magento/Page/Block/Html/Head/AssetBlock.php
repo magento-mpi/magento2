@@ -9,11 +9,7 @@
  */
 
 /**
- * Asset Block interface
- *
- * @category   Mage
- * @package    Magento_Page
- * @author     Magento Core Team <core@magentocommerce.com>
+ * Asset block interface
  */
 interface Magento_Page_Block_Html_Head_AssetBlock
 {

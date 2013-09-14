@@ -5,6 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+ * "Checkout" link
+ */
 class Magento_Checkout_Block_Link extends Magento_Page_Block_Link
 {
     /**

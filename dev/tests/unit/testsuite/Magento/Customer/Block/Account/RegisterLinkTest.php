@@ -10,9 +10,9 @@
  */
 
 /**
- * Test class for Magento_Customer_Block_Account_Register
+ * Test class for Magento_Customer_Block_Account_RegisterLink
  */
-class Magento_Customer_Block_Account_RegisterTest extends PHPUnit_Framework_TestCase
+class Magento_Customer_Block_Account_RegisterLinkTest extends PHPUnit_Framework_TestCase
 {
 
     /**
@@ -38,7 +38,7 @@ class Magento_Customer_Block_Account_RegisterTest extends PHPUnit_Framework_Test
 
         /** @var Magento_Sales_Block_Guest_Link $link */
         $link = $this->_objectManager->getObject(
-            'Magento_Customer_Block_Account_Register',
+            'Magento_Customer_Block_Account_RegisterLink',
             array(
                 'context' => $context,
                 'session' => $session,
@@ -63,7 +63,7 @@ class Magento_Customer_Block_Account_RegisterTest extends PHPUnit_Framework_Test
         $context->getHelperFactory()->expects($this->once())->method('get')->will($this->returnValue($helper));
 
         $block = $this->_objectManager->getObject(
-            'Magento_Customer_Block_Account_Register',
+            'Magento_Customer_Block_Account_RegisterLink',
             array(
                 'context' => $context,
             )

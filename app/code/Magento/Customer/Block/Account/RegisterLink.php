@@ -5,7 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Customer_Block_Account_Authorization extends Magento_Page_Block_Link
+
+/**
+ * Customer register link
+ */
+class Magento_Customer_Block_Account_RegisterLink extends Magento_Page_Block_Link
 {
     /**
      * Customer session
@@ -25,8 +29,7 @@ class Magento_Customer_Block_Account_Authorization extends Magento_Page_Block_Li
         Magento_Customer_Model_Session $session,
         Magento_Core_Helper_Data $coreData,
         array $data = array()
-    )
-    {
+    ) {
         parent::__construct($coreData, $context, $data);
         $this->_customerSession = $session;
     }
@@ -36,16 +39,17 @@ class Magento_Customer_Block_Account_Authorization extends Magento_Page_Block_Li
      */
     public function getHref()
     {
-        $helper = $this->_helperFactory->get('Magento_Customer_Helper_Data');
-        return $this->_customerSession->isLoggedIn() ? $helper->getLogoutUrl() : $helper->getLoginUrl();
+        return $this->_helperFactory->get('Magento_Customer_Helper_Data')->getRegisterUrl();
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
-    public function getLabel()
+    protected function _toHtml()
     {
-        return $this->_customerSession->isLoggedIn() ? __('Log Out') : __('Log In');
+        if ($this->_customerSession->isLoggedIn()) {
+            return '';
+        }
+        return parent::_toHtml();
     }
-
 }

@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="CATALOGPERMISSIONS_DISABLED_CATALOG_SEARCH">
         <remove name="top.search"/>
-        <remove name="catalogsearch-term-popular-link"/>
-        <remove name="catalogsearch-advanced-link"/>
+        <remove name="catalog-search-term-popular-link"/>
+        <remove name="catalog-search-advanced-link"/>
     </handle>
 </layout>
