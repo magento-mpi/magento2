@@ -117,7 +117,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         }
 
         /** @var $request \Magento\Shipping\Model\Shipment\Request */
-        $request = \Mage::getModel('Magento\Shipping\Model\Shipment\Return');
+        $request = \Mage::getModel('Magento\Shipping\Model\Shipment\ReturnShipment');
         $request->setOrderShipment($this);
 
         $request->setShipperContactPersonName($order->getCustomerName());

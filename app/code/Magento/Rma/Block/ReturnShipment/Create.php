@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rma\Block\Return;
+namespace Magento\Rma\Block\ReturnShipment;
 
 class Create extends \Magento\Rma\Block\Form
 {

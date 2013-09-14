@@ -5,7 +5,7 @@ Magento/Bundle
 Magento/Catalog/Block/Product/ProductList
 Magento/Catalog/Model/Category/Attribute/Source
 Magento/Catalog/Model/Product
-Magento/Catalog/Model/Category/Attribute/Source
+Magento/Catalog/Model/Category/Indexer
 Zend
 downloader
 dev
@@ -35,6 +35,7 @@ Magento/Sales/Block/Order
 Magento/Sales/Model/Resource/Helper
 Magento/Sales/Model/Resource/Order
 Magento/Catalog/Model/Resource/Product
+Magento/Core/Model/Layout/File/Source/Override
 Magento/Core/Model/Store
 Magento/Cron/Model/Config/Backend/Product
 Magento/DesignEditor/Block/Adminhtml/Editor/Tools/Code
