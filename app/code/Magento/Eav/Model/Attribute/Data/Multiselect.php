@@ -53,7 +53,7 @@ class Magento_Eav_Model_Attribute_Data_Multiselect extends Magento_Eav_Model_Att
      * @param string $format
      * @return array|string
      */
-    public function outputValue($format = Magento_Eav_Model_Attribute_Data::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_TEXT)
     {
         $values = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
         if (!is_array($values)) {
@@ -61,8 +61,8 @@ class Magento_Eav_Model_Attribute_Data_Multiselect extends Magento_Eav_Model_Att
         }
 
         switch ($format) {
-            case Magento_Eav_Model_Attribute_Data::OUTPUT_FORMAT_JSON:
-            case Magento_Eav_Model_Attribute_Data::OUTPUT_FORMAT_ARRAY:
+            case Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_JSON:
+            case Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_ARRAY:
                 $output = $values;
             default:
                 $output = array();

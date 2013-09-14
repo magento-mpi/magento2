@@ -221,7 +221,7 @@ class Magento_Theme_Controller_Adminhtml_System_Design_Theme extends Magento_Adm
         try {
             $theme = $themeFactory->create($themeId);
             if (!$theme) {
-                Mage::throwException(__('We cannot find a theme with id "%1".', $themeId));
+                throw new Magento_Core_Exception(__('We cannot find a theme with id "%1".', $themeId));
             }
             $jsFileData = $serviceModel->uploadJsFile('js_files_uploader');
             $jsFile = $jsService->create();

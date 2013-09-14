@@ -36,14 +36,18 @@ class Magento_Rma_Model_Rma_Source_Status extends Magento_Rma_Model_Rma_Source_A
 
     /**
      * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $attrOptCollFactory
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_OptionFactory $attrOptionFactory
      * @param Magento_Rma_Model_Item_Attribute_Source_StatusFactory $statusFactory
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
+        Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $attrOptCollFactory,
+        Magento_Eav_Model_Resource_Entity_Attribute_OptionFactory $attrOptionFactory,
         Magento_Rma_Model_Item_Attribute_Source_StatusFactory $statusFactory
     ) {
         $this->_statusFactory = $statusFactory;
-        parent::__construct($coreData);
+        parent::__construct($coreData, $attrOptCollFactory, $attrOptionFactory);
     }
 
     /**

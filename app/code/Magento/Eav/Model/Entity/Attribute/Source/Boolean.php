@@ -26,12 +26,20 @@ class Magento_Eav_Model_Entity_Attribute_Source_Boolean extends Magento_Eav_Mode
     protected $_coreData = null;
 
     /**
+     * @var Magento_Eav_Model_Resource_Entity_AttributeFactory
+     */
+    protected $_eavAttrEntity;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Eav_Model_Resource_Entity_AttributeFactory $eavAttrEntity
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData
+        Magento_Core_Helper_Data $coreData,
+        Magento_Eav_Model_Resource_Entity_AttributeFactory $eavAttrEntity
     ) {
         $this->_coreData = $coreData;
+        $this->_eavAttrEntity = $eavAttrEntity;
     }
 
     /**
@@ -140,8 +148,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Boolean extends Magento_Eav_Mode
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute')
-            ->getFlatUpdateSelect($this->getAttribute(), $store);
+        return $this->_eavAttrEntity->create()->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 
     /**

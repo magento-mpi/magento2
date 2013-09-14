@@ -23,10 +23,16 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
     protected $_storeManager;
 
     /**
+     * @var Magento_Eav_Model_AttributeDataFactory
+     */
+    protected $_attrDataFactory;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Eav_Model_AttributeDataFactory $attrDataFactory
      * @param array $data
      */
     public function __construct(
@@ -34,10 +40,12 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManager $storeManager,
+        Magento_Eav_Model_AttributeDataFactory $attrDataFactory,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $registry, $data);
         $this->_storeManager = $storeManager;
+        $this->_attrDataFactory = $attrDataFactory;
     }
 
     /**
@@ -137,8 +145,8 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
             $orderValue = $this->getOrder()->getData($orderKey);
             if ($orderValue != '') {
                 $customer->setData($attribute->getAttributeCode(), $orderValue);
-                $dataModel  = Magento_Customer_Model_Attribute_Data::factory($attribute, $customer);
-                $value      = $dataModel->outputValue(Magento_Customer_Model_Attribute_Data::OUTPUT_FORMAT_HTML);
+                $dataModel  = $this->_attrDataFactory->create($attribute, $customer);
+                $value      = $dataModel->outputValue(Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_HTML);
                 $sortOrder  = $attribute->getSortOrder() + $attribute->getIsUserDefined() ? 200 : 0;
                 $sortOrder  = $this->_prepareAccountDataSortOrder($accountData, $sortOrder);
                 $accountData[$sortOrder] = array(

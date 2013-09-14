@@ -448,8 +448,8 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
             ->setParameters(array('behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_APPEND))
             ->isDataValid();
         $this->_model->importData();
-
-        $resource = new Magento_Catalog_Model_Resource_Product;
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $resource = $objectManager->get('Magento_Catalog_Model_Resource_Product');
         $productId = $resource->getIdBySku('test_sku'); // fixture
         $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load($productId);

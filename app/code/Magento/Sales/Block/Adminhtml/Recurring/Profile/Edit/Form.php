@@ -33,7 +33,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Magento_
      *
      * @var Magento_Sales_Model_Recurring_Profile
      */
-    protected $_profile = null;
+    protected $_profile;
 
     /**
      * @var Magento_Catalog_Model_Product
@@ -46,16 +46,24 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Magento_
     protected $_formFactory;
 
     /**
+     * @var Magento_Sales_Model_Recurring_Profile
+     */
+    protected $_recurringProfile;
+
+    /**
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Backend_Block_Context $context
+     * @param Magento_Sales_Model_Recurring_Profile $recurringProfile
      * @param array $data
      */
     public function __construct(
         Magento_Data_Form_Factory $formFactory,
         Magento_Backend_Block_Context $context,
+        Magento_Sales_Model_Recurring_Profile $recurringProfile,
         array $data = array()
     ) {
         $this->_formFactory = $formFactory;
+        $this->_profile = $recurringProfile;
         parent::__construct($context, $data);
     }
 
@@ -63,6 +71,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Magento_
      * Setter for parent element
      *
      * @param Magento_Data_Form_Element_Abstract $element
+     * @return $this
      */
     public function setParentElement(Magento_Data_Form_Element_Abstract $element)
     {
@@ -74,20 +83,12 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Magento_
      * Setter for current product
      *
      * @param Magento_Catalog_Model_Product $product
+     * @return $this
      */
     public function setProductEntity(Magento_Catalog_Model_Product $product)
     {
         $this->_product = $product;
         return $this;
-    }
-
-    /**
-     * Instantiate a recurring payment profile to use it as a helper
-     */
-    protected function _construct()
-    {
-        $this->_profile = Mage::getSingleton('Magento_Sales_Model_Recurring_Profile');
-        return parent::_construct();
     }
 
     /**
@@ -211,6 +212,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Magento_
     /**
      * Getter for period unit options with "Please Select" label
      *
+     * @param string $emptyLabel
      * @return array
      */
     protected function _getPeriodUnitOptions($emptyLabel)

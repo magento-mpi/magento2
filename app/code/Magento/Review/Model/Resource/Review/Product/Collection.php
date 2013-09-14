@@ -48,14 +48,71 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
     protected $_storesIds           = array();
 
     /**
+     * @var Magento_Core_Model_Resource
+     */
+    protected $_resourceModel;
+
+    /**
+     * @var Magento_Rating_Model_RatingFactory
+     */
+    protected $_ratingFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Rating_Model_Rating_Option_VoteFactory
+     */
+    protected $_voteFactory;
+
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_Resource $resourceModel,
+        Magento_Rating_Model_RatingFactory $ratingFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Rating_Model_Rating_Option_VoteFactory $voteFactory,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_Resource $coreResource,
+        Magento_Eav_Model_EntityFactory $eavEntityFactory,
+        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Factory_Helper $helperFactory
+    ) {
+        $this->_resourceModel = $resourceModel;
+        $this->_ratingFactory = $ratingFactory;
+        $this->_storeManager = $storeManager;
+        $this->_voteFactory = $voteFactory;
+        parent::__construct(
+            $eventManager,
+            $logger,
+            $fetchStrategy,
+            $entityFactory,
+            $eavConfig,
+            $coreResource,
+            $eavEntityFactory,
+            $resourceHelper,
+            $helperFactory,
+            $catalogData,
+            $catalogProductFlat,
+            $coreStoreConfig
+        );
+    }
+
+    /**
      * Define module
-     *
      */
     protected function _construct()
     {
         $this->_init('Magento_Catalog_Model_Product', 'Magento_Catalog_Model_Resource_Product');
         $this->setRowIdFieldName('review_id');
-        $this->_reviewStoreTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('review_store');
+        $this->_reviewStoreTable = $this->_resourceModel->getTableName('review_store');
         $this->_initTables();
     }
 
@@ -226,7 +283,7 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
     public function addReviewSummary()
     {
         foreach ($this->getItems() as $item) {
-            $model = Mage::getModel('Magento_Rating_Model_Rating');
+            $model = $this->_ratingFactory->create();
             $model->getReviewSummary($item->getReviewId());
             $item->addData($model->getData());
         }
@@ -241,10 +298,10 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
     public function addRateVotes()
     {
         foreach ($this->getItems() as $item) {
-            $votesCollection = Mage::getModel('Magento_Rating_Model_Rating_Option_Vote')
+            $votesCollection = $this->_voteFactory->create()
                 ->getResourceCollection()
                 ->setEntityPkFilter($item->getEntityId())
-                ->setStoreFilter(Mage::app()->getStore()->getId())
+                ->setStoreFilter($this->_storeManager->getStore()->getId())
                 ->load();
             $item->setRatingVotes($votesCollection);
         }
@@ -258,8 +315,8 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
      */
     protected function _joinFields()
     {
-        $reviewTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('review');
-        $reviewDetailTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('review_detail');
+        $reviewTable = $this->_resourceModel->getTableName('review');
+        $reviewDetailTable = $this->_resourceModel->getTableName('review_detail');
 
         $this->addAttributeToSelect('name')
             ->addAttributeToSelect('sku');

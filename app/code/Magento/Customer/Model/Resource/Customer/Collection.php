@@ -28,6 +28,11 @@ class Magento_Customer_Model_Resource_Customer_Collection extends Magento_Eav_Mo
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
+     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Eav_Model_Factory_Helper $helperFactory
      * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
      */
     public function __construct(
@@ -35,10 +40,25 @@ class Magento_Customer_Model_Resource_Customer_Collection extends Magento_Eav_Mo
         Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_Resource $resource,
+        Magento_Eav_Model_EntityFactory $eavEntityFactory,
+        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Factory_Helper $helperFactory,
         Magento_Core_Model_Fieldset_Config $fieldsetConfig
     ) {
         $this->_fieldsetConfig = $fieldsetConfig;
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory);
+        parent::__construct(
+            $eventManager,
+            $logger,
+            $fetchStrategy,
+            $entityFactory,
+            $eavConfig,
+            $resource,
+            $eavEntityFactory,
+            $resourceHelper,
+            $helperFactory
+        );
     }
 
     /**

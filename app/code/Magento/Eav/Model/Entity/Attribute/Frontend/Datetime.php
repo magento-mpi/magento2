@@ -12,6 +12,23 @@
 class Magento_Eav_Model_Entity_Attribute_Frontend_Datetime extends Magento_Eav_Model_Entity_Attribute_Frontend_Abstract
 {
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Eav_Model_Entity_Attribute_Source_BooleanFactory $attrBooleanFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
+     */
+    function __construct(
+        Magento_Eav_Model_Entity_Attribute_Source_BooleanFactory $attrBooleanFactory,
+        Magento_Core_Model_LocaleInterface $locale
+    ) {
+        parent::__construct($attrBooleanFactory);
+        $this->_locale = $locale;
+    }
+
+    /**
      * Retreive attribute value
      *
      * @param $object
@@ -21,15 +38,15 @@ class Magento_Eav_Model_Entity_Attribute_Frontend_Datetime extends Magento_Eav_M
     {
         $data = '';
         $value = parent::getValue($object);
-        $format = Mage::app()->getLocale()->getDateFormat(
+        $format = $this->_locale->getDateFormat(
             Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM
         );
 
         if ($value) {
             try {
-                $data = Mage::getSingleton('Magento_Core_Model_LocaleInterface')->date($value, Zend_Date::ISO_8601, null, false)->toString($format);
+                $data = $this->_locale->date($value, Zend_Date::ISO_8601, null, false)->toString($format);
             } catch (Exception $e) {
-                $data = Mage::getSingleton('Magento_Core_Model_LocaleInterface')->date($value, null, null, false)->toString($format);
+                $data = $this->_locale->date($value, null, null, false)->toString($format);
             }
         }
 

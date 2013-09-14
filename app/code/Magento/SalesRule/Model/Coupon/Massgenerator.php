@@ -43,28 +43,36 @@ class Magento_SalesRule_Model_Coupon_Massgenerator extends Magento_Core_Model_Ab
     /**
      * @var Magento_Core_Model_Date
      */
-    protected $_coreDate;
+    protected $_date;
 
     /**
-     * @param Magento_Core_Model_Date $coreDate
+     * @var Magento_SalesRule_Model_CouponFactory
+     */
+    protected $_couponFactory;
+
+    /**
      * @param Magento_SalesRule_Helper_Coupon $salesRuleCoupon
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_SalesRule_Model_CouponFactory $couponFactory
+     * @param Magento_Core_Model_Date $date
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Date $coreDate,
         Magento_SalesRule_Helper_Coupon $salesRuleCoupon,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_SalesRule_Model_CouponFactory $couponFactory,
+        Magento_Core_Model_Date $date,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreDate = $coreDate;
         $this->_salesRuleCoupon = $salesRuleCoupon;
+        $this->_date = $date;
+        $this->_couponFactory = $couponFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -126,6 +134,7 @@ class Magento_SalesRule_Model_Coupon_Massgenerator extends Magento_Core_Model_Ab
     /**
      * Generate Coupons Pool
      *
+     * @throws Magento_Core_Exception
      * @return Magento_SalesRule_Model_Coupon_Massgenerator
      */
     public function generatePool()
@@ -137,7 +146,7 @@ class Magento_SalesRule_Model_Coupon_Massgenerator extends Magento_Core_Model_Ab
         $maxAttempts = $this->getMaxAttempts() ? $this->getMaxAttempts() : self::MAX_GENERATE_ATTEMPTS;
 
         /** @var $coupon Magento_SalesRule_Model_Coupon */
-        $coupon = Mage::getModel('Magento_SalesRule_Model_Coupon');
+        $coupon = $this->_couponFactory->create();
 
         $chars = count($this->_salesRuleCoupon->getCharset($this->getFormat()));
         $length = (int) $this->getLength();
@@ -153,13 +162,13 @@ class Magento_SalesRule_Model_Coupon_Massgenerator extends Magento_Core_Model_Ab
             $this->setLength($length);
         }
 
-        $now = $this->getResource()->formatDate($this->_coreDate->gmtTimestamp());
+        $now = $this->getResource()->formatDate($this->_date->gmtTimestamp());
 
         for ($i = 0; $i < $size; $i++) {
             $attempt = 0;
             do {
                 if ($attempt >= $maxAttempts) {
-                    Mage::throwException(__('We cannot create the requested Coupon Qty. Please check your settings and try again.'));
+                    throw new Magento_Core_Exception(__('We cannot create the requested Coupon Qty. Please check your settings and try again.'));
                 }
                 $code = $this->generateCode();
                 $attempt++;

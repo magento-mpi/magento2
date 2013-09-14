@@ -22,6 +22,23 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
     protected $_defaultBuilderClass = 'Magento_Validator_Builder';
 
     /**
+     * @var Magento_Validator_BuilderFactory
+     */
+    protected $_builderFactory;
+
+    /**
+     * @param array $configFiles
+     * @param Magento_Validator_BuilderFactory $builderFactory
+     */
+    public function __construct(
+        array $configFiles,
+        Magento_Validator_BuilderFactory $builderFactory
+    ) {
+        parent::__construct($configFiles);
+        $this->_builderFactory = $builderFactory;
+    }
+
+    /**
      * Create validator builder instance based on entity and group.
      *
      * @param string $entityName
@@ -41,20 +58,21 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
                 $entityName));
         }
 
-        if (array_key_exists('builder', $this->_data[$entityName][$groupName])) {
-            $builderClass = $this->_data[$entityName][$groupName]['builder'];
-        } else {
-            $builderClass = $this->_defaultBuilderClass;
-        }
+        $builderClass = isset($this->_data[$entityName][$groupName]['builder'])
+            ? $this->_data[$entityName][$groupName]['builder'] : $this->_defaultBuilderClass;
 
         if (!class_exists($builderClass)) {
             throw new InvalidArgumentException(sprintf('Builder class "%s" was not found', $builderClass));
         }
 
-        $builder = new $builderClass($this->_data[$entityName][$groupName]['constraints']);
+        $builder = $this->_builderFactory->create(
+            $builderClass,
+            array('constraints' => $this->_data[$entityName][$groupName]['constraints'])
+        );
         if (!$builder instanceof Magento_Validator_Builder) {
             throw new InvalidArgumentException(
-                sprintf('Builder "%s" must extend Magento_Validator_Builder', $builderClass));
+                sprintf('Builder "%s" must extend Magento_Validator_Builder', $builderClass)
+            );
         }
         if ($builderConfig) {
             $builder->addConfigurations($builderConfig);

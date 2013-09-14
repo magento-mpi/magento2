@@ -99,12 +99,12 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
             ->getAddressById(null)
             ->setCountryId($this->_coreData->getDefaultCountry($this->getStore()));
         $data[0] = $addressForm->setEntity($emptyAddress)
-            ->outputData(Magento_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON);
+            ->outputData(Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_JSON);
 
         foreach ($this->getAddressCollection() as $address) {
             $addressForm->setEntity($address);
             $data[$address->getId()] = $addressForm->outputData(
-                Magento_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON
+                Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_JSON
             );
         }
         return $this->_coreData->jsonEncode($data);

@@ -15,15 +15,35 @@ class Magento_Customer_Model_Resource_Address extends Magento_Eav_Model_Entity_A
     protected $_validatorFactory;
 
     /**
-     * Initialize object dependencies
-     *
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Eav_Model_Factory_Helper $helperFactory
      * @param Magento_Core_Model_Validator_Factory $validatorFactory
      * @param array $data
      */
-    public function __construct(Magento_Core_Model_Validator_Factory $validatorFactory, $data = array())
-    {
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Core_Model_Validator_Factory $validatorFactory,
+        $data = array()
+    ) {
+        parent::__construct(
+            $resource,
+            $eavConfig,
+            $attrSetEntity,
+            $locale,
+            $resourceHelper,
+            $helperFactory,
+            $data
+        );
         $this->_validatorFactory = $validatorFactory;
-        parent::__construct($data);
     }
 
     /**

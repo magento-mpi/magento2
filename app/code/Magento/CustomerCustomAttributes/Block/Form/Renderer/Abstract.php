@@ -18,6 +18,20 @@
  */
 abstract class Magento_CustomerCustomAttributes_Block_Form_Renderer_Abstract extends Magento_CustomAttribute_Block_Form_Renderer_Abstract
 {
+    /**
+     * @var Magento_Eav_Model_AttributeDataFactory
+     */
+    protected $_attrDataFactory;
+
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Eav_Model_AttributeDataFactory $attrDataFactory,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+        $this->_attrDataFactory = $attrDataFactory;
+    }
 
     /**
      * Get additional description message for attribute field
@@ -46,7 +60,7 @@ abstract class Magento_CustomerCustomAttributes_Block_Form_Renderer_Abstract ext
      */
     public function validateValue($value)
     {
-        $dataModel = Magento_Customer_Model_Attribute_Data::factory($this->getAttributeObject(), $this->getEntity());
+        $dataModel = $this->_attrDataFactory->create($this->getAttributeObject(), $this->getEntity());
         $result = $dataModel->validateValue($this->getValue());
         return $result;
     }

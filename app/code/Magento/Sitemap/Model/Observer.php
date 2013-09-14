@@ -45,27 +45,43 @@ class Magento_Sitemap_Model_Observer
     const XML_PATH_ERROR_RECIPIENT = 'sitemap/generate/error_email';
 
     /**
-     * @var Magento_Core_Model_Translate
-     */
-    protected $_coreTranslate;
-
-    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig;
-    
+
     /**
-     * @param Magento_Core_Model_Translate $coreTranslate
+     * @var Magento_Sitemap_Model_Resource_Sitemap_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var Magento_Core_Model_Email_TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
+     * @var Magento_Core_Model_Translate
+     */
+    protected $_translateModel;
+
+    /**
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Sitemap_Model_Resource_Sitemap_CollectionFactory $collectionFactory
+     * @param Magento_Core_Model_Translate $translateModel
+     * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
      */
     public function __construct(
-        Magento_Core_Model_Translate $coreTranslate,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Sitemap_Model_Resource_Sitemap_CollectionFactory $collectionFactory,
+        Magento_Core_Model_Translate $translateModel,
+        Magento_Core_Model_Email_TemplateFactory $templateFactory
     ) {
-        $this->_coreTranslate = $coreTranslate;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_collectionFactory = $collectionFactory;
+        $this->_translateModel = $translateModel;
+        $this->_templateFactory = $templateFactory;
     }
 
     /**
@@ -82,7 +98,7 @@ class Magento_Sitemap_Model_Observer
             return;
         }
 
-        $collection = Mage::getModel('Magento_Sitemap_Model_Sitemap')->getCollection();
+        $collection = $this->_collectionFactory->create();
         /* @var $collection Magento_Sitemap_Model_Resource_Sitemap_Collection */
         foreach ($collection as $sitemap) {
             /* @var $sitemap Magento_Sitemap_Model_Sitemap */
@@ -96,9 +112,9 @@ class Magento_Sitemap_Model_Observer
         }
 
         if ($errors && $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_RECIPIENT)) {
-            $this->_coreTranslate->setTranslateInline(false);
+            $this->_translateModel->setTranslateInline(false);
 
-            $emailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
+            $emailTemplate = $this->_templateFactory->create();
             /* @var $emailTemplate Magento_Core_Model_Email_Template */
             $emailTemplate->setDesignConfig(array('area' => 'backend'))
                 ->sendTransactional(
@@ -109,7 +125,7 @@ class Magento_Sitemap_Model_Observer
                     array('warnings' => join("\n", $errors))
                 );
 
-            $this->_coreTranslate->setTranslateInline(true);
+            $this->_translateModel->setTranslateInline(true);
         }
     }
 }

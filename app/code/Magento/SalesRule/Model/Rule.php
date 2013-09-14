@@ -104,7 +104,7 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
      *
      * @var Magento_SalesRule_Model_Coupon_CodegeneratorInterface
      */
-    protected static $_couponCodeGenerator;
+    protected $_couponCodeGenerator;
 
     /**
      * Prefix of model events names
@@ -167,33 +167,75 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
     protected $_eventManager = null;
 
     /**
-     * @var Magento_SalesRule_Model_Resource_Coupon_CollectionFactory
+     * @var Magento_SalesRule_Model_CouponFactory
      */
-    protected $_collectionFactory;
+    protected $_couponFactory;
 
     /**
-     * @param Magento_SalesRule_Model_Resource_Coupon_CollectionFactory $collectionFactory
+     * @var Magento_SalesRule_Model_Coupon_CodegeneratorFactory
+     */
+    protected $_codegenFactory;
+
+    /**
+     * @var Magento_SalesRule_Model_Rule_Condition_CombineFactory
+     */
+    protected $_condCombineFactory;
+
+    /**
+     * @var Magento_SalesRule_Model_Rule_Condition_Product_CombineFactory
+     */
+    protected $_condProdCombineF;
+
+    /**
+     * @var Magento_SalesRule_Model_Resource_Coupon_Collection
+     */
+    protected $_couponCollection;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_SalesRule_Model_CouponFactory $couponFactory
+     * @param Magento_SalesRule_Model_Coupon_CodegeneratorFactory $codegenFactory
+     * @param Magento_SalesRule_Model_Rule_Condition_CombineFactory $condCombineFactory
+     * @param Magento_SalesRule_Model_Rule_Condition_Product_CombineFactory $condProdCombineF
+     * @param Magento_SalesRule_Model_Resource_Coupon_Collection $couponCollection
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_SalesRule_Model_Resource_Coupon_CollectionFactory $collectionFactory,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_SalesRule_Model_CouponFactory $couponFactory,
+        Magento_SalesRule_Model_Coupon_CodegeneratorFactory $codegenFactory,
+        Magento_SalesRule_Model_Rule_Condition_CombineFactory $condCombineFactory,
+        Magento_SalesRule_Model_Rule_Condition_Product_CombineFactory $condProdCombineF,
+        Magento_SalesRule_Model_Resource_Coupon_Collection $couponCollection,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_collectionFactory = $collectionFactory;
         $this->_eventManager = $eventManager;
-        parent::__construct($formFactory, $context, $registry, $resource, $resourceCollection, $data);
+        $this->_couponFactory = $couponFactory;
+        $this->_codegenFactory = $codegenFactory;
+        $this->_condCombineFactory = $condCombineFactory;
+        $this->_condProdCombineF = $condProdCombineF;
+        $this->_couponCollection = $couponCollection;
+        $this->_storeManager = $storeManager;
+        parent::__construct($formFactory, $context, $registry, $locale, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -272,7 +314,7 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
      */
     public function getConditionsInstance()
     {
-        return Mage::getModel('Magento_SalesRule_Model_Rule_Condition_Combine');
+        return $this->_condCombineFactory->create();
     }
 
     /**
@@ -282,7 +324,7 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
      */
     public function getActionsInstance()
     {
-        return Mage::getModel('Magento_SalesRule_Model_Rule_Condition_Product_Combine');
+        return $this->_condProdCombineF->create();
     }
 
     /**
@@ -290,13 +332,12 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
      *
      * @return Magento_SalesRule_Model_Coupon_CodegeneratorInterface
      */
-    public static function getCouponCodeGenerator()
+    public function getCouponCodeGenerator()
     {
-        if (!self::$_couponCodeGenerator) {
-            return Mage::getModel('Magento_SalesRule_Model_Coupon_Codegenerator',
-                array('data' => array('length' => 16)));
+        if (!$this->_couponCodeGenerator) {
+            return $this->_codegenFactory->create(array('data' => array('length' => 16)));
         }
-        return self::$_couponCodeGenerator;
+        return $this->_couponCodeGenerator;
     }
 
     /**
@@ -304,9 +345,9 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
      *
      * @param Magento_SalesRule_Model_Coupon_CodegeneratorInterface
      */
-    public static function setCouponCodeGenerator(Magento_SalesRule_Model_Coupon_CodegeneratorInterface $codeGenerator)
+    public function setCouponCodeGenerator(Magento_SalesRule_Model_Coupon_CodegeneratorInterface $codeGenerator)
     {
-        self::$_couponCodeGenerator = $codeGenerator;
+        $this->_couponCodeGenerator = $codeGenerator;
     }
 
     /**
@@ -317,7 +358,7 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
     public function getPrimaryCoupon()
     {
         if ($this->_primaryCoupon === null) {
-            $this->_primaryCoupon = Mage::getModel('Magento_SalesRule_Model_Coupon');
+            $this->_primaryCoupon = $this->_couponFactory->create();
             $this->_primaryCoupon->loadPrimaryByRule($this->getId());
             $this->_primaryCoupon->setRule($this)->setIsPrimary(true);
         }
@@ -347,7 +388,7 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
      */
     public function getStoreLabel($store = null)
     {
-        $storeId = Mage::app()->getStore($store)->getId();
+        $storeId = $this->_storeManager->getStore($store)->getId();
         $labels = (array)$this->getStoreLabels();
 
         if (isset($labels[$storeId])) {
@@ -382,10 +423,8 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
     public function getCoupons()
     {
         if ($this->_coupons === null) {
-            /** @var $collection Magento_SalesRule_Model_Resource_Coupon_Collection */
-            $collection = $this->_collectionFactory->create();
-            $collection->addRuleToFilter($this);
-            $this->_coupons = $collection->getItems();
+            $this->_couponCollection->addRuleToFilter($this);
+            $this->_coupons = $this->_couponCollection->getItems();
         }
         return $this->_coupons;
     }
@@ -420,8 +459,8 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
      *
      * @param bool $saveNewlyCreated Whether or not to save newly created coupon
      * @param int $saveAttemptCount Number of attempts to save newly created coupon
-     *
      * @return Magento_SalesRule_Model_Coupon|null
+     * @throws Exception|Magento_Core_Exception
      */
     public function acquireCoupon($saveNewlyCreated = true, $saveAttemptCount = 10)
     {
@@ -432,7 +471,7 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
             return $this->getPrimaryCoupon();
         }
         /** @var Magento_SalesRule_Model_Coupon $coupon */
-        $coupon = Mage::getModel('Magento_SalesRule_Model_Coupon');
+        $coupon = $this->_couponFactory->create();
         $coupon->setRule($this)
             ->setIsPrimary(false)
             ->setUsageLimit($this->getUsesPerCoupon() ? $this->getUsesPerCoupon() : null)
@@ -465,7 +504,7 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
             }
         }
         if (!$ok) {
-            Mage::throwException(__('Can\'t acquire coupon.'));
+            throw new Magento_Core_Exception(__('Can\'t acquire coupon.'));
         }
 
         return $coupon;

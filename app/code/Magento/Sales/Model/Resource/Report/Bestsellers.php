@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Bestsellers report resource model
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Model_Resource_Report_Abstract
 {
@@ -23,8 +18,34 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
     const AGGREGATION_YEARLY  = 'yearly';
 
     /**
+     * @var Magento_Catalog_Model_Resource_Product
+     */
+    protected $_productResource;
+
+    /**
+     * @var Magento_Sales_Model_Resource_Helper_Mysql4
+     */
+    protected $_salesResourceHelper;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Catalog_Model_Resource_Product $productResource
+     * @param Magento_Sales_Model_Resource_Helper_Mysql4 $salesResourceHelper
+     */
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_Resource $resource,
+        Magento_Catalog_Model_Resource_Product $productResource,
+        Magento_Sales_Model_Resource_Helper_Mysql4 $salesResourceHelper
+    ) {
+        parent::__construct($logger, $resource);
+        $this->_productResource = $productResource;
+        $this->_salesResourceHelper = $salesResourceHelper;
+    }
+
+    /**
      * Model initialization
-     *
      */
     protected function _construct()
     {
@@ -106,9 +127,6 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
                 )
                 ->where('source_table.state != ?', Magento_Sales_Model_Order::STATE_CANCELED);
 
-            /** @var Magento_Catalog_Model_Resource_Product $product */
-            $product  = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product');
-
             $productTypes = array(
                 Magento_Catalog_Model_Product_Type::TYPE_GROUPED,
                 Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
@@ -117,7 +135,7 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
 
             $joinExpr = array(
                 'product.entity_id = order_item.product_id',
-                $adapter->quoteInto('product.entity_type_id = ?', $product->getTypeId()),
+                $adapter->quoteInto('product.entity_type_id = ?', $this->_productResource->getTypeId()),
                 $adapter->quoteInto('product.type_id NOT IN(?)', $productTypes)
             );
 
@@ -129,18 +147,18 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
             );
 
             // join product attributes Name & Price
-            $attr= $product->getAttribute('name');
+            $attr = $this->_productResource->getAttribute('name');
             $joinExprProductName = array(
                 'product_name.entity_id = product.entity_id',
                 'product_name.store_id = source_table.store_id',
-                $adapter->quoteInto('product_name.entity_type_id = ?', $product->getTypeId()),
+                $adapter->quoteInto('product_name.entity_type_id = ?', $this->_productResource->getTypeId()),
                 $adapter->quoteInto('product_name.attribute_id = ?', $attr->getAttributeId())
             );
             $joinExprProductName = implode(' AND ', $joinExprProductName);
             $joinProductName = array(
                 'product_default_name.entity_id = product.entity_id',
                 'product_default_name.store_id = 0',
-                $adapter->quoteInto('product_default_name.entity_type_id = ?', $product->getTypeId()),
+                $adapter->quoteInto('product_default_name.entity_type_id = ?', $this->_productResource->getTypeId()),
                 $adapter->quoteInto('product_default_name.attribute_id = ?', $attr->getAttributeId())
             );
             $joinProductName = implode(' AND ', $joinProductName);
@@ -154,11 +172,11 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
                 $joinProductName,
                 array()
             );
-            $attr = $product->getAttribute('price');
+            $attr = $this->_productResource->getAttribute('price');
             $joinExprProductPrice = array(
                 'product_price.entity_id = product.entity_id',
                 'product_price.store_id = source_table.store_id',
-                $adapter->quoteInto('product_price.entity_type_id = ?', $product->getTypeId()),
+                $adapter->quoteInto('product_price.entity_type_id = ?', $this->_productResource->getTypeId()),
                 $adapter->quoteInto('product_price.attribute_id = ?', $attr->getAttributeId())
             );
             $joinExprProductPrice = implode(' AND ', $joinExprProductPrice);
@@ -166,7 +184,7 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
             $joinProductPrice = array(
                 'product_default_price.entity_id = product.entity_id',
                 'product_default_price.store_id = 0',
-                $adapter->quoteInto('product_default_price.entity_type_id = ?', $product->getTypeId()),
+                $adapter->quoteInto('product_default_price.entity_type_id = ?', $this->_productResource->getTypeId()),
                 $adapter->quoteInto('product_default_price.attribute_id = ?', $attr->getAttributeId())
             );
             $joinProductPrice = implode(' AND ', $joinProductPrice);
@@ -238,7 +256,7 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
             'monthly' => self::AGGREGATION_MONTHLY,
             'yearly'  => self::AGGREGATION_YEARLY
         );
-        Mage::getResourceHelper('Magento_Sales')->getBestsellersReportUpdateRatingPos(
+        $this->_salesResourceHelper->getBestsellersReportUpdateRatingPos(
             $aggregation,
             $aggregationAliases,
             $this->getMainTable(),

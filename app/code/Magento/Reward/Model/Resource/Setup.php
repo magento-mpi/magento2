@@ -26,6 +26,46 @@ class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
     protected $_currentEntityTypeId;
 
     /**
+     * @var Magento_Cms_Model_PageFactory
+     */
+    protected $_pageFactory;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Config_Resource $resourcesConfig
+     * @param Magento_Core_Model_Config $modulesConfig
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
+     * @param Magento_Cms_Model_PageFactory $pageFactory
+     * @param $resourceName
+     */
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Config_Resource $resourcesConfig,
+        Magento_Core_Model_Config $modulesConfig,
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
+        Magento_Cms_Model_PageFactory $pageFactory,
+        $resourceName
+    ) {
+        $this->_pageFactory = $pageFactory;
+        parent::__construct($logger, $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource,
+            $modulesReader, $resourceName, $cache, $attrGrCollFactory, $migrationFactory, $coreData);
+    }
+
+    /**
      * Add attribute to an entity type
      * If attribute is system will add to all existing attribute sets
      *
@@ -38,6 +78,14 @@ class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
     {
         $this->_currentEntityTypeId = $entityTypeId;
         return parent::addAttribute($entityTypeId, $code, $attr);
+    }
+
+    /**
+     * @return Magento_Cms_Model_Page
+     */
+    public function getPage()
+    {
+        return $this->_pageFactory->create();
     }
 
     /**

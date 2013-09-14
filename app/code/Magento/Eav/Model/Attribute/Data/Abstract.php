@@ -69,6 +69,11 @@ abstract class Magento_Eav_Model_Attribute_Data_Abstract
     protected $_dateFilterFormat;
 
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
      * @var Magento_Core_Model_Logger
      */
     protected $_logger;
@@ -76,10 +81,14 @@ abstract class Magento_Eav_Model_Attribute_Data_Abstract
     /**
      * Constructor
      *
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_Logger $logger
-     */
-    public function __construct(Magento_Core_Model_Logger $logger)
-    {
+     */    
+    public function __construct(
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_Logger $logger
+    ) {
+        $this->_locale = $locale;
         $this->_logger = $logger;
     }
 
@@ -104,7 +113,7 @@ abstract class Magento_Eav_Model_Attribute_Data_Abstract
     public function getAttribute()
     {
         if (!$this->_attribite) {
-            Mage::throwException(__('Attribute object is undefined'));
+            throw new Magento_Core_Exception(__('Attribute object is undefined'));
         }
         return $this->_attribite;
     }
@@ -154,7 +163,7 @@ abstract class Magento_Eav_Model_Attribute_Data_Abstract
     public function getEntity()
     {
         if (!$this->_entity) {
-            Mage::throwException(__('Entity object is undefined'));
+            throw new Magento_Core_Exception(__('Entity object is undefined'));
         }
         return $this->_entity;
     }
@@ -219,7 +228,7 @@ abstract class Magento_Eav_Model_Attribute_Data_Abstract
         if ($filterCode) {
             $filterClass = 'Magento_Data_Form_Filter_' . ucfirst($filterCode);
             if ($filterCode == 'date') {
-                $filter = new $filterClass($this->_dateFilterFormat(), Mage::app()->getLocale()->getLocale());
+                $filter = new $filterClass($this->_dateFilterFormat(), $this->_locale->getLocale());
             } else {
                 $filter = new $filterClass();
             }
@@ -241,7 +250,7 @@ abstract class Magento_Eav_Model_Attribute_Data_Abstract
             if (is_null($this->_dateFilterFormat)) {
                 $this->_dateFilterFormat = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT;
             }
-            return Mage::app()->getLocale()->getDateFormat($this->_dateFilterFormat);
+            return $this->_locale->getDateFormat($this->_dateFilterFormat);
         } else if ($format === false) {
             // reset value
             $this->_dateFilterFormat = null;
@@ -561,5 +570,5 @@ abstract class Magento_Eav_Model_Attribute_Data_Abstract
      * @param string $format
      * @return string|array
      */
-    abstract public function outputValue($format = Magento_Eav_Model_Attribute_Data::OUTPUT_FORMAT_TEXT);
+    abstract public function outputValue($format = Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_TEXT);
 }

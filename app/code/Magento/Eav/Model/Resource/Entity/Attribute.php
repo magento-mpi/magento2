@@ -33,17 +33,35 @@ class Magento_Eav_Model_Resource_Entity_Attribute extends Magento_Core_Model_Res
     protected $_application;
 
     /**
+     * @var Magento_Core_Model_App
+     */
+    protected $_app;
+
+    /**
+     * @var Magento_Eav_Model_Resource_Entity_Type
+     */
+    protected $_eavEntityType;
+
+    /**
      * Class constructor
      *
      * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Eav_Model_Resource_Entity_Type $eavEntityType
      * @param array $arguments
      */
-    public function __construct(Magento_Core_Model_Resource $resource, array $arguments = array())
-    {
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_App $app,
+        Magento_Eav_Model_Resource_Entity_Type $eavEntityType,
+        array $arguments = array()
+    ) {
         if (isset($arguments['application']) && $arguments['application'] instanceof Magento_Core_Model_App) {
             $this->_application = $arguments['application'];
             unset($arguments['application']);
         }
+        $this->_app = $app;
+        $this->_eavEntityType = $eavEntityType;
         parent::__construct($resource);
     }
 
@@ -63,7 +81,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute extends Magento_Core_Model_Res
      */
     protected function _getApplication()
     {
-        return $this->_application ?: Mage::app();
+        return $this->_application ?: $this->_app;
     }
 
     /**
@@ -182,7 +200,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute extends Magento_Core_Model_Res
         $frontendLabel = $object->getFrontendLabel();
         if (is_array($frontendLabel)) {
             if (!isset($frontendLabel[0]) || is_null($frontendLabel[0]) || $frontendLabel[0] == '') {
-                Mage::throwException(__('Frontend label is not defined'));
+                throw new Magento_Core_Exception(__('Frontend label is not defined'));
             }
             $object->setFrontendLabel($frontendLabel[0])
                    ->setStoreLabels($frontendLabel);
@@ -367,7 +385,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute extends Magento_Core_Model_Res
     protected function _checkDefaultOptionValue($values)
     {
         if (!isset($values[0])) {
-            Mage::throwException(__('Default option value is not defined'));
+            throw new Magento_Core_Exception(__('Default option value is not defined'));
         }
     }
 
@@ -573,8 +591,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute extends Magento_Core_Model_Res
      */
     public function getAdditionalAttributeTable($entityTypeId)
     {
-        return Mage::getResourceSingleton('Magento_Eav_Model_Resource_Entity_Type')
-            ->getAdditionalAttributeTable($entityTypeId);
+        return $this->_eavEntityType->getAdditionalAttributeTable($entityTypeId);
     }
 
     /**

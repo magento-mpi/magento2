@@ -170,10 +170,6 @@
  * @method Magento_Sales_Model_Order_Item setDiscountRefunded(float $value)
  * @method float getBaseDiscountRefunded()
  * @method Magento_Sales_Model_Order_Item setBaseDiscountRefunded(float $value)
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
 {
@@ -212,9 +208,21 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Sales_Model_OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -223,11 +231,15 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Sales_Model_OrderFactory $orderFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
+        $this->_orderFactory = $orderFactory;
+        $this->_productFactory = $productFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -289,7 +301,7 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
      */
     public function canInvoice()
     {
-        return $this->getQtyToInvoice()>0;
+        return $this->getQtyToInvoice() > 0;
     }
 
     /**
@@ -299,7 +311,7 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
      */
     public function canShip()
     {
-        return $this->getQtyToShip()>0;
+        return $this->getQtyToShip() > 0;
     }
 
     /**
@@ -309,7 +321,7 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
      */
     public function canRefund()
     {
-        return $this->getQtyToRefund()>0;
+        return $this->getQtyToRefund() > 0;
     }
 
     /**
@@ -333,10 +345,7 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
      */
     public function getSimpleQtyToShip()
     {
-        $qty = $this->getQtyOrdered()
-            - $this->getQtyShipped()
-            - $this->getQtyRefunded()
-            - $this->getQtyCanceled();
+        $qty = $this->getQtyOrdered() - $this->getQtyShipped() - $this->getQtyRefunded() - $this->getQtyCanceled();
         return max($qty, 0);
     }
 
@@ -351,9 +360,7 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
             return 0;
         }
 
-        $qty = $this->getQtyOrdered()
-            - $this->getQtyInvoiced()
-            - $this->getQtyCanceled();
+        $qty = $this->getQtyOrdered() - $this->getQtyInvoiced() - $this->getQtyCanceled();
         return max($qty, 0);
     }
 
@@ -403,7 +410,7 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
     public function getOrder()
     {
         if (is_null($this->_order) && ($orderId = $this->getOrderId())) {
-            $order = Mage::getModel('Magento_Sales_Model_Order');
+            $order = $this->_orderFactory->create();
             $order->load($orderId);
             $this->setOrder($order);
         }
@@ -487,6 +494,7 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
     /**
      * Retrieve status name
      *
+     * @param string $statusId
      * @return string
      */
     public static function getStatusName($statusId)
@@ -510,8 +518,10 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
         if ($this->getStatusId() !== self::STATUS_CANCELED) {
             $this->_eventManager->dispatch('sales_order_item_cancel', array('item'=>$this));
             $this->setQtyCanceled($this->getQtyToCancel());
-            $this->setTaxCanceled($this->getTaxCanceled() + $this->getBaseTaxAmount() * $this->getQtyCanceled() / $this->getQtyOrdered());
-            $this->setHiddenTaxCanceled($this->getHiddenTaxCanceled() + $this->getHiddenTaxAmount() * $this->getQtyCanceled() / $this->getQtyOrdered());
+            $this->setTaxCanceled($this->getTaxCanceled() + $this->getBaseTaxAmount()
+                * $this->getQtyCanceled() / $this->getQtyOrdered());
+            $this->setHiddenTaxCanceled($this->getHiddenTaxCanceled() + $this->getHiddenTaxAmount()
+                * $this->getQtyCanceled() / $this->getQtyOrdered());
         }
         return $this;
     }
@@ -525,7 +535,6 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
     {
         if (is_null(self::$_statuses)) {
             self::$_statuses = array(
-                //self::STATUS_PENDING        => __('Pending'),
                 self::STATUS_PENDING        => __('Ordered'),
                 self::STATUS_SHIPPED        => __('Shipped'),
                 self::STATUS_INVOICED       => __('Invoiced'),
@@ -573,7 +582,8 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
      */
     public function getProductOptions()
     {
-        if ($options = $this->_getData('product_options')) {
+        $options = $this->_getData('product_options');
+        if ($options) {
             return unserialize($options);
         }
         return array();
@@ -586,7 +596,7 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
      * @param string $code
      * @return array
      */
-    public function getProductOptionByCode($code=null)
+    public function getProductOptionByCode($code = null)
     {
         $options = $this->getProductOptions();
         if (is_null($code)) {
@@ -605,7 +615,8 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
      */
     public function getRealProductType()
     {
-        if ($productType = $this->getProductOptionByCode('real_product_type')) {
+        $productType = $this->getProductOptionByCode('real_product_type');
+        if ($productType) {
             return $productType;
         }
         return null;
@@ -620,7 +631,7 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
     {
         if ($item instanceof Magento_Sales_Model_Order_Item) {
             $this->_children[] = $item;
-        } else if (is_array($item)) {
+        } elseif (is_array($item)) {
             $this->_children = array_merge($this->_children, $item);
         }
     }
@@ -630,7 +641,8 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
      *
      * @return array
      */
-    public function getChildrenItems() {
+    public function getChildrenItems()
+    {
         return $this->_children;
     }
 
@@ -641,15 +653,17 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
      * @return bool
      */
     public function isChildrenCalculated() {
-        if ($parentItem = $this->getParentItem()) {
+        $parentItem = $this->getParentItem();
+        if ($parentItem) {
             $options = $parentItem->getProductOptions();
         } else {
             $options = $this->getProductOptions();
         }
 
-        if (isset($options['product_calculations']) &&
-             $options['product_calculations'] == Magento_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD) {
-                return true;
+        if (isset($options['product_calculations'])
+            && $options['product_calculations'] == Magento_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD
+        ) {
+            return true;
         }
         return false;
     }
@@ -676,7 +690,8 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
      * @return bool
      */
     public function isShipSeparately() {
-        if ($parentItem = $this->getParentItem()) {
+        $parentItem = $this->getParentItem();
+        if ($parentItem) {
             $options = $parentItem->getProductOptions();
         } else {
             $options = $this->getProductOptions();
@@ -759,10 +774,9 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
     public function getProduct()
     {
         if (!$this->getData('product')) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($this->getProductId());
+            $product = $this->_productFactory->create()->load($this->getProductId());
             $this->setProduct($product);
         }
-
         return $this->getData('product');
     }
 }

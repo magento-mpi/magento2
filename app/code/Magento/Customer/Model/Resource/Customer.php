@@ -22,13 +22,36 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Model_Validator_Factory $validatorFactory
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Eav_Model_Factory_Helper $helperFactory
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Validator_Factory $validatorFactory
+     * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Validator_Factory $validatorFactory,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        $data = array()
     ) {
+        parent::__construct(
+            $resource,
+            $eavConfig,
+            $attrSetEntity,
+            $locale,
+            $resourceHelper,
+            $helperFactory,
+            $data
+        );
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_validatorFactory = $validatorFactory;
         $this->setType('customer');

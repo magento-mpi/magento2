@@ -207,12 +207,14 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
             ->method('getConnection')
             ->with()
             ->will($this->returnValue($adapter));
-
+        $eavEntityType = $this->getMock('Magento_Eav_Model_Resource_Entity_Type', array(), array(), '', false, false);
         $arguments = array(
-            'resource'  => $resource,
+            'resource' => $resource,
+            'app' => $this->getMock('Magento_Core_Model_App', array(), array(), '', false, false),
+            'eavEntityType' => $eavEntityType,
             'arguments' => array(
                 'application' => $application,
-                'helper'      => $this->getMock('Magento_Eav_Helper_Data', array(), array(), '', false, false),
+                'helper' => $this->getMock('Magento_Eav_Helper_Data', array(), array(), '', false, false),
             )
         );
         $resourceModel = $this->getMock(

@@ -48,7 +48,7 @@ abstract class Magento_Eav_Model_Attribute extends Magento_Eav_Model_Entity_Attr
      */
     public function setWebsite($website)
     {
-        $this->_website = Mage::app()->getWebsite($website);
+        $this->_website = $this->_storeManager->getWebsite($website);
         return $this;
     }
 
@@ -60,7 +60,7 @@ abstract class Magento_Eav_Model_Attribute extends Magento_Eav_Model_Entity_Attr
     public function getWebsite()
     {
         if (is_null($this->_website)) {
-            $this->_website = Mage::app()->getWebsite();
+            $this->_website = $this->_storeManager->getWebsite();
         }
 
         return $this->_website;
@@ -73,7 +73,7 @@ abstract class Magento_Eav_Model_Attribute extends Magento_Eav_Model_Entity_Attr
      */
     protected function _afterSave()
     {
-        Mage::getSingleton('Magento_Eav_Model_Config')->clear();
+        $this->_eavConfig->clear();
         return parent::_afterSave();
     }
 

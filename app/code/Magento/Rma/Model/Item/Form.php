@@ -33,12 +33,35 @@ class Magento_Rma_Model_Item_Form extends Magento_Eav_Model_Form
     protected $_collectionFactory;
 
     /**
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Eav_Model_AttributeDataFactory $attrDataFactory
+     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Controller_Request_Http $httpRequest
+     * @param Magento_Validator_ConfigFactory $validatorConfigFactory
      * @param Magento_Rma_Model_Resource_Item_Form_Attribute_CollectionFactory $collectionFactory
      */
-    public function __construct(Magento_Rma_Model_Resource_Item_Form_Attribute_CollectionFactory $collectionFactory)
-    {
+    public function __construct(
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Eav_Model_AttributeDataFactory $attrDataFactory,
+        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Core_Controller_Request_Http $httpRequest,
+        Magento_Validator_ConfigFactory $validatorConfigFactory,
+        Magento_Rma_Model_Resource_Item_Form_Attribute_CollectionFactory $collectionFactory
+    ) {
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct();
+        parent::__construct(
+            $storeManager,
+            $eavConfig,
+            $modulesReader,
+            $attrDataFactory,
+            $helperFactory,
+            $httpRequest,
+            $validatorConfigFactory
+        );
     }
 
     /**

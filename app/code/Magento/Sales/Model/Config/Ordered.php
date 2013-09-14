@@ -63,14 +63,14 @@ abstract class Magento_Sales_Model_Config_Ordered extends Magento_Core_Model_Con
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Simplexml_Element $sourceData
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Simplexml_Element|null $sourceData
      */
     public function __construct(
-            Magento_Core_Model_Logger $logger,
-            Magento_Core_Model_Cache_Type_Config $configCacheType,
-            $sourceData = null
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_Logger $logger,
+        $sourceData = null
     ) {
         parent::__construct($sourceData);
         $this->_configCacheType = $configCacheType;

@@ -22,9 +22,19 @@ class Magento_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         $resource = $this->getMock('Magento_Eav_Model_Resource_Entity_Attribute_Set', array(), array(), '', false);
-
+        $attrGroupFactory = $this->getMock(
+            'Magento_Eav_Model_Entity_Attribute_GroupFactory',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
+        $attrFactory = $this->getMock('Magento_Eav_Model_Entity_AttributeFactory', array(), array(), '', false, false);
         $arguments = array(
-            'resource'  => $resource,
+            'attrGroupFactory' => $attrGroupFactory,
+            'attributeFactory' => $attrFactory,
+            'resource' => $resource,
         );
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento_Eav_Model_Entity_Attribute_Set', $arguments);

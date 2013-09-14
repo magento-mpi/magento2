@@ -10,10 +10,6 @@
 
 /**
  * Order configuration model
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Order_Config extends Magento_Core_Model_Config_Base
 {
@@ -30,30 +26,52 @@ class Magento_Sales_Model_Order_Config extends Magento_Core_Model_Config_Base
     private $_states;
 
     /**
+     * @var Magento_Sales_Model_Order_Status
+     */
+    protected $_orderStatusFactory;
+
+    /**
+     * @var Magento_Sales_Model_Resource_Order_Status_CollectionFactory
+     */
+    protected $_orderStatusCollFactory;
+
+    /**
      * @var Magento_Core_Model_Config
      */
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
+     * @param Magento_Sales_Model_Order_StatusFactory $orderStatusFactory
+     * @param Magento_Sales_Model_Resource_Order_Status_CollectionFactory $orderStatusCollFactory
      * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
+        Magento_Sales_Model_Order_StatusFactory $orderStatusFactory,
+        Magento_Sales_Model_Resource_Order_Status_CollectionFactory $orderStatusCollFactory,
         Magento_Core_Model_Config $coreConfig
     ) {
         $this->_coreConfig = $coreConfig;
         parent::__construct($this->_coreConfig->getNode('global/sales/order'));
+        $this->_orderStatusFactory = $orderStatusFactory;
+        $this->_orderStatusCollFactory = $orderStatusCollFactory;
     }
 
+    /**
+     * @param string $status
+     * @return Magento_Simplexml_Element
+     */
     protected function _getStatus($status)
     {
-        return $this->getNode('statuses/'.$status);
+        return $this->getNode('statuses/' . $status);
     }
 
+    /**
+     * @param string $state
+     * @return Magento_Simplexml_Element
+     */
     protected function _getState($state)
     {
-        return $this->getNode('states/'.$state);
+        return $this->getNode('states/' . $state);
     }
 
     /**
@@ -65,9 +83,9 @@ class Magento_Sales_Model_Order_Config extends Magento_Core_Model_Config_Base
     public function getStateDefaultStatus($state)
     {
         $status = false;
-        if ($stateNode = $this->_getState($state)) {
-            $status = Mage::getModel('Magento_Sales_Model_Order_Status')
-                ->loadDefaultByState($state);
+        $stateNode = $this->_getState($state);
+        if ($stateNode) {
+            $status = $this->_orderStatusFactory->create()->loadDefaultByState($state);
             $status = $status->getStatus();
         }
         return $status;
@@ -81,8 +99,7 @@ class Magento_Sales_Model_Order_Config extends Magento_Core_Model_Config_Base
      */
     public function getStatusLabel($code)
     {
-        $status = Mage::getModel('Magento_Sales_Model_Order_Status')
-            ->load($code);
+        $status = $this->_orderStatusFactory->create()->load($code);
         return $status->getStoreLabel();
     }
 
@@ -94,8 +111,9 @@ class Magento_Sales_Model_Order_Config extends Magento_Core_Model_Config_Base
      */
     public function getStateLabel($state)
     {
-        if ($stateNode = $this->_getState($state)) {
-            $state = (string) $stateNode->label;
+        $stateNode = $this->_getState($state);
+        if ($stateNode) {
+            $state = (string)$stateNode->label;
             return __($state);
         }
         return $state;
@@ -109,8 +127,7 @@ class Magento_Sales_Model_Order_Config extends Magento_Core_Model_Config_Base
      */
     public function getStatuses()
     {
-        $statuses = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Status_Collection')
-            ->toOptionHash();
+        $statuses = $this->_orderStatusCollFactory->create()->toOptionHash();
         return $statuses;
     }
 
@@ -154,8 +171,9 @@ class Magento_Sales_Model_Order_Config extends Magento_Core_Model_Config_Base
             $state = array($state);
         }
         foreach ($state as $_state) {
-            if ($stateNode = $this->_getState($_state)) {
-                $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Status_Collection')
+            $stateNode = $this->_getState($_state);
+            if ($stateNode) {
+                $collection = $this->_orderStatusCollFactory->create()
                     ->addStateFilter($_state)
                     ->orderByLabel();
                 foreach ($collection as $status) {
@@ -209,8 +227,7 @@ class Magento_Sales_Model_Order_Config extends Magento_Core_Model_Config_Base
                 $isVisibleOnFront = (string)$state->visible_on_front;
                 if ((bool)$isVisibleOnFront || ($state->visible_on_front && $isVisibleOnFront == '')) {
                     $this->_states['visible'][] = $name;
-                }
-                else {
+                } else {
                     $this->_states['invisible'][] = $name;
                 }
                 foreach ($state->statuses->children() as $status) {

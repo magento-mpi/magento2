@@ -57,7 +57,7 @@ class Magento_Backend_Model_Config_Backend_Log_Cron extends Magento_Core_Model_C
 
             Mage::getModel('Magento_Core_Model_Config_Value')
                 ->load(self::CRON_MODEL_PATH, 'path')
-                ->setValue((string) $this->_coreConfig->getNode(self::CRON_MODEL_PATH))
+                ->setValue((string) $this->_config->getNode(self::CRON_MODEL_PATH))
                 ->setPath(self::CRON_MODEL_PATH)
                 ->save();
         }

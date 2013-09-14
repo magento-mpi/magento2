@@ -10,6 +10,37 @@
 
 class Magento_Sales_Model_Order_Status extends Magento_Core_Model_Abstract
 {
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $registry,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+        $this->_storeManager = $storeManager;
+    }
+
     protected function _construct()
     {
         $this->_init('Magento_Sales_Model_Resource_Order_Status');
@@ -81,7 +112,7 @@ class Magento_Sales_Model_Order_Status extends Magento_Core_Model_Abstract
      */
     public function getStoreLabel($store = null)
     {
-        $store = Mage::app()->getStore($store);
+        $store = $this->_storeManager->getStore($store);
         if (!$store->isAdmin()) {
             $labels = $this->getStoreLabels();
             if (isset($labels[$store->getId()])) {

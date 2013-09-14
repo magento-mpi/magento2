@@ -56,8 +56,7 @@ class Magento_WebsiteRestriction_Block_Cms_Stub extends Magento_Cms_Block_Page
         if (!$this->hasData('page')) {
             $page = $this->_coreRegistry->registry('restriction_landing_page');
             if (!$page) {
-                $page = Mage::getModel('Magento_Cms_Model_Page')
-                    ->load($this->getPageIdentifier(), 'identifier');
+                $page = $this->_pageFactory->create()->load($this->getPageIdentifier(), 'identifier');
             }
             $this->setData('page', $page);
         }

@@ -154,26 +154,12 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
         $resourceName
     ) {
         $this->_config = $config;
-        if (get_class($resourcesConfig) !== "Magento_Core_Model_Config_Resource") {
-            foreach(debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 20) as $a) {
-                var_dump($a['file']);
-            }
-            var_dump(get_class($resourcesConfig));
-            exit;
-        }
         $resourcesConfig->setConfig($config);
         $this->_eventManager = $eventManager;
         $this->_resourceModel = $resource;
         $this->_resourceName = $resourceName;
         $this->_modulesReader = $modulesReader;
         $this->_resourceConfig = $resourcesConfig->getResourceConfig($resourceName);
-        if(get_class($resourceResource) !== "Magento_Core_Model_Resource_Resource"){
-            foreach(debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 20) as $a) {
-                var_dump($a['file']);
-            }
-            var_dump(get_class($resourceResource));
-            exit;
-        }
         $this->_resourceResource = $resourceResource;
         $this->_themeResourceFactory = $themeResourceFactory;
         $this->_themeFactory = $themeFactory;

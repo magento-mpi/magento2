@@ -84,7 +84,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form extends Magento_Adminhtml_
                 ->setStore($this->getStore());
             foreach ($this->getCustomer()->getAddresses() as $address) {
                 $data['addresses'][$address->getId()] = $addressForm->setEntity($address)
-                    ->outputData(Magento_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON);
+                    ->outputData(Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_JSON);
             }
         }
         if (!is_null($this->getStoreId())) {

@@ -28,6 +28,16 @@ abstract class Magento_Eav_Model_Entity_Attribute_Frontend_Abstract
     protected $_attribute;
 
     /**
+     * @var Magento_Eav_Model_Entity_Attribute_Source_BooleanFactory
+     */
+    protected $_attrBooleanFactory;
+
+    function __construct(Magento_Eav_Model_Entity_Attribute_Source_BooleanFactory $attrBooleanFactory)
+    {
+        $this->_attrBooleanFactory = $attrBooleanFactory;
+    }
+
+    /**
      * Set attribute instance
      *
      * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
@@ -86,7 +96,7 @@ abstract class Magento_Eav_Model_Entity_Attribute_Frontend_Abstract
         if (in_array($this->getConfigField('input'), array('select','boolean'))) {
             $valueOption = $this->getOption($value);
             if (!$valueOption) {
-                $opt     = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Source_Boolean');
+                $opt     = $this->_attrBooleanFactory->create();
                 $options = $opt->getAllOptions();
                 if ($options) {
                     foreach ($options as $option) {

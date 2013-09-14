@@ -19,9 +19,6 @@ class Magento_GiftMessage_Model_Resource_Setup extends Magento_Sales_Model_Resou
     protected $_catalogSetupFactory;
 
     /**
-     * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
@@ -34,13 +31,15 @@ class Magento_GiftMessage_Model_Resource_Setup extends Magento_Sales_Model_Resou
      * @param Magento_Core_Model_Theme_CollectionFactory $themeFactory
      * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param $resourceName
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_CacheInterface $cache,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
@@ -52,12 +51,31 @@ class Magento_GiftMessage_Model_Resource_Setup extends Magento_Sales_Model_Resou
         Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory,
         Magento_Core_Model_Theme_CollectionFactory $themeFactory,
         Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
-        $resourceName
+        $resourceName,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
     ) {
         $this->_catalogSetupFactory = $catalogSetupFactory;
         parent::__construct(
-            $coreData, $cache, $logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource,
-            $modulesReader, $resourceResource, $themeResourceFactory, $themeFactory, $migrationFactory, $resourceName
+            $logger,
+            $eventManager,
+            $resourcesConfig,
+            $config,
+            $moduleList,
+            $resource,
+            $modulesReader,
+            $resourceResource,
+            $themeResourceFactory,
+            $themeFactory,
+            $migrationFactory,
+            $resourceName,
+            $cache,
+            $attrGrCollFactory,
+            $migrationFactory,
+            $coreData
         );
     }
 

@@ -24,6 +24,17 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
      */
     protected $_coreRegistry = null;
 
+    /**
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Sales_Model_Resource_Recurring_Profile_CollectionFactory $profileCollection
+     * @param Magento_Sales_Model_Recurring_ProfileFactory $recurringProfile
+     * @param array $data
+     */
     public function __construct(
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Helper_Data $coreData,
@@ -31,11 +42,20 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
+        Magento_Sales_Model_Resource_Recurring_Profile_CollectionFactory $profileCollection,
+        Magento_Sales_Model_Recurring_ProfileFactory $recurringProfile,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct(
-            $coreData, $paymentData, $context, $storeManager, $urlModel, $data
+            $coreData,
+            $paymentData,
+            $context,
+            $storeManager,
+            $urlModel,
+            $profileCollection,
+            $recurringProfile,
+            $data
         );
     }
 
@@ -97,7 +117,7 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Recurring_Profile_Collection')
+        $collection = $this->_profileCollection->create()
             ->addFieldToFilter('customer_id', $this->_coreRegistry->registry('current_customer')->getId());
         if (!$this->getParam($this->getVarNameSort())) {
             $collection->setOrder('profile_id', 'desc');

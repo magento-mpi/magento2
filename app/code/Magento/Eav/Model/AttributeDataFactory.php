@@ -16,7 +16,7 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Attribute_Data
+class Magento_Eav_Model_AttributeDataFactory
 {
     const OUTPUT_FORMAT_JSON    = 'json';
     const OUTPUT_FORMAT_TEXT    = 'text';
@@ -30,7 +30,20 @@ class Magento_Eav_Model_Attribute_Data
      *
      * @var array
      */
-    protected static $_dataModels   = array();
+    protected $_dataModels = array();
+
+    /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
+     * @param Magento_ObjectManager $objectManager
+     */
+    public function __construct(Magento_ObjectManager $objectManager)
+    {
+        $this->_objectManager = $objectManager;
+    }
 
     /**
      * Return attribute data model by attribute
@@ -40,24 +53,27 @@ class Magento_Eav_Model_Attribute_Data
      * @param Magento_Core_Model_Abstract $entity
      * @return Magento_Eav_Model_Attribute_Data_Abstract
      */
-    public static function factory(Magento_Eav_Model_Attribute $attribute, Magento_Core_Model_Abstract $entity)
+    public function create(Magento_Eav_Model_Attribute $attribute, Magento_Core_Model_Abstract $entity)
     {
         /* @var $dataModel Magento_Eav_Model_Attribute_Data_Abstract */
         $dataModelClass = $attribute->getDataModel();
         if (!empty($dataModelClass)) {
-            if (empty(self::$_dataModels[$dataModelClass])) {
-                $dataModel = Mage::getModel($dataModelClass);
-                self::$_dataModels[$dataModelClass] = $dataModel;
+            if (empty($this->_dataModels[$dataModelClass])) {
+                $dataModel = $this->_objectManager->create($dataModelClass);
+                $this->_dataModels[$dataModelClass] = $dataModel;
             } else {
-                $dataModel = self::$_dataModels[$dataModelClass];
+                $dataModel = $this->_dataModels[$dataModelClass];
             }
         } else {
-            if (empty(self::$_dataModels[$attribute->getFrontendInput()])) {
-                $dataModelClass = sprintf('Magento_Eav_Model_Attribute_Data_%s', uc_words($attribute->getFrontendInput()));
-                $dataModel      = Mage::getModel($dataModelClass);
-                self::$_dataModels[$attribute->getFrontendInput()] = $dataModel;
+            if (empty($this->_dataModels[$attribute->getFrontendInput()])) {
+                $dataModelClass = sprintf(
+                    'Magento_Eav_Model_Attribute_Data_%s',
+                    uc_words($attribute->getFrontendInput())
+                );
+                $dataModel = $this->_objectManager->create($dataModelClass);
+                $this->_dataModels[$attribute->getFrontendInput()] = $dataModel;
             } else {
-                $dataModel = self::$_dataModels[$attribute->getFrontendInput()];
+                $dataModel = $this->_dataModels[$attribute->getFrontendInput()];
             }
         }
 

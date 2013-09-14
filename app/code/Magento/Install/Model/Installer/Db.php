@@ -150,8 +150,8 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
         }
         //set db type according the db model
         if (!isset($data['db_type'])) {
-            $data['db_type'] = isset($this->_dbConfig[$data['db_model']]['type'])
-                ? $this->_dbConfig[$data['db_model']]['type']
+            $data['db_type'] = isset($this->_dbConfig[(string)$data['db_model']]['type'])
+                ? $this->_dbConfig[(string)$data['db_model']]['type']
                 : null;
         }
 
@@ -159,8 +159,8 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
         $data['db_pdo_type'] = $dbResource->getPdoType();
 
         if (!isset($data['db_init_statements'])) {
-            $data['db_init_statements'] = isset($this->_dbConfig[$data['db_model']]['initStatements'])
-                ? $this->_dbConfig[$data['db_model']]['initStatements']
+            $data['db_init_statements'] = isset($this->_dbConfig[(string)$data['db_model']]['initStatements'])
+                ? $this->_dbConfig[(string)$data['db_model']]['initStatements']
                 : null;
         }
 

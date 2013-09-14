@@ -45,7 +45,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Config extends Magento_Eav_Model
             $this->_options = array();
 
             if (empty($this->_optionsData)) {
-                throw Mage::exception('Magento_Eav', __('No options found'));
+                throw new Magento_Eav_Exception(__('No options found.'));
             }
             foreach ($this->_optionsData as $option) {
                 $this->_options[] = array(

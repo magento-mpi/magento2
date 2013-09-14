@@ -103,11 +103,11 @@ class Magento_Eav_Model_Attribute_Data_Select extends Magento_Eav_Model_Attribut
      *
      * @return string|array
      */
-    public function outputValue($format = Magento_Eav_Model_Attribute_Data::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_TEXT)
     {
         $value = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
         switch ($format) {
-            case Magento_Eav_Model_Attribute_Data::OUTPUT_FORMAT_JSON:
+            case Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_JSON:
                 $output = $value;
                 break;
             default:

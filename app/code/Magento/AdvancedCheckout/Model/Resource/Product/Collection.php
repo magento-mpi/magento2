@@ -25,4 +25,5 @@ class Magento_AdvancedCheckout_Model_Resource_Product_Collection extends Magento
     {
         return $this->_productLimitationPrice(true);
     }
+
 }
