@@ -17,7 +17,7 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     {
         $quote = $address->getQuote();
         $eventArgs = array(
-            'website_id'=>Mage::app()->getStore($quote->getStoreId())->getWebsiteId(),
+            'website_id'=>\Mage::app()->getStore($quote->getStoreId())->getWebsiteId(),
             'customer_group_id'=>$quote->getCustomerGroupId(),
             'coupon_code'=>$quote->getCouponCode(),
         );

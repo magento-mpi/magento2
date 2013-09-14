@@ -42,7 +42,7 @@ class Breadcrumbs extends \Magento\Core\Block\Template
             $breadcrumbsBlock->addCrumb('home', array(
                 'label'=>__('Home'),
                 'title'=>__('Go to Home Page'),
-                'link'=>Mage::getBaseUrl()
+                'link'=>\Mage::getBaseUrl()
             ));
 
             $title = array();

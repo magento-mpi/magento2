@@ -26,7 +26,7 @@ class Form extends \Magento\Core\Block\Template
             $breadcrumbs->addCrumb('home', array(
                 'label'=>__('Home'),
                 'title'=>__('Go to Home Page'),
-                'link'=>Mage::getBaseUrl()
+                'link'=>\Mage::getBaseUrl()
             ))->addCrumb('search', array(
                 'label'=>__('Catalog Advanced Search')
             ));

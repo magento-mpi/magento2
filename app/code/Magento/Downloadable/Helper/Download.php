@@ -154,7 +154,7 @@ class Download extends \Magento\Core\Helper\AbstractHelper
                 if (!is_file($this->_resourceFile)) {
                     \Mage::helper('Magento\Core\Helper\File\Storage\Database')->saveFileToFilesystem($this->_resourceFile);
                 }
-                $this->_handle->open(array('path'=>Mage::getBaseDir('var')));
+                $this->_handle->open(array('path'=>\Mage::getBaseDir('var')));
                 if (!$this->_handle->fileExists($this->_resourceFile, true)) {
                     \Mage::throwException(__("We can't find this file."));
                 }

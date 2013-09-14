@@ -205,7 +205,7 @@ abstract class AbstractXml extends \Magento\Object
     {
         return \Mage::getUrl(
             'googlecheckout/api',
-            array('_forced_secure'=>Mage::getStoreConfig('google/checkout/use_secure_callback_url',$this->getStoreId()))
+            array('_forced_secure'=>\Mage::getStoreConfig('google/checkout/use_secure_callback_url',$this->getStoreId()))
         );
     }
 
