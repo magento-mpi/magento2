@@ -29,6 +29,7 @@ class Magento_Reward_Block_Tooltip_Checkout extends Magento_Reward_Block_Tooltip
      * @param Magento_Reward_Model_Reward $rewardInstance
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Core_Helper_Data $coreData
      * @param array $data
      */
     public function __construct(
@@ -38,6 +39,7 @@ class Magento_Reward_Block_Tooltip_Checkout extends Magento_Reward_Block_Tooltip
         Magento_Reward_Model_Reward $rewardInstance,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Core_Helper_Data $coreData,
         array $data = array()
     ) {
         parent::__construct(
@@ -46,6 +48,7 @@ class Magento_Reward_Block_Tooltip_Checkout extends Magento_Reward_Block_Tooltip
             $customerSession,
             $rewardInstance,
             $storeManager,
+            $coreData,
             $data
         );
         $this->_checkoutSession = $checkoutSession;
