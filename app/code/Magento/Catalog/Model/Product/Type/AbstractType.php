@@ -487,7 +487,7 @@ abstract class AbstractType
      */
     protected function _prepareOptions(\Magento\Object $buyRequest, $product, $processMode)
     {
-        $transport = new StdClass;
+        $transport = new \StdClass;
         $transport->options = array();
         foreach ($product->getOptions() as $_option) {
             /* @var $_option \Magento\Catalog\Model\Product\Option */

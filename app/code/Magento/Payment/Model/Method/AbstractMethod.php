@@ -620,7 +620,7 @@ abstract class AbstractMethod extends \Magento\Object
      */
     public function isAvailable($quote = null)
     {
-        $checkResult = new StdClass;
+        $checkResult = new \StdClass;
         $isActive = (bool)(int)$this->getConfigData('active', $quote ? $quote->getStoreId() : null);
         $checkResult->isAvailable = $isActive;
         $checkResult->isDeniedInConfig = !$isActive; // for future use in observers
