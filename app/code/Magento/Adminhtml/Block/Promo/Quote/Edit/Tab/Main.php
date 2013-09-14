@@ -16,8 +16,8 @@
  * @author Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Backend_Block_Widget_Form_Generic
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Prepare content for tab
@@ -61,9 +61,10 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_promo_quote_rule');
+        $model = $this->_coreRegistry->registry('current_promo_quote_rule');
 
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset = $form->addFieldset('base_fieldset',
@@ -132,7 +133,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
         $found = false;
 
         foreach ($customerGroups as $group) {
-            if ($group['value']==0) {
+            if ($group['value'] == 0) {
                 $found = true;
             }
         }
@@ -259,7 +260,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
                 Magento_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC)
         );
 
-        Mage::dispatchEvent('adminhtml_promo_quote_edit_tab_main_prepare_form', array('form' => $form));
+        $this->_eventManager->dispatch('adminhtml_promo_quote_edit_tab_main_prepare_form', array('form' => $form));
 
         return parent::_prepareForm();
     }

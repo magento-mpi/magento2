@@ -38,28 +38,6 @@
             </quote>
         </sales>
     </global>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Checkout>
-                    <files>
-                        <default>Magento_Checkout.csv</default>
-                    </files>
-                </Magento_Checkout>
-            </modules>
-        </translate>
-    </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Checkout>
-                    <files>
-                        <default>Magento_Checkout.csv</default>
-                    </files>
-                </Magento_Checkout>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <checkout>
             <options>

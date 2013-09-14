@@ -10,20 +10,15 @@
 
 /**
  * Cms page edit form main tab
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Main
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Backend_Block_Widget_Form_Generic
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     protected function _prepareForm()
     {
         /* @var $model Magento_Cms_Model_Page */
-        $model = Mage::registry('cms_page');
+        $model = $this->_coreRegistry->registry('cms_page');
 
         /*
          * Checking if user have permissions to save information
@@ -35,7 +30,8 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Main
         }
 
 
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form   = $this->_formFactory->create();
 
         $form->setHtmlIdPrefix('page_');
 
@@ -100,7 +96,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Main
             $model->setData('is_active', $isElementDisabled ? '0' : '1');
         }
 
-        Mage::dispatchEvent('adminhtml_cms_page_edit_tab_main_prepare_form', array('form' => $form));
+        $this->_eventManager->dispatch('adminhtml_cms_page_edit_tab_main_prepare_form', array('form' => $form));
 
         $form->setValues($model->getData());
         $this->setForm($form);

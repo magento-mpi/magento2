@@ -8,7 +8,8 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send extends Magento_Adminhtml_Block_Widget_Form
+class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Init form fields
@@ -17,13 +18,14 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send exte
      */
     public function initForm()
     {
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_send');
 
-        $model = Mage::registry('current_giftcardaccount');
+        $model = $this->_coreRegistry->registry('current_giftcardaccount');
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>__('Send Gift Card'))
+            array('legend' => __('Send Gift Card'))
         );
 
         $fieldset->addField('recipient_email', 'text', array(
@@ -78,7 +80,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send exte
             }
         }
 
-        $websiteStores = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($websiteStores);
+        $websiteStores = $this->_coreData->jsonEncode($websiteStores);
 
         $result  = '<script type="text/javascript">//<![CDATA[' . "\n";
         $result .= "var websiteStores = $websiteStores;";

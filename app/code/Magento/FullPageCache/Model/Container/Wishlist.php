@@ -54,7 +54,7 @@ class Magento_FullPageCache_Model_Container_Wishlist extends Magento_FullPageCac
             ->createBlock('Magento_Catalog_Block_Product_Price_Template', 'catalog_product_price_template');
         $blockPrice->addPriceBlockType('msrp', 'Magento_Catalog_Block_Product_Price', 'catalog/product/price_msrp.phtml');
 
-        Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+        $this->_eventManager->dispatch('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
 
         return $block->toHtml();
     }

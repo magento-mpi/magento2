@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_General extends Magento_Admin
     public function getCategory()
     {
         if (!$this->_category) {
-            $this->_category = Mage::registry('category');
+            $this->_category = $this->_coreRegistry->registry('category');
         }
         return $this->_category;
     }
@@ -37,7 +37,8 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_General extends Magento_Admin
     public function _prepareLayout()
     {
         parent::_prepareLayout();
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_general');
         $form->setDataObject($this->getCategory());
 

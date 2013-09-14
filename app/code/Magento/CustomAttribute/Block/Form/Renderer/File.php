@@ -26,7 +26,7 @@ class Magento_CustomAttribute_Block_Form_Renderer_File extends Magento_CustomAtt
     public function getEscapedValue()
     {
         if ($this->getValue()) {
-            return $this->escapeHtml(Mage::helper('Magento_Core_Helper_Data')->urlEncode($this->getValue()));
+            return $this->escapeHtml($this->_coreData->urlEncode($this->getValue()));
         }
         return '';
     }

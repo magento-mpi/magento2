@@ -68,7 +68,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
     /**
      * ObjectManager helper
      *
-     * @var Magento_Test_Helper_ObjectManager
+     * @var Magento_TestFramework_Helper_ObjectManager
      */
     protected $_objectManager;
 
@@ -81,7 +81,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
 
     public function setUp()
     {
-        $this->_objectManager = new Magento_Test_Helper_ObjectManager($this);
+        $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model
             = new Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address($this->_getModelDependencies());
     }
@@ -190,10 +190,18 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
      */
     public function iterate(Magento_Data_Collection_Db $collection, $pageSize, array $callbacks)
     {
-        $arguments = $this->_objectManager->getConstructArguments('Magento_Customer_Model_Customer');
-        $arguments['data'] = $this->_customerData;
-        /** @var $customer Magento_Customer_Model_Customer */
-        $customer = $this->getMock('Magento_Customer_Model_Customer', array('_construct'), $arguments);
+        $resource = $this->getMock(
+            'Magento_Customer_Model_Resource_Customer', array('getIdFieldName'), array(), '', false
+        );
+        $resource->expects($this->any())
+            ->method('getIdFieldName')
+            ->will($this->returnValue('id'));
+        $arguments = array(
+            'data' => $this->_customerData,
+            'resource' => $resource,
+        );
+        /** @var $customer Magento_Customer_Model_Customer|PHPUnit_Framework_MockObject_MockObject */
+        $customer = $this->_objectManager->getObject('Magento_Customer_Model_Customer', $arguments);
 
         foreach ($callbacks as $callback) {
             call_user_func($callback, $customer);

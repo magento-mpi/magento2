@@ -18,6 +18,29 @@
 class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Adminhtml_Block_Template
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Rterieve grid id in template
      *
      * @return string
@@ -69,8 +92,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Admi
     {
         if ($this->getQuote()->isVirtual()) {
             $address = $this->getQuote()->getBillingAddress();
-        }
-        else {
+        } else {
             $address = $this->getQuote()->getShippingAddress();
         }
         if ($this->displayTotalsIncludeTax()) {
@@ -146,7 +168,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Admi
      */
     protected function getQuote()
     {
-        return Mage::registry('checkout_current_quote');
+        return $this->_coreRegistry->registry('checkout_current_quote');
     }
 
     /**
@@ -156,7 +178,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Admi
      */
     protected function getStore()
     {
-        return Mage::registry('checkout_current_store');
+        return $this->_coreRegistry->registry('checkout_current_store');
     }
 
     /**
@@ -166,7 +188,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Admi
      */
     protected function getCustomer()
     {
-        return Mage::registry('checkout_current_customer');
+        return $this->_coreRegistry->registry('checkout_current_customer');
     }
 
     /**

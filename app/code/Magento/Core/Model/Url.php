@@ -109,15 +109,25 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
     protected $_urlSecurityInfo;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
      * @param Magento_Core_Model_Url_SecurityInfo $urlSecurityInfo
+     * @param Magento_Core_Helper_Data $coreData
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Url_SecurityInfo $urlSecurityInfo,
+        Magento_Core_Helper_Data $coreData,
         array $data = array()
     ) {
-        parent::__construct($data);
         $this->_urlSecurityInfo = $urlSecurityInfo;
+        $this->_coreData = $coreData;
+        parent::__construct($data);
     }
 
     /**
@@ -759,7 +769,7 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
             $session = Mage::getSingleton('Magento_Core_Model_Session');
             if (!$session->isValidForHost($this->getHost())) {
                 if (!self::$_encryptedSessionId) {
-                    $helper = Mage::helper('Magento_Core_Helper_Data');
+                    $helper = $this->_coreData;
                     if (!$helper) {
                         return $this;
                     }
@@ -781,7 +791,7 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
         $session = Mage::getSingleton('Magento_Core_Model_Session');
 
         if (!self::$_encryptedSessionId) {
-            $helper = Mage::helper('Magento_Core_Helper_Data');
+            $helper = $this->_coreData;
             if (!$helper) {
                 return $this;
             }

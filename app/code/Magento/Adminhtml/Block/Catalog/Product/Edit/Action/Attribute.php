@@ -19,6 +19,29 @@
 class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Magento_Adminhtml_Block_Widget
 {
 
+    /**
+     * Adminhtml catalog product edit action attribute
+     *
+     * @var Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute
+     */
+    protected $_helperActionAttribute = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $helperActionAttribute
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $helperActionAttribute,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_helperActionAttribute = $helperActionAttribute;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _prepareLayout()
     {
         $this->addChild('back_button', 'Magento_Adminhtml_Block_Widget_Button', array(
@@ -100,7 +123,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage
      */
     public function getSaveUrl()
     {
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute');
+        $helper = $this->_helperActionAttribute;
         return $this->getUrl(
             '*/*/save',
             array(

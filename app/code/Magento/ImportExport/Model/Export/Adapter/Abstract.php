@@ -32,29 +32,25 @@ abstract class Magento_ImportExport_Model_Export_Adapter_Abstract
     protected $_headerCols = null;
 
     /**
-     * Adapter object constructor.
-     *
-     * @param string $destination OPTIONAL Destination file path.
-     * @throws Exception
+     * @param null $destination
      */
-    final public function __construct($destination = null)
+    public function __construct($destination = null)
     {
-        /** @var $helper Magento_ImportExport_Helper_Data */
-        $helper = Mage::helper('Magento_ImportExport_Helper_Data');
         if (!$destination) {
             $destination = tempnam(sys_get_temp_dir(), 'importexport_');
         }
         if (!is_string($destination)) {
             Mage::throwException(__('Destination file path must be a string'));
         }
-        $pathinfo = pathinfo($destination);
 
+        $pathinfo = pathinfo($destination);
         if (empty($pathinfo['dirname']) || !is_writable($pathinfo['dirname'])) {
             Mage::throwException(__('Destination directory is not writable'));
         }
         if (is_file($destination) && !is_writable($destination)) {
             Mage::throwException(__('Destination file is not writable'));
         }
+
         $this->_destination = $destination;
 
         $this->_init();

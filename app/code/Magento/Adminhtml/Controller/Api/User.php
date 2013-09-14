@@ -9,6 +9,24 @@
  */
 class Magento_Adminhtml_Controller_Api_User extends Magento_Adminhtml_Controller_Action
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
 
     protected function _initAction()
     {
@@ -16,8 +34,7 @@ class Magento_Adminhtml_Controller_Api_User extends Magento_Adminhtml_Controller
             ->_setActiveMenu('Magento_Api::system_legacy_api_users')
             ->_addBreadcrumb(__('Web Services'), __('Web Services'))
             ->_addBreadcrumb(__('Permissions'), __('Permissions'))
-            ->_addBreadcrumb(__('Users'), __('Users'))
-        ;
+            ->_addBreadcrumb(__('Users'), __('Users'));
         return $this;
     }
 
@@ -58,7 +75,7 @@ class Magento_Adminhtml_Controller_Api_User extends Magento_Adminhtml_Controller
             $model->setData($data);
         }
 
-        Mage::register('api_user', $model);
+        $this->_coreRegistry->register('api_user', $model);
 
         $this->_initAction()
             ->_addBreadcrumb($id ? __('Edit User') : __('New User'), $id ? __('Edit User') : __('New User'))
@@ -76,7 +93,8 @@ class Magento_Adminhtml_Controller_Api_User extends Magento_Adminhtml_Controller
 
     public function saveAction()
     {
-        if ($data = $this->getRequest()->getPost()) {
+        $data = $this->getRequest()->getPost();
+        if ($data) {
             $id = $this->getRequest()->getPost('user_id', false);
             $model = Mage::getModel('Magento_Api_Model_User')->load($id);
             if (!$model->getId() && $id) {
@@ -87,14 +105,15 @@ class Magento_Adminhtml_Controller_Api_User extends Magento_Adminhtml_Controller
             $model->setData($data);
             try {
                 $model->save();
-                if ( $uRoles = $this->getRequest()->getParam('roles', false) ) {
+                $uRoles = $this->getRequest()->getParam('roles', false);
+                if ($uRoles) {
                     /*parse_str($uRoles, $uRoles);
                     $uRoles = array_keys($uRoles);*/
-                    if ( 1 == sizeof($uRoles) ) {
+                    if (1 == sizeof($uRoles)) {
                         $model->setRoleIds($uRoles)
                             ->setRoleUserId($model->getUserId())
                             ->saveRelations();
-                    } else if ( sizeof($uRoles) > 1 ) {
+                    } elseif (sizeof($uRoles) > 1) {
                         //@FIXME: stupid fix of previous multi-roles logic.
                         //@TODO:  make proper DB upgrade in the future revisions.
                         $rs = array();
@@ -118,16 +137,15 @@ class Magento_Adminhtml_Controller_Api_User extends Magento_Adminhtml_Controller
 
     public function deleteAction()
     {
-        if ($id = $this->getRequest()->getParam('user_id')) {
-
+        $id = $this->getRequest()->getParam('user_id');
+        if ($id) {
             try {
                 $model = Mage::getModel('Magento_Api_Model_User')->load($id);
                 $model->delete();
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You deleted the user.'));
                 $this->_redirect('*/*/');
                 return;
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('user_id' => $this->getRequest()->getParam('user_id')));
                 return;
@@ -146,7 +164,7 @@ class Magento_Adminhtml_Controller_Api_User extends Magento_Adminhtml_Controller
             $model->load($id);
         }
 
-        Mage::register('api_user', $model);
+        $this->_coreRegistry->register('api_user', $model);
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles')->toHtml()
         );
@@ -162,5 +180,4 @@ class Magento_Adminhtml_Controller_Api_User extends Magento_Adminhtml_Controller
     {
         return $this->_authorization->isAllowed('Magento_Api::users');
     }
-
 }

@@ -175,30 +175,6 @@ class Magento_SalesRule_Model_Observer
     }
 
     /**
-     * Append sales rule product attributes to select by quote item collection
-     *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_SalesRule_Model_Observer
-     */
-    public function addProductAttributes(Magento_Event_Observer $observer)
-    {
-        // @var Magento_Object
-        $attributesTransfer = $observer->getEvent()->getAttributes();
-
-        $attributes = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Rule')
-            ->getActiveAttributes(
-                Mage::app()->getWebsite()->getId(),
-                Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getGroupId()
-            );
-        $result = array();
-        foreach ($attributes as $attribute) {
-            $result[$attribute['attribute_code']] = true;
-        }
-        $attributesTransfer->addData($result);
-        return $this;
-    }
-
-    /**
      * Add coupon's rule name to order data
      *
      * @param Magento_Event_Observer $observer

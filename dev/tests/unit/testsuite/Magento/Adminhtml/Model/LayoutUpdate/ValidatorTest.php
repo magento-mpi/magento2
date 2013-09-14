@@ -12,13 +12,13 @@
 class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_Helper_ObjectManager
+     * @var Magento_TestFramework_Helper_ObjectManager
      */
     protected $_objectHelper;
 
     public function setUp()
     {
-        $this->_objectHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
     }
     /**
      * @dataProvider isValidDataProvider

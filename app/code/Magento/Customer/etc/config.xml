@@ -73,28 +73,6 @@
             </email>
         </template>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Customer>
-                    <files>
-                        <default>Magento_Customer.csv</default>
-                    </files>
-                </Magento_Customer>
-            </modules>
-        </translate>
-    </adminhtml>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Customer>
-                    <files>
-                        <default>Magento_Customer.csv</default>
-                    </files>
-                </Magento_Customer>
-            </modules>
-        </translate>
-    </frontend>
     <default>
         <customer>
             <account_share>

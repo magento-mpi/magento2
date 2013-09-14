@@ -117,10 +117,16 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
      * Usp constructor
      *
      * @param Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
+     * @param Magento_Directory_Helper_Data $directoryData
+     * @param array $data
      */
-    public function __construct(Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory)
-    {
+    public function __construct(
+        Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory,
+        Magento_Directory_Helper_Data $directoryData,
+        array $data = array()
+    ) {
         $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
+        parent::__construct($directoryData, $data);
     }
 
     /**

@@ -835,11 +835,11 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
         }
         $url = $this->getRequest()->getParam(self::PARAM_NAME_BASE64_URL);
         if ($url) {
-            $refererUrl = Mage::helper('Magento_Core_Helper_Data')->urlDecode($url);
+            $refererUrl = $this->_objectManager->get('Magento_Core_Helper_Data')->urlDecode($url);
         }
         $url = $this->getRequest()->getParam(self::PARAM_NAME_URL_ENCODED);
         if ($url) {
-            $refererUrl = Mage::helper('Magento_Core_Helper_Data')->urlDecode($url);
+            $refererUrl = $this->_objectManager->get('Magento_Core_Helper_Data')->urlDecode($url);
         }
 
         if (!$this->_isUrlInternal($refererUrl)) {

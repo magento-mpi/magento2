@@ -19,28 +19,6 @@
             </paypaluk_setup>
         </resources>
     </global>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_PaypalUk>
-                    <files>
-                        <default>Magento_PaypalUk.csv</default>
-                    </files>
-                </Magento_PaypalUk>
-            </modules>
-        </translate>
-    </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_PaypalUk>
-                    <files>
-                        <default>Magento_PaypalUk.csv</default>
-                    </files>
-                </Magento_PaypalUk>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <payment>
             <paypaluk_express>

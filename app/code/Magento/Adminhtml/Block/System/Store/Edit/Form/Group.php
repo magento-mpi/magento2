@@ -14,6 +14,8 @@
  * @category    Magento
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Magento_Adminhtml_Block_System_Store_Edit_Form_Group
     extends Magento_Adminhtml_Block_System_Store_Edit_FormAbstract
@@ -25,8 +27,9 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Group
      */
     protected function _prepareStoreFieldset(Magento_Data_Form $form)
     {
-        $groupModel = Mage::registry('store_data');
-        if ($postData = Mage::registry('store_post_data')) {
+        $groupModel = $this->_coreRegistry->registry('store_data');
+        $postData = $this->_coreRegistry->registry('store_post_data');
+        if ($postData) {
             $groupModel->setData($postData['group']);
         }
 
@@ -34,7 +37,8 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Group
             'legend' => __('Store Information')
         ));
 
-        if (Mage::registry('store_action') == 'edit' || Mage::registry('store_action') == 'add') {
+        $storeAction = $this->_coreRegistry->registry('store_action');
+        if ($storeAction == 'edit' || $storeAction == 'add') {
             $websites = Mage::getModel('Magento_Core_Model_Website')->getCollection()->toOptionArray();
             $fieldset->addField('group_website_id', 'select', array(
                 'name'      => 'group[website_id]',
@@ -83,7 +87,7 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Group
             'disabled'  => $groupModel->isReadOnly(),
         ));
 
-        if (Mage::registry('store_action') == 'edit') {
+        if ($this->_coreRegistry->registry('store_action') == 'edit') {
             $stores = Mage::getModel('Magento_Core_Model_Store')->getCollection()
                 ->addGroupFilter($groupModel->getId())->toOptionArray();
             $fieldset->addField('group_default_store_id', 'select', array(

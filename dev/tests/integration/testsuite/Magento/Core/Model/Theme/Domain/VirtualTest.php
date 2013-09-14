@@ -56,7 +56,7 @@ class Magento_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_Test
      */
     public function testGetPhysicalTheme()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         //1. set up fixture
         /** @var $physicalTheme Magento_Core_Model_Theme */
         $physicalTheme = $objectManager->create('Magento_Core_Model_Theme');

@@ -75,28 +75,6 @@
             </totals>
         </pdf>
     </global>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_CustomerBalance>
-                    <files>
-                        <default>Magento_CustomerBalance.csv</default>
-                    </files>
-                </Magento_CustomerBalance>
-            </modules>
-        </translate>
-    </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_CustomerBalance>
-                    <files>
-                        <default>Magento_CustomerBalance.csv</default>
-                    </files>
-                </Magento_CustomerBalance>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <customer>
             <magento_customerbalance>

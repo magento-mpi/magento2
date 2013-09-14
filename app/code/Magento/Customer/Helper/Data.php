@@ -78,6 +78,45 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_groups;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Customer address
+     *
+     * @var Magento_Customer_Helper_Address
+     */
+    protected $_customerAddress = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Customer_Helper_Address $customerAddress
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Customer_Helper_Address $customerAddress,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_customerAddress = $customerAddress;
+        $this->_coreData = $coreData;
+        parent::__construct($context);
+    }
+
+    /**
      * Check customer is logged in
      *
      * @return bool
@@ -174,7 +213,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
             && !Mage::getSingleton('Magento_Customer_Model_Session')->getNoReferer()
         ) {
             $referer = Mage::getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
-            $referer = Mage::helper('Magento_Core_Helper_Data')->urlEncode($referer);
+            $referer = $this->_coreData->urlEncode($referer);
         }
 
         if ($referer) {
@@ -308,9 +347,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isRegistrationAllowed()
     {
-        $result = new Magento_Object(array('is_allowed' => true));
-        Mage::dispatchEvent('customer_registration_is_allowed', array('result' => $result));
-        return $result->getIsAllowed();
+        return true;
     }
 
     /**
@@ -321,7 +358,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     public function getNamePrefixOptions($store = null)
     {
         return $this->_prepareNamePrefixSuffixOptions(
-            Mage::helper('Magento_Customer_Helper_Address')->getConfig('prefix_options', $store)
+            $this->_customerAddress->getConfig('prefix_options', $store)
         );
     }
 
@@ -333,7 +370,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     public function getNameSuffixOptions($store = null)
     {
         return $this->_prepareNamePrefixSuffixOptions(
-            Mage::helper('Magento_Customer_Helper_Address')->getConfig('suffix_options', $store)
+            $this->_customerAddress->getConfig('suffix_options', $store)
         );
     }
 
@@ -365,7 +402,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function generateResetPasswordLinkToken()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->uniqHash();
+        return $this->_coreData->uniqHash();
     }
 
     /**
@@ -489,7 +526,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     {
         $result = true;
         /** @var $coreHelper Magento_Core_Helper_Data */
-        $coreHelper = Mage::helper('Magento_Core_Helper_Data');
+        $coreHelper = $this->_coreData;
 
         if (!is_string($countryCode)
             || !is_string($vatNumber)
@@ -524,7 +561,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
 
         if (is_string($customerCountryCode)
             && !empty($customerCountryCode)
-            && $customerCountryCode === Mage::helper('Magento_Core_Helper_Data')->getMerchantCountryCode($store)
+            && $customerCountryCode === $this->_coreData->getMerchantCountryCode($store)
             && $isVatNumberValid
         ) {
             $vatClass = self::VAT_CLASS_DOMESTIC;

@@ -11,13 +11,36 @@
 class Magento_GiftCardAccount_Block_Account_Redeem extends Magento_Core_Block_Template
 {
     /**
+     * Customer balance data
+     *
+     * @var Magento_CustomerBalance_Helper_Data
+     */
+    protected $_customerBalanceData = null;
+
+    /**
+     * @param Magento_CustomerBalance_Helper_Data $customerBalanceData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_CustomerBalance_Helper_Data $customerBalanceData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_customerBalanceData = $customerBalanceData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Stub for future ability to implement redeem limitations based on customer/settings
      *
      * @return boold
      */
     public function canRedeem()
     {
-        return Mage::helper('Magento_CustomerBalance_Helper_Data')->isEnabled();
+        return $this->_customerBalanceData->isEnabled();
     }
 
     /**

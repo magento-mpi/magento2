@@ -15,6 +15,11 @@ class Magento_FullPageCache_Model_Processor_Category extends Magento_FullPageCac
      */
     const METADATA_CATEGORY_ID = 'catalog_category_id';
 
+    /**
+     * Map of parameters
+     *
+     * @var array
+     */
     protected $_paramsMap = array(
         'display_mode'  => 'mode',
         'limit_page'    => 'limit',
@@ -30,6 +35,22 @@ class Magento_FullPageCache_Model_Processor_Category extends Magento_FullPageCac
     protected $_queryParams;
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData
+    ) {
+        $this->_catalogData = $catalogData;
+    }
+
+    /**
      * Return cache page id with application. Depends on catalog session and GET super global array.
      *
      * @param Magento_FullPageCache_Model_Processor $processor
@@ -42,7 +63,7 @@ class Magento_FullPageCache_Model_Processor_Category extends Magento_FullPageCac
         Magento_FullPageCache_Model_Cookie::setCategoryCookieValue($queryParams);
         $this->_prepareCatalogSession();
 
-        $category = Mage::helper('Magento_Catalog_Helper_Data')->getCategory();
+        $category = $this->_catalogData->getCategory();
         if ($category) {
             $processor->setMetadata(self::METADATA_CATEGORY_ID, $category->getId());
             $this->_updateCategoryViewedCookie($processor);
@@ -115,8 +136,6 @@ class Magento_FullPageCache_Model_Processor_Category extends Magento_FullPageCac
 
     /**
      * Update catalog session from GET or cookies
-     *
-     * @param string $queryParams
      */
     protected function _prepareCatalogSession()
     {

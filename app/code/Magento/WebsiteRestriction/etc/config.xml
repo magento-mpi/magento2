@@ -20,17 +20,7 @@
             </websiterestriction_setup>
         </resources>
     </global>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_WebsiteRestriction>
-                    <files>
-                        <default>Magento_WebsiteRestriction.csv</default>
-                    </files>
-                </Magento_WebsiteRestriction>
-            </modules>
-        </translate>
-    </frontend>
+
     <default>
         <general>
             <restriction>

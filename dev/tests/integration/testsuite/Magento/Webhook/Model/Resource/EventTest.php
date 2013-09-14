@@ -19,7 +19,7 @@ class Magento_Webhook_Model_Resource_EventTest extends PHPUnit_Framework_TestCas
     public function testInit()
     {
         /** @var Magento_Webhook_Model_Resource_Event $eventResource */
-        $eventResource = Magento_Test_Helper_Bootstrap::getObjectManager()
+        $eventResource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Webhook_Model_Resource_Event');
         $this->assertEquals('prefix_webhook_event', $eventResource->getMainTable());
         $this->assertEquals('event_id', $eventResource->getIdFieldName());

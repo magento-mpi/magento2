@@ -14,6 +14,25 @@
 class Magento_Core_Helper_Translate extends Magento_Core_Helper_Abstract
 {
     /**
+     * Design package instance
+     *
+     * @var Magento_Core_Model_View_DesignInterface
+     */
+    protected $_design = null;
+
+    /**
+     * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_design = $design;
+        parent::__construct($context);
+    }
+
+    /**
      * Save translation data to database for specific area
      *
      * @param array $translate
@@ -25,7 +44,7 @@ class Magento_Core_Helper_Translate extends Magento_Core_Helper_Abstract
     {
         try {
             if ($area) {
-                Mage::getDesign()->setArea($area);
+                $this->_design->setArea($area);
             }
 
             $this->_translator->processAjaxPost($translate);

@@ -10,28 +10,7 @@
  */
 -->
 <config>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Centinel>
-                    <files>
-                        <default>Magento_Centinel.csv</default>
-                    </files>
-                </Magento_Centinel>
-            </modules>
-        </translate>
-    </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Centinel>
-                    <files>
-                        <default>Magento_Centinel.csv</default>
-                    </files>
-                </Magento_Centinel>
-            </modules>
-        </translate>
-    </adminhtml>
+
     <global>
         <payment>
             <cc>

@@ -19,15 +19,19 @@ class Magento_Authorizenet_Model_Directpost_Session extends Magento_Core_Model_S
 {
     /**
      * @param Magento_Core_Model_Session_Validator $validator
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
      * @param string $sessionName
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Session_Validator $validator,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
         $sessionName = null,
         array $data = array()
     ) {
-        parent::__construct($validator, $data);
+        parent::__construct($validator, $eventManager, $coreHttp, $data);
         $this->init('authorizenet_directpost', $sessionName);
     }
 

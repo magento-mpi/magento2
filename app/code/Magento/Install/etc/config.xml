@@ -21,15 +21,6 @@
                 </extensions>
             </mysql4>
         </databases>
-        <translate>
-            <modules>
-                <Magento_Install>
-                    <files>
-                        <default>Magento_Install.csv</default>
-                    </files>
-                </Magento_Install>
-            </modules>
-        </translate>
         <eula_file>LICENSE.html</eula_file>
     </install>
 </config>

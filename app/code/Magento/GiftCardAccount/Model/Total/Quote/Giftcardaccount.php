@@ -11,10 +11,23 @@
 class Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Magento_Sales_Model_Quote_Address_Total_Abstract
 {
     /**
-     * Init total model, set total code
+     * Gift card account data
+     *
+     * @var Magento_GiftCardAccount_Helper_Data
      */
-    public function __construct()
-    {
+    protected $_giftCardAccountData = null;
+
+    /**
+     * Init total model, set total code
+     *
+     *
+     *
+     * @param Magento_GiftCardAccount_Helper_Data $giftCardAccountData
+     */
+    public function __construct(
+        Magento_GiftCardAccount_Helper_Data $giftCardAccountData
+    ) {
+        $this->_giftCardAccountData = $giftCardAccountData;
         $this->setCode('giftcardaccount');
     }
 
@@ -49,7 +62,7 @@ class Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Magento_
         $addressCards = array();
         $usedAddressCards = array();
         if ($baseUsed) {
-            $quoteCards = $this->_sortGiftCards(Mage::helper('Magento_GiftCardAccount_Helper_Data')->getCards($address->getQuote()));
+            $quoteCards = $this->_sortGiftCards($this->_giftCardAccountData->getCards($address->getQuote()));
             foreach ($quoteCards as $quoteCard) {
                 $card = $quoteCard;
                 if ($quoteCard['ba'] + $skipped <= $address->getQuote()->getBaseGiftCardsAmountUsed()) {
@@ -80,9 +93,9 @@ class Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Magento_
                 $skipped += $quoteCard['ba'];
             }
         }
-        Mage::helper('Magento_GiftCardAccount_Helper_Data')->setCards($address, $usedAddressCards);
+        $this->_giftCardAccountData->setCards($address, $usedAddressCards);
         $address->setUsedGiftCards($address->getGiftCards());
-        Mage::helper('Magento_GiftCardAccount_Helper_Data')->setCards($address, $addressCards);
+        $this->_giftCardAccountData->setCards($address, $addressCards);
 
         $baseTotalUsed = $address->getQuote()->getBaseGiftCardsAmountUsed() + $baseUsed;
         $totalUsed = $address->getQuote()->getGiftCardsAmountUsed() + $used;
@@ -107,7 +120,7 @@ class Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Magento_
 
             $baseAmount = 0;
             $amount = 0;
-            $cards = Mage::helper('Magento_GiftCardAccount_Helper_Data')->getCards($quote);
+            $cards = $this->_giftCardAccountData->getCards($quote);
             foreach ($cards as $k=>&$card) {
                 $model = Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount')->load($card['i']);
                 if ($model->isExpired() || $model->getBalance() == 0) {
@@ -120,7 +133,7 @@ class Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Magento_
                     $amount += $card['a'];
                 }
             }
-            Mage::helper('Magento_GiftCardAccount_Helper_Data')->setCards($quote, $cards);
+            $this->_giftCardAccountData->setCards($quote, $cards);
 
             $quote->setBaseGiftCardsAmount($baseAmount);
             $quote->setGiftCardsAmount($amount);
@@ -138,9 +151,9 @@ class Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Magento_
     public function fetch(Magento_Sales_Model_Quote_Address $address)
     {
         if ($address->getQuote()->isVirtual()) {
-            $giftCards = Mage::helper('Magento_GiftCardAccount_Helper_Data')->getCards($address->getQuote()->getBillingAddress());
+            $giftCards = $this->_giftCardAccountData->getCards($address->getQuote()->getBillingAddress());
         } else {
-            $giftCards = Mage::helper('Magento_GiftCardAccount_Helper_Data')->getCards($address);
+            $giftCards = $this->_giftCardAccountData->getCards($address);
         }
         $address->addTotal(array(
             'code'=>$this->getCode(),

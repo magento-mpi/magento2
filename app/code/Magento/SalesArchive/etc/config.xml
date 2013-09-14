@@ -20,17 +20,6 @@
             </salesarchive_setup>
         </resources>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_SalesArchive>
-                    <files>
-                        <default>Magento_SalesArchive.csv</default>
-                    </files>
-                </Magento_SalesArchive>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <sales>
             <magento_salesarchive>
@@ -52,4 +41,4 @@
             </magento_salesarchive_archive_orders>
         </jobs>
     </crontab>
-</config>
+</config>

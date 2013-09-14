@@ -26,7 +26,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_GeneralTest ext
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
+        $this->_layout = Mage::getSingleton('Magento_Core_Model_Layout');
         $this->_theme = Mage::getModel('Magento_Core_Model_Theme');
         $this->_theme->setType(Magento_Core_Model_Theme::TYPE_VIRTUAL);
         $this->_block = $this->_layout
@@ -35,7 +35,9 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_GeneralTest ext
 
     public function testToHtmlPreviewImageNote()
     {
-        Mage::register('current_theme', $this->_theme);
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')->register('current_theme', $this->_theme);
         $this->_block->setArea('adminhtml');
 
         $this->_block->toHtml();

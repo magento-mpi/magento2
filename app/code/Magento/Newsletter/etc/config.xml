@@ -41,28 +41,6 @@
             <tempate_filter>Magento_Newsletter_Model_Template_Filter</tempate_filter>
         </newsletter>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Newsletter>
-                    <files>
-                        <default>Magento_Newsletter.csv</default>
-                    </files>
-                </Magento_Newsletter>
-            </modules>
-        </translate>
-    </adminhtml>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Newsletter>
-                    <files>
-                        <default>Magento_Newsletter.csv</default>
-                    </files>
-                </Magento_Newsletter>
-            </modules>
-        </translate>
-    </frontend>
     <default>
         <newsletter>
             <subscription>

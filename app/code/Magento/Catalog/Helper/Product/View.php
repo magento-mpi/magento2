@@ -29,13 +29,53 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
     protected $_messageModels;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Catalog product
+     *
+     * @var Magento_Catalog_Helper_Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * Catalog product
+     *
+     * @var Magento_Page_Helper_Layout
+     */
+    protected $_pageLayout = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Page_Helper_Layout $pageLayout
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $messageModels
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Page_Helper_Layout $pageLayout,
         Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
         array $messageModels = array()
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_catalogProduct = $catalogProduct;
+        $this->_pageLayout = $pageLayout;
+        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
         $this->_messageModels = $messageModels;
     }
@@ -76,10 +116,10 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
 
         // Apply custom layout (page) template once the blocks are generated
         if ($settings->getPageLayout()) {
-            $controller->getLayout()->helper('Magento_Page_Helper_Layout')->applyTemplate($settings->getPageLayout());
+            $this->_pageLayout->applyTemplate($settings->getPageLayout());
         }
 
-        $currentCategory = Mage::registry('current_category');
+        $currentCategory = $this->_coreRegistry->registry('current_category');
         $root = $controller->getLayout()->getBlock('root');
         if ($root) {
             $controllerClass = $controller->getFullActionName();
@@ -115,7 +155,7 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
     public function prepareAndRender($productId, $controller, $params = null)
     {
         // Prepare data
-        $productHelper = Mage::helper('Magento_Catalog_Helper_Product');
+        $productHelper = $this->_catalogProduct;
         if (!$params) {
             $params = new Magento_Object();
         }
@@ -135,7 +175,7 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
             $product->setConfigureMode($params->getConfigureMode());
         }
 
-        Mage::dispatchEvent('catalog_controller_product_view', array('product' => $product));
+        $this->_eventManager->dispatch('catalog_controller_product_view', array('product' => $product));
 
         if ($params->getSpecifyOptions()) {
             $notice = $product->getTypeInstance()->getSpecifyOptionMessage();

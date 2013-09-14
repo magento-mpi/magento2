@@ -24,7 +24,7 @@ class Magento_Customer_Model_GroupTest extends PHPUnit_Framework_TestCase
     public function testCRUD()
     {
         $this->_model->setCustomerGroupCode('test');
-        $crud = new Magento_Test_Entity($this->_model, array('customer_group_code' => uniqid()));
+        $crud = new Magento_TestFramework_Entity($this->_model, array('customer_group_code' => uniqid()));
         $crud->testCrud();
     }
 }

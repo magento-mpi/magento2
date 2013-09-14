@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
+class Magento_Adminhtml_Controller_System_AccountTest extends PHPUnit_Framework_TestCase
 {
     /** @var Magento_Adminhtml_Controller_System_Account */
     protected $_controller;
@@ -78,7 +78,7 @@ class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
 
         $this->_userMock = $this->getMockBuilder('Magento_User_Model_User')
             ->disableOriginalConstructor()
-            ->setMethods(array('load', 'save', 'sendPasswordResetNotificationEmail'))
+            ->setMethods(array('load', 'save', 'sendPasswordResetNotificationEmail', '__sleep', '__wakeup'))
             ->getMock();
 
         $this->_validatorMock = $this->getMockBuilder('Magento_Core_Model_Locale_Validator')
@@ -119,7 +119,7 @@ class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
 
         $args = array('context' => $contextMock);
 
-        $testHelper = new Magento_Test_Helper_ObjectManager($this);
+        $testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_controller = $testHelper->getObject('Magento_Adminhtml_Controller_System_Account', $args);
     }
 

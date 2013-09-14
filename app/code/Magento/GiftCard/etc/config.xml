@@ -86,26 +86,8 @@
                 </attributes>
             </collection>
         </product>
-        <translate>
-            <modules>
-                <Magento_GiftCard>
-                    <files>
-                        <default>Magento_GiftCard.csv</default>
-                    </files>
-                </Magento_GiftCard>
-            </modules>
-        </translate>
     </frontend>
     <adminhtml>
-        <translate>
-            <modules>
-                <Magento_GiftCard>
-                    <files>
-                        <default>Magento_GiftCard.csv</default>
-                    </files>
-                </Magento_GiftCard>
-            </modules>
-        </translate>
         <sales>
             <order>
                 <create>

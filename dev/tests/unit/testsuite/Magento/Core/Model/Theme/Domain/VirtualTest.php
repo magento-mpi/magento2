@@ -106,7 +106,7 @@ class Magento_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_Test
         $customizationConfig->expects($this->atLeastOnce())->method('isThemeAssignedToStore')
             ->with($themeMock)
             ->will($this->returnValue(true));
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $constructArguments = $objectManagerHelper->getConstructArguments('Magento_Core_Model_Theme_Domain_Virtual',
             array(
                  'theme' => $themeMock,

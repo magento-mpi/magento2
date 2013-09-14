@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Adminhtml catalog super product configurable tab
  *
@@ -23,6 +22,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     protected $_template = 'catalog/product/edit/super/config.phtml';
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
      * @var Magento_Core_Model_App
      */
     protected $_app;
@@ -33,20 +39,35 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     protected $_locale;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
+        Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Model_App $app,
         Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        $this->_coreRegistry = $coreRegistry;
+        $this->_catalogData = $catalogData;
         $this->_app = $app;
         $this->_locale = $locale;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -90,7 +111,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
      */
     public function isAttributesConfigurationReadonly()
     {
-        return (bool) $this->getProduct()->getAttributesConfigurationReadonly();
+        return (bool)$this->getProduct()->getAttributesConfigurationReadonly();
     }
 
     /**
@@ -111,7 +132,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     public function isAttributesPricesReadonly()
     {
         return $this->getProduct()->getAttributesConfigurationReadonly() ||
-            (Mage::helper('Magento_Catalog_Helper_Data')->isPriceGlobal() && $this->isReadonly());
+            ($this->_catalogData->isPriceGlobal() && $this->isReadonly());
     }
 
     /**
@@ -216,7 +237,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**
@@ -276,7 +297,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
         foreach ($products as $product) {
             $data[$product->getId()] = $this->getConfigurableSettings($product);
         }
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
+        return $this->_coreData->jsonEncode($data);
     }
 
     /**
@@ -421,7 +442,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
      */
     public function getShowUseDefaultPrice()
     {
-        return !Mage::helper('Magento_Catalog_Helper_Data')->isPriceGlobal()
+        return !$this->_catalogData->isPriceGlobal()
             && $this->getProduct()->getStoreId();
     }
 

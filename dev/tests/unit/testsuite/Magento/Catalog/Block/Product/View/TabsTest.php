@@ -27,7 +27,9 @@ class Magento_Catalog_Block_Product_View_TabsTest extends PHPUnit_Framework_Test
             ->method('getLayout')
             ->will($this->returnValue($layout));
 
-        $block = new Magento_Catalog_Block_Product_View_Tabs($context);
+        $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+
+        $block = new Magento_Catalog_Block_Product_View_Tabs($coreData, $context);
         $block->addTab('alias', 'title', 'block', 'template', 'header');
 
         $expectedTabs = array(

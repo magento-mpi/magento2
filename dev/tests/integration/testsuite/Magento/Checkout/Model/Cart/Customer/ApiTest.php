@@ -10,6 +10,11 @@
  */
 class Magento_Checkout_Model_Cart_Customer_ApiTest extends Magento_Checkout_Model_Cart_AbstractTest
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test setting customer to a quote.
      */
@@ -25,7 +30,7 @@ class Magento_Checkout_Model_Cart_Customer_ApiTest extends Magento_Checkout_Mode
             'website_id' => '0'
         );
 
-        $result = Magento_Test_Helper_Api::call(
+        $result = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartCustomerSet',
             array(
@@ -78,7 +83,7 @@ class Magento_Checkout_Model_Cart_Customer_ApiTest extends Magento_Checkout_Mode
             'is_default_shipping' => 0,
         );
 
-        $result = Magento_Test_Helper_Api::call(
+        $result = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartCustomerAddresses',
             array(

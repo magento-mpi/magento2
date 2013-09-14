@@ -18,13 +18,29 @@
 class Magento_SalesRule_Model_System_Config_Source_Coupon_Format
 {
     /**
+     * Sales rule coupon
+     *
+     * @var Magento_SalesRule_Helper_Coupon
+     */
+    protected $_salesRuleCoupon = null;
+
+    /**
+     * @param Magento_SalesRule_Helper_Coupon $salesRuleCoupon
+     */
+    public function __construct(
+        Magento_SalesRule_Helper_Coupon $salesRuleCoupon
+    ) {
+        $this->_salesRuleCoupon = $salesRuleCoupon;
+    }
+
+    /**
      * Options getter
      *
      * @return array
      */
     public function toOptionArray()
     {
-        $formatsList = Mage::helper('Magento_SalesRule_Helper_Coupon')->getFormatsList();
+        $formatsList = $this->_salesRuleCoupon->getFormatsList();
         $result = array();
         foreach ($formatsList as $formatId => $formatTitle) {
             $result[] = array(

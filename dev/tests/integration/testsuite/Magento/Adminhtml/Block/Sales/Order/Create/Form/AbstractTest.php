@@ -20,9 +20,15 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
      */
     public function testAddAttributesToForm()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
-        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
-        $arguments = array($objectManager->get('Magento_Backend_Block_Template_Context'));
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_View_DesignInterface')
+            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+            ->setDefaultDesignTheme();
+        $arguments = array(
+            $objectManager->get('Magento_Data_Form_Factory'),
+            $objectManager->get('Magento_Core_Helper_Data'),
+            $objectManager->get('Magento_Backend_Block_Template_Context'),
+        );
         /** @var $block Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract */
         $block = $this->getMockForAbstractClass('Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract', $arguments);
         $block->setLayout($objectManager->create('Magento_Core_Model_Layout'));
@@ -31,7 +37,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
             'Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract', '_addAttributesToForm');
         $method->setAccessible(true);
 
-        $form = new Magento_Data_Form();
+        $form = Mage::getObjectManager()->create('Magento_Data_Form');
         $fieldset = $form->addFieldset('test_fieldset', array());
         $arguments = array(
             'data' => array(

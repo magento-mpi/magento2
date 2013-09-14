@@ -29,8 +29,8 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Api extends Magento_Pbridge_M
     {
         $request['action'] = 'Payments';
         $request['token'] = $this->getMethodInstance()->getPbridgeResponse('token');
-        $request = Mage::helper('Magento_Pbridge_Helper_Data')->getRequestParams($request);
-        $request = array('data' => Mage::helper('Magento_Pbridge_Helper_Data')->encrypt(json_encode($request)));
+        $request = $this->_pbridgeData->getRequestParams($request);
+        $request = array('data' => $this->_pbridgeData->encrypt(json_encode($request)));
         return http_build_query($request, '', '&');
     }
 

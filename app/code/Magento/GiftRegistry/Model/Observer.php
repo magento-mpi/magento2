@@ -20,11 +20,30 @@ class Magento_GiftRegistry_Model_Observer
     protected $_isEnabled;
 
     /**
-     * Class constructor
+     * Gift registry data
+     *
+     * @var Magento_GiftRegistry_Helper_Data
      */
-    public function __construct()
-    {
-        $this->_isEnabled = Mage::helper('Magento_GiftRegistry_Helper_Data')->isEnabled();
+    protected $_giftRegistryData = null;
+
+    /**
+     * Design package instance
+     *
+     * @var Magento_Core_Model_View_DesignInterface
+     */
+    protected $_design = null;
+
+    /**
+     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
+     * @param Magento_Core_Model_View_DesignInterface $design
+     */
+    public function __construct(
+        Magento_GiftRegistry_Helper_Data $giftRegistryData,
+        Magento_Core_Model_View_DesignInterface $design
+    ) {
+        $this->_giftRegistryData = $giftRegistryData;
+        $this->_design = $design;
+        $this->_isEnabled = $this->_giftRegistryData->isEnabled();
     }
 
     /**
@@ -58,7 +77,7 @@ class Magento_GiftRegistry_Model_Observer
         $addressId = $observer->getEvent()->getValue();
 
         if (!is_numeric($addressId)) {
-            $prefix = Mage::helper('Magento_GiftRegistry_Helper_Data')->getAddressIdPrefix();
+            $prefix = $this->_giftRegistryData->getAddressIdPrefix();
             $registryItemId = str_replace($prefix, '', $addressId);
             $object = $observer->getEvent()->getDataObject();
             $object->setGiftregistryItemId($registryItemId);
@@ -83,7 +102,7 @@ class Magento_GiftRegistry_Model_Observer
                 ->loadByEntityItem($registryItemId);
             if ($model->getId()) {
                 $object->setId(
-                    Mage::helper('Magento_GiftRegistry_Helper_Data')->getAddressIdPrefix() . $model->getId()
+                    $this->_giftRegistryData->getAddressIdPrefix() . $model->getId()
                 );
                 $object->setCustomerId($this->_getSession()->getCustomer()->getId());
                 $object->addData($model->exportAddress()->getData());
@@ -112,7 +131,7 @@ class Magento_GiftRegistry_Model_Observer
      */
     public function addressFormatAdmin($observer)
     {
-        if (Mage::getDesign()->getArea() == Magento_Core_Model_App_Area::AREA_FRONTEND) {
+        if ($this->_design->getArea() == Magento_Core_Model_App_Area::AREA_FRONTEND) {
             $this->_addressFormat($observer);
         }
         return $this;
@@ -136,29 +155,6 @@ class Magento_GiftRegistry_Model_Observer
             $type->setDefaultFormat(__("Ship to the recipient's address."));
         } elseif ($type->getPrevFormat()) {
             $type->setDefaultFormat($type->getPrevFormat());
-        }
-        return $this;
-    }
-
-    /**
-     * Copy gift registry item id flag from quote item to order item
-     *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GiftRegistry_Model_Observer
-     */
-    public function convertItems($observer)
-    {
-        $orderItem = $observer->getEvent()->getOrderItem();
-        $item = $observer->getEvent()->getItem();
-
-        if ($item instanceof Magento_Sales_Model_Quote_Address_Item) {
-            $registryItemId = $item->getQuoteItem()->getGiftregistryItemId();
-        } else {
-            $registryItemId = $item->getGiftregistryItemId();
-        }
-
-        if ($registryItemId) {
-            $orderItem->setGiftregistryItemId($registryItemId);
         }
         return $this;
     }

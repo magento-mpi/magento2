@@ -101,9 +101,9 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
         $loadTags = is_array($tags) ? $tags : explode(',', $tags);
 
         $search = $this->getResourceCollection();
-        foreach ($loadTags as $k=>$t) {
+        foreach ($loadTags as $k => $t) {
             if (!is_numeric($k)) {
-                $t = $k.'='.$t;
+                $t = $k . '=' . $t;
             }
             $search->addTagsFilter($t);
         }
@@ -113,7 +113,7 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
 
         $search->setPageSize(1)->load();
 
-        if ($search->getSize()>0) {
+        if ($search->getSize() > 0) {
             foreach ($search as $rewrite) {
                 $this->setData($rewrite->getData());
             }
@@ -135,9 +135,9 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
 
         $addTags = is_array($tags) ? $tags : explode(',', $tags);
 
-        foreach ($addTags as $k=>$t) {
+        foreach ($addTags as $k => $t) {
             if (!is_numeric($k)) {
-                $t = $k.'='.$t;
+                $t = $k . '=' . $t;
             }
             if (!in_array($t, $curTags)) {
                 $curTags[] = $t;
@@ -159,7 +159,9 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
             if (!is_numeric($k)) {
                 $t = $k.'='.$t;
             }
-            if ($key = array_search($t, $curTags)) {
+
+            $key = array_search($t, $curTags);
+            if ($key) {
                 unset($curTags[$key]);
             }
         }
@@ -187,7 +189,7 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
         if (is_null($response)) {
             $response = Mage::app()->getFrontController()->getResponse();
         }
-        if (is_null($this->getStoreId()) || false===$this->getStoreId()) {
+        if (is_null($this->getStoreId()) || false === $this->getStoreId()) {
             $this->setStoreId(Mage::app()->getStore()->getId());
         }
 
@@ -220,8 +222,7 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
         if (!$this->getId() && isset($_GET['___from_store'])) {
             try {
                 $fromStoreId = Mage::app()->getStore($_GET['___from_store'])->getId();
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 return false;
             }
 
@@ -265,7 +266,7 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
 
         if (Mage::getStoreConfig('web/url/use_store') && $storeCode = Mage::app()->getStore()->getCode()) {
                 $targetUrl = $request->getBaseUrl(). '/' . $storeCode . '/' .$this->getTargetPath();
-            }
+        }
 
         $queryString = $this->_getQueryString();
         if ($queryString) {
@@ -284,7 +285,7 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
             $queryParams = array();
             parse_str($_SERVER['QUERY_STRING'], $queryParams);
             $hasChanges = false;
-            foreach ($queryParams as $key=>$value) {
+            foreach ($queryParams as $key => $value) {
                 if (substr($key, 0, 3) === '___') {
                     unset($queryParams[$key]);
                     $hasChanges = true;
@@ -292,8 +293,7 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
             }
             if ($hasChanges) {
                 return http_build_query($queryParams);
-            }
-            else {
+            } else {
                 return $_SERVER['QUERY_STRING'];
             }
         }

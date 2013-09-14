@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Customer_Controller_AccountTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Customer_Controller_AccountTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
@@ -30,7 +30,8 @@ class Magento_Customer_Controller_AccountTest extends Magento_Test_TestCase_Cont
         /** @var Magento_Customer_Model_Customer $customer */
         $customer = Mage::getModel('Magento_Customer_Model_Customer')->load(1);
 
-        $token = Mage::helper('Magento_Customer_Helper_Data')->generateResetPasswordLinkToken();
+        $token = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Customer_Helper_Data')
+            ->generateResetPasswordLinkToken();
         $customer->changeResetPasswordLinkToken($token);
 
         $this->getRequest()->setParam('token', $token);
@@ -49,7 +50,8 @@ class Magento_Customer_Controller_AccountTest extends Magento_Test_TestCase_Cont
         /** @var Magento_Customer_Model_Customer $customer */
         $customer = Mage::getModel('Magento_Customer_Model_Customer')->load(1);
 
-        $token = Mage::helper('Magento_Customer_Helper_Data')->generateResetPasswordLinkToken();
+        $token = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Customer_Helper_Data')
+            ->generateResetPasswordLinkToken();
         $customer->changeResetPasswordLinkToken($token);
 
         $this->getRequest()->setParam('token', $token);

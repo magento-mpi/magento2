@@ -2,7 +2,7 @@
 /**
  * Webhook module helper needed for translation.
  *
- * As long as we have code like Magento_Backend_Model_Menu_Item that calls Mage::helper() for every module
+ * As long as we have code like Magento_Backend_Model_Menu_Item that calls helpers for every module
  * we will need every module to have a Data helper, even if the module itself doesn't use it thanks to
  * DI being available for translation.
  *

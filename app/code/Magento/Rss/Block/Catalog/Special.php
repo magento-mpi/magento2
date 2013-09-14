@@ -87,7 +87,7 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
         );
 
         if (sizeof($results)>0) {
-            foreach($results as $result){
+            foreach ($results as $result) {
                 // render a row for RSS feed
                 $product->setData($result);
                 $html = sprintf('<table><tr>
@@ -104,17 +104,19 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
 
                 // add price data if needed
                 if ($product->getAllowedPriceInRss()) {
-                    if (Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($product)) {
+                    if ($this->_catalogData->canApplyMsrp($product)) {
                         $html .= '<br/><a href="' . $product->getProductUrl() . '">'
                             . __('Click for price') . '</a>';
                     } else {
                         $special = '';
                         if ($result['use_special']) {
-                            $special = '<br />' . __('Special Expires On: %1', $this->formatDate($result['special_to_date'], Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM));
+                            $special = '<br />' . __('Special Expires On: %1',
+                                    $this->formatDate($result['special_to_date'],
+                                        Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM));
                         }
                         $html .= sprintf('<p>%s %s%s</p>',
-                            __('Price: %1', Mage::helper('Magento_Core_Helper_Data')->currency($result['price'])),
-                            __('Special Price: %1', Mage::helper('Magento_Core_Helper_Data')->currency($result['final_price'])),
+                            __('Price: %1', $this->_coreData->currency($result['price'])),
+                            __('Special Price: %1', $this->_coreData->currency($result['final_price'])),
                             $special
                         );
                     }
@@ -146,7 +148,7 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
         // dispatch event to determine whether the product will eventually get to the result
         $product = new Magento_Object(array('allowed_in_rss' => true, 'allowed_price_in_rss' => true));
         $args['product'] = $product;
-        Mage::dispatchEvent('rss_catalog_special_xml_callback', $args);
+        $this->_eventManager->dispatch('rss_catalog_special_xml_callback', $args);
         if (!$product->getAllowedInRss()) {
             return;
         }
@@ -158,21 +160,22 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
         if (isset($row['special_to_date']) && $row['final_price'] <= $row['special_price']
             && $row['allowed_price_in_rss']
         ) {
-            $compareDate = self::$_currentDate->compareDate($row['special_to_date'], Magento_Date::DATE_INTERNAL_FORMAT);
+            $compareDate = self::$_currentDate->compareDate($row['special_to_date'],
+                Magento_Date::DATE_INTERNAL_FORMAT);
             if (-1 === $compareDate || 0 === $compareDate) {
                 $row['use_special'] = true;
             }
         }
 
-       $args['results'][] = $row;
+        $args['results'][] = $row;
     }
 
 
     /**
      * Function for comparing two items in collection
      *
-     * @param   Magento_Object $item1
-     * @param   Magento_Object $item2
+     * @param $a
+     * @param $b
      * @return  boolean
      */
     public function sortByStartDate($a, $b)

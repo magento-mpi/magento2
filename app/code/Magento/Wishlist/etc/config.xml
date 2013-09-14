@@ -37,28 +37,6 @@
             </item>
         </wishlist>
     </global>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Wishlist>
-                    <files>
-                        <default>Magento_Wishlist.csv</default>
-                    </files>
-                </Magento_Wishlist>
-            </modules>
-        </translate>
-    </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Wishlist>
-                    <files>
-                        <default>Magento_Wishlist.csv</default>
-                    </files>
-                </Magento_Wishlist>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <wishlist>
             <general>

@@ -19,28 +19,6 @@
             </paygate_setup>
         </resources>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Paygate>
-                    <files>
-                        <default>Magento_Paygate.csv</default>
-                    </files>
-                </Magento_Paygate>
-            </modules>
-        </translate>
-    </adminhtml>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Paygate>
-                    <files>
-                        <default>Magento_Paygate.csv</default>
-                    </files>
-                </Magento_Paygate>
-            </modules>
-        </translate>
-    </frontend>
     <default>
         <payment>
             <authorizenet>

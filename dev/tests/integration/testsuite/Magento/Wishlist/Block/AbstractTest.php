@@ -18,10 +18,17 @@ class Magento_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = $this->getMockForAbstractClass(
-            'Magento_Wishlist_Block_Abstract',
-            array(Mage::getSingleton('Magento_Core_Block_Template_Context'))
-        );
+        $objectManager = Mage::getObjectManager();
+        $coreRegistry = $objectManager->get('Magento_Core_Model_Registry');
+        $wishlistData = $objectManager->get('Magento_Wishlist_Helper_Data');
+        $taxData = $objectManager->get('Magento_Tax_Helper_Data');
+        $catalogData = $objectManager->get('Magento_Catalog_Helper_Data');
+        $coreData = $objectManager->get('Magento_Core_Helper_Data');
+        $context = $objectManager->get('Magento_Core_Block_Template_Context');
+
+        $this->_block = $this->getMockForAbstractClass('Magento_Wishlist_Block_Abstract', array(
+            $coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context
+        ));
     }
 
     /**
@@ -31,7 +38,9 @@ class Magento_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
     public function testImage()
     {
         Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
+            ->setDefaultDesignTheme();
         $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load(1);
 

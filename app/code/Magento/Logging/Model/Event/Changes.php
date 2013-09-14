@@ -53,6 +53,7 @@ class Magento_Logging_Model_Event_Changes extends Magento_Core_Model_Abstract
 
     /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $skipFields
@@ -60,13 +61,14 @@ class Magento_Logging_Model_Event_Changes extends Magento_Core_Model_Abstract
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $skipFields = array(),
         array $data = array()
     ) {
         $this->_globalSkipFields = $skipFields;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -125,12 +127,10 @@ class Magento_Logging_Model_Event_Changes extends Magento_Core_Model_Abstract
             if (!$origData && $resultData) {
                 $newOriginalData = array('__was_created' => true);
                 $difference = $resultData;
-            }
-            elseif ($origData && !$resultData) {
+            } elseif ($origData && !$resultData) {
                 $newResultData = array('__was_deleted' => true);
                 $difference = $origData;
-            }
-            elseif ($origData && $resultData) {
+            } elseif ($origData && $resultData) {
                 $newParams  = array_diff_key($resultData, $origData);
                 $sameParams = array_intersect_key($origData, $resultData);
                 foreach ($sameParams as $key => $value) {

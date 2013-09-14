@@ -71,7 +71,7 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $params = array(
             'viewConfig' => $configManager,
         );
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $block = $this->getMockForAbstractClass('Magento_Core_Block_Abstract',
             $helper->getConstructArguments('Magento_Core_Block_Abstract', $params),
             uniqid('Magento_Core_Block_Abstract_')

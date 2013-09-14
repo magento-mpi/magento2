@@ -10,17 +10,14 @@
 
 /**
  * Adminhtml poll answer edit form
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Poll_Answer_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Poll_Answer_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('edit_answer_form', array('legend' => __('Edit Poll Answer')));
 
@@ -47,11 +44,11 @@ class Magento_Adminhtml_Block_Poll_Answer_Edit_Form extends Magento_Adminhtml_Bl
                 )
         );
 
-        $form->setValues(Mage::registry('answer_data')->getData());
+        $form->setValues($this->_coreRegistry->registry('answer_data')->getData());
         $form->setUseContainer(true);
         $form->setId('edit_form');
         $form->setMethod('post');
-        $form->setAction($this->getUrl('*/*/save', array('id' => Mage::registry('answer_data')->getAnswerId())));
+        $form->setAction($this->getUrl('*/*/save', array('id' => $this->_coreRegistry->registry('answer_data')->getAnswerId())));
         $this->setForm($form);
     }
 }

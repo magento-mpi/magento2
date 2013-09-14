@@ -34,6 +34,33 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
     protected $_customer                        = null;
     protected $_defaultCustomerTaxClass         = null;
 
+    /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * @param Magento_Customer_Helper_Data $customerData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Tax_Model_Resource_Calculation $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Customer_Helper_Data $customerData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Tax_Model_Resource_Calculation $resource,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_customerData = $customerData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
     protected function _construct()
     {
         $this->_init('Magento_Tax_Model_Resource_Calculation');
@@ -54,7 +81,7 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
     public function getDefaultCustomerTaxClass($store = null)
     {
         if ($this->_defaultCustomerTaxClass === null) {
-            $defaultCustomerGroup = Mage::helper('Magento_Customer_Helper_Data')->getDefaultCustomerGroupId($store);
+            $defaultCustomerGroup = $this->_customerData->getDefaultCustomerGroupId($store);
             $this->_defaultCustomerTaxClass = Mage::getModel('Magento_Customer_Model_Group')->getTaxClassId($defaultCustomerGroup);
         }
         return $this->_defaultCustomerTaxClass;

@@ -71,15 +71,6 @@
         </pdf>
     </global>
     <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Downloadable>
-                    <files>
-                        <default>Magento_Downloadable.csv</default>
-                    </files>
-                </Magento_Downloadable>
-            </modules>
-        </translate>
         <sales>
             <order>
                 <create>
@@ -90,17 +81,6 @@
             </order>
         </sales>
     </adminhtml>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Downloadable>
-                    <files>
-                        <default>Magento_Downloadable.csv</default>
-                    </files>
-                </Magento_Downloadable>
-            </modules>
-        </translate>
-    </frontend>
     <default>
         <catalog>
             <downloadable>

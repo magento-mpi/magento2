@@ -20,15 +20,4 @@
             </admingws_setup>
         </resources>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_AdminGws>
-                    <files>
-                        <default>Magento_AdminGws.csv</default>
-                    </files>
-                </Magento_AdminGws>
-            </modules>
-        </translate>
-    </adminhtml>
 </config>

@@ -15,4 +15,9 @@
             </value>
         </param>
     </type>
+    <type name="Magento_Api_Model_User">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
 </config>

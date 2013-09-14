@@ -146,8 +146,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
     {
         if (!isset($this->_optionsByCode[$option->getCode()])) {
             $this->_optionsByCode[$option->getCode()] = $option;
-        }
-        else {
+        } else {
             Mage::throwException(__('An item option with code %1 already exists.', $option->getCode()));
         }
         return $this;
@@ -409,7 +408,8 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
      * @param array|Magento_Object $buyRequest
      * @return Magento_Wishlist_Model_Item
      */
-    public function mergeBuyRequest($buyRequest) {
+    public function mergeBuyRequest($buyRequest)
+    {
         if ($buyRequest instanceof Magento_Object) {
             $buyRequest = $buyRequest->getData();
         }
@@ -469,7 +469,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
             return false;
         }
         if (empty($selfOptions) && !empty($buyRequest)) {
-            if (!$product->isComposite()){
+            if (!$product->isComposite()) {
                 return true;
             } else {
                 return false;
@@ -478,10 +478,10 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
 
         $requestArray = $buyRequest->getData();
 
-        if(!$this->_compareOptions($requestArray, $selfOptions)){
+        if (!$this->_compareOptions($requestArray, $selfOptions)) {
             return false;
         }
-        if(!$this->_compareOptions($selfOptions, $requestArray)){
+        if (!$this->_compareOptions($selfOptions, $requestArray)) {
             return false;
         }
         return true;
@@ -530,7 +530,8 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
             }
             if ( !isset($options2[$code])
                 || ($options2[$code]->getValue() === null)
-                || $options2[$code]->getValue() != $option->getValue()) {
+                || $options2[$code]->getValue() != $option->getValue()
+            ) {
                 return false;
             }
         }

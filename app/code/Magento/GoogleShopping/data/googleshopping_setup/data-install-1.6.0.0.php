@@ -8,10 +8,10 @@
  * @license     {license_link}
  */
 
-/** @var $this Magento_Core_Model_Resource_Setup */
+/** @var $this Magento_GoogleShopping_Model_Resource_Setup */
 $installer = $this;
 
-if (Mage::helper('Magento_GoogleShopping_Helper_Data')->isModuleEnabled('Magento_GoogleBase')) {
+if ($installer->getGoogleShoppingData()->isModuleEnabled('Magento_GoogleBase')) {
     $typesInsert = $installer->getConnection()
         ->select()
         ->from(

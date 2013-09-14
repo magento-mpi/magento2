@@ -19,28 +19,6 @@
             </review_setup>
         </resources>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Review>
-                    <files>
-                        <default>Magento_Review.csv</default>
-                    </files>
-                </Magento_Review>
-            </modules>
-        </translate>
-    </adminhtml>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Review>
-                    <files>
-                        <default>Magento_Review.csv</default>
-                    </files>
-                </Magento_Review>
-            </modules>
-        </translate>
-    </frontend>
     <default>
         <catalog>
             <review>

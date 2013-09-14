@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_ScheduledImportExport_Model_Export_Entity_Eav_Customer_FinanceTest extends PHPUnit_Framework_TestCase
+class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest extends PHPUnit_Framework_TestCase
 {
     /**#@+
      * Test attribute code and website specific attribute code
@@ -60,8 +60,10 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Eav_Customer_FinanceTest
 
     public function setUp()
     {
-        $this->_model
-            = new Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance($this->_getModelDependencies());
+        $this->_model = new Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance(
+            $this->getMock('Magento_ScheduledImportExport_Helper_Data', array(), array(), '', false, false),
+            $this->_getModelDependencies()
+        );
     }
 
     public function tearDown()
@@ -76,7 +78,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Eav_Customer_FinanceTest
      */
     protected function _getModelDependencies()
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $websiteManager = $this->getMock('stdClass', array('getWebsites'));
         $websiteManager->expects($this->exactly(2))

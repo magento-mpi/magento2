@@ -17,4 +17,4 @@ $connection->update($installer->getTable('core_theme'), array('area' => 'fronten
 
 $installer->endSetup();
 
-Mage::dispatchEvent('theme_registration_from_filesystem');
+$installer->getEventManager()->dispatch('theme_registration_from_filesystem');

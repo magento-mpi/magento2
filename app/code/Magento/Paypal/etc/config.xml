@@ -50,28 +50,6 @@
             </groups>
         </payment>
     </global>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Paypal>
-                    <files>
-                        <default>Magento_Paypal.csv</default>
-                    </files>
-                </Magento_Paypal>
-            </modules>
-        </translate>
-    </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Paypal>
-                    <files>
-                        <default>Magento_Paypal.csv</default>
-                    </files>
-                </Magento_Paypal>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <paypal>
             <style>

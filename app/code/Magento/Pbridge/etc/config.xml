@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Pbridge>
-                    <files>
-                        <default>Magento_Pbridge.csv</default>
-                    </files>
-                </Magento_Pbridge>
-            </modules>
-        </translate>
-    </frontend>
     <default>
         <payment>
             <pbridge translate="title">

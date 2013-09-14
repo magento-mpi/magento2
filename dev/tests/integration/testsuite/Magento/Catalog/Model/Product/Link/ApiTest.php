@@ -17,13 +17,18 @@ class Magento_Catalog_Model_Product_Link_ApiTest extends PHPUnit_Framework_TestC
     protected $_upSellProductId = 11;
     protected $_relatedProductId = 12;
 
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test 'types' method of catalog product link API.
      */
     public function testTypes()
     {
         /** Add up-sell and related products. */
-        $types = Magento_Test_Helper_Api::call($this, 'catalogProductLinkTypes');
+        $types = Magento_TestFramework_Helper_Api::call($this, 'catalogProductLinkTypes');
         $expectedTypes = array('related', 'up_sell', 'cross_sell', 'grouped');
         $this->assertEquals($expectedTypes, $types);
     }
@@ -33,7 +38,7 @@ class Magento_Catalog_Model_Product_Link_ApiTest extends PHPUnit_Framework_TestC
      */
     public function testAttributes()
     {
-        $attributes = Magento_Test_Helper_Api::call(
+        $attributes = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductLinkAttributes',
             array(self::LINK_TYPE_UP_SELL)
@@ -51,7 +56,7 @@ class Magento_Catalog_Model_Product_Link_ApiTest extends PHPUnit_Framework_TestC
     public function testAssign()
     {
         /** Add up-sell and related products. */
-        $upSellResult = Magento_Test_Helper_Api::call(
+        $upSellResult = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductLinkAssign',
             array(
@@ -61,7 +66,7 @@ class Magento_Catalog_Model_Product_Link_ApiTest extends PHPUnit_Framework_TestC
             )
         );
         $this->assertTrue($upSellResult, "Up-sell link creation was unsuccessful.");
-        $relatedResult = Magento_Test_Helper_Api::call(
+        $relatedResult = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductLinkAssign',
             array(
@@ -105,7 +110,7 @@ class Magento_Catalog_Model_Product_Link_ApiTest extends PHPUnit_Framework_TestC
      */
     public function testList()
     {
-        $upSellProducts = Magento_Test_Helper_Api::call(
+        $upSellProducts = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductLinkList',
             array(
@@ -132,7 +137,7 @@ class Magento_Catalog_Model_Product_Link_ApiTest extends PHPUnit_Framework_TestC
     public function testUpdate()
     {
         $positionForUpdate = 5;
-        $isUpdated = Magento_Test_Helper_Api::call(
+        $isUpdated = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductLinkUpdate',
             array(
@@ -166,7 +171,7 @@ class Magento_Catalog_Model_Product_Link_ApiTest extends PHPUnit_Framework_TestC
      */
     public function testRemove()
     {
-        $isRemoved = Magento_Test_Helper_Api::call(
+        $isRemoved = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductLinkRemove',
             array(

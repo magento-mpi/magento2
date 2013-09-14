@@ -26,7 +26,7 @@ class Magento_Checkout_Block_Links extends Magento_Core_Block_Template
     {
         /** @var $parentBlock Magento_Page_Block_Template_Links */
         $parentBlock = $this->getParentBlock();
-        if ($parentBlock && Mage::helper('Magento_Core_Helper_Data')->isModuleOutputEnabled('Magento_Checkout')) {
+        if ($parentBlock && $this->_coreData->isModuleOutputEnabled('Magento_Checkout')) {
             $count = $this->getSummaryQty() ? $this->getSummaryQty()
                 : $this->helper('Magento_Checkout_Helper_Cart')->getSummaryCount();
             if ($count == 1) {
@@ -67,7 +67,7 @@ class Magento_Checkout_Block_Links extends Magento_Core_Block_Template
 
         /** @var $parentBlock Magento_Page_Block_Template_Links */
         $parentBlock = $this->getParentBlock();
-        if ($parentBlock && Mage::helper('Magento_Core_Helper_Data')->isModuleOutputEnabled('Magento_Checkout')) {
+        if ($parentBlock && $this->_coreData->isModuleOutputEnabled('Magento_Checkout')) {
             $text = __('Checkout');
             $parentBlock->addLink($text, 'checkout', $text, true, array('_secure' => true), 60, null,
                 'class="top-link-checkout"'

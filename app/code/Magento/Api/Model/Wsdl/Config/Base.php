@@ -26,7 +26,10 @@ class Magento_Api_Model_Wsdl_Config_Base extends Magento_Simplexml_Config
 
     protected $_loadedFiles = array();
 
-    public function __construct($sourceData=null)
+    /**
+     * @param null $sourceData
+     */
+    public function __construct($sourceData = null)
     {
         $this->_elementClass = 'Magento_Api_Model_Wsdl_Config_Element';
 

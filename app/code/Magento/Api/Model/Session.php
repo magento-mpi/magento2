@@ -20,15 +20,39 @@ class Magento_Api_Model_Session extends Magento_Core_Model_Session_Abstract
     public $sessionIds = array();
     protected $_currentSessId = null;
 
-    public function start($sessionName=null)
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Model_Session_Validator $validator
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Session_Validator $validator,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($validator, $eventManager, $coreHttp, $data);
+    }
+
+    public function start($sessionName = null)
     {
-//        parent::start($sessionName=null);
         $this->_currentSessId = md5(time() . uniqid('', true) . $sessionName);
         $this->sessionIds[] = $this->getSessionId();
         return $this;
     }
 
-    public function init($namespace, $sessionName=null)
+    public function init($namespace, $sessionName = null)
     {
         if (is_null($this->_currentSessId)) {
             $this->start();
@@ -54,8 +78,10 @@ class Magento_Api_Model_Session extends Magento_Core_Model_Session_Abstract
         // In api we don't use cookies
     }
 
-    public function clear() {
-        if ($sessId = $this->getSessionId()) {
+    public function clear()
+    {
+        $sessId = $this->getSessionId();
+        if ($sessId) {
             try {
                 Mage::getModel('Magento_Api_Model_User')->logoutBySessId($sessId);
             } catch (Exception $e) {
@@ -71,7 +97,7 @@ class Magento_Api_Model_Session extends Magento_Core_Model_Session_Abstract
             ->setSessid($this->getSessionId())
             ->login($username, $apiKey);
 
-        if ( $user->getId() && $user->getIsActive() != '1' ) {
+        if ($user->getId() && $user->getIsActive() != '1') {
             Mage::throwException(__('Your account has been deactivated.'));
         } elseif (!Mage::getModel('Magento_Api_Model_User')->hasAssigned2Role($user->getId())) {
             Mage::throwException(__('Access denied'));
@@ -87,7 +113,7 @@ class Magento_Api_Model_Session extends Magento_Core_Model_Session_Abstract
         return $user;
     }
 
-    public function refreshAcl($user=null)
+    public function refreshAcl($user = null)
     {
         if (is_null($user)) {
             $user = $this->getUser();
@@ -120,10 +146,11 @@ class Magento_Api_Model_Session extends Magento_Core_Model_Session_Abstract
 
         if ($user && $acl) {
             try {
-                if ($acl->isAllowed($user->getAclRole(), 'all', null)){
+                if ($acl->isAllowed($user->getAclRole(), 'all', null)) {
                     return true;
                 }
-            } catch (Exception $e) {}
+            } catch (Exception $e) {
+            }
 
             try {
                 return $acl->isAllowed($user->getAclRole(), $resource, $privilege);
@@ -135,16 +162,16 @@ class Magento_Api_Model_Session extends Magento_Core_Model_Session_Abstract
     }
 
     /**
-     *  Check session expiration
+     * Check session expiration
      *
-     *  @return  boolean
+     * @return  boolean
      */
-    public function isSessionExpired ($user)
+    public function isSessionExpired($user)
     {
         if (!$user->getId()) {
             return true;
         }
-        $timeout = strtotime( now() ) - strtotime( $user->getLogdate() );
+        $timeout = strtotime(now()) - strtotime($user->getLogdate());
         return $timeout > Mage::getStoreConfig('api/config/session_timeout');
     }
 
@@ -158,16 +185,16 @@ class Magento_Api_Model_Session extends Magento_Core_Model_Session_Abstract
         }
 
         if ($userExists) {
-            Mage::register('isSecureArea', true, true);
+            $this->_coreRegistry->register('isSecureArea', true, true);
         }
         return $userExists;
     }
 
     /**
-     *  Renew user by session ID if session not expired
+     * Renew user by session ID if session not expired
      *
-     *  @param    string $sessId
-     *  @return  boolean
+     * @param    string $sessId
+     * @return  boolean
      */
     protected function _renewBySessId ($sessId)
     {
@@ -188,4 +215,4 @@ class Magento_Api_Model_Session extends Magento_Core_Model_Session_Abstract
         return false;
     }
 
-} // Class Magento_Api_Model_Session End
+}

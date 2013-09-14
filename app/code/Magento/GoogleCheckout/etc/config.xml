@@ -29,28 +29,6 @@
             </googlecheckout_setup>
         </resources>
     </global>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_GoogleCheckout>
-                    <files>
-                        <default>Magento_GoogleCheckout.csv</default>
-                    </files>
-                </Magento_GoogleCheckout>
-            </modules>
-        </translate>
-    </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_GoogleCheckout>
-                    <files>
-                        <default>Magento_GoogleCheckout.csv</default>
-                    </files>
-                </Magento_GoogleCheckout>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <carriers>
             <googlecheckout>

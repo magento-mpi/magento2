@@ -348,17 +348,6 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     }
 
     /**
-     * Retrieve helper object
-     *
-     * @param string $name
-     * @return Magento_Core_Helper_Abstract
-     */
-    public function getHelper($name)
-    {
-        return Mage::helper($name);
-    }
-
-    /**
      * Retrieve application base currency code
      *
      * @return string
@@ -459,7 +448,6 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     public function cleanCache($tags = array())
     {
         $this->_cache->clean($tags);
-        $this->_eventManager->dispatch('application_clean_cache', array('tags' => $tags));
         return $this;
     }
 

@@ -20,14 +20,9 @@ class Magento_WebsiteRestriction_Model_Observer
     protected $_config;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
-
-    /**
-     * @var Magento_Core_Model_Event_Manager
-     */
-    protected $_eventManager;
 
     /**
      * @var Magento_Customer_Helper_Data
@@ -45,8 +40,15 @@ class Magento_WebsiteRestriction_Model_Observer
     protected $_storeConfig;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * @param Magento_WebsiteRestriction_Model_ConfigInterface $config
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Customer_Helper_Data $customerHelper
      * @param Magento_Core_Model_Session $session
@@ -54,7 +56,7 @@ class Magento_WebsiteRestriction_Model_Observer
      */
     public function __construct(
         Magento_WebsiteRestriction_Model_ConfigInterface $config,
-        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Customer_Helper_Data $customerHelper,
         Magento_Core_Model_Session $session,
@@ -80,9 +82,9 @@ class Magento_WebsiteRestriction_Model_Observer
 
         if (!$this->_storeManager->getStore()->isAdmin()) {
             $dispatchResult = new Magento_Object(array('should_proceed' => true, 'customer_logged_in' => false));
-            $this->_eventManager->dispatch('websiterestriction_frontend',
-                array('controller' => $controller, 'result' => $dispatchResult)
-            );
+            $this->_eventManager->dispatch('websiterestriction_frontend', array(
+                'controller' => $controller, 'result' => $dispatchResult
+            ));
             if (!$dispatchResult->getShouldProceed()) {
                 return;
             }

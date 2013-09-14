@@ -8,6 +8,9 @@
  */
 -->
 <config>
+    <type name="Magento_Customer_Helper_Data">
+        <plugin name="invitation_customer_registration_plugin" type="Magento_Invitation_Model_Plugin_CustomerRegistration"/>
+    </type>
     <type name="Magento_Core_Model_Url_SecurityInfo">
         <param name="secureUrlList">
             <value>

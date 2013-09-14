@@ -12,26 +12,34 @@
 class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @var array
+     */
+    protected $_modelParams;
+
+    /**
      * @var Magento_Core_Model_Store|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     public function setUp()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
-        $params = array(
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_modelParams = array(
+            'coreFileStorageDatabase' => $objectManager->get('Magento_Core_Helper_File_Storage_Database'),
             'context' => $objectManager->get('Magento_Core_Model_Context'),
+            'registry' => $objectManager->get('Magento_Core_Model_Registry'),
             'configCacheType' => $objectManager->get('Magento_Core_Model_Cache_Type_Config'),
             'urlModel' => $objectManager->get('Magento_Core_Model_Url'),
             'appState' => $objectManager->get('Magento_Core_Model_App_State'),
             'request' => $objectManager->get('Magento_Core_Controller_Request_Http'),
             'configDataResource' => $objectManager->get('Magento_Core_Model_Resource_Config_Data'),
+            'resource' => $objectManager->get('Magento_Core_Model_Resource_Store'),
         );
 
         $this->_model = $this->getMock(
             'Magento_Core_Model_Store',
             array('getUrl'),
-            $params
+            $this->_modelParams
         );
     }
 
@@ -44,6 +52,9 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedId, $this->_model->getId());
     }
 
+    /**
+     * @return array
+     */
     public function loadDataProvider()
     {
         return array(
@@ -149,7 +160,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
      */
     public function testGetBaseUrlInPub()
     {
-        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
+        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_URIS => array(Magento_Core_Model_Dir::PUB => '')
         ));
         $this->_model->load('default');
@@ -188,7 +199,9 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         // emulate custom entry point
         $_SERVER['SCRIPT_FILENAME'] = 'custom_entry.php';
         if ($useCustomEntryPoint) {
-            Mage::register('custom_entry_point', true);
+            $property = new ReflectionProperty($this->_model, '_isCustomEntryPoint');
+            $property->setAccessible(true);
+            $property->setValue($this->_model, $useCustomEntryPoint);
         }
         $actual = $this->_model->getBaseUrl($type);
         $this->assertEquals($expected, $actual);
@@ -264,7 +277,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
 
         /* emulate admin store */
         Mage::app()->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
-        $crud = new Magento_Test_Entity($this->_model, array('name' => 'new name'));
+        $crud = new Magento_TestFramework_Entity($this->_model, array('name' => 'new name'));
         $crud->testCrud();
     }
 
@@ -323,18 +336,10 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             ->method('isInstalled')
             ->will($this->returnValue($isInstalled));
 
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
-        $params = array(
-            'context' => $objectManager->get('Magento_Core_Model_Context'),
-            'configCacheType' => $objectManager->get('Magento_Core_Model_Cache_Type_Config'),
-            'urlModel' => $objectManager->get('Magento_Core_Model_Url'),
-            'appState' => $appStateMock,
-            'request' => $objectManager->get('Magento_Core_Controller_Request_Http'),
-            'configDataResource' => $objectManager->get('Magento_Core_Model_Resource_Config_Data'),
-        );
+        $params = $this->_modelParams;
+        $params['appState'] = $appStateMock;
 
         $model = $this->getMock('Magento_Core_Model_Store', array('getConfig'), $params);
-
 
         $model->expects($this->any())->method('getConfig')
             ->with($this->stringContains(Magento_Core_Model_Store::XML_PATH_STORE_IN_URL))
