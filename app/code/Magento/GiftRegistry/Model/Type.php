@@ -352,8 +352,9 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
     /**
      * Custom handler for giftregistry type save action
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
+     * @param Magento_Logging_Model_Processor
      * @return Magento_Logging_Model_Event
      */
     public function postDispatchTypeSave($config, $eventModel, $processor)
