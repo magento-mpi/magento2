@@ -13,7 +13,7 @@
             <block class="Magento\Sales\Block\Order\PrintOrder\Shipment" name="sales.order.printorder.shipment" template="order/print/shipment.phtml">
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">default</argument>
-                    <argument name="block" xsi:type="string">\Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer</argument>
+                    <argument name="block" xsi:type="string">Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer</argument>
                     <argument name="template" xsi:type="string">order/shipment/items/renderer/default.phtml</argument>
                 </action>
             </block>
