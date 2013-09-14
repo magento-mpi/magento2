@@ -102,6 +102,13 @@
      * Covered new layout customization mechanism with integrity tests
   * Relocated several files, declared in layouts
   * Streamlined several design customizations
+  * Arbitrary handle name moved to handle node, id attribute
+  * New arguments format, which introduce argument types implemented
+  * Translation specified just on the level of node which is going to be translated
+  * XSD validation for Layouts XML added
+  * Type casting for all kind of types (url, option, array and simple types) added
+  * Covered introduced argument types with integrity test
+  * Types restrictions was implemented
 * Various improvements:
   * Refactored fallback paths to prevent searching of modular view files in non-module context, covered application with appropriate integrity test
   * Added configuration for limits on sending wishlist emails

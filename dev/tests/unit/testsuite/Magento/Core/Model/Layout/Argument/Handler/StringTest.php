@@ -10,12 +10,12 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Layout_Argument_Handler_Options
+ * Test class for Magento_Core_Model_Layout_Argument_Handler_String
  */
-class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Framework_TestCase
+class Magento_Core_Model_Layout_Argument_Handler_StringTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_Handler_Options
+     * @var Magento_Core_Model_Layout_Argument_Handler_Boolean
      */
     protected $_model;
 
@@ -26,18 +26,16 @@ class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Fra
 
     protected function setUp()
     {
-        include_once(__DIR__ . DIRECTORY_SEPARATOR . 'TestOptions.php');
-
         $helperObjectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
         $this->_model = $helperObjectManager->getObject(
-            'Magento_Core_Model_Layout_Argument_Handler_Options',
+            'Magento_Core_Model_Layout_Argument_Handler_String',
             array('objectManager' => $this->_objectManagerMock)
         );
     }
 
     /**
-     * @dataProvider parseDataProvider()
+     * @dataProvider parseDataProvider
      * @param Magento_Core_Model_Layout_Element $argument
      * @param array $expectedResult
      */
@@ -56,17 +54,14 @@ class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Fra
             __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'arguments.xml',
             'Magento_Core_Model_Layout_Element'
         );
-        $optionsArguments = $layout->xpath('//argument[@name="testOptions"]');
+        $result = $this->processDataProvider();
+        $simpleString = $layout->xpath('//argument[@name="testSimpleString"]');
+        $translateString = $layout->xpath('//argument[@name="testTranslateString"]');
+        $complexString = $layout->xpath('//argument[@name="testComplexString"]');
         return array(
-            array(
-                reset($optionsArguments),
-                array(
-                    'type' => 'options',
-                    'value' => array(
-                        'model' => 'Magento_Core_Model_Layout_Argument_Handler_TestOptions',
-                    )
-                )
-            ),
+            array($simpleString[0], $result[0][0] + array('type' => 'string')),
+            array($translateString[0], $result[1][0] + array('type' => 'string')),
+            array($complexString[0], $result[2][0] + array('type' => 'string')),
         );
     }
 
@@ -77,19 +72,11 @@ class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Fra
      */
     public function testProcess($argument, $expectedResult)
     {
-        $optionsMock = $this->getMock(
-            'Magento_Core_Model_Layout_Argument_Handler_TestOptions', array(), array(), '', false, false
-        );
-        $optionsMock->expects($this->once())
-            ->method('toOptionArray')
-            ->will($this->returnValue(array('value' => 'label')));
-
-        $this->_objectManagerMock->expects($this->once())
-            ->method('create')
-            ->with('Magento_Core_Model_Layout_Argument_Handler_TestOptions')
-            ->will($this->returnValue($optionsMock));
-
-        $this->assertEquals($this->_model->process($argument), $expectedResult);
+        $result = $this->_model->process($argument);
+        $this->assertEquals($result, $expectedResult);
+        if (!empty($argument['value']['translate'])) {
+            $this->assertInstanceOf('Magento_Phrase', $result);
+        }
     }
 
     /**
@@ -98,19 +85,9 @@ class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Fra
     public function processDataProvider()
     {
         return array(
-            array(
-                array(
-                    'value' => array(
-                        'model' => 'Magento_Core_Model_Layout_Argument_Handler_TestOptions',
-                    )
-                ),
-                array(
-                    array(
-                        'value' => 'value',
-                        'label' => 'label',
-                    )
-                )
-            ),
+            array(array('value' => array('string' => 'Simple Test')), 'Simple Test'),
+            array(array('value' => array('string' => 'Test Translate', 'translate' => true)), 'Test Translate'),
+            array(array('value' => array('string' => 'Complex Test')), 'Complex Test'),
         );
     }
 
@@ -133,9 +110,9 @@ class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Fra
     public function processExceptionDataProvider()
     {
         return array(
-            array(array(), 'Value is required for argument'),
+            array(array('value' => null), 'Value is required for argument'),
             array(array('value' => array()), 'Passed value has incorrect format'),
-            array(array('value' => array('model' => 'Magento_Dummy_Model')), 'Incorrect options model'),
+            array(array('value' => array('string' => false)), 'Value is not string argument'),
         );
     }
 }

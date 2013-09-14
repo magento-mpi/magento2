@@ -10,9 +10,9 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Layout_Argument_Handler_Url
+ * Test class for Magento_Core_Model_Layout_Argument_Handler_Helper
  */
-class Magento_Core_Model_Layout_Argument_Handler_UrlTest extends PHPUnit_Framework_TestCase
+class Magento_Core_Model_Layout_Argument_Handler_HelperTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Core_Model_Layout_Argument_Handler_Helper
@@ -26,11 +26,13 @@ class Magento_Core_Model_Layout_Argument_Handler_UrlTest extends PHPUnit_Framewo
 
     protected function setUp()
     {
+        include_once(__DIR__ . DIRECTORY_SEPARATOR . 'TestHelper.php');
+
         $helperObjectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_urlModleMock = $this->getMock('Magento_Core_Model_Url', array(), array(), '', false);
+        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
         $this->_model = $helperObjectManager->getObject(
-            'Magento_Core_Model_Layout_Argument_Handler_Url',
-            array('urlModel' => $this->_urlModleMock)
+            'Magento_Core_Model_Layout_Argument_Handler_Helper',
+            array('objectManager' => $this->_objectManagerMock)
         );
     }
 
@@ -57,11 +59,11 @@ class Magento_Core_Model_Layout_Argument_Handler_UrlTest extends PHPUnit_Framewo
         $result = $this->processDataProvider();
         $resultWithParams = $resultWithoutParams = $result[0][0];
         $resultWithoutParams['value']['params'] = array();
-        $argWithParams = $layout->xpath('//argument[@name="testUrlWithParams"]');
-        $argWithoutParams = $layout->xpath('//argument[@name="testUrlWithoutParams"]');
+        $argWithParams = $layout->xpath('//argument[@name="testHelperWithParams"]');
+        $argWithoutParams = $layout->xpath('//argument[@name="testHelperWithoutParams"]');
         return array(
-            array($argWithParams[0], $resultWithParams + array('type' => 'url')),
-            array($argWithoutParams[0], $resultWithoutParams + array('type' => 'url')),
+            array($argWithParams[0], $resultWithParams + array('type' => 'helper')),
+            array($argWithoutParams[0], $resultWithoutParams + array('type' => 'helper')),
         );
     }
 
@@ -72,10 +74,17 @@ class Magento_Core_Model_Layout_Argument_Handler_UrlTest extends PHPUnit_Framewo
      */
     public function testProcess($argument, $expectedResult)
     {
-        $this->_urlModleMock->expects($this->once())
-            ->method('getUrl')
-            ->with($argument['value']['path'], $argument['value']['params'])
+        $helperMock = $this->getMock(
+            'Magento_Core_Model_Layout_Argument_Handler_TestHelper', array(), array(), '', false, false
+        );
+        $helperMock->expects($this->once())
+            ->method('testMethod')
+            ->with('firstValue', 'secondValue')
             ->will($this->returnValue($expectedResult));
+        $this->_objectManagerMock->expects($this->once())
+            ->method('get')
+            ->with('Magento_Core_Model_Layout_Argument_Handler_TestHelper')
+            ->will($this->returnValue($helperMock));
 
         $this->assertEquals($this->_model->process($argument), $expectedResult);
     }
@@ -89,14 +98,15 @@ class Magento_Core_Model_Layout_Argument_Handler_UrlTest extends PHPUnit_Framewo
             array(
                 array(
                     'value' => array(
-                        'path' => 'module/controller/action',
+                        'helperClass' => 'Magento_Core_Model_Layout_Argument_Handler_TestHelper',
+                        'helperMethod' => 'testMethod',
                         'params' => array(
-                            'firstParam' => 'firstValue',
-                            'secondParam' => 'secondValue',
+                            'firstValue',
+                            'secondValue',
                         ),
                     )
                 )
-                , 'test/url'
+                , true
             ),
         );
     }
@@ -119,9 +129,20 @@ class Magento_Core_Model_Layout_Argument_Handler_UrlTest extends PHPUnit_Framewo
      */
     public function processExceptionDataProvider()
     {
+        $argument = $this->processDataProvider();
+        $invalidHelper = $invalidMethod = $nonExisting = $emptyValue = $argument[0][0];
+        unset($invalidHelper['value']['helperClass']);
+        unset($invalidMethod['value']['helperMethod']);
+        $nonExisting['value']['helperClass'] = 'Dummy_Helper';
+        $nonExisting['value']['helperMethod'] = 'dummyMethod';
+        unset($emptyValue['value']);
+
         return array(
-            array(array(), 'Value is required for argument'),
-            array(array('value' => array()), 'Passed value has incorrect format'),
+            array($invalidHelper, 'Passed helper has incorrect format'),
+            array($invalidMethod, 'Passed helper has incorrect format'),
+            array($nonExisting, 'Helper method "Dummy_Helper::dummyMethod" does not exist'),
+            array($nonExisting, 'Helper method "Dummy_Helper::dummyMethod" does not exist'),
+            array($emptyValue, 'Value is required for argument'),
         );
     }
 }
