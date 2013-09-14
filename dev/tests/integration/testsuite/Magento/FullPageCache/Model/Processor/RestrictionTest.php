@@ -19,7 +19,7 @@ class Magento_FullPageCache_Model_Processor_RestrictionTest extends PHPUnit_Fram
     {
         /** @var \Magento\Core\Model\Cache\StateInterface $cacheState */
         $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get(
-            '\Magento\Core\Model\Cache\StateInterface');
+            'Magento\Core\Model\Cache\StateInterface');
         $cacheState->setEnabled('full_page', true);
     }
 

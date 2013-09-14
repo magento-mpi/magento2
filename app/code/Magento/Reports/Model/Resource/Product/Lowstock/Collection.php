@@ -50,7 +50,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
     {
         if ($this->_inventoryItemResource === null) {
             $this->_inventoryItemResource = \Mage::getResourceSingleton(
-                    '\Magento\CatalogInventory\Model\Resource\Stock\Item'
+                    'Magento\CatalogInventory\Model\Resource\Stock\Item'
                 );
         }
         return $this->_inventoryItemResource;

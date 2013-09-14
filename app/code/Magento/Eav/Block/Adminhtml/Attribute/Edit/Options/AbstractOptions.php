@@ -28,11 +28,11 @@ abstract class AbstractOptions extends \Magento\Core\Block\AbstractBlock
     {
         $this->addChild(
             'labels',
-            '\Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\Labels'
+            'Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\Labels'
         );
         $this->addChild(
             'options',
-            '\Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\Options'
+            'Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\Options'
         );
         return parent::_prepareLayout();
     }

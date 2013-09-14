@@ -22,7 +22,7 @@ class Magento_GoogleOptimizer_Helper_CodeTest extends PHPUnit_Framework_TestCase
         $this->_codeModelMock = $this->getMock('Magento\GoogleOptimizer\Model\Code', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_helper = $objectManagerHelper->getObject('\Magento\GoogleOptimizer\Helper\Code', array(
+        $this->_helper = $objectManagerHelper->getObject('Magento\GoogleOptimizer\Helper\Code', array(
             'code' => $this->_codeModelMock,
         ));
     }

@@ -26,7 +26,7 @@ class Compared extends \Magento\Reports\Block\Product\AbstractProduct
      *
      * @var string
      */
-    protected $_indexName       = '\Magento\Reports\Model\Product\Index\Compared';
+    protected $_indexName       = 'Magento\Reports\Model\Product\Index\Compared';
 
     /**
      * Retrieve page size (count)

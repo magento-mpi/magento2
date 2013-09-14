@@ -29,7 +29,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         );
 
         $this->_model = $this->getMock(
-            '\Magento\Core\Model\Store',
+            'Magento\Core\Model\Store',
             array('getUrl'),
             $params
         );
@@ -224,7 +224,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     public function testGetPriceFilter()
     {
         $this->_model->load('default');
-        $this->assertInstanceOf('\Magento\Directory\Model\Currency\Filter', $this->_model->getPriceFilter());
+        $this->assertInstanceOf('Magento\Directory\Model\Currency\Filter', $this->_model->getPriceFilter());
     }
 
     public function testIsCanDelete()

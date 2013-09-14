@@ -19,7 +19,7 @@ class Magento_Webhook_Model_Event_FactoryTest extends PHPUnit_Framework_TestCase
         /** @var \Magento\Webhook\Model\Event $event */
         $event = $factory->create($topic, $data);
 
-        $this->assertInstanceOf('\Magento\Webhook\Model\Event', $event);
+        $this->assertInstanceOf('Magento\Webhook\Model\Event', $event);
         $this->assertEquals($topic, $event->getTopic());
         $this->assertEquals($data, $event->getBodyData());
     }
@@ -32,7 +32,7 @@ class Magento_Webhook_Model_Event_FactoryTest extends PHPUnit_Framework_TestCase
         /** @var \Magento\Webhook\Model\Event $event */
         $event = $factory->create('', array());
 
-        $this->assertInstanceOf('\Magento\Webhook\Model\Event', $event);
+        $this->assertInstanceOf('Magento\Webhook\Model\Event', $event);
         $this->assertEmpty($event->getBodyData());
         $this->assertEmpty($event->getTopic());
     }

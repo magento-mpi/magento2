@@ -228,10 +228,10 @@ class Magento_TestFramework_Bootstrap
     protected function _loadConfigFiles(array $configFiles)
     {
         /** @var $result \Magento\Simplexml\Element */
-        $result = simplexml_load_string('<config/>', '\Magento\Simplexml\Element');
+        $result = simplexml_load_string('<config/>', 'Magento\Simplexml\Element');
         foreach ($configFiles as $configFile) {
             /** @var $configXml \Magento\Simplexml\Element */
-            $configXml = simplexml_load_file($configFile, '\Magento\Simplexml\Element');
+            $configXml = simplexml_load_file($configFile, 'Magento\Simplexml\Element');
             $result->extend($configXml);
         }
         return $result;

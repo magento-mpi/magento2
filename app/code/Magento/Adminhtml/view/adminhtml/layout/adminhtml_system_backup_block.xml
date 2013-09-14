@@ -66,7 +66,7 @@
                             <argument name="header" xsi:type="string" translate="true">Type</argument>
                             <argument name="index" xsi:type="string">type</argument>
                             <argument name="type" xsi:type="string">options</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\Backup\Model\Grid\Options"/>
+                            <argument name="options" xsi:type="options" model="Magento\Backup\Model\Grid\Options"/>
                             <argument name="width" xsi:type="string">300px</argument>
                         </arguments>
                     </block>

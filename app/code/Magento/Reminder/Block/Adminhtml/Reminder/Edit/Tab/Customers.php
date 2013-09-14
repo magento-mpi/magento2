@@ -53,7 +53,7 @@ class Customers extends \Magento\Adminhtml\Block\Widget\Grid
             'align'    => 'center',
             'width'    => 50,
             'index'    => 'entity_id',
-            'renderer' => '\Magento\Reminder\Block\Adminhtml\Widget\Grid\Column\Renderer\Id'
+            'renderer' => 'Magento\Reminder\Block\Adminhtml\Widget\Grid\Column\Renderer\Id'
         ));
 
         $this->addColumn('grid_email', array(
@@ -61,7 +61,7 @@ class Customers extends \Magento\Adminhtml\Block\Widget\Grid
             'type'     => 'text',
             'align'    => 'left',
             'index'    => 'email',
-            'renderer' => '\Magento\Reminder\Block\Adminhtml\Widget\Grid\Column\Renderer\Email'
+            'renderer' => 'Magento\Reminder\Block\Adminhtml\Widget\Grid\Column\Renderer\Email'
         ));
 
         $this->addColumn('grid_associated_at', array(

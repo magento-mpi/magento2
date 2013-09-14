@@ -80,14 +80,14 @@ class Statistics extends \Magento\Adminhtml\Controller\Action
         }
 
         $aliases = array(
-            'sales'       => '\Magento\Sales\Model\Resource\Report\Order',
-            'tax'         => '\Magento\Tax\Model\Resource\Report\Tax',
-            'shipping'    => '\Magento\Sales\Model\Resource\Report\Shipping',
-            'invoiced'    => '\Magento\Sales\Model\Resource\Report\Invoiced',
-            'refunded'    => '\Magento\Sales\Model\Resource\Report\Refunded',
-            'coupons'     => '\Magento\SalesRule\Model\Resource\Report\Rule',
-            'bestsellers' => '\Magento\Sales\Model\Resource\Report\Bestsellers',
-            'viewed'      => '\Magento\Reports\Model\Resource\Report\Product\Viewed',
+            'sales'       => 'Magento\Sales\Model\Resource\Report\Order',
+            'tax'         => 'Magento\Tax\Model\Resource\Report\Tax',
+            'shipping'    => 'Magento\Sales\Model\Resource\Report\Shipping',
+            'invoiced'    => 'Magento\Sales\Model\Resource\Report\Invoiced',
+            'refunded'    => 'Magento\Sales\Model\Resource\Report\Refunded',
+            'coupons'     => 'Magento\SalesRule\Model\Resource\Report\Rule',
+            'bestsellers' => 'Magento\Sales\Model\Resource\Report\Bestsellers',
+            'viewed'      => 'Magento\Reports\Model\Resource\Report\Product\Viewed',
         );
         $out = array();
         foreach ($codes as $code) {

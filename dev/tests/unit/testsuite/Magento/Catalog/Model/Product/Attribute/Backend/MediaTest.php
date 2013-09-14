@@ -40,7 +40,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_
         $attributeId = 345345;
 
         $attribute = $this->getMock(
-            '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+            'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
             array('getBackendTable', 'isStatic', 'getAttributeId', 'getName'),
             array(),
             '',

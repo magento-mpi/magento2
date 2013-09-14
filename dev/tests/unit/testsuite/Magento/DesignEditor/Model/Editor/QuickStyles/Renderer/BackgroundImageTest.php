@@ -23,7 +23,7 @@ class Magento_DesignEditor_Model_Editor_QuickStyles_Renderer_BackgroundImageTest
     {
         /** @var $rendererModel \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage */
         $rendererModel = $this->getMock(
-            '\Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage', null, array(), '', false
+            'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage', null, array(), '', false
         );
 
         $this->assertEquals($expectedResult, $rendererModel->toCss($data));
@@ -37,7 +37,7 @@ class Magento_DesignEditor_Model_Editor_QuickStyles_Renderer_BackgroundImageTest
     {
         /** @var $rendererModel \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage */
         $rendererModel = $this->getMock(
-            '\Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage', null, array(), '', false
+            'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage', null, array(), '', false
         );
 
         $this->assertEquals($expectedResult, $rendererModel->toCss($data));

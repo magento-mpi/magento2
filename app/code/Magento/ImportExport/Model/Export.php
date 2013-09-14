@@ -76,8 +76,8 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
                 ) {
                     \Mage::throwException(
                         __('Entity adapter object must be an instance of %1 or %2',
-                                '\Magento\ImportExport\Model\Export\Entity\AbstractEntity',
-                                '\Magento\ImportExport\Model\Export\EntityAbstract'
+                                'Magento\ImportExport\Model\Export\Entity\AbstractEntity',
+                                'Magento\ImportExport\Model\Export\EntityAbstract'
                             )
                     );
                 }
@@ -119,7 +119,7 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
                 if (! $this->_writer instanceof \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter) {
                     \Mage::throwException(
                         __('Adapter object must be an instance of %1',
-                                '\Magento\ImportExport\Model\Export\Adapter\AbstractAdapter'
+                                'Magento\ImportExport\Model\Export\Adapter\AbstractAdapter'
                             )
                     );
                 }

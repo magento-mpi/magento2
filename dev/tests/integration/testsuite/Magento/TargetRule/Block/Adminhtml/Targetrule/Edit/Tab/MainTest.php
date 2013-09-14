@@ -27,10 +27,10 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_MainTest extends PH
         Mage::register('current_target_rule', Mage::getModel('Magento\TargetRule\Model\Rule'));
 
         $block = Mage::app()->getLayout()->createBlock(
-            '\Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main'
+            'Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main'
         );
         $prepareFormMethod = new ReflectionMethod(
-            '\Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main', '_prepareForm');
+            'Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);
 

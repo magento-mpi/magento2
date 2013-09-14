@@ -23,7 +23,7 @@ abstract class EavAbstract
     /**
      * Attribute collection name
      */
-    const ATTRIBUTE_COLLECTION_NAME = '\Magento\Data\Collection';
+    const ATTRIBUTE_COLLECTION_NAME = 'Magento\Data\Collection';
 
     /**
      * Website manager (currently \Magento\Core\Model\App works as website manager)

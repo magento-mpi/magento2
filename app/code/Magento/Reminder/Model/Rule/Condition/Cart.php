@@ -33,7 +33,7 @@ class Cart
     ) {
         parent::__construct($context, $data);
         $this->_dateModel = $dateModel;
-        $this->setType('\Magento\Reminder\Model\Rule\Condition\Cart');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Cart');
         $this->setValue(null);
     }
 

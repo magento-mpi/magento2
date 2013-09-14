@@ -22,7 +22,7 @@ class Direct extends \Magento\Paypal\Model\Direct
      *
      * @var string
      */
-    protected $_proType = '\Magento\PaypalUk\Model\Pro';
+    protected $_proType = 'Magento\PaypalUk\Model\Pro';
 
     /**
      * Return available CC types for gateway based on merchant country

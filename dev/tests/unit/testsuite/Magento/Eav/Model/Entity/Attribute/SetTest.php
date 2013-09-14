@@ -27,7 +27,7 @@ class Magento_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestC
             'resource'  => $resource,
         );
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('\Magento\Eav\Model\Entity\Attribute\Set', $arguments);
+        $this->_model = $objectManagerHelper->getObject('Magento\Eav\Model\Entity\Attribute\Set', $arguments);
     }
 
     protected function tearDown()

@@ -47,7 +47,7 @@ class Magento_Backend_Block_System_Config_Form_FieldTest extends PHPUnit_Framewo
             'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
         );
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_object = $helper->getObject('\Magento\Backend\Block\System\Config\Form\Field', $data);
+        $this->_object = $helper->getObject('Magento\Backend\Block\System\Config\Form\Field', $data);
 
         $this->_testData = array(
             'htmlId' => 'test_field_id',

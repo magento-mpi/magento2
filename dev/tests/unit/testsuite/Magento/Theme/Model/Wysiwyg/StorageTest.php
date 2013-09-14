@@ -489,7 +489,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
             ->method('delete')
             ->with($thumbnailDir . \Magento\Filesystem::DIRECTORY_SEPARATOR . $image);
 
-        $this->assertInstanceOf('\Magento\Theme\Model\Wysiwyg\Storage', $this->_storageModel->deleteFile($image));
+        $this->assertInstanceOf('Magento\Theme\Model\Wysiwyg\Storage', $this->_storageModel->deleteFile($image));
     }
 
     /**

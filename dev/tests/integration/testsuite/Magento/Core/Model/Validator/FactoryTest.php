@@ -19,10 +19,10 @@ class Magento_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCas
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var \Magento\Core\Model\Validator\Factory $factory */
         $factory = $objectManager->get('Magento\Core\Model\Validator\Factory');
-        $this->assertInstanceOf('\Magento\Validator\Config', $factory->getValidatorConfig());
+        $this->assertInstanceOf('Magento\Validator\Config', $factory->getValidatorConfig());
         // Check that default translator was set
         $translator = \Magento\Validator\ValidatorAbstract::getDefaultTranslator();
-        $this->assertInstanceOf('\Magento\Translate\AdapterInterface', $translator);
+        $this->assertInstanceOf('Magento\Translate\AdapterInterface', $translator);
         $this->assertEquals('Message', __('Message'));
         $this->assertEquals('Message', $translator->translate('Message'));
         $this->assertEquals(

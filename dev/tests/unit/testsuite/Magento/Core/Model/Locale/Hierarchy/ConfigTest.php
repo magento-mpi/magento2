@@ -30,7 +30,7 @@ class Magento_Core_Model_Locale_Hierarchy_ConfigTest extends PHPUnit_Framework_T
     protected function setUp()
     {
         $this->_configReaderMock = $this->getMock(
-            '\Magento\Core\Model\Locale\Hierarchy\Config\Reader', array(), array(), '', false
+            'Magento\Core\Model\Locale\Hierarchy\Config\Reader', array(), array(), '', false
         );
         $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
         $this->_cacheId = 'customCacheId';

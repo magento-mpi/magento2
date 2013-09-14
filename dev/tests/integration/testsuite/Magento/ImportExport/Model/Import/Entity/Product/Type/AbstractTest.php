@@ -24,7 +24,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_AbstractTest extends
     {
         $arguments = array(Mage::getModel('Magento\ImportExport\Model\Import\Entity\Product'), 'simple');
         $this->_model = $this->getMockForAbstractClass(
-            '\Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType',
+            'Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType',
             array($arguments)
         );
     }

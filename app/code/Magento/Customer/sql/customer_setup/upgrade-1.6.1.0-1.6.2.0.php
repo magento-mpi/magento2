@@ -17,7 +17,7 @@ $installer->addAttribute('customer', $disableAGCAttributeCode, array(
     'type'      => 'static',
     'label'     => 'Disable Automatic Group Change Based on VAT ID',
     'input'     => 'boolean',
-    'backend'   => '\Magento\Customer\Model\Attribute\Backend\Data\Boolean',
+    'backend'   => 'Magento\Customer\Model\Attribute\Backend\Data\Boolean',
     'position'  => 28,
     'required'  => false
 ));

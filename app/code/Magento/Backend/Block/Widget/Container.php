@@ -221,7 +221,7 @@ class Container extends \Magento\Backend\Block\Template
     protected function _addButtonChildBlock($childId, $blockClassName = null)
     {
         if (null === $blockClassName) {
-            $blockClassName = '\Magento\Backend\Block\Widget\Button';
+            $blockClassName = 'Magento\Backend\Block\Widget\Button';
         }
         $block = $this->getLayout()->createBlock($blockClassName, $this->getNameInLayout() . '-' . $childId);
         $this->setChild($childId, $block);

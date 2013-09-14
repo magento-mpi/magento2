@@ -186,7 +186,7 @@ class Magento_Core_Model_StoreManagerTest extends PHPUnit_Framework_TestCase
         $this->_storage->expects($this->once())->method('getCurrentStore')->will($this->returnValue('current'));
         $this->_requestMock->expects($this->once())->method('setActionName')->with('noRoute');
 
-        $this->assertInstanceOf('\Magento\Object', $this->_model->getSafeStore(10));
+        $this->assertInstanceOf('Magento\Object', $this->_model->getSafeStore(10));
     }
 
     /**

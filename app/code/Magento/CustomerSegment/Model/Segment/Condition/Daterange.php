@@ -43,7 +43,7 @@ class Daterange
     {
         parent::__construct($context, $data);
 
-        $this->setType('\Magento\CustomerSegment\Model\Segment\Condition\Daterange');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Daterange');
         $this->setValue(null);
     }
 

@@ -49,19 +49,19 @@ class Form extends \Magento\Backend\Block\Widget
     {
         \Magento\Data\Form::setElementRenderer(
             $this->getLayout()->createBlock(
-                '\Magento\Backend\Block\Widget\Form\Renderer\Element',
+                'Magento\Backend\Block\Widget\Form\Renderer\Element',
                 $this->getNameInLayout() . '_element'
             )
         );
         \Magento\Data\Form::setFieldsetRenderer(
             $this->getLayout()->createBlock(
-                '\Magento\Backend\Block\Widget\Form\Renderer\Fieldset',
+                'Magento\Backend\Block\Widget\Form\Renderer\Fieldset',
                 $this->getNameInLayout() . '_fieldset'
             )
         );
         \Magento\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
-                '\Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element',
+                'Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element',
                 $this->getNameInLayout() . '_fieldset_element'
             )
         );

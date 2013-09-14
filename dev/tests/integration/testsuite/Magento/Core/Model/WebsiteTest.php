@@ -66,7 +66,7 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
     {
         $groups = $this->_model->getGroups();
         $this->assertEquals(array(1), array_keys($groups));
-        $this->assertInstanceOf('\Magento\Core\Model\Store\Group', $groups[1]);
+        $this->assertInstanceOf('Magento\Core\Model\Store\Group', $groups[1]);
         $this->assertEquals(1, $groups[1]->getId());
     }
 
@@ -83,7 +83,7 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
     public function testGetDefaultGroup()
     {
         $defaultGroup = $this->_model->getDefaultGroup();
-        $this->assertInstanceOf('\Magento\Core\Model\Store\Group', $defaultGroup);
+        $this->assertInstanceOf('Magento\Core\Model\Store\Group', $defaultGroup);
         $this->assertEquals(1, $defaultGroup->getId());
 
         $this->_model->setDefaultGroupId(null);
@@ -94,7 +94,7 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
     {
         $stores = $this->_model->getStores();
         $this->assertEquals(array(1), array_keys($stores));
-        $this->assertInstanceOf('\Magento\Core\Model\Store', $stores[1]);
+        $this->assertInstanceOf('Magento\Core\Model\Store', $stores[1]);
         $this->assertEquals(1, $stores[1]->getId());
     }
 
@@ -136,20 +136,20 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
     public function testGetBaseCurrency()
     {
         $currency = $this->_model->getBaseCurrency();
-        $this->assertInstanceOf('\Magento\Directory\Model\Currency', $currency);
+        $this->assertInstanceOf('Magento\Directory\Model\Currency', $currency);
         $this->assertEquals('USD', $currency->getCode());
     }
 
     public function testGetDefaultStore()
     {
         $defaultStore = $this->_model->getDefaultStore();
-        $this->assertInstanceOf('\Magento\Core\Model\Store', $defaultStore);
+        $this->assertInstanceOf('Magento\Core\Model\Store', $defaultStore);
         $this->assertEquals(1, $defaultStore->getId());
     }
 
     public function testGetDefaultStoresSelect()
     {
-        $this->assertInstanceOf('\Magento\DB\Select', $this->_model->getDefaultStoresSelect());
+        $this->assertInstanceOf('Magento\DB\Select', $this->_model->getDefaultStoresSelect());
     }
 
     public function testIsReadonly()

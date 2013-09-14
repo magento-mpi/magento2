@@ -57,7 +57,7 @@
                             <argument name="index" xsi:type="string">role_id</argument>
                             <argument name="width" xsi:type="string">200px</argument>
                             <argument name="type" xsi:type="string">options</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\Webapi\Model\Source\Acl\Role"/>
+                            <argument name="options" xsi:type="options" model="Magento\Webapi\Model\Source\Acl\Role"/>
                         </arguments>
                     </block>
                 </block>

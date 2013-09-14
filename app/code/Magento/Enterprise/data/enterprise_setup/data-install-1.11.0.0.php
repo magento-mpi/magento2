@@ -66,15 +66,15 @@ if ($page) {
 
     $content = '<div class="col2-set">
 <div class="col-1">
-{{widget type="\Magento\Cms\Block\Widget\Block" template="Magento_Cms::widget/static_block/default.phtml" block_id="'
+{{widget type="Magento\Cms\Block\Widget\Block" template="Magento_Cms::widget/static_block/default.phtml" block_id="'
     . $createdBlocks['flaunt_yourself'] . '"}}
 </div>
 <div class="col-2">
-{{widget type="\Magento\Cms\Block\Widget\Block" template="Magento_Cms::widget/static_block/default.phtml" block_id="'
+{{widget type="Magento\Cms\Block\Widget\Block" template="Magento_Cms::widget/static_block/default.phtml" block_id="'
     . $createdBlocks['link_privatesales'] . '"}}
-{{widget type="\Magento\Cms\Block\Widget\Block" template="Magento_Cms::widget/static_block/default.phtml" block_id="'
+{{widget type="Magento\Cms\Block\Widget\Block" template="Magento_Cms::widget/static_block/default.phtml" block_id="'
     . $createdBlocks['link_giftcards'] . '"}}
-{{widget type="\Magento\Cms\Block\Widget\Block" template="Magento_Cms::widget/static_block/default.phtml" block_id="'
+{{widget type="Magento\Cms\Block\Widget\Block" template="Magento_Cms::widget/static_block/default.phtml" block_id="'
     . $createdBlocks['link_apparel_women_handbags'] . '"}}
 </div>
 </div>'

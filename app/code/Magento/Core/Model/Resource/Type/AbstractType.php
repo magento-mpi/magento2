@@ -25,7 +25,7 @@ abstract class AbstractType
      *
      * @var String
      */
-    protected $_entityClass = '\Magento\Core\Model\Resource\Entity\AbstractEntity';
+    protected $_entityClass = 'Magento\Core\Model\Resource\Entity\AbstractEntity';
 
     /**
      * Retrieve entity type

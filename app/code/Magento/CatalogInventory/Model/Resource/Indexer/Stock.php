@@ -33,7 +33,7 @@ class Stock extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractInde
      *
      * @var string
      */
-    protected $_defaultIndexer   = '\Magento\CatalogInventory\Model\Resource\Indexer\Stock\DefaultStock';
+    protected $_defaultIndexer   = 'Magento\CatalogInventory\Model\Resource\Indexer\Stock\DefaultStock';
 
     /**
      * Initialize connection and define main table

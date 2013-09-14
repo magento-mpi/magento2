@@ -60,7 +60,7 @@ class Magento_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $this->_eventManagerMock = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
         $this->_structureReaderMock = $this->getMock(
-            '\Magento\Backend\Model\Config\Structure\Reader', array(), array(), '', false
+            'Magento\Backend\Model\Config\Structure\Reader', array(), array(), '', false
         );
         $structureMock = $this->getMock('Magento\Backend\Model\Config\Structure', array(), array(), '', false);
         $this->_structureReaderMock->expects($this->any())->method('getConfiguration')->will(

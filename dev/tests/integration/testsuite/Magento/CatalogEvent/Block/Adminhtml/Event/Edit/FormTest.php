@@ -29,7 +29,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_FormTest extends PHPUnit_F
         Mage::register('magento_catalogevent_event', $event);
         $block = Mage::app()->getLayout()->createBlock('Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form');
         $prepareFormMethod = new ReflectionMethod(
-            '\Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form', '_prepareForm');
+            'Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);
 

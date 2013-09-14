@@ -90,7 +90,7 @@ class Magento_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
         $this->assertCount($expectedRoutesCount, $actualRoutes, "Routes quantity is not equal to expected one.");
         /** @var $actualRoute \Magento\Webapi\Controller\Router\Route\Rest */
         foreach ($actualRoutes as $actualRoute) {
-            $this->assertInstanceOf('\Magento\Webapi\Controller\Router\Route\Rest', $actualRoute);
+            $this->assertInstanceOf('Magento\Webapi\Controller\Router\Route\Rest', $actualRoute);
         }
     }
 
@@ -115,7 +115,7 @@ class Magento_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
         $actualRoutes = $this->_apiConfig->getMethodRestRoutes('vendorModuleResourceSubresource', 'create', 'v1');
         $this->assertCount(5, $actualRoutes, "Routes quantity does not match expected one.");
         foreach ($actualRoutes as $actualRoute) {
-            $this->assertInstanceOf('\Magento\Webapi\Controller\Router\Route\Rest', $actualRoute);
+            $this->assertInstanceOf('Magento\Webapi\Controller\Router\Route\Rest', $actualRoute);
         }
     }
 
@@ -150,7 +150,7 @@ class Magento_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
         $appMock->expects($this->any())->method('getConfig')->will($this->returnValue($configMock));
         $this->_appClone = clone $appMock;
         $objectManager->configure(array(
-            '\Magento\Webapi\Model\Config\Reader\Rest' => array(
+            'Magento\Webapi\Model\Config\Reader\Rest' => array(
                 'parameters' => array(
                     'cache' => $cache
                 )

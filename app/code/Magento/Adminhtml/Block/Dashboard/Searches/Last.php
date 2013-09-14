@@ -58,7 +58,7 @@ class Last extends \Magento\Adminhtml\Block\Dashboard\Grid
             'header'    => __('Search Term'),
             'sortable'  => false,
             'index'     => 'query_text',
-            'renderer'  => '\Magento\Adminhtml\Block\Dashboard\Searches\Renderer\Searchquery',
+            'renderer'  => 'Magento\Adminhtml\Block\Dashboard\Searches\Renderer\Searchquery',
         ));
 
         $this->addColumn('num_results', array(

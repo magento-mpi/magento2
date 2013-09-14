@@ -30,7 +30,7 @@ class Magento_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_Test
             array('getConnection'), array(), '', false, false
         );
         $this->_model = $this->getMock(
-            '\Magento\Core\Model\Resource\Db\AbstractDb',
+            'Magento\Core\Model\Resource\Db\AbstractDb',
             array('_construct', '_getWriteAdapter'),
             array(
                 $this->_resource

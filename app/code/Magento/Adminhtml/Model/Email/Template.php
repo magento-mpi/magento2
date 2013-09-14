@@ -107,7 +107,7 @@ class Template extends \Magento\Core\Model\Email\Template
         /** @var \Magento\Backend\Model\Config\Structure $configStructure  */
         $configStructure = \Mage::getSingleton('Magento\Backend\Model\Config\Structure');
         $templatePaths = $configStructure
-            ->getFieldPathsByAttribute('source_model', '\Magento\Backend\Model\Config\Source\Email\Template');
+            ->getFieldPathsByAttribute('source_model', 'Magento\Backend\Model\Config\Source\Email\Template');
 
         if (!count($templatePaths)) {
             return array();

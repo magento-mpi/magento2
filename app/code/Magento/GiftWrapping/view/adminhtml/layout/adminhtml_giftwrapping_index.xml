@@ -84,7 +84,7 @@
                                 <argument name="sortable" xsi:type="string">0</argument>
                                 <argument name="index" xsi:type="string">website_ids</argument>
                                 <argument name="id" xsi:type="string">websites</argument>
-                                <argument name="options" xsi:type="options" model="\Magento\Backend\Model\Config\Source\Website\OptionHash"/>
+                                <argument name="options" xsi:type="options" model="Magento\Backend\Model\Config\Source\Website\OptionHash"/>
                                 <argument name="header_css_class" xsi:type="string">col-websites</argument>
                                 <argument name="column_css_class" xsi:type="string">col-websites</argument>
                             </arguments>

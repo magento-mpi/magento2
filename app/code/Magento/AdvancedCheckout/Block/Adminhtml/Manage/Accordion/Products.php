@@ -85,7 +85,7 @@ class Products
 
         $this->addColumn('name', array(
             'header'    => __('Product'),
-            'renderer'  => '\Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Product',
+            'renderer'  => 'Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Product',
             'index'     => 'name'
         ));
 
@@ -102,7 +102,7 @@ class Products
             'currency_code' => $this->_getStore()->getCurrentCurrencyCode(),
             'rate' => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getCurrentCurrencyCode()),
             'index'     => 'price',
-            'renderer'  => '\Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Price'
+            'renderer'  => 'Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Price'
         ));
 
         $this->_addControlColumns();

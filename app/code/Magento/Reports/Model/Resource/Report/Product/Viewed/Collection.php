@@ -41,7 +41,7 @@ class Collection
     ) {
         $resource->init(\Magento\Reports\Model\Resource\Report\Product\Viewed::AGGREGATION_DAILY);
         parent::__construct($fetchStrategy, $resource);
-        $this->setModel('\Magento\Adminhtml\Model\Report\Item');
+        $this->setModel('Magento\Adminhtml\Model\Report\Item');
     }
 
     /**

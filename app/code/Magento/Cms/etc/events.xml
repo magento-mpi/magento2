@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="controller_front_init_routers">
-        <observer name="cms" instance="\Magento\Cms\Controller\Router" method="initControllerRouters" />
+        <observer name="cms" instance="Magento\Cms\Controller\Router" method="initControllerRouters" />
     </event>
-</config>
+</config>

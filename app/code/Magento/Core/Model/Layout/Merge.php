@@ -416,7 +416,7 @@ class Merge
      */
     protected function _loadXmlString($xmlString)
     {
-        return simplexml_load_string($xmlString, '\Magento\Core\Model\Layout\Element');
+        return simplexml_load_string($xmlString, 'Magento\Core\Model\Layout\Element');
     }
 
     /**

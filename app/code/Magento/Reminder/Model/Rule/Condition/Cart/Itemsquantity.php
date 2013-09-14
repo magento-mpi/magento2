@@ -28,7 +28,7 @@ class Itemsquantity
     public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('\Magento\Reminder\Model\Rule\Condition\Cart\Itemsquantity');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Cart\Itemsquantity');
         $this->setValue(null);
     }
 

@@ -29,7 +29,7 @@ class Magento_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_Test
     {
         $resourceProperty = new ReflectionProperty(get_class($this->_model), '_resources');
         $resourceProperty->setAccessible(true);
-        $this->assertInstanceOf('\Magento\Core\Model\Resource', $resourceProperty->getValue($this->_model));
+        $this->assertInstanceOf('Magento\Core\Model\Resource', $resourceProperty->getValue($this->_model));
     }
 
     public function testSetMainTable()

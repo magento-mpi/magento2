@@ -38,7 +38,7 @@ class Magento_Catalog_Block_Product_View_Type_ConfigurableTest extends PHPUnit_F
     {
         $attributes = $this->_block->getAllowAttributes();
         $this->assertInstanceOf(
-            '\Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection',
+            'Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection',
             $attributes
         );
         $this->assertGreaterThanOrEqual(1, $attributes->getSize());
@@ -54,7 +54,7 @@ class Magento_Catalog_Block_Product_View_Type_ConfigurableTest extends PHPUnit_F
         $products = $this->_block->getAllowProducts();
         $this->assertGreaterThanOrEqual(2, count($products));
         foreach ($products as $product) {
-            $this->assertInstanceOf('\Magento\Catalog\Model\Product', $product);
+            $this->assertInstanceOf('Magento\Catalog\Model\Product', $product);
         }
     }
 

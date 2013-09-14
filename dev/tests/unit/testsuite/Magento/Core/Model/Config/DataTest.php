@@ -20,7 +20,7 @@ class Magento_Core_Model_Config_DataTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_metaDataProcessor = $this->getMock(
-            '\Magento\Core\Model\Config\MetadataProcessor',
+            'Magento\Core\Model\Config\MetadataProcessor',
             array(),
             array(),
             '',

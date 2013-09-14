@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_DesignTest extends PHPUnit_Frame
 
         $block = $objectManager->create('Magento\Adminhtml\Block\Cms\Page\Edit\Tab\Design');
         $prepareFormMethod = new ReflectionMethod(
-            '\Magento\Adminhtml\Block\Cms\Page\Edit\Tab\Design', '_prepareForm');
+            'Magento\Adminhtml\Block\Cms\Page\Edit\Tab\Design', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);
 

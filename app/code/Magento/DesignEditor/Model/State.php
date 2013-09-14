@@ -18,12 +18,12 @@ class State
     /**
      * Name of layout classes that will be used as main layout
      */
-    const LAYOUT_NAVIGATION_CLASS_NAME = '\Magento\Core\Model\Layout';
+    const LAYOUT_NAVIGATION_CLASS_NAME = 'Magento\Core\Model\Layout';
 
     /**
      * Url model classes that will be used instead of \Magento\Core\Model\Url in navigation vde modes
      */
-    const URL_MODEL_NAVIGATION_MODE_CLASS_NAME = '\Magento\DesignEditor\Model\Url\NavigationMode';
+    const URL_MODEL_NAVIGATION_MODE_CLASS_NAME = 'Magento\DesignEditor\Model\Url\NavigationMode';
 
     /**
      * Import behaviors

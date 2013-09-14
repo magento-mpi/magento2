@@ -76,7 +76,7 @@ class Magento_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
             );
 
         $helper = $this->_getHelper($store, $config, $factoryMock);
-        $this->assertInstanceOf('\Magento\Captcha\Model\DefaultModel', $helper->getCaptcha('user_create'));
+        $this->assertInstanceOf('Magento\Captcha\Model\DefaultModel', $helper->getCaptcha('user_create'));
     }
 
     /**
@@ -156,7 +156,7 @@ class Magento_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected function _getConfigStub()
     {
         $config = $this->getMock(
-            '\Magento\Core\Model\Config',
+            'Magento\Core\Model\Config',
             array('getValue'),
             array(), '', false
         );
@@ -183,7 +183,7 @@ class Magento_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected function _getWebsiteStub()
     {
         $website = $this->getMock(
-            '\Magento\Core\Model\Website',
+            'Magento\Core\Model\Website',
             array('getCode'),
             array(), '', false
         );
@@ -203,7 +203,7 @@ class Magento_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected function _getStoreStub()
     {
         $store = $this->getMock(
-            '\Magento\Core\Model\Store',
+            'Magento\Core\Model\Store',
             array('isAdmin', 'getConfig', 'getBaseUrl'),
             array(), '', false
         );

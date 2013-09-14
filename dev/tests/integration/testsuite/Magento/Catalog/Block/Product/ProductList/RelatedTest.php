@@ -31,6 +31,6 @@ class Magento_Catalog_Block_Product_ProductList_RelatedTest extends PHPUnit_Fram
         $this->assertNotEmpty($html);
         $this->assertContains('Simple Related Product', $html); /* name */
         $this->assertContains('product/1/', $html);  /* part of url */
-        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Product\Link\Product\Collection', $block->getItems());
+        $this->assertInstanceOf('Magento\Catalog\Model\Resource\Product\Link\Product\Collection', $block->getItems());
     }
 }

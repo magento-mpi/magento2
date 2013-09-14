@@ -63,7 +63,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends
         $layoutMock->expects($this->any())->method('getUpdate')->will($this->returnSelf());
 
         $constructArguments = $objectManagerHelper->getConstructArguments(
-            '\Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor',
+            'Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor',
             array(
                 'request' => $request,
                 'objectManager' => $this->_objectManagerMock,
@@ -75,7 +75,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends
         );
 
         $this->_model = $objectManagerHelper
-            ->getObject('\Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor', $constructArguments);
+            ->getObject('Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor', $constructArguments);
     }
 
     /**

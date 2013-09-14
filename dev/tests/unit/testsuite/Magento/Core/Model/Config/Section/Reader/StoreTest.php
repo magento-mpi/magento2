@@ -60,7 +60,7 @@ class Magento_Core_Model_Config_Section_Reader_StoreTest extends PHPUnit_Framewo
             ->will($this->returnValue(true));
 
         $placeholderProcessor = $this->getMock(
-            '\Magento\Core\Model\Config\Section\Processor\Placeholder',
+            'Magento\Core\Model\Config\Section\Processor\Placeholder',
             array(),
             array(),
             '',

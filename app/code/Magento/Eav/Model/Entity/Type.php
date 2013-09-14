@@ -325,6 +325,6 @@ class Type extends \Magento\Core\Model\AbstractModel
         if ($collection) {
             return $collection;
         }
-        return '\Magento\Eav\Model\Resource\Entity\Attribute\Collection';
+        return 'Magento\Eav\Model\Resource\Entity\Attribute\Collection';
     }
 }

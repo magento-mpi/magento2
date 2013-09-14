@@ -197,7 +197,7 @@ class Operation extends \Magento\Adminhtml\Controller\Action
             $ids = array_filter($ids, 'intval');
             try {
                 $operations = \Mage::getResourceModel(
-                    '\Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection'
+                    'Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection'
                 );
                 $operations->addFieldToFilter($operations->getResource()->getIdFieldName(), array('in' => $ids));
                 foreach ($operations as $operation) {
@@ -232,7 +232,7 @@ class Operation extends \Magento\Adminhtml\Controller\Action
 
             try {
                 $operations = \Mage::getResourceModel(
-                    '\Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection'
+                    'Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection'
                 );
                 $operations->addFieldToFilter($operations->getResource()->getIdFieldName(), array('in' => $ids));
 

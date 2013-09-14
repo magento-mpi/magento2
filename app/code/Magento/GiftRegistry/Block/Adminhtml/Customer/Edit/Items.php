@@ -68,7 +68,7 @@ class Items
             'header'   => __('Requested'),
             'index'    => 'qty',
             'width'    => '120px',
-            'renderer' => '\Magento\GiftRegistry\Block\Adminhtml\Widget\Grid\Column\Renderer\Qty'
+            'renderer' => 'Magento\GiftRegistry\Block\Adminhtml\Widget\Grid\Column\Renderer\Qty'
         ));
 
         $this->addColumn('qty_fulfilled', array(
@@ -92,7 +92,7 @@ class Items
                 'update' => __('Update Quantity'),
                 'remove' => __('Remove Item')
             ),
-            'renderer' => '\Magento\GiftRegistry\Block\Adminhtml\Widget\Grid\Column\Renderer\Action'
+            'renderer' => 'Magento\GiftRegistry\Block\Adminhtml\Widget\Grid\Column\Renderer\Action'
         ));
 
         return parent::_prepareColumns();

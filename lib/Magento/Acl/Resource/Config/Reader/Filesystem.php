@@ -25,7 +25,7 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
         \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'acl.xml',
         $idAttributes = array(),
-        $domDocumentClass = '\Magento\Acl\Resource\Config\Dom'
+        $domDocumentClass = 'Magento\Acl\Resource\Config\Dom'
     ) {
         parent::__construct(
             $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass

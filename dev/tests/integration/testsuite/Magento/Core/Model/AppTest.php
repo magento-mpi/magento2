@@ -39,7 +39,7 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 
     public function testGetCookie()
     {
-        $this->assertInstanceOf('\Magento\Core\Model\Cookie', $this->_model->getCookie());
+        $this->assertInstanceOf('Magento\Core\Model\Cookie', $this->_model->getCookie());
     }
 
     /**
@@ -99,7 +99,7 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     public function testGetArea()
     {
         $area = $this->_model->getArea('frontend');
-        $this->assertInstanceOf('\Magento\Core\Model\App\Area', $area);
+        $this->assertInstanceOf('Magento\Core\Model\App\Area', $area);
         $this->assertSame($area, $this->_model->getArea('frontend'));
     }
 
@@ -163,7 +163,7 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     public function testGetLocale()
     {
         $locale = $this->_model->getLocale();
-        $this->assertInstanceOf('\Magento\Core\Model\LocaleInterface', $locale);
+        $this->assertInstanceOf('Magento\Core\Model\LocaleInterface', $locale);
         $this->assertSame($locale, $this->_model->getLocale());
     }
 
@@ -191,20 +191,20 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     public function testGetFrontController()
     {
         $front = $this->_mageModel->getFrontController();
-        $this->assertInstanceOf('\Magento\Core\Controller\Varien\Front', $front);
+        $this->assertInstanceOf('Magento\Core\Controller\Varien\Front', $front);
         $this->assertSame($front, $this->_mageModel->getFrontController());
     }
 
     public function testGetCacheInstance()
     {
         $cache = $this->_mageModel->getCacheInstance();
-        $this->assertInstanceOf('\Magento\Core\Model\CacheInterface', $cache);
+        $this->assertInstanceOf('Magento\Core\Model\CacheInterface', $cache);
         $this->assertSame($cache, $this->_mageModel->getCacheInstance());
     }
 
     public function testGetCache()
     {
-        $this->assertInstanceOf('\Magento\Cache\FrontendInterface', $this->_mageModel->getCache());
+        $this->assertInstanceOf('Magento\Cache\FrontendInterface', $this->_mageModel->getCache());
     }
 
     public function testLoadSaveRemoveCache()
@@ -227,7 +227,7 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 
     public function testSetGetRequest()
     {
-        $this->assertInstanceOf('\Magento\Core\Controller\Request\Http', $this->_model->getRequest());
+        $this->assertInstanceOf('Magento\Core\Controller\Request\Http', $this->_model->getRequest());
         $request = new Magento_TestFramework_Request();
         $this->_model->setRequest($request);
         $this->assertSame($request, $this->_model->getRequest());
@@ -235,7 +235,7 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 
     public function testSetGetResponse()
     {
-        $this->assertInstanceOf('\Magento\Core\Controller\Response\Http', $this->_model->getResponse());
+        $this->assertInstanceOf('Magento\Core\Controller\Response\Http', $this->_model->getResponse());
         $expectedHeader = array(
             'name' => 'Content-Type',
             'value' => 'text/html; charset=UTF-8',
@@ -265,7 +265,7 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 
     public function testGetAnyStoreView()
     {
-        $this->assertInstanceOf('\Magento\Core\Model\Store', $this->_mageModel->getAnyStoreView());
+        $this->assertInstanceOf('Magento\Core\Model\Store', $this->_mageModel->getAnyStoreView());
     }
 
     public function testSetGetUseSessionInUrl()

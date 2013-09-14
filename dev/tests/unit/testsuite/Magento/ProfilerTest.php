@@ -30,7 +30,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
     {
         $expected = array('some_key' => 'some_value');
         \Magento\Profiler::setDefaultTags($expected);
-        $this->assertAttributeEquals($expected, '_defaultTags', '\Magento\Profiler');
+        $this->assertAttributeEquals($expected, '_defaultTags', 'Magento\Profiler');
     }
 
     public function testAddTagFilter()
@@ -43,8 +43,8 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
             'tag1' => array('value_1.1', 'value_1.2'),
             'tag2' => array('value_2.1'),
         );
-        $this->assertAttributeEquals($expected, '_tagFilters', '\Magento\Profiler');
-        $this->assertAttributeEquals(true, '_hasTagFilters', '\Magento\Profiler');
+        $this->assertAttributeEquals($expected, '_tagFilters', 'Magento\Profiler');
+        $this->assertAttributeEquals(true, '_hasTagFilters', 'Magento\Profiler');
     }
 
     public function testAdd()
@@ -55,7 +55,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(\Magento\Profiler::isEnabled());
 
         $expected = array($mock);
-        $this->assertAttributeEquals($expected, '_drivers', '\Magento\Profiler');
+        $this->assertAttributeEquals($expected, '_drivers', 'Magento\Profiler');
     }
 
     /**
@@ -265,13 +265,13 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
         \Magento\Profiler::add($driver);
         \Magento\Profiler::reset();
 
-        $this->assertAttributeEquals(array(), '_currentPath', '\Magento\Profiler');
-        $this->assertAttributeEquals(array(), '_tagFilters', '\Magento\Profiler');
-        $this->assertAttributeEquals(array(), '_defaultTags', '\Magento\Profiler');
-        $this->assertAttributeEquals(array(), '_drivers', '\Magento\Profiler');
-        $this->assertAttributeEquals(false, '_hasTagFilters', '\Magento\Profiler');
-        $this->assertAttributeEquals(0, '_pathCount', '\Magento\Profiler');
-        $this->assertAttributeEquals(array(), '_pathIndex', '\Magento\Profiler');
+        $this->assertAttributeEquals(array(), '_currentPath', 'Magento\Profiler');
+        $this->assertAttributeEquals(array(), '_tagFilters', 'Magento\Profiler');
+        $this->assertAttributeEquals(array(), '_defaultTags', 'Magento\Profiler');
+        $this->assertAttributeEquals(array(), '_drivers', 'Magento\Profiler');
+        $this->assertAttributeEquals(false, '_hasTagFilters', 'Magento\Profiler');
+        $this->assertAttributeEquals(0, '_pathCount', 'Magento\Profiler');
+        $this->assertAttributeEquals(array(), '_pathIndex', 'Magento\Profiler');
     }
 
     /**
@@ -355,13 +355,13 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
         \Magento\Profiler::applyConfig($config, '');
         $this->assertAttributeEquals(array(
             $mockDriver
-        ), '_drivers', '\Magento\Profiler');
+        ), '_drivers', 'Magento\Profiler');
         $this->assertAttributeEquals(array(
             'tagName' => array(
                 'tagValue'
             )
-        ), '_tagFilters', '\Magento\Profiler');
-        $this->assertAttributeEquals(true, '_enabled', '\Magento\Profiler');
+        ), '_tagFilters', 'Magento\Profiler');
+        $this->assertAttributeEquals(true, '_enabled', 'Magento\Profiler');
     }
 
     /**
@@ -372,7 +372,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
      */
     public function testParseConfig($data, $isAjax, $expected)
     {
-        $method = new ReflectionMethod('\Magento\Profiler', '_parseConfig');
+        $method = new ReflectionMethod('Magento\Profiler', '_parseConfig');
         $method->setAccessible(true);
         $this->assertEquals($expected, $method->invoke(null, $data, '', $isAjax));
     }

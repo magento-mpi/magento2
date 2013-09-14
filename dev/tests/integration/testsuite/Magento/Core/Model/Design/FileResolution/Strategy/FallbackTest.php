@@ -42,7 +42,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
         );
 
         return Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            '\Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
+            'Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
             array('fallbackFactory' => new \Magento\Core\Model\Design\Fallback\Factory($dirs))
         );
     }

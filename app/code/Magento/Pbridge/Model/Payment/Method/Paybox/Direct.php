@@ -37,21 +37,21 @@ class Direct extends \Magento\Payment\Model\Method\Cc
      * Info block type for backend
      * @var string
      */
-    protected $_infoBlockType = '\Magento\Payment\Block\Info\Cc';
+    protected $_infoBlockType = 'Magento\Payment\Block\Info\Cc';
 
     /**
      * Form block type for the frontend
      *
      * @var string
      */
-    protected $_formBlockType = '\Magento\Pbridge\Block\Checkout\Payment\Paybox\Direct';
+    protected $_formBlockType = 'Magento\Pbridge\Block\Checkout\Payment\Paybox\Direct';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = '\Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paybox\Direct';
+    protected $_backendFormBlockType = 'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paybox\Direct';
 
     /**
      * Payment Bridge Payment Method Instance

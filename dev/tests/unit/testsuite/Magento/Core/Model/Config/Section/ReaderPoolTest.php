@@ -30,13 +30,13 @@ class Magento_Core_Model_Config_Section_ReaderPoolTest extends PHPUnit_Framework
     protected function setUp()
     {
         $this->_defaultReaderMock = $this->getMock(
-            '\Magento\Core\Model\Config\Section\Reader\DefaultReader', array(), array(), '', false
+            'Magento\Core\Model\Config\Section\Reader\DefaultReader', array(), array(), '', false
         );
         $this->_websiteReaderMock = $this->getMock(
-            '\Magento\Core\Model\Config\Section\Reader\Website', array(), array(), '', false
+            'Magento\Core\Model\Config\Section\Reader\Website', array(), array(), '', false
         );
         $this->_storeReaderMock = $this->getMock(
-            '\Magento\Core\Model\Config\Section\Reader\Store', array(), array(), '', false
+            'Magento\Core\Model\Config\Section\Reader\Store', array(), array(), '', false
         );
 
         $this->_model = new \Magento\Core\Model\Config\Section\ReaderPool(
@@ -65,23 +65,23 @@ class Magento_Core_Model_Config_Section_ReaderPoolTest extends PHPUnit_Framework
         return array(
             array(
                 'scope' => 'default',
-                'expectedResult' => '\Magento\Core\Model\Config\Section\Reader\DefaultReader'
+                'expectedResult' => 'Magento\Core\Model\Config\Section\Reader\DefaultReader'
             ),
             array(
                 'scope' => 'website',
-                'expectedResult' => '\Magento\Core\Model\Config\Section\Reader\Website'
+                'expectedResult' => 'Magento\Core\Model\Config\Section\Reader\Website'
             ),
             array(
                 'scope' => 'websites',
-                'expectedResult' => '\Magento\Core\Model\Config\Section\Reader\Website'
+                'expectedResult' => 'Magento\Core\Model\Config\Section\Reader\Website'
             ),
             array(
                 'scope' => 'store',
-                'expectedResult' => '\Magento\Core\Model\Config\Section\Reader\Store'
+                'expectedResult' => 'Magento\Core\Model\Config\Section\Reader\Store'
             ),
             array(
                 'scope' => 'stores',
-                'expectedResult' => '\Magento\Core\Model\Config\Section\Reader\Store'
+                'expectedResult' => 'Magento\Core\Model\Config\Section\Reader\Store'
             )
         );
     }

@@ -33,7 +33,7 @@ class Magento_TargetRule_Model_RuleTest extends PHPUnit_Framework_TestCase
         $data->setRule(array(
             'actions' => array(
                 'test' => array(
-                    'type' => '\Magento\TargetRule\Model\Actions\Condition\Combine',
+                    'type' => 'Magento\TargetRule\Model\Actions\Condition\Combine',
                 )
             )
         ));
@@ -51,7 +51,7 @@ class Magento_TargetRule_Model_RuleTest extends PHPUnit_Framework_TestCase
         $data->setRule(array(
             'actions' => array(
                 'test' => array(
-                    'type' => '\Magento\TargetRule\Model\Actions\Condition\Combine',
+                    'type' => 'Magento\TargetRule\Model\Actions\Condition\Combine',
                     'attribute' => $code,
                 )
             )

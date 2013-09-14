@@ -25,7 +25,7 @@ class Magento_Core_Model_Config_InitialTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_initialReaderMock = $this->getMock(
-            '\Magento\Core\Model\Config\Initial\Reader', array(), array(), '', false
+            'Magento\Core\Model\Config\Initial\Reader', array(), array(), '', false
         );
         $this->_configCacheMock = $this->getMock('Magento\Core\Model\Cache\Type\Config', array(), array(), '', false);
         $serializedData = serialize(array(

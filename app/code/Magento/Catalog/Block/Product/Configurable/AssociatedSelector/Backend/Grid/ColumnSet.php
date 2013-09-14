@@ -86,7 +86,7 @@ class ColumnSet
             /** @var $block \Magento\Backend\Block\Widget\Grid\Column */
             $block = $this->addChild(
                 $attribute->getAttributeCode(),
-                '\Magento\Backend\Block\Widget\Grid\Column',
+                'Magento\Backend\Block\Widget\Grid\Column',
                 array(
                     'header' => $attribute->getStoreLabel(),
                     'index' => $attribute->getAttributeCode(),

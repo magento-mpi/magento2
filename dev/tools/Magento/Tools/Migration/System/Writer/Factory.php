@@ -21,10 +21,10 @@ class Factory
         $writerClassName = null;
         switch ($type) {
             case 'write':
-                $writerClassName = '\Magento\Tools\Migration\System\Writer\FileSystem';
+                $writerClassName = 'Magento\Tools\Migration\System\Writer\FileSystem';
                 break;
             default:
-                $writerClassName = '\Magento\Tools\Migration\System\Writer\Memory';
+                $writerClassName = 'Magento\Tools\Migration\System\Writer\Memory';
                 break;
         }
         return new $writerClassName();

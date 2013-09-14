@@ -43,7 +43,7 @@ class Ordered extends \Magento\Adminhtml\Block\Dashboard\Grid
         }
 
         $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Bestsellers\Collection')
-            ->setModel('\Magento\Catalog\Model\Product')
+            ->setModel('Magento\Catalog\Model\Product')
             ->addStoreFilter($storeId)
         ;
 

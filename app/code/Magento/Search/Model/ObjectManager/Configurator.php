@@ -19,16 +19,16 @@ class Configurator implements \Magento\Core\Model\ObjectManager\DynamicConfigInt
     public function getConfiguration()
     {
         if (extension_loaded('solr')) {
-            $adapter = '\Magento\Search\Model\Adapter\PhpExtension';
-            $clientFactory = '\Magento\Search\Model\Client\SolrClient\Factory';
+            $adapter = 'Magento\Search\Model\Adapter\PhpExtension';
+            $clientFactory = 'Magento\Search\Model\Client\SolrClient\Factory';
         } else {
-            $adapter = '\Magento\Search\Model\Adapter\HttpStream';
-            $clientFactory = '\Magento\Search\Model\Client\Solr\Factory';
+            $adapter = 'Magento\Search\Model\Adapter\HttpStream';
+            $clientFactory = 'Magento\Search\Model\Client\Solr\Factory';
         }
         return array(
             'preferences' => array(
-                '\Magento\Search\Model\AdapterInterface' => $adapter,
-                '\Magento\Search\Model\Client\FactoryInterface' => $clientFactory
+                'Magento\Search\Model\AdapterInterface' => $adapter,
+                'Magento\Search\Model\Client\FactoryInterface' => $clientFactory
             )
         );
     }

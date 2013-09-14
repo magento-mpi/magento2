@@ -56,7 +56,7 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct
         parent::_construct();
         $this->addPriceBlockType(
             'bundle',
-            '\Magento\Bundle\Block\Catalog\Product\Price',
+            'Magento\Bundle\Block\Catalog\Product\Price',
             'bundle/catalog/product/price.phtml'
         );
     }

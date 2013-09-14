@@ -68,7 +68,7 @@ class Magento_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
         $processIdList = array(1, 2, 2);
         foreach ($processIdList as $processId) {
             $this->_callbackProcessId = $processId;
-            $this->assertInstanceOf('\Magento\Index\Model\Process\File', $storage->getFile($processId));
+            $this->assertInstanceOf('Magento\Index\Model\Process\File', $storage->getFile($processId));
         }
         $this->assertAttributeCount(2, '_fileHandlers', $storage);
     }

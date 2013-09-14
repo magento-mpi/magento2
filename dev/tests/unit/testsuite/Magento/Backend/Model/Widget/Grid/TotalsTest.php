@@ -30,7 +30,7 @@ class Magento_Backend_Model_Widget_Grid_TotalsTest extends PHPUnit_Framework_Tes
     {
         // prepare model
         $this->_parserMock = $this->getMock(
-            '\Magento\Backend\Model\Widget\Grid\Parser', array('parseExpression'), array(), '', false, false, false
+            'Magento\Backend\Model\Widget\Grid\Parser', array('parseExpression'), array(), '', false, false, false
         );
 
         $this->_factoryMock = $this->getMock(
@@ -57,7 +57,7 @@ class Magento_Backend_Model_Widget_Grid_TotalsTest extends PHPUnit_Framework_Tes
         );
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('\Magento\Backend\Model\Widget\Grid\Totals', $arguments);
+        $this->_model = $objectManagerHelper->getObject('Magento\Backend\Model\Widget\Grid\Totals', $arguments);
 
         // setup columns
         $columns = array(

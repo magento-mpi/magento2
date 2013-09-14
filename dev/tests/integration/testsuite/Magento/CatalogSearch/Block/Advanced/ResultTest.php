@@ -38,7 +38,7 @@ class Magento_CatalogSearch_Block_Advanced_ResultTest extends PHPUnit_Framework_
             'option3' => 'Label Option 2'
         );
         $category = $this->getMock(
-            '\Magento\Catalog\Model\Category', array('getAvailableSortByOptions'), array(), '', false
+            'Magento\Catalog\Model\Category', array('getAvailableSortByOptions'), array(), '', false
         );
         $category->expects($this->atLeastOnce())
             ->method('getAvailableSortByOptions')
@@ -73,7 +73,7 @@ class Magento_CatalogSearch_Block_Advanced_ResultTest extends PHPUnit_Framework_
         $this->assertEmpty($childBlock->getCollection());
         $this->_block->setListCollection();
         $this->assertInstanceOf(
-            '\Magento\CatalogSearch\Model\Resource\Advanced\Collection',
+            'Magento\CatalogSearch\Model\Resource\Advanced\Collection',
             $childBlock->getCollection()
         );
     }

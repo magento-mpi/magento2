@@ -50,13 +50,13 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPU
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $constructArguments = $objectManagerHelper->getConstructArguments(
-            '\Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Js',
+            'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Js',
             array(
                 'urlBuilder' => $this->_urlBuilder,
                 'themeContext' => $this->_themeContext
         ));
         $this->_model = $this->getMock(
-            '\Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Js',
+            'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Js',
             array('helper'),
             $constructArguments
         );

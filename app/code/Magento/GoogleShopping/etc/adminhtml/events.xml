@@ -9,12 +9,12 @@
 -->
 <config>
     <event name="catalog_product_save_after">
-        <observer name="googleshopping_observer" instance="\Magento\GoogleShopping\Model\Observer" method="saveProductItem" />
+        <observer name="googleshopping_observer" instance="Magento\GoogleShopping\Model\Observer" method="saveProductItem" />
     </event>
     <event name="catalog_product_delete_before">
-        <observer name="googleshopping_observer" instance="\Magento\GoogleShopping\Model\Observer" method="deleteProductItem" />
+        <observer name="googleshopping_observer" instance="Magento\GoogleShopping\Model\Observer" method="deleteProductItem" />
     </event>
     <event name="controller_action_predispatch_adminhtml">
-        <observer name="googleshopping_observer" instance="\Magento\GoogleShopping\Model\Observer" method="checkSynchronizationOperations" />
+        <observer name="googleshopping_observer" instance="Magento\GoogleShopping\Model\Observer" method="checkSynchronizationOperations" />
     </event>
-</config>
+</config>

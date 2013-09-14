@@ -28,7 +28,7 @@ class Newsletter
     public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('\Magento\CustomerSegment\Model\Segment\Condition\Customer\Newsletter');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Customer\Newsletter');
         $this->setValue(1);
     }
 

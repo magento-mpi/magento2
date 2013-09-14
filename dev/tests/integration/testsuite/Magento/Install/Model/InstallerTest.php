@@ -58,7 +58,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
             $objectManager->get('Magento\Core\Model\Config\Resource'),
             new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local())
         );
-        $objectManager->addSharedInstance($installerConfig, '\Magento\Install\Model\Installer\Config');
+        $objectManager->addSharedInstance($installerConfig, 'Magento\Install\Model\Installer\Config');
     }
 
     /**
@@ -91,7 +91,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
             $userPassword, $user->getPassword(),
             'Original password should not be stored/loaded as is for security reasons.'
         );
-        $this->assertInstanceOf('\Magento\User\Model\Role', $user->getRole());
+        $this->assertInstanceOf('Magento\User\Model\Role', $user->getRole());
         $this->assertEquals(1, $user->getRole()->getId(), 'User has to have admin privileges.');
     }
 

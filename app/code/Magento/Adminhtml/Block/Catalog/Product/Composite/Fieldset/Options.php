@@ -29,7 +29,7 @@ class Options extends \Magento\Catalog\Block\Product\View\Options
         parent::_construct();
         $this->addOptionRenderer(
             'default',
-            '\Magento\Catalog\Block\Product\View\Options\Type\DefaultType',
+            'Magento\Catalog\Block\Product\View\Options\Type\DefaultType',
             'catalog/product/composite/fieldset/options/type/default.phtml'
         );
     }

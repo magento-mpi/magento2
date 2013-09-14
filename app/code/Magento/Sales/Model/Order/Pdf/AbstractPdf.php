@@ -55,7 +55,7 @@ abstract class AbstractPdf extends \Magento\Object
      *
      * @var string
      */
-    protected $_defaultTotalModel = '\Magento\Sales\Model\Order\Pdf\Total\DefaultTotal';
+    protected $_defaultTotalModel = 'Magento\Sales\Model\Order\Pdf\Total\DefaultTotal';
 
     /**
      * Retrieve PDF

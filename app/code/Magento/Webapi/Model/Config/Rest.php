@@ -114,7 +114,7 @@ class Rest extends \Magento\Webapi\Model\ConfigAbstract
             . '/:' . \Magento\Webapi\Controller\Front::API_TYPE_REST;
         $fullRoutePath = $apiTypeRoutePath . $routePath;
         /** @var $route \Magento\Webapi\Controller\Router\Route\Rest */
-        $route = $this->_routeFactory->createRoute('\Magento\Webapi\Controller\Router\Route\Rest', $fullRoutePath);
+        $route = $this->_routeFactory->createRoute('Magento\Webapi\Controller\Router\Route\Rest', $fullRoutePath);
         $route->setResourceName($resourceName)->setResourceType($actionType);
         return $route;
     }

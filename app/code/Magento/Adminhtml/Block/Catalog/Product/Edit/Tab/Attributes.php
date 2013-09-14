@@ -157,12 +157,12 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
     protected function _getAdditionalElementTypes()
     {
         $result = array(
-            'price'    => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Price',
-            'weight'   => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight',
-            'gallery'  => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery',
-            'image'    => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Image',
-            'boolean'  => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Boolean',
-            'textarea' => '\Magento\Adminhtml\Block\Catalog\Helper\Form\Wysiwyg',
+            'price'    => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Price',
+            'weight'   => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight',
+            'gallery'  => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery',
+            'image'    => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Image',
+            'boolean'  => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Boolean',
+            'textarea' => 'Magento\Adminhtml\Block\Catalog\Helper\Form\Wysiwyg',
         );
 
         $response = new \Magento\Object();

@@ -79,7 +79,7 @@ class Magento_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestC
         );
         $reader->setDirectoryScanner($directoryScanner);
         $this->_config = new \Magento\Webapi\Model\Config\Soap($reader, $this->_helper, $app);
-        $objectManager->addSharedInstance($this->_config, '\Magento\Webapi\Model\Config\Soap');
+        $objectManager->addSharedInstance($this->_config, 'Magento\Webapi\Model\Config\Soap');
         $wsdlFactory = new \Magento\Webapi\Model\Soap\Wsdl\Factory($objectManager);
         $cache = $this->getMock('Magento\Core\Model\CacheInterface');
         $cacheStateMock = $this->getMock('Magento\Core\Model\Cache\StateInterface');

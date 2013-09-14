@@ -25,7 +25,7 @@ class Magento_Phrase_Renderer_CompositeTest extends PHPUnit_Framework_TestCase
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
 
-        return $objectManagerHelper->getObject('\Magento\Phrase\Renderer\Composite', array(
+        return $objectManagerHelper->getObject('Magento\Phrase\Renderer\Composite', array(
             'rendererFactory' => $this->_rendererFactory,
             'renderers' => $renderers,
         ));

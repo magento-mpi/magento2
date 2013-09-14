@@ -43,7 +43,7 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
             ->disableOriginalConstructor()
             ->getMock();
         $collection = new \Magento\Webhook\Model\Resource\Job\Collection($mockFetchStrategy);
-        $this->assertInstanceOf('\Magento\Webhook\Model\Resource\Job\Collection', $collection);
+        $this->assertInstanceOf('Magento\Webhook\Model\Resource\Job\Collection', $collection);
         $this->assertEquals('Magento\Webhook\Model\Resource\Job', $collection->getResourceModelName());
     }
 

@@ -35,7 +35,7 @@ class Magento_Backend_Model_Config_Structure_Element_IteratorTest extends PHPUni
             )
         );
         $this->_flyweightMock = $this->getMock(
-            '\Magento\Backend\Model\Config\Structure\Element\Group', array(), array(), '', false
+            'Magento\Backend\Model\Config\Structure\Element\Group', array(), array(), '', false
         );
 
         $this->_model = new \Magento\Backend\Model\Config\Structure\Element\Iterator($this->_flyweightMock);

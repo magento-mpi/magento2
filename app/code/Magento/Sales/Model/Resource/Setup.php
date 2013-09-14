@@ -182,30 +182,30 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     {
         $entities = array(
             'order'                       => array(
-                'entity_model'                   => '\Magento\Sales\Model\Resource\Order',
+                'entity_model'                   => 'Magento\Sales\Model\Resource\Order',
                 'table'                          => 'sales_flat_order',
-                'increment_model'                => '\Magento\Eav\Model\Entity\Increment\Numeric',
+                'increment_model'                => 'Magento\Eav\Model\Entity\Increment\Numeric',
                 'increment_per_store'            => true,
                 'attributes'                     => array()
             ),
             'invoice'                       => array(
-                'entity_model'                   => '\Magento\Sales\Model\Resource\Order\Invoice',
+                'entity_model'                   => 'Magento\Sales\Model\Resource\Order\Invoice',
                 'table'                          => 'sales_flat_invoice',
-                'increment_model'                => '\Magento\Eav\Model\Entity\Increment\Numeric',
+                'increment_model'                => 'Magento\Eav\Model\Entity\Increment\Numeric',
                 'increment_per_store'            => true,
                 'attributes'                     => array()
             ),
             'creditmemo'                       => array(
-                'entity_model'                   => '\Magento\Sales\Model\Resource\Order\Creditmemo',
+                'entity_model'                   => 'Magento\Sales\Model\Resource\Order\Creditmemo',
                 'table'                          => 'sales_flat_creditmemo',
-                'increment_model'                => '\Magento\Eav\Model\Entity\Increment\Numeric',
+                'increment_model'                => 'Magento\Eav\Model\Entity\Increment\Numeric',
                 'increment_per_store'            => true,
                 'attributes'                     => array()
             ),
             'shipment'                       => array(
-                'entity_model'                   => '\Magento\Sales\Model\Resource\Order\Shipment',
+                'entity_model'                   => 'Magento\Sales\Model\Resource\Order\Shipment',
                 'table'                          => 'sales_flat_shipment',
-                'increment_model'                => '\Magento\Eav\Model\Entity\Increment\Numeric',
+                'increment_model'                => 'Magento\Eav\Model\Entity\Increment\Numeric',
                 'increment_per_store'            => true,
                 'attributes'                     => array()
             )

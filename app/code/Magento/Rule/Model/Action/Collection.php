@@ -21,7 +21,7 @@ class Collection extends \Magento\Rule\Model\Action\AbstractAction
     {
         parent::__construct($viewUrl, $data);
         $this->setActions(array());
-        $this->setType('\Magento\Rule\Model\Action\Collection');
+        $this->setType('Magento\Rule\Model\Action\Collection');
     }
 
     /**

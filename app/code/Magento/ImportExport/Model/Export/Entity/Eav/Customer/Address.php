@@ -44,7 +44,7 @@ class Address
     /**#@+
      * Attribute collection name
      */
-    const ATTRIBUTE_COLLECTION_NAME = '\Magento\Customer\Model\Resource\Address\Attribute\Collection';
+    const ATTRIBUTE_COLLECTION_NAME = 'Magento\Customer\Model\Resource\Address\Attribute\Collection';
     /**#@-*/
 
     /**#@+

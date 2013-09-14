@@ -48,7 +48,7 @@ class Magento_GiftRegistry_Controller_Adminhtml_GiftregistryTest extends Magento
 
         $type = $type->load('test_registry', 'code');
 
-        $this->assertInstanceOf('\Magento\GiftRegistry\Model\Type', $type);
+        $this->assertInstanceOf('Magento\GiftRegistry\Model\Type', $type);
         $this->assertNotEmpty($type->getId());
     }
 }

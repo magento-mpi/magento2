@@ -59,7 +59,7 @@
                             <argument name="index" xsi:type="string">event_code</argument>
                             <argument name="type" xsi:type="string">options</argument>
                             <argument name="sortable" xsi:type="string">0</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\Logging\Model\Resource\Grid\ActionsGroup"/>
+                            <argument name="options" xsi:type="options" model="Magento\Logging\Model\Resource\Grid\ActionsGroup"/>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="action">
@@ -68,7 +68,7 @@
                             <argument name="index" xsi:type="string">action</argument>
                             <argument name="type" xsi:type="string">options</argument>
                             <argument name="sortable" xsi:type="string">0</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\Logging\Model\Resource\Grid\Actions"/>
+                            <argument name="options" xsi:type="options" model="Magento\Logging\Model\Resource\Grid\Actions"/>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="ip">
@@ -98,7 +98,7 @@
                             <argument name="header" xsi:type="string" translate="true">Result</argument>
                             <argument name="index" xsi:type="string">status</argument>
                             <argument name="type" xsi:type="string">options</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\Logging\Model\Resource\Grid\Statuses"/>
+                            <argument name="options" xsi:type="options" model="Magento\Logging\Model\Resource\Grid\Statuses"/>
                             <argument name="sortable" xsi:type="string">0</argument>
                             <argument name="width" xsi:type="string">100</argument>
                         </arguments>

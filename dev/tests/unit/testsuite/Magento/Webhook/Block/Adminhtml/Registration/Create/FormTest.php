@@ -64,7 +64,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_FormTest extends Magen
         );
 
         $this->_formMock = $this->getMock(
-            '\Magento\Webhook\Block\Adminhtml\Registration\Create\Form',
+            'Magento\Webhook\Block\Adminhtml\Registration\Create\Form',
             $methods,
             $arguments);
     }

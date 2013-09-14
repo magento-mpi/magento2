@@ -39,7 +39,7 @@ class Magento_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCas
 
     public function testGetRequest()
     {
-        $this->assertInstanceOf('\Magento\Core\Controller\Request\Http', $this->_model->getRequest());
+        $this->assertInstanceOf('Magento\Core\Controller\Request\Http', $this->_model->getRequest());
     }
 
     public function testGetResponse()
@@ -48,12 +48,12 @@ class Magento_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCas
         if (!Magento_TestFramework_Helper_Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Can\'t test get response without sending headers');
         }
-        $this->assertInstanceOf('\Magento\Core\Controller\Response\Http', $this->_model->getResponse());
+        $this->assertInstanceOf('Magento\Core\Controller\Response\Http', $this->_model->getResponse());
     }
 
     public function testGetRouter()
     {
-        $this->assertInstanceOf('\Magento\Core\Controller\Varien\Router\DefaultRouter', $this->_model->getRouter('default'));
+        $this->assertInstanceOf('Magento\Core\Controller\Varien\Router\DefaultRouter', $this->_model->getRouter('default'));
     }
 
     public function testGetRouters()
@@ -62,7 +62,7 @@ class Magento_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCas
         $routerIds = array_keys($routers);
         foreach (array('admin', 'standard', 'default', 'cms', 'vde') as $routerId) {
             $this->assertContains($routerId, $routerIds);
-            $this->assertInstanceOf('\Magento\Core\Controller\Varien\Router\AbstractRouter', $routers[$routerId]);
+            $this->assertInstanceOf('Magento\Core\Controller\Varien\Router\AbstractRouter', $routers[$routerId]);
         }
     }
 

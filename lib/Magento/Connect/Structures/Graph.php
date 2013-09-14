@@ -14,7 +14,7 @@ class Graph
 {
     protected $_nodes = array();
     protected $_directed = false;
-    protected $_nodeClassName = '\Magento\Connect\Structures\Node';
+    protected $_nodeClassName = 'Magento\Connect\Structures\Node';
 
     const ACYCLIC_VISITED_KEY = 'acyclic-test-visited';
     const SORT_VISITED_KEY = 'topological-sort-visited';

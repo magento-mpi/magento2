@@ -45,7 +45,7 @@ class Collection
     protected function _construct()
     {
         $this->_init(
-            '\Magento\AdminNotification\Model\System\Message', '\Magento\AdminNotification\Model\Resource\System\Message'
+            'Magento\AdminNotification\Model\System\Message', 'Magento\AdminNotification\Model\Resource\System\Message'
         );
     }
 

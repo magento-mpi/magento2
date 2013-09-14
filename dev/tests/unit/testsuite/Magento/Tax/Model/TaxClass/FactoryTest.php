@@ -41,12 +41,12 @@ class Magento_Tax_Model_TaxClass_FactoryTest extends PHPUnit_Framework_TestCase
         return array(
             array(
                 \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER,
-                '\Magento\Tax\Model\TaxClass\Type\Customer',
+                'Magento\Tax\Model\TaxClass\Type\Customer',
                 $customerClassMock
             ),
             array(
                 \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT,
-                '\Magento\Tax\Model\TaxClass\Type\Product',
+                'Magento\Tax\Model\TaxClass\Type\Product',
                 $productClassMock
             ),
         );
@@ -63,7 +63,7 @@ class Magento_Tax_Model_TaxClass_FactoryTest extends PHPUnit_Framework_TestCase
         $taxClassFactory = new \Magento\Tax\Model\TaxClass\Factory($objectManager);
 
         $this->setExpectedException(
-            '\Magento\Core\Exception',
+            'Magento\Core\Exception',
             sprintf('Invalid type of tax class "%s"', $wrongClassType)
         );
         $taxClassFactory->create($classMock);

@@ -19,7 +19,7 @@ class Magento_Eav_Model_Entity_Attribute_Backend_AbstractTest extends PHPUnit_Fr
     protected function setUp()
     {
         $this->_model = $this->getMockForAbstractClass(
-            '\Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend',
+            'Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend',
             array(),
             '',
             false
@@ -32,7 +32,7 @@ class Magento_Eav_Model_Entity_Attribute_Backend_AbstractTest extends PHPUnit_Fr
         $attributeId = 42;
 
         $attribute = $this->getMock(
-            '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+            'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
             array('getBackendTable', 'isStatic', 'getAttributeId'),
             array(),
             '',

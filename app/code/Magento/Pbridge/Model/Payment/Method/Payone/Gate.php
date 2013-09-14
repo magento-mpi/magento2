@@ -48,14 +48,14 @@ class Gate extends \Magento\Payment\Model\Method\Cc
      *
      * @var string
      */
-    protected $_formBlockType = '\Magento\Pbridge\Block\Checkout\Payment\Payone\Gate';
+    protected $_formBlockType = 'Magento\Pbridge\Block\Checkout\Payment\Payone\Gate';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = '\Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Payone\Gate';
+    protected $_backendFormBlockType = 'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Payone\Gate';
 
     /**
      * Payment Bridge Payment Method Instance

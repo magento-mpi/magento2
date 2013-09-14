@@ -81,7 +81,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
         $locale = $this->getMock('Magento\Core\Model\Locale', array('getNumber'), array(), '', false);
         $locale->expects($this->any())->method('getNumber')->will($this->returnArgument(0));
         $this->_model = $this->getMock(
-            '\Magento\GiftCard\Model\Catalog\Product\Type\Giftcard',
+            'Magento\GiftCard\Model\Catalog\Product\Type\Giftcard',
             $mockedMethods,
             array(
                 $filesystem,
@@ -106,11 +106,11 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
         );
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $arguments = $objectManagerHelper->getConstructArguments('\Magento\Catalog\Model\Product',
+        $arguments = $objectManagerHelper->getConstructArguments('Magento\Catalog\Model\Product',
             array('resource' => $this->_productResource, 'resourceCollection' => $productCollection)
         );
         $this->_product = $this->getMock(
-            '\Magento\Catalog\Model\Product',
+            'Magento\Catalog\Model\Product',
             array('getGiftcardAmounts', 'getAllowOpenAmount', 'getOpenAmountMax', 'getOpenAmountMin'),
             $arguments
         );
@@ -118,7 +118,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
         $this->_customOptions = array();
 
         for ($i = 1; $i <= 3; $i++) {
-            $option = $objectManagerHelper->getObject('\Magento\Catalog\Model\Product\Option',
+            $option = $objectManagerHelper->getObject('Magento\Catalog\Model\Product\Option',
                 array('resource' => $this->_optionResource)
             );
             $option->setIdFieldName('id');

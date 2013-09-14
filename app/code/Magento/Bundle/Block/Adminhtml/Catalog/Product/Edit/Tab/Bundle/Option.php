@@ -131,7 +131,7 @@ class Option extends \Magento\Adminhtml\Block\Widget
 
         $this->addChild(
             'selection_template',
-            '\Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Selection'
+            'Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Selection'
         );
 
         return parent::_prepareLayout();

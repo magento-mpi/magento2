@@ -30,7 +30,7 @@ class Magento_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestC
         /** Instantiate request. */
         // TODO: Get rid of SUT mocks.
         $this->_request = $this->getMock(
-            '\Magento\Webapi\Controller\Request\Rest',
+            'Magento\Webapi\Controller\Request\Rest',
             array('getHeader', 'getMethod', 'isGet', 'isPost', 'isPut', 'isDelete', 'getRawBody'),
             array($this->_interpreterFactory)
         );
@@ -324,7 +324,7 @@ class Magento_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestC
     public function testGetResourceVersionVersionIsNotSpecifiedException()
     {
         $this->setExpectedException(
-            '\Magento\Webapi\Exception',
+            'Magento\Webapi\Exception',
             'Resource version is not specified or invalid one is specified',
             \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );
@@ -342,7 +342,7 @@ class Magento_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestC
     {
         /** Prepare mocks for SUT constructor. */
         $this->setExpectedException(
-            '\Magento\Webapi\Exception',
+            'Magento\Webapi\Exception',
             'Requested method does not exist.',
             \Magento\Webapi\Exception::HTTP_NOT_FOUND
         );

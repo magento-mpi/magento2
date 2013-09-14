@@ -29,7 +29,7 @@ class Edit extends \Magento\Adminhtml\Controller\Catalog\Product
         $this->getResponse()->setBody(
             $this->getLayout()
                 ->createBlock(
-                     '\Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable',
+                     'Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable',
                     'admin.product.downloadable.information')
                 ->toHtml()
         );

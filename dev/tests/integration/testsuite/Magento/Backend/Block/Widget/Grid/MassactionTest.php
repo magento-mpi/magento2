@@ -171,7 +171,7 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
             ->getChildBlock('massaction');
         $this->assertNotNull($gridMassactionColumn, 'Massaction column does not exist in the grid column set');
         $this->assertInstanceOf(
-            '\Magento\Backend\Block\Widget\Grid\Column',
+            'Magento\Backend\Block\Widget\Grid\Column',
             $gridMassactionColumn,
             'Massaction column is not an instance of Magento\Backend\Block\Widget\Column'
         );

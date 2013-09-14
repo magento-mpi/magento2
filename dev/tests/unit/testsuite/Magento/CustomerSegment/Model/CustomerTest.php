@@ -39,16 +39,16 @@ class Magento_CustomerSegment_Model_CustomerTest extends PHPUnit_Framework_TestC
 
         $website = new \Magento\Object(array('id' => 5));
         $storeManager = $this->getMockForAbstractClass(
-            '\Magento\Core\Model\StoreManagerInterface', array('getWebsite'), '', false
+            'Magento\Core\Model\StoreManagerInterface', array('getWebsite'), '', false
         );
         $storeManager->expects($this->once())->method('getWebsite')->will($this->returnValue($website));
 
         $this->_customerSession = $this->getMock(
-            '\Magento\Customer\Model\Session', array('getCustomer'), array(), '', false
+            'Magento\Customer\Model\Session', array('getCustomer'), array(), '', false
         );
 
         $this->_resource = $this->getMock(
-            '\Magento\CustomerSegment\Model\Resource\Customer',
+            'Magento\CustomerSegment\Model\Resource\Customer',
             array('getCustomerWebsiteSegments', 'getIdFieldName'),
             array($this->getMock('Magento\Core\Model\Resource', array(), array(), '', false))
         );

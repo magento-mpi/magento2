@@ -24,7 +24,7 @@ class Magento_Eav_Model_Entity_Attribute_Backend_ArrayTest extends PHPUnit_Frame
     protected function setUp()
     {
         $this->_attribute = $this->getMock(
-            '\Magento\Eav\Model\Entity\Attribute', array('getAttributeCode'), array(), '', false
+            'Magento\Eav\Model\Entity\Attribute', array('getAttributeCode'), array(), '', false
         );
         $this->_model = new \Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend();
         $this->_model->setAttribute($this->_attribute);

@@ -76,7 +76,7 @@ class Magento_Backend_Controller_Adminhtml_System_Config_SaveTest extends PHPUni
         );
 
         $this->_sectionMock = $this->getMock(
-            '\Magento\Backend\Model\Config\Structure\Element\Section', array(), array(), '', false
+            'Magento\Backend\Model\Config\Structure\Element\Section', array(), array(), '', false
         );
 
         $this->_cacheMock = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
@@ -96,9 +96,9 @@ class Magento_Backend_Controller_Adminhtml_System_Config_SaveTest extends PHPUni
             'eventManager' => $this->_eventManagerMock,
         );
 
-        $context = $helper->getObject('\Magento\Backend\Controller\Context', $arguments);
+        $context = $helper->getObject('Magento\Backend\Controller\Context', $arguments);
         $this->_controller = $this->getMock(
-            '\Magento\Backend\Controller\Adminhtml\System\Config\Save',
+            'Magento\Backend\Controller\Adminhtml\System\Config\Save',
             array('deniedAction'),
             array(
                 $context,

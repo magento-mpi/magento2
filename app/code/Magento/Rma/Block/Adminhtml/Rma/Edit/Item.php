@@ -86,19 +86,19 @@ class Item extends \Magento\Adminhtml\Block\Widget\Form
     {
         \Magento\Data\Form::setElementRenderer(
             $this->getLayout()->createBlock(
-                '\Magento\Adminhtml\Block\Widget\Form\Renderer\Element',
+                'Magento\Adminhtml\Block\Widget\Form\Renderer\Element',
                 $this->getNameInLayout() . '_element'
             )
         );
         \Magento\Data\Form::setFieldsetRenderer(
             $this->getLayout()->createBlock(
-                '\Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Renderer\Fieldset',
+                'Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Renderer\Fieldset',
                 $this->getNameInLayout() . '_fieldset'
             )
         );
         \Magento\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
-                '\Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element',
+                'Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element',
                 $this->getNameInLayout() . '_fieldset_element'
             )
         );
@@ -114,9 +114,9 @@ class Item extends \Magento\Adminhtml\Block\Widget\Form
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'text' => '\Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element\Text',
-            'textarea' => '\Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element\Textarea',
-            'image' => '\Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element\Image',
+            'text' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element\Text',
+            'textarea' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element\Textarea',
+            'image' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element\Image',
         );
     }
 

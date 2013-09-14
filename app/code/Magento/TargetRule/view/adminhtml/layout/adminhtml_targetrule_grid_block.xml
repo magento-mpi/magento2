@@ -79,7 +79,7 @@
                             <argument name="index" xsi:type="string">apply_to</argument>
                             <argument name="align" xsi:type="string">left</argument>
                             <argument name="type" xsi:type="string">options</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\TargetRule\Model\Rule\Options\Applies"/>
+                            <argument name="options" xsi:type="options" model="Magento\TargetRule\Model\Rule\Options\Applies"/>
                             <argument name="width" xsi:type="string">150px</argument>
                         </arguments>
                     </block>

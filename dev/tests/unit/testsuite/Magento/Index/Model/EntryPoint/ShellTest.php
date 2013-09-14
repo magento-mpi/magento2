@@ -35,7 +35,7 @@ class Magento_Index_Model_EntryPoint_ShellTest extends PHPUnit_Framework_TestCas
         $this->_primaryConfig = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_shellErrorHandler = $this->getMock(
-            '\Magento\Index\Model\EntryPoint\Shell\ErrorHandler',
+            'Magento\Index\Model\EntryPoint\Shell\ErrorHandler',
             array(),
             array(),
             '',

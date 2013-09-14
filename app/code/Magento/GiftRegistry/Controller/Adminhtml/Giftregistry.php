@@ -82,7 +82,7 @@ class Giftregistry extends \Magento\Adminhtml\Controller\Action
         $this->_addBreadcrumb(__('New Type'), __('New Type'))
             ->_addContent($block)
             ->_addLeft($this->getLayout()->createBlock(
-                '\Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tabs')
+                'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tabs')
             )
             ->renderLayout();
     }

@@ -31,12 +31,12 @@ class Factory
      * @var array
      */
     protected $_typeMap = array(
-        self::MAPPER_SORTING => '\Magento\Backend\Model\Config\Structure\Mapper\Sorting',
-        self::MAPPER_PATH => '\Magento\Backend\Model\Config\Structure\Mapper\Path',
-        self::MAPPER_IGNORE => '\Magento\Backend\Model\Config\Structure\Mapper\Ignore',
-        self::MAPPER_DEPENDENCIES => '\Magento\Backend\Model\Config\Structure\Mapper\Dependencies',
-        self::MAPPER_ATTRIBUTE_INHERITANCE => '\Magento\Backend\Model\Config\Structure\Mapper\Attribute\Inheritance',
-        self::MAPPER_EXTENDS => '\Magento\Backend\Model\Config\Structure\Mapper\ExtendsMapper',
+        self::MAPPER_SORTING => 'Magento\Backend\Model\Config\Structure\Mapper\Sorting',
+        self::MAPPER_PATH => 'Magento\Backend\Model\Config\Structure\Mapper\Path',
+        self::MAPPER_IGNORE => 'Magento\Backend\Model\Config\Structure\Mapper\Ignore',
+        self::MAPPER_DEPENDENCIES => 'Magento\Backend\Model\Config\Structure\Mapper\Dependencies',
+        self::MAPPER_ATTRIBUTE_INHERITANCE => 'Magento\Backend\Model\Config\Structure\Mapper\Attribute\Inheritance',
+        self::MAPPER_EXTENDS => 'Magento\Backend\Model\Config\Structure\Mapper\ExtendsMapper',
     );
 
     public function __construct(\Magento\ObjectManager $objectManager)

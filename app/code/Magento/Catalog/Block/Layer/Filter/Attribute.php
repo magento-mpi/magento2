@@ -22,7 +22,7 @@ class Attribute extends \Magento\Catalog\Block\Layer\Filter\AbstractFilter
     protected function _construct()
     {
         parent::_construct();
-        $this->_filterModelName = '\Magento\Catalog\Model\Layer\Filter\Attribute';
+        $this->_filterModelName = 'Magento\Catalog\Model\Layer\Filter\Attribute';
     }
 
     protected function _prepareFilter()

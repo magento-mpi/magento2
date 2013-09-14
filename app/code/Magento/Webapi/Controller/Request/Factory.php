@@ -17,8 +17,8 @@ class Factory
      * @var array
      */
     protected $_apiTypeToRequestMap = array(
-        \Magento\Webapi\Controller\Front::API_TYPE_REST => '\Magento\Webapi\Controller\Request\Rest',
-        \Magento\Webapi\Controller\Front::API_TYPE_SOAP => '\Magento\Webapi\Controller\Request\Soap',
+        \Magento\Webapi\Controller\Front::API_TYPE_REST => 'Magento\Webapi\Controller\Request\Rest',
+        \Magento\Webapi\Controller\Front::API_TYPE_SOAP => 'Magento\Webapi\Controller\Request\Soap',
     );
 
     /** @var \Magento\ObjectManager */

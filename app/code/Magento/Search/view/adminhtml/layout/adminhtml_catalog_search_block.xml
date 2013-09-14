@@ -38,7 +38,7 @@
                             <argument name="header_css_class" xsi:type="string">a-center</argument>
                             <argument name="type" xsi:type="string">checkbox</argument>
                             <argument name="name" xsi:type="string">query_id_selected</argument>
-                            <argument name="values" xsi:type="options" model="\Magento\Search\Model\Adminhtml\Search\Grid\Options"/>
+                            <argument name="values" xsi:type="options" model="Magento\Search\Model\Adminhtml\Search\Grid\Options"/>
                             <argument name="align" xsi:type="string">center</argument>
                         </arguments>
                     </block>

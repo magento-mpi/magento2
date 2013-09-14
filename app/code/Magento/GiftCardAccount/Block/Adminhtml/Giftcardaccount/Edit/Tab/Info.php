@@ -109,7 +109,7 @@ class Info extends \Magento\Adminhtml\Block\Widget\Form
             $field->setRenderer($renderer);
         }
 
-        $fieldset->addType('price', '\Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Form\Price');
+        $fieldset->addType('price', 'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Form\Price');
 
         $note = '';
         if (\Mage::app()->isSingleStoreMode()) {

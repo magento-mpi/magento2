@@ -32,14 +32,14 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
     public function testGetResourceCollection()
     {
         $collection = $this->_model->getResourceCollection();
-        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Product\Collection', $collection);
+        $this->assertInstanceOf('Magento\Catalog\Model\Resource\Product\Collection', $collection);
         $this->assertEquals($this->_model->getStoreId(), $collection->getStoreId());
     }
 
     public function testGetUrlModel()
     {
         $model = $this->_model->getUrlModel();
-        $this->assertInstanceOf('\Magento\Catalog\Model\Product\Url', $model);
+        $this->assertInstanceOf('Magento\Catalog\Model\Product\Url', $model);
         $this->assertSame($model, $this->_model->getUrlModel());
     }
 
@@ -68,7 +68,7 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
     {
         // model getter
         $typeInstance = $this->_model->getTypeInstance();
-        $this->assertInstanceOf('\Magento\Catalog\Model\Product\Type\AbstractType', $typeInstance);
+        $this->assertInstanceOf('Magento\Catalog\Model\Product\Type\AbstractType', $typeInstance);
         $this->assertSame($typeInstance, $this->_model->getTypeInstance());
 
         // singleton
@@ -94,7 +94,7 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
         $attributes = $this->_model->getAttributes();
         $this->assertArrayHasKey('name', $attributes);
         $this->assertArrayHasKey('sku', $attributes);
-        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Eav\Attribute', $attributes['sku']);
+        $this->assertInstanceOf('Magento\Catalog\Model\Resource\Eav\Attribute', $attributes['sku']);
     }
 
     /**
@@ -143,7 +143,7 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
         $this->assertArrayHasKey('image', $attributes);
         $this->assertArrayHasKey('small_image', $attributes);
         $this->assertArrayHasKey('thumbnail', $attributes);
-        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Eav\Attribute', $attributes['image']);
+        $this->assertInstanceOf('Magento\Catalog\Model\Resource\Eav\Attribute', $attributes['image']);
     }
 
     public function testGetMediaGalleryImages()
@@ -154,9 +154,9 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
 
         $this->_model->setMediaGallery(array('images' => array(array('file' => 'magento_image.jpg'))));
         $images = $this->_model->getMediaGalleryImages();
-        $this->assertInstanceOf('\Magento\Data\Collection', $images);
+        $this->assertInstanceOf('Magento\Data\Collection', $images);
         foreach ($images as $image) {
-            $this->assertInstanceOf('\Magento\Object', $image);
+            $this->assertInstanceOf('Magento\Object', $image);
             $image = $image->getData();
             $this->assertArrayHasKey('file', $image);
             $this->assertArrayHasKey('url', $image);
@@ -171,7 +171,7 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
     public function testGetMediaConfig()
     {
         $model = $this->_model->getMediaConfig();
-        $this->assertInstanceOf('\Magento\Catalog\Model\Product\Media\Config', $model);
+        $this->assertInstanceOf('Magento\Catalog\Model\Product\Media\Config', $model);
         $this->assertSame($model, $this->_model->getMediaConfig());
     }
 
@@ -209,14 +209,14 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
     public function testGetOptionInstance()
     {
         $model = $this->_model->getOptionInstance();
-        $this->assertInstanceOf('\Magento\Catalog\Model\Product\Option', $model);
+        $this->assertInstanceOf('Magento\Catalog\Model\Product\Option', $model);
         $this->assertSame($model, $this->_model->getOptionInstance());
     }
 
     public function testGetProductOptionsCollection()
     {
         $this->assertInstanceOf(
-            '\Magento\Catalog\Model\Resource\Product\Option\Collection', $this->_model->getProductOptionsCollection()
+            'Magento\Catalog\Model\Resource\Product\Option\Collection', $this->_model->getProductOptionsCollection()
         );
     }
 
@@ -252,7 +252,7 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
 
     public function testGetPreconfiguredValues()
     {
-        $this->assertInstanceOf('\Magento\Object', $this->_model->getPreconfiguredValues());
+        $this->assertInstanceOf('Magento\Object', $this->_model->getPreconfiguredValues());
         $this->_model->setPreconfiguredValues('test');
         $this->assertEquals('test', $this->_model->getPreconfiguredValues());
     }

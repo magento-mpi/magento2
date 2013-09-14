@@ -30,7 +30,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_MainTest extends PHPUnit_Fram
         $layout = $objectManager->create('Magento\Core\Model\Layout');
         $block = $layout->addBlock('Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Main');
         $prepareFormMethod = new ReflectionMethod(
-            '\Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Main', '_prepareForm'
+            'Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Main', '_prepareForm'
         );
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);

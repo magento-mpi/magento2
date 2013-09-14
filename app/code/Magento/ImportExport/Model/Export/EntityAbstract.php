@@ -22,7 +22,7 @@ abstract class EntityAbstract
     /**#@+
      * Attribute collection name
      */
-    const ATTRIBUTE_COLLECTION_NAME = '\Magento\Data\Collection';
+    const ATTRIBUTE_COLLECTION_NAME = 'Magento\Data\Collection';
     /**#@-*/
 
     /**#@+

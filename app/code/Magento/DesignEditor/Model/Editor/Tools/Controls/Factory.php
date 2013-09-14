@@ -92,10 +92,10 @@ class Factory
         $files[] = $this->_getFilePathByType($type, $theme);
         switch ($type) {
             case self::TYPE_QUICK_STYLES:
-                $class = '\Magento\DesignEditor\Model\Config\Control\QuickStyles';
+                $class = 'Magento\DesignEditor\Model\Config\Control\QuickStyles';
                 break;
             case self::TYPE_IMAGE_SIZING:
-                $class = '\Magento\DesignEditor\Model\Config\Control\ImageSizing';
+                $class = 'Magento\DesignEditor\Model\Config\Control\ImageSizing';
                 break;
             default:
                 throw new \Magento\Exception("Unknown control configuration type: \"{$type}\"");
@@ -104,7 +104,7 @@ class Factory
         /** @var $config \Magento\DesignEditor\Model\Config\Control\AbstractControl */
         $config = $this->_objectManager->create($class, array('configFiles' => $files));
         return \Mage::getObjectManager()->create(
-            '\Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration', array(
+            'Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration', array(
                 'configuration' => $config,
                 'theme'         => $theme,
                 'parentTheme'   => $parentTheme

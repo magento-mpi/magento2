@@ -42,7 +42,7 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
             ->add(new \Magento\Core\Model\Message\Notice('some_notice'))
         ;
         $sessionModelFixture = new \Magento\Object(array('messages' => $messagesCollection));
-        $this->_objectManager->addSharedInstance($sessionModelFixture, '\Magento\Core\Model\Session');
+        $this->_objectManager->addSharedInstance($sessionModelFixture, 'Magento\Core\Model\Session');
     }
 
     /**

@@ -35,7 +35,7 @@ class Creditmemos
      */
     protected function _getCollectionClass()
     {
-        return '\Magento\Sales\Model\Resource\Order\Creditmemo\Grid\Collection';
+        return 'Magento\Sales\Model\Resource\Order\Creditmemo\Grid\Collection';
     }
 
 

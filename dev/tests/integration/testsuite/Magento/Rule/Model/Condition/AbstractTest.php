@@ -29,7 +29,7 @@ class Magento_Rule_Model_Condition_AbstractTest extends PHPUnit_Framework_TestCa
         $model->setRule($rule->setForm(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento\Data\Form')));
 
-        $property = new ReflectionProperty('\Magento\Rule\Model\Condition\AbstractCondition', '_inputType');
+        $property = new ReflectionProperty('Magento\Rule\Model\Condition\AbstractCondition', '_inputType');
         $property->setAccessible(true);
         $property->setValue($model, 'date');
 

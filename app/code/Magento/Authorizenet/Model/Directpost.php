@@ -20,8 +20,8 @@ namespace Magento\Authorizenet\Model;
 class Directpost extends \Magento\Paygate\Model\Authorizenet
 {
     protected $_code  = 'authorizenet_directpost';
-    protected $_formBlockType = '\Magento\Authorizenet\Block\Directpost\Form';
-    protected $_infoBlockType = '\Magento\Payment\Block\Info';
+    protected $_formBlockType = 'Magento\Authorizenet\Block\Directpost\Form';
+    protected $_infoBlockType = 'Magento\Payment\Block\Info';
 
     /**
      * Availability options

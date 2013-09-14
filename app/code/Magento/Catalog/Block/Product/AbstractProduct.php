@@ -27,7 +27,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
      *
      * @var string
      */
-    protected $_block = '\Magento\Catalog\Block\Product\Price';
+    protected $_block = 'Magento\Catalog\Block\Product\Price';
 
     protected $_priceBlockDefaultTemplate = 'product/price.phtml';
 

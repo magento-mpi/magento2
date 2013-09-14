@@ -112,7 +112,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         ));
         $this->addColumn('name', array(
             'header'    => __('Product'),
-            'renderer'  => '\Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Product',
+            'renderer'  => 'Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Product',
             'index'     => 'name'
         ));
         $this->addColumn('sku', array(
@@ -128,7 +128,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'currency_code' => $this->getStore()->getCurrentCurrencyCode(),
             'rate'      => $this->getStore()->getBaseCurrency()->getRate($this->getStore()->getCurrentCurrencyCode()),
             'index'     => 'price',
-            'renderer'  => '\Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Price',
+            'renderer'  => 'Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Price',
         ));
 
         $this->addColumn('in_products', array(
@@ -146,7 +146,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'filter'    => false,
             'sortable'  => false,
             'header'    => __('Quantity'),
-            'renderer'  => '\Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Qty',
+            'renderer'  => 'Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Qty',
             'name'      => 'qty',
             'inline_css'=> 'qty',
             'align'     => 'center',

@@ -177,8 +177,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             'header'    => __('Type'),
             'type'      => 'select',
             'index'     => 'type',
-            'filter'    => '\Magento\Adminhtml\Block\Review\Grid\Filter\Type',
-            'renderer'  => '\Magento\Adminhtml\Block\Review\Grid\Renderer\Type'
+            'filter'    => 'Magento\Adminhtml\Block\Review\Grid\Filter\Type',
+            'renderer'  => 'Magento\Adminhtml\Block\Review\Grid\Renderer\Type'
         ));
 
         $this->addColumn('name', array(

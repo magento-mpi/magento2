@@ -76,7 +76,7 @@ class Newest extends \Magento\Adminhtml\Block\Dashboard\Grid
             'type'      => 'currency',
             'currency_code'  => $baseCurrencyCode,
             'index'     => 'orders_avg_amount',
-            'renderer'  =>'\Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Currency'
+            'renderer'  =>'Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Currency'
         ));
 
         $this->addColumn('orders_sum_amount', array(
@@ -86,7 +86,7 @@ class Newest extends \Magento\Adminhtml\Block\Dashboard\Grid
             'type'      => 'currency',
             'currency_code'  => $baseCurrencyCode,
             'index'     => 'orders_sum_amount',
-            'renderer'  =>'\Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Currency'
+            'renderer'  =>'Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Currency'
         ));
 
         $this->setFilterVisibility(false);

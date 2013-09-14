@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="controller_action_predispatch">
-        <observer name="adminnotification" instance="\Magento\AdminNotification\Model\Observer" method="preDispatch" />
+        <observer name="adminnotification" instance="Magento\AdminNotification\Model\Observer" method="preDispatch" />
     </event>
-</config>
+</config>

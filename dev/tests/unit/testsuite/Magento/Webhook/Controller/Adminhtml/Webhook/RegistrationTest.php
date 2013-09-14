@@ -336,7 +336,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
         );
 
         $this->_mockBackendCntCtxt = $this->_objectManagerHelper
-            ->getObject('\Magento\Backend\Controller\Context',
+            ->getObject('Magento\Backend\Controller\Context',
                 $contextParameters);
 
         $regControllerParams = array(
@@ -346,7 +346,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
 
         /** @var \Magento\Webhook\Controller\Adminhtml\Webhook\Registration $registrationContr */
         $registrationContr = $this->_objectManagerHelper
-            ->getObject('\Magento\Webhook\Controller\Adminhtml\Webhook\Registration',
+            ->getObject('Magento\Webhook\Controller\Adminhtml\Webhook\Registration',
                 $regControllerParams);
         return $registrationContr;
     }

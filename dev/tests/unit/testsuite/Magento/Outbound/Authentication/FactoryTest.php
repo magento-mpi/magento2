@@ -54,7 +54,7 @@ class Magento_Outbound_Authentication_FactoryTest extends PHPUnit_Framework_Test
             ->will($this->returnValue($this->_expectedObject));
 
         $authObject = $this->_authFactory->getAuthentication(\Magento\Outbound\EndpointInterface::AUTH_TYPE_HMAC);
-        $this->assertInstanceOf('\Magento\Outbound\Authentication\Hmac', $authObject);
+        $this->assertInstanceOf('Magento\Outbound\Authentication\Hmac', $authObject);
         $this->assertEquals($this->_expectedObject, $authObject);
     }
 

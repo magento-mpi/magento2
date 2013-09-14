@@ -48,7 +48,7 @@ class Item
         } else if (isset($productHelpers['default'])) {
             $helperName = $productHelpers['default'];
         } else {
-            $helperName = '\Magento\Catalog\Helper\Product\Configuration';
+            $helperName = 'Magento\Catalog\Helper\Product\Configuration';
         }
 
         $helper = \Mage::helper($helperName);

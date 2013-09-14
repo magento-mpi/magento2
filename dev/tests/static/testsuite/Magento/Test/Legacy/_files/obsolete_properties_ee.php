@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 return array(
-    array('_eventData', '\Magento\Logging\Block\Adminhtml\Container'),
-    array('_customerSegments', '\Magento\CustomerSegment\Model\Customer'),
-    array('_limit', '\Magento\Search\Model\Resource\Index'),
-    array('_amountCache', '\Magento\GiftCard\Block\Catalog\Product\Price'),
-    array('_minMaxCache', '\Magento\GiftCard\Block\Catalog\Product\Price'),
-    array('_skipFields', '\Magento\Logging\Model\Processor'),
-    array('_layoutUpdate', '\Magento\WebsiteRestriction\Controller\Index'),
+    array('_eventData', 'Magento\Logging\Block\Adminhtml\Container'),
+    array('_customerSegments', 'Magento\CustomerSegment\Model\Customer'),
+    array('_limit', 'Magento\Search\Model\Resource\Index'),
+    array('_amountCache', 'Magento\GiftCard\Block\Catalog\Product\Price'),
+    array('_minMaxCache', 'Magento\GiftCard\Block\Catalog\Product\Price'),
+    array('_skipFields', 'Magento\Logging\Model\Processor'),
+    array('_layoutUpdate', 'Magento\WebsiteRestriction\Controller\Index'),
 );

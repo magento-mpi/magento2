@@ -22,15 +22,15 @@ class Replacer
         if ($this->getOrder()->getIsArchived()) {
             $this->getLayout()->getBlock('sales_order_tabs')->addTab(
                 'magento_order_shipments',
-                '\Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Shipments'
+                'Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Shipments'
             );
             $this->getLayout()->getBlock('sales_order_tabs')->addTab(
                 'magento_order_invoices',
-                '\Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Invoices'
+                'Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Invoices'
             );
             $this->getLayout()->getBlock('sales_order_tabs')->addTab(
                 'magento_order_creditmemos',
-                '\Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Creditmemos'
+                'Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Creditmemos'
             );
 
             $restoreUrl = $this->getUrl(

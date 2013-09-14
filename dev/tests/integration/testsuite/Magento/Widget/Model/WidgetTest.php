@@ -65,7 +65,7 @@ class Magento_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'custom image'  => array(
-                '\Magento\Catalog\Block\Product\Widget\New',
+                'Magento\Catalog\Block\Product\Widget\New',
                 'Magento_Catalog/images/product_widget_new.gif'
             ),
             'default image' => array(
@@ -89,7 +89,7 @@ class Magento_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
             )
         ));
         $actualFile = $this->testGetPlaceholderImageUrl(
-            '\Magento\Catalog\Block\Product\Widget\New',
+            'Magento\Catalog\Block\Product\Widget\New',
             'Magento_Catalog/images/product_widget_new.gif'
         );
 

@@ -39,7 +39,7 @@ class Magento_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_F
         /** @var $actualItem \Magento\CatalogEvent\Model\Event */
         $actualItem = $items[$expectedItemIndex];
 
-        $this->assertInstanceOf('\Magento\CatalogEvent\Model\Event', $actualItem);
+        $this->assertInstanceOf('Magento\CatalogEvent\Model\Event', $actualItem);
         foreach ($expectedItemData as $filedName => $expectedValue) {
             $actualValue = $actualItem->getDataUsingMethod($filedName);
             $this->assertEquals($expectedValue, $actualValue, "Field '{$filedName}' value doesn't match expectations.");

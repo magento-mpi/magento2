@@ -88,7 +88,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             $encryptionModel = (string)$this->_config->getNode(self::XML_PATH_ENCRYPTION_MODEL);
 
             if (!$encryptionModel) {
-                $encryptionModel = '\Magento\Core\Model\Encryption';
+                $encryptionModel = 'Magento\Core\Model\Encryption';
             }
 
             $this->_encryptor = \Mage::getObjectManager()->create($encryptionModel);

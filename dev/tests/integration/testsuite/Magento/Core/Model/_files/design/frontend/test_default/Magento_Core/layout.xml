@@ -46,7 +46,7 @@
             </action>
         </reference>
         <reference name="some_element_1"/>
-        <block name="test.nonexisting.block" class="\Magento\Core\Block\Text\ListText"/>
+        <block name="test.nonexisting.block" class="Magento\Core\Block\Text\ListText"/>
         <remove name="test.nonexisting.block"/>
         <reference name="test.nonexisting.block">
             <action method="getSomething"/>

@@ -123,7 +123,7 @@ class Product extends \Magento\Adminhtml\Block\Widget\Grid
             'type'      => 'number',
             'index'     => 'position',
             'editable'  => !$this->getCategory()->getProductsReadonly()
-            //'renderer'  => '\Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Input'
+            //'renderer'  => 'Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Input'
         ));
 
         return parent::_prepareColumns();

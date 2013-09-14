@@ -26,7 +26,7 @@ class Viewed extends \Magento\Reports\Block\Product\AbstractProduct
      *
      * @var string
      */
-    protected $_indexName       = '\Magento\Reports\Model\Product\Index\Viewed';
+    protected $_indexName       = 'Magento\Reports\Model\Product\Index\Viewed';
 
     /**
      * Retrieve page size (count)

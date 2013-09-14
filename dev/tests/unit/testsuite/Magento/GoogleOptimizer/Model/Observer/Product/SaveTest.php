@@ -58,7 +58,7 @@ class Magento_GoogleOptimizer_Model_Observer_Product_SaveTest extends PHPUnit_Fr
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_modelObserver = $objectManagerHelper->getObject(
-            '\Magento\GoogleOptimizer\Model\Observer\Product\Save',
+            'Magento\GoogleOptimizer\Model\Observer\Product\Save',
             array(
                 'helper' => $this->_helperMock,
                 'modelCode' => $this->_codeMock,

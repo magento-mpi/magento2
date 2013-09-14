@@ -54,7 +54,7 @@ class Mysql extends \Magento\Core\Model\Resource\Type\Db
      */
     protected function _getDbAdapterClassName()
     {
-        return '\Magento\DB\Adapter\Pdo\Mysql';
+        return 'Magento\DB\Adapter\Pdo\Mysql';
     }
 
 }

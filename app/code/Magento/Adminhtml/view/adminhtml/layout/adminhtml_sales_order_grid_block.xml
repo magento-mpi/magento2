@@ -175,7 +175,7 @@
                             <argument name="type" xsi:type="string">options</argument>
                             <argument name="currency" xsi:type="string">order_currency_code</argument>
                             <argument name="index" xsi:type="string">status</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\Sales\Model\Resource\Order\Grid\StatusesArray"/>
+                            <argument name="options" xsi:type="options" model="Magento\Sales\Model\Resource\Order\Grid\StatusesArray"/>
                             <argument name="header_css_class" xsi:type="string">col-status</argument>
                             <argument name="column_css_class" xsi:type="string">col-status</argument>
                         </arguments>

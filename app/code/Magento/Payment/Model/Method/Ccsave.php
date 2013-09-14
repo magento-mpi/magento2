@@ -15,6 +15,6 @@ class Ccsave extends \Magento\Payment\Model\Method\Cc
 {
     protected $_code        = 'ccsave';
     protected $_canSaveCc   = true;
-    protected $_formBlockType = '\Magento\Payment\Block\Form\Ccsave';
-    protected $_infoBlockType = '\Magento\Payment\Block\Info\Ccsave';
+    protected $_formBlockType = 'Magento\Payment\Block\Form\Ccsave';
+    protected $_infoBlockType = 'Magento\Payment\Block\Info\Ccsave';
 }

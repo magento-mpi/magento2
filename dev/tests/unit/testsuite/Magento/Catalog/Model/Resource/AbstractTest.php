@@ -25,7 +25,7 @@ class Magento_Catalog_Model_Resource_AbstractTest extends PHPUnit_Framework_Test
         $codes = array('entity_type_id', 'attribute_set_id', 'created_at', 'updated_at', 'parent_id', 'increment_id');
         foreach ($codes as $code) {
             $mock = $this->getMock(
-                '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 array('isInSet', 'getBackend'),
                 array(),
                 '',
@@ -65,7 +65,7 @@ class Magento_Catalog_Model_Resource_AbstractTest extends PHPUnit_Framework_Test
         $attributes = $this->_getAttributes();
 
         $attribute = $this->getMock(
-            '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+            'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
             array('isInSet', 'getBackend'),
             array(),
             '',

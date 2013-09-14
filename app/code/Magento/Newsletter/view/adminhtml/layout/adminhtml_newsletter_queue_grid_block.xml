@@ -71,7 +71,7 @@
                             <argument name="header" xsi:type="string" translate="true">Status</argument>
                             <argument name="index" xsi:type="string">queue_status</argument>
                             <argument name="type" xsi:type="string">options</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\Newsletter\Model\Queue\Options\Status"/>
+                            <argument name="options" xsi:type="options" model="Magento\Newsletter\Model\Queue\Options\Status"/>
                             <argument name="header_css_class" xsi:type="string">col-status</argument>
                             <argument name="column_css_class" xsi:type="string">col-status</argument>
                         </arguments>

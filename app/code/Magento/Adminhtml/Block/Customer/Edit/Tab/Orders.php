@@ -102,7 +102,7 @@ class Orders extends \Magento\Adminhtml\Block\Widget\Grid
                 'filter'    => false,
                 'sortable'  => false,
                 'width'     => '100px',
-                'renderer'  => '\Magento\Adminhtml\Block\Sales\Reorder\Renderer\Action'
+                'renderer'  => 'Magento\Adminhtml\Block\Sales\Reorder\Renderer\Action'
             ));
         }
 

@@ -40,19 +40,19 @@ abstract class AbstractForm
 
         \Magento\Data\Form::setElementRenderer(
             $this->getLayout()->createBlock(
-                '\Magento\Adminhtml\Block\Widget\Form\Renderer\Element',
+                'Magento\Adminhtml\Block\Widget\Form\Renderer\Element',
                 $this->getNameInLayout() . '_element'
             )
         );
         \Magento\Data\Form::setFieldsetRenderer(
             $this->getLayout()->createBlock(
-                '\Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset',
+                'Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset',
                 $this->getNameInLayout() . '_fieldset'
             )
         );
         \Magento\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
-                '\Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element',
+                'Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element',
                 $this->getNameInLayout() . '_fieldset_element'
             )
         );
@@ -90,9 +90,9 @@ abstract class AbstractForm
     protected function _getAdditionalFormElementTypes()
     {
         return array(
-            'file'      => '\Magento\Adminhtml\Block\Customer\Form\Element\File',
-            'image'     => '\Magento\Adminhtml\Block\Customer\Form\Element\Image',
-            'boolean'   => '\Magento\Adminhtml\Block\Customer\Form\Element\Boolean',
+            'file'      => 'Magento\Adminhtml\Block\Customer\Form\Element\File',
+            'image'     => 'Magento\Adminhtml\Block\Customer\Form\Element\Image',
+            'boolean'   => 'Magento\Adminhtml\Block\Customer\Form\Element\Boolean',
         );
     }
 

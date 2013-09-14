@@ -9,11 +9,11 @@
 -->
 <layout>
     <handle id="test_get_block">
-        <block name="block1" class="\Magento\Core\Block\Text">
+        <block name="block1" class="Magento\Core\Block\Text">
             <action method="getChildBlock">
                 <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="value" xsi:type="string">block2</argument>
             </action>
-            <block name="block2" class="\Magento\Core\Block\Text"/>
+            <block name="block2" class="Magento\Core\Block\Text"/>
         </block>
     </handle>
 </layout>

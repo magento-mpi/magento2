@@ -34,7 +34,7 @@ class Magento_Backend_Model_Config_Structure_Element_SectionTest extends PHPUnit
     protected function setUp()
     {
         $this->_iteratorMock = $this->getMock(
-            '\Magento\Backend\Model\Config\Structure\Element\Iterator\Field', array(), array(), '', false
+            'Magento\Backend\Model\Config\Structure\Element\Iterator\Field', array(), array(), '', false
         );
         $this->_applicationMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
         $this->_authorizationMock = $this->getMock('Magento\AuthorizationInterface');

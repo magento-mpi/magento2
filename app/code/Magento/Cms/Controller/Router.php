@@ -74,7 +74,7 @@ class Router extends \Magento\Core\Controller\Varien\Router\AbstractRouter
                 ->setRedirect($condition->getRedirectUrl())
                 ->sendResponse();
             $request->setDispatched(true);
-            return $this->_controllerFactory->createController('\Magento\Core\Controller\Varien\Action\Redirect',
+            return $this->_controllerFactory->createController('Magento\Core\Controller\Varien\Action\Redirect',
                 array('request' => $request)
             );
         }
@@ -98,7 +98,7 @@ class Router extends \Magento\Core\Controller\Varien\Router\AbstractRouter
             $identifier
         );
 
-        return $this->_controllerFactory->createController('\Magento\Core\Controller\Varien\Action\Forward',
+        return $this->_controllerFactory->createController('Magento\Core\Controller\Varien\Action\Forward',
             array('request' => $request)
         );
     }

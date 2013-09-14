@@ -25,7 +25,7 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
      *
      * @var string
      */
-    protected $_defaultToolbarBlock = '\Magento\Catalog\Block\Product\ProductList\Toolbar';
+    protected $_defaultToolbarBlock = 'Magento\Catalog\Block\Product\ProductList\Toolbar';
 
     /**
      * Product Collection

@@ -41,7 +41,7 @@ class Magento_Core_Controller_Varien_Action_FactoryTest extends PHPUnit_Framewor
     public function testConstruct()
     {
         $this->_model = new \Magento\Core\Controller\Varien\Action\Factory($this->_objectManager);
-        $this->assertAttributeInstanceOf('\Magento\ObjectManager', '_objectManager', $this->_model);
+        $this->assertAttributeInstanceOf('Magento\ObjectManager', '_objectManager', $this->_model);
     }
 
     public function testCreateController()

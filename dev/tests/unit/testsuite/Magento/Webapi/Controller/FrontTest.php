@@ -129,7 +129,7 @@ class Magento_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
         $this->_createMockForApiRouteAndFactory($apiType);
         /** Assert \Magento\Webapi\Exception type and message. */
         $this->setExpectedException(
-            '\Magento\Webapi\Exception',
+            'Magento\Webapi\Exception',
             'The "invalidApiType" API type is not defined.',
             \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );
@@ -145,7 +145,7 @@ class Magento_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
         $this->_createMockForApiRouteAndFactory($apiType);
         /** Assert \Magento\Webapi\Exception type and message. */
         $this->setExpectedException(
-            '\Magento\Webapi\Exception',
+            'Magento\Webapi\Exception',
             'Request does not match any API type route.',
             \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );

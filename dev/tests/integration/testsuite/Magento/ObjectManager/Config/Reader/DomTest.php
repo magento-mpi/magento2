@@ -51,7 +51,7 @@ class Magento_ObjectManager_Config_Reader_DomTest extends PHPUnit_Framework_Test
         );
 
         $this->_fileResolverMock = $this->getMock(
-            '\Magento\Core\Model\Config\FileResolver\Primary', array(), array(), '', false
+            'Magento\Core\Model\Config\FileResolver\Primary', array(), array(), '', false
         );
         $this->_fileResolverMock->expects($this->once())->method('get')->will($this->returnValue($this->_fileList));
         $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom();

@@ -42,7 +42,7 @@ class Tax extends \Magento\Adminhtml\Block\Widget implements \Magento\Data\Form\
     {
         $this->addChild(
             'add_button',
-            '\Magento\Adminhtml\Block\Widget\Button',
+            'Magento\Adminhtml\Block\Widget\Button',
             array(
                 'label' => __('Add Tax'),
                 'data_attribute' => array('action' => 'add-fpt-item'),
@@ -51,7 +51,7 @@ class Tax extends \Magento\Adminhtml\Block\Widget implements \Magento\Data\Form\
         );
         $this->addChild(
             'delete_button',
-            '\Magento\Adminhtml\Block\Widget\Button',
+            'Magento\Adminhtml\Block\Widget\Button',
             array(
                 'label' => __('Delete Tax'),
                 'data_attribute' => array('action' => 'delete-fpt-item'),

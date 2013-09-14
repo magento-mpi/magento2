@@ -160,7 +160,7 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $expected = require(__DIR__ . '/_files/pages_hierarchy.php');
         $actual = $this->_model->getPageHandlesHierarchy();
         $this->assertEquals($expected, $actual);
-        $this->assertInstanceOf('\Magento\Phrase', $actual['default']['label']);
+        $this->assertInstanceOf('Magento\Phrase', $actual['default']['label']);
     }
 
     /**

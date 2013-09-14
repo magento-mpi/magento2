@@ -57,7 +57,7 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
         parent::_construct();
         $this->addItemPriceBlockType(
             'default',
-            '\Magento\Wishlist\Block\Render\Item\Price',
+            'Magento\Wishlist\Block\Render\Item\Price',
             'render/item/price.phtml'
         );
     }

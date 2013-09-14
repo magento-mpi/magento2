@@ -38,7 +38,7 @@ class Amounts extends \Magento\Adminhtml\Block\Dashboard\Graph
      */
     protected function _prepareData()
     {
-        $this->setDataHelperName('\Magento\Adminhtml\Helper\Dashboard\Order');
+        $this->setDataHelperName('Magento\Adminhtml\Helper\Dashboard\Order');
         $this->getDataHelper()->setParam('store', $this->getRequest()->getParam('store'));
         $this->getDataHelper()->setParam('website', $this->getRequest()->getParam('website'));
         $this->getDataHelper()->setParam('group', $this->getRequest()->getParam('group'));

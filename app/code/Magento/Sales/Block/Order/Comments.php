@@ -58,11 +58,11 @@ class Comments extends \Magento\Core\Block\Template
         if (is_null($this->_commentCollection)) {
             $entity = $this->getEntity();
             if ($entity instanceof \Magento\Sales\Model\Order\Invoice) {
-                $collectionClass = '\Magento\Sales\Model\Resource\Order\Invoice\Comment\Collection';
+                $collectionClass = 'Magento\Sales\Model\Resource\Order\Invoice\Comment\Collection';
             } else if ($entity instanceof \Magento\Sales\Model\Order\Creditmemo) {
-                $collectionClass = '\Magento\Sales\Model\Resource\Order\Creditmemo\Comment\Collection';
+                $collectionClass = 'Magento\Sales\Model\Resource\Order\Creditmemo\Comment\Collection';
             } else if ($entity instanceof \Magento\Sales\Model\Order\Shipment) {
-                $collectionClass = '\Magento\Sales\Model\Resource\Order\Shipment\Comment\Collection';
+                $collectionClass = 'Magento\Sales\Model\Resource\Order\Shipment\Comment\Collection';
             } else {
                 \Mage::throwException(__('We found an invalid entity model.'));
             }

@@ -29,7 +29,7 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
         $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
         $this->_model = $this->getMockForAbstractClass(
-            '\Magento\Core\Controller\Varien\Action',
+            'Magento\Core\Controller\Varien\Action',
             array($context)
         );
     }
@@ -86,7 +86,7 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
         $objectManager->get('Magento\Core\Model\Config\Scope')->setCurrentScope($expectedArea);
         /** @var $controller \Magento\Core\Controller\Varien\Action */
         $controller = $objectManager->create($controllerClass);
-        $this->assertInstanceOf('\Magento\Core\Model\Layout', $controller->getLayout());
+        $this->assertInstanceOf('Magento\Core\Model\Layout', $controller->getLayout());
         $this->assertEquals($expectedArea, $controller->getLayout()->getArea());
     }
 
@@ -101,7 +101,7 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
         $this->_model->loadLayout('test');
         $this->assertContains('test', $this->_model->getLayout()->getUpdate()->getHandles());
 
-        $this->assertInstanceOf('\Magento\Core\Block\AbstractBlock', $this->_model->getLayout()->getBlock('root'));
+        $this->assertInstanceOf('Magento\Core\Block\AbstractBlock', $this->_model->getLayout()->getBlock('root'));
     }
 
     public function testGetDefaultLayoutHandle()
@@ -315,25 +315,25 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
     {
         return array(
             'install' => array(
-                '\Magento\Install\Controller\Action',
+                'Magento\Install\Controller\Action',
                 'install',
                 'default',
                 'magento_basic',
-                '\Magento\Core\Controller\Varien\Action\Context'
+                'Magento\Core\Controller\Varien\Action\Context'
             ),
             'frontend' => array(
-                '\Magento\Core\Controller\Front\Action',
+                'Magento\Core\Controller\Front\Action',
                 'frontend',
                 'default',
                 'magento_demo',
-                '\Magento\Core\Controller\Varien\Action\Context'
+                'Magento\Core\Controller\Varien\Action\Context'
             ),
             'backend' => array(
-                '\Magento\Adminhtml\Controller\Action',
+                'Magento\Adminhtml\Controller\Action',
                 'adminhtml',
                 'admin',
                 'magento_basic',
-                '\Magento\Backend\Controller\Context'
+                'Magento\Backend\Controller\Context'
             ),
         );
     }

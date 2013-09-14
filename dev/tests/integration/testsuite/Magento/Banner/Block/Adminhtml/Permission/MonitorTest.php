@@ -29,7 +29,7 @@ class Magento_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_Fram
         $layout->addBlock($blockType, $blockName);
         $tabs = $layout->addBlock($tabsType, $tabsName);
         $tab = $layout->addBlock(
-            '\Magento\Banner\Block\Adminhtml\Promo\Catalogrule\Edit\Tab\Banners',
+            'Magento\Banner\Block\Adminhtml\Promo\Catalogrule\Edit\Tab\Banners',
             'banners_section',
             $tabsName
         );
@@ -48,15 +48,15 @@ class Magento_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_Fram
     {
         return array(
             array(
-                '\Magento\Banner\Block\Adminhtml\Promo\Salesrule\Edit\Tab\Banners',
+                'Magento\Banner\Block\Adminhtml\Promo\Salesrule\Edit\Tab\Banners',
                 'salesrule.related.banners',
-                '\Magento\Adminhtml\Block\Promo\Quote\Edit\Tabs',
+                'Magento\Adminhtml\Block\Promo\Quote\Edit\Tabs',
                 'promo_quote_edit_tabs',
             ),
             array(
-                '\Magento\Banner\Block\Adminhtml\Promo\Salesrule\Edit\Tab\Banners',
+                'Magento\Banner\Block\Adminhtml\Promo\Salesrule\Edit\Tab\Banners',
                 'catalogrule.related.banners',
-                '\Magento\Adminhtml\Block\Widget\Tabs',
+                'Magento\Adminhtml\Block\Widget\Tabs',
                 'promo_catalog_edit_tabs',
             ),
         );

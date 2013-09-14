@@ -22,7 +22,7 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
      *
      * @var string
      */
-    protected $_configType = '\Magento\Paypal\Model\Config';
+    protected $_configType = 'Magento\Paypal\Model\Config';
 
     /**
      * Config method type
@@ -36,7 +36,7 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
      *
      * @var string
      */
-    protected $_checkoutType = '\Magento\Paypal\Model\Payflowadvanced';
+    protected $_checkoutType = 'Magento\Paypal\Model\Payflowadvanced';
 
     /**
      * When a customer cancel payment from payflow gateway.

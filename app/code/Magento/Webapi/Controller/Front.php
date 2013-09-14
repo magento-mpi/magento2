@@ -121,7 +121,7 @@ class Front implements \Magento\Core\Controller\FrontInterface
             $apiRoutePath = $this->_application->getConfig()->getAreaFrontName()
                 . '/:' . \Magento\Webapi\Controller\Request::PARAM_API_TYPE;
             $apiRoute = $this->_routeFactory->createRoute(
-                '\Magento\Webapi\Controller\Router\Route',
+                'Magento\Webapi\Controller\Router\Route',
                 $apiRoutePath
             );
             if (!($apiTypeMatch = $apiRoute->match($request, true))) {

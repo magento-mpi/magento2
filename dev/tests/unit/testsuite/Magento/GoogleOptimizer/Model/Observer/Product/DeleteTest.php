@@ -37,7 +37,7 @@ class Magento_GoogleOptimizer_Model_Observer_Product_DeleteTest extends PHPUnit_
         $event->expects($this->once())->method('getProduct')->will($this->returnValue($product));
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('\Magento\GoogleOptimizer\Model\Observer\Product\Delete', array(
+        $this->_model = $objectManagerHelper->getObject('Magento\GoogleOptimizer\Model\Observer\Product\Delete', array(
             'modelCode' => $this->_codeMock
         ));
     }

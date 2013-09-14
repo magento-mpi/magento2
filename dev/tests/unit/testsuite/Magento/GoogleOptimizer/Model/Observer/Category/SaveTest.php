@@ -58,7 +58,7 @@ class Magento_GoogleOptimizer_Model_Observer_Category_SaveTest extends PHPUnit_F
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_modelObserver = $objectManagerHelper->getObject(
-            '\Magento\GoogleOptimizer\Model\Observer\Category\Save',
+            'Magento\GoogleOptimizer\Model\Observer\Category\Save',
             array(
                 'helper' => $this->_helperMock,
                 'modelCode' => $this->_codeMock,

@@ -33,7 +33,7 @@ class Magento_Webapi_Model_Authorization_RoleFactoryTest extends PHPUnit_Framewo
 
         $this->_expectedObject = $this->getMock('Magento\Webapi\Model\Authorization\Role', array(), array(), '', false);
 
-        $this->_model = $helper->getObject('\Magento\Webapi\Model\Authorization\Role\Factory', array(
+        $this->_model = $helper->getObject('Magento\Webapi\Model\Authorization\Role\Factory', array(
             'objectManager' => $this->_objectManager,
         ));
     }

@@ -43,7 +43,7 @@ class Magento_Cms_Controller_RouterTest extends PHPUnit_Framework_TestCase
             ->headersSentThrowsException = Mage::$headersSentThrowsException;
         $request->setPathInfo('parent_node');
         $controller = $this->_model->match($request);
-        $this->assertInstanceOf('\Magento\Core\Controller\Varien\Action\Redirect', $controller);
+        $this->assertInstanceOf('Magento\Core\Controller\Varien\Action\Redirect', $controller);
     }
 }
 

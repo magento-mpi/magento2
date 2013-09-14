@@ -194,7 +194,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     {
         if (is_null($this->_attributesCollection)) {
             $this->_attributesCollection = \Mage::getResourceModel(
-                    '\Magento\GoogleShopping\Model\Resource\Attribute\Collection'
+                    'Magento\GoogleShopping\Model\Resource\Attribute\Collection'
                 )
                 ->addAttributeSetFilter($this->getAttributeSetId(), $this->getTargetCountry());
         }

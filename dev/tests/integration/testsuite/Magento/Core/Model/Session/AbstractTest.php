@@ -24,7 +24,7 @@ class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
     public function testGetCookie()
     {
         $cookie = $this->_model->getCookie();
-        $this->assertInstanceOf('\Magento\Core\Model\Cookie', $cookie);
+        $this->assertInstanceOf('Magento\Core\Model\Cookie', $cookie);
         $this->assertSame($cookie, $this->_model->getCookie());
     }
 
@@ -73,7 +73,7 @@ class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testValidate()
     {
-        $this->assertInstanceOf('\Magento\Core\Model\Session\AbstractSession', $this->_model->validate());
+        $this->assertInstanceOf('Magento\Core\Model\Session\AbstractSession', $this->_model->validate());
     }
 
     public function testGetValidateHttpUserAgentSkip()

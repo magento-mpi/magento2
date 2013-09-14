@@ -134,7 +134,7 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
         $configStructure = \Mage::getSingleton('Magento\Backend\Model\Config\Structure');
         $paths = $configStructure->getFieldPathsByAttribute(
             'backend_model',
-            '\Magento\Backend\Model\Config\Backend\Encrypted'
+            'Magento\Backend\Model\Config\Backend\Encrypted'
         );
 
         // walk through found data and re-encrypt it

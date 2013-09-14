@@ -25,7 +25,7 @@ class Combine
     public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('\Magento\Reminder\Model\Rule\Condition\Combine');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Combine');
     }
 
     /**
@@ -37,11 +37,11 @@ class Combine
     {
         $conditions = array(
             array( // customer wishlist combo
-                'value' => '\Magento\Reminder\Model\Rule\Condition\Wishlist',
+                'value' => 'Magento\Reminder\Model\Rule\Condition\Wishlist',
                 'label' => __('Wish List')),
 
             array( // customer shopping cart combo
-                'value' => '\Magento\Reminder\Model\Rule\Condition\Cart',
+                'value' => 'Magento\Reminder\Model\Rule\Condition\Cart',
                 'label' => __('Shopping Cart')),
 
         );

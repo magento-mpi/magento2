@@ -10,13 +10,13 @@
  */
 -->
 <block name="root" type="Magento\Core\Block\Template" template="template.phtml">
-    <block name="head" class="\Magento\Page\Block\Html\Head">
+    <block name="head" class="Magento\Page\Block\Html\Head">
         <action method="addJs">
             <argument name="arg" xsi:type="string">1</argument>
         </action>
     </block>
     <container name="header" label="Header">
-        <block name="safe.block" class="\Magento\Page\Block\Html\Header"/>
+        <block name="safe.block" class="Magento\Page\Block\Html\Header"/>
     </container>
     <container name="content" label="Content">
         <block name="custom.not_safe" class="Namespace_Module_Block_NotSafe">

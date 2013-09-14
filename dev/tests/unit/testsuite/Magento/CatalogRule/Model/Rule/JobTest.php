@@ -22,7 +22,7 @@ class Magento_CatalogRule_Model_Rule_JobTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('catalogrule_apply_all'));
 
         /** @var $jobModel \Magento\CatalogRule\Model\Rule\Job */
-        $jobModel = $objectManagerHelper->getObject('\Magento\CatalogRule\Model\Rule\Job', array(
+        $jobModel = $objectManagerHelper->getObject('Magento\CatalogRule\Model\Rule\Job', array(
             'eventManager' => $eventManager,
         ));
 

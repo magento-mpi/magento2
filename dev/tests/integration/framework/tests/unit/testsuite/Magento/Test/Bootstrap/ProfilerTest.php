@@ -42,7 +42,7 @@ class Magento_Test_Bootstrap_ProfilerTest extends PHPUnit_Framework_TestCase
         $this->_driver
             ->expects($this->once())
             ->method('registerOutput')
-            ->with($this->isInstanceOf('\Magento\Profiler\Driver\Standard\Output\Csvfile'))
+            ->with($this->isInstanceOf('Magento\Profiler\Driver\Standard\Output\Csvfile'))
         ;
         $this->_object->registerFileProfiler('php://output');
     }

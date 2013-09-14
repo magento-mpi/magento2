@@ -32,14 +32,14 @@ class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework
     protected function setUp()
     {
         $this->_argumentUpdaterMock = $this->getMock(
-            '\Magento\Core\Model\Layout\Argument\Updater',
+            'Magento\Core\Model\Layout\Argument\Updater',
             array(),
             array(),
             '',
             false
         );
         $this->_handlerFactory = $this->getMock(
-            '\Magento\Core\Model\Layout\Argument\HandlerFactory',
+            'Magento\Core\Model\Layout\Argument\HandlerFactory',
             array(),
             array(),
             '',
@@ -65,7 +65,7 @@ class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework
     public function testProcess($arguments)
     {
         $argumentHandlerMock = $this->getMock(
-            '\Magento\Core\Model\Layout\Argument\HandlerInterface', array(), array(), '', false
+            'Magento\Core\Model\Layout\Argument\HandlerInterface', array(), array(), '', false
         );
         $argumentHandlerMock->expects($this->exactly(2))
             ->method('process')

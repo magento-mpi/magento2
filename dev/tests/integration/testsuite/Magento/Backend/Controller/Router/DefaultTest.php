@@ -36,7 +36,7 @@ class Magento_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_Te
         $this->_routeConfigMock = $this->getMock('Magento\Core\Model\Route\Config', array(), array(), '', false);
         $options = array(
             'areaCode'        => \Magento\Core\Model\App\Area::AREA_ADMINHTML,
-            'baseController'  => '\Magento\Backend\Controller\ActionAbstract',
+            'baseController'  => 'Magento\Backend\Controller\ActionAbstract',
             'routeConfig' => $this->_routeConfigMock
         );
         $this->_frontMock = $this->getMock('Magento\Core\Controller\Varien\Front', array(), array(), '', false);
@@ -127,9 +127,9 @@ class Magento_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_Te
     public function getControllerClassNameDataProvider()
     {
         return array(
-            array('Magento_Adminhtml', 'index', '\Magento\Adminhtml\Controller\Index'),
-            array('Magento_Index', 'process', '\Magento\Index\Controller\Adminhtml\Process'),
-            array('Magento_Index_Adminhtml', 'process', '\Magento\Index\Controller\Adminhtml\Process'),
+            array('Magento_Adminhtml', 'index', 'Magento\Adminhtml\Controller\Index'),
+            array('Magento_Index', 'process', 'Magento\Index\Controller\Adminhtml\Process'),
+            array('Magento_Index_Adminhtml', 'process', 'Magento\Index\Controller\Adminhtml\Process'),
         );
     }
 }

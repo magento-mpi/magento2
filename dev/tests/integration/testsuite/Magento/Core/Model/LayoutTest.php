@@ -67,7 +67,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testGetUpdate()
     {
-        $this->assertInstanceOf('\Magento\Core\Model\Layout\Merge', $this->_layout->getUpdate());
+        $this->assertInstanceOf('Magento\Core\Model\Layout\Merge', $this->_layout->getUpdate());
     }
 
     public function testGetSetDirectOutput()
@@ -86,7 +86,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $merge = $this->getMock('StdClass', array('asSimplexml'));
         $merge->expects($this->once())->method('asSimplexml')->will($this->returnValue(simplexml_load_string(
             '<layout><container name="container1"></container></layout>',
-            '\Magento\Core\Model\Layout\Element'
+            'Magento\Core\Model\Layout\Element'
         )));
         $layout->expects($this->once())->method('getUpdate')->will($this->returnValue($merge));
         $this->assertEmpty($layout->getXpath('/layout/container[@name="container1"]'));
@@ -110,7 +110,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
                 <block class="Magento\Core\Block\Text" template="test"/>
                 <block class="Magento\Core\Block\Text"/>
             </layout>',
-            '\Magento\Core\Model\Layout\Element'
+            'Magento\Core\Model\Layout\Element'
         ));
         $this->assertEquals(array(), $this->_layout->getAllBlocks());
         $this->_layout->generateElements();
@@ -181,16 +181,16 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'named block' => array(
-                '\Magento\Core\Block\Template',
+                'Magento\Core\Block\Template',
                 'some_block_name_full_class',
-                array('type' => '\Magento\Core\Block\Template', 'is_anonymous' => false),
+                array('type' => 'Magento\Core\Block\Template', 'is_anonymous' => false),
                 '/^some_block_name_full_class$/'
             ),
             'no name block' => array(
-                '\Magento\Core\Block\Text\ListText',
+                'Magento\Core\Block\Text\ListText',
                 '',
                 array(
-                    'type' => '\Magento\Core\Block\Text\ListText',
+                    'type' => 'Magento\Core\Block\Text\ListText',
                     'key1' => 'value1',
                 ),
                 '/text_list/'
@@ -217,7 +217,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testAddBlock()
     {
-        $this->assertInstanceOf('\Magento\Core\Block\Text', $this->_layout->addBlock('Magento\Core\Block\Text',
+        $this->assertInstanceOf('Magento\Core\Block\Text', $this->_layout->addBlock('Magento\Core\Block\Text',
             'block1'));
         $block2 = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Core\Block\Text');
         $block2->setNameInLayout('block2');
@@ -404,20 +404,20 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testGetMessagesBlock()
     {
-        $this->assertInstanceOf('\Magento\Core\Block\Messages', $this->_layout->getMessagesBlock());
+        $this->assertInstanceOf('Magento\Core\Block\Messages', $this->_layout->getMessagesBlock());
     }
 
     public function testGetBlockSingleton()
     {
         $block = $this->_layout->getBlockSingleton('Magento\Core\Block\Text');
-        $this->assertInstanceOf('\Magento\Core\Block\Text', $block);
+        $this->assertInstanceOf('Magento\Core\Block\Text', $block);
         $this->assertSame($block, $this->_layout->getBlockSingleton('Magento\Core\Block\Text'));
     }
 
     public function testHelper()
     {
         $helper = $this->_layout->helper('Magento\Core\Helper\Data');
-        $this->assertInstanceOf('\Magento\Core\Helper\Data', $helper);
+        $this->assertInstanceOf('Magento\Core\Helper\Data', $helper);
         $this->assertSame($this->_layout, $helper->getLayout());
     }
 }

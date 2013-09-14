@@ -176,7 +176,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         $this->_selectMock->expects($this->any())
             ->method('from')
             ->with(array('main_table' => null));
-        $this->assertInstanceOf('\Magento\Webhook\Model\Resource\Subscription\Collection', $collection->clearFilters());
+        $this->assertInstanceOf('Magento\Webhook\Model\Resource\Subscription\Collection', $collection->clearFilters());
     }
 
     public function testAddEndpointIdsFilter()
@@ -186,7 +186,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         $this->_selectMock->expects($this->once())
             ->method('where')
             ->with('endpoint_id IN (?)', $endpointIds);
-        $this->assertInstanceOf('\Magento\Webhook\Model\Resource\Subscription\Collection',
+        $this->assertInstanceOf('Magento\Webhook\Model\Resource\Subscription\Collection',
             $collection->addEndpointIdsFilter($endpointIds));
     }
 
@@ -196,7 +196,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
             ->method('quoteInto')
             ->with('hooks.subscription_id=main_table.subscription_id AND hooks.topic=?', self::TOPIC);
         $collection = $this->_makeCollectionMock(array('load'));
-        $this->assertInstanceOf('\Magento\Webhook\Model\Resource\Subscription\Collection',
+        $this->assertInstanceOf('Magento\Webhook\Model\Resource\Subscription\Collection',
             $collection->addTopicFilter(self::TOPIC));
     }
 
@@ -207,7 +207,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
             ->method('addFieldToFilter')
             ->with('alias', self::ALIAS);
 
-        $this->assertInstanceOf('\Magento\Webhook\Model\Resource\Subscription\Collection',
+        $this->assertInstanceOf('Magento\Webhook\Model\Resource\Subscription\Collection',
             $collection->addAliasFilter(self::ALIAS));
     }
 
@@ -217,7 +217,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         $collection->expects($this->once())
             ->method('addFieldToFilter')
             ->with('status', \Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE);
-        $this->assertInstanceOf('\Magento\Webhook\Model\Resource\Subscription\Collection',
+        $this->assertInstanceOf('Magento\Webhook\Model\Resource\Subscription\Collection',
             $collection->addIsActiveFilter(true));
     }
 
@@ -227,7 +227,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         $collection->expects($this->once())
             ->method('addFieldToFilter')
             ->with('status', \Magento\PubSub\SubscriptionInterface::STATUS_INACTIVE);
-        $this->assertInstanceOf('\Magento\Webhook\Model\Resource\Subscription\Collection',
+        $this->assertInstanceOf('Magento\Webhook\Model\Resource\Subscription\Collection',
             $collection->addIsActiveFilter(false));
     }
 
@@ -239,7 +239,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
             ->with('status IN (?)', array(
                 \Magento\Webhook\Model\Subscription::STATUS_ACTIVE,
                 \Magento\Webhook\Model\Subscription::STATUS_REVOKED));
-        $this->assertInstanceOf('\Magento\Webhook\Model\Resource\Subscription\Collection',
+        $this->assertInstanceOf('Magento\Webhook\Model\Resource\Subscription\Collection',
             $collection->addNotInactiveFilter());
     }
 

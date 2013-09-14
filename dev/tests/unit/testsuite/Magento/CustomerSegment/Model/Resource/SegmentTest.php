@@ -41,7 +41,7 @@ class Magento_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Framewo
     protected function setUp()
     {
         $this->_writeAdapter = $this->getMockForAbstractClass(
-            '\Magento\DB\Adapter\AdapterInterface', array(), '', false, true, true,
+            'Magento\DB\Adapter\AdapterInterface', array(), '', false, true, true,
             array(
                 'query',
                 'insertMultiple',
@@ -51,7 +51,7 @@ class Magento_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Framewo
         );
 
         $this->_resource = $this->getMock(
-            '\Magento\Core\Model\Resource', array('getConnection', 'getTableName'), array(), '', false
+            'Magento\Core\Model\Resource', array('getConnection', 'getTableName'), array(), '', false
         );
         $this->_resource->expects($this->any())->method('getTableName')->will($this->returnArgument(0));
         $this->_resource

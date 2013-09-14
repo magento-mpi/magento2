@@ -25,7 +25,7 @@ class Category extends \Magento\Catalog\Block\Layer\Filter\AbstractFilter
     protected function _construct()
     {
         parent::_construct();
-        $this->_filterModelName = '\Magento\Search\Model\Catalog\Layer\Filter\Category';
+        $this->_filterModelName = 'Magento\Search\Model\Catalog\Layer\Filter\Category';
     }
 
     /**

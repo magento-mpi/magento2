@@ -36,7 +36,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
 
         \Magento\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
-                '\Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Form\Renderer\Element',
+                'Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Form\Renderer\Element',
                 $this->getNameInLayout() . '_element_gift_wrapping'
             )
         );
@@ -84,7 +84,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
                 'value'    => $model->getWebsiteIds(),
             ));
             $renderer = $this->getLayout()->createBlock(
-                '\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element'
+                'Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element'
             );
             $field->setRenderer($renderer);
         }
@@ -99,7 +99,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             )
         ));
 
-        $fieldset->addType('price', '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Price');
+        $fieldset->addType('price', 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Price');
         $fieldset->addField('base_price', 'price', array(
             'label'    => __('Price'),
             'name'     => 'base_price',
@@ -145,6 +145,6 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _getAdditionalElementTypes()
     {
-        return array('image' => '\Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Helper\Image');
+        return array('image' => 'Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Helper\Image');
     }
 }

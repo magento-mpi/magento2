@@ -66,7 +66,7 @@ class Magento_Catalog_Model_CategoryTreeTest extends PHPUnit_Framework_TestCase
     public function testGetParentCategory()
     {
         $category = $this->_model->getParentCategory();
-        $this->assertInstanceOf('\Magento\Catalog\Model\Category', $category);
+        $this->assertInstanceOf('Magento\Catalog\Model\Category', $category);
         $this->assertSame($category, $this->_model->getParentCategory());
     }
 

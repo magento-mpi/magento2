@@ -69,11 +69,11 @@ class View extends \Magento\Core\Block\Template
      */
     protected function _initBlocks()
     {
-        $this->_stateBlockName              = '\Magento\Catalog\Block\Layer\State';
-        $this->_categoryBlockName           = '\Magento\Catalog\Block\Layer\Filter\Category';
-        $this->_attributeFilterBlockName    = '\Magento\Catalog\Block\Layer\Filter\Attribute';
-        $this->_priceFilterBlockName        = '\Magento\Catalog\Block\Layer\Filter\Price';
-        $this->_decimalFilterBlockName      = '\Magento\Catalog\Block\Layer\Filter\Decimal';
+        $this->_stateBlockName              = 'Magento\Catalog\Block\Layer\State';
+        $this->_categoryBlockName           = 'Magento\Catalog\Block\Layer\Filter\Category';
+        $this->_attributeFilterBlockName    = 'Magento\Catalog\Block\Layer\Filter\Attribute';
+        $this->_priceFilterBlockName        = 'Magento\Catalog\Block\Layer\Filter\Price';
+        $this->_decimalFilterBlockName      = 'Magento\Catalog\Block\Layer\Filter\Decimal';
     }
 
     /**

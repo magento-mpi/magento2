@@ -51,7 +51,7 @@ class Logo
      */
     protected function _addElementTypes()
     {
-        $this->addType('logo-uploader', '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\LogoUploader');
+        $this->addType('logo-uploader', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\LogoUploader');
         return $this;
     }
 }

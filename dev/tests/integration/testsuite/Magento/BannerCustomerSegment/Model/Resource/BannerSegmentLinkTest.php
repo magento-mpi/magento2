@@ -16,7 +16,7 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
     protected function setUp()
     {
         $this->_resourceModel = Mage::getResourceModel(
-            '\Magento\BannerCustomerSegment\Model\Resource\BannerSegmentLink'
+            'Magento\BannerCustomerSegment\Model\Resource\BannerSegmentLink'
         );
     }
 

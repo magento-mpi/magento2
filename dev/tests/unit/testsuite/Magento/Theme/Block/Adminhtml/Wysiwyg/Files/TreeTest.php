@@ -33,11 +33,11 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_TreeTest extends PHPUnit_Frame
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $constructArguments =  $objectManagerHelper->getConstructArguments(
-            '\Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content',
+            'Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content',
             array('urlBuilder'    => $this->_urlBuilder)
         );
         $this->_filesTree = $this->getMock(
-            '\Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Tree', array('helper'), $constructArguments
+            'Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Tree', array('helper'), $constructArguments
         );
 
         $this->_filesTree->expects($this->any())

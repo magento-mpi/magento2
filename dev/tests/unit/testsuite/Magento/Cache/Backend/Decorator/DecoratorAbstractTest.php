@@ -31,15 +31,15 @@ class Magento_Cache_Backend_Decorator_DecoratorAbstractTest extends PHPUnit_Fram
         $options = array('concrete_backend' => $this->_mockBackend, 'testOption' => 'testOption');
 
         $decorator = $this->getMockForAbstractClass(
-            '\Magento\Cache\Backend\Decorator\DecoratorAbstract',
+            'Magento\Cache\Backend\Decorator\DecoratorAbstract',
             array($options)
         );
 
-        $backendProperty = new ReflectionProperty('\Magento\Cache\Backend\Decorator\DecoratorAbstract', '_backend');
+        $backendProperty = new ReflectionProperty('Magento\Cache\Backend\Decorator\DecoratorAbstract', '_backend');
         $backendProperty->setAccessible(true);
 
         $optionsProperty =
-            new ReflectionProperty('\Magento\Cache\Backend\Decorator\DecoratorAbstract', '_decoratorOptions');
+            new ReflectionProperty('Magento\Cache\Backend\Decorator\DecoratorAbstract', '_decoratorOptions');
         $optionsProperty->setAccessible(true);
 
         $this->assertSame($backendProperty->getValue($decorator), $this->_mockBackend);
@@ -56,7 +56,7 @@ class Magento_Cache_Backend_Decorator_DecoratorAbstractTest extends PHPUnit_Fram
     public function testConstructorException($options)
     {
         $this->getMockForAbstractClass(
-            '\Magento\Cache\Backend\Decorator\DecoratorAbstract',
+            'Magento\Cache\Backend\Decorator\DecoratorAbstract',
             array($options)
         );
     }
@@ -77,7 +77,7 @@ class Magento_Cache_Backend_Decorator_DecoratorAbstractTest extends PHPUnit_Fram
         $this->_mockBackend->expects($this->once())->method($methodName);
 
         $decorator = $this->getMockForAbstractClass(
-            '\Magento\Cache\Backend\Decorator\DecoratorAbstract',
+            'Magento\Cache\Backend\Decorator\DecoratorAbstract',
             array(array('concrete_backend' => $this->_mockBackend))
         );
 

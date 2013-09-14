@@ -29,7 +29,7 @@ class Price
     public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('\Magento\TargetRule\Model\Actions\Condition\Product\Special\Price');
+        $this->setType('Magento\TargetRule\Model\Actions\Condition\Product\Special\Price');
         $this->setValue(100);
     }
 

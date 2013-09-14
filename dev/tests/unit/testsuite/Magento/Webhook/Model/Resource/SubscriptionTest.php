@@ -199,7 +199,7 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
     private function _makeSubscriptionResourceMock($methods)
     {
         return $this->getMock(
-            '\Magento\Webhook\Model\Resource\Subscription',
+            'Magento\Webhook\Model\Resource\Subscription',
             $methods,
             array($this->_resourceMock, $this->_configMock),
             '',

@@ -69,7 +69,7 @@ class Magento_Webapi_Controller_Response_Rest_Renderer_FactoryTest extends PHPUn
             ->getMock();
         /** Mock object to return mocked renderer. */
         $this->_objectManagerMock->expects($this->once())->method('get')->with(
-            '\Magento\Webapi\Controller\Response\Rest\Renderer\Json'
+            'Magento\Webapi\Controller\Response\Rest\Renderer\Json'
         )->will($this->returnValue($rendererMock));
         $this->_factory->get();
     }
@@ -101,7 +101,7 @@ XML;
         /** Mock request to return empty Accept Types. */
         $this->_requestMock->expects($this->once())->method('getAcceptTypes')->will($this->returnValue(''));
         $this->setExpectedException(
-            '\Magento\Webapi\Exception',
+            'Magento\Webapi\Exception',
             'Server cannot understand Accept HTTP header media type.',
             \Magento\Webapi\Exception::HTTP_NOT_ACCEPTABLE
         );
@@ -123,12 +123,12 @@ XML;
         $this->_requestMock->expects($this->once())->method('getAcceptTypes')->will($this->returnValue($acceptTypes));
         /** Mock object to return \Magento\Object */
         $this->_objectManagerMock->expects($this->once())->method('get')->with(
-            '\Magento\Webapi\Controller\Response\Rest\Renderer\Json'
+            'Magento\Webapi\Controller\Response\Rest\Renderer\Json'
         )->will($this->returnValue(new \Magento\Object()));
 
         $this->setExpectedException(
             'LogicException',
-            'The renderer must implement "\Magento\Webapi\Controller\Response\Rest\RendererInterface".'
+            'The renderer must implement "Magento\Webapi\Controller\Response\Rest\RendererInterface".'
         );
         $this->_factory->get();
     }

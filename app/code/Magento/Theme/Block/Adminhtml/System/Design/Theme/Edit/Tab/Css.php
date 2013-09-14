@@ -251,8 +251,8 @@ class Css
      */
     protected function _getAdditionalElementTypes()
     {
-        $linksElement = '\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\Links';
-        $fileElement = '\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\File';
+        $linksElement = 'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\Links';
+        $fileElement = 'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\File';
         return array('links' => $linksElement, 'css_file' => $fileElement);
     }
 

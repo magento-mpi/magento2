@@ -25,7 +25,7 @@ class Price extends \Magento\Catalog\Block\Layer\Filter\AbstractFilter
     protected function _construct()
     {
         parent::_construct();
-        $this->_filterModelName = '\Magento\Search\Model\Catalog\Layer\Filter\Price';
+        $this->_filterModelName = 'Magento\Search\Model\Catalog\Layer\Filter\Price';
     }
 
     /**

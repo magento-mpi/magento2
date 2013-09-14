@@ -75,7 +75,7 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
         $this->addColumn('name', array(
             'header'    => __('Product'),
             'index'     => 'name',
-            'renderer'  => '\Magento\Adminhtml\Block\Customer\Edit\Tab\View\Grid\Renderer\Item'
+            'renderer'  => 'Magento\Adminhtml\Block\Customer\Edit\Tab\View\Grid\Renderer\Item'
         ));
 
         $this->addColumn('sku', array(
@@ -108,7 +108,7 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
         $this->addColumn('action', array(
             'header'    => __('Action'),
             'index'     => 'quote_item_id',
-            'renderer'  => '\Magento\Adminhtml\Block\Customer\Grid\Renderer\Multiaction',
+            'renderer'  => 'Magento\Adminhtml\Block\Customer\Grid\Renderer\Multiaction',
             'filter'    => false,
             'sortable'  => false,
             'actions'   => array(

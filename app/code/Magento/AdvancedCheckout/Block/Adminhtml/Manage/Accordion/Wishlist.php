@@ -126,7 +126,7 @@ class Wishlist
     {
         parent::_addControlColumns();
         $this->getColumn('qty')->addData(array(
-            'renderer' => '\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Wishlist\Qty'
+            'renderer' => 'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Wishlist\Qty'
         ));
 
         return $this;

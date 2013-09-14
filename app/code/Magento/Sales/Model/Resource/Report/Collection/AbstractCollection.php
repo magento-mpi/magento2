@@ -33,7 +33,7 @@ class AbstractCollection
         \Magento\Sales\Model\Resource\Report $resource
     ) {
         parent::__construct($fetchStrategy, $resource);
-        $this->setModel('\Magento\Adminhtml\Model\Report\Item');
+        $this->setModel('Magento\Adminhtml\Model\Report\Item');
     }
 
     /**

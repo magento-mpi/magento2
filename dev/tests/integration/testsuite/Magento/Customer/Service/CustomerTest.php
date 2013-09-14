@@ -56,7 +56,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     public function testCreate($customerData)
     {
         $this->_createdCustomer = $this->_model->create($customerData);
-        $this->assertInstanceOf('\Magento\Customer\Model\Customer', $this->_createdCustomer);
+        $this->assertInstanceOf('Magento\Customer\Model\Customer', $this->_createdCustomer);
         $this->assertNotEmpty($this->_createdCustomer->getId());
 
         $loadedCustomer = $this->_customerFactory->create()
@@ -135,7 +135,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'password' => '123123q',
                 'store_id' => \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
-            ), '\Magento\Validator\ValidatorException'),
+            ), 'Magento\Validator\ValidatorException'),
             'Invalid email' => array(array(
                 'website_id' => 0,
                 'group_id' => 1,
@@ -147,7 +147,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'email' => '111@111',
                 'password' => '123123q',
                 'store_id' => \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
-            ), '\Magento\Validator\ValidatorException'),
+            ), 'Magento\Validator\ValidatorException'),
             'Invalid password' => array(array(
                 'website_id' => 0,
                 'group_id' => 1,
@@ -159,7 +159,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'password' => '123',
                 'store_id' => \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
-            ), '\Magento\Eav\Model\Entity\Attribute\Exception', 'The password must have at least 6 characters.')
+            ), 'Magento\Eav\Model\Entity\Attribute\Exception', 'The password must have at least 6 characters.')
         );
     }
 
@@ -299,7 +299,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             ->load(1);
 
         $updatedCustomer = $this->_model->update($expected->getId(), $customerData);
-        $this->assertInstanceOf('\Magento\Customer\Model\Customer', $updatedCustomer);
+        $this->assertInstanceOf('Magento\Customer\Model\Customer', $updatedCustomer);
         $this->assertFalse($updatedCustomer->isObjectNew());
 
         $actualData = $this->_customerFactory->create()
@@ -362,13 +362,13 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         return array(
             'Invalid password' => array(array(
                 'password' => '111'
-            ), '\Magento\Eav\Model\Entity\Attribute\Exception'),
+            ), 'Magento\Eav\Model\Entity\Attribute\Exception'),
             'Invalid name' => array(array(
                 'firstname' => null
-            ), '\Magento\Validator\ValidatorException'),
+            ), 'Magento\Validator\ValidatorException'),
             'Invalid email' => array(array(
                 'email' => '3434@23434'
-            ), '\Magento\Validator\ValidatorException')
+            ), 'Magento\Validator\ValidatorException')
         );
     }
 

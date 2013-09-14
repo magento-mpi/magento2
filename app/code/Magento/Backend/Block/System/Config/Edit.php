@@ -20,7 +20,7 @@ namespace Magento\Backend\Block\System\Config;
 
 class Edit extends \Magento\Backend\Block\Widget
 {
-    const DEFAULT_SECTION_BLOCK = '\Magento\Backend\Block\System\Config\Form';
+    const DEFAULT_SECTION_BLOCK = 'Magento\Backend\Block\System\Config\Form';
 
     /**
      * Form block class name

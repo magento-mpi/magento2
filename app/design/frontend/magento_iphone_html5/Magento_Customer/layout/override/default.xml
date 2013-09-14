@@ -12,7 +12,7 @@
         <reference name="top.links">
             <action method="addLink">
                 <argument translate="true" name="label" xsi:type="string">My Account</argument>
-                <argument name="url" xsi:type="helper" helper="\Magento\Customer\Helper\Data::getAccountUrl"/>
+                <argument name="url" xsi:type="helper" helper="Magento\Customer\Helper\Data::getAccountUrl"/>
                 <argument translate="true" name="title" xsi:type="string">My Account</argument>
                 <argument name="prepare" xsi:type="string"/>
                 <argument name="urlParams" xsi:type="string"/>
@@ -22,7 +22,7 @@
         <reference name="account.links">
             <action method="addLink">
                 <argument translate="true" name="label" xsi:type="string">Register</argument>
-                <argument name="url" xsi:type="helper" helper="\Magento\Customer\Helper\Data::getRegisterUrl"/>
+                <argument name="url" xsi:type="helper" helper="Magento\Customer\Helper\Data::getRegisterUrl"/>
                 <argument translate="true" name="title" xsi:type="string">Register</argument>
                 <argument name="prepare" xsi:type="string"/>
                 <argument name="urlParams" xsi:type="string"/>

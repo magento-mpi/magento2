@@ -38,7 +38,7 @@ class Finance
      * Attribute collection name
      */
     const ATTRIBUTE_COLLECTION_NAME =
-        '\Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection';
+        'Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection';
 
     /**
      * XML path to page size parameter

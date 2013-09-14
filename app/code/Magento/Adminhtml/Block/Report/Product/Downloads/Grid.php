@@ -84,7 +84,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'filter'    => false,
             'index'     => 'purchases',
             'type'      => 'number',
-            'renderer'  => '\Magento\Adminhtml\Block\Report\Product\Downloads\Renderer\Purchases',
+            'renderer'  => 'Magento\Adminhtml\Block\Report\Product\Downloads\Renderer\Purchases',
             'header_css_class'  => 'col-purchases',
             'column_css_class'  => 'col-purchases'
         ));

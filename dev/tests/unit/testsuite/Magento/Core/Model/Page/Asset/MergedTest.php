@@ -62,7 +62,7 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
         $this->_mergeStrategy = $this->getMock('Magento\Core\Model\Page\Asset\MergeStrategyInterface');
 
         $this->_objectManager = $this->getMockForAbstractClass(
-            '\Magento\ObjectManager', array(), '', true, true, true, array('create')
+            'Magento\ObjectManager', array(), '', true, true, true, array('create')
         );
 
         $this->_object = new \Magento\Core\Model\Page\Asset\Merged(

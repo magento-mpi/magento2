@@ -27,8 +27,8 @@ class Collection
     protected function _construct()
     {
         $this->_init(
-            '\Magento\ScheduledImportExport\Model\Scheduled\Operation',
-            '\Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation'
+            'Magento\ScheduledImportExport\Model\Scheduled\Operation',
+            'Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation'
         );
     }
 

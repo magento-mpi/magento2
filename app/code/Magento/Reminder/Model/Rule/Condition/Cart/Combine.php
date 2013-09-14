@@ -25,7 +25,7 @@ class Combine
     public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('\Magento\Reminder\Model\Rule\Condition\Cart\Combine');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Cart\Combine');
     }
 
     /**
@@ -38,18 +38,18 @@ class Combine
         return array_merge_recursive(
             parent::getNewChildSelectOptions(), array(
                 $this->_getRecursiveChildSelectOption(),
-                \Mage::getModel("\Magento\Reminder\Model\Rule\Condition\Cart\Couponcode")
+                \Mage::getModel("Magento\Reminder\Model\Rule\Condition\Cart\Couponcode")
                         ->getNewChildSelectOptions(),
-                \Mage::getModel("\Magento\Reminder\Model\Rule\Condition\Cart\Itemsquantity")
+                \Mage::getModel("Magento\Reminder\Model\Rule\Condition\Cart\Itemsquantity")
                         ->getNewChildSelectOptions(),
-                \Mage::getModel("\Magento\Reminder\Model\Rule\Condition\Cart\Totalquantity")
+                \Mage::getModel("Magento\Reminder\Model\Rule\Condition\Cart\Totalquantity")
                         ->getNewChildSelectOptions(),
-                \Mage::getModel("\Magento\Reminder\Model\Rule\Condition\Cart\Virtual")
+                \Mage::getModel("Magento\Reminder\Model\Rule\Condition\Cart\Virtual")
                         ->getNewChildSelectOptions(),
-                \Mage::getModel("\Magento\Reminder\Model\Rule\Condition\Cart\Amount")
+                \Mage::getModel("Magento\Reminder\Model\Rule\Condition\Cart\Amount")
                         ->getNewChildSelectOptions(),
                 array( // subselection combo
-                    'value' => '\Magento\Reminder\Model\Rule\Condition\Cart\Subselection',
+                    'value' => 'Magento\Reminder\Model\Rule\Condition\Cart\Subselection',
                     'label' => __('Items Subselection')
                 )
             )

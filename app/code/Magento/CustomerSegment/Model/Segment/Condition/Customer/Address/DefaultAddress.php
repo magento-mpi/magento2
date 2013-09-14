@@ -28,7 +28,7 @@ class DefaultAddress
     public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('\Magento\CustomerSegment\Model\Segment\Condition\Customer\Address\DefaultAddress');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Customer\Address\DefaultAddress');
         $this->setValue('default_billing');
     }
 

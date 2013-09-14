@@ -399,7 +399,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
         }
 
         $this->_productEntity = $this->getMock(
-            '\Magento\ImportExport\Model\Import\Entity\Product', null, array(), '', false
+            'Magento\ImportExport\Model\Import\Entity\Product', null, array(), '', false
         );
 
         $productModelMock = $this->getMock('stdClass', array('getProductEntitiesInfo'), array(), '', false);
@@ -408,7 +408,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
             ->will($this->returnValue($products));
 
         $fetchStrategy = $this->getMockForAbstractClass(
-            '\Magento\Data\Collection\Db\FetchStrategyInterface', array('fetchAll')
+            'Magento\Data\Collection\Db\FetchStrategyInterface', array('fetchAll')
         );
 
         $optionCollection = $this->getMock(

@@ -36,7 +36,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_LayoutTest ext
             )
         );
         $this->_block = $this->getMock(
-            '\Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Layout',
+            'Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Layout',
             array('_getLayoutMerge'), $args
         );
         $this->_block

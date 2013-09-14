@@ -50,7 +50,7 @@ class Magento_Test_EntityTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'successful CRUD'         => array('saveModelSuccessfully'),
-            'cleanup on update error' => array('saveModelAndFailOnUpdate', '\Magento\Exception'),
+            'cleanup on update error' => array('saveModelAndFailOnUpdate', 'Magento\Exception'),
         );
     }
 
@@ -62,7 +62,7 @@ class Magento_Test_EntityTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException($expectedException);
 
         $this->_model = $this->getMock(
-            '\Magento\Core\Model\AbstractModel',
+            'Magento\Core\Model\AbstractModel',
             array('load', 'save', 'delete', 'getIdFieldName', '__wakeup'),
             array(),
             '',

@@ -36,7 +36,7 @@ class Magento_Webapi_Model_Authorization_Loader_RuleTest extends PHPUnit_Framewo
 
         $this->_acl = $this->getMock('Magento\Acl', array('has', 'hasRole', 'allow'), array(), '', false);
 
-        $this->_model = $helper->getObject('\Magento\Webapi\Model\Authorization\Loader\Rule', array(
+        $this->_model = $helper->getObject('Magento\Webapi\Model\Authorization\Loader\Rule', array(
             'ruleResource' => $this->_ruleResource,
         ));
     }

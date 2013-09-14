@@ -106,7 +106,7 @@ class DefaultModel extends \Zend_Captcha_Image implements \Magento\Captcha\Model
      */
     public function getBlockName()
     {
-        return '\Magento\Captcha\Block\Captcha\DefaultCaptcha';
+        return 'Magento\Captcha\Block\Captcha\DefaultCaptcha';
     }
 
 

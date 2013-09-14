@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="cms_wysiwyg_config_prepare">
-        <observer name="widget_observer" instance="\Magento\Widget\Model\Observer" method="prepareWidgetsPluginConfig" />
+        <observer name="widget_observer" instance="Magento\Widget\Model\Observer" method="prepareWidgetsPluginConfig" />
     </event>
-</config>
+</config>

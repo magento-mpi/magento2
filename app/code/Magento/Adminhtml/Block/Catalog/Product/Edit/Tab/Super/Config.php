@@ -137,7 +137,7 @@ class Config
 //                    'catalog.product.edit.tab.super.config.simple')
 //            );
 //
-//            $this->addChild('create_from_configurable', '\Magento\Adminhtml\Block\Widget\Button', array(
+//            $this->addChild('create_from_configurable', 'Magento\Adminhtml\Block\Widget\Button', array(
 //                'label' => __('Copy From Configurable'),
 //                'class' => 'add',
 //                'onclick' => 'superProduct.createNewProduct()'
@@ -146,7 +146,7 @@ class Config
 
         $this->addChild(
             'generate',
-            '\Magento\Backend\Block\Widget\Button',
+            'Magento\Backend\Block\Widget\Button',
             array(
                 'label' => __('Generate Variations'),
                 'class' => 'generate',
@@ -166,7 +166,7 @@ class Config
         );
         $this->addChild(
             'add_attribute',
-            '\Magento\Backend\Block\Widget\Button',
+            'Magento\Backend\Block\Widget\Button',
             array(
                 'label' => __('Create New Variation Set'),
                 'class' => 'new-variation-set',
@@ -195,7 +195,7 @@ class Config
         );
         $this->addChild(
             'add_option',
-            '\Magento\Backend\Block\Widget\Button',
+            'Magento\Backend\Block\Widget\Button',
             array(
                 'label' => __('Add Option'),
                 'class' => 'action- scalable add',

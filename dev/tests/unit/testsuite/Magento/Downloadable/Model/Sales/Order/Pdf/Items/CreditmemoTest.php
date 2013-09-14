@@ -29,7 +29,7 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PH
     protected function setUp()
     {
         $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $modelConstructorArgs = $objectManager->getConstructArguments('\Magento\Sales\Model\Order');
+        $modelConstructorArgs = $objectManager->getConstructArguments('Magento\Sales\Model\Order');
 
         $this->_order = $this->getMock('Magento\Sales\Model\Order', array('formatPriceTxt'), $modelConstructorArgs);
         $this->_order
@@ -41,7 +41,7 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PH
         $this->_pdf = $this->getMock('Magento\Sales\Model\Order\Pdf\AbstractPdf', array('drawLineBlocks', 'getPdf'));
 
         $this->_model = $this->getMock(
-            '\Magento\Downloadable\Model\Sales\Order\Pdf\Items\Creditmemo',
+            'Magento\Downloadable\Model\Sales\Order\Pdf\Items\Creditmemo',
             array('getLinks', 'getLinksTitle'),
             $modelConstructorArgs
         );

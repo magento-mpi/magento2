@@ -113,7 +113,7 @@ class Response
     protected function _getCreatedItemLocation($createdItem)
     {
         $apiTypeRoute = $this->_routeFactory->createRoute(
-            '\Magento\Webapi\Controller\Router\Route',
+            'Magento\Webapi\Controller\Router\Route',
             $this->_applicationConfig->getAreaFrontName() . '/:' . \Magento\Webapi\Controller\Request::PARAM_API_TYPE
         );
         $resourceName = $this->_request->getResourceName();

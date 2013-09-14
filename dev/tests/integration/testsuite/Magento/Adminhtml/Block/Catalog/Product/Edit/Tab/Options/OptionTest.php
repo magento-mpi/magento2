@@ -38,7 +38,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_OptionTest extend
         $product = clone $productWithOptions;
         /** @var $option \Magento\Catalog\Model\Product\Option */
         $option = Mage::getModel(
-            '\Magento\Catalog\Model\Product\Option',
+            'Magento\Catalog\Model\Product\Option',
             array('data' => array('id' => 1, 'title' => 'some_title'))
         );
         $productWithOptions->addOption($option);

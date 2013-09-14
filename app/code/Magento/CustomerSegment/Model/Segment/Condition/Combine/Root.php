@@ -32,7 +32,7 @@ class Root
         array $data = array()
     ) {
         parent::__construct($context, $data);
-        $this->setType('\Magento\CustomerSegment\Model\Segment\Condition\Combine\Root');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Combine\Root');
         $this->_configShare = $configShare;
     }
 

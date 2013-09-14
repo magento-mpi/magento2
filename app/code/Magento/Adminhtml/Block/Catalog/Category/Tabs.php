@@ -24,7 +24,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
      *
      * @var string
      */
-    protected $_attributeTabBlock = '\Magento\Adminhtml\Block\Catalog\Category\Tab\Attributes';
+    protected $_attributeTabBlock = 'Magento\Adminhtml\Block\Catalog\Category\Tab\Attributes';
 
     protected $_template = 'widget/tabshoriz.phtml';
 
@@ -137,7 +137,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
         $this->addTab('products', array(
             'label'     => __('Category Products'),
             'content'   => $this->getLayout()->createBlock(
-                '\Magento\Adminhtml\Block\Catalog\Category\Tab\Product',
+                'Magento\Adminhtml\Block\Catalog\Category\Tab\Product',
                 'category.product.grid'
             )->toHtml(),
         ));

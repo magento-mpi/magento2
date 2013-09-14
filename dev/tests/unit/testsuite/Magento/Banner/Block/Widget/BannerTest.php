@@ -36,7 +36,7 @@ class Magento_Banner_Block_Widget_BannerTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_bannerResource = $this->getMock(
-            '\Magento\Banner\Model\Resource\Banner',
+            'Magento\Banner\Model\Resource\Banner',
             array(
                 'filterByTypes',
                 'getExistingBannerIdsBySpecifiedIds',
@@ -48,11 +48,11 @@ class Magento_Banner_Block_Widget_BannerTest extends PHPUnit_Framework_TestCase
         );
 
         $this->_checkoutSession = $this->getMock(
-            '\Magento\Checkout\Model\Session', array('getQuoteId', 'getQuote'), array(), '', false
+            'Magento\Checkout\Model\Session', array('getQuoteId', 'getQuote'), array(), '', false
         );
 
         $this->_customerSession = $this->getMock(
-            '\Magento\Customer\Model\Session', array('getCustomerGroupId'), array(), '', false
+            'Magento\Customer\Model\Session', array('getCustomerGroupId'), array(), '', false
         );
         $this->_customerSession->expects($this->any())->method('getCustomerGroupId')->will($this->returnValue(4));
 
@@ -64,7 +64,7 @@ class Magento_Banner_Block_Widget_BannerTest extends PHPUnit_Framework_TestCase
         $currentStore = new \Magento\Object(array('id' => 42));
         $currentWebsite = new \Magento\Object(array('id' => 57));
         $storeManager = $this->getMockForAbstractClass(
-            '\Magento\Core\Model\StoreManagerInterface', array(), '', true, true, true, array('getStore', 'getWebsite')
+            'Magento\Core\Model\StoreManagerInterface', array(), '', true, true, true, array('getStore', 'getWebsite')
         );
         $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($currentStore));
         $storeManager->expects($this->once())->method('getWebsite')->will($this->returnValue($currentWebsite));

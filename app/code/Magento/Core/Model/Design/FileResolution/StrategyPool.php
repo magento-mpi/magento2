@@ -59,19 +59,19 @@ class StrategyPool
      */
     protected $_strategies = array(
         'production_mode' => array(
-            'file' => '\Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy',
-            'locale' => '\Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
-            'view' => '\Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
+            'file' => 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy',
+            'locale' => 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
+            'view' => 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
         ),
         'caching_map' => array(
-            'file' => '\Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy',
-            'locale' => '\Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy',
-            'view' => '\Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy',
+            'file' => 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy',
+            'locale' => 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy',
+            'view' => 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy',
         ),
         'full_check' => array(
-            'file' => '\Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
-            'locale' => '\Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
-            'view' => '\Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
+            'file' => 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
+            'locale' => 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
+            'view' => 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
         ),
     );
 
@@ -174,7 +174,7 @@ class StrategyPool
     protected function _createStrategy($className)
     {
         switch ($className) {
-            case '\Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy':
+            case 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy':
                 $mapDir = $this->_dirs->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DIRECTORY_SEPARATOR
                     . self::FALLBACK_MAP_DIR;
                 $arguments = array(

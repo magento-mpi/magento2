@@ -83,7 +83,7 @@ class Filesystem implements \Magento\Config\ReaderInterface
         \Magento\Config\ValidationStateInterface $validationState,
         $fileName,
         $idAttributes,
-        $domDocumentClass = '\Magento\Config\Dom'
+        $domDocumentClass = 'Magento\Config\Dom'
     ) {
         $this->_fileResolver = $fileResolver;
         $this->_converter = $converter;

@@ -23,7 +23,7 @@ class Shoppingcart
     public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('\Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart');
         $this->setValue(null);
     }
 

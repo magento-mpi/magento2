@@ -87,7 +87,7 @@
                             <argument name="index" xsi:type="string">website_ids</argument>
                             <argument name="type" xsi:type="string">options</argument>
                             <argument name="sortable" xsi:type="string">0</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\Backend\Model\Config\Source\Website\OptionHash"/>
+                            <argument name="options" xsi:type="options" model="Magento\Backend\Model\Config\Source\Website\OptionHash"/>
                             <argument name="width" xsi:type="string">200px</argument>
                         </arguments>
                     </block>

@@ -51,12 +51,12 @@ class Magento_Core_Model_Store_StorageFactoryTest extends PHPUnit_Framework_Test
     /**
      * @var string
      */
-    protected $_defaultStorage = '\Magento\Core\Model\Store\Storage\DefaultStorage';
+    protected $_defaultStorage = 'Magento\Core\Model\Store\Storage\DefaultStorage';
 
     /**
      * @var string
      */
-    protected $_dbStorage = '\Magento\Core\Model\Store\Storage\Db';
+    protected $_dbStorage = 'Magento\Core\Model\Store\Storage\Db';
 
     /**
      * @var array

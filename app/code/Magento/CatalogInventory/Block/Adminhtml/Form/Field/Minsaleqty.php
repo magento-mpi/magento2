@@ -34,7 +34,7 @@ class Minsaleqty
     {
         if (!$this->_groupRenderer) {
             $this->_groupRenderer = $this->getLayout()->createBlock(
-                '\Magento\CatalogInventory\Block\Adminhtml\Form\Field\Customergroup', '',
+                'Magento\CatalogInventory\Block\Adminhtml\Form\Field\Customergroup', '',
                 array('data' => array('is_render_to_js_template' => true))
             );
             $this->_groupRenderer->setClass('customer_group_select');

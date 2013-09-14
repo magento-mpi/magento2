@@ -39,7 +39,7 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
         $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
         $this->_controller = Mage::getModel(
-            '\Magento\Catalog\Controller\Product',
+            'Magento\Catalog\Controller\Product',
             array(
                 'context'  => $context,
             )
@@ -69,7 +69,7 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
 
         $this->_helper->initProductLayout($product, $this->_controller);
         $rootBlock = $this->_controller->getLayout()->getBlock('root');
-        $this->assertInstanceOf('\Magento\Page\Block\Html', $rootBlock);
+        $this->assertInstanceOf('Magento\Page\Block\Html', $rootBlock);
         $this->assertContains("product-{$uniqid}", $rootBlock->getBodyClass());
         $handles = $this->_controller->getLayout()->getUpdate()->getHandles();
         $this->assertContains('catalog_product_view_type_simple', $handles);
@@ -94,7 +94,7 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     public function testPrepareAndRenderWrongController()
     {
         $controller = Mage::getModel(
-            '\Magento\Core\Controller\Front\Action',
+            'Magento\Core\Controller\Front\Action',
             array(
                 'request'  => new Magento_TestFramework_Request,
                 'response' => new Magento_TestFramework_Response,
@@ -123,8 +123,8 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     public function testGetSessionMessageModels()
     {
         $expectedMessages = array(
-            '\Magento\Catalog\Model\Session'  => 'catalog message',
-            '\Magento\Checkout\Model\Session' => 'checkout message',
+            'Magento\Catalog\Model\Session'  => 'catalog message',
+            'Magento\Checkout\Model\Session' => 'checkout message',
         );
 
         // add messages

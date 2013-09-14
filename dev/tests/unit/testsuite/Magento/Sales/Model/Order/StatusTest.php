@@ -27,7 +27,7 @@ class Magento_Sales_Model_Order_StatusTest extends PHPUnit_Framework_TestCase
             $eventDispatcher = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
         }
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $model = $helper->getObject('\Magento\Sales\Model\Order\Status', array(
+        $model = $helper->getObject('Magento\Sales\Model\Order\Status', array(
             'resource' => $resource,
             'eventDispatcher' => $eventDispatcher
         ));
@@ -52,6 +52,6 @@ class Magento_Sales_Model_Order_StatusTest extends PHPUnit_Framework_TestCase
 
         $model = $this->_getPreparedModel($resource, $eventDispatcher);
         $model->setStatus($status);
-        $this->assertInstanceOf('\Magento\Sales\Model\Order\Status', $model->unassignState($state));
+        $this->assertInstanceOf('Magento\Sales\Model\Order\Status', $model->unassignState($state));
     }
 }

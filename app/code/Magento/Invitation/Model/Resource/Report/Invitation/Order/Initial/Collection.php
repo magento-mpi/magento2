@@ -25,5 +25,5 @@ class Collection
      * Report sub-collection class name
      * @var string
      */
-    protected $_reportCollection = '\Magento\Invitation\Model\Resource\Report\Invitation\Order\Collection';
+    protected $_reportCollection = 'Magento\Invitation\Model\Resource\Report\Invitation\Order\Collection';
 }

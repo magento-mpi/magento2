@@ -76,7 +76,7 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form
         $this->setForm($form);
         $form->setUseContainer(true);
         $form->setFieldNameSuffix('imagesizing');
-        $form->addType('button_button', '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Button');
+        $form->addType('button_button', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Button');
 
         $isFilePresent = true;
         try{
@@ -392,6 +392,6 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form
      */
     protected function _getAdditionalElementTypes()
     {
-        return array('button_button' => '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Button');
+        return array('button_button' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Button');
     }
 }

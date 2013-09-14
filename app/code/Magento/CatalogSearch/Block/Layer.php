@@ -32,7 +32,7 @@ class Layer extends \Magento\Catalog\Block\Layer\View
     {
         parent::_initBlocks();
 
-        $this->_attributeFilterBlockName = '\Magento\CatalogSearch\Block\Layer\Filter\Attribute';
+        $this->_attributeFilterBlockName = 'Magento\CatalogSearch\Block\Layer\Filter\Attribute';
     }
 
     /**

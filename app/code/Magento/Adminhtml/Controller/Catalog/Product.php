@@ -279,7 +279,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
         $storeMediaUrl = \Mage::app()->getStore($storeId)->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA);
 
         $content = $this->getLayout()->createBlock(
-            '\Magento\Adminhtml\Block\Catalog\Helper\Form\Wysiwyg\Content',
+            'Magento\Adminhtml\Block\Catalog\Helper\Form\Wysiwyg\Content',
             '',
             array(
                 'data' => array(

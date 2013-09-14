@@ -82,7 +82,7 @@ class Magento_Catalog_Model_Layer_Filter_AttributeTest extends PHPUnit_Framework
         /** @var $item \Magento\Catalog\Model\Layer\Filter\Item */
         $item = $items[0];
 
-        $this->assertInstanceOf('\Magento\Catalog\Model\Layer\Filter\Item', $item);
+        $this->assertInstanceOf('Magento\Catalog\Model\Layer\Filter\Item', $item);
         $this->assertSame($this->_model, $item->getFilter());
         $this->assertEquals('Option Label', $item->getLabel());
         $this->assertEquals($this->_attributeOptionId, $item->getValue());

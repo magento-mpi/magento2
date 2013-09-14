@@ -63,7 +63,7 @@ class Layer extends \Magento\CatalogSearch\Model\Layer
         }
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
         $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection')
-            ->setItemObjectClass('\Magento\Catalog\Model\Resource\Eav\Attribute');
+            ->setItemObjectClass('Magento\Catalog\Model\Resource\Eav\Attribute');
 
         if (\Mage::helper('Magento\Search\Helper\Data')->getTaxInfluence()) {
             $collection->removePriceFilter();

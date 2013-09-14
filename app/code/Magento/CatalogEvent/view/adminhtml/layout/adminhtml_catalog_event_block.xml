@@ -74,7 +74,7 @@
                             <argument name="type" xsi:type="string">options</argument>
                             <argument name="index" xsi:type="string">status</argument>
                             <argument name="width" xsi:type="string">140</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\CatalogEvent\Model\Resource\Event\Grid\Statuses"/>
+                            <argument name="options" xsi:type="options" model="Magento\CatalogEvent\Model\Resource\Event\Grid\Statuses"/>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="display_state">
@@ -83,7 +83,7 @@
                             <argument name="type" xsi:type="string">options</argument>
                             <argument name="index" xsi:type="string">display_state</argument>
                             <argument name="renderer" xsi:type="string">\Magento\CatalogEvent\Block\Adminhtml\Event\Grid\Column\Renderer\Bitmask</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\CatalogEvent\Model\Resource\Event\Grid\State"/>
+                            <argument name="options" xsi:type="options" model="Magento\CatalogEvent\Model\Resource\Event\Grid\State"/>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="sort_order">

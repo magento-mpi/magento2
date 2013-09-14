@@ -48,7 +48,7 @@ class Magento_GoogleOptimizer_Model_Observer_Block_Category_TabTest extends PHPU
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_modelObserver = $objectManagerHelper->getObject(
-            '\Magento\GoogleOptimizer\Model\Observer\Block\Category\Tab',
+            'Magento\GoogleOptimizer\Model\Observer\Block\Category\Tab',
             array(
                 'helper' => $this->_helperMock,
                 'layout' => $this->_layoutMock,
@@ -64,7 +64,7 @@ class Magento_GoogleOptimizer_Model_Observer_Block_Category_TabTest extends PHPU
         $block->expects($this->once())->method('toHtml')->will($this->returnValue('generated html'));
 
         $this->_layoutMock->expects($this->once())->method('createBlock')->with(
-            '\Magento\GoogleOptimizer\Block\Adminhtml\Catalog\Category\Edit\Tab\Googleoptimizer',
+            'Magento\GoogleOptimizer\Block\Adminhtml\Catalog\Category\Edit\Tab\Googleoptimizer',
             'google-experiment-form'
         )->will($this->returnValue($block));
 

@@ -93,7 +93,7 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
         $codes = array('entity_type_id', 'attribute_set_id', 'created_at', 'updated_at', 'parent_id', 'increment_id');
         foreach ($codes as $code) {
             $mock = $this->getMock(
-                '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 array('getBackend', 'getBackendTable'),
                 array(),
                 '',
@@ -103,7 +103,7 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
 
             /** @var $backendModel \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend */
             $backendModel = $this->getMock(
-                '\Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend',
+                'Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend',
                 array('getBackend', 'getBackendTable')
             );
 
@@ -176,7 +176,7 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
     protected function _getAttributeMock($attributeCode, $attributeSetId)
     {
         $attribute = $this->getMock(
-            '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+            'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
             array('getBackend', 'getBackendTable', 'isInSet', 'getApplyTo', 'getAttributeCode'),
             array(),
             '',
@@ -228,7 +228,7 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
 
         /** @var $backendModel \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend */
         $backendModel = $this->getMock(
-            '\Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend',
+            'Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend',
             array(
                 'getBackend',
                 'getBackendTable',
@@ -276,7 +276,7 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
         );
         /** @var $model PHPUnit_Framework_MockObject_MockObject */
         $model = $this->getMockForAbstractClass(
-            '\Magento\Eav\Model\Entity\AbstractEntity',
+            'Magento\Eav\Model\Entity\AbstractEntity',
             array($data),
             '',
             true,

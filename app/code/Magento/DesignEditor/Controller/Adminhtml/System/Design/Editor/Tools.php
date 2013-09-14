@@ -191,7 +191,7 @@ class Tools extends \Magento\Adminhtml\Controller\Action
         $configFactory = $this->_objectManager->create('Magento\DesignEditor\Model\Editor\Tools\Controls\Factory');
         /** @var $imageSizingValidator \Magento\DesignEditor\Model\Editor\Tools\ImageSizing\Validator */
         $imageSizingValidator = $this->_objectManager->get(
-            '\Magento\DesignEditor\Model\Editor\Tools\ImageSizing\Validator'
+            'Magento\DesignEditor\Model\Editor\Tools\ImageSizing\Validator'
         );
         try {
             $themeContext = $this->_initContext();

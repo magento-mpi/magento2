@@ -21,7 +21,7 @@ class Magento_Backend_Model_Config_Backend_BaseurlTest extends PHPUnit_Framework
         $mergeService = $this->getMock('Magento\Core\Model\Page\Asset\MergeService', array(), array(), '', false);
 
         $model = $this->getMock(
-            '\Magento\Backend\Model\Config\Backend\Baseurl',
+            'Magento\Backend\Model\Config\Backend\Baseurl',
             array('getOldValue'),
             array($context, $mergeService, $resource, $resourceCollection)
         );

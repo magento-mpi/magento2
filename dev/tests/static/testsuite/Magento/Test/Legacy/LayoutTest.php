@@ -96,7 +96,7 @@ class Magento_Test_Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             $layoutXml->xpath(
                 '//*[' . $selectorHeadBlock . ']/action[@method="addItem"]'
             ),
-            '\Magento\Page\Block\Html\Head::addItem is obsolete. Use addCss()/addJs() instead.'
+            'Magento\Page\Block\Html\Head::addItem is obsolete. Use addCss()/addJs() instead.'
         );
         $this->assertSame(array(),
             $layoutXml->xpath(
@@ -121,7 +121,7 @@ class Magento_Test_Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             );
         }
         $this->assertSame(array(),
-            $layoutXml->xpath('/layout//block[@type="\Magento\Core\Block\Text\ListText"]'),
+            $layoutXml->xpath('/layout//block[@type="Magento\Core\Block\Text\ListText"]'),
             'The class \Magento\Core\Block\Text\ListText is not supposed to be used in layout anymore.'
         );
     }

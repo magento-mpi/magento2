@@ -568,7 +568,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     {
         if (empty($this->_resourceModel)) {
             $this->_resourceModel = \Mage::getResourceSingleton(
-                '\Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media'
+                'Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media'
             );
         }
         return $this->_resourceModel;

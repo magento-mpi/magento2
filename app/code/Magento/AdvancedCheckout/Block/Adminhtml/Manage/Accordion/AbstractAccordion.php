@@ -111,7 +111,7 @@ abstract class AbstractAccordion extends \Magento\Adminhtml\Block\Widget\Grid
     {
         $this->addColumn('product_name', array(
             'header'    => __('Product'),
-            'renderer'  => '\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Product',
+            'renderer'  => 'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Product',
             'index'     => 'name',
             'sortable'  => false
         ));
@@ -153,7 +153,7 @@ abstract class AbstractAccordion extends \Magento\Adminhtml\Block\Widget\Grid
         $this->addColumn('qty', array(
             'sortable'  => false,
             'header'    => __('Quantity'),
-            'renderer'  => '\Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Qty',
+            'renderer'  => 'Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Qty',
             'name'      => 'qty',
             'inline_css'=> 'qty',
             'align'     => 'right',

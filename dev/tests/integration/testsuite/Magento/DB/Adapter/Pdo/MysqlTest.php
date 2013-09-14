@@ -40,7 +40,7 @@ class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
             // Sleep for time greater than wait_timeout and try to perform query
             sleep($minWaitTimeout + 1);
             $result = $this->_executeQuery('SELECT 1');
-            $this->assertInstanceOf('\Magento\DB\Statement\Pdo\Mysql', $result);
+            $this->assertInstanceOf('Magento\DB\Statement\Pdo\Mysql', $result);
             // Restore wait_timeout
             $this->_setWaitTimeout($defaultWaitTimeout);
             $this->assertEquals($defaultWaitTimeout, $this->_getWaitTimeout(), 'Default wait timeout was not restored');

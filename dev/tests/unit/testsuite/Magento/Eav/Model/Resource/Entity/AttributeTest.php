@@ -37,7 +37,7 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         /** @var $model \Magento\Core\Model\AbstractModel */
-        $arguments = $objectManagerHelper->getConstructArguments('\Magento\Core\Model\AbstractModel');
+        $arguments = $objectManagerHelper->getConstructArguments('Magento\Core\Model\AbstractModel');
         $arguments['data'] = $attributeData;
         $model = $this->getMock('Magento\Core\Model\AbstractModel', null, $arguments);
         $model->setDefault(array('2'));
@@ -92,7 +92,7 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         /** @var $model \Magento\Core\Model\AbstractModel */
-        $arguments = $objectManagerHelper->getConstructArguments('\Magento\Core\Model\AbstractModel');
+        $arguments = $objectManagerHelper->getConstructArguments('Magento\Core\Model\AbstractModel');
         $arguments['data'] = $attributeData;
         $model = $this->getMock('Magento\Core\Model\AbstractModel', null, $arguments);
         $model->setOption(array('value' => array('option_1' => array('Backend Label', 'Frontend Label'))));
@@ -153,7 +153,7 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         /** @var $model \Magento\Core\Model\AbstractModel */
-        $arguments = $objectManagerHelper->getConstructArguments('\Magento\Core\Model\AbstractModel');
+        $arguments = $objectManagerHelper->getConstructArguments('Magento\Core\Model\AbstractModel');
         $model = $this->getMock('Magento\Core\Model\AbstractModel', null, $arguments);
         $model->setOption('not-an-array');
 
@@ -216,7 +216,7 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
             )
         );
         $resourceModel = $this->getMock(
-            '\Magento\Eav\Model\Resource\Entity\Attribute',
+            'Magento\Eav\Model\Resource\Entity\Attribute',
             array('getAdditionalAttributeTable'), // Mage::getResourceSingleton dependency
             $arguments
         );

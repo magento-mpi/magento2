@@ -70,10 +70,10 @@ class Address extends \Magento\Sales\Model\Resource\Order\AbstractOrder
         $resource = parent::_afterSave($object);
         if ($object->hasDataChanges() && $object->getOrder()) {
             $gridList = array(
-                '\Magento\Sales\Model\Resource\Order' => 'entity_id',
-                '\Magento\Sales\Model\Resource\Order\Invoice' => 'order_id',
-                '\Magento\Sales\Model\Resource\Order\Shipment' => 'order_id',
-                '\Magento\Sales\Model\Resource\Order\Creditmemo' => 'order_id'
+                'Magento\Sales\Model\Resource\Order' => 'entity_id',
+                'Magento\Sales\Model\Resource\Order\Invoice' => 'order_id',
+                'Magento\Sales\Model\Resource\Order\Shipment' => 'order_id',
+                'Magento\Sales\Model\Resource\Order\Creditmemo' => 'order_id'
             );
 
             // update grid table after grid update

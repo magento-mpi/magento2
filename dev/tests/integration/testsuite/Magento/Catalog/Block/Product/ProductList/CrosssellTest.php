@@ -32,6 +32,6 @@ class Magento_Catalog_Block_Product_ProductList_CrosssellTest extends PHPUnit_Fr
         $this->assertNotEmpty($html);
         $this->assertContains('Simple Cross Sell', $html); /* name */
         $this->assertContains('product/1/', $html);  /* part of url */
-        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Product\Link\Product\Collection', $block->getItems());
+        $this->assertInstanceOf('Magento\Catalog\Model\Resource\Product\Link\Product\Collection', $block->getItems());
     }
 }

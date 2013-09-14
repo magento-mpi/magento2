@@ -140,7 +140,7 @@ class Magento_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_F
         $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
 
         $this->_collection = $this->getMock(
-            '\Magento\CatalogEvent\Model\Resource\Event\Collection',
+            'Magento\CatalogEvent\Model\Resource\Event\Collection',
             array('setModel'),
             array($fetchStrategy, $application, $resource)
         );
@@ -170,7 +170,7 @@ class Magento_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_F
 
     public function testAddImageData()
     {
-        $this->assertInstanceOf('\Magento\CatalogEvent\Model\Resource\Event\Collection',
+        $this->assertInstanceOf('Magento\CatalogEvent\Model\Resource\Event\Collection',
             $this->_collection->addImageData()
         );
     }

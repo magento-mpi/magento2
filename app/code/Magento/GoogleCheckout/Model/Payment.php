@@ -16,7 +16,7 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
     const ACTION_AUTHORIZE_CAPTURE = 1;
 
     protected $_code  = 'googlecheckout';
-    protected $_formBlockType = '\Magento\GoogleCheckout\Block\Form';
+    protected $_formBlockType = 'Magento\GoogleCheckout\Block\Form';
 
     /**
      * Availability options

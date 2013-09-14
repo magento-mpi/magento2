@@ -204,7 +204,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
         $attributeCollection = $this->getMock('Magento\Data\Collection', array('getEntityTypeCode'));
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         foreach ($this->_attributes as $attributeData) {
-            $arguments = $objectManagerHelper->getConstructArguments('\Magento\Eav\Model\Entity\Attribute\AbstractAttribute');
+            $arguments = $objectManagerHelper->getConstructArguments('Magento\Eav\Model\Entity\Attribute\AbstractAttribute');
             $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 $arguments, '', true, true, true, array('_construct', 'getBackend')
@@ -231,7 +231,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
             array(), '', false);
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         foreach ($this->_customers as $customerData) {
-            $arguments = $objectManagerHelper->getConstructArguments('\Magento\Customer\Model\Customer');
+            $arguments = $objectManagerHelper->getConstructArguments('Magento\Customer\Model\Customer');
             $arguments['data'] = $customerData;
             /** @var $customer \Magento\Customer\Model\Customer */
             $customer = $this->getMock('Magento\Customer\Model\Customer', array('_construct'), $arguments);
@@ -330,7 +330,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
 
         // entity adapter mock
         $modelMock = $this->getMock(
-            '\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address',
+            'Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address',
             array(
                 'validateRow',
                 '_prepareDataForUpdate',
@@ -353,7 +353,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
 
         // mock to imitate data source model
         $dataSourceMock = $this->getMock(
-            '\Magento\ImportExport\Model\Resource\Import\Data',
+            'Magento\ImportExport\Model\Resource\Import\Data',
             array('getNextBunch'),
             array(),
             '',
@@ -367,7 +367,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
             ->will($this->returnValue(null));
 
         $dataSourceModel = new ReflectionProperty(
-            '\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address',
+            'Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address',
             '_dataSourceModel'
         );
         $dataSourceModel->setAccessible(true);

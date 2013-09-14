@@ -13,17 +13,17 @@ class Magento_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     /**
      * Name of layout classes that will be used as main layout
      */
-    const LAYOUT_NAVIGATION_CLASS_NAME = '\Magento\Core\Model\Layout';
+    const LAYOUT_NAVIGATION_CLASS_NAME = 'Magento\Core\Model\Layout';
 
     /**
      * Url model classes that will be used instead of \Magento\Core\Model\Url in different vde modes
      */
-    const URL_MODEL_NAVIGATION_MODE_CLASS_NAME = '\Magento\DesignEditor\Model\Url\NavigationMode';
+    const URL_MODEL_NAVIGATION_MODE_CLASS_NAME = 'Magento\DesignEditor\Model\Url\NavigationMode';
 
     /**#@+
      * Layout update resource models
      */
-    const LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME = '\Magento\Core\Model\Resource\Layout\Update';
+    const LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME = 'Magento\Core\Model\Resource\Layout\Update';
     const LAYOUT_UPDATE_RESOURCE_MODEL_VDE_CLASS_NAME  = 'Magento_DesignEditor_Model_Resource_Layout_Update';
     /**#@-*/
 
@@ -102,7 +102,7 @@ class Magento_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_backendSession = $this->getMock(
-            '\Magento\Backend\Model\Session', array('setData', 'getData', 'unsetData'),
+            'Magento\Backend\Model\Session', array('setData', 'getData', 'unsetData'),
             array(), '', false
         );
         $this->_layoutFactory = $this->getMock('Magento\Core\Model\Layout\Factory', array('createLayout'),

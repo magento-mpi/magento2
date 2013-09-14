@@ -16,6 +16,6 @@ class Magento_Webhook_Model_Webapi_EventHandler_FactoryTest extends PHPUnit_Fram
         $factory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Webapi\EventHandler\Factory');
         $eventHandler = $factory->create();
-        $this->assertInstanceOf('\Magento\Webhook\Model\Webapi\EventHandler', $eventHandler);
+        $this->assertInstanceOf('Magento\Webhook\Model\Webapi\EventHandler', $eventHandler);
     }
 }

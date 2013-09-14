@@ -68,7 +68,7 @@ class Magento_Catalog_Controller_CategoryTest extends Magento_TestFramework_Test
 
         /** @var $currentCategory \Magento\Catalog\Model\Category */
         $currentCategory = Mage::registry('current_category');
-        $this->assertInstanceOf('\Magento\Catalog\Model\Category', $currentCategory);
+        $this->assertInstanceOf('Magento\Catalog\Model\Category', $currentCategory);
         $this->assertEquals($categoryId, $currentCategory->getId(), 'Category in registry.');
 
         $lastCategoryId = Mage::getSingleton('Magento\Catalog\Model\Session')->getLastVisitedCategoryId();

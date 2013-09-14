@@ -42,7 +42,7 @@ class Magento_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Fra
             'menuConfig' => $menuConfigMock,
             'configStructure' => $this->_configStructureMock,
         );
-        $arguments = $objectManager->getConstructArguments('\Magento\Adminhtml\Block\System\Email\Template\Edit',
+        $arguments = $objectManager->getConstructArguments('Magento\Adminhtml\Block\System\Email\Template\Edit',
             $params);
 
         $urlBuilder->expects($this->any())->method('getUrl')->will($this->returnArgument(0));
@@ -77,7 +77,7 @@ class Magento_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Fra
 
         $layoutMock->expects($this->any())->method('helper')->will($this->returnValue($helperMock));
 
-        $this->_block = $objectManager->getObject('\Magento\Adminhtml\Block\System\Email\Template\Edit', $arguments);
+        $this->_block = $objectManager->getObject('Magento\Adminhtml\Block\System\Email\Template\Edit', $arguments);
     }
 
     public function testGetUsedCurrentlyForPaths()

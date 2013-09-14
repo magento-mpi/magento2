@@ -592,7 +592,7 @@ $installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'price_view', a
         'label'             => 'Price View',
         'input'             => 'select',
         'class'             => '',
-        'source'            => '\Magento\Bundle\Model\Product\Attribute\Source\Price\View',
+        'source'            => 'Magento\Bundle\Model\Product\Attribute\Source\Price\View',
         'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
         'visible'           => true,
         'required'          => true,

@@ -28,13 +28,13 @@ class Magento_Adminhtml_Block_Urlrewrite_EditTest extends PHPUnit_Framework_Test
 
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = Mage::getModel(
-            '\Magento\Core\Model\Layout',
+            'Magento\Core\Model\Layout',
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
 
         /** @var $block \Magento\Adminhtml\Block\Urlrewrite\Edit */
         $block = $layout->createBlock(
-            '\Magento\Adminhtml\Block\Urlrewrite\Edit', '', array('data' => $blockAttributes)
+            'Magento\Adminhtml\Block\Urlrewrite\Edit', '', array('data' => $blockAttributes)
         );
 
         $this->_checkSelector($block, $expected);
@@ -56,7 +56,7 @@ class Magento_Adminhtml_Block_Urlrewrite_EditTest extends PHPUnit_Framework_Test
         $selectorBlock = $layout->getChildBlock($block->getNameInLayout(), 'selector');
 
         if ($expected['selector']) {
-            $this->assertInstanceOf('\Magento\Adminhtml\Block\Urlrewrite\Selector', $selectorBlock,
+            $this->assertInstanceOf('Magento\Adminhtml\Block\Urlrewrite\Selector', $selectorBlock,
                 'Child block with entity selector is invalid');
         } else {
             $this->assertFalse($selectorBlock, 'Child block with entity selector should not present in block');
@@ -78,7 +78,7 @@ class Magento_Adminhtml_Block_Urlrewrite_EditTest extends PHPUnit_Framework_Test
         $formBlock = $layout->getChildBlock($blockName, 'form');
 
         if ($expected['form']) {
-            $this->assertInstanceOf('\Magento\Adminhtml\Block\Urlrewrite\Edit\Form', $formBlock,
+            $this->assertInstanceOf('Magento\Adminhtml\Block\Urlrewrite\Edit\Form', $formBlock,
                 'Child block with form is invalid');
 
             $this->assertSame($expected['form']['url_rewrite'], $formBlock->getUrlRewrite(),

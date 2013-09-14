@@ -81,7 +81,7 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHP
             ->will($this->returnValue(array($expectedMetadata)));
 
         $this->setExpectedException(
-            '\Magento\Webapi\Exception',
+            'Magento\Webapi\Exception',
             'Server cannot understand Content-Type HTTP header media type "text_xml"',
             \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );
@@ -106,7 +106,7 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHP
             ->will($this->returnValue($invalidInterpreter));
         $this->setExpectedException(
             'LogicException',
-            'The interpreter must implement "\Magento\Webapi\Controller\Request\Rest\InterpreterInterface".'
+            'The interpreter must implement "Magento\Webapi\Controller\Request\Rest\InterpreterInterface".'
         );
         /** Initialize SUT. */
         $this->_interpreterFactory->get('text/xml');

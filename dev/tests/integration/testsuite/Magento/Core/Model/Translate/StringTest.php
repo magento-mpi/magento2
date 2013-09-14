@@ -23,7 +23,7 @@ class Magento_Core_Model_Translate_StringTest extends PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        $this->assertInstanceOf('\Magento\Core\Model\Resource\Translate\String', $this->_model->getResource());
+        $this->assertInstanceOf('Magento\Core\Model\Resource\Translate\String', $this->_model->getResource());
     }
 
     public function testSetGetString()

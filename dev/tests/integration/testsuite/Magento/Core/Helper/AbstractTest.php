@@ -114,7 +114,7 @@ class Magento_Core_Helper_AbstractTest extends PHPUnit_Framework_TestCase
     {
         $this->assertNull($this->_helper->getLayout());
         $this->assertInstanceof(get_class($this->_helper), $this->_helper->setLayout(Mage::app()->getLayout()));
-        $this->assertInstanceOf('\Magento\Core\Model\Layout', $this->_helper->getLayout());
+        $this->assertInstanceOf('Magento\Core\Model\Layout', $this->_helper->getLayout());
     }
 
     public function testUrlEncodeDecode()

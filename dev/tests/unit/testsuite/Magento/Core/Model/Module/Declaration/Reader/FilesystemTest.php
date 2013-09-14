@@ -29,7 +29,7 @@ class Magento_Core_Model_Module_Declaration_Reader_FilesystemTest extends PHPUni
         $fileResolver = new \Magento\Core\Model\Module\Declaration\FileResolver($applicationDirs);
         $converter = new \Magento\Core\Model\Module\Declaration\Converter\Dom();
         $schemaLocatorMock = $this->getMock(
-            '\Magento\Core\Model\Module\Declaration\SchemaLocator', array(), array(), '', false
+            'Magento\Core\Model\Module\Declaration\SchemaLocator', array(), array(), '', false
         );
         $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
         $this->_model = new \Magento\Core\Model\Module\Declaration\Reader\Filesystem(

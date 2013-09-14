@@ -46,9 +46,9 @@ class Magento_DesignEditor_Model_Translate_InlineVdeTest extends PHPUnit_Framewo
 
     public function testObjectCreation()
     {
-        $this->assertInstanceOf('\Magento\DesignEditor\Model\Translate\InlineVde', $this->_model);
-        $this->assertInstanceOf('\Magento\Core\Controller\Request\Http', $this->_request);
-        $this->assertInstanceOf('\Magento\DesignEditor\Helper\Data', $this->_helperData);
+        $this->assertInstanceOf('Magento\DesignEditor\Model\Translate\InlineVde', $this->_model);
+        $this->assertInstanceOf('Magento\Core\Controller\Request\Http', $this->_request);
+        $this->assertInstanceOf('Magento\DesignEditor\Helper\Data', $this->_helperData);
     }
 
     public function testIsAllowed()

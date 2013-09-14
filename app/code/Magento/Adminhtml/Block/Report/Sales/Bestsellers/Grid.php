@@ -29,7 +29,7 @@ class Grid extends \Magento\Adminhtml\Block\Report\Grid\AbstractGrid
 
     public function getResourceCollectionName()
     {
-        return '\Magento\Sales\Model\Resource\Report\Bestsellers\Collection';
+        return 'Magento\Sales\Model\Resource\Report\Bestsellers\Collection';
     }
 
     protected function _prepareColumns()
@@ -39,7 +39,7 @@ class Grid extends \Magento\Adminhtml\Block\Report\Grid\AbstractGrid
             'index'         => 'period',
             'sortable'      => false,
             'period_type'   => $this->getPeriodType(),
-            'renderer'      => '\Magento\Adminhtml\Block\Report\Sales\Grid\Column\Renderer\Date',
+            'renderer'      => 'Magento\Adminhtml\Block\Report\Sales\Grid\Column\Renderer\Date',
             'totals_label'  => __('Total'),
             'html_decorators' => array('nobr'),
             'header_css_class'  => 'col-period',

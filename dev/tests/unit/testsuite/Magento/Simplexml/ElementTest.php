@@ -40,7 +40,7 @@ class Magento_Simplexml_ElementTest extends PHPUnit_Framework_TestCase
     public static function xmlDataProvider()
     {
         return array(
-            array(array(__DIR__ . '/_files/data.xml', '\Magento\Simplexml\Element'))
+            array(array(__DIR__ . '/_files/data.xml', 'Magento\Simplexml\Element'))
         );
     }
 
@@ -48,7 +48,7 @@ class Magento_Simplexml_ElementTest extends PHPUnit_Framework_TestCase
     {
         $dataFile = file_get_contents(__DIR__ . '/_files/mixed_data.xml');
         /** @var \Magento\Simplexml\Element $xml  */
-        $xml = simplexml_load_string($dataFile, '\Magento\Simplexml\Element');
+        $xml = simplexml_load_string($dataFile, 'Magento\Simplexml\Element');
 
         $expected = <<<XML
 <root>

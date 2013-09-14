@@ -116,7 +116,7 @@ class Queue extends \Magento\Core\Model\Template
     {
         if (is_null($this->_subscribersCollection)) {
             $this->_subscribersCollection = \Mage::getResourceModel(
-                    '\Magento\Newsletter\Model\Resource\Subscriber\Collection'
+                    'Magento\Newsletter\Model\Resource\Subscriber\Collection'
                 )
                 ->useQueue($this);
         }

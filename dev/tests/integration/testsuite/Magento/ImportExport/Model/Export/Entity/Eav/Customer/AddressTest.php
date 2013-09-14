@@ -169,7 +169,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
      */
     public function testGetAttributeCollection()
     {
-        $this->assertInstanceOf('\Magento\Customer\Model\Resource\Address\Attribute\Collection',
+        $this->assertInstanceOf('Magento\Customer\Model\Resource\Address\Attribute\Collection',
             $this->_model->getAttributeCollection()
         );
     }

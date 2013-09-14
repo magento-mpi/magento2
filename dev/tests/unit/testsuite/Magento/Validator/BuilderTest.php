@@ -345,13 +345,13 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
      * Check exception is thrown if validator is not an instance of \Magento\Validator\ValidatorInterface
      *
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Constraint class "\Magento\Object" must implement \Magento\Validator\ValidatorInterface
+     * @expectedExceptionMessage Constraint class "Magento\Object" must implement \Magento\Validator\ValidatorInterface
      */
     public function testCreateValidatorInvalidInstance()
     {
         $constraints = array(array(
             'alias' => 'alias',
-            'class' => '\Magento\Object',
+            'class' => 'Magento\Object',
             'options' => null,
             'type' => 'entity'
         ));

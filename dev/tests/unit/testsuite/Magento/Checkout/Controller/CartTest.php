@@ -14,7 +14,7 @@ class Magento_Checkout_Controller_CartTest extends PHPUnit_Framework_TestCase
     public function testControllerImplementsProductViewInterface()
     {
         $this->assertInstanceOf(
-            '\Magento\Catalog\Controller\Product\View\ViewInterface',
+            'Magento\Catalog\Controller\Product\View\ViewInterface',
             $this->getMock('Magento\Checkout\Controller\Cart', array(), array(), '', false)
         );
     }
@@ -95,7 +95,7 @@ class Magento_Checkout_Controller_CartTest extends PHPUnit_Framework_TestCase
             'storeConfig' => $configMock,
         );
 
-        $controller = $helper->getObject('\Magento\Checkout\Controller\Cart', $arguments);
+        $controller = $helper->getObject('Magento\Checkout\Controller\Cart', $arguments);
 
         $reflectionObject = new ReflectionObject($controller);
         $reflectionMethod = $reflectionObject->getMethod('_goBack');

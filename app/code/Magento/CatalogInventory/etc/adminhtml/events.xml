@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="after_reindex_process_cataloginventory_stock">
-        <observer name="cataloginventory" instance="\Magento\CatalogInventory\Model\Observer" method="reindexProductsMassAction" />
+        <observer name="cataloginventory" instance="Magento\CatalogInventory\Model\Observer" method="reindexProductsMassAction" />
     </event>
-</config>
+</config>

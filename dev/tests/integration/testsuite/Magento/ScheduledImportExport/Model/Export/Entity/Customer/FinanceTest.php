@@ -85,7 +85,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
         $attributeCollection = $customerFinance->getAttributeCollection();
 
         $this->assertInstanceOf(
-            '\Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection',
+            'Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection',
             $attributeCollection
         );
     }

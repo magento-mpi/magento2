@@ -562,7 +562,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
         );
 
         $this->_mockBackendCntCtxt = $this->_objectManagerHelper
-            ->getObject('\Magento\Backend\Controller\Context',
+            ->getObject('Magento\Backend\Controller\Context',
                 $contextParameters);
 
         $subControllerParams = array(
@@ -573,7 +573,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
 
         /** Create SubscriptionController to test */
         $subscriptionContr = $this->_objectManagerHelper
-            ->getObject('\Magento\Webhook\Controller\Adminhtml\Webhook\Subscription',
+            ->getObject('Magento\Webhook\Controller\Adminhtml\Webhook\Subscription',
                 $subControllerParams);
         return $subscriptionContr;
     }

@@ -9,66 +9,66 @@
 -->
 <config>
     <event name="magento_giftcardaccount_save_after">
-        <observer name="magento_giftcardaccount_save_after" instance="\Magento\GiftCardAccount\Model\Observer" method="giftcardaccountSaveAfter" />
+        <observer name="magento_giftcardaccount_save_after" instance="Magento\GiftCardAccount\Model\Observer" method="giftcardaccountSaveAfter" />
     </event>
     <event name="sales_order_invoice_register">
-        <observer name="magento_giftcardaccount_sales_order_invoice_register" instance="\Magento\GiftCardAccount\Model\Observer" method="increaseOrderGiftCardInvoicedAmount" />
+        <observer name="magento_giftcardaccount_sales_order_invoice_register" instance="Magento\GiftCardAccount\Model\Observer" method="increaseOrderGiftCardInvoicedAmount" />
     </event>
     <event name="magento_giftcardaccount_charge_by_code">
-        <observer name="magento_giftcardaccount_charge_by_code" instance="\Magento\GiftCardAccount\Model\Observer" method="chargeByCode" />
+        <observer name="magento_giftcardaccount_charge_by_code" instance="Magento\GiftCardAccount\Model\Observer" method="chargeByCode" />
     </event>
     <event name="magento_giftcardaccount_charge">
-        <observer name="magento_giftcardaccount_charge" instance="\Magento\GiftCardAccount\Model\Observer" method="chargeById" />
+        <observer name="magento_giftcardaccount_charge" instance="Magento\GiftCardAccount\Model\Observer" method="chargeById" />
     </event>
     <event name="magento_giftcardaccount_create">
-        <observer name="magento_giftcardaccount_create" instance="\Magento\GiftCardAccount\Model\Observer" method="create" />
+        <observer name="magento_giftcardaccount_create" instance="Magento\GiftCardAccount\Model\Observer" method="create" />
     </event>
     <event name="adminhtml_sales_order_create_process_data">
-        <observer name="magento_giftcardaccount" instance="\Magento\GiftCardAccount\Model\Observer" method="processOrderCreationData" />
+        <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="processOrderCreationData" />
     </event>
     <event name="sales_quote_payment_import_data_before">
-        <observer name="magento_giftcardaccount" instance="\Magento\GiftCardAccount\Model\Observer" method="paymentDataImport" />
+        <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="paymentDataImport" />
     </event>
     <event name="payment_method_is_active">
-        <observer name="magento_giftcardaccount" instance="\Magento\GiftCardAccount\Model\Observer" method="togglePaymentMethods" />
+        <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="togglePaymentMethods" />
     </event>
     <event name="sales_quote_collect_totals_before">
-        <observer name="magento_giftcardaccount" instance="\Magento\GiftCardAccount\Model\Observer" method="quoteCollectTotalsBefore" />
+        <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="quoteCollectTotalsBefore" />
     </event>
     <event name="sales_quote_merge_after">
-        <observer name="magento_giftcardaccount" instance="\Magento\GiftCardAccount\Model\Observer" method="quoteMergeAfter" />
+        <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="quoteMergeAfter" />
     </event>
     <event name="sales_order_creditmemo_refund">
-        <observer name="magento_giftcardaccount" instance="\Magento\GiftCardAccount\Model\Observer" method="refund" />
+        <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="refund" />
     </event>
     <event name="adminhtml_sales_order_creditmemo_register_before">
-        <observer name="magento_giftcardaccount" instance="\Magento\GiftCardAccount\Model\Observer" method="creditmemoDataImport" />
+        <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="creditmemoDataImport" />
     </event>
     <event name="sales_order_load_after">
-        <observer name="magento_giftcardaccount" instance="\Magento\GiftCardAccount\Model\Observer" method="salesOrderLoadAfter" />
+        <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="salesOrderLoadAfter" />
     </event>
     <event name="paypal_prepare_line_items">
-        <observer name="magento_giftcardaccount" instance="\Magento\GiftCardAccount\Model\Observer" method="addPaypalGiftCardItem" />
+        <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="addPaypalGiftCardItem" />
     </event>
     <event name="sales_model_service_quote_submit_before">
-        <observer name="magento_giftcardaccount" instance="\Magento\GiftCardAccount\Model\Observer" method="processOrderPlace" />
+        <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="processOrderPlace" />
     </event>
     <event name="sales_model_service_quote_submit_failure">
-        <observer name="magento_giftcardaccount" instance="\Magento\GiftCardAccount\Model\Observer" method="revertGiftCardAccountBalance" />
+        <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="revertGiftCardAccountBalance" />
     </event>
     <event name="paypal_payment_cancel">
-        <observer name="magento_giftcardaccount" instance="\Magento\GiftCardAccount\Model\Observer" method="revertGiftCardAccountBalance" />
+        <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="revertGiftCardAccountBalance" />
     </event>
     <event name="checkout_type_multishipping_create_orders_single">
-        <observer name="magento_giftcardaccount" instance="\Magento\GiftCardAccount\Model\Observer" method="processOrderPlace" />
+        <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="processOrderPlace" />
     </event>
     <event name="googlecheckout_save_order_after">
-        <observer name="magento_giftcardaccount" instance="\Magento\GiftCardAccount\Model\Observer" method="processOrderPlace" />
+        <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="processOrderPlace" />
     </event>
     <event name="googlecheckout_create_order_before">
-        <observer name="magento_giftcardaccount" instance="\Magento\GiftCardAccount\Model\Observer" method="processOrderCreateBefore" />
+        <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="processOrderCreateBefore" />
     </event>
     <event name="checkout_multishipping_refund_all">
-        <observer name="magento_giftcardaccount" instance="\Magento\GiftCardAccount\Model\Observer" method="revertGiftCardsForAllOrders" />
+        <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="revertGiftCardsForAllOrders" />
     </event>
-</config>
+</config>

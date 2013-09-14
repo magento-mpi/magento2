@@ -322,7 +322,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     protected function _init($model, $entityModel)
     {
         if ($this->isEnabledFlat()) {
-            $entityModel = '\Magento\Catalog\Model\Resource\Product\Flat';
+            $entityModel = 'Magento\Catalog\Model\Resource\Product\Flat';
         }
         return parent::_init($model, $entityModel);
     }

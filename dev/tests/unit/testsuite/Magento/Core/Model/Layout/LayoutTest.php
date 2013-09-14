@@ -19,7 +19,7 @@ class Magento_Core_Model_Layout_LayoutTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_layout = $objectManagerHelper->getObject('\Magento\Core\Model\Layout');
+        $this->_layout = $objectManagerHelper->getObject('Magento\Core\Model\Layout');
     }
 
     /**
@@ -34,7 +34,7 @@ class Magento_Core_Model_Layout_LayoutTest extends PHPUnit_Framework_TestCase
         $reflectionMethod->setAccessible(true);
         $result = $reflectionMethod->invoke($this->_layout, new \Magento\Simplexml\Element($argument));
         if ($isTranslatable) {
-            $this->assertInstanceOf('\Magento\Phrase', $result);
+            $this->assertInstanceOf('Magento\Phrase', $result);
         } else {
             $this->assertInternalType('string', $result);
         }
@@ -68,7 +68,7 @@ class Magento_Core_Model_Layout_LayoutTest extends PHPUnit_Framework_TestCase
 
 
         if ($isTranslatable) {
-            $this->assertInstanceOf('\Magento\Phrase', $argument);
+            $this->assertInstanceOf('Magento\Phrase', $argument);
         } else {
             $this->assertInternalType('string', $argument);
         }

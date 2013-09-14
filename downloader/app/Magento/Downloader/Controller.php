@@ -588,7 +588,7 @@ final class Controller
         }
 
         if (is_null($model)) {
-            $class = '\Magento\Downloader\Model';
+            $class = 'Magento\Downloader\Model';
         } else {
             $class = 'Magento\Downloader\Model\\' . str_replace(' ', '\\', ucwords(str_replace('\\', ' ', $model)));
             if (!class_exists($class, false)) {

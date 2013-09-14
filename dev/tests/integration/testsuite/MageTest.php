@@ -133,7 +133,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function getModelDataProvider()
     {
         return array(
-            array('Magento\Core\Model\Config', '\Magento\Core\Model\Config')
+            array('Magento\Core\Model\Config', 'Magento\Core\Model\Config')
         );
     }
 
@@ -153,7 +153,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function getResourceModelDataProvider()
     {
         return array(
-            array('Magento\Core\Model\Resource\Config', '\Magento\Core\Model\Resource\Config')
+            array('Magento\Core\Model\Resource\Config', 'Magento\Core\Model\Resource\Config')
         );
     }
 
@@ -173,7 +173,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function getResourceHelperDataProvider()
     {
         return array(
-            array('Magento_Core', '\Magento\Core\Model\Resource\Helper\AbstractHelper')
+            array('Magento_Core', 'Magento\Core\Model\Resource\Helper\AbstractHelper')
         );
     }
 

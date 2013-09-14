@@ -29,7 +29,7 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
         $expectedFile = self::$_tmpDir . '/local.xml';
 
         $request = $this->getMock(
-            '\Magento\Core\Controller\Request\Http',
+            'Magento\Core\Controller\Request\Http',
             array('getDistroBaseUrl'),
             array(),
             '',
@@ -60,7 +60,7 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
         $model = Mage::getModel('Magento\Install\Model\Installer\Config');
         /** @var $result \Magento\Object */
         $result = $model->getFormData();
-        $this->assertInstanceOf('\Magento\Object', $result);
+        $this->assertInstanceOf('Magento\Object', $result);
         $data = $result->getData();
         $this->assertArrayHasKey('db_host', $data);
     }

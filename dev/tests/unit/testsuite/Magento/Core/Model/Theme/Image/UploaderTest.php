@@ -102,7 +102,7 @@ class Magento_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_Test
                 'checkAllowedExtension' => true,
                 'save'                  => true,
                 'result'                => false,
-                'exception'             => '\Magento\Core\Exception'
+                'exception'             => 'Magento\Core\Exception'
             ),
             array(
                 'isUploaded'            => true,
@@ -110,7 +110,7 @@ class Magento_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_Test
                 'checkAllowedExtension' => false,
                 'save'                  => true,
                 'result'                => false,
-                'exception'             => '\Magento\Core\Exception'
+                'exception'             => 'Magento\Core\Exception'
             ),
             array(
                 'isUploaded'            => true,
@@ -118,7 +118,7 @@ class Magento_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_Test
                 'checkAllowedExtension' => true,
                 'save'                  => false,
                 'result'                => false,
-                'exception'             => '\Magento\Core\Exception'
+                'exception'             => 'Magento\Core\Exception'
             ),
         );
     }

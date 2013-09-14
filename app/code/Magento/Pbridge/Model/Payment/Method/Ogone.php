@@ -47,13 +47,13 @@ class Ogone extends \Magento\Payment\Model\Method\Cc
      * Form block type for the frontend
      * @var string
      */
-    protected $_formBlockType = '\Magento\Pbridge\Block\Checkout\Payment\Ogone';
+    protected $_formBlockType = 'Magento\Pbridge\Block\Checkout\Payment\Ogone';
 
     /**
      * Form block type for the backend
      * @var string
      */
-    protected $_backendFormBlockType = '\Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Ogone';
+    protected $_backendFormBlockType = 'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Ogone';
 
     /**
      * Payment Bridge Payment Method Instance

@@ -50,14 +50,14 @@ class Pro
      *
      * @var string
      */
-    protected $_apiType = '\Magento\Paypal\Model\Api\Nvp';
+    protected $_apiType = 'Magento\Paypal\Model\Api\Nvp';
 
     /**
      * Config model type
      *
      * @var string
      */
-    protected $_configType = '\Magento\Paypal\Model\Config';
+    protected $_configType = 'Magento\Paypal\Model\Config';
 
     /**
      * Payment method code setter. Also instantiates/updates config

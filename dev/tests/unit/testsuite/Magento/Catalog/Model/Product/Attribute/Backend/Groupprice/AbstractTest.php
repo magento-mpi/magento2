@@ -31,7 +31,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_AbstractTest ex
             ->will($this->returnValue(true));
 
         $this->_model = $this->getMockForAbstractClass(
-            '\Magento\Catalog\Model\Product\Attribute\Backend\Groupprice\AbstractGroupprice',
+            'Magento\Catalog\Model\Product\Attribute\Backend\Groupprice\AbstractGroupprice',
             array(array(
                 'helper' => $this->_helper
             ))
@@ -52,7 +52,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_AbstractTest ex
         $attributeId = 42;
 
         $attribute = $this->getMock(
-            '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+            'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
             array('getBackendTable', 'isStatic', 'getAttributeId', 'getName'),
             array(),
             '',

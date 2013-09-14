@@ -23,7 +23,7 @@ class Magento_Webhook_Model_Job_FactoryTest extends PHPUnit_Framework_TestCase
             ->save();
         $job = $factory->create($subscription, $event);
 
-        $this->assertInstanceOf('\Magento\Webhook\Model\Job', $job);
+        $this->assertInstanceOf('Magento\Webhook\Model\Job', $job);
         $this->assertEquals($event->getId(), $job->getEventId());
         $this->assertEquals($subscription->getId(), $job->getSubscriptionId());
     }

@@ -28,7 +28,7 @@ class Magento_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
 
     public function testGetLayer()
     {
-        $this->assertInstanceOf('\Magento\Catalog\Model\Layer', $this->_block->getLayer());
+        $this->assertInstanceOf('Magento\Catalog\Model\Layer', $this->_block->getLayer());
     }
 
     public function testGetLoadedProductCollection()
@@ -36,7 +36,7 @@ class Magento_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
         $this->_block->setShowRootCategory(true);
         $collection = $this->_block->getLoadedProductCollection();
         $this->assertInstanceOf(
-            '\Magento\Catalog\Model\Resource\Product\Collection',
+            'Magento\Catalog\Model\Resource\Product\Collection',
             $collection
         );
         /* Check that root category was defined for Layer as current */
@@ -56,7 +56,7 @@ class Magento_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
 
         /* Prepare toolbar block */
         $toolbar = $parent->getToolbarBlock();
-        $this->assertInstanceOf('\Magento\Catalog\Block\Product\ProductList\Toolbar', $toolbar, 'Default Toolbar');
+        $this->assertInstanceOf('Magento\Catalog\Block\Product\ProductList\Toolbar', $toolbar, 'Default Toolbar');
 
         $parent->setChild('toolbar', $toolbar);
         /* In order to initialize toolbar collection block toHtml should be called before toolbar toHtml */

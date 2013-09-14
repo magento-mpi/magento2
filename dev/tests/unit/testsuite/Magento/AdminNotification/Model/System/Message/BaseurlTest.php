@@ -75,7 +75,7 @@ class Magento_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit
             'configValueFactory' => $configFactoryMock,
             'storeManager' => $this->_storeManagerMock,
         );
-        $this->_model = $helper->getObject('\Magento\AdminNotification\Model\System\Message\Baseurl', $arguments);
+        $this->_model = $helper->getObject('Magento\AdminNotification\Model\System\Message\Baseurl', $arguments);
     }
 
     public function testGetSeverity()

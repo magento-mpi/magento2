@@ -14,8 +14,8 @@ namespace Magento\Payment\Model\Method;
 class Purchaseorder extends \Magento\Payment\Model\Method\AbstractMethod
 {
     protected $_code  = 'purchaseorder';
-    protected $_formBlockType = '\Magento\Payment\Block\Form\Purchaseorder';
-    protected $_infoBlockType = '\Magento\Payment\Block\Info\Purchaseorder';
+    protected $_formBlockType = 'Magento\Payment\Block\Form\Purchaseorder';
+    protected $_infoBlockType = 'Magento\Payment\Block\Info\Purchaseorder';
 
     /**
      * Assign data to info model instance

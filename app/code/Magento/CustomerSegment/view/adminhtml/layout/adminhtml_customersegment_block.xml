@@ -72,7 +72,7 @@
                             <argument name="align" xsi:type="string">left</argument>
                             <argument name="index" xsi:type="string">website_ids</argument>
                             <argument name="type" xsi:type="string">options</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\Backend\Model\Config\Source\Website\OptionHash"/>
+                            <argument name="options" xsi:type="options" model="Magento\Backend\Model\Config\Source\Website\OptionHash"/>
                             <argument name="sortable" xsi:type="string">0</argument>
                             <argument name="width" xsi:type="string">200</argument>
                         </arguments>

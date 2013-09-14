@@ -98,7 +98,7 @@ class Grid
             array(
                 'header' => __('ID'),
                 'index' => 'entity_id',
-                'renderer' => '\Magento\Backend\Block\Widget\Grid\Column\Renderer\Checkbox',
+                'renderer' => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Checkbox',
                 'type' => 'skip-list'
             )
         );

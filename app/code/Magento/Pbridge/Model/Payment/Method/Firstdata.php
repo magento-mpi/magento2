@@ -44,14 +44,14 @@ class Firstdata extends \Magento\Payment\Model\Method\Cc
      *
      * @var string
      */
-    protected $_formBlockType = '\Magento\Pbridge\Block\Checkout\Payment\Firstdata';
+    protected $_formBlockType = 'Magento\Pbridge\Block\Checkout\Payment\Firstdata';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = '\Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Firstdata';
+    protected $_backendFormBlockType = 'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Firstdata';
 
     /**
      * Payment Bridge Payment Method Instance

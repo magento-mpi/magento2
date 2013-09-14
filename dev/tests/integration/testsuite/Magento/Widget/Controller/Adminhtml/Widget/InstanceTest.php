@@ -22,7 +22,7 @@ class Magento_Widget_Controller_Adminhtml_Widget_InstanceTest extends Magento_Ba
             ->get('Magento\Core\Model\View\DesignInterface')
             ->setDefaultDesignTheme()
             ->getDesignTheme();
-        $this->getRequest()->setParam('type', '\Magento\Cms\Block\Widget\Page\Link');
+        $this->getRequest()->setParam('type', 'Magento\Cms\Block\Widget\Page\Link');
         $this->getRequest()->setParam('theme_id', $theme->getId());
     }
 
@@ -32,7 +32,7 @@ class Magento_Widget_Controller_Adminhtml_Widget_InstanceTest extends Magento_Ba
     public function testEditAction()
     {
         $this->dispatch('backend/admin/widget_instance/edit');
-        $this->assertContains('<option value="\Magento\Cms\Block\Widget\Page\Link" selected="selected">',
+        $this->assertContains('<option value="Magento\Cms\Block\Widget\Page\Link" selected="selected">',
             $this->getResponse()->getBody()
         );
     }

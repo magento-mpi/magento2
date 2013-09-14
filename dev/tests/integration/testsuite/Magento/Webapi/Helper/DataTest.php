@@ -142,7 +142,7 @@ class Magento_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testPrepareMethodParamsArrayExpectedException()
     {
         $this->setExpectedException(
-            '\Magento\Webapi\Exception',
+            'Magento\Webapi\Exception',
             'Data corresponding to "VendorModuleCustomerData[]" type is expected to be an array.',
             \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );
@@ -160,7 +160,7 @@ class Magento_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testPrepareMethodParamsComplexTypeArrayExpectedException()
     {
         $this->setExpectedException(
-            '\Magento\Webapi\Exception',
+            'Magento\Webapi\Exception',
             'Data corresponding to "VendorModuleCustomerData" type is expected to be an array.',
             \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );
@@ -203,7 +203,7 @@ class Magento_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
                 'Vendor_Module_Controller_Webapi_Resource_Subresource',
                 'createV1',
                 array('param2' => 2, 'param4' => 4),
-                '\Magento\Webapi\Exception',
+                'Magento\Webapi\Exception',
                 'Required parameter "param1" is missing.'
             ),
             // Test passing of complex type parameter with not specified required field.
@@ -211,7 +211,7 @@ class Magento_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
                 new Vendor_Module_Controller_Webapi_Resource_Subresource(),
                 'updateV1',
                 array('param1' => 1, 'param2' => $withoutRequired),
-                '\Magento\Webapi\Exception',
+                'Magento\Webapi\Exception',
                 'Value of "firstname" attribute is required.'
             ),
         );

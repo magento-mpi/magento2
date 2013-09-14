@@ -19,7 +19,7 @@ namespace Magento\Paypal\Model;
 class Direct extends \Magento\Payment\Model\Method\Cc
 {
     protected $_code  = \Magento\Paypal\Model\Config::METHOD_WPP_DIRECT;
-    protected $_infoBlockType = '\Magento\Paypal\Block\Payment\Info';
+    protected $_infoBlockType = 'Magento\Paypal\Block\Payment\Info';
 
     /**
      * Availability options
@@ -50,7 +50,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
      *
      * @var $_proType string
      */
-    protected $_proType = '\Magento\Paypal\Model\Pro';
+    protected $_proType = 'Magento\Paypal\Model\Pro';
 
     public function __construct($params = array())
     {

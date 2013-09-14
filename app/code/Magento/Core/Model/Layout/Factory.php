@@ -15,7 +15,7 @@ class Factory
     /**
      * Default layout class name
      */
-    const CLASS_NAME = '\Magento\Core\Model\Layout';
+    const CLASS_NAME = 'Magento\Core\Model\Layout';
 
     /**
      * @var \Magento\ObjectManager

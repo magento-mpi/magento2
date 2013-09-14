@@ -15,7 +15,7 @@ class Description
     public function render(\Magento\Object $row)
     {
         $descriptionBlock = $this->getLayout()->createBlock(
-            '\Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid\Description',
+            'Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid\Description',
             '',
             array('data' => array('product' => $row->getProduct(), 'item' => $row))
         );

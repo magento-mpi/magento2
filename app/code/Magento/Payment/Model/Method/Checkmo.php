@@ -15,8 +15,8 @@ class Checkmo extends \Magento\Payment\Model\Method\AbstractMethod
 {
 
     protected $_code  = 'checkmo';
-    protected $_formBlockType = '\Magento\Payment\Block\Form\Checkmo';
-    protected $_infoBlockType = '\Magento\Payment\Block\Info\Checkmo';
+    protected $_formBlockType = 'Magento\Payment\Block\Form\Checkmo';
+    protected $_infoBlockType = 'Magento\Payment\Block\Info\Checkmo';
 
     /**
      * Assign data to info model instance

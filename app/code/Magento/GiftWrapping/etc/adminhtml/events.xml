@@ -9,12 +9,12 @@
 -->
 <config>
     <event name="adminhtml_sales_order_create_process_data">
-        <observer name="magento_giftwrapping" instance="\Magento\GiftWrapping\Model\Observer" method="processOrderCreationData" />
+        <observer name="magento_giftwrapping" instance="Magento\GiftWrapping\Model\Observer" method="processOrderCreationData" />
     </event>
     <event name="sales_convert_order_to_quote">
-        <observer name="magento_giftwrapping" instance="\Magento\GiftWrapping\Model\Observer" method="salesEventOrderToQuote" shared="false" />
+        <observer name="magento_giftwrapping" instance="Magento\GiftWrapping\Model\Observer" method="salesEventOrderToQuote" shared="false" />
     </event>
     <event name="sales_convert_order_item_to_quote_item">
-        <observer name="magento_giftwrapping" instance="\Magento\GiftWrapping\Model\Observer" method="salesEventOrderItemToQuoteItem" shared="false" />
+        <observer name="magento_giftwrapping" instance="Magento\GiftWrapping\Model\Observer" method="salesEventOrderItemToQuoteItem" shared="false" />
     </event>
-</config>
+</config>

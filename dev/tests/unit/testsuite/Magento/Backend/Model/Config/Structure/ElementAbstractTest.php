@@ -26,7 +26,7 @@ class Magento_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit
         $this->_applicationMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
 
         $this->_model = $this->getMockForAbstractClass(
-            '\Magento\Backend\Model\Config\Structure\ElementAbstract',
+            'Magento\Backend\Model\Config\Structure\ElementAbstract',
             array($this->_applicationMock)
         );
     }

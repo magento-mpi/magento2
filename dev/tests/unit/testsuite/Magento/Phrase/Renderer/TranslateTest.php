@@ -22,7 +22,7 @@ class Magento_Phrase_Renderer_TranslateTest extends PHPUnit_Framework_TestCase
         $this->_translator = $this->getMock('Magento\Core\Model\Translate', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_renderer = $objectManagerHelper->getObject('\Magento\Phrase\Renderer\Translate', array(
+        $this->_renderer = $objectManagerHelper->getObject('Magento\Phrase\Renderer\Translate', array(
             'translator' => $this->_translator,
         ));
     }

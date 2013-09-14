@@ -93,7 +93,7 @@
                             <arguments>
                                 <argument name="header" xsi:type="string" translate="true">Type</argument>
                                 <argument name="type" xsi:type="string">options</argument>
-                                <argument name="options" xsi:type="options" model="\Magento\Customer\Model\Resource\Customer\CustomersTypeOptions"/>
+                                <argument name="options" xsi:type="options" model="Magento\Customer\Model\Resource\Customer\CustomersTypeOptions"/>
                                 <argument name="index" xsi:type="string">visitor_type</argument>
                             </arguments>
                         </block>

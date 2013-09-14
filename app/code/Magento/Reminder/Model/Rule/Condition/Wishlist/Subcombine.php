@@ -25,7 +25,7 @@ class Subcombine
     public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('\Magento\Reminder\Model\Rule\Condition\Wishlist\Subcombine');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Wishlist\Subcombine');
     }
 
     /**
@@ -38,9 +38,9 @@ class Subcombine
         return array_merge_recursive(
             parent::getNewChildSelectOptions(), array(
                 $this->_getRecursiveChildSelectOption(),
-                \Mage::getModel("\Magento\Reminder\Model\Rule\Condition\Wishlist\Storeview")
+                \Mage::getModel("Magento\Reminder\Model\Rule\Condition\Wishlist\Storeview")
                     ->getNewChildSelectOptions(),
-                \Mage::getModel("\Magento\Reminder\Model\Rule\Condition\Wishlist\Attributes")
+                \Mage::getModel("Magento\Reminder\Model\Rule\Condition\Wishlist\Attributes")
                     ->getNewChildSelectOptions()
             )
         );

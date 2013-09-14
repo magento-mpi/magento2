@@ -102,7 +102,7 @@ class Magento_Webapi_Controller_Dispatcher_Soap_AuthenticationTest extends PHPUn
                 $this->_usernameToken->Nonce
             )->will($this->throwException($exception));
         $this->setExpectedException(
-            '\Magento\Webapi\Exception',
+            'Magento\Webapi\Exception',
             $exceptionMessage,
             \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );

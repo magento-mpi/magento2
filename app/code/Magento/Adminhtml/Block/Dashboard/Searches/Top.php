@@ -60,7 +60,7 @@ class Top extends \Magento\Adminhtml\Block\Dashboard\Grid
             'header'    => __('Search Term'),
             'sortable'  => false,
             'index'     => 'name',
-            'renderer'  => '\Magento\Adminhtml\Block\Dashboard\Searches\Renderer\Searchquery',
+            'renderer'  => 'Magento\Adminhtml\Block\Dashboard\Searches\Renderer\Searchquery',
         ));
 
         $this->addColumn('num_results', array(

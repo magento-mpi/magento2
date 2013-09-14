@@ -18,15 +18,15 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     implements \Magento\Payment\Model\Recurring\Profile\MethodInterface
 {
     protected $_code  = \Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS;
-    protected $_formBlockType = '\Magento\Paypal\Block\Express\Form';
-    protected $_infoBlockType = '\Magento\Paypal\Block\Payment\Info';
+    protected $_formBlockType = 'Magento\Paypal\Block\Express\Form';
+    protected $_infoBlockType = 'Magento\Paypal\Block\Payment\Info';
 
     /**
      * Website Payments Pro instance type
      *
      * @var $_proType string
      */
-    protected $_proType = '\Magento\Paypal\Model\Pro';
+    protected $_proType = 'Magento\Paypal\Model\Pro';
 
     /**
      * Availability options

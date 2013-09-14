@@ -50,7 +50,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
         $method = new ReflectionMethod($this->_model, '_addAttributesToCollection');
         $method->setAccessible(true);
         $stubCollection = $this->getMock(
-            '\Magento\Eav\Model\Entity\Collection\AbstractCollection', array('addAttributeToSelect'), array(), '', false
+            'Magento\Eav\Model\Entity\Collection\AbstractCollection', array('addAttributeToSelect'), array(), '', false
         );
         $stubCollection->expects($this->once())->method('addAttributeToSelect')->with($this->_expectedAttributes);
         $method->invoke($this->_model, $stubCollection);

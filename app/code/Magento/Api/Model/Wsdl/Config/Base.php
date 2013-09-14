@@ -30,7 +30,7 @@ class Base extends \Magento\Simplexml\Config
 
     public function __construct($sourceData=null)
     {
-        $this->_elementClass = '\Magento\Api\Model\Wsdl\Config\Element';
+        $this->_elementClass = 'Magento\Api\Model\Wsdl\Config\Element';
 
         // remove wsdl parameter from query
         $queryParams = \Mage::app()->getRequest()->getQuery();

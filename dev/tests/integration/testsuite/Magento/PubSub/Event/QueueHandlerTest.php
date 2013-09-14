@@ -55,14 +55,14 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
             ->save();
 
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->configure(array(
-            '\Magento\Core\Model\Config\Base' => array(
+            'Magento\Core\Model\Config\Base' => array(
                 'parameters' => array(
                     'sourceData' => __DIR__ . '/../_files/config.xml',
                 ),
             ),
-            '\Magento\Webhook\Model\Resource\Subscription' => array(
+            'Magento\Webhook\Model\Resource\Subscription' => array(
                 'parameters' => array(
-                    'config' => array('instance' => '\Magento\Core\Model\Config\Base'),
+                    'config' => array('instance' => 'Magento\Core\Model\Config\Base'),
                 ),
             )
         ));
@@ -111,7 +111,7 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
         /* First EVENT */
         $job = $queue->poll();
         $this->assertNotNull($job);
-        $this->assertInstanceOf('\Magento\PubSub\JobInterface', $job);
+        $this->assertInstanceOf('Magento\PubSub\JobInterface', $job);
         $event = $job->getEvent();
         $subscription = $job->getSubscription();
 

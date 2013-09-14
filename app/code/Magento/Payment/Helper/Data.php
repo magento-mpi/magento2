@@ -265,7 +265,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getAllBillingAgreementMethods()
     {
         $result = array();
-        $interface = '\Magento\Payment\Model\Billing\Agreement\MethodInterface';
+        $interface = 'Magento\Payment\Model\Billing\Agreement\MethodInterface';
         foreach ($this->getPaymentMethods() as $code => $data) {
             if (!isset($data['model'])) {
                 continue;

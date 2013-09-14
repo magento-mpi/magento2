@@ -36,13 +36,13 @@ class Magento_Backend_Block_Widget_FormTest extends PHPUnit_Framework_TestCase
             )
         );
         $attributes = array($objectManager->create('Magento\Eav\Model\Entity\Attribute', $arguments));
-        $method = new ReflectionMethod('\Magento\Backend\Block\Widget\Form', '_setFieldset');
+        $method = new ReflectionMethod('Magento\Backend\Block\Widget\Form', '_setFieldset');
         $method->setAccessible(true);
         $method->invoke($formBlock, $attributes, $fieldSet);
         $fields = $fieldSet->getElements();
 
         $this->assertEquals(1, count($fields));
-        $this->assertInstanceOf('\Magento\Data\Form\Element\Date', $fields[0]);
+        $this->assertInstanceOf('Magento\Data\Form\Element\Date', $fields[0]);
         $this->assertNotEmpty($fields[0]->getDateFormat());
     }
 }

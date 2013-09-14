@@ -38,7 +38,7 @@ class Magento_Profiler_Driver_StandardTest extends PHPUnit_Framework_TestCase
     public function testDefaultConstructor()
     {
         $driver = new \Magento\Profiler\Driver\Standard();
-        $this->assertAttributeInstanceOf('\Magento\Profiler\Driver\Standard\Stat', '_stat', $driver);
+        $this->assertAttributeInstanceOf('Magento\Profiler\Driver\Standard\Stat', '_stat', $driver);
     }
 
     /**
@@ -147,7 +147,7 @@ class Magento_Profiler_Driver_StandardTest extends PHPUnit_Framework_TestCase
         $method = new ReflectionMethod($this->_driver, '_getOutputFactory');
         $method->setAccessible(true);
         $this->assertInstanceOf(
-            '\Magento\Profiler\Driver\Standard\Output\Factory',
+            'Magento\Profiler\Driver\Standard\Output\Factory',
             $method->invoke($this->_driver)
         );
     }

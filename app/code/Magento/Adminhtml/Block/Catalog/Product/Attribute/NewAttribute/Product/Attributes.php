@@ -56,9 +56,9 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
     protected function _getAdditionalElementTypes()
     {
         $result = array(
-            'price'   => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Price',
-            'image'   => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Image',
-            'boolean' => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Boolean',
+            'price'   => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Price',
+            'image'   => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Image',
+            'boolean' => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Boolean',
         );
 
         $response = new \Magento\Object();

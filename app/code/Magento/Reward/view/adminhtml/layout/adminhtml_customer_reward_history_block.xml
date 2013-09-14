@@ -84,7 +84,7 @@
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Website</argument>
                             <argument name="type" xsi:type="string">options</argument>
-                            <argument name="options" xsi:type="options" model="\Magento\Reward\Model\Resource\Reward\History\Grid\Options\Websites"/>
+                            <argument name="options" xsi:type="options" model="Magento\Reward\Model\Resource\Reward\History\Grid\Options\Websites"/>
                             <argument name="index" xsi:type="string">website_id</argument>
                             <argument name="sortable" xsi:type="string">0</argument>
                         </arguments>

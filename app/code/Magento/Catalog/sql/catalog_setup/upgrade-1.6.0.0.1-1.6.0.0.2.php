@@ -17,7 +17,7 @@ $installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'country_of_man
     'label'             => 'Country of Manufacture',
     'input'             => 'select',
     'class'             => '',
-    'source'            => '\Magento\Catalog\Model\Product\Attribute\Source\Countryofmanufacture',
+    'source'            => 'Magento\Catalog\Model\Product\Attribute\Source\Countryofmanufacture',
     'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
     'visible'           => true,
     'required'          => false,

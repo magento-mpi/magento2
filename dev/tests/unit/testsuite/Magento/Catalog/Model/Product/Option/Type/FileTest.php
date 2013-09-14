@@ -38,8 +38,8 @@ class Magento_Catalog_Model_Product_Option_Type_FileTest extends PHPUnit_Framewo
         }
 
         $parameters = array('filesystem' => $filesystemMock);
-        $model = $helper->getObject('\Magento\Catalog\Model\Product\Option\Type\File', $parameters);
-        $method = new ReflectionMethod('\Magento\Catalog\Model\Product\Option\Type\File', '_createWritableDir');
+        $model = $helper->getObject('Magento\Catalog\Model\Product\Option\Type\File', $parameters);
+        $method = new ReflectionMethod('Magento\Catalog\Model\Product\Option\Type\File', '_createWritableDir');
         $method->setAccessible(true);
         $method->invoke($model, 'dummy/path');
     }

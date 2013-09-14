@@ -25,5 +25,5 @@ class Initial
      * Report sub-collection class name
      * @var string
      */
-    protected $_reportCollection = '\Magento\Reports\Model\Resource\Customer\Totals\Collection';
+    protected $_reportCollection = 'Magento\Reports\Model\Resource\Customer\Totals\Collection';
 }

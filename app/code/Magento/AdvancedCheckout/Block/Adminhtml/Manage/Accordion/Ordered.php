@@ -58,7 +58,7 @@ class Ordered
      */
     protected function _getPriceRenderer()
     {
-        return '\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Ordered\Price';
+        return 'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Ordered\Price';
     }
 
     /**

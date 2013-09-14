@@ -63,26 +63,26 @@ class Magento_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_F
     public function setUp()
     {
         $this->_iteratorMock = $this->getMock(
-            '\Magento\Backend\Model\Config\Structure\Element\Iterator', array(), array(), '', false
+            'Magento\Backend\Model\Config\Structure\Element\Iterator', array(), array(), '', false
         );
         $this->_applicationMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
         $this->_backendFactoryMock = $this->getMock(
-            '\Magento\Backend\Model\Config\BackendFactory', array(), array(), '', false
+            'Magento\Backend\Model\Config\BackendFactory', array(), array(), '', false
         );
         $this->_sourceFactoryMock = $this->getMock(
-            '\Magento\Backend\Model\Config\SourceFactory', array(), array(), '', false
+            'Magento\Backend\Model\Config\SourceFactory', array(), array(), '', false
         );
         $this->_commentFactoryMock = $this->getMock(
-            '\Magento\Backend\Model\Config\CommentFactory', array(), array(), '', false
+            'Magento\Backend\Model\Config\CommentFactory', array(), array(), '', false
         );
         $this->_blockFactoryMock = $this->getMock(
-            '\Magento\Core\Model\BlockFactory', array(), array(), '', false
+            'Magento\Core\Model\BlockFactory', array(), array(), '', false
         );
         $this->_dsGraphMock = $this->getMock(
-            '\Magento\Core\Model\DataService\Graph', array(), array(), '', false
+            'Magento\Core\Model\DataService\Graph', array(), array(), '', false
         );
         $this->_depMapperMock = $this->getMock(
-            '\Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper', array(), array(), '', false
+            'Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper', array(), array(), '', false
         );
 
         $this->_model = new \Magento\Backend\Model\Config\Structure\Element\Field(

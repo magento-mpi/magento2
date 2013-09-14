@@ -126,7 +126,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
 
         /* @TODO: Move catalog and checkout storage types to appropriate modules */
         $messageBlock = $action->getLayout()->getMessagesBlock();
-        foreach (array('Magento\Catalog\Model\Session', '\Magento\Checkout\Model\Session', '\Magento\Customer\Model\Session') as $storageType) {
+        foreach (array('Magento\Catalog\Model\Session', 'Magento\Checkout\Model\Session', 'Magento\Customer\Model\Session') as $storageType) {
             $storage = \Mage::getSingleton($storageType);
             if ($storage) {
                 $messageBlock->addStorageType($storageType);

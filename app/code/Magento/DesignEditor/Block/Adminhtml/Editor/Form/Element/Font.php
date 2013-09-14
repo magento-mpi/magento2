@@ -68,8 +68,8 @@ class Font
      */
     protected function _addElementTypes()
     {
-        $this->addType('color-picker', '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ColorPicker');
-        $this->addType('font-picker', '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\FontPicker');
+        $this->addType('color-picker', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ColorPicker');
+        $this->addType('font-picker', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\FontPicker');
 
         return $this;
     }

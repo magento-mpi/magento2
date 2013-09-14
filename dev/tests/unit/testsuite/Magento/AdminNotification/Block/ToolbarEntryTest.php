@@ -25,7 +25,7 @@ class Magento_AdminNotification_Block_ToolbarEntryTest extends PHPUnit_Framework
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         // mock collection of unread notifications
         $notificationList = $this->getMock(
-            '\Magento\AdminNotification\Model\Resource\Inbox\Collection\Unread',
+            'Magento\AdminNotification\Model\Resource\Inbox\Collection\Unread',
             array('getSize', 'setCurPage', 'setPageSize'),
             array(),
             '',
@@ -34,7 +34,7 @@ class Magento_AdminNotification_Block_ToolbarEntryTest extends PHPUnit_Framework
         $notificationList->expects($this->any())->method('getSize')->will($this->returnValue($unreadNotifications));
 
         $block = $objectManagerHelper->getObject(
-            '\Magento\AdminNotification\Block\ToolbarEntry',
+            'Magento\AdminNotification\Block\ToolbarEntry',
             array(
                 'notificationList' => $notificationList,
             )

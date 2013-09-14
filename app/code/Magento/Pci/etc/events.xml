@@ -9,9 +9,9 @@
 -->
 <config>
     <event name="admin_user_save_before">
-        <observer name="magento_pci" instance="\Magento\Pci\Model\Observer" method="checkAdminPasswordChange" />
+        <observer name="magento_pci" instance="Magento\Pci\Model\Observer" method="checkAdminPasswordChange" />
     </event>
     <event name="admin_user_save_after">
-        <observer name="magento_pci" instance="\Magento\Pci\Model\Observer" method="trackAdminNewPassword" />
+        <observer name="magento_pci" instance="Magento\Pci\Model\Observer" method="trackAdminNewPassword" />
     </event>
-</config>
+</config>

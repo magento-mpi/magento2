@@ -27,10 +27,10 @@ class Layer extends \Magento\CatalogSearch\Block\Layer
         parent::_initBlocks();
 
         if (\Mage::helper('Magento\Search\Helper\Data')->getIsEngineAvailableForNavigation(false)) {
-            $this->_categoryBlockName        = '\Magento\Search\Block\Catalog\Layer\Filter\Category';
-            $this->_attributeFilterBlockName = '\Magento\Search\Block\Catalogsearch\Layer\Filter\Attribute';
-            $this->_priceFilterBlockName     = '\Magento\Search\Block\Catalog\Layer\Filter\Price';
-            $this->_decimalFilterBlockName   = '\Magento\Search\Block\Catalog\Layer\Filter\Decimal';
+            $this->_categoryBlockName        = 'Magento\Search\Block\Catalog\Layer\Filter\Category';
+            $this->_attributeFilterBlockName = 'Magento\Search\Block\Catalogsearch\Layer\Filter\Attribute';
+            $this->_priceFilterBlockName     = 'Magento\Search\Block\Catalog\Layer\Filter\Price';
+            $this->_decimalFilterBlockName   = 'Magento\Search\Block\Catalog\Layer\Filter\Decimal';
         }
     }
 

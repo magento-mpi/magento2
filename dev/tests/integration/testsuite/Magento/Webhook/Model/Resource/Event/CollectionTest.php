@@ -108,7 +108,7 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
 
 
         $beforeLoad = new ReflectionMethod(
-            '\Magento\Webhook\Model\Resource\Event\Collection', '_beforeLoad');
+            'Magento\Webhook\Model\Resource\Event\Collection', '_beforeLoad');
         $beforeLoad->setAccessible(true);
         $beforeLoad->invoke($collection);
         $data = $collection->getData();
@@ -122,13 +122,13 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
         $collection2 = $this->_objectManager->create('Magento\Webhook\Model\Resource\Event\Collection');
         $collection2->setConnection($connection);
         $initSelect = new ReflectionMethod(
-            '\Magento\Webhook\Model\Resource\Event\Collection', '_initSelect');
+            'Magento\Webhook\Model\Resource\Event\Collection', '_initSelect');
         $initSelect->setAccessible(true);
         $initSelect->invoke($collection2);
 
 
         $afterLoad = new ReflectionMethod(
-            '\Magento\Webhook\Model\Resource\Event\Collection', '_afterLoad');
+            'Magento\Webhook\Model\Resource\Event\Collection', '_afterLoad');
         $afterLoad->setAccessible(true);
 
 

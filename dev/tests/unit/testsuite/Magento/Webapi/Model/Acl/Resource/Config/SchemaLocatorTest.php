@@ -20,7 +20,7 @@ class Magento_Webapi_Model_Acl_Resource_Config_SchemaLocatorTest extends PHPUnit
     protected function setUp()
     {
         $this->_moduleReaderMock = $this->getMock(
-            '\Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false
+            'Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false
         );
         $this->_moduleReaderMock->expects($this->once())
             ->method('getModuleDir')->with('etc', 'Magento_Webapi')->will($this->returnValue('schema_dir'));

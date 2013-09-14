@@ -63,7 +63,7 @@ class Magento_Webapi_Model_Resource_Acl_RuleTest extends Magento_Webapi_Model_Re
             ->withAnyParameters()
             ->will($this->returnValue($this->_adapter));
 
-        return $this->_helper->getObject('\Magento\Webapi\Model\Resource\Acl\Rule', array(
+        return $this->_helper->getObject('Magento\Webapi\Model\Resource\Acl\Rule', array(
             'resource' => $this->_resource,
         ));
     }

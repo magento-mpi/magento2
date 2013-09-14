@@ -36,7 +36,7 @@ class Magento_FullPageCache_Model_Processor_RestrictionTest extends PHPUnit_Fram
     protected function setUp()
     {
         $this->_environmentMock = $this->getMock(
-            '\Magento\FullPageCache\Model\Environment', array(), array(), '', false
+            'Magento\FullPageCache\Model\Environment', array(), array(), '', false
         );
         $this->_cacheStateMock = $this->getMock('Magento\Core\Model\Cache\StateInterface');
         $this->_model = new \Magento\FullPageCache\Model\Processor\Restriction(

@@ -57,7 +57,7 @@ class Magento_ScheduledImportExport_Model_ExportTest extends PHPUnit_Framework_T
     public function testGetDateModel()
     {
         $this->assertInstanceOf(
-            '\Magento\Core\Model\Date',
+            'Magento\Core\Model\Date',
             $this->_model->getDateModel(),
             'Date model getter retrieve instance with wrong type'
         );
@@ -183,7 +183,7 @@ class Magento_ScheduledImportExport_Model_ExportTest extends PHPUnit_Framework_T
     {
         /** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
         $operation = $this->getMock(
-            '\Magento\ScheduledImportExport\Model\Scheduled\Operation', null, array(), '', false);
+            'Magento\ScheduledImportExport\Model\Scheduled\Operation', null, array(), '', false);
         $operation->setData($operationData);
 
         return $operation;

@@ -25,14 +25,14 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
      *
      * @var string
      */
-    protected $_formBlockType = '\Magento\Pbridge\Block\Checkout\Payment\Payflow\Pro';
+    protected $_formBlockType = 'Magento\Pbridge\Block\Checkout\Payment\Payflow\Pro';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = '\Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Payflow\Pro';
+    protected $_backendFormBlockType = 'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Payflow\Pro';
 
     /**
      * Payment Bridge Payment Method Instance

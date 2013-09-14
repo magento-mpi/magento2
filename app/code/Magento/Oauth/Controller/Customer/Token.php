@@ -33,7 +33,7 @@ class Token extends \Magento\Core\Controller\Front\Action
      *
      * @var string
      */
-    protected $_sessionName = '\Magento\Customer\Model\Session';
+    protected $_sessionName = 'Magento\Customer\Model\Session';
 
     /**
      * Check authentication

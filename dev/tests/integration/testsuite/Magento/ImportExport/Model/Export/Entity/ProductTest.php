@@ -69,7 +69,7 @@ class Magento_ImportExport_Model_Export_Entity_ProductTest extends PHPUnit_Frame
     public function testExportStockItemAttributesAreFilled()
     {
         $writerMock = $this->getMockForAbstractClass(
-            '\Magento\ImportExport\Model\Export\Adapter\AbstractAdapter',
+            'Magento\ImportExport\Model\Export\Adapter\AbstractAdapter',
             array(),
             '',
             true,

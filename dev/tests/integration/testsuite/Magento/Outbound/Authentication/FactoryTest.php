@@ -21,7 +21,7 @@ class Magento_Outbound_Authentication_FactoryTest extends PHPUnit_Framework_Test
     public function testGetFormatter()
     {
         $authObject = $this->_authFactory->getAuthentication(\Magento\Outbound\EndpointInterface::AUTH_TYPE_HMAC);
-        $this->assertInstanceOf('\Magento\Outbound\Authentication\Hmac', $authObject);
+        $this->assertInstanceOf('Magento\Outbound\Authentication\Hmac', $authObject);
     }
 
     public function testGetFormatterIsCached()

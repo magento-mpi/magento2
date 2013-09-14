@@ -37,7 +37,7 @@ class Magento_GoogleOptimizer_Model_Observer_Category_DeleteTest extends PHPUnit
         $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('\Magento\GoogleOptimizer\Model\Observer\Category\Delete', array(
+        $this->_model = $objectManagerHelper->getObject('Magento\GoogleOptimizer\Model\Observer\Category\Delete', array(
             'modelCode' => $this->_codeMock,
         ));
     }

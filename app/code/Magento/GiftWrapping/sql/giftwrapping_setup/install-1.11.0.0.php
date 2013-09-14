@@ -231,11 +231,11 @@ $installer = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Setup', arr
 
 $installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'gift_wrapping_available', array(
     'group'         => 'Gift Options',
-    'backend'       => '\Magento\Catalog\Model\Product\Attribute\Backend\Boolean',
+    'backend'       => 'Magento\Catalog\Model\Product\Attribute\Backend\Boolean',
     'frontend'      => '',
     'label'         => 'Allow Gift Wrapping',
     'input'         => 'select',
-    'source'        => '\Magento\Eav\Model\Entity\Attribute\Source\Boolean',
+    'source'        => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean',
     'global'        => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
     'visible'       => true,
     'required'      => false,
@@ -243,15 +243,15 @@ $installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'gift_wrapping_
     'default'       => '',
     'apply_to'      => $applyTo,
     'frontend_class' => 'hidden-for-virtual',
-    'frontend_input_renderer' => '\Magento\GiftWrapping\Block\Adminhtml\Product\Helper\Form\Config',
-    'input_renderer'   => '\Magento\GiftWrapping\Block\Adminhtml\Product\Helper\Form\Config',
+    'frontend_input_renderer' => 'Magento\GiftWrapping\Block\Adminhtml\Product\Helper\Form\Config',
+    'input_renderer'   => 'Magento\GiftWrapping\Block\Adminhtml\Product\Helper\Form\Config',
     'visible_on_front' => false
 ));
 
 $installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'gift_wrapping_price', array(
     'group'         => 'Gift Options',
     'type'          => 'decimal',
-    'backend'       => '\Magento\Catalog\Model\Product\Attribute\Backend\Price',
+    'backend'       => 'Magento\Catalog\Model\Product\Attribute\Backend\Price',
     'frontend'      => '',
     'label'         => 'Price for Gift Wrapping',
     'input'         => 'price',

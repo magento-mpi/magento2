@@ -22,7 +22,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
 
         /** @var \Magento\Catalog\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection $collection */
         $collection = Mage::getResourceModel(
-            '\Magento\Catalog\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection'
+            'Magento\Catalog\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection'
         );
 
         $this->assertEquals(array('simple-1', 'virtual-product'), $collection->getColumnValues('sku'));

@@ -223,6 +223,6 @@ class Builder
      */
     protected function _addElementTypes($form)
     {
-        $form->addType('column', '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column');
+        $form->addType('column', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column');
     }
 }

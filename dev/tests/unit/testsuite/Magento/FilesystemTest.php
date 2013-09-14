@@ -371,7 +371,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($streamMock));
         $filesystem = new \Magento\Filesystem($adapterMock);
         $filesystem->setWorkingDirectory('/tmp');
-        $this->assertInstanceOf('\Magento\Filesystem\Stream\Local', $filesystem->createStream($path));
+        $this->assertInstanceOf('Magento\Filesystem\Stream\Local', $filesystem->createStream($path));
     }
 
     /**
@@ -426,7 +426,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($streamMock));
         $filesystem = new \Magento\Filesystem($adapterMock);
         $filesystem->setWorkingDirectory('/tmp');
-        $this->assertInstanceOf('\Magento\Filesystem\Stream\Local', $filesystem->createAndOpenStream($path, $mode));
+        $this->assertInstanceOf('Magento\Filesystem\Stream\Local', $filesystem->createAndOpenStream($path, $mode));
     }
 
     /**
@@ -453,7 +453,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($streamMock));
         $filesystem = new \Magento\Filesystem($adapterMock);
         $filesystem->setWorkingDirectory('/tmp');
-        $this->assertInstanceOf('\Magento\Filesystem\Stream\Local',
+        $this->assertInstanceOf('Magento\Filesystem\Stream\Local',
             $filesystem->createAndOpenStream($path, new stdClass()));
     }
 

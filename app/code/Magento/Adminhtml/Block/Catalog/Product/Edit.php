@@ -72,7 +72,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
             $this->addChild('save-split-button', 'Magento\Backend\Block\Widget\Button\Split', array(
                 'id' => 'save-split-button',
                 'label' => __('Save'),
-                'class_name' => '\Magento\Backend\Block\Widget\Button\Split',
+                'class_name' => 'Magento\Backend\Block\Widget\Button\Split',
                 'button_class' => 'widget-button-save',
                 'options' => $this->_getSaveSplitButtonOptions()
             ));

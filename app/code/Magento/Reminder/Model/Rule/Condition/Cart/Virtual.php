@@ -22,7 +22,7 @@ class Virtual extends \Magento\Reminder\Model\Condition\AbstractCondition
     public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('\Magento\Reminder\Model\Rule\Condition\Cart\Virtual');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Cart\Virtual');
         $this->setValue(1);
     }
 

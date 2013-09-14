@@ -14,7 +14,7 @@ class Magento_Adminhtml_Block_Page_HeadTest extends PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         $this->assertInstanceOf(
-            '\Magento\Adminhtml\Block\Page\Head',
+            'Magento\Adminhtml\Block\Page\Head',
             Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Page\Head')
         );
     }

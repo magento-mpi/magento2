@@ -42,7 +42,7 @@ class Dom extends \Magento\Config\Reader\Filesystem
         \Magento\Config\ValidationStateInterface $validationState,
         $idAttributes = array(),
         $filename = 'di.xml',
-        $domDocumentClass = '\Magento\Config\Dom'
+        $domDocumentClass = 'Magento\Config\Dom'
     ) {
         parent::__construct(
             $fileResolver, $converter, $schemaLocator, $validationState, $filename, $idAttributes, $domDocumentClass

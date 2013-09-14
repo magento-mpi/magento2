@@ -89,7 +89,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
         $attributeCollection = $this->getMock('Magento\Data\Collection', array('getEntityTypeCode'));
         foreach ($this->_attributes as $attributeData) {
             $arguments = $objectManagerHelper->getConstructArguments(
-                '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute'
+                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute'
             );
             $arguments['data'] = $attributeData;
             $attribute = $this->getMockBuilder('Magento\Eav\Model\Entity\Attribute\AbstractAttribute')

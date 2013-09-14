@@ -42,8 +42,8 @@ abstract class AbstractMethod extends \Magento\Object
     const CHECK_ZERO_TOTAL            = 128;
 
     protected $_code;
-    protected $_formBlockType = '\Magento\Payment\Block\Form';
-    protected $_infoBlockType = '\Magento\Payment\Block\Info';
+    protected $_formBlockType = 'Magento\Payment\Block\Form';
+    protected $_infoBlockType = 'Magento\Payment\Block\Info';
 
     /**
      * Payment Method features

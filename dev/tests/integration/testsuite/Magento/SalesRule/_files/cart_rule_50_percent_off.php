@@ -15,7 +15,7 @@ $salesRule->setData(array(
     'coupon_type' => \Magento\SalesRule\Model\Rule::COUPON_TYPE_NO_COUPON,
     'conditions' => array(
         array(
-            'type' => '\Magento\SalesRule\Model\Rule\Condition\Address',
+            'type' => 'Magento\SalesRule\Model\Rule\Condition\Address',
             'attribute' => 'base_subtotal',
             'operator' => '>',
             'value' => 1000,

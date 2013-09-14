@@ -35,7 +35,7 @@ class Magento_Bundle_Model_ProductTest extends PHPUnit_Framework_TestCase
     {
         // model getter
         $typeInstance = $this->_model->getTypeInstance();
-        $this->assertInstanceOf('\Magento\Bundle\Model\Product\Type', $typeInstance);
+        $this->assertInstanceOf('Magento\Bundle\Model\Product\Type', $typeInstance);
         $this->assertSame($typeInstance, $this->_model->getTypeInstance());
 
         // singleton getter
@@ -71,7 +71,7 @@ class Magento_Bundle_Model_ProductTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE);
         $type = $this->_model->getPriceModel();
-        $this->assertInstanceOf('\Magento\Bundle\Model\Product\Price', $type);
+        $this->assertInstanceOf('Magento\Bundle\Model\Product\Price', $type);
         $this->assertSame($type, $this->_model->getPriceModel());
     }
 

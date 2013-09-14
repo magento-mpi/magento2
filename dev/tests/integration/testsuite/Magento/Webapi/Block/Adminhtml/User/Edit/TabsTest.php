@@ -40,7 +40,7 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framewor
 
     protected function tearDown()
     {
-        $this->_objectManager->removeSharedInstance('\Magento\Core\Model\Layout');
+        $this->_objectManager->removeSharedInstance('Magento\Core\Model\Layout');
         unset($this->_objectManager, $this->_layout, $this->_block);
     }
 
@@ -52,13 +52,13 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framewor
         // TODO: Move to unit tests after MAGETWO-4015 complete.
         /** @var \Magento\Webapi\Block\Adminhtml\User\Edit\Tab\Main $mainTabBlock */
         $mainTabBlock = $this->_layout->addBlock(
-            '\Magento\Core\Block\Text',
+            'Magento\Core\Block\Text',
             'webapi.user.edit.tab.main',
             'webapi.user.edit.tabs'
         )->setText('Main Block Content');
 
         $this->_layout->addBlock(
-            '\Magento\Core\Block\Text',
+            'Magento\Core\Block\Text',
             'webapi.user.edit.tab.roles.grid',
             'webapi.user.edit.tabs'
         )->setText('Grid Block Content');
@@ -73,7 +73,7 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framewor
 
         $tabs = $this->_getProtectedTabsValue($this->_block);
         $this->assertArrayHasKey('main_section', $tabs);
-        $this->assertInstanceOf('\Magento\Object', $tabs['main_section']);
+        $this->assertInstanceOf('Magento\Object', $tabs['main_section']);
         $this->assertEquals(array(
             'label' => 'User Info',
             'title' => 'User Info',
@@ -85,7 +85,7 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framewor
         ), $tabs['main_section']->getData());
 
         $this->assertArrayHasKey('roles_section', $tabs);
-        $this->assertInstanceOf('\Magento\Object', $tabs['roles_section']);
+        $this->assertInstanceOf('Magento\Object', $tabs['roles_section']);
         $this->assertEquals(array(
             'label' => 'User Role',
             'title' => 'User Role',

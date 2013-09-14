@@ -56,7 +56,7 @@ class Reader
         \Magento\Config\FileResolverInterface $fileResolver,
         \Magento\Core\Model\Config\Initial\Converter $converter,
         $fileName = 'config.xml',
-        $domDocumentClass = '\Magento\Config\Dom'
+        $domDocumentClass = 'Magento\Config\Dom'
     ) {
         $this->_fileResolver = $fileResolver;
         $this->_converter = $converter;

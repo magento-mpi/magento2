@@ -243,7 +243,7 @@ class App implements \Magento\Core\Model\AppInterface
          */
         // TODO: Assure that everything work fine work in areas without routers (e.g. URL generation)
         /** Default front controller class */
-        $frontControllerClass = '\Magento\Core\Controller\Varien\Front';
+        $frontControllerClass = 'Magento\Core\Controller\Varien\Front';
         $pathParts = explode('/', trim($this->getRequest()->getPathInfo(), '/'));
         if ($pathParts) {
             /** If area front name is used it is expected to be set on the first place in path info */

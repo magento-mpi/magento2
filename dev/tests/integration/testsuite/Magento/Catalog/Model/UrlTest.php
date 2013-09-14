@@ -49,25 +49,25 @@ class Magento_Catalog_Model_UrlTest extends PHPUnit_Framework_TestCase
     public function testGetResource()
     {
         $resource = $this->_model->getResource();
-        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Url', $resource);
+        $this->assertInstanceOf('Magento\Catalog\Model\Resource\Url', $resource);
         $this->assertSame($resource, $this->_model->getResource());
     }
 
     public function testGetCategoryModel()
     {
-        $this->assertInstanceOf('\Magento\Catalog\Model\Category', $this->_model->getCategoryModel());
+        $this->assertInstanceOf('Magento\Catalog\Model\Category', $this->_model->getCategoryModel());
     }
 
     public function testGetProductModel()
     {
-        $this->assertInstanceOf('\Magento\Catalog\Model\Product', $this->_model->getProductModel());
+        $this->assertInstanceOf('Magento\Catalog\Model\Product', $this->_model->getProductModel());
     }
 
     public function testGetStoreRootCategory()
     {
         $root = $this->_model->getStoreRootCategory(1);
         $this->assertNotEmpty($root);
-        $this->assertInstanceOf('\Magento\Object', $root);
+        $this->assertInstanceOf('Magento\Object', $root);
         $this->assertEquals(2, $root->getId());
         $this->assertEquals(1, $root->getParentId());
     }
@@ -85,7 +85,7 @@ class Magento_Catalog_Model_UrlTest extends PHPUnit_Framework_TestCase
     public function testRefreshRewrites()
     {
         $this->assertNotEmpty($this->_loadRewrite('product/1/4')->getId());
-        $this->assertInstanceOf('\Magento\Catalog\Model\Url', $this->_model->refreshRewrites());
+        $this->assertInstanceOf('Magento\Catalog\Model\Url', $this->_model->refreshRewrites());
         $this->assertEmpty($this->_loadRewrite('product/1/4')->getId());
     }
 

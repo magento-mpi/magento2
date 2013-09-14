@@ -26,7 +26,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
     public function testGetRelationInfo()
     {
         $info = $this->_model->getRelationInfo();
-        $this->assertInstanceOf('\Magento\Object', $info);
+        $this->assertInstanceOf('Magento\Object', $info);
         $this->assertNotSame($info, $this->_model->getRelationInfo());
     }
 
@@ -51,7 +51,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
         $this->assertArrayHasKey('sku', $attributes);
         $this->assertArrayHasKey('name', $attributes);
         foreach ($attributes as $attribute) {
-            $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Eav\Attribute', $attribute);
+            $this->assertInstanceOf('Magento\Catalog\Model\Resource\Eav\Attribute', $attribute);
         }
         /* possibility of fatal error if passing null instead of product */
     }
@@ -84,7 +84,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
 
         $isTypeExists = false;
         foreach ($attributes as $attribute) {
-            $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Eav\Attribute', $attribute);
+            $this->assertInstanceOf('Magento\Catalog\Model\Resource\Eav\Attribute', $attribute);
             $applyTo = $attribute->getApplyTo();
             if (count($applyTo) > 0 && !in_array('simple', $applyTo)) {
                 $isTypeExists = true;
@@ -142,7 +142,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
         $this->assertArrayHasKey(0, $result);
         $this->assertSame($product, $result[0]);
         $buyRequest = $product->getCustomOption('info_buyRequest');
-        $this->assertInstanceOf('\Magento\Object', $buyRequest);
+        $this->assertInstanceOf('Magento\Object', $buyRequest);
         $this->assertEquals($product->getId(), $buyRequest->getProductId());
         $this->assertSame($product, $buyRequest->getProduct());
         $this->assertEquals(serialize($requestData), $buyRequest->getValue());

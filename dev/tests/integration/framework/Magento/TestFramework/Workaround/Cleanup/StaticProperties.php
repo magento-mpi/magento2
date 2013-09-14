@@ -36,7 +36,7 @@ class Magento_TestFramework_Workaround_Cleanup_StaticProperties
         'Magento_TestFramework_Event_Magento',
         'Magento_TestFramework_Event_PhpUnit',
         'Magento_TestFramework_Annotation_AppIsolation',
-        '\Magento\Phrase',
+        'Magento\Phrase',
     );
 
     /**

@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_Report_Filter_FormTest extends PHPUnit_Framework_T
         $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
         $block = $layout->addBlock('Magento\Adminhtml\Block\Report\Filter\Form');
         $prepareFormMethod = new ReflectionMethod(
-            '\Magento\Adminhtml\Block\Report\Filter\Form', '_prepareForm');
+            'Magento\Adminhtml\Block\Report\Filter\Form', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);
 

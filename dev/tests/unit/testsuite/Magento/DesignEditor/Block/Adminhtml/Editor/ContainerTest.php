@@ -56,7 +56,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_ContainerTest extends PHPUnit_
         );
 
         /** @var $block \Magento\DesignEditor\Block\Adminhtml\Editor\Container */
-        $block = $this->_helper->getObject('\Magento\DesignEditor\Block\Adminhtml\Editor\Container', $arguments);
+        $block = $this->_helper->getObject('Magento\DesignEditor\Block\Adminhtml\Editor\Container', $arguments);
         $block->setFrameUrl(self::FRAME_URL);
         $this->assertAttributeEquals(self::FRAME_URL, '_frameUrl', $block);
         $this->assertEquals(self::FRAME_URL, $block->getFrameUrl());
@@ -73,7 +73,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_ContainerTest extends PHPUnit_
         $arguments['eventManager'] = $eventManager;
 
         /** @var $block \Magento\DesignEditor\Block\Adminhtml\Editor\Container */
-        $block = $this->_helper->getObject('\Magento\DesignEditor\Block\Adminhtml\Editor\Container', $arguments);
+        $block = $this->_helper->getObject('Magento\DesignEditor\Block\Adminhtml\Editor\Container', $arguments);
 
         $layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $block->setLayout($layout);

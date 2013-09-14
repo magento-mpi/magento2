@@ -21,7 +21,7 @@ class Magento_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_Te
         $configManager = $this->getMock('Magento\Core\Model\View\Config', array(), array(), '', false);
         $configManager->expects($this->any())->method('getViewConfig')->will($this->returnValue($configView));
 
-        $configurable = $objectManagerHelper->getObject('\Magento\Checkout\Block\Cart\Item\Renderer\Configurable',
+        $configurable = $objectManagerHelper->getObject('Magento\Checkout\Block\Cart\Item\Renderer\Configurable',
             array('viewConfig' => $configManager));
 
         $product = $this->getMock('Magento\Catalog\Model\Product', array('isConfigurable'), array(), '', false);
@@ -35,10 +35,10 @@ class Magento_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_Te
             'statusListFactory' => $this->getMock('Magento\Sales\Model\Status\ListFactory', array(), array(), '',
                 false),
         );
-        $childItem = $objectManagerHelper->getObject('\Magento\Sales\Model\Quote\Item', $arguments);
+        $childItem = $objectManagerHelper->getObject('Magento\Sales\Model\Quote\Item', $arguments);
         $childItem->setData('product', $childProduct);
 
-        $item = $objectManagerHelper->getObject('\Magento\Sales\Model\Quote\Item', $arguments);
+        $item = $objectManagerHelper->getObject('Magento\Sales\Model\Quote\Item', $arguments);
         $item->setData('product', $product);
         $item->addChild($childItem);
 

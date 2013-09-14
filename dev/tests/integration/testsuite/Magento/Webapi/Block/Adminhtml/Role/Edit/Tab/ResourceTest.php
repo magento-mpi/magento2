@@ -68,7 +68,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_
 
     protected function tearDown()
     {
-        $this->_objectManager->removeSharedInstance('\Magento\Core\Model\Layout');
+        $this->_objectManager->removeSharedInstance('Magento\Core\Model\Layout');
         unset($this->_objectManager, $this->_layout, $this->_resourceProvider, $this->_blockFactory, $this->_block);
     }
 

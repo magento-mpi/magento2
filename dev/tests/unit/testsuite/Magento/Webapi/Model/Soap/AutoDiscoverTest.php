@@ -184,7 +184,7 @@ class Magento_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestC
             $this->throwException($exception)
         );
         $this->setExpectedException(
-            '\Magento\Webapi\Exception',
+            'Magento\Webapi\Exception',
             'getResourceDataMerged Exception',
             \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );

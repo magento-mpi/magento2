@@ -28,6 +28,6 @@ class Magento_User_Block_Role_Grid_UserTest extends PHPUnit_Framework_TestCase
     public function testPreparedCollection()
     {
         $this->_block->toHtml();
-        $this->assertInstanceOf('\Magento\User\Model\Resource\Role\User\Collection', $this->_block->getCollection());
+        $this->assertInstanceOf('Magento\User\Model\Resource\Role\User\Collection', $this->_block->getCollection());
     }
 }

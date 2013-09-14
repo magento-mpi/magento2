@@ -258,7 +258,7 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
 
         /** @var $model \Magento\Catalog\Model\Product */
         $model = Mage::getModel(
-            '\Magento\Catalog\Model\Product',
+            'Magento\Catalog\Model\Product',
             array('data' => array('type_id' => \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL))
         );
         $this->assertTrue($model->isVirtual());
@@ -291,7 +291,7 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
 
         /** @var $model \Magento\Catalog\Model\Product */
         $model = Mage::getModel(
-            '\Magento\Catalog\Model\Product',
+            'Magento\Catalog\Model\Product',
             array('data' => array('type_id' => \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE))
         );
         $this->assertTrue($model->isComposite());
@@ -391,7 +391,7 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     {
         $request = new \Magento\Object;
         $result = $this->_model->processBuyRequest($request);
-        $this->assertInstanceOf('\Magento\Object', $result);
+        $this->assertInstanceOf('Magento\Object', $result);
         $this->assertArrayHasKey('errors', $result->getData());
     }
 

@@ -22,7 +22,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_TabAbstractTest extends 
         $objectManagerModel = $this->getMock('Magento\ObjectManager');
 
         $constructArguments = $objectManagerHelper->getConstructArguments(
-            '\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js',
+            'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js',
             array(
                  'objectManager' => $objectManagerModel,
                  'urlBuilder'    => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
@@ -30,7 +30,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_TabAbstractTest extends 
         );
 
         $this->_model = $this->getMockForAbstractClass(
-            '\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\TabAbstract',
+            'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\TabAbstract',
             $constructArguments, '', true, false, true,
             array('_getCurrentTheme', 'getTabLabel')
         );

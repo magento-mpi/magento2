@@ -47,7 +47,7 @@ class Magento_Core_Model_Layout_TranslatorTest extends PHPUnit_Framework_TestCas
 </layout>
 XML;
 
-        $this->_xmlDocument = simplexml_load_string($string, '\Magento\Simplexml\Element');
+        $this->_xmlDocument = simplexml_load_string($string, 'Magento\Simplexml\Element');
 
         $this->_object = new \Magento\Core\Model\Layout\Translator();
     }

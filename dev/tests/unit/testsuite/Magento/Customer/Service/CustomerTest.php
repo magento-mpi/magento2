@@ -133,7 +133,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testSetBeforeSaveCallback()
     {
-        $this->assertInstanceOf('\Magento\Customer\Service\Customer', $this->_service->setBeforeSaveCallback('intval'));
+        $this->assertInstanceOf('Magento\Customer\Service\Customer', $this->_service->setBeforeSaveCallback('intval'));
         $this->assertAttributeEquals('intval', '_beforeSaveCallback', $this->_service);
     }
 
@@ -160,13 +160,13 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->_service->setBeforeSaveCallback(array($callback, 'beforeSave'));
         $this->_service->setAfterSaveCallback(array($callback, 'afterSave'));
         if ($method == 'create') {
-            $this->assertInstanceOf('\Magento\Customer\Model\Customer',
+            $this->assertInstanceOf('Magento\Customer\Model\Customer',
                 $this->_service->create($customerData, $addressData));
         } else {
             $this->_customer->expects($this->once())
                 ->method('getId')
                 ->will($this->returnValue(1));
-            $this->assertInstanceOf('\Magento\Customer\Model\Customer',
+            $this->assertInstanceOf('Magento\Customer\Model\Customer',
                 $this->_service->update(1, $customerData, $addressData));
         }
     }
@@ -184,7 +184,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
 
     public function testSetAfterSaveCallback()
     {
-        $this->assertInstanceOf('\Magento\Customer\Service\Customer', $this->_service->setAfterSaveCallback('intval'));
+        $this->assertInstanceOf('Magento\Customer\Service\Customer', $this->_service->setAfterSaveCallback('intval'));
         $this->assertAttributeEquals('intval', '_afterSaveCallback', $this->_service);
     }
 
@@ -193,7 +193,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testSetIsAdminStore()
     {
-        $this->assertInstanceOf('\Magento\Customer\Service\Customer', $this->_service->setIsAdminStore(true));
+        $this->assertInstanceOf('Magento\Customer\Service\Customer', $this->_service->setIsAdminStore(true));
         $this->assertAttributeEquals(true, '_isAdminStore', $this->_service);
     }
 
@@ -215,7 +215,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             ->method('save');
 
         $this->_service->setIsAdminStore($isAdminStore);
-        $this->assertInstanceOf('\Magento\Customer\Model\Customer',
+        $this->assertInstanceOf('Magento\Customer\Model\Customer',
             $this->_service->create($customerData));
         $this->assertEquals($expectedData, $this->_customer->toArray(array_keys($expectedData)));
     }
@@ -286,7 +286,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             ->method('getConfirmation')
             ->will($this->returnValue(false));
 
-        $this->assertInstanceOf('\Magento\Customer\Model\Customer', $this->_service->create($customerData));
+        $this->assertInstanceOf('Magento\Customer\Model\Customer', $this->_service->create($customerData));
     }
 
     /**
@@ -327,7 +327,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 $this->equalTo($storeId)
             );
 
-        $this->assertInstanceOf('\Magento\Customer\Model\Customer', $this->_service->create($customerData));
+        $this->assertInstanceOf('Magento\Customer\Model\Customer', $this->_service->create($customerData));
     }
 
     /**
@@ -362,7 +362,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 $this->equalTo($storeId)
             );
 
-        $this->assertInstanceOf('\Magento\Customer\Model\Customer', $this->_service->create($customerData));
+        $this->assertInstanceOf('Magento\Customer\Model\Customer', $this->_service->create($customerData));
     }
 
     /**
@@ -430,7 +430,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                ->will($this->returnValue($customerData['confirmation']));
         }
 
-        $this->assertInstanceOf('\Magento\Customer\Model\Customer', $this->_service->create($customerData));
+        $this->assertInstanceOf('Magento\Customer\Model\Customer', $this->_service->create($customerData));
     }
 
     /**
@@ -528,7 +528,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 ->will($this->returnValue('generated_password'));
         }
 
-        $this->assertInstanceOf('\Magento\Customer\Model\Customer', $this->_service->update(1, $customerData));
+        $this->assertInstanceOf('Magento\Customer\Model\Customer', $this->_service->update(1, $customerData));
     }
 
     /**
@@ -613,7 +613,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 ->with('_deleted', true);
         }
 
-        $this->assertInstanceOf('\Magento\Customer\Model\Customer', $this->_service->update(1, array(), $addressData),
+        $this->assertInstanceOf('Magento\Customer\Model\Customer', $this->_service->update(1, array(), $addressData),
             'Incorrect instance returned');
 
         $this->assertEquals($expectedDataChange, $this->_customer->hasDataChanges(),

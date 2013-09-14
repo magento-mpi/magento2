@@ -46,23 +46,23 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_CurrencyTest extends PHP
         $this->_appMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
         $this->_localeMock = $this->getMock('Magento\Core\Model\LocaleInterface');
         $this->_curLocatorMock = $this->getMock(
-            '\Magento\Directory\Model\Currency\DefaultLocator', array(), array(), '', false
+            'Magento\Directory\Model\Currency\DefaultLocator', array(), array(), '', false
         );
         $this->_columnMock = $this->getMock(
-            '\Magento\Backend\Block\Widget\Grid\Column', array('getIndex'), array(), '', false
+            'Magento\Backend\Block\Widget\Grid\Column', array('getIndex'), array(), '', false
         );
         $this->_columnMock->expects($this->any())->method('getIndex')->will($this->returnValue('columnIndex'));
         $this->_row = new \Magento\Object(array('columnIndex' => '10'));
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_blockCurrency = $objectManagerHelper->getObject(
-            '\Magento\Backend\Block\Widget\Grid\Column\Renderer\Currency',
+            'Magento\Backend\Block\Widget\Grid\Column\Renderer\Currency',
             array(
                 'locale' => $this->_localeMock,
                 'app' => $this->_appMock,
                 'currencyLocator' => $this->_curLocatorMock,
                 'urlBuilder' => $this->getMock(
-                    '\Magento\Backend\Model\Url', array(), array(), '', false
+                    'Magento\Backend\Model\Url', array(), array(), '', false
                 )
             )
         );

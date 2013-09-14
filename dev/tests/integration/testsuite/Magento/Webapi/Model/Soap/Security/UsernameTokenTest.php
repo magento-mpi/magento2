@@ -30,7 +30,7 @@ class Magento_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Frame
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_objectManager->addSharedInstance(
             Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir'),
-            '\Magento\Core\Model\Dir'
+            'Magento\Core\Model\Dir'
         );
         $userFactory = new \Magento\Webapi\Model\Acl\User\Factory($this->_objectManager);
         $this->_user = $userFactory->create();

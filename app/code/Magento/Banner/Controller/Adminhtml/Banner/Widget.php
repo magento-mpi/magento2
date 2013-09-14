@@ -27,7 +27,7 @@ class Widget extends \Magento\Adminhtml\Controller\Action
         $uniqId = $this->getRequest()->getParam('uniq_id');
 
         $bannersGrid = $this->getLayout()->createBlock(
-            '\Magento\Banner\Block\Adminhtml\Widget\Chooser', '', array('data' => array('id' => $uniqId))
+            'Magento\Banner\Block\Adminhtml\Widget\Chooser', '', array('data' => array('id' => $uniqId))
         );
         $html = $bannersGrid->toHtml();
 

@@ -15,7 +15,7 @@ class Magento_TestFramework_ObjectManager extends \Magento\Core\Model\ObjectMana
      * @var array
      */
     protected $_classesToDestruct = array(
-        '\Magento\Core\Model\Layout',
+        'Magento\Core\Model\Layout',
     );
 
     /**

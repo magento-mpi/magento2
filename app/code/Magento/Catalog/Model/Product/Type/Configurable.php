@@ -406,7 +406,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
             }
             /** @var $configurableAttributesCollection \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection  */
             $configurableAttributesCollection = \Mage::getResourceModel(
-                '\Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection'
+                'Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection'
             );
             $configurableAttributesCollection->setProductFilter($product);
             $configurableAttributesCollection->addFieldToFilter(

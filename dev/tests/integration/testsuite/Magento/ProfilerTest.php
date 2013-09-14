@@ -22,7 +22,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
     public function testApplyConfigWithDrivers(array $config, array $expectedDrivers)
     {
         \Magento\Profiler::applyConfig($config, '');
-        $this->assertAttributeEquals($expectedDrivers, '_drivers', '\Magento\Profiler');
+        $this->assertAttributeEquals($expectedDrivers, '_drivers', 'Magento\Profiler');
     }
 
     /**

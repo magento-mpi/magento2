@@ -32,6 +32,6 @@ class Form extends \Magento\CustomAttribute\Block\Form
      *
      * @var string
      */
-    protected $_formModelPath = '\Magento\Customer\Model\Form';
+    protected $_formModelPath = 'Magento\Customer\Model\Form';
 
 }

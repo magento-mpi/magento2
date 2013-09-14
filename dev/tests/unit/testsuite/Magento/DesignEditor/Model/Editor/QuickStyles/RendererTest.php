@@ -22,7 +22,7 @@ class Magento_DesignEditor_Model_Editor_QuickStyles_RendererTest
     {
         /** @var $rendererModel \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer */
         $rendererModel = $this->getMock(
-            '\Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer', null, array(), '', false
+            'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer', null, array(), '', false
         );
 
         $objectManager = $this->getMock(

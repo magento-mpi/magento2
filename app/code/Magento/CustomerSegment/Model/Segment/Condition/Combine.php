@@ -29,7 +29,7 @@ class Combine
     public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('\Magento\CustomerSegment\Model\Segment\Condition\Combine');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Combine');
     }
 
     /**
@@ -42,13 +42,13 @@ class Combine
         $conditions = array(
             array(
                 // Subconditions combo
-                'value' => '\Magento\CustomerSegment\Model\Segment\Condition\Combine',
+                'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Combine',
                 'label' => __('Conditions Combination'),
                 'available_in_guest_mode' => true
             ),
             array(
                 // Customer address combo
-                'value' => '\Magento\CustomerSegment\Model\Segment\Condition\Customer\Address',
+                'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Customer\Address',
                 'label' => __('Customer Address')
             ),
             // Customer attribute group
@@ -63,13 +63,13 @@ class Combine
                 'value' => array(
                     array(
                         // Product list combo
-                        'value' => '\Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\ListCombine',
+                        'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\ListCombine',
                         'label' => __('Product List'),
                         'available_in_guest_mode' => true
                     ),
                     array(
                         // Product history combo
-                        'value' => '\Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\History',
+                        'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\History',
                         'label' => __('Product History'),
                         'available_in_guest_mode' => true
                     )

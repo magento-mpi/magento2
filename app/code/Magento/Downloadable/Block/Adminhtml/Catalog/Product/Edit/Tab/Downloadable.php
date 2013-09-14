@@ -141,7 +141,7 @@ class Downloadable
         $accordion->addItem('links', array(
             'title'   => __('Links'),
             'content' => $this->getLayout()->createBlock(
-                '\Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links',
+                'Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links',
                 'catalog.product.edit.tab.downloadable.links')->toHtml(),
             'open'    => true,
         ));

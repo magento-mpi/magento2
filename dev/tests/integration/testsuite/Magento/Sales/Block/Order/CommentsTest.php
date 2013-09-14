@@ -41,15 +41,15 @@ class Magento_Sales_Block_Order_CommentsTest extends PHPUnit_Framework_TestCase
         return array(
             array(
                 Mage::getModel('Magento\Sales\Model\Order\Invoice'),
-                '\Magento\Sales\Model\Resource\Order\Invoice\Comment\Collection'
+                'Magento\Sales\Model\Resource\Order\Invoice\Comment\Collection'
             ),
             array(
                 Mage::getModel('Magento\Sales\Model\Order\Creditmemo'),
-                '\Magento\Sales\Model\Resource\Order\Creditmemo\Comment\Collection'
+                'Magento\Sales\Model\Resource\Order\Creditmemo\Comment\Collection'
             ),
             array(
                 Mage::getModel('Magento\Sales\Model\Order\Shipment'),
-                '\Magento\Sales\Model\Resource\Order\Shipment\Comment\Collection'
+                'Magento\Sales\Model\Resource\Order\Shipment\Comment\Collection'
             )
         );
     }

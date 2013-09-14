@@ -142,7 +142,7 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getResourceName()
     {
-        return '\Magento\CatalogSearch\Model\Resource\Advanced';
+        return 'Magento\CatalogSearch\Model\Resource\Advanced';
     }
 
     /**
