@@ -8,15 +8,16 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Sales Order Print View" id="sales_guest_print" type="page" parent="print">
+    <handle label="Sales Shipment Print View" id="sales_order_printordershipment" type="page" parent="sales_order_printorder">
         <reference name="content">
-            <block class="Magento\Sales\Block\Order\PrintShipment" name="sales.order.printshipment" template="order/print.phtml">
+            <block class="Magento\Sales\Block\Order\PrintOrder\Shipment" name="sales.order.printorder.shipment" template="order/print/shipment.phtml">
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">default</argument>
-                    <argument name="block" xsi:type="string">Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer</argument>
+                    <argument name="block" xsi:type="string">\Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer</argument>
                     <argument name="template" xsi:type="string">order/shipment/items/renderer/default.phtml</argument>
                 </action>
             </block>
         </reference>
+        <container name="additional.product.info" label="Additional Product Info"/>
     </handle>
 </layout>

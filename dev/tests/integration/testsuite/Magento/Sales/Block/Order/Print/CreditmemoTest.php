@@ -23,7 +23,7 @@ class Magento_Sales_Block_Order_Print_CreditmemoTest extends PHPUnit_Framework_T
         $order->setPayment($payment);
 
         $layout = Mage::getModel('Magento\Core\Model\Layout');
-        $block = $layout->createBlock('Magento\Sales\Block\Order\Print\Creditmemo', 'block');
+        $block = $layout->createBlock('Magento\Sales\Block\Order\PrintOrder\Creditmemo', 'block');
         $childBlock = $layout->addBlock('Magento\Core\Block\Text', 'creditmemo_totals', 'block');
 
         $expectedHtml = '<b>Any html</b>';

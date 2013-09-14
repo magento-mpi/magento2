@@ -8,12 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="sales_guest_printorderinvoice">
-        <reference name="sales.order.printorder.invoice">
+    <handle id="sales_order_printordershipment">
+        <reference name="sales.order.printorder.shipment">
             <action method="addItemRender">
                 <argument name="type" xsi:type="string">giftcard</argument>
                 <argument name="block" xsi:type="string">Magento\GiftCard\Block\Sales\Order\Item\Renderer\Noquote</argument>
-                <argument name="template" xsi:type="string">Magento_Sales::order/invoice/items/renderer/default.phtml</argument>
+                <argument name="template" xsi:type="string">Magento_Sales::order/shipment/items/renderer/default.phtml</argument>
             </action>
         </reference>
     </handle>

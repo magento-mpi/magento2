@@ -11,9 +11,9 @@
     <handle id="sales_guest_print">
         <reference name="sales.order.printorder">
             <action method="addItemRender">
-                <argument name="type" xsi:type="string">bundle</argument>
-                <argument name="block" xsi:type="string">Magento\Bundle\Block\Sales\Order\Items\Renderer</argument>
-                <argument name="template" xsi:type="string">sales/order/items/renderer.phtml</argument>
+                <argument name="type" xsi:type="string">giftcard</argument>
+                <argument name="block" xsi:type="string">Magento\GiftCard\Block\Sales\Order\Item\Renderer\Noquote</argument>
+                <argument name="template" xsi:type="string">Magento_Sales::order/items/renderer/default.phtml</argument>
             </action>
         </reference>
     </handle>

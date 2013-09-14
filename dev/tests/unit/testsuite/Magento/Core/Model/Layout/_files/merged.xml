@@ -10,7 +10,7 @@
  */
 -->
 <layouts>
-    <handle id="sales_order_print" label="Sales Order Print View" type="page" parent="print">
+    <handle id="sales_order_printorder" label="Sales Order Print View" type="page" parent="print">
     </handle>
     <handle id="print" label="All Pages (Print Version)" type="page">
     </handle>

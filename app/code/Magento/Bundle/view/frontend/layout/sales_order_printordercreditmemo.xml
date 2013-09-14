@@ -8,12 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="sales_guest_print">
-        <reference name="sales.order.printorder">
+    <handle id="sales_order_printordercreditmemo">
+        <reference name="sales.order.printorder.creditmemo">
             <action method="addItemRender">
                 <argument name="type" xsi:type="string">bundle</argument>
                 <argument name="block" xsi:type="string">Magento\Bundle\Block\Sales\Order\Items\Renderer</argument>
-                <argument name="template" xsi:type="string">sales/order/items/renderer.phtml</argument>
+                <argument name="template" xsi:type="string">sales/order/creditmemo/items/renderer.phtml</argument>
             </action>
         </reference>
     </handle>

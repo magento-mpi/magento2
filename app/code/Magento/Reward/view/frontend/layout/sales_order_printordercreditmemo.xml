@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_order_printordercreditmemo">
+        <reference name="creditmemo_totals">
+            <block class="Magento\Reward\Block\Sales\Order\Total" name="reward.sales.order.total"/>
+        </reference>
+    </handle>
+</layout>

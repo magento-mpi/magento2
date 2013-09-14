@@ -13,8 +13,8 @@ return array(
         'label'    => 'All Pages (Print Version)',
         'type'     => 'page',
         'children' => array(
-            'sales_order_print' => array(
-                'name'     => 'sales_order_print',
+            'sales_order_printorder' => array(
+                'name'     => 'sales_order_printorder',
                 'label'    => 'Sales Order Print View',
                 'type'     => 'page',
                 'children' => array(),

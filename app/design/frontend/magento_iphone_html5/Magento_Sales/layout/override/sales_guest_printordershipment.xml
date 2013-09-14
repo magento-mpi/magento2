@@ -8,12 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Sales Order Print View" id="sales_guest_print" type="page" parent="print">
+    <handle label="Sales Shipment Print View" id="sales_guest_printshipment" type="page" parent="sales_guest_print">
         <reference name="content">
-            <block class="Magento\Sales\Block\Order\PrintShipment" name="sales.order.printshipment" template="order/print.phtml">
+            <block class="Magento\Sales\Block\Order\PrintOrder\Shipment" name="sales.order.printorder.shipment" template="order/print/shipment.phtml">
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">default</argument>
-                    <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\Price</argument>
+                    <argument name="block" xsi:type="string">\Magento\Catalog\Block\Product\Price</argument>
                     <argument name="template" xsi:type="string">Magento_Sales::order/shipment/items/renderer/default.phtml</argument>
                 </action>
             </block>
