@@ -28,6 +28,9 @@
     * sales_convert_quote_payment_to_order_payment
     * sales_convert_quote_item_to_order_item
     * sales_quote_config_get_product_attributes
+* Redesign and reimplementation of web services framework
+  * Removed the Api module and all existing SOAP V1, SOAP V2, and XML-RPC web services code
+  * Implemented new web services framework to support both REST and SOAP based off of a common service interface
 * XML Validation
   * Altered format of `widget.xml` and added `widget.xsd` to allow for validation of XML files.
   * Altered format of `fieldset.xml` and added `fieldset.xsd` to allow for validation of XML files.
@@ -102,6 +105,13 @@
      * Covered new layout customization mechanism with integrity tests
   * Relocated several files, declared in layouts
   * Streamlined several design customizations
+  * Arbitrary handle name moved to handle node, id attribute
+  * New arguments format, which introduce argument types implemented
+  * Translation specified just on the level of node which is going to be translated
+  * XSD validation for Layouts XML added
+  * Type casting for all kind of types (url, option, array and simple types) added
+  * Covered introduced argument types with integrity test
+  * Types restrictions was implemented
 * Various improvements:
   * Refactored fallback paths to prevent searching of modular view files in non-module context, covered application with appropriate integrity test
   * Added configuration for limits on sending wishlist emails

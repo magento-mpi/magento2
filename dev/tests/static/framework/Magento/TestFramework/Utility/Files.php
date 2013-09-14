@@ -462,4 +462,19 @@ class Magento_TestFramework_Utility_Files
         return $result;
     }
 
+    /**
+     * @param string $namespace
+     * @param string $module
+     * @param string $file
+     * @return string
+     */
+    public function getModuleFile($namespace, $module, $file)
+    {
+        return $this->_path . DIRECTORY_SEPARATOR
+            . 'app'. DIRECTORY_SEPARATOR
+            . 'code'. DIRECTORY_SEPARATOR
+            . $namespace . DIRECTORY_SEPARATOR
+            . $module . DIRECTORY_SEPARATOR
+            . $file;
+    }
 }
