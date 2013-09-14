@@ -21,12 +21,12 @@ class NewCategory extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);
