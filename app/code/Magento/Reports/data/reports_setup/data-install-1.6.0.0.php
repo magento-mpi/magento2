@@ -63,21 +63,21 @@ $reportLayoutUpdate    = '<!--<reference name="content">
         <block class="Magento\Catalog\Block\Product\New" name="home.catalog.product.new" alias="product_new" template="product/new.phtml" after="cms_page">
             <action method="addPriceBlockType">
                 <argument name="type" xsi:type="string">bundle</argument>
-                <argument name="block" xsi:type="string">\Magento\Bundle\Block\Catalog\Product\Price</argument>
+                <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\Price</argument>
                 <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
             </action>
         </block>
         <block class="Magento\Reports\Block\Product\Viewed" name="home.reports.product.viewed" alias="product_viewed" template="home_product_viewed.phtml" after="product_new">
             <action method="addPriceBlockType">
                 <argument name="type" xsi:type="string">bundle</argument>
-                <argument name="block" xsi:type="string">\Magento\Bundle\Block\Catalog\Product\Price</argument>
+                <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\Price</argument>
                 <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
             </action>
         </block>
         <block class="Magento\Reports\Block\Product\Compared" name="home.reports.product.compared" template="home_product_compared.phtml" after="product_viewed">
             <action method="addPriceBlockType">
                 <argument name="type" xsi:type="string">bundle</argument>
-                <argument name="block" xsi:type="string">\Magento\Bundle\Block\Catalog\Product\Price</argument>
+                <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\Price</argument>
                 <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
             </action>
         </block>

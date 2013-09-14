@@ -81,11 +81,11 @@ class Magento_Webapi_Controller_Response_Rest_Renderer_FactoryTest extends PHPUn
         <renders>
             <default>
                 <type>*/*</type>
-                <model>\Magento\Webapi\Controller\Response\Rest\Renderer\Json</model>
+                <model>Magento\Webapi\Controller\Response\Rest\Renderer\Json</model>
             </default>
             <application_json>
                 <type>application/json</type>
-                <model>\Magento\Webapi\Controller\Response\Rest\Renderer\Json</model>
+                <model>Magento\Webapi\Controller\Response\Rest\Renderer\Json</model>
             </application_json>
         </renders>
 XML;
