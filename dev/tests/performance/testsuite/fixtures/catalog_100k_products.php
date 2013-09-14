@@ -37,7 +37,7 @@ $generator = new Magento_TestFramework_ImportExport_Fixture_Generator($pattern, 
 /** @var Magento_ImportExport_Model_Import $import */
 $import = Mage::getModel(
     'Magento_ImportExport_Model_Import',
-    array('entity' => 'catalog_product', 'behavior' => 'append')
+    array('data' => array('entity' => 'catalog_product', 'behavior' => 'append'))
 );
 // it is not obvious, but the validateSource() will actually save import queue data to DB
 $import->validateSource($generator);
