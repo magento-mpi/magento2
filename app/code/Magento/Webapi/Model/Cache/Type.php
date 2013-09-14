@@ -10,8 +10,6 @@
 
 /**
  * System / Cache Management / Cache type "Web Services Configuration"
- *
- * @todo utilize the class for all manipulations with the cache type
  */
 class Magento_Webapi_Model_Cache_Type extends Magento_Cache_Frontend_Decorator_TagScope
 {

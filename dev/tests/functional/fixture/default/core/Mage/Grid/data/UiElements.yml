@@ -626,32 +626,6 @@ paypal_reports:
         8: Gross Amount
         9: Fee Amount
 
-#dataset for ui elements for Api Users grid
-api_soap_users:
-    fieldset:
-        api_users_grid: tablename
-    button:
-        reset_filter: ~
-        search: ~
-        add_new_api_user: ~
-    field:
-        page: ~
-        filter_api_users_id: ~
-        filter_api_users_username: ~
-        filter_api_users_firstname: ~
-        filter_api_users_lastname: ~
-        filter_api_users_email: ~
-    dropdown:
-        view_per_page: ~
-        status: ~
-    headers:
-        0: ID
-        1: User Name
-        2: First Name
-        3: Last Name
-        4: Email
-        5: Status
-
 #dataset for ui elements for Cache grid
 cache_storage_management:
     fieldset:

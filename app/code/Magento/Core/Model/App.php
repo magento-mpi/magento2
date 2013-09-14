@@ -252,6 +252,9 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
                 ) {
                     $this->_configScope->setCurrentScope($areaCode);
                     $frontControllerClass = $areaInfo['front_controller'];
+                    /** Remove area from path info */
+                    array_shift($pathParts);
+                    $this->getRequest()->setPathInfo('/' . implode('/', $pathParts));
                     break;
                 }
             }

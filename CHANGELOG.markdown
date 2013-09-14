@@ -28,6 +28,10 @@
     * sales_convert_quote_payment_to_order_payment
     * sales_convert_quote_item_to_order_item
     * sales_quote_config_get_product_attributes
+* Redesign and reimplementation of web services framework
+  * Removed the Api module and all existing SOAP V1, SOAP V2, and XML-RPC web services code
+  * Implemented new web services framework to support both REST and SOAP based off of a common service interface
+
 2.0.0.0-dev45
 =============
 * Product management improvements:
