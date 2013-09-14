@@ -31,7 +31,7 @@
                     <giftwrapping>
                         <class>Magento\GiftWrapping\Model\Total\Quote\Giftwrapping</class>
                         <after>subtotal</after>
-                        <renderer>\Magento\GiftWrapping\Block\Checkout\Totals</renderer>
+                        <renderer>Magento\GiftWrapping\Block\Checkout\Totals</renderer>
                     </giftwrapping>
                     <tax_giftwrapping>
                         <class>Magento\GiftWrapping\Model\Total\Quote\Tax\Giftwrapping</class>

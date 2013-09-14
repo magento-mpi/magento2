@@ -14,7 +14,7 @@
                 <arguments>
                     <argument name="id" xsi:type="string">storeGrid</argument>
                     <argument name="save_parameters_in_session" xsi:type="string">1</argument>
-                    <argument name="dataSource" xsi:type="object">\Magento\Core\Model\Resource\Website\Grid\Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\Core\Model\Resource\Website\Grid\Collection</argument>
                 </arguments>
                 <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" name="adminhtml.system.store.grid.columnSet" as="grid.columnSet">
                     <arguments>
@@ -26,7 +26,7 @@
                             <argument name="align" xsi:type="string">left</argument>
                             <argument name="index" xsi:type="string">name</argument>
                             <argument name="filter_index" xsi:type="string">main_table.name</argument>
-                            <argument name="renderer" xsi:type="string">\Magento\Adminhtml\Block\System\Store\Grid\Render\Website</argument>
+                            <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\System\Store\Grid\Render\Website</argument>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="group_title">
@@ -35,7 +35,7 @@
                             <argument name="align" xsi:type="string">left</argument>
                             <argument name="index" xsi:type="string">group_title</argument>
                             <argument name="filter_index" xsi:type="string">group_table.name</argument>
-                            <argument name="renderer" xsi:type="string">\Magento\Adminhtml\Block\System\Store\Grid\Render\Group</argument>
+                            <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\System\Store\Grid\Render\Group</argument>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="store_title">
@@ -44,7 +44,7 @@
                             <argument name="align" xsi:type="string">left</argument>
                             <argument name="index" xsi:type="string">store_title</argument>
                             <argument name="filter_index" xsi:type="string">store_table.name</argument>
-                            <argument name="renderer" xsi:type="string">\Magento\Adminhtml\Block\System\Store\Grid\Render\Store</argument>
+                            <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\System\Store\Grid\Render\Store</argument>
                         </arguments>
                     </block>
                 </block>

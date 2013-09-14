@@ -12,7 +12,7 @@
         <reference name="order_review">
             <action method="addItemRender">
                 <argument name="type" xsi:type="string">bundle</argument>
-                <argument name="block" xsi:type="string">\Magento\Bundle\Block\Checkout\Cart\Item\Renderer</argument>
+                <argument name="block" xsi:type="string">Magento\Bundle\Block\Checkout\Cart\Item\Renderer</argument>
                 <argument name="template" xsi:type="string">Magento_Checkout::onepage/review/item.phtml</argument>
             </action>
         </reference>

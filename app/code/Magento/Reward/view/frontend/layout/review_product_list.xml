@@ -12,7 +12,7 @@
         <reference name="product.review.form.fields.before">
             <block class="Magento\Reward\Block\Tooltip" name="reward.hint.review" template="tooltip.phtml" after="product.info">
                 <action method="initRewardType">
-                    <argument name="type" xsi:type="string">\Magento\Reward\Model\Action\Review</argument>
+                    <argument name="type" xsi:type="string">Magento\Reward\Model\Action\Review</argument>
                 </action>
                 <action method="setWrapperClass">
                     <argument name="class" xsi:type="string">reward-review</argument>

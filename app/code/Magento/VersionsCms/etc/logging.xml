@@ -28,7 +28,7 @@
             <adminhtml_cms_hierarchy_index>
                 <action>view</action>
                 <expected_models />
-                <post_dispatch>\Magento\VersionsCms\Model\Observer::postDispatchCmsHierachyView</post_dispatch>
+                <post_dispatch>Magento\VersionsCms\Model\Observer::postDispatchCmsHierachyView</post_dispatch>
             </adminhtml_cms_hierarchy_index>
             <adminhtml_cms_hierarchy_save>
                 <action>save</action>
@@ -105,7 +105,7 @@
             <adminhtml_cms_page_revision_preview>
                 <action>preview</action>
                 <expected_models />
-                <post_dispatch>\Magento\VersionsCms\Model\Observer::postDispatchCmsRevisionPreview</post_dispatch>
+                <post_dispatch>Magento\VersionsCms\Model\Observer::postDispatchCmsRevisionPreview</post_dispatch>
             </adminhtml_cms_page_revision_preview>
 
             <adminhtml_cms_page_revision_save>
@@ -127,7 +127,7 @@
 
             <adminhtml_cms_page_revision_publish>
                 <action>publish</action>
-                <post_dispatch>\Magento\VersionsCms\Model\Observer::postDispatchCmsRevisionPublish</post_dispatch>
+                <post_dispatch>Magento\VersionsCms\Model\Observer::postDispatchCmsRevisionPublish</post_dispatch>
                 <skip_on_back>
                     <adminhtml_cms_page_revision_edit />
                 </skip_on_back>

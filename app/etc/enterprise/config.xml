@@ -11,7 +11,7 @@
     <global>
         <skip_process_modules_updates>0</skip_process_modules_updates>
         <configurators>
-            <magento_search>\Magento\Search\Model\ObjectManager\Configurator</magento_search>
+            <magento_search>Magento\Search\Model\ObjectManager\Configurator</magento_search>
         </configurators>
     </global>
 </config>

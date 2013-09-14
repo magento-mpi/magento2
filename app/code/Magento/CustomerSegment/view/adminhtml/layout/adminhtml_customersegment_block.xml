@@ -13,7 +13,7 @@
             <block class="Magento\Backend\Block\Widget\Grid" name="customer.segment.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">customersegmentGrid</argument>
-                    <argument name="dataSource" xsi:type="object">\Magento\CustomerSegment\Model\Resource\Grid\Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\CustomerSegment\Model\Resource\Grid\Collection</argument>
                     <argument name="use_ajax" xsi:type="string">1</argument>
                     <argument name="default_sort" xsi:type="string">name</argument>
                     <argument name="default_dir" xsi:type="string">ASC</argument>

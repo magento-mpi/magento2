@@ -60,7 +60,7 @@
             <connection>
                 <types>
                     <pdo_mysql>
-                        <adapter>\Magento\DB\Adapter\Pdo\Mysql</adapter>
+                        <adapter>Magento\DB\Adapter\Pdo\Mysql</adapter>
                         <class>Magento\Core\Model\Resource\Type\Db\Pdo\Mysql</class>
                         <compatibleMode>1</compatibleMode>
                     </pdo_mysql>

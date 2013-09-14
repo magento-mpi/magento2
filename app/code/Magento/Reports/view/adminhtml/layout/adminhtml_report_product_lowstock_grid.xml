@@ -14,7 +14,7 @@
                 <arguments>
                     <argument name="id" xsi:type="string">gridLowstock</argument>
                     <argument name="use_ajax" xsi:type="string">0</argument>
-                    <argument name="dataSource" xsi:type="object">\Magento\Reports\Model\Resource\Product\Lowstock\Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\Reports\Model\Resource\Product\Lowstock\Collection</argument>
                 </arguments>
                 <block class="Magento\Backend\Block\Widget\Grid\Export" name="adminhtml.block.report.product.lowstock.export" as="grid.export">
                     <arguments>
@@ -52,7 +52,7 @@
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="qty">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Stock Quantity</argument>
-                            <argument name="filter" xsi:type="string">\Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Range</argument>
+                            <argument name="filter" xsi:type="string">Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Range</argument>
                             <argument name="sortable" xsi:type="string">0</argument>
                             <argument name="index" xsi:type="string">qty</argument>
                             <argument name="type" xsi:type="string">number</argument>

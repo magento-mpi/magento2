@@ -125,8 +125,8 @@
     <type name="Magento\Core\Model\DataService\Path\Composite">
         <param name="items">
             <value>
-                <data>\Magento\Core\Model\DataService\Repository</data>
-                <request>\Magento\Core\Model\DataService\Path\Request</request>
+                <data>Magento\Core\Model\DataService\Repository</data>
+                <request>Magento\Core\Model\DataService\Path\Request</request>
             </value>
         </param>
     </type>

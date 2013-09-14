@@ -14,7 +14,7 @@
                 <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.block.customer.online.grid" as="grid">
                     <arguments>
                         <argument name="id" xsi:type="string">onlineGrid</argument>
-                        <argument name="dataSource" xsi:type="object">\Magento\Log\Model\Resource\Visitor\Online\Grid\Collection</argument>
+                        <argument name="dataSource" xsi:type="object">Magento\Log\Model\Resource\Visitor\Online\Grid\Collection</argument>
                         <argument name="default_sort" xsi:type="string">last_activity</argument>
                         <argument name="default_dir" xsi:type="string">DESC</argument>
                         <argument name="save_parameters_in_session" xsi:type="string">1</argument>
@@ -22,7 +22,7 @@
                     <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="adminhtml.customer.online.grid.columnSet">
                         <arguments>
                             <argument name="rowUrl" xsi:type="array">
-                                <item name="generatorClass" xsi:type="string">\Magento\Log\Model\Resource\Visitor\Online\Grid\Row\UrlGenerator</item>
+                                <item name="generatorClass" xsi:type="string">Magento\Log\Model\Resource\Visitor\Online\Grid\Row\UrlGenerator</item>
                                 <item name="path" xsi:type="string">*/customer/edit</item>
                                 <item name="extraParamsTemplate" xsi:type="array">
                                     <item name="id" xsi:type="string">getCustomerId</item>
@@ -65,7 +65,7 @@
                                 <argument name="header" xsi:type="string" translate="true">IP Address</argument>
                                 <argument name="default" xsi:type="string">n/a</argument>
                                 <argument name="filter" xsi:type="string">0</argument>
-                                <argument name="renderer" xsi:type="string">\Magento\Adminhtml\Block\Customer\Online\Grid\Renderer\Ip</argument>
+                                <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\Customer\Online\Grid\Renderer\Ip</argument>
                                 <argument name="index" xsi:type="string">remote_addr</argument>
                             </arguments>
                         </block>
@@ -104,7 +104,7 @@
                                 <argument name="linelength" xsi:type="string">60</argument>
                                 <argument name="type" xsi:type="string">wrapline</argument>
                                 <argument name="index" xsi:type="string">last_url</argument>
-                                <argument name="renderer" xsi:type="string">\Magento\Adminhtml\Block\Customer\Online\Grid\Renderer\Url</argument>
+                                <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\Customer\Online\Grid\Renderer\Url</argument>
                             </arguments>
                         </block>
                     </block>

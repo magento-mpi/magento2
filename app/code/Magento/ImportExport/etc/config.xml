@@ -22,57 +22,57 @@
         <importexport>
             <import_entities>
                 <catalog_product translate="label">
-                    <model_token>\Magento\ImportExport\Model\Import\Entity\Product</model_token>
+                    <model_token>Magento\ImportExport\Model\Import\Entity\Product</model_token>
                     <label>Products</label>
-                    <behavior_token>\Magento\ImportExport\Model\Source\Import\Behavior\Basic</behavior_token>
+                    <behavior_token>Magento\ImportExport\Model\Source\Import\Behavior\Basic</behavior_token>
                 </catalog_product>
                 <customer_composite translate="label">
-                    <model_token>\Magento\ImportExport\Model\Import\Entity\CustomerComposite</model_token>
+                    <model_token>Magento\ImportExport\Model\Import\Entity\CustomerComposite</model_token>
                     <label>Customers</label>
-                    <behavior_token>\Magento\ImportExport\Model\Source\Import\Behavior\Basic</behavior_token>
+                    <behavior_token>Magento\ImportExport\Model\Source\Import\Behavior\Basic</behavior_token>
                 </customer_composite>
                 <customer translate="label">
-                    <model_token>\Magento\ImportExport\Model\Import\Entity\Eav\Customer</model_token>
+                    <model_token>Magento\ImportExport\Model\Import\Entity\Eav\Customer</model_token>
                     <label>Customers Main File</label>
-                    <behavior_token>\Magento\ImportExport\Model\Source\Import\Behavior\Custom</behavior_token>
+                    <behavior_token>Magento\ImportExport\Model\Source\Import\Behavior\Custom</behavior_token>
                 </customer>
                 <customer_address translate="label">
-                    <model_token>\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address</model_token>
+                    <model_token>Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address</model_token>
                     <label>Customer Addresses</label>
-                    <behavior_token>\Magento\ImportExport\Model\Source\Import\Behavior\Custom</behavior_token>
+                    <behavior_token>Magento\ImportExport\Model\Source\Import\Behavior\Custom</behavior_token>
                 </customer_address>
             </import_entities>
             <export_entities>
                 <catalog_product translate="label">
-                    <model_token>\Magento\ImportExport\Model\Export\Entity\Product</model_token>
+                    <model_token>Magento\ImportExport\Model\Export\Entity\Product</model_token>
                     <label>Products</label>
                 </catalog_product>
                 <customer translate="label">
-                    <model_token>\Magento\ImportExport\Model\Export\Entity\Eav\Customer</model_token>
+                    <model_token>Magento\ImportExport\Model\Export\Entity\Eav\Customer</model_token>
                     <label>Customers Main File</label>
                 </customer>
                 <customer_address translate="label">
-                    <model_token>\Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address</model_token>
+                    <model_token>Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address</model_token>
                     <label>Customer Addresses</label>
                 </customer_address>
             </export_entities>
             <export_file_formats>
                 <csv translate="label">
-                    <model_token>\Magento\ImportExport\Model\Export\Adapter\Csv</model_token>
+                    <model_token>Magento\ImportExport\Model\Export\Adapter\Csv</model_token>
                     <label>CSV</label>
                 </csv>
             </export_file_formats>
             <import_product_types>
-                <simple>\Magento\ImportExport\Model\Import\Entity\Product\Type\Simple</simple>
-                <configurable>\Magento\ImportExport\Model\Import\Entity\Product\Type\Configurable</configurable>
-                <virtual>\Magento\ImportExport\Model\Import\Entity\Product\Type\Simple</virtual>
-                <grouped>\Magento\ImportExport\Model\Import\Entity\Product\Type\Grouped</grouped>
+                <simple>Magento\ImportExport\Model\Import\Entity\Product\Type\Simple</simple>
+                <configurable>Magento\ImportExport\Model\Import\Entity\Product\Type\Configurable</configurable>
+                <virtual>Magento\ImportExport\Model\Import\Entity\Product\Type\Simple</virtual>
+                <grouped>Magento\ImportExport\Model\Import\Entity\Product\Type\Grouped</grouped>
             </import_product_types>
             <export_product_types>
-                <simple>\Magento\ImportExport\Model\Export\Entity\Product\Type\Simple</simple>
-                <configurable>\Magento\ImportExport\Model\Export\Entity\Product\Type\Configurable</configurable>
-                <virtual>\Magento\ImportExport\Model\Export\Entity\Product\Type\Simple</virtual>
-                <grouped>\Magento\ImportExport\Model\Export\Entity\Product\Type\Grouped</grouped>
+                <simple>Magento\ImportExport\Model\Export\Entity\Product\Type\Simple</simple>
+                <configurable>Magento\ImportExport\Model\Export\Entity\Product\Type\Configurable</configurable>
+                <virtual>Magento\ImportExport\Model\Export\Entity\Product\Type\Simple</virtual>
+                <grouped>Magento\ImportExport\Model\Export\Entity\Product\Type\Grouped</grouped>
             </export_product_types>
         </importexport>
     </global>

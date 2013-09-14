@@ -12,7 +12,7 @@
         <reference name="customer_edit_tabs">
             <action method="addTab">
                 <argument name="tab" xsi:type="string">giftregistry</argument>
-                <argument name="content" xsi:type="string">\Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Tab\Giftregistry</argument>
+                <argument name="content" xsi:type="string">Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Tab\Giftregistry</argument>
             </action>
         </reference>
     </handle>

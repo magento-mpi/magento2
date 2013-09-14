@@ -14,33 +14,33 @@
             <block class="Magento\Checkout\Block\Multishipping\Shipping" name="checkout_shipping" template="multishipping/shipping.phtml">
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">default</argument>
-                    <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer</argument>
+                    <argument name="block" xsi:type="string">Magento\Checkout\Block\Cart\Item\Renderer</argument>
                     <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
                 </action>
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">grouped</argument>
-                    <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer\Grouped</argument>
+                    <argument name="block" xsi:type="string">Magento\Checkout\Block\Cart\Item\Renderer\Grouped</argument>
                     <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
                 </action>
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">configurable</argument>
-                    <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer\Configurable</argument>
+                    <argument name="block" xsi:type="string">Magento\Checkout\Block\Cart\Item\Renderer\Configurable</argument>
                     <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
                 </action>
                 <block class="Magento\Checkout\Block\Multishipping\Billing\Items" name="checkout_billing_items" template="multishipping/billing/items.phtml">
                     <action method="addItemRender">
                         <argument name="type" xsi:type="string">default</argument>
-                        <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer</argument>
+                        <argument name="block" xsi:type="string">Magento\Checkout\Block\Cart\Item\Renderer</argument>
                         <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
                     </action>
                     <action method="addItemRender">
                         <argument name="type" xsi:type="string">grouped</argument>
-                        <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer\Grouped</argument>
+                        <argument name="block" xsi:type="string">Magento\Checkout\Block\Cart\Item\Renderer\Grouped</argument>
                         <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
                     </action>
                     <action method="addItemRender">
                         <argument name="type" xsi:type="string">configurable</argument>
-                        <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer\Configurable</argument>
+                        <argument name="block" xsi:type="string">Magento\Checkout\Block\Cart\Item\Renderer\Configurable</argument>
                         <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
                     </action>
                 </block>

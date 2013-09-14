@@ -35,7 +35,7 @@
 
             <adminhtml_customersegment_match>
                 <action>refresh_data</action>
-                <post_dispatch>\Magento\CustomerSegment\Model\Logging::postDispatchCustomerSegmentMatch</post_dispatch>
+                <post_dispatch>Magento\CustomerSegment\Model\Logging::postDispatchCustomerSegmentMatch</post_dispatch>
             </adminhtml_customersegment_match>
 
             <adminhtml_customersegment_delete>

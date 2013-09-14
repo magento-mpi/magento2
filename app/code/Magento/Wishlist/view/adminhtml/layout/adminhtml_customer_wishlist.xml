@@ -11,7 +11,7 @@
     <handle id="adminhtml_customer_wishlist">
         <block class="Magento\Backend\Block\Widget\Grid" name="customer.wishlist.edit.tab" output="1">
             <arguments>
-                <argument name="dataSource" xsi:type="object">\Magento\Wishlist\Model\Resource\Item\Collection\Grid</argument>
+                <argument name="dataSource" xsi:type="object">Magento\Wishlist\Model\Resource\Item\Collection\Grid</argument>
                 <argument name="id" xsi:type="string">wishlistGrid</argument>
                 <argument name="use_ajax" xsi:type="string">true</argument>
                 <argument name="default_sort" xsi:type="string">added_at</argument>
@@ -19,7 +19,7 @@
                     <param name="_current">1</param>
                 </argument>
                 <argument name="product_configuration_helpers" xsi:type="array">
-                    <item name="default" xsi:type="string">\Magento\Catalog\Helper\Product\Configuration</item>
+                    <item name="default" xsi:type="string">Magento\Catalog\Helper\Product\Configuration</item>
                 </argument>
             </arguments>
             <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="customer.wishlist.edit.tab.columnSet">
@@ -37,7 +37,7 @@
                         <argument name="header" xsi:type="string" translate="true">Product</argument>
                         <argument name="id" xsi:type="string">product_name</argument>
                         <argument name="index" xsi:type="string">product_name</argument>
-                        <argument name="renderer" xsi:type="string">\Magento\Adminhtml\Block\Customer\Edit\Tab\View\Grid\Renderer\Item</argument>
+                        <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\Customer\Edit\Tab\View\Grid\Renderer\Item</argument>
                     </arguments>
                 </block>
                 <block class="Magento\Backend\Block\Widget\Grid\Column" as="description">
@@ -45,7 +45,7 @@
                         <argument name="header" xsi:type="string" translate="true">User description</argument>
                         <argument name="index" xsi:type="string">description</argument>
                         <argument name="id" xsi:type="string">description</argument>
-                        <argument name="renderer" xsi:type="string">\Magento\Adminhtml\Block\Customer\Edit\Tab\Wishlist\Grid\Renderer\Description</argument>
+                        <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\Customer\Edit\Tab\Wishlist\Grid\Renderer\Description</argument>
                     </arguments>
                 </block>
                 <block class="Magento\Backend\Block\Widget\Grid\Column" as="qty">
@@ -86,7 +86,7 @@
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Action</argument>
                         <argument name="index" xsi:type="string">wishlist_item_id</argument>
-                        <argument name="renderer" xsi:type="string">\Magento\Adminhtml\Block\Customer\Grid\Renderer\Multiaction</argument>
+                        <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\Customer\Grid\Renderer\Multiaction</argument>
                         <argument name="sortable" xsi:type="string">0</argument>
                         <argument name="filter" xsi:type="string">0</argument>
                         <argument name="actions" xsi:type="array">

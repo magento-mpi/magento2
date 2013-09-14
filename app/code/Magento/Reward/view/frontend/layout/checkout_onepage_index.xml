@@ -15,7 +15,7 @@
         <reference name="checkout.onepage.login.before">
             <block class="Magento\Reward\Block\Tooltip\Checkout" name="reward.tooltip.checkout" template="tooltip.phtml">
                 <action method="initRewardType">
-                    <argument name="type" xsi:type="string">\Magento\Reward\Model\Action\OrderExtra</argument>
+                    <argument name="type" xsi:type="string">Magento\Reward\Model\Action\OrderExtra</argument>
                 </action>
                 <action method="setWrapperClass">
                     <argument name="class" xsi:type="string">reward-checkout</argument>
@@ -31,7 +31,7 @@
         <reference name="checkout.onepage.login.before">
             <block class="Magento\Reward\Block\Tooltip\Checkout" name="reward.tooltip.checkout.salesrule" template="tooltip.phtml">
                 <action method="initRewardType">
-                    <argument name="type" xsi:type="string">\Magento\Reward\Model\Action\Salesrule</argument>
+                    <argument name="type" xsi:type="string">Magento\Reward\Model\Action\Salesrule</argument>
                 </action>
                 <action method="setWrapperClass">
                     <argument name="class" xsi:type="string">reward-checkout</argument>

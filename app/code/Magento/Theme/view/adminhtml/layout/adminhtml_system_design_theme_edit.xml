@@ -70,7 +70,7 @@
                 </block>
                 <action method="addTab">
                     <argument name="name" xsi:type="string">general_section</argument>
-                    <argument name="block" xsi:type="string">\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\General</argument>
+                    <argument name="block" xsi:type="string">Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\General</argument>
                 </action>
                 <action method="addTab">
                     <argument name="name" xsi:type="string">css_tab</argument>

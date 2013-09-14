@@ -13,22 +13,22 @@
             <block class="Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset\Options" name="product.composite.fieldset.options" template="catalog/product/composite/fieldset/options.phtml">
                 <action method="addOptionRenderer">
                     <argument name="type" xsi:type="string">text</argument>
-                    <argument name="block" xsi:type="string">\Magento\Catalog\Block\Product\View\Options\Type\Text</argument>
+                    <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\View\Options\Type\Text</argument>
                     <argument name="template" xsi:type="string">Magento_Adminhtml::catalog/product/composite/fieldset/options/type/text.phtml</argument>
                 </action>
                 <action method="addOptionRenderer">
                     <argument name="type" xsi:type="string">file</argument>
-                    <argument name="block" xsi:type="string">\Magento\Catalog\Block\Product\View\Options\Type\File</argument>
+                    <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\View\Options\Type\File</argument>
                     <argument name="template" xsi:type="string">Magento_Adminhtml::catalog/product/composite/fieldset/options/type/file.phtml</argument>
                 </action>
                 <action method="addOptionRenderer">
                     <argument name="type" xsi:type="string">select</argument>
-                    <argument name="block" xsi:type="string">\Magento\Catalog\Block\Product\View\Options\Type\Select</argument>
+                    <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\View\Options\Type\Select</argument>
                     <argument name="template" xsi:type="string">Magento_Adminhtml::catalog/product/composite/fieldset/options/type/select.phtml</argument>
                 </action>
                 <action method="addOptionRenderer">
                     <argument name="type" xsi:type="string">date</argument>
-                    <argument name="block" xsi:type="string">\Magento\Catalog\Block\Product\View\Options\Type\Date</argument>
+                    <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\View\Options\Type\Date</argument>
                     <argument name="template" xsi:type="string">Magento_Adminhtml::catalog/product/composite/fieldset/options/type/date.phtml</argument>
                 </action>
                 <block class="Magento\Core\Block\Template" name="product.composite.fieldset.options.js" as="options_js" template="Magento_Adminhtml::catalog/product/composite/fieldset/options/js.phtml"/>

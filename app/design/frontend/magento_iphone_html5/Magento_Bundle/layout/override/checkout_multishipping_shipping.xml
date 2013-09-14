@@ -12,14 +12,14 @@
         <reference name="checkout_shipping">
             <action method="addItemRender">
                 <argument name="type" xsi:type="string">bundle</argument>
-                <argument name="block" xsi:type="string">\Magento\Bundle\Block\Checkout\Cart\Item\Renderer</argument>
+                <argument name="block" xsi:type="string">Magento\Bundle\Block\Checkout\Cart\Item\Renderer</argument>
                 <argument name="template" xsi:type="string">Magento_Checkout::multishipping/item/default.phtml</argument>
             </action>
         </reference>
         <reference name="checkout_billing_items">
             <action method="addItemRender">
                 <argument name="type" xsi:type="string">bundle</argument>
-                <argument name="block" xsi:type="string">\Magento\Bundle\Block\Checkout\Cart\Item\Renderer</argument>
+                <argument name="block" xsi:type="string">Magento\Bundle\Block\Checkout\Cart\Item\Renderer</argument>
                 <argument name="template" xsi:type="string">Magento_Checkout::multishipping/item/default.phtml</argument>
             </action>
         </reference>

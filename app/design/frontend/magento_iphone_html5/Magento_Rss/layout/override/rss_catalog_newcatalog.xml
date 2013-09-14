@@ -12,7 +12,7 @@
         <block class="Magento\Rss\Block\Catalog\NewCatalog" output="1" name="rss.catalog.new">
             <action method="addPriceBlockType">
                 <argument name="type" xsi:type="string">msrp_rss</argument>
-                <argument name="block" xsi:type="string">\Magento\Catalog\Block\Product\Price</argument>
+                <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\Price</argument>
                 <argument name="template" xsi:type="string">product/price_msrp_rss.phtml</argument>
             </action>
         </block>

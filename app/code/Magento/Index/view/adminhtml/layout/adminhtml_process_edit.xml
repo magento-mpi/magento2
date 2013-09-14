@@ -16,7 +16,7 @@
             <block class="Magento\Index\Block\Adminhtml\Process\Edit\Tabs" name="index_edit_tabs">
                 <action method="addTab">
                     <argument name="name" xsi:type="string">main_section</argument>
-                    <argument name="block" xsi:type="string">\Magento\Index\Block\Adminhtml\Process\Edit\Tab\Main</argument>
+                    <argument name="block" xsi:type="string">Magento\Index\Block\Adminhtml\Process\Edit\Tab\Main</argument>
                 </action>
             </block>
         </reference>

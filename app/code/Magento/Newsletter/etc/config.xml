@@ -38,7 +38,7 @@
             </email>
         </template>
         <newsletter>
-            <tempate_filter>\Magento\Newsletter\Model\Template\Filter</tempate_filter>
+            <tempate_filter>Magento\Newsletter\Model\Template\Filter</tempate_filter>
         </newsletter>
     </global>
     <adminhtml>

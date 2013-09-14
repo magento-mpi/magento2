@@ -25,17 +25,17 @@
                 <action method="chooseTemplate"/>
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">simple</argument>
-                    <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer</argument>
+                    <argument name="block" xsi:type="string">Magento\Checkout\Block\Cart\Item\Renderer</argument>
                     <argument name="template" xsi:type="string">cart/item/default.phtml</argument>
                 </action>
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">grouped</argument>
-                    <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer\Grouped</argument>
+                    <argument name="block" xsi:type="string">Magento\Checkout\Block\Cart\Item\Renderer\Grouped</argument>
                     <argument name="template" xsi:type="string">cart/item/default.phtml</argument>
                 </action>
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">configurable</argument>
-                    <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer\Configurable</argument>
+                    <argument name="block" xsi:type="string">Magento\Checkout\Block\Cart\Item\Renderer\Configurable</argument>
                     <argument name="template" xsi:type="string">cart/item/default.phtml</argument>
                 </action>
                 <container name="checkout.cart.empty.widget" as="checkout_cart_empty_widget" label="Empty Shopping Cart Content Before"/>

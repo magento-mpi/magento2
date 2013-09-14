@@ -14,7 +14,7 @@
                 <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.cms.block.grid" as="grid">
                     <arguments>
                         <argument name="id" xsi:type="string">cmsBlockGrid</argument>
-                        <argument name="dataSource" xsi:type="object">\Magento\Cms\Model\Resource\Block\Grid\Collection</argument>
+                        <argument name="dataSource" xsi:type="object">Magento\Cms\Model\Resource\Block\Grid\Collection</argument>
                         <argument name="default_sort" xsi:type="string">block_identifier</argument>
                         <argument name="default_dir" xsi:type="string">ASC</argument>
                     </arguments>

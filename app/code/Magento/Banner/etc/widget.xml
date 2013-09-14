@@ -70,7 +70,7 @@
                 <label>Specify Banners</label>
                 <type>label</type>
                 <helper_block>
-                    <type>\Magento\Banner\Block\Adminhtml\Widget\Chooser</type>
+                    <type>Magento\Banner\Block\Adminhtml\Widget\Chooser</type>
                 </helper_block>
                 <depends>
                     <display_mode>

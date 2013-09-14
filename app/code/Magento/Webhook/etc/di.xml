@@ -16,7 +16,7 @@
     <type name="Magento\Outbound\Formatter\Factory">
         <param name="formatterMap">
             <value>
-                <json>\Magento\Outbound\Formatter\Json</json>
+                <json>Magento\Outbound\Formatter\Json</json>
             </value>
         </param>
     </type>
@@ -30,7 +30,7 @@
     <type name="Magento\Outbound\Authentication\Factory">
         <param name="authenticationMap">
             <value>
-                <hmac>\Magento\Outbound\Authentication\Hmac</hmac>
+                <hmac>Magento\Outbound\Authentication\Hmac</hmac>
             </value>
         </param>
     </type>

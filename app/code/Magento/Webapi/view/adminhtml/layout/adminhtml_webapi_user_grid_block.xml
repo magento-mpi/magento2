@@ -13,7 +13,7 @@
             <block class="Magento\Backend\Block\Widget\Grid" as="grid" name="webapi.user.grid">
                 <arguments>
                     <argument name="id" xsi:type="string">permissionsUserGrid</argument>
-                    <argument name="dataSource" xsi:type="object">\Magento\Webapi\Model\Resource\Acl\User\Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\Webapi\Model\Resource\Acl\User\Collection</argument>
                     <argument name="use_ajax" xsi:type="string">true</argument>
                     <argument name="default_sort" xsi:type="string">user_name</argument>
                     <argument name="default_dir" xsi:type="string">asc</argument>

@@ -13,7 +13,7 @@
             <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.logging.archive.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">loggingArchiveGrid</argument>
-                    <argument name="dataSource" xsi:type="object">\Magento\Logging\Model\Archive\Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\Logging\Model\Archive\Collection</argument>
                     <argument name="default_sort" xsi:type="string">basename</argument>
                     <argument name="default_dir" xsi:type="string">DESC</argument>
                     <argument name="save_parameters_in_session" xsi:type="string">1</argument>
@@ -27,7 +27,7 @@
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Archive File</argument>
                             <argument name="index" xsi:type="string">basename</argument>
-                            <argument name="renderer" xsi:type="string">\Magento\Logging\Block\Adminhtml\Grid\Renderer\Download</argument>
+                            <argument name="renderer" xsi:type="string">Magento\Logging\Block\Adminhtml\Grid\Renderer\Download</argument>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="date">
@@ -35,7 +35,7 @@
                             <argument name="header" xsi:type="string" translate="true">Date</argument>
                             <argument name="index" xsi:type="string">time</argument>
                             <argument name="type" xsi:type="string">date</argument>
-                            <argument name="filter" xsi:type="string">\Magento\Logging\Block\Adminhtml\Archive\Grid\Filter\Date</argument>
+                            <argument name="filter" xsi:type="string">Magento\Logging\Block\Adminhtml\Archive\Grid\Filter\Date</argument>
                         </arguments>
                     </block>
                 </block>

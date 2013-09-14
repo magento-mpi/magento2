@@ -12,7 +12,7 @@
         <reference name="webhook.subscriptions.list">
             <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml_subscription.grid" as="grid">
                 <arguments>
-                    <argument name="dataSource" xsi:type="object">\Magento\Webhook\Model\Resource\Subscription\Grid\Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\Webhook\Model\Resource\Subscription\Grid\Collection</argument>
                     <argument name="id" xsi:type="string">subscriptionGrid</argument>
                     <argument name="default_sort" xsi:type="string">subscription_id</argument>
                     <argument name="default_dir" xsi:type="string">ASC</argument>
@@ -69,7 +69,7 @@
                             <argument name="index" xsi:type="string">action</argument>
                             <argument name="align" xsi:type="string">left</argument>
                             <argument name="width" xsi:type="string">80px</argument>
-                            <argument name="renderer" xsi:type="string">\Magento\Webhook\Block\Adminhtml\Subscription\Grid\Renderer\Action</argument>
+                            <argument name="renderer" xsi:type="string">Magento\Webhook\Block\Adminhtml\Subscription\Grid\Renderer\Action</argument>
                             <argument name="sortable" xsi:type="string">0</argument>
                             <argument name="filter" xsi:type="string">0</argument>
                             <argument name="id" xsi:type="string">action</argument>

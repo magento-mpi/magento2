@@ -13,7 +13,7 @@
             <block class="Magento\Adminhtml\Block\Sales\Order\Grid" name="sales.order.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">sales_order_grid</argument>
-                    <argument name="dataSource" xsi:type="object">\Magento\Sales\Model\Resource\Order\Grid\Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\Sales\Model\Resource\Order\Grid\Collection</argument>
                     <argument name="use_ajax" xsi:type="string">true</argument>
                     <argument name="default_sort" xsi:type="string">created_at</argument>
                     <argument name="default_dir" xsi:type="string">DESC</argument>
@@ -34,7 +34,7 @@
                         <argument name="form_field_name" xsi:type="string">order_ids</argument>
                         <argument name="use_select_all" xsi:type="string">0</argument>
                         <argument name="options" xsi:type="array">
-                            <updater>\Magento\Sales\Model\Order\Grid\Massaction\ItemsUpdater</updater>
+                            <updater>Magento\Sales\Model\Order\Grid\Massaction\ItemsUpdater</updater>
                             <item name="cancel_order" xsi:type="array">
                                 <item name="label" xsi:type="string" translate="true">Cancel</item>
                                 <item name="url" xsi:type="string">*/sales_order/massCancel</item>
@@ -88,7 +88,7 @@
                     <arguments>
                         <argument name="id" xsi:type="string">sales_order_grid</argument>
                         <argument name="rowUrl" xsi:type="array">
-                            <item name="generatorClass" xsi:type="string">\Magento\Sales\Model\Order\Grid\Row\UrlGenerator</item>
+                            <item name="generatorClass" xsi:type="string">Magento\Sales\Model\Order\Grid\Row\UrlGenerator</item>
                             <item name="path" xsi:type="string">*/sales_order/view</item>
                             <item name="extraParamsTemplate" xsi:type="array">
                                 <item name="order_id" xsi:type="string">getId</item>

@@ -16,7 +16,7 @@
                     <argument name="width" xsi:type="string">200px</argument>
                     <argument name="sortable" xsi:type="string">0</argument>
                     <argument name="filter" xsi:type="string">0</argument>
-                    <argument name="renderer" xsi:type="string">\Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Renderer\Gws</argument>
+                    <argument name="renderer" xsi:type="string">Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Renderer\Gws</argument>
                 </arguments>
             </block>
         </reference>

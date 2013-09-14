@@ -12,7 +12,7 @@
         <reference name="catalog_product_price_template">
             <action method="addPriceBlockType">
                 <argument name="type" xsi:type="string">msrp</argument>
-                <argument name="block" xsi:type="string">\Magento\Catalog\Block\Product\Price</argument>
+                <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\Price</argument>
                 <argument name="template" xsi:type="string">Magento_Wishlist::render/item/price_msrp_item.phtml</argument>
             </action>
         </reference>

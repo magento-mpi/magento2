@@ -13,7 +13,7 @@
             <block class="Magento\Backend\Block\Widget\Grid" name="admin.product.edit.tab.super.config.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">configurable_associated_products_grid</argument>
-                    <argument name="dataSource" xsi:type="object">\Magento\Catalog\Model\Resource\Product\Collection\AssociatedProduct</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\Catalog\Model\Resource\Product\Collection\AssociatedProduct</argument>
                     <argument name="use_ajax" xsi:type="string">true</argument>
                     <argument name="default_sort" xsi:type="string">entity_id</argument>
                     <argument name="default_dir" xsi:type="string">DESC</argument>
@@ -35,7 +35,7 @@
                             <argument name="id" xsi:type="string">entity_id</argument>
                             <argument name="filter" xsi:type="string">0</argument>
                             <argument name="sortable" xsi:type="string">1</argument>
-                            <argument name="renderer" xsi:type="string">\Magento\Catalog\Block\Product\Configurable\AssociatedSelector\Renderer\Id</argument>
+                            <argument name="renderer" xsi:type="string">Magento\Catalog\Block\Product\Configurable\AssociatedSelector\Renderer\Id</argument>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="name">

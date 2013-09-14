@@ -32,7 +32,7 @@
                 <type>Magento_Core_Model_StoreManager_Proxy</type>
             </customStoreManagerProxy>
             <customLayoutFactory>
-                <type>\Magento\Core\Model\Layout\Factory</type>
+                <type>Magento\Core\Model\Layout\Factory</type>
             </customLayoutFactory>
         </di>
     </global>

@@ -12,132 +12,132 @@
 <config>
     <placeholders>
         <last_viewed_products>
-            <block>\Magento\Reports\Block\Product\Viewed</block>
+            <block>Magento\Reports\Block\Product\Viewed</block>
             <placeholder>VIEWED_PRODUCTS</placeholder>
-            <container>\Magento\FullPageCache\Model\Container\Viewedproducts</container>
+            <container>Magento\FullPageCache\Model\Container\Viewedproducts</container>
             <cache_lifetime>86400</cache_lifetime>
         </last_viewed_products>
         <last_viewed_products_widget>
-            <block>\Magento\Reports\Block\Product\Widget\Viewed</block>
+            <block>Magento\Reports\Block\Product\Widget\Viewed</block>
             <placeholder>VIEWED_PRODUCTS_WIDGET</placeholder>
-            <container>\Magento\FullPageCache\Model\Container\Viewedproducts</container>
+            <container>Magento\FullPageCache\Model\Container\Viewedproducts</container>
             <cache_lifetime>86400</cache_lifetime>
         </last_viewed_products_widget>
         <catalog_navigation>
-            <block>\Magento\Catalog\Block\Navigation</block>
+            <block>Magento\Catalog\Block\Navigation</block>
             <name>catalog.topnav</name>
             <placeholder>CATALOG_NAVIGATION</placeholder>
-            <container>\Magento\FullPageCache\Model\Container\Catalognavigation</container>
+            <container>Magento\FullPageCache\Model\Container\Catalognavigation</container>
             <cache_lifetime>86400</cache_lifetime>
         </catalog_navigation>
         <catalog_breadcrumbs>
-            <block>\Magento\Page\Block\Html\Breadcrumbs</block>
+            <block>Magento\Page\Block\Html\Breadcrumbs</block>
             <name>breadcrumbs</name>
             <placeholder>PAGE_BREADCRUMBS</placeholder>
-            <container>\Magento\FullPageCache\Model\Container\Breadcrumbs</container>
+            <container>Magento\FullPageCache\Model\Container\Breadcrumbs</container>
             <cache_lifetime>86400</cache_lifetime>
         </catalog_breadcrumbs>
         <cart_sidebar>
-            <block>\Magento\Checkout\Block\Cart\Sidebar</block>
+            <block>Magento\Checkout\Block\Cart\Sidebar</block>
             <placeholder>CART_SIDEBAR</placeholder>
-            <container>\Magento\FullPageCache\Model\Container\Sidebar\Cart</container>
+            <container>Magento\FullPageCache\Model\Container\Sidebar\Cart</container>
             <cache_lifetime>86400</cache_lifetime>
         </cart_sidebar>
         <compare_list_sidebar>
-            <block>\Magento\Catalog\Block\Product\Compare\Sidebar</block>
+            <block>Magento\Catalog\Block\Product\Compare\Sidebar</block>
             <placeholder>COMPARELIST_SIDEBAR</placeholder>
-            <container>\Magento\FullPageCache\Model\Container\Sidebar\Comparelist</container>
+            <container>Magento\FullPageCache\Model\Container\Sidebar\Comparelist</container>
             <cache_lifetime>86400</cache_lifetime>
         </compare_list_sidebar>
         <messages>
-            <block>\Magento\Core\Block\Messages</block>
+            <block>Magento\Core\Block\Messages</block>
             <placeholder>MESSAGES</placeholder>
             <name>messages</name>
-            <container>\Magento\FullPageCache\Model\Container\Messages</container>
+            <container>Magento\FullPageCache\Model\Container\Messages</container>
             <cache_lifetime>86400</cache_lifetime>
         </messages>
         <global_messages>
-            <block>\Magento\Core\Block\Messages</block>
+            <block>Magento\Core\Block\Messages</block>
             <placeholder>GLOBAL_MESSAGES</placeholder>
             <name>global_messages</name>
-            <container>\Magento\FullPageCache\Model\Container\Messages</container>
+            <container>Magento\FullPageCache\Model\Container\Messages</container>
             <cache_lifetime>86400</cache_lifetime>
         </global_messages>
         <recently_compared_sidebar>
-            <block>\Magento\Reports\Block\Product\Compared</block>
+            <block>Magento\Reports\Block\Product\Compared</block>
             <placeholder>RECENTLYCOMPARED_SIDEBAR</placeholder>
-            <container>\Magento\FullPageCache\Model\Container\Sidebar\Recentlycompared</container>
+            <container>Magento\FullPageCache\Model\Container\Sidebar\Recentlycompared</container>
             <cache_lifetime>86400</cache_lifetime>
         </recently_compared_sidebar>
         <welcome_message>
-            <block>\Magento\Page\Block\Html\Welcome</block>
+            <block>Magento\Page\Block\Html\Welcome</block>
             <placeholder>WELCOME</placeholder>
-            <container>\Magento\FullPageCache\Model\Container\Welcome</container>
+            <container>Magento\FullPageCache\Model\Container\Welcome</container>
             <cache_lifetime>86400</cache_lifetime>
         </welcome_message>
         <account_links>
-            <block>\Magento\Page\Block\Template\Links</block>
+            <block>Magento\Page\Block\Template\Links</block>
             <name>account.links</name>
             <placeholder>ACCLINKS</placeholder>
-            <container>\Magento\FullPageCache\Model\Container\Accountlinks</container>
+            <container>Magento\FullPageCache\Model\Container\Accountlinks</container>
             <cache_lifetime>86400</cache_lifetime>
         </account_links>
         <wishlist>
-            <block>\Magento\Wishlist\Block\Customer\Sidebar</block>
+            <block>Magento\Wishlist\Block\Customer\Sidebar</block>
             <placeholder>WISHLIST</placeholder>
-            <container>\Magento\FullPageCache\Model\Container\Wishlist</container>
+            <container>Magento\FullPageCache\Model\Container\Wishlist</container>
             <cache_lifetime>86400</cache_lifetime>
         </wishlist>
         <orders>
-            <block>\Magento\Sales\Block\Reorder\Sidebar</block>
+            <block>Magento\Sales\Block\Reorder\Sidebar</block>
             <placeholder>ORDERS</placeholder>
-            <container>\Magento\FullPageCache\Model\Container\Orders</container>
+            <container>Magento\FullPageCache\Model\Container\Orders</container>
             <cache_lifetime>86400</cache_lifetime>
         </orders>
         <wishlist_links>
-            <block>\Magento\Wishlist\Block\Links</block>
+            <block>Magento\Wishlist\Block\Links</block>
             <placeholder>WISHLISTLINKS</placeholder>
-            <container>\Magento\FullPageCache\Model\Container\Wishlistlinks</container>
+            <container>Magento\FullPageCache\Model\Container\Wishlistlinks</container>
             <cache_lifetime>86400</cache_lifetime>
         </wishlist_links>
         <poll_activepoll>
-            <block>\Magento\Poll\Block\ActivePoll</block>
+            <block>Magento\Poll\Block\ActivePoll</block>
             <placeholder>POLL</placeholder>
-            <container>\Magento\FullPageCache\Model\Container\Sidebar\Poll</container>
+            <container>Magento\FullPageCache\Model\Container\Sidebar\Poll</container>
             <cache_lifetime>86400</cache_lifetime>
         </poll_activepoll>
         <widget_magento_banner>
-            <block>\Magento\Banner\Block\Widget\Banner</block>
+            <block>Magento\Banner\Block\Widget\Banner</block>
             <placeholder>WIDGET_ENTERPRISE_BANNER</placeholder>
-            <container>\Magento\FullPageCache\Model\Container\Banner</container>
+            <container>Magento\FullPageCache\Model\Container\Banner</container>
             <cache_lifetime>86400</cache_lifetime>
         </widget_magento_banner>
         <catalog_product_item_related>
-            <block>\Magento\TargetRule\Block\Catalog\Product\Item</block>
+            <block>Magento\TargetRule\Block\Catalog\Product\Item</block>
             <name>catalog.product.related.item</name>
             <placeholder>CATALOG_PRODUCT_ITEM_RELATED</placeholder>
-            <container>\Magento\FullPageCache\Model\Container\CatalogProductItem</container>
+            <container>Magento\FullPageCache\Model\Container\CatalogProductItem</container>
             <cache_lifetime>86400</cache_lifetime>
         </catalog_product_item_related>
         <catalog_product_item_upsell>
-            <block>\Magento\TargetRule\Block\Catalog\Product\Item</block>
+            <block>Magento\TargetRule\Block\Catalog\Product\Item</block>
             <name>catalog.product.upsell.item</name>
             <placeholder>CATALOG_PRODUCT_ITEM_UPSELL</placeholder>
-            <container>\Magento\FullPageCache\Model\Container\CatalogProductItem</container>
+            <container>Magento\FullPageCache\Model\Container\CatalogProductItem</container>
             <cache_lifetime>86400</cache_lifetime>
         </catalog_product_item_upsell>
         <catalog_product_list_related>
-            <block>\Magento\Catalog\Block\Product\ProductList\Related</block>
+            <block>Magento\Catalog\Block\Product\ProductList\Related</block>
             <name>catalog.product.related</name>
             <placeholder>CATALOG_PRODUCT_LIST_RELATED</placeholder>
-            <container>\Magento\FullPageCache\Model\Container\CatalogProductList</container>
+            <container>Magento\FullPageCache\Model\Container\CatalogProductList</container>
             <cache_lifetime>86400</cache_lifetime>
         </catalog_product_list_related>
         <catalog_product_list_upsell>
-            <block>\Magento\Catalog\Block\Product\ProductList\Upsell</block>
+            <block>Magento\Catalog\Block\Product\ProductList\Upsell</block>
             <name>product.info.upsell</name>
             <placeholder>CATALOG_PRODUCT_LIST_UPSELL</placeholder>
-            <container>\Magento\FullPageCache\Model\Container\CatalogProductList</container>
+            <container>Magento\FullPageCache\Model\Container\CatalogProductList</container>
             <cache_lifetime>86400</cache_lifetime>
         </catalog_product_list_upsell>
     </placeholders>

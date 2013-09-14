@@ -13,7 +13,7 @@
             <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.system.backup.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">backupsGrid</argument>
-                    <argument name="dataSource" xsi:type="object">\Magento\Backup\Model\Fs\Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\Backup\Model\Fs\Collection</argument>
                     <argument name="default_sort" xsi:type="string">time</argument>
                     <argument name="default_dir" xsi:type="string">desc</argument>
                 </arguments>
@@ -77,7 +77,7 @@
                             <argument name="filter" xsi:type="string">0</argument>
                             <argument name="sortable" xsi:type="string">0</argument>
                             <argument name="type" xsi:type="string">action</argument>
-                            <argument name="renderer" xsi:type="string">\Magento\Backup\Block\Adminhtml\Grid\Column\Renderer\Download</argument>
+                            <argument name="renderer" xsi:type="string">Magento\Backup\Block\Adminhtml\Grid\Column\Renderer\Download</argument>
                         </arguments>
                     </block>
                     <block class="Magento\Backup\Block\Adminhtml\Grid\Column\Rollback" as="action">

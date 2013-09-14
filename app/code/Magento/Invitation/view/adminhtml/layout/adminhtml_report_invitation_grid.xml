@@ -13,7 +13,7 @@
         <reference name="adminhtml.report.grid">
             <arguments>
                 <argument name="id" xsi:type="string">report_invitation_general</argument>
-                <argument name="dataSource" xsi:type="object">\Magento\Invitation\Model\Resource\Report\Invitation\Collection\Initial</argument>
+                <argument name="dataSource" xsi:type="object">Magento\Invitation\Model\Resource\Report\Invitation\Collection\Initial</argument>
             </arguments>
         </reference>
         <reference name="adminhtml.report.grid.columnSet">
@@ -54,7 +54,7 @@
                     <argument name="index" xsi:type="string">accepted_rate</argument>
                     <argument name="id" xsi:type="string">accepted_rated</argument>
                     <argument name="width" xsi:type="string">170</argument>
-                    <argument name="renderer" xsi:type="string">\Magento\Invitation\Block\Adminhtml\Grid\Column\Renderer\Percent</argument>
+                    <argument name="renderer" xsi:type="string">Magento\Invitation\Block\Adminhtml\Grid\Column\Renderer\Percent</argument>
                     <argument name="header_css_class" xsi:type="string">col-inv-acc-rate</argument>
                     <argument name="column_css_class" xsi:type="string">col-inv-acc-rate</argument>
                 </arguments>
@@ -66,7 +66,7 @@
                     <argument name="index" xsi:type="string">canceled_rate</argument>
                     <argument name="id" xsi:type="string">canceled_rate</argument>
                     <argument name="width" xsi:type="string">170</argument>
-                    <argument name="renderer" xsi:type="string">\Magento\Invitation\Block\Adminhtml\Grid\Column\Renderer\Percent</argument>
+                    <argument name="renderer" xsi:type="string">Magento\Invitation\Block\Adminhtml\Grid\Column\Renderer\Percent</argument>
                     <argument name="header_css_class" xsi:type="string">col-inv-disc-rate</argument>
                     <argument name="column_css_class" xsi:type="string">col-inv-disc-rate</argument>
                 </arguments>

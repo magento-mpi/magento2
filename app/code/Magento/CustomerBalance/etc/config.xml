@@ -34,7 +34,7 @@
                     <customerbalance>
                         <class>Magento\CustomerBalance\Model\Total\Quote\Customerbalance</class>
                         <after>weee,discount,tax,tax_subtotal,grand_total</after>
-                        <renderer>\Magento\CustomerBalance\Block\Checkout\Total</renderer>
+                        <renderer>Magento\CustomerBalance\Block\Checkout\Total</renderer>
                     </customerbalance>
                 </totals>
             </quote>

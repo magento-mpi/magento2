@@ -51,7 +51,7 @@
         </param>
         <param name="cacheTags">
             <value>
-                <storeTag type="const">\Magento\Core\Model\Website::CACHE_TAG</storeTag>
+                <storeTag type="const">Magento\Core\Model\Website::CACHE_TAG</storeTag>
             </value>
         </param>
         <param name="cacheLifetime">
@@ -67,7 +67,7 @@
         </param>
         <param name="cacheTags">
             <value>
-                <storeTag type="const">\Magento\Core\Model\Store\Group::CACHE_TAG</storeTag>
+                <storeTag type="const">Magento\Core\Model\Store\Group::CACHE_TAG</storeTag>
             </value>
         </param>
         <param name="cacheLifetime">
@@ -83,7 +83,7 @@
         </param>
         <param name="cacheTags">
             <value>
-                <storeTag type="const">\Magento\Core\Model\Store::CACHE_TAG</storeTag>
+                <storeTag type="const">Magento\Core\Model\Store::CACHE_TAG</storeTag>
             </value>
         </param>
         <param name="cacheLifetime">
@@ -235,7 +235,7 @@
             <value>frontend</value>
         </param>
         <param name="baseController">
-            <value>\Magento\Core\Controller\Varien\Action</value>
+            <value>Magento\Core\Controller\Varien\Action</value>
         </param>
         <param name="routerId">
             <value>standard</value>

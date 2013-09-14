@@ -13,7 +13,7 @@
             <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.block.scheduled.operation.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">operationGrid</argument>
-                    <argument name="dataSource" xsi:type="object">\Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection</argument>
                     <argument name="use_ajax" xsi:type="string">1</argument>
                     <argument name="default_sort" xsi:type="string">id</argument>
                     <argument name="default_dir" xsi:type="string">DESC</argument>
@@ -47,7 +47,7 @@
                                     <item name="type" xsi:type="string">select</item>
                                     <item name="class" xsi:type="string">required-entry</item>
                                     <item name="label" xsi:type="string" translate="true">Status</item>
-                                    <item name="values" xsi:type="string">\Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Options\Statuses</item>
+                                    <item name="values" xsi:type="string">Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Options\Statuses</item>
                                 </item>
                             </argument>
                         </arguments>
