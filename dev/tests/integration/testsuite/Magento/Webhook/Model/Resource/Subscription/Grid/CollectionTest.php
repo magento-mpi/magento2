@@ -48,9 +48,10 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
                 ->create('Magento_Webhook_Model_Webapi_User_Factory');
             self::$_apiUserId = $webapiUserFactory->createUser(
                 array(
-                    'email'      => 'email@localhost.com',
-                    'key'       => self::API_KEY,
-                    'secret'    =>'secret'
+                     'email'   => 'email@localhost.com',
+                     'key'     => self::API_KEY,
+                     'secret'  => 'secret',
+                     'company' => 'example_company'
                 ),
                 array()
             );
