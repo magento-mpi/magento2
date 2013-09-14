@@ -178,8 +178,9 @@ class Magento_TestFramework_Utility_Classes
         $result = array();
         foreach (Magento_TestFramework_Utility_Files::init()->getPhpFiles(true, false, false, false) as $file) {
             if (preg_match($pattern, $file, $matches)) {
-                $module = "{$matches[1]}\\{$matches[2]}";
-                $class = "{$module}\\" . str_replace('/', '\\', $matches[3]);
+                $module = "{$matches[1]}_{$matches[2]}";
+                $class = "{$module}" . \Magento\Autoload\IncludePath::NS_SEPARATOR .
+                    str_replace('/', '\\', $matches[3]);
                 $result[$class] = $module;
             }
         }
