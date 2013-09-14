@@ -205,7 +205,7 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
     {
         $patterns = array(
             Magento_Test_Integrity_DependencyTest::TYPE_SOFT =>
-            '/(?<source><.+module\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
+            '/(?<source><.+module\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')[_\\\\]'
                 . '(?<module>[A-Z][a-zA-Z]+)[\'"].*>)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
@@ -229,10 +229,10 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
     {
         $patterns = array(
             Magento_Test_Integrity_DependencyTest::TYPE_HARD =>
-            '/(?<source><block.*type\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
-                . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-zA-Z]+_?){1,}[\'"].*>)/',
+            '/(?<source><block.*type\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')[_\\\\]'
+                . '(?<module>[A-Z][a-zA-Z]+)[_\\\\](?:[A-Z][a-zA-Z]+[_\\\\]?){1,}[\'"].*>)/',
             Magento_Test_Integrity_DependencyTest::TYPE_SOFT =>
-            '/(?<source><block.*template\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
+            '/(?<source><block.*template\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')[_\\\\]'
                 . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.]+[\'"].*>)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
@@ -258,17 +258,17 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
     {
         $patterns = array(
             Magento_Test_Integrity_DependencyTest::TYPE_SOFT =>
-            '/(?<source><block\s*>(?<namespace>' . $this->_namespaces . ')_'
-                . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-zA-Z]+_?){1,}<\/block\s*>)/',
+            '/(?<source><block\s*>(?<namespace>' . $this->_namespaces . ')[_\\\\]'
+                . '(?<module>[A-Z][a-zA-Z]+)[_\\\\](?:[A-Z][a-zA-Z]+[_\\\\]?){1,}<\/block\s*>)/',
             Magento_Test_Integrity_DependencyTest::TYPE_SOFT =>
-            '/(?<source><template\s*>(?<namespace>' . $this->_namespaces . ')_'
+            '/(?<source><template\s*>(?<namespace>' . $this->_namespaces . ')[_\\\\]'
                 . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.]+<\/template\s*>)/',
             Magento_Test_Integrity_DependencyTest::TYPE_SOFT =>
-            '/(?<source><file\s*>(?<namespace>' . $this->_namespaces . ')_'
+            '/(?<source><file\s*>(?<namespace>' . $this->_namespaces . ')[_\\\\]'
                 . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.-]+<\/file\s*>)/',
             Magento_Test_Integrity_DependencyTest::TYPE_SOFT =>
-            '/(?<source><.*helper\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
-                . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-z]+_?){1,}::[\w]+[\'"].*>)/',
+            '/(?<source><.*helper\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')[_\\\\]'
+                . '(?<module>[A-Z][a-zA-Z]+)[_\\\\](?:[A-Z][a-z]+[_\\\\]?){1,}::[\w]+[\'"].*>)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
     }
@@ -419,7 +419,7 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
         foreach ($patterns as $type => $pattern) {
             if (preg_match_all($pattern, $contents, $matches, PREG_SET_ORDER)) {
                 foreach ($matches as $match) {
-                    $module = $match['namespace'] . '_' . $match['module'];
+                    $module = $match['namespace'] . '\\' . $match['module'];
                     if ($currentModule != $module) {
                         $result[$module] = array(
                             'type' => $type,

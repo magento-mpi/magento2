@@ -414,7 +414,7 @@ class Magento_Test_Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     protected function _getModuleName($absoluteFilename)
     {
         $file = self::_getRelativeFilename($absoluteFilename);
-        if (preg_match('/\/(?<namespace>' . self::$_namespaces . ')[\/_|\\\\]?(?<module>[^\/]+)\//', $file, $matches)) {
+        if (preg_match('/\/(?<namespace>' . self::$_namespaces . ')[\/_\\\\]?(?<module>[^\/]+)\//', $file, $matches)) {
             return $matches['namespace'] . '\\' . $matches['module'];
         }
     }
@@ -474,7 +474,7 @@ class Magento_Test_Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     {
         $files = Magento_TestFramework_Utility_Files::init()->getConfigFiles('config.xml', array(), false);
         foreach ($files as $file) {
-            if (preg_match('/(?<namespace>[A-Z][a-z]+)[_|\\\\](?<module>[A-Z][a-zA-Z]+)/', $file, $matches)) {
+            if (preg_match('/(?<namespace>[A-Z][a-z]+)[_\/\\\\](?<module>[A-Z][a-zA-Z]+)/', $file, $matches)) {
                 $module = $matches['namespace'] . '\\' . $matches['module'];
                 self::$_listConfigXml[$module] = $file;
             }
@@ -489,7 +489,7 @@ class Magento_Test_Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      */
     protected static function _prepareMapRouters()
     {
-        $pattern = '/(?<namespace>[A-Z][a-z]+)[_|\\\\](?<module>[A-Z][a-zA-Z]+)\/controllers\/'
+        $pattern = '/(?<namespace>[A-Z][a-z]+)[_\/\\\\](?<module>[A-Z][a-zA-Z]+)\/controllers\/'
             . '(?<path>[\/\w]*)Controller.php/';
 
         $files = Magento_TestFramework_Utility_Files::init()->getPhpFiles(true, false, false, false);
@@ -545,7 +545,7 @@ class Magento_Test_Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 }
             }
 
-            if (preg_match('/(?<namespace>[A-Z][a-z]+)[_|\\\\](?<module>[A-Z][a-zA-Z]+)/', $file, $matches)) {
+            if (preg_match('/(?<namespace>[A-Z][a-z]+)[_\/\\\\](?<module>[A-Z][a-zA-Z]+)/', $file, $matches)) {
                 $module = $matches['namespace'] . '\\' . $matches['module'];
 
                 $xml = simplexml_load_file($file);
@@ -580,7 +580,7 @@ class Magento_Test_Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 }
             }
 
-            if (preg_match('/app\/code\/(?<namespace>[A-Z][a-z]+)[_|\\\\](?<module>[A-Z][a-zA-Z]+)/', $file, $matches)) {
+            if (preg_match('/app\/code\/(?<namespace>[A-Z][a-z]+)[_\/\\\\](?<module>[A-Z][a-zA-Z]+)/', $file, $matches)) {
                 $module = $matches['namespace'] . '\\' . $matches['module'];
 
                 $xml = simplexml_load_file($file);
