@@ -11,7 +11,7 @@ class Magento_Core_Controller_Request_HttpTest extends PHPUnit_Framework_TestCas
     /** @var Magento_Core_Controller_Request_Http */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = new Magento_Core_Controller_Request_Http();
     }

@@ -12,7 +12,7 @@ class Magento_GoogleAdwords_Model_Config_Source_ValueTypeTest extends PHPUnit_Fr
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $objectManager->getObject('Magento_GoogleAdwords_Model_Config_Source_ValueType', array());

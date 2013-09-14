@@ -19,7 +19,7 @@ class Magento_ProductAlert_Block_Product_View_StockTest extends PHPUnit_Framewor
      */
     protected $_objectManager;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
     }

@@ -16,6 +16,7 @@ return array(
     array('addCategoryFilter', 'Magento_Search_Model_Catalog_Layer_Filter_Category'),
     array('addCustomerSegmentFilter', 'Magento_Banner_Model_Resource_Catalogrule_Collection'),
     array('addCustomerSegmentFilter', 'Magento_Banner_Model_Resource_Salesrule_Collection'),
+    array('addDashboardLink', 'Magento_Rma_Block_Link'),
     array('addFieldsToBannerForm', 'Magento_CustomerSegment_Model_Observer'),
     array('setModelName', 'Magento_Logging_Model_Event_Changes'),
     array('getModelName', 'Magento_Logging_Model_Event_Changes'),

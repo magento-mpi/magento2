@@ -29,7 +29,7 @@ class Magento_Sales_Block_Recurring_Profile_View_AddressTest extends PHPUnit_Fra
      */
     protected $_addressFactory;
 
-    public function setUp()
+    protected function setUp()
     {
         $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
 

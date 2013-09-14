@@ -34,7 +34,7 @@ class Magento_Customer_Block_Account_AuthorizationLinkTest extends PHPUnit_Frame
      */
     protected $_block;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_session = $this->getMockBuilder('Magento_Customer_Model_Session')

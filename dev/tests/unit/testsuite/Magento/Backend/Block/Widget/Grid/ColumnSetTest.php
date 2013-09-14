@@ -81,7 +81,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
 
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_block);
         unset($this->_layoutMock);

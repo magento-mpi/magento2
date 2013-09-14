@@ -18,7 +18,7 @@ class Magento_Sales_Model_Observer_Backend_CatalogPriceRuleTest extends PHPUnit_
      */
     protected $_quoteMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_quoteMock = $this->getMock('Magento_Sales_Model_Resource_Quote', array(), array(), '', false);
         $this->_model = new Magento_Sales_Model_Observer_Backend_CatalogPriceRule(

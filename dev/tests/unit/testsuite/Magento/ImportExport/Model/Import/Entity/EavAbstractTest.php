@@ -36,7 +36,7 @@ class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_F
      */
     protected $_coreStringMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_coreDataMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
         $this->_coreStringMock = $this->getMock('Magento_Core_Helper_String', array('__construct'), array(), '', false);
@@ -45,7 +45,7 @@ class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_F
         );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
     }

@@ -31,7 +31,7 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected $_sectionPoolMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $xml = '<config>
                     <global>

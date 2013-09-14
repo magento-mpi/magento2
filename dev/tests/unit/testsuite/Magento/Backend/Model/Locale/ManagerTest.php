@@ -31,7 +31,7 @@ class Magento_Backend_Model_Locale_ManagerTest extends PHPUnit_Framework_TestCas
      */
     protected $_authSession;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_session = $this->getMock('Magento_Backend_Model_Session', array(), array(), '', false);
 

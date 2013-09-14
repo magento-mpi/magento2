@@ -50,7 +50,7 @@ class Magento_Test_Tools_Migration_Acl_GeneratorSaveTest extends PHPUnit_Framewo
      */
     protected $_fileManagerMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_xmlFormatterMock = $this->getMock('Magento_Tools_Migration_Acl_Formatter');
         $this->_fileManagerMock = $this->getMock('Magento_Tools_Migration_Acl_FileManager');
@@ -89,7 +89,7 @@ class Magento_Test_Tools_Migration_Acl_GeneratorSaveTest extends PHPUnit_Framewo
         $this->_model->setParsedDomList(array($this->_originFile => $dom));
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
         unset($this->_xmlFormatterMock);

@@ -20,7 +20,7 @@ class Magento_Customer_Block_Account_RegisterLinkTest extends PHPUnit_Framework_
      */
     protected $_objectManager;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
     }

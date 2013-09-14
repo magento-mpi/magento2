@@ -29,7 +29,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
      */
     protected $_viewFileSystem;
 
-    public function setUp()
+    protected function setUp()
     {
         $pathChunks = array(dirname(__FILE__), '_files', 'design', 'frontend', 'test_default', 'i18n', 'en_US.csv');
 
