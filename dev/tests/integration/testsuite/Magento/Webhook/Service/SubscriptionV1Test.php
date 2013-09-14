@@ -38,7 +38,6 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
             'email'     => 'email@example.com',
             'key'       => 'key',
             'secret'    => 'secret',
-            'company'   => 'example_company'
         );
         /** @var Magento_Webhook_Model_Webapi_User_Factory $webapiUserFactory */
         $webapiUserFactory = Mage::getModel('Magento_Webhook_Model_Webapi_User_Factory');
