@@ -71,7 +71,7 @@ class Container extends \Magento\Backend\Block\Widget\Container
                 $this->getLayout()->createBlock(
                     str_replace('_', \Magento\Autoload\IncludePath::NS_SEPARATOR, $this->_blockGroup)
                         . '\\Block\\'
-                        . str_replace(' ', '\\', ucwords(str_replace('\\', ' ', $this->_controller)))
+                        . str_replace(' ', '\\', ucwords(str_replace('_', ' ', $this->_controller)))
                         . '\\Grid',
                     $this->_controller . '.grid')
                     ->setSaveParametersInSession(true)

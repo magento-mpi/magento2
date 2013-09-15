@@ -130,7 +130,8 @@ abstract class Form
      */
     protected function _getFormAttributeCollection()
     {
-        return \Mage::getResourceModel($this->_moduleName . '\Model\Resource\Form\Attribute\Collection');
+        return \Mage::getResourceModel(str_replace('_', \Magento\Autoload\IncludePath::NS_SEPARATOR, $this->_moduleName)
+                . '\Model\Resource\Form\Attribute\Collection');
     }
 
     /**
