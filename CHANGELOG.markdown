@@ -31,6 +31,9 @@
 * Redesign and reimplementation of web services framework
   * Removed the Api module and all existing SOAP V1, SOAP V2, and XML-RPC web services code
   * Implemented new web services framework to support both REST and SOAP based off of a common service interface
+* XML Validation
+  * Altered format of `widget.xml` and added `widget.xsd` to allow for validation of XML files.
+  * Altered format of `fieldset.xml` and added `fieldset.xsd` to allow for validation of XML files.
 
 2.0.0.0-dev45
 =============

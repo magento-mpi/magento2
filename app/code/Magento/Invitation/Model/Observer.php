@@ -50,7 +50,7 @@ class Magento_Invitation_Model_Observer
     /**
      * Handler for invitation mass update
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event
      */

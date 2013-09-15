@@ -60,7 +60,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Generic Action handler
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @param Magento_Logging_Model_Processor $processorModel
      * @return Magento_Logging_Model_Event
@@ -80,7 +80,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Simply log action without any id-s
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return bool
      */
@@ -92,7 +92,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom handler for config view
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event
      */
@@ -109,7 +109,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom handler for config save
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @param Magento_Logging_Model_Processor $processor
      * @return Magento_Logging_Model_Event
@@ -163,7 +163,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom handler for category move
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event
      */
@@ -175,7 +175,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom handler for global search
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event
      */
@@ -187,7 +187,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Handler for forgotpassword
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event|bool
      */
@@ -212,7 +212,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom handler for poll save fail's action
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event|bool
      */
@@ -234,7 +234,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom handler for customer validation fail's action
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event|bool
      */
@@ -251,14 +251,14 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Handler for reports
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @param Magento_Logging_Model_Processor $processor
      * @return Magento_Logging_Model_Event|bool
      */
     public function postDispatchReport($config, $eventModel, $processor)
     {
-        $fullActionNameParts = explode('_report_', $config->getName(), 2);
+        $fullActionNameParts = explode('_report_', $config['name'], 2);
         if (empty($fullActionNameParts[1])) {
             return false;
         }
@@ -296,7 +296,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom handler for catalog price rules apply
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event
      */
@@ -309,7 +309,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom handler for catalog price rules save & apply
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @param Magento_Logging_Model_Processor $processorModel
      * @return Magento_Logging_Model_Event
@@ -329,7 +329,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Special handler for newsletter unsubscribe
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event
      */
@@ -345,7 +345,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom tax import handler
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event|bool
      */
@@ -365,7 +365,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom handler for catalog product mass attribute update
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @param Magento_Logging_Model_Processor $processor
      * @return Magento_Logging_Model_Event
@@ -416,7 +416,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom switcher for tax_class_save, to distinguish product and customer tax classes
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event
      */
@@ -434,7 +434,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom switcher for tax_class_save, to distinguish product and customer tax classes
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event
      */
@@ -453,7 +453,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom handler for creating System Backup
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event
      */
@@ -478,7 +478,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom handler for deleting System Backup
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event
      */
@@ -498,7 +498,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom handler for creating System Rollback
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event
      */
@@ -524,7 +524,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom handler for mass unlocking locked admin users
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event
      */
@@ -546,7 +546,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom handler for mass reindex process on index management
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event
      */
@@ -562,7 +562,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom handler for System Currency save
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @param Magento_Logging_Model_Processor $processor
      * @return Magento_Logging_Model_Event
@@ -600,7 +600,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom handler for Cache Settings Save
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @param Magento_Logging_Model_Processor $processor
      * @return Magento_Logging_Model_Event
@@ -629,7 +629,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom tax export handler
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event|bool
      */
@@ -649,7 +649,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom handler for sales archive operations
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event
      */
@@ -666,7 +666,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Custom handler for Recurring Profiles status update
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event
      */
