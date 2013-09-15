@@ -18,7 +18,8 @@ class Collection extends \Magento\Core\Model\Resource\Theme\Collection
     /**
      * Add area filter
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection|\Magento\Core\Model\Resource\Theme\Grid\Collection
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection|
+     *  \Magento\Core\Model\Resource\Theme\Grid\Collection
      */
     protected function _initSelect()
     {

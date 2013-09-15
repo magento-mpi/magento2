@@ -29,7 +29,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_MatrixTest e
         );
         $attributeOptions = $usedAttribute->getSource()->getAllOptions(false);
         /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Matrix */
-        $block = Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Matrix');
+        $block = Mage::app()->getLayout()->createBlock(
+            'Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Matrix');
 
         $variations = $block->getVariations();
         foreach ($variations as &$variation) {

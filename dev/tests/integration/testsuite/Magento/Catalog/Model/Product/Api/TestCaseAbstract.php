@@ -61,7 +61,8 @@ abstract class Magento_Catalog_Model_Product_Api_TestCaseAbstract extends PHPUni
     protected function _createProductWithErrorMessagesCheck($productData, $expectedMessages)
     {
         $formattedData = $this->_prepareProductDataForSoap($productData);
-        $exception = Magento_TestFramework_Helper_Api::callWithException($this, 'catalogProductCreate', $formattedData);
+        $exception = Magento_TestFramework_Helper_Api::callWithException(
+            $this, 'catalogProductCreate', $formattedData);
         $this->_checkErrorMessagesInResponse($exception, $expectedMessages);
     }
 
@@ -150,7 +151,8 @@ abstract class Magento_Catalog_Model_Product_Api_TestCaseAbstract extends PHPUni
      * @param \Magento\Catalog\Model\Product $expected
      * @param \Magento\Catalog\Model\Product $actual
      */
-    public function assertProductEquals(\Magento\Catalog\Model\Product $expected, \Magento\Catalog\Model\Product $actual)
+    public function assertProductEquals(\Magento\Catalog\Model\Product $expected,
+        \Magento\Catalog\Model\Product $actual)
     {
         foreach ($expected->getData() as $attribute => $value) {
             $this->assertEquals(

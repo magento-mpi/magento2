@@ -99,7 +99,8 @@ class TypeProcessor
             $this->process($this->_helper->getArrayItemType($class));
         } else {
             if (!class_exists($class)) {
-                throw new \InvalidArgumentException(sprintf('Could not load the "%s" class as parameter type.', $class));
+                throw new \InvalidArgumentException(
+                    sprintf('Could not load the "%s" class as parameter type.', $class));
             }
             $reflection = new ClassReflection($class);
             $docBlock = $reflection->getDocBlock();

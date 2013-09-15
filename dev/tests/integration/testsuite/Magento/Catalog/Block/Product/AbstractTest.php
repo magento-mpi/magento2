@@ -42,7 +42,12 @@ class Magento_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         if (!self::$_isStubClass) {
-            $this->getMockForAbstractClass('Magento\Catalog\Block\Product\AbstractProduct', array(), self::STUB_CLASS, false);
+            $this->getMockForAbstractClass(
+                'Magento\Catalog\Block\Product\AbstractProduct',
+                array(),
+                self::STUB_CLASS,
+                false
+            );
             self::$_isStubClass = true;
         }
 
@@ -51,11 +56,13 @@ class Magento_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestC
         $this->_block = Mage::app()->getLayout()->createBlock(self::STUB_CLASS);
         $this->_product = Mage::getModel('Magento\Catalog\Model\Product');
         $this->_product->load(1);
-        $this->_product->addData(array(
-            'image'       => '/m/a/magento_image.jpg',
-            'small_image' => '/m/a/magento_image.jpg',
-            'thumbnail'   => '/m/a/magento_image.jpg',
-        ));
+        $this->_product->addData(
+            array(
+                'image'       => '/m/a/magento_image.jpg',
+                'small_image' => '/m/a/magento_image.jpg',
+                'thumbnail'   => '/m/a/magento_image.jpg',
+            )
+        );
         $this->_block->setProduct($this->_product);
     }
 
@@ -220,4 +227,3 @@ class Magento_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestC
         $this->assertContains('/'.$size, $this->_block->getBaseImageIconUrl($this->_product));
     }
 }
-

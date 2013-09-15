@@ -175,8 +175,10 @@ class Css
             'onclick'   => "MediabrowserUtility.openDialog('"
                 . $this->getUrl('*/system_design_wysiwyg_files/index', array(
                     'target_element_id'                           => 'custom_css_content',
-                    \Magento\Theme\Helper\Storage::PARAM_THEME_ID     => $this->_getCurrentTheme()->getId(),
-                    \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE => \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE
+                    \Magento\Theme\Helper\Storage::PARAM_THEME_ID     =>
+                        $this->_getCurrentTheme()->getId(),
+                    \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE =>
+                        \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE
                 ))
                 . "', null, null,'"
                 . $this->quoteEscape(

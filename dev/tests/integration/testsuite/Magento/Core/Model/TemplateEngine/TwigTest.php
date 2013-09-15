@@ -23,7 +23,10 @@ class Magento_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        Mage::app()->loadAreaPart(\Magento\Core\Model\App\Area::AREA_GLOBAL, \Magento\Core\Model\App\Area::PART_CONFIG);
+        Mage::app()->loadAreaPart(
+            \Magento\Core\Model\App\Area::AREA_GLOBAL,
+            \Magento\Core\Model\App\Area::PART_CONFIG
+        );
         $this->_twigEngine = $this->_objectManager->create('Magento\Core\Model\TemplateEngine\Twig');
     }
 
@@ -47,7 +50,10 @@ class Magento_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestC
      */
     public function testSimpleRender()
     {
-        Mage::app()->loadAreaPart(\Magento\Core\Model\App\Area::AREA_FRONTEND, \Magento\Core\Model\App\Area::PART_DESIGN);
+        Mage::app()->loadAreaPart(
+            \Magento\Core\Model\App\Area::AREA_FRONTEND,
+            \Magento\Core\Model\App\Area::PART_DESIGN
+        );
         $simpleTitle = 'This is the Title';
         $renderedOutput = '<html><head><title>' . $simpleTitle . '</title></head><body></body></html>';
         $path = __DIR__ . '/_files';

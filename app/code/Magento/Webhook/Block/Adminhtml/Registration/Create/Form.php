@@ -123,6 +123,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
     private function _generateRandomString($length)
     {
         return $this->_coreHelper
-            ->getRandomString($length, \Magento\Core\Helper\Data::CHARS_DIGITS . \Magento\Core\Helper\Data::CHARS_LOWERS);
+            ->getRandomString($length, \Magento\Core\Helper\Data::CHARS_DIGITS .
+                \Magento\Core\Helper\Data::CHARS_LOWERS);
     }
 }

@@ -76,9 +76,11 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         $model->importData();
 
         $rewardPointsKey =
-            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_REWARD_POINTS;
+            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
+                COLUMN_REWARD_POINTS;
         $customerBalanceKey =
-            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_CUSTOMER_BALANCE;
+            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
+                COLUMN_CUSTOMER_BALANCE;
 
         $customerCollection = Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
         /** @var $customer \Magento\Customer\Model\Customer */
@@ -134,7 +136,9 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
             $reward->delete();
         }
 
-        $source = new \Magento\ImportExport\Model\Import\Source\Csv(__DIR__ . '/../_files/customer_finance_delete.csv');
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv(
+            __DIR__ . '/../_files/customer_finance_delete.csv'
+        );
         $model = Mage::getModel('Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance');
         $model->setParameters(
             array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE)
