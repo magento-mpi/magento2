@@ -31,7 +31,8 @@ class Magento_ImportExport_Model_Resource_Import_CustomerComposite_DataTest exte
     protected function _getDependencies($entityType, $bunchData)
     {
         /** @var $statementMock \Magento\DB\Statement\Pdo\Mysql */
-        $statementMock = $this->getMock('Magento\DB\Statement\Pdo\Mysql', array('setFetchMode', 'getIterator'), array(),
+        $statementMock = $this->getMock('Magento\DB\Statement\Pdo\Mysql',
+            array('setFetchMode', 'getIterator'), array(),
             '', false
         );
         $statementMock->expects($this->any())
@@ -131,15 +132,19 @@ class Magento_ImportExport_Model_Resource_Import_CustomerComposite_DataTest exte
     {
         return array(
             'address entity' => array(
-                '$entityType' => \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COMPONENT_ENTITY_ADDRESS,
+                '$entityType' => \Magento\ImportExport\Model\Import\Entity\CustomerComposite
+                    ::COMPONENT_ENTITY_ADDRESS,
                 '$bunchData'    => array(array(Zend_Json::encode(array(
                         array(
                             '_scope' => \Magento\ImportExport\Model\Import\Entity\CustomerComposite::SCOPE_DEFAULT,
-                            \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_WEBSITE => 'website1',
+                            \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address
+                                ::COLUMN_WEBSITE => 'website1',
                             \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_EMAIL => 'email1',
                             \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => null,
-                            \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_DEFAULT_BILLING => 'value',
-                            \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_DEFAULT_SHIPPING => 'value',
+                            \Magento\ImportExport\Model\Import\Entity\CustomerComposite
+                                ::COLUMN_DEFAULT_BILLING => 'value',
+                            \Magento\ImportExport\Model\Import\Entity\CustomerComposite
+                                ::COLUMN_DEFAULT_SHIPPING => 'value',
                             'customer_attribute1' => 'value',
                             'customer_attribute2' => 'value',
                             \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_ADDRESS_PREFIX .
@@ -178,7 +183,8 @@ class Magento_ImportExport_Model_Resource_Import_CustomerComposite_DataTest exte
                         array(
                             '_scope' =>
                             \Magento\ImportExport\Model\Import\Entity\CustomerComposite::SCOPE_DEFAULT,
-                            \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_WEBSITE => 'website1',
+                            \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_WEBSITE
+                                => 'website1',
                             \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_EMAIL => 'email1',
                             \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => null,
                             \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_DEFAULT_BILLING =>
@@ -224,7 +230,8 @@ class Magento_ImportExport_Model_Resource_Import_CustomerComposite_DataTest exte
                 '$bunchData'    => array(array(Zend_Json::encode(array(
                         array(
                             '_scope' => \Magento\ImportExport\Model\Import\Entity\CustomerComposite::SCOPE_ADDRESS,
-                            \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_WEBSITE => 'website1',
+                            \Magento\ImportExport\Model\Import\Entity\Eav\Customer\
+                                Address::COLUMN_WEBSITE => 'website1',
                             \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_EMAIL => 'email1',
                             \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => null,
                             \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_DEFAULT_BILLING =>
