@@ -677,8 +677,12 @@ class Proxy extends \Magento\Backend\Model\Url
     /**
      * {@inheritdoc}
      */
-    public function convertToXml(array $arrAttributes = array(), $rootName = 'item', $addOpenTag = false, $addCdata = true)
-    {
+    public function convertToXml(
+        array $arrAttributes = array(),
+        $rootName = 'item',
+        $addOpenTag = false,
+        $addCdata = true
+    ) {
         return $this->_getObject()->convertToXml($arrAttributes, $rootName, $addOpenTag, $addCdata);
     }
 

@@ -163,7 +163,8 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
     protected function _shouldBeSecure($path)
     {
         return substr((string)\Mage::getConfig()->getValue('web/unsecure/base_url', 'default'), 0, 5) === 'https'
-            || \Mage::getStoreConfigFlag('web/secure/use_in_adminhtml', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID)
+            || \Mage::getStoreConfigFlag('web/secure/use_in_adminhtml',
+                \Magento\Core\Model\AppInterface::ADMIN_STORE_ID)
                 && substr((string)\Mage::getConfig()->getValue('web/secure/base_url', 'default'), 0, 5) === 'https';
     }
 

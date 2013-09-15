@@ -178,7 +178,8 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
         $websiteColumn = \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_WEBSITE;
         $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$websiteColumn]);
 
-        $financeWebsiteCol = \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_FINANCE_WEBSITE;
+        $financeWebsiteCol =
+            \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_FINANCE_WEBSITE;
         $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$financeWebsiteCol]);
 
         $this->assertEquals($this->_customerData[self::WEBSITE_ATTRIBUTE_CODE], $row[self::ATTRIBUTE_CODE]);
