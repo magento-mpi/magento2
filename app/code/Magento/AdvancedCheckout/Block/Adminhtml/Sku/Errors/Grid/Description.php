@@ -29,20 +29,20 @@ class Description extends \Magento\Backend\Block\Template
     /**
      * Checkout data
      *
-     * @var Magento_AdvancedCheckout_Helper_Data
+     * @var \Magento\AdvancedCheckout\Helper\Data
      */
     protected $_checkoutData = null;
 
     /**
-     * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_AdvancedCheckout_Helper_Data $checkoutData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\AdvancedCheckout\Helper\Data $checkoutData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_checkoutData = $checkoutData;

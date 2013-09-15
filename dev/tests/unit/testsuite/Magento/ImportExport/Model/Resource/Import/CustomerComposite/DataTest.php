@@ -96,7 +96,7 @@ class Magento_ImportExport_Model_Resource_Import_CustomerComposite_DataTest exte
         $dependencies = $this->_getDependencies($entityType, $bunchData);
 
         $resource = $dependencies['resource'];
-        $coreHelper = $this->getMock('Magento_Core_Helper_Data', array('__construct'), array(), '', false);
+        $coreHelper = $this->getMock('Magento\Core\Helper\Data', array('__construct'), array(), '', false);
         unset($dependencies['resource'], $dependencies['json_helper']);
 
         $object = new \Magento\ImportExport\Model\Resource\Import\CustomerComposite\Data($resource, $coreHelper,

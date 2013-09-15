@@ -10,7 +10,7 @@
  */
 
 /**
- * Tests for Magento_Data_Form_Element_Factory
+ * Tests for \Magento\Data\Form\Element\Factory
  */
 class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
 {
@@ -20,15 +20,15 @@ class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
     protected $_objectManagerMock;
 
     /**
-     * @var Magento_Data_Form_Element_Factory
+     * @var \Magento\Data\Form\Element\Factory
      */
     protected $_factory;
 
     public function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager_ObjectManager',
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager\ObjectManager',
             array('create'), array(), '', false);
-        $this->_factory = new Magento_Data_Form_Element_Factory($this->_objectManagerMock);
+        $this->_factory = new \Magento\Data\Form\Element\Factory($this->_objectManagerMock);
     }
 
     /**
@@ -37,7 +37,7 @@ class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
      */
     public function testCreatePositive($type)
     {
-        $className = 'Magento_Data_Form_Element_' . ucfirst($type);
+        $className = 'Magento\Data\Form\Element\\' . ucfirst($type);
         $elementMock = $this->getMock($className, array(), array(), '', false);
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
@@ -130,8 +130,8 @@ class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
     public function createExceptionInvalidArgumentDataProvider()
     {
         return array(
-            'Magento_Data_Form_Element_Factory' => array('Magento_Data_Form_Element_Factory'),
-            'Magento_Data_Form_Element_Collection' => array('Magento_Data_Form_Element_Collection'),
+            'Magento\Data\Form\Element\Factory' => array('Magento\Data\Form\Element\Factory'),
+            'Magento\Data\Form\Element\Collection' => array('Magento\Data\Form\Element\Collection'),
         );
     }
 }

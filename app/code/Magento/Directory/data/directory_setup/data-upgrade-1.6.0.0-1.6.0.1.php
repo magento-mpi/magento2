@@ -9,7 +9,7 @@
  */
 
 /**
- * @var Magento_Directory_Model_Resource_Setup $installer
+ * @var \Magento\Directory\Model\Resource\Setup $installer
  */
 $installer = $this;
 

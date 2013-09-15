@@ -50,7 +50,7 @@ class Exception extends \RuntimeException
     {
         /** Only HTTP error codes are allowed. No success or redirect codes must be used. */
         if ($httpCode < 400 || $httpCode > 599) {
-            throw new InvalidArgumentException(sprintf('The specified HTTP code "%d" is invalid.', $httpCode));
+            throw new \InvalidArgumentException(sprintf('The specified HTTP code "%d" is invalid.', $httpCode));
         }
         parent::__construct($message, $code);
         $this->_httpCode = $httpCode;
@@ -75,8 +75,8 @@ class Exception extends \RuntimeException
     public function getOriginator()
     {
         return ($this->getHttpCode() < 500)
-            ? Magento_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER
-            : Magento_Webapi_Model_Soap_Fault::FAULT_CODE_RECEIVER;
+            ? \Magento\Webapi\Model\Soap\Fault::FAULT_CODE_SENDER
+            : \Magento\Webapi\Model\Soap\Fault::FAULT_CODE_RECEIVER;
     }
 
     /**

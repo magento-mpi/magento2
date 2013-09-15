@@ -22,18 +22,18 @@ class Account extends \Magento\Core\Block\AbstractBlock
     /**
      * Reward data
      *
-     * @var Magento_Reward_Helper_Data
+     * @var \Magento\Reward\Helper\Data
      */
     protected $_rewardData = null;
 
     /**
-     * @param Magento_Reward_Helper_Data $rewardData
-     * @param Magento_Core_Block_Context $context
+     * @param \Magento\Reward\Helper\Data $rewardData
+     * @param \Magento\Core\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Reward_Helper_Data $rewardData,
-        Magento_Core_Block_Context $context,
+        \Magento\Reward\Helper\Data $rewardData,
+        \Magento\Core\Block\Context $context,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;

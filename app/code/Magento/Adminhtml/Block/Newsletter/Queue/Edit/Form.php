@@ -18,7 +18,7 @@
 
 namespace Magento\Adminhtml\Block\Newsletter\Queue\Edit;
 
-class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare form for newsletter queue editing.
@@ -33,7 +33,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Backend
         /* @var $queue \Magento\Newsletter\Model\Queue */
         $queue = \Mage::getSingleton('Magento\Newsletter\Model\Queue');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('base_fieldset', array(

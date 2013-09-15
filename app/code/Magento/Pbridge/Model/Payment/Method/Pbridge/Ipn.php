@@ -57,15 +57,15 @@ class Ipn
     /**
      * Pbridge data
      *
-     * @var Magento_Pbridge_Helper_Data
+     * @var \Magento\Pbridge\Helper\Data
      */
     protected $_pbridgeData = null;
 
     /**
-     * @param Magento_Pbridge_Helper_Data $pbridgeData
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
      */
     public function __construct(
-        Magento_Pbridge_Helper_Data $pbridgeData
+        \Magento\Pbridge\Helper\Data $pbridgeData
     ) {
         $this->_pbridgeData = $pbridgeData;
     }

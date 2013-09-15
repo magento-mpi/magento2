@@ -36,20 +36,20 @@ class General
     protected $_fileSize;
 
     /**
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\Theme\Image\Path $themeImagePath
      * @param \Magento\File\Size $fileSize
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Registry $registry,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\Theme\Image\Path $themeImagePath,
         \Magento\File\Size $fileSize,
@@ -79,7 +79,7 @@ class General
         }
         $this->setIsThemeExist(isset($formData['theme_id']));
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $this->_addThemeFieldset($form, $formData);

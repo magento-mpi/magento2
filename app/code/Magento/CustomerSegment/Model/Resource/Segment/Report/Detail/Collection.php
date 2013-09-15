@@ -17,16 +17,16 @@ class Collection
     protected $_registryManager;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\Registry $registryManager
-     * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
+     * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Registry $registryManager,
-        Magento_Core_Model_Fieldset_Config $fieldsetConfig
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\Registry $registryManager,
+        \Magento\Core\Model\Fieldset\Config $fieldsetConfig
     ) {
         $this->_registryManager = $registryManager;
         parent::__construct($eventManager, $fetchStrategy, $fieldsetConfig);

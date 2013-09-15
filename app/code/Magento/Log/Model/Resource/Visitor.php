@@ -23,17 +23,17 @@ class Visitor extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Model_Resource $resource
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_coreString = $coreString;
         parent::__construct($resource);
@@ -126,8 +126,8 @@ class Visitor extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Perform actions after object load
      *
-     * @param \Magento_Core_Model_Abstract|\Magento_Object $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento_Core_Model_Abstract|\\Magento\Object $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {

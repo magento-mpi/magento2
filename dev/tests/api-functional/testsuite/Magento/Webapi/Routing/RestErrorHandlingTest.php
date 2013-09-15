@@ -20,7 +20,7 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/errortest/success',
-                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ),
         );
 
@@ -36,15 +36,15 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/errortest/notfound',
-                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ),
         );
 
-        // Magento_Service_ResourceNotFoundException
+        // \Magento\Service\ResourceNotFoundException
         $this->_errorTest(
             $serviceInfo,
             array(),
-            Magento_Webapi_Exception::HTTP_NOT_FOUND,
+            \Magento\Webapi\Exception::HTTP_NOT_FOUND,
             2345,
             "Resource with ID 'resourceY' not found."
         );
@@ -55,15 +55,15 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/errortest/unauthorized',
-                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ),
         );
 
-        // Magento_Service_AuthorizationException
+        // \Magento\Service\AuthorizationException
         $this->_errorTest(
             $serviceInfo,
             array(),
-            Magento_Webapi_Exception::HTTP_UNAUTHORIZED,
+            \Magento\Webapi\Exception::HTTP_UNAUTHORIZED,
             4567,
             "User with ID '30' is not authorized to access resource with ID 'resourceN'."
         );
@@ -74,15 +74,15 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/errortest/serviceexception',
-                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ),
         );
 
-        // Magento_Service_Exception
+        // \Magento\Service\Exception
         $this->_errorTest(
             $serviceInfo,
             array(),
-            Magento_Webapi_Exception::HTTP_BAD_REQUEST,
+            \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
             3456,
             'Generic service exception'
         );
@@ -93,7 +93,7 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/errortest/parameterizedserviceexception',
-                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             )
         );
         $details = array(
@@ -103,11 +103,11 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
         $arguments = array(
             'details' => $details
         );
-        // Magento_Service_Exception (with parameters)
+        // \Magento\Service\Exception (with parameters)
         $this->_errorTest(
             $serviceInfo,
             $arguments,
-            Magento_Webapi_Exception::HTTP_BAD_REQUEST,
+            \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
             1234,
             'Parameterized service exception',
             $details
@@ -119,7 +119,7 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/errortest/otherexception',
-                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ),
         );
 
@@ -131,7 +131,7 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
         $this->_errorTest(
             $serviceInfo,
             array(),
-            Magento_Webapi_Exception::HTTP_INTERNAL_ERROR,
+            \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR,
             $expectedErrorCodes,
             $expectedErrorMessages
         );
@@ -142,7 +142,7 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/errortest/returnIncompatibleDataType',
-                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ),
         );
         $expectedMessages = array(
@@ -150,11 +150,11 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
             'The method "returnIncompatibleDataType" of service '
             . '"Magento_TestModule3_Service_ErrorV1Interface" must return an array.'
         );
-        // Magento_Service_Exception
+        // \Magento\Service\Exception
         $this->_errorTest(
             $serviceInfo,
             array(),
-            Magento_Webapi_Exception::HTTP_INTERNAL_ERROR,
+            \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR,
             0,
             $expectedMessages,
             null

@@ -19,18 +19,18 @@ class Stub extends \Magento\Cms\Block\Page
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Block_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Block\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Block\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

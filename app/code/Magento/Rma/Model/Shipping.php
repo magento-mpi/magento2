@@ -53,24 +53,24 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     /**
      * Rma data
      *
-     * @var Magento_Rma_Helper_Data
+     * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaData = null;
 
     /**
-     * @param Magento_Rma_Helper_Data $rmaData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Rma_Model_Resource_Shipping $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Rma\Helper\Data $rmaData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Rma\Model\Resource\Shipping $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Rma_Helper_Data $rmaData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Rma_Model_Resource_Shipping $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Rma\Helper\Data $rmaData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Rma\Model\Resource\Shipping $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
@@ -110,13 +110,13 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         /** @var $order \Magento\Sales\Model\Order */
         $order              = \Mage::getModel('Magento\Sales\Model\Order')->load($this->getRma()->getOrderId());
         $shipperAddress     = $order->getShippingAddress();
-        /** @var Magento_Sales_Model_Quote_Address $recipientAddress */
+        /** @var \Magento\Sales\Model\Quote\Address $recipientAddress */
         $recipientAddress   = $this->_rmaData->getReturnAddressModel($this->getRma()->getStoreId());
 
         list($carrierCode, $shippingMethod) = explode('_', $this->getCode(), 2);
 
         $shipmentCarrier    = $this->_rmaData->getCarrier($this->getCode(), $shipmentStoreId);
-        $baseCurrencyCode   = Mage::app()->getStore($shipmentStoreId)->getBaseCurrencyCode();
+        $baseCurrencyCode   = \Mage::app()->getStore($shipmentStoreId)->getBaseCurrencyCode();
 
         if (!$shipmentCarrier) {
             \Mage::throwException(__('Invalid carrier: %1', $carrierCode));

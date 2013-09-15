@@ -31,19 +31,19 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Rating data
      *
-     * @var Magento_Rating_Helper_Data
+     * @var \Magento\Rating\Helper\Data
      */
     protected $_ratingData = null;
 
     /**
-     * @param Magento_Rating_Helper_Data $ratingData
+     * @param \Magento\Rating\Helper\Data $ratingData
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
-        Magento_Rating_Helper_Data $ratingData,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_StoreManager $storeManager
+        \Magento\Rating\Helper\Data $ratingData,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\StoreManager $storeManager
     ) {
         $this->_ratingData = $ratingData;
         $this->_storeManager = $storeManager;
@@ -243,7 +243,7 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Prepare rating data for reaggregate all data for reviews
      *
      * @param Magento_Core_Model_Abstract $object
-     * @return $this|Magento_Core_Model_Resource_Db_Abstract
+     * @return $this|\Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _afterDelete(\Magento\Core\Model\AbstractModel $object)
     {

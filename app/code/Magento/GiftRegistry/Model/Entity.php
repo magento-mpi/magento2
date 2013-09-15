@@ -113,41 +113,41 @@ class Entity extends \Magento\Core\Model\AbstractModel
     /**
      * Gift registry data
      *
-     * @var Magento_GiftRegistry_Helper_Data
+     * @var \Magento\GiftRegistry\Helper\Data
      */
     protected $_giftRegistryData = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Core\Model\Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_App $application
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Translate $translate
-     * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
-     * @param Magento_GiftRegistry_Model_Resource_Entity $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
+     * @param \Magento\GiftRegistry\Model\Resource\Entity $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_GiftRegistry_Helper_Data $giftRegistryData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Core\Model\Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_App $application,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Translate $translate,
-        Magento_Core_Model_Email_TemplateFactory $templateFactory,
-        Magento_GiftRegistry_Model_Resource_Entity $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\App $application,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Translate $translate,
+        \Magento\Core\Model\Email\TemplateFactory $templateFactory,
+        \Magento\GiftRegistry\Model\Resource\Entity $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -893,9 +893,9 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * Custom handler for giftregistry share email action
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @param Magento_Logging_Model_Processor $processor
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @param \Magento\Logging\Model\Processor $processor
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchShare($config, $eventModel, $processor)
     {

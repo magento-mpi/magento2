@@ -29,18 +29,18 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
+        \Magento\Core\Model\Event\Manager $eventManager,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;

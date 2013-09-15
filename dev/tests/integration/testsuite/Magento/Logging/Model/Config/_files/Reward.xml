@@ -15,7 +15,7 @@
         <group name="magento_reward_rate">
             <label translate="true">Reward Points Rates</label>
             <expected_models>
-                <expected_model class="Magento_Reward_Model_Reward_Rate" />
+                <expected_model class="Magento\Reward\Model\Reward\Rate" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_reward_rate_edit" action_alias="edit" />
@@ -27,7 +27,7 @@
             <events>
                 <event controller_action="adminhtml_customer_save">
                     <expected_models merge_group="true">
-                        <expected_model class="Magento_Reward_Model_Reward_History">
+                        <expected_model class="Magento\Reward\Model\Reward\History">
                             <skip_fields>
                                 <field name="history_id" />
                                 <field name="action" />

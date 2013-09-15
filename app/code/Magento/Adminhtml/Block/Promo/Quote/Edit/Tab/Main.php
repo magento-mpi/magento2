@@ -65,7 +65,7 @@ class Main
     {
         $model = $this->_coreRegistry->registry('current_promo_quote_rule');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 

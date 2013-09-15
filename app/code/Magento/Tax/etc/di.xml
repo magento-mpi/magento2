@@ -8,19 +8,19 @@
  */
 -->
 <config>
-    <type name="Magento_Tax_Helper_Data">
+    <type name="Magento\Tax\Helper\Data">
         <param name="taxConfig">
-            <instance type="Magento_Tax_Model_ConfigProxy" />
+            <instance type="Magento\Tax\Model\ConfigProxy" />
         </param>
     </type>
-    <type name="Magento_Tax_Model_Calculation_Rate">
+    <type name="Magento\Tax\Model\Calculation\Rate">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Tax_Model_Calculation_Rule">
+    <type name="Magento\Tax\Model\Calculation\Rule">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
 </config>

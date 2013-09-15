@@ -78,17 +78,17 @@ class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Core http
      *
-     * @var Magento_Core_Helper_Http
+     * @var \Magento\Core\Helper\Http
      */
     protected $_coreHttp = null;
 
     /**
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Model_Resource $resource
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_coreHttp = $coreHttp;
         parent::__construct($resource);

@@ -39,7 +39,7 @@ class Page extends \Zend_Pdf_Page
      *
      * Create/Make a copy of pdf page
      *
-     * @param Magento_Core_Helper_String $coreString
+     * @param \Magento\Core\Helper\String $coreString
      * @param Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page|string $param1
      * @param null $param2
      * @param null $param3
@@ -47,12 +47,12 @@ class Page extends \Zend_Pdf_Page
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     public function __construct(
-        Magento_Core_Helper_String $coreString,
+        \Magento\Core\Helper\String $coreString,
         $param1,
         $param2 = null,
         $param3 = null

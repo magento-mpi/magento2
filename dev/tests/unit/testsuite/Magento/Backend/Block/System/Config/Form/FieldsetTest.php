@@ -47,7 +47,7 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
     protected $_testHelper;
 
     /**
-     * @var Magento_Core_Model_Factory_Helper
+     * @var \Magento\Core\Model\Factory\Helper
      */
     protected $_helperFactoryMock;
 
@@ -61,7 +61,7 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
             false);
         $groupMock->expects($this->once())->method('getFieldsetCss')->will($this->returnValue('test_fieldset_css'));
         $this->_helperFactoryMock = $this->getMock(
-            'Magento_Core_Model_Factory_Helper', array('get'), array(), '', false, false
+            'Magento\Core\Model\Factory\Helper', array('get'), array(), '', false, false
         );
 
         $data = array(
@@ -151,7 +151,7 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
         $factoryColl = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array(), array(), '', false);
-        $formMock = $this->getMock('Magento\Data\Form\Abstract', array(), array($factory, $factoryColl));
+        $formMock = $this->getMock('Magento\Data\Form\AbstractForm', array(), array($factory, $factoryColl));
         $collection = $helper->getObject('Magento\Data\Form\Element\Collection', array(
             'container' => $formMock
         ));

@@ -10,7 +10,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Config
+namespace Magento\Webapi\Model;
+
+class Config
 {
     const CACHE_ID = 'webapi';
 
@@ -31,23 +33,23 @@ class Magento_Webapi_Model_Config
     const SERVICE_CLASS_PATTERN = '/^(.+?)_(.+?)_Service(_.+)+(V\d+)Interface$/';
 
     /**
-     * @var Magento_Core_Model_Cache_Type_Config
+     * @var \Magento\Core\Model\Cache\Type\Config
      */
     protected $_configCacheType;
 
     /**
-     * @var Magento_Webapi_Model_Config_Reader
+     * @var \Magento\Webapi\Model\Config_Reader
      */
     protected $_reader;
 
     /**
      * Module configuration reader
      *
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_moduleReader;
 
-    /** @var Magento_ObjectManager */
+    /** @var \Magento\ObjectManager */
     protected $_objectManager;
 
     /**
@@ -56,14 +58,14 @@ class Magento_Webapi_Model_Config
     protected $_services;
 
     /**
-     * @param Magento_Webapi_Model_Cache_Type $configCacheType
-     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\Webapi\Model\Cache\Type $configCacheType
+     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
-        Magento_Webapi_Model_Cache_Type $configCacheType,
-        Magento_Core_Model_Config_Modules_Reader $moduleReader,
-        Magento_ObjectManager $objectManager
+        \Magento\Webapi\Model\Cache\Type $configCacheType,
+        \Magento\Core\Model\Config\Modules\Reader $moduleReader,
+        \Magento\ObjectManager $objectManager
     ) {
         $this->_configCacheType = $configCacheType;
         $this->_moduleReader = $moduleReader;
@@ -84,14 +86,14 @@ class Magento_Webapi_Model_Config
     /**
      * Reader object initialization
      *
-     * @return Magento_Webapi_Model_Config_Reader
+     * @return \Magento\Webapi\Model\Config_Reader
      */
     protected function _getReader()
     {
         if (null === $this->_reader) {
             $configFiles = $this->_getConfigFile();
             $this->_reader = $this->_objectManager->create(
-                'Magento_Webapi_Model_Config_Reader',
+                'Magento\Webapi\Model\Config_Reader',
                 array('configFiles' => $configFiles)
             );
         }
@@ -132,11 +134,11 @@ class Magento_Webapi_Model_Config
      * Save services into the cache
      *
      * @param string $data serialized version of the webapi registry
-     * @return Magento_Webapi_Model_Config
+     * @return \Magento\Webapi\Model\Config
      */
     protected function _saveToCache($data)
     {
-        $this->_configCacheType->save($data, self::CACHE_ID, array(Magento_Webapi_Model_Cache_Type::CACHE_TAG));
+        $this->_configCacheType->save($data, self::CACHE_ID, array(\Magento\Webapi\Model\Cache\Type::CACHE_TAG));
         return $this;
     }
 

@@ -35,14 +35,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_locale;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\String $stringHelper
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
+        \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\String $stringHelper,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,

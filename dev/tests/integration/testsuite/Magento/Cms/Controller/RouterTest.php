@@ -22,7 +22,7 @@ class Magento_Cms_Controller_RouterTest extends PHPUnit_Framework_TestCase
         $this->_model = new \Magento\Cms\Controller\Router(
             Magento_TestFramework_Helper_Bootstrap::getObjectManager()
                 ->get('Magento\Core\Controller\Varien\Action\Factory'),
-            new Magento_Core_Model_Event_ManagerStub(
+            new \Magento\Core\Model\Event\ManagerStub(
                 $this->getMockForAbstractClass('Magento\Core\Model\Event\InvokerInterface', array(), '', false),
                 $this->getMock('Magento\Core\Model\Event\Config', array(), array(), '', false),
                 $this->getMock('Magento\EventFactory', array(), array(), '', false),

@@ -27,17 +27,17 @@ class Observer
     /**
      * Core http
      *
-     * @var Magento_Core_Helper_Http
+     * @var \Magento\Core\Helper\Http
      */
     protected $_coreHttp = null;
 
     /**
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Logging_Model_Processor $processor
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Logging\Model\Processor $processor
      */
     public function __construct(
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Logging_Model_Processor $processor
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Logging\Model\Processor $processor
     ) {
         $this->_coreHttp = $coreHttp;
         $this->_processor = $processor;

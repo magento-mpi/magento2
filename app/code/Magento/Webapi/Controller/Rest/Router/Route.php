@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_Router_Route extends Zend_Controller_Router_Route
+namespace Magento\Webapi\Controller\Rest\Router;
+
+class Route extends \Zend_Controller_Router_Route
 {
     /** @var string */
     protected $_serviceClass;
@@ -22,7 +24,7 @@ class Magento_Webapi_Controller_Rest_Router_Route extends Zend_Controller_Router
      * Set service class.
      *
      * @param string $serviceClass
-     * @return Magento_Webapi_Controller_Rest_Router_Route
+     * @return \Magento\Webapi\Controller\Rest\Router\Route
      */
     public function setServiceClass($serviceClass)
     {
@@ -44,7 +46,7 @@ class Magento_Webapi_Controller_Rest_Router_Route extends Zend_Controller_Router
      * Set service method name.
      *
      * @param string $serviceMethod
-     * @return Magento_Webapi_Controller_Rest_Router_Route
+     * @return \Magento\Webapi\Controller\Rest\Router\Route
      */
     public function setServiceMethod($serviceMethod)
     {
@@ -66,7 +68,7 @@ class Magento_Webapi_Controller_Rest_Router_Route extends Zend_Controller_Router
      * Set if the route is secure
      *
      * @param boolean $secure
-     * @return Magento_Webapi_Controller_Rest_Router_Route
+     * @return \Magento\Webapi\Controller\Rest\Router\Route
      */
     public function setSecure($secure)
     {

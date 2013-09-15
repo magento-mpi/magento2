@@ -19,29 +19,29 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     /**
      * Review action pager
      *
-     * @var Magento_Review_Helper_Action_Pager
+     * @var \Magento\Review\Helper\Action\Pager
      */
     protected $_reviewActionPager = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Review_Helper_Action_Pager $reviewActionPager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Review\Helper\Action\Pager $reviewActionPager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Review_Helper_Action_Pager $reviewActionPager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Review\Helper\Action\Pager $reviewActionPager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -56,7 +56,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         $this->_objectId = 'id';
         $this->_controller = 'review';
 
-        /** @var $actionPager Magento_Review_Helper_Action_Pager */
+        /** @var $actionPager \Magento\Review\Helper\Action\Pager */
         $actionPager = $this->_reviewActionPager;
         $actionPager->setStorageId('reviews');
 

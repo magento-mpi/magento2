@@ -22,26 +22,26 @@ class Data extends \Magento\CustomAttribute\Helper\Data
     /**
      * Customer customer
      *
-     * @var Magento_CustomerCustomAttributes_Helper_Customer
+     * @var \Magento\CustomerCustomAttributes\Helper\Customer
      */
     protected $_customerCustomer = null;
 
     /**
      * Customer address
      *
-     * @var Magento_CustomerCustomAttributes_Helper_Address
+     * @var \Magento\CustomerCustomAttributes\Helper\Address
      */
     protected $_customerAddress = null;
 
     /**
-     * @param Magento_CustomerCustomAttributes_Helper_Address $customerAddress
-     * @param Magento_CustomerCustomAttributes_Helper_Customer $customerCustomer
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\CustomerCustomAttributes\Helper\Address $customerAddress
+     * @param \Magento\CustomerCustomAttributes\Helper\Customer $customerCustomer
+     * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        Magento_CustomerCustomAttributes_Helper_Address $customerAddress,
-        Magento_CustomerCustomAttributes_Helper_Customer $customerCustomer,
-        Magento_Core_Helper_Context $context
+        \Magento\CustomerCustomAttributes\Helper\Address $customerAddress,
+        \Magento\CustomerCustomAttributes\Helper\Customer $customerCustomer,
+        \Magento\Core\Helper\Context $context
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_customerCustomer = $customerCustomer;

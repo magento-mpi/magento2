@@ -175,7 +175,7 @@
 "Category move operation is not possible: parent category is equal to child category.","Verschieben der Kategorie ist nicht möglich: Der übergeordnete Ordner gleicht dem untergeordneten."
 "Category move operation is not possible: the current category was not found.","Verschieben der Kategorie ist nicht möglich: Die aktuelle Kategorie wurde nicht gefunden."
 "Category move operation is not possible: the new parent category was not found.","Kategorie-Verschiebevorgang nicht möglich: die neue Position in der Baumstruktur konnte nicht gefunden werden."
-"Category must be an instance of Magento_Catalog_Model_Category.","Kategorie muss eine Instanz von Magento_Catalog_Model_Category sein."
+"Category must be an instance of \Magento\Catalog\Model\Category.","Kategorie muss eine Instanz von \Magento\Catalog\Model\Category sein."
 "Center","Mitte"
 "Change","Ändern"
 "Change or Retrieve attribute store view","Ändern und Wiederfinden der Speicheransicht der Eigenschaften"

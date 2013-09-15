@@ -56,18 +56,18 @@ class Backup extends \Magento\Object
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backup\Helper\Data $helper
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backup_Helper_Data $helper,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backup\Helper\Data $helper,
         $data = array()
     ) {
         $this->_coreData = $coreData;

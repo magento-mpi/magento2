@@ -34,24 +34,24 @@ class Observer
     /**
      * Backup data
      *
-     * @var Magento_Backup_Helper_Data
+     * @var \Magento\Backup\Helper\Data
      */
     protected $_backupData = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backup_Helper_Data $backupData
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backup\Helper\Data $backupData
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backup_Helper_Data $backupData,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backup\Helper\Data $backupData,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_backupData = $backupData;
         $this->_coreRegistry = $coreRegistry;

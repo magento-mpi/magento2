@@ -15,24 +15,24 @@ class Observer
     /**
      * Gift card account data
      *
-     * @var Magento_GiftCardAccount_Helper_Data
+     * @var \Magento\GiftCardAccount\Helper\Data
      */
     protected $_giftCardAccountData = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_GiftCardAccount_Helper_Data $giftCardAccountData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_GiftCardAccount_Helper_Data $giftCardAccountData
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
     ) {
         $this->_eventManager = $eventManager;
         $this->_giftCardAccountData = $giftCardAccountData;
@@ -51,7 +51,7 @@ class Observer
         $cards = $this->_giftCardAccountData->getCards($order);
         if (is_array($cards)) {
             foreach ($cards as &$card) {
-                Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount')
+                \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
                     ->load($card['i'])
                     ->charge($card['ba'])
                     ->setOrder($order)

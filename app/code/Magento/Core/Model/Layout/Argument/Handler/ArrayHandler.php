@@ -15,18 +15,20 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Layout_Argument_Handler_Array extends Magento_Core_Model_Layout_Argument_HandlerAbstract
+namespace Magento\Core\Model\Layout\Argument\Handler;
+
+class ArrayHandler extends \Magento\Core\Model\Layout\Argument\HandlerAbstract
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_HandlerFactory
+     * @var \Magento\Core\Model\Layout\Argument\HandlerFactory
      */
     protected $_handlerFactory;
 
     /**
-     * @param Magento_Core_Model_Layout_Argument_HandlerFactory $handlerFactory
+     * @param \Magento\Core\Model\Layout\Argument\HandlerFactory $handlerFactory
      */
     public function __construct(
-        Magento_Core_Model_Layout_Argument_HandlerFactory $handlerFactory
+        \Magento\Core\Model\Layout\Argument\HandlerFactory $handlerFactory
     ) {
         $this->_handlerFactory = $handlerFactory;
     }
@@ -35,7 +37,7 @@ class Magento_Core_Model_Layout_Argument_Handler_Array extends Magento_Core_Mode
      * Process Array argument
      *
      * @param array $argument
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @return array
      */
     public function process(array $argument)
@@ -52,20 +54,20 @@ class Magento_Core_Model_Layout_Argument_Handler_Array extends Magento_Core_Mode
 
     /**
      * @param array $argument
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _validate(array $argument)
     {
         parent::_validate($argument);
         $items = $argument['value'];
         if (!is_array($items)) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 'Passed value has incorrect format. ' . $this->_getArgumentInfo($argument)
             );
         }
         foreach ($items as $name => $item) {
             if (!is_array($item) || !isset($item['type']) || !isset($item['value'])) {
-                throw new InvalidArgumentException(
+                throw new \InvalidArgumentException(
                     'Array item: "' . $name . '" has incorrect format. ' . $this->_getArgumentInfo($argument)
                 );
             }
@@ -75,17 +77,17 @@ class Magento_Core_Model_Layout_Argument_Handler_Array extends Magento_Core_Mode
     /**
      * Retrive value from Array argument
      *
-     * @param Magento_Core_Model_Layout_Element $argument
+     * @param \Magento\Core\Model\Layout\Element $argument
      * @return array|null
      */
-    protected function _getArgumentValue(Magento_Core_Model_Layout_Element $argument)
+    protected function _getArgumentValue(\Magento\Core\Model\Layout\Element $argument)
     {
         $items = $argument->xpath('item');
         if ($this->_isUpdater($argument) && empty($items)) {
             return null;
         }
         $result = array();
-        /** @var $item Magento_Core_Model_Layout_Element */
+        /** @var $item \Magento\Core\Model\Layout\Element */
         foreach ($items as $item) {
             $itemName = (string)$item['name'];
             $itemType = $this->_getArgumentType($item);

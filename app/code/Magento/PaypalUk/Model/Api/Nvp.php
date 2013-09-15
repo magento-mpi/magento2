@@ -330,7 +330,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
@@ -340,12 +340,12 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Customer_Helper_Address $customerAddress
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Customer\Helper\Address $customerAddress
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Customer_Helper_Address $customerAddress
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Customer\Helper\Address $customerAddress
     ) {
         $this->_coreData = $coreData;
         parent::__construct($customerAddress);

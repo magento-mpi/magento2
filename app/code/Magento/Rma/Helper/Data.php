@@ -72,12 +72,12 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\Store\Config $storeConfig
@@ -85,7 +85,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\Store\Config $storeConfig,

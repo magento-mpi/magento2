@@ -24,24 +24,24 @@ class Form
     /**
      * Sales rule coupon
      *
-     * @var Magento_SalesRule_Helper_Coupon
+     * @var \Magento\SalesRule\Helper\Coupon
      */
     protected $_salesRuleCoupon = null;
 
     /**
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_SalesRule_Helper_Coupon $salesRuleCoupon
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\SalesRule\Helper\Coupon $salesRuleCoupon
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Factory $formFactory,
-        Magento_SalesRule_Helper_Coupon $salesRuleCoupon,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\SalesRule\Helper\Coupon $salesRuleCoupon,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_salesRuleCoupon = $salesRuleCoupon;
@@ -55,7 +55,7 @@ class Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         /**

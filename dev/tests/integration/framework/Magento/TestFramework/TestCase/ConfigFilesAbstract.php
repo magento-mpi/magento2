@@ -16,7 +16,7 @@ abstract class Magento_TestFramework_TestCase_ConfigFilesAbstract extends PHPUni
     protected $_schemaFile;
 
     /**
-     * @var  Magento_Config_Reader_Filesystem
+     * @var  \Magento\Config\Reader\Filesystem
      */
     protected $_reader;
 
@@ -36,15 +36,15 @@ abstract class Magento_TestFramework_TestCase_ConfigFilesAbstract extends PHPUni
         $xmlFiles = $this->getXmlConfigFiles();
         if (!empty($xmlFiles)) {
 
-            $this->_fileResolverMock = $this->getMockBuilder('Magento_Core_Model_Config_FileResolver_Primary')
+            $this->_fileResolverMock = $this->getMockBuilder('Magento\Core\Model\Config\FileResolver\Primary')
                 ->disableOriginalConstructor()->getMock();
 
             $this->_reader = $this->_objectManager->create($this->_getReaderClassName(), array(
                 'configFiles' => $xmlFiles, 'fileResolver' => $this->_fileResolverMock));
 
-            /** @var $dirs Magento_Core_Model_Dir */
-            $dirs = $this->_objectManager->get('Magento_Core_Model_Dir');
-            $modulesDir = $dirs->getDir(Magento_Core_Model_Dir::MODULES);
+            /** @var $dirs \Magento\Core\Model\Dir */
+            $dirs = $this->_objectManager->get('Magento\Core\Model\Dir');
+            $modulesDir = $dirs->getDir(\Magento\Core\Model\Dir::MODULES);
             $this->_schemaFile = $modulesDir . $this->_getXsdPath();
         }
     }
@@ -62,7 +62,7 @@ abstract class Magento_TestFramework_TestCase_ConfigFilesAbstract extends PHPUni
         if ($skip) {
             $this->markTestSkipped('There are no xml files in the system for this test.');
         }
-        $domConfig = new Magento_Config_Dom(file_get_contents($file));
+        $domConfig = new \Magento\Config\Dom(file_get_contents($file));
         $result = $domConfig->validate($this->_schemaFile, $errors);
         $message = "Invalid XML-file: {$file}\n";
         foreach ($errors as $error) {

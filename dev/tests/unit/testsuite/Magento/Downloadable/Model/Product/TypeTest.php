@@ -18,16 +18,16 @@ class Magento_Downloadable_Model_Product_TypeTest extends PHPUnit_Framework_Test
 
     protected function setUp()
     {
-        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
-        $downloadableFile = $this->getMockBuilder('Magento_Downloadable_Helper_File')
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+        $downloadableFile = $this->getMockBuilder('Magento\Downloadable\Helper\File')
             ->disableOriginalConstructor()->getMock();
-        $coreData = $this->getMockBuilder('Magento_Core_Helper_Data')->disableOriginalConstructor()->getMock();
-        $fileStorageDb = $this->getMockBuilder('Magento_Core_Helper_File_Storage_Database')
+        $coreData = $this->getMockBuilder('Magento\Core\Helper\Data')->disableOriginalConstructor()->getMock();
+        $fileStorageDb = $this->getMockBuilder('Magento\Core\Helper\File\Storage\Database')
             ->disableOriginalConstructor()->getMock();
         $filesystem = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
 
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
-        $this->_model = new Magento_Downloadable_Model_Product_Type(
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $this->_model = new \Magento\Downloadable\Model\Product\Type(
             $eventManager, $downloadableFile, $coreData, $fileStorageDb, $filesystem, $coreRegistry
         );
     }

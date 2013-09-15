@@ -84,14 +84,14 @@ class Process extends \Magento\Core\Model\AbstractModel
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Index\Model\Lock\Storage $lockStorage
      * @param \Magento\Index\Model\EventRepository $eventRepository
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -99,9 +99,9 @@ class Process extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
+        \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Index\Model\Lock\Storage $lockStorage,
         \Magento\Index\Model\EventRepository $eventRepository,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

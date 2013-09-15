@@ -17,43 +17,43 @@ namespace Magento\GoogleShopping\Block\Adminhtml\Types\Edit;
 class Form extends \Magento\Backend\Block\Widget\Form
 {
     /**
-     * @var Magento_GoogleShopping_Helper_Category|null
+     * @var \Magento\GoogleShopping\Helper\Category|null
      */
     protected $_googleShoppingCategory = null;
 
     /**
-     * @var Magento_Data_Form_Element_Factory
+     * @var \Magento\Data\Form\Element\Factory
      */
     protected $_elementFactory;
 
     /**
-     * @var Magento_Data_FormFactory
+     * @var \Magento\Data\FormFactory
      */
     protected $_formFactory;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Data_FormFactory $formFactory
-     * @param Magento_Data_Form_Element_Factory $elementFactory
-     * @param Magento_GoogleShopping_Helper_Category $googleShoppingCategory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Data\Form\Element\Factory $elementFactory
+     * @param \Magento\GoogleShopping\Helper\Category $googleShoppingCategory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Data_FormFactory $formFactory,
-        Magento_Data_Form_Element_Factory $elementFactory,
-        Magento_GoogleShopping_Helper_Category $googleShoppingCategory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Data\FormFactory $formFactory,
+        \Magento\Data\Form\Element\Factory $elementFactory,
+        \Magento\GoogleShopping\Helper\Category $googleShoppingCategory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

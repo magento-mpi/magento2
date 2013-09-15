@@ -38,24 +38,24 @@ class Form extends \Magento\Backend\Block\AbstractBlock
     protected $_profile = null;
 
     /**
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      * @var \Magento\Catalog\Model\Product
      */
     protected $_product = null;
 
     /**
-     * @var Magento_Data_Form_Factory
+     * @var \Magento\Data\Form\Factory
      */
     protected $_formFactory;
 
     /**
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Backend_Block_Context $context
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Backend\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Backend_Block_Context $context,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Backend\Block\Context $context,
         array $data = array()
     ) {
         $this->_formFactory = $formFactory;

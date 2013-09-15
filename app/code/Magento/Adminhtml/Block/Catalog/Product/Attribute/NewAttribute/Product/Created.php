@@ -25,7 +25,7 @@ class Created extends \Magento\Backend\Block\Widget
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 

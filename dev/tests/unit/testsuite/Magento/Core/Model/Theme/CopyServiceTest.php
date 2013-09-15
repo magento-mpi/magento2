@@ -129,7 +129,7 @@ class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCas
             array($this->getMockForAbstractClass('Magento\Filesystem\AdapterInterface'))
         );
 
-        /* Init Magento_Core_Model_Resource_Layout_Collection model  */
+        /* Init \Magento\Core\Model\Resource\Layout\Collection model  */
         $this->_updateFactory = $this->getMock('Magento\Core\Model\Layout\UpdateFactory', array('create'),
             array(), '', false);
         $this->_update = $this->getMock(
@@ -140,7 +140,7 @@ class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCas
             false
         );
         $this->_updateFactory->expects($this->at(0))->method('create')->will($this->returnValue($this->_update));
-        $this->_updateCollection = $this->getMock('Magento_Core_Model_Resource_Layout_Collection',
+        $this->_updateCollection = $this->getMock('Magento\Core\Model\Resource\Layout\Collection',
             array('addThemeFilter', 'delete', 'getIterator'), array(), '', false);
         $this->_update->expects($this->any())->method('getCollection')
             ->will($this->returnValue($this->_updateCollection));

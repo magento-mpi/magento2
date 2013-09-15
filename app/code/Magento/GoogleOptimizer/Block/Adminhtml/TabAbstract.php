@@ -33,8 +33,8 @@ abstract class TabAbstract
     protected $_formHelper;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\GoogleOptimizer\Helper\Data $helperData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\GoogleOptimizer\Helper\Code $codeHelper
@@ -43,7 +43,7 @@ abstract class TabAbstract
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\GoogleOptimizer\Helper\Data $helperData,
         \Magento\Core\Model\Registry $registry,

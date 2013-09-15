@@ -7,12 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Webapi\Controller\Request\Rest\Interpreter;
+namespace Magento\Webapi\Controller\Rest\Request\Deserializer;
 
 class Json implements
-    \Magento\Webapi\Controller\Request\Rest\DeserializerInterface
+    \Magento\Webapi\Controller\Rest\Request\DeserializerInterface
 {
-    /** @var Magento_Core_Helper_Data */
+    /** @var \Magento\Core\Helper\Data */
     protected $_helper;
 
     /** @var \Magento\Core\Model\App */
@@ -21,10 +21,10 @@ class Json implements
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Core_Helper_Data $helper
+     * @param \Magento\Core\Helper\Data $helper
      * @param \Magento\Core\Model\App $app
      */
-    public function __construct(Magento_Core_Helper_Data $helper, Magento_Core_Model_App $app)
+    public function __construct(\Magento\Core\Helper\Data $helper, \Magento\Core\Model\App $app)
     {
         $this->_helper = $helper;
         $this->_app = $app;

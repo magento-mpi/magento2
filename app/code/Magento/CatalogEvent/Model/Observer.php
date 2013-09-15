@@ -25,24 +25,24 @@ class Observer
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
     /**
      * Catalog event data
      *
-     * @var Magento_CatalogEvent_Helper_Data
+     * @var \Magento\CatalogEvent\Helper\Data
      */
     protected $_catalogEventData = null;
 
     /**
-     * @param Magento_CatalogEvent_Helper_Data $catalogEventData
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\CatalogEvent\Helper\Data $catalogEventData
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_CatalogEvent_Helper_Data $catalogEventData,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\CatalogEvent\Helper\Data $catalogEventData,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_catalogEventData = $catalogEventData;
         $this->_coreRegistry = $coreRegistry;

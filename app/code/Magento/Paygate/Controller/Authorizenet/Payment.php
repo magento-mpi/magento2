@@ -30,7 +30,7 @@ class Payment extends \Magento\Core\Controller\Front\Action
                 ->getMethodInstance(\Magento\Paygate\Model\Authorizenet::METHOD_CODE);
             if ($paymentMethod) {
                 $paymentMethod->cancelPartialAuthorization(
-                    Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote()->getPayment()
+                    \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote()->getPayment()
                 );
             }
             $result['success']  = true;
@@ -44,7 +44,7 @@ class Payment extends \Magento\Core\Controller\Front\Action
                 . 'Please contact us or try again later.');
         }
 
-        Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote()->getPayment()->save();
+        \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote()->getPayment()->save();
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 

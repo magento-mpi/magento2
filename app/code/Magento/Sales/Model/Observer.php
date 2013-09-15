@@ -30,51 +30,51 @@ class Observer
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
      * Customer address
      *
-     * @var Magento_Customer_Helper_Address
+     * @var \Magento\Customer\Helper\Address
      */
     protected $_customerAddress = null;
 
     /**
      * Customer data
      *
-     * @var Magento_Customer_Helper_Data
+     * @var \Magento\Customer\Helper\Data
      */
     protected $_customerData = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Customer_Helper_Data $customerData
-     * @param Magento_Customer_Helper_Address $customerAddress
-     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Customer\Helper\Address $customerAddress
+     * @param \Magento\Catalog\Helper\Data $catalogData
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Customer_Helper_Data $customerData,
-        Magento_Customer_Helper_Address $customerAddress,
-        Magento_Catalog_Helper_Data $catalogData
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Customer\Helper\Address $customerAddress,
+        \Magento\Catalog\Helper\Data $catalogData
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
@@ -315,7 +315,7 @@ class Observer
      */
     public function changeQuoteCustomerGroupId(\Magento\Event\Observer $observer)
     {
-        /** @var $addressHelper Magento_Customer_Helper_Address */
+        /** @var $addressHelper \Magento\Customer\Helper\Address */
         $addressHelper = $this->_customerAddress;
 
         $quoteAddress = $observer->getQuoteAddress();
@@ -334,7 +334,7 @@ class Observer
             return;
         }
 
-        /** @var $customerHelper Magento_Customer_Helper_Data */
+        /** @var $customerHelper \Magento\Customer\Helper\Data */
         $customerHelper = $this->_customerData;
 
         $customerCountryCode = $quoteAddress->getCountryId();
@@ -351,7 +351,7 @@ class Observer
             return;
         }
 
-        /** @var $coreHelper Magento_Core_Helper_Data */
+        /** @var $coreHelper \Magento\Core\Helper\Data */
         $coreHelper = $this->_coreData;
         $merchantCountryCode = $coreHelper->getMerchantCountryCode();
         $merchantVatNumber = $coreHelper->getMerchantVatNumber();

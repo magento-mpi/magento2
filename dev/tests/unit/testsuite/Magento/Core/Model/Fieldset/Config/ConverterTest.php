@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Core_Model_Fieldset_Config_Converter
+ * \Magento\Core\Model\Fieldset\Config\Converter
  *
  * {license_notice}
  *
@@ -10,13 +10,13 @@
 class Magento_Core_Model_Fieldset_Config_ConverterTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Fieldset_Config_Converter
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Fieldset\Config\Converter
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = new Magento_Core_Model_Fieldset_Config_Converter();
+        $this->_model = new \Magento\Core\Model\Fieldset\Config\Converter();
     }
 
     public function testConvert()

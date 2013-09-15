@@ -85,7 +85,7 @@ class Switcher extends \Magento\Backend\Block\Template
     protected $_storeFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\App $application
      * @param \Magento\Core\Model\Website\Factory $websiteFactory
@@ -94,7 +94,7 @@ class Switcher extends \Magento\Backend\Block\Template
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\App $application,
         \Magento\Core\Model\Website\Factory $websiteFactory,

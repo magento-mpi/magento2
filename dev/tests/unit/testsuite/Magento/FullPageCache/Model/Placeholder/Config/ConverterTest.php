@@ -8,13 +8,13 @@
 class Magento_FullPageCache_Model_Placeholder_Config_ConverterTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_FullPageCache_Model_Placeholder_Config_Converter
+     * @var \Magento\FullPageCache\Model\Placeholder\Config\Converter
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Magento_FullPageCache_Model_Placeholder_Config_Converter();
+        $this->_model = new \Magento\FullPageCache\Model\Placeholder\Config\Converter();
     }
 
     public function testConvert()

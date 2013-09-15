@@ -23,7 +23,7 @@ class Collections extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Admin gws data
      *
-     * @var Magento_AdminGws_Helper_Data
+     * @var \Magento\AdminGws\Helper\Data
      */
     protected $_adminGwsData = null;
 
@@ -32,12 +32,12 @@ class Collections extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      *
      *
-     * @param Magento_AdminGws_Helper_Data $adminGwsData
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\AdminGws\Helper\Data $adminGwsData
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_AdminGws_Helper_Data $adminGwsData,
-        Magento_Core_Model_Resource $resource
+        \Magento\AdminGws\Helper\Data $adminGwsData,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_adminGwsData = $adminGwsData;
         parent::__construct($resource);

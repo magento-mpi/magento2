@@ -23,15 +23,15 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * Reward data
      *
-     * @var Magento_Reward_Helper_Data
+     * @var \Magento\Reward\Helper\Data
      */
     protected $_rewardData = null;
 
     /**
-     * @param Magento_Reward_Helper_Data $rewardData
+     * @param \Magento\Reward\Helper\Data $rewardData
      */
     public function __construct(
-        Magento_Reward_Helper_Data $rewardData
+        \Magento\Reward\Helper\Data $rewardData
     ) {
         $this->_rewardData = $rewardData;
         $this->setCode('reward');

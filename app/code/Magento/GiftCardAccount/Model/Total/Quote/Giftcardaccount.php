@@ -15,7 +15,7 @@ class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
     /**
      * Gift card account data
      *
-     * @var Magento_GiftCardAccount_Helper_Data
+     * @var \Magento\GiftCardAccount\Helper\Data
      */
     protected $_giftCardAccountData = null;
 
@@ -24,10 +24,10 @@ class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
      *
      *
      *
-     * @param Magento_GiftCardAccount_Helper_Data $giftCardAccountData
+     * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
      */
     public function __construct(
-        Magento_GiftCardAccount_Helper_Data $giftCardAccountData
+        \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
     ) {
         $this->_giftCardAccountData = $giftCardAccountData;
         $this->setCode('giftcardaccount');

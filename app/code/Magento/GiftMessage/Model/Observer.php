@@ -23,15 +23,15 @@ class Observer extends \Magento\Object
     /**
      * Gift message message
      *
-     * @var Magento_GiftMessage_Helper_Message
+     * @var \Magento\GiftMessage\Helper\Message
      */
     protected $_giftMessageMessage = null;
 
     /**
-     * @param Magento_GiftMessage_Helper_Message $giftMessageMessage
+     * @param \Magento\GiftMessage\Helper\Message $giftMessageMessage
      */
     public function __construct(
-        Magento_GiftMessage_Helper_Message $giftMessageMessage
+        \Magento\GiftMessage\Helper\Message $giftMessageMessage
     ) {
         $this->_giftMessageMessage = $giftMessageMessage;
     }
@@ -74,7 +74,7 @@ class Observer extends \Magento\Object
     {
         $giftMessages = $observer->getEvent()->getRequest()->getParam('giftmessage');
         $quote = $observer->getEvent()->getQuote();
-        /* @var $quote Magento_Sales_Model_Quote */
+        /* @var $quote \Magento\Sales\Model\Quote */
         if (is_array($giftMessages)) {
             foreach ($giftMessages as $entityId=>$message) {
 

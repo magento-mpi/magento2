@@ -8,8 +8,8 @@
  */
 -->
 <config>
-    <type name="Magento_GiftMessage_Model_Plugin_QuoteItem" shared="false" />
-    <type name="Magento_Sales_Model_Convert_Quote">
-        <plugin name="gift_message_quote_item_conversion" type="Magento_GiftMessage_Model_Plugin_QuoteItem"/>
+    <type name="Magento\GiftMessage\Model\Plugin\QuoteItem" shared="false" />
+    <type name="Magento\Sales\Model\Convert\Quote">
+        <plugin name="gift_message_quote_item_conversion" type="Magento\GiftMessage\Model\Plugin\QuoteItem"/>
     </type>
 </config>

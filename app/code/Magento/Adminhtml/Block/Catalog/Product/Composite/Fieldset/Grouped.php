@@ -26,7 +26,7 @@ class Grouped extends \Magento\Catalog\Block\Product\View\Type\Grouped
         $this->_block = 'Magento\Adminhtml\Block\Catalog\Product\Price';
         $this->_useLinkForAsLowAs = false;
 
-        $taxCalculation = Mage::getSingleton('Magento\Tax\Model\Calculation');
+        $taxCalculation = \Mage::getSingleton('Magento\Tax\Model\Calculation');
         if (!$taxCalculation->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
             $taxCalculation->setCustomer($this->_coreRegistry->registry('current_customer'));
         }

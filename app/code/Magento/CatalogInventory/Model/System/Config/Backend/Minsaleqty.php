@@ -19,24 +19,24 @@ class Minsaleqty extends \Magento\Core\Model\Config\Value
     /**
      * Catalog inventory minsaleqty
      *
-     * @var Magento_CatalogInventory_Helper_Minsaleqty
+     * @var \Magento\CatalogInventory\Helper\Minsaleqty
      */
     protected $_catalogInventoryMinsaleqty = null;
 
     /**
-     * @param Magento_CatalogInventory_Helper_Minsaleqty $catalogInventoryMinsaleqty
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_CatalogInventory_Helper_Minsaleqty $catalogInventoryMinsaleqty,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogInventoryMinsaleqty = $catalogInventoryMinsaleqty;

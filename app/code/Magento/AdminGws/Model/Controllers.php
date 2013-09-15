@@ -37,19 +37,19 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_AdminGws_Model_Role $role
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\AdminGws\Model\Role $role
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Controller\Request\Http $request
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
         \Magento\AdminGws\Model\Role $role,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Controller\Request\Http $request,
         \Magento\ObjectManager $objectManager
     ) {
@@ -69,7 +69,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         // allow specific store view scope
         $storeCode = $this->_request->getParam('store');
         if ($storeCode) {
-            $store = Mage::app()->getStore($storeCode);
+            $store = \Mage::app()->getStore($storeCode);
             if ($store) {
                 if ($this->_role->hasStoreAccess($store->getId())) {
                     return;
@@ -79,7 +79,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         // allow specific website scope
         elseif ($websiteCode = $this->_request->getParam('website')) {
             try {
-                $website = Mage::app()->getWebsite($websiteCode);
+                $website = \Mage::app()->getWebsite($websiteCode);
                 if ($website) {
                     if ($this->_role->hasWebsiteAccess($website->getId(), true)) {
                         return;
@@ -426,7 +426,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
                 break;
             case 'deleteStore': // break intentionally omitted
             case 'deleteStorePost':
-                $store = Mage::app()->getStore($this->_request->getParam('item_id'));
+                $store = \Mage::app()->getStore($this->_request->getParam('item_id'));
                 if ($store) {
                     if ($this->_role->hasWebsiteAccess($store->getWebsiteId(), true)) {
                         return;

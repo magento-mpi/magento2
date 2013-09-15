@@ -41,27 +41,27 @@ class Extension extends \Magento\Object
     /**
      * Connect data
      *
-     * @var Magento_Connect_Helper_Data
+     * @var \Magento\Connect\Helper\Data
      */
     protected $_connectData = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Connect_Helper_Data $connectData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Connect\Helper\Data $connectData
      * @param \Magento\Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Connect_Helper_Data $connectData,
-        Magento_Filesystem $filesystem,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Connect\Helper\Data $connectData,
+        \Magento\Filesystem $filesystem,
         array $data = array()
     ) {
         $this->_coreData = $coreData;

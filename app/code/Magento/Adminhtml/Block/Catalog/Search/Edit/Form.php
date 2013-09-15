@@ -41,7 +41,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $model = $this->_coreRegistry->registry('current_catalog_search');
         /* @var $model Magento_CatalogSearch_Model_Query */
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id'        => 'edit_form',

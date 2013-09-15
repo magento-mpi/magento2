@@ -22,17 +22,17 @@ class Customer extends \Magento\Adminhtml\Controller\Action
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -207,7 +207,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
                 if (empty($emailsForSend)) {
                     \Mage::throwException(__('Please enter at least one email address.'));
                 }
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
             catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
@@ -236,7 +236,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
                 __('You deleted this gift registry entity.')
             );
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
         catch (\Magento\Core\Exception $e) {
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('id' => $model->getId()));

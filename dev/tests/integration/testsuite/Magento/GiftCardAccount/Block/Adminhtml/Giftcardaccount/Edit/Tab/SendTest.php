@@ -24,7 +24,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_SendTest 
         $model = Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount');
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('current_giftcardaccount', $model);
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_giftcardaccount', $model);
 
         $layout = Mage::getSingleton('Magento\Core\Model\Layout');
 
@@ -36,7 +36,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_SendTest 
     {
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->unregister('current_giftcardaccount');
+        $objectManager->get('Magento\Core\Model\Registry')->unregister('current_giftcardaccount');
         parent::tearDown();
     }
 

@@ -22,17 +22,17 @@ class Formtype extends \Magento\Adminhtml\Controller\Action
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -118,7 +118,7 @@ class Formtype extends \Magento\Adminhtml\Controller\Action
                 ));
                 $formType->save();
                 $formType->createFromSkeleton($skeleton);
-            } catch(Magento_Core_Exception $e) {
+            } catch(\Magento\Core\Exception $e) {
             catch(\Magento\Core\Exception $e) {
                 $hasError = true;
                 $this->_getSession()->addError($e->getMessage());
@@ -251,12 +251,12 @@ class Formtype extends \Magento\Adminhtml\Controller\Action
                 $formType->setLabel($request->getPost('label'));
                 $formType->save();
 
-                $treeData = $this->_objectManager->get('Magento_Core_Helper_Data')
+                $treeData = $this->_objectManager->get('Magento\Core\Helper\Data')
                     ->jsonDecode($request->getPost('form_type_data'));
                 if (!empty($treeData) && is_array($treeData)) {
                     $this->_saveTreeData($formType, $treeData);
                 }
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
             catch (\Magento\Core\Exception $e) {
                 $hasError = true;
                 $this->_getSession()->addError($e->getMessage());
@@ -292,7 +292,7 @@ class Formtype extends \Magento\Adminhtml\Controller\Action
                     $formType->delete();
                     $message = __('The form type has been deleted.');
                     $this->_getSession()->addSuccess($message);
-                } catch (Magento_Core_Exception $e) {
+                } catch (\Magento\Core\Exception $e) {
                 catch (\Magento\Core\Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
                 } catch (Exception $e) {

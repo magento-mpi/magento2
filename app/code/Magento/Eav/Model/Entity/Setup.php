@@ -28,7 +28,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     protected $_cache;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Config\Resource $resourcesConfig
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
@@ -38,7 +38,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      * @param $resourceName
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
+        \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Config\Resource $resourcesConfig,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\ModuleListInterface $moduleList,

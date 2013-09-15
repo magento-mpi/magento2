@@ -27,24 +27,24 @@ class Category extends \Magento\Data\Form\Element\Multiselect
     /**
      * Backend data
      *
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_backendData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Data_Form_Element_Factory $factoryElement
-     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
-     * @param Magento_Backend_Helper_Data $backendData
-     * @param Magento_Core_Model_Layout $layout
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Core\Model\Layout $layout
      * @param array $attributes
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Data_Form_Element_Factory $factoryElement,
-        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
-        Magento_Backend_Helper_Data $backendData,
-        Magento_Core_Model_Layout $layout,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Backend\Helper\Data $backendData,
+        \Magento\Core\Model\Layout $layout,
         array $attributes = array()
     ) {
         $this->_backendData = $backendData;

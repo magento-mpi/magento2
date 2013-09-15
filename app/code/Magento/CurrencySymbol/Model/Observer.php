@@ -22,15 +22,15 @@ class Observer
     /**
      * Currency symbol data
      *
-     * @var Magento_CurrencySymbol_Helper_Data
+     * @var \Magento\CurrencySymbol\Helper\Data
      */
     protected $_currencySymbolData = null;
 
     /**
-     * @param Magento_CurrencySymbol_Helper_Data $currencySymbolData
+     * @param \Magento\CurrencySymbol\Helper\Data $currencySymbolData
      */
     public function __construct(
-        Magento_CurrencySymbol_Helper_Data $currencySymbolData
+        \Magento\CurrencySymbol\Helper\Data $currencySymbolData
     ) {
         $this->_currencySymbolData = $currencySymbolData;
     }

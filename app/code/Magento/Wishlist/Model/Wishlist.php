@@ -59,49 +59,49 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     /**
      * Wishlist data
      *
-     * @var Magento_Wishlist_Helper_Data
+     * @var \Magento\Wishlist\Helper\Data
      */
     protected $_wishlistData = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Catalog product
      *
-     * @var Magento_Catalog_Helper_Product
+     * @var \Magento\Catalog\Helper\Product
      */
     protected $_catalogProduct = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Catalog_Helper_Product $catalogProduct
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Wishlist_Helper_Data $wishlistData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Core\Model\Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Wishlist\Model\Resource\Wishlist $resource
      * @param \Magento\Wishlist\Model\Resource\Wishlist\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Catalog_Helper_Product $catalogProduct,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Wishlist_Helper_Data $wishlistData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Core\Model\Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Wishlist\Model\Resource\Wishlist $resource,
         \Magento\Wishlist\Model\Resource\Wishlist\Collection $resourceCollection,
         array $data = array()

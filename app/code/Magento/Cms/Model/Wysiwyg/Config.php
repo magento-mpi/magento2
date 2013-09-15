@@ -38,45 +38,45 @@ class Config extends \Magento\Object
     protected $_viewUrl;
 
     /**
-     * @var Magento_Core_Model_Variable_Config
+     * @var \Magento\Core\Model\Variable\Config
      */
     protected $_variableConfig;
 
     /**
-     * @var Magento_Widget_Model_Widget_Config
+     * @var \Magento\Widget\Model\Widget\Config
      */
     protected $_widgetConfig;
 
     /**
      * Cms data
      *
-     * @var Magento_Cms_Helper_Data
+     * @var \Magento\Cms\Helper\Data
      */
     protected $_cmsData = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Cms_Helper_Data $cmsData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Cms\Helper\Data $cmsData
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\View\Url $viewUrl
-     * @param Magento_Core_Model_Variable_Config $variableConfig
-     * @param Magento_Widget_Model_Widget_Config $widgetConfig
+     * @param \Magento\Core\Model\Variable\Config $variableConfig
+     * @param \Magento\Widget\Model\Widget\Config $widgetConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Cms_Helper_Data $cmsData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Cms\Helper\Data $cmsData,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\View\Url $viewUrl,
-        Magento_Core_Model_Variable_Config $variableConfig,
-        Magento_Widget_Model_Widget_Config $widgetConfig,
+        \Magento\Core\Model\Variable\Config $variableConfig,
+        \Magento\Widget\Model\Widget\Config $widgetConfig,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;

@@ -30,7 +30,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
         $model->setEntityTypeId($entityType->getId());
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('entity_attribute', $model);
+        $objectManager->get('Magento\Core\Model\Registry')->register('entity_attribute', $model);
 
         $block = Mage::app()->getLayout()->createBlock(
             'Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab\General'

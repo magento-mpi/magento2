@@ -101,49 +101,49 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     /**
      * Catalog product
      *
-     * @var Magento_Catalog_Helper_Product
+     * @var \Magento\Catalog\Helper\Product
      */
     protected $_catalogProduct = null;
 
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
      * Catalog image
      *
-     * @var Magento_Catalog_Helper_Image
+     * @var \Magento\Catalog\Helper\Image
      */
     protected $_catalogImage = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Catalog_Helper_Image $catalogImage
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Catalog\Helper\Image $catalogImage
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Core\Model\Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Model\Resource\Product $resource
      * @param \Magento\Catalog\Model\Resource\Product\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Catalog_Helper_Image $catalogImage,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Catalog_Helper_Product $catalogProduct,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Catalog\Helper\Image $catalogImage,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Core\Model\Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Model\Resource\Product $resource,
         \Magento\Catalog\Model\Resource\Product\Collection $resourceCollection,
         array $data = array()

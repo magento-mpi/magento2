@@ -102,35 +102,35 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
     /**
      * Sitemap data
      *
-     * @var Magento_Sitemap_Helper_Data
+     * @var \Magento\Sitemap\Helper\Data
      */
     protected $_sitemapData = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Sitemap_Helper_Data $sitemapData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Sitemap\Helper\Data $sitemapData
      * @param \Magento\Core\Model\Context $context
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Sitemap_Helper_Data $sitemapData,
-        Magento_Core_Model_Context $context,
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_Registry $registry,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Sitemap\Helper\Data $sitemapData,
+        \Magento\Core\Model\Context $context,
         \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -167,7 +167,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      */
     protected function _initSitemapItems()
     {
-        /** @var $helper Magento_Sitemap_Helper_Data */
+        /** @var $helper \Magento\Sitemap\Helper\Data */
         $helper = $this->_sitemapData;
         $storeId = $this->getStoreId();
 
@@ -252,7 +252,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
         /**
          * Check path is allow
          */
-        /** @var $helper Magento_Sitemap_Helper_Data */
+        /** @var $helper \Magento\Sitemap\Helper\Data */
         $helper = $this->_sitemapData;
         if (!$file->allowedPath($realPath, $this->_getBaseDir())) {
             \Mage::throwException(__('Please define a correct path.'));
@@ -373,7 +373,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      */
     protected function _isSplitRequired($row)
     {
-        /** @var $helper Magento_Sitemap_Helper_Data */
+        /** @var $helper \Magento\Sitemap\Helper\Data */
         $helper = $this->_sitemapData;
         $storeId = $this->getStoreId();
         if ($this->_lineCount + 1 > $helper->getMaximumLinesNumber($storeId)) {
@@ -647,7 +647,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      */
     protected function _isEnabledSubmissionRobots()
     {
-        /** @var $helper Magento_Sitemap_Helper_Data */
+        /** @var $helper \Magento\Sitemap\Helper\Data */
         $helper = $this->_sitemapData;
         $storeId = $this->getStoreId();
         return (bool) $helper->getEnableSubmissionRobots($storeId);

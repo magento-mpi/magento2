@@ -21,20 +21,20 @@ class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
     protected $_registryManager;
 
     /**
-     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
-     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Wishlist_Model_Resource_Item $resource
+     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
+     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Wishlist\Model\Resource\Item $resource
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Sales $adminhtmlSales,
-        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Registry $registry,
-        Magento_Wishlist_Model_Resource_Item $resource
+        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
+        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Wishlist\Model\Resource\Item $resource
     ) {
         $this->_registryManager = $registry;
         parent::__construct($catalogInventoryData, $adminhtmlSales, $eventManager, $fetchStrategy, $resource);

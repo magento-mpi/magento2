@@ -23,17 +23,17 @@ class Observer
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\CustomerSegment\Helper\Data $segmentHelper
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_CustomerSegment_Helper_Data $segmentHelper,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\CustomerSegment\Helper\Data $segmentHelper,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_segmentHelper = $segmentHelper;

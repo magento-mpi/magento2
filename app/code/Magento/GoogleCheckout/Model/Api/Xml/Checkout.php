@@ -44,54 +44,54 @@ class Checkout extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
     /**
      * Weee data
      *
-     * @var Magento_Weee_Helper_Data
+     * @var \Magento\Weee\Helper\Data
      */
     protected $_weeeData = null;
 
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
      * Google checkout data
      *
-     * @var Magento_GoogleCheckout_Helper_Data
+     * @var \Magento\GoogleCheckout\Helper\Data
      */
     protected $_googleCheckoutData = null;
 
     /**
      * Customer data
      *
-     * @var Magento_Customer_Helper_Data
+     * @var \Magento\Customer\Helper\Data
      */
     protected $_customerData = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Customer_Helper_Data $customerData
-     * @param Magento_GoogleCheckout_Helper_Data $googleCheckoutData
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Weee_Helper_Data $weeeData
-     * @param Magento_Core_Model_Translate $translator
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\GoogleCheckout\Helper\Data $googleCheckoutData
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Weee\Helper\Data $weeeData
+     * @param \Magento\Core\Model\Translate $translator
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Customer_Helper_Data $customerData,
-        Magento_GoogleCheckout_Helper_Data $googleCheckoutData,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Weee_Helper_Data $weeeData,
-        Magento_Core_Model_Translate $translator,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Customer\Helper\Data $customerData,
+        \Magento\GoogleCheckout\Helper\Data $googleCheckoutData,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Weee\Helper\Data $weeeData,
+        \Magento\Core\Model\Translate $translator,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -266,7 +266,7 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $active = Mage::getStoreConfigFlag(
+        $active = \Mage::getStoreConfigFlag(
             \Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_VIRTUAL_ACTIVE,
             $storeId
         );
@@ -274,11 +274,11 @@ EOT;
             return '';
         }
 
-        $schedule = Mage::getStoreConfig(
+        $schedule = \Mage::getStoreConfig(
             \Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_VIRTUAL_SCHEDULE,
             $storeId
         );
-        $method   = Mage::getStoreConfig(
+        $method   = \Mage::getStoreConfig(
             \Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_VIRTUAL_METHOD,
             $storeId
         );
@@ -453,11 +453,11 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $active = Mage::getStoreConfigFlag(
+        $active = \Mage::getStoreConfigFlag(
             \Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_CARRIER_ACTIVE,
             $storeId
         );
-        $methods = Mage::getStoreConfig(
+        $methods = \Mage::getStoreConfig(
             \Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_CARRIER_METHODS,
             $storeId
         );
@@ -603,7 +603,7 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $isFlatrateActive = Mage::getStoreConfigFlag(
+        $isFlatrateActive = \Mage::getStoreConfigFlag(
             \Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_FLATRATE_ACTIVE,
             $storeId
         );
@@ -623,7 +623,7 @@ EOT;
             $price         = (float)\Mage::getStoreConfig('google/checkout_shipping_flatrate/price_' . $i, $storeId);
             $price         = number_format($price, 2, '.', '');
             $price         = (float)$this->_taxData->getShippingPrice($price, false, false);
-            $allowSpecific = Mage::getStoreConfigFlag(
+            $allowSpecific = \Mage::getStoreConfigFlag(
                 'google/checkout_shipping_flatrate/sallowspecific_' . $i,
                 $storeId
             );
@@ -709,7 +709,7 @@ EOT;
         $xml           = '';
         $methods       = unserialize($methods);
         $taxHelper     = $this->_taxData;
-        $shippingModel = Mage::getModel('Magento\Shipping\Model\Shipping');
+        $shippingModel = \Mage::getModel('Magento\Shipping\Model\Shipping');
 
         foreach ($methods['method'] as $i => $method) {
             if (!$i || !$method) {
@@ -764,8 +764,8 @@ EOT;
             return '';
         }
 
-        $title = Mage::getStoreConfig(\Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_PICKUP_TITLE, $storeId);
-        $price = Mage::getStoreConfig(\Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_PICKUP_PRICE, $storeId);
+        $title = \Mage::getStoreConfig(\Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_PICKUP_TITLE, $storeId);
+        $price = \Mage::getStoreConfig(\Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_PICKUP_PRICE, $storeId);
         $price = (float) $this->_taxData->getShippingPrice($price, false, false);
 
         $xml = <<<EOT

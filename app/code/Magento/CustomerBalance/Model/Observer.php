@@ -18,24 +18,24 @@ class Observer
     /**
      * Customer balance data
      *
-     * @var Magento_CustomerBalance_Helper_Data
+     * @var \Magento\CustomerBalance\Helper\Data
      */
     protected $_customerBalanceData = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_CustomerBalance_Helper_Data $customerBalanceData
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_CustomerBalance_Helper_Data $customerBalanceData,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\CustomerBalance\Helper\Data $customerBalanceData,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_customerBalanceData = $customerBalanceData;
         $this->_coreRegistry = $coreRegistry;

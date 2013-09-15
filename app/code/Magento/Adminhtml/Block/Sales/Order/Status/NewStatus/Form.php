@@ -30,7 +30,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         $model = $this->_coreRegistry->registry('current_status');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',

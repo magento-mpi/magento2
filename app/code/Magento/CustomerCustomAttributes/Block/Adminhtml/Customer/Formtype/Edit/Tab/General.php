@@ -38,7 +38,7 @@ class General
         /* @var $model Magento_Eav_Model_Form_Type */
         $model      = $this->_coreRegistry->registry('current_form_type');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form       = $this->_formFactory->create();
         $fieldset   = $form->addFieldset('general_fieldset', array(
             'legend'    => __('General Information')

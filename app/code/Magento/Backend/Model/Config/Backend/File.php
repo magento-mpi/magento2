@@ -37,8 +37,8 @@ class File extends \Magento\Core\Model\Config\Value
     protected $_filesystem;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param Magento_Backend_Model_Config_Backend_File_RequestData_Interface $requestData
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -47,7 +47,7 @@ class File extends \Magento\Core\Model\Config\Value
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface $requestData,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

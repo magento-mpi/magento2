@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Webapi\Controller\Request\Rest;
+namespace Magento\Webapi\Controller\Rest\Request;
 
 interface DeserializerInterface
 {

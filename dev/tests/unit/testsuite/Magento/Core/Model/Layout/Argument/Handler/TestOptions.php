@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Layout_Argument_Handler_TestOptions implements Magento_Core_Model_Option_ArrayInterface
+class Magento_Core_Model_Layout_Argument_Handler_TestOptions implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Logging_Model_Config_Converter implements Magento_Config_ConverterInterface
+namespace Magento\Logging\Model\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert dom node tree to array
@@ -18,7 +20,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     public function convert($source)
     {
         $result = array('logging' => array());
-        $xpath = new DOMXPath($source);
+        $xpath = new \DOMXPath($source);
         $result['logging']['actions'] = $this->_getActionTitles($xpath);
 
         $groups = $xpath->query('/logging/groups/group');
@@ -34,7 +36,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     /**
      * Retrieves titles array from Xpath object
      *
-     * @param DOMXPath $xpath
+     * @param \DOMXPath $xpath
      * @return array
      */
     protected function _getActionTitles($xpath)

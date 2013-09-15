@@ -8,7 +8,7 @@
 class Magento_FullPageCache_Model_Placeholder_MapperTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_FullPageCache_Model_Placeholder_Mapper
+     * @var \Magento\FullPageCache\Model\Placeholder\Mapper
      */
     protected $_model;
 
@@ -29,12 +29,12 @@ class Magento_FullPageCache_Model_Placeholder_MapperTest extends PHPUnit_Framewo
 
     protected function setUp()
     {
-        $this->_factoryMock = $this->getMock('Magento_FullPageCache_Model_Container_PlaceholderFactory',
+        $this->_factoryMock = $this->getMock('Magento\FullPageCache\Model\Container\PlaceholderFactory',
             array(), array(), '', false
         );
-        $this->_configMock = $this->getMock('Magento_FullPageCache_Model_Placeholder_ConfigInterface');
-        $this->_model = new Magento_FullPageCache_Model_Placeholder_Mapper($this->_factoryMock, $this->_configMock);
-        $this->_blockMock = $this->getMock('Magento_Core_Block_Template',
+        $this->_configMock = $this->getMock('Magento\FullPageCache\Model\Placeholder\ConfigInterface');
+        $this->_model = new \Magento\FullPageCache\Model\Placeholder\Mapper($this->_factoryMock, $this->_configMock);
+        $this->_blockMock = $this->getMock('Magento\Core\Block\Template',
             array('getType', 'getNameInLayout', 'getCacheKey', 'getCacheKeyInfo'),
             array(), '', false
         );

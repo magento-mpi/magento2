@@ -23,7 +23,7 @@ class Agreement extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Checkout data
      *
-     * @var Magento_Checkout_Helper_Data
+     * @var \Magento\Checkout\Helper\Data
      */
     protected $_checkoutData = null;
 
@@ -32,12 +32,12 @@ class Agreement extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      *
      *
-     * @param Magento_Checkout_Helper_Data $checkoutData
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Checkout\Helper\Data $checkoutData
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Checkout_Helper_Data $checkoutData,
-        Magento_Core_Model_Resource $resource
+        \Magento\Checkout\Helper\Data $checkoutData,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_checkoutData = $checkoutData;
         parent::__construct($resource);

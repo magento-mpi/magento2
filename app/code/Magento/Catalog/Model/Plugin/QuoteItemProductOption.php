@@ -5,18 +5,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_Plugin_QuoteItemProductOption
+namespace Magento\Catalog\Model\Plugin;
+
+class QuoteItemProductOption
 {
     /**
      * @param array $arguments
-     * @param Magento_Code_Plugin_InvocationChain $invocationChain
-     * @return Magento_Sales_Model_Order_Item
+     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
+     * @return \Magento\Sales\Model\Order\Item
      */
-    public function aroundItemToOrderItem(array $arguments, Magento_Code_Plugin_InvocationChain $invocationChain)
+    public function aroundItemToOrderItem(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {
-        /** @var $orderItem Magento_Sales_Model_Order_Item */
+        /** @var $orderItem \Magento\Sales\Model\Order\Item */
         $orderItem = $invocationChain->proceed($arguments);
-        /** @var $quoteItem Magento_Sales_Model_Quote_Item */
+        /** @var $quoteItem \Magento\Sales\Model\Quote\Item */
         $quoteItem = reset($arguments);
 
         if (is_array($quoteItem->getOptions())) {
@@ -24,7 +26,7 @@ class Magento_Catalog_Model_Plugin_QuoteItemProductOption
                 $code = explode('_', $itemOption->getCode());
                 if (isset($code[1]) && is_numeric($code[1])) {
                     $option = $quoteItem->getProduct()->getOptionById($code[1]);
-                    if ($option && $option->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_FILE) {
+                    if ($option && $option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_FILE) {
                         try {
                             $option->groupFactory($option->getType())
                                 ->setQuoteItemOption($itemOption)

@@ -137,7 +137,7 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
         $data = array(
             'ajaxExpired' => 1,
             'ajaxRedirect' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_Backend_Helper_Data')
+                ->get('Magento\Backend\Helper\Data')
                 ->getHomePageUrl(),
         );
         $expected = json_encode($data);
@@ -153,7 +153,7 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
     public function testDeniedIframeAction()
     {
         $this->_login();
-        $homeUrl = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Helper_Data')
+        $homeUrl = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Backend\Helper\Data')
             ->getHomePageUrl();
         $this->dispatch('backend/admin/auth/deniedIframe');
         $expected = '<script type="text/javascript">parent.window.location =';

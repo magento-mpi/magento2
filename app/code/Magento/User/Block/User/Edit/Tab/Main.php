@@ -33,7 +33,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic
         /** @var $model Magento_User_Model_User */
         $model = $this->_coreRegistry->registry('permissions_user');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('user_');
 

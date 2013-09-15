@@ -38,7 +38,7 @@ class Url extends \Magento\Core\Model\Layout\Argument\HandlerAbstract
      *
      * @param array $argument
      * @return string
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function process(array $argument)
     {
@@ -50,7 +50,7 @@ class Url extends \Magento\Core\Model\Layout\Argument\HandlerAbstract
 
     /**
      * @param array $argument
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _validate(array $argument)
     {

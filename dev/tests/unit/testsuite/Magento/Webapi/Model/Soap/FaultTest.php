@@ -9,16 +9,16 @@
  */
 class Magento_Webapi_Model_Soap_FaultTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Core_Model_App */
+    /** @var \Magento\Core\Model\App */
     protected $_appMock;
 
-    /** @var Magento_Webapi_Model_Soap_Fault */
+    /** @var \Magento\Webapi\Model\Soap\Fault */
     protected $_soapFault;
 
     protected function setUp()
     {
-        $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')->disableOriginalConstructor()->getMock();
-        $localeMock = $this->getMockBuilder('Magento_Core_Model_LocaleInterface')
+        $this->_appMock = $this->getMockBuilder('Magento\Core\Model\App')->disableOriginalConstructor()->getMock();
+        $localeMock = $this->getMockBuilder('Magento\Core\Model\LocaleInterface')
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
         $localeMock->expects($this->any())->method('getLocale')->will($this->returnValue(new Zend_Locale('en_US')));
@@ -27,13 +27,13 @@ class Magento_Webapi_Model_Soap_FaultTest extends PHPUnit_Framework_TestCase
         $message = "Soap fault reason.";
         $details = array('param1' => 'value1', 'param2' => 2);
         $code = 111;
-        $webapiException = new Magento_Webapi_Exception(
+        $webapiException = new \Magento\Webapi\Exception(
             $message,
             $code,
-            Magento_Webapi_Exception::HTTP_INTERNAL_ERROR,
+            \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR,
             $details
         );
-        $this->_soapFault = new Magento_Webapi_Model_Soap_Fault($this->_appMock, $webapiException);
+        $this->_soapFault = new \Magento\Webapi\Model\Soap\Fault($this->_appMock, $webapiException);
         parent::setUp();
     }
 
@@ -160,13 +160,13 @@ XML;
         $message = "Soap fault reason.";
         $details = array('param1' => 'value1', 'param2' => 2);
         $code = 111;
-        $webapiException = new Magento_Webapi_Exception(
+        $webapiException = new \Magento\Webapi\Exception(
             $message,
             $code,
-            Magento_Webapi_Exception::HTTP_INTERNAL_ERROR,
+            \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR,
             $details
         );
-        $soapFault = new Magento_Webapi_Model_Soap_Fault(
+        $soapFault = new \Magento\Webapi\Model\Soap\Fault(
             $this->_appMock,
             $webapiException
         );

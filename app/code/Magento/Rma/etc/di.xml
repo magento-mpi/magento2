@@ -8,12 +8,12 @@
  */
 -->
 <config>
-    <type name="Magento_Rma_Helper_Data">
+    <type name="Magento\Rma\Helper\Data">
         <param name="app">
-            <instance type="Magento_Core_Model_AppProxy" />
+            <instance type="Magento\Core\Model\AppProxy" />
         </param>
         <param name="storeConfig">
-            <instance type="Magento_Core_Model_Store_ConfigProxy" />
+            <instance type="Magento\Core\Model\Store\ConfigProxy" />
         </param>
     </type>
 </config>

@@ -23,7 +23,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Customer data
      *
-     * @var Magento_Customer_Helper_Data
+     * @var \Magento\Customer\Helper\Data
      */
     protected $_customerData = null;
 
@@ -32,12 +32,12 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      *
      *
-     * @param Magento_Customer_Helper_Data $customerData
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Customer_Helper_Data $customerData,
-        Magento_Core_Model_Resource $resource
+        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_customerData = $customerData;
         parent::__construct($resource);

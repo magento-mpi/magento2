@@ -72,28 +72,28 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core http
      *
-     * @var Magento_Core_Helper_Http
+     * @var \Magento\Core\Helper\Http
      */
     protected $_coreHttp = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Http $coreHttp
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config $config
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $config
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $config
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreHttp = $coreHttp;
@@ -426,14 +426,14 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param array|\Magento\Object $source
      * @param array|\Magento\Object $target
      * @param string $root
-     * @return array|Magento_Object|null the value of $target
+     * @return array|\Magento\Object|null the value of $target
      */
     public function copyFieldsetToTarget($fieldset, $aspect, $source, $target, $root='global')
     {
         if (!$this->_isFieldsetInputValid($source, $target)) {
             return null;
         }
-        $fields = Mage::getObjectManager()->get('Magento\Core\Model\Fieldset\Config')->getFieldset($fieldset, $root);
+        $fields = \Mage::getObjectManager()->get('Magento\Core\Model\Fieldset\Config')->getFieldset($fieldset, $root);
         if (is_null($fields)) {
             return $target;
         }
@@ -469,14 +469,14 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Check if source and target are valid input for converting using fieldset
      *
-     * @param array|Magento_Object $source
-     * @param array|Magento_Object $target
+     * @param array|\Magento\Object $source
+     * @param array|\Magento\Object $target
      * @return bool
      */
     private function _isFieldsetInputValid($source, $target)
     {
-        return (is_array($source) || $source instanceof Magento_Object)
-        && (is_array($target) || $target instanceof Magento_Object);
+        return (is_array($source) || $source instanceof \Magento\Object)
+        && (is_array($target) || $target instanceof \Magento\Object);
     }
 
     /**

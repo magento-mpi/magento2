@@ -33,7 +33,7 @@ $cart->save();
 
 /** @var $objectManager Magento_TestFramework_ObjectManager */
 $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-$objectManager->get('Magento_Core_Model_Registry')
+$objectManager->get('Magento\Core\Model\Registry')
     ->unregister('_singleton/Magento\Checkout\Model\Session');
 
 /** @var $objectManager Magento_TestFramework_ObjectManager */

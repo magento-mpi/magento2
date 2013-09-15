@@ -8,17 +8,17 @@
  */
 -->
 <config>
-    <type name="Magento_CustomerCustomAttributes_Helper_Data">
+    <type name="Magento\CustomerCustomAttributes\Helper\Data">
         <param name="customerAddress">
-            <instance type="Magento_CustomerCustomAttributes_Helper_Address_Proxy" />
+            <instance type="Magento\CustomerCustomAttributes\Helper\Address\Proxy" />
         </param>
         <param name="customerCustomer">
-            <instance type="Magento_CustomerCustomAttributes_Helper_Customer_Proxy" />
+            <instance type="Magento\CustomerCustomAttributes\Helper\Customer\Proxy" />
         </param>
     </type>
-    <type name="Magento_CustomerCustomAttributes_Model_Observer">
+    <type name="Magento\CustomerCustomAttributes\Model\Observer">
         <param name="customerData">
-            <instance type="Magento_CustomerCustomAttributes_Helper_Data_Proxy" />
+            <instance type="Magento\CustomerCustomAttributes\Helper\Data\Proxy" />
         </param>
     </type>
 </config>

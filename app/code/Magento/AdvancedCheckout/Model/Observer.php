@@ -21,15 +21,15 @@ class Observer
     /**
      * Checkout data
      *
-     * @var Magento_AdvancedCheckout_Helper_Data
+     * @var \Magento\AdvancedCheckout\Helper\Data
      */
     protected $_checkoutData = null;
 
     /**
-     * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
+     * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      */
     public function __construct(
-        Magento_AdvancedCheckout_Helper_Data $checkoutData
+        \Magento\AdvancedCheckout\Helper\Data $checkoutData
     ) {
         $this->_checkoutData = $checkoutData;
     }

@@ -223,7 +223,7 @@ class Cart
             if (!$this->_getSession()->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()) {
                     $productName = $this->_objectManager
-                        ->get('Magento_Core_Helper_Data')
+                        ->get('Magento\Core\Helper\Data')
                         ->escapeHtml($product->getName());
                     $message = __('You added %1 to your shopping cart.', $productName);
                     $this->_getSession()->addSuccess($message);

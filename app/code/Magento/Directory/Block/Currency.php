@@ -27,22 +27,22 @@ class Currency extends \Magento\Core\Block\Template
     /**
      * Directory url
      *
-     * @var Magento_Directory_Helper_Url
+     * @var \Magento\Directory\Helper\Url
      */
     protected $_directoryUrl = null;
 
     /**
-     * @param Magento_Directory_Helper_Url $directoryUrl
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Directory\Helper\Url $directoryUrl
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Directory_Helper_Url $directoryUrl,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Directory\Helper\Url $directoryUrl,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_directoryUrl = $directoryUrl;

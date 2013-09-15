@@ -10,17 +10,17 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Layout_Argument_Handler_Helper
+ * Test class for \Magento\Core\Model\Layout\Argument\Handler\Helper
  */
 class Magento_Core_Model_Layout_Argument_Handler_HelperTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_Handler_Helper
+     * @var \Magento\Core\Model\Layout\Argument\Handler\Helper
      */
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManagerMock;
 
@@ -29,9 +29,9 @@ class Magento_Core_Model_Layout_Argument_Handler_HelperTest extends PHPUnit_Fram
         include_once(__DIR__ . DIRECTORY_SEPARATOR . 'TestHelper.php');
 
         $helperObjectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_model = $helperObjectManager->getObject(
-            'Magento_Core_Model_Layout_Argument_Handler_Helper',
+            'Magento\Core\Model\Layout\Argument\Handler\Helper',
             array('objectManager' => $this->_objectManagerMock)
         );
     }
@@ -54,7 +54,7 @@ class Magento_Core_Model_Layout_Argument_Handler_HelperTest extends PHPUnit_Fram
     {
         $layout = simplexml_load_file(
             __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'arguments.xml',
-            'Magento_Core_Model_Layout_Element'
+            'Magento\Core\Model\Layout\Element'
         );
         $result = $this->processDataProvider();
         $resultWithParams = $resultWithoutParams = $result[0][0];

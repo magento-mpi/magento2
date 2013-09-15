@@ -22,26 +22,26 @@ class Creditmemo extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractIte
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Collection_Db $resourceCollection
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Collection_Db $resourceCollection = null,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
         array $data = array()
     ) {
         $this->_coreString = $coreString;

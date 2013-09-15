@@ -24,20 +24,20 @@ class Js
     /**
      * Customer data
      *
-     * @var Magento_CustomerCustomAttributes_Helper_Data
+     * @var \Magento\CustomerCustomAttributes\Helper\Data
      */
     protected $_customerData = null;
 
     /**
-     * @param Magento_CustomerCustomAttributes_Helper_Data $customerData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\CustomerCustomAttributes\Helper\Data $customerData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerCustomAttributes_Helper_Data $customerData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\CustomerCustomAttributes\Helper\Data $customerData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_customerData = $customerData;

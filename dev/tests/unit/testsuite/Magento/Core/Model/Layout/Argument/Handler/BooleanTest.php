@@ -10,26 +10,26 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Layout_Argument_Handler_Boolean
+ * Test class for \Magento\Core\Model\Layout\Argument\Handler\Boolean
  */
 class Magento_Core_Model_Layout_Argument_Handler_BooleanTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_Handler_Boolean
+     * @var \Magento\Core\Model\Layout\Argument\Handler\Boolean
      */
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManagerMock;
 
     protected function setUp()
     {
         $helperObjectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_model = $helperObjectManager->getObject(
-            'Magento_Core_Model_Layout_Argument_Handler_Boolean',
+            'Magento\Core\Model\Layout\Argument\Handler\Boolean',
             array('objectManager' => $this->_objectManagerMock)
         );
     }
@@ -52,7 +52,7 @@ class Magento_Core_Model_Layout_Argument_Handler_BooleanTest extends PHPUnit_Fra
     {
         $layout = simplexml_load_file(
             __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'arguments.xml',
-            'Magento_Core_Model_Layout_Element'
+            'Magento\Core\Model\Layout\Element'
         );
         $result = $this->processDataProvider();
         $simpleArg = $layout->xpath('//argument[@name="testSimpleBoolean"]');

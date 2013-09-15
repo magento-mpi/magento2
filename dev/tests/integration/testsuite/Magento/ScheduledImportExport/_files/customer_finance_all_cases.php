@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-/** @var $helper Magento_ScheduledImportExport_Helper_Data */
+/** @var $helper \Magento\ScheduledImportExport\Helper\Data */
 $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\ScheduledImportExport\Helper\Data');
 
 // customer with reward points and customer balance
@@ -23,8 +23,8 @@ $customerEmail = 'customer_finance_test_rp_cb@test.com';
 $registerKey = 'customer_finance_email_rp_cb';
 /** @var $objectManager Magento_TestFramework_ObjectManager */
 $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-$objectManager->get('Magento_Core_Model_Registry')->unregister($registerKey);
-$objectManager->get('Magento_Core_Model_Registry')->register($registerKey, $customerEmail);
+$objectManager->get('Magento\Core\Model\Registry')->unregister($registerKey);
+$objectManager->get('Magento\Core\Model\Registry')->register($registerKey, $customerEmail);
 $customer->setEmail($customerEmail);
 $customer->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 $customer->save();
@@ -52,8 +52,8 @@ $customer->addData(array(
 ));
 $customerEmail = 'customer_finance_test_rp@test.com';
 $registerKey = 'customer_finance_email_rp';
-$objectManager->get('Magento_Core_Model_Registry')->unregister($registerKey);
-$objectManager->get('Magento_Core_Model_Registry')->register($registerKey, $customerEmail);
+$objectManager->get('Magento\Core\Model\Registry')->unregister($registerKey);
+$objectManager->get('Magento\Core\Model\Registry')->register($registerKey, $customerEmail);
 $customer->setEmail($customerEmail);
 $customer->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 $customer->save();
@@ -96,8 +96,8 @@ $customer->addData(array(
 ));
 $customerEmail = 'customer_finance_test@test.com';
 $registerKey = 'customer_finance_email';
-$objectManager->get('Magento_Core_Model_Registry')->unregister($registerKey);
-$objectManager->get('Magento_Core_Model_Registry')->register($registerKey, $customerEmail);
+$objectManager->get('Magento\Core\Model\Registry')->unregister($registerKey);
+$objectManager->get('Magento\Core\Model\Registry')->register($registerKey, $customerEmail);
 $customer->setEmail($customerEmail);
 $customer->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 $customer->save();

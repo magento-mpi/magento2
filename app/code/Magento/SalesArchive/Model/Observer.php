@@ -31,15 +31,15 @@ class Observer
     /**
      * Adminhtml data
      *
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_backendData = null;
 
     /**
-     * @param Magento_Backend_Helper_Data $backendData
+     * @param \Magento\Backend\Helper\Data $backendData
      */
     public function __construct(
-        Magento_Backend_Helper_Data $backendData
+        \Magento\Backend\Helper\Data $backendData
     ) {
         $this->_backendData = $backendData;
         $this->_archive = \Mage::getModel('Magento\SalesArchive\Model\Archive');

@@ -8,17 +8,17 @@
  */
 -->
 <config>
-    <type name="Magento_Widget_Model_Config_Reader">
+    <type name="Magento\Widget\Model\Config\Reader">
         <param name="fileName">
             <value>widget.xml</value>
         </param>
         <param name="schemaLocator">
-            <instance type="Magento_Widget_Model_Config_SchemaLocator" />
+            <instance type="Magento\Widget\Model\Config\SchemaLocator" />
         </param>
     </type>
-    <type name="Magento_Widget_Model_Config_Data">
+    <type name="Magento\Widget\Model\Config\Data">
         <param name='reader'>
-            <instance type="Magento_Widget_Model_Config_Reader" />
+            <instance type="Magento\Widget\Model\Config\Reader" />
         </param>
         <param name="cacheId">
             <value>widget_config</value>

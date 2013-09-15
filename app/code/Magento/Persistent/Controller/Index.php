@@ -45,7 +45,7 @@ class Index extends \Magento\Core\Controller\Front\Action
      */
     protected function _getHelper()
     {
-        return $this->_objectManager->get('Magento_Persistent_Helper_Session');
+        return $this->_objectManager->get('Magento\Persistent\Helper\Session');
     }
 
     /**

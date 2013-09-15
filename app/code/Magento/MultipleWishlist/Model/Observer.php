@@ -22,15 +22,15 @@ class Observer
     /**
      * Wishlist data
      *
-     * @var Magento_MultipleWishlist_Helper_Data
+     * @var \Magento\MultipleWishlist\Helper\Data
      */
     protected $_wishlistData = null;
 
     /**
-     * @param Magento_MultipleWishlist_Helper_Data $wishlistData
+     * @param \Magento\MultipleWishlist\Helper\Data $wishlistData
      */
     public function __construct(
-        Magento_MultipleWishlist_Helper_Data $wishlistData
+        \Magento\MultipleWishlist\Helper\Data $wishlistData
     ) {
         $this->_wishlistData = $wishlistData;
     }

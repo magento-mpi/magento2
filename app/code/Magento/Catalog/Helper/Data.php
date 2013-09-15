@@ -63,44 +63,44 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
     /**
      * Catalog product
      *
-     * @var Magento_Catalog_Helper_Product
+     * @var \Magento\Catalog\Helper\Product
      */
     protected $_catalogProduct = null;
 
     /**
      * Catalog category
      *
-     * @var Magento_Catalog_Helper_Category
+     * @var \Magento\Catalog\Helper\Category
      */
     protected $_catalogCategory = null;
 
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Catalog_Helper_Category $catalogCategory
-     * @param Magento_Catalog_Helper_Product $catalogProduct
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Catalog\Helper\Category $catalogCategory
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
-        Magento_Catalog_Helper_Category $catalogCategory,
-        Magento_Catalog_Helper_Product $catalogProduct,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Catalog\Helper\Category $catalogCategory,
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreString = $coreString;
         $this->_catalogCategory = $catalogCategory;
@@ -205,15 +205,15 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     {
         $productId = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedProductId();
         if ($productId) {
-            $product = Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
             /* @var $product Magento\Catalog\Model\Product */
             if ($this->_catalogProduct->canShow($product, 'catalog')) {
                 return $product->getProductUrl();
             }
         }
-        $categoryId = Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedCategoryId();
+        $categoryId = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedCategoryId();
         if ($categoryId) {
-            $category = Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
+            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
             /* @var $category Magento\Catalog\Model\Category */
             if (!$this->_catalogCategory->canShow($category)) {
                 return '';

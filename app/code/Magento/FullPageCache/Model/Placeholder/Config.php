@@ -7,9 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_FullPageCache_Model_Placeholder_Config
-    extends Magento_Config_Data
-    implements Magento_FullPageCache_Model_Placeholder_ConfigInterface
+namespace Magento\FullPageCache\Model\Placeholder;
+
+class Config
+    extends \Magento\Config\Data
+    implements \Magento\FullPageCache\Model\Placeholder\ConfigInterface
 {
     /**
      * Scope priority loading scheme
@@ -19,15 +21,15 @@ class Magento_FullPageCache_Model_Placeholder_Config
     protected $_scopePriorityScheme = array('global');
 
     /**
-     * @param Magento_FullPageCache_Model_Placeholder_Config_Reader $reader
-     * @param Magento_Config_ScopeInterface $configScope
-     * @param Magento_Config_CacheInterface $cache
+     * @param \Magento\FullPageCache\Model\Placeholder\Config\Reader $reader
+     * @param \Magento\Config\ScopeInterface $configScope
+     * @param \Magento\Config\CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        Magento_FullPageCache_Model_Placeholder_Config_Reader $reader,
-        Magento_Config_ScopeInterface $configScope,
-        Magento_Config_CacheInterface $cache,
+        \Magento\FullPageCache\Model\Placeholder\Config\Reader $reader,
+        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Config\CacheInterface $cache,
         $cacheId = 'placeholders_config'
     ) {
         parent::__construct($reader, $configScope, $cache, $cacheId);

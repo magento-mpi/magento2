@@ -5,20 +5,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_GiftCard_Model_Plugin_QuoteItem
+namespace Magento\GiftCard\Model\Plugin;
+
+class QuoteItem
 {
     /**
      * Append gift card additional data to order item options
      *
      * @param array $arguments
-     * @param Magento_Code_Plugin_InvocationChain $invocationChain
-     * @return Magento_Sales_Model_Order_Item
+     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
+     * @return \Magento\Sales\Model\Order\Item
      */
-    public function aroundItemToOrderItem(array $arguments, Magento_Code_Plugin_InvocationChain $invocationChain)
+    public function aroundItemToOrderItem(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {
-        /** @var $orderItem Magento_Sales_Model_Order_Item */
+        /** @var $orderItem \Magento\Sales\Model\Order\Item */
         $orderItem = $invocationChain->proceed($arguments);
-        /** @var $quoteItem Magento_Sales_Model_Quote_Item */
+        /** @var $quoteItem \Magento\Sales\Model\Quote\Item */
         $quoteItem = reset($arguments);
 
         $keys = array(
@@ -38,7 +40,7 @@ class Magento_GiftCard_Model_Plugin_QuoteItem
         $product = $quoteItem->getProduct();
         // set lifetime
         if ($product->getUseConfigLifetime()) {
-            $lifetime = Mage::getStoreConfig(
+            $lifetime = \Mage::getStoreConfig(
                 Magento_GiftCard_Model_Giftcard::XML_PATH_LIFETIME,
                 $orderItem->getStore()
             );
@@ -49,7 +51,7 @@ class Magento_GiftCard_Model_Plugin_QuoteItem
 
         // set is_redeemable
         if ($product->getUseConfigIsRedeemable()) {
-            $isRedeemable = Mage::getStoreConfigFlag(
+            $isRedeemable = \Mage::getStoreConfigFlag(
                 Magento_GiftCard_Model_Giftcard::XML_PATH_IS_REDEEMABLE,
                 $orderItem->getStore()
             );
@@ -60,7 +62,7 @@ class Magento_GiftCard_Model_Plugin_QuoteItem
 
         // set email_template
         if ($product->getUseConfigEmailTemplate()) {
-            $emailTemplate = Mage::getStoreConfig(
+            $emailTemplate = \Mage::getStoreConfig(
                 Magento_GiftCard_Model_Giftcard::XML_PATH_EMAIL_TEMPLATE,
                 $orderItem->getStore()
             );

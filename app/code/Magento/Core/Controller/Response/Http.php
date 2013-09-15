@@ -26,14 +26,14 @@ class Http extends \Zend_Controller_Response_Http
     protected static $_transportObject = null;
 
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      */
-    public function __construct(Magento_Core_Model_Event_Manager $eventManager)
+    public function __construct(\Magento\Core\Model\Event\Manager $eventManager)
     {
         $this->_eventManager = $eventManager;
     }

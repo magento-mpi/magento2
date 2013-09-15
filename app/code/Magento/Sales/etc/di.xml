@@ -9,89 +9,89 @@
 -->
 <config>
     <type name="Magento\Sales\Model\Resource\Report" shared="false" />
-    <type name="Magento_Sales_Model_Convert_Order">
+    <type name="Magento\Sales\Model\Convert\Order">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Convert_Quote">
+    <type name="Magento\Sales\Model\Convert\Quote">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Observer">
+    <type name="Magento\Sales\Model\Observer">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Order_Creditmemo">
+    <type name="Magento\Sales\Model\Order\Creditmemo">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Order_Invoice">
+    <type name="Magento\Sales\Model\Order\Invoice">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Order_Item">
+    <type name="Magento\Sales\Model\Order\Item">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Order_Payment_Transaction">
+    <type name="Magento\Sales\Model\Order\Payment\Transaction">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Order_Payment">
+    <type name="Magento\Sales\Model\Order\Payment">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Order">
+    <type name="Magento\Sales\Model\Order">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Quote_Address_Total_Discount">
+    <type name="Magento\Sales\Model\Quote\Address\Total\Discount">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Quote_Config">
+    <type name="Magento\Sales\Model\Quote\Config">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Quote_Item">
+    <type name="Magento\Sales\Model\Quote\Item">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Quote_Payment">
+    <type name="Magento\Sales\Model\Quote\Payment">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Quote">
+    <type name="Magento\Sales\Model\Quote">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Resource_Order_Abstract">
+    <type name="Magento\Sales\Model\Resource\Order\AbstractOrder">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Resource_Sale_Collection">
+    <type name="Magento\Sales\Model\Resource\Sale\Collection">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Service_Quote">
+    <type name="Magento\Sales\Model\Service\Quote">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
 </config>

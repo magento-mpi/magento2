@@ -26,15 +26,15 @@ class Observer
     /**
      * Customer data
      *
-     * @var Magento_CustomerCustomAttributes_Helper_Data
+     * @var \Magento\CustomerCustomAttributes\Helper\Data
      */
     protected $_customerData = null;
 
     /**
-     * @param Magento_CustomerCustomAttributes_Helper_Data $customerData
+     * @param \Magento\CustomerCustomAttributes\Helper\Data $customerData
      */
     public function __construct(
-        Magento_CustomerCustomAttributes_Helper_Data $customerData
+        \Magento\CustomerCustomAttributes\Helper\Data $customerData
     ) {
         $this->_customerData = $customerData;
     }

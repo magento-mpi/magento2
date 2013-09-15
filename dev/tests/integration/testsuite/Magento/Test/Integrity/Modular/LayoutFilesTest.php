@@ -12,7 +12,7 @@
 class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_HandlerFactory
+     * @var \Magento\Core\Model\Layout\Argument\HandlerFactory
      */
     protected $_handlerFactory;
 
@@ -24,7 +24,7 @@ class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_T
     public function setUp()
     {
         $objectManager = Mage::getObjectManager();
-        $this->_handlerFactory = $objectManager->get('Magento_Core_Model_Layout_Argument_HandlerFactory');
+        $this->_handlerFactory = $objectManager->get('Magento\Core\Model\Layout\Argument\HandlerFactory');
         $this->_types = $this->_handlerFactory->getTypes();
     }
 
@@ -43,7 +43,7 @@ class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_T
                 continue;
             }
             try {
-                /* @var $handler Magento_Core_Model_Layout_Argument_HandlerInterface */
+                /* @var $handler \Magento\Core\Model\Layout\Argument\HandlerInterface */
                 $handler = $this->_handlerFactory->getArgumentHandlerByType($type);
                 $argument = $handler->parse($argument);
                 if ($this->_isIgnored($argument)) {
@@ -77,17 +77,17 @@ class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_T
             // ignored objects
             || isset($argument['value']['object'])
                 && in_array($argument['value']['object'], array(
-                    'Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsCollection',
-                    'Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct',
+                    'Magento\Catalog\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection',
+                    'Magento\Catalog\Model\Resource\Product\Collection\AssociatedProduct',
                     'Magento_Search_Model_Resource_Search_Grid_Collection',
-                    'Magento_Wishlist_Model_Resource_Item_Collection_Grid',
+                    'Magento\Wishlist\Model\Resource\Item\Collection\Grid',
                     'Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection',
                 ))
 
             // ignored helpers
             || isset($argument['value']['helperClass']) &&
                 in_array($argument['value']['helperClass'] . '::' . $argument['value']['helperMethod'], array(
-                    'Magento_Pbridge_Helper_Data::getReviewButtonTemplate'
+                    'Magento\Pbridge\Helper\Data::getReviewButtonTemplate'
                 ))
 
             // ignored options

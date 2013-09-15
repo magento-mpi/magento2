@@ -13,7 +13,7 @@ class Formset extends \Magento\Adminhtml\Block\Widget\Form
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 

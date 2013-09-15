@@ -39,24 +39,24 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     /**
      * Customer data
      *
-     * @var Magento_Customer_Helper_Data
+     * @var \Magento\Customer\Helper\Data
      */
     protected $_customerData = null;
 
     /**
-     * @param Magento_Customer_Helper_Data $customerData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Tax_Model_Resource_Calculation $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Tax\Model\Resource\Calculation $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Helper_Data $customerData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Tax_Model_Resource_Calculation $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Tax\Model\Resource\Calculation $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
@@ -84,7 +84,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     {
         if ($this->_defaultCustomerTaxClass === null) {
             $defaultCustomerGroup = $this->_customerData->getDefaultCustomerGroupId($store);
-            $this->_defaultCustomerTaxClass = \Mage::getModel(''Magento\Customer\Model\Group')->getTaxClassId($defaultCustomerGroup);
+            $this->_defaultCustomerTaxClass = \Mage::getModel('Magento\Customer\Model\Group')->getTaxClassId($defaultCustomerGroup);
         }
         return $this->_defaultCustomerTaxClass;
     }

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Rest_Config
+namespace Magento\Webapi\Model\Rest;
+
+class Config
 {
     /**#@+
      * HTTP methods supported by REST.
@@ -27,19 +29,19 @@ class Magento_Webapi_Model_Rest_Config
     const KEY_ROUTE_PATH = 'routePath';
     /*#@-*/
 
-    /** @var Magento_Webapi_Model_Config  */
+    /** @var \Magento\Webapi\Model\Config  */
     protected $_config;
 
-    /** @var Magento_Controller_Router_Route_Factory */
+    /** @var \Magento\Controller\Router\Route\Factory */
     protected $_routeFactory;
 
     /**
-     * @param Magento_Webapi_Model_Config
-     * @param Magento_Controller_Router_Route_Factory $routeFactory
+     * @param \Magento\Webapi\Model\Config
+     * @param \Magento\Controller\Router\Route\Factory $routeFactory
      */
     public function __construct(
-        Magento_Webapi_Model_Config $config,
-        Magento_Controller_Router_Route_Factory $routeFactory
+        \Magento\Webapi\Model\Config $config,
+        \Magento\Controller\Router\Route\Factory $routeFactory
     ) {
         $this->_config = $config;
         $this->_routeFactory = $routeFactory;
@@ -55,13 +57,13 @@ class Magento_Webapi_Model_Rest_Config
      *      'serviceMethod' => 'item'
      *      'secure' => true
      *  );</pre>
-     * @return Magento_Webapi_Controller_Rest_Router_Route
+     * @return \Magento\Webapi\Controller\Rest\Router\Route
      */
     protected function _createRoute($routeData)
     {
-        /** @var $route Magento_Webapi_Controller_Rest_Router_Route */
+        /** @var $route \Magento\Webapi\Controller\Rest\Router\Route */
         $route = $this->_routeFactory->createRoute(
-            'Magento_Webapi_Controller_Rest_Router_Route',
+            'Magento\Webapi\Controller\Rest\Router\Route',
             strtolower($routeData[self::KEY_ROUTE_PATH])
         );
 
@@ -74,7 +76,7 @@ class Magento_Webapi_Model_Rest_Config
     /**
      * Get service base URL
      *
-     * @param Magento_Webapi_Controller_Rest_Request $request
+     * @param \Magento\Webapi\Controller\Rest\Request $request
      * @return string|null
      */
     protected function _getServiceBaseUrl($request)
@@ -88,11 +90,11 @@ class Magento_Webapi_Model_Rest_Config
     /**
      * Generate the list of available REST routes. Current HTTP method is taken into account.
      *
-     * @param Magento_Webapi_Controller_Rest_Request $request
+     * @param \Magento\Webapi\Controller\Rest\Request $request
      * @return array
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
-    public function getRestRoutes(Magento_Webapi_Controller_Rest_Request $request)
+    public function getRestRoutes(\Magento\Webapi\Controller\Rest\Request $request)
     {
         $serviceBaseUrl = $this->_getServiceBaseUrl($request);
         $httpMethod = $request->getHttpMethod();
@@ -100,25 +102,25 @@ class Magento_Webapi_Model_Rest_Config
         foreach ($this->_config->getServices() as $serviceName => $serviceData) {
             // skip if baseurl is not null and does not match
             if (
-                !isset($serviceData[Magento_Webapi_Model_Config::ATTR_SERVICE_PATH])
+                !isset($serviceData[\Magento\Webapi\Model\Config::ATTR_SERVICE_PATH])
                 || !$serviceBaseUrl
                 || strcasecmp(
                     trim($serviceBaseUrl, '/'),
-                    trim($serviceData[Magento_Webapi_Model_Config::ATTR_SERVICE_PATH], '/')
+                    trim($serviceData[\Magento\Webapi\Model\Config::ATTR_SERVICE_PATH], '/')
                 ) !== 0
             ) {
                 // baseurl does not match, just skip this service
                 continue;
             }
             foreach ($serviceData['methods'] as $methodName => $methodInfo) {
-                if (strtoupper($methodInfo[Magento_Webapi_Model_Config::ATTR_HTTP_METHOD]) == strtoupper($httpMethod)) {
-                    $secure = isset($methodInfo[Magento_Webapi_Model_Config::ATTR_IS_SECURE])
-                        ? $methodInfo[Magento_Webapi_Model_Config::ATTR_IS_SECURE] : false;
+                if (strtoupper($methodInfo[\Magento\Webapi\Model\Config::ATTR_HTTP_METHOD]) == strtoupper($httpMethod)) {
+                    $secure = isset($methodInfo[\Magento\Webapi\Model\Config::ATTR_IS_SECURE])
+                        ? $methodInfo[\Magento\Webapi\Model\Config::ATTR_IS_SECURE] : false;
                     $methodRoute = isset($methodInfo['route']) ? $methodInfo['route'] : '';
                     $routes[] = $this->_createRoute(
                         array(
                             self::KEY_ROUTE_PATH =>
-                                $serviceData[Magento_Webapi_Model_Config::ATTR_SERVICE_PATH] . $methodRoute,
+                                $serviceData[\Magento\Webapi\Model\Config::ATTR_SERVICE_PATH] . $methodRoute,
                             self::KEY_CLASS => $serviceName,
                             self::KEY_METHOD => $methodName,
                             self::KEY_IS_SECURE => $secure

@@ -56,17 +56,17 @@ class Subscription
     private $_endpointLoaded = false;
 
     /**
-     * @param Magento_Webhook_Model_Endpoint $endpoint
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\Webhook\Model\Endpoint $endpoint
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Webhook\Model\Endpoint $endpoint,
         \Magento\Core\Model\Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()

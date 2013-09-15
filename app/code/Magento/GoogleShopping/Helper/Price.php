@@ -25,15 +25,15 @@ class Price
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
     }
@@ -104,7 +104,7 @@ class Price
     /**
      * Tries calculate price without discount; if can't returns nul
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param mixed $store
      */
     public function getCatalogRegularPrice(\Magento\Catalog\Model\Product $product, $store = null)

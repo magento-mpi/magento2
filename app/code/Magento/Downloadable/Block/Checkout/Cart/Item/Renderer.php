@@ -23,22 +23,22 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
     /**
      * Downloadable catalog product configuration
      *
-     * @var Magento_Downloadable_Helper_Catalog_Product_Configuration
+     * @var \Magento\Downloadable\Helper\Catalog\Product\Configuration
      */
     protected $_downloadProdConfig = null;
 
     /**
-     * @param Magento_Downloadable_Helper_Catalog_Product_Configuration $dwnCtlgProdConfig
-     * @param Magento_Catalog_Helper_Product_Configuration $productConfiguration
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Downloadable\Helper\Catalog\Product\Configuration $dwnCtlgProdConfig
+     * @param \Magento\Catalog\Helper\Product\Configuration $productConfiguration
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Downloadable_Helper_Catalog_Product_Configuration $dwnCtlgProdConfig,
-        Magento_Catalog_Helper_Product_Configuration $productConfiguration,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Downloadable\Helper\Catalog\Product\Configuration $dwnCtlgProdConfig,
+        \Magento\Catalog\Helper\Product\Configuration $productConfiguration,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_downloadProdConfig = $dwnCtlgProdConfig;

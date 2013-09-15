@@ -11,45 +11,45 @@
 
 class Magento_Webapi_Controller_Rest_RouterTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webapi_Controller_Rest_Router_Route */
+    /** @var \Magento\Webapi\Controller\Rest\Router\Route */
     protected $_routeMock;
 
-    /** @var Magento_Webapi_Controller_Rest_Request */
+    /** @var \Magento\Webapi\Controller\Rest\Request */
     protected $_request;
 
-    /** @var Magento_Webapi_Model_Rest_Config */
+    /** @var \Magento\Webapi\Model\Rest\Config */
     protected $_apiConfigMock;
 
-    /** @var Magento_Webapi_Controller_Rest_Router */
+    /** @var \Magento\Webapi\Controller\Rest\Router */
     protected $_router;
 
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_apiConfigMock = $this->getMockBuilder('Magento_Webapi_Model_Rest_Config')
+        $this->_apiConfigMock = $this->getMockBuilder('Magento\Webapi\Model\Rest\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $deserializerFactory = $this->getMockBuilder('Magento_Webapi_Controller_Rest_Request_Deserializer_Factory')
+        $deserializerFactory = $this->getMockBuilder('Magento\Webapi\Controller\Rest\Request\Deserializer\Factory')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_routeMock = $this->getMockBuilder('Magento_Webapi_Controller_Rest_Router_Route')
+        $this->_routeMock = $this->getMockBuilder('Magento\Webapi\Controller\Rest\Router\Route')
             ->disableOriginalConstructor()
             ->setMethods(array('match'))
             ->getMock();
-        $applicationMock = $this->getMockBuilder('Magento_Core_Model_App')
+        $applicationMock = $this->getMockBuilder('Magento\Core\Model\App')
             ->disableOriginalConstructor()
             ->getMock();
-        $configMock = $this->getMockBuilder('Magento_Core_Model_Config')
+        $configMock = $this->getMockBuilder('Magento\Core\Model\Config')
             ->disableOriginalConstructor()
             ->getMock();
         $applicationMock->expects($this->once())->method('getConfig')->will($this->returnValue($configMock));
         $configMock->expects($this->once())->method('getAreaFrontName')->will($this->returnValue('rest'));
-        $this->_request = new Magento_Webapi_Controller_Rest_Request(
+        $this->_request = new \Magento\Webapi\Controller\Rest\Request(
             $applicationMock,
             $deserializerFactory
         );
         /** Initialize SUT. */
-        $this->_router = new Magento_Webapi_Controller_Rest_Router($this->_apiConfigMock);
+        $this->_router = new \Magento\Webapi\Controller\Rest\Router($this->_apiConfigMock);
     }
 
     protected function tearDown()
@@ -76,7 +76,7 @@ class Magento_Webapi_Controller_Rest_RouterTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @expectedException Magento_Webapi_Exception
+     * @expectedException \Magento\Webapi\Exception
      */
     public function testNotMatch()
     {

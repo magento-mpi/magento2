@@ -147,14 +147,14 @@ class Magento_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase
     ) {
         $this->assertContains($expectedMessage, $soapFault->getMessage(), "Fault message is invalid.");
 
-        $errorDetailsNode = Magento_Webapi_Model_Soap_Fault::NODE_ERROR_DETAILS;
+        $errorDetailsNode = \Magento\Webapi\Model\Soap\Fault::NODE_ERROR_DETAILS;
         $errorDetails = isset($soapFault->detail->$errorDetailsNode) ? $soapFault->detail->$errorDetailsNode : null;
         if (!is_null($expectedErrorCode) || !empty($expectedErrorParams) || $isTraceExpected) {
             /** Check SOAP fault details */
             $this->assertNotNull($errorDetails, "Details must be present.");
 
             /** Check additional error parameters */
-            $paramsNode = Magento_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_PARAMETERS;
+            $paramsNode = \Magento\Webapi\Model\Soap\Fault::NODE_ERROR_DETAIL_PARAMETERS;
             if ($expectedErrorParams) {
                 $this->assertEquals(
                     $expectedErrorParams,
@@ -166,7 +166,7 @@ class Magento_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase
             }
 
             /** Check error trace */
-            $traceNode = Magento_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_TRACE;
+            $traceNode = \Magento\Webapi\Model\Soap\Fault::NODE_ERROR_DETAIL_TRACE;
             if (!Mage::app()->isDeveloperMode()) {
                 /** Developer mode changes tested behavior and it cannot properly be tested for now */
                 if ($isTraceExpected) {
@@ -180,7 +180,7 @@ class Magento_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase
             if ($expectedErrorCode) {
                 $this->assertEquals(
                     $expectedErrorCode,
-                    $errorDetails->{Magento_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_CODE},
+                    $errorDetails->{\Magento\Webapi\Model\Soap\Fault::NODE_ERROR_DETAIL_CODE},
                     "Error code in fault details is invalid."
                 );
             }

@@ -40,12 +40,12 @@ class NavigationMode extends \Magento\Core\Model\Url
      * Constructor
      *
      * @param \Magento\DesignEditor\Helper\Data $helper
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        Magento_DesignEditor_Helper_Data $helper,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\DesignEditor\Helper\Data $helper,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         $this->_helper = $helper;

@@ -36,7 +36,7 @@ class Config extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param \Magento\Core\Model\Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Config\Modules\Reader $configReader
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -45,7 +45,7 @@ class Config extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Config\Modules\Reader $configReader,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

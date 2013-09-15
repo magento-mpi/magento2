@@ -31,7 +31,7 @@ class Magento_Webapi_Routing_SubsetRestTest extends Magento_Webapi_Routing_SoapO
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -62,7 +62,7 @@ class Magento_Webapi_Routing_SubsetRestTest extends Magento_Webapi_Routing_SoapO
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath,
-                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ),
             'soap' => array(
                 'service' => $this->_soapService,

@@ -101,33 +101,33 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Customer data
      *
-     * @var Magento_Customer_Helper_Data
+     * @var \Magento\Customer\Helper\Data
      */
     protected $_customerData = null;
 
     /**
      * Checkout data
      *
-     * @var Magento_AdvancedCheckout_Helper_Data
+     * @var \Magento\AdvancedCheckout\Helper\Data
      */
     protected $_checkoutData = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
-     * @param Magento_Customer_Helper_Data $customerData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
+     * @param \Magento\Customer\Helper\Data $customerData
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_AdvancedCheckout_Helper_Data $checkoutData,
-        Magento_Customer_Helper_Data $customerData
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\AdvancedCheckout\Helper\Data $checkoutData,
+        \Magento\Customer\Helper\Data $customerData
     ) {
         $this->_eventManager = $eventManager;
         $this->_checkoutData = $checkoutData;

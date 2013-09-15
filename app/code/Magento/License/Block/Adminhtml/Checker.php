@@ -29,20 +29,20 @@ class Checker extends \Magento\Backend\Block\Template
     /**
      * License data
      *
-     * @var Magento_License_Helper_Data
+     * @var \Magento\License\Helper\Data
      */
     protected $_licenseData = null;
 
     /**
-     * @param Magento_License_Helper_Data $licenseData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\License\Helper\Data $licenseData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_License_Helper_Data $licenseData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\License\Helper\Data $licenseData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_licenseData = $licenseData;

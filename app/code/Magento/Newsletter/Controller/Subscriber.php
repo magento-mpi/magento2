@@ -38,7 +38,7 @@ class Subscriber extends \Magento\Core\Controller\Front\Action
                     && !$customerSession->isLoggedIn()) {
                     \Mage::throwException(__('Sorry, but the administrator denied subscription for guests. '
                         . 'Please <a href="%1">register</a>.',
-                        $this->_objectManager->get('Magento_Customer_Helper_Data')->getRegisterUrl()));
+                        $this->_objectManager->get('Magento\Customer\Helper\Data')->getRegisterUrl()));
                 }
 
                 $ownerId = \Mage::getModel('Magento\Customer\Model\Customer')

@@ -66,12 +66,12 @@ class Observer
      *
      * Sets necessary data
      *
-     * @param Magento_PromotionPermissions_Helper_Data $promoPermData
+     * @param \Magento\PromotionPermissions\Helper\Data $promoPermData
      */
     public function __construct(
-        Magento_PromotionPermissions_Helper_Data $promoPermData
+        \Magento\PromotionPermissions\Helper\Data $promoPermData
     ) {
-        $this->_request = Mage::app()->getRequest();
+        $this->_request = \Mage::app()->getRequest();
         $this->_canEditCatalogRules = $promoPermData->getCanAdminEditCatalogRules();
         $this->_canEditSalesRules = $promoPermData->getCanAdminEditSalesRules();
         $this->_canEditReminderRules = $promoPermData->getCanAdminEditReminderRules();

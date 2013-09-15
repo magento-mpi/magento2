@@ -57,7 +57,7 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         if (empty($this->_productAttributes[$attribute])) {
             $this->_productAttributes[$attribute] =
-                Mage::getSingleton('Magento_Catalog_Model_Product')->getResource()->getAttribute($attribute);
+                \Mage::getSingleton('Magento\Catalog\Model\Product')->getResource()->getAttribute($attribute);
         }
         return $this->_productAttributes[$attribute];
     }

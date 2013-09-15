@@ -83,22 +83,22 @@ class Queue extends \Magento\Core\Model\Template
     /**
      * Newsletter data
      *
-     * @var Magento_Newsletter_Helper_Data
+     * @var \Magento\Newsletter\Helper\Data
      */
     protected $_newsletterData = null;
 
     /**
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Newsletter_Helper_Data $newsletterData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Newsletter\Helper\Data $newsletterData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Newsletter_Helper_Data $newsletterData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Newsletter\Helper\Data $newsletterData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_newsletterData = $newsletterData;

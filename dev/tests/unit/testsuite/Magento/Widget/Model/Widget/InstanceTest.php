@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Widget_Model_Widget_Instance
+ * \Magento\Widget\Model\Widget\Instance
  *
  * {license_notice}
  *
@@ -10,53 +10,53 @@
 class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Widget_Model_Config_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Widget\Model\Config\Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_widgetModelMock;
 
     /**
-     * @var Magento_Core_Model_View_FileSystem|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\View\FileSystem|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_viewFileSystemMock;
 
     /** @var  Magento_Core_Model_Config|PHPUnit_Framework_MockObject_MockObject */
     protected $_coreConfigMock;
     /**
-     * @var Magento_Widget_Model_Widget_Instance
+     * @var \Magento\Widget\Model\Widget\Instance
      */
     protected $_model;
 
-    /** @var  Magento_Widget_Model_Config_Reader */
+    /** @var  \Magento\Widget\Model\Config\Reader */
     protected $_readerMock;
 
     public function setUp()
     {
-        $this->_widgetModelMock = $this->getMockBuilder('Magento_Widget_Model_Widget')
+        $this->_widgetModelMock = $this->getMockBuilder('Magento\Widget\Model\Widget')
             ->disableOriginalConstructor()
             ->getMock();
-        $contextMock = $this->getMockBuilder('Magento_Core_Model_Context')
+        $contextMock = $this->getMockBuilder('Magento\Core\Model\Context')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_viewFileSystemMock = $this->getMockBuilder('Magento_Core_Model_View_FileSystem')
+        $this->_viewFileSystemMock = $this->getMockBuilder('Magento\Core\Model\View\FileSystem')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_coreConfigMock = $this->getMockBuilder('Magento_Core_Model_Config')
+        $this->_coreConfigMock = $this->getMockBuilder('Magento\Core\Model\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_readerMock = $this->getMockBuilder('Magento_Widget_Model_Config_Reader')
+        $this->_readerMock = $this->getMockBuilder('Magento\Widget\Model\Config\Reader')
             ->disableOriginalConstructor()
             ->getMock();
-        $registryMock = $this->getMockBuilder('Magento_Core_Model_Registry')
+        $registryMock = $this->getMockBuilder('Magento\Core\Model\Registry')
             ->disableOriginalConstructor()
             ->getMock();
-        $coreData = $this->getMockBuilder('Magento_Core_Helper_Data')
+        $coreData = $this->getMockBuilder('Magento\Core\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
-        $widgetData = $this->getMockBuilder('Magento_Widget_Helper_Data')
+        $widgetData = $this->getMockBuilder('Magento\Widget\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_model = $this->getMock(
-            'Magento_Widget_Model_Widget_Instance',
+            'Magento\Widget\Model\Widget\Instance',
             array('_construct'),
             array($widgetData, $coreData, $contextMock, $registryMock, $this->_viewFileSystemMock, $this->_readerMock,
                 $this->_widgetModelMock, $this->_coreConfigMock),

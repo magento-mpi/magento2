@@ -8,7 +8,7 @@
 class Magento_Widget_Model_Config_ConverterTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Widget_Model_Config_Converter
+     * @var \Magento\Widget\Model\Config\Converter
      */
     protected $_model;
 
@@ -17,7 +17,7 @@ class Magento_Widget_Model_Config_ConverterTest extends PHPUnit_Framework_TestCa
 
     public function setUp()
     {
-        $this->_model = new Magento_Widget_Model_Config_Converter();
+        $this->_model = new \Magento\Widget\Model\Config\Converter();
     }
 
     public function testConvert()

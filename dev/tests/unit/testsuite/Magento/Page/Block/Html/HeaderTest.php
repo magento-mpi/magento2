@@ -21,7 +21,7 @@ class Magento_Page_Block_Html_HeaderTest extends PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->will($this->returnValue('default/image.gif'));
 
-        $urlBuilder = $this->getMock('Magento_Core_Model_Url', array('getBaseUrl'), array(), '', false);
+        $urlBuilder = $this->getMock('Magento\Core\Model\Url', array('getBaseUrl'), array(), '', false);
         $urlBuilder->expects($this->once())
             ->method('getBaseUrl')
             ->will($this->returnValue('http://localhost/pub/media/'));
@@ -33,7 +33,7 @@ class Magento_Page_Block_Html_HeaderTest extends PHPUnit_Framework_TestCase
             ->method('checkDbUsage')
             ->will($this->returnValue(false));
 
-        $helperFactory = $this->getMock('Magento_Core_Model_Factory_Helper', array('get'), array(), '', false);
+        $helperFactory = $this->getMock('Magento\Core\Model\Factory\Helper', array('get'), array(), '', false);
         $helperFactory->expects($this->once())
             ->method('get')
             ->will($this->returnValue($helper));

@@ -30,26 +30,26 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
     /**
      * Catalog inventory data
      *
-     * @var Magento_CatalogInventory_Helper_Data
+     * @var \Magento\CatalogInventory\Helper\Data
      */
     protected $_ctlgInventData = null;
 
     /**
      * Initialize connect to Solr Client
      * 
-     * @param Magento_CatalogInventory_Helper_Data $ctlgInventData
+     * @param \Magento\CatalogInventory\Helper\Data $ctlgInventData
      * @param \Magento\Search\Model\Client\FactoryInterface $clientFactory
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Search\Helper\ClientInterface $clientHelper
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $options
      */
     public function __construct(
-        Magento_CatalogInventory_Helper_Data $ctlgInventData,
+        \Magento\CatalogInventory\Helper\Data $ctlgInventData,
         \Magento\Search\Model\Client\FactoryInterface $clientFactory,
         \Magento\Core\Model\Logger $logger,
         \Magento\Search\Helper\ClientInterface $clientHelper,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Registry $registry,
         $options = array()
     ) {
         $this->_ctlgInventData = $ctlgInventData;

@@ -43,8 +43,8 @@ class Logging
      * Handler for logging customer segment match
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function postDispatchCustomerSegmentMatch($config,

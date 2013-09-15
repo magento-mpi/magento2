@@ -22,20 +22,20 @@ class Captcha extends \Magento\Core\Block\Template
     /**
      * Captcha data
      *
-     * @var Magento_Captcha_Helper_Data
+     * @var \Magento\Captcha\Helper\Data
      */
     protected $_captchaData = null;
 
     /**
-     * @param Magento_Captcha_Helper_Data $captchaData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Captcha\Helper\Data $captchaData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Captcha_Helper_Data $captchaData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Captcha\Helper\Data $captchaData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_captchaData = $captchaData;

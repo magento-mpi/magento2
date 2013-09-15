@@ -40,10 +40,10 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct
             ->addStoreFilter();
 
         if ($this->_catalogData->isModuleEnabled('Magento_Checkout')) {
-            Mage::getResourceSingleton('Magento\Checkout\Model\Resource\Cart')
+            \Mage::getResourceSingleton('Magento\Checkout\Model\Resource\Cart')
                 ->addExcludeProductFilter(
                     $this->_itemCollection,
-                    Mage::getSingleton('Magento\Checkout\Model\Session')->getQuoteId()
+                    \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuoteId()
             );
             $this->_addProductAttributesAndPrices($this->_itemCollection);
         }

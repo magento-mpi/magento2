@@ -7,27 +7,29 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_Server_Factory
+namespace Magento\Webapi\Model\Soap\Server;
+
+class Factory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Webapi_Controller_Soap_Handler
+     * @var \Magento\Webapi\Controller\Soap\Handler
      */
     protected $_soapHandler;
 
     /**
      * Initialize the class
      *
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Webapi_Controller_Soap_Handler $soapHandler
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Webapi\Controller\Soap\Handler $soapHandler
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
-        Magento_Webapi_Controller_Soap_Handler $soapHandler
+        \Magento\ObjectManager $objectManager,
+        \Magento\Webapi\Controller\Soap\Handler $soapHandler
     ) {
         $this->_objectManager = $objectManager;
         $this->_soapHandler = $soapHandler;

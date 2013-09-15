@@ -27,9 +27,9 @@ class Observer
     protected $_helper;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Helper\Data $coreData
      */
-    public function __construct(Magento_Core_Helper_Data $coreData)
+    public function __construct(\Magento\Core\Helper\Data $coreData)
     {
         $this->_helper = $coreData;
     }
@@ -110,7 +110,7 @@ class Observer
         if ($product->getTypeId() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE) {
             $links = $product->getTypeInstance()->getLinks($product);
             if ($linkIds = $orderItem->getProductOptionByCode('links')) {
-                $linkPurchased = Mage::getModel('Magento\Downloadable\Model\Link\Purchased');
+                $linkPurchased = \Mage::getModel('Magento\Downloadable\Model\Link\Purchased');
                 $this->_helper->copyFieldsetToTarget(
                     'downloadable_sales_copy_order',
                     'to_downloadable',
@@ -126,7 +126,7 @@ class Observer
                 $linkSectionTitle = (
                     $product->getLinksTitle()
                         ? $product->getLinksTitle()
-                        : Mage::getStoreConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE)
+                        : \Mage::getStoreConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE)
                 );
                 $linkPurchased->setLinkSectionTitle($linkSectionTitle)
                     ->save();
@@ -171,7 +171,7 @@ class Observer
         if (!$session->getHasDownloadableProducts()) {
             $order = $observer->getEvent()->getOrder();
             foreach ($order->getAllItems() as $item) {
-                /* @var $item Magento_Sales_Model_Order_Item */
+                /* @var $item \Magento\Sales\Model\Order\Item */
                 if ($item->getProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
                     || $item->getRealProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
                     || $item->getProductOptionByCode('is_downloadable')

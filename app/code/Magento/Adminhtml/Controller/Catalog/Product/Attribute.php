@@ -29,19 +29,19 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Cache\FrontendInterface $attributeLabelCache
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Cache_FrontendInterface $attributeLabelCache,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Cache\FrontendInterface $attributeLabelCache,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -52,7 +52,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
     {
         parent::preDispatch();
         $this->_entityTypeId = \Mage::getModel('Magento\Eav\Model\Entity')
-            ->setType(Magento_Catalog_Model_Product::ENTITY)
+            ->setType(\Magento\Catalog\Model\Product::ENTITY)
             ->getTypeId();
     }
 
@@ -222,7 +222,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
             if (!empty($data['new_attribute_set_name'])) {
                 /** @var $attributeSet \Magento\Eav\Model\Entity\Attribute\Set */
                 $attributeSet = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set');
-                $name = $this->_objectManager->get('Magento_Adminhtml_Helper_Data')
+                $name = $this->_objectManager->get('Magento\Adminhtml\Helper\Data')
                     ->stripTags($data['new_attribute_set_name']);
                 $name = trim($name);
                 $attributeSet->setEntityTypeId($this->_entityTypeId)
@@ -276,7 +276,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
             //validate frontend_input
             if (isset($data['frontend_input'])) {
                 /** @var $inputType \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator */
-                $inputType = Mage::getModel('Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator');
+                $inputType = \Mage::getModel('Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator');
                 if (!$inputType->isValid($data['frontend_input'])) {
                     foreach ($inputType->getMessages() as $message) {
                         $session->addError($message);
@@ -415,7 +415,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
                 $this->_redirect('*/*/');
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('attribute_id' => $this->getRequest()->getParam('attribute_id')));
                 return;
             }

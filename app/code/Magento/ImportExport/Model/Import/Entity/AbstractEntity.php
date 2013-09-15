@@ -182,39 +182,39 @@ abstract class AbstractEntity
     /**
      * Import export data
      *
-     * @var Magento_ImportExport_Helper_Data
+     * @var \Magento\ImportExport\Helper\Data
      */
     protected $_importExportData = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_ImportExport_Helper_Data $importExportData
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\ImportExport\Helper\Data $importExportData
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Helper_Data $coreData,
-        Magento_ImportExport_Helper_Data $importExportData
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\ImportExport\Helper\Data $importExportData
     ) {
         $this->_coreString = $coreString;
         $this->_coreData = $coreData;
         $this->_importExportData = $importExportData;
 
-        $entityType = Mage::getSingleton('Magento_Eav_Model_Config')
+        $entityType = \Mage::getSingleton('Magento\Eav\Model\Config')
             ->getEntityType($this->getEntityTypeCode());
 
         $this->_entityTypeId    = $entityType->getEntityTypeId();
@@ -370,7 +370,7 @@ abstract class AbstractEntity
      * @return array
      */
     public function getAttributeOptions(
-        Magento_Eav_Model_Entity_Attribute_Abstract $attribute,
+        \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute,
         $indexValAttrs = array()
     ) {
         $options = array();

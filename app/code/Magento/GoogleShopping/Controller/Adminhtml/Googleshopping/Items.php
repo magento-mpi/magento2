@@ -53,11 +53,11 @@ class Items extends \Magento\Adminhtml\Controller\Action
 
         if ($this->getRequest()->getParam('captcha_token') && $this->getRequest()->getParam('captcha_url')) {
             $contentBlock->setGcontentCaptchaToken(
-                $this->_objectManager->get('Magento_Core_Helper_Data')
+                $this->_objectManager->get('Magento\Core\Helper\Data')
                     ->urlDecode($this->getRequest()->getParam('captcha_token'))
             );
             $contentBlock->setGcontentCaptchaUrl(
-                $this->_objectManager->get('Magento_Core_Helper_Data')
+                $this->_objectManager->get('Magento\Core\Helper\Data')
                     ->urlDecode($this->getRequest()->getParam('captcha_url'))
             );
         }
@@ -230,7 +230,7 @@ class Items extends \Magento\Adminhtml\Controller\Action
         try {
             \Mage::getModel('Magento\GoogleShopping\Model\Service')->getClient(
                 $storeId,
-                $this->_objectManager->get('Magento_Core_Helper_Data')
+                $this->_objectManager->get('Magento\Core\Helper\Data')
                     ->urlDecode($this->getRequest()->getParam('captcha_token')),
                 $this->getRequest()->getParam('user_confirm')
             );
@@ -242,7 +242,7 @@ class Items extends \Magento\Adminhtml\Controller\Action
             return;
         } catch (\Zend_Gdata_App_Exception $e) {
             $this->_getSession()->addError(
-                $this->_objectManager->get('Magento_GoogleShopping_Helper_Data')
+                $this->_objectManager->get('Magento\GoogleShopping\Helper\Data')
                     ->parseGdataExceptionMessage($e->getMessage())
             );
         } catch (\Exception $e) {
@@ -266,7 +266,7 @@ class Items extends \Magento\Adminhtml\Controller\Action
                 'is_running' => $this->_getFlag()->isLocked()
             );
             return $this->getResponse()->setBody(
-                $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($params)
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($params)
             );
         }
     }
@@ -282,7 +282,7 @@ class Items extends \Magento\Adminhtml\Controller\Action
             '*/*/index',
             array(
                 'store' => $this->_getStore()->getId(),
-                'captcha_token' => $this->_objectManager->get('Magento_Core_Helper_Data')
+                'captcha_token' => $this->_objectManager->get('Magento\Core\Helper\Data')
                     ->urlEncode($e->getCaptchaToken()),
                 'captcha_url' => $this->_objectManager->get('Magento\Core\Helper\Data')
                     ->urlEncode($e->getCaptchaUrl())

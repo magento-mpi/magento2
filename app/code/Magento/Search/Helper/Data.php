@@ -69,17 +69,17 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Helper_Context $context
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Helper\Context $context
     ) {
         $this->_taxData = $taxData;
         parent::__construct($context);

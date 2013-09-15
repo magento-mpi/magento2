@@ -19,7 +19,7 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
     {
         $objectManager = Mage::getObjectManager();
         $eventManager = $objectManager->get('Magento\Core\Model\Event\Manager');
-        $coreData = $objectManager->get('Magento_Core_Helper_Data');
+        $coreData = $objectManager->get('Magento\Core\Helper\Data');
         $moduleList = $objectManager->get('Magento\Core\Model\ModuleListInterface');
         $paymentData = $objectManager->get('Magento\Payment\Helper\Data');
 

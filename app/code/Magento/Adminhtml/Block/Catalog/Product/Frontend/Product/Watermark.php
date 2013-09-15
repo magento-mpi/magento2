@@ -24,18 +24,18 @@ class Watermark
     const XML_PATH_IMAGE_TYPES = 'global/catalog/product/media/image_types';
 
     /**
-     * @var Magento_Data_Form_Element_Factory
+     * @var \Magento\Data\Form\Element\Factory
      */
     protected $_elementFactory;
 
     /**
-     * @param Magento_Data_Form_Element_Factory $elementFactory
-     * @param Magento_Backend_Block_Context $context
+     * @param \Magento\Data\Form\Element\Factory $elementFactory
+     * @param \Magento\Backend\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Element_Factory $elementFactory,
-        Magento_Backend_Block_Context $context,
+        \Magento\Data\Form\Element\Factory $elementFactory,
+        \Magento\Backend\Block\Context $context,
         array $data = array()
     ) {
         $this->_elementFactory = $elementFactory;
@@ -53,7 +53,7 @@ class Watermark
             /**
              * Watermark size field
              */
-            /** @var Magento_Data_Form_Element_Text $field */
+            /** @var \Magento\Data\Form\Element\Text $field */
             $field = $this->_elementFactory->create('text');
             $field->setName("groups[watermark][fields][{$key}_size][value]")
                 ->setForm($this->getForm())
@@ -64,7 +64,7 @@ class Watermark
             /**
              * Watermark upload field
              */
-            /** @var Magento_Data_Form_Element_Imagefile $field */
+            /** @var \Magento\Data\Form\Element\Imagefile $field */
             $field = $this->_elementFactory->create('imagefile');
             $field->setName("groups[watermark][fields][{$key}_image][value]")
                 ->setForm($this->getForm())
@@ -75,7 +75,7 @@ class Watermark
             /**
              * Watermark position field
              */
-            /** @var Magento_Data_Form_Element_Select $field */
+            /** @var \Magento\Data\Form\Element\Select $field */
             $field = $this->_elementFactory->create('select');
             $field->setName("groups[watermark][fields][{$key}_position][value]")
                 ->setForm($this->getForm())

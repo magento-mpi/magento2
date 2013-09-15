@@ -22,17 +22,17 @@ class Store extends \Magento\Adminhtml\Controller\Action
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -231,7 +231,7 @@ class Store extends \Magento\Adminhtml\Controller\Action
                 }
                 $this->_redirect('*/*/');
                 return;
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
             catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addMessages($e->getMessages());
                 $session->setPostData($postData);
@@ -358,7 +358,7 @@ class Store extends \Magento\Adminhtml\Controller\Action
             $this->_getSession()->addSuccess(__('The website has been deleted.'));
             $this->_redirect('*/*/');
             return ;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
         catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
@@ -389,7 +389,7 @@ class Store extends \Magento\Adminhtml\Controller\Action
             $this->_getSession()->addSuccess(__('The store has been deleted.'));
             $this->_redirect('*/*/');
             return ;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
         catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
@@ -427,7 +427,7 @@ class Store extends \Magento\Adminhtml\Controller\Action
             $this->_getSession()->addSuccess(__('The store view has been deleted.'));
             $this->_redirect('*/*/');
             return ;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
         catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (E\xception $e) {
@@ -462,7 +462,7 @@ class Store extends \Magento\Adminhtml\Controller\Action
 
             $backupDb->createBackup($backup);
             $this->_getSession()->addSuccess(__('The database was backed up.'));
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
         catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect($failPath, $arguments);

@@ -74,24 +74,24 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     /**
      * Newsletter data
      *
-     * @var Magento_Newsletter_Helper_Data
+     * @var \Magento\Newsletter\Helper\Data
      */
     protected $_newsletterData = null;
 
     /**
-     * @param Magento_Newsletter_Helper_Data $newsletterData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Newsletter\Helper\Data $newsletterData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Newsletter_Helper_Data $newsletterData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Newsletter\Helper\Data $newsletterData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_newsletterData = $newsletterData;
@@ -120,7 +120,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * Alias for setSubscriberId()
      *
      * @param int $value
-     * @return \Magento_Object
+     * @return \\Magento\Object
      */
     public function setId($value)
     {

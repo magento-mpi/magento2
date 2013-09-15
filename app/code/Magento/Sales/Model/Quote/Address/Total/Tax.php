@@ -18,15 +18,15 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
-     * @param Magento_Tax_Helper_Data $taxData
+     * @param \Magento\Tax\Helper\Data $taxData
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData
+        \Magento\Tax\Helper\Data $taxData
     ) {
         $this->_taxData = $taxData;
         $this->setCode('tax');

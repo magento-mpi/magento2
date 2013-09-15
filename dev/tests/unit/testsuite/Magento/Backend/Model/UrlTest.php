@@ -53,7 +53,7 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
     protected $_backendHelperMock;
 
     /**
-     * @var Magento_Core_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreDataMock;
 
@@ -97,7 +97,7 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             ->with(\Magento\Backend\Model\Url::XML_PATH_STARTUP_MENU_ITEM)
             ->will($this->returnValue('Magento_Adminhtml::system_acl_roles'));
 
-        $this->_coreDataMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $this->_coreDataMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
 
         $this->_model = new \Magento\Backend\Model\Url(
             $helperMock,

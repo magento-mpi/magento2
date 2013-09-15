@@ -41,8 +41,8 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_TabsTest extends PHPUnit_Framewor
             ->setMethods(array('helper', 'getBlock'))
             ->getMock();
 
-        $backendData = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
-        $this->_request = $this->getMockForAbstractClass('Magento_Core_Controller_Request_Http',
+        $backendData = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
+        $this->_request = $this->getMockForAbstractClass('Magento\Core\Controller\Request\Http',
             array($backendData), '', false, false, true, array('getParam'));
 
         $this->_helper = new Magento_TestFramework_Helper_ObjectManager($this);

@@ -18,11 +18,11 @@ class Magento_Data_Form_Element_MultiselectTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $coreHelper = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
-        $factoryElement = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
-        $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array(), array(), '', false);
-        $this->_model = new Magento_Data_Form_Element_Multiselect($coreHelper, $factoryElement, $collectionFactory);
-        $this->_model->setForm(new Magento_Object());
+        $coreHelper = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
+        $factoryElement = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
+        $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array(), array(), '', false);
+        $this->_model = new \Magento\Data\Form\Element\Multiselect($coreHelper, $factoryElement, $collectionFactory);
+        $this->_model->setForm(new \Magento\Object());
     }
 
     /**

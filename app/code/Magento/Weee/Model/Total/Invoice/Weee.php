@@ -16,7 +16,7 @@ class Weee extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
     /**
      * Weee data
      *
-     * @var Magento_Weee_Helper_Data
+     * @var \Magento\Weee\Helper\Data
      */
     protected $_weeeData = null;
 
@@ -26,11 +26,11 @@ class Weee extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Weee_Helper_Data $weeeData
+     * @param \Magento\Weee\Helper\Data $weeeData
      * @param array $data
      */
     public function __construct(
-        Magento_Weee_Helper_Data $weeeData,
+        \Magento\Weee\Helper\Data $weeeData,
         array $data = array()
     ) {
         $this->_weeeData = $weeeData;

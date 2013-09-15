@@ -154,7 +154,7 @@ class Magento_User_Controller_Adminhtml_AuthTest extends Magento_Backend_Utility
         $resetPasswordToken = null;
         if ($user->getId()) {
             $resetPasswordToken = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_User_Helper_Data')
+                ->get('Magento\User\Helper\Data')
                 ->generateResetPasswordLinkToken();
             $user->changeResetPasswordLinkToken($resetPasswordToken);
             $user->save();

@@ -46,26 +46,26 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Catalog rule data
      *
-     * @var Magento_CatalogRule_Helper_Data
+     * @var \Magento\CatalogRule\Helper\Data
      */
     protected $_catalogRuleData = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_CatalogRule_Helper_Data $catalogRuleData
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\CatalogRule\Helper\Data $catalogRuleData
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_CatalogRule_Helper_Data $catalogRuleData,
-        Magento_Core_Model_Resource $resource
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\CatalogRule\Helper\Data $catalogRuleData,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_eventManager = $eventManager;
         $this->_catalogRuleData = $catalogRuleData;

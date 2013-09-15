@@ -19,17 +19,17 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -72,7 +72,7 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
             $this->_initInvitation();
             $this->loadLayout()->_setActiveMenu('Magento_Invitation::customer_magento_invitation');
             $this->renderLayout();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
         catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
@@ -135,7 +135,7 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
                     } else {
                         $failedCount++;
                     }
-                } catch (Magento_Core_Exception $e) {
+                } catch (\Magento\Core\Exception $e) {
                 catch (\Magento\Core\Exception $e) {
                     if ($e->getCode()) {
                         $failedCount++;
@@ -159,7 +159,7 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
             $this->_getSession()->unsInvitationFormData();
             $this->_redirect('*/*/');
             return;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
         catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
@@ -195,7 +195,7 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
 
                 $this->_getSession()->addSuccess(__('The invitation has been saved.'));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
         catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
@@ -225,7 +225,7 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
                     if ($invitation->sendInvitationEmail()) {
                         $sent++;
                     }
-                } catch (Magento_Core_Exception $e) {
+                } catch (\Magento\Core\Exception $e) {
                 catch (\Magento\Core\Exception $e) {
                     // jam all exceptions with codes
                     if (!$e->getCode()) {
@@ -253,7 +253,7 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
                     __('We discarded %1 invitation(s) addressed to current customers.', $customerExists)
                 );
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
         catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
@@ -282,7 +282,7 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
                         $invitation->cancel();
                         $cancelled++;
                     }
-                } catch (Magento_Core_Exception $e) {
+                } catch (\Magento\Core\Exception $e) {
                 catch (\Magento\Core\Exception $e) {
                     // jam all exceptions with codes
                     if (!$e->getCode()) {
@@ -297,7 +297,7 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
             if ($failed) {
                 $this->_getSession()->addNotice(__('We skipped %1 of the selected invitations.', $failed));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
         catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }

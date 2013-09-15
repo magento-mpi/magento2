@@ -23,7 +23,7 @@
         <group name="magento_salesarchive">
             <label translate="true">Sales Archive</label>
             <expected_models>
-                <expected_model class="Magento_SalesArchive_Model_Archive" />
+                <expected_model class="Magento\SalesArchive\Model\Archive" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_sales_archive_add"

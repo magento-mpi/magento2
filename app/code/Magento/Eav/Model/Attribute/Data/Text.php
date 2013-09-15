@@ -26,11 +26,11 @@ class Text extends \Magento\Eav\Model\Attribute\Data\AbstractData
     protected $_stringHelper;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
+     * @param \Magento\Core\Helper\String $coreString
      * @param array $arguments
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
+        \Magento\Core\Helper\String $coreString,
         array $arguments = array()
     ) {
         $this->_stringHelper = $coreString;

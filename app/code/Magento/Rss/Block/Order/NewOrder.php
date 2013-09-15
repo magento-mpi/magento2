@@ -22,18 +22,18 @@ class NewOrder extends \Magento\Core\Block\AbstractBlock
     /**
      * Adminhtml data
      *
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_adminhtmlData = null;
 
     /**
-     * @param Magento_Backend_Helper_Data $adminhtmlData
-     * @param Magento_Core_Block_Context $context
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
+     * @param \Magento\Core\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Helper_Data $adminhtmlData,
-        Magento_Core_Block_Context $context,
+        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Core\Block\Context $context,
         array $data = array()
     ) {
         $this->_adminhtmlData = $adminhtmlData;
@@ -42,7 +42,7 @@ class NewOrder extends \Magento\Core\Block\AbstractBlock
 
     protected function _toHtml()
     {
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = \Mage::getModel('Magento\Sales\Model\Order');
         $passDate = $order->getResource()->formatDate(mktime(0, 0, 0, date('m'), date('d')-7));
 
         $newurl = $this->_adminhtmlData->getUrl(

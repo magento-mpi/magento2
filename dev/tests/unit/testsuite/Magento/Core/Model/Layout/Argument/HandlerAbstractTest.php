@@ -14,13 +14,13 @@
  */
 class Magento_Core_Model_Layout_Argument_HandlerAbstractTest extends PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Layout_Argument_HandlerAbstract */
+    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Layout\Argument\HandlerAbstract */
     protected $_model;
 
     public function setUp()
     {
         $this->_model = $this->getMockForAbstractClass(
-            'Magento_Core_Model_Layout_Argument_HandlerAbstract',
+            'Magento\Core\Model\Layout\Argument\HandlerAbstract',
             array(), '', true
         );
     }

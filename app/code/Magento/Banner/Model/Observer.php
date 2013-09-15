@@ -19,15 +19,15 @@ class Observer
     /**
      * Adminhtml js
      *
-     * @var Magento_Adminhtml_Helper_Js
+     * @var \Magento\Adminhtml\Helper\Js
      */
     protected $_adminhtmlJs = null;
 
     /**
-     * @param Magento_Adminhtml_Helper_Js $adminhtmlJs
+     * @param \Magento\Adminhtml\Helper\Js $adminhtmlJs
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Js $adminhtmlJs
+        \Magento\Adminhtml\Helper\Js $adminhtmlJs
     ) {
         $this->_adminhtmlJs = $adminhtmlJs;
     }

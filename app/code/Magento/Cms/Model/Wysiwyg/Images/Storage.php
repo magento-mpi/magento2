@@ -55,14 +55,14 @@ class Storage extends \Magento\Object
     /**
      * Core file storage database
      *
-     * @var Magento_Core_Helper_File_Storage_Database
+     * @var \Magento\Core\Helper\File\Storage\Database
      */
     protected $_coreFileStorageDb = null;
 
     /**
      * Cms wysiwyg images
      *
-     * @var Magento_Cms_Helper_Wysiwyg_Images
+     * @var \Magento\Cms\Helper\Wysiwyg\Images
      */
     protected $_cmsWysiwygImages = null;
 
@@ -71,16 +71,16 @@ class Storage extends \Magento\Object
      *
      *
      *
-     * @param Magento_Cms_Helper_Wysiwyg_Images $cmsWysiwygImages
-     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
+     * @param \Magento\Cms\Helper\Wysiwyg\Images $cmsWysiwygImages
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Image\AdapterFactory $imageFactory
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param array $data
      */
     public function __construct(
-        Magento_Cms_Helper_Wysiwyg_Images $cmsWysiwygImages,
-        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
+        \Magento\Cms\Helper\Wysiwyg\Images $cmsWysiwygImages,
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Image\AdapterFactory $imageFactory,
         \Magento\Core\Model\View\Url $viewUrl,
@@ -153,7 +153,7 @@ class Storage extends \Magento\Object
     public function getFilesCollection($path, $type = null)
     {
         if ($this->_coreFileStorageDb->checkDbUsage()) {
-            $files = Mage::getModel('Magento\Core\Model\File\Storage\Database')->getDirectoryFiles($path);
+            $files = \Mage::getModel('Magento\Core\Model\File\Storage\Database')->getDirectoryFiles($path);
 
             $fileStorageModel = \Mage::getModel('Magento\Core\Model\File\Storage\File');
             foreach ($files as $file) {

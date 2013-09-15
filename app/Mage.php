@@ -405,8 +405,8 @@ final class Mage
     public static function getSingleton($modelClass = '')
     {
         $registryKey = '_singleton/' . $modelClass;
-        /** @var Magento_Core_Model_Registry $registryObject */
-        $registryObject = self::getObjectManager()->get('Magento_Core_Model_Registry');
+        /** @var \Magento\Core\Model\Registry $registryObject */
+        $registryObject = self::getObjectManager()->get('Magento\Core\Model\Registry');
         if (!$registryObject->registry($registryKey)) {
             $registryObject->register($registryKey, self::getObjectManager()->get($modelClass));
         }
@@ -462,8 +462,8 @@ final class Mage
      */
     public static function getResourceSingleton($modelClass = '')
     {
-        /** @var Magento_Core_Model_Registry $registryObject */
-        $registryObject = self::getObjectManager()->get('Magento_Core_Model_Registry');
+        /** @var \Magento\Core\Model\Registry $registryObject */
+        $registryObject = self::getObjectManager()->get('Magento\Core\Model\Registry');
         $registryKey = '_resource_singleton/' . $modelClass;
         if (!$registryObject->registry($registryKey)) {
             $registryObject->register($registryKey, self::getObjectManager()->get($modelClass));
@@ -501,8 +501,8 @@ final class Mage
         if (substr($moduleName, 0, 8) == 'Magento_') {
             $connection = substr($connection, 8);
         }
-        /** @var Magento_Core_Model_Registry $registryObject */
-        $registryObject = self::getObjectManager()->get('Magento_Core_Model_Registry');
+        /** @var \Magento\Core\Model\Registry $registryObject */
+        $registryObject = self::getObjectManager()->get('Magento\Core\Model\Registry');
         $key = 'resourceHelper/' . $connection;
         if (!$registryObject->registry($key)) {
             $registryObject->register(

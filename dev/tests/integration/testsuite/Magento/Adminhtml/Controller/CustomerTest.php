@@ -147,7 +147,7 @@ class Magento_Adminhtml_Controller_CustomerTest extends Magento_Backend_Utility_
         /**
          * Check that customer id set and addresses saved
          */
-        $customer = $objectManager->get('Magento_Core_Model_Registry')->registry('current_customer');
+        $customer = $objectManager->get('Magento\Core\Model\Registry')->registry('current_customer');
         $this->assertInstanceOf('Magento\Customer\Model\Customer', $customer);
         $this->assertCount(1, $customer->getAddressesCollection());
 

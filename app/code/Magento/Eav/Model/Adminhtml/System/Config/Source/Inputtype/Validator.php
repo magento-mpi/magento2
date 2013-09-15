@@ -23,15 +23,15 @@ class Validator extends \Zend_Validate_InArray
     /**
      * Eav data
      *
-     * @var Magento_Eav_Helper_Data
+     * @var \Magento\Eav\Helper\Data
      */
     protected $_eavData = null;
 
     /**
-     * @param Magento_Eav_Helper_Data $eavData
+     * @param \Magento\Eav\Helper\Data $eavData
      */
     public function __construct(
-        Magento_Eav_Helper_Data $eavData
+        \Magento\Eav\Helper\Data $eavData
     ) {
         $this->_eavData = $eavData;
         //set data haystack

@@ -15,16 +15,16 @@ class Customerbalance extends \Magento\Sales\Model\Order\Creditmemo\Total\Abstra
     /**
      * Customer balance data
      *
-     * @var Magento_CustomerBalance_Helper_Data
+     * @var \Magento\CustomerBalance\Helper\Data
      */
     protected $_customerBalanceData = null;
 
     /**
-     * @param Magento_CustomerBalance_Helper_Data $customerBalanceData
+     * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerBalance_Helper_Data $customerBalanceData,
+        \Magento\CustomerBalance\Helper\Data $customerBalanceData,
         array $data = array()
     ) {
         $this->_customerBalanceData = $customerBalanceData;

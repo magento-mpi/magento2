@@ -22,26 +22,26 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
      /**
       * Catalog product
       *
-      * @var Magento_Catalog_Helper_Product
+      * @var \Magento\Catalog\Helper\Product
       */
     protected $_catalogProduct = null;
 
     /**
-     * @param Magento_Catalog_Helper_Product $catalogProduct
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Catalog_Helper_Product $catalogProduct,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_catalogProduct = $catalogProduct;

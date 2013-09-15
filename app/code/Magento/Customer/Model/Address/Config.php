@@ -49,7 +49,7 @@ class Config extends \Magento\Core\Model\Config\Base
     /**
      * Customer address
      *
-     * @var Magento_Customer_Helper_Address
+     * @var \Magento\Customer\Helper\Address
      */
     protected $_customerAddress = null;
 
@@ -77,10 +77,10 @@ class Config extends \Magento\Core\Model\Config\Base
      *
      *
      *
-     * @param Magento_Customer_Helper_Address $customerAddress
+     * @param \Magento\Customer\Helper\Address $customerAddress
      */
     public function __construct(
-        Magento_Customer_Helper_Address $customerAddress
+        \Magento\Customer\Helper\Address $customerAddress
     ) {
         $this->_customerAddress = $customerAddress;
         parent::__construct(Mage::getConfig()->getNode()->global->customer->address);

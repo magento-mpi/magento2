@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Fieldset_Config_Reader extends Magento_Config_Reader_Filesystem
+namespace Magento\Core\Model\Fieldset\Config;
+
+class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
      * List of identifier attributes for merging
@@ -22,22 +24,22 @@ class Magento_Core_Model_Fieldset_Config_Reader extends Magento_Config_Reader_Fi
     );
 
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_Core_Model_Fieldset_Config_Converter $converter
-     * @param Magento_Config_SchemaLocatorInterface $schemaLocator
-     * @param Magento_Config_ValidationStateInterface $validationState
+     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\Core\Model\Fieldset\Config\Converter $converter
+     * @param \Magento\Config\SchemaLocatorInterface $schemaLocator
+     * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
      * @param string $domDocumentClass
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
-        Magento_Core_Model_Fieldset_Config_Converter $converter,
-        Magento_Config_SchemaLocatorInterface $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState,
+        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\Core\Model\Fieldset\Config\Converter $converter,
+        \Magento\Config\SchemaLocatorInterface $schemaLocator,
+        \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'fieldset.xml',
         $idAttributes = array(),
-        $domDocumentClass = 'Magento_Config_Dom'
+        $domDocumentClass = 'Magento\Config\Dom'
     ) {
         parent::__construct(
             $fileResolver,

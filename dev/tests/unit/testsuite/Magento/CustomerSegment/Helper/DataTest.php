@@ -72,7 +72,7 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(array(10 => 'Devs', 20 => 'QAs')))
         ;
 
-        $fieldset = $this->getMock('Magento_Data_Form_Element_Fieldset', array('addField'), array(), '', false);
+        $fieldset = $this->getMock('Magento\Data\Form\Element\Fieldset', array('addField'), array(), '', false);
         $fieldset->expects($this->at(0))
             ->method('addField')
             ->with($this->logicalOr(
@@ -86,7 +86,7 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
                 $this->equalTo('multiselect')
             ));
 
-        $form = $this->getMock('Magento_Data_Form', array('getElement', 'getHtmlIdPrefix'), array(), '', false);
+        $form = $this->getMock('Magento\Data\Form', array('getElement', 'getHtmlIdPrefix'), array(), '', false);
         $form->expects($this->once())
             ->method('getElement')
             ->with($this->equalTo('base_fieldset'))
@@ -140,11 +140,11 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         $this->_segmentCollection->expects($this->never())->method('toOptionArray');
 
-        $factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
-        $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array('create'),
+        $factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
+        $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
             array(), '', false);
-        $form = new Magento_Data_Form($factory, $collectionFactory, array('html_id_prefix' => 'pfx_'));
-        $data = new Magento_Object();
+        $form = new \Magento\Data\Form($factory, $collectionFactory, array('html_id_prefix' => 'pfx_'));
+        $data = new \Magento\Object();
         $dependencies = $this->getMock(
             'Magento\Backend\Block\Widget\Form\Element\Dependence',
             array('addFieldMap', 'addFieldDependence'),

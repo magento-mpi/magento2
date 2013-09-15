@@ -53,7 +53,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_CustomTest extends 
             'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Custom',
             array(
                 'config'       => $this->getMock('Magento\Core\Model\Config', array(), array(), '', false),
-                'formFactory'  => $this->getMock('Magento_Data_Form_Factory', array(), array(), '', false),
+                'formFactory'  => $this->getMock('Magento\Data\Form\Factory', array(), array(), '', false),
                 'urlBuilder'   => $this->_urlBuilder,
                 'themeContext' => $this->_themeContext
         ));
@@ -103,7 +103,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_CustomTest extends 
 
         /** @var $cssFile \Magento\Core\Model\Theme\Customization\File\Css */
         $cssFile = $this->getMock(
-            'Magento_Core_Model_Theme_Customization_File', array('getContent'), array(), '', false
+            'Magento\Core\Model\Theme\Customization\File', array('getContent'), array(), '', false
         );
 
         $customization->expects($this->once())

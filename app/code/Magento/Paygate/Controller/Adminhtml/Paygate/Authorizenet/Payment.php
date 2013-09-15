@@ -31,10 +31,10 @@ class Payment extends \Magento\Adminhtml\Controller\Action
 
             if ($paymentMethod) {
                 $paymentMethod->setStore(
-                    Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote()->getStoreId()
+                    \Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote()->getStoreId()
                 );
                 $paymentMethod->cancelPartialAuthorization(
-                    Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote()->getPayment()
+                    \Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote()->getPayment()
                 );
             }
 
@@ -48,7 +48,7 @@ class Payment extends \Magento\Adminhtml\Controller\Action
             $result['error_message'] = __('Something went wrong canceling the transactions.');
         }
 
-        Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote'')->getQuote()->getPayment()->save();
+        \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote'')->getQuote()->getPayment()->save();
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 

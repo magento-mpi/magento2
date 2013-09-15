@@ -27,7 +27,7 @@ class PageCache extends \Magento\Adminhtml\Controller\Action
     public function cleanAction()
     {
         try {
-            $pageCacheData = $this->_objectManager->get('Magento_PageCache_Helper_Data');
+            $pageCacheData = $this->_objectManager->get('Magento\PageCache\Helper\Data');
             if ($pageCacheData->isEnabled()) {
                 $pageCacheData->getCacheControlInstance()->clean();
                 $this->_getSession()->addSuccess(

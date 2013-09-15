@@ -24,7 +24,7 @@ class Magento_Core_Model_SenderTest extends PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Model\Store|PHPUnit_Framework_MockObject_MockObject */
     protected $_storeMock;
 
-    /** @var Magento_Core_Model_StoreManagerInterface|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Core\Model\StoreManagerInterface|PHPUnit_Framework_MockObject_MockObject */
     protected $_storeManagerMock;
 
     /** @var \Magento\Core\Model\Email\Info|PHPUnit_Framework_MockObject_MockObject */
@@ -43,7 +43,7 @@ class Magento_Core_Model_SenderTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('load', 'getConfig', '__sleep', '__wakeup'))
             ->getMock();
-        $this->_storeManagerMock = $this->getMockBuilder('Magento_Core_Model_StoreManagerInterface')
+        $this->_storeManagerMock = $this->getMockBuilder('Magento\Core\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->setMethods(array('getStore'))
             ->getMockForAbstractClass();

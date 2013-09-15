@@ -42,7 +42,7 @@ class Import extends \Magento\Object
     /**
      * Checkout data
      *
-     * @var Magento_AdvancedCheckout_Helper_Data
+     * @var \Magento\AdvancedCheckout\Helper\Data
      */
     protected $_checkoutData = null;
 
@@ -52,11 +52,11 @@ class Import extends \Magento\Object
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
+     * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param array $data
      */
     public function __construct(
-        Magento_AdvancedCheckout_Helper_Data $checkoutData,
+        \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         array $data = array()
     ) {
         $this->_checkoutData = $checkoutData;

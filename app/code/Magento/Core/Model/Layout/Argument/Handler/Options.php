@@ -20,14 +20,14 @@ namespace Magento\Core\Model\Layout\Argument\Handler;
 class Options extends \Magento\Core\Model\Layout\Argument\HandlerAbstract
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -37,7 +37,7 @@ class Options extends \Magento\Core\Model\Layout\Argument\HandlerAbstract
      *
      * @param array $argument
      * @return string
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function process(array $argument)
     {

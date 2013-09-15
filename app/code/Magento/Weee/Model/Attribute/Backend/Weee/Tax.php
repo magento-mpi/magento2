@@ -19,7 +19,7 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
     /**
      * Retrieve resource model
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Backend_Weee
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Weee
      */
     protected function _getResource()
     {

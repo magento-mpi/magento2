@@ -142,28 +142,28 @@ class International
     /**
      * Factory for \Magento\Usa\Model\Simplexml\Element
      *
-     * @var Magento_Usa_Model_Simplexml_ElementFactory
+     * @var \Magento\Usa\Model\Simplexml\ElementFactory
      */
     protected $_xmlElFactory;
 
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
      * Usa data
      *
-     * @var Magento_Usa_Helper_Data
+     * @var \Magento\Usa\Helper\Data
      */
     protected $_usaData = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
@@ -172,19 +172,19 @@ class International
      *
      * Sets necessary data
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Usa_Helper_Data $usaData
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
-     * @param Magento_Directory_Helper_Data $directoryData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Usa\Helper\Data $usaData
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
+     * @param \Magento\Directory\Helper\Data $directoryData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Usa_Helper_Data $usaData,
-        Magento_Core_Helper_String $coreString,
-        Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
-        Magento_Directory_Helper_Data $directoryData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Usa\Helper\Data $usaData,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
+        \Magento\Directory\Helper\Data $directoryData,
         array $data = array()
     ) {
         $this->_coreData = $coreData;

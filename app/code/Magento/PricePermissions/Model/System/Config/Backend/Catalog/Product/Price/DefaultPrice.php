@@ -23,24 +23,24 @@ class DefaultPrice
     /**
      * Price permissions data
      *
-     * @var Magento_PricePermissions_Helper_Data
+     * @var \Magento\PricePermissions\Helper\Data
      */
     protected $_pricePermData = null;
 
     /**
-     * @param Magento_PricePermissions_Helper_Data $pricePermData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\PricePermissions\Helper\Data $pricePermData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_PricePermissions_Helper_Data $pricePermData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\PricePermissions\Helper\Data $pricePermData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_pricePermData = $pricePermData;

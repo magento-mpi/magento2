@@ -59,24 +59,24 @@ class Crawler extends \Magento\Core\Model\AbstractModel
     /**
      * Website restriction data
      *
-     * @var Magento_WebsiteRestriction_Helper_Data
+     * @var \Magento\WebsiteRestriction\Helper\Data
      */
     protected $_websiteRestricData = null;
 
     /**
-     * @param Magento_WebsiteRestriction_Helper_Data $websiteRestricData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\WebsiteRestriction\Helper\Data $websiteRestricData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_WebsiteRestriction_Helper_Data $websiteRestricData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\WebsiteRestriction\Helper\Data $websiteRestricData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_websiteRestricData = $websiteRestricData;

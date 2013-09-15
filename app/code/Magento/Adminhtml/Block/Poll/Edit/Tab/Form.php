@@ -18,7 +18,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('poll_form', array('legend'=>__('Poll information')));
@@ -54,7 +54,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'value'     => $this->_coreRegistry->registry('poll_data')->getStoreIds()
             ));
             $renderer = $this->getLayout()
-                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         } else {
             $fieldset->addField('store_ids', 'hidden', array(

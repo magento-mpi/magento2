@@ -24,23 +24,23 @@ class Observer extends \Magento\Core\Model\AbstractModel
     /**
      * Gift card data
      *
-     * @var Magento_GiftCard_Helper_Data
+     * @var \Magento\GiftCard\Helper\Data
      */
     protected $_giftCardData = null;
 
     /**
-     * @param Magento_GiftCard_Helper_Data $giftCardData
+     * @param \Magento\GiftCard\Helper\Data $giftCardData
      * @param \Magento\Core\Model\Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $resourceCollection
      * @param array $data
      * @throws \InvalidArgumentException
      */
     public function __construct(
-        Magento_GiftCard_Helper_Data $giftCardData,
+        \Magento\GiftCard\Helper\Data $giftCardData,
         \Magento\Core\Model\Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $resourceCollection = null,
         array $data = array()
@@ -48,9 +48,9 @@ class Observer extends \Magento\Core\Model\AbstractModel
         $this->_giftCardData = $giftCardData;
         if (isset($data['email_template_model'])) {
             if (!$data['email_template_model'] instanceof \Magento\Core\Model\Email\Template) {
-                throw new InvalidArgumentException(
+                throw new \InvalidArgumentException(
                     'Argument "email_template_model" is expected to be an'
-                        . ' instance of "Magento_Core_Model_Email_Template".'
+                        . ' instance of "Magento\Core\Model\Email\Template".'
                 );
             }
             $this->_emailTemplateModel = $data['email_template_model'];

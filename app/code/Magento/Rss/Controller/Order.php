@@ -28,18 +28,18 @@ class Order extends \Magento\Core\Controller\Front\Action
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Config\Scope $configScope
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Config\Scope $configScope
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -70,7 +70,7 @@ class Order extends \Magento\Core\Controller\Front\Action
      */
     public function statusAction()
     {
-        $order = $this->_objectManager->get('Magento_Rss_Helper_Order')
+        $order = $this->_objectManager->get('Magento\Rss\Helper\Order')
             ->getOrderByStatusUrlKey((string)$this->getRequest()->getParam('data'));
 
         if (!is_null($order)) {

@@ -34,36 +34,36 @@ class Observer
     /**
      * Cms hierarchy
      *
-     * @var Magento_VersionsCms_Helper_Hierarchy
+     * @var \Magento\VersionsCms\Helper\Hierarchy
      */
     protected $_cmsHierarchy = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_VersionsCms_Model_Config $config
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\VersionsCms\Model\Config $config
      * @param Magento_AuthorizationInterface $authorization
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_VersionsCms_Model_Config $config,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\VersionsCms\Model\Config $config,
         Magento_AuthorizationInterface $authorization
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -483,8 +483,8 @@ class Observer
      * Handler for cms hierarchy view
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event|false
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event|false
      */
     public function postDispatchCmsHierachyView($config, $eventModel)
     {
@@ -495,8 +495,8 @@ class Observer
      * Handler for cms revision preview
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event|false
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event|false
      */
     public function postDispatchCmsRevisionPreview($config, $eventModel)
     {
@@ -507,8 +507,8 @@ class Observer
      * Handler for cms revision publish
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event|false
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event|false
      */
     public function postDispatchCmsRevisionPublish($config, $eventModel)
     {
@@ -527,7 +527,7 @@ class Observer
             return $this;
         }
 
-        /* @var $node Magento_VersionsCms_Model_Hierarchy_Node */
+        /* @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
         $node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
 
         /* @var $action \Magento\Core\Controller\Varien\Action */

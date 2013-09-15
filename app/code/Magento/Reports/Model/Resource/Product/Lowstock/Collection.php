@@ -44,25 +44,25 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
     /**
      * Catalog inventory data
      *
-     * @var Magento_CatalogInventory_Helper_Data
+     * @var \Magento\CatalogInventory\Helper\Data
      */
     protected $_inventoryData = null;
 
     /**
-     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
-     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Catalog_Model_Resource_Product $product
+     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Catalog\Model\Resource\Product $product
      */
     public function __construct(
-        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
-        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Catalog_Model_Resource_Product $product
+        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Catalog\Model\Resource\Product $product
     ) {
         $this->_inventoryData = $catalogInventoryData;
         parent::__construct($catalogProductFlat, $catalogData, $eventManager, $fetchStrategy, $product);

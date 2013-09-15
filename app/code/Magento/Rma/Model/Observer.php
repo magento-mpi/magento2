@@ -23,15 +23,15 @@ class Observer
     /**
      * Rma data
      *
-     * @var Magento_Rma_Helper_Data
+     * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaData = null;
 
     /**
-     * @param Magento_Rma_Helper_Data $rmaData
+     * @param \Magento\Rma\Helper\Data $rmaData
      */
     public function __construct(
-        Magento_Rma_Helper_Data $rmaData
+        \Magento\Rma\Helper\Data $rmaData
     ) {
         $this->_rmaData = $rmaData;
     }

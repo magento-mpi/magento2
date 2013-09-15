@@ -30,27 +30,27 @@ class Uploader extends \Magento\File\Uploader
     /**
      * Core file storage
      *
-     * @var Magento_Core_Helper_File_Storage
+     * @var \Magento\Core\Helper\File\Storage
      */
     protected $_coreFileStorage = null;
 
     /**
      * Core file storage database
      *
-     * @var Magento_Core_Helper_File_Storage_Database
+     * @var \Magento\Core\Helper\File\Storage\Database
      */
     protected $_coreFileStorageDb = null;
 
     /**
      * Init upload
      *
-     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
-     * @param Magento_Core_Helper_File_Storage $coreFileStorage
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
+     * @param \Magento\Core\Helper\File\Storage $coreFileStorage
      * @param $fileId
      */
     public function __construct(
-        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
-        Magento_Core_Helper_File_Storage $coreFileStorage,
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
+        \Magento\Core\Helper\File\Storage $coreFileStorage,
         $fileId
     ) {
         $this->_coreFileStorageDb = $coreFileStorageDb;

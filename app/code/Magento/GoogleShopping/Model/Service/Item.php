@@ -20,16 +20,16 @@ namespace Magento\GoogleShopping\Model\Service;
 class Item extends \Magento\GoogleShopping\Model\Service
 {
     /**
-     * @var Magento_GoogleShopping_Helper_Data|null
+     * @var \Magento\GoogleShopping\Helper\Data|null
      */
     protected $_gsData = null;
 
     /**
-     * @param Magento_GoogleShopping_Helper_Data $gsData
+     * @param \Magento\GoogleShopping\Helper\Data $gsData
      * @param array $data
      */
     public function __construct(
-        Magento_GoogleShopping_Helper_Data $gsData,
+        \Magento\GoogleShopping\Helper\Data $gsData,
         array $data = array()
     ) {
         $this->_gsData = $gsData;

@@ -31,16 +31,16 @@ class Observer
     /**
      * Catalog permissions data
      *
-     * @var Magento_CatalogPermissions_Helper_Data
+     * @var \Magento\CatalogPermissions\Helper\Data
      */
     protected $_catalogPermData = null;
 
     /**
-     * @param Magento_CatalogPermissions_Helper_Data $catalogPermData
+     * @param \Magento\CatalogPermissions\Helper\Data $catalogPermData
      * @param \Magento\AuthorizationInterface $authorization
      */
     public function __construct(
-        Magento_CatalogPermissions_Helper_Data $catalogPermData,
+        \Magento\CatalogPermissions\Helper\Data $catalogPermData,
         Magento_AuthorizationInterface $authorization
     ) {
         $this->_catalogPermData = $catalogPermData;

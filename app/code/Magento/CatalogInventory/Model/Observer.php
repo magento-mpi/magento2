@@ -40,15 +40,15 @@ class Observer
     /**
      * Catalog inventory data
      *
-     * @var Magento_CatalogInventory_Helper_Data
+     * @var \Magento\CatalogInventory\Helper\Data
      */
     protected $_catalogInventoryData = null;
 
     /**
-     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
+     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      */
     public function __construct(
-        Magento_CatalogInventory_Helper_Data $catalogInventoryData
+        \Magento\CatalogInventory\Helper\Data $catalogInventoryData
     ) {
         $this->_catalogInventoryData = $catalogInventoryData;
     }

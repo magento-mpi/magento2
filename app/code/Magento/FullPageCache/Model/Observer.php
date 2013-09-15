@@ -34,7 +34,7 @@ class Observer
     /**
      * Page Cache Config
      *
-     * @var Magento_FullPageCache_Model_Placeholder_Mapper
+     * @var \Magento\FullPageCache\Model\Placeholder\Mapper
      */
     protected $_mapper;
 
@@ -86,58 +86,58 @@ class Observer
     /**
      * Catalog product compare
      *
-     * @var Magento_Catalog_Helper_Product_Compare
+     * @var \Magento\Catalog\Helper\Product\Compare
      */
     protected $_ctlgProdCompare = null;
 
     /**
      * Wishlist data
      *
-     * @var Magento_Wishlist_Helper_Data
+     * @var \Magento\Wishlist\Helper\Data
      */
     protected $_wishlistData = null;
 
     /**
      * Core url
      *
-     * @var Magento_Core_Helper_Url
+     * @var \Magento\Core\Helper\Url
      */
     protected $_coreUrl = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Url $coreUrl
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_Catalog_Helper_Product_Compare $ctlgProdCompare
-     * @param Magento_FullPageCache_Model_Processor $processor
-     * @param Magento_FullPageCache_Model_Request_Identifier $_requestIdentifier
-     * @param Magento_FullPageCache_Model_Placeholder_Mapper $mapper
-     * @param Magento_Core_Model_Cache_StateInterface $cacheState
-     * @param Magento_FullPageCache_Model_Cache $fpcCache
-     * @param Magento_FullPageCache_Model_Cookie $cookie
-     * @param Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction
-     * @param Magento_FullPageCache_Model_DesignPackage_Rules $designRules
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Helper\Url $coreUrl
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Catalog\Helper\Product\Compare $ctlgProdCompare
+     * @param \Magento\FullPageCache\Model\Processor $processor
+     * @param \Magento\FullPageCache\Model\Request\Identifier $_requestIdentifier
+     * @param \Magento\FullPageCache\Model\Placeholder\Mapper $mapper
+     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\FullPageCache\Model\Cache $fpcCache
+     * @param \Magento\FullPageCache\Model\Cookie $cookie
+     * @param \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction
+     * @param \Magento\FullPageCache\Model\DesignPackage\Rules $designRules
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Core_Helper_Url $coreUrl,
-        Magento_Wishlist_Helper_Data $wishlistData,
-        Magento_Catalog_Helper_Product_Compare $ctlgProdCompare,
-        Magento_FullPageCache_Model_Processor $processor,
-        Magento_FullPageCache_Model_Request_Identifier $_requestIdentifier,
-        Magento_FullPageCache_Model_Placeholder_Mapper $mapper,
-        Magento_Core_Model_Cache_StateInterface $cacheState,
-        Magento_FullPageCache_Model_Cache $fpcCache,
-        Magento_FullPageCache_Model_Cookie $cookie,
-        Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction,
-        Magento_FullPageCache_Model_DesignPackage_Rules $designRules,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Core\Helper\Url $coreUrl,
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Catalog\Helper\Product\Compare $ctlgProdCompare,
+        \Magento\FullPageCache\Model\Processor $processor,
+        \Magento\FullPageCache\Model\Request\Identifier $_requestIdentifier,
+        \Magento\FullPageCache\Model\Placeholder\Mapper $mapper,
+        \Magento\Core\Model\Cache\StateInterface $cacheState,
+        \Magento\FullPageCache\Model\Cache $fpcCache,
+        \Magento\FullPageCache\Model\Cookie $cookie,
+        \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction,
+        \Magento\FullPageCache\Model\DesignPackage\Rules $designRules,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_coreUrl = $coreUrl;

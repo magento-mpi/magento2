@@ -24,7 +24,7 @@ class Info extends \Magento\Core\Block\Template
     /**
      * Checkout data
      *
-     * @var Magento_AdvancedCheckout_Helper_Data
+     * @var \Magento\AdvancedCheckout\Helper\Data
      */
     protected $_checkoutData = null;
 
@@ -43,19 +43,19 @@ class Info extends \Magento\Core\Block\Template
     protected $_productAlertData = null;
 
     /**
-     * @param Magento_ProductAlert_Helper_Data $productAlertData
-     * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\ProductAlert\Helper\Data $productAlertData
+     * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_ProductAlert_Helper_Data $productAlertData,
-        Magento_AdvancedCheckout_Helper_Data $checkoutData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\ProductAlert\Helper\Data $productAlertData,
+        \Magento\AdvancedCheckout\Helper\Data $checkoutData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_productAlertData = $productAlertData;

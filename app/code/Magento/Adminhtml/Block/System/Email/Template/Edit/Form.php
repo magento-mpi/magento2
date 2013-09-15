@@ -41,7 +41,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
@@ -131,7 +131,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             $form->addValues($this->getEmailTemplate()->getData());
         }
 
-        $values = Mage::getSingleton('Magento\Adminhtml\Model\Session')->getData('email_template_form_data', true);
+        $values = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getData('email_template_form_data', true);
         if ($values) {
             $form->setValues($values);
         }
@@ -166,7 +166,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         if ($customVariables) {
             $variables[] = $customVariables;
         }
-        /* @var $template Magento_Core_Model_Email_Template */
+        /* @var $template \Magento\Core\Model\Email\Template */
         $template = $this->_coreRegistry->registry('current_email_template');
         if ($template->getId() && $templateVariables = $template->getVariablesOptionArray(true)) {
             $variables[] = $templateVariables;

@@ -29,7 +29,7 @@ return array(
             array(
                 'table' => 'table',
                 'field' => 'field',
-                'to'    => 'Magento_Customer_Model_Customer_FROM_MAP',
+                'to'    => 'Magento\Customer\Model\Customer_FROM_MAP',
                 'from'  => array('`field` = ?' => 'customer/customer')
             ),
             array(
@@ -47,14 +47,14 @@ return array(
         ),
         'aliases_map' => array(
             \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_MODEL => array(
-                'customer/customer'                => 'Magento_Customer_Model_Customer_FROM_MAP',
+                'customer/customer'                => 'Magento\Customer\Model\Customer_FROM_MAP',
                 'customer/attribute_data_postcode' => 'Magento\Customer\Model\Attribute\Data\Postcode',
             ),
         )
     ),
     '$aliasesMap' => array(
         \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_MODEL => array(
-            'customer/customer' => 'Magento_Customer_Model_Customer_FROM_MAP'
+            'customer/customer' => 'Magento\Customer\Model\Customer_FROM_MAP'
         )
     )
 );

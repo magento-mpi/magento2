@@ -32,7 +32,7 @@ class Magento_Backend_Block_System_Config_TabsTest extends PHPUnit_Framework_Tes
     protected $_urlBuilderMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Factory_Helper
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Factory\Helper
      */
     protected $_helperFactoryMock;
 

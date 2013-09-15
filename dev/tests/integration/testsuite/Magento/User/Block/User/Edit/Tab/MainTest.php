@@ -34,7 +34,7 @@ class Magento_User_Block_User_Edit_Tab_MainTest extends Magento_Backend_Utility_
         $this->_block->setArea('adminhtml');
         $this->_user = $objectManager->create('Magento\User\Model\User');
 
-        $objectManager->get('Magento_Core_Model_Registry')->register('permissions_user', $this->_user);
+        $objectManager->get('Magento\Core\Model\Registry')->register('permissions_user', $this->_user);
     }
 
     protected function tearDown()
@@ -43,7 +43,7 @@ class Magento_User_Block_User_Edit_Tab_MainTest extends Magento_Backend_Utility_
         $this->_user = null;
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->unregister('permissions_user');
+        $objectManager->get('Magento\Core\Model\Registry')->unregister('permissions_user');
         parent::tearDown();
     }
 

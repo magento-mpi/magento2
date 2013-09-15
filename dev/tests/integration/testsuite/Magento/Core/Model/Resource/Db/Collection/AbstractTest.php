@@ -30,7 +30,7 @@ class Magento_Core_Model_Resource_Db_Collection_AbstractTest extends PHPUnit_Fra
         $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
 
         $eventManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Event_Manager');
+            ->get('Magento\Core\Model\Event\Manager');
 
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Core\Model\Resource\Db\Collection\Abstract',

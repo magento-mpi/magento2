@@ -15,14 +15,16 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Layout_Argument_Handler_String extends Magento_Core_Model_Layout_Argument_HandlerAbstract
+namespace Magento\Core\Model\Layout\Argument\Handler;
+
+class String extends \Magento\Core\Model\Layout\Argument\HandlerAbstract
 {
     /**
      * Process argument value
      *
      * @param array $argument
-     * @return string|Magento_Phrase
-     * @throws InvalidArgumentException
+     * @return string|\Magento\Phrase
+     * @throws \InvalidArgumentException
      */
     public function process(array $argument)
     {
@@ -38,20 +40,20 @@ class Magento_Core_Model_Layout_Argument_Handler_String extends Magento_Core_Mod
 
     /**
      * @param array $argument
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _validate(array $argument)
     {
         parent::_validate($argument);
 
         if (!isset($argument['value']['string'])) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 'Passed value has incorrect format. ' . $this->_getArgumentInfo($argument)
             );
         }
 
         if (!is_string($argument['value']['string'])) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 'Value is not string argument. ' . $this->_getArgumentInfo($argument)
             );
         }
@@ -60,10 +62,10 @@ class Magento_Core_Model_Layout_Argument_Handler_String extends Magento_Core_Mod
     /**
      * Retrieve value from argument
      *
-     * @param Magento_Core_Model_Layout_Element $argument
+     * @param \Magento\Core\Model\Layout\Element $argument
      * @return array|null
      */
-    protected function _getArgumentValue(Magento_Core_Model_Layout_Element $argument)
+    protected function _getArgumentValue(\Magento\Core\Model\Layout\Element $argument)
     {
         $value = parent::_getArgumentValue($argument);
         if (!isset($value)) {

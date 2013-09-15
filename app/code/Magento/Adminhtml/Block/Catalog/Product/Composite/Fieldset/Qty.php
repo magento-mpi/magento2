@@ -18,7 +18,7 @@ class Qty extends \Magento\Core\Block\Template
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 

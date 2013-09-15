@@ -22,15 +22,15 @@ class Observer
     /**
      * Reminder data
      *
-     * @var Magento_Reminder_Helper_Data
+     * @var \Magento\Reminder\Helper\Data
      */
     protected $_reminderData = null;
 
     /**
-     * @param Magento_Reminder_Helper_Data $reminderData
+     * @param \Magento\Reminder\Helper\Data $reminderData
      */
     public function __construct(
-        Magento_Reminder_Helper_Data $reminderData
+        \Magento\Reminder\Helper\Data $reminderData
     ) {
         $this->_reminderData = $reminderData;
     }
@@ -108,7 +108,7 @@ class Observer
     public function scheduledNotification()
     {
         if ($this->_reminderData->isEnabled()) {
-            Mage::getModel('Magento\Reminder\Model\Rule')->sendReminderEmails();
+            \Mage::getModel('Magento\Reminder\Model\Rule')->sendReminderEmails();
             return $this;
         }
     }

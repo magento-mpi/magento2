@@ -9,7 +9,7 @@
  */
 class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase_Webapi_AdapterInterface
 {
-    /** @var Magento_Webapi_Model_Config */
+    /** @var \Magento\Webapi\Model\Config */
     protected $_config;
 
     /**
@@ -17,7 +17,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
      */
     public function __construct()
     {
-        $this->_config = Mage::getObjectManager()->get('Magento_Webapi_Model_Config');
+        $this->_config = Mage::getObjectManager()->get('Magento\Webapi\Model\Config');
     }
 
     /**
@@ -31,16 +31,16 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
         // delegate the request to vanilla cURL REST client
         $curlClient = new Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient();
         switch ($httpMethod) {
-            case Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET:
+            case \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET:
                 $response = $curlClient->get($resourcePath, $arguments);
                 break;
-            case Magento_Webapi_Model_Rest_Config::HTTP_METHOD_POST:
+            case \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST:
                 $response = $curlClient->post($resourcePath, $arguments);
                 break;
-            case Magento_Webapi_Model_Rest_Config::HTTP_METHOD_PUT:
+            case \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT:
                 $response = $curlClient->put($resourcePath, $arguments);
                 break;
-            case Magento_Webapi_Model_Rest_Config::HTTP_METHOD_DELETE:
+            case \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE:
                 $response = $curlClient->delete($resourcePath);
                 break;
             default:
@@ -73,7 +73,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
             if (isset($services[$serviceInterface]['methods'][$method])) {
                 $serviceData = $services[$serviceInterface];
                 $methodData = $serviceData['methods'][$method];
-                $routePattern = $serviceData[Magento_Webapi_Model_Config::ATTR_SERVICE_PATH] . $methodData['route'];
+                $routePattern = $serviceData[\Magento\Webapi\Model\Config::ATTR_SERVICE_PATH] . $methodData['route'];
                 $numberOfPlaceholders = substr_count($routePattern, ':');
                 if ($numberOfPlaceholders == 1) {
                     if (!isset($serviceInfo['entityId'])) {
@@ -110,7 +110,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
             $method = $serviceInfo['method'];
             if (isset($services[$serviceInterface]['methods'][$method])) {
                 $httpMethod
-                    = $services[$serviceInterface]['methods'][$method][Magento_Webapi_Model_Config::ATTR_HTTP_METHOD];
+                    = $services[$serviceInterface]['methods'][$method][\Magento\Webapi\Model\Config::ATTR_HTTP_METHOD];
             }
         }
         if (!isset($httpMethod)) {

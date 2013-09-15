@@ -36,7 +36,7 @@ class Design
          */
         $isElementDisabled = !$this->_isAllowedAction('Magento_Cms::save');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form   = $this->_formFactory->create(array(
             'attributes' => array(
                 'html_id_prefix' => 'page_',

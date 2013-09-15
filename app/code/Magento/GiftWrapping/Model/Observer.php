@@ -22,15 +22,15 @@ class Observer
     /**
      * Gift wrapping data
      *
-     * @var Magento_GiftWrapping_Helper_Data
+     * @var \Magento\GiftWrapping\Helper\Data
      */
     protected $_giftWrappingData = null;
 
     /**
-     * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
+     * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      */
     public function __construct(
-        Magento_GiftWrapping_Helper_Data $giftWrappingData
+        \Magento\GiftWrapping\Helper\Data $giftWrappingData
     ) {
         $this->_giftWrappingData = $giftWrappingData;
     }

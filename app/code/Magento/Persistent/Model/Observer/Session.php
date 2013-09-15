@@ -28,24 +28,24 @@ class Session
     /**
      * Persistent session
      *
-     * @var Magento_Persistent_Helper_Session
+     * @var \Magento\Persistent\Helper\Session
      */
     protected $_persistentSession = null;
 
     /**
      * Persistent data
      *
-     * @var Magento_Persistent_Helper_Data
+     * @var \Magento\Persistent\Helper\Data
      */
     protected $_persistentData = null;
 
     /**
-     * @param Magento_Persistent_Helper_Data $persistentData
-     * @param Magento_Persistent_Helper_Session $persistentSession
+     * @param \Magento\Persistent\Helper\Data $persistentData
+     * @param \Magento\Persistent\Helper\Session $persistentSession
      */
     public function __construct(
-        Magento_Persistent_Helper_Data $persistentData,
-        Magento_Persistent_Helper_Session $persistentSession
+        \Magento\Persistent\Helper\Data $persistentData,
+        \Magento\Persistent\Helper\Session $persistentSession
     ) {
         $this->_persistentData = $persistentData;
         $this->_persistentSession = $persistentSession;

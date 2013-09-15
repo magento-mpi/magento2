@@ -85,7 +85,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 //            $classNameParts[$key] = ucfirst($part);
 //        }
 //        return $this->getLayout()
-//            ->createBlock('Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_' . implode('_', $classNameParts))
+//            ->createBlock('Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\\' . implode('_', $classNameParts))
 //            ->initForm()
 //            ->toHtml();
     }

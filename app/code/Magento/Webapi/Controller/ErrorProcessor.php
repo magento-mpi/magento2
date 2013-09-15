@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Webapi\Controller\Dispatcher;
+namespace Magento\Webapi\Controller;
 
 class ErrorProcessor
 {
@@ -53,22 +53,22 @@ class ErrorProcessor
     /**
      * Mask actual exception for security reasons in case when it should not be exposed to API clients.
      *
-     * Convert any exception into Magento_Webapi_Exception.
+     * Convert any exception into \Magento\Webapi\Exception.
      *
      * @param Exception $exception
-     * @return Magento_Webapi_Exception
+     * @return \Magento\Webapi\Exception
      */
     public function maskException(\Exception $exception)
     {
         /** Log information about actual exception. */
         $reportId = $this->_logException($exception);
-        if ($exception instanceof Magento_Service_Exception) {
-            if ($exception instanceof Magento_Service_ResourceNotFoundException) {
-                $httpCode = Magento_Webapi_Exception::HTTP_NOT_FOUND;
-            } elseif ($exception instanceof Magento_Service_AuthorizationException) {
-                $httpCode = Magento_Webapi_Exception::HTTP_UNAUTHORIZED;
+        if ($exception instanceof \Magento\Service\Exception) {
+            if ($exception instanceof \Magento\Service\ResourceNotFoundException) {
+                $httpCode = \Magento\Webapi\Exception::HTTP_NOT_FOUND;
+            } elseif ($exception instanceof \Magento\Service\AuthorizationException) {
+                $httpCode = \Magento\Webapi\Exception::HTTP_UNAUTHORIZED;
             } else {
-                $httpCode = Magento_Webapi_Exception::HTTP_BAD_REQUEST;
+                $httpCode = \Magento\Webapi\Exception::HTTP_BAD_REQUEST;
             }
             $maskedException = new \Magento\Webapi\Exception(
                 $exception->getMessage(),
@@ -76,21 +76,21 @@ class ErrorProcessor
                 $httpCode,
                 $exception->getParameters()
             );
-        } else if ($exception instanceof Magento_Webapi_Exception) {
+        } else if ($exception instanceof \Magento\Webapi\Exception) {
             $maskedException = $exception;
         } else {
             if (!$this->_app->isDeveloperMode()) {
                 /** Create exception with masked message. */
-                $maskedException = new Magento_Webapi_Exception(
+                $maskedException = new \Magento\Webapi\Exception(
                     __('Internal Error. Details are available in Magento log file. Report ID: %1', $reportId),
                     0,
-                    Magento_Webapi_Exception::HTTP_INTERNAL_ERROR
+                    \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR
                 );
             } else {
-                $maskedException = new Magento_Webapi_Exception(
+                $maskedException = new \Magento\Webapi\Exception(
                     $exception->getMessage(),
                     $exception->getCode(),
-                    Magento_Webapi_Exception::HTTP_INTERNAL_ERROR
+                    \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR
                 );
             }
         }
@@ -209,7 +209,7 @@ class ErrorProcessor
     /**
      * Declare web API-specific shutdown function.
      *
-     * @return Magento_Webapi_Controller_ErrorProcessor
+     * @return \Magento\Webapi\Controller\ErrorProcessor
      */
     public function registerShutdownFunction()
     {

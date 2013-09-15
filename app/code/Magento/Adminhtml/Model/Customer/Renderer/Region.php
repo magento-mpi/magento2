@@ -33,20 +33,20 @@ class Region implements \Magento\Data\Form\Element\Renderer\RendererInterface
     /**
      * Adminhtml data
      *
-     * @var Magento_Adminhtml_Helper_Data
+     * @var \Magento\Adminhtml\Helper\Data
      */
     protected $_adminhtmlData = null;
 
     /**
-     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param \Magento\Adminhtml\Helper\Data $adminhtmlData
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Data $adminhtmlData
+        \Magento\Adminhtml\Helper\Data $adminhtmlData
     ) {
         $this->_adminhtmlData = $adminhtmlData;
     }
 
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $html = '<div class="field field-region required">'."\n";
 

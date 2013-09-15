@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Customer_Model_Resource_Customer_Collection
+ * \Magento\Customer\Model\Resource\Customer\Collection
  *
  * {license_notice}
  *
@@ -11,13 +11,13 @@
 class Magento_Customer_Model_Resource_Customer_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Customer_Model_Resource_Customer_Collection
+     * @var \Magento\Customer\Model\Resource\Customer\Collection
      */
     protected $_collection;
 
     public function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
+        $this->_collection = Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
     }
 
     public function testAddNameToSelect()

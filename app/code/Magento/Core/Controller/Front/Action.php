@@ -36,7 +36,7 @@ class Action extends \Magento\Core\Controller\Varien\Action
     {
         parent::postDispatch();
         if (!$this->getFlag('', self::FLAG_NO_START_SESSION )) {
-            Mage::getSingleton('Magento_Core_Model_Session')
+            \Mage::getSingleton('Magento_Core_Model_Session')
                 ->setLastUrl(Mage::getUrl('*/*/*', array('_current' => true)));
         }
         return $this;
@@ -55,7 +55,7 @@ class Action extends \Magento\Core\Controller\Varien\Action
         \Mage::app()->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML,
             \Magento\Core\Model\App\Area::PART_CONFIG);
 
-        /** @var $auth Magento_Backend_Model_Auth */
+        /** @var $auth \Magento\Backend\Model\Auth */
         $auth = \Mage::getModel('Magento\Backend\Model\Auth');
         $session = $auth->getAuthStorage();
 

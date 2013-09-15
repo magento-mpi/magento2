@@ -25,26 +25,26 @@ class Content
     /**
      * Cms data
      *
-     * @var Magento_VersionsCms_Helper_Data
+     * @var \Magento\VersionsCms\Helper\Data
      */
     protected $_cmsData = null;
 
     /**
-     * @param Magento_VersionsCms_Helper_Data $cmsData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\VersionsCms\Helper\Data $cmsData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_VersionsCms_Helper_Data $cmsData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\VersionsCms\Helper\Data $cmsData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
@@ -61,7 +61,7 @@ class Content
      */
     protected function _prepareForm()
     {
-        /* @var $model Magento_Cms_Model_Page */
+        /* @var $model \Magento\Cms\Model\Page */
         $model = $this->_coreRegistry->registry('cms_page');
 
         parent::_prepareForm();

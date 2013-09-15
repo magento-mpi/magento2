@@ -110,29 +110,29 @@ class Usps
     /**
      * Factory for \Magento\Usa\Model\Simplexml\Element
      *
-     * @var Magento_Usa_Model_Simplexml_ElementFactory
+     * @var \Magento\Usa\Model\Simplexml\ElementFactory
      */
     protected $_xmlElFactory;
 
     /**
      * Usa data
      *
-     * @var Magento_Usa_Helper_Data
+     * @var \Magento\Usa\Helper\Data
      */
     protected $_usaData = null;
 
     /**
      * Usps constructor
      *
-     * @param Magento_Usa_Helper_Data $usaData
-     * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
-     * @param Magento_Directory_Helper_Data $directoryData
+     * @param \Magento\Usa\Helper\Data $usaData
+     * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
+     * @param \Magento\Directory\Helper\Data $directoryData
      * @param array $data
      */
     public function __construct(
-        Magento_Usa_Helper_Data $usaData,
-        Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
-        Magento_Directory_Helper_Data $directoryData,
+        \Magento\Usa\Helper\Data $usaData,
+        \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
+        \Magento\Directory\Helper\Data $directoryData,
         array $data = array()
     ) {
         $this->_usaData = $usaData;

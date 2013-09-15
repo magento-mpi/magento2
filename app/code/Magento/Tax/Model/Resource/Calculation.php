@@ -37,7 +37,7 @@ class Calculation extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
@@ -46,12 +46,12 @@ class Calculation extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      *
      *
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Model_Resource $resource
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_taxData = $taxData;
         parent::__construct($resource);

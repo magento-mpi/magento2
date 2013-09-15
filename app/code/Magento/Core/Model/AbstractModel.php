@@ -111,20 +111,20 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Core\Model\Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -181,13 +181,13 @@ abstract class AbstractModel extends \Magento\Object
      */
     public function __wakeup()
     {
-        if (Mage::getIsSerializable()) {
+        if (\Mage::getIsSerializable()) {
             $this->_eventDispatcher = \Magento\Core\Model\ObjectManager::getInstance()
-                ->get('Magento_Core_Model_Event_Manager');
+                ->get('Magento\Core\Model\Event\Manager');
             $this->_cacheManager    = \Magento\Core\Model\ObjectManager::getInstance()
-                ->get('Magento_Core_Model_CacheInterface');
-            $this->_coreRegistry    = Magento_Core_Model_ObjectManager::getInstance()
-                ->get('Magento_Core_Model_Registry');
+                ->get('Magento\Core\Model\CacheInterface');
+            $this->_coreRegistry    = \Magento\Core\Model\ObjectManager::getInstance()
+                ->get('Magento\Core\Model\Registry');
         }
     }
 

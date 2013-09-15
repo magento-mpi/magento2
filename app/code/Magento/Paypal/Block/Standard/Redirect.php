@@ -14,32 +14,32 @@ class Redirect extends \Magento\Core\Block\AbstractBlock
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @var Magento_Data_FormFactory
+     * @var \Magento\Data\FormFactory
      */
     protected $_formFactory;
 
     /**
-     * @var Magento_Data_Form_Element_Factory
+     * @var \Magento\Data\Form\Element\Factory
      */
     protected $_elementFactory;
 
     /**
-     * @param Magento_Data_FormFactory $formFactory
-     * @param Magento_Data_Form_Element_Factory $elementFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Context $context
+     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Data\Form\Element\Factory $elementFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Data_FormFactory $formFactory,
-        Magento_Data_Form_Element_Factory $elementFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Context $context,
+        \Magento\Data\FormFactory $formFactory,
+        \Magento\Data\Form\Element\Factory $elementFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Context $context,
         array $data = array()
     ) {
         $this->_coreData = $coreData;

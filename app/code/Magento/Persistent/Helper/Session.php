@@ -44,23 +44,23 @@ class Session extends \Magento\Core\Helper\Data
     /**
      * Persistent data
      *
-     * @var Magento_Persistent_Helper_Data
+     * @var \Magento\Persistent\Helper\Data
      */
     protected $_persistentData = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Persistent_Helper_Data $persistentData
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Persistent\Helper\Data $persistentData
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config $config
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Persistent_Helper_Data $persistentData,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $config
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Persistent\Helper\Data $persistentData,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $config
     ) {
         $this->_persistentData = $persistentData;
         parent::__construct($eventManager, $coreHttp, $context, $config);

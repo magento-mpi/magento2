@@ -22,24 +22,24 @@ class Observer
     /**
      * Bundle data
      *
-     * @var Magento_Bundle_Helper_Data
+     * @var \Magento\Bundle\Helper\Data
      */
     protected $_bundleData = null;
 
     /**
      * Adminhtml catalog
      *
-     * @var Magento_Adminhtml_Helper_Catalog
+     * @var \Magento\Adminhtml\Helper\Catalog
      */
     protected $_adminhtmlCatalog = null;
 
     /**
-     * @param Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog
-     * @param Magento_Bundle_Helper_Data $bundleData
+     * @param \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog
+     * @param \Magento\Bundle\Helper\Data $bundleData
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog,
-        Magento_Bundle_Helper_Data $bundleData
+        \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog,
+        \Magento\Bundle\Helper\Data $bundleData
     ) {
         $this->_adminhtmlCatalog = $adminhtmlCatalog;
         $this->_bundleData = $bundleData;

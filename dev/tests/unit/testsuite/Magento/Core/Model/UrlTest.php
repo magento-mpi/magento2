@@ -22,7 +22,7 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_model = new \Magento\Core\Model\Url(
-            $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false)
+            $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false)
         );
     }
 
@@ -54,8 +54,8 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
         $controllerName = 'controllerName';
         $actionName = 'actionName';
 
-        $backendData = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
-        $requestMock = $this->getMockForAbstractClass('Magento_Core_Controller_Request_Http',
+        $backendData = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
+        $requestMock = $this->getMockForAbstractClass('Magento\Core\Controller\Request\Http',
             array($backendData), '', false, false, true,
             array('getRequestedRouteName', 'getRequestedControllerName', 'getRequestedActionName'));
 

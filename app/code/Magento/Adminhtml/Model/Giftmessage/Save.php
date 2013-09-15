@@ -25,7 +25,7 @@ class Save extends \Magento\Object
     /**
      * Gift message message
      *
-     * @var Magento_GiftMessage_Helper_Message
+     * @var \Magento\GiftMessage\Helper\Message
      */
     protected $_giftMessageMessage = null;
 
@@ -35,10 +35,10 @@ class Save extends \Magento\Object
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_GiftMessage_Helper_Message $giftMessageMessage
+     * @param \Magento\GiftMessage\Helper\Message $giftMessageMessage
      */
     public function __construct(
-        Magento_GiftMessage_Helper_Message $giftMessageMessage
+        \Magento\GiftMessage\Helper\Message $giftMessageMessage
     ) {
         $this->_giftMessageMessage = $giftMessageMessage;
     }

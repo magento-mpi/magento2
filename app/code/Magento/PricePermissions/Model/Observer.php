@@ -85,25 +85,25 @@ class Observer
     /**
      * Price permissions data
      *
-     * @var Magento_PricePermissions_Helper_Data
+     * @var \Magento\PricePermissions\Helper\Data
      */
     protected $_pricePermData = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_PricePermissions_Helper_Data $pricePermData
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\PricePermissions\Helper\Data $pricePermData
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param  $data
      */
     public function __construct(
-        Magento_PricePermissions_Helper_Data $pricePermData,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\PricePermissions\Helper\Data $pricePermData,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -136,7 +136,7 @@ class Observer
         // load role with true websites and store groups
         if ($session->isLoggedIn() && $session->getUser()->getRole()) {
             // Set all necessary flags
-            /** @var $helper Magento_PricePermissions_Helper_Data */
+            /** @var $helper \Magento\PricePermissions\Helper\Data */
             $helper = $this->_pricePermData;
             $this->_canEditProductPrice = $helper->getCanAdminEditProductPrice();
             $this->_canReadProductPrice = $helper->getCanAdminReadProductPrice();
@@ -467,7 +467,7 @@ class Observer
      */
     public function adminhtmlCatalogProductEditPrepareForm(\Magento\Event\Observer $observer)
     {
-        /** @var $product Magento_Catalog_Model_Product */
+        /** @var $product \Magento\Catalog\Model\Product */
         $product = $this->_coreRegistry->registry('product');
         if ($product->isObjectNew()) {
             $form = $observer->getEvent()->getForm();
@@ -779,7 +779,7 @@ class Observer
      */
     protected function _hidePriceElements($block)
     {
-        /** @var $product Magento_Catalog_Model_Product */
+        /** @var $product \Magento\Catalog\Model\Product */
         $product = $this->_coreRegistry->registry('product');
         $form = $block->getForm();
         $group = $block->getGroup();
@@ -809,7 +809,7 @@ class Observer
 
             // Leave price element for bundle product active in order to change/view price type when product is created
             $typeId = $this->_coreRegistry->registry('product')->getTypeId();
-            if ($typeId != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+            if ($typeId != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
                 array_push($priceElementIds, 'price');
             }
 

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_Config
+namespace Magento\Webapi\Model\Soap;
+
+class Config
 {
     /**#@+
      * Keys that a used for service config internal representation.
@@ -18,16 +20,16 @@ class Magento_Webapi_Model_Soap_Config
     const KEY_IS_REQUIRED = 'inputRequired';
     /**#@-*/
 
-    /** @var Magento_Filesystem */
+    /** @var \Magento\Filesystem */
     protected $_filesystem;
 
-    /** @var Magento_Core_Model_Dir */
+    /** @var \Magento\Core\Model\Dir */
     protected $_dir;
 
-    /** @var Magento_Webapi_Model_Config */
+    /** @var \Magento\Webapi\Model\Config */
     protected $_config;
 
-    /** @var Magento_Core_Model_ObjectManager */
+    /** @var \Magento\Core\Model\ObjectManager */
     protected $_objectManager;
 
     /**
@@ -46,16 +48,16 @@ class Magento_Webapi_Model_Soap_Config
     protected $_soapOperations;
 
     /**
-     * @param Magento_Core_Model_ObjectManager $objectManager
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Webapi_Model_Config $config
+     * @param \Magento\Core\Model\ObjectManager $objectManager
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Webapi\Model\Config $config
      */
     public function __construct(
-        Magento_Core_Model_ObjectManager $objectManager,
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_Dir $dir,
-        Magento_Webapi_Model_Config $config
+        \Magento\Core\Model\ObjectManager $objectManager,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Webapi\Model\Config $config
     ) {
         $this->_filesystem = $filesystem;
         $this->_dir = $dir;
@@ -83,12 +85,12 @@ class Magento_Webapi_Model_Soap_Config
             $this->_soapOperations = array();
             foreach ($this->getRequestedSoapServices($requestedService) as $serviceData) {
                 foreach ($serviceData['methods'] as $method => $methodData) {
-                    $class = $serviceData[Magento_Webapi_Model_Config::ATTR_SERVICE_CLASS];
+                    $class = $serviceData[\Magento\Webapi\Model\Config::ATTR_SERVICE_CLASS];
                     $operationName = $this->getSoapOperation($class, $method);
                     $this->_soapOperations[$operationName] = array(
                         self::KEY_CLASS => $class,
                         self::KEY_METHOD => $method,
-                        self::KEY_IS_SECURE => $methodData[Magento_Webapi_Model_Config::ATTR_IS_SECURE]
+                        self::KEY_IS_SECURE => $methodData[\Magento\Webapi\Model\Config::ATTR_IS_SECURE]
                     );
                 }
             }
@@ -109,15 +111,15 @@ class Magento_Webapi_Model_Soap_Config
         if (is_null($this->_soapServices)) {
             $this->_soapServices = array();
             foreach ($this->_config->getServices() as $serviceData) {
-                $serviceClass = $serviceData[Magento_Webapi_Model_Config::ATTR_SERVICE_CLASS];
+                $serviceClass = $serviceData[\Magento\Webapi\Model\Config::ATTR_SERVICE_CLASS];
                 $reflection = new ReflectionClass($serviceClass);
                 foreach ($reflection->getMethods() as $method) {
                     // find if method is secure, assume operation is not secure by default
                     $isSecure = false;
                     $methodName = $method->getName();
-                    if (isset($serviceData['methods'][$methodName][Magento_Webapi_Model_Config::ATTR_IS_SECURE])) {
+                    if (isset($serviceData['methods'][$methodName][\Magento\Webapi\Model\Config::ATTR_IS_SECURE])) {
                         $methodData = $serviceData['methods'][$methodName];
-                        $isSecure = strtolower($methodData[Magento_Webapi_Model_Config::ATTR_IS_SECURE]) === 'true';
+                        $isSecure = strtolower($methodData[\Magento\Webapi\Model\Config::ATTR_IS_SECURE]) === 'true';
                     }
 
                     // TODO: Simplify the structure in SOAP. Currently it is unified in SOAP and REST
@@ -139,16 +141,16 @@ class Magento_Webapi_Model_Soap_Config
      * @param string $soapOperation
      * @param array $requestedServices The list of requested services with their versions
      * @return array
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
     public function getServiceMethodInfo($soapOperation, $requestedServices)
     {
         $soapOperations = $this->_getSoapOperations($requestedServices);
         if (!isset($soapOperations[$soapOperation])) {
-            throw new Magento_Webapi_Exception(
+            throw new \Magento\Webapi\Exception(
                 __('Operation "%1" not found.', $soapOperation),
                 0,
-                Magento_Webapi_Exception::HTTP_NOT_FOUND
+                \Magento\Webapi\Exception::HTTP_NOT_FOUND
             );
         }
         return array(
@@ -191,10 +193,10 @@ class Magento_Webapi_Model_Soap_Config
     public function getServiceSchemaDOM($serviceClass)
     {
          // TODO: Check if Service specific XSD is already cached
-        $modulesDir = $this->_dir->getDir(Magento_Core_Model_Dir::MODULES);
+        $modulesDir = $this->_dir->getDir(\Magento\Core\Model\Dir::MODULES);
 
         // TODO: Change pattern to match interface instead of class. Think about sub-services.
-        if (!preg_match(Magento_Webapi_Model_Config::SERVICE_CLASS_PATTERN, $serviceClass, $matches)) {
+        if (!preg_match(\Magento\Webapi\Model\Config::SERVICE_CLASS_PATTERN, $serviceClass, $matches)) {
             // TODO: Generate exception when error handling strategy is defined
         }
 
@@ -244,7 +246,7 @@ class Magento_Webapi_Model_Soap_Config
      * @param string $interfaceName
      * @param bool $preserveVersion Should version be preserved during interface name conversion into service name
      * @return string
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function getServiceName($interfaceName, $preserveVersion = true)
     {
@@ -263,11 +265,11 @@ class Magento_Webapi_Model_Soap_Config
      * @param string $className
      * @param bool $preserveVersion Should version be preserved during class name conversion into service name
      * @return array
-     * @throws InvalidArgumentException When class is not valid API service.
+     * @throws \InvalidArgumentException When class is not valid API service.
      */
     public function getServiceNameParts($className, $preserveVersion = false)
     {
-        if (preg_match(Magento_Webapi_Model_Config::SERVICE_CLASS_PATTERN, $className, $matches)) {
+        if (preg_match(\Magento\Webapi\Model\Config::SERVICE_CLASS_PATTERN, $className, $matches)) {
             $moduleNamespace = $matches[1];
             $moduleName = $matches[2];
             $moduleNamespace = ($moduleNamespace == 'Magento') ? '' : $moduleNamespace;
@@ -284,6 +286,6 @@ class Magento_Webapi_Model_Soap_Config
             }
             return $serviceNameParts;
         }
-        throw new InvalidArgumentException(sprintf('The service interface name "%s" is invalid.', $className));
+        throw new \InvalidArgumentException(sprintf('The service interface name "%s" is invalid.', $className));
     }
 }

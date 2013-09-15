@@ -52,38 +52,38 @@ class Shortcut extends \Magento\Core\Block\Template
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
     /**
      * Payment data
      *
-     * @var Magento_Payment_Helper_Data
+     * @var \Magento\Payment\Helper\Data
      */
     protected $_paymentData = null;
 
     /**
      * Paypal data
      *
-     * @var Magento_Paypal_Helper_Data
+     * @var \Magento\Paypal\Helper\Data
      */
     protected $_paypalData = null;
 
     /**
-     * @param Magento_Paypal_Helper_Data $paypalData
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Paypal\Helper\Data $paypalData
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Paypal_Helper_Data $paypalData,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Paypal\Helper\Data $paypalData,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -110,7 +110,7 @@ class Shortcut extends \Magento\Core\Block\Template
 
         if ($isInCatalog) {
             // Show PayPal shortcut on a product view page only if product has nonzero price
-            /** @var $currentProduct Magento_Catalog_Model_Product */
+            /** @var $currentProduct \Magento\Catalog\Model\Product */
             $currentProduct = $this->_coreRegistry->registry('current_product');
             if (!is_null($currentProduct)) {
                 $productPrice = (float)$currentProduct->getFinalPrice();

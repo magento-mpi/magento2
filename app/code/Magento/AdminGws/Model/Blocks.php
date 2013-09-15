@@ -19,19 +19,19 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Initialize helper
      *
-     * @param Magento_AdminGws_Model_Role $role
-     * @param Magento_Core_Model_Registry $coreRegistry\
+     * @param \Magento\AdminGws\Model\Role $role
+     * @param \Magento\Core\Model\Registry $coreRegistry\
      */
     public function __construct(
-        Magento_AdminGws_Model_Role $role,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\AdminGws\Model\Role $role,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($role);

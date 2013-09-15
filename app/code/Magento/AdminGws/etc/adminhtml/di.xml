@@ -8,10 +8,10 @@
  */
 -->
 <config>
-    <type name="Magento_Catalog_Model_Resource_Category">
-        <plugin name="admingws_category_resource_plugin" type="Magento_AdminGws_Model_Plugin_CategoryResource"/>
+    <type name="Magento\Catalog\Model\Resource\Category">
+        <plugin name="admingws_category_resource_plugin" type="Magento\AdminGws\Model\Plugin\CategoryResource"/>
     </type>
-    <type name="Magento_Catalog_Model_Product_Action">
-        <plugin name="admingws_product_action_plugin" type="Magento_AdminGws_Model_Plugin_ProductAction"/>
+    <type name="Magento\Catalog\Model\Product\Action">
+        <plugin name="admingws_product_action_plugin" type="Magento\AdminGws\Model\Plugin\ProductAction"/>
     </type>
 </config>

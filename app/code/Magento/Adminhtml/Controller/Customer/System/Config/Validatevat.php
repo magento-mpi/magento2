@@ -26,7 +26,7 @@ class Validatevat extends \Magento\Adminhtml\Controller\Action
      */
     protected function _validate()
     {
-        return $this->_objectManager->get('Magento_Customer_Helper_Data')
+        return $this->_objectManager->get('Magento\Customer\Helper\Data')
             ->checkVatNumber(
                 $this->getRequest()->getParam('country'),
                 $this->getRequest()->getParam('vat')
@@ -64,7 +64,7 @@ class Validatevat extends \Magento\Adminhtml\Controller\Action
             $storeId = (int)$storeId;
         }
 
-        $groupId = $this->_objectManager->get('Magento_Customer_Helper_Data')
+        $groupId = $this->_objectManager->get('Magento\Customer\Helper\Data')
             ->getCustomerGroupIdBasedOnVatNumber(
                 $this->getRequest()->getParam('country'), $result, $storeId
             );

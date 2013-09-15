@@ -40,7 +40,7 @@ class Converter
     protected $_encryptor;
 
     public function __construct(
-        Magento_Core_Helper_Data $coreData
+        \Magento\Core\Helper\Data $coreData
     ) {
         $this->_encryptor = $coreData;
     }

@@ -18,33 +18,33 @@ class Observer
     /**
      * Search data
      *
-     * @var Magento_Search_Helper_Data
+     * @var \Magento\Search\Helper\Data
      */
     protected $_searchData = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Catalog search data
      *
-     * @var Magento_CatalogSearch_Helper_Data
+     * @var \Magento\CatalogSearch\Helper\Data
      */
     protected $_catalogSearchData = null;
 
     /**
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
-     * @param Magento_Search_Helper_Data $searchData
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param \Magento\Search\Helper\Data $searchData
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
-        Magento_Search_Helper_Data $searchData,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\Search\Helper\Data $searchData,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_catalogSearchData = $catalogSearchData;

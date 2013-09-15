@@ -11,12 +11,12 @@ class Magento_TestModule1_Service_AllSoapAndRestV1 implements Magento_TestModule
     /**
      * @param $request
      * @return array
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
     public function item($request)
     {
         if ($request['id'] == null) {
-            throw new Magento_Webapi_Exception("Invalid Id");
+            throw new \Magento\Webapi\Exception("Invalid Id");
         }
         $result = array(
             'id' => $request['id'],
@@ -59,12 +59,12 @@ class Magento_TestModule1_Service_AllSoapAndRestV1 implements Magento_TestModule
     /**
      * @param $request
      * @return array
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
     public function update($request)
     {
         if ($request['id'] == null) {
-            throw new Magento_Webapi_Exception("Invalid Id");
+            throw new \Magento\Webapi\Exception("Invalid Id");
         }
 
         $result = array(

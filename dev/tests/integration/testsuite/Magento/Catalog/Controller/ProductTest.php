@@ -19,7 +19,7 @@ class Magento_Catalog_Controller_ProductTest extends Magento_TestFramework_TestC
         parent::assert404NotFound();
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->assertNull($objectManager->get('Magento_Core_Model_Registry')->registry('current_product'));
+        $this->assertNull($objectManager->get('Magento\Core\Model\Registry')->registry('current_product'));
     }
 
     protected function _getProductImageFile()
@@ -41,7 +41,7 @@ class Magento_Catalog_Controller_ProductTest extends Magento_TestFramework_TestC
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
-        /** @var $currentProduct Magento_Catalog_Model_Product */
+        /** @var $currentProduct \Magento\Catalog\Model\Product */
         $currentProduct = $objectManager->get('Magento\Core\Model\Registry')->registry('current_product');
         $this->assertInstanceOf('Magento\Catalog\Model\Product', $currentProduct);
         $this->assertEquals(1, $currentProduct->getId());

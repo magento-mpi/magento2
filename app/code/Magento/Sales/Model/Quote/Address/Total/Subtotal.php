@@ -16,15 +16,15 @@ class Subtotal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * Sales data
      *
-     * @var Magento_Sales_Helper_Data
+     * @var \Magento\Sales\Helper\Data
      */
     protected $_salesData = null;
 
     /**
-     * @param Magento_Sales_Helper_Data $salesData
+     * @param \Magento\Sales\Helper\Data $salesData
      */
     public function __construct(
-        Magento_Sales_Helper_Data $salesData
+        \Magento\Sales\Helper\Data $salesData
     ) {
         $this->_salesData = $salesData;
     }

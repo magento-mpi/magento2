@@ -32,18 +32,18 @@ class DefaultRenderer
     /**
      * Customer address
      *
-     * @var Magento_Customer_Helper_Address
+     * @var \Magento\Customer\Helper\Address
      */
     protected $_customerAddress = null;
 
     /**
-     * @param Magento_Customer_Helper_Address $customerAddress
-     * @param Magento_Core_Block_Context $context
+     * @param \Magento\Customer\Helper\Address $customerAddress
+     * @param \Magento\Core\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Helper_Address $customerAddress,
-        Magento_Core_Block_Context $context,
+        \Magento\Customer\Helper\Address $customerAddress,
+        \Magento\Core\Block\Context $context,
         array $data = array()
     ) {
         $this->_customerAddress = $customerAddress;

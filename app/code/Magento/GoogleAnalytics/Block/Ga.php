@@ -23,20 +23,20 @@ class Ga extends \Magento\Core\Block\Template
     /**
      * Google analytics data
      *
-     * @var Magento_GoogleAnalytics_Helper_Data
+     * @var \Magento\GoogleAnalytics\Helper\Data
      */
     protected $_googleAnalyticsData = null;
 
     /**
-     * @param Magento_GoogleAnalytics_Helper_Data $googleAnalyticsData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\GoogleAnalytics\Helper\Data $googleAnalyticsData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_GoogleAnalytics_Helper_Data $googleAnalyticsData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\GoogleAnalytics\Helper\Data $googleAnalyticsData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_googleAnalyticsData = $googleAnalyticsData;

@@ -48,28 +48,28 @@ class Observer
     /**
      * Customer data
      *
-     * @var Magento_Customer_Helper_Data
+     * @var \Magento\Customer\Helper\Data
      */
     protected $_customerData = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Customer_Helper_Data $customerData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Captcha\Helper\Data $helper
      * @param \Magento\Core\Model\Url $urlManager
      * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Customer_Helper_Data $customerData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Customer\Helper\Data $customerData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Captcha\Helper\Data $helper,
         \Magento\Core\Model\Url $urlManager,

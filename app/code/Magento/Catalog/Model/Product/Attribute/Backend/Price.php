@@ -28,11 +28,11 @@ class Price extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     protected $_helper;
 
     /**
-     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData,
+        \Magento\Catalog\Helper\Data $catalogData,
         $data = array()
     ) {
         $this->_helper = $catalogData;

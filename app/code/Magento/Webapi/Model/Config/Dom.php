@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Webapi_Model_Config_Dom extends Magento_Config_Dom
+namespace Magento\Webapi\Model\Config;
+
+class Dom extends \Magento\Config\Dom
 {
 
     /**

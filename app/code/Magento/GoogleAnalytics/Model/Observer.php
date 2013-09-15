@@ -28,15 +28,15 @@ class Observer
     /**
      * Google analytics data
      *
-     * @var Magento_GoogleAnalytics_Helper_Data
+     * @var \Magento\GoogleAnalytics\Helper\Data
      */
     protected $_googleAnalyticsData = null;
 
     /**
-     * @param Magento_GoogleAnalytics_Helper_Data $googleAnalyticsData
+     * @param \Magento\GoogleAnalytics\Helper\Data $googleAnalyticsData
      */
     public function __construct(
-        Magento_GoogleAnalytics_Helper_Data $googleAnalyticsData
+        \Magento\GoogleAnalytics\Helper\Data $googleAnalyticsData
     ) {
         $this->_googleAnalyticsData = $googleAnalyticsData;
     }

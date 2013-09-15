@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $this Magento_GoogleShopping_Model_Resource_Setup */
+/** @var $this \Magento\GoogleShopping\Model\Resource\Setup */
 $installer = $this;
 
 if ($installer->getGoogleShoppingData()->isModuleEnabled('Magento_GoogleBase')) {

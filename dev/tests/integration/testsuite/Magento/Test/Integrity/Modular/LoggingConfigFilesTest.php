@@ -16,7 +16,7 @@ class Magento_Test_Integrity_Modular_LoggingConfigFilesTest extends Magento_Test
      */
     protected function _getReaderClassName()
     {
-        return 'Magento_Logging_Model_Config_Reader';
+        return 'Magento\Logging\Model\Config\Reader';
     }
 
     /**

@@ -29,7 +29,7 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_AbstractTest
         $entityType = Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('customer');
         $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Customer\Model\Attribute');
         $model->setEntityTypeId($entityType->getId());
-        $objectManager->get('Magento_Core_Model_Registry')->register('entity_attribute', $model);
+        $objectManager->get('Magento\Core\Model\Registry')->register('entity_attribute', $model);
 
         $block = $this->getMockForAbstractClass(
             'Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain',

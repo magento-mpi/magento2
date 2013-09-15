@@ -37,23 +37,23 @@ class ColumnSet
     protected $_productType;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory
-     * @param Magento_Backend_Model_Widget_Grid_SubTotals $subtotals
-     * @param Magento_Backend_Model_Widget_Grid_Totals $totals
-     * @param Magento_Catalog_Model_Product_Type_Configurable $productType
-     * @param Magento_Core_Model_Registry $registryManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory $generatorFactory
+     * @param \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals
+     * @param \Magento\Backend\Model\Widget\Grid\Totals $totals
+     * @param \Magento\Catalog\Model\Product\Type\Configurable $productType
+     * @param \Magento\Core\Model\Registry $registryManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory,
-        Magento_Backend_Model_Widget_Grid_SubTotals $subtotals,
-        Magento_Backend_Model_Widget_Grid_Totals $totals,
-        Magento_Catalog_Model_Product_Type_Configurable $productType,
-        Magento_Core_Model_Registry $registryManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory $generatorFactory,
+        \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals,
+        \Magento\Backend\Model\Widget\Grid\Totals $totals,
+        \Magento\Catalog\Model\Product\Type\Configurable $productType,
+        \Magento\Core\Model\Registry $registryManager,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $generatorFactory, $subtotals, $totals, $data);

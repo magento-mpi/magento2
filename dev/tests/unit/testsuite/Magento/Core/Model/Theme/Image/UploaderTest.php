@@ -145,8 +145,8 @@ class Magento_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_Test
             ->will($this->returnValue('test_filename'));
 
         $this->assertEquals(
-            Magento_Filesystem::fixSeparator($result),
-            Magento_Filesystem::fixSeparator($this->_model->uploadPreviewImage($testScope, '/tmp'))
+            \Magento\Filesystem::fixSeparator($result),
+            \Magento\Filesystem::fixSeparator($this->_model->uploadPreviewImage($testScope, '/tmp'))
         );
     }
 }

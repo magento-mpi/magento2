@@ -29,24 +29,24 @@ class Nonce extends \Magento\Core\Model\AbstractModel
     /**
      * Oauth data
      *
-     * @var Magento_Oauth_Helper_Data
+     * @var \Magento\Oauth\Helper\Data
      */
     protected $_oauthData = null;
 
     /**
-     * @param Magento_Oauth_Helper_Data $oauthData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Oauth\Helper\Data $oauthData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Oauth_Helper_Data $oauthData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Oauth\Helper\Data $oauthData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_oauthData = $oauthData;

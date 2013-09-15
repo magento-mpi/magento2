@@ -8,7 +8,7 @@
 class Magento_Invitation_Model_Plugin_CustomerRegistrationTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Invitation_Model_Plugin_CustomerRegistration
+     * @var \Magento\Invitation\Model\Plugin\CustomerRegistration
      */
     protected $_model;
 
@@ -24,9 +24,9 @@ class Magento_Invitation_Model_Plugin_CustomerRegistrationTest extends PHPUnit_F
 
     protected function setUp()
     {
-        $this->_invitationConfig = $this->getMock('Magento_Invitation_Model_Config', array(), array(), '', false);
-        $this->_invitationHelper = $this->getMock('Magento_Invitation_Helper_Data', array(), array(), '', false);
-        $this->_model = new Magento_Invitation_Model_Plugin_CustomerRegistration(
+        $this->_invitationConfig = $this->getMock('Magento\Invitation\Model\Config', array(), array(), '', false);
+        $this->_invitationHelper = $this->getMock('Magento\Invitation\Helper\Data', array(), array(), '', false);
+        $this->_model = new \Magento\Invitation\Model\Plugin\CustomerRegistration(
             $this->_invitationConfig,
             $this->_invitationHelper
         );

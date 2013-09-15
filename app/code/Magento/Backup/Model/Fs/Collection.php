@@ -34,7 +34,7 @@ class Collection extends \Magento\Data\Collection\Filesystem
     /**
      * Backup data
      *
-     * @var Magento_Backup_Helper_Data
+     * @var \Magento\Backup\Helper\Data
      */
     protected $_backupData = null;
 
@@ -43,12 +43,12 @@ class Collection extends \Magento\Data\Collection\Filesystem
      *
      *
      *
-     * @param Magento_Backup_Helper_Data $backupData
+     * @param \Magento\Backup\Helper\Data $backupData
      * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
-        Magento_Backup_Helper_Data $backupData,
-        Magento_Filesystem $filesystem
+        \Magento\Backup\Helper\Data $backupData,
+        \Magento\Filesystem $filesystem
     ) {
         $this->_backupData = $backupData;
         parent::__construct();

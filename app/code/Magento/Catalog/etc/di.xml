@@ -8,92 +8,92 @@
  */
 -->
 <config>
-    <type name="Magento_Log_Model_Resource_Log">
-        <plugin name="catalogLog" type="Magento_Catalog_Model_Plugin_Log" />
+    <type name="Magento\Log\Model\Resource\Log">
+        <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>
-    <type name="Magento_Catalog_Model_Product_Attribute_Backend_Price">
+    <type name="Magento\Catalog\Model\Product\Attribute\Backend\Price">
         <param name="coreString">
-            <instance type="Magento_Core_Helper_String_Proxy" />
+            <instance type="Magento\Core\Helper\String\Proxy" />
         </param>
     </type>
-    <type name="Magento_Catalog_Helper_Product_View">
+    <type name="Magento\Catalog\Helper\Product\View">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Catalog_Helper_Product">
+    <type name="Magento\Catalog\Helper\Product">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Catalog_Model_Category">
+    <type name="Magento\Catalog\Model\Category">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Catalog_Model_Product_Attribute_Backend_Media">
+    <type name="Magento\Catalog\Model\Product\Attribute\Backend\Media">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Catalog_Model_Product_Attribute_Source_Inputtype">
+    <type name="Magento\Catalog\Model\Product\Attribute\Source\Inputtype">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Catalog_Model_Product_Status">
+    <type name="Magento\Catalog\Model\Product\Status">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Catalog_Model_Product_Type_Abstract">
+    <type name="Magento\Catalog\Model\Product\Type\Abstract\Type">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Catalog_Model_Product_Type_Price">
+    <type name="Magento\Catalog\Model\Product\Type\Price">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Catalog_Model_Product">
+    <type name="Magento\Catalog\Model\Product">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Catalog_Model_Resource_Category_Flat">
+    <type name="Magento\Catalog\Model\Resource\Category\Flat">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Catalog_Model_Resource_Category_Tree">
+    <type name="Magento\Catalog\Model\Resource\Category\Tree">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Catalog_Model_Resource_Category">
+    <type name="Magento\Catalog\Model\Resource\Category">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Catalog_Model_Resource_Layer_Filter_Price">
+    <type name="Magento\Catalog\Model\Resource\Layer\Filter\Price">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Catalog_Model_Resource_Product_Flat_Indexer">
+    <type name="Magento\Catalog\Model\Resource\Product\Flat\Indexer">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Catalog_Model_Resource_Product_Indexer_Eav_Abstract">
+    <type name="Magento\Catalog\Model\Resource\Product\Indexer\Eav\AbstractEav">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Catalog_Model_Resource_Product_Indexer_Price_Default">
+    <type name="Magento\Catalog\Model\Resource\Product\Indexer\Price\Default">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
 </config>

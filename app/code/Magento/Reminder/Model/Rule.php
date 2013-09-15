@@ -52,26 +52,26 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Reminder data
      *
-     * @var Magento_Reminder_Helper_Data
+     * @var \Magento\Reminder\Helper\Data
      */
     protected $_reminderData = null;
 
     /**
-     * @param Magento_Reminder_Helper_Data $reminderData
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Reminder_Model_Resource_Rule $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Reminder\Helper\Data $reminderData
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Reminder\Model\Resource\Rule $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Reminder_Helper_Data $reminderData,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Reminder_Model_Resource_Rule $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Reminder\Helper\Data $reminderData,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Reminder\Model\Resource\Rule $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_reminderData = $reminderData;

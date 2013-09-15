@@ -136,15 +136,15 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
             $dependencies = $this->_getModelDependencies();
         }
 
-        $moduleHelper = $this->getMock('Magento_ScheduledImportExport_Helper_Data',
+        $moduleHelper = $this->getMock('Magento\ScheduledImportExport\Helper\Data',
             array('isRewardPointsEnabled', 'isCustomerBalanceEnabled'), array(), '', false);
         $moduleHelper->expects($this->any())->method('__')->will($this->returnArgument(0));
         $moduleHelper->expects($this->any())->method('isRewardPointsEnabled')->will($this->returnValue(true));
         $moduleHelper->expects($this->any())->method('isCustomerBalanceEnabled')->will($this->returnValue(true));
 
-        $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
 
-        $coreString = $this->getMock('Magento_Core_Helper_String', array(), array(), '', false);
+        $coreString = $this->getMock('Magento\Core\Helper\String', array(), array(), '', false);
 
         $customerFactory = $this->getMock(
             'Magento\Customer\Model\CustomerFactory', array('create'), array(), '', false
@@ -208,7 +208,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         /** @var $customerStorage \Magento\ImportExport\Model\Resource\Customer\Storage */
         $customerStorage = $this->getMock('Magento\ImportExport\Model\Resource\Customer\Storage', array('load'),
             array(), '', false);
-        $customerResource = $this->getMock('Magento_Customer_Model_Resource_Customer', array('getIdFieldName'),
+        $customerResource = $this->getMock('Magento\Customer\Model\Resource\Customer', array('getIdFieldName'),
             array(), '', false);
         $customerResource->expects($this->any())
             ->method('getIdFieldName')

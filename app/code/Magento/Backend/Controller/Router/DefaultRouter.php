@@ -35,12 +35,12 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
     protected $_areaFrontName;
 
     /**
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_backendData;
 
     /**
-     * @param Magento_Backend_Helper_Data $backendData
+     * @param \Magento\Backend\Helper\Data $backendData
      * Default routeId for router
      *
      * @var string
@@ -48,12 +48,12 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
     protected $_defaultRouteId;
 
     /**
-     * @param Magento_Backend_Helper_Data $backendData
-     * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_App $app
-     * @param Magento_Core_Model_Config_Scope $configScope
-     * @param Magento_Core_Model_Route_Config $routeConfig
+     * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Core\Controller\Varien\Action\Factory $controllerFactory
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\Config\Scope $configScope
+     * @param \Magento\Core\Model\Route\Config $routeConfig
      * @param string $areaCode
      * @param string $baseController
      * @param string $routerId
@@ -63,12 +63,12 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Backend_Helper_Data $backendData,
-        Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_App $app,
-        Magento_Core_Model_Config_Scope $configScope,
-        Magento_Core_Model_Route_Config $routeConfig,
+        \Magento\Backend\Helper\Data $backendData,
+        \Magento\Core\Controller\Varien\Action\Factory $controllerFactory,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\Config\Scope $configScope,
+        \Magento\Core\Model\Route\Config $routeConfig,
         $areaCode,
         $baseController,
         $routerId,

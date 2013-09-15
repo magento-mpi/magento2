@@ -19,19 +19,19 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Admin gws data
      *
-     * @var Magento_AdminGws_Helper_Data
+     * @var \Magento\AdminGws\Helper\Data
      */
     protected $_adminGwsData = null;
 
     /**
      * Initialize helper
      * 
-     * @param Magento_AdminGws_Helper_Data $adminGwsData
-     * @param Magento_AdminGws_Model_Role $role
+     * @param \Magento\AdminGws\Helper\Data $adminGwsData
+     * @param \Magento\AdminGws\Model\Role $role
      */
     public function __construct(
-        Magento_AdminGws_Helper_Data $adminGwsData,
-        Magento_AdminGws_Model_Role $role
+        \Magento\AdminGws\Helper\Data $adminGwsData,
+        \Magento\AdminGws\Model\Role $role
     ) {
         $this->_adminGwsData = $adminGwsData;
         parent::__construct($role);

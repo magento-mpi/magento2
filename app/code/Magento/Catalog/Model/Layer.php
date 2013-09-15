@@ -37,7 +37,7 @@ class Layer extends \Magento\Object
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
@@ -47,11 +47,11 @@ class Layer extends \Magento\Object
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -66,7 +66,7 @@ class Layer extends \Magento\Object
     public function getStateKey()
     {
         if ($this->_stateKey === null) {
-            $this->_stateKey = 'STORE_' . Mage::app()->getStore()->getId()
+            $this->_stateKey = 'STORE_' . \Mage::app()->getStore()->getId()
                 . '_CAT_' . $this->getCurrentCategory()->getId()
                 . '_CUSTGROUP_' . \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
         }
@@ -209,7 +209,7 @@ class Layer extends \Magento\Object
     /**
      * Get collection of all filterable attributes for layer products set
      *
-     * @return Magento_Catalog_Model_Resource_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Attribute\Collection
      */
     public function getFilterableAttributes()
     {
@@ -245,8 +245,8 @@ class Layer extends \Magento\Object
     /**
      * Add filters to attribute collection
      *
-     * @param   Magento_Catalog_Model_Resource_Attribute_Collection $collection
-     * @return  Magento_Catalog_Model_Resource_Attribute_Collection
+     * @param   \Magento\Catalog\Model\Resource\Attribute\Collection $collection
+     * @return  \Magento\Catalog\Model\Resource\Attribute\Collection
      */
     protected function _prepareAttributeCollection($collection)
     {

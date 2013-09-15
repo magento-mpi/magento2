@@ -53,7 +53,7 @@ class Filter extends \Magento\Filter\Template
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
@@ -62,12 +62,12 @@ class Filter extends \Magento\Filter\Template
      *
      *
      *
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\View\Url $viewUrl
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_View_Url $viewUrl
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\View\Url $viewUrl
     ) {
         $this->_coreData = $coreData;
         $this->_viewUrl = $viewUrl;

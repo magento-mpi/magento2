@@ -27,7 +27,7 @@ class Inventory extends \Magento\Adminhtml\Block\Widget
     protected $_catalogData = null;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
@@ -36,7 +36,7 @@ class Inventory extends \Magento\Adminhtml\Block\Widget
      * @param \Magento\Core\Helper\Data $coreData
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
@@ -65,7 +65,7 @@ class Inventory extends \Magento\Adminhtml\Block\Widget
     public function getBackordersOption()
     {
         if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
-            return Mage::getSingleton('Magento\CatalogInventory\Model\Source\Backorders')->toOptionArray();
+            return \Mage::getSingleton('Magento\CatalogInventory\Model\Source\Backorders')->toOptionArray();
         }
 
         return array();
@@ -79,7 +79,7 @@ class Inventory extends \Magento\Adminhtml\Block\Widget
     public function getStockOption()
     {
         if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
-            return Mage::getSingleton('Magento\CatalogInventory\Model\Source\Stock')->toOptionArray();
+            return \Mage::getSingleton('Magento\CatalogInventory\Model\Source\Stock')->toOptionArray();
         }
 
         return array();

@@ -44,7 +44,7 @@ class Magento_Theme_Controller_Adminhtml_System_Design_ThemeTest extends PHPUnit
 
         );
         $context = $helper->getObject('Magento\Backend\Controller\Context', $arguments);
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
         $this->_model = $this->getMock('Magento\Theme\Controller\Adminhtml\System\Design\Theme',
             array('_forward', '_title', 'loadLayout', 'renderLayout', '_redirect'),

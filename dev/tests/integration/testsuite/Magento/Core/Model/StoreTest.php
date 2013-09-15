@@ -25,15 +25,15 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_modelParams = array(
-            'coreFileStorageDatabase' => $objectManager->get('Magento_Core_Helper_File_Storage_Database'),
+            'coreFileStorageDatabase' => $objectManager->get('Magento\Core\Helper\File\Storage\Database'),
             'context' => $objectManager->get('Magento\Core\Model\Context'),
-            'registry' => $objectManager->get('Magento_Core_Model_Registry'),
+            'registry' => $objectManager->get('Magento\Core\Model\Registry'),
             'configCacheType' => $objectManager->get('Magento\Core\Model\Cache\Type\Config'),
             'urlModel' => $objectManager->get('Magento\Core\Model\Url'),
             'appState' => $objectManager->get('Magento\Core\Model\App\State'),
             'request' => $objectManager->get('Magento\Core\Controller\Request\Http'),
             'configDataResource' => $objectManager->get('Magento\Core\Model\Resource\Config\Data'),
-            'resource' => $objectManager->get('Magento_Core_Model_Resource_Store'),
+            'resource' => $objectManager->get('Magento\Core\Model\Resource\Store'),
         );
 
         $this->_model = $this->getMock(

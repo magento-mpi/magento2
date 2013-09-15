@@ -20,30 +20,30 @@ namespace Magento\GoogleShopping\Model\Attribute;
 class ImageLink extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 {
     /**
-     * @var Magento_Catalog_Helper_Product|null
+     * @var \Magento\Catalog\Helper\Product|null
      */
     protected $_catalogProduct = null;
 
     /**
-     * @param Magento_Catalog_Helper_Product $catalogProduct
-     * @param Magento_GoogleShopping_Helper_Data $gsData
-     * @param Magento_GoogleShopping_Helper_Product $gsProduct
-     * @param Magento_GoogleShopping_Helper_Price $gsPrice
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_GoogleShopping_Model_Resource_Attribute $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\GoogleShopping\Helper\Data $gsData
+     * @param \Magento\GoogleShopping\Helper\Product $gsProduct
+     * @param \Magento\GoogleShopping\Helper\Price $gsPrice
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Helper_Product $catalogProduct,
-        Magento_GoogleShopping_Helper_Data $gsData,
-        Magento_GoogleShopping_Helper_Product $gsProduct,
-        Magento_GoogleShopping_Helper_Price $gsPrice,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_GoogleShopping_Model_Resource_Attribute $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\GoogleShopping\Helper\Data $gsData,
+        \Magento\GoogleShopping\Helper\Product $gsProduct,
+        \Magento\GoogleShopping\Helper\Price $gsPrice,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\GoogleShopping\Model\Resource\Attribute $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;

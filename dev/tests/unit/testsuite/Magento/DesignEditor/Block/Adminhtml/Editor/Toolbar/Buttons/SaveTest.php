@@ -33,11 +33,11 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest exten
             ->will($this->returnArgument(0));
 
         // 2. Inject helper to helper factory
-        /** @var $helperFactory Magento_Core_Model_Factory_Helper|PHPUnit_Framework_MockObject_MockObject */
-        $helperFactory = $this->getMock('Magento_Core_Model_Factory_Helper', array('get'), array(), '', false);
+        /** @var $helperFactory \Magento\Core\Model\Factory\Helper|PHPUnit_Framework_MockObject_MockObject */
+        $helperFactory = $this->getMock('Magento\Core\Model\Factory\Helper', array('get'), array(), '', false);
         $helperFactory->expects($this->any())
             ->method('get')
-            ->with('Magento_Backend_Helper_Data')
+            ->with('Magento\Backend\Helper\Data')
             ->will($this->returnValue($helper));
 
         // 3. Get service mock

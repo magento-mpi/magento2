@@ -31,18 +31,18 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testCalcProductPriceRule()
     {
-        $resourceMock = $this->getMock('Magento_CatalogRule_Model_Resource_Rule',
+        $resourceMock = $this->getMock('Magento\CatalogRule\Model\Resource\Rule',
             array('getIdFieldName'), array(), '', false);
         $resourceMock->expects($this->any())
             ->method('getIdFieldName')
             ->will($this->returnValue('id'));
-        $contextMock = $this->getMock('Magento_Core_Model_Context',
+        $contextMock = $this->getMock('Magento\Core\Model\Context',
             array(), array(), '', false);
-        $registryMock = $this->getMock('Magento_Core_Model_Registry',
+        $registryMock = $this->getMock('Magento\Core\Model\Registry',
             array(), array(), '', false);
-        $formFactoryMock = $this->getMock('Magento_Data_Form_Factory',
+        $formFactoryMock = $this->getMock('Magento\Data\Form\Factory',
             array(), array(), '', false);
-        $ctlgRuleHlprMock = $this->getMock('Magento_CatalogRule_Helper_Data',
+        $ctlgRuleHlprMock = $this->getMock('Magento\CatalogRule\Helper\Data',
             array('__construct'), array(), '', false);
         /** @var $catalogRule \Magento\CatalogRule\Model\Rule */
         $catalogRule = $this->getMock('Magento\CatalogRule\Model\Rule',

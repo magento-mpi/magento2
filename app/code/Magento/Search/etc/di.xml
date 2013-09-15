@@ -9,7 +9,7 @@
 -->
 <config>
     <preference for="Magento\Search\Helper\ClientInterface" type="Magento\Search\Helper\Data" />
-    <type name="Magento_CatalogSearch_Model_Fulltext">
-        <plugin name="fulltextIndexRebuild" type="Magento_Search_Model_Plugin_FulltextIndexRebuild" />
+    <type name="Magento\CatalogSearch\Model\Fulltext">
+        <plugin name="fulltextIndexRebuild" type="Magento\Search\Model\Plugin\FulltextIndexRebuild" />
     </type>
 </config>

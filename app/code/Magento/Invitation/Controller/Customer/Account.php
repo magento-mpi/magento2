@@ -87,7 +87,7 @@ class Account extends \Magento\Customer\Controller\Account
             $this->_initLayoutMessages('Magento\Customer\Model\Session');
             $this->renderLayout();
             return;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
         catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
@@ -118,7 +118,7 @@ class Account extends \Magento\Customer\Controller\Account
                 $invitation->accept(\Mage::app()->getWebsite()->getId(), $customerId);
             }
             return;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
         catch (\Magento\Core\Exception $e) {
             $_definedErrorCodes = array(
                 \Magento\Invitation\Model\Invitation::ERROR_CUSTOMER_EXISTS,

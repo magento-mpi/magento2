@@ -56,15 +56,15 @@ class Indexer
     /**
      * Search data
      *
-     * @var Magento_Search_Helper_Data
+     * @var \Magento\Search\Helper\Data
      */
     protected $_searchData = null;
 
     /**
-     * @param Magento_Search_Helper_Data $searchData
+     * @param \Magento\Search\Helper\Data $searchData
      */
     public function __construct(
-        Magento_Search_Helper_Data $searchData
+        \Magento\Search\Helper\Data $searchData
     ) {
         $this->_searchData = $searchData;
     }

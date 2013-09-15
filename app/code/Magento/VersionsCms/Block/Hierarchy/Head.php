@@ -22,25 +22,25 @@ class Head extends \Magento\Core\Block\AbstractBlock
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
     /**
-     * @var Magento_VersionsCms_Helper_Hierarchy|null
+     * @var \Magento\VersionsCms\Helper\Hierarchy|null
      */
     protected $_cmsHierarchy = null;
 
     /**
-     * @param Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy
-     * @param Magento_Core_Block_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
+     * @param \Magento\Core\Block\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy,
-        Magento_Core_Block_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
+        \Magento\Core\Block\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -54,7 +54,7 @@ class Head extends \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
-        /* @var $node Magento_VersionsCms_Model_Hierarchy_Node */
+        /* @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
         $node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
         /* @var $head Magento_Page_Block_Html_Head */
         $head = $this->getLayout()->getBlock('head');
@@ -66,7 +66,7 @@ class Head extends \Magento\Core\Block\AbstractBlock
 
                 if ($treeMetaData['meta_cs_enabled']) {
                     $linkNode = $node->getMetaNodeByType(
-                        Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_CHAPTER
+                        \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_CHAPTER
                     );
                     if ($linkNode->getId()) {
                         $head->addLinkRel(
@@ -75,7 +75,7 @@ class Head extends \Magento\Core\Block\AbstractBlock
                     }
 
                     $linkNode = $node->getMetaNodeByType(
-                        Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_SECTION
+                        \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_SECTION
                     );
                     if ($linkNode->getId()) {
                         $head->addLinkRel(
@@ -86,16 +86,16 @@ class Head extends \Magento\Core\Block\AbstractBlock
 
                 if ($treeMetaData['meta_next_previous']) {
                     $linkNode = $node->getMetaNodeByType(
-                        Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_NEXT
+                        \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_NEXT
                     );
                     if ($linkNode->getId()) {
                         $head->addLinkRel(
-                            Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_NEXT, $linkNode->getUrl()
+                            \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_NEXT, $linkNode->getUrl()
                         );
                     }
 
                     $linkNode = $node->getMetaNodeByType(
-                        Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_PREVIOUS
+                        \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_PREVIOUS
                     );
                     if ($linkNode->getId()) {
                         $head->addLinkRel(
@@ -106,7 +106,7 @@ class Head extends \Magento\Core\Block\AbstractBlock
 
                 if ($treeMetaData['meta_first_last']) {
                     $linkNode = $node->getMetaNodeByType(
-                        Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_FIRST
+                        \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_FIRST
                     );
                     if ($linkNode->getId()) {
                         $head->addLinkRel(

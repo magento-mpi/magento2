@@ -25,7 +25,7 @@ class Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid
         $product->load(1); // fixture
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $product);
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product);
 
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = Mage::getSingleton('Magento\Core\Model\Layout');

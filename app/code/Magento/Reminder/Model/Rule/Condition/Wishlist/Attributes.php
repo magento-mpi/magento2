@@ -17,13 +17,13 @@ class Attributes
     extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
     /**
-     * @param Magento_Backend_Helper_Data $backendData
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Helper_Data $backendData,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\Backend\Helper\Data $backendData,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         parent::__construct($backendData, $context, $data);

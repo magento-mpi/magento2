@@ -114,7 +114,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\Core\M
      * Initialize dependencies
      *
      * @param \Magento\Core\Model\Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Theme\FlyweightFactory $themeFactory
      * @param \Magento\Core\Model\Theme\Domain\Factory $domainFactory
      * @param \Magento\Core\Model\Theme\ImageFactory $imageFactory
@@ -128,7 +128,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\Core\M
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Theme\FlyweightFactory $themeFactory,
         \Magento\Core\Model\Theme\Domain\Factory $domainFactory,
         \Magento\Core\Model\Theme\ImageFactory $imageFactory,

@@ -22,15 +22,15 @@ class Type implements \Magento\Core\Model\Option\ArrayInterface
     /**
      * Backup data
      *
-     * @var Magento_Backup_Helper_Data
+     * @var \Magento\Backup\Helper\Data
      */
     protected $_backupData = null;
 
     /**
-     * @param Magento_Backup_Helper_Data $backupData
+     * @param \Magento\Backup\Helper\Data $backupData
      */
     public function __construct(
-        Magento_Backup_Helper_Data $backupData
+        \Magento\Backup\Helper\Data $backupData
     ) {
         $this->_backupData = $backupData;
     }

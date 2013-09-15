@@ -19,17 +19,17 @@ class Customer extends \Magento\Adminhtml\Controller\Action
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -108,7 +108,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Customer::customer_manage');
 
-        /* @var $customer Magento_Customer_Model_Customer */
+        /* @var $customer \Magento\Customer\Model\Customer */
         $customer = $this->_coreRegistry->registry('current_customer');
 
         // set entered data if was error when we do save
@@ -486,7 +486,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
     public function newsletterAction()
     {
         $this->_initCustomer();
-        $subscriber = Mage::getModel('Magento\Newsletter\Model\Subscriber')
+        $subscriber = \Mage::getModel('Magento\Newsletter\Model\Subscriber')
             ->loadByCustomer($this->_coreRegistry->registry('current_customer'));
 
         $this->_coreRegistry->register('subscriber', $subscriber);
@@ -817,11 +817,11 @@ class Customer extends \Magento\Adminhtml\Controller\Action
         $plain  = false;
         if ($this->getRequest()->getParam('file')) {
             // download file
-            $file   = $this->_objectManager->get('Magento_Core_Helper_Data')
+            $file   = $this->_objectManager->get('Magento\Core\Helper\Data')
                 ->urlDecode($this->getRequest()->getParam('file'));
         } else if ($this->getRequest()->getParam('image')) {
             // show plain image
-            $file   = $this->_objectManager->get('Magento_Core_Helper_Data')
+            $file   = $this->_objectManager->get('Magento\Core\Helper\Data')
                 ->urlDecode($this->getRequest()->getParam('image'));
             $plain  = true;
         } else {
@@ -835,7 +835,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
         $filesystem->setWorkingDirectory($path);
         $fileName   = $path . $file;
         if (!$filesystem->isFile($fileName)
-            && !$this->_objectManager->get('Magento_Core_Helper_File_Storage')
+            && !$this->_objectManager->get('Magento\Core\Helper\File\Storage')
                 ->processStorageFile(str_replace('/', DS, $fileName))
         ) {
             return $this->norouteAction();

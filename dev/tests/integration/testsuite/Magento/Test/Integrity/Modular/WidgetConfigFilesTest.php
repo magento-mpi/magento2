@@ -16,7 +16,7 @@ class Magento_Test_Integrity_Modular_WidgetConfigFilesTest extends Magento_TestF
      */
     protected function _getReaderClassName()
     {
-        return 'Magento_Widget_Model_Config_Reader';
+        return 'Magento\Widget\Model\Config\Reader';
     }
 
     /**

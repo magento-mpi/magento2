@@ -47,23 +47,23 @@ class BaseImage extends \Magento\Data\Form\Element\AbstractElement
     protected $_viewUrl;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Data_Form_Element_Factory $factoryElement
-     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
-     * @param Magento_Core_Model_View_UrlFactory $coreViewUrlFactory
-     * @param Magento_Backend_Model_UrlFactory $backendUrlFactory
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_File_Size $fileConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Core\Model\View\UrlFactory $coreViewUrlFactory
+     * @param \Magento\Backend\Model\UrlFactory $backendUrlFactory
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\File\Size $fileConfig
      * @param array $attributes
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Data_Form_Element_Factory $factoryElement,
-        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
-        Magento_Core_Model_View_UrlFactory $coreViewUrlFactory,
-        Magento_Backend_Model_UrlFactory $backendUrlFactory,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_File_Size $fileConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Core\Model\View\UrlFactory $coreViewUrlFactory,
+        \Magento\Backend\Model\UrlFactory $backendUrlFactory,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\File\Size $fileConfig,
         array $attributes = array()
     ) {
         parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);

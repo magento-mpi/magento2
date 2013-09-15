@@ -67,7 +67,7 @@ class Price extends \Magento\Adminhtml\Block\Widget\Grid
             $websiteId = \Mage::app()->getStore($store)->getWebsiteId();
         }
         if ($this->_catalogData->isModuleEnabled('Magento_ProductAlert')) {
-            $collection = Mage::getModel('Magento\ProductAlert\Model\Price')
+            $collection = \Mage::getModel('Magento\ProductAlert\Model\Price')
                 ->getCustomerCollection()
                 ->join($productId, $websiteId);
             $this->setCollection($collection);

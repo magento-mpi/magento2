@@ -10,7 +10,7 @@
 
 
 /**
- * Default converter for Magento_Objects to arrays
+ * Default converter for \Magento\Objects to arrays
  *
  * @category   Magento
  * @package    Magento_Convert

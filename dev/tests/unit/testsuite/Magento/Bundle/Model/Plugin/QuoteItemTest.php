@@ -7,7 +7,7 @@
  */
 class Magento_Bundle_Model_Plugin_QuoteItemTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Bundle_Model_Plugin_QuoteItem */
+    /** @var \Magento\Bundle\Model\Plugin\QuoteItem */
     protected $_model;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -21,18 +21,18 @@ class Magento_Bundle_Model_Plugin_QuoteItemTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->_orderItemMock = $this->getMock('Magento_Sales_Model_Order_Item', array(), array(), '', false);
-        $this->_quoteItemMock = $this->getMock('Magento_Sales_Model_Quote_Item', array(), array(), '', false);
-        $this->_invocationChainMock = $this->getMock('Magento_Code_Plugin_InvocationChain',
+        $this->_orderItemMock = $this->getMock('Magento\Sales\Model\Order\Item', array(), array(), '', false);
+        $this->_quoteItemMock = $this->getMock('Magento\Sales\Model\Quote\Item', array(), array(), '', false);
+        $this->_invocationChainMock = $this->getMock('Magento\Code\Plugin\InvocationChain',
             array(), array(), '', false);
 
-        $this->_model = new Magento_Bundle_Model_Plugin_QuoteItem();
+        $this->_model = new \Magento\Bundle\Model\Plugin\QuoteItem();
     }
 
     public function testAroundItemToOrderItemPositive()
     {
-        $productMock = $this->getMock('Magento_Catalog_Model_Product', array(), array(), '', false);
-        $bundleAttribute = $this->getMock('Magento_Catalog_Model_Product_Configuration_Item_Option',
+        $productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $bundleAttribute = $this->getMock('Magento\Catalog\Model\Product\Configuration\Item\Option',
             array(), array(), '', false);
         $productMock->expects($this->once())->method('getCustomOption')->with('bundle_selection_attributes')
             ->will($this->returnValue($bundleAttribute));
@@ -48,7 +48,7 @@ class Magento_Bundle_Model_Plugin_QuoteItemTest extends PHPUnit_Framework_TestCa
 
     public function testAroundItemToOrderItemNegative()
     {
-        $productMock = $this->getMock('Magento_Catalog_Model_Product', array(), array(), '', false);
+        $productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
         $productMock->expects($this->once())->method('getCustomOption')->with('bundle_selection_attributes')
             ->will($this->returnValue(false));
         $this->_quoteItemMock->expects($this->once())->method('getProduct')

@@ -30,14 +30,14 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     /**
      * Rma data
      *
-     * @var Magento_Rma_Helper_Data
+     * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaData = null;
 
     /**
      * Rma eav
      *
-     * @var Magento_Rma_Helper_Eav
+     * @var \Magento\Rma\Helper\Eav
      */
     protected $_rmaEav = null;
 
@@ -47,18 +47,18 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Rma_Helper_Eav $rmaEav
-     * @param Magento_Rma_Helper_Data $rmaData
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_String $coreString
+     * @param \Magento\Rma\Helper\Eav $rmaEav
+     * @param \Magento\Rma\Helper\Data $rmaData
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\String $coreString
      */
     public function __construct(
-        Magento_Rma_Helper_Eav $rmaEav,
-        Magento_Rma_Helper_Data $rmaData,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_String $coreString
+        \Magento\Rma\Helper\Eav $rmaEav,
+        \Magento\Rma\Helper\Data $rmaData,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\String $coreString
     ) {
         $this->_rmaEav = $rmaEav;
         $this->_rmaData = $rmaData;

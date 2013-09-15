@@ -29,17 +29,17 @@ class Output extends \Magento\Core\Helper\AbstractHelper
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
-     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Context $context
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Context $context
     ) {
         $this->_catalogData = $catalogData;
         parent::__construct($context);

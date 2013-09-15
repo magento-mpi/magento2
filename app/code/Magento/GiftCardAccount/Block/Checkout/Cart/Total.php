@@ -16,22 +16,22 @@ class Total extends \Magento\Checkout\Block\Total\DefaultTotal
     protected $_template = 'Magento_GiftCardAccount::cart/total.phtml';
 
     /**
-     * @var Magento_GiftCardAccount_Helper_Data|null
+     * @var \Magento\GiftCardAccount\Helper\Data|null
      */
     protected $_giftCardAccountData = null;
 
     /**
-     * @param Magento_GiftCardAccount_Helper_Data $giftCardAccountData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_GiftCardAccount_Helper_Data $giftCardAccountData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_giftCardAccountData = $giftCardAccountData;

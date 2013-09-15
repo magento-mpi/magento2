@@ -22,7 +22,7 @@ class Customer extends \Magento\Object
     /**
      * Adminhtml data
      *
-     * @var Magento_Adminhtml_Helper_Data
+     * @var \Magento\Adminhtml\Helper\Data
      */
     protected $_adminhtmlData = null;
 
@@ -32,10 +32,10 @@ class Customer extends \Magento\Object
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param \Magento\Adminhtml\Helper\Data $adminhtmlData
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Data $adminhtmlData
+        \Magento\Adminhtml\Helper\Data $adminhtmlData
     ) {
         $this->_adminhtmlData = $adminhtmlData;
     }

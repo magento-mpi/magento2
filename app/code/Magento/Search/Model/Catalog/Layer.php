@@ -19,7 +19,7 @@ class Layer extends \Magento\Catalog\Model\Layer
     /**
      * Catalog search data
      *
-     * @var Magento_CatalogSearch_Helper_Data
+     * @var \Magento\CatalogSearch\Helper\Data
      */
     protected $_catalogSearchData = null;
 
@@ -29,11 +29,11 @@ class Layer extends \Magento\Catalog\Model\Layer
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param array $data
      */
     public function __construct(
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         array $data = array()
     ) {
         $this->_catalogSearchData = $catalogSearchData;

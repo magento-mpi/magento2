@@ -51,7 +51,7 @@ class HandlerFactory
     protected $_argumentHandlers = array();
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 

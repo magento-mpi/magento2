@@ -49,16 +49,16 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_orderFactory;
 
     /**
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Http $coreHttp
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Http $coreHttp
      * @param string $sessionName
      * @param array $data
      */
     public function __construct(
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Http $coreHttp,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
         $sessionName = null,
         array $data = array()
     ) {

@@ -223,7 +223,7 @@ class Option extends \Magento\Core\Model\AbstractModel
      * Group model factory
      *
      * @param string $type Option type
-     * @return Magento_Catalog_Model_Product_Option_Group_Abstract
+     * @return \Magento\Catalog\Model\Product\Option_Group_Abstract
      */
     public function groupFactory($type)
     {

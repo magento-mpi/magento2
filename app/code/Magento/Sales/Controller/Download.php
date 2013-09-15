@@ -62,7 +62,7 @@ class Download extends \Magento\Core\Controller\Front\Action
             return false;
         }
 
-        $relativePath = $this->_objectManager->get('Magento_Core_Helper_File_Storage_Database')
+        $relativePath = $this->_objectManager->get('Magento\Core\Helper\File\Storage\Database')
             ->getMediaRelativePath($filePath);
         $file = \Mage::getModel('Magento\Core\Model\File\Storage\Database')->loadByFilename($relativePath);
 
@@ -90,7 +90,7 @@ class Download extends \Magento\Core\Controller\Front\Action
      */
     public function downloadProfileCustomOptionAction()
     {
-        $recurringProfile = Mage::getModel('Magento_Sales_Model_Recurring_Profile')
+        $recurringProfile = \Mage::getModel('Magento_Sales_Model_Recurring_Profile')
             ->load($this->getRequest()->getParam('id'));
 
         if (!$recurringProfile->getId()) {

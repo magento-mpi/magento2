@@ -49,7 +49,7 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
         if ($this->_form instanceof \Magento\Data\Form) {
             return $this->_form;
         }
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $this->setForm($form);
         return $form;

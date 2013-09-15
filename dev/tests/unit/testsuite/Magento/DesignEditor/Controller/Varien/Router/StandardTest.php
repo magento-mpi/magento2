@@ -81,7 +81,7 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
         );
 
         // test data to verify routers match logic
-        $matchedRequest = $this->getMock('Magento_Core_Controller_Request_Http', $silencedMethods,
+        $matchedRequest = $this->getMock('Magento\Core\Controller\Request\Http', $silencedMethods,
             array($vdeUrl));
         $routerMockedMethods = array('match');
 

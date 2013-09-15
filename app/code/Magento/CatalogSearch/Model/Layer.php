@@ -17,18 +17,18 @@ class Layer extends \Magento\Catalog\Model\Layer
     /**
      * Catalog search data
      *
-     * @var Magento_CatalogSearch_Helper_Data
+     * @var \Magento\CatalogSearch\Helper\Data
      */
     protected $_catalogSearchData = null;
 
     /**
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         array $data = array()
     ) {
         $this->_catalogSearchData = $catalogSearchData;
@@ -104,8 +104,8 @@ class Layer extends \Magento\Catalog\Model\Layer
     /**
      * Add filters to attribute collection
      *
-     * @param   Magento_Catalog_Model_Resource_Eav_Resource_Product_Attribute_Collection $collection
-     * @return  Magento_Catalog_Model_Resource_Eav_Resource_Product_Attribute_Collection
+     * @param   \Magento\Catalog\Model\Resource\Eav\Resource\Product\Attribute\Collection $collection
+     * @return  \Magento\Catalog\Model\Resource\Eav\Resource\Product\Attribute\Collection
      */
     protected function _prepareAttributeCollection($collection)
     {

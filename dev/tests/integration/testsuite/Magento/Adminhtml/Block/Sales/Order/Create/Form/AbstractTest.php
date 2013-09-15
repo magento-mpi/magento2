@@ -25,9 +25,9 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
         $arguments = array(
-            $objectManager->get('Magento_Data_Form_Factory'),
-            $objectManager->get('Magento_Core_Helper_Data'),
-            $objectManager->get('Magento_Backend_Block_Template_Context'),
+            $objectManager->get('Magento\Data\Form\Factory'),
+            $objectManager->get('Magento\Core\Helper\Data'),
+            $objectManager->get('Magento\Backend\Block\Template\Context'),
         );
         /** @var $block \Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm */
         $block = $this->getMockForAbstractClass(

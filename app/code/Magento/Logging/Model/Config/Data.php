@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Logging_Model_Config_Data extends Magento_Config_Data
+namespace Magento\Logging\Model\Config;
+
+class Data extends \Magento\Config\Data
 {
     /**
      * Scope priority loading scheme

@@ -88,11 +88,11 @@ class Finance
     protected $_importExportData;
 
     /**
-     * @param Magento_ScheduledImportExport_Helper_Data $importExportData
+     * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
      * @param array $data
      */
     public function __construct(
-        Magento_ScheduledImportExport_Helper_Data $importExportData,
+        \Magento\ScheduledImportExport\Helper\Data $importExportData,
         array $data = array()
     ) {
         parent::__construct($data);

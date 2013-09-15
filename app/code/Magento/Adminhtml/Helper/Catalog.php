@@ -38,17 +38,17 @@ class Catalog extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context
     ) {
         $this->_coreData = $coreData;
         parent::__construct($context);

@@ -28,7 +28,7 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_objectManagerMock;
 
     /**
-     * @var Magento_Core_Model_ModuleListInterface
+     * @var \Magento\Core\Model\ModuleListInterface
      */
     protected $_moduleListMock;
 

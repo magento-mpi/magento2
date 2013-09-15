@@ -88,7 +88,7 @@ abstract class AbstractType
         if ($this->isSuitable()) {
             if (!isset($params[0]) || !isset($params[1])
                 || !is_object($params[0])
-                || !($params[0] instanceof Magento_ImportExport_Model_Import_Entity_Product)
+                || !($params[0] instanceof \Magento\ImportExport\Model\Import\Entity\Product)
             ) {
                 \Mage::throwException(__('Please correct the parameters.'));
             }

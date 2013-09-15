@@ -27,7 +27,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             ->load($userId);
         $user->unsetData('password');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Account Information')));

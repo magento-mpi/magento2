@@ -23,15 +23,15 @@ class Observer
     /**
      * Cms page
      *
-     * @var Magento_Cms_Helper_Page
+     * @var \Magento\Cms\Helper\Page
      */
     protected $_cmsPage = null;
 
     /**
-     * @param Magento_Cms_Helper_Page $cmsPage
+     * @param \Magento\Cms\Helper\Page $cmsPage
      */
     public function __construct(
-        Magento_Cms_Helper_Page $cmsPage
+        \Magento\Cms\Helper\Page $cmsPage
     ) {
         $this->_cmsPage = $cmsPage;
     }
@@ -62,7 +62,7 @@ class Observer
     {
         $redirect = $observer->getEvent()->getRedirect();
 
-        $pageId  = Mage::getStoreConfig(\Magento\Cms\Helper\Page::XML_PATH_NO_COOKIES_PAGE);
+        $pageId  = \Mage::getStoreConfig(\Magento\Cms\Helper\Page::XML_PATH_NO_COOKIES_PAGE);
         $pageUrl = $this->_cmsPage->getPageUrl($pageId);
 
         if ($pageUrl) {

@@ -25,7 +25,7 @@ class LogoUploader
 {
     /**
      * @param \Magento\Core\Model\Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\DesignEditor\Model\Config\Backend\File\RequestData $requestData
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -34,7 +34,7 @@ class LogoUploader
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Registry $registry,
         \Magento\DesignEditor\Model\Config\Backend\File\RequestData $requestData,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

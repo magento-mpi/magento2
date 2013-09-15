@@ -227,19 +227,19 @@ abstract class EntityAbstract
     protected $_bunchSize;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_String $coreString
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\String $coreString
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_String $coreString,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\String $coreString,
         array $data = array()
     ) {
         $this->_dataSourceModel     = isset($data['data_source_model']) ? $data['data_source_model']
             : \Magento\ImportExport\Model\Import::getDataSourceModel();
         $this->_connection          = isset($data['connection']) ? $data['connection']
-            : Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('write');
+            : \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('write');
         $this->_jsonHelper          =  $coreData;
         $this->_stringHelper        =  $coreString;
         $this->_pageSize            = isset($data['page_size']) ? $data['page_size']

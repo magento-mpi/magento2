@@ -87,15 +87,15 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
         $category->setId(10);
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('current_category', $category);
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_category', $category);
 
         try {
             $this->assertStringEndsWith(
                 'sendfriend/product/send/id/100/cat_id/10/', $this->_helper->getEmailToFriendUrl($product)
             );
-            $objectManager->get('Magento_Core_Model_Registry')->unregister('current_category');
+            $objectManager->get('Magento\Core\Model\Registry')->unregister('current_category');
         } catch (Exception $e) {
-            $objectManager->get('Magento_Core_Model_Registry')->unregister('current_category');
+            $objectManager->get('Magento\Core\Model\Registry')->unregister('current_category');
             throw $e;
         }
     }
@@ -180,8 +180,8 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         $this->assertInstanceOf(
-            'Magento_Catalog_Model_Product',
-            $objectManager->get('Magento_Core_Model_Registry')->registry('current_product')
+            'Magento\Catalog\Model\Product',
+            $objectManager->get('Magento\Core\Model\Registry')->registry('current_product')
         );
         $this->assertInstanceOf(
             'Magento\Catalog\Model\Category',

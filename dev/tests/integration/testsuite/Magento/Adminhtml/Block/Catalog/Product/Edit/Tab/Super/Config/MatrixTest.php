@@ -22,7 +22,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_MatrixTest e
     {
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')
+        $objectManager->get('Magento\Core\Model\Registry')
             ->register('current_product', Mage::getModel('Magento\Catalog\Model\Product')->load(1));
         Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text', 'head');
         /** @var $usedAttribute Magento_Catalog_Model_Entity_Attribute */

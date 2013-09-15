@@ -44,18 +44,18 @@ class Index
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Wishlist\Model\Config $wishlistConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -226,7 +226,7 @@ class Index
              */
             $session->setAddActionReferer($referer);
 
-            /** @var $helper Magento_Wishlist_Helper_Data */
+            /** @var $helper \Magento\Wishlist\Helper\Data */
             $helper = $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
             $message = __('%1 has been added to your wishlist. Click <a href="%2">here</a> to continue shopping.', $helper->escapeHtml($product->getName()), $this->_objectManager->get('Magento\Core\Helper\Data')->escapeUrl($referer));
             $session->addSuccess($message);
@@ -402,7 +402,7 @@ class Index
                         ->save();
                     $updatedItems++;
                 } catch (Exception $e) {
-                    Mage::getSingleton('Magento\Customer\Model\Session')->addError(
+                    \Mage::getSingleton('Magento\Customer\Model\Session')->addError(
                         __('Can\'t save description %1', $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($description))
                     );
                 }

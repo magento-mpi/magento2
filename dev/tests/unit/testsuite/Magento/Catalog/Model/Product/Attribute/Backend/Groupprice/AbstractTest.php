@@ -25,7 +25,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_AbstractTest ex
 
     protected function setUp()
     {
-        $this->_helper = $this->getMock('Magento_Catalog_Helper_Data', array('isPriceGlobal'), array(), '', false);
+        $this->_helper = $this->getMock('Magento\Catalog\Helper\Data', array('isPriceGlobal'), array(), '', false);
         $this->_helper->expects($this->any())
             ->method('isPriceGlobal')
             ->will($this->returnValue(true));

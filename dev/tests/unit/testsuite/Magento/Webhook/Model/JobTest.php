@@ -44,9 +44,9 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
-        $this->_job = $this->getMockBuilder('Magento_Webhook_Model_Job')
+        $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(array(
                 $this->_mockEventFactory,
                 $this->_mockSubscrFactory,
@@ -81,9 +81,9 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
         $data = array('event'        => $mockEvent,
                       'subscription' => $mockSubscription);
 
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
-        $this->_job = $this->getMockBuilder('Magento_Webhook_Model_Job')
+        $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(array(
                 $this->_mockEventFactory,
                 $this->_mockSubscrFactory,
@@ -116,9 +116,9 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo($eventId))
             ->will($this->returnValue($event));
 
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
-        $this->_job = $this->getMockBuilder('Magento_Webhook_Model_Job')
+        $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(array(
                 $this->_mockEventFactory,
                 $this->_mockSubscrFactory,
@@ -153,9 +153,9 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
         $this->_mockEvent->expects($this->never())
             ->method('load');
 
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
-        $this->_job = $this->getMockBuilder('Magento_Webhook_Model_Job')
+        $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(array(
                 $this->_mockEventFactory,
                 $this->_mockSubscrFactory,
@@ -189,9 +189,9 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($mockSubscription));
 
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
-        $this->_job = $this->getMockBuilder('Magento_Webhook_Model_Job')
+        $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(array(
                 $this->_mockEventFactory,
                 $this->_mockSubscrFactory,
@@ -225,9 +225,9 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
         $this->_mockSubscrFactory->expects($this->never())
             ->method('create');
 
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
-        $this->_job = $this->getMockBuilder('Magento_Webhook_Model_Job')
+        $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(array(
                 $this->_mockEventFactory,
                 $this->_mockSubscrFactory,
@@ -288,9 +288,9 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
      */
     public function testJobGiven8Retries()
     {
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
-        $this->_job = $this->getMockBuilder('Magento_Webhook_Model_Job')
+        $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(array(
                 $this->_mockEventFactory,
                 $this->_mockSubscrFactory,
@@ -322,9 +322,9 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
      */
     public function testJobFailAfter8Retries()
     {
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
-        $this->_job = $this->getMockBuilder('Magento_Webhook_Model_Job')
+        $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(array(
                 $this->_mockEventFactory,
                 $this->_mockSubscrFactory,

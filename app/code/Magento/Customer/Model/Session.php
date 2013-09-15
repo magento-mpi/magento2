@@ -36,14 +36,14 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     /**
      * Customer data
      *
-     * @var Magento_Customer_Helper_Data
+     * @var \Magento\Customer\Helper\Data
      */
     protected $_customerData = null;
 
     /**
      * Core url
      *
-     * @var Magento_Core_Helper_Url
+     * @var \Magento\Core\Helper\Url
      */
     protected $_coreUrl = null;
 
@@ -60,18 +60,18 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     /**
      * Class constructor. Initialize session namespace
      *
-     * @param Magento_Core_Helper_Url $coreUrl
-     * @param Magento_Customer_Helper_Data $customerData
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Http $coreHttp
+     * @param \Magento\Core\Helper\Url $coreUrl
+     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Http $coreHttp
      * @param array $data
      * @param string $sessionName
      */
     public function __construct(
-        Magento_Core_Helper_Url $coreUrl,
-        Magento_Customer_Helper_Data $customerData,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Http $coreHttp,
+        \Magento\Core\Helper\Url $coreUrl,
+        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
         array $data = array(),
         $sessionName = null
     ) {
@@ -304,7 +304,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected function _setAuthUrl($key, $url)
     {
         $url = $this->_coreUrl
-            ->removeRequestParam($url, Mage::getSingleton('Magento\Core\Model\Session')->getSessionIdQueryParam());
+            ->removeRequestParam($url, \Mage::getSingleton('Magento\Core\Model\Session')->getSessionIdQueryParam());
         // Add correct session ID to URL if needed
         $url = \Mage::getModel('Magento\Core\Model\Url')->getRebuiltUrl($url);
         return $this->setData($key, $url);

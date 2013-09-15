@@ -20,38 +20,38 @@ namespace Magento\Logging\Model\Handler;
 class Controllers
 {
     /**
-     * @var Magento_Logging_Helper_Data
+     * @var \Magento\Logging\Helper\Data
      */
     protected $_loggingData = null;
 
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @var Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute
+     * @var \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute
      */
     protected $_adminhtmlActionAttribute = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Logging_Helper_Data $loggingData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $adminhtmlActionAttribute
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Logging\Helper\Data $loggingData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute $adminhtmlActionAttribute
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Logging_Helper_Data $loggingData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $adminhtmlActionAttribute,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Logging\Helper\Data $loggingData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute $adminhtmlActionAttribute,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_loggingData = $loggingData;
@@ -63,9 +63,9 @@ class Controllers
      * Generic Action handler
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @param Magento_Logging_Model_Processor $processorModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @param \Magento\Logging\Model\Processor $processorModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchGeneric($config, $eventModel, $processorModel)
     {
@@ -83,7 +83,7 @@ class Controllers
      * Simply log action without any id-s
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
+     * @param \Magento\Logging\Model\Event $eventModel
      * @return bool
      */
     public function postDispatchSimpleSave($config, $eventModel)
@@ -95,8 +95,8 @@ class Controllers
      * Custom handler for config view
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchConfigView($config, $eventModel)
     {
@@ -112,9 +112,9 @@ class Controllers
      * Custom handler for config save
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @param Magento_Logging_Model_Processor $processor
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @param \Magento\Logging\Model\Processor $processor
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchConfigSave($config, $eventModel, $processor)
     {
@@ -166,8 +166,8 @@ class Controllers
      * Custom handler for category move
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchCategoryMove($config, $eventModel)
     {
@@ -178,8 +178,8 @@ class Controllers
      * Custom handler for global search
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchGlobalSearch($config, $eventModel)
     {
@@ -190,8 +190,8 @@ class Controllers
      * Handler for forgotpassword
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event|bool
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event|bool
      */
     public function postDispatchForgotPassword($config, $eventModel)
     {
@@ -215,8 +215,8 @@ class Controllers
      * Custom handler for poll save fail's action
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event|bool
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event|bool
      */
     public function postDispatchPollValidation($config, $eventModel)
     {
@@ -237,8 +237,8 @@ class Controllers
      * Custom handler for customer validation fail's action
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event|bool
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event|bool
      */
     public function postDispatchCustomerValidate($config, $eventModel)
     {
@@ -254,9 +254,9 @@ class Controllers
      * Handler for reports
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @param Magento_Logging_Model_Processor $processor
-     * @return Magento_Logging_Model_Event|bool
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @param \Magento\Logging\Model\Processor $processor
+     * @return \Magento\Logging\Model\Event|bool
      */
     public function postDispatchReport($config, $eventModel, $processor)
     {
@@ -299,8 +299,8 @@ class Controllers
      * Custom handler for catalog price rules apply
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchPromoCatalogApply($config, $eventModel)
     {
@@ -312,9 +312,9 @@ class Controllers
      * Custom handler for catalog price rules save & apply
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @param Magento_Logging_Model_Processor $processorModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @param \Magento\Logging\Model\Processor $processorModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchPromoCatalogSaveAndApply($config, $eventModel, $processorModel)
     {
@@ -332,8 +332,8 @@ class Controllers
      * Special handler for newsletter unsubscribe
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchNewsletterUnsubscribe($config, $eventModel)
     {
@@ -348,8 +348,8 @@ class Controllers
      * Custom tax import handler
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event|bool
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event|bool
      */
     public function postDispatchTaxRatesImport($config, $eventModel)
     {
@@ -368,9 +368,9 @@ class Controllers
      * Custom handler for catalog product mass attribute update
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @param Magento_Logging_Model_Processor $processor
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @param \Magento\Logging\Model\Processor $processor
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchProductUpdateAttributes($config, $eventModel, $processor)
     {
@@ -419,8 +419,8 @@ class Controllers
      * Custom switcher for tax_class_save, to distinguish product and customer tax classes
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchTaxClassSave($config, $eventModel)
     {
@@ -437,8 +437,8 @@ class Controllers
      * Custom switcher for tax_class_save, to distinguish product and customer tax classes
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchTaxClassDelete($config, $eventModel)
     {
@@ -456,8 +456,8 @@ class Controllers
      * Custom handler for creating System Backup
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchSystemBackupsCreate($config, $eventModel)
     {
@@ -481,8 +481,8 @@ class Controllers
      * Custom handler for deleting System Backup
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchSystemBackupsDelete($config, $eventModel)
     {
@@ -501,8 +501,8 @@ class Controllers
      * Custom handler for creating System Rollback
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchSystemRollback($config, $eventModel)
     {
@@ -527,8 +527,8 @@ class Controllers
      * Custom handler for mass unlocking locked admin users
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchAdminAccountsMassUnlock($config, $eventModel)
     {
@@ -549,8 +549,8 @@ class Controllers
      * Custom handler for mass reindex process on index management
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchReindexProcess($config, $eventModel)
     {
@@ -565,9 +565,9 @@ class Controllers
      * Custom handler for System Currency save
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @param Magento_Logging_Model_Processor $processor
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @param \Magento\Logging\Model\Processor $processor
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchSystemCurrencySave($config, $eventModel, $processor)
     {
@@ -603,9 +603,9 @@ class Controllers
      * Custom handler for Cache Settings Save
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @param Magento_Logging_Model_Processor $processor
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @param \Magento\Logging\Model\Processor $processor
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchSaveCacheSettings($config, $eventModel, $processor)
     {
@@ -632,8 +632,8 @@ class Controllers
      * Custom tax export handler
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event|bool
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event|bool
      */
     public function postDispatchTaxRatesExport($config, $eventModel)
     {
@@ -652,8 +652,8 @@ class Controllers
      * Custom handler for sales archive operations
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchSalesArchiveManagement($config, $eventModel)
     {
@@ -669,8 +669,8 @@ class Controllers
      * Custom handler for Recurring Profiles status update
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchRecurringProfilesUpdate($config, $eventModel)
     {

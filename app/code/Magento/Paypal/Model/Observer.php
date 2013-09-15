@@ -21,33 +21,33 @@ class Observer
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
     /**
      * Paypal hss
      *
-     * @var Magento_Paypal_Helper_Hss
+     * @var \Magento\Paypal\Helper\Hss
      */
     protected $_paypalHss = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Paypal_Helper_Hss $paypalHss
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Paypal\Helper\Hss $paypalHss
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Paypal_Helper_Hss $paypalHss,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Paypal\Helper\Hss $paypalHss,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreData = $coreData;
         $this->_paypalHss = $paypalHss;
@@ -110,7 +110,7 @@ class Observer
      */
     public function setResponseAfterSaveOrder(\Magento\Event\Observer $observer)
     {
-        /* @var $order Magento_Sales_Model_Order */
+        /* @var $order \Magento\Sales\Model\Order */
         $order = $this->_coreRegistry->registry('hss_order');
 
         if ($order && $order->getId()) {

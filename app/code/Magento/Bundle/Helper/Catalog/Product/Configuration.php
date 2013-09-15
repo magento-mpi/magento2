@@ -23,26 +23,26 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Catalog product configuration
      *
-     * @var Magento_Catalog_Helper_Product_Configuration
+     * @var \Magento\Catalog\Helper\Product\Configuration
      */
     protected $_ctlgProdConfigur = null;
 
     /**
-     * @param Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context
+        \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context
     ) {
         $this->_ctlgProdConfigur = $ctlgProdConfigur;
         $this->_coreData = $coreData;

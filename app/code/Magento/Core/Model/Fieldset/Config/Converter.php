@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Fieldset_Config_Converter implements Magento_Config_ConverterInterface
+namespace Magento\Core\Model\Fieldset\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert dom node tree to array
@@ -18,7 +20,7 @@ class Magento_Core_Model_Fieldset_Config_Converter implements Magento_Config_Con
     public function convert($source)
     {
         $fieldsets = array();
-        $xpath = new DOMXPath($source);
+        $xpath = new \DOMXPath($source);
         /** @var DOMNode $fieldset */
         foreach ($xpath->query('/config/scope') as $scope) {
             $scopeId = $scope->attributes->getNamedItem('id')->nodeValue;

@@ -31,25 +31,25 @@ class Action
     /**
      * Sales reorder
      *
-     * @var Magento_Sales_Helper_Reorder
+     * @var \Magento\Sales\Helper\Reorder
      */
     protected $_salesReorder = null;
 
     /**
-     * @param Magento_Sales_Helper_Reorder $salesReorder
-     * @param Magento_Backend_Block_Context $context
+     * @param \Magento\Sales\Helper\Reorder $salesReorder
+     * @param \Magento\Backend\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Sales_Helper_Reorder $salesReorder,
-        Magento_Backend_Block_Context $context,
+        \Magento\Sales\Helper\Reorder $salesReorder,
+        \Magento\Backend\Block\Context $context,
         array $data = array()
     ) {
         $this->_salesReorder = $salesReorder;
         parent::__construct($context, $data);
     }
 
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $this->_actions = array();
         if ($this->_salesReorder->canReorder($row)) {

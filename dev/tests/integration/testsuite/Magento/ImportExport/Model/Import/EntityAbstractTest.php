@@ -26,8 +26,8 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
         $expected = $source->current();
 
         $objectManager = Mage::getObjectManager();
-        $coreData = $objectManager->get('Magento_Core_Helper_Data');
-        $coreString = $objectManager->get('Magento_Core_Helper_String');
+        $coreData = $objectManager->get('Magento\Core\Helper\Data');
+        $coreString = $objectManager->get('Magento\Core\Helper\String');
 
         /** @var $model \Magento\ImportExport\Model\Import\EntityAbstract|PHPUnit_Framework_MockObject_MockObject */
         $model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\EntityAbstract', array(

@@ -19,33 +19,33 @@ class Observer
     /**
      * Website restriction data
      *
-     * @var Magento_WebsiteRestriction_Helper_Data
+     * @var \Magento\WebsiteRestriction\Helper\Data
      */
     protected $_websiteRestrictionData = null;
 
     /**
      * Customer data
      *
-     * @var Magento_Customer_Helper_Data
+     * @var \Magento\Customer\Helper\Data
      */
     protected $_customerData = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Customer_Helper_Data $customerData
-     * @param Magento_WebsiteRestriction_Helper_Data $websiteRestrictionData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\WebsiteRestriction\Helper\Data $websiteRestrictionData
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Customer_Helper_Data $customerData,
-        Magento_WebsiteRestriction_Helper_Data $websiteRestrictionData
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Customer\Helper\Data $customerData,
+        \Magento\WebsiteRestriction\Helper\Data $websiteRestrictionData
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;

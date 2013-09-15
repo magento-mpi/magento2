@@ -24,13 +24,13 @@ class Attributes
     protected $_isUsedForRuleProperty = 'is_used_for_promo_rules';
 
     /**
-     * @param Magento_Backend_Helper_Data $adminhtmlData
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Helper_Data $adminhtmlData,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         parent::__construct($adminhtmlData, $context, $data);

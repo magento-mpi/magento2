@@ -22,51 +22,51 @@ class Observer
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
     /**
      * Persistent data
      *
-     * @var Magento_Persistent_Helper_Data
+     * @var \Magento\Persistent\Helper\Data
      */
     protected $_mPersistentData = null;
 
     /**
      * Persistent data
      *
-     * @var Magento_PersistentHistory_Helper_Data
+     * @var \Magento\PersistentHistory\Helper\Data
      */
     protected $_ePersistentData = null;
 
     /**
      * Wishlist data
      *
-     * @var Magento_Wishlist_Helper_Data
+     * @var \Magento\Wishlist\Helper\Data
      */
     protected $_wishlistData = null;
 
     /**
      * Persistent session
      *
-     * @var Magento_Persistent_Helper_Session
+     * @var \Magento\Persistent\Helper\Session
      */
     protected $_persistentSession = null;
 
     /**
-     * @param Magento_Persistent_Helper_Session $persistentSession
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_PersistentHistory_Helper_Data $ePersistentData
-     * @param Magento_Persistent_Helper_Data $mPersistentData
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Persistent\Helper\Session $persistentSession
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\PersistentHistory\Helper\Data $ePersistentData
+     * @param \Magento\Persistent\Helper\Data $mPersistentData
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Persistent_Helper_Session $persistentSession,
-        Magento_Wishlist_Helper_Data $wishlistData,
-        Magento_PersistentHistory_Helper_Data $ePersistentData,
-        Magento_Persistent_Helper_Data $mPersistentData,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Persistent\Helper\Session $persistentSession,
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\PersistentHistory\Helper\Data $ePersistentData,
+        \Magento\Persistent\Helper\Data $mPersistentData,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_persistentSession = $persistentSession;
         $this->_wishlistData = $wishlistData;

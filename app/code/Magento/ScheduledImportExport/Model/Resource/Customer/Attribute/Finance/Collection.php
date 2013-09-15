@@ -45,17 +45,17 @@ class Collection
     /**
      * Import export data
      *
-     * @var Magento_ScheduledImportExport_Helper_Data
+     * @var \Magento\ScheduledImportExport\Helper\Data
      */
     protected $_importExportData = null;
 
     /**
-     * @param Magento_ScheduledImportExport_Helper_Data $importExportData
+     * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
      * @param \Magento\Eav\Model\AttributeFactory $attributeFactory
      */
     public function __construct(
-        Magento_ScheduledImportExport_Helper_Data $importExportData,
-        Magento_Eav_Model_AttributeFactory $attributeFactory
+        \Magento\ScheduledImportExport\Helper\Data $importExportData,
+        \Magento\Eav\Model\AttributeFactory $attributeFactory
     ) {
         $this->_importExportData = $importExportData;
         $this->_attributeFactory = $attributeFactory;

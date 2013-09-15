@@ -44,13 +44,13 @@ class Magento_Adminhtml_Block_Page_System_Config_Robots_ResetTest extends PHPUni
         $coreRegisterMock = $this->getMock('Magento\Core\Model\Registry');
         $coreRegisterMock->expects($this->any())
             ->method('registry')
-            ->with('_helper/Magento_Page_Helper_Robots')
+            ->with('_helper/\Magento\Page\Helper\Robots')
             ->will($this->returnValue($this->_mockRobotsHelper));
 
         $objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->getMock();
         $objectManagerMock->expects($this->any())
             ->method('get')
-            ->with('Magento_Core_Model_Registry')
+            ->with('Magento\Core\Model\Registry')
             ->will($this->returnValue($coreRegisterMock));
 
         Mage::reset();

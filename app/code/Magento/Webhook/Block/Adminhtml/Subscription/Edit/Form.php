@@ -36,10 +36,10 @@ class Form extends \Magento\Backend\Block\Widget\Form
     private $_hook;
 
     /**
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Webhook\Model\Source\Format $format
      * @param \Magento\Webhook\Model\Source\Authentication $authentication
      * @param \Magento\Webhook\Model\Source\Hook $hook
@@ -48,7 +48,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
     public function __construct(
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Model\Registry $registry,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Webhook\Model\Source\Format $format,
         \Magento\Webhook\Model\Source\Authentication $authentication,

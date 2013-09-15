@@ -1040,10 +1040,10 @@ final class Controller
     protected function _getExtensionType($type)
     {
         $extensionType = array(
-            Magento_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT => 'tgz',
-            Magento_Backup_Helper_Data::TYPE_SNAPSHOT_WITHOUT_MEDIA => 'tgz',
-            Magento_Backup_Helper_Data::TYPE_MEDIA => 'tgz',
-            Magento_Backup_Helper_Data::TYPE_DB => 'gz'
+            \Magento\Backup\Helper\Data::TYPE_SYSTEM_SNAPSHOT => 'tgz',
+            \Magento\Backup\Helper\Data::TYPE_SNAPSHOT_WITHOUT_MEDIA => 'tgz',
+            \Magento\Backup\Helper\Data::TYPE_MEDIA => 'tgz',
+            \Magento\Backup\Helper\Data::TYPE_DB => 'gz'
         );
 
         return $extensionType[$type];

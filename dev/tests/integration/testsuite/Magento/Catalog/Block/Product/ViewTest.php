@@ -32,8 +32,8 @@ class Magento_Catalog_Block_Product_ViewTest extends PHPUnit_Framework_TestCase
         $this->_block = $objectManager->create('Magento\Catalog\Block\Product\View');
         $this->_product = $objectManager->create('Magento\Catalog\Model\Product');
         $this->_product->load(1);
-        $objectManager->get('Magento_Core_Model_Registry')->unregister('product');
-        $objectManager->get('Magento_Core_Model_Registry')->register('product', $this->_product);
+        $objectManager->get('Magento\Core\Model\Registry')->unregister('product');
+        $objectManager->get('Magento\Core\Model\Registry')->register('product', $this->_product);
     }
 
     public function testSetLayout()

@@ -36,7 +36,7 @@ class Cart
 
     /**
      * Rendered cart items
-     * Array of Magento_Objects
+     * Array of \Magento\Objects
      *
      * @var array
      */
@@ -98,24 +98,24 @@ class Cart
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param array $params
      * @throws Exception
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
+        \Magento\Core\Model\Event\Manager $eventManager,
         $params = array()
     ) {
         $this->_eventManager = $eventManager;
         $salesEntity = array_shift($params);
         if (is_object($salesEntity)
-            && (($salesEntity instanceof Magento_Sales_Model_Order)
-                || ($salesEntity instanceof Magento_Sales_Model_Quote))) {
+            && (($salesEntity instanceof \Magento\Sales\Model\Order)
+                || ($salesEntity instanceof \Magento\Sales\Model\Quote))) {
             $this->_salesEntity = $salesEntity;
         } else {
             throw new \Exception('Invalid sales entity provided.');

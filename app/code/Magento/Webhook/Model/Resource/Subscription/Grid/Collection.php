@@ -16,17 +16,17 @@ class Collection
 {
     /**
      * @param Magento_Webhook_Model_Subscription_Config $subscriptionConfig
-     * @param Magento_Webhook_Model_Resource_Endpoint $endpointResource
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Webhook\Model\Resource\Endpoint $endpointResource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Webhook\Model\Subscription\Config $subscriptionConfig,
-        Magento_Webhook_Model_Resource_Endpoint $endpointResource,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Webhook\Model\Resource\Endpoint $endpointResource,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($endpointResource, $eventManager, $fetchStrategy, $resource);
         $subscriptionConfig->updateSubscriptionCollection();

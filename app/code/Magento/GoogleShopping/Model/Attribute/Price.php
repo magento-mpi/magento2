@@ -20,30 +20,30 @@ namespace Magento\GoogleShopping\Model\Attribute;
 class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 {
     /**
-     * @var Magento_Tax_Helper_Data|null
+     * @var \Magento\Tax\Helper\Data|null
      */
     protected $_taxData = null;
 
     /**
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_GoogleShopping_Helper_Data $gsData
-     * @param Magento_GoogleShopping_Helper_Product $gsProduct
-     * @param Magento_GoogleShopping_Helper_Price $gsPrice
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_GoogleShopping_Model_Resource_Attribute $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\GoogleShopping\Helper\Data $gsData
+     * @param \Magento\GoogleShopping\Helper\Product $gsProduct
+     * @param \Magento\GoogleShopping\Helper\Price $gsPrice
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData,
-        Magento_GoogleShopping_Helper_Data $gsData,
-        Magento_GoogleShopping_Helper_Product $gsProduct,
-        Magento_GoogleShopping_Helper_Price $gsPrice,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_GoogleShopping_Model_Resource_Attribute $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\GoogleShopping\Helper\Data $gsData,
+        \Magento\GoogleShopping\Helper\Product $gsProduct,
+        \Magento\GoogleShopping\Helper\Price $gsPrice,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\GoogleShopping\Model\Resource\Attribute $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_taxData = $taxData;

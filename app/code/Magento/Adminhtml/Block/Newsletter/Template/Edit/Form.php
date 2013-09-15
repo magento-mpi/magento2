@@ -42,7 +42,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $identityName = \Mage::getStoreConfig('trans_email/ident_'.$identity.'/name');
         $identityEmail = \Mage::getStoreConfig('trans_email/ident_'.$identity.'/email');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id'        => 'edit_form',
@@ -102,7 +102,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
 
         $widgetFilters = array('is_email_compatible' => 1);
-        $wysiwygConfig = Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')
+        $wysiwygConfig = \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')
             ->getConfig(array('widget_filters' => $widgetFilters));
         if ($model->isPlain()) {
             $wysiwygConfig->setEnabled(false);

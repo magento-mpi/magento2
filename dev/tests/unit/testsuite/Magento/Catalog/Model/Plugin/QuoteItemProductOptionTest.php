@@ -16,17 +16,17 @@ class Magento_Catalog_Model_Plugin_QuoteItemProductOptionTest extends PHPUnit_Fr
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_orderItemMock;
 
-    /** @var Magento_Catalog_Model_Plugin_QuoteItemProductOption */
+    /** @var \Magento\Catalog\Model\Plugin\QuoteItemProductOption */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_orderItemMock = $this->getMock('Magento_Sales_Model_Order_Item', array(), array(), '', false);
-        $this->_quoteItemMock = $this->getMock('Magento_Sales_Model_Quote_Item', array(), array(), '', false);
-        $this->_invocationChainMock = $this->getMock('Magento_Code_Plugin_InvocationChain',
+        $this->_orderItemMock = $this->getMock('Magento\Sales\Model\Order\Item', array(), array(), '', false);
+        $this->_quoteItemMock = $this->getMock('Magento\Sales\Model\Quote\Item', array(), array(), '', false);
+        $this->_invocationChainMock = $this->getMock('Magento\Code\Plugin\InvocationChain',
             array(), array(), '', false);
 
-        $this->_model = new Magento_Catalog_Model_Plugin_QuoteItemProductOption();
+        $this->_model = new \Magento\Catalog\Model\Plugin\QuoteItemProductOption();
     }
 
     public function testAroundItemToOrderItemEmptyOptions()
@@ -46,14 +46,14 @@ class Magento_Catalog_Model_Plugin_QuoteItemProductOptionTest extends PHPUnit_Fr
         $this->_invocationChainMock->expects($this->once())->method('proceed')
             ->will($this->returnValue($this->_orderItemMock));
 
-        $itemOption = $this->getMock('Magento_Sales_Model_Quote_Item_Option', array('getCode'), array(), '', false);
+        $itemOption = $this->getMock('Magento\Sales\Model\Quote\Item\Option', array('getCode'), array(), '', false);
         $this->_quoteItemMock->expects($this->exactly(2))->method('getOptions')
             ->will($this->returnValue(array($itemOption, $itemOption)));
 
         $itemOption->expects($this->at(0))->method('getCode')->will($this->returnValue('someText_8'));
         $itemOption->expects($this->at(1))->method('getCode')->will($this->returnValue('not_int_text'));
 
-        $productMock = $this->getMock('Magento_Catalog_Model_Product', array(), array(), '', false);
+        $productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
         $optionMock = $this->getMock('stdClass', array('getType'));
         $optionMock->expects($this->once())->method('getType');
 

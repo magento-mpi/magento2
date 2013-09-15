@@ -27,15 +27,15 @@ class Observer
     /**
      * License data
      *
-     * @var Magento_License_Helper_Data
+     * @var \Magento\License\Helper\Data
      */
     protected $_licenseData = null;
 
     /**
-     * @param Magento_License_Helper_Data $licenseData
+     * @param \Magento\License\Helper\Data $licenseData
      */
     public function __construct(
-        Magento_License_Helper_Data $licenseData
+        \Magento\License\Helper\Data $licenseData
     ) {
         $this->_licenseData = $licenseData;
     }

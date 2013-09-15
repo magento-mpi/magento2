@@ -22,7 +22,7 @@ class InvitationOrder extends \Magento\Reward\Model\Action\AbstractAction
     /**
      * Reward data
      *
-     * @var Magento_Reward_Helper_Data
+     * @var \Magento\Reward\Helper\Data
      */
     protected $_rewardData = null;
 
@@ -32,11 +32,11 @@ class InvitationOrder extends \Magento\Reward\Model\Action\AbstractAction
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Reward_Helper_Data $rewardData
+     * @param \Magento\Reward\Helper\Data $rewardData
      * @param array $data
      */
     public function __construct(
-        Magento_Reward_Helper_Data $rewardData,
+        \Magento\Reward\Helper\Data $rewardData,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;

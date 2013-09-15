@@ -92,7 +92,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @param Magento_Widget_Model_Widget_Instance $model
+     * @param \Magento\Widget\Model\Widget\Instance $model
      * @depends testGetWidgetConfigAsArray
      */
     public function testGenerateLayoutUpdateXml(\Magento\Widget\Model\Widget\Instance $model)

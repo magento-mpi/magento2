@@ -56,10 +56,10 @@ class Magento_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo($apiUsedId))
             ->will($this->returnValue($mockWebhookUser));
 
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
         // we have to use a mock because ancestor code utilizes deprecated static methods
-        $this->_endpoint = $this->getMockBuilder('Magento_Webhook_Model_Endpoint')
+        $this->_endpoint = $this->getMockBuilder('Magento\Webhook\Model\Endpoint')
             ->setConstructorArgs(array(
                 $this->_mockContext,
                 $coreRegistry,
@@ -112,10 +112,10 @@ class Magento_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
             ->method('getEventDispatcher')
             ->will($this->returnValue($mockEventManager));
 
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
         // we have to use a mock because ancestor code utilizes deprecated static methods
-        $this->_endpoint = $this->getMockBuilder('Magento_Webhook_Model_Endpoint')
+        $this->_endpoint = $this->getMockBuilder('Magento\Webhook\Model\Endpoint')
             ->setConstructorArgs(array(
                 $this->_mockContext,
                 $coreRegistry,

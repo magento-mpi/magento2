@@ -14,10 +14,10 @@ class Request extends \Zend_Controller_Request_Http
     /**
      * Modify pathInfo: strip down the front name and query parameters.
      *
-     * @param Magento_Core_Model_App $app
+     * @param \Magento\Core\Model\App $app
      * @param null|string|Zend_Uri $uri
      */
-    public function __construct(Magento_Core_Model_App $app, $uri = null)
+    public function __construct(\Magento\Core\Model\App $app, $uri = null)
     {
         parent::__construct($uri);
         $this->_pathInfo = $this->_requestUri;

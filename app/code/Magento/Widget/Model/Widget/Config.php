@@ -20,31 +20,31 @@ class Config
     protected $_viewUrl;
 
     /**
-     * @var Magento_Widget_Model_Widget
+     * @var \Magento\Widget\Model\Widget
      */
     protected $_widget;
 
     /**
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected $_backendUrl;
 
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreHelper;
 
     /**
-     * @param Magento_Widget_Model_Widget $widget
-     * @param Magento_Backend_Model_Url $backendUrl
-     * @param Magento_Core_Helper_Data $coreHelper
-     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param \Magento\Widget\Model\Widget $widget
+     * @param \Magento\Backend\Model\Url $backendUrl
+     * @param \Magento\Core\Helper\Data $coreHelper
+     * @param \Magento\Core\Model\View\Url $viewUrl
      */
     public function __construct(
-        Magento_Widget_Model_Widget $widget,
-        Magento_Backend_Model_Url $backendUrl,
-        Magento_Core_Helper_Data $coreHelper,
-        Magento_Core_Model_View_Url $viewUrl
+        \Magento\Widget\Model\Widget $widget,
+        \Magento\Backend\Model\Url $backendUrl,
+        \Magento\Core\Helper\Data $coreHelper,
+        \Magento\Core\Model\View\Url $viewUrl
     ) {
         $this->_widget = $widget;
         $this->_backendUrl = $backendUrl;
@@ -75,7 +75,7 @@ class Config
     /**
      * Return Widgets Insertion Plugin Window URL
      *
-     * @param Magento_Object $config Editor element config
+     * @param \Magento\Object $config Editor element config
      * @return string
      */
     public function getWidgetWindowUrl($config)

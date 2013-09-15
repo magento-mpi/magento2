@@ -23,7 +23,7 @@ class Magento_Rma_Block_Adminhtml_Edit_ItemsTest extends PHPUnit_Framework_TestC
         $rma->load(1, 'increment_id');
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('current_rma', $rma);
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_rma', $rma);
         $utility = new Magento_Core_Utility_Layout($this);
         $layoutArguments = array_merge($utility->getLayoutDependencies(), array('area' => 'adminhtml'));
         $layout = $utility->getLayoutFromFixture(

@@ -27,17 +27,17 @@ class Cart extends \Magento\Core\Helper\Url
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context
     ) {
         $this->_coreData = $coreData;
         parent::__construct($context);
@@ -89,7 +89,7 @@ class Cart extends \Magento\Core\Helper\Url
     /**
      * Retrieve url for remove product from cart
      *
-     * @param   Magento_Sales_Quote_Item $item
+     * @param   \Magento\Sales\Quote\Item $item
      * @return  string
      */
     public function getRemoveUrl($item)

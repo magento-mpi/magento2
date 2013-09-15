@@ -58,7 +58,7 @@ class Actions
     {
         $model = $this->_coreRegistry->registry('current_promo_catalog_rule');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 

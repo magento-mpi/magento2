@@ -30,14 +30,14 @@ class AbstractApi extends \Magento\Object
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Pbridge data
      *
-     * @var Magento_Pbridge_Helper_Data
+     * @var \Magento\Pbridge\Helper\Data
      */
     protected $_pbridgeData = null;
 
@@ -47,13 +47,13 @@ class AbstractApi extends \Magento\Object
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Pbridge_Helper_Data $pbridgeData
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        Magento_Pbridge_Helper_Data $pbridgeData,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;

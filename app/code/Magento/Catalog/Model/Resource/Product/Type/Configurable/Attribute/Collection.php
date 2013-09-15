@@ -45,22 +45,22 @@ class Collection
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute
      * $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute  $resource
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute  $resource
     ) {
         $this->_catalogData = $catalogData;
         parent::__construct($eventManager, $fetchStrategy, $resource);

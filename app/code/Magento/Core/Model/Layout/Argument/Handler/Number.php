@@ -15,14 +15,16 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Layout_Argument_Handler_Number extends Magento_Core_Model_Layout_Argument_HandlerAbstract
+namespace Magento\Core\Model\Layout\Argument\Handler;
+
+class Number extends \Magento\Core\Model\Layout\Argument\HandlerAbstract
 {
     /**
      * Process argument value
      *
      * @param array $argument
      * @return mixed
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function process(array $argument)
     {
@@ -33,13 +35,13 @@ class Magento_Core_Model_Layout_Argument_Handler_Number extends Magento_Core_Mod
 
     /**
      * @param array $argument
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _validate(array $argument)
     {
         parent::_validate($argument);
         if (!is_numeric($argument['value'])) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 'Value is not number argument. ' . $this->_getArgumentInfo($argument)
             );
         }

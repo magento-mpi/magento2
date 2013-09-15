@@ -99,12 +99,12 @@ abstract class HandlerAbstract
      * Validate parsed argument before processing
      *
      * @param array $argument
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _validate(array $argument)
     {
         if (!isset($argument['value'])) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 'Value is required for argument. ' . $this->_getArgumentInfo($argument)
             );
         }

@@ -34,7 +34,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
     private $_resourceMock;
 
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     private $_eventManager;
 
@@ -55,7 +55,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         $configResourceMock = $this->_makeMock('Magento\Core\Model\Config\Resource');
 
         // Arguments to collection constructor
-        $this->_eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+        $this->_eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
         $this->_fetchStrategyMock = $this->_makeMock('Magento\Data\Collection\Db\FetchStrategyInterface');
         $this->_endpointResMock = $this->_makeMock('Magento\Webhook\Model\Resource\Endpoint');
         $this->_resourceMock = $this-> _makeMock('Magento\Webhook\Model\Resource\Subscription');
@@ -257,7 +257,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
      */
     private function _makeCollectionMock(array $methods)
     {
-        return $this->getMock('Magento_Webhook_Model_Resource_Subscription_Collection', $methods, array(
+        return $this->getMock('Magento\Webhook\Model\Resource\Subscription\Collection', $methods, array(
             $this->_endpointResMock, $this->_eventManager, $this->_fetchStrategyMock, $this->_resourceMock), '', true);
     }
 

@@ -23,18 +23,18 @@ class Block extends \Magento\Core\Block\AbstractBlock
     /**
      * Cms data
      *
-     * @var Magento_Cms_Helper_Data
+     * @var \Magento\Cms\Helper\Data
      */
     protected $_cmsData = null;
 
     /**
-     * @param Magento_Cms_Helper_Data $cmsData
-     * @param Magento_Core_Block_Context $context
+     * @param \Magento\Cms\Helper\Data $cmsData
+     * @param \Magento\Core\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Cms_Helper_Data $cmsData,
-        Magento_Core_Block_Context $context,
+        \Magento\Cms\Helper\Data $cmsData,
+        \Magento\Core\Block\Context $context,
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;

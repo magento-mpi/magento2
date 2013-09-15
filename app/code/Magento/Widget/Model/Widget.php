@@ -20,7 +20,7 @@ namespace Magento\Widget\Model;
 class Widget
 {
     /**
-     * @var Magento_Widget_Model_Config_Data
+     * @var \Magento\Widget\Model\Config\Data
      */
     protected $_dataStorage;
 
@@ -42,7 +42,7 @@ class Widget
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
@@ -50,17 +50,17 @@ class Widget
     protected $_widgetsArray = array();
 
     /**
-     * @param Magento_Widget_Model_Config_Data $dataStorage
-     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param \Magento\Widget\Model\Config\Data $dataStorage
+     * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Widget_Model_Config_Data $dataStorage,
-        Magento_Core_Model_View_Url $viewUrl,
-        Magento_Core_Model_View_FileSystem $viewFileSystem
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Widget\Model\Config\Data $dataStorage,
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Core\Model\View\FileSystem $viewFileSystem
     ) {
         $this->_coreData = $coreData;
         $this->_dataStorage = $dataStorage;
@@ -90,7 +90,7 @@ class Widget
     }
 
     /**
-     * Return widget XML configuration as Magento_Object and makes some data preparations
+     * Return widget XML configuration as \Magento\Object and makes some data preparations
      *
      * @param string $type Widget type
      * @return null|\Magento\Simplexml\Element
@@ -110,7 +110,7 @@ class Widget
     {
         $widget = $this->getWidgetByClassType($type);
 
-        $object = new Magento_Object();
+        $object = new \Magento\Object();
         if ($widget === null) {
             return $object;
         }
@@ -181,10 +181,10 @@ class Widget
                 try {
                     foreach ($filters as $field => $value) {
                         if (!isset($widget[$field]) || (string)$widget[$field] != $value) {
-                            throw new Exception();
+                            throw new \Exception();
                         }
                     }
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     unset($result[$code]);
                     continue;
                 }

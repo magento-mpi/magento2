@@ -39,12 +39,12 @@ class Config
     protected $_systemConfigValues = null;
 
     /**
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_store;
 
     /**
-     * @param Magento_Logging_Model_Config_Data $dataStorage
+     * @param \Magento\Logging\Model\Config\Data $dataStorage
      */
     public function __construct(\Magento\Logging\Model\Config\Data $dataStorage,
         \Magento\Core\Model\StoreManager $storeManager
@@ -161,7 +161,7 @@ class Config
     /**
      * Load values from System Configuration
      *
-     * @return Magento_Logging_Model_Config
+     * @return \Magento\Logging\Model\Config
      */
     protected function _initSystemConfigValues()
     {

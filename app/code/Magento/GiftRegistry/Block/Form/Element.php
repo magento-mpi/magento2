@@ -30,7 +30,7 @@ class Element extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         array $data = array()

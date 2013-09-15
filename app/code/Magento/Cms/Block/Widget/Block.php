@@ -30,20 +30,20 @@ class Block extends \Magento\Core\Block\Template implements \Magento\Widget\Bloc
     /**
      * Cms data
      *
-     * @var Magento_Cms_Helper_Data
+     * @var \Magento\Cms\Helper\Data
      */
     protected $_cmsData = null;
 
     /**
-     * @param Magento_Cms_Helper_Data $cmsData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Cms\Helper\Data $cmsData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Cms_Helper_Data $cmsData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Cms\Helper\Data $cmsData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;

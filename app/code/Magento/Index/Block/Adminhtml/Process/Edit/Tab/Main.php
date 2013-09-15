@@ -17,7 +17,7 @@ class Main
     protected function _prepareForm()
     {
         $model = $this->_coreRegistry->registry('current_index_process');
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('index_process_');
         $fieldset = $form->addFieldset(

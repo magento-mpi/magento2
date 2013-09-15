@@ -114,7 +114,7 @@ abstract class AbstractController extends \Magento\Core\Controller\Front\Action
         } else {
             $indexUrl = \Mage::getUrl('wishlist/shared', array('code' => $wishlist->getSharingCode()));
         }
-        if ($this->_objectManager->get('Magento_Checkout_Helper_Cart')->getShouldRedirectToCart()) {
+        if ($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getShouldRedirectToCart()) {
             $redirectUrl = $this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl();
         } else if ($this->_getRefererUrl()) {
             $redirectUrl = $this->_getRefererUrl();

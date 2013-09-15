@@ -29,24 +29,24 @@ class Filter extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Import export data
      *
-     * @var Magento_ImportExport_Helper_Data
+     * @var \Magento\ImportExport\Helper\Data
      */
     protected $_importExportData = null;
 
     /**
-     * @param Magento_ImportExport_Helper_Data $importExportData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\ImportExport\Helper\Data $importExportData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_ImportExport_Helper_Data $importExportData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\ImportExport\Helper\Data $importExportData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_importExportData = $importExportData;
@@ -85,7 +85,7 @@ class Filter extends \Magento\Adminhtml\Block\Widget\Grid
             'id'           => $this->getFilterElementId($attribute->getAttributeCode()),
             'class'        => 'input-text input-text-range-date',
             'date_format'  => \Mage::app()->getLocale()
-                ->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT),
+                ->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT),
             'image'        => $this->getViewFileUrl('images/grid-cal.gif')
         );
         /** @var $selectBlock \Magento\Core\Block\Html\Date */

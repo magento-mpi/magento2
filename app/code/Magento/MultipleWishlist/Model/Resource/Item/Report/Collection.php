@@ -18,39 +18,39 @@ class Collection
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
      * Wishlist data
      *
-     * @var Magento_Wishlist_Helper_Data
+     * @var \Magento\Wishlist\Helper\Data
      */
     protected $_wishlistData = null;
 
     /**
-     * @var Magento_Core_Model_Fieldset_Config
+     * @var \Magento\Core\Model\Fieldset\Config
      */
     protected $_fieldsetConfig;
 
     /**
      * Collection constructor
      *
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_MultipleWishlist_Model_Resource_Item $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\MultipleWishlist\Model\Resource\Item $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Wishlist_Helper_Data $wishlistData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_Fieldset_Config $fieldsetConfig,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_MultipleWishlist_Model_Resource_Item $resource
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\Fieldset\Config $fieldsetConfig,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\MultipleWishlist\Model\Resource\Item $resource
     ) {
         $this->_wishlistData = $wishlistData;
         $this->_catalogData = $catalogData;

@@ -20,7 +20,7 @@
         <group name="magento_customersegment">
             <label translate="true">Manage Segments</label>
             <expected_models>
-                <expected_model class="Magento_CustomerSegment_Model_Segment" />
+                <expected_model class="Magento\CustomerSegment\Model\Segment" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_customersegment_edit" action_alias="view" />

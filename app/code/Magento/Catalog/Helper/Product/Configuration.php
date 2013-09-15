@@ -25,17 +25,17 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Helper_Context $context
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Helper\Context $context
     ) {
         $this->_coreString = $coreString;
         parent::__construct($context);

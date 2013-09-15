@@ -5,17 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminGws_Model_Plugin_ProductAction
+namespace Magento\AdminGws\Model\Plugin;
+
+class ProductAction
 {
     /**
-     * @var Magento_AdminGws_Model_Role
+     * @var \Magento\AdminGws\Model\Role
      */
     protected $_role;
 
     /**
-     * @param Magento_AdminGws_Model_Role $role
+     * @param \Magento\AdminGws\Model\Role $role
      */
-    public function __construct(Magento_AdminGws_Model_Role $role)
+    public function __construct(\Magento\AdminGws\Model\Role $role)
     {
         $this->_role = $role;
     }
@@ -25,7 +27,7 @@ class Magento_AdminGws_Model_Plugin_ProductAction
      *
      * @param array $methodArguments
      * @return array
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function beforeUpdateWebsites(array $methodArguments)
     {
@@ -35,10 +37,10 @@ class Magento_AdminGws_Model_Plugin_ProductAction
         list(, $websiteIds, $type) = $methodArguments;
         if (in_array($type, array('remove', 'add'))) {
             if (!$this->_role->getIsWebsiteLevel()) {
-                throw new Magento_Core_Exception(__('You need more permissions to save this item.'));
+                throw new \Magento\Core\Exception(__('You need more permissions to save this item.'));
             }
             if (!$this->_role->hasWebsiteAccess($websiteIds, true)) {
-                throw new Magento_Core_Exception(__('You need more permissions to save this item.'));
+                throw new \Magento\Core\Exception(__('You need more permissions to save this item.'));
             }
         }
         return $methodArguments;

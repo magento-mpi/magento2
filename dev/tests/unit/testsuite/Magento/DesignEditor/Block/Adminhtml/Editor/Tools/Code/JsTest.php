@@ -54,7 +54,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPU
             array(
                 'urlBuilder' => $this->_urlBuilder,
                 'themeContext' => $this->_themeContext,
-                'formFactory' => $this->getMock('Magento_Data_Form_Factory', array(), array(), '', false),
+                'formFactory' => $this->getMock('Magento\Data\Form\Factory', array(), array(), '', false),
         ));
         $this->_model = $this->getMock(
             'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Js',

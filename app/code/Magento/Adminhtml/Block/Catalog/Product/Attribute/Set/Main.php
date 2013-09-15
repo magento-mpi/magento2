@@ -382,7 +382,7 @@ class Main extends \Magento\Backend\Block\Template
     {
         $isDefault = $this->getData('is_current_set_default');
         if (is_null($isDefault)) {
-            $defaultSetId = Mage::getModel('Magento\Eav\Model\Entity\Type')
+            $defaultSetId = \Mage::getModel('Magento\Eav\Model\Entity\Type')
                 ->load($this->_coreRegistry->registry('entityType'))
                 ->getDefaultAttributeSetId();
             $isDefault = $this->_getSetId() == $defaultSetId;

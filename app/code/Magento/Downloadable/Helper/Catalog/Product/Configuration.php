@@ -23,17 +23,17 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
     /**
      * Catalog product configuration
      *
-     * @var Magento_Catalog_Helper_Product_Configuration
+     * @var \Magento\Catalog\Helper\Product\Configuration
      */
     protected $_productConfigur = null;
 
     /**
-     * @param Magento_Catalog_Helper_Product_Configuration $productConfigur
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Catalog\Helper\Product\Configuration $productConfigur
+     * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        Magento_Catalog_Helper_Product_Configuration $productConfigur,
-        Magento_Core_Helper_Context $context
+        \Magento\Catalog\Helper\Product\Configuration $productConfigur,
+        \Magento\Core\Helper\Context $context
     ) {
         $this->_productConfigur = $productConfigur;
         parent::__construct($context);

@@ -36,18 +36,18 @@ class Index extends \Magento\Core\Controller\Front\Action
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Cache\Type\Config $configCacheType
     ) {
         $this->_coreRegistry = $coreRegistry;

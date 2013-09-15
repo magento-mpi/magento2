@@ -39,25 +39,25 @@ class Url extends \Magento\Object
     /**
      * Catalog product url
      *
-     * @var Magento_Catalog_Helper_Product_Url
+     * @var \Magento\Catalog\Helper\Product\Url
      */
     protected $_catalogProductUrl = null;
 
     /**
      * Catalog category
      *
-     * @var Magento_Catalog_Helper_Category
+     * @var \Magento\Catalog\Helper\Category
      */
     protected $_catalogCategory = null;
 
     /**
-     * @param Magento_Catalog_Helper_Category $catalogCategory
-     * @param Magento_Catalog_Helper_Product_Url $catalogProductUrl
+     * @param \Magento\Catalog\Helper\Category $catalogCategory
+     * @param \Magento\Catalog\Helper\Product\Url $catalogProductUrl
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Helper_Category $catalogCategory,
-        Magento_Catalog_Helper_Product_Url $catalogProductUrl,
+        \Magento\Catalog\Helper\Category $catalogCategory,
+        \Magento\Catalog\Helper\Product\Url $catalogProductUrl,
         array $data = array()
     ) {
         $this->_catalogCategory = $catalogCategory;

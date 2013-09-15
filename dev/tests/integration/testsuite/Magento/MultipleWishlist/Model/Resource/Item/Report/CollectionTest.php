@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
+ * \Magento\MultipleWishlist\Model\Resource\Item\Report\Collection
  *
  * {license_notice}
  *
@@ -11,13 +11,13 @@
 class Magento_MultipleWishlist_Model_Resource_Item_Report_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
+     * @var \Magento\MultipleWishlist\Model\Resource\Item\Report\Collection
      */
     protected $_collection;
 
     public function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento_MultipleWishlist_Model_Resource_Item_Report_Collection');
+        $this->_collection = Mage::getResourceModel('Magento\MultipleWishlist\Model\Resource\Item\Report\Collection');
     }
 
     public function testAddCustomerInfo()

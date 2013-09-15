@@ -483,17 +483,17 @@ class Item
         if (\Mage::getIsSerializable()) {
             $this->_moduleHelper = \Magento\Core\Model\ObjectManager::getInstance()->get($this->_moduleHelperName);
             $this->_validator = \Magento\Core\Model\ObjectManager::getInstance()
-                ->get('Magento_Backend_Model_Menu_Item_Validator');
+                ->get('Magento\Backend\Model\Menu\Item\Validator');
             $this->_acl = \Magento\Core\Model\ObjectManager::getInstance()
                 ->get('Magento_AuthorizationInterface');
             $this->_storeConfig = \Magento\Core\Model\ObjectManager::getInstance()
-                ->get('Magento_Core_Model_Store_Config');
+                ->get('Magento\Core\Model\Store\Config');
             $this->_menuFactory = \Magento\Core\Model\ObjectManager::getInstance()
-                ->get('Magento_Backend_Model_MenuFactory');
+                ->get('Magento\Backend\Model\MenuFactory');
             $this->_urlModel = \Magento\Core\Model\ObjectManager::getInstance()
-                ->get('Magento_Backend_Model_Url');
+                ->get('Magento\Backend\Model\Url');
             $this->_moduleList = \Magento\Core\Model\ObjectManager::getInstance()
-                ->get('Magento_Core_Model_ModuleListInterface');
+                ->get('Magento\Core\Model\ModuleListInterface');
             if ($this->_serializedSubmenu) {
                 $this->_submenu = $this->_menuFactory->create();
                 $this->_submenu->unserialize($this->_serializedSubmenu);

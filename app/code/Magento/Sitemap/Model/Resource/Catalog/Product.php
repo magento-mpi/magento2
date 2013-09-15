@@ -48,17 +48,17 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Sitemap data
      *
-     * @var Magento_Sitemap_Helper_Data
+     * @var \Magento\Sitemap\Helper\Data
      */
     protected $_sitemapData = null;
 
     /**
-     * @param Magento_Sitemap_Helper_Data $sitemapData
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Sitemap\Helper\Data $sitemapData
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Sitemap_Helper_Data $sitemapData,
-        Magento_Core_Model_Resource $resource
+        \Magento\Sitemap\Helper\Data $sitemapData,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_sitemapData = $sitemapData;
         parent::__construct($resource);
@@ -266,7 +266,7 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _loadProductImages($product, $storeId)
     {
-        /** @var $helper Magento_Sitemap_Helper_Data */
+        /** @var $helper \Magento\Sitemap\Helper\Data */
         $helper = $this->_sitemapData;
         $imageIncludePolicy = $helper->getProductImageIncludePolicy($storeId);
 

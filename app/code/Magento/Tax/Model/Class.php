@@ -11,8 +11,8 @@
 /**
  * Tax class model
  *
- * @method Magento_Tax_Model_Resource_Class _getResource()
- * @method Magento_Tax_Model_Resource_Class getResource()
+ * @method \Magento\Tax\Model\Resource\Class _getResource()
+ * @method \Magento\Tax\Model\Resource\Class getResource()
  * @method string getClassName()
  * @method Magento_Tax_Model_Class setClassName(string $value)
  * @method string getClassType()
@@ -23,7 +23,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Tax_Model_Class extends Magento_Core_Model_Abstract
+namespace Magento\Tax\Model;
+
+class ClassModel extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Defines Customer Tax Class string
@@ -36,24 +38,24 @@ class Magento_Tax_Model_Class extends Magento_Core_Model_Abstract
     const TAX_CLASS_TYPE_PRODUCT = 'PRODUCT';
 
     /**
-     * @var Magento_Tax_Model_Class_Factory
+     * @var \Magento\Tax\Model\Class\Factory
      */
     protected $_classFactory;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Tax_Model_Class_Factory $classFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Tax\Model\Class\Factory $classFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Tax_Model_Class_Factory $classFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Tax\Model\Class\Factory $classFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -62,30 +64,30 @@ class Magento_Tax_Model_Class extends Magento_Core_Model_Abstract
 
     public function _construct()
     {
-        $this->_init('Magento_Tax_Model_Resource_Class');
+        $this->_init('Magento\Tax\Model\Resource\Class');
     }
 
     /**
      * Check whether this class can be deleted
      *
      * @return bool
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function checkClassCanBeDeleted()
     {
         if (!$this->getId()) {
-            Mage::throwException(__('This class no longer exists.'));
+            \Mage::throwException(__('This class no longer exists.'));
         }
 
         $typeModel = $this->_classFactory->create($this);
 
         if ($typeModel->getAssignedToRules()->getSize() > 0) {
-            Mage::throwException(__('You cannot delete this tax class because it is used in Tax Rules. You have to delete the rules it is used in first.'));
+            \Mage::throwException(__('You cannot delete this tax class because it is used in Tax Rules. You have to delete the rules it is used in first.'));
         }
 
         $objectCount = $typeModel->getAssignedToObjects()->getSize();
         if ($objectCount > 0) {
-            Mage::throwException(__('You cannot delete this tax class because it is used for %1 %2(s).', $objectCount, $typeModel->getObjectTypeName()));
+            \Mage::throwException(__('You cannot delete this tax class because it is used for %1 %2(s).', $objectCount, $typeModel->getObjectTypeName()));
         }
 
         return true;

@@ -15,7 +15,7 @@
         <group name="magento_giftcardaccount">
             <label translate="true">Gift Card Accounts</label>
             <expected_models>
-                <expected_model class="Magento_GiftCardAccount_Model_Giftcardaccount" />
+                <expected_model class="Magento\GiftCardAccount\Model\Giftcardaccount" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_giftcardaccount_edit" action_alias="view" />

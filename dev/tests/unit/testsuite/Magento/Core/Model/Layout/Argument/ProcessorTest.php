@@ -113,12 +113,12 @@ class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework
     public function testParse()
     {
         // Because descendants of SimpleXMLElement couldn't be mocked
-        $argument = new Magento_Core_Model_Layout_Element('<argument xsi:type="string" name="argumentName" '
+        $argument = new \Magento\Core\Model\Layout\Element('<argument xsi:type="string" name="argumentName" '
             . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Value</argument>'
         );
 
         $argumentHandlerMock = $this->getMock(
-            'Magento_Core_Model_Layout_Argument_HandlerInterface', array(), array(), '', false
+            'Magento\Core\Model\Layout\Argument\HandlerInterface', array(), array(), '', false
         );
         $argumentHandlerMock->expects($this->once())
             ->method('parse')

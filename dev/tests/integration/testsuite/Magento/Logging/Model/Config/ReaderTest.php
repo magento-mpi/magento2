@@ -13,13 +13,13 @@ class Magento_Logging_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
 
     public function testRead()
     {
-        /** @var Magento_Core_Model_Dir $dirs */
+        /** @var \Magento\Core\Model\Dir $dirs */
         $dirs = Mage::getObjectManager()->create(
-            'Magento_Core_Model_Dir', array(
+            'Magento\Core\Model\Dir', array(
                 'baseDir' => BP,
                 'dirs' => array(
-                    Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files',
-                    Magento_Core_Model_Dir::CONFIG => __DIR__ . '/_files'
+                    \Magento\Core\Model\Dir::MODULES => __DIR__ . '/_files',
+                    \Magento\Core\Model\Dir::CONFIG => __DIR__ . '/_files'
                 )
             )
         );
@@ -39,31 +39,31 @@ class Magento_Logging_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        /** @var Magento_Core_Model_ModuleList $modulesList */
+        /** @var \Magento\Core\Model\ModuleList $modulesList */
         $modulesList = Mage::getObjectManager()->create(
-            'Magento_Core_Model_ModuleList', array(
+            'Magento\Core\Model\ModuleList', array(
                 'reader' => $filesystemReader,
             )
         );
 
-        /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
+        /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
         $moduleReader = Mage::getObjectManager()->create(
-            'Magento_Core_Model_Config_Modules_Reader', array(
+            'Magento\Core\Model\Config\Modules\Reader', array(
                 'dirs' => $dirs,
                 'moduleList' => $modulesList
             )
         );
 
-        /** @var Magento_Core_Model_Config_FileResolver $fileResolver */
+        /** @var \Magento\Core\Model\Config\FileResolver $fileResolver */
         $fileResolver = Mage::getObjectManager()->create(
-            'Magento_Core_Model_Config_FileResolver', array(
+            'Magento\Core\Model\Config\FileResolver', array(
                 'moduleReader' => $moduleReader,
             )
         );
 
-        /** @var Magento_Logging_Model_Config_Reader $model */
+        /** @var \Magento\Logging\Model\Config\Reader $model */
         $model = Mage::getObjectManager()->create(
-            'Magento_Logging_Model_Config_Reader', array(
+            'Magento\Logging\Model\Config\Reader', array(
                 'fileResolver' => $fileResolver,
             )
         );
@@ -79,7 +79,7 @@ class Magento_Logging_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
             __DIR__ . '/_files/customerBalance.xml',
             __DIR__ . '/_files/Reward.xml'
         );
-        $fileResolverMock = $this->getMockBuilder('Magento_Config_FileResolverInterface')
+        $fileResolverMock = $this->getMockBuilder('Magento\Config\FileResolverInterface')
             ->setMethods(array('get'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -88,9 +88,9 @@ class Magento_Logging_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('logging.xml'), $this->equalTo('global'))
             ->will($this->returnValue($fileList));
 
-        /** @var Magento_Logging_Model_Config_Reader $model */
+        /** @var \Magento\Logging\Model\Config\Reader $model */
         $model = Mage::getObjectManager()->create(
-            'Magento_Logging_Model_Config_Reader', array(
+            'Magento\Logging\Model\Config\Reader', array(
                 'fileResolver' => $fileResolverMock,
             )
         );

@@ -60,7 +60,7 @@ class Quote
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
@@ -69,12 +69,12 @@ class Quote
      *
      *
      *
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Sales\Model\Quote $quote
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Sales_Model_Quote $quote
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Sales\Model\Quote $quote
     ) {
         $this->_eventManager = $eventManager;
         $this->_quote       = $quote;

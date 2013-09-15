@@ -67,7 +67,7 @@ class Url extends \Magento\Core\Model\Url
      * @param \Magento\Core\Model\Session $coreSession
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Backend\Model\Menu\Config $menuConfig
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
@@ -76,7 +76,7 @@ class Url extends \Magento\Core\Model\Url
         \Magento\Core\Model\Session $coreSession,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Backend\Model\Menu\Config $menuConfig,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         parent::__construct($coreData, $data);

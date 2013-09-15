@@ -8,7 +8,7 @@
 class Magento_WebsiteRestriction_Model_Plugin_CustomerRegistrationTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_WebsiteRestriction_Model_Plugin_CustomerRegistration
+     * @var \Magento\WebsiteRestriction\Model\Plugin\CustomerRegistration
      */
     protected $_model;
 
@@ -24,10 +24,10 @@ class Magento_WebsiteRestriction_Model_Plugin_CustomerRegistrationTest extends P
 
     protected function setUp()
     {
-        $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
-        $this->_restrictionHelper = $this->getMock('Magento_WebsiteRestriction_Helper_Data',
+        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $this->_restrictionHelper = $this->getMock('Magento\WebsiteRestriction\Helper\Data',
             array(), array(), '', false);
-        $this->_model = new Magento_WebsiteRestriction_Model_Plugin_CustomerRegistration(
+        $this->_model = new \Magento\WebsiteRestriction\Model\Plugin\CustomerRegistration(
             $this->_storeManagerMock,
             $this->_restrictionHelper
         );
@@ -35,14 +35,14 @@ class Magento_WebsiteRestriction_Model_Plugin_CustomerRegistrationTest extends P
 
     public function testAfterIsRegistrationIsAllowedRestrictsRegistrationIfRestrictionModeForbidsIt()
     {
-        $storeMock = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $storeMock->expects($this->any())
             ->method('isAdmin')
             ->will($this->returnValue(false));
         $storeMock->expects($this->any())
             ->method('getConfig')
-            ->with(Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_MODE)
-            ->will($this->returnValue(Magento_WebsiteRestriction_Model_Mode::ALLOW_NONE));
+            ->with(\Magento\WebsiteRestriction\Helper\Data::XML_PATH_RESTRICTION_MODE)
+            ->will($this->returnValue(\Magento\WebsiteRestriction\Model\Mode::ALLOW_NONE));
         $this->_storeManagerMock->expects($this->any())
             ->method('getStore')
             ->with(null)

@@ -22,18 +22,18 @@ namespace Magento\Adminhtml\Helper\Media;
 class Js extends \Magento\Core\Helper\Js
 {
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config\Modules\Reader $configReader
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
-     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param \Magento\Core\Model\View\Url $viewUrl
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config_Modules_Reader $configReader,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Model_View_Url $viewUrl
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config\Modules\Reader $configReader,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Model\View\Url $viewUrl
     )
     {
         parent::__construct($coreData, $context, $configReader, $configCacheType, $viewUrl);

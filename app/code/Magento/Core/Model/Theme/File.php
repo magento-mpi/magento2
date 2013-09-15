@@ -52,7 +52,7 @@ class File extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param \Magento\Core\Model\Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Theme\FlyweightFactory $themeFactory
      * @param \Magento\Core\Model\Theme\Customization\FileServiceFactory $fileServiceFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -61,7 +61,7 @@ class File extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Theme\FlyweightFactory $themeFactory,
         \Magento\Core\Model\Theme\Customization\FileServiceFactory $fileServiceFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

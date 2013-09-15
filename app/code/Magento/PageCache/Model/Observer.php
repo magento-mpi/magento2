@@ -24,15 +24,15 @@ class Observer
     /**
      * Page cache data
      *
-     * @var Magento_PageCache_Helper_Data
+     * @var \Magento\PageCache\Helper\Data
      */
     protected $_pageCacheData = null;
 
     /**
-     * @param Magento_PageCache_Helper_Data $pageCacheData
+     * @param \Magento\PageCache\Helper\Data $pageCacheData
      */
     public function __construct(
-        Magento_PageCache_Helper_Data $pageCacheData
+        \Magento\PageCache\Helper\Data $pageCacheData
     ) {
         $this->_pageCacheData = $pageCacheData;
     }

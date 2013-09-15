@@ -24,20 +24,20 @@ class Form extends \Magento\Paypal\Block\Standard\Form
     /**
      * Paypal data
      *
-     * @var Magento_Paypal_Helper_Data
+     * @var \Magento\Paypal\Helper\Data
      */
     protected $_paypalData = null;
 
     /**
-     * @param Magento_Paypal_Helper_Data $paypalData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Paypal\Helper\Data $paypalData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Paypal_Helper_Data $paypalData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Paypal\Helper\Data $paypalData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_paypalData = $paypalData;

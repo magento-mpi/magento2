@@ -86,10 +86,10 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
     {
         $dom = new DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
-        $errors = Magento_Config_Dom::validateDomDocument($dom, $schemaFile);
+        $errors = \Magento\Config\Dom::validateDomDocument($dom, $schemaFile);
         if ($errors) {
             if (!is_null($fileSchemaFile)) {
-                $moreErrors = Magento_Config_Dom::validateDomDocument($dom, $fileSchemaFile);
+                $moreErrors = \Magento\Config\Dom::validateDomDocument($dom, $fileSchemaFile);
                 if (empty($moreErrors)) {
                     return;
                 } else {
@@ -113,7 +113,7 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
     {
         $dom = new DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
-        $errors = Magento_Config_Dom::validateDomDocument($dom, $schemaFile);
+        $errors = \Magento\Config\Dom::validateDomDocument($dom, $schemaFile);
         if (!$errors) {
             $this->fail('There is a problem with the schema.  A known bad XML file passed validation');
         }

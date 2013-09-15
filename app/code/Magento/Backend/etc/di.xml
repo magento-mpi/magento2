@@ -56,7 +56,7 @@
             <value>backend</value>
         </param>
         <param name="primaryConfig">
-            <instance type="Magento_Core_Model_Config_PrimaryProxy"/>
+            <instance type="Magento\Core\Model\Config\PrimaryProxy"/>
         </param>
     </type>
     <type name="Magento\Core\Model\NoRouteHandlerList">
@@ -69,9 +69,9 @@
             </value>
         </param>
     </type>
-    <type name="Magento_Backend_Model_Auth">
+    <type name="Magento\Backend\Model\Auth">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
 </config>

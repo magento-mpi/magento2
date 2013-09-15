@@ -22,15 +22,15 @@ class Format
     /**
      * Sales rule coupon
      *
-     * @var Magento_SalesRule_Helper_Coupon
+     * @var \Magento\SalesRule\Helper\Coupon
      */
     protected $_salesRuleCoupon = null;
 
     /**
-     * @param Magento_SalesRule_Helper_Coupon $salesRuleCoupon
+     * @param \Magento\SalesRule\Helper\Coupon $salesRuleCoupon
      */
     public function __construct(
-        Magento_SalesRule_Helper_Coupon $salesRuleCoupon
+        \Magento\SalesRule\Helper\Coupon $salesRuleCoupon
     ) {
         $this->_salesRuleCoupon = $salesRuleCoupon;
     }

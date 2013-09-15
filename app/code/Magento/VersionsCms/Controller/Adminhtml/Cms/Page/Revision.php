@@ -23,12 +23,12 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
 
     /**
      * @param \Magento\Backend\Controller\Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Config\Scope $configScope
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Config\Scope $configScope
     ) {
         $this->_configScope = $configScope;

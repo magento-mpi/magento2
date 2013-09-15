@@ -58,9 +58,9 @@ class Observer
     protected $_catalogPermData;
 
     /**
-     * @param Magento_CatalogPermissions_Helper_Data $catalogPermData
+     * @param \Magento\CatalogPermissions\Helper\Data $catalogPermData
      */
-    public function __construct(Magento_CatalogPermissions_Helper_Data $catalogPermData)
+    public function __construct(\Magento\CatalogPermissions\Helper\Data $catalogPermData)
     {
         $this->_catalogPermData = $catalogPermData;
     }

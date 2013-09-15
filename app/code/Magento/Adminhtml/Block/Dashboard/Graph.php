@@ -100,20 +100,20 @@ class Graph extends \Magento\Adminhtml\Block\Dashboard\AbstractDashboard
     /**
      * Adminhtml dashboard data
      *
-     * @var Magento_Adminhtml_Helper_Dashboard_Data
+     * @var \Magento\Adminhtml\Helper\Dashboard\Data
      */
     protected $_dashboardData = null;
 
     /**
-     * @param Magento_Adminhtml_Helper_Dashboard_Data $dashboardData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Adminhtml\Helper\Dashboard\Data $dashboardData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Dashboard_Data $dashboardData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Adminhtml\Helper\Dashboard\Data $dashboardData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_dashboardData = $dashboardData;
@@ -199,7 +199,7 @@ class Graph extends \Magento\Adminhtml\Block\Dashboard\AbstractDashboard
             $this->setAxisLabels($axis, $this->getRowsData($attr, true));
         }
 
-        $timezoneLocal = Mage::app()->getStore()
+        $timezoneLocal = \Mage::app()->getStore()
             ->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
 
         list ($dateStart, $dateEnd) = \Mage::getResourceModel('Magento\Reports\Model\Resource\Order\Collection')

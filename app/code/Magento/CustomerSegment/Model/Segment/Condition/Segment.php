@@ -23,27 +23,27 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
     /**
      * Adminhtml data
      *
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_adminhtmlData = null;
 
     /**
      * Customer segment data
      *
-     * @var Magento_CustomerSegment_Helper_Data
+     * @var \Magento\CustomerSegment\Helper\Data
      */
     protected $_customerSegmentData = null;
 
     /**
-     * @param Magento_CustomerSegment_Helper_Data $customerSegmentData
-     * @param Magento_Backend_Helper_Data $adminhtmlData
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\CustomerSegment\Helper\Data $customerSegmentData
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerSegment_Helper_Data $customerSegmentData,
-        Magento_Backend_Helper_Data $adminhtmlData,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\CustomerSegment\Helper\Data $customerSegmentData,
+        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_customerSegmentData = $customerSegmentData;

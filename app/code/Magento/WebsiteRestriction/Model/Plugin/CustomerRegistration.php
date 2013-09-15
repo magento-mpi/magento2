@@ -5,25 +5,27 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_WebsiteRestriction_Model_Plugin_CustomerRegistration
+namespace Magento\WebsiteRestriction\Model\Plugin;
+
+class CustomerRegistration
 {
     /**
-     * @var Magento_WebsiteRestriction_Helper_Data
+     * @var \Magento\WebsiteRestriction\Helper\Data
      */
     protected $_restrictionHelper;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_WebsiteRestriction_Helper_Data $restrictionHelper
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\WebsiteRestriction\Helper\Data $restrictionHelper
      */
     public function __construct(
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_WebsiteRestriction_Helper_Data $restrictionHelper
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\WebsiteRestriction\Helper\Data $restrictionHelper
     ) {
         $this->_storeManager = $storeManager;
         $this->_restrictionHelper = $restrictionHelper;
@@ -40,10 +42,10 @@ class Magento_WebsiteRestriction_Model_Plugin_CustomerRegistration
         $currentStore = $this->_storeManager->getStore();
         if ((!$currentStore->isAdmin()) && $invocationResult) {
             $restrictionMode = (int)$currentStore->getConfig(
-                Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_MODE
+                \Magento\WebsiteRestriction\Helper\Data::XML_PATH_RESTRICTION_MODE
             );
             $invocationResult = (!$this->_restrictionHelper->getIsRestrictionEnabled())
-                || (Magento_WebsiteRestriction_Model_Mode::ALLOW_REGISTER === $restrictionMode);
+                || (\Magento\WebsiteRestriction\Model\Mode::ALLOW_REGISTER === $restrictionMode);
         }
         return $invocationResult;
     }

@@ -56,7 +56,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnValue($mockEventDispatcher));
 
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
         $this->_subscription = $this->getMockBuilder('Magento\Webhook\Model\Subscription')
             ->setMethods(array('_init', '_hasModelChanged', '_getResource'))
@@ -103,7 +103,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
             ->method('getUser')
             ->will($this->returnValue(null));
 
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
         $this->_subscription = $this->getMockBuilder('Magento\Webhook\Model\Subscription')
             ->setMethods(array('_init', '_hasModelChanged', '_getResource'))
@@ -119,7 +119,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
 
     public function testAfterDelete()
     {
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
         // it's useful to mock out more methods for the purposes of testing this one method
         $this->_subscription = $this->getMockBuilder('Magento\Webhook\Model\Subscription')
@@ -157,7 +157,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
      */
     public function testBeforeSave($hasRegiMechanism, $hasEndpointChanges, $hasEndpointId, $hasDataChanges)
     {
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
         // it's useful to mock out more methods for the purposes of testing this one method
         $this->_subscription = $this->getMockBuilder('Magento\Webhook\Model\Subscription')

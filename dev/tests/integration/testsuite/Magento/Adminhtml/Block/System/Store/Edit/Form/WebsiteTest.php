@@ -32,7 +32,7 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_WebsiteTest extends PHPUnit
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         foreach ($registryData as $key => $value) {
-            $objectManager->get('Magento_Core_Model_Registry')->register($key, $value);
+            $objectManager->get('Magento\Core\Model\Registry')->register($key, $value);
         }
 
         /** @var $layout \Magento\Core\Model\Layout */
@@ -47,9 +47,9 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_WebsiteTest extends PHPUnit
     {
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->unregister('store_type');
-        $objectManager->get('Magento_Core_Model_Registry')->unregister('store_data');
-        $objectManager->get('Magento_Core_Model_Registry')->unregister('store_action');
+        $objectManager->get('Magento\Core\Model\Registry')->unregister('store_type');
+        $objectManager->get('Magento\Core\Model\Registry')->unregister('store_data');
+        $objectManager->get('Magento\Core\Model\Registry')->unregister('store_action');
     }
 
     public function testPrepareForm()

@@ -28,24 +28,24 @@ class File extends \Magento\Data\Form\Element\AbstractElement
     /**
      * Adminhtml data
      *
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_adminhtmlData = null;
 
     /**
-     * @param Magento_Data_Form_Element_Factory $factoryElement
-     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Helper_Data $adminhtmlData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param array $attributes
      */
     public  function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Data_Form_Element_Factory $factoryElement,
-        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
-        Magento_Backend_Helper_Data $adminhtmlData,
-        Magento_Core_Model_View_Url $viewUrl,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Core\Model\View\Url $viewUrl,
         $attributes = array()
     ) {
         $this->_adminhtmlData = $adminhtmlData;

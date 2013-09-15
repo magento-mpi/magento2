@@ -19,28 +19,28 @@ namespace Magento\Widget\Model\Template;
 
 class Filter extends \Magento\Cms\Model\Template\Filter
 {
-    /** @var  Magento_Widget_Model_Widget */
+    /** @var  \Magento\Widget\Model\Widget */
     protected $_widget;
 
-    /** @var  Magento_Widget_Model_Resource_Widget */
+    /** @var  \Magento\Widget\Model\Resource\Widget */
     protected $_widgetResource;
 
-    /** @var  Magento_Core_Model_App */
+    /** @var  \Magento\Core\Model\App */
     protected $_coreApp;
 
     /**
-     * @param Magento_Widget_Model_Widget $widget
-     * @param Magento_Widget_Model_Resource_Widget $widgetResource
-     * @param Magento_Core_Model_App $coreApp
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param \Magento\Widget\Model\Widget $widget
+     * @param \Magento\Widget\Model\Resource\Widget $widgetResource
+     * @param \Magento\Core\Model\App $coreApp
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\View\Url $viewUrl
      */
     public function __construct(
-        Magento_Widget_Model_Widget $widget,
-        Magento_Widget_Model_Resource_Widget $widgetResource,
-        Magento_Core_Model_App $coreApp,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_View_Url $viewUrl
+        \Magento\Widget\Model\Widget $widget,
+        \Magento\Widget\Model\Resource\Widget $widgetResource,
+        \Magento\Core\Model\App $coreApp,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\View\Url $viewUrl
     ) {
         $this->_widget = $widget;
         $this->_widgetResource = $widgetResource;
@@ -82,7 +82,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
         
         /**
          * define widget block and check the type is instance of Widget Interface
-         * @var Magento_Core_Block_Abstract $widget
+         * @var \Magento\Core\Block\Abstract $widget
          */
         $widget = $this->_coreApp->getLayout()->createBlock($type, $name, array('data' => $params));
         if (!$widget instanceof \Magento\Widget\Block\Interface) {

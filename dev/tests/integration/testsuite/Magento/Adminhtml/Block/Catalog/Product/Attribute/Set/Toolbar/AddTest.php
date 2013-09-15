@@ -16,7 +16,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_AddTest exte
 {
     public function testToHtmlFormId()
     {
-        /** @var $layout Magento_Core_Model_Layout */
+        /** @var $layout \Magento\Core\Model\Layout */
         $layout = Mage::getSingleton('Magento\Core\Model\Layout');
 
         $block = $layout->addBlock('Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar\Add', 'block');

@@ -12,12 +12,12 @@
 class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_helperMockCore;
 
     /**
-     * @var Magento_Sitemap_Helper_Data
+     * @var \Magento\Sitemap\Helper\Data
      */
     protected $_helperMockSitemap;
 
@@ -27,7 +27,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     protected $_resourceMock;
 
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistryMock;
 
@@ -36,9 +36,9 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_helperMockCore = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false);
+        $this->_helperMockCore = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false);
 
-        $this->_helperMockSitemap = $this->getMock('Magento_Sitemap_Helper_Data', array(
+        $this->_helperMockSitemap = $this->getMock('Magento\Sitemap\Helper\Data', array(
             'getCategoryChangefreq',
             'getProductChangefreq',
             'getPageChangefreq',
@@ -77,23 +77,23 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
             ->method('addCommitCallback')
             ->will($this->returnSelf());
 
-        $dateMock = $this->getMockBuilder('Magento_Core_Model_Date')
+        $dateMock = $this->getMockBuilder('Magento\Core\Model\Date')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_coreRegistryMock = $this->getMock('Magento_Core_Model_Registry');
+        $this->_coreRegistryMock = $this->getMock('Magento\Core\Model\Registry');
         $this->_coreRegistryMock->expects($this->any())
             ->method('registry')
             ->will($this->returnValueMap(array(
-                array('_helper/Magento_Core_Helper_Data', $this->_helperMockCore),
-                array('_helper/Magento_Sitemap_Helper_Data', $this->_helperMockSitemap),
-                array('_singleton/Magento_Core_Model_Date', $dateMock)
+                array('_helper/Magento\Core\Helper\Data', $this->_helperMockCore),
+                array('_helper/Magento\Sitemap\Helper\Data', $this->_helperMockSitemap),
+                array('_singleton/Magento\Core\Model\Date', $dateMock)
         )));
 
-        $objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')->getMock();
+        $objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->getMock();
         $objectManagerMock->expects($this->any())
             ->method('get')
-            ->with('Magento_Core_Model_Registry')
+            ->with('Magento\Core\Model\Registry')
             ->will($this->returnValue($this->_coreRegistryMock));
 
         Mage::reset();
@@ -471,8 +471,8 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
             ->setConstructorArgs(array(
                 $this->_helperMockCore,
                 $this->_helperMockSitemap,
-                $this->getMock('Magento_Core_Model_Context', array(), array(), '', false),
-                $this->getMock('Magento_Filesystem', array(), array(), '', false),
+                $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
+                $this->getMock('Magento\Filesystem', array(), array(), '', false),
                 $this->_coreRegistryMock,
             ))
             ->getMock();
@@ -559,17 +559,17 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSitemapUrl($storeBaseUrl, $documentRoot, $baseDir, $sitemapPath, $sitemapFileName, $result)
     {
-        $model = $this->getMockBuilder('Magento\Sitemap\Model\Sitemap')
+        $adapterMock = $this->getMockBuilder('Magento\Filesystem\AdapterInterface')
             ->getMock();
-        $filesystem = new Magento_Filesystem($adapterMock);
+        $filesystem = new \Magento\Filesystem($adapterMock);
 
-        /** @var $model Magento_Sitemap_Model_Sitemap */
-        $model = $this->getMockBuilder('Magento_Sitemap_Model_Sitemap')
+        /** @var $model \Magento\Sitemap\Model\Sitemap */
+        $model = $this->getMockBuilder('Magento\Sitemap\Model\Sitemap')
             ->setMethods(array('_getStoreBaseUrl', '_getDocumentRoot', '_getBaseDir', '_construct'))
             ->setConstructorArgs(array(
                 $this->_helperMockCore,
                 $this->_helperMockSitemap,
-                $this->getMock('Magento_Core_Model_Context', array(), array(), '', false),
+                $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
                 $filesystem,
                 $this->_coreRegistryMock,
             ))

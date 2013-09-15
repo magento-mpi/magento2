@@ -21,24 +21,24 @@ class Observer extends \Magento\Core\Model\AbstractModel
     /**
      * Weee data
      *
-     * @var Magento_Weee_Helper_Data
+     * @var \Magento\Weee\Helper\Data
      */
     protected $_weeeData = null;
 
     /**
-     * @param Magento_Weee_Helper_Data $weeeData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Weee\Helper\Data $weeeData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Weee_Helper_Data $weeeData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Weee\Helper\Data $weeeData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_weeeData = $weeeData;
@@ -201,7 +201,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      */
     public function updateConfigurableProductOptions(\Magento\Event\Observer $observer)
     {
-        /* @var $helper Magento_Weee_Helper_Data */
+        /* @var $helper \Magento\Weee\Helper\Data */
         $helper = $this->_weeeData;
         if (!$helper->isEnabled()) {
             return $this;
@@ -238,7 +238,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      */
     public function updateBundleProductOptions(\Magento\Event\Observer $observer)
     {
-        /* @var $weeeHelper Magento_Weee_Helper_Data */
+        /* @var $weeeHelper \Magento\Weee\Helper\Data */
         $weeeHelper = $this->_weeeData;
         if (!$weeeHelper->isEnabled()) {
             return $this;

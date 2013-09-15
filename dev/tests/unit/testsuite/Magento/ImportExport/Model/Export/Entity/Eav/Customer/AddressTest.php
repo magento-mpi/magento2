@@ -193,7 +193,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
     public function iterate(\Magento\Data\Collection\Db $collection, $pageSize, array $callbacks)
     {
         $resource = $this->getMock(
-            'Magento_Customer_Model_Resource_Customer', array('getIdFieldName'), array(), '', false
+            'Magento\Customer\Model\Resource\Customer', array('getIdFieldName'), array(), '', false
         );
         $resource->expects($this->any())
             ->method('getIdFieldName')
@@ -202,8 +202,8 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
             'data' => $this->_customerData,
             'resource' => $resource,
         );
-        /** @var $customer Magento_Customer_Model_Customer|PHPUnit_Framework_MockObject_MockObject */
-        $customer = $this->_objectManager->getObject('Magento_Customer_Model_Customer', $arguments);
+        /** @var $customer \Magento\Customer\Model\Customer|PHPUnit_Framework_MockObject_MockObject */
+        $customer = $this->_objectManager->getObject('Magento\Customer\Model\Customer', $arguments);
 
         foreach ($callbacks as $callback) {
             call_user_func($callback, $customer);

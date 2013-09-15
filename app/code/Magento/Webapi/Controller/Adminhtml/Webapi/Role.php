@@ -12,19 +12,19 @@ namespace Magento\Webapi\Controller\Adminhtml\Webapi;
 class Role extends \Magento\Adminhtml\Controller\Action
 {
     /**
-     * @var Magento_Core_Model_Validator_Factory
+     * @var \Magento\Core\Model\Validator\Factory
      */
     protected $_validatorFactory;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Validator_Factory $validatorFactory
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Validator\Factory $validatorFactory
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Validator_Factory $validatorFactory
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Validator\Factory $validatorFactory
     ) {
         parent::__construct($context);
         $this->_validatorFactory = $validatorFactory;

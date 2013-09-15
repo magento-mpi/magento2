@@ -20,7 +20,7 @@ class Main
 {
     protected function _prepareForm()
     {
-        /* @var $model Magento_Cms_Model_Page */
+        /* @var $model \Magento\Cms\Model\Page */
         $model = $this->_coreRegistry->registry('cms_page');
 
         /*
@@ -33,7 +33,7 @@ class Main
         }
 
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form   = $this->_formFactory->create();
 
         $form->setHtmlIdPrefix('page_');

@@ -37,41 +37,41 @@ class Data extends \Magento\Core\Helper\Data
     /**
      * Persistent session
      *
-     * @var Magento_Persistent_Helper_Session
+     * @var \Magento\Persistent\Helper\Session
      */
     protected $_persistentSession = null;
 
     /**
      * Checkout data
      *
-     * @var Magento_Checkout_Helper_Data
+     * @var \Magento\Checkout\Helper\Data
      */
     protected $_checkoutData = null;
 
     /**
      * Core url
      *
-     * @var Magento_Core_Helper_Url
+     * @var \Magento\Core\Helper\Url
      */
     protected $_coreUrl = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Url $coreUrl
-     * @param Magento_Checkout_Helper_Data $checkoutData
-     * @param Magento_Persistent_Helper_Session $persistentSession
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Url $coreUrl
+     * @param \Magento\Checkout\Helper\Data $checkoutData
+     * @param \Magento\Persistent\Helper\Session $persistentSession
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config $config
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Url $coreUrl,
-        Magento_Checkout_Helper_Data $checkoutData,
-        Magento_Persistent_Helper_Session $persistentSession,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $config
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Url $coreUrl,
+        \Magento\Checkout\Helper\Data $checkoutData,
+        \Magento\Persistent\Helper\Session $persistentSession,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $config
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;

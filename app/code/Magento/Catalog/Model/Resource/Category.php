@@ -51,7 +51,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
@@ -60,10 +60,10 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
      *
      *
      *
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager
+        \Magento\Core\Model\Event\Manager $eventManager
     ) {
         $this->_eventManager = $eventManager;
         $resource = \Mage::getSingleton('Magento\Core\Model\Resource');

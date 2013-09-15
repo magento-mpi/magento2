@@ -67,24 +67,24 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Target rule data
      *
-     * @var Magento_TargetRule_Helper_Data
+     * @var \Magento\TargetRule\Helper\Data
      */
     protected $_targetRuleData = null;
 
     /**
-     * @param Magento_TargetRule_Helper_Data $targetRuleData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_TargetRule_Model_Resource_Index $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\TargetRule\Helper\Data $targetRuleData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\TargetRule\Model\Resource\Index $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_TargetRule_Helper_Data $targetRuleData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_TargetRule_Model_Resource_Index $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\TargetRule\Helper\Data $targetRuleData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\TargetRule\Model\Resource\Index $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_targetRuleData = $targetRuleData;

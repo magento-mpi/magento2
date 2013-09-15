@@ -16,7 +16,7 @@ namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form;
 class Builder
 {
     /**
-     * @var Magento_Data_FormFactory
+     * @var \Magento\Data\FormFactory
      */
     protected $_formFactory;
 
@@ -43,16 +43,16 @@ class Builder
     /**
      * Constructor
      *
-     * @param Magento_Data_FormFactory $formFactory
-     * @param Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $configFactory
-     * @param Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory
-     * @param Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
+     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory $configFactory
+     * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory $rendererFactory
+     * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory $elementsFactory
      */
     public function __construct(
-        Magento_Data_FormFactory $formFactory,
-        Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $configFactory,
-        Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory,
-        Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
+        \Magento\Data\FormFactory $formFactory,
+        \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory $configFactory,
+        \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory $rendererFactory,
+        \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory $elementsFactory
     ) {
         $this->_formFactory     = $formFactory;
         $this->_configFactory   = $configFactory;
@@ -85,7 +85,7 @@ class Builder
         }
 
         if ($isFilePresent) {
-            /** @var $form Magento_Data_Form */
+            /** @var $form \Magento\Data\Form */
             $form = $this->_formFactory->create(array(
                 'attributes' => $data,
             ));

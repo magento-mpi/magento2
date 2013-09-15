@@ -15,15 +15,15 @@ class Allmethods implements \Magento\Core\Model\Option\ArrayInterface
     /**
      * Payment data
      *
-     * @var Magento_Payment_Helper_Data
+     * @var \Magento\Payment\Helper\Data
      */
     protected $_paymentData = null;
 
     /**
-     * @param Magento_Payment_Helper_Data $paymentData
+     * @param \Magento\Payment\Helper\Data $paymentData
      */
     public function __construct(
-        Magento_Payment_Helper_Data $paymentData
+        \Magento\Payment\Helper\Data $paymentData
     ) {
         $this->_paymentData = $paymentData;
     }

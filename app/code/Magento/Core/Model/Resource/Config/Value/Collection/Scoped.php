@@ -26,14 +26,14 @@ class Scoped extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollecti
     protected $_scopeId;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\Resource\Config\Data $resource
      * @param string $scope
      * @param int $scopeId
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
+        \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\Resource\Config\Data $resource,
         $scope,

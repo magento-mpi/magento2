@@ -37,17 +37,17 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_Resource $resource
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_catalogData = $catalogData;
         parent::__construct($resource);

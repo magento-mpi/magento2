@@ -32,7 +32,7 @@ class Magento_Adminhtml_Block_System_Variable_EditTest extends PHPUnit_Framework
 
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('current_variable', $variable);
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_variable', $variable);
         Mage::app()->getRequest()->setParam('variable_id', $variable->getId());
         $block = Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\System\Variable\Edit', 'variable');
         $this->assertArrayHasKey('variable-delete_button', $block->getLayout()->getAllBlocks());

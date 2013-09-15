@@ -15,12 +15,12 @@
 class Magento_Core_Model_Layout_Argument_Handler_UrlTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_Handler_Helper
+     * @var \Magento\Core\Model\Layout\Argument\Handler\Helper
      */
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManagerMock;
 
@@ -29,7 +29,7 @@ class Magento_Core_Model_Layout_Argument_Handler_UrlTest extends PHPUnit_Framewo
         $helperObjectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_urlModleMock = $this->getMock('Magento\Core\Model\Url', array(), array(), '', false);
         $this->_model = $helperObjectManager->getObject(
-            'Magento_Core_Model_Layout_Argument_Handler_Url',
+            'Magento\Core\Model\Layout\Argument\Handler\Url',
             array('urlModel' => $this->_urlModleMock)
         );
     }
@@ -52,7 +52,7 @@ class Magento_Core_Model_Layout_Argument_Handler_UrlTest extends PHPUnit_Framewo
     {
         $layout = simplexml_load_file(
             __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'arguments.xml',
-            'Magento_Core_Model_Layout_Element'
+            'Magento\Core\Model\Layout\Element'
         );
         $result = $this->processDataProvider();
         $resultWithParams = $resultWithoutParams = $result[0][0];

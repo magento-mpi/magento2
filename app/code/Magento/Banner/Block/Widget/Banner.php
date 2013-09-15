@@ -108,7 +108,7 @@ class Banner
 
     /**
      * @param array $data
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Helper\Data $coreData
      * @param  $context
      * @param  $resource
      * @param  $coreSession
@@ -119,7 +119,7 @@ class Banner
      * @param  $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Banner\Model\Resource\Banner $resource,
         \Magento\Core\Model\Session $coreSession,

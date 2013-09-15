@@ -30,14 +30,14 @@ abstract class AbstractOnepage extends \Magento\Core\Block\Template
     protected $_addressesCollection;
 
     /**
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         array $data = array()
     ) {

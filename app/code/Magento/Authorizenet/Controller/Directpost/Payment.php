@@ -22,17 +22,17 @@ class Payment extends \Magento\Core\Controller\Front\Action
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -78,7 +78,7 @@ class Payment extends \Magento\Core\Controller\Front\Action
             }
             $paymentMethod->process($data);
             $result['success'] = 1;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
         catch (\Magento\Core\Exception $e) {
             \Mage::logException($e);
             $result['success'] = 0;
@@ -148,7 +148,7 @@ class Payment extends \Magento\Core\Controller\Front\Action
         $paymentParam = $this->getRequest()->getParam('payment');
         $controller = $this->getRequest()->getParam('controller');
         if (isset($paymentParam['method'])) {
-            $params = $this->_objectManager->get('Magento_Authorizenet_Helper_Data')
+            $params = $this->_objectManager->get('Magento\Authorizenet\Helper\Data')
                 ->getSaveOrderUrlParams($controller);
             $this->_getDirectPostSession()->setQuoteId($this->_getCheckout()->getQuote()->getId());
             $this->_forward(

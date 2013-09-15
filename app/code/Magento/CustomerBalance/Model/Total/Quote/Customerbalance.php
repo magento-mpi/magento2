@@ -16,15 +16,15 @@ class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
     /**
      * Customer balance data
      *
-     * @var Magento_CustomerBalance_Helper_Data
+     * @var \Magento\CustomerBalance\Helper\Data
      */
     protected $_customerBalanceData = null;
 
     /**
-     * @param Magento_CustomerBalance_Helper_Data $customerBalanceData
+     * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      */
     public function __construct(
-        Magento_CustomerBalance_Helper_Data $customerBalanceData
+        \Magento\CustomerBalance\Helper\Data $customerBalanceData
     ) {
         $this->_customerBalanceData = $customerBalanceData;
         $this->setCode('customerbalance');

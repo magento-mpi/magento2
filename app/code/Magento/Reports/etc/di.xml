@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <type name="Magento_Log_Model_Resource_Log">
-        <plugin name="reportLog" type="Magento_Reports_Model_Plugin_Log" />
+    <type name="Magento\Log\Model\Resource\Log">
+        <plugin name="reportLog" type="Magento\Reports\Model\Plugin\Log" />
     </type>
 </config>

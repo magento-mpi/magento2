@@ -74,7 +74,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PH
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
-        $existingCustomer = $objectManager->get('Magento_Core_Model_Registry')
+        $existingCustomer = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('_fixture/Magento_ImportExport_Customer');
 
         $updatedCustomer = $customers[$existingCustomer->getId()];

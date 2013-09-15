@@ -183,28 +183,28 @@ class Layout extends \Magento\Simplexml\Config
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Model_Factory_Helper
+     * @var \Magento\Core\Model\Factory\Helper
      */
     protected $_factoryHelper = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Factory_Helper $factoryHelper
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Factory\Helper $factoryHelper
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\View\DesignInterface $design
      * @param \Magento\Core\Model\BlockFactory $blockFactory
      * @param \Magento\Data\Structure $structure
@@ -214,9 +214,9 @@ class Layout extends \Magento\Simplexml\Config
      * @param string $area
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Factory_Helper $factoryHelper,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Factory\Helper $factoryHelper,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\View\DesignInterface $design,
         \Magento\Core\Model\BlockFactory $blockFactory,
         \Magento\Data\Structure $structure,

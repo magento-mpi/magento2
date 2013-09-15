@@ -63,7 +63,7 @@ class Formgroup extends \Magento\Backend\Block\Widget\Form\Generic
     {
         return ( intval($this->getRequest()->getParam('id')) > 0 )
                     ? intval($this->getRequest()->getParam('id'))
-                    : Mage::getModel('Magento\Eav\Model\Entity\Type')
+                    : \Mage::getModel('Magento\Eav\Model\Entity\Type')
                         ->load($this->_coreRegistry->registry('entityType'))
                         ->getDefaultAttributeSetId();
     }

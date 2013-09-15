@@ -28,7 +28,7 @@
                     </option>
                 </options>
             </parameter>
-            <parameter xsi:type="multiselect" name="types" visible="true" source_model="Magento_Banner_Model_Config">
+            <parameter xsi:type="multiselect" name="types" visible="true" source_model="Magento\Banner\Model\Config">
                 <label translate="true">Restrict by Banner Types</label>
             </parameter>
             <parameter xsi:type="select" name="rotate" visible="true">

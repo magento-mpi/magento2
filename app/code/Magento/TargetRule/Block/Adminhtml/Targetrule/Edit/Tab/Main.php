@@ -28,9 +28,9 @@ class Main
      */
     protected function _prepareForm()
     {
-        /* @var $model Magento_TargetRule_Model_Rule */
+        /* @var $model \Magento\TargetRule\Model\Rule */
         $model = $this->_coreRegistry->registry('current_target_rule');
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
 

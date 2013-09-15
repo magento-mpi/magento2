@@ -140,7 +140,7 @@ class Authorize extends \Magento\Adminhtml\Controller\Action
      */
     protected function _initConfirmPage($simple = false)
     {
-        /** @var $oauthData Magento_Oauth_Helper_Data */
+        /** @var $oauthData \Magento\Oauth\Helper\Data */
         $oauthData = $this->_objectManager->get('Magento\Oauth\Helper\Data');
 
         /** @var $session \Magento\Backend\Model\Auth\Session */
@@ -210,7 +210,7 @@ class Authorize extends \Magento\Adminhtml\Controller\Action
 
         try {
             $token = $server->checkAuthorizeRequest();
-            /** @var $oauthData Magento_Oauth_Helper_Data */
+            /** @var $oauthData \Magento\Oauth\Helper\Data */
             $oauthData = $this->_objectManager->get('\Magento\Oauth\Helper\Data');
             if (($callback = $oauthData->getFullCallbackUrl($token, true))) {
                 $this->_redirectUrl($callback . ($simple ? '&simple=1' : ''));

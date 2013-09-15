@@ -22,17 +22,17 @@ class Template extends \Magento\Adminhtml\Controller\Action
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -101,7 +101,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
 
         $template = $this->_initTemplate('id');
         if (!$template->getId() && $id) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')
+            \Mage::getSingleton('Magento_Adminhtml_Model_Session')
                 ->addError(__('This email template no longer exists.'));
             $this->_redirect('*/*/');
             return;
@@ -127,7 +127,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
 
             $template->save();
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setFormData(false);
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')
+            \Mage::getSingleton('Magento_Adminhtml_Model_Session')
                 ->addSuccess(__('The email template has been saved.'));
             $this->_redirect('*/*');
         } catch (\Exception $e) {
@@ -146,12 +146,12 @@ class Template extends \Magento\Adminhtml\Controller\Action
             try {
                 $template->delete();
                  // display success message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                \Mage::getSingleton('Magento_Adminhtml_Model_Session')
                     ->addSuccess(__('The email template has been deleted.'));
                 // go to grid
                 $this->_redirect('*/*/');
                 return;
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
             catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
@@ -160,7 +160,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
                         . 'Please review log and try again.'));
                 \Mage::logException($e);
                 // save data in session
-                Mage::getSingleton('Magento\Adminhtml\Model\Session')
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')
                     ->setFormData($this->getRequest()->getParams());
                 // redirect to edit form
                 $this->_redirect('*/*/edit', array('id' => $template->getId()));
@@ -168,7 +168,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
             }
         }
         // display error message
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')
+        \Mage::getSingleton('Magento_Adminhtml_Model_Session')
             ->addError(__('We can\'t find an email template to delete.'));
         // go to grid
         $this->_redirect('*/*/');
@@ -197,7 +197,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
             $template->setData('orig_template_used_default_for', $templateBlock->getUsedDefaultForPaths(false));
 
             $this->getResponse()->setBody(
-                $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($template->getData())
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($template->getData())
             );
         } catch (\Exception $e) {
             \Mage::logException($e);

@@ -30,8 +30,8 @@ class Magento_Adminhtml_Controller_Catalog_ProductTest extends Magento_Backend_U
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = $objectManager->get('Magento_Core_Model_Registry')->registry('current_product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = $objectManager->get('Magento\Core\Model\Registry')->registry('current_product');
         $this->assertEquals($associatedProductIds, $product->getAssociatedProductIds());
 
         /** @see Magento_Backend_Utility_Controller::assertPostConditions() */

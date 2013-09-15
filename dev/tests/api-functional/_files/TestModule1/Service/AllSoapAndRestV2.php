@@ -12,12 +12,12 @@ class Magento_TestModule1_Service_AllSoapAndRestV2 extends Magento_TestModule1_S
     /**
      * @param $request
      * @return array
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
     public function item($request)
     {
         if ($request['id'] == null) {
-            throw new Magento_Webapi_Exception("Invalid Id");
+            throw new \Magento\Webapi\Exception("Invalid Id");
         }
         $result = array(
             'id' => $request['id'],
@@ -31,12 +31,12 @@ class Magento_TestModule1_Service_AllSoapAndRestV2 extends Magento_TestModule1_S
     /**
      * @param $request
      * @return array
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
     public function delete($request)
     {
         if ($request['id'] == null) {
-            throw new Magento_Webapi_Exception("Invalid Id");
+            throw new \Magento\Webapi\Exception("Invalid Id");
         }
 
         $result = array(

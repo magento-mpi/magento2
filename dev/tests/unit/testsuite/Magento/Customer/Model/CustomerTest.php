@@ -16,10 +16,10 @@ class Magento_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Model\Customer */
     protected $_model;
 
-    /** @var  Magento_Customer_Helper_Data */
+    /** @var  \Magento\Customer\Helper\Data */
     protected $_customerData;
 
-    /** @var  Magento_Core_Helper_Data */
+    /** @var  \Magento\Core\Helper\Data */
     protected $_coreData;
 
     /** @var \Magento\Core\Model\Website|PHPUnit_Framework_MockObject_MockObject */
@@ -51,11 +51,11 @@ class Magento_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->_customerData = $this->getMockBuilder('Magento_Customer_Helper_Data')
+        $this->_customerData = $this->getMockBuilder('Magento\Customer\Helper\Data')
             ->disableOriginalConstructor()
             ->setMethods(array('getResetPasswordLinkExpirationPeriod'))
             ->getMock();
-        $this->_coreData = $this->getMockBuilder('Magento_Core_Helper_Data')
+        $this->_coreData = $this->getMockBuilder('Magento\Core\Helper\Data')
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
@@ -83,7 +83,7 @@ class Magento_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
-        $this->_resourceMock = $this->getMockBuilder('Magento_Customer_Model_Resource_Customer')
+        $this->_resourceMock = $this->getMockBuilder('Magento\Customer\Model\Resource\Customer')
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
@@ -91,10 +91,10 @@ class Magento_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
         $this->_model = new \Magento\Customer\Model\Customer(
-            $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
             $this->_customerData,
             $this->_coreData,
             $this->_contextMock,

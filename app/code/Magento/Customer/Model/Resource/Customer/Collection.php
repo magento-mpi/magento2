@@ -21,19 +21,19 @@ namespace Magento\Customer\Model\Resource\Customer;
 class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
 {
     /**
-     * @var Magento_Core_Model_Fieldset_Config
+     * @var \Magento\Core\Model\Fieldset\Config
      */
     protected $_fieldsetConfig;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Fieldset_Config $fieldsetConfig
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\Fieldset\Config $fieldsetConfig
     ) {
         $this->_fieldsetConfig = $fieldsetConfig;
         parent::__construct($eventManager, $fetchStrategy);

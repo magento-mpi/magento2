@@ -31,38 +31,38 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
      * Adminhtml catalog
      *
-     * @var Magento_Adminhtml_Helper_Catalog
+     * @var \Magento\Adminhtml\Helper\Catalog
      */
     protected $_adminhtmlCatalog = null;
 
     /**
-     * @param Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_adminhtmlCatalog = $adminhtmlCatalog;
@@ -253,7 +253,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
      */
     public function getProduct()
     {
-        if (!($this->getData('product') instanceof Magento_Catalog_Model_Product)) {
+        if (!($this->getData('product') instanceof \Magento\Catalog\Model\Product)) {
             $this->setData('product', $this->_coreRegistry->registry('product'));
         }
         return $this->getData('product');

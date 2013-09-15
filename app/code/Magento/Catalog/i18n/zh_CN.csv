@@ -175,7 +175,7 @@
 "Category move operation is not possible: parent category is equal to child category.","无法进行分类移动操作：母类别与子类别相同。"
 "Category move operation is not possible: the current category was not found.","无法进行分类移动操作：无法找到当前类别。"
 "Category move operation is not possible: the new parent category was not found.","无法进行分类移动操作：无法找到新的母类别。"
-"Category must be an instance of Magento_Catalog_Model_Category.","分类必须为 Magento_Catalog_Model_Category 的一个实例。"
+"Category must be an instance of \Magento\Catalog\Model\Category.","分类必须为 \Magento\Catalog\Model\Category 的一个实例。"
 "Center","中心"
 "Change","更改"
 "Change or Retrieve attribute store view","更改或取回属性商店视图"

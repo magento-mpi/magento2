@@ -27,14 +27,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_app;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      * @param array $data
      * @throws \InvalidArgumentException
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
+        \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null,
         $data = array()

@@ -52,24 +52,24 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_ConfigInterface $applicationConfig
-     * @param Magento_Core_Model_Config_Primary $primaryConfig
-     * @param Magento_Core_Model_RouterList $routerList
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\ConfigInterface $applicationConfig
+     * @param \Magento\Core\Model\Config\Primary $primaryConfig
+     * @param \Magento\Core\Model\RouterList $routerList
      * @param $defaultAreaFrontName
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_ConfigInterface $applicationConfig,
-        Magento_Core_Model_Config_Primary $primaryConfig,
-        Magento_Core_Model_RouterList $routerList,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\ConfigInterface $applicationConfig,
+        \Magento\Core\Model\Config\Primary $primaryConfig,
+        \Magento\Core\Model\RouterList $routerList,
         $defaultAreaFrontName
     ) {
         parent::__construct($context);

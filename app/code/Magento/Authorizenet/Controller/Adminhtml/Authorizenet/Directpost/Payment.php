@@ -23,17 +23,17 @@ class Payment
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -112,7 +112,7 @@ class Payment
 
                 $payment = $order->getPayment();
                 if ($payment
-                    && $payment->getMethod() == Mage::getModel('Magento\Authorizenet\Model\Directpost')->getCode()) {
+                    && $payment->getMethod() == \Mage::getModel('Magento\Authorizenet\Model\Directpost')->getCode()) {
                     //return json with data.
                     $session = $this->_getDirectPostSession();
                     $session->addCheckoutOrderIncrementId($order->getIncrementId());
@@ -134,7 +134,7 @@ class Payment
 
                 $result['success'] = 1;
                 $isError = false;
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
             catch (\Magento\Core\Exception $e) {
                 $message = $e->getMessage();
                 if (!empty($message)) {
@@ -181,7 +181,7 @@ class Payment
             $oldOrder = $this->_getOrderCreateModel()->getSession()->getOrder();
             if ($oldOrder->getId()) {
                 /* @var $order \Magento\Sales\Model\Order */
-                $order = Mage::getModel('Magento_Sales_Model_Order')
+                $order = \Mage::getModel('Magento\Sales\Model\Order')
                     ->loadByIncrementId($redirectParams['x_invoice_num']);
                 if ($order->getId()) {
                     $oldOrder->cancel()

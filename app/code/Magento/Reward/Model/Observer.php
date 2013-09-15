@@ -23,24 +23,24 @@ class Observer
     /**
      * Reward data
      *
-     * @var Magento_Reward_Helper_Data
+     * @var \Magento\Reward\Helper\Data
      */
     protected $_rewardData = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Reward_Helper_Data $rewardData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Reward\Helper\Data $rewardData
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Reward_Helper_Data $rewardData
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Reward\Helper\Data $rewardData
     ) {
         $this->_coreData = $coreData;
         $this->_rewardData = $rewardData;
@@ -132,7 +132,7 @@ class Observer
             try {
                 $subscribeByDefault = $this->_rewardData
                     ->getNotificationConfig('subscribe_by_default', \Mage::app()->getStore()->getWebsiteId());
-                $reward = Mage::getModel('Magento\Reward\Model\Reward')
+                $reward = \Mage::getModel('Magento\Reward\Model\Reward')
                     ->setCustomer($customer)
                     ->setActionEntity($customer)
                     ->setStore(\Mage::app()->getStore()->getId())

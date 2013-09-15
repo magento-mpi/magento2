@@ -8,7 +8,7 @@
 class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Search_Model_Plugin_FulltextIndexRebuild
+     * @var \Magento\Search\Model\Plugin\FulltextIndexRebuild
      */
     protected $_model;
 
@@ -49,20 +49,20 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
 
     protected function setUp()
     {
-        $this->_searchHelperMock = $this->getMock('Magento_Search_Helper_Data', array(), array(), '', false);
-        $this->_catalogHelperMock = $this->getMock('Magento_CatalogSearch_Helper_Data', array(), array(), '', false);
-        $this->_cacheMock = $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false);
-        $this->_searchEngineMock = $this->getMock('Magento_Search_Model_Resource_Engine', array(), array(), '', false);
+        $this->_searchHelperMock = $this->getMock('Magento\Search\Helper\Data', array(), array(), '', false);
+        $this->_catalogHelperMock = $this->getMock('Magento\CatalogSearch\Helper\Data', array(), array(), '', false);
+        $this->_cacheMock = $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false);
+        $this->_searchEngineMock = $this->getMock('Magento\Search\Model\Resource\Engine', array(), array(), '', false);
         $this->_fulltextSearchMock = $this->getMock(
-            'Magento_CatalogSearch_Model_Fulltext', array(), array(), '', false
+            'Magento\CatalogSearch\Model\Fulltext', array(), array(), '', false
         );
         $this->_filterPriceMock = $this->getMock(
-            'Magento_Search_Model_Catalog_Layer_Filter_Price', array(), array(), '', false
+            'Magento\Search\Model\Catalog\Layer\Filter\Price', array(), array(), '', false
         );
 
         $this->_arguments = array(1, array(1,2));
 
-        $this->_model = new Magento_Search_Model_Plugin_FulltextIndexRebuild(
+        $this->_model = new \Magento\Search\Model\Plugin\FulltextIndexRebuild(
             $this->_searchHelperMock,
             $this->_catalogHelperMock,
             $this->_filterPriceMock,
@@ -71,7 +71,7 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
     }
 
     /**
-     * @covers Magento_Search_Model_Plugin_FulltextIndexRebuild::beforeRebuildIndex
+     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::beforeRebuildIndex
      */
     public function testBeforeRebuildIndexNoThirdPartyEngine()
     {
@@ -86,7 +86,7 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
     }
 
     /**
-     * @covers Magento_Search_Model_Plugin_FulltextIndexRebuild::beforeRebuildIndex
+     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::beforeRebuildIndex
      */
     public function testBeforeRebuildIndexThirdPartyEngine()
     {
@@ -109,7 +109,7 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
     }
 
     /**
-     * @covers Magento_Search_Model_Plugin_FulltextIndexRebuild::beforeRebuildIndex
+     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::beforeRebuildIndex
      */
     public function testBeforeRebuildIndexThirdPartyEngineNoProductIds()
     {
@@ -134,7 +134,7 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
     }
 
     /**
-     * @covers Magento_Search_Model_Plugin_FulltextIndexRebuild::beforeRebuildIndex
+     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::beforeRebuildIndex
      */
     public function testBeforeRebuildIndexThirdPartyEngineProductIdsSet()
     {
@@ -157,7 +157,7 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
     }
 
     /**
-     * @covers Magento_Search_Model_Plugin_FulltextIndexRebuild::afterRebuildIndex
+     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::afterRebuildIndex
      */
     public function testAfterRebuildIndexNoThirdPartyEngine()
     {
@@ -172,7 +172,7 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
     }
 
     /**
-     * @covers Magento_Search_Model_Plugin_FulltextIndexRebuild::afterRebuildIndex
+     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::afterRebuildIndex
      */
     public function testAfterRebuildIndexThirdPartyEngine()
     {
@@ -195,7 +195,7 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
     }
 
     /**
-     * @covers Magento_Search_Model_Plugin_FulltextIndexRebuild::afterRebuildIndex
+     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::afterRebuildIndex
      */
     public function testAfterRebuildIndexThirdPartyEngineAllowCommitOptimizationNeeded()
     {
@@ -234,7 +234,7 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
     }
 
     /**
-     * @covers Magento_Search_Model_Plugin_FulltextIndexRebuild::afterRebuildIndex
+     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::afterRebuildIndex
      */
     public function testAfterRebuildIndexThirdPartyEngineAllowCommitOptimizationNotNeeded()
     {

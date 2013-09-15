@@ -46,20 +46,20 @@ class Link
     /**
      * Cms page
      *
-     * @var Magento_Cms_Helper_Page
+     * @var \Magento\Cms\Helper\Page
      */
     protected $_cmsPage = null;
 
     /**
-     * @param Magento_Cms_Helper_Page $cmsPage
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Cms\Helper\Page $cmsPage
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Cms_Helper_Page $cmsPage,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Cms\Helper\Page $cmsPage,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_cmsPage = $cmsPage;

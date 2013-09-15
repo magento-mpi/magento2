@@ -5,30 +5,32 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_GiftMessage_Model_Plugin_QuoteItem
+namespace Magento\GiftMessage\Model\Plugin;
+
+class QuoteItem
 {
     /**
-     * @var Magento_GiftMessage_Helper_Message
+     * @var \Magento\GiftMessage\Helper\Message
      */
     protected $_helper;
 
     /**
-     * @param Magento_GiftMessage_Helper_Message $helper
+     * @param \Magento\GiftMessage\Helper\Message $helper
      */
     public function __construct(
-        Magento_GiftMessage_Helper_Message $helper
+        \Magento\GiftMessage\Helper\Message $helper
     ) {
         $this->_helper = $helper;
     }
 
     /**
      * @param array $arguments
-     * @param Magento_Code_Plugin_InvocationChain $invocationChain
-     * @return Magento_Sales_Model_Order_Item|mixed
+     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
+     * @return \Magento\Sales\Model\Order\Item|mixed
      */
-    public function aroundItemToOrderItem(array $arguments, Magento_Code_Plugin_InvocationChain $invocationChain)
+    public function aroundItemToOrderItem(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {
-        /** @var $orderItem Magento_Sales_Model_Order_Item */
+        /** @var $orderItem \Magento\Sales\Model\Order\Item */
         $orderItem = $invocationChain->proceed($arguments);
         $quoteItem = reset($arguments);
 

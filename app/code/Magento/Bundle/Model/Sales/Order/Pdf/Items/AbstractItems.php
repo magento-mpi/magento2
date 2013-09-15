@@ -215,11 +215,11 @@ abstract class AbstractItems extends \Magento\Sales\Model\Order\Pdf\Items\Abstra
     /**
      * Retrieve Order Item
      *
-     * @return Magento_Sales_Order_Item
+     * @return \Magento\Sales\Order\Item
      */
     public function getOrderItem()
     {
-        if ($this->getItem() instanceof Magento_Sales_Order_Item) {
+        if ($this->getItem() instanceof \Magento\Sales\Order\Item) {
             return $this->getItem();
         } else {
             return $this->getItem()->getOrderItem();
@@ -229,7 +229,7 @@ abstract class AbstractItems extends \Magento\Sales\Model\Order\Pdf\Items\Abstra
     /**
      * Retrieve Value HTML
      *
-     * @param Magento_Sales_Order_Item $item
+     * @param \Magento\Sales\Order\Item $item
      * @return string
      */
     public function getValueHtml($item)
@@ -253,7 +253,7 @@ abstract class AbstractItems extends \Magento\Sales\Model\Order\Pdf\Items\Abstra
     /**
      * Can show price info for item
      *
-     * @param Magento_Sales_Order_Item $item
+     * @param \Magento\Sales\Order\Item $item
      * @return bool
      */
     public function canShowPriceInfo($item)

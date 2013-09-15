@@ -172,7 +172,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
 
         $expectedBalances = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('_fixture/Magento\ScheduledImportExport\Customers\ExpectedBalances');
-        /** @var $balance Magento_CustomerBalance_Model_Balance */
+        /** @var $balance \Magento\CustomerBalance\Model\Balance */
         foreach ($balances as $balance) {
             $this->assertEquals(
                 $balance->getAmount(),

@@ -8,7 +8,7 @@
 class Magento_AdminGws_Model_Plugin_ProductActionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_AdminGws_Model_Plugin_ProductAction
+     * @var \Magento\AdminGws\Model\Plugin\ProductAction
      */
     protected $_model;
 
@@ -19,8 +19,8 @@ class Magento_AdminGws_Model_Plugin_ProductActionTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->_roleMock = $this->getMock('Magento_AdminGws_Model_Role', array(), array(), '', false);
-        $this->_model = new Magento_AdminGws_Model_Plugin_ProductAction($this->_roleMock);
+        $this->_roleMock = $this->getMock('Magento\AdminGws\Model\Role', array(), array(), '', false);
+        $this->_model = new \Magento\AdminGws\Model\Plugin\ProductAction($this->_roleMock);
     }
 
     public function testBeforeUpdateWebsitesDoesNotCheckWebsiteAccessWhenRoleIsNotRestricted()
@@ -39,7 +39,7 @@ class Magento_AdminGws_Model_Plugin_ProductActionTest extends PHPUnit_Framework_
      * @param boolean $isWebsiteLevelRole
      * @param boolean $hasWebsiteAccess
      * @param string $actionType
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage You need more permissions to save this item.
      * @dataProvider beforeUpdateWebsitesThrowsExceptionWhenAccessIsRestrictedDataProvider
      */

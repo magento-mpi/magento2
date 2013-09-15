@@ -16,14 +16,14 @@ namespace Magento\Core\Model\Factory;
 class Helper
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -33,8 +33,8 @@ class Helper
      *
      * @param string $className
      * @param array $arguments
-     * @return Magento_Core_Helper_Abstract
-     * @throws LogicException
+     * @return \Magento\Core\Helper\AbstractHelper
+     * @throws \LogicException
      */
     public function get($className, array $arguments = array())
     {
@@ -45,9 +45,9 @@ class Helper
 
         $helper = $this->_objectManager->get($className, $arguments);
 
-        if (false === ($helper instanceof Magento_Core_Helper_Abstract)) {
-            throw new LogicException(
-                $className . ' doesn\'t extends Magento\Core\Helper\Abstract'
+        if (false === ($helper instanceof \Magento\Core\Helper\AbstractHelper)) {
+            throw new \LogicException(
+                $className . ' doesn\'t extends Magento\Core\Helper\AbstractHelper'
             );
         }
 

@@ -26,10 +26,10 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
             ->add(new \Magento\Core\Model\Message\Error('error_two'))
             ->add(new \Magento\Core\Model\Message\Notice('some_notice'))
         ;
-        $session = new Magento_Object(array('messages' => $messagesCollection));
+        $session = new \Magento\Object(array('messages' => $messagesCollection));
 
         $response = new Magento_TestFramework_Response(
-            $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false)
+            $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false)
         );
 
         $this->_objectManager = $this->getMock(

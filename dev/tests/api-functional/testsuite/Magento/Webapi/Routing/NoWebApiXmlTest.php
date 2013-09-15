@@ -36,7 +36,7 @@ class Magento_Webapi_Routing_NoWebApiXmlTest extends Magento_Webapi_Routing_Base
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             )
         );
         $requestData = array('id' => $itemId);
@@ -52,7 +52,7 @@ class Magento_Webapi_Routing_NoWebApiXmlTest extends Magento_Webapi_Routing_Base
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath,
-                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             )
         );
         $this->assertNoRestRouteException($serviceInfo);
@@ -68,7 +68,7 @@ class Magento_Webapi_Routing_NoWebApiXmlTest extends Magento_Webapi_Routing_Base
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath,
-                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_POST
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
             )
         );
         $requestData = array('name' => $createdItemName);
@@ -85,7 +85,7 @@ class Magento_Webapi_Routing_NoWebApiXmlTest extends Magento_Webapi_Routing_Base
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_PUT
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
             )
         );
         $requestData = array('id' => $itemId);
@@ -102,7 +102,7 @@ class Magento_Webapi_Routing_NoWebApiXmlTest extends Magento_Webapi_Routing_Base
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_DELETE
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
             )
         );
         $requestData = array('id' => $itemId);

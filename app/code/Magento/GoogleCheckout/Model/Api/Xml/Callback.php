@@ -17,45 +17,45 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
      * Google checkout data
      *
-     * @var Magento_GoogleCheckout_Helper_Data
+     * @var \Magento\GoogleCheckout\Helper\Data
      */
     protected $_googleCheckoutData = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_GoogleCheckout_Helper_Data $googleCheckoutData
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Model_Translate $translator
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\GoogleCheckout\Helper\Data $googleCheckoutData
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Model\Translate $translator
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_GoogleCheckout_Helper_Data $googleCheckoutData,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Model_Translate $translator,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\GoogleCheckout\Helper\Data $googleCheckoutData,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Model\Translate $translator,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -681,7 +681,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
      *
      * @param string $code
      * @param null $storeId
-     * @return Magento_Sales_Model_Quote_Address_Rate
+     * @return \Magento\Sales\Model\Quote\Address\Rate
      */
     protected function _createShippingRate($code, $storeId = null)
     {

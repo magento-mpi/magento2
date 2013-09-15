@@ -21,14 +21,14 @@ namespace Magento\Page\Block;
 class Redirect extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Data_FormFactory
+     * @var \Magento\Data\FormFactory
      */
     protected $_formFactory;
 
     public function __construct(
-        Magento_Data_FormFactory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Data\FormFactory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_formFactory = $formFactory;

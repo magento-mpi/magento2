@@ -331,9 +331,9 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
-        $objectManager->get('Magento_Core_Model_Registry')->unregister('isSecureArea');
+        $objectManager->get('Magento\Core\Model\Registry')->unregister('isSecureArea');
         if ($flag) {
-            $objectManager->get('Magento_Core_Model_Registry')->register('isSecureArea', $flag);
+            $objectManager->get('Magento\Core\Model\Registry')->register('isSecureArea', $flag);
         }
     }
 
@@ -432,7 +432,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
      */
     protected function _cleanAppConfigCache()
     {
-        return $this->_getAppCache()->clean(Magento_Core_Model_Config::CACHE_TAG);
+        return $this->_getAppCache()->clean(\Magento\Core\Model\Config::CACHE_TAG);
     }
 
     /**

@@ -23,15 +23,15 @@ class Observer
     /**
      * Catalog product flat
      *
-     * @var Magento_Catalog_Helper_Product_Flat
+     * @var \Magento\Catalog\Helper\Product\Flat
      */
     protected $_catalogProductFlat = null;
 
     /**
-     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
      */
     public function __construct(
-        Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
     ) {
         $this->_catalogProductFlat = $catalogProductFlat;
     }

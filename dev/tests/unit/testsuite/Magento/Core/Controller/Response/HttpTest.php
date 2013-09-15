@@ -25,7 +25,7 @@ class Magento_Core_Controller_Response_HttpTest extends PHPUnit_Framework_TestCa
      */
     public function testGetHeaderExists($header)
     {
-        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
 
         $response = new \Magento\Core\Controller\Response\Http($eventManager);
         $response->headersSentThrowsException = false;
@@ -64,7 +64,7 @@ class Magento_Core_Controller_Response_HttpTest extends PHPUnit_Framework_TestCa
      */
     public function testGetHeaderNotExists()
     {
-        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
 
         $response = new Magento\Core\Controller\Response\Http($eventManager);
         $response->headersSentThrowsException = false;

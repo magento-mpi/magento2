@@ -76,9 +76,9 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize operation model
      *
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Date $dateModel
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -86,7 +86,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Date $dateModel,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -475,7 +475,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
             \Mage::throwException(__('Please correct the server type.'));
         }
 
-        $class = 'Magento_Io_' . ucfirst(strtolower($fileInfo['server_type']));
+        $class = 'Magento\\Io\\' . ucfirst(strtolower($fileInfo['server_type']));
         if (!class_exists($class)) {
             \Mage::throwException(
                 __('Please correct the server communication class "%1".', $class)

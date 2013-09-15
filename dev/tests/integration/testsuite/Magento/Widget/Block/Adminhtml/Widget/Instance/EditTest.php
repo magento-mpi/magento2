@@ -34,7 +34,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_EditTest extends PHPUnit_Fr
             ->save();
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('current_widget_instance', $widgetInstance);
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_widget_instance', $widgetInstance);
 
         Mage::app()->getRequest()->setParam('instance_id', $widgetInstance->getId());
         $block = Mage::app()->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit', 'widget');

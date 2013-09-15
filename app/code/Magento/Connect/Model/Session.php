@@ -24,20 +24,20 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     /**
      * Connect data
      *
-     * @var Magento_Connect_Helper_Data
+     * @var \Magento\Connect\Helper\Data
      */
     protected $_connectData = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Connect_Helper_Data $connectData
-     * @param Magento_Core_Helper_Http $coreHttp
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Connect\Helper\Data $connectData
+     * @param \Magento\Core\Helper\Http $coreHttp
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Connect_Helper_Data $connectData,
-        Magento_Core_Helper_Http $coreHttp,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Connect\Helper\Data $connectData,
+        \Magento\Core\Helper\Http $coreHttp,
         array $data = array()
     ) {
         $this->_connectData = $connectData;

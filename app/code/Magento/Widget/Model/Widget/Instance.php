@@ -66,55 +66,55 @@ class Instance extends \Magento\Core\Model\AbstractModel
      */
     protected $_viewFileSystem;
 
-    /** @var  Magento_Widget_Model_Widget */
+    /** @var  \Magento\Widget\Model\Widget */
     protected $_widgetModel;
 
-    /** @var  Magento_Core_Model_Config */
+    /** @var  \Magento\Core\Model\Config */
     protected $_coreConfig;
 
     /**
-     * @var Magento_Widget_Model_Config_Reader
+     * @var \Magento\Widget\Model\Config\Reader
      */
     protected $_reader;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Widget data
      *
-     * @var Magento_Widget_Helper_Data
+     * @var \Magento\Widget\Helper\Data
      */
     protected $_widgetData = null;
 
     /**
-     * @param Magento_Widget_Helper_Data $widgetData
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Widget\Helper\Data $widgetData
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
-     * @param Magento_Widget_Model_Config_Reader $reader,
-     * @param Magento_Widget_Model_Widget $widgetModel,
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\Widget\Model\Config\Reader $reader,
+     * @param \Magento\Widget\Model\Widget $widgetModel,
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Widget_Helper_Data $widgetData,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Widget\Helper\Data $widgetData,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_View_FileSystem $viewFileSystem,
-        Magento_Widget_Model_Config_Reader $reader,
-        Magento_Widget_Model_Widget $widgetModel,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\View\FileSystem $viewFileSystem,
+        \Magento\Widget\Model\Config\Reader $reader,
+        \Magento\Widget\Model\Widget $widgetModel,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_widgetData = $widgetData;

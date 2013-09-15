@@ -30,7 +30,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
         $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
             array(), '', false);
 
-        $form = new Magento_Data_Form($factory, $collectionFactory);
+        $form = new \Magento\Data\Form($factory, $collectionFactory);
 
         $helper = $this->getMock('Magento\Catalog\Helper\Product', array('getTypeSwitcherControlLabel'),
             array(), '', false, false

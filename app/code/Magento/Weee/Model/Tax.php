@@ -35,33 +35,33 @@ class Tax extends \Magento\Core\Model\AbstractModel
     /**
      * Weee data
      *
-     * @var Magento_Weee_Helper_Data
+     * @var \Magento\Weee\Helper\Data
      */
     protected $_weeeData = null;
 
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Weee_Helper_Data $weeeData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Weee_Model_Resource_Tax $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Weee\Helper\Data $weeeData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Weee\Model\Resource\Tax $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Weee_Helper_Data $weeeData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Weee_Model_Resource_Tax $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Weee\Helper\Data $weeeData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Weee\Model\Resource\Tax $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_taxData = $taxData;

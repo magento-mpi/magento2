@@ -30,35 +30,35 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Target rule data
      *
-     * @var Magento_TargetRule_Helper_Data
+     * @var \Magento\TargetRule\Helper\Data
      */
     protected $_targetRuleData = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
     /**
      * Customer segment data
      *
-     * @var Magento_CustomerSegment_Helper_Data
+     * @var \Magento\CustomerSegment\Helper\Data
      */
     protected $_customerSegmentData = null;
 
     /**
-     * @param Magento_CustomerSegment_Helper_Data $customerSegmentData
-     * @param Magento_TargetRule_Helper_Data $targetRuleData
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\CustomerSegment\Helper\Data $customerSegmentData
+     * @param \Magento\TargetRule\Helper\Data $targetRuleData
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_CustomerSegment_Helper_Data $customerSegmentData,
-        Magento_TargetRule_Helper_Data $targetRuleData,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Resource $resource
+        \Magento\CustomerSegment\Helper\Data $customerSegmentData,
+        \Magento\TargetRule\Helper\Data $targetRuleData,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSegmentData = $customerSegmentData;

@@ -115,18 +115,18 @@ class Finance
     protected $_rewardFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_ScheduledImportExport_Helper_Data $importExportData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_String $coreString,
-        Magento_ScheduledImportExport_Helper_Data $importExportData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\ScheduledImportExport\Helper\Data $importExportData,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Reward\Model\RewardFactory $rewardFactory,

@@ -26,14 +26,14 @@ class Edit extends \Magento\Directory\Block\Data
 
     /**
      * @param \Magento\Core\Block\Template\Context $context
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Model\Config $config
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Block\Template\Context $context,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         \Magento\Core\Model\Config $config,
         array $data = array()

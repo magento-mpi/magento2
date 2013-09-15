@@ -100,26 +100,26 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Catalog rule data
      *
-     * @var Magento_CatalogRule_Helper_Data
+     * @var \Magento\CatalogRule\Helper\Data
      */
     protected $_catalogRuleData = null;
 
     /**
-     * @param Magento_CatalogRule_Helper_Data $catalogRuleData
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_CatalogRule_Model_Resource_Rule $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\CatalogRule\Helper\Data $catalogRuleData
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\CatalogRule\Model\Resource\Rule $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_CatalogRule_Helper_Data $catalogRuleData,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_CatalogRule_Model_Resource_Rule $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\CatalogRule\Helper\Data $catalogRuleData,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\CatalogRule\Model\Resource\Rule $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogRuleData = $catalogRuleData;

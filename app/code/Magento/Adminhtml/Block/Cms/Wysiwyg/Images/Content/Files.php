@@ -29,20 +29,20 @@ class Files extends \Magento\Adminhtml\Block\Template
     /**
      * Cms wysiwyg images
      *
-     * @var Magento_Cms_Helper_Wysiwyg_Images
+     * @var \Magento\Cms\Helper\Wysiwyg\Images
      */
     protected $_cmsWysiwygImages = null;
 
     /**
-     * @param Magento_Cms_Helper_Wysiwyg_Images $cmsWysiwygImages
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Cms\Helper\Wysiwyg\Images $cmsWysiwygImages
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Cms_Helper_Wysiwyg_Images $cmsWysiwygImages,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Cms\Helper\Wysiwyg\Images $cmsWysiwygImages,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_cmsWysiwygImages = $cmsWysiwygImages;

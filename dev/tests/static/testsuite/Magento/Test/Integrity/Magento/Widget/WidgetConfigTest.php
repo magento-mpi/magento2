@@ -75,7 +75,7 @@ class Magento_Test_Integrity_Magento_Widget_WidgetConfigTest extends PHPUnit_Fra
     {
         $dom = new DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
-        $errors = Magento_Config_Dom::validateDomDocument($dom, $schemaFile);
+        $errors = \Magento\Config\Dom::validateDomDocument($dom, $schemaFile);
         if (!$errors) {
             $this->fail('There is a problem with the schema.  A known bad XML file passed validation');
         }
@@ -93,7 +93,7 @@ class Magento_Test_Integrity_Magento_Widget_WidgetConfigTest extends PHPUnit_Fra
     {
         $dom = new DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
-        $errors = Magento_Config_Dom::validateDomDocument($dom, $schemaFile);
+        $errors = \Magento\Config\Dom::validateDomDocument($dom, $schemaFile);
         if ($errors) {
             $this->fail('There is a problem with the schema.  A known good XML file failed validation: '
                 . PHP_EOL . implode(PHP_EOL . PHP_EOL, $errors));

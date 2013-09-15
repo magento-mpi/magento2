@@ -21,11 +21,11 @@ class OrdersUpdater implements \Magento\Core\Model\Layout\Argument\UpdaterInterf
     protected $_registryManager;
 
     /**
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      * @throws \InvalidArgumentException
      */
-    public function __construct(Magento_Core_Model_Registry $coreRegistry, array $data = array())
+    public function __construct(\Magento\Core\Model\Registry $coreRegistry, array $data = array())
     {
         $this->_registryManager = isset($data['registry']) ? $data['registry'] : $coreRegistry;
 

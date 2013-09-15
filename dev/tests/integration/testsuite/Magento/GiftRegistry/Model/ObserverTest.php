@@ -24,7 +24,7 @@ class Magento_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('isSecureArea', true);
+        $objectManager->get('Magento\Core\Model\Registry')->register('isSecureArea', true);
 
         $customer = Mage::getModel('Magento\Customer\Model\Customer');
         $customer->setWebsiteId(1);

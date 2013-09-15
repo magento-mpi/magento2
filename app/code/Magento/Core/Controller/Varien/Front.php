@@ -27,19 +27,19 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
     protected $_routerList;
 
     /**
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_backendData;
 
     /**
-     * @param Magento_Backend_Helper_Data $backendData
+     * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\RouterList $routerList
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Helper_Data $backendData,
+        \Magento\Backend\Helper\Data $backendData,
         \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\RouterList $routerList,

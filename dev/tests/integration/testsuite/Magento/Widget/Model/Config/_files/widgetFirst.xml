@@ -29,7 +29,7 @@
                 </options>
             </parameter>
             <parameter name="show_pager" xsi:type="select" visible="true"
-                       source_model="Magento_Backend_Model_Config_Source_Yesno">
+                       source_model="Magento\Backend\Model\Config\Source\Yesno">
                 <label translate="true">Display Page Control</label>
             </parameter>
             <parameter name="products_per_page" xsi:type="text" required="true" visible="true">

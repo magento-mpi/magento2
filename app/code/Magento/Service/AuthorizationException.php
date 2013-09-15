@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Service_AuthorizationException extends Magento_Service_Exception
+namespace Magento\Service;
+
+class AuthorizationException extends \Magento\Service\Exception
 {
     /**
      * Create custom message for authorization exception.

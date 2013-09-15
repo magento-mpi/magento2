@@ -90,7 +90,7 @@ class Group
         ));
 
         if ($this->_coreRegistry->registry('store_action') == 'edit') {
-            $stores = Mage::getModel('Magento\Core\Model\Store')->getCollection()
+            $stores = \Mage::getModel('Magento\Core\Model\Store')->getCollection()
                 ->addGroupFilter($groupModel->getId())->toOptionArray();
             $fieldset->addField('group_default_store_id', 'select', array(
                 'name'      => 'group[default_store_id]',

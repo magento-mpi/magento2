@@ -29,13 +29,13 @@ class Data extends \Magento\Config\Data
      * @param \Magento\Config\CacheInterface $cache
      * @param \Magento\Core\Model\App\State $appState
      * @param string $cacheId
-     * @param Magento_Core_Model_App_State $appState
+     * @param \Magento\Core\Model\App\State $appState
      */
     public function __construct(
-        Magento_Core_Model_Event_Config_Reader $reader,
-        Magento_Config_ScopeInterface $configScope,
-        Magento_Config_CacheInterface $cache,
-        Magento_Core_Model_App_State $appState,
+        \Magento\Core\Model\Event\Config\Reader $reader,
+        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Config\CacheInterface $cache,
+        \Magento\Core\Model\App\State $appState,
         $cacheId = 'event_config_cache'
     ) {
         $this->_appState = $appState;

@@ -148,36 +148,36 @@ class Translate
     protected $_placeholderRender;
 
     /**
-     * @var Magento_Core_Model_ModuleList
+     * @var \Magento\Core\Model\ModuleList
      */
     protected $_moduleList;
 
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_modulesReader;
 
     /**
      * Initialize translate model
      *
-     * @param Magento_Core_Model_View_DesignInterface $viewDesign
-     * @param Magento_Core_Model_Locale_Hierarchy_Config $config
-     * @param Magento_Core_Model_Translate_Factory $translateFactory
-     * @param Magento_Cache_FrontendInterface $cache
-     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
-     * @param Magento_Phrase_Renderer_Placeholder $placeholderRender
-     * @param Magento_Core_Model_ModuleList $moduleList
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param \Magento\Core\Model\View\DesignInterface $viewDesign
+     * @param \Magento\Core\Model\Locale\Hierarchy\Config $config
+     * @param \Magento\Core\Model\Translate\Factory $translateFactory
+     * @param \Magento\Cache\FrontendInterface $cache
+     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\Phrase\Renderer\Placeholder $placeholderRender
+     * @param \Magento\Core\Model\ModuleList $moduleList
+     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
      */
     public function __construct(
-        Magento_Core_Model_View_DesignInterface $viewDesign,
-        Magento_Core_Model_Locale_Hierarchy_Config $config,
-        Magento_Core_Model_Translate_Factory $translateFactory,
-        Magento_Cache_FrontendInterface $cache,
-        Magento_Core_Model_View_FileSystem $viewFileSystem,
-        Magento_Phrase_Renderer_Placeholder $placeholderRender,
-        Magento_Core_Model_ModuleList $moduleList,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader
+        \Magento\Core\Model\View\DesignInterface $viewDesign,
+        \Magento\Core\Model\Locale\Hierarchy\Config $config,
+        \Magento\Core\Model\Translate\Factory $translateFactory,
+        \Magento\Cache\FrontendInterface $cache,
+        \Magento\Core\Model\View\FileSystem $viewFileSystem,
+        \Magento\Phrase\Renderer\Placeholder $placeholderRender,
+        \Magento\Core\Model\ModuleList $moduleList,
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_localeHierarchy = $config->getHierarchy();
@@ -444,7 +444,7 @@ class Translate
      */
     protected function _getThemeTranslationFile($locale)
     {
-        return $this->_viewFileSystem->getFilename(Magento_Core_Model_Dir::LOCALE . DS . $locale . '.csv');
+        return $this->_viewFileSystem->getFilename(\Magento\Core\Model\Dir::LOCALE . DS . $locale . '.csv');
     }
 
     /**

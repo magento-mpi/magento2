@@ -16,7 +16,7 @@ class Magento_Test_Integrity_Modular_FieldsetConfigFilesTest extends Magento_Tes
      */
     protected function _getReaderClassName()
     {
-        return 'Magento_Core_Model_Fieldset_Config_Reader';
+        return 'Magento\Core\Model\Fieldset\Config\Reader';
     }
 
     /**

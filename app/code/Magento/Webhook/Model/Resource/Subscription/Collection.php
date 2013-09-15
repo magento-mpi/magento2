@@ -21,14 +21,14 @@ class Collection
     protected $_endpointResource;
 
     /**
-     * @param Magento_Webhook_Model_Resource_Endpoint $endpointResource
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Webhook\Model\Resource\Endpoint $endpointResource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Webhook_Model_Resource_Endpoint $endpointResource,
-        Magento_Core_Model_Event_Manager $eventManager,
+        \Magento\Webhook\Model\Resource\Endpoint $endpointResource,
+        \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Webhook\Model\Resource\Endpoint $endpointResource,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {

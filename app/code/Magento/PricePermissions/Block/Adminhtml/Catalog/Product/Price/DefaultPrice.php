@@ -23,22 +23,22 @@ class DefaultPrice
     /**
      * Price permissions data
      *
-     * @var Magento_PricePermissions_Helper_Data
+     * @var \Magento\PricePermissions\Helper\Data
      */
     protected $_pricePermissionsData = null;
 
     /**
-     * @param Magento_PricePermissions_Helper_Data $pricePermissionsData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_App $application
+     * @param \Magento\PricePermissions\Helper\Data $pricePermissionsData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\App $application
      * @param array $data
      */
     public function __construct(
-        Magento_PricePermissions_Helper_Data $pricePermissionsData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_App $application,
+        \Magento\PricePermissions\Helper\Data $pricePermissionsData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\App $application,
         array $data = array()
     ) {
         $this->_pricePermissionsData = $pricePermissionsData;

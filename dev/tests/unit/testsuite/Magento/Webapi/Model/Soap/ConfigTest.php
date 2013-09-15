@@ -10,11 +10,11 @@
 
 
 /**
- * Class implements tests for Magento_Webapi_Model_Soap_Config class.
+ * Class implements tests for \Magento\Webapi\Model\Soap\Config class.
  */
 class Magento_Webapi_Model_Soap_ConfigTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webapi_Model_Soap_Config */
+    /** @var \Magento\Webapi\Model\Soap\Config */
     protected $_soapConfig;
 
     /**
@@ -22,13 +22,13 @@ class Magento_Webapi_Model_Soap_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $objectManagerMock = $this->getMockBuilder('Magento_Core_Model_ObjectManager')
+        $objectManagerMock = $this->getMockBuilder('Magento\Core\Model\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
-        $fileSystemMock = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
-        $dirMock = $this->getMockBuilder('Magento_Core_Model_Dir')->disableOriginalConstructor()->getMock();
-        $configMock = $this->getMockBuilder('Magento_Webapi_Model_Config')->disableOriginalConstructor()->getMock();
-        $this->_soapConfig = new Magento_Webapi_Model_Soap_Config(
+        $fileSystemMock = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
+        $dirMock = $this->getMockBuilder('Magento\Core\Model\Dir')->disableOriginalConstructor()->getMock();
+        $configMock = $this->getMockBuilder('Magento\Webapi\Model\Config')->disableOriginalConstructor()->getMock();
+        $this->_soapConfig = new \Magento\Webapi\Model\Soap\Config(
             $objectManagerMock,
             $fileSystemMock,
             $dirMock,

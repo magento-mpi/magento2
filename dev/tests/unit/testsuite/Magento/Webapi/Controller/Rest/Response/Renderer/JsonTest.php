@@ -9,7 +9,7 @@
  */
 class Magento_Webapi_Controller_Rest_Response_Renderer_JsonTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webapi_Controller_Rest_Response_Renderer_Json */
+    /** @var \Magento\Webapi\Controller\Rest\Response\Renderer\Json */
     protected $_restJsonRenderer;
 
     /** @var \Magento\Core\Helper\Data */
@@ -20,7 +20,7 @@ class Magento_Webapi_Controller_Rest_Response_Renderer_JsonTest extends PHPUnit_
         /** Prepare mocks and objects for SUT constructor. */
         $this->_helperMock = $this->getMockBuilder('Magento\Core\Helper\Data')->disableOriginalConstructor()->getMock();
         /** Initialize SUT. */
-        $this->_restJsonRenderer = new Magento_Webapi_Controller_Rest_Response_Renderer_Json($this->_helperMock);
+        $this->_restJsonRenderer = new \Magento\Webapi\Controller\Rest\Response\Renderer\Json($this->_helperMock);
         parent::setUp();
     }
 

@@ -23,11 +23,11 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
 
     public function initForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_newsletter');
         $customer = $this->_coreRegistry->registry('current_customer');
-        $subscriber = Mage::getModel('Magento_Newsletter_Model_Subscriber')->loadByCustomer($customer);
+        $subscriber = \Mage::getModel('Magento_Newsletter_Model_Subscriber')->loadByCustomer($customer);
         $this->_coreRegistry->register('subscriber', $subscriber);
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Newsletter Information')));
@@ -63,7 +63,7 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
         $subscriber = $this->_coreRegistry->registry('subscriber');
         if($subscriber->getChangeStatusAt()) {
             return $this->formatDate(
-                $subscriber->getChangeStatusAt(), Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true
+                $subscriber->getChangeStatusAt(), \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM, true
             );
         }
 
@@ -74,7 +74,7 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
     {
         $this->setChild('grid',
             $this->getLayout()
-                ->createBlock('Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid', 'newsletter.grid')
+                ->createBlock('Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter\Grid', 'newsletter.grid')
         );
         return parent::_prepareLayout();
     }

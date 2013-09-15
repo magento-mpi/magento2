@@ -35,7 +35,7 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
     /**
      * Directory data
      *
-     * @var Magento_Directory_Helper_Data
+     * @var \Magento\Directory\Helper\Data
      */
     protected $_directoryData = null;
 
@@ -45,11 +45,11 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Directory_Helper_Data $directoryData
+     * @param \Magento\Directory\Helper\Data $directoryData
      * @param array $data
      */
     public function __construct(
-        Magento_Directory_Helper_Data $directoryData,
+        \Magento\Directory\Helper\Data $directoryData,
         array $data = array()
     ) {
         $this->_directoryData = $directoryData;

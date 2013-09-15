@@ -104,7 +104,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         $actionUrl = $this->getUrl('*/*/sales');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form   = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'filter_form',

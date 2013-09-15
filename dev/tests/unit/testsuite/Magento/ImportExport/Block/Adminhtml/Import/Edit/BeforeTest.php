@@ -72,7 +72,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
             ->will($this->returnCallback(array($this, 'jsonEncodeCallback')));
 
         $importModel = $this->getMock(
-            'Magento_ImportExport_Model_Import',
+            'Magento\ImportExport\Model\Import',
             array('getEntityBehaviors', 'getUniqueEntityBehaviors'),
             array(),
             '',

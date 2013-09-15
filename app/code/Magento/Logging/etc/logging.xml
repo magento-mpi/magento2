@@ -98,7 +98,7 @@
         <group name="catalog_products">
             <label translate="true">Catalog Products</label>
             <expected_models>
-                <expected_model class="Magento_Catalog_Model_Product" />
+                <expected_model class="Magento\Catalog\Model\Product" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_catalog_product_edit" action_alias="view" />
@@ -122,7 +122,7 @@
         <group name="catalog_categories">
             <label translate="true">Catalog Categories</label>
             <expected_models>
-                <expected_model class="Magento_Catalog_Model_Category" />
+                <expected_model class="Magento\Catalog\Model\Category" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_catalog_category_edit" action_alias="view" />
@@ -137,7 +137,7 @@
         <group name="core_urlrewrites">
             <label translate="true">URL Redirects</label>
             <expected_models>
-                <expected_model class="Magento_Core_Model_Url_Rewrite" />
+                <expected_model class="Magento\Core\Model\Url\Rewrite" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_urlrewrite_edit" action_alias="view" />
@@ -148,7 +148,7 @@
         <group name="catalogsearch">
             <label translate="true">Catalog Search</label>
             <expected_models>
-                <expected_model class="Magento_CatalogSearch_Model_Query" />
+                <expected_model class="Magento\CatalogSearch\Model\Query" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_catalog_search_edit" action_alias="view" />
@@ -165,7 +165,7 @@
         <group name="rating">
             <label translate="true">Catalog Ratings</label>
             <expected_models>
-                <expected_model class="Magento_Rating_Model_Rating" />
+                <expected_model class="Magento\Rating\Model\Rating" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_rating_edit" action_alias="view" />
@@ -176,7 +176,7 @@
         <group name="review">
             <label translate="true">Catalog Reviews</label>
             <expected_models>
-                <expected_model class="Magento_Review_Model_Review" />
+                <expected_model class="Magento\Review\Model\Review" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_catalog_product_review_edit"
@@ -196,7 +196,7 @@
         <group name="catalog_attributes">
             <label translate="true">Catalog Attributes</label>
             <expected_models>
-                <expected_model class="Magento_Catalog_Model_Resource_Eav_Attribute" />
+                <expected_model class="Magento\Catalog\Model\Resource\Eav\Attribute" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_catalog_product_attribute_edit"
@@ -214,7 +214,7 @@
         <group name="catalog_attributesets">
             <label translate="true">Catalog Product Templates</label>
             <expected_models>
-                <expected_model class="Magento_Eav_Model_Entity_Attribute_Set" />
+                <expected_model class="Magento\Eav\Model\Entity\Attribute\Set" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_catalog_product_set_edit"
@@ -236,7 +236,7 @@
                        action_alias="forgotpassword"
                        post_dispatch="postDispatchForgotPassword">
                     <expected_models>
-                        <expected_model class="Magento_User_Model_User" />
+                        <expected_model class="Magento\User\Model\User" />
                     </expected_models>
                 </event>
             </events>
@@ -244,7 +244,7 @@
         <group name="cms_pages">
             <label translate="true">CMS Pages</label>
             <expected_models>
-                <expected_model class="Magento_Cms_Model_Page" />
+                <expected_model class="Magento\Cms\Model\Page" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_cms_page_edit" action_alias="view" />
@@ -259,7 +259,7 @@
         <group name="cms_blocks">
             <label translate="true">CMS Blocks</label>
             <expected_models>
-                <expected_model class="Magento_Cms_Model_Block" />
+                <expected_model class="Magento\Cms\Model\Block" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_cms_block_edit" action_alias="view" />
@@ -270,7 +270,7 @@
         <group name="poll">
             <label translate="true">CMS Polls</label>
             <expected_models>
-                <expected_model class="Magento_Poll_Model_Poll" />
+                <expected_model class="Magento\Poll\Model\Poll" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_poll_edit" action_alias="edit" />
@@ -283,7 +283,7 @@
         <group name="customer">
             <label translate="true">Customers</label>
             <expected_models>
-                <expected_model class="Magento_Customer_Model_Customer">
+                <expected_model class="Magento\Customer\Model\Customer">
                     <skip_fields>
                         <field name="new_password" />
                         <field name="password" />
@@ -321,7 +321,7 @@
         <group name="customer_groups">
             <label translate="true">Customer Groups</label>
             <expected_models>
-                <expected_model class="Magento_Customer_Model_Group" />
+                <expected_model class="Magento\Customer\Model\Group" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_customer_group_edit" action_alias="view" />
@@ -554,7 +554,7 @@
         <group name="catalogrule">
             <label translate="true">Catalog Price Rules</label>
             <expected_models>
-                <expected_model class="Magento_CatalogRule_Model_Rule" />
+                <expected_model class="Magento\CatalogRule\Model\Rule" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_promo_catalog_edit" action_alias="view" />
@@ -575,7 +575,7 @@
         <group name="salesrule">
             <label translate="true">Cart Price Rules</label>
             <expected_models>
-                <expected_model class="Magento_SalesRule_Model_Rule" />
+                <expected_model class="Magento\SalesRule\Model\Rule" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_promo_quote_edit" action_alias="view" />
@@ -590,7 +590,7 @@
         <group name="adminhtml_system_account">
             <label translate="true">Admin My Account</label>
             <expected_models>
-                <expected_model class="Magento_User_Model_User">
+                <expected_model class="Magento\User\Model\User">
                     <skip_fields>
                         <field name="password" />
                         <field name="new_password" />
@@ -606,7 +606,7 @@
         <group name="newsletter_queue">
             <label translate="true">Newsletter Queue</label>
             <expected_models>
-                <expected_model class="Magento_Newsletter_Model_Queue" />
+                <expected_model class="Magento\Newsletter\Model\Queue" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_newsletter_queue_edit" action_alias="view" />
@@ -616,7 +616,7 @@
         <group name="newsletter_templates">
             <label translate="true">Newsletter Templates</label>
             <expected_models>
-                <expected_model class="Magento_Newsletter_Model_Template" />
+                <expected_model class="Magento\Newsletter\Model\Template" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_newsletter_template_save"
@@ -632,7 +632,7 @@
         <group name="newsletter_subscribers">
             <label translate="true">Newsletter Subscribers</label>
             <expected_models>
-                <expected_model class="Magento_Newsletter_Model_Subscriber" />
+                <expected_model class="Magento\Newsletter\Model\Subscriber" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_newsletter_subscriber_massUnsubscribe"
@@ -650,7 +650,7 @@
         <group name="sales_orders">
             <label translate="true">Sales Orders</label>
             <expected_models>
-                <expected_model class="Magento_Sales_Model_Order">
+                <expected_model class="Magento\Sales\Model\Order">
                     <additional_fields>
                         <field name="increment_id" />
                     </additional_fields>
@@ -666,54 +666,54 @@
                 <event controller_action="adminhtml_sales_order_massHold"
                        action_alias="massUpdate">
                     <expected_models merge_group="true">
-                        <expected_model class="Magento_Sales_Model_Order_Status_History" />
+                        <expected_model class="Magento\Sales\Model\Order\Status\History" />
                     </expected_models>
                 </event>
                 <event controller_action="adminhtml_sales_order_massUnhold"
                        action_alias="massUpdate">
                     <expected_models merge_group="true">
-                        <expected_model class="Magento_Sales_Model_Order_Status_History" />
+                        <expected_model class="Magento\Sales\Model\Order\Status\History" />
                     </expected_models>
                 </event>
                 <event controller_action="adminhtml_sales_order_massCancel"
                        action_alias="massUpdate">
                     <expected_models merge_group="true">
-                        <expected_model class="Magento_Sales_Model_Order_Status_History" />
+                        <expected_model class="Magento\Sales\Model\Order\Status\History" />
                     </expected_models>
                 </event>
                 <event controller_action="adminhtml_sales_order_hold" action_alias="save">
                     <expected_models merge_group="true">
-                        <expected_model class="Magento_Sales_Model_Order_Status_History" />
+                        <expected_model class="Magento\Sales\Model\Order\Status\History" />
                     </expected_models>
                 </event>
                 <event controller_action="adminhtml_sales_order_unhold" action_alias="save">
                     <expected_models merge_group="true">
-                        <expected_model class="Magento_Sales_Model_Order_Status_History" />
+                        <expected_model class="Magento\Sales\Model\Order\Status\History" />
                     </expected_models>
                 </event>
                 <event controller_action="adminhtml_sales_order_cancel" action_alias="save">
                     <expected_models merge_group="true">
-                        <expected_model class="Magento_Sales_Model_Order_Status_History" />
+                        <expected_model class="Magento\Sales\Model\Order\Status\History" />
                     </expected_models>
                 </event>
                 <event controller_action="adminhtml_sales_order_create_save"
                        action_alias="save">
                     <expected_models merge_group="true">
-                        <expected_model class="Magento_Customer_Model_Customer" />
-                        <expected_model class="Magento_Customer_Model_Address" />
-                        <expected_model class="Magento_Sales_Model_Order_Status_History" />
+                        <expected_model class="Magento\Customer\Model\Customer" />
+                        <expected_model class="Magento\Customer\Model\Address" />
+                        <expected_model class="Magento\Sales\Model\Order\Status\History" />
                     </expected_models>
                 </event>
                 <event controller_action="adminhtml_sales_order_edit_save" action_alias="save">
                     <expected_models merge_group="true">
-                        <expected_model class="Magento_Customer_Model_Customer" />
-                        <expected_model class="Magento_Customer_Model_Address" />
-                        <expected_model class="Magento_Sales_Model_Order_Status_History" />
+                        <expected_model class="Magento\Customer\Model\Customer" />
+                        <expected_model class="Magento\Customer\Model\Address" />
+                        <expected_model class="Magento\Sales\Model\Order\Status\History" />
                     </expected_models>
                 </event>
                 <event controller_action="adminhtml_sales_order_email" action_alias="send">
                     <expected_models merge_group="true">
-                        <expected_model class="Magento_Sales_Model_Order_Status_History" />
+                        <expected_model class="Magento\Sales\Model\Order\Status\History" />
                     </expected_models>
                 </event>
                 <event controller_action="adminhtml_sales_order_pdfinvoices"
@@ -730,7 +730,7 @@
                 <event controller_action="adminhtml_sales_order_addComment"
                        action_alias="save">
                     <expected_models>
-                        <expected_model class="Magento_Sales_Model_Order_Status_History" />
+                        <expected_model class="Magento\Sales\Model\Order\Status\History" />
                     </expected_models>
                 </event>
             </events>
@@ -738,7 +738,7 @@
         <group name="sales_invoices">
             <label translate="true">Sales Invoices</label>
             <expected_models>
-                <expected_model class="Magento_Sales_Model_Order_Invoice">
+                <expected_model class="Magento\Sales\Model\Order\Invoice">
                     <additional_fields>
                         <field name="increment_id" />
                     </additional_fields>
@@ -751,7 +751,7 @@
                 <event controller_action="adminhtml_sales_order_invoice_save"
                        action_alias="save">
                     <expected_models merge_group="true">
-                        <expected_model class="Magento_Sales_Model_Order_Invoice_Comment" />
+                        <expected_model class="Magento\Sales\Model\Order\Invoice\Comment" />
                     </expected_models>
                     <skip_on_back>
                         <controller_action name="adminhtml_system_config_edit" />
@@ -761,7 +761,7 @@
                 <event controller_action="adminhtml_sales_order_invoice_addComment"
                        action_alias="save">
                     <expected_models>
-                        <expected_model class="Magento_Sales_Model_Order_Invoice_Comment" />
+                        <expected_model class="Magento\Sales\Model\Order\Invoice\Comment" />
                     </expected_models>
                 </event>
                 <event controller_action="adminhtml_sales_invoice_pdfinvoices"
@@ -779,7 +779,7 @@
         <group name="sales_shipments">
             <label translate="true">Sales Shipments</label>
             <expected_models>
-                <expected_model class="Magento_Sales_Model_Order_Shipment">
+                <expected_model class="Magento\Sales\Model\Order\Shipment">
                     <additional_fields>
                         <field name="increment_id" />
                     </additional_fields>
@@ -792,7 +792,7 @@
                 <event controller_action="adminhtml_sales_order_shipment_save"
                        action_alias="save">
                     <expected_models merge_group="true">
-                        <expected_model class="Magento_Sales_Model_Order_Shipment_Comment" />
+                        <expected_model class="Magento\Sales\Model\Order\Shipment\Comment" />
                     </expected_models>
                     <skip_on_back>
                         <controller_action name="adminhtml_sales_order_view" />
@@ -801,7 +801,7 @@
                 <event controller_action="adminhtml_sales_order_shipment_addComment"
                        action_alias="save">
                     <expected_models>
-                        <expected_model class="Magento_Sales_Model_Order_Shipment_Comment" />
+                        <expected_model class="Magento\Sales\Model\Order\Shipment\Comment" />
                     </expected_models>
                 </event>
                 <event controller_action="adminhtml_sales_shipment_pdfshipments"
@@ -817,7 +817,7 @@
                 <event controller_action="adminhtml_sales_order_shipment_addTrack"
                        action_alias="save">
                     <expected_models>
-                        <expected_model class="Magento_Sales_Model_Order_Shipment_Track" />
+                        <expected_model class="Magento\Sales\Model\Order\Shipment\Track" />
                     </expected_models>
                 </event>
             </events>
@@ -825,7 +825,7 @@
         <group name="sales_creditmemos">
             <label translate="true">Sales Credit Memos</label>
             <expected_models>
-                <expected_model class="Magento_Sales_Model_Order_Creditmemo">
+                <expected_model class="Magento\Sales\Model\Order\Creditmemo">
                     <additional_fields>
                         <field name="increment_id" />
                     </additional_fields>
@@ -838,7 +838,7 @@
                 <event controller_action="adminhtml_sales_order_creditmemo_save"
                        action_alias="save">
                     <expected_models merge_group="true">
-                        <expected_model class="Magento_Sales_Model_Order_Creditmemo_Comment" />
+                        <expected_model class="Magento\Sales\Model\Order\Creditmemo\Comment" />
                     </expected_models>
                     <skip_on_back>
                         <controller_action name="adminhtml_sales_order_view" />
@@ -847,7 +847,7 @@
                 <event controller_action="adminhtml_sales_order_creditmemo_addComment"
                        action_alias="save">
                     <expected_models>
-                        <expected_model class="Magento_Sales_Model_Order_Creditmemo_Comment" />
+                        <expected_model class="Magento\Sales\Model\Order\Creditmemo\Comment" />
                     </expected_models>
                 </event>
                 <event controller_action="adminhtml_sales_creditmemo_pdfcreditmemos"
@@ -865,7 +865,7 @@
         <group name="sales_agreement">
             <label translate="true">Checkout Terms and Conditions</label>
             <expected_models>
-                <expected_model class="Magento_Checkout_Model_Agreement" />
+                <expected_model class="Magento\Checkout\Model\Agreement" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_checkout_agreement_edit"
@@ -883,7 +883,7 @@
         <group name="webapi_acl_role">
             <label translate="true">Web Services API Roles</label>
             <expected_models>
-                <expected_model class="Magento_Webapi_Model_Acl_Role" />
+                <expected_model class="Magento\Webapi\Model\Acl\Role" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_webapi_role_save" action_alias="save">
@@ -898,7 +898,7 @@
         <group name="webapi_acl_user">
             <label translate="true">Web Services API Users</label>
             <expected_models>
-                <expected_model class="Magento_Webapi_Model_Acl_User" />
+                <expected_model class="Magento\Webapi\Model\Acl\User" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_webapi_user_save" action_alias="save">
@@ -913,7 +913,7 @@
         <group name="adminhtml_permission_roles">
             <label translate="true">Admin Permission Roles</label>
             <expected_models>
-                <expected_model class="Magento_User_Model_Role" />
+                <expected_model class="Magento\User\Model\Role" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_user_role_editrole" action_alias="view" />
@@ -928,7 +928,7 @@
         <group name="adminhtml_permission_users">
             <label translate="true">Admin Permission Users</label>
             <expected_models>
-                <expected_model class="Magento_User_Model_User">
+                <expected_model class="Magento\User\Model\User">
                     <skip_fields>
                         <field name="password" />
                         <field name="new_password" />
@@ -945,15 +945,15 @@
         <group name="adminhtml_system_websites">
             <label translate="true">Manage Websites</label>
             <expected_models>
-                <expected_model class="Magento_Core_Model_Website" />
+                <expected_model class="Magento\Core\Model\Website" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_system_store_editWebsite"
                        action_alias="view" />
                 <event controller_action="adminhtml_system_store_save" action_alias="save">
                     <expected_models merge_group="true">
-                        <expected_model class="Magento_Core_Model_Store_Group" />
-                        <expected_model class="Magento_Core_Model_Store" />
+                        <expected_model class="Magento\Core\Model\Store\Group" />
+                        <expected_model class="Magento\Core\Model\Store" />
                     </expected_models>
                 </event>
                 <event controller_action="adminhtml_system_store_deleteWebsitePost"
@@ -963,7 +963,7 @@
         <group name="adminhtml_system_store_groups">
             <label translate="true">Manage Stores</label>
             <expected_models>
-                <expected_model class="Magento_Core_Model_Store" />
+                <expected_model class="Magento\Core\Model\Store" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_system_store_editStore"
@@ -975,7 +975,7 @@
         <group name="adminhtml_system_stores">
             <label translate="true">Manage Store Views</label>
             <expected_models>
-                <expected_model class="Magento_Core_Model_Store_Group" />
+                <expected_model class="Magento\Core\Model\Store\Group" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_system_store_deleteGroupPost"
@@ -987,7 +987,7 @@
         <group name="adminhtml_system_design">
             <label translate="true">Manage Design</label>
             <expected_models>
-                <expected_model class="Magento_Core_Model_Design" />
+                <expected_model class="Magento\Core\Model\Design" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_system_design_save" action_alias="save" />
@@ -1006,7 +1006,7 @@
         <group name="adminhtml_system_email_template">
             <label translate="true">Transactional Emails</label>
             <expected_models>
-                <expected_model class="Magento_Core_Model_Email_Template" />
+                <expected_model class="Magento\Core\Model\Email\Template" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_system_email_template_save"
@@ -1020,7 +1020,7 @@
         <group name="adminhtml_system_variable">
             <label translate="true">Custom Variables</label>
             <expected_models>
-                <expected_model class="Magento_Core_Model_Variable" />
+                <expected_model class="Magento\Core\Model\Variable" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_system_variable_save" action_alias="save">
@@ -1050,7 +1050,7 @@
         <group name="tax_customer_tax_classes">
             <label translate="true">Customer Tax Classes</label>
             <expected_models>
-                <expected_model class="Magento_Tax_Model_Class" />
+                <expected_model class="Magento\Tax\Model\Class" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_tax_class_ajaxDelete"
@@ -1064,13 +1064,13 @@
         <group name="tax_product_tax_classes">
             <label translate="true">Catalog Product Tax Classes</label>
             <expected_models>
-                <expected_model class="Magento_Tax_Model_Class" />
+                <expected_model class="Magento\Tax\Model\Class" />
             </expected_models>
         </group>
         <group name="tax_rules">
             <label translate="true">Tax Rules</label>
             <expected_models>
-                <expected_model class="Magento_Tax_Model_Calculation_Rule" />
+                <expected_model class="Magento\Tax\Model\Calculation\Rule" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_tax_rule_edit" action_alias="view" />
@@ -1085,7 +1085,7 @@
         <group name="tax_rates">
             <label translate="true">Tax Rates</label>
             <expected_models>
-                <expected_model class="Magento_Tax_Model_Calculation_Rate" />
+                <expected_model class="Magento\Tax\Model\Calculation\Rate" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_tax_rate_edit" action_alias="view" />
@@ -1102,7 +1102,7 @@
         <group name="google_sitemap">
             <label translate="true">XML Sitemap</label>
             <expected_models>
-                <expected_model class="Magento_Sitemap_Model_Sitemap" />
+                <expected_model class="Magento\Sitemap\Model\Sitemap" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_sitemap_edit" action_alias="view" />
@@ -1114,7 +1114,7 @@
         <group name="googleshopping_types">
             <label translate="true">Google Shopping</label>
             <expected_models>
-                <expected_model class="Magento_GoogleShopping_Model_Type" />
+                <expected_model class="Magento\GoogleShopping\Model\Type" />
             </expected_models>
             <events>
                 <event controller_action="googleshopping_types_edit" action_alias="edit" />
@@ -1125,7 +1125,7 @@
         <group name="widget_instance">
             <label translate="true">Frontend App Instance</label>
             <expected_models>
-                <expected_model class="Magento_Widget_Model_Widget_Instance" />
+                <expected_model class="Magento\Widget\Model\Widget\Instance" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_widget_instance_edit" action_alias="view" />
@@ -1141,7 +1141,7 @@
         <group name="index_management">
             <label translate="true">Index Management</label>
             <expected_models>
-                <expected_model class="Magento_Index_Model_Process" />
+                <expected_model class="Magento\Index\Model\Process" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_process_edit" action_alias="view" />
@@ -1188,12 +1188,12 @@
                 <event controller_action="adminhtml_paypal_reports_details"
                        action_alias="view">
                     <expected_models>
-                        <expected_model class="Magento_Paypal_Model_Report_Settlement_Row" />
+                        <expected_model class="Magento\Paypal\Model\Report\Settlement\Row" />
                     </expected_models>
                 </event>
                 <event controller_action="adminhtml_paypal_reports_fetch" action_alias="fetch">
                     <expected_models>
-                        <expected_model class="Magento_Paypal_Model_Report_Settlement" />
+                        <expected_model class="Magento\Paypal\Model\Report\Settlement" />
                     </expected_models>
                 </event>
             </events>
@@ -1201,7 +1201,7 @@
         <group name="adminhtml_sales_recurring_profile">
             <label translate="true">Recurring Billing Profiles</label>
             <expected_models>
-                <expected_model class="Magento_Sales_Model_Recurring_Profile" />
+                <expected_model class="Magento\Sales\Model\Recurring\Profile" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_sales_recurring_profile_updateProfile"

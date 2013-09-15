@@ -33,7 +33,7 @@ class Index extends \Magento\Wishlist\Controller\Index
         $protectedActions = array(
             'createwishlist', 'editwishlist', 'deletewishlist', 'copyitems', 'moveitem', 'moveitems'
         );
-        if (!$this->_objectManager->get('Magento_MultipleWishlist_Helper_Data')->isMultipleEnabled()
+        if (!$this->_objectManager->get('Magento\MultipleWishlist\Helper\Data')->isMultipleEnabled()
             && in_array($action, $protectedActions)
         ) {
             $this->norouteAction();
@@ -576,7 +576,7 @@ class Index extends \Magento\Wishlist\Controller\Index
 
         if (count($moved)) {
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
-            $names = $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($this->_joinProductNames($moved));
+            $names = $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($this->_joinProductNames($moved));
             $this->_getSession()->addSuccess(
                 __('%1 items were moved to %2: %3.', count($moved), $wishlistName, $names)
             );

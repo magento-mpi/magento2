@@ -19,7 +19,7 @@ class Layer extends \Magento\CatalogSearch\Model\Layer
     /**
      * Search data
      *
-     * @var Magento_Search_Helper_Data
+     * @var \Magento\Search\Helper\Data
      */
     protected $_searchData = null;
 
@@ -29,15 +29,15 @@ class Layer extends \Magento\CatalogSearch\Model\Layer
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Search_Helper_Data $searchData
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param \Magento\Search\Helper\Data $searchData
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param array $data
      */
     public function __construct(
-        Magento_Search_Helper_Data $searchData,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        \Magento\Search\Helper\Data $searchData,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         array $data = array()
     ) {
         $this->_searchData = $searchData;
@@ -81,7 +81,7 @@ class Layer extends \Magento\CatalogSearch\Model\Layer
     /**
      * Get collection of all filterable attributes for layer products set
      *
-     * @return Magento_Catalog_Model_Resource_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Attribute\Collection
      */
     public function getFilterableAttributes()
     {

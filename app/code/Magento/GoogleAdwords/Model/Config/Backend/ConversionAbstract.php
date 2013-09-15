@@ -24,16 +24,16 @@ abstract class ConversionAbstract extends \Magento\Core\Model\Config\Value
 
     /**
      * @param \Magento\Core\Model\Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Validator_Composite_VarienObjectFactory $validatorCompositeFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Validator\Composite\VarienObjectFactory $validatorCompositeFactory
      * @param \Magento\GoogleAdwords\Model\Validator\Factory $validatorFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Validator_Composite_VarienObjectFactory $validatorCompositeFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Validator\Composite\VarienObjectFactory $validatorCompositeFactory,
         \Magento\GoogleAdwords\Model\Validator\Factory $validatorFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null

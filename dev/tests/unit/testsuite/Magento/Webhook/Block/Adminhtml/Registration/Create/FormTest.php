@@ -32,9 +32,9 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_FormTest extends Magen
     public function setUp()
     {
         parent::setUp();
-        $this->_registry = new Magento_Core_Model_Registry();
-        $this->_coreData = $this->_makeMock('Magento_Core_Helper_Data');
-        $this->_formFactoryMock = $this->getMock('Magento_Data_Form_Factory', array('create'),
+        $this->_registry = new \Magento\Core\Model\Registry();
+        $this->_coreData = $this->_makeMock('Magento\Core\Helper\Data');
+        $this->_formFactoryMock = $this->getMock('Magento\Data\Form\Factory', array('create'),
             array(), '', false, false);
 
         $this->_dataFormMock = $this->_makeMock('Magento\Data\Form');

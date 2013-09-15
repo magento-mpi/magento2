@@ -30,15 +30,15 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
+     * @param \Magento\Core\Helper\String $coreString
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString
+        \Magento\Core\Helper\String $coreString
     ) {
         $this->_coreString = $coreString;
     }

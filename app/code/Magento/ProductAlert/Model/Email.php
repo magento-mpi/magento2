@@ -76,24 +76,24 @@ class Email extends \Magento\Core\Model\AbstractModel
     /**
      * Product alert data
      *
-     * @var Magento_ProductAlert_Helper_Data
+     * @var \Magento\ProductAlert\Helper\Data
      */
     protected $_productAlertData = null;
 
     /**
-     * @param Magento_ProductAlert_Helper_Data $productAlertData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\ProductAlert\Helper\Data $productAlertData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_ProductAlert_Helper_Data $productAlertData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\ProductAlert\Helper\Data $productAlertData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_productAlertData = $productAlertData;

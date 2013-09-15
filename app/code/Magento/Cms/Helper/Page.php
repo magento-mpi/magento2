@@ -27,14 +27,14 @@ class Page extends \Magento\Core\Helper\AbstractHelper
     /**
      * Catalog product
      *
-     * @var Magento_Page_Helper_Layout
+     * @var \Magento\Page\Helper\Layout
      */
     protected $_pageLayout = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
@@ -46,14 +46,14 @@ class Page extends \Magento\Core\Helper\AbstractHelper
     protected $_design = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Page_Helper_Layout $pageLayout
-     * @param Magento_Core_Model_View_DesignInterface $design
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Page\Helper\Layout $pageLayout
+     * @param \Magento\Core\Model\View\DesignInterface $design
      * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Page_Helper_Layout $pageLayout,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Page\Helper\Layout $pageLayout,
         \Magento\Core\Model\View\DesignInterface $design,
         \Magento\Core\Helper\Context $context
     ) {

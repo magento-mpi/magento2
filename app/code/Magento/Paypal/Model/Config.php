@@ -240,16 +240,16 @@ class Config
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $params
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Helper\Data $coreData,
         $params = array()
     ) {
         $this->_coreData = $coreData;
@@ -837,7 +837,7 @@ class Config
         if ($countryCode) {
             $countryCode = '_' . $countryCode;
         }
-        return sprintf('Magento_Cart_%s%s', $product, $countryCode);
+        return sprintf('Magento\\Cart\\%s%s', $product, $countryCode);
     }
 
     /**

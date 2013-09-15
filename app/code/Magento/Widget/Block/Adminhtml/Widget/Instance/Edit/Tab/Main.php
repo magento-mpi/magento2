@@ -90,7 +90,7 @@ class Main
     {
         $widgetInstance = $this->getWidgetInstance();
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',
@@ -146,7 +146,7 @@ class Main
                 'label'     => __('Assign to Store Views'),
                 'title'     => __('Assign to Store Views'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')
+                'values'    => \Mage::getSingleton('Magento_Core_Model_System_Store')
                     ->getStoreValuesForForm(false, true),
             ));
             $renderer = $this->getLayout()

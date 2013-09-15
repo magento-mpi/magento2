@@ -40,7 +40,7 @@ class Magento_Webapi_Controller_ResponseTest extends PHPUnit_Framework_TestCase
         /** Test message adding functionality. */
         $this->_response->addMessage(
             'Message text',
-            Magento_Webapi_Controller_Response::HTTP_OK,
+            \Magento\Webapi\Controller\Response::HTTP_OK,
             array('key' => 'value'),
             \Magento\Webapi\Controller\Response::MESSAGE_TYPE_SUCCESS
         );
@@ -52,7 +52,7 @@ class Magento_Webapi_Controller_ResponseTest extends PHPUnit_Framework_TestCase
                 array(
                     'key' => 'value',
                     'message' => 'Message text',
-                    'code' => Magento_Webapi_Controller_Response::HTTP_OK
+                    'code' => \Magento\Webapi\Controller\Response::HTTP_OK
                 )
             )
         );

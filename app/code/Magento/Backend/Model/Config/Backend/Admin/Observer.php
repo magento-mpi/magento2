@@ -15,24 +15,24 @@ class Observer
     /**
      * Backend data
      *
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_backendData = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Helper_Data $backendData
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Helper_Data $backendData,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Helper\Data $backendData,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_backendData = $backendData;
         $this->_coreRegistry = $coreRegistry;

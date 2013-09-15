@@ -182,7 +182,7 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
             'customer_email' => 'admin@example.com',
             'customer_group_id' => '1',
         );
-        $source = new Magento_Object($data);
+        $source = new \Magento\Object($data);
         $target = array();
         $expectedTarget = $data;
 

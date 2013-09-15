@@ -24,24 +24,24 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Adminhtml addresses
      *
-     * @var Magento_Adminhtml_Helper_Addresses
+     * @var \Magento\Adminhtml\Helper\Addresses
      */
     protected $_adminhtmlAddresses = null;
 
     /**
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_adminhtmlAddresses = $adminhtmlAddresses;
@@ -104,19 +104,19 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function initForm()
     {
-        /* @var $customer Magento_Customer_Model_Customer */
+        /* @var $customer \Magento\Customer\Model\Customer */
         $customer = $this->_coreRegistry->registry('current_customer');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset('address_fieldset', array(
             'legend'    => __("Edit Customer's Address"))
         );
 
-        $addressModel = Mage::getModel('Magento_Customer_Model_Address');
+        $addressModel = \Mage::getModel('Magento_Customer_Model_Address');
         $addressModel->setCountryId($this->_coreData->getDefaultCountry($customer->getStore()));
         /** @var $addressForm Magento_Customer_Model_Form */
-        $addressForm = Mage::getModel('Magento_Customer_Model_Form');
+        $addressForm = \Mage::getModel('Magento_Customer_Model_Form');
         $addressForm->setFormCode('adminhtml_customer_address')
             ->setEntity($addressModel)
             ->initDefaultValues();

@@ -37,17 +37,17 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Model_Event_Manager $eventManager
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Model\Event\Manager $eventManager
     ) {
         $this->_taxData = $taxData;
         parent::__construct($eventManager);

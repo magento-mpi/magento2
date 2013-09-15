@@ -120,48 +120,48 @@ class Customer extends \Magento\Core\Model\AbstractModel
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Customer data
      *
-     * @var Magento_Customer_Helper_Data
+     * @var \Magento\Customer\Helper\Data
      */
     protected $_customerData = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Customer_Helper_Data $customerData
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Sender $sender
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Eav_Model_Config $config
-     * @param Magento_Customer_Model_Resource_Customer $resource
-     * @param Magento_Data_Collection_Db|null $resourceCollection
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Sender $sender
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Eav\Model\Config $config
+     * @param \Magento\Customer\Model\Resource\Customer $resource
+     * @param \Magento\Data\Collection\Db|null $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Customer_Helper_Data $customerData,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Sender $sender,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Eav_Model_Config $config,
-        Magento_Customer_Model_Resource_Customer $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Sender $sender,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Eav\Model\Config $config,
+        \Magento\Customer\Model\Resource\Customer $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;

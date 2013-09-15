@@ -29,24 +29,24 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
@@ -62,8 +62,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     protected function _prepareForm()
     {
-        $rateObject = new Magento_Object(\Mage::getSingleton('Magento\Tax\Model\Calculation\Rate')->getData());
-        /** @var Magento_Data_Form $form */
+        $rateObject = new \Magento\Object(\Mage::getSingleton('Magento\Tax\Model\Calculation\Rate')->getData());
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $countries = \Mage::getModel('Magento\Directory\Model\Config\Source\Country')->toOptionArray(false, 'US');
@@ -71,13 +71,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         if (!$rateObject->hasTaxCountryId()) {
             $rateObject->setTaxCountryId(
-                Mage::getStoreConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_COUNTRY)
+                \Mage::getStoreConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_COUNTRY)
             );
         }
 
         if (!$rateObject->hasTaxRegionId()) {
             $rateObject->setTaxRegionId(
-                Mage::getStoreConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_REGION)
+                \Mage::getStoreConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_REGION)
             );
         }
 
@@ -118,7 +118,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         if (!$rateObject->hasTaxPostcode()) {
             $rateObject->setTaxPostcode(
-                Mage::getStoreConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_POSTCODE)
+                \Mage::getStoreConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_POSTCODE)
             );
         }
 

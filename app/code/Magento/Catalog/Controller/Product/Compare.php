@@ -76,7 +76,7 @@ class Compare extends \Magento\Core\Controller\Front\Action
             if ($product->getId()/* && !$product->isSuper()*/) {
                 \Mage::getSingleton('Magento\Catalog\Model\Product\Compare\List')->addProduct($product);
                 $productName = $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($product->getName());
-                Mage::getSingleton('Magento\Catalog\Model\Session')->addSuccess(
+                \Mage::getSingleton('Magento\Catalog\Model\Session')->addSuccess(
                     __('You added product %1 to the comparison list.', $productName)
                 );
                 $this->_eventManager->dispatch('catalog_product_compare_add_product', array('product'=>$product));

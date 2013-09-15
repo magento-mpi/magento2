@@ -9,35 +9,37 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Soap_Handler
+namespace Magento\Webapi\Controller\Soap;
+
+class Handler
 {
     const RESULT_NODE_NAME = 'result';
 
-    /** @var Magento_Core_Model_App */
+    /** @var \Magento\Core\Model\App */
     protected $_application;
 
-    /** @var Magento_Webapi_Controller_Soap_Request */
+    /** @var \Magento\Webapi\Controller\Soap\Request */
     protected $_request;
 
-    /** @var Magento_ObjectManager */
+    /** @var \Magento\ObjectManager */
     protected $_objectManager;
 
-    /** @var Magento_Webapi_Model_Soap_Config */
+    /** @var \Magento\Webapi\Model\Soap\Config */
     protected $_apiConfig;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Core_Model_App $application
-     * @param Magento_Webapi_Controller_Soap_Request $request
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Webapi_Model_Soap_Config $apiConfig
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Webapi\Controller\Soap\Request $request
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Webapi\Model\Soap\Config $apiConfig
      */
     public function __construct(
-        Magento_Core_Model_App $application,
-        Magento_Webapi_Controller_Soap_Request $request,
-        Magento_ObjectManager $objectManager,
-        Magento_Webapi_Model_Soap_Config $apiConfig
+        \Magento\Core\Model\App $application,
+        \Magento\Webapi\Controller\Soap\Request $request,
+        \Magento\ObjectManager $objectManager,
+        \Magento\Webapi\Model\Soap\Config $apiConfig
     ) {
         $this->_application = $application;
         $this->_request = $request;
@@ -51,24 +53,24 @@ class Magento_Webapi_Controller_Soap_Handler
      * @param string $operation
      * @param array $arguments
      * @return stdClass|null
-     * @throws Magento_Webapi_Exception|LogicException
+     * @throws \Magento\Webapi\Exception|LogicException
      */
     public function __call($operation, $arguments)
     {
         $requestedServices = $this->_request->getRequestedServices();
         $serviceMethodInfo = $this->_apiConfig->getServiceMethodInfo($operation, $requestedServices);
-        $serviceId = $serviceMethodInfo[Magento_Webapi_Model_Soap_Config::KEY_CLASS];
-        $serviceMethod = $serviceMethodInfo[Magento_Webapi_Model_Soap_Config::KEY_METHOD];
+        $serviceId = $serviceMethodInfo[\Magento\Webapi\Model\Soap\Config::KEY_CLASS];
+        $serviceMethod = $serviceMethodInfo[\Magento\Webapi\Model\Soap\Config::KEY_METHOD];
 
         // check if the operation is a secure operation & whether the request was made in HTTPS
-        if ($serviceMethodInfo[Magento_Webapi_Model_Soap_Config::KEY_IS_SECURE] && !$this->_request->isSecure()) {
-            throw new Magento_Webapi_Exception(__("Operation allowed only in HTTPS"));
+        if ($serviceMethodInfo[\Magento\Webapi\Model\Soap\Config::KEY_IS_SECURE] && !$this->_request->isSecure()) {
+            throw new \Magento\Webapi\Exception(__("Operation allowed only in HTTPS"));
         }
 
         $service = $this->_objectManager->get($serviceId);
         $outputData = $service->$serviceMethod($this->_prepareParameters($arguments));
         if (!is_array($outputData)) {
-            throw new LogicException(
+            throw new \LogicException(
                 sprintf('The method "%s" of service "%s" must return an array.', $serviceMethod, $serviceId)
             );
         }

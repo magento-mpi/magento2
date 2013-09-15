@@ -123,12 +123,12 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     );
 
     /**
-     * @var Magento_Core_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreDataMock;
 
     /**
-     * @var Magento_Core_Helper_String|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\String|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreStringMock;
 
@@ -143,9 +143,9 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     public function setUp()
     {
         $this->_objectManagerMock = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_coreDataMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $this->_coreDataMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $this->_coreStringMock = $this->getMock(
-            'Magento_Core_Helper_String', array('__construct'), array(), '', false
+            'Magento\Core\Helper\String', array('__construct'), array(), '', false
         );
         $this->_model = $this->_getModelMock();
     }
@@ -246,7 +246,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
         $customerStorage = $this->getMock('Magento\ImportExport\Model\Resource\Customer\Storage', array('load'),
             array(), '', false);
         $resourceMock = $this->getMock(
-            'Magento_Customer_Model_Resource_Customer', array('getIdFieldName'), array(), '', false
+            'Magento\Customer\Model\Resource\Customer', array('getIdFieldName'), array(), '', false
         );
         $resourceMock->expects($this->any())
             ->method('getIdFieldName')
@@ -256,7 +256,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
                 'resource' => $resourceMock,
                 'data'     => $customerData,
             );
-            /** @var $customer Magento_Customer_Model_Customer */
+            /** @var $customer \Magento\Customer\Model\Customer */
             $customer = $this->_objectManagerMock->getObject('Magento\Customer\Model\Customer', $data);
             $customerStorage->addCustomer($customer);
         }
@@ -435,7 +435,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      */
     protected function _getModelMock()
     {
-        $modelMock = new Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address(
+        $modelMock = new \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address(
             $this->_coreDataMock,
             $this->_coreStringMock,
             $this->_getModelDependencies()

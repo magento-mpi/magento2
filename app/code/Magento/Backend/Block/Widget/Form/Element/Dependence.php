@@ -53,18 +53,18 @@ class Dependence extends \Magento\Backend\Block\AbstractBlock
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Context $context,
         array $data = array()
     ) {
         $this->_coreData = $coreData;

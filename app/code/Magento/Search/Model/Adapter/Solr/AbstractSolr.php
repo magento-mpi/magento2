@@ -74,7 +74,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
@@ -86,14 +86,14 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * @param \Magento\Search\Model\Client\FactoryInterface $clientFactory
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Search\Helper\ClientInterface $clientHelper
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $options
      */
     public function __construct(
         \Magento\Search\Model\Client\FactoryInterface $clientFactory,
         \Magento\Core\Model\Logger $logger,
         \Magento\Search\Helper\ClientInterface $clientHelper,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Registry $registry,
         $options = array()
     ) {
         $this->_coreRegistry = $registry;

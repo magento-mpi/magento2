@@ -285,40 +285,40 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
      * Catalog inventory data
      *
-     * @var Magento_CatalogInventory_Helper_Data
+     * @var \Magento\CatalogInventory\Helper\Data
      */
     protected $_catalogInventoryData = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_ImportExport_Helper_Data $importExportData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\ImportExport\Helper\Data $importExportData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Helper_Data $coreData,
-        Magento_ImportExport_Helper_Data $importExportData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\ImportExport\Helper\Data $importExportData,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -855,7 +855,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         static $tableName = null;
 
         if (!$tableName) {
-            $tableName = Mage::getModel('Magento_ImportExport_Model_Import_Proxy_Product_Resource')
+            $tableName = \Mage::getModel('Magento\ImportExport\Model\Import\Proxy\Product\Resource')
                 ->getProductCategoryTable();
         }
         if ($categoriesData) {
@@ -1348,7 +1348,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         static $tableName = null;
 
         if (!$tableName) {
-            $tableName = Mage::getModel('Magento_ImportExport_Model_Import_Proxy_Product_Resource')
+            $tableName = \Mage::getModel('Magento\ImportExport\Model\Import\Proxy\Product\Resource')
                 ->getProductWebsiteTable();
         }
         if ($websiteData) {

@@ -7,14 +7,16 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_FullPageCache_Model_Placeholder_Config_Converter implements Magento_Config_ConverterInterface
+namespace Magento\FullPageCache\Model\Placeholder\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert dom node tree to array
      *
      * @param DOMDocument $source
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function convert($source)
     {

@@ -36,18 +36,18 @@ class Daterange
     /**
      * Adminhtml data
      *
-     * @var Magento_Adminhtml_Helper_Data
+     * @var \Magento\Adminhtml\Helper\Data
      */
     protected $_adminhtmlData = null;
 
     /**
-     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param \Magento\Adminhtml\Helper\Data $adminhtmlData
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Data $adminhtmlData,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\Adminhtml\Helper\Data $adminhtmlData,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_adminhtmlData = $adminhtmlData;

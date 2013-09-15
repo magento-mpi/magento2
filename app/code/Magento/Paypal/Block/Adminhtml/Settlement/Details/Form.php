@@ -102,7 +102,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             ),
         );
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         foreach ($fieldsets as $key => $data) {
             $fieldset = $form->addFieldset($key, array('legend' => $data['legend']));

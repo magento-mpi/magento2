@@ -22,33 +22,33 @@ class Observer
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Authorizenet data
      *
-     * @var Magento_Authorizenet_Helper_Data
+     * @var \Magento\Authorizenet\Helper\Data
      */
     protected $_authorizenetData = null;
 
     /**
-     * @param Magento_Authorizenet_Helper_Data $authorizenetData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Authorizenet\Helper\Data $authorizenetData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Authorizenet_Helper_Data $authorizenetData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Authorizenet\Helper\Data $authorizenetData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
 

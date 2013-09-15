@@ -26,9 +26,9 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
         $orderFactory->expects($this->once())
             ->method('create')
             ->will($this->returnValue($orderMock));
-        $coreHttp = $this->getMock('Magento_Core_Helper_Http', array(), array(), '', false);
+        $coreHttp = $this->getMock('Magento\Core\Helper\Http', array(), array(), '', false);
 
-        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
 
         /** @var Magento_Checkout_Model_Session $session */
         $session = $this->getMock(

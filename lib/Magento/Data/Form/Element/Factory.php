@@ -14,10 +14,12 @@
  * @package    Magento_Data
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Form_Element_Factory
+namespace Magento\Data\Form\Element;
+
+class Factory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -58,9 +60,9 @@ class Magento_Data_Form_Element_Factory
     );
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -70,20 +72,20 @@ class Magento_Data_Form_Element_Factory
      *
      * @param string $elementType Standard element type or Custom element class
      * @param array $config
-     * @return Magento_Data_Form_Element_Abstract
+     * @return \Magento\Data\Form\Element\AbstractElement
      * @throws InvalidArgumentException
      */
     public function create($elementType, array $config = array())
     {
         if (in_array($elementType, $this->_standardTypes)) {
-            $className = 'Magento_Data_Form_Element_' . ucfirst($elementType);
+            $className = 'Magento\Data\Form\Element\\' . ucfirst($elementType);
         } else {
             $className = $elementType;
         }
 
         $element = $this->_objectManager->create($className, $config);
-        if (!($element instanceof Magento_Data_Form_Element_Abstract)) {
-            throw new InvalidArgumentException($className . ' doesn\'n extend Magento_Data_Form_Element_Abstract');
+        if (!($element instanceof \Magento\Data\Form\Element\AbstractElement)) {
+            throw new \InvalidArgumentException($className . ' doesn\'n extend \Magento\Data\Form\Element\AbstractElement');
         }
         return $element;
     }

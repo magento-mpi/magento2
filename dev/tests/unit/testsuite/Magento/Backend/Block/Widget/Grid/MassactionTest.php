@@ -50,7 +50,7 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
     protected $_requestMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Factory_Helper
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Factory\Helper
      */
     protected $_helperFactoryMock;
 
@@ -85,12 +85,12 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
         $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
 
         $this->_helperFactoryMock = $this->getMock(
-            'Magento_Core_Model_Factory_Helper', array('get'), array(), '', false, false
+            'Magento\Core\Model\Factory\Helper', array('get'), array(), '', false, false
         );
         $this->_helperFactoryMock
             ->expects($this->any())
             ->method('get')
-            ->with('Magento_Backend_Helper_Data')
+            ->with('Magento\Backend\Helper\Data')
             ->will($this->returnValue($this->_backendHelperMock));
 
         $arguments = array(

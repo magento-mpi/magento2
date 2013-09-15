@@ -29,7 +29,7 @@ class Info extends \Magento\Object
     /**
      * Rma data
      *
-     * @var Magento_Rma_Helper_Data
+     * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaData = null;
 
@@ -39,11 +39,11 @@ class Info extends \Magento\Object
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Rma_Helper_Data $rmaData
+     * @param \Magento\Rma\Helper\Data $rmaData
      * @param array $data
      */
     public function __construct(
-        Magento_Rma_Helper_Data $rmaData,
+        \Magento\Rma\Helper\Data $rmaData,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;

@@ -178,22 +178,22 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     /**
      * Paygate data
      *
-     * @var Magento_Paygate_Helper_Data
+     * @var \Magento\Paygate\Helper\Data
      */
     protected $_paygateData = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Paygate_Helper_Data $paygateData
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Payment_Helper_Data $paymentData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Paygate\Helper\Data $paygateData
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Payment\Helper\Data $paymentData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Paygate_Helper_Data $paygateData,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Payment_Helper_Data $paymentData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Paygate\Helper\Data $paygateData,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Payment\Helper\Data $paymentData,
         array $data = array()
     ) {
         $this->_paygateData = $paygateData;
@@ -854,7 +854,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
                     return $this->_addTransaction(
                         $payment,
                         $voidTransactionId,
-                        Magento_Sales_Model_Order_Payment_Transaction::TYPE_VOID,
+                        \Magento\Sales\Model\Order\Payment\Transaction::TYPE_VOID,
                         array(
                             'is_transaction_closed' => 1,
                             'should_close_parent_transaction' => 1,
@@ -1074,7 +1074,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     /**
      * Set split_tender_id to quote payment if neeeded
      *
-     * @param Magento_Object $response
+     * @param \Magento\Object $response
      * @param $orderPayment
      * @throws Magento_Payment_Model_Info_Exception
      * @return bool
@@ -1158,7 +1158,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * Prepare request to gateway
      *
      * @link http://www.authorize.net/support/AIM_guide.pdf
-     * @param \Magento_Object|\Magento_Payment_Model_Info $payment
+     * @param \\Magento\Object|\Magento_Payment_Model_Info $payment
      * @return Magento_Paygate_Model_Authorizenet_Request
      */
     protected function _buildRequest(\Magento\Object $payment)
@@ -1373,8 +1373,8 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     /**
      * It sets card`s data into additional information of payment model
      *
-     * @param Magento_Object $response
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param \Magento\Object $response
+     * @param \Magento\Sales\Model\Order\Payment $payment
      * @return string
      */
     protected function _registerCard(\Magento\Object $response, \Magento\Sales\Model\Order\Payment $payment)

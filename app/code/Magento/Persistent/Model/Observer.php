@@ -30,42 +30,42 @@ class Observer
     /**
      * Persistent data
      *
-     * @var Magento_Persistent_Helper_Data
+     * @var \Magento\Persistent\Helper\Data
      */
     protected $_persistentData = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Persistent session
      *
-     * @var Magento_Persistent_Helper_Session
+     * @var \Magento\Persistent\Helper\Session
      */
     protected $_persistentSession = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Persistent_Helper_Session $persistentSession
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Persistent_Helper_Data $persistentData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Persistent\Helper\Session $persistentSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Persistent\Helper\Data $persistentData
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Persistent_Helper_Session $persistentSession,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Persistent_Helper_Data $persistentData
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Persistent\Helper\Session $persistentSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Persistent\Helper\Data $persistentData
     ) {
         $this->_eventManager = $eventManager;
         $this->_persistentSession = $persistentSession;
@@ -83,11 +83,11 @@ class Observer
     {
         if (!$this->_persistentData->canProcess($observer)
             || !$this->_persistentSession->isPersistent()
-            || Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()
+            || \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()
         ) {
             return $this;
         }
-        Mage::getModel('Magento\Persistent\Model\Persistent\Config')
+        \Mage::getModel('Magento\Persistent\Model\Persistent\Config')
             ->setConfigFilePath($this->_persistentData->getPersistentConfigFilePath())
             ->fire();
         return $this;
@@ -525,7 +525,7 @@ class Observer
      * Clear expired persistent sessions
      *
      * @param \Magento\Cron\Model\Schedule $schedule
-     * @return Magento_Persistent_Model_Observer_Cron
+     * @return \Magento\Persistent\Model\Observer\Cron
      */
     public function clearExpiredCronJob(\Magento\Cron\Model\Schedule $schedule)
     {
@@ -576,7 +576,7 @@ class Observer
 
         if ($this->_isLoggedOut()) {
             /** @var $customer \Magento\Customer\Model\Session */
-            $customer = Mage::getModel('Magento\Customer\Model\Session')->load(
+            $customer = \Mage::getModel('Magento\Customer\Model\Session')->load(
                 $this->_persistentSession->getSession()->getCustomerId()
             );
             \Mage::getSingleton('Magento\Customer\Model\Session')

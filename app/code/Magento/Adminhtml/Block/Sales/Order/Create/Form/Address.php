@@ -30,22 +30,22 @@ class Address
     /**
      * Adminhtml addresses
      *
-     * @var Magento_Adminhtml_Helper_Addresses
+     * @var \Magento\Adminhtml\Helper\Addresses
      */
     protected $_adminhtmlAddresses = null;
 
     /**
-     * @param Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_adminhtmlAddresses = $adminhtmlAddresses;
@@ -198,7 +198,7 @@ class Address
         if ($vatIdElement && $this->getDisplayVatValidationButton() !== false) {
             $vatIdElement->setRenderer(
                 $this->getLayout()
-                    ->createBlock('Magento_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat')
+                    ->createBlock('Magento\Adminhtml\Block\Customer\Sales\Order\Address\Form\Renderer\Vat')
                     ->setJsVariablePrefix($this->getJsVariablePrefix())
             );
         }

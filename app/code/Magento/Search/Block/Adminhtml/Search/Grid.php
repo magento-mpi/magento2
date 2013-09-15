@@ -30,7 +30,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
     protected $_registryManager;
 
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,

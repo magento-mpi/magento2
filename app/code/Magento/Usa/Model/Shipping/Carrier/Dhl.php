@@ -110,31 +110,31 @@ class Dhl
     /**
      * Usa data
      *
-     * @var Magento_Usa_Helper_Data
+     * @var \Magento\Usa\Helper\Data
      */
     protected $_usaData = null;
 
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
      * Dhl constructor
      *
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Usa_Helper_Data $usaData
-     * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
-     * @param Magento_Directory_Helper_Data $directoryData
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Usa\Helper\Data $usaData
+     * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
+     * @param \Magento\Directory\Helper\Data $directoryData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
-        Magento_Usa_Helper_Data $usaData,
-        Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
-        Magento_Directory_Helper_Data $directoryData,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Usa\Helper\Data $usaData,
+        \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
+        \Magento\Directory\Helper\Data $directoryData,
         array $data = array()
     ) {
         $this->_coreString = $coreString;

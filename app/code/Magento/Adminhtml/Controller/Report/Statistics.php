@@ -40,7 +40,7 @@ class Statistics extends \Magento\Adminhtml\Controller\Action
             $blocks = array($blocks);
         }
 
-        $requestData = $this->_objectManager->get('Magento_Adminhtml_Helper_Data')
+        $requestData = $this->_objectManager->get('Magento\Adminhtml\Helper\Data')
             ->prepareFilterString($this->getRequest()->getParam('filter'));
         $requestData = $this->_filterDates($requestData, array('from', 'to'));
         $requestData['store_ids'] = $this->getRequest()->getParam('store_ids');

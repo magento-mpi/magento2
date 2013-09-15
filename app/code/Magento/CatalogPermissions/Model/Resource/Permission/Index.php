@@ -64,23 +64,23 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Catalog permissions data
      *
-     * @var Magento_CatalogPermissions_Helper_Data
+     * @var \Magento\CatalogPermissions\Helper\Data
      */
     protected $_catalogPermData = null;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_CatalogPermissions_Helper_Data $catalogPermData
+     * @param \Magento\CatalogPermissions\Helper\Data $catalogPermData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Resource $resource
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_CatalogPermissions_Helper_Data $catalogPermData,
+        \Magento\CatalogPermissions\Helper\Data $catalogPermData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource $resource
     ) {

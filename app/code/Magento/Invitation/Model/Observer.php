@@ -28,7 +28,7 @@ class Observer
     /**
      * Invitation configuration
      *
-     * @var Magento_Invitation_Model_Config
+     * @var \Magento\Invitation\Model\Config
      */
     protected $_config;
 
@@ -40,26 +40,26 @@ class Observer
     /**
      * Invitation data
      *
-     * @var Magento_Invitation_Helper_Data
+     * @var \Magento\Invitation\Helper\Data
      */
     protected $_invitationData = null;
 
     /**
-     * @param Magento_Invitation_Helper_Data $invitationData
+     * @param \Magento\Invitation\Helper\Data $invitationData
      */
     public function __construct(
-        Magento_Invitation_Helper_Data $invitationData
+        \Magento\Invitation\Helper\Data $invitationData
     ) {
         $this->_invitationData = $invitationData;
-        $this->_config = Mage::getSingleton('Magento_Invitation_Model_Config');
+        $this->_config = \Mage::getSingleton('Magento\Invitation\Model\Config');
     }
 
     /**
      * Handler for invitation mass update
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchInvitationMassUpdate($config, $eventModel)
     {

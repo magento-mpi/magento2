@@ -239,7 +239,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected $_isCustomEntryPoint = false;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
@@ -251,35 +251,35 @@ class Store extends \Magento\Core\Model\AbstractModel
     /**
      * Core file storage database
      *
-     * @var Magento_Core_Helper_File_Storage_Database
+     * @var \Magento\Core\Helper\File\Storage\Database
      */
     protected $_coreFileStorageDatabase = null;
 
     /**
-     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Core\Model\Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Core_Model_Resource_Config_Data $configDataResource
-     * @param Magento_Core_Model_Resource_Store $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
+     * @param \Magento\Core\Model\Resource\Store $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param bool $isCustomEntryPoint
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Core\Model\Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_App_State $appState,
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Core_Model_Resource_Config_Data $configDataResource,
-        Magento_Core_Model_Resource_Store $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Core\Model\Resource\Config\Data $configDataResource,
+        \Magento\Core\Model\Resource\Store $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         $isCustomEntryPoint = false,
         array $data = array()
     ) {
@@ -302,7 +302,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function __wakeup()
     {
         parent::__wakeup();
-        $this->_coreFileStorageDatabase = Mage::getSingleton('Magento_Core_Helper_File_Storage_Database');
+        $this->_coreFileStorageDatabase = \Mage::getSingleton('Magento\Core\Helper\File\Storage\Database');
     }
 
     /**

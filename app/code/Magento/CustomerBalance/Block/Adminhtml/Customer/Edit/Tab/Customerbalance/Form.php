@@ -27,7 +27,7 @@ class Form extends
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $prefix = '_customerbalance';
         $form->setHtmlIdPrefix($prefix);

@@ -15,7 +15,7 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_FactoryTest extends PH
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_applicationConfig;
 
-    /** @var Magento_Webapi_Controller_Rest_Request_Deserializer_Factory */
+    /** @var \Magento\Webapi\Controller\Rest\Request\Deserializer\Factory */
     protected $_deserializerFactory;
 
     protected function setUp()
@@ -30,7 +30,7 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_FactoryTest extends PH
             ->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
-        $this->_deserializerFactory = new Magento_Webapi_Controller_Rest_Request_Deserializer_Factory(
+        $this->_deserializerFactory = new \Magento\Webapi\Controller\Rest\Request\Deserializer\Factory(
             $this->_objectManagerMock,
             $this->_applicationConfig
         );
@@ -60,7 +60,7 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_FactoryTest extends PH
             ->expects($this->once())
             ->method('getNode')
             ->will($this->returnValue(array($expectedMetadata)));
-        $validDeserializer = $this->getMockBuilder('Magento_Webapi_Controller_Rest_Request_Deserializer_Xml')
+        $validDeserializer = $this->getMockBuilder('Magento\Webapi\Controller\Rest\Request\Deserializer\Xml')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_objectManagerMock
@@ -84,10 +84,10 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_FactoryTest extends PH
         try {
             $this->_deserializerFactory->get('text_xml');
             $this->fail("Exception is expected to be raised");
-        } catch (Magento_Webapi_Exception $e) {
-            $this->assertInstanceOf('Magento_Webapi_Exception', $e, 'Exception type is invalid');
+        } catch (\Magento\Webapi\Exception $e) {
+            $this->assertInstanceOf('Magento\Webapi\Exception', $e, 'Exception type is invalid');
             $this->assertEquals($exceptionMessage, $e->getMessage(), 'Exception message is invalid');
-            $this->assertEquals(Magento_Webapi_Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
+            $this->assertEquals(\Magento\Webapi\Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
         }
     }
 
@@ -99,7 +99,7 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_FactoryTest extends PH
             ->expects($this->once())
             ->method('getNode')
             ->will($this->returnValue(array($expectedMetadata)));
-        $invalidDeserializer = $this->getMockBuilder('Magento_Webapi_Controller_Rest_Response_Renderer_Json')
+        $invalidDeserializer = $this->getMockBuilder('Magento\Webapi\Controller\Rest\Response\Renderer\Json')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_objectManagerMock
@@ -108,7 +108,7 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_FactoryTest extends PH
             ->will($this->returnValue($invalidDeserializer));
         $this->setExpectedException(
             'LogicException',
-            'The deserializer must implement "Magento_Webapi_Controller_Rest_Request_DeserializerInterface".'
+            'The deserializer must implement "Magento\Webapi\Controller\Rest\Request\DeserializerInterface".'
         );
         /** Initialize SUT. */
         $this->_deserializerFactory->get('text/xml');

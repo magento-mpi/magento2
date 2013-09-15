@@ -261,17 +261,17 @@
             <instance type="Magento\Backend\Helper\Data\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Fieldset_Config_Reader">
+    <type name="Magento\Core\Model\Fieldset\Config\Reader">
         <param name="fileName">
             <value>fieldset.xml</value>
         </param>
         <param name="schemaLocator">
-            <instance type="Magento_Core_Model_Fieldset_Config_SchemaLocator" />
+            <instance type="Magento\Core\Model\Fieldset\Config\SchemaLocator" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Fieldset_Config_Data">
+    <type name="Magento\Core\Model\Fieldset\Config\Data">
         <param name="reader">
-            <instance type="Magento_Core_Model_Fieldset_Config_Reader" />
+            <instance type="Magento\Core\Model\Fieldset\Config\Reader" />
         </param>
         <param name="cacheId">
             <value>fieldset_config</value>

@@ -61,33 +61,33 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Invitation data
      *
-     * @var Magento_Invitation_Helper_Data
+     * @var \Magento\Invitation\Helper\Data
      */
     protected $_invitationData = null;
 
     /**
-     * @param Magento_Invitation_Helper_Data $invitationData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Invitation_Model_Resource_Invitation $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Invitation\Helper\Data $invitationData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Invitation\Model\Resource\Invitation $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Invitation_Helper_Data $invitationData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Invitation_Model_Resource_Invitation $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Invitation\Helper\Data $invitationData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Invitation\Model\Resource\Invitation $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_invitationData = $invitationData;
@@ -140,8 +140,8 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     /**
      * Model before save
      *
-     * @throws Magento_Core_Exception
-     * @return Magento_Invitation_Model_Invitation
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Invitation\Model\Invitation
      */
     protected function _beforeSave()
     {
@@ -209,13 +209,13 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         $store = \Mage::app()->getStore($this->getStoreId());
         $mail  = \Mage::getModel('Magento\Core\Model\Email\Template');
         $mail->setDesignConfig(array(
-            'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
+            'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
             'store' => $this->getStoreId()
         ))->sendTransactional(
                 $store->getConfig(self::XML_PATH_EMAIL_TEMPLATE), $store->getConfig(self::XML_PATH_EMAIL_IDENTITY),
                 $this->getEmail(), null, array(
                     'url'           => $this->_invitationData->getInvitationUrl($this),
-                    'allow_message' => Mage::app()->getStore()->isAdmin()
+                    'allow_message' => \Mage::app()->getStore()->isAdmin()
                         || \Mage::getSingleton('Magento\Invitation\Model\Config')->isInvitationMessageAllowed(),
                     'message'       => $this->getMessage(),
                     'store'         => $store,
@@ -370,7 +370,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         try {
             $this->makeSureCanBeSent();
             return true;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
         catch (\Magento\Core\Exception $e) {
             if ($e->getCode() && $e->getCode() === self::ERROR_INVALID_DATA) {
                 throw $e;
@@ -424,7 +424,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         try {
             $this->makeSureCanBeAccepted($websiteId);
             return true;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
         catch (\Magento\Core\Exception $e) {
             // intentionally jammed
         }

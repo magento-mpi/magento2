@@ -35,7 +35,7 @@ return array(
                 'visible' => '0'
             ),
             'link_display' => array(
-                'source_model' => 'Magento_Backend_Model_Config_Source_Yesno',
+                'source_model' => 'Magento\Backend\Model\Config\Source\Yesno',
                 'type' => 'select',
                 'visible' => '1',
                 'sort_order' => '10',

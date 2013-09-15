@@ -75,7 +75,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     /**
      * Import export data
      *
-     * @var Magento_ImportExport_Helper_Data
+     * @var \Magento\ImportExport\Helper\Data
      */
     protected $_importExportData = null;
 
@@ -85,11 +85,11 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_ImportExport_Helper_Data $importExportData
+     * @param \Magento\ImportExport\Helper\Data $importExportData
      * @param array $data
      */
     public function __construct(
-        Magento_ImportExport_Helper_Data $importExportData,
+        \Magento\ImportExport\Helper\Data $importExportData,
         array $data = array()
     ) {
         $this->_importExportData = $importExportData;
@@ -451,7 +451,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
 
         $entity    = $this->getEntity();
         /** @var $uploader \Magento\Core\Model\File\Uploader */
-        $uploader  = Mage::getModel('Magento_Core_Model_File_Uploader',
+        $uploader  = \Mage::getModel('Magento\Core\Model\File\Uploader',
             array('fileId' => self::FIELD_NAME_SOURCE_FILE));
         $uploader->skipDbProcessing(true);
         $result    = $uploader->save(self::getWorkingDir());

@@ -23,7 +23,7 @@ class Magento_Reward_Model_ObserverTest extends PHPUnit_Framework_TestCase
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
-        $customer = $objectManager->get('Magento_Core_Model_Registry')
+        $customer = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('_fixture/Magento_ImportExport_Customer');
 
         $this->_saveRewardPoints($customer, $pointsDelta);

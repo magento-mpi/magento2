@@ -9,7 +9,7 @@
  */
 class Magento_Webapi_Controller_Rest_Response_Renderer_XmlTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webapi_Controller_Rest_Response_Renderer_Xml */
+    /** @var \Magento\Webapi\Controller\Rest\Response\Renderer\Xml */
     protected $_restXmlRenderer;
 
     protected function setUp()
@@ -17,7 +17,7 @@ class Magento_Webapi_Controller_Rest_Response_Renderer_XmlTest extends PHPUnit_F
         /** Prepare object for SUT constructor. */
         $xmlGenerator = new \Magento\Xml\Generator();
         /** Initialize SUT. */
-        $this->_restXmlRenderer = new Magento_Webapi_Controller_Rest_Response_Renderer_Xml($xmlGenerator);
+        $this->_restXmlRenderer = new \Magento\Webapi\Controller\Rest\Response\Renderer\Xml($xmlGenerator);
         parent::setUp();
     }
 

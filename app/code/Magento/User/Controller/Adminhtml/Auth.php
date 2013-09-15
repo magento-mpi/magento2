@@ -115,7 +115,7 @@ class Auth extends \Magento\Backend\Controller\ActionAbstract
                 __('Your password reset link has expired.')
             );
             $this->getResponse()->setRedirect(
-                $this->_objectManager->get('Magento_Backend_Helper_Data')->getHomePageUrl()
+                $this->_objectManager->get('Magento\Backend\Helper\Data')->getHomePageUrl()
             );
             $this->getResponse()->setRedirect(\Mage::helper('Magento\Backend\Helper\Data')->getHomePageUrl());
             return;
@@ -138,7 +138,7 @@ class Auth extends \Magento\Backend\Controller\ActionAbstract
                 __('Your password has been updated.')
             );
             $this->getResponse()->setRedirect(
-                $this->_objectManager->get('Magento_Backend_Helper_Data')->getHomePageUrl()
+                $this->_objectManager->get('Magento\Backend\Helper\Data')->getHomePageUrl()
             );
         } catch (\Magento\Core\Exception $exception) {
             $this->_getSession()->addMessages($exception->getMessages());

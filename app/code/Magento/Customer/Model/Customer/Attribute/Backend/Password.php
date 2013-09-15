@@ -24,15 +24,15 @@ class Password extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
+     * @param \Magento\Core\Helper\String $coreString
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString
+        \Magento\Core\Helper\String $coreString
     ) {
         $this->_coreString = $coreString;
     }
@@ -47,7 +47,7 @@ class Password extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
     public function beforeSave($object)
     {
         $password = $object->getPassword();
-        /** @var Magento_Core_Helper_String $stringHelper */
+        /** @var \Magento\Core\Helper\String $stringHelper */
         $stringHelper = $this->_coreString;
 
         $length = $stringHelper->strlen($password);

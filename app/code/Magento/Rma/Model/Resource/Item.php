@@ -42,7 +42,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Rma data
      *
-     * @var Magento_Rma_Helper_Data
+     * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaData = null;
 
@@ -51,11 +51,11 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      *
      *
      *
-     * @param Magento_Rma_Helper_Data $rmaData
+     * @param \Magento\Rma\Helper\Data $rmaData
      * @param  $data
      */
     public function __construct(
-        Magento_Rma_Helper_Data $rmaData,
+        \Magento\Rma\Helper\Data $rmaData,
         $data = array()
     ) {
         $this->_rmaData = $rmaData;

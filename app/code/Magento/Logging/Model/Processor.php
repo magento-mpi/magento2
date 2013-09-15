@@ -14,7 +14,7 @@ class Processor
     /**
      * Logging events config
      *
-     * @var Magento_Logging_Model_Config
+     * @var \Magento\Logging\Model\Config
      */
     protected $_config;
 
@@ -89,47 +89,47 @@ class Processor
      */
     protected $_additionalData = array();
 
-    /** @var  Magento_Backend_Model_Auth_Session */
+    /** @var  \Magento\Backend\Model\Auth\Session */
     protected $_authSession;
 
-    /** @var  Magento_Backend_Model_Session */
+    /** @var  \Magento\Backend\Model\Session */
     protected $_backendSession;
 
-    /** @var  Magento_ObjectManager */
+    /** @var  \Magento\ObjectManager */
     protected $_objectManager;
 
-    /** @var  Magento_Core_Model_App */
+    /** @var  \Magento\Core\Model\App */
     protected $_coreApp;
 
-    /** @var  Magento_Core_Helper_Http */
+    /** @var  \Magento\Core\Helper\Http */
     protected $_httpHelper;
 
-    /** @var  Magento_Core_Model_Logger */
+    /** @var  \Magento\Core\Model\Logger */
     protected $_logger;
 
     /**
      * Constructor: initialize configuration model, controller and model handler
      *
-     * @param Magento_Logging_Model_Config $config
-     * @param Magento_Logging_Model_Handler_Models $modelsHandler
-     * @param Magento_Logging_Model_Handler_Controllers $controllersHandler
-     * @param Magento_Backend_Model_Auth_Session $authSession
-     * @param Magento_Backend_Model_Session $backendSession
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_App $coreApp
-     * @param Magento_Core_Helper_Http $httpHelper
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Logging\Model\Config $config
+     * @param \Magento\Logging\Model\Handler\Models $modelsHandler
+     * @param \Magento\Logging\Model\Handler\Controllers $controllersHandler
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Backend\Model\Session $backendSession
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Model\App $coreApp
+     * @param \Magento\Core\Helper\Http $httpHelper
+     * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
-        Magento_Logging_Model_Config $config,
-        Magento_Logging_Model_Handler_Models $modelsHandler,
-        Magento_Logging_Model_Handler_Controllers $controllersHandler,
-        Magento_Backend_Model_Auth_Session $authSession,
-        Magento_Backend_Model_Session $backendSession,
-        Magento_ObjectManager $objectManager,
-        Magento_Core_Model_App $coreApp,
-        Magento_Core_Helper_Http $httpHelper,
-        Magento_Core_Model_Logger $logger
+        \Magento\Logging\Model\Config $config,
+        \Magento\Logging\Model\Handler\Models $modelsHandler,
+        \Magento\Logging\Model\Handler\Controllers $controllersHandler,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Backend\Model\Session $backendSession,
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Model\App $coreApp,
+        \Magento\Core\Helper\Http $httpHelper,
+        \Magento\Core\Model\Logger $logger
     ) {
         $this->_config = $config;
         $this->_modelsHandler = $modelsHandler;
@@ -148,7 +148,7 @@ class Processor
      *
      * @param string $fullActionName Full action name like 'adminhtml_catalog_product_edit'
      * @param string $actionName Action name like 'save', 'edit' etc.
-     * @return Magento_Logging_Model_Processor
+     * @return \Magento\Logging\Model\Processor
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
@@ -207,7 +207,7 @@ class Processor
      *
      * @param object $model
      * @param string $action
-     * @return Magento_Logging_Model_Processor|false
+     * @return \Magento\Logging\Model\Processor|false
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
@@ -299,7 +299,7 @@ class Processor
     /**
      * Postdispatch action handler
      *
-     * @return Magento_Logging_Model_Processor|false
+     * @return \Magento\Logging\Model\Processor|false
      */
     public function logAction()
     {
@@ -342,7 +342,7 @@ class Processor
     /**
      * Initialize logging event
      *
-     * @return Magento_Logging_Model_Event
+     * @return \Magento\Logging\Model\Event
      */
     private function _initLoggingEvent()
     {
@@ -353,7 +353,7 @@ class Processor
             $username = $this->_authSession->getUser()->getUsername();
         }
         $errors = $this->_backendSession->getMessages()->getErrors();
-        /** @var Magento_Logging_Model_Event $loggingEvent */
+        /** @var \Magento\Logging\Model\Event $loggingEvent */
         $loggingEvent = $this->_objectManager->create('Magento\Logging\Model\Event');
         $loggingEvent->setData(array(
             'ip'            => $this->_httpHelper->getRemoteAddr(),
@@ -368,8 +368,8 @@ class Processor
     }
 
     /**
-     * @param Magento_Logging_Model_Event$loggingEvent
-     * @return Magento_Logging_Model_Processor|false
+     * @param \Magento\Logging\Model\Event$loggingEvent
+     * @return \Magento\Logging\Model\Processor|false
      */
     private function _callPostdispatchCallback($loggingEvent)
     {
@@ -386,7 +386,7 @@ class Processor
             }
             if (!$handler || !$callback || !method_exists($handler, $callback)) {
                 $this->_logger->logException(
-                    new Magento_Core_Exception(sprintf("Unknown callback function: %s::%s", $handler, $callback)));
+                    new \Magento\Core\Exception(sprintf("Unknown callback function: %s::%s", $handler, $callback)));
             }
         }
 
@@ -403,8 +403,8 @@ class Processor
     /**
      * Save event changes
      *
-     * @param Magento_Logging_Model_Event $loggingEvent
-     * @return Magento_Logging_Model_Processor|false
+     * @param \Magento\Logging\Model\Event $loggingEvent
+     * @return \Magento\Logging\Model\Processor|false
      */
     private function _saveEventChanges($loggingEvent)
     {
@@ -423,7 +423,7 @@ class Processor
     /**
      * Log "denied" action
      *
-     * @return Magento_Logging_Model_Processor|false
+     * @return \Magento\Logging\Model\Processor|false
      */
     public function logDeniedAction()
     {

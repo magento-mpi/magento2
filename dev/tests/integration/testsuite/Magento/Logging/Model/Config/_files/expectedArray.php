@@ -41,7 +41,7 @@ return array(
                     'action' => 'view',
                     'expected_models'=>
                     array(
-                        'Magento_Sales_Model_Quote'=>
+                        'Magento\Sales\Model\Quote'=>
                         array(
                         )
                     )
@@ -53,7 +53,7 @@ return array(
                     'post_dispatch' => 'postDispatchAdminCheckoutApplyCoupon',
                     'expected_models'=>
                     array(
-                        'Magento_Sales_Model_Quote'=>
+                        'Magento\Sales\Model\Quote'=>
                         array(
                         )
                     )
@@ -70,7 +70,7 @@ return array(
                     ),
                     'expected_models'=>
                     array(
-                        'Magento_Sales_Model_Quote_Item'=>
+                        'Magento\Sales\Model\Quote\Item'=>
                         array(
                         )
                     )
@@ -82,7 +82,7 @@ return array(
                     'add_to_cart',
                     'expected_models'=>
                     array(
-                        'Magento_Sales_Model_Quote_Item'=>
+                        'Magento\Sales\Model\Quote\Item'=>
                         array(
                             'additional_data'=>
                             array(
@@ -131,7 +131,7 @@ return array(
             'Customers',
             'expected_models'=>
             array(
-                'Magento_Customer_Model_Customer'=>
+                'Magento\Customer\Model\Customer'=>
                 array(
                     'skip_data'=>
                     array(

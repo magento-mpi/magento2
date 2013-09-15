@@ -24,22 +24,22 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
     /**
      * Bundle catalog product configuration
      *
-     * @var Magento_Bundle_Helper_Catalog_Product_Configuration
+     * @var \Magento\Bundle\Helper\Catalog\Product\Configuration
      */
     protected $_bundleProdConfigur = null;
 
     /**
-     * @param Magento_Bundle_Helper_Catalog_Product_Configuration $bundleProdConfigur
-     * @param Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Bundle\Helper\Catalog\Product\Configuration $bundleProdConfigur
+     * @param \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Bundle_Helper_Catalog_Product_Configuration $bundleProdConfigur,
-        Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Bundle\Helper\Catalog\Product\Configuration $bundleProdConfigur,
+        \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_bundleProdConfigur = $bundleProdConfigur;

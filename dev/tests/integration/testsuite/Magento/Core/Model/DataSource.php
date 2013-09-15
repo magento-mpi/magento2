@@ -12,7 +12,7 @@
 /**
  * Dummy layout argument data source object
  */
-class Magento_Core_Model_DataSource extends Magento_Data_Collection
+class Magento_Core_Model_DataSource extends \Magento\Data\Collection
 {
     /**
      * Property which stores all updater calls

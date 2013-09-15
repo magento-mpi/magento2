@@ -10,7 +10,9 @@ use Zend\Soap\Wsdl\ComplexTypeStrategy\AbstractComplexTypeStrategy,
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_AnyComplexType extends AbstractComplexTypeStrategy
+namespace Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy;
+
+class AnyComplexType extends AbstractComplexTypeStrategy
 {
     /**
      * Inject XSD describing service method input/output directly into WSDL.

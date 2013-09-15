@@ -29,7 +29,7 @@
                 </parameters>
             </Node2>
             <customStoreManagerProxy>
-                <type>Magento_Core_Model_StoreManager_Proxy</type>
+                <type>\Magento\Core\Model\StoreManager\Proxy</type>
             </customStoreManagerProxy>
             <customLayoutFactory>
                 <type>Magento\Core\Model\Layout\Factory</type>

@@ -53,7 +53,7 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
     {
         parent::_prepareLayout();
         if ($this->_catalogData->isModuleEnabled('Magento_Cms')
-            && Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->isEnabled()
+            && \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->isEnabled()
         ) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }

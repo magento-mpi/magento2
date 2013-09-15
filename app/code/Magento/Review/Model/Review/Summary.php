@@ -18,14 +18,14 @@ class Summary extends \Magento\Core\Model\AbstractModel
 {
     /**
      * @param \Magento\Core\Model\Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Review\Model\Resource\Review\Summary $resource
      * @param \Magento\Review\Model\Resource\Review\Summary\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Review\Model\Resource\Review\Summary $resource,
         \Magento\Review\Model\Resource\Review\Summary\Collection $resourceCollection,
         array $data = array()

@@ -29,14 +29,14 @@ class Sender
     protected $_store;
 
     /**
-     * @param Magento_Core_Model_Email_Template_Mailer $mailer
-     * @param Magento_Core_Model_Email_Info $info
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Email\Template\Mailer $mailer
+     * @param \Magento\Core\Model\Email\Info $info
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Core_Model_Email_Template_Mailer $mailer,
-        Magento_Core_Model_Email_Info $info,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Core\Model\Email\Template\Mailer $mailer,
+        \Magento\Core\Model\Email\Info $info,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_mailer = $mailer;
         $this->_emailInfo = $info;

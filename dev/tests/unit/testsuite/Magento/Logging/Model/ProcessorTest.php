@@ -11,85 +11,85 @@
  */
 class Magento_Logging_Model_ProcessorTest extends PHPUnit_Framework_TestCase
 {
-    /** @var  Magento_Logging_Model_Processor */
+    /** @var  \Magento\Logging\Model\Processor */
     protected $_model;
 
-    /** @var  Magento_Logging_Model_Config|PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Logging\Model\Config|PHPUnit_Framework_MockObject_MockObject */
     protected $_configMock;
 
-    /** @var  Magento_Logging_Model_Handler_Models|PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Logging\Model\Handler\Models|PHPUnit_Framework_MockObject_MockObject */
     protected $_handlerModelsMock;
 
-    /** @var  Magento_Logging_Model_Handler_Controllers|PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Logging\Model\Handler\Controllers|PHPUnit_Framework_MockObject_MockObject */
     protected $_controllersMock;
 
-    /** @var  Magento_Backend_Model_Auth_Session|PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Backend\Model\Auth\Session|PHPUnit_Framework_MockObject_MockObject */
     protected $_authSessionMock;
 
-    /** @var Magento_Backend_Model_Session|PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \Magento\Backend\Model\Session|PHPUnit_Framework_MockObject_MockObject  */
     protected $_backendSessionMock;
 
-    /** @var  Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManagerMock;
 
-    /** @var  Magento_Core_Model_App|PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Core\Model\App|PHPUnit_Framework_MockObject_MockObject */
     protected $_coreAppMock;
 
-    /** @var  Magento_Core_Helper_Http|PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Core\Helper\Http|PHPUnit_Framework_MockObject_MockObject */
     protected $_httpHelperMock;
 
-    /** @var  Magento_Core_Model_Logger|PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Core\Model\Logger|PHPUnit_Framework_MockObject_MockObject */
     protected $_loggerMock;
 
-    /** @var  Magento_Sales_Model_Quote|PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Sales\Model\Quote|PHPUnit_Framework_MockObject_MockObject */
     protected $_quoteMock;
 
-    /** @var  Magento_Logging_Model_Event_Changes|PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Logging\Model\Event\Changes|PHPUnit_Framework_MockObject_MockObject */
     protected $_changesMock;
 
     public function setUp()
     {
 
-        $this->_configMock = $this->getMockBuilder('Magento_Logging_Model_Config')
+        $this->_configMock = $this->getMockBuilder('Magento\Logging\Model\Config')
             ->setMethods(array('getEventByFullActionName', 'isEventGroupLogged', 'getEventGroupConfig'))
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_handlerModelsMock = $this->getMockBuilder('Magento_Logging_Model_Handler_Models')
+        $this->_handlerModelsMock = $this->getMockBuilder('Magento\Logging\Model\Handler\Models')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_controllersMock = $this->getMockBuilder('Magento_Logging_Model_Handler_Controllers')
+        $this->_controllersMock = $this->getMockBuilder('Magento\Logging\Model\Handler\Controllers')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_authSessionMock = $this->getMockBuilder('Magento_Backend_Model_Auth_Session')
+        $this->_authSessionMock = $this->getMockBuilder('Magento\Backend\Model\Auth\Session')
             ->setMethods(array('getSkipLoggingAction', 'setSkipLoggingAction', 'isLoggedIn'))
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_backendSessionMock = $this->getMockBuilder('Magento_Backend_Model_Session')
+        $this->_backendSessionMock = $this->getMockBuilder('Magento\Backend\Model\Session')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')
+        $this->_objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')
             ->setMethods(array('create', 'get', 'configure'))
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_coreAppMock = $this->getMockBuilder('Magento_Core_Model_App')
+        $this->_coreAppMock = $this->getMockBuilder('Magento\Core\Model\App')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_httpHelperMock = $this->getMockBuilder('Magento_Core_Helper_Http')
+        $this->_httpHelperMock = $this->getMockBuilder('Magento\Core\Helper\Http')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_loggerMock = $this->getMockBuilder('Magento_Core_Model_Logger')
+        $this->_loggerMock = $this->getMockBuilder('Magento\Core\Model\Logger')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_model = new Magento_Logging_Model_Processor(
+        $this->_model = new \Magento\Logging\Model\Processor(
             $this->_configMock,
             $this->_handlerModelsMock,
             $this->_controllersMock,
@@ -132,7 +132,7 @@ class Magento_Logging_Model_ProcessorTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo(array('1' => 'full_controller_action_othername')))
             ->will($this->returnValue(true));
 
-        $this->assertInstanceOf('Magento_Logging_Model_Processor', $this->_model->initAction($fullActionName, 'init'));
+        $this->assertInstanceOf('Magento\Logging\Model\Processor', $this->_model->initAction($fullActionName, 'init'));
         return $this->_model;
     }
 
@@ -170,7 +170,7 @@ class Magento_Logging_Model_ProcessorTest extends PHPUnit_Framework_TestCase
             ->method('setSkipLoggingAction')
             ->with($this->equalTo($skippedAfter))
             ->will($this->returnValue(true));
-        $this->assertInstanceOf('Magento_Logging_Model_Processor', $this->_model->initAction($fullActionName, 'init'));
+        $this->assertInstanceOf('Magento\Logging\Model\Processor', $this->_model->initAction($fullActionName, 'init'));
     }
 
     /**
@@ -178,7 +178,7 @@ class Magento_Logging_Model_ProcessorTest extends PHPUnit_Framework_TestCase
      */
     public function testModelActionAfterSkipNextAction($modelUnderTest)
     {
-        $modelMock = $this->getMockBuilder('Magento_Sales_Model_Quote')
+        $modelMock = $this->getMockBuilder('Magento\Sales\Model\Quote')
             ->disableOriginalConstructor()
             ->getMock();
         $this->assertFalse($modelUnderTest->modelActionAfter($modelMock, 'save'));
@@ -218,17 +218,17 @@ class Magento_Logging_Model_ProcessorTest extends PHPUnit_Framework_TestCase
             ->method('isLoggedIn')
             ->will($this->returnValue(false));
 
-        $messages = new Magento_Object(array('errors' => array()));
+        $messages = new \Magento\Object(array('errors' => array()));
         $this->_backendSessionMock->expects($this->once())
             ->method('getMessages')
             ->will($this->returnValue($messages));
 
-        $request = new Magento_Object(array('server' => array('HTTP_X_FORWARDED_FOR')));
+        $request = new \Magento\Object(array('server' => array('HTTP_X_FORWARDED_FOR')));
         $this->_coreAppMock->expects($this->once())
             ->method('getRequest')
             ->will($this->returnValue($request));
 
-        $loggingMock = $this->getMockBuilder('Magento_Logging_Model_Event')
+        $loggingMock = $this->getMockBuilder('Magento\Logging\Model\Event')
             ->setMethods(array('setAction', 'setEventCode', 'setInfo', 'setIsSuccess', 'save'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -248,7 +248,7 @@ class Magento_Logging_Model_ProcessorTest extends PHPUnit_Framework_TestCase
 
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Magento_Logging_Model_Event'))
+            ->with($this->equalTo('Magento\Logging\Model\Event'))
             ->will($this->returnValue($loggingMock));
 
         $this->_model->initAction($fullActionName, 'denied');
@@ -258,7 +258,7 @@ class Magento_Logging_Model_ProcessorTest extends PHPUnit_Framework_TestCase
     protected function _setUpModelActionAfter()
     {
         $eventGroupNode = array(
-            'expected_models' => array('Magento_Sales_Model_Quote' => array())
+            'expected_models' => array('Magento\Sales\Model\Quote' => array())
         );
 
         $fullActionName = 'full_controller_action_name';
@@ -268,7 +268,7 @@ class Magento_Logging_Model_ProcessorTest extends PHPUnit_Framework_TestCase
             'skip_on_back' => array(
                 'adminhtml_cms_page_version_edit'
             ),
-            'expected_models' => array('Magento_Sales_Model_Quote' => array(
+            'expected_models' => array('Magento\Sales\Model\Quote' => array(
                 'additional_data' => array('item_id', 'quote_id', 'new_password'),
                 'skip_data' => array('new_password', 'password', 'password_hash')
             ))
@@ -288,8 +288,8 @@ class Magento_Logging_Model_ProcessorTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('test_events'))
             ->will($this->returnValue($eventGroupNode));
 
-        /** @var Magento_Sales_Model_Quote|PHPUnit_Framework_MockObject_MockObject $modelMock */
-        $this->_quoteMock = $this->getMockBuilder('Magento_Sales_Model_Quote')
+        /** @var \Magento\Sales\Model\Quote|PHPUnit_Framework_MockObject_MockObject $modelMock */
+        $this->_quoteMock = $this->getMockBuilder('Magento\Sales\Model\Quote')
             ->setMethods(array('getId', 'getDataUsingMethod'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -312,7 +312,7 @@ class Magento_Logging_Model_ProcessorTest extends PHPUnit_Framework_TestCase
             ->method('getId')
             ->will($this->returnValue(1));
 
-        $this->_changesMock = $this->getMockBuilder('Magento_Logging_Model_Event_Changes')
+        $this->_changesMock = $this->getMockBuilder('Magento\Logging\Model\Event\Changes')
             ->setMethods(array('cleanupData', 'hasDifference', 'setSourceName', 'setSourceId', 'save'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -327,7 +327,7 @@ class Magento_Logging_Model_ProcessorTest extends PHPUnit_Framework_TestCase
 
         $this->_changesMock->expects($this->once())
             ->method('setSourceName')
-            ->with($this->equalTo('Magento_Sales_Model_Quote'));
+            ->with($this->equalTo('Magento\Sales\Model\Quote'));
 
         $this->_changesMock->expects($this->once())
             ->method('setSourceId')
@@ -343,17 +343,17 @@ class Magento_Logging_Model_ProcessorTest extends PHPUnit_Framework_TestCase
     {
         $this->_setUpModelActionAfter();
 
-        $messages = new Magento_Object(array('errors' => array()));
+        $messages = new \Magento\Object(array('errors' => array()));
         $this->_backendSessionMock->expects($this->once())
             ->method('getMessages')
             ->will($this->returnValue($messages));
 
-        $request = new Magento_Object(array('server' => array('HTTP_X_FORWARDED_FOR')));
+        $request = new \Magento\Object(array('server' => array('HTTP_X_FORWARDED_FOR')));
         $this->_coreAppMock->expects($this->once())
             ->method('getRequest')
             ->will($this->returnValue($request));
 
-        $loggingMock = $this->getMockBuilder('Magento_Logging_Model_Event')
+        $loggingMock = $this->getMockBuilder('Magento\Logging\Model\Event')
             ->setMethods(array('getId', 'setAction', 'setEventCode', 'setInfo', 'setIsSuccess', 'save',
                     'setAdditionalInfo'))
             ->disableOriginalConstructor()
@@ -374,7 +374,7 @@ class Magento_Logging_Model_ProcessorTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(1));
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Magento_Logging_Model_Event'))
+            ->with($this->equalTo('Magento\Logging\Model\Event'))
             ->will($this->returnValue($loggingMock));
         $this->_controllersMock->expects($this->once())
             ->method('postDispatchGeneric')

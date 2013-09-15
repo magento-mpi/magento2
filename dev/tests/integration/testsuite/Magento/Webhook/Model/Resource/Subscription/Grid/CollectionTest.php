@@ -24,7 +24,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
     /**
      * API Key for user
      */
-    const API_KEY = 'Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest';
+    const API_KEY = 'Magento\Webhook\Model\Resource\Subscription\Grid\CollectionTest';
 
     /** @var int */
     private static $_apiUserId;

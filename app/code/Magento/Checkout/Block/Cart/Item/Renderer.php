@@ -45,20 +45,20 @@ class Renderer extends \Magento\Core\Block\Template
     /**
      * Catalog product configuration
      *
-     * @var Magento_Catalog_Helper_Product_Configuration
+     * @var \Magento\Catalog\Helper\Product\Configuration
      */
     protected $_productConfigur = null;
 
     /**
-     * @param Magento_Catalog_Helper_Product_Configuration $productConfigur
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Catalog\Helper\Product\Configuration $productConfigur
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Helper_Product_Configuration $productConfigur,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Catalog\Helper\Product\Configuration $productConfigur,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_productConfigur = $productConfigur;

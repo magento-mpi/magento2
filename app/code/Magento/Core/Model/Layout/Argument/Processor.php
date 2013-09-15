@@ -52,7 +52,7 @@ class Processor
      * Parse given argument
      *
      * @param \Magento\Core\Model\Layout\Element $argument
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @return array
      */
     public function parse(\Magento\Core\Model\Layout\Element $argument)
@@ -66,7 +66,7 @@ class Processor
      * Process given argument
      *
      * @param array $argument
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @return mixed
      */
     public function process(array $argument)

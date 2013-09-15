@@ -23,9 +23,9 @@ class Json implements
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Core_Helper_Data $helper
+     * @param \Magento\Core\Helper\Data $helper
      */
-    public function __construct(Magento_Core_Helper_Data $helper)
+    public function __construct(\Magento\Core\Helper\Data $helper)
     {
         $this->_helper = $helper;
     }

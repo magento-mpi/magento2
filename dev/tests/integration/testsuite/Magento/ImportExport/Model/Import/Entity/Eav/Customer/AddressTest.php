@@ -132,7 +132,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         // get addressed from fixture
-        $customers = $objectManager->get('Magento_Core_Model_Registry')->registry($this->_fixtureKey);
+        $customers = $objectManager->get('Magento\Core\Model\Registry')->registry($this->_fixtureKey);
         $correctAddresses = array();
         /** @var $customer \Magento\Customer\Model\Customer */
         foreach ($customers as $customer) {

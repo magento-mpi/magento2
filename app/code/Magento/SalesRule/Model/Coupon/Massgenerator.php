@@ -38,24 +38,24 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
     /**
      * Sales rule coupon
      *
-     * @var Magento_SalesRule_Helper_Coupon
+     * @var \Magento\SalesRule\Helper\Coupon
      */
     protected $_salesRuleCoupon = null;
 
     /**
-     * @param Magento_SalesRule_Helper_Coupon $salesRuleCoupon
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\SalesRule\Helper\Coupon $salesRuleCoupon
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_SalesRule_Helper_Coupon $salesRuleCoupon,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\SalesRule\Helper\Coupon $salesRuleCoupon,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_salesRuleCoupon = $salesRuleCoupon;

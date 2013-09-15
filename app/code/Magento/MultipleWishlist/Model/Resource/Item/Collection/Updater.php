@@ -23,15 +23,15 @@ class Updater
     /**
      * Wishlist data
      *
-     * @var Magento_Wishlist_Helper_Data
+     * @var \Magento\Wishlist\Helper\Data
      */
     protected $_wishlistData = null;
 
     /**
-     * @param Magento_Wishlist_Helper_Data $wishlistData
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
      */
     public function __construct(
-        Magento_Wishlist_Helper_Data $wishlistData
+        \Magento\Wishlist\Helper\Data $wishlistData
     ) {
         $this->_wishlistData = $wishlistData;
     }

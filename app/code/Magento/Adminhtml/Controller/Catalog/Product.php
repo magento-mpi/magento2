@@ -34,17 +34,17 @@ class Product extends \Magento\Adminhtml\Controller\Action
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -136,7 +136,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
 
         $this->_coreRegistry->register('product', $product);
         $this->_coreRegistry->register('current_product', $product);
-        Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->setStoreId($this->getRequest()->getParam('store'));
+        \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->setStoreId($this->getRequest()->getParam('store'));
         return $product;
     }
 
@@ -150,7 +150,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
      */
     protected function _createSerializerBlock(
         $inputName,
-        Magento_Adminhtml_Block_Widget_Grid $gridBlock,
+        \Magento\Adminhtml\Block\Widget\Grid $gridBlock,
         $productsArray
     ) {
         return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Ajax\Serializer')
@@ -612,7 +612,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
 //            if (is_array($errors = $product->validate())) {
 //                foreach ($errors as $code => $error) {
 //                    if ($error === true) {
-//                        Mage::throwException(__('Attribute "%1" is invalid.',
+//                        \Mage::throwException(__('Attribute "%1" is invalid.',
 //                           $product->getResource()->getAttribute($code)->getFrontend()->getLabel()));
 //                    }
 //                    else {
@@ -620,7 +620,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
 //                    }
 //                }
 //            }
-        } catch (Magento_Eav_Model_Entity_Attribute_Exception $e) {
+        } catch (\Magento\Eav\Model\Entity\Attribute\Exception $e) {
         catch (\Magento\Eav\Model\Entity\Attribute\Exception $e) {
             $response->setError(true);
             $response->setAttribute($e->getAttributeCode());
@@ -1025,7 +1025,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
             $this->_getSession()->addSuccess(
                 __('A total of %1 record(s) have been updated.', count($productIds))
             );
-        } catch (Magento_Core_Model_Exception $e) {
+        } catch (\Magento\Core\Model\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -1075,7 +1075,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
     {
         $session = \Mage::getSingleton('Magento\Adminhtml\Model\Session');
         if ($session->hasCompositeProductResult()
-            && $session->getCompositeProductResult() instanceof Magento_Object) {
+            && $session->getCompositeProductResult() instanceof \Magento\Object) {
             $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite')
                 ->renderUpdateResult($this, $session->getCompositeProductResult());
             $session->unsCompositeProductResult();

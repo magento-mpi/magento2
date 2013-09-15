@@ -99,45 +99,45 @@ class User
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * User data
      *
-     * @var Magento_User_Helper_Data
+     * @var \Magento\User\Helper\Data
      */
     protected $_userData = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_User_Helper_Data $userData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Sender $sender
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Sender $sender
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\User\Helper\Data $userData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Sender $sender
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Sender $sender
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_User_Helper_Data $userData,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\User\Helper\Data $userData,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Sender $sender,
         \Magento\Core\Model\Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -166,10 +166,10 @@ class User
     public function __wakeup()
     {
         parent::__wakeup();
-        $this->_eventManager = Mage::getSingleton('Magento_Core_Model_Event_Manager');
-        $this->_sender       = Mage::getSingleton('Magento_Core_Model_Sender');
-        $this->_coreData     = Mage::getSingleton('Magento_Core_Helper_Data');
-        $this->_userData     = Mage::getSingleton('Magento_User_Helper_Data');
+        $this->_eventManager = \Mage::getSingleton('Magento\Core\Model\Event\Manager');
+        $this->_sender       = \Mage::getSingleton('Magento\Core\Model\Sender');
+        $this->_coreData     = \Mage::getSingleton('Magento\Core\Helper\Data');
+        $this->_userData     = \Mage::getSingleton('Magento\User\Helper\Data');
     }
 
     /**

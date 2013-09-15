@@ -17,13 +17,13 @@ class Failed extends \Magento\Backend\Block\Template
     protected $_session;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Model_Session $session
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Model\Session $session,
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()

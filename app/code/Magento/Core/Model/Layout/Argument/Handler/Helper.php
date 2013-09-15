@@ -15,17 +15,19 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Layout_Argument_Handler_Helper extends Magento_Core_Model_Layout_Argument_HandlerAbstract
+namespace Magento\Core\Model\Layout\Argument\Handler;
+
+class Helper extends \Magento\Core\Model\Layout\Argument\HandlerAbstract
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -35,7 +37,7 @@ class Magento_Core_Model_Layout_Argument_Handler_Helper extends Magento_Core_Mod
      *
      * @param array $argument
      * @return mixed
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function process(array $argument)
     {
@@ -48,7 +50,7 @@ class Magento_Core_Model_Layout_Argument_Handler_Helper extends Magento_Core_Mod
 
     /**
      * @param array $argument
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _validate(array $argument)
     {
@@ -56,12 +58,12 @@ class Magento_Core_Model_Layout_Argument_Handler_Helper extends Magento_Core_Mod
         $value = $argument['value'];
 
         if (!isset($value['helperClass']) || !isset($value['helperMethod'])) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 'Passed helper has incorrect format. ' . $this->_getArgumentInfo($argument)
             );
         }
         if (!method_exists($value['helperClass'], $value['helperMethod'])) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 'Helper method "' . $value['helperClass'] . '::' . $value['helperMethod'] . '" does not exist.'
                 . ' ' . $this->_getArgumentInfo($argument)
             );
@@ -71,10 +73,10 @@ class Magento_Core_Model_Layout_Argument_Handler_Helper extends Magento_Core_Mod
     /**
      * Retrieve value from argument
      *
-     * @param Magento_Core_Model_Layout_Element $argument
+     * @param \Magento\Core\Model\Layout\Element $argument
      * @return array
      */
-    protected function _getArgumentValue(Magento_Core_Model_Layout_Element $argument)
+    protected function _getArgumentValue(\Magento\Core\Model\Layout\Element $argument)
     {
         $value = array(
             'helperClass' => '',

@@ -49,12 +49,12 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
         $category = new \Magento\Object(array('id' => 5));
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('current_category', $category);
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_category', $category);
         try {
             $this->assertEquals(5, $this->_model->getCategoryId());
-            $objectManager->get('Magento_Core_Model_Registry')->unregister('current_category');
+            $objectManager->get('Magento\Core\Model\Registry')->unregister('current_category');
         } catch (Exception $e) {
-            $objectManager->get('Magento_Core_Model_Registry')->unregister('current_category');
+            $objectManager->get('Magento\Core\Model\Registry')->unregister('current_category');
             throw $e;
         }
     }
@@ -65,15 +65,15 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
 
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')
+        $objectManager->get('Magento\Core\Model\Registry')
             ->register('current_category', new \Magento\Object(array('id' => 3))); // fixture
         try {
             $category = $this->_model->getCategory();
             $this->assertInstanceOf('Magento\Catalog\Model\Category', $category);
             $this->assertEquals(3, $category->getId());
-            $objectManager->get('Magento_Core_Model_Registry')->unregister('current_category');
+            $objectManager->get('Magento\Core\Model\Registry')->unregister('current_category');
         } catch (Exception $e) {
-            $objectManager->get('Magento_Core_Model_Registry')->unregister('current_category');
+            $objectManager->get('Magento\Core\Model\Registry')->unregister('current_category');
             throw $e;
         }
 

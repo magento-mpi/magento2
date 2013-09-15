@@ -112,12 +112,12 @@ class Index extends \Magento\Core\Controller\Front\Action
         if (is_null($this->_customer)) {
             $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer');
 
-            $params = $this->_objectManager->get('Magento_Core_Helper_Data')
+            $params = $this->_objectManager->get('Magento\Core\Helper\Data')
                 ->urlDecode($this->getRequest()->getParam('data'));
             $data   = explode(',', $params);
             $customerId    = abs(intval($data[0]));
             if ($customerId
-                && ($customerId == Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId()) ) {
+                && ($customerId == \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId()) ) {
                 $this->_customer->load($customerId);
             }
         }

@@ -85,15 +85,15 @@ namespace Magento\Core\Model\Input;
 class Filter implements \Zend_Filter_Interface
 {
     /**
-     * @var Magento_Core_Model_Factory_Helper
+     * @var \Magento\Core\Model\Factory\Helper
      */
     protected $_helperFactory;
 
     /**
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
+     * @param \Magento\Core\Model\Factory\Helper $helperFactory
      */
     function __construct(
-        Magento_Core_Model_Factory_Helper $helperFactory
+        \Magento\Core\Model\Factory\Helper $helperFactory
     ) {
         $this->_helperFactory = $helperFactory;
     }

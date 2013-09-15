@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Layout_Argument_Handler_TestObject extends Magento_Data_Collection
+class Magento_Core_Model_Layout_Argument_Handler_TestObject extends \Magento\Data\Collection
 {
     public function testMethod()
     {

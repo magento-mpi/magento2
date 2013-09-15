@@ -24,7 +24,7 @@ class Observer
     /**
      * Gift registry data
      *
-     * @var Magento_GiftRegistry_Helper_Data
+     * @var \Magento\GiftRegistry\Helper\Data
      */
     protected $_giftRegistryData = null;
 
@@ -36,11 +36,11 @@ class Observer
     protected $_design = null;
 
     /**
-     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Core\Model\View\DesignInterface $design
      */
     public function __construct(
-        Magento_GiftRegistry_Helper_Data $giftRegistryData,
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Core\Model\View\DesignInterface $design
     ) {
         $this->_giftRegistryData = $giftRegistryData;

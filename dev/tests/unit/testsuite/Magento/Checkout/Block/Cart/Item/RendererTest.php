@@ -29,7 +29,7 @@ class Magento_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_Te
         );
         $childProduct->expects($this->any())->method('getThumbnail')->will($this->returnValue('/_/_/__green.gif'));
 
-        $helperImage = $this->getMock('Magento_Catalog_Helper_Image',
+        $helperImage = $this->getMock('Magento\Catalog\Helper\Image',
             array('init', 'resize', '__toString'), array(), '', false
         );
         $helperImage->expects($this->any())->method('init')->will($this->returnValue($helperImage));
@@ -37,16 +37,16 @@ class Magento_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_Te
         $helperImage->expects($this->any())->method('__toString')->will($this->returnValue($url));
 
         $helperFactory = $this->getMock(
-            'Magento_Core_Model_Factory_Helper', array('get'), array(), '', false, false
+            'Magento\Core\Model\Factory\Helper', array('get'), array(), '', false, false
         );
         $helperFactory->expects($this->any())
             ->method('get')
-            ->with('Magento_Catalog_Helper_Image', array())
+            ->with('Magento\Catalog\Helper\Image', array())
             ->will($this->returnValue($helperImage));
 
         $arguments = array(
             'statusListFactory' => $this->getMock(
-                'Magento_Sales_Model_Status_ListFactory', array(), array(), '', false
+                'Magento\Sales\Model\Status\ListFactory', array(), array(), '', false
             ),
         );
         $childItem = $objectManagerHelper->getObject('Magento\Sales\Model\Quote\Item', $arguments);

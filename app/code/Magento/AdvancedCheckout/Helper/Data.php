@@ -90,35 +90,35 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
      * Checkout cart
      *
-     * @var Magento_Checkout_Helper_Cart
+     * @var \Magento\Checkout\Helper\Cart
      */
     protected $_checkoutCart = null;
 
     /**
-     * @param Magento_Checkout_Helper_Cart $checkoutCart
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Checkout\Helper\Cart $checkoutCart
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        Magento_Checkout_Helper_Cart $checkoutCart,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Context $context
+        \Magento\Checkout\Helper\Cart $checkoutCart,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Context $context
     ) {
         $this->_checkoutCart = $checkoutCart;
         $this->_taxData = $taxData;
@@ -328,7 +328,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                         if ($this->_catalogData->canApplyMsrp($itemProduct)) {
                             $quoteItem->setCanApplyMsrp(true);
                             $itemProduct->setRealPriceHtml(
-                                Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
+                                \Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
                                     $this->_taxData->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
                                 ))
                             );

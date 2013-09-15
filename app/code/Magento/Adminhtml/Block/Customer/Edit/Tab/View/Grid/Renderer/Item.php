@@ -23,18 +23,18 @@ class Item
     /**
      * Catalog product configuration
      *
-     * @var Magento_Catalog_Helper_Product_Configuration
+     * @var \Magento\Catalog\Helper\Product\Configuration
      */
     protected $_productConfig = null;
 
     /**
-     * @param Magento_Catalog_Helper_Product_Configuration $productConfig
-     * @param Magento_Backend_Block_Context $context
+     * @param \Magento\Catalog\Helper\Product\Configuration $productConfig
+     * @param \Magento\Backend\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Helper_Product_Configuration $productConfig,
-        Magento_Backend_Block_Context $context,
+        \Magento\Catalog\Helper\Product\Configuration $productConfig,
+        \Magento\Backend\Block\Context $context,
         array $data = array()
     ) {
         $this->_productConfig = $productConfig;

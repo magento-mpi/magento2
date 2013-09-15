@@ -23,7 +23,7 @@ class Observer extends \Magento\Object
     /**
      * Centinel data
      *
-     * @var Magento_Centinel_Helper_Data
+     * @var \Magento\Centinel\Helper\Data
      */
     protected $_centinelData = null;
 
@@ -33,11 +33,11 @@ class Observer extends \Magento\Object
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Centinel_Helper_Data $centinelData
+     * @param \Magento\Centinel\Helper\Data $centinelData
      * @param array $data
      */
     public function __construct(
-        Magento_Centinel_Helper_Data $centinelData,
+        \Magento\Centinel\Helper\Data $centinelData,
         array $data = array()
     ) {
         $this->_centinelData = $centinelData;

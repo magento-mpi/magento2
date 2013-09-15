@@ -168,7 +168,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     /**
      * Total models collector
      *
-     * @var Magento_Sales_Model_Quote_Address_Total_Collector
+     * @var \Magento\Sales\Model\Quote\Address\Total\Collector
      */
     protected $_totalCollector = null;
 
@@ -199,28 +199,28 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Directory_Helper_Data $directoryData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Directory\Helper\Data $directoryData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Directory_Helper_Data $directoryData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Directory\Helper\Data $directoryData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -974,14 +974,14 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     /**
      * Add total data or model
      *
-     * @param Magento_Sales_Model_Quote_Total|array $total
+     * @param \Magento\Sales\Model\Quote\Total|array $total
      * @return \Magento\Sales\Model\Quote\Address
      */
     public function addTotal($total)
     {
         if (is_array($total)) {
             $totalInstance = \Mage::getModel('Magento\Sales\Model\Quote\Address\Total')->setData($total);
-        } elseif ($total instanceof Magento_Sales_Model_Quote_Total) {
+        } elseif ($total instanceof \Magento\Sales\Model\Quote\Total) {
             $totalInstance = $total;
         }
         $totalInstance->setAddress($this);

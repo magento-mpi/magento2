@@ -119,12 +119,12 @@ class Ups
      * Usp constructor
      *
      * @param \Magento\Usa\Model\Simplexml\ElementFactory $simpleXmlElementFactory
-     * @param Magento_Directory_Helper_Data $directoryData
+     * @param \Magento\Directory\Helper\Data $directoryData
      * @param array $data
      */
     public function __construct(
-        Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory,
-        Magento_Directory_Helper_Data $directoryData,
+        \Magento\Usa\Model\Simplexml\ElementFactory $simpleXmlElementFactory,
+        \Magento\Directory\Helper\Data $directoryData,
         array $data = array()
     ) {
         $this->_simpleXmlElementFactory = $simpleXmlElementFactory;

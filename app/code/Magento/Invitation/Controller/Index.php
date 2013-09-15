@@ -33,7 +33,7 @@ class Index extends \Magento\Core\Controller\Front\Action
 
         if (!\Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this)) {
             $this->getResponse()->setRedirect(
-                $this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl()
+                $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl()
             );
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
@@ -71,7 +71,7 @@ class Index extends \Magento\Core\Controller\Front\Action
                             ->addSuccess(__('You sent the invitation for %1.', $email));
                         $sent++;
                     } else {
-                        throw new Exception(''); // not Magento_Core_Exception intentionally
+                        throw new Exception(''); // not \Magento\Core\Exception intentionally
                     }
                     else {
                         throw new \Exception(''); // not \Magento\Core\Exception intentionally

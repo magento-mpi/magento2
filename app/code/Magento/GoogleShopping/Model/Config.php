@@ -27,16 +27,16 @@ class Config extends \Magento\Object
     protected $_config = array();
 
     /**
-     * @var Magento_Core_Helper_Data|null
+     * @var \Magento\Core\Helper\Data|null
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         $this->_coreData = $coreData;

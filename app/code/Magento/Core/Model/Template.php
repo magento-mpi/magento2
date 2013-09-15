@@ -78,13 +78,13 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\Core\Model\View\DesignInterface $design
      * @param \Magento\Core\Model\Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\View\DesignInterface $design,
         \Magento\Core\Model\Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_design = $design;

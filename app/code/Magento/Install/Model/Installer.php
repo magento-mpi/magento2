@@ -57,12 +57,12 @@ class Installer extends \Magento\Object
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\ConfigInterface $config
      * @param \Magento\Core\Model\Db\UpdaterInterface $dbUpdater
      * @param \Magento\Core\Model\CacheInterface $cache
@@ -71,7 +71,7 @@ class Installer extends \Magento\Object
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\ConfigInterface $config,
         \Magento\Core\Model\Db\UpdaterInterface $dbUpdater,
         \Magento\Core\Model\CacheInterface $cache,

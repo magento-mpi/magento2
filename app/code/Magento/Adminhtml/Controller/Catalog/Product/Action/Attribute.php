@@ -55,8 +55,8 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
 
         try {
             if ($attributesData) {
-                $dateFormat = Mage::app()->getLocale()
-                    ->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+                $dateFormat = \Mage::app()->getLocale()
+                    ->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
                 $storeId    = $this->_getHelper()->getSelectedStoreId();
 
                 foreach ($attributesData as $attributeCode => $value) {
@@ -215,7 +215,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
 
         try {
             if ($attributesData) {
-                $dateFormat = Mage::app()->getLocale()
+                $dateFormat = \Mage::app()->getLocale()
                     ->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
                 $storeId    = $this->_getHelper()->getSelectedStoreId();
 

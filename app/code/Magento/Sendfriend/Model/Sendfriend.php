@@ -71,33 +71,33 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
     /**
      * Sendfriend data
      *
-     * @var Magento_Sendfriend_Helper_Data
+     * @var \Magento\Sendfriend\Helper\Data
      */
     protected $_sendfriendData = null;
 
     /**
      * Catalog image
      *
-     * @var Magento_Catalog_Helper_Image
+     * @var \Magento\Catalog\Helper\Image
      */
     protected $_catalogImage = null;
 
     /**
-     * @param Magento_Catalog_Helper_Image $catalogImage
-     * @param Magento_Sendfriend_Helper_Data $sendfriendData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Catalog\Helper\Image $catalogImage
+     * @param \Magento\Sendfriend\Helper\Data $sendfriendData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Helper_Image $catalogImage,
-        Magento_Sendfriend_Helper_Data $sendfriendData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Catalog\Helper\Image $catalogImage,
+        \Magento\Sendfriend\Helper\Data $sendfriendData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogImage = $catalogImage;

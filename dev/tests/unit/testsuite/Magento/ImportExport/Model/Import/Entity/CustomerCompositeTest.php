@@ -27,12 +27,12 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
     protected $_addressAttributes = array('city', 'country', 'street');
 
     /**
-     * @var Magento_Core_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreHelper;
 
     /**
-     * @var Magento_Core_Helper_String|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\String|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_stringHelper;
 
@@ -69,15 +69,15 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
     protected function setUp()
     {
         $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $translator = $this->getMock('Magento_Core_Model_Translate', array('isAllowed'), array(), '', false);
+        $translator = $this->getMock('Magento\Core\Model\Translate', array('isAllowed'), array(), '', false);
         $translator->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(false));
         $data = array(
             'translator' => $translator,
         );
-        $this->_coreHelper = $objectManager->getObject('Magento_Core_Helper_Data', $data);
-        $this->_stringHelper = $this->getMock('Magento_Core_Helper_String', array('__construct'), array(), '', false);
+        $this->_coreHelper = $objectManager->getObject('Magento\Core\Helper\Data', $data);
+        $this->_stringHelper = $this->getMock('Magento\Core\Helper\String', array('__construct'), array(), '', false);
     }
 
     /**
@@ -88,7 +88,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $data = $this->_getModelDependencies();
         $data['customer_entity'] = $this->_getCustomerEntityMock();
         $data['address_entity']  = $this->_getAddressEntityMock();
-        $this->_model = new Magento_ImportExport_Model_Import_Entity_CustomerComposite(
+        $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper, $this->_stringHelper, $data
         );
 
@@ -129,7 +129,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $data['customer_entity']   = $customerEntity;
         $data['address_entity']    = $addressEntity;
         $data['data_source_model'] = $dataSourceMock;
-        $this->_model = new Magento_ImportExport_Model_Import_Entity_CustomerComposite(
+        $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper, $this->_stringHelper, $data
         );
 
@@ -165,7 +165,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $data = $this->_getModelDependencies();
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
-        $this->_model = new Magento_ImportExport_Model_Import_Entity_CustomerComposite(
+        $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper, $this->_stringHelper, $data
         );
 
@@ -324,7 +324,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $data = $this->_getModelDependencies();
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
-        $this->_model = new Magento_ImportExport_Model_Import_Entity_CustomerComposite(
+        $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper, $this->_stringHelper, $data
         );
         $this->_model->setParameters(array('behavior' => $behavior));
@@ -365,7 +365,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $data = $this->_getModelDependencies();
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
-        $this->_model = new Magento_ImportExport_Model_Import_Entity_CustomerComposite(
+        $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper, $this->_stringHelper, $data
         );
 
@@ -516,7 +516,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $data = $this->_getModelDependencies();
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
-        $this->_model = new Magento_ImportExport_Model_Import_Entity_CustomerComposite(
+        $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper, $this->_stringHelper, $data
         );
 
@@ -550,7 +550,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $data = $this->_getModelDependencies();
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
-        $this->_model = new Magento_ImportExport_Model_Import_Entity_CustomerComposite(
+        $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper, $this->_stringHelper, $data
         );
 
@@ -586,7 +586,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $data = $this->_getModelDependencies();
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
-        $this->_model = new Magento_ImportExport_Model_Import_Entity_CustomerComposite(
+        $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper, $this->_stringHelper, $data
         );
 
@@ -769,7 +769,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $data = $this->_getModelDependencies();
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
-        $this->_model = new Magento_ImportExport_Model_Import_Entity_CustomerComposite(
+        $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper, $this->_stringHelper, $data
         );
         return $this->_model;

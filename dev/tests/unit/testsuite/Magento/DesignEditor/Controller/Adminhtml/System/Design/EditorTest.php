@@ -28,8 +28,8 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends
     {
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
 
-        $backendData = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
-        $request = $this->getMockForAbstractClass('Magento_Core_Controller_Request_Http',
+        $backendData = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
+        $request = $this->getMockForAbstractClass('Magento\Core\Controller\Request\Http',
             array($backendData), '', false, false, true, array('setActionName'));
         $request->expects($this->any())->method('setActionName')->will($this->returnSelf());
 

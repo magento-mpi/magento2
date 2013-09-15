@@ -66,19 +66,19 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Pbridge data
      *
-     * @var Magento_Pbridge_Helper_Data
+     * @var \Magento\Pbridge\Helper\Data
      */
     protected $_pbridgeData = null;
 
     /**
-     * @param Magento_Pbridge_Helper_Data $pbridgeData
-     * @param Magento_Payment_Helper_Data $paymentData
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\Payment\Helper\Data $paymentData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Pbridge_Helper_Data $pbridgeData,
-        Magento_Payment_Helper_Data $paymentData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\Payment\Helper\Data $paymentData,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;

@@ -102,16 +102,16 @@ class ColumnSet extends \Magento\Core\Block\Template
     protected $_totals = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory
      * $generatorFactory
-     * @param Magento_Backend_Model_Widget_Grid_SubTotals $subtotals
-     * @param Magento_Backend_Model_Widget_Grid_Totals $totals
+     * @param \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals
+     * @param \Magento\Backend\Model\Widget\Grid\Totals $totals
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory $generatorFactory,
         \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals,

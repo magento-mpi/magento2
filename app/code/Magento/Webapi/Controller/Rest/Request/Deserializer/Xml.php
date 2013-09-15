@@ -7,10 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Webapi\Controller\Request\Rest\Interpreter;
+namespace Magento\Webapi\Controller\Rest\Request\Deserializer;
 
 class Xml implements
-    \Magento\Webapi\Controller\Request\Rest\DeserializerInterface
+    \Magento\Webapi\Controller\Rest\Request\DeserializerInterface
 {
     /** @var \Magento\Xml\Parser */
     protected $_xmlParser;
@@ -25,8 +25,8 @@ class Xml implements
      * @param \Magento\Core\Model\App $app
      */
     public function __construct(
-        Magento_Xml_Parser $xmlParser,
-        Magento_Core_Model_App $app
+        \Magento\Xml\Parser $xmlParser,
+        \Magento\Core\Model\App $app
     ) {
         $this->_xmlParser = $xmlParser;
         $this->_app = $app;

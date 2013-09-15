@@ -43,37 +43,37 @@ class Images extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Adminhtml data
      *
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_backendData = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Backend_Helper_Data $backendData
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Backend_Helper_Data $backendData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context,
-        Magento_Filesystem $filesystem
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Backend\Helper\Data $backendData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Filesystem $filesystem
     ) {
         $this->_eventManager = $eventManager;
         $this->_backendData = $backendData;
@@ -276,7 +276,7 @@ class Images extends \Magento\Core\Helper\AbstractHelper
     /**
      * Storage model singleton
      *
-     * @return Magento_Cms_Model_Page_Wysiwyg_Images_Storage
+     * @return \Magento\Cms\Model\Page_Wysiwyg_Images_Storage
      */
     public function getStorage()
     {

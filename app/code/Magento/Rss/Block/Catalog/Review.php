@@ -22,27 +22,27 @@ class Review extends \Magento\Core\Block\AbstractBlock
     /**
      * Rss data
      *
-     * @var Magento_Rss_Helper_Data
+     * @var \Magento\Rss\Helper\Data
      */
     protected $_rssData = null;
 
     /**
      * Adminhtml data
      *
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_adminhtmlData = null;
 
     /**
-     * @param Magento_Backend_Helper_Data $adminhtmlData
-     * @param Magento_Rss_Helper_Data $rssData
-     * @param Magento_Core_Block_Context $context
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
+     * @param \Magento\Rss\Helper\Data $rssData
+     * @param \Magento\Core\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Helper_Data $adminhtmlData,
-        Magento_Rss_Helper_Data $rssData,
-        Magento_Core_Block_Context $context,
+        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Rss\Helper\Data $rssData,
+        \Magento\Core\Block\Context $context,
         array $data = array()
     ) {
         $this->_adminhtmlData = $adminhtmlData;

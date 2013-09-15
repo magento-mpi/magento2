@@ -26,7 +26,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         parent::_prepareLayout();
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $customerGroup = $this->_coreRegistry->registry('current_group');
@@ -72,9 +72,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             );
         }
 
-        if ( Mage::getSingleton('Magento\Adminhtml\Model\Session')->getCustomerGroupData() ) {
+        if ( \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getCustomerGroupData() ) {
             $form->addValues(Mage::getSingleton('Magento\Adminhtml\Model\Session')->getCustomerGroupData());
-            Mage::getSingleton('Magento\Adminhtml\Model\Session')->setCustomerGroupData(null);
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setCustomerGroupData(null);
         } else {
             $form->addValues($customerGroup->getData());
         }

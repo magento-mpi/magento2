@@ -52,7 +52,7 @@ class Request extends \Magento\Object
     /**
      * Customer address
      *
-     * @var Magento_Customer_Helper_Address
+     * @var \Magento\Customer\Helper\Address
      */
     protected $_customerAddress = null;
 
@@ -62,10 +62,10 @@ class Request extends \Magento\Object
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Customer_Helper_Address $customerAddress
+     * @param \Magento\Customer\Helper\Address $customerAddress
      */
     public function __construct(
-        Magento_Customer_Helper_Address $customerAddress
+        \Magento\Customer\Helper\Address $customerAddress
     ) {
         $this->_customerAddress = $customerAddress;
     }

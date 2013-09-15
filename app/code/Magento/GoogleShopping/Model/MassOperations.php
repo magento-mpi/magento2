@@ -20,23 +20,23 @@ namespace Magento\GoogleShopping\Model;
 class MassOperations
 {
     /**
-     * @var Magento_GoogleShopping_Helper_Data
+     * @var \Magento\GoogleShopping\Helper\Data
      */
     protected $_gleShoppingData = null;
 
     /**
-     * @var Magento_GoogleShopping_Helper_Category|null
+     * @var \Magento\GoogleShopping\Helper\Category|null
      */
     protected $_gleShoppingCategory = null;
 
     /**
-     * @param Magento_GoogleShopping_Helper_Data $gleShoppingData
-     * @param Magento_GoogleShopping_Helper_Category $gleShoppingCategory
+     * @param \Magento\GoogleShopping\Helper\Data $gleShoppingData
+     * @param \Magento\GoogleShopping\Helper\Category $gleShoppingCategory
      * @param array $data
      */
     public function __construct(
-        Magento_GoogleShopping_Helper_Data $gleShoppingData,
-        Magento_GoogleShopping_Helper_Category $gleShoppingCategory,
+        \Magento\GoogleShopping\Helper\Data $gleShoppingData,
+        \Magento\GoogleShopping\Helper\Category $gleShoppingCategory,
         array $data = array()
     ) {
         $this->_gleShoppingData = $gleShoppingData;

@@ -33,7 +33,7 @@ class Magento_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('create'))
             ->getMockForAbstractClass();
 
-        $this->_userService = $this->getMockBuilder('Magento_Webapi_Model_Resource_Acl_User')
+        $this->_userService = $this->getMockBuilder('Magento\Webapi\Model\Resource\Acl\User')
             ->disableOriginalConstructor()
             ->setMethods(array('getIdFieldName', 'getRoleUsers', 'load', 'getReadConnection'))
             ->getMock();
@@ -52,15 +52,15 @@ class Magento_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
     /**
      * Create User model.
      *
-     * @param Magento_Webapi_Model_Resource_Acl_User $userService
-     * @param Magento_Webapi_Model_Resource_Acl_User_Collection $serviceCollection
-     * @return Magento_Webapi_Model_Acl_User
+     * @param \Magento\Webapi\Model\Resource\Acl\User $userService
+     * @param \Magento\Webapi\Model\Resource\Acl\User_Collection $serviceCollection
+     * @return \Magento\Webapi\Model\Acl\User
      */
     protected function _createModel($userService, $serviceCollection = null)
     {
-        return $this->_helper->getObject('Magento_Webapi_Model_Acl_User', array(
-            'eventDispatcher' => $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
-            'cacheManager' => $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false),
+        return $this->_helper->getObject('Magento\Webapi\Model\Acl\User', array(
+            'eventDispatcher' => $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
+            'cacheManager' => $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false),
             'resource' => $userService,
             'resourceCollection' => $serviceCollection
         ));
@@ -128,7 +128,7 @@ class Magento_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCollection()
     {
-        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
         $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
 
         /** @var PHPUnit_Framework_MockObject_MockObject $collection */

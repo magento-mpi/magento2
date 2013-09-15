@@ -39,15 +39,15 @@ class Session
     protected $_aclBuilder;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Acl_Builder $aclBuilder
-     * @param Magento_Core_Helper_Http $coreHttp
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Acl\Builder $aclBuilder
+     * @param \Magento\Core\Helper\Http $coreHttp
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Acl_Builder $aclBuilder,
-        Magento_Core_Helper_Http $coreHttp,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Acl\Builder $aclBuilder,
+        \Magento\Core\Helper\Http $coreHttp,
         array $data = array()
     ) {
         $this->_aclBuilder = $aclBuilder;

@@ -23,33 +23,33 @@ class Observer
     /**
      * Catalog category flat
      *
-     * @var Magento_Catalog_Helper_Category_Flat
+     * @var \Magento\Catalog\Helper\Category\Flat
      */
     protected $_catalogCategoryFlat = null;
 
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
      * Catalog category
      *
-     * @var Magento_Catalog_Helper_Category
+     * @var \Magento\Catalog\Helper\Category
      */
     protected $_catalogCategory = null;
 
     /**
-     * @param Magento_Catalog_Helper_Category $catalogCategory
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat
+     * @param \Magento\Catalog\Helper\Category $catalogCategory
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat
      */
     public function __construct(
-        Magento_Catalog_Helper_Category $catalogCategory,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat
+        \Magento\Catalog\Helper\Category $catalogCategory,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat
     ) {
         $this->_catalogCategory = $catalogCategory;
         $this->_catalogData = $catalogData;
@@ -67,7 +67,7 @@ class Observer
         /** @var $store \Magento\Core\Model\Store */
         $store = $observer->getEvent()->getStore();
         if ($store->dataHasChangedFor('group_id')) {
-            Mage::app()->reinitStores();
+            \Mage::app()->reinitStores();
             /** @var $categoryFlatHelper Magento\Catalog\Helper\Category\Flat */
             $categoryFlatHelper = $this->_catalogCategoryFlat;
             if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
@@ -89,8 +89,8 @@ class Observer
     {
         /* @var $store \Magento\Core\Model\Store */
         $store = $observer->getEvent()->getStore();
-        Mage::app()->reinitStores();
-        Mage::getConfig()->reinit();
+        \Mage::app()->reinitStores();
+        \Mage::getConfig()->reinit();
         /** @var $categoryFlatHelper Magento\Catalog\Helper\Category\Flat */
         $categoryFlatHelper = $this->_catalogCategoryFlat;
         if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {

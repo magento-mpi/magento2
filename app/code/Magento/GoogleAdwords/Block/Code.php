@@ -17,15 +17,15 @@ class Code extends \Magento\Core\Block\Template
     protected $_googleAdwordsData;
 
     /**
-     * @param Magento_GoogleAdwords_Helper_Data $googleAdwordsData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\GoogleAdwords\Helper\Data $googleAdwordsData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_GoogleAdwords_Helper_Data $googleAdwordsData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\GoogleAdwords\Helper\Data $googleAdwordsData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_googleAdwordsData = $googleAdwordsData;

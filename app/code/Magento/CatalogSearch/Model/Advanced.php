@@ -61,16 +61,16 @@ class Advanced extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize dependencies
      *
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_CatalogSearch_Helper_Data $helper
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\CatalogSearch\Helper\Data $helper
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Registry $registry,
         \Magento\CatalogSearch\Helper\Data $helper,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -88,7 +88,7 @@ class Advanced extends \Magento\Core\Model\AbstractModel
      */
     public function getAttributes()
     {
-        /* @var $attributes Magento_Catalog_Model_Resource_Eav_Resource_Product_Attribute_Collection */
+        /* @var $attributes \Magento\Catalog\Model\Resource\Eav\Resource\Product\Attribute\Collection */
         $attributes = $this->getData('attributes');
         if (is_null($attributes)) {
             $product = \Mage::getModel('Magento\Catalog\Model\Product');

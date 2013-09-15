@@ -64,23 +64,23 @@ class Head extends \Magento\Core\Block\Template
     /**
      * Core file storage database
      *
-     * @var Magento_Core_Helper_File_Storage_Database
+     * @var \Magento\Core\Helper\File\Storage\Database
      */
     protected $_fileStorageDatabase = null;
 
     /**
-     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDatabase
-     * @param Magento_Core_Helper_Data $coreData
-     * @param \Magento_Core_Block_Template_Context $context
-     * @param \Magento_ObjectManager $objectManager
+     * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \\Magento\Core\Block\Template\Context $context
+     * @param \\Magento\ObjectManager $objectManager
      * @param \Magento_Core_Model_Page $page
      * @param \Magento_Core_Model_Page_Asset_MergeService $assetMergeService
      * @param \Magento_Core_Model_Page_Asset_MinifyService $assetMinifyService
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_File_Storage_Database $fileStorageDatabase,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\Page $page,

@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_MainTest extends PHPUnit_Fram
         $objectManager->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        $objectManager->get('Magento_Core_Model_Registry')
+        $objectManager->get('Magento\Core\Model\Registry')
             ->register('current_promo_quote_rule', $objectManager->create('Magento\SalesRule\Model\Rule'));
 
         $layout = $objectManager->create('Magento\Core\Model\Layout');

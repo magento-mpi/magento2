@@ -24,15 +24,15 @@ class Msrp extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
-     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param \Magento\Catalog\Helper\Data $catalogData
      */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData
+        \Magento\Catalog\Helper\Data $catalogData
     ) {
         $this->_catalogData = $catalogData;
     }

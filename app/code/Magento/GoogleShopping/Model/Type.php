@@ -27,31 +27,31 @@ class Type extends \Magento\Core\Model\AbstractModel
     protected $_attributesCollection;
 
     /**
-     * @var Magento_GoogleShopping_Helper_Product
+     * @var \Magento\GoogleShopping\Helper\Product
      */
     protected $_gsProduct;
 
     /**
-     * @var Magento_GoogleShopping_Helper_Data
+     * @var \Magento\GoogleShopping\Helper\Data
      */
     protected $_gsData;
 
     /**
-     * @param Magento_GoogleShopping_Helper_Product $gsProduct
-     * @param Magento_GoogleShopping_Helper_Data $gsData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_GoogleShopping_Model_Resource_Type $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\GoogleShopping\Helper\Product $gsProduct
+     * @param \Magento\GoogleShopping\Helper\Data $gsData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\GoogleShopping\Model\Resource\Type $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_GoogleShopping_Helper_Product $gsProduct,
-        Magento_GoogleShopping_Helper_Data $gsData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_GoogleShopping_Model_Resource_Type $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\GoogleShopping\Helper\Product $gsProduct,
+        \Magento\GoogleShopping\Helper\Data $gsData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\GoogleShopping\Model\Resource\Type $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_gsProduct = $gsProduct;

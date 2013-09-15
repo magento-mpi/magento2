@@ -25,14 +25,14 @@ class Data extends \Magento\Core\Block\Template
     protected $_configCacheType;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         array $data = array()
     ) {

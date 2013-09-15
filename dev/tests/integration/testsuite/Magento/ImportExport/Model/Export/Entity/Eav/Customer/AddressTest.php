@@ -78,7 +78,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
 
         // Get addresses
         /** @var $customers \Magento\Customer\Model\Customer[] */
-        $customers = $objectManager->get('Magento_Core_Model_Registry')
+        $customers = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('_fixture/Magento_ImportExport_Customers_Array');
         foreach ($customers as $customer) {
             /** @var $address \Magento\Customer\Model\Address */
@@ -150,7 +150,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
 
         // Get expected address count
         /** @var $customers \Magento\Customer\Model\Customer[] */
-        $customers = $objectManager->get('Magento_Core_Model_Registry')
+        $customers = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('_fixture/Magento_ImportExport_Customers_Array');
         $expectedCount = 0;
         foreach ($customers as $customer) {

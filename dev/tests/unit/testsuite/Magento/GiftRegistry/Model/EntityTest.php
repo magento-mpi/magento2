@@ -29,7 +29,7 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
     protected $_store;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManagerMock;
 
@@ -48,7 +48,7 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
 
         $factory = $this->getMock('Magento\Core\Model\Email\TemplateFactory', array('create'), array(), '', false);
         $this->_store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
-        $this->_storeManagerMock = $this->getMockBuilder('Magento_Core_Model_StoreManagerInterface')
+        $this->_storeManagerMock = $this->getMockBuilder('Magento\Core\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->setMethods(array('getStore'))
             ->getMockForAbstractClass();
@@ -80,8 +80,8 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
         $eventDispatcher = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false, false);
         $cacheManager = $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false, false);
         $context = new \Magento\Core\Model\Context($eventDispatcher, $cacheManager);
-        $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false);
-        $giftRegistryData = $this->getMock('Magento_GiftRegistry_Helper_Data', array('escapeHtml', 'getRegistryLink'),
+        $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false);
+        $giftRegistryData = $this->getMock('Magento\GiftRegistry\Helper\Data', array('escapeHtml', 'getRegistryLink'),
             array(), '', false, false);
         $giftRegistryData->expects($this->any())
             ->method('escapeHtml')
@@ -89,9 +89,9 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
         $giftRegistryData->expects($this->any())
             ->method('getRegistryLink')
             ->will($this->returnArgument(0));
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
-        $this->_model = new Magento_GiftRegistry_Model_Entity(
+        $this->_model = new \Magento\GiftRegistry\Model\Entity(
             $coreData, $giftRegistryData, $context, $coreRegistry, $app, $this->_storeManagerMock, $translate, $factory,
             $resource, null, array()
         );

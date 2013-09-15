@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Service_ResourceNotFoundException extends Magento_Service_Exception
+namespace Magento\Service;
+
+class ResourceNotFoundException extends \Magento\Service\Exception
 {
     /**
      * Create custom message for resource not found exception.

@@ -22,15 +22,15 @@ class Observer
     /**
      * Oauth data
      *
-     * @var Magento_Oauth_Helper_Data
+     * @var \Magento\Oauth\Helper\Data
      */
     protected $_oauthData = null;
 
     /**
-     * @param Magento_Oauth_Helper_Data $oauthData
+     * @param \Magento\Oauth\Helper\Data $oauthData
      */
     public function __construct(
-        Magento_Oauth_Helper_Data $oauthData
+        \Magento\Oauth\Helper\Data $oauthData
     ) {
         $this->_oauthData = $oauthData;
     }

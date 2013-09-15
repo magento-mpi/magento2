@@ -358,7 +358,7 @@ class Magento_TestFramework_Application
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->clearCache();
 
-        $resource = $objectManager->get('Magento_Core_Model_Registry')
+        $resource = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('_singleton/Magento\Core\Model\Resource');
 
         Mage::reset();
@@ -369,7 +369,7 @@ class Magento_TestFramework_Application
         $this->_appArea = null;
 
         if ($resource) {
-            $objectManager->get('Magento_Core_Model_Registry')
+            $objectManager->get('Magento\Core\Model\Registry')
                 ->register('_singleton/Magento\Core\Model\Resource', $resource);
         }
     }

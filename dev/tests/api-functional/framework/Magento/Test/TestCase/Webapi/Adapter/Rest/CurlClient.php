@@ -40,7 +40,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
         }
 
         $curlOpts = array();
-        $curlOpts[CURLOPT_CUSTOMREQUEST] = Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET;
+        $curlOpts[CURLOPT_CUSTOMREQUEST] = \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET;
         $resp = $this->_invokeApi($url, $curlOpts, $headers);
         $respArray = $this->_jsonDecode($resp["body"]);
         return $respArray;
@@ -84,7 +84,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
         $url = $this->_constructResourceUrl($resourcePath);
 
         $curlOpts = array();
-        $curlOpts[CURLOPT_CUSTOMREQUEST] = Magento_Webapi_Model_Rest_Config::HTTP_METHOD_DELETE;
+        $curlOpts[CURLOPT_CUSTOMREQUEST] = \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE;
 
         $resp = $this->_invokeApi($url, $curlOpts, $headers);
         $respArray = $this->_jsonDecode($resp["body"]);
@@ -111,7 +111,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
 
         $curlOpts = array();
         $curlOpts[CURLOPT_CUSTOMREQUEST] = $put
-            ? Magento_Webapi_Model_Rest_Config::HTTP_METHOD_PUT : Magento_Webapi_Model_Rest_Config::HTTP_METHOD_POST;
+            ? \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT : \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST;
         $headers[] = 'Content-Length: ' . strlen($jsonData);
         $curlOpts[CURLOPT_POSTFIELDS] = $jsonData;
 
