@@ -112,6 +112,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             if (!$type) {
                 $type = self::DEFAULT_CAPTCHA_TYPE;
             }
+            else if ($type == 'Default') {
+                $type = $type . 'Model';
+            }
+
             $this->_captcha[$formId] = $this->_factory->create(
                 'Magento\Captcha\Model\\' . $type,
                 array(
