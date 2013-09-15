@@ -107,7 +107,8 @@ class Magento_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetDisabledCacheTypes()
     {
-        $cacheTypesNode = new \Magento\Core\Model\Config\Element('<test>' . self::TEST_DISABLED_CACHE_TYPES . '</test>');
+        $cacheTypesNode = new \Magento\Core\Model\Config\Element(
+            '<test>' . self::TEST_DISABLED_CACHE_TYPES . '</test>');
 
         $configurationMock = $this->getMock('Magento\Core\Model\Config', array('getNode'), array(), '', false);
         $configurationMock->expects($this->once())

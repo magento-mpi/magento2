@@ -69,7 +69,8 @@ abstract class Magento_Core_Model_Resource_Layout_AbstractTestCase extends PHPUn
             ->method('quoteIdentifier')
             ->will($this->returnArgument(0));
 
-        $resource = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb', array(), '', false, true,
+        $resource = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb',
+            array(), '', false, true,
             true, array('getReadConnection', 'getMainTable', 'getTable'));
         $resource->expects($this->any())
             ->method('getReadConnection')
