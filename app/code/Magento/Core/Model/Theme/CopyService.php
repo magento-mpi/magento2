@@ -99,13 +99,15 @@ class CopyService
         foreach ($source->getCustomization()->getFiles() as $themeFile) {
             /** @var $newThemeFile \Magento\Core\Model\Theme\File */
             $newThemeFile = $this->_fileFactory->create();
-            $newThemeFile->setData(array(
-                'theme_id'      => $target->getId(),
-                'file_path'     => $themeFile->getFilePath(),
-                'file_type'     => $themeFile->getFileType(),
-                'content'       => $themeFile->getContent(),
-                'sort_order'    => $themeFile->getData('sort_order'),
-            ));
+            $newThemeFile->setData(
+                array(
+                   'theme_id'      => $target->getId(),
+                   'file_path'     => $themeFile->getFilePath(),
+                   'file_type'     => $themeFile->getFileType(),
+                   'content'       => $themeFile->getContent(),
+                   'sort_order'    => $themeFile->getData('sort_order'),
+                )
+            );
             $newThemeFile->save();
         }
     }
@@ -149,8 +151,10 @@ class CopyService
      * @param \Magento\Core\Model\Theme $source
      * @param \Magento\Core\Model\Theme $target
      */
-    protected function _copyFilesystemCustomization(\Magento\Core\Model\Theme $source, \Magento\Core\Model\Theme $target)
-    {
+    protected function _copyFilesystemCustomization(
+        \Magento\Core\Model\Theme $source,
+        \Magento\Core\Model\Theme $target
+    ) {
         $sourcePath = $this->_customizationPath->getCustomizationPath($source);
         $targetPath = $this->_customizationPath->getCustomizationPath($target);
 

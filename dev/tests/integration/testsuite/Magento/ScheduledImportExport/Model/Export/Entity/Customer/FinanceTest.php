@@ -66,7 +66,8 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
                 \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
                     COLUMN_CUSTOMER_BALANCE
                     => Mage::registry('customer_balance_' . $websiteCode),
-                \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_REWARD_POINTS
+                \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
+                    COLUMN_REWARD_POINTS
                     => Mage::registry('reward_point_balance_' . $websiteCode),
             );
 
@@ -125,7 +126,8 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
      */
     protected function _getRecordByFinanceWebsite(array $records, $website)
     {
-        $financeWebsiteKey = \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_FINANCE_WEBSITE;
+        $financeWebsiteKey = \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::
+            COLUMN_FINANCE_WEBSITE;
         foreach ($records as $record) {
             if ($record[$financeWebsiteKey] == $website) {
                 return $record;

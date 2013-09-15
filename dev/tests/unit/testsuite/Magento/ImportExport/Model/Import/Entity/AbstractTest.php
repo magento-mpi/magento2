@@ -25,7 +25,8 @@ class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Fram
     {
         parent::setUp();
 
-        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\Entity\AbstractEntity', array(),
+        $this->_model = $this->getMockForAbstractClass(
+            'Magento\ImportExport\Model\Import\Entity\AbstractEntity', array(),
             '', false, true, true, array('_saveValidatedBunches')
         );
     }

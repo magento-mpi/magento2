@@ -5,7 +5,7 @@
  * @magentoAppArea adminhtml
  *
  * {license_notice}
- *
+ *x
  * @category    Magento
  * @package     Magento_Webhook
  * @subpackage  integration_tests

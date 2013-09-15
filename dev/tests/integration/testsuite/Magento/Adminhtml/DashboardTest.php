@@ -13,7 +13,8 @@ class Magento_Adminhtml_DashboardTest extends Magento_Backend_Utility_Controller
 {
     public function testTunnelAction()
     {
-        $testUrl = \Magento\Adminhtml\Block\Dashboard\Graph::API_URL . '?cht=p3&chd=t:60,40&chs=250x100&chl=Hello|World';
+        $testUrl = \Magento\Adminhtml\Block\Dashboard\Graph::API_URL .
+            '?cht=p3&chd=t:60,40&chs=250x100&chl=Hello|World';
         $handle = curl_init();
         curl_setopt($handle, CURLOPT_URL, $testUrl);
         curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);

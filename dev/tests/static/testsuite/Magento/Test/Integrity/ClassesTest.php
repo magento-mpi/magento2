@@ -118,7 +118,8 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $xml = simplexml_load_file($path);
 
         $classes = Magento_TestFramework_Utility_Classes::getXmlNodeValues($xml,
-            '/layout//*[contains(text(), "\\\\Block\\\\") or contains(text(), "\\\\Model\\\\") or contains(text(), "\\\\Helper\\\\")]'
+            '/layout//*[contains(text(), "\\\\Block\\\\") or contains(text(),
+                "\\\\Model\\\\") or contains(text(), "\\\\Helper\\\\")]'
         );
         foreach (Magento_TestFramework_Utility_Classes::getXmlAttributeValues($xml,
             '/layout//@helper', 'helper') as $class) {

@@ -27,7 +27,8 @@ class Observer
         $request = $observer->getEvent()->getRequest();
         $request->setPost(
             'related_banners',
-            \Mage::helper('Magento\Adminhtml\Helper\Js')->decodeGridSerializedInput($request->getPost('related_banners'))
+            \Mage::helper('Magento\Adminhtml\Helper\Js')->
+                decodeGridSerializedInput($request->getPost('related_banners'))
         );
         return $this;
     }
@@ -61,7 +62,8 @@ class Observer
         $request = $observer->getEvent()->getRequest();
         $request->setPost(
             'related_banners',
-            \Mage::helper('Magento\Adminhtml\Helper\Js')->decodeGridSerializedInput($request->getPost('related_banners'))
+            \Mage::helper('Magento\Adminhtml\Helper\Js')->
+                decodeGridSerializedInput($request->getPost('related_banners'))
         );
         return $this;
     }

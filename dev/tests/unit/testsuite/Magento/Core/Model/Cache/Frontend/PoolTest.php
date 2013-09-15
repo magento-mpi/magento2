@@ -51,7 +51,8 @@ class Magento_Core_Model_Cache_Frontend_PoolTest extends PHPUnit_Framework_TestC
             'data2' => 'value2',
         );
         // Create model
-        $this->_model = new \Magento\Core\Model\Cache\Frontend\Pool($frontendFactory, $defaultOptions, $advancedOptions);
+        $this->_model = new \Magento\Core\Model\Cache\Frontend\Pool(
+            $frontendFactory, $defaultOptions, $advancedOptions);
     }
 
     /**

@@ -321,7 +321,8 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
         $this->assertEquals(
             \Magento\Catalog\Model\Product\Type\AbstractType::CALCULATE_PARENT, $result['product_calculations']
         );
-        $this->assertEquals(\Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_TOGETHER, $result['shipment_type']);
+        $this->assertEquals(\Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_TOGETHER,
+            $result['shipment_type']);
     }
 
     /**

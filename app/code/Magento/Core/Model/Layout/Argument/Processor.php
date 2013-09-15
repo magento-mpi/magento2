@@ -62,7 +62,10 @@ class Processor
 
             if (!in_array($argumentValue['type'], array('string', 'array', 'helper'))) {
                 if (!isset($value) && $argumentValue['type'] !== 'url') {
-                    throw new \InvalidArgumentException('Argument value is required for type ' . $argumentValue['type']);
+                    throw new \InvalidArgumentException(
+                        'Argument value is required for type ' .
+                        $argumentValue['type']
+                    );
                 }
 
                 $handler = $this->_getArgumentHandler($argumentValue['type']);
@@ -94,8 +97,9 @@ class Processor
         $handler = $this->_handlerFactory->getArgumentHandlerByType($type);
 
         if (false === ($handler instanceof \Magento\Core\Model\Layout\Argument\HandlerInterface)) {
-            throw new \InvalidArgumentException($type
-            . ' type handler should implement \Magento\Core\Model\Layout\Argument\HandlerInterface');
+            throw new \InvalidArgumentException(
+                $type . ' type handler should implement \Magento\Core\Model\Layout\Argument\HandlerInterface'
+            );
         }
 
         $this->_argumentHandlers[$type] = $handler;
