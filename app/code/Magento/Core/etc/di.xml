@@ -25,7 +25,7 @@
     <preference for="Magento_PubSub_Message_DispatcherAsyncInterface" type="Magento_PubSub_Message_DispatcherAsync" />
     <preference for="Magento_Config_ConverterInterface" type="Magento_Config_Converter_Dom"/>
     <preference for="Magento_Phrase_RendererInterface" type="Magento_Phrase_Renderer_Composite" />
-    <preference for="Magento_Core_Model_Url_SecurityInfo" type="Magento_Core_Model_Url_SecurityInfo_Proxy" />
+    <preference for="Magento_Core_Model_Url_SecurityInfoInterface" type="Magento_Core_Model_Url_SecurityInfo_Proxy" />
     <type name="Magento_Data_Structure" shared="false" />
     <type name="Magento_Data_Collection_Db_FetchStrategy_Cache">
         <param name="cache">

@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Url_SecurityInfo
+class Magento_Core_Model_Url_SecurityInfo implements Magento_Core_model_Url_SecurityInfoInterface
 {
     /**
      * Store manager

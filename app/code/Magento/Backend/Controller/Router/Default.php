@@ -51,7 +51,7 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Config_Scope $configScope
      * @param Magento_Core_Model_Route_Config $routeConfig
-     * @param Magento_Core_Model_Url_SecurityInfo $securityInfo
+     * @param Magento_Core_Model_Url_SecurityInfoInterface $securityInfo
      * @param string $areaCode
      * @param string $baseController
      * @param $routerId
@@ -68,7 +68,7 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
         Magento_Core_Model_App $app,
         Magento_Core_Model_Config_Scope $configScope,
         Magento_Core_Model_Route_Config $routeConfig,
-        Magento_Core_Model_Url_SecurityInfo $securityInfo,
+        Magento_Core_Model_Url_SecurityInfoInterface $securityInfo,
         $areaCode,
         $baseController,
         $routerId,

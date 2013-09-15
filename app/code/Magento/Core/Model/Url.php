@@ -104,7 +104,7 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
     /**
      * Url security info list
      *
-     * @var Magento_Core_Model_Url_SecurityInfo
+     * @var Magento_Core_Model_Url_SecurityInfoInterface
      */
     protected $_urlSecurityInfo;
 
@@ -116,12 +116,12 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Model_Url_SecurityInfo $urlSecurityInfo
+     * @param Magento_Core_Model_Url_SecurityInfoInterface $urlSecurityInfo
      * @param Magento_Core_Helper_Data $coreData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Url_SecurityInfo $urlSecurityInfo,
+        Magento_Core_Model_Url_SecurityInfoInterface $urlSecurityInfo,
         Magento_Core_Helper_Data $coreData,
         array $data = array()
     ) {

@@ -35,7 +35,7 @@ class Magento_DesignEditor_Model_Url_NavigationMode extends Magento_Core_Model_U
     protected $_themeId;
 
     public function __construct(
-        Magento_Core_Model_Url_SecurityInfo $securityInfo,
+        Magento_Core_Model_Url_SecurityInfoInterface $securityInfo,
         Magento_DesignEditor_Helper_Data $helper,
         Magento_Core_Helper_Data $coreData,
         array $data = array()

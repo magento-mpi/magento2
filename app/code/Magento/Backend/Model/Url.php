@@ -60,7 +60,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
     protected $_menuConfig;
 
     /**
-     * @param Magento_Core_Model_Url_SecurityInfo $securityInfo
+     * @param Magento_Core_Model_Url_SecurityInfoInterface $securityInfo
      * @param Magento_Backend_Helper_Data $backendHelper
      * @param Magento_Core_Helper_Data $coreHelper
      * @param Magento_Core_Model_Session $coreSession
@@ -70,7 +70,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Url_SecurityInfo $securityInfo,
+        Magento_Core_Model_Url_SecurityInfoInterface $securityInfo,
         Magento_Backend_Helper_Data $backendHelper,
         Magento_Core_Helper_Data $coreHelper,
         Magento_Core_Model_Session $coreSession,

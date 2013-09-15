@@ -207,7 +207,7 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
             $app,
             $this->getMock('Magento_Core_Model_Config_Scope', array(), array(), '', false),
             $this->getMock('Magento_Core_Model_Route_Config', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_Url_SecurityInfo', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_Url_SecurityInfoInterface'),
             'frontend',
             'Magento_Core_Controller_Varien_Action',
             'vde'
