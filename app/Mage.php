@@ -574,6 +574,7 @@ final class Mage
     public static function helper($name)
     {
         /* Default helper class for a module */
+        $name = str_replace('_', \Magento\Autoload\IncludePath::NS_SEPARATOR, $name);
         if (strpos($name, '\\Helper\\') === false) {
             $name .= '\\Helper\\Data';
         }
