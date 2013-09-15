@@ -33,9 +33,9 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
      * @var array
      */
     protected $_defaultModules = array(
-        'default'   => 'Magento_Install',
-        'frontend'  => 'Magento_Page',
-        'adminhtml' => 'Magento_Adminhtml',
+        'default'   => 'Magento\Install',
+        'frontend'  => 'Magento\Page',
+        'adminhtml' => 'Magento\Adminhtml',
     );
 
     /**
