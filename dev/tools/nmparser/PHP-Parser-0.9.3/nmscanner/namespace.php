@@ -217,7 +217,8 @@ class namespacer
         "SoapServer",
         "SoapFault",
         "SoapParam",
-        "SoapHeader"
+        "SoapHeader",
+        "StdClass"
     );
     private $gitShell = null;
 
