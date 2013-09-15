@@ -397,7 +397,10 @@ class Config implements \Magento\Core\Model\ConfigInterface
             }
         }
 
-        $name = explode('\\', strtolower($name));
+        $explodeString = (strpos($name, \Magento\Autoload\IncludePath::NS_SEPARATOR) === false) ?
+            '_' :  \Magento\Autoload\IncludePath::NS_SEPARATOR;
+        $name = explode($explodeString, strtolower($name));
+
         $partsNum = count($name);
         $defaultNamespaceFlag = false;
         foreach ($this->_moduleNamespaces as $namespaceName => $namespace) {
