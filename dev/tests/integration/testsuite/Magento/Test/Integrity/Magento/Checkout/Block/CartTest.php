@@ -32,8 +32,8 @@ class Magento_Test_Integrity_Magento_Checkout_Block_CartTest extends PHPUnit_Fra
             $template = array_shift($template);
             $blockNode = $node->xpath('..');
             $blockNode = $blockNode[0];
-            preg_match('/^(.+?_.+?)_/', $blockNode['class'], $matches);
-            $params['module'] = $matches[1];
+            preg_match('/^(.+?\\\\.+?)\\\\/', $blockNode['class'], $matches);
+            $params['module'] = str_replace(\Magento\Autoload\IncludePath::NS_SEPARATOR, '_', $matches[1]);
             $this->assertFileExists(
                 Magento_TestFramework_Helper_Bootstrap::getObjectmanager()->get('Magento\Core\Model\View\FileSystem')
                     ->getFilename($template, $params)
