@@ -11,7 +11,8 @@
 /**
  * Adminhtml block for fieldset of grouped product
  */
-class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends Magento_Catalog_Block_Product_View_Type_Grouped
+class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped
+    extends Magento_Catalog_Block_Product_View_Type_Grouped
 {
     /**
      * Redefine default price block

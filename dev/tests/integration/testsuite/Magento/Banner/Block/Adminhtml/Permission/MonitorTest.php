@@ -15,6 +15,7 @@
 class Magento_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @magentoAppIsolation enabled
      * @param string $blockType
      * @param string $blockName
      * @param string $tabsType
@@ -23,7 +24,7 @@ class Magento_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_Fram
      */
     public function testPrepareLayout($blockType, $blockName, $tabsType, $tabsName)
     {
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         $layout->addBlock($blockType, $blockName);
@@ -44,6 +45,9 @@ class Magento_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_Fram
         $this->assertNotContains('banners_section', $tabs->getTabsIds());
     }
 
+    /**
+     * @return array
+     */
     public function prepareLayoutDataProvider()
     {
         return array(

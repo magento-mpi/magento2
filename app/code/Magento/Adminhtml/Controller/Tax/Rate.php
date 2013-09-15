@@ -112,21 +112,21 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
             $rate = Mage::getModel('Magento_Tax_Model_Calculation_Rate')
                 ->setData($rateData)
                 ->save();
-            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => true,
                 'error_message' => '',
                 'tax_calculation_rate_id' => $rate->getId(),
                 'code' => $rate->getCode(),
             ));
         } catch (Magento_Core_Exception $e) {
-            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => $e->getMessage(),
                 'tax_calculation_rate_id' => '',
                 'code' => '',
             ));
         } catch (Exception $e) {
-            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => __('Something went wrong saving this rate.'),
                 'tax_calculation_rate_id' => '',
@@ -203,15 +203,18 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
                 try {
                     $rateModel->delete();
 
-                    Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('The tax rate has been deleted.'));
+                    Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                        ->addSuccess(__('The tax rate has been deleted.'));
                     $this->getResponse()->setRedirect($this->getUrl("*/*/"));
                     return true;
                 }
                 catch (Magento_Core_Exception $e) {
-                    Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                    Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                        ->addError($e->getMessage());
                 }
                 catch (Exception $e) {
-                    Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('Something went wrong deleting this rate.'));
+                    Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                        ->addError(__('Something went wrong deleting this rate.'));
                 }
                 if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
                     $this->getResponse()->setRedirect($referer);
@@ -220,7 +223,8 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
                     $this->getResponse()->setRedirect($this->getUrl("*/*/"));
                 }
             } else {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('Something went wrong deleting this rate because of an incorrect rate ID.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                    ->addError(__('Something went wrong deleting this rate because of an incorrect rate ID.'));
                 $this->getResponse()->setRedirect($this->getUrl('*/*/'));
             }
         }
@@ -237,17 +241,17 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
         try {
             $rate = Mage::getModel('Magento_Tax_Model_Calculation_Rate')->load($rateId);
             $rate->delete();
-            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => true,
                 'error_message' => ''
             ));
         } catch (Magento_Core_Exception $e) {
-            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => $e->getMessage()
             ));
         } catch (Exception $e) {
-            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => __('An error occurred while deleting this tax rate.')
             ));
@@ -319,14 +323,18 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
                 $importHandler = $this->_objectManager->create('Magento_Tax_Model_Rate_CsvImportHandler');
                 $importHandler->importFromCsvFile($this->getRequest()->getFiles('import_rates_file'));
 
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('The tax rate has been imported.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                    ->addSuccess(__('The tax rate has been imported.'));
             } catch (Magento_Core_Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                    ->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('Invalid file upload attempt'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                    ->addError(__('Invalid file upload attempt'));
             }
         } else {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('Invalid file upload attempt'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                ->addError(__('Invalid file upload attempt'));
         }
         $this->_redirectReferer();
     }
@@ -418,6 +426,5 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
                 return $this->_authorization->isAllowed('Magento_Tax::manage_tax');
                 break;
         }
-
     }
 }

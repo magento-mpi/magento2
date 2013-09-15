@@ -78,4 +78,4 @@
     <event name="magento_customersegment_ids_changed">
         <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="changedCustomerSegmentIds" />
     </event>
-</config>
+</config>

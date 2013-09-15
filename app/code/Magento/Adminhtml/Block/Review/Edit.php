@@ -14,6 +14,13 @@
 class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     /**
+     * Review action pager
+     *
+     * @var Magento_Review_Helper_Action_Pager
+     */
+    protected $_reviewActionPager = null;
+
+    /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -21,17 +28,22 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Review_Helper_Action_Pager $reviewActionPager
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Review_Helper_Action_Pager $reviewActionPager,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        $this->_reviewActionPager = $reviewActionPager;
+        parent::__construct($coreData, $context, $data);
     }
 
     protected function _construct()
@@ -42,7 +54,7 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
         $this->_controller = 'review';
 
         /** @var $actionPager Magento_Review_Helper_Action_Pager */
-        $actionPager = Mage::helper('Magento_Review_Helper_Action_Pager');
+        $actionPager = $this->_reviewActionPager;
         $actionPager->setStorageId('reviews');
 
         $reviewId = $this->getRequest()->getParam('id');

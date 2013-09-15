@@ -23,16 +23,23 @@ class Magento_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('getAccountUrl'))
             ->getMock();
 
+        $helperFactory = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')
+            ->disableOriginalConstructor()
+            ->setMethods(array('get'))
+            ->getMock();
+        $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
+
         $layout = $this->getMockBuilder('Magento_Core_Model_Layout')
             ->disableOriginalConstructor()
             ->setMethods(array('helper'))
             ->getMock();
 
-        $layout->expects($this->once())->method('helper')->will($this->returnValue($helper));
-
         $context = $objectManager->getObject(
             'Magento_Core_Block_Template_Context',
-            array('layout' => $layout)
+            array(
+                'layout' => $layout,
+                'helperFactory' => $helperFactory
+            )
         );
 
         $block = $objectManager->getObject(

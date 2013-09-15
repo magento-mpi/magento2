@@ -31,6 +31,7 @@ abstract class Magento_GoogleOptimizer_Block_Adminhtml_TabAbstract
     protected $_formHelper;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_GoogleOptimizer_Helper_Data $helperData
      * @param Magento_Core_Model_Registry $registry
@@ -40,6 +41,7 @@ abstract class Magento_GoogleOptimizer_Block_Adminhtml_TabAbstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_GoogleOptimizer_Helper_Data $helperData,
         Magento_Core_Model_Registry $registry,
@@ -48,7 +50,7 @@ abstract class Magento_GoogleOptimizer_Block_Adminhtml_TabAbstract
         Magento_Data_Form $form,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
 
         $this->_helperData = $helperData;
         $this->_registry = $registry;

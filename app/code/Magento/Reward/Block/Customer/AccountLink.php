@@ -2,18 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Customer Account empty block (using only just for adding RP link to tab)
- *
- * @category    Enterprise
- * @package     Magento_Reward
- * @author      Magento Core Team <core@magentocommerce.com>
+ * "Reward Points" link
  */
 class Magento_Reward_Block_Customer_AccountLink extends Magento_Page_Block_Link_Current
 {
@@ -25,14 +19,16 @@ class Magento_Reward_Block_Customer_AccountLink extends Magento_Page_Block_Link_
      *
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Reward_Helper_Data $rewardHelper
+     * @param Magento_Core_Helper_Data $coreData
      * @param array $data
      */
     public function __construct(
         Magento_Core_Block_Template_Context $context,
         Magento_Reward_Helper_Data $rewardHelper,
+        Magento_Core_Helper_Data $coreData,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_rewardHelper = $rewardHelper;
     }
 

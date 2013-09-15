@@ -23,38 +23,34 @@ class Magento_Invitation_Model_Observer
      */
     protected $_flagInCustomerRegistration = false;
 
+    /**
+     * Invitation configuration
+     *
+     * @var Magento_Invitation_Model_Config
+     */
     protected $_config;
 
-    public function __construct()
-    {
-        $this->_config = Mage::getSingleton('Magento_Invitation_Model_Config');
-    }
+    /**
+     * Invitation data
+     *
+     * @var Magento_Invitation_Helper_Data
+     */
+    protected $_invitationData = null;
 
     /**
-     * Observe customer registration for invitations
-     *
-     * @return void
+     * @param Magento_Invitation_Helper_Data $invitationData
      */
-    public function restrictCustomerRegistration(Magento_Event_Observer $observer)
-    {
-        if (!$this->_config->isEnabledOnFront()) {
-            return;
-        }
-
-        $result = $observer->getEvent()->getResult();
-
-        if (!$result->getIsAllowed()) {
-            Mage::helper('Magento_Invitation_Helper_Data')->isRegistrationAllowed(false);
-        } else {
-            Mage::helper('Magento_Invitation_Helper_Data')->isRegistrationAllowed(true);
-            $result->setIsAllowed(!$this->_config->getInvitationRequired());
-        }
+    public function __construct(
+        Magento_Invitation_Helper_Data $invitationData
+    ) {
+        $this->_invitationData = $invitationData;
+        $this->_config = Mage::getSingleton('Magento_Invitation_Model_Config');
     }
 
     /**
      * Handler for invitation mass update
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event
      */

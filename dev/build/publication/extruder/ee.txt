@@ -70,12 +70,15 @@ dev/tests/integration/testsuite/Magento/GiftRegistry
 app/code/Magento/GiftWrapping
 dev/tests/integration/testsuite/Magento/GiftWrapping
 app/code/Magento/Invitation
+dev/tests/unit/testsuite/Magento/Invitation
 dev/tests/integration/testsuite/Magento/Invitation
 dev/tests/static/testsuite/Magento/Test/Legacy/Magento/Invitation
 dev/tests/unit/testsuite/Magento/Invitation
 app/code/Magento/License
 app/code/Magento/Logging
 dev/tests/integration/testsuite/Magento/Logging
+dev/tests/unit/testsuite/Magento/Logging
+dev/tests/static/testsuite/Magento/Test/Integrity/Magento/Logging
 app/code/Magento/Pbridge
 dev/tests/unit/testsuite/Magento/Pbridge
 dev/tests/integration/testsuite/Magento/Pbridge
@@ -110,6 +113,7 @@ dev/tests/unit/testsuite/Magento/AdvancedCheckout
 dev/tests/integration/testsuite/Magento/AdvancedCheckout
 app/code/Magento/VersionsCms
 dev/tests/integration/testsuite/Magento/VersionsCms
+dev/tests/unit/testsuite/Magento/VersionsCms
 app/code/Magento/CustomerCustomAttributes
 dev/tests/unit/testsuite/Magento/CustomerCustomAttributes
 dev/tests/integration/testsuite/Magento/CustomerCustomAttributes
@@ -122,3 +126,4 @@ dev/tests/integration/testsuite/Magento/FullPageCache
 app/code/Magento/PersistentHistory
 app/code/Magento/MultipleWishlist
 dev/tests/integration/testsuite/Magento/MultipleWishlist
+dev/tests/unit/testsuite/Magento/WebsiteRestriction

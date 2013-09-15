@@ -60,6 +60,22 @@ class Magento_ProductAlert_Model_Observer
     protected $_errors = array();
 
     /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param Magento_Tax_Helper_Data $taxData
+     */
+    public function __construct(
+        Magento_Tax_Helper_Data $taxData
+    ) {
+        $this->_taxData = $taxData;
+    }
+
+    /**
      * Retrieve website collection array
      *
      * @return array
@@ -124,8 +140,7 @@ class Magento_ProductAlert_Model_Observer
                         $previousCustomer = $customer;
                         $email->clean();
                         $email->setCustomer($customer);
-                    }
-                    else {
+                    } else {
                         $customer = $previousCustomer;
                     }
 
@@ -138,8 +153,8 @@ class Magento_ProductAlert_Model_Observer
                     $product->setCustomerGroupId($customer->getGroupId());
                     if ($alert->getPrice() > $product->getFinalPrice()) {
                         $productPrice = $product->getFinalPrice();
-                        $product->setFinalPrice(Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $productPrice));
-                        $product->setPrice(Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $product->getPrice()));
+                        $product->setFinalPrice($this->_taxData->getPrice($product, $productPrice));
+                        $product->setPrice($this->_taxData->getPrice($product, $product->getPrice()));
                         $email->addPriceProduct($product);
 
                         $alert->setPrice($productPrice);
@@ -214,8 +229,7 @@ class Magento_ProductAlert_Model_Observer
                         $previousCustomer = $customer;
                         $email->clean();
                         $email->setCustomer($customer);
-                    }
-                    else {
+                    } else {
                         $customer = $previousCustomer;
                     }
 

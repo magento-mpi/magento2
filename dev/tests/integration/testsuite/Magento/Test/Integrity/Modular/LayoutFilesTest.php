@@ -12,53 +12,88 @@
 class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ObjectManager
+     * @var Magento_Core_Model_Layout_Argument_HandlerFactory
      */
-    protected $_objectManager;
+    protected $_handlerFactory;
 
-    public function setUp()
+    /**
+     * @var array
+     */
+    protected $_types;
+
+    protected function setUp()
     {
-        $this->_objectManager = Mage::getObjectManager();
+        $objectManager = Mage::getObjectManager();
+        $this->_handlerFactory = $objectManager->get('Magento_Core_Model_Layout_Argument_HandlerFactory');
+        $this->_types = $this->_handlerFactory->getTypes();
     }
 
     /**
-     * @dataProvider validateDataProvider
+     * @dataProvider layoutTypesDataProvider
      */
-    public function testLayouts($layout)
+    public function testLayoutTypes($layout)
     {
-        $modulesReader = $this->_objectManager->get('Magento_Core_Model_Config_Modules_Reader');
-        $domLayout = $this->_objectManager->create('Magento_Config_Dom', array('xml' => file_get_contents($layout)));
-        $result = $domLayout->validate(
-            $modulesReader->getModuleDir('etc', 'Magento_Core') . DIRECTORY_SEPARATOR . 'layouts.xsd', $errors
+        $layout = simplexml_load_file(
+            $layout,
+            'Magento_Core_Model_Layout_Element'
         );
-        $this->assertTrue($result, print_r($errors, true));
+        foreach ($layout->xpath('//*[@xsi:type]') as $argument) {
+            $type = (string)$argument->attributes('xsi', true)->type;
+            if (!in_array($type, $this->_types)) {
+                continue;
+            }
+            try {
+                /* @var $handler Magento_Core_Model_Layout_Argument_HandlerInterface */
+                $handler = $this->_handlerFactory->getArgumentHandlerByType($type);
+                $argument = $handler->parse($argument);
+                if ($this->_isIgnored($argument)) {
+                    continue;
+                }
+                $handler->process($argument);
+            } catch (InvalidArgumentException $e) {
+                $this->fail($e->getMessage());
+            }
+        }
     }
 
     /**
-     * @see self::testValidateLayouts
      * @return array
-     * @throws Exception
      */
-    public function validateDataProvider()
+    public function layoutTypesDataProvider()
     {
-        $patterns = array(
-            Mage::getBaseDir('app') . '/*/*/*/*/*/layout/*.xml',
-            Mage::getBaseDir('app') . '/*/*/*/*/*/layout/*/*.xml',
-            Mage::getBaseDir('app') . '/*/*/*/*/*/layout/*/*/*/*.xml',
-            Mage::getBaseDir('app') . '/*/*/*/*/*/layout/*/*/*/*/*.xml',
-            Mage::getBaseDir('app') . '/*/*/*/*/*/layout/*/*/*/*/*/*.xml'
-        );
-        $layouts = array();
-        foreach ($patterns as $pattern) {
-            $layouts = array_merge($layouts, glob($pattern));
-        }
+        return Magento_TestFramework_Utility_Files::init()->getLayoutFiles();
+    }
 
-        if (empty($layouts)) {
-            throw new Exception("No layouts found");
-        }
+    /**
+     * @param $argument
+     * @return bool
+     */
+    protected function _isIgnored($argument)
+    {
+        return
+            // we can't process updaters without value
+            !isset($argument['value']) && isset($argument['updaters'])
 
-        return array_map(function($layout) {
-            return array($layout);
-        }, $layouts);
+            // ignored objects
+            || isset($argument['value']['object'])
+                && in_array($argument['value']['object'], array(
+                    'Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsCollection',
+                    'Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct',
+                    'Magento_Search_Model_Resource_Search_Grid_Collection',
+                    'Magento_Wishlist_Model_Resource_Item_Collection_Grid',
+                    'Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection',
+                ))
+
+            // ignored helpers
+            || isset($argument['value']['helperClass']) &&
+                in_array($argument['value']['helperClass'] . '::' . $argument['value']['helperMethod'], array(
+                    'Magento_Pbridge_Helper_Data::getReviewButtonTemplate'
+                ))
+
+            // ignored options
+            || isset($argument['value']['model'])
+                && in_array($argument['value']['model'], array(
+                    'Magento_Search_Model_Adminhtml_Search_Grid_Options',
+                ));
     }
 }

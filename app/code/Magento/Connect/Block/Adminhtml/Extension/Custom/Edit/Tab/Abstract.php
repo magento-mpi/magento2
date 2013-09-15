@@ -16,8 +16,8 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Backend_Block_Widget_Form_Generic
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * TODO

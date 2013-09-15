@@ -11,4 +11,4 @@
     <event name="payment_form_block_to_html_before">
         <observer name="centinel" instance="Magento_Centinel_Model_Observer" method="paymentFormBlockToHtmlBefore" shared="false" />
     </event>
-</config>
+</config>

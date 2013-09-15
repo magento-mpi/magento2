@@ -18,12 +18,12 @@ class Magento_Test_Tools_Migration_System_Configuration_LoggerAbstractTest exten
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = $this->getMockForAbstractClass('Magento_Tools_Migration_System_Configuration_LoggerAbstract');
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
     }

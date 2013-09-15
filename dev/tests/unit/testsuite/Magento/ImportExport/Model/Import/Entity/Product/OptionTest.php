@@ -284,7 +284,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
     /**
      * Init entity adapter model
      */
-    public function setUp()
+    protected function setUp()
     {
         $addExpectations = false;
         $deleteBehavior  = false;
@@ -299,15 +299,19 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
             $doubleOptions = true;
         }
 
+        $this->_catalogDataMock = $this->getMock(
+            'Magento_Catalog_Helper_Data', array('__construct'), array(), '', false
+        );
+
         $this->_model = new Magento_ImportExport_Model_Import_Entity_Product_Option(
-            $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
+            $this->_catalogDataMock, $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
         );
     }
 
     /**
      * Unset entity adapter model
      */
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
         unset($this->_productEntity);

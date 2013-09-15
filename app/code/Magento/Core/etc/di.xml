@@ -256,4 +256,25 @@
             </value>
         </param>
     </type>
+    <type name="Magento_Core_Controller_Request_Http">
+        <param name="backendData">
+            <instance type="Magento_Backend_Helper_Data_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Fieldset_Config_Reader">
+        <param name="fileName">
+            <value>fieldset.xml</value>
+        </param>
+        <param name="schemaLocator">
+            <instance type="Magento_Core_Model_Fieldset_Config_SchemaLocator" />
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Fieldset_Config_Data">
+        <param name="reader">
+            <instance type="Magento_Core_Model_Fieldset_Config_Reader" />
+        </param>
+        <param name="cacheId">
+            <value>fieldset_config</value>
+        </param>
+    </type>
 </config>

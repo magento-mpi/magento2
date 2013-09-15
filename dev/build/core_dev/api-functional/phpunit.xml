@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * PHPUnit configuration for Web API functional tests CI build.
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<phpunit bootstrap="./framework/bootstrap.php">
+    <testsuites>
+        <testsuite name="Magento Web API Functional Tests">
+            <directory suffix="Test.php">testsuite</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <includePath>./testsuite</includePath>
+        <ini name="date.timezone" value="America/Los_Angeles"/>
+        <const name="TESTS_WEB_API_ADAPTER" value="{{web_api_adapter}}"/>
+        <const name="TESTS_BASE_URL" value="{{base_url}}"/>
+        <const name="TESTS_LOCAL_CONFIG_FILE" value="{{local_config_file}}"/>
+        <const name="TESTS_GLOBAL_CONFIG_DIR" value="../../../app/etc"/>
+        <const name="TESTS_MODULE_CONFIG_FILES" value="../../../app/etc/*/module.xml;etc/test/module.xml"/>
+        <const name="TESTS_CLEANUP" value="enabled"/>
+        <const name="TESTS_MAGENTO_INSTALLATION" value="enabled"/>
+        <const name="TESTS_MAGENTO_MODE" value="{{app_mode}}"/>
+    </php>
+    <listeners>
+        <listener class="Magento_TestFramework_Event_PhpUnit"/>
+    </listeners>
+</phpunit>

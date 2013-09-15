@@ -52,6 +52,7 @@ class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Reward_Model_Reward $rewardInstance
      * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Helper_Data $coreData
      * @param array $data
      */
     public function __construct(
@@ -60,9 +61,10 @@ class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
         Magento_Customer_Model_Session $customerSession,
         Magento_Reward_Model_Reward $rewardInstance,
         Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Helper_Data $coreData,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_customerSession = $customerSession;
         $this->_rewardHelper = $rewardHelper;
         $this->_rewardInstance = $rewardInstance;

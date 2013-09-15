@@ -93,14 +93,21 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     protected $_config;
 
     /**
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param string $resourceName
+     * @param $resourceName
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_ModuleListInterface $moduleList,
@@ -110,6 +117,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     ) {
         $this->_config = $config;
         $resourcesConfig->setConfig($config);
+        $this->_eventManager = $eventManager;
         $this->_resourceModel = $resource;
         $this->_resourceName = $resourceName;
         $this->_modulesReader = $modulesReader;
@@ -812,5 +820,13 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     public function afterApplyAllUpdates()
     {
         return $this;
+    }
+
+    /**
+     * @return Magento_Core_Model_Event_Manager
+     */
+    public function getEventManager()
+    {
+        return $this->_eventManager;
     }
 }

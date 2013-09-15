@@ -9,7 +9,7 @@
  */
 
 /**
- * Links block
+ * "My Wish Lists" link
  *
  * @category    Magento
  * @package     Magento_MultipleWishlist
@@ -18,13 +18,36 @@
 class Magento_MultipleWishlist_Block_Link extends Magento_Wishlist_Block_Link
 {
     /**
+     * Wishlist data
+     *
+     * @var Magento_MultipleWishlist_Helper_Data
+     */
+    protected $_wishlistData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_MultipleWishlist_Helper_Data $wishlistData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_MultipleWishlist_Helper_Data $wishlistData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_wishlistData = $wishlistData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Count items in wishlist
      *
      * @return int
      */
     protected function _getItemCount()
     {
-        return $this->helper('Magento_MultipleWishlist_Helper_Data')->getItemCount();
+        return $this->_wishlistData->getItemCount();
     }
 
     /**
@@ -35,7 +58,7 @@ class Magento_MultipleWishlist_Block_Link extends Magento_Wishlist_Block_Link
      */
     protected function _createLabel($count)
     {
-        if (Mage::helper('Magento_MultipleWishlist_Helper_Data')->isMultipleEnabled()) {
+        if ($this->_wishlistData->isMultipleEnabled()) {
             if ($count > 1) {
                 return __('My Wish Lists (%1 items)', $count);
             } else if ($count == 1) {

@@ -22,6 +22,22 @@ class Magento_CustomerCustomAttributes_Model_Observer
     const CONVERT_TYPE_CUSTOMER_ADDRESS     = 'customer_address';
 
     /**
+     * Customer data
+     *
+     * @var Magento_CustomerCustomAttributes_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * @param Magento_CustomerCustomAttributes_Helper_Data $customerData
+     */
+    public function __construct(
+        Magento_CustomerCustomAttributes_Helper_Data $customerData
+    ) {
+        $this->_customerData = $customerData;
+    }
+
+    /**
      * After load observer for quote
      *
      * @param Magento_Event_Observer $observer
@@ -447,10 +463,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
 
         if ($source instanceof Magento_Core_Model_Abstract && $target instanceof Magento_Core_Model_Abstract) {
             if ($convertType == self::CONVERT_TYPE_CUSTOMER) {
-                $attributes = Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->getCustomerUserDefinedAttributeCodes();
+                $attributes = $this->_customerData->getCustomerUserDefinedAttributeCodes();
                 $prefix     = 'customer_';
             } else if ($convertType == self::CONVERT_TYPE_CUSTOMER_ADDRESS) {
-                $attributes = Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->getCustomerAddressUserDefinedAttributeCodes();
+                $attributes = $this->_customerData->getCustomerAddressUserDefinedAttributeCodes();
                 $prefix     = '';
             } else {
                 return $this;

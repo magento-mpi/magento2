@@ -11,4 +11,4 @@
     <event name="controller_action_predispatch_contacts_index_post">
         <observer name="captcha_contact_us_form" instance="Magento_Captcha_Model_Observer" method="checkContactUsForm" />
     </event>
-</config>
+</config>

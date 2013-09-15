@@ -11,7 +11,7 @@
 /**
  * Shopping cart price rule chooser
  */
-class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Adminhtml_Block_Widget_Grid
+class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Backend_Block_Widget_Grid_Extended
 {
     /**
      * Block constructor, prepare grid params
@@ -32,7 +32,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Adminhtml_Blo
      */
     public function prepareElementHtml(Magento_Data_Form_Element_Abstract $element)
     {
-        $uniqId = Mage::helper('Magento_Core_Helper_Data')->uniqHash($element->getId());
+        $uniqId = $this->_coreData->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/promo_quote/chooser', array('uniq_id' => $uniqId));
 
         $chooser = $this->getLayout()->createBlock('Magento_Widget_Block_Adminhtml_Widget_Chooser')
@@ -84,7 +84,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Adminhtml_Blo
         $collection = Mage::getModel('Magento_SalesRule_Model_Rule')->getResourceCollection();
         $this->setCollection($collection);
 
-        Mage::dispatchEvent('adminhtml_block_promo_widget_chooser_prepare_collection', array(
+        $this->_eventManager->dispatch('adminhtml_block_promo_widget_chooser_prepare_collection', array(
             'collection' => $collection
         ));
 
@@ -98,7 +98,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Adminhtml_Blo
      */
     protected function _prepareColumns()
     {
-       $this->addColumn('rule_id', array(
+        $this->addColumn('rule_id', array(
             'header'    => __('ID'),
             'align'     => 'right',
             'width'     => '50px',

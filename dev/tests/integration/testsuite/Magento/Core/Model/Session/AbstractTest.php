@@ -16,9 +16,13 @@ class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('Magento_Core_Model_Session_Abstract');
+        $this->_model = $this->getMockForAbstractClass('Magento_Core_Model_Session_Abstract',
+            array(
+                Mage::getObjectManager()->get('Magento_Core_Model_Event_Manager'),
+                Mage::getObjectManager()->get('Magento_Core_Helper_Http'),
+            ));
     }
 
     public function testGetCookie()

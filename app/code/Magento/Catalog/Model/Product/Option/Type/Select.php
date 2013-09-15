@@ -23,6 +23,35 @@ class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_M
     protected $_formattedOptionValue = null;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Helper_Data $coreData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Helper_Data $coreData,
+        array $data = array()
+    ) {
+        $this->_coreString = $coreString;
+        $this->_coreData = $coreData;
+        parent::__construct($data);
+    }
+
+    /**
      * Validate user input for option
      *
      * @throws Magento_Core_Exception
@@ -75,7 +104,7 @@ class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_M
     public function getFormattedOptionValue($optionValue)
     {
         if ($this->_formattedOptionValue === null) {
-            $this->_formattedOptionValue = Mage::helper('Magento_Core_Helper_Data')->escapeHtml(
+            $this->_formattedOptionValue = $this->_coreData->escapeHtml(
                 $this->getEditableOptionValue($optionValue)
             );
         }
@@ -129,7 +158,7 @@ class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_M
                     }
                 }
             }
-            $result = Mage::helper('Magento_Core_Helper_String')->substr($result, 0, -2);
+            $result = $this->_coreString->substr($result, 0, -2);
         } elseif ($this->_isSingleSelection()) {
             if ($_result = $option->getValueById($optionValue)) {
                 $result = $_result->getTitle();

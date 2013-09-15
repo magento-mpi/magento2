@@ -40,19 +40,29 @@ class Magento_Sales_Block_Recurring_Profile_Grid extends Magento_Sales_Block_Rec
      */
     protected $_profiles = null;
 
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Sales_Model_Recurring_Profile $profile
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Helper_Data $coreData
+     * @param array $data
+     */
     public function __construct(
         Magento_Core_Block_Template_Context $context,
         Magento_Sales_Model_Recurring_Profile $profile,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Helper_Data $coreData,
         array $data = array()
     ) {
+        parent::__construct($coreData, $context, $data);
         $this->_recurringProfile = $profile;
         $this->_registry = $registry;
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
-        parent::__construct($context, $data);
     }
 
     /**
@@ -116,14 +126,19 @@ class Magento_Sales_Block_Recurring_Profile_Grid extends Magento_Sales_Block_Rec
 
         $profiles = array();
         $store = $this->_storeManager->getStore();
-        foreach($this->_profiles as $profile) {
+        foreach ($this->_profiles as $profile) {
             $profile->setStore($store)->setLocale($this->_locale);
             $profiles[] = new Magento_Object(array(
                 'reference_id' => $profile->getReferenceId(),
-                'reference_id_link_url' => $this->getUrl('sales/recurring_profile/view/', array('profile' => $profile->getId())),
+                'reference_id_link_url' => $this->getUrl(
+                    'sales/recurring_profile/view/',
+                    array('profile' => $profile->getId())
+                ),
                 'state'       => $profile->renderData('state'),
                 'created_at'  => $this->formatDate($profile->getData('created_at'), 'medium', true),
-                'updated_at'  => $profile->getData('updated_at') ? $this->formatDate($profile->getData('updated_at'), 'short', true) : '',
+                'updated_at'  => $profile->getData('updated_at')
+                    ? $this->formatDate($profile->getData('updated_at'), 'short', true)
+                    : '',
                 'method_code' => $profile->renderData('method_code'),
             ));
         }

@@ -25,18 +25,28 @@ class Magento_Catalog_Helper_Output extends Magento_Core_Helper_Abstract
     protected $_templateProcessor = null;
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Context $context
      */
-    public function __construct(Magento_Core_Helper_Context $context)
-    {
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_catalogData = $catalogData;
         parent::__construct($context);
-        Mage::dispatchEvent('catalog_helper_output_construct', array('helper'=>$this));
     }
 
     protected function _getTemplateProcessor()
     {
         if (null === $this->_templateProcessor) {
-            $this->_templateProcessor = Mage::helper('Magento_Catalog_Helper_Data')->getPageTemplateProcessor();
+            $this->_templateProcessor = $this->_catalogData->getPageTemplateProcessor();
         }
 
         return $this->_templateProcessor;
@@ -115,7 +125,7 @@ class Magento_Catalog_Helper_Output extends Magento_Core_Helper_Abstract
                 }
         }
         if ($attribute->getIsHtmlAllowedOnFront() && $attribute->getIsWysiwygEnabled()) {
-            if (Mage::helper('Magento_Catalog_Helper_Data')->isUrlDirectivesParsingAllowed()) {
+            if ($this->_catalogData->isUrlDirectivesParsingAllowed()) {
                 $attributeHtml = $this->_getTemplateProcessor()->filter($attributeHtml);
             }
         }
@@ -145,7 +155,7 @@ class Magento_Catalog_Helper_Output extends Magento_Core_Helper_Abstract
             $attributeHtml = $this->escapeHtml($attributeHtml);
         }
         if ($attribute->getIsHtmlAllowedOnFront() && $attribute->getIsWysiwygEnabled()) {
-            if (Mage::helper('Magento_Catalog_Helper_Data')->isUrlDirectivesParsingAllowed()) {
+            if ($this->_catalogData->isUrlDirectivesParsingAllowed()) {
                 $attributeHtml = $this->_getTemplateProcessor()->filter($attributeHtml);
             }
         }

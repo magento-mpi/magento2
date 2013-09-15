@@ -19,6 +19,27 @@
 class Magento_Cms_Block_Block extends Magento_Core_Block_Abstract
 {
     /**
+     * Cms data
+     *
+     * @var Magento_Cms_Helper_Data
+     */
+    protected $_cmsData = null;
+
+    /**
+     * @param Magento_Cms_Helper_Data $cmsData
+     * @param Magento_Core_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Cms_Helper_Data $cmsData,
+        Magento_Core_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_cmsData = $cmsData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Prepare Content HTML
      *
      * @return string
@@ -34,7 +55,7 @@ class Magento_Cms_Block_Block extends Magento_Core_Block_Abstract
                 ->load($blockId);
             if ($block->getIsActive()) {
                 /* @var $helper Magento_Cms_Helper_Data */
-                $helper = Mage::helper('Magento_Cms_Helper_Data');
+                $helper = $this->_cmsData;
                 $processor = $helper->getBlockTemplateProcessor();
                 $html = $processor->setStoreId($storeId)
                     ->filter($block->getContent());

@@ -10,12 +10,9 @@
 
 /**
  * Css page block
- *
- * @category   Magento
- * @package    Magento_Page
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Block_Html_Head_Css extends Magento_Core_Block_Abstract implements Magento_Page_Block_Html_Head_AssetBlock
+class Magento_Page_Block_Html_Head_Css extends Magento_Core_Block_Abstract
+    implements Magento_Page_Block_Html_Head_AssetBlock
 {
     /**
      * Contructor

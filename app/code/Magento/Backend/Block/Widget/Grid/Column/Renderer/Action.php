@@ -20,6 +20,27 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Action
 {
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Renders column
      *
      * @param Magento_Object $row
@@ -67,7 +88,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Action
         $actionCaption = '';
         $this->_transformActionData($action, $actionCaption, $row);
 
-        $htmlAttibutes = array('value'=>$this->escapeHtml(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($action)));
+        $htmlAttibutes = array('value'=>$this->escapeHtml($this->_coreData->jsonEncode($action)));
         $actionAttributes->setData($htmlAttibutes);
         return '<option ' . $actionAttributes->serialize() . '>' . $actionCaption . '</option>';
     }

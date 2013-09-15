@@ -5,6 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+ * "My Cart" link
+ */
 class Magento_Checkout_Block_Cart_Link extends Magento_Page_Block_Link
 {
     /**
@@ -13,19 +17,20 @@ class Magento_Checkout_Block_Cart_Link extends Magento_Page_Block_Link
     protected $_moduleManager;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_ModuleManager $moduleManager
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_ModuleManager $moduleManager,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_moduleManager = $moduleManager;
     }
-
 
     /**
      * @return string

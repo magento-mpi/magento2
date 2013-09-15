@@ -40,7 +40,7 @@ class Magento_Backend_Model_Config_Structure_Element_CompositeAbstractTest exten
         )
     );
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_iteratorMock = $this->getMock(
             'Magento_Backend_Model_Config_Structure_Element_Iterator', array(), array(), '', false

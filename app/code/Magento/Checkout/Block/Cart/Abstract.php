@@ -22,10 +22,34 @@ class Magento_Checkout_Block_Cart_Abstract extends Magento_Core_Block_Template
      */
     const DEFAULT_TYPE = 'default';
 
-    protected $_customer;
-    protected $_checkout;
-    protected $_quote;
+    protected $_customer = null;
+    protected $_checkout = null;
+    protected $_quote    = null;
     protected $_totals;
+    protected $_itemRenders = array();
+
+    /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+        $this->_catalogData = $catalogData;
+    }
 
     /**
      * Initialize default item renderer
@@ -141,7 +165,7 @@ class Magento_Checkout_Block_Cart_Abstract extends Magento_Core_Block_Template
      */
     public function canApplyMsrp()
     {
-        if (!$this->getQuote()->hasCanApplyMsrp() && Mage::helper('Magento_Catalog_Helper_Data')->isMsrpEnabled()) {
+        if (!$this->getQuote()->hasCanApplyMsrp() && $this->_catalogData->isMsrpEnabled()) {
             $this->getQuote()->collectTotals();
         }
         return $this->getQuote()->getCanApplyMsrp();

@@ -19,6 +19,7 @@
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
 class Magento_Core_Model_Layout extends Magento_Simplexml_Config
 {
@@ -76,7 +77,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     /**
      * @var Magento_Core_Model_View_DesignInterface
      */
-    private $_design;
+    protected $_design;
 
     /**
      * Layout Update module
@@ -178,6 +179,30 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     protected $_renderers = array();
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Model_Factory_Helper
+     */
+    protected $_factoryHelper = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Factory_Helper $factoryHelper
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Model_BlockFactory $blockFactory
      * @param Magento_Data_Structure $structure
@@ -187,6 +212,9 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * @param string $area
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Factory_Helper $factoryHelper,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Model_BlockFactory $blockFactory,
         Magento_Data_Structure $structure,
@@ -195,6 +223,9 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         Magento_Core_Model_DataService_Graph $dataServiceGraph,
         $area = Magento_Core_Model_View_DesignInterface::DEFAULT_AREA
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_factoryHelper = $factoryHelper;
+        $this->_coreData = $coreData;
         $this->_design = $design;
         $this->_blockFactory = $blockFactory;
         $this->_area = $area;
@@ -440,7 +471,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
                 case self::TYPE_ARGUMENTS:
                     $referenceName = $parent->getAttribute('name');
                     $element = $this->_scheduledStructure->getStructureElement($referenceName, array());
-                    $args = $this->_readArguments($node);
+                    $args = $this->_parseArguments($node);
                     $element['arguments'] = $this->_mergeArguments($element, $args);
 
                     $this->_scheduledStructure->setStructureElement($referenceName, $element);
@@ -503,152 +534,35 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     }
 
     /**
-     * Read arguments node and create prepared array of them
+     * Parse argument nodes and create prepared array of items
      *
      * @param Magento_Core_Model_Layout_Element $node
      * @return array
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function _readArguments(Magento_Core_Model_Layout_Element $node)
+    protected function _parseArguments(Magento_Core_Model_Layout_Element $node)
     {
         $arguments = array();
-
         foreach ($node->xpath('argument') as $argument) {
             /** @var $argument Magento_Core_Model_Layout_Element */
-
-            $name = (string)$argument['name'];
-            $arguments[$name]['type'] = (string)$argument->attributes('xsi', true)->type;
-
-            $updaters = $this->_getArgumentUpdaters($argument);
-
-            if (!empty($updaters)) {
-                $arguments[$name]['updater'] = $updaters;
-            }
-
-            $value = $this->_getArgumentValue($argument);
-            if ($this->_isComplexArgument($argument)) {
-                $value = $this->_fillArgumentsArray($argument);
-
-                if ($arguments[$name]['type'] == 'url') {
-                    $value = array(
-                        'path' => (string)$argument['path'],
-                        'params' => $value
-                    );
-                }
-                if (!empty($value) && is_array($value)) {
-                    $arguments[$name]['value'] = $value;
-                }
-            } else {
-                if ($arguments[$name]['type'] == 'options') {
-                    $value = (string)$argument['model'];
-                }
-
-                if ($arguments[$name]['type'] == 'url') {
-                    $value = array(
-                        'path' => (string)$argument['path'],
-                    );
-                }
-
-                if ($arguments[$name]['type'] == 'string') {
-                    $value = $this->_translateArgument($argument);
-                }
-                if ('' !== $value) {
-                    $arguments[$name]['value'] = $value;
-                }
-            }
+            $argumentName = (string)$argument['name'];
+            $arguments[$argumentName] = $this->_argumentProcessor->parse($argument);
         }
         return $arguments;
     }
 
     /**
-     * Translate argument if needed
+     * Process arguments
      *
-     * @param Magento_Simplexml_Element $argument
-     * @return Magento_Phrase|string
-     */
-    protected function _translateArgument(Magento_Simplexml_Element $argument)
-    {
-        $value = $this->_getArgumentValue($argument);
-        if (isset($argument['translate'])) {
-            $value = __($value);
-        }
-        return $value;
-    }
-
-    /**
-     * Retrieve value from argument
-     *
-     * @param SimpleXMLElement $argument
-     * @return string
-     */
-    protected function _getArgumentValue(SimpleXMLElement $argument)
-    {
-        if (isset($argument->value)) {
-            $value = $argument->value;
-        } else {
-            $value = $argument;
-        }
-        return (string)$value;
-    }
-
-    /**
-     * Fill arguments array
-     *
-     * @param Magento_Core_Model_Layout_Element $node
+     * @param array $arguments
      * @return array
      */
-    protected function _fillArgumentsArray(Magento_Core_Model_Layout_Element $node)
+    protected function _processArguments(array $arguments)
     {
-        $argumentsArray = array();
-        /** @var $childNode Magento_Core_Model_Layout_Element */
-        foreach ($node->children() as $childNode) {
-            $nodeName = (string)$childNode['name'];
-            if (empty($nodeName)) {
-                continue;
-            }
-            if ($this->_isComplexArgument($childNode)) {
-                $argumentsArray[$nodeName] = $this->_fillArgumentsArray($childNode);
-            } else {
-                $argumentsArray[$nodeName] = $this->_translateArgument($childNode);
-            }
+        $result = array();
+        foreach ($arguments as $name => $argument) {
+            $result[$name] = $this->_argumentProcessor->process($argument);
         }
-        return $argumentsArray;
-    }
-
-    /**
-     * @param Magento_Simplexml_Element $argument
-     * @return boolean
-     */
-    protected function _isSimpleArgument($argument)
-    {
-        return ($argument->hasChildren() && isset($argument->value)) || !$argument->hasChildren();
-    }
-
-    /**
-     * @param Magento_Simplexml_Element $argument
-     * @return boolean
-     */
-    protected function _isComplexArgument($argument)
-    {
-        return !$this->_isSimpleArgument($argument);
-    }
-
-    /**
-     * Get argument updaters list
-     *
-     * @param Magento_Core_Model_Layout_Element $argument
-     * @return array
-     */
-    protected function _getArgumentUpdaters(Magento_Core_Model_Layout_Element $argument)
-    {
-        $updaters = array();
-        foreach ($argument->children() as $argumentChild) {
-            /** @var $argumentChild Magento_Core_Model_Layout_Element */
-            if ('updater' == $argumentChild->getName()) {
-                $updaters[uniqid()] = trim((string)$argumentChild);
-            }
-        }
-        return $updaters;
+        return $result;
     }
 
     /**
@@ -882,7 +796,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      */
     protected function _generateBlock($elementName)
     {
-        list($type, $node, $actions, $arguments) = $this->_scheduledStructure->getElement($elementName);
+        list($type, $node, $actions, $args) = $this->_scheduledStructure->getElement($elementName);
         if ($type !== self::TYPE_BLOCK) {
             throw new Magento_Exception("Unexpected element type specified for generating block: {$type}.");
         }
@@ -896,7 +810,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         // create block
         $className = (string)$node['class'];
 
-        $arguments = $this->_argumentProcessor->process($arguments);
+        $arguments = $this->_processArguments($args);
         $dictionary = $this->_dataServiceGraph->getByNamespace((string)$node['name']);
 
         $block = $this->_createBlock($className, $elementName,
@@ -973,7 +887,8 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
 
         $block = $this->getBlock($parentName);
         if (!empty($block)) {
-            $args = $this->_extractArgs($node);
+            $args = $this->_parseArguments($node);
+            $args = $this->_processArguments($args);
             call_user_func_array(array($block, $method), $args);
         }
 
@@ -1142,7 +1057,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             $this->_renderElementCache[$name] = $result;
         }
         $this->_renderingOutput->setData('output', $this->_renderElementCache[$name]);
-        Mage::dispatchEvent('core_layout_render_element', array(
+        $this->_eventManager->dispatch('core_layout_render_element', array(
             'element_name' => $name,
             'layout'       => $this,
             'transport'    => $this->_renderingOutput,
@@ -1219,75 +1134,6 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     public function getGroupChildNames($blockName, $groupName)
     {
         return $this->_structure->getGroupChildNames($blockName, $groupName);
-    }
-
-    /**
-     * Update args according to its type
-     *
-     * @param Magento_Core_Model_Layout_Element $node
-     * @return array
-     */
-    protected function _extractArgs($node)
-    {
-        $arguments = $node->xpath('argument');
-        $result = array();
-
-        foreach ($arguments as $argument) {
-            $matches = array();
-            $key = (string)$argument['name'];
-            if ($node->xpath("*[@name='{$key}' and @translate='true']")) {
-                $result[$key] = __($this->_getArgumentValue($argument));
-            } else if (($argument instanceof Magento_Core_Model_Layout_Element)) {
-                if (isset($argument['helper'])) {
-                    $result[$key] = $this->_getArgsByHelper($argument);
-                } else {
-                    /**
-                     * if there is no helper we hope that this is assoc array
-                     */
-                    $arr = $this->_getArgsFromAssoc($argument);
-                    if (!empty($arr)) {
-                        $result[$key] = $arr;
-                    } else {
-                        $result[$key] = (string)$argument;
-                    }
-                }
-            } else if (preg_match('/\{\{([a-zA-Z\.]*)\}\}/', $argument, $matches)) {
-                $result[$key] = $this->_dataServiceGraph->getArgumentValue($matches[1]);
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Gets arguments using helper method
-     *
-     * @param Magento_Core_Model_Layout_Element $arg
-     * @return mixed
-     */
-    protected function _getArgsByHelper(Magento_Core_Model_Layout_Element $arg)
-    {
-        $helper = (string)$arg['helper'];
-        list($helperName, $helperMethod) = explode('::', $helper);
-        $arg = $this->_getArgsFromAssoc($arg);
-        unset($arg['@']);
-        return call_user_func_array(array(Mage::helper($helperName), $helperMethod), $arg);
-    }
-
-    /**
-     * Converts input array to arguments array
-     *
-     * @param mixed $array
-     * @return array
-     */
-    protected function _getArgsFromAssoc($array)
-    {
-        $arr = array();
-        foreach ($array as $item) {
-            $key = (string)$item['name'];
-            $arr[$key] = $item->children()->count() ? $this->_getArgsFromAssoc($item->children()) : (string)$item;
-        }
-        return $arr;
     }
 
     /**
@@ -1416,7 +1262,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         $block->setLayout($this);
 
         $this->_blocks[$name] = $block;
-        Mage::dispatchEvent('core_layout_block_create_after', array('block' => $block));
+        $this->_eventManager->dispatch('core_layout_block_create_after', array('block' => $block));
         return $this->_blocks[$name];
     }
 
@@ -1631,21 +1477,6 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             }
         }
         return $this->_helpers[$type];
-    }
-
-    /**
-     * Retrieve helper object
-     *
-     * @param   string $name
-     * @return  Magento_Core_Helper_Abstract
-     */
-    public function helper($name)
-    {
-        $helper = Mage::helper($name);
-        if (!$helper) {
-            return false;
-        }
-        return $helper->setLayout($this);
     }
 
     /**

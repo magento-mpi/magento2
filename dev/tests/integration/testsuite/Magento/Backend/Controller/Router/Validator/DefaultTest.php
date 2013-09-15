@@ -28,7 +28,7 @@ class Magento_Backend_Controller_Router_Validator_DefaultTest extends PHPUnit_Fr
         $options = array(
             'areaCode' => Magento_Core_Model_App_Area::AREA_ADMINHTML,
             'baseController' => 'Magento_Backend_Controller_ActionAbstract',
-            'dataHelper' => $dataHelperMock,
+            'backendData' => $dataHelperMock,
         );
         Mage::getModel('Magento_Backend_Controller_Router_Default', $options);
     }

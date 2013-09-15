@@ -23,12 +23,22 @@ class Magento_Logging_Model_Observer
     protected $_processor;
 
     /**
-     * Initialize Magento_Logging_Model_Processor class
+     * Core http
      *
+     * @var Magento_Core_Helper_Http
      */
-    public function __construct()
-    {
-        $this->_processor = Mage::getSingleton('Magento_Logging_Model_Processor');
+    protected $_coreHttp = null;
+
+    /**
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Logging_Model_Processor $processor
+     */
+    public function __construct(
+        Magento_Core_Helper_Http $coreHttp,
+        Magento_Logging_Model_Processor $processor
+    ) {
+        $this->_coreHttp = $coreHttp;
+        $this->_processor = $processor;
     }
 
     /**
@@ -151,7 +161,7 @@ class Magento_Logging_Model_Observer
     protected function _logAdminLogin($username, $userId = null)
     {
         $eventCode = 'admin_login';
-        if (!Mage::getSingleton('Magento_Logging_Model_Config')->isActive($eventCode, true)) {
+        if (!Mage::getSingleton('Magento_Logging_Model_Config')->isEventGroupLogged($eventCode)) {
             return;
         }
         $success = (bool)$userId;
@@ -162,7 +172,7 @@ class Magento_Logging_Model_Observer
         /** @var Magento_Logging_Model_Event $event */
         $event = Mage::getSingleton('Magento_Logging_Model_Event');
         $event->setData(array(
-            'ip'         => Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr(),
+            'ip'         => $this->_coreHttp->getRemoteAddr(),
             'user'       => $username,
             'user_id'    => $userId,
             'is_success' => $success,

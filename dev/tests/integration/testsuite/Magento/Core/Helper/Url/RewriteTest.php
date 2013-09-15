@@ -16,9 +16,10 @@ class Magento_Core_Helper_Url_RewriteTest extends PHPUnit_Framework_TestCase
      */
     protected $_helper;
 
-    public function setUp()
+    protected function setUp()
     {
-        $this->_helper = Mage::helper('Magento_Core_Helper_Url_Rewrite');
+        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Helper_Url_Rewrite');
     }
 
     /**

@@ -1,100 +1,71 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Banner
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
-<widgets>
-    <magento_banner type="Magento_Banner_Block_Widget_Banner" translate="name description">
-        <name>Banner Rotator</name>
-        <description>Displays Specified or Promotion Banners</description>
-        <placeholder_image>Magento_Banner::widget_banner.gif</placeholder_image>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Widget/etc/widget.xsd">
+    <widget id="magento_banner" class="Magento_Banner_Block_Widget_Banner"
+            placeholder_image="Magento_Banner::widget_banner.gif">
+        <label translate="true">Banner Rotator</label>
+        <description translate="true">Displays Specified or Promotion Banners</description>
         <parameters>
-            <display_mode translate="label">
-                <required>1</required>
-                <visible>1</visible>
-                <value>fixed</value>
-                <label>Banners to Display</label>
-                <type>select</type>
-                <values>
-                    <fixed translate="label">
-                        <value>fixed</value>
-                        <label>Specified Banners</label>
-                    </fixed>
-                    <salesrule translate="label">
-                        <value>salesrule</value>
-                        <label>Shopping Cart Promotions Related</label>
-                    </salesrule>
-                    <catalogrule translate="label">
-                        <value>catalogrule</value>
-                        <label>Catalog Promotions Related</label>
-                    </catalogrule>
-                </values>
-            </display_mode>
-            <types translate="label">
-                <visible>1</visible>
-                <label>Restrict by Banner Types</label>
-                <type>multiselect</type>
-                <source_model>Magento_Banner_Model_Config</source_model>
-            </types>
-            <rotate translate="label">
-                <visible>1</visible>
-                <label>Rotation Mode</label>
-                <type>select</type>
-                <values>
-                    <none translate="label">
-                        <value></value>
-                        <label>Display all instead of rotating.</label>
-                    </none>
-                    <random translate="label">
-                        <value>random</value>
-                        <label>One at the time, Random</label>
-                    </random>
-                    <series translate="label">
-                        <value>series</value>
-                        <label>One at the time, Series</label>
-                    </series>
-                    <shuffle translate="label">
-                        <value>shuffle</value>
-                        <label>One at the time, Shuffle</label>
-                    </shuffle>
-                </values>
-            </rotate>
-            <banner_ids translate="label">
-                <visible>1</visible>
-                <label>Specify Banners</label>
-                <type>label</type>
-                <helper_block>
-                    <type>Magento_Banner_Block_Adminhtml_Widget_Chooser</type>
-                </helper_block>
+            <parameter xsi:type="select" name="display_mode" required="true" visible="true">
+                <label translate="true">Banners to Display</label>
+                <options>
+                    <option name="fixed" value="fixed" selected="true">
+                        <label translate="true">Specified Banners</label>
+                    </option>
+                    <option name="salesrule" value="salesrule">
+                        <label translate="true">Shopping Cart Promotions Related</label>
+                    </option>
+                    <option name="catalogrule" value="catalogrule">
+                        <label translate="true">Catalog Promotions Related</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter xsi:type="multiselect" name="types" visible="true" source_model="Magento_Banner_Model_Config">
+                <label translate="true">Restrict by Banner Types</label>
+            </parameter>
+            <parameter xsi:type="select" name="rotate" visible="true">
+                <label translate="true">Rotation Mode</label>
+                <options>
+                    <option name="none" value="" selected="true">
+                        <label translate="true">Display all instead of rotating.</label>
+                    </option>
+                    <option name="random" value="random">
+                        <label translate="true">One at the time, Random</label>
+                    </option>
+                    <option name="series" value="series">
+                        <label translate="true">One at the time, Series</label>
+                    </option>
+                    <option name="shuffle" value="shuffle">
+                        <label translate="true">One at the time, Shuffle</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter xsi:type="block" name="banner_ids" visible="true">
+                <label translate="true">Specify Banners</label>
                 <depends>
-                    <display_mode>
-                        <value>fixed</value>
-                    </display_mode>
+                    <parameter name="display_mode" value="fixed" />
                 </depends>
-            </banner_ids>
-            <template>
-                <required>1</required>
-                <value>widget/block.phtml</value>
-                <values>
-                    <block translate="label">
-                        <value>widget/block.phtml</value>
-                        <label>Banner Block Template</label>
-                    </block>
-                    <inline translate="label">
-                        <value>widget/inline.phtml</value>
-                        <label>Banner Inline Template</label>
-                    </inline>
-                </values>
-            </template>
-            <unique_id>
-                <required>1</required>
-            </unique_id>
+                <block class="Magento_Banner_Block_Adminhtml_Widget_Chooser" />
+            </parameter>
+            <parameter xsi:type="select" name="template" required="true" visible="false">
+                <options>
+                    <option name="block" value="widget/block.phtml" selected="true">
+                        <label translate="true">Banner Block Template</label>
+                    </option>
+                    <option name="inline" value="widget/inline.phtml">
+                        <label translate="true">Banner Inline Template</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter xsi:type="text" name="unique_id" required="true" visible="false" />
         </parameters>
-    </magento_banner>
+    </widget>
 </widgets>

@@ -20,7 +20,7 @@ class Magento_Webhook_Model_Subscription_FactoryTest extends PHPUnit_Framework_T
     /** @var PHPUnit_Framework_MockObject_MockObject */
     private $_mockSubscription;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
             ->disableOriginalConstructor()

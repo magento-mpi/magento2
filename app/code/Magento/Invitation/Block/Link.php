@@ -34,6 +34,7 @@ class Magento_Invitation_Block_Link extends Magento_Page_Block_Link
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Invitation_Helper_Data $invitationHelper
      * @param Magento_Invitation_Model_Config $invitationConfiguration
+     * @param Magento_Core_Helper_Data $coreData
      * @param array $data
      */
     public function __construct(
@@ -41,9 +42,10 @@ class Magento_Invitation_Block_Link extends Magento_Page_Block_Link
         Magento_Customer_Model_Session $customerSession,
         Magento_Invitation_Helper_Data $invitationHelper,
         Magento_Invitation_Model_Config $invitationConfiguration,
+        Magento_Core_Helper_Data $coreData,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_customerSession = $customerSession;
         $this->_invitationConfiguration = $invitationConfiguration;
         $this->_invitationHelper = $invitationHelper;
@@ -58,9 +60,7 @@ class Magento_Invitation_Block_Link extends Magento_Page_Block_Link
     }
 
     /**
-     * Render block HTML
-     *
-     * @return string
+     * @inheritdoc
      */
     protected function _toHtml()
     {

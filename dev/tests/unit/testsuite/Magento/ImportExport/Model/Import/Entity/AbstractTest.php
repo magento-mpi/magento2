@@ -21,7 +21,7 @@ class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Fram
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 
@@ -30,7 +30,7 @@ class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Fram
         );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
 

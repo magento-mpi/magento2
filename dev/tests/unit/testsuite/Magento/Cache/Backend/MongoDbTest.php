@@ -18,7 +18,7 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
      */
     protected $_collection = null;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_collection = $this->getMock(
             'MongoCollection',
@@ -33,7 +33,7 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_collection));
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->_model = null;
         $this->_collection = null;

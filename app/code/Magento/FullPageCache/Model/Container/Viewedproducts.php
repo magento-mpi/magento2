@@ -56,7 +56,7 @@ class Magento_FullPageCache_Model_Container_Viewedproducts extends Magento_FullP
     {
         $block = $this->_getPlaceHolderBlock();
         $block->setProductIds($this->_getProductIds());
-        Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+        $this->_eventManager->dispatch('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
         return $block->toHtml();
     }
 }

@@ -37,11 +37,33 @@ class Magento_Connect_Model_Extension extends Magento_Object
     protected $_filesystem;
 
     /**
+     * Connect data
+     *
+     * @var Magento_Connect_Helper_Data
+     */
+    protected $_connectData = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Connect_Helper_Data $connectData
      * @param Magento_Filesystem $filesystem
      * @param array $data
      */
-    public function __construct(Magento_Filesystem $filesystem, array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Connect_Helper_Data $connectData,
+        Magento_Filesystem $filesystem,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        $this->_connectData = $connectData;
         parent::__construct($data);
         $this->_filesystem = $filesystem;
     }
@@ -246,12 +268,12 @@ class Magento_Connect_Model_Extension extends Magento_Object
         }
 
         try {
-            $path = Mage::helper('Magento_Connect_Helper_Data')->getLocalPackagesPath();
+            $path = $this->_connectData->getLocalPackagesPath();
             $this->_filesystem->write($path . 'package.xml', $this->getPackageXml());
 
             $this->unsPackageXml();
             $this->unsTargets();
-            $xml = Mage::helper('Magento_Core_Helper_Data')->assocToXml($this->getData());
+            $xml = $this->_coreData->assocToXml($this->getData());
             $xml = new Magento_Simplexml_Element($xml->asXML());
 
             // prepare dir to save
@@ -276,7 +298,7 @@ class Magento_Connect_Model_Extension extends Magento_Object
      */
     public function createPackage()
     {
-        $path = Mage::helper('Magento_Connect_Helper_Data')->getLocalPackagesPath();
+        $path = $this->_connectData->getLocalPackagesPath();
         if (!is_dir($path)) {
             if (!mkdir($path)) {
                 return false;
@@ -296,7 +318,7 @@ class Magento_Connect_Model_Extension extends Magento_Object
      */
     public function createPackageV1x()
     {
-        $path = Mage::helper('Magento_Connect_Helper_Data')->getLocalPackagesPathV1x();
+        $path = $this->_connectData->getLocalPackagesPathV1x();
         if (!is_dir($path)) {
             if (!mkdir($path)) {
                 return false;

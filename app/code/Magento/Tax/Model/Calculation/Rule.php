@@ -58,6 +58,14 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
     protected $_taxClass;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Tax_Helper_Data $taxHelper
@@ -67,6 +75,7 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Tax_Helper_Data $taxHelper,
@@ -75,13 +84,8 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct(
-            $context,
-            $registry,
-            $resource,
-            $resourceCollection,
-            $data
-        );
+        $this->_eventManager = $eventManager;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
         $this->_init('Magento_Tax_Model_Resource_Calculation_Rule');
 
@@ -99,7 +103,7 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
     {
         parent::_afterSave();
         $this->saveCalculationData();
-        Mage::dispatchEvent('tax_settings_change_after');
+        $this->_eventManager->dispatch('tax_settings_change_after');
         return $this;
     }
 
@@ -111,7 +115,7 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
      */
     protected function _afterDelete()
     {
-        Mage::dispatchEvent('tax_settings_change_after');
+        $this->_eventManager->dispatch('tax_settings_change_after');
         return parent::_afterDelete();
     }
 

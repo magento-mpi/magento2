@@ -12,4 +12,4 @@
         <observer name="addBySku" instance="Magento_AdvancedCheckout_Model_Observer" method="addBySku" />
         <observer name="uploadSkuCsv" instance="Magento_AdvancedCheckout_Model_Observer" method="uploadSkuCsv" />
     </event>
-</config>
+</config>

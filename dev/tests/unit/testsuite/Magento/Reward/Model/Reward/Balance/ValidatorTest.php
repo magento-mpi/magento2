@@ -33,7 +33,7 @@ class Magento_Reward_Model_Reward_Balance_ValidatorTest extends PHPUnit_Framewor
      */
     protected $_orderMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
         $this->_modelFactoryMock =

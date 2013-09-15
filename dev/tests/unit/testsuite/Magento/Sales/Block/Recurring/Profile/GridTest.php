@@ -14,10 +14,18 @@
  */
 class Magento_Sales_Block_Recurring_Profile_GridTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Magento_TestFramework_Helper_ObjectManager
+     */
+    protected $_objectManagerHelper;
+
+    protected function setUp()
+    {
+        $this->_objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+    }
+
     public function testPrepareLayout()
     {
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-
         $customer = $this->getMockBuilder('Magento_Customer_Model_Customer')
             ->disableOriginalConstructor()
             ->setMethods(array('getId'))
@@ -75,9 +83,12 @@ class Magento_Sales_Block_Recurring_Profile_GridTest extends PHPUnit_Framework_T
         $storeManager->expects($this->once())->method('getStore')
             ->will($this->returnValue($store));
 
-        $block = $objectManager->getObject(
+        $context = $this->_getContext();
+
+        $block = $this->_objectManagerHelper->getObject(
             'Magento_Sales_Block_Recurring_Profile_Grid',
             array(
+                'context' => $context,
                 'profile' => $profile,
                 'registry' => $registry,
                 'storeManager' => $storeManager,
@@ -110,22 +121,46 @@ class Magento_Sales_Block_Recurring_Profile_GridTest extends PHPUnit_Framework_T
         $this->assertEquals($expectedResult, $block->getGridElements());
     }
 
+    /**
+     * Get layout mock
+     *
+     * @return Magento_Core_Model_Layout
+     */
     protected function _getMockLayout()
     {
-        $helper = $this->getMockBuilder('Magento_Core_Helper_Data')
+        $layout = $this->getMockBuilder('Magento_Core_Model_Layout')
+            ->disableOriginalConstructor()
+            ->setMethods(array('createBlock', 'getChildName', 'setChild'))
+            ->getMock();
+
+        return $layout;
+    }
+
+    /**
+     * Get context object
+     *
+     * @return Magento_Core_Block_Template_Context
+     */
+    protected function _getContext()
+    {
+        $helper = $this->getMockBuilder('Magento_Customer_Helper_Data')
             ->disableOriginalConstructor()
             ->setMethods(array('formatDate'))
             ->getMock();
         $helper->expects($this->once())->method('formatDate')
             ->will($this->returnValue('11-11-1999'));
 
-        $layout = $this->getMockBuilder('Magento_Core_Model_Layout')
+        $helperFactory = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')
             ->disableOriginalConstructor()
-            ->setMethods(array('createBlock', 'getChildName', 'setChild', 'helper'))
+            ->setMethods(array('get'))
             ->getMock();
-        $layout->expects($this->once())->method('helper')
-            ->will($this->returnValue($helper));
+        $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
 
-        return $layout;
+        /** @var  Magento_Core_Block_Template_Context $context */
+        $context = $this->_objectManagerHelper->getObject(
+            'Magento_Core_Block_Template_Context',
+            array('helperFactory' => $helperFactory)
+        );
+        return $context;
     }
 }

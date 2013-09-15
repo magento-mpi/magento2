@@ -14,23 +14,12 @@
  * @category    Magento
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Magento_Adminhtml_Block_System_Store_Edit_Form_Group
     extends Magento_Adminhtml_Block_System_Store_Edit_FormAbstract
 {
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        parent::__construct($context, $registry, $data);
-    }
-
     /**
      * Prepare group specific fieldset
      *

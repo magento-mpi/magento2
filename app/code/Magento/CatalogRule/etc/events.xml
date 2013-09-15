@@ -17,4 +17,4 @@
     <event name="catalogrule_apply_all">
         <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="processApplyAll" />
     </event>
-</config>
+</config>

@@ -55,7 +55,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         }
     }
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_subscriptions = array();
 
@@ -118,7 +118,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
             ->create('Magento_Webhook_Model_Resource_Subscription_Collection');
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         foreach ($this->_subscriptions as $subscription) {
             $subscription->delete();

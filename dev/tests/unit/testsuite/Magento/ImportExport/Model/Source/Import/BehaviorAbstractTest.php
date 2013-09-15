@@ -41,7 +41,7 @@ class Magento_ImportExport_Model_Source_Import_BehaviorAbstractTest
         ),
     );
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 
@@ -49,7 +49,7 @@ class Magento_ImportExport_Model_Source_Import_BehaviorAbstractTest
             'Magento_ImportExport_Model_Source_Import_BehaviorAbstract',
             array(array()),
             '',
-            true,
+            false,
             true,
             true,
             array('toArray')

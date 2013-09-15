@@ -11,4 +11,4 @@
     <event name="checkout_submit_all_after">
         <observer name="directpost_update_all_edit_increments" instance="Magento_Authorizenet_Model_Directpost_Observer" method="updateAllEditIncrements" />
     </event>
-</config>
+</config>

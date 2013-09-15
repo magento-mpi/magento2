@@ -28,7 +28,7 @@ class Magento_ProductAlert_Block_Product_View extends Magento_Core_Block_Templat
     /**
      * Helper instance
      *
-     * @var null|Magento_ProductAlert_Helper_Data
+     * @var Magento_ProductAlert_Helper_Data
      */
     protected $_helper;
 
@@ -42,9 +42,10 @@ class Magento_ProductAlert_Block_Product_View extends Magento_Core_Block_Templat
         Magento_Core_Block_Template_Context $context,
         Magento_ProductAlert_Helper_Data $helper,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Helper_Data $coreData,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_registry = $registry;
         $this->_helper = $helper;
     }

@@ -20,6 +20,14 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
     protected $_emailTemplateModel;
 
     /**
+     * Gift card data
+     *
+     * @var Magento_GiftCard_Helper_Data
+     */
+    protected $_giftCardData = null;
+
+    /**
+     * @param Magento_GiftCard_Helper_Data $giftCardData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -28,12 +36,14 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
      * @throws InvalidArgumentException
      */
     public function __construct(
+        Magento_GiftCard_Helper_Data $giftCardData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Core_Model_Resource_Db_Collection_Abstract $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_giftCardData = $giftCardData;
         if (isset($data['email_template_model'])) {
             if (!$data['email_template_model'] instanceof Magento_Core_Model_Email_Template) {
                 throw new InvalidArgumentException(
@@ -78,76 +88,6 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
         $list = $block->getFormExcludedFieldList();
         $list[] = self::ATTRIBUTE_CODE;
         $block->setFormExcludedFieldList($list);
-    }
-
-    /**
-     * Append gift card additional data to order item options
-     *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GiftCard_Model_Observer
-     */
-    public function appendGiftcardAdditionalData(Magento_Event_Observer $observer)
-    {
-        //sales_convert_quote_item_to_order_item
-
-        $orderItem = $observer->getEvent()->getOrderItem();
-        $quoteItem = $observer->getEvent()->getItem();
-        $keys = array(
-            'giftcard_sender_name',
-            'giftcard_sender_email',
-            'giftcard_recipient_name',
-            'giftcard_recipient_email',
-            'giftcard_message',
-        );
-        $productOptions = $orderItem->getProductOptions();
-        foreach ($keys as $key) {
-            $option = $quoteItem->getProduct()->getCustomOption($key);
-            if ($option) {
-                $productOptions[$key] = $option->getValue();
-            }
-        }
-
-        $product = $quoteItem->getProduct();
-        // set lifetime
-        $lifetime = 0;
-        if ($product->getUseConfigLifetime()) {
-            $lifetime = Mage::getStoreConfig(
-                Magento_GiftCard_Model_Giftcard::XML_PATH_LIFETIME,
-                $orderItem->getStore()
-            );
-        } else {
-            $lifetime = $product->getLifetime();
-        }
-        $productOptions['giftcard_lifetime'] = $lifetime;
-
-        // set is_redeemable
-        $isRedeemable = 0;
-        if ($product->getUseConfigIsRedeemable()) {
-            $isRedeemable = Mage::getStoreConfigFlag(
-                Magento_GiftCard_Model_Giftcard::XML_PATH_IS_REDEEMABLE,
-                $orderItem->getStore()
-            );
-        } else {
-            $isRedeemable = (int) $product->getIsRedeemable();
-        }
-        $productOptions['giftcard_is_redeemable'] = $isRedeemable;
-
-        // set email_template
-        $emailTemplate = 0;
-        if ($product->getUseConfigEmailTemplate()) {
-            $emailTemplate = Mage::getStoreConfig(
-                Magento_GiftCard_Model_Giftcard::XML_PATH_EMAIL_TEMPLATE,
-                $orderItem->getStore()
-            );
-        } else {
-            $emailTemplate = $product->getEmailTemplate();
-        }
-        $productOptions['giftcard_email_template'] = $emailTemplate;
-        $productOptions['giftcard_type'] = $product->getGiftcardType();
-
-        $orderItem->setProductOptions($productOptions);
-
-        return $this;
     }
 
     /**
@@ -237,7 +177,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
                     for ($i = 0; $i < $qty; $i++) {
                         try {
                             $code = new Magento_Object();
-                            Mage::dispatchEvent('magento_giftcardaccount_create', array(
+                            $this->_eventDispatcher->dispatch('magento_giftcardaccount_create', array(
                                 'request' => $data, 'code' => $code
                             ));
                             $codes[] = $code->getCode();
@@ -255,7 +195,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
                             $sender = "$sender <$senderEmail>";
                         }
 
-                        $codeList = Mage::helper('Magento_GiftCard_Helper_Data')->getEmailGeneratedItemsBlock()
+                        $codeList = $this->_giftCardData->getEmailGeneratedItemsBlock()
                             ->setCodes($codes)
                             ->setIsRedeemable($isRedeemable)
                             ->setStore(Mage::app()->getStore($order->getStoreId()));

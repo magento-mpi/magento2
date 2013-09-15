@@ -8,7 +8,11 @@
  */
 -->
 <config>
-    <type name="Magento_User_Model_User" shared="false" />
+    <type name="Magento_User_Model_User" shared="false">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
     <type name="Magento_User_Model_Role" shared="false" />
     <type name="Magento_User_Model_Resource_Rules">
         <param name="rootResource">

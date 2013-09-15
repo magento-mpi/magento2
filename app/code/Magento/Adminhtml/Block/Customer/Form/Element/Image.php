@@ -81,8 +81,8 @@ class Magento_Adminhtml_Block_Customer_Form_Element_Image extends Magento_Adminh
         if (is_array($this->getValue())) {
             return false;
         }
-        return Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/customer/viewfile', array(
-            'image'      => Mage::helper('Magento_Core_Helper_Data')->urlEncode($this->getValue()),
+        return $this->_adminhtmlData->getUrl('adminhtml/customer/viewfile', array(
+            'image'      => $this->_coreData->urlEncode($this->getValue()),
         ));
     }
 }

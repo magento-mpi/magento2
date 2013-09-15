@@ -14,4 +14,4 @@
     <event name="customer_delete_after">
         <observer name="newsletter_subscribe_observer" instance="Magento_Newsletter_Model_Observer" method="customerDeleted" />
     </event>
-</config>
+</config>
