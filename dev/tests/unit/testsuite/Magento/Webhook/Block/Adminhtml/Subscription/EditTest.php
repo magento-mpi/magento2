@@ -23,7 +23,8 @@ class Magento_Webhook_Block_Adminhtml_Subscription_EditTest extends Magento_Test
             \Magento\Webhook\Block\Adminhtml\Subscription\Edit::DATA_SUBSCRIPTION_ID => true,
             'alias' => 'alias_value');
         $this->_registry = new \Magento\Core\Model\Registry();
-        $this->_registry->register(\Magento\Webhook\Block\Adminhtml\Subscription\Edit::REGISTRY_KEY_CURRENT_SUBSCRIPTION,
+        $this->_registry->register(
+            \Magento\Webhook\Block\Adminhtml\Subscription\Edit::REGISTRY_KEY_CURRENT_SUBSCRIPTION,
             $subscriptionData);
 
         $this->_block = new \Magento\Webhook\Block\Adminhtml\Subscription\Edit(

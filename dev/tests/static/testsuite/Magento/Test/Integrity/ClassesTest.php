@@ -164,8 +164,7 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
                 if ($path != false && strrchr($class, '\\') == false) {
                     $badUsages[] = $class;
                     continue;
-                }
-                else {
+                } else {
                     $this->assertTrue(isset(self::$_existingClasses[$class])
                         || Magento_TestFramework_Utility_Files::init()->classFileExists($class)
                         || Magento_TestFramework_Utility_Classes::isVirtual($class)
