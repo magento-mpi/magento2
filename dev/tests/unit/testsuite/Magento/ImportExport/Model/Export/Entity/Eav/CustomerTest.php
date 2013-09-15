@@ -99,9 +99,11 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $attributeCollection = new \Magento\Data\Collection();
         foreach ($this->_attributes as $attributeData) {
-            $arguments = $objectManagerHelper->getConstructArguments('Magento\Eav\Model\Entity\Attribute\AbstractAttribute');
+            $arguments = $objectManagerHelper->getConstructArguments(
+                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute');
             $arguments['data'] = $attributeData;
-            $attribute = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+            $attribute = $this->getMockForAbstractClass(
+                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 $arguments, '', true, true, true, array('_construct')
             );
             $attributeCollection->addItem($attribute);

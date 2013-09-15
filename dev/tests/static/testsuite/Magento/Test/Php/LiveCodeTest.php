@@ -30,13 +30,12 @@ class Magento_Test_Php_LiveCodeTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$_reportDir = Magento_TestFramework_Utility_Files::init()->getPathToSource() . 'dev' .
-            DS . 'tests' . DS . 'static' . DS . 'report';
+        self::$_reportDir = Magento_TestFramework_Utility_Files::init()->getPathToSource() . '/dev/tests/static/report';
         if (!is_dir(self::$_reportDir)) {
             mkdir(self::$_reportDir, 0777);
         }
-        self::$_whiteList = self::_readLists(__DIR__ . DS . '_files/whitelist/*.txt');
-        self::$_blackList = self::_readLists(__DIR__ . DS . '_files/blacklist/*.txt');
+        self::$_whiteList = self::_readLists(__DIR__ . '/_files/whitelist/*.txt');
+        self::$_blackList = self::_readLists(__DIR__ . '/_files/blacklist/*.txt');
     }
 
     public function testCodeStyle()
@@ -73,7 +72,7 @@ class Magento_Test_Php_LiveCodeTest extends PHPUnit_Framework_TestCase
 
     public function testCopyPaste()
     {
-        $reportFile = self::$_reportDir . DS . 'phpcpd_report.xml';
+        $reportFile = self::$_reportDir . '/phpcpd_report.xml';
         $copyPasteDetector = new Magento_TestFramework_CodingStandard_Tool_CopyPasteDetector($reportFile);
 
         if (!$copyPasteDetector->canRun()) {

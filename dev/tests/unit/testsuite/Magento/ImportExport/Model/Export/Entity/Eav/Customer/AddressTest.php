@@ -112,9 +112,11 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
             ->method('getEntityTypeCode')
             ->will($this->returnValue('customer_address'));
         foreach ($this->_attributes as $attributeData) {
-            $arguments = $this->_objectManager->getConstructArguments('Magento\Eav\Model\Entity\Attribute\AbstractAttribute');
+            $arguments = $this->_objectManager->getConstructArguments(
+                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute');
             $arguments['data'] = $attributeData;
-            $attribute = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+            $attribute = $this->getMockForAbstractClass(
+                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 $arguments, '', true, true, true, array('_construct')
             );
             $attributeCollection->addItem($attribute);

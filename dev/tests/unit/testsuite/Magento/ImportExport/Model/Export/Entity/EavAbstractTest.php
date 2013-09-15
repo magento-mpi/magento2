@@ -68,8 +68,10 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
         $testAttributeValue = 'value';
         $testAttributeOptions = array('value' => 'option');
         /** @var $testAttribute \Magento\Eav\Model\Entity\Attribute */
-        $testAttribute = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\Attribute\AbstractAttribute', array(), '',
-            false);
+        $testAttribute = $this->getMockForAbstractClass(
+            'Magento\Eav\Model\Entity\Attribute\AbstractAttribute', array(), '',
+            false
+        );
         $testAttribute->setAttributeCode($testAttributeCode);
 
         $this->_model->expects($this->any())
