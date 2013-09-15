@@ -25,8 +25,10 @@ class Factory
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\Factory\Helper $helperFactory
      */
-    public function __construct(\Magento\ObjectManager $objectManager, \Magento\Core\Model\Factory\Helper $helperFactory)
-    {
+    public function __construct(
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Model\Factory\Helper $helperFactory
+    ) {
         $this->_objectManager = $objectManager;
         $this->_helperFactory = $helperFactory;
     }

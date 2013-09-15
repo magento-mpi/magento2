@@ -119,7 +119,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     public function isDummyMethodAvailable($quote = null)
     {
         $storeId = $quote ? $quote->getStoreId() : null;
-        $checkResult = new StdClass;
+        $checkResult = new \StdClass;
         $checkResult->isAvailable = (bool)(int)$this->getOriginalMethodInstance()->getConfigData('active', $storeId);
         $this->_eventManager->dispatch('payment_method_is_active', array(
             'result'          => $checkResult,

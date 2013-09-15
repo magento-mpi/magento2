@@ -52,7 +52,8 @@ class Magento_Core_Model_Page_Asset_MergeStrategy_ChecksumTest extends PHPUnit_F
 
         $this->_strategy = $this->getMock('Magento\Core\Model\Page\Asset\MergeStrategyInterface');
 
-        $this->_object = new \Magento\Core\Model\Page\Asset\MergeStrategy\Checksum($this->_strategy, $this->_filesystem);
+        $this->_object = new \Magento\Core\Model\Page\Asset\MergeStrategy\Checksum($this->_strategy,
+            $this->_filesystem);
     }
 
     /**

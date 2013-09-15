@@ -29,8 +29,10 @@ abstract class EntryPointAbstract
      * @param \Magento\Core\Model\Config\Primary $config
      * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(\Magento\Core\Model\Config\Primary $config, \Magento\ObjectManager $objectManager = null)
-    {
+    public function __construct(
+        \Magento\Core\Model\Config\Primary $config,
+        \Magento\ObjectManager $objectManager = null
+    ) {
         $this->_config = $config;
         $this->_objectManager = $objectManager;
     }

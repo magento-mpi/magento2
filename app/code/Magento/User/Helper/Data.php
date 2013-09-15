@@ -61,6 +61,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getResetPasswordLinkExpirationPeriod()
     {
-        return (int) \Mage::getConfig()->getValue(self::XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD, 'default');
+        return (int) \Mage::getConfig()->
+            getValue(self::XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD, 'default');
     }
 }

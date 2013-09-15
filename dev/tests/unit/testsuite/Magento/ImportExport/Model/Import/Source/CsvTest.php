@@ -33,7 +33,8 @@ class Magento_ImportExport_Model_Import_Source_CsvTest extends PHPUnit_Framework
      */
     public function testOptionalArgs($delimiter, $enclosure, $expectedColumns)
     {
-        $model = new \Magento\ImportExport\Model\Import\Source\Csv(__DIR__ . '/_files/test.csv', $delimiter, $enclosure);
+        $model = new \Magento\ImportExport\Model\Import\Source\Csv(
+            __DIR__ . '/_files/test.csv', $delimiter, $enclosure);
         $this->assertSame($expectedColumns, $model->getColNames());
     }
 

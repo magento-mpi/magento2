@@ -46,7 +46,7 @@ class Recurring
      */
     public function getElementHtml()
     {
-        $result = new StdClass;
+        $result = new \StdClass;
         $result->output = '';
         $this->_eventManager->dispatch('catalog_product_edit_form_render_recurring', array(
             'result' => $result,

@@ -129,7 +129,8 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
      */
     protected function _getRecordByFinanceWebsite(array $records, $website)
     {
-        $financeWebsiteKey = \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_FINANCE_WEBSITE;
+        $financeWebsiteKey = \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::
+            COLUMN_FINANCE_WEBSITE;
         foreach ($records as $record) {
             if ($record[$financeWebsiteKey] == $website) {
                 return $record;

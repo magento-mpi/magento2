@@ -16,7 +16,8 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_AbstractT
      */
     public function testGetListItems($collection)
     {
-        /** @var $listAbstractBlock \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList */
+        /** @var $listAbstractBlock
+         *      \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList */
         $listAbstractBlock = $this->getMockForAbstractClass(
             'Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList',
             array(),
@@ -51,7 +52,8 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_AbstractT
 
     public function testAddAssignButtonHtml()
     {
-        /** @var $listAbstractBlock \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList */
+        /** @var $listAbstractBlock
+         *      \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList */
         $listAbstractBlock = $this->getMockForAbstractClass(
             'Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList',
             array(),

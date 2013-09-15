@@ -189,7 +189,7 @@ class Images extends \Magento\Core\Helper\AbstractHelper
      */
     public function isUsingStaticUrlsAllowed()
     {
-        $checkResult = new StdClass;
+        $checkResult = new \StdClass;
         $checkResult->isAllowed = false;
         $this->_eventManager->dispatch('cms_wysiwyg_images_static_urls_allowed', array(
             'result'   => $checkResult,

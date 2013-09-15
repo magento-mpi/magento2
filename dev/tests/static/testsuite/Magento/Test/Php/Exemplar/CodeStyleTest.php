@@ -30,7 +30,7 @@ class Magento_Test_Php_Exemplar_CodeStyleTest extends PHPUnit_Framework_TestCase
         self::$_reportFile = __DIR__ . '/../../../tmp/phpcs_report.xml';
         $wrapper = new Magento_TestFramework_CodingStandard_Tool_CodeSniffer_Wrapper();
         self::$_cmd = new Magento_TestFramework_CodingStandard_Tool_CodeSniffer(
-            realpath(__DIR__ . '/../_files/phpcs'), self::$_reportFile, $wrapper
+            realpath(__DIR__ . '/../CodeStyleTest/phpcs'), self::$_reportFile, $wrapper
         );
     }
 
@@ -95,8 +95,8 @@ class Magento_Test_Php_Exemplar_CodeStyleTest extends PHPUnit_Framework_TestCase
      */
     public function ruleDataProvider()
     {
-        $inputDir = __DIR__ . '/_files/phpcs/input/';
-        $expectationDir = __DIR__ . '/_files/phpcs/expected/';
+        $inputDir = __DIR__ . '/CodeStyleTest/phpcs/input/';
+        $expectationDir = __DIR__ . '/CodeStyleTest/phpcs/expected/';
         return $this->_getTestsAndExpectations($inputDir, $expectationDir);
     }
 

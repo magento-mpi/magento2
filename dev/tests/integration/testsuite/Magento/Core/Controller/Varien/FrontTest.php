@@ -53,7 +53,8 @@ class Magento_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCas
 
     public function testGetRouter()
     {
-        $this->assertInstanceOf('Magento\Core\Controller\Varien\Router\DefaultRouter', $this->_model->getRouter('default'));
+        $this->assertInstanceOf('Magento\Core\Controller\Varien\Router\DefaultRouter',
+            $this->_model->getRouter('default'));
     }
 
     public function testGetRouters()

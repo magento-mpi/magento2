@@ -101,7 +101,8 @@ class Magento_Sales_Model_OrderTest extends PHPUnit_Framework_TestCase
         ) {
             $expectedResult = false;
         }
-        if ($orderState == \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW && !$canReviewPayment && $canUpdatePayment) {
+        if ($orderState == \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW &&
+                !$canReviewPayment && $canUpdatePayment) {
             $expectedResult = false;
         }
         if ($allInvoiced || in_array($orderState, array(

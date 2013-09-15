@@ -173,7 +173,8 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
     protected function _shouldBeSecure($path)
     {
         return substr((string)\Mage::getConfig()->getValue('web/unsecure/base_url', 'default'), 0, 5) === 'https'
-            || \Mage::getStoreConfigFlag('web/secure/use_in_adminhtml', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID)
+            || \Mage::getStoreConfigFlag('web/secure/use_in_adminhtml',
+                \Magento\Core\Model\AppInterface::ADMIN_STORE_ID)
                 && substr((string)\Mage::getConfig()->getValue('web/secure/base_url', 'default'), 0, 5) === 'https';
     }
 
@@ -220,8 +221,10 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
          */
 
         $parts = explode('_', $realModule);
-        $realModule = implode('_', array_splice($parts, 0, 2));
-        return $realModule . '_' . 'Controller' . '_'. ucfirst($this->_areaCode) . '_' . uc_words($controller);
+        $realModule = implode(\Magento\Autoload\IncludePath::NS_SEPARATOR, array_splice($parts, 0, 2));
+        return $realModule . \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Controller' .
+            \Magento\Autoload\IncludePath::NS_SEPARATOR . ucfirst($this->_areaCode) .
+            \Magento\Autoload\IncludePath::NS_SEPARATOR . uc_words($controller);
     }
 
     /**
