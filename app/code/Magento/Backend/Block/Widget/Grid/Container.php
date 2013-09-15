@@ -69,7 +69,7 @@ class Container extends \Magento\Backend\Block\Widget\Container
             $this->setChild(
                 'grid',
                 $this->getLayout()->createBlock(
-                    $this->_blockGroup
+                    str_replace('_', \Magento\Autoload\IncludePath::NS_SEPARATOR, $this->_blockGroup)
                         . '\\Block\\'
                         . str_replace(' ', '\\', ucwords(str_replace('\\', ' ', $this->_controller)))
                         . '\\Grid',
