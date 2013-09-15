@@ -17,9 +17,42 @@
  */
 namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option;
 
-class Selection extends \Magento\Adminhtml\Block\Widget
+class Selection extends \Magento\Backend\Block\Widget
 {
     protected $_template = 'product/edit/bundle/option/selection.phtml';
+
+    /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_catalogData = $catalogData;
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Initialize bundle option selection block
@@ -131,7 +164,8 @@ class Selection extends \Magento\Adminhtml\Block\Widget
      */
     public function isUsedWebsitePrice()
     {
-        return !\Mage::helper('Magento\Catalog\Helper\Data')->isPriceGlobal() && \Mage::registry('product')->getStoreId();
+        $product = $this->_coreRegistry->registry('product');
+        return !$this->_catalogData->isPriceGlobal() && $product->getStoreId();
     }
 
     /**
@@ -143,14 +177,14 @@ class Selection extends \Magento\Adminhtml\Block\Widget
     {
         $checkboxHtml = '';
         if ($this->isUsedWebsitePrice()) {
-            $id = $this->getFieldId() . '_{{index}}_price_scope';
+            $fieldsId = $this->getFieldId() . '_{{index}}_price_scope';
             $name = $this->getFieldName() . '[{{parentIndex}}][{{index}}][default_price_scope]';
             $class = 'bundle-option-price-scope-checkbox';
             $label = __('Use Default Value');
             $disabled = ($this->getCanEditPrice() === false) ? ' disabled="disabled"' : '';
-            $checkboxHtml = '<input type="checkbox" id="' . $id . '" class="' . $class . '" name="' . $name
+            $checkboxHtml = '<input type="checkbox" id="' . $fieldsId . '" class="' . $class . '" name="' . $name
                 . '"' . $disabled . ' value="1" />';
-            $checkboxHtml .= '<label class="normal" for="' . $id . '">' . $label . '</label>';
+            $checkboxHtml .= '<label class="normal" for="' . $fieldsId . '">' . $label . '</label>';
         }
         return $checkboxHtml;
     }

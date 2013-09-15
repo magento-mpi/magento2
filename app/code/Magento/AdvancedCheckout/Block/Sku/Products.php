@@ -20,6 +20,41 @@ namespace Magento\AdvancedCheckout\Block\Sku;
 class Products extends \Magento\Checkout\Block\Cart
 {
     /**
+     * Checkout data
+     *
+     * @var Magento_AdvancedCheckout_Helper_Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * Core url
+     *
+     * @var Magento_Core_Helper_Url
+     */
+    protected $_coreUrl = null;
+
+    /**
+     * @param Magento_Core_Helper_Url $coreUrl
+     * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Url $coreUrl,
+        Magento_AdvancedCheckout_Helper_Data $checkoutData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_coreUrl = $coreUrl;
+        $this->_checkoutData = $checkoutData;
+        parent::__construct($catalogData, $coreData, $context, $data);
+    }
+
+    /**
      * Return list of product items
      *
      * @return array
@@ -36,7 +71,7 @@ class Products extends \Magento\Checkout\Block\Cart
      */
     protected function _getHelper()
     {
-        return \Mage::helper('Magento\AdvancedCheckout\Helper\Data');
+        return $this->_checkoutData;
     }
 
     /**
@@ -121,7 +156,7 @@ class Products extends \Magento\Checkout\Block\Cart
         }
         $renderer->setDeleteUrl(
             $this->getUrl('checkout/cart/removeFailed', array(
-                'sku' => \Mage::helper('Magento\Core\Helper\Url')->urlEncode($item->getSku())
+                'sku' => $this->_coreUrl->urlEncode($item->getSku())
             ))
         );
         $renderer->setIgnoreProductUrl(!$this->showItemLink($item));

@@ -21,13 +21,46 @@ namespace Magento\Wishlist\Block\Item;
 class Configure extends \Magento\Core\Block\Template
 {
     /**
+     * Wishlist data
+     *
+     * @var Magento_Wishlist_Helper_Data
+     */
+    protected $_wishlistData = null;
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Wishlist_Helper_Data $wishlistData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Wishlist_Helper_Data $wishlistData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_wishlistData = $wishlistData;
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Returns product being edited
      *
      * @return \Magento\Catalog\Model\Product
      */
     protected function getProduct()
     {
-        return \Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     /**
@@ -37,7 +70,7 @@ class Configure extends \Magento\Core\Block\Template
      */
     protected function getWishlistItem()
     {
-        return \Mage::registry('wishlist_item');
+        return $this->_coreRegistry->registry('wishlist_item');
     }
 
     /**
@@ -50,7 +83,7 @@ class Configure extends \Magento\Core\Block\Template
         // Set custom add to cart url
         $block = $this->getLayout()->getBlock('product.info');
         if ($block) {
-            $url = \Mage::helper('Magento\Wishlist\Helper\Data')->getAddToCartUrl($this->getWishlistItem());
+            $url = $this->_wishlistData->getAddToCartUrl($this->getWishlistItem());
             $block->setCustomAddToCartUrl($url);
         }
 

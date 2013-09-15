@@ -65,20 +65,42 @@ class Instance extends \Magento\Core\Model\AbstractModel
     protected $_viewFileSystem;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Widget data
+     *
+     * @var Magento_Widget_Helper_Data
+     */
+    protected $_widgetData = null;
+
+    /**
+     * @param Magento_Widget_Helper_Data $widgetData
+     * @param Magento_Core_Helper_Data $coreData
      * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
+     * @param Magento_Widget_Model_Resource_Widget_Instance $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        Magento_Widget_Helper_Data $widgetData,
+        Magento_Core_Helper_Data $coreData,
         \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\View\FileSystem $viewFileSystem,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_View_FileSystem $viewFileSystem,
+        Magento_Widget_Model_Resource_Widget_Instance $resource,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        $this->_widgetData = $widgetData;
+        $this->_coreData = $coreData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_viewFileSystem = $viewFileSystem;
     }
 
@@ -411,7 +433,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
             $template = ' template="' . $templatePath . '"';
         }
 
-        $hash = \Mage::helper('Magento\Core\Helper\Data')->uniqHash();
+        $hash = $this->_coreData->uniqHash();
         $xml .= '<block class="' . $this->getType() . '" name="' . $hash . '"' . $template . '>';
         foreach ($parameters as $name => $value) {
             if (is_array($value)) {
@@ -421,7 +443,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
                 $xml .= '<action method="setData">'
                     . '<argument name="name" xsi:type="string">' . $name . '</argument>'
                     . '<argument name="value" xsi:type="string">'
-                    . \Mage::helper('Magento\Widget\Helper\Data')->escapeHtml($value) . '</argument>'
+                    . $this->_widgetData->escapeHtml($value) . '</argument>'
                     . '</action>';
             }
         }

@@ -18,8 +18,42 @@
 
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
 
-class Tracking extends \Magento\Adminhtml\Block\Template
+class Tracking extends \Magento\Backend\Block\Template
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Rma data
+     *
+     * @var Magento_Rma_Helper_Data
+     */
+    protected $_rmaData = null;
+
+    /**
+     * @param Magento_Rma_Helper_Data $rmaData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Rma_Helper_Data $rmaData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_rmaData = $rmaData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Retrieve shipment model instance
      *
@@ -27,7 +61,7 @@ class Tracking extends \Magento\Adminhtml\Block\Template
      */
     public function getRma()
     {
-        return \Mage::registry('current_rma');
+        return $this->_coreRegistry->registry('current_rma');
     }
 
     /**
@@ -37,7 +71,7 @@ class Tracking extends \Magento\Adminhtml\Block\Template
      */
     public function getCarriers()
     {
-        return \Mage::helper('Magento\Rma\Helper\Data')->getAllowedShippingCarriers($this->getRma()->getStoreId());
+        return $this->_rmaData->getAllowedShippingCarriers($this->getRma()->getStoreId());
     }
 
     /**
@@ -81,7 +115,7 @@ class Tracking extends \Magento\Adminhtml\Block\Template
      */
     public function getShipment()
     {
-        return \Mage::registry('current_shipment');
+        return $this->_coreRegistry->registry('current_shipment');
     }
 
     /**

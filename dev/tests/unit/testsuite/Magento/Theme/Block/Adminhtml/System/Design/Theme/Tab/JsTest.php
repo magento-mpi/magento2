@@ -29,7 +29,8 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_JsTest extends PHPUn
         $constructArguments = $objectManagerHelper->getConstructArguments(
             'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js',
             array(
-                 'objectManager' => Mage::getObjectManager(),
+                 'formFactory' => $this->getMock('Magento_Data_Form_Factory', array(), array(), '', false),
+                 'objectManager' => $this->getMock('Magento_ObjectManager', array(), array(), '', false),
                  'urlBuilder'    => $this->_urlBuilder
             )
         );

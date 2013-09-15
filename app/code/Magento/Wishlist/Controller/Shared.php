@@ -21,6 +21,25 @@ namespace Magento\Wishlist\Controller;
 class Shared extends \Magento\Wishlist\Controller\AbstractController
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve wishlist instance by requested code
      *
      * @return \Magento\Wishlist\Model\Wishlist|false
@@ -52,11 +71,11 @@ class Shared extends \Magento\Wishlist\Controller\AbstractController
         $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
 
         if ($wishlist && $wishlist->getCustomerId() && $wishlist->getCustomerId() == $customerId) {
-            $this->_redirectUrl(\Mage::helper('Magento\Wishlist\Helper\Data')->getListUrl($wishlist->getId()));
+            $this->_redirectUrl($this->_objectManager->get('Magento\Wishlist\Helper\Data')->getListUrl($wishlist->getId()));
             return;
         }
 
-        \Mage::register('shared_wishlist', $wishlist);
+        $this->_coreRegistry->register('shared_wishlist', $wishlist);
 
         $this->loadLayout();
         $this->_initLayoutMessages('Magento\Checkout\Model\Session');
@@ -93,8 +112,8 @@ class Shared extends \Magento\Wishlist\Controller\AbstractController
             $item->addToCart($cart);
             $cart->save()->getQuote()->collectTotals();
 
-            if (\Mage::helper('Magento\Checkout\Helper\Cart')->getShouldRedirectToCart()) {
-                $redirectUrl = \Mage::helper('Magento\Checkout\Helper\Cart')->getCartUrl();
+            if ($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getShouldRedirectToCart()) {
+                $redirectUrl = $this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl();
             }
         } catch (\Magento\Core\Exception $e) {
             if ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_NOT_SALABLE) {

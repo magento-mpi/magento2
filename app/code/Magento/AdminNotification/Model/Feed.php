@@ -128,9 +128,6 @@ class Feed extends \Magento\Core\Model\AbstractModel
     public function setLastUpdate()
     {
         \Mage::app()->saveCache(time(), 'admin_notifications_lastcheck');
-//        $config = \Mage::getModel('Magento\Core\Model\Config');
-//        /* @var $config \Magento\Core\Model\Config */
-//        $config->saveConfig(self::XML_LAST_UPDATE_PATH, time());
         return $this;
     }
 
@@ -169,8 +166,7 @@ class Feed extends \Magento\Core\Model\AbstractModel
         try {
             $data = $this->getFeedData();
             $xml  = new \SimpleXMLElement($data);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $xml  = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8" ?>');
         }
 

@@ -59,7 +59,7 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
      */
     public function getCreditmemo()
     {
-        return \Mage::registry('current_creditmemo');
+        return $this->_coreRegistry->registry('current_creditmemo');
     }
 
     public function getOrderUrl()

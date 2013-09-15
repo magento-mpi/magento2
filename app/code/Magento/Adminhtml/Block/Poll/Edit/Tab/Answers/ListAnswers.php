@@ -8,11 +8,6 @@
  * @license     {license_link}
  */
 
-/**
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 
 namespace Magento\Adminhtml\Block\Poll\Edit\Tab\Answers;
 
@@ -20,16 +15,39 @@ class ListAnswers extends \Magento\Adminhtml\Block\Template
 {
     protected $_template = 'poll/answers/list.phtml';
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _toHtml()
     {
-        if( !\Mage::registry('poll_data') ) {
+        if (!$this->_coreRegistry->registry('poll_data')) {
             $this->assign('answers', false);
             return parent::_toHtml();
         }
 
         $collection = \Mage::getModel('Magento\Poll\Model\Poll\Answer')
             ->getResourceCollection()
-            ->addPollFilter(\Mage::registry('poll_data')->getId())
+            ->addPollFilter($this->_coreRegistry->registry('poll_data')->getId())
             ->load();
         $this->assign('answers', $collection);
 

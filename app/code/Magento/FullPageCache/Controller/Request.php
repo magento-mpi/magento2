@@ -12,6 +12,25 @@ namespace Magento\FullPageCache\Controller;
 class Request extends \Magento\Core\Controller\Front\Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Request processing action
      */
     public function processAction()
@@ -21,11 +40,11 @@ class Request extends \Magento\Core\Controller\Front\Action
          */
         $processor  = $this->_objectManager->get('Magento\FullPageCache\Model\Processor');
 
-        $content    = \Mage::registry('cached_page_content');
+        $content    = $this->_coreRegistry->registry('cached_page_content');
         /**
          * @var $containers \Magento\FullPageCache\Model\ContainerInterface[]
          */
-        $containers = \Mage::registry('cached_page_containers');
+        $containers = $this->_coreRegistry->registry('cached_page_containers');
 
         $cacheInstance = $this->_objectManager->get('Magento\FullPageCache\Model\Cache');
 

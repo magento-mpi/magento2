@@ -39,13 +39,14 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
 
     public function testConstructor()
     {
+        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
         $mockFetchStrategy = $this->getMockBuilder('Magento\Data\Collection\Db\FetchStrategyInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $collection = new \Magento\Webhook\Model\Resource\Event\Collection($mockFetchStrategy);
-        $this->assertInstanceOf('Magento\Webhook\Model\Resource\Event\Collection', $collection);
-        $this->assertEquals('Magento\Webhook\Model\Resource\Event', $collection->getResourceModelName());
-        $this->assertEquals('Magento\Webhook\Model\Event', $collection->getModelName());
+        $collection = new Magento_Webhook_Model_Resource_Event_Collection($eventManager, $mockFetchStrategy);
+        $this->assertInstanceOf('Magento_Webhook_Model_Resource_Event_Collection', $collection);
+        $this->assertEquals('Magento_Webhook_Model_Resource_Event', $collection->getResourceModelName());
+        $this->assertEquals('Magento_Webhook_Model_Event', $collection->getModelName());
     }
 
     /**

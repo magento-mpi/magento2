@@ -26,7 +26,7 @@ class Calendar extends \Magento\Core\Block\Template
 
         // get days names
         $days = \Zend_Locale_Data::getList($localeCode, 'days');
-        $helper = \Mage::helper('Magento\Core\Helper\Data');
+        $helper = $this->_coreData;
         $this->assign('days', array(
             'wide'        => $helper->jsonEncode(array_values($days['format']['wide'])),
             'abbreviated' => $helper->jsonEncode(array_values($days['format']['abbreviated']))

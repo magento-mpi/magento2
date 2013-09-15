@@ -20,6 +20,29 @@ namespace Magento\Catalog\Block;
 class Breadcrumbs extends \Magento\Core\Block\Template
 {
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve HTML title value separator (with space)
      *
      * @param mixed $store
@@ -46,7 +69,7 @@ class Breadcrumbs extends \Magento\Core\Block\Template
             ));
 
             $title = array();
-            $path  = \Mage::helper('Magento\Catalog\Helper\Data')->getBreadcrumbPath();
+            $path  = $this->_catalogData->getBreadcrumbPath();
 
             foreach ($path as $name => $breadcrumb) {
                 $breadcrumbsBlock->addCrumb($name, $breadcrumb);

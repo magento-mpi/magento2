@@ -83,7 +83,7 @@ class Info
      */
     public function getDisplayCardBothPrices()
     {
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->displayCartCardBothPrices($this->getStoreId());
+        return $this->_giftWrappingData->displayCartCardBothPrices($this->getStoreId());
     }
 
     /**
@@ -93,7 +93,7 @@ class Info
      */
     public function getDisplayCardPriceInclTax()
     {
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->displayCartCardIncludeTaxPrice($this->getStoreId());
+        return $this->_giftWrappingData->displayCartCardIncludeTaxPrice($this->getStoreId());
     }
 
     /**
@@ -103,7 +103,7 @@ class Info
      */
     public function getAllowPrintedCard()
     {
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->allowPrintedCard($this->getStoreId());
+        return $this->_giftWrappingData->allowPrintedCard($this->getStoreId());
     }
 
     /**
@@ -113,7 +113,7 @@ class Info
      */
     public function getAllowGiftReceipt()
     {
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->allowGiftReceipt($this->getStoreId());
+        return $this->_giftWrappingData->allowGiftReceipt($this->getStoreId());
     }
 
     /**
@@ -123,7 +123,7 @@ class Info
      */
     public function canDisplayGiftWrappingForOrder()
     {
-        return (\Mage::helper('Magento\GiftWrapping\Helper\Data')->isGiftWrappingAvailableForOrder($this->getStoreId())
+        return ($this->_giftWrappingData->isGiftWrappingAvailableForOrder($this->getStoreId())
             || $this->getAllowPrintedCard()
             || $this->getAllowGiftReceipt())
                 && !$this->getQuote()->isVirtual();
@@ -136,7 +136,7 @@ class Info
      */
     public function isGiftWrappingForEntireOrder()
     {
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->isGiftWrappingAvailableForOrder($this->getStoreId());
+        return $this->_giftWrappingData->isGiftWrappingAvailableForOrder($this->getStoreId());
     }
 
     /**
@@ -146,7 +146,8 @@ class Info
      *
      * @return void
      */
-    public function getRefreshWrappingUrl() {
+    public function getRefreshWrappingUrl()
+    {
         return $this->getUrl('*/giftwrapping/orderOptions');
     }
 }

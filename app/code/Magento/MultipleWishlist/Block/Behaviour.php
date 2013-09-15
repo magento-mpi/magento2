@@ -20,13 +20,36 @@ namespace Magento\MultipleWishlist\Block;
 class Behaviour extends \Magento\Core\Block\Template
 {
     /**
+     * Wishlist data
+     *
+     * @var Magento_MultipleWishlist_Helper_Data
+     */
+    protected $_wishlistData = null;
+
+    /**
+     * @param Magento_MultipleWishlist_Helper_Data $wishlistData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_MultipleWishlist_Helper_Data $wishlistData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_wishlistData = $wishlistData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve wishlists items
      *
      * @return \Magento\Wishlist\Model\Resource\Wishlist\Collection
      */
     public function getWishlists()
     {
-        return \Mage::helper('Magento\MultipleWishlist\Helper\Data')->getCustomerWishlists();
+        return $this->_wishlistData->getCustomerWishlists();
     }
 
     /**
@@ -56,7 +79,7 @@ class Behaviour extends \Magento\Core\Block\Template
      */
     public function getDefaultWishlist()
     {
-        return \Mage::helper('Magento\MultipleWishlist\Helper\Data')->getDefaultWishlist();
+        return $this->_wishlistData->getDefaultWishlist();
     }
 
     /**
@@ -68,7 +91,7 @@ class Behaviour extends \Magento\Core\Block\Template
     public function canCreateWishlists($wishlistList)
     {
         $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
-        return !\Mage::helper('Magento\MultipleWishlist\Helper\Data')->isWishlistLimitReached($wishlistList) && $customerId;
+        return !$this->_wishlistData->isWishlistLimitReached($wishlistList) && $customerId;
     }
 
     /**
@@ -92,7 +115,7 @@ class Behaviour extends \Magento\Core\Block\Template
      */
     protected function _toHtml()
     {
-        if (\Mage::helper('Magento\MultipleWishlist\Helper\Data')->isMultipleEnabled()) {
+        if ($this->_wishlistData->isMultipleEnabled()) {
             return parent::_toHtml();
         }
         return '';

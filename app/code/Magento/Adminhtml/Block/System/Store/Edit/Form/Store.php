@@ -14,6 +14,8 @@
  * @category    Magento
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Adminhtml\Block\System\Store\Edit\Form;
 
@@ -27,15 +29,17 @@ class Store
      */
     protected function _prepareStoreFieldset(\Magento\Data\Form $form)
     {
-        $storeModel = \Mage::registry('store_data');
-        if ($postData = \Mage::registry('store_post_data')) {
+        $storeModel = $this->_coreRegistry->registry('store_data');
+        $postData = $this->_coreRegistry->registry('store_post_data');
+        if ($postData) {
             $storeModel->setData($postData['store']);
         }
         $fieldset = $form->addFieldset('store_fieldset', array(
             'legend' => __('Store View Information')
         ));
 
-        if (\Mage::registry('store_action') == 'edit' || \Mage::registry('store_action') == 'add' ) {
+        $storeAction = $this->_coreRegistry->registry('store_action');
+        if ($storeAction == 'edit' || $storeAction == 'add' ) {
             $fieldset->addField('store_group_id', 'select', array(
                 'name'      => 'store[group_id]',
                 'label'     => __('Store'),
@@ -125,10 +129,10 @@ class Store
             $values = array();
             foreach ($allgroups as $group) {
                 if ($group->getWebsiteId() == $website->getId()) {
-                    $values[] = array('label'=>$group->getName(),'value'=>$group->getId());
+                    $values[] = array('label' => $group->getName(), 'value' => $group->getId());
                 }
             }
-            $groups[] = array('label'=>$website->getName(),'value'=>$values);
+            $groups[] = array('label' => $website->getName(), 'value' => $values);
         }
         return $groups;
     }

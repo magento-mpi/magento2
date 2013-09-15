@@ -108,12 +108,14 @@ class Grid extends \Magento\Backend\Block\Widget
     protected $_urlModel;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
@@ -121,7 +123,7 @@ class Grid extends \Magento\Backend\Block\Widget
     ) {
         $this->_storeManager = $storeManager;
         $this->_urlModel = $urlModel;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     protected function _construct()

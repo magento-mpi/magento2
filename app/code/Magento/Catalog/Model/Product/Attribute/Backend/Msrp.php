@@ -20,6 +20,22 @@ namespace Magento\Catalog\Model\Product\Attribute\Backend;
 class Msrp extends \Magento\Catalog\Model\Product\Attribute\Backend\Boolean
 {
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData
+    ) {
+        $this->_catalogData = $catalogData;
+    }
+
+    /**
      * Disable MAP if it's bundle with dynamic price type
      *
      * @param \Magento\Catalog\Model\Product $product
@@ -38,7 +54,7 @@ class Msrp extends \Magento\Catalog\Model\Product\Attribute\Backend\Boolean
         $attributeCode = $this->getAttribute()->getName();
         $value = $product->getData($attributeCode);
         if (empty($value)) {
-            $value = \Mage::helper('Magento\Catalog\Helper\Data')->isMsrpApplyToAll();
+            $value = $this->_catalogData->isMsrpApplyToAll();
         }
         if ($value) {
             $product->setData($attributeCode, 0);

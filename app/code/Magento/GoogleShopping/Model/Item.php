@@ -20,7 +20,7 @@ namespace Magento\GoogleShopping\Model;
 class Item extends \Magento\Core\Model\AbstractModel
 {
     /**
-     * Regestry keys for caching attributes and types
+     * Registry keys for caching attributes and types
      *
      * @var string
      */
@@ -139,7 +139,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         $attributeSetId = $this->getProduct()->getAttributeSetId();
         $targetCountry = $this->getTargetCountry();
 
-        $registry = \Mage::registry(self::TYPES_REGISTRY_KEY);
+        $registry = $this->_coreRegistry->registry(self::TYPES_REGISTRY_KEY);
         if (is_array($registry) && isset($registry[$attributeSetId][$targetCountry])) {
             return $registry[$attributeSetId][$targetCountry];
         }
@@ -148,8 +148,8 @@ class Item extends \Magento\Core\Model\AbstractModel
             ->loadByAttributeSetId($attributeSetId, $targetCountry);
 
         $registry[$attributeSetId][$targetCountry] = $type;
-        \Mage::unregister(self::TYPES_REGISTRY_KEY);
-        \Mage::register(self::TYPES_REGISTRY_KEY, $registry);
+        $this->_coreRegistry->unregister(self::TYPES_REGISTRY_KEY);
+        $this->_coreRegistry->register(self::TYPES_REGISTRY_KEY, $registry);
 
         return $type;
     }

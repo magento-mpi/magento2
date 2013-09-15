@@ -20,15 +20,21 @@ class Magento_Core_Helper_Url_RewriteTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $optionsModel = new \Magento\Core\Model\Source\Urlrewrite\Options();
-        Mage::register('_singleton/Magento\Core\Model\Source\Urlrewrite\Options', $optionsModel);
-    }
 
-    /**
-     * Clear helper
-     */
-    protected function tearDown()
-    {
-        Mage::unregister('_singleton/Magento\Core\Model\Source\Urlrewrite\Options');
+        $coreRegisterMock = $this->getMock('Magento_Core_Model_Registry');
+        $coreRegisterMock->expects($this->any())
+            ->method('registry')
+            ->with('_singleton/Magento\Core\Model\Source\Urlrewrite\Options')
+            ->will($this->returnValue($optionsModel));
+
+        $objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')->getMock();
+        $objectManagerMock->expects($this->any())
+            ->method('get')
+            ->with('Magento_Core_Model_Registry')
+            ->will($this->returnValue($coreRegisterMock));
+
+        Mage::reset();
+        Mage::setObjectManager($objectManagerMock);
     }
 
     /**

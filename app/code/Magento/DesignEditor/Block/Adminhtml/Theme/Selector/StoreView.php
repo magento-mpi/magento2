@@ -32,12 +32,14 @@ class StoreView extends \Magento\Backend\Block\Template
     protected $_customizationConfig;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Resource\Website\Collection $websiteCollection
-     * @param \Magento\Theme\Model\Config $themeConfig
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Resource_Website_Collection $websiteCollection
+     * @param Magento_Theme_Model_Config_Customization $customizationConfig
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Resource\Website\Collection $websiteCollection,
         \Magento\Theme\Model\Config\Customization $customizationConfig,
@@ -46,7 +48,7 @@ class StoreView extends \Magento\Backend\Block\Template
         $this->_websiteCollection = $websiteCollection;
         $this->_customizationConfig = $customizationConfig;
 
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

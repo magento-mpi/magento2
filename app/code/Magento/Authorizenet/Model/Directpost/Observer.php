@@ -20,6 +20,43 @@ namespace Magento\Authorizenet\Model\Directpost;
 class Observer
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Authorizenet data
+     *
+     * @var Magento_Authorizenet_Helper_Data
+     */
+    protected $_authorizenetData = null;
+
+    /**
+     * @param Magento_Authorizenet_Helper_Data $authorizenetData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Authorizenet_Helper_Data $authorizenetData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+
+        $this->_authorizenetData = $authorizenetData;
+        $this->_coreData = $coreData;
+    }
+
+    /**
      * Save order into registry to use it in the overloaded controller.
      *
      * @param \Magento\Event\Observer $observer
@@ -29,7 +66,7 @@ class Observer
     {
         /* @var $order \Magento\Sales\Model\Order */
         $order = $observer->getEvent()->getData('order');
-        \Mage::register('directpost_order', $order, true);
+        $this->_coreRegistry->register('directpost_order', $order, true);
 
         return $this;
     }
@@ -43,14 +80,14 @@ class Observer
     public function addAdditionalFieldsToResponseFrontend(\Magento\Event\Observer $observer)
     {
         /* @var $order \Magento\Sales\Model\Order */
-        $order = \Mage::registry('directpost_order');
+        $order = $this->_coreRegistry->registry('directpost_order');
 
         if ($order && $order->getId()) {
             $payment = $order->getPayment();
             if ($payment && $payment->getMethod() == \Mage::getModel('Magento\Authorizenet\Model\Directpost')->getCode()) {
                 /* @var $controller \Magento\Core\Controller\Varien\Action */
                 $controller = $observer->getEvent()->getData('controller_action');
-                $result = \Mage::helper('Magento\Core\Helper\Data')->jsonDecode(
+                $result = $this->_coreData->jsonDecode(
                     $controller->getResponse()->getBody('default'),
                     \Zend_Json::TYPE_ARRAY
                 );
@@ -68,7 +105,7 @@ class Observer
                     $result['directpost'] = array('fields' => $requestToPaygate->getData());
 
                     $controller->getResponse()->clearHeader('Location');
-                    $controller->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
+                    $controller->getResponse()->setBody($this->_coreData->jsonEncode($result));
                 }
             }
         }
@@ -87,7 +124,7 @@ class Observer
     {
          /* @var $order \Magento\Sales\Model\Order */
         $order = $observer->getEvent()->getData('order');
-        \Mage::helper('Magento\Authorizenet\Helper\Data')->updateOrderEditIncrements($order);
+        $this->_authorizenetData->updateOrderEditIncrements($order);
 
         return $this;
     }

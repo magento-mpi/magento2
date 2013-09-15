@@ -18,12 +18,38 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Event\Observer $observer
      * @return  \Magento\Weee\Model\Observer
      */
+    /**
+     * Weee data
+     *
+     * @var Magento_Weee_Helper_Data
+     */
+    protected $_weeeData = null;
+
+    /**
+     * @param Magento_Weee_Helper_Data $weeeData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Weee_Helper_Data $weeeData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_weeeData = $weeeData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
     public function setWeeeRendererInForm(\Magento\Event\Observer $observer)
     {
         //adminhtml_catalog_product_edit_prepare_form
 
         $form = $observer->getEvent()->getForm();
-//        $product = $observer->getEvent()->getProduct();
 
         $attributes = \Mage::getSingleton('Magento\Weee\Model\Tax')->getWeeeAttributeCodes(true);
         foreach ($attributes as $code) {
@@ -152,7 +178,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      */
     public function updateDiscountPercents(\Magento\Event\Observer $observer)
     {
-        if (!\Mage::helper('Magento\Weee\Helper\Data')->isEnabled()) {
+        if (!$this->_weeeData->isEnabled()) {
             return $this;
         }
 
@@ -175,8 +201,8 @@ class Observer extends \Magento\Core\Model\AbstractModel
      */
     public function updateConfigurableProductOptions(\Magento\Event\Observer $observer)
     {
-        /* @var $helper \Magento\Weee\Helper\Data */
-        $helper = \Mage::helper('Magento\Weee\Helper\Data');
+        /* @var $helper Magento_Weee_Helper_Data */
+        $helper = $this->_weeeData;
         if (!$helper->isEnabled()) {
             return $this;
         }
@@ -184,7 +210,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         $response = $observer->getEvent()->getResponseObject();
         $options  = $response->getAdditionalOptions();
 
-        $_product = \Mage::registry('current_product');
+        $_product = $this->_coreRegistry->registry('current_product');
         if (!$_product) {
             return $this;
         }
@@ -212,8 +238,8 @@ class Observer extends \Magento\Core\Model\AbstractModel
      */
     public function updateBundleProductOptions(\Magento\Event\Observer $observer)
     {
-        /* @var $weeeHelper \Magento\Weee\Helper\Data */
-        $weeeHelper = \Mage::helper('Magento\Weee\Helper\Data');
+        /* @var $weeeHelper Magento_Weee_Helper_Data */
+        $weeeHelper = $this->_weeeData;
         if (!$weeeHelper->isEnabled()) {
             return $this;
         }
@@ -222,7 +248,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         $selection = $observer->getEvent()->getSelection();
         $options = $response->getAdditionalOptions();
 
-        $_product = \Mage::registry('current_product');
+        $_product = $this->_coreRegistry->registry('current_product');
 
         $typeDynamic = \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes\Extend::DYNAMIC;
         if (!$_product || $_product->getPriceType() != $typeDynamic) {

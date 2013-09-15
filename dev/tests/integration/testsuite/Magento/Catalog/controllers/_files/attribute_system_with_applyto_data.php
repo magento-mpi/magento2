@@ -9,9 +9,8 @@
  * @license     {license_link}
  */
 
-$model = new \Magento\Catalog\Model\Resource\Eav\Attribute(
-    Mage::getModel('Magento\Core\Model\Context')
-);
+$model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Resource\Eav\Attribute');
 $model->setName('system_attribute')
     ->setId(3)
     ->setEntityTypeId(4)

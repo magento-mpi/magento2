@@ -39,11 +39,33 @@ class Extension extends \Magento\Object
     protected $_filesystem;
 
     /**
+     * Connect data
+     *
+     * @var Magento_Connect_Helper_Data
+     */
+    protected $_connectData = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Connect_Helper_Data $connectData
      * @param \Magento\Filesystem $filesystem
      * @param array $data
      */
-    public function __construct(\Magento\Filesystem $filesystem, array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Connect_Helper_Data $connectData,
+        Magento_Filesystem $filesystem,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        $this->_connectData = $connectData;
         parent::__construct($data);
         $this->_filesystem = $filesystem;
     }
@@ -248,12 +270,12 @@ class Extension extends \Magento\Object
         }
 
         try {
-            $path = \Mage::helper('Magento\Connect\Helper\Data')->getLocalPackagesPath();
+            $path = $this->_connectData->getLocalPackagesPath();
             $this->_filesystem->write($path . 'package.xml', $this->getPackageXml());
 
             $this->unsPackageXml();
             $this->unsTargets();
-            $xml = \Mage::helper('Magento\Core\Helper\Data')->assocToXml($this->getData());
+            $xml = $this->_coreData->assocToXml($this->getData());
             $xml = new \Magento\Simplexml\Element($xml->asXML());
 
             // prepare dir to save
@@ -278,7 +300,7 @@ class Extension extends \Magento\Object
      */
     public function createPackage()
     {
-        $path = \Mage::helper('Magento\Connect\Helper\Data')->getLocalPackagesPath();
+        $path = $this->_connectData->getLocalPackagesPath();
         if (!is_dir($path)) {
             if (!mkdir($path)) {
                 return false;
@@ -298,7 +320,7 @@ class Extension extends \Magento\Object
      */
     public function createPackageV1x()
     {
-        $path = \Mage::helper('Magento\Connect\Helper\Data')->getLocalPackagesPathV1x();
+        $path = $this->_connectData->getLocalPackagesPathV1x();
         if (!is_dir($path)) {
             if (!mkdir($path)) {
                 return false;

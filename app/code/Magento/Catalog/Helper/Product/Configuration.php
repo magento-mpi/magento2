@@ -23,6 +23,25 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
     const XML_PATH_CONFIGURABLE_ALLOWED_TYPES = 'global/catalog/product/type/configurable/allow_product_types';
 
     /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieves product configuration options
      *
      * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
@@ -230,7 +249,7 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
             return array('value' => $_truncatedValue);
         } else {
             if ($maxLength) {
-                $_truncatedValue = \Mage::helper('Magento\Core\Helper\String')->truncate($optionValue, $maxLength, '');
+                $_truncatedValue = $this->_coreString->truncate($optionValue, $maxLength, '');
             } else {
                 $_truncatedValue = $optionValue;
             }
@@ -239,7 +258,7 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
 
         $result = array('value' => $_truncatedValue);
 
-        if ($maxLength && (\Mage::helper('Magento\Core\Helper\String')->strlen($optionValue) > $maxLength)) {
+        if ($maxLength && ($this->_coreString->strlen($optionValue) > $maxLength)) {
             $result['value'] = $result['value'] . $cutReplacer;
             $optionValue = nl2br($optionValue);
             $result['full_view'] = $optionValue;

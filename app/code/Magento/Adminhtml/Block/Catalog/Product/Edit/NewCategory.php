@@ -14,22 +14,30 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Adminhtml\Block\Catalog\Product\Edit;
 
-class NewCategory extends \Magento\Backend\Block\Widget\Form
+class NewCategory extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
         $this->setUseContainer(true);
         $this->_categoryFactory = $categoryFactory;
     }
@@ -39,7 +47,12 @@ class NewCategory extends \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form(array('id' => 'new_category_form'));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'new_category_form',
+            ))
+        );
         $form->setUseContainer($this->getUseContainer());
 
         $form->addField('new_category_messages', 'note', array());
@@ -105,9 +118,7 @@ class NewCategory extends \Magento\Backend\Block\Widget\Form
      */
     public function getAfterElementHtml()
     {
-        /** @var $coreHelper \Magento\Core\Helper\Data */
-        $coreHelper = \Mage::helper('Magento\Core\Helper\Data');
-        $widgetOptions = $coreHelper->jsonEncode(array(
+        $widgetOptions = $this->_coreData->jsonEncode(array(
             'suggestOptions' => array(
                 'source' => $this->getUrl('adminhtml/catalog_category/suggestCategories'),
                 'valueField' => '#new_category_parent',

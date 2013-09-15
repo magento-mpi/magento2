@@ -53,6 +53,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_CustomTest extends 
             'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Custom',
             array(
                 'config'       => $this->getMock('Magento\Core\Model\Config', array(), array(), '', false),
+                'formFactory'  => $this->getMock('Magento_Data_Form_Factory', array(), array(), '', false),
                 'urlBuilder'   => $this->_urlBuilder,
                 'themeContext' => $this->_themeContext
         ));

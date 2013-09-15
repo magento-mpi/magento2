@@ -19,6 +19,32 @@ namespace Magento\User\Block\Role\Grid;
 
 class User extends \Magento\Backend\Block\Widget\Grid\Extended
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -53,7 +79,7 @@ class User extends \Magento\Backend\Block\Widget\Grid\Extended
     protected function _prepareCollection()
     {
         $roleId = $this->getRequest()->getParam('rid');
-        \Mage::register('RID', $roleId);
+        $this->_coreRegistry->register('RID', $roleId);
         $collection = \Mage::getModel('Magento\User\Model\Role')->getUsersCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -148,7 +174,7 @@ class User extends \Magento\Backend\Block\Widget\Grid\Extended
         }
         $roleId = ( $this->getRequest()->getParam('rid') > 0 ) ?
             $this->getRequest()->getParam('rid') :
-            \Mage::registry('RID');
+            $this->_coreRegistry->registry('RID');
         $users  = \Mage::getModel('Magento\User\Model\Role')->setId($roleId)->getRoleUsers();
         if (sizeof($users) > 0) {
             if ($json) {
@@ -156,7 +182,7 @@ class User extends \Magento\Backend\Block\Widget\Grid\Extended
                 foreach ($users as $usrid) {
                     $jsonUsers[$usrid] = 0;
                 }
-                return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode((object)$jsonUsers);
+                return $this->_coreData->jsonEncode((object)$jsonUsers);
             } else {
                 return array_values($users);
             }

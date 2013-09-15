@@ -20,7 +20,26 @@ namespace Magento\Authorizenet\Controller\Directpost;
 class Payment extends \Magento\Core\Controller\Front\Action
 {
     /**
-     * @return \Magento\Checkout\Model\Session
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
+     * @return Magento_Checkout_Model_Session
      */
     protected function _getCheckout()
     {
@@ -29,7 +48,7 @@ class Payment extends \Magento\Core\Controller\Front\Action
 
     /**
      * Get session model
-
+     *
      * @return \Magento\Authorizenet\Model\Directpost\Session
      */
     protected function _getDirectPostSession()
@@ -59,13 +78,12 @@ class Payment extends \Magento\Core\Controller\Front\Action
             }
             $paymentMethod->process($data);
             $result['success'] = 1;
-        }
+        } catch (Magento_Core_Exception $e) {
         catch (\Magento\Core\Exception $e) {
             \Mage::logException($e);
             $result['success'] = 0;
             $result['error_msg'] = $e->getMessage();
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             \Mage::logException($e);
             $result['success'] = 0;
             $result['error_msg'] = __('We couldn\'t process your order right now. Please try again later.');
@@ -79,10 +97,11 @@ class Payment extends \Magento\Core\Controller\Front\Action
             }
             $result['controller_action_name'] = $data['controller_action_name'];
             $result['is_secure'] = isset($data['is_secure']) ? $data['is_secure'] : false;
-            $params['redirect'] = \Mage::helper('Magento\Authorizenet\Helper\Data')->getRedirectIframeUrl($result);
+            $params['redirect'] = $this->_objectManager->get('Magento\Authorizenet\Helper\Data')
+                ->getRedirectIframeUrl($result);
         }
 
-        \Mage::register('authorizenet_directpost_form_params', $params);
+        $this->_coreRegistry->register('authorizenet_directpost_form_params', $params);
         $this->addPageLayoutHandles();
         $this->loadLayout(false)->renderLayout();
     }
@@ -100,7 +119,8 @@ class Payment extends \Magento\Core\Controller\Front\Action
             && isset($redirectParams['controller_action_name'])
         ) {
             $this->_getDirectPostSession()->unsetData('quote_id');
-            $params['redirect_parent'] = \Mage::helper('Magento\Authorizenet\Helper\Data')->getSuccessOrderUrl($redirectParams);
+            $params['redirect_parent'] = $this->_objectManager->get('Magento\Authorizenet\Helper\Data')
+                ->getSuccessOrderUrl($redirectParams);
         }
         if (!empty($redirectParams['error_msg'])) {
             $cancelOrder = empty($redirectParams['x_invoice_num']);
@@ -114,7 +134,7 @@ class Payment extends \Magento\Core\Controller\Front\Action
             unset($params['redirect_parent']);
         }
 
-        \Mage::register('authorizenet_directpost_form_params', array_merge($params, $redirectParams));
+        $this->_coreRegistry->register('authorizenet_directpost_form_params', array_merge($params, $redirectParams));
         $this->addPageLayoutHandles();
         $this->loadLayout(false)->renderLayout();
     }
@@ -128,7 +148,8 @@ class Payment extends \Magento\Core\Controller\Front\Action
         $paymentParam = $this->getRequest()->getParam('payment');
         $controller = $this->getRequest()->getParam('controller');
         if (isset($paymentParam['method'])) {
-            $params = \Mage::helper('Magento\Authorizenet\Helper\Data')->getSaveOrderUrlParams($controller);
+            $params = $this->_objectManager->get('Magento_Authorizenet_Helper_Data')
+                ->getSaveOrderUrlParams($controller);
             $this->_getDirectPostSession()->setQuoteId($this->_getCheckout()->getQuote()->getId());
             $this->_forward(
                 $params['action'],
@@ -141,7 +162,7 @@ class Payment extends \Magento\Core\Controller\Front\Action
                 'error_messages' => __('Please choose a payment method.'),
                 'goto_section'   => 'payment'
             );
-            $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
         }
     }
 
@@ -152,7 +173,8 @@ class Payment extends \Magento\Core\Controller\Front\Action
     public function returnQuoteAction()
     {
         $this->_returnCustomerQuote();
-        $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode(array('success' => 1)));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')
+            ->jsonEncode(array('success' => 1)));
     }
 
     /**
@@ -164,10 +186,7 @@ class Payment extends \Magento\Core\Controller\Front\Action
     protected function _returnCustomerQuote($cancelOrder = false, $errorMsg = '')
     {
         $incrementId = $this->_getDirectPostSession()->getLastOrderIncrementId();
-        if ($incrementId &&
-            $this->_getDirectPostSession()
-                ->isCheckoutOrderIncrementIdExist($incrementId)
-        ) {
+        if ($incrementId && $this->_getDirectPostSession()->isCheckoutOrderIncrementIdExist($incrementId)) {
             /* @var $order \Magento\Sales\Model\Order */
             $order = \Mage::getModel('Magento\Sales\Model\Order')->loadByIncrementId($incrementId);
             if ($order->getId()) {

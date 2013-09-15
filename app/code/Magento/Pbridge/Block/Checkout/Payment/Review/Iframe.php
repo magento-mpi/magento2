@@ -68,7 +68,7 @@ class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
             'customer_email' => $this->getCustomerEmail()
         );
 
-        $sourceUrl = \Mage::helper('Magento\Pbridge\Helper\Data')->getGatewayFormUrl($requestParams, $this->getQuote());
+        $sourceUrl = $this->_pbridgeData->getGatewayFormUrl($requestParams, $this->getQuote());
         return $sourceUrl;
     }
 }

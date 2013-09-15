@@ -14,7 +14,7 @@
 namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
 
 class Conditions
-    extends \Magento\Adminhtml\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare conditions form
@@ -23,8 +23,9 @@ class Conditions
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
-        $model = \Mage::registry('current_reminder_rule');
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
+        $model = $this->_coreRegistry->registry('current_reminder_rule');
 
         $renderer = \Mage::getBlockSingleton('Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
             ->setTemplate('promo/fieldset.phtml')

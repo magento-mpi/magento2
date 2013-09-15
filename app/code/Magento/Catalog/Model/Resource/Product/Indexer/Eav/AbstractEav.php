@@ -22,6 +22,25 @@ abstract class AbstractEav
     extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexer
 {
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($resource);
+    }
+
+    /**
      * Rebuild all index data
      *
      *
@@ -188,7 +207,7 @@ abstract class AbstractEav
         /**
          * Add additional external limitation
          */
-        \Mage::dispatchEvent('prepare_catalog_product_index_select', array(
+        $this->_eventManager->dispatch('prepare_catalog_product_index_select', array(
             'select'        => $select,
             'entity_field'  => new \Zend_Db_Expr('l.parent_id'),
             'website_field' => new \Zend_Db_Expr('cs.website_id'),

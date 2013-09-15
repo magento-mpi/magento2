@@ -42,8 +42,8 @@ class Download extends \Magento\Core\Controller\Front\Action
 
     protected function _processDownload($resource, $resourceType)
     {
-        $helper = \Mage::helper('Magento\Downloadable\Helper\Download');
-        /* @var $helper \Magento\Downloadable\Helper\Download */
+        $helper = $this->_objectManager->get('Magento\Downloadable\Helper\Download');
+        /* @var $helper Magento\Downloadable\Helper\Download */
 
         $helper->setResource($resource, $resourceType);
 
@@ -89,7 +89,7 @@ class Download extends \Magento\Core\Controller\Front\Action
                 $resource = $sample->getSampleUrl();
                 $resourceType = \Magento\Downloadable\Helper\Download::LINK_TYPE_URL;
             } elseif ($sample->getSampleType() == \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE) {
-                $resource = \Mage::helper('Magento\Downloadable\Helper\File')->getFilePath(
+                $resource = $this->_objectManager->get('Magento\Downloadable\Helper\File')->getFilePath(
                     \Magento\Downloadable\Model\Sample::getBasePath(), $sample->getSampleFile()
                 );
                 $resourceType = \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE;
@@ -119,7 +119,7 @@ class Download extends \Magento\Core\Controller\Front\Action
                 $resource = $link->getSampleUrl();
                 $resourceType = \Magento\Downloadable\Helper\Download::LINK_TYPE_URL;
             } elseif ($link->getSampleType() == \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE) {
-                $resource = \Mage::helper('Magento\Downloadable\Helper\File')->getFilePath(
+                $resource = $this->_objectManager->get('Magento\Downloadable\Helper\File')->getFilePath(
                     \Magento\Downloadable\Model\Link::getBaseSamplePath(), $link->getSampleFile()
                 );
                 $resourceType = \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE;
@@ -145,7 +145,7 @@ class Download extends \Magento\Core\Controller\Front\Action
             $this->_getCustomerSession()->addNotice(__("We can't find the link you requested."));
             return $this->_redirect('*/customer/products');
         }
-        if (!\Mage::helper('Magento\Downloadable\Helper\Data')->getIsShareable($linkPurchasedItem)) {
+        if (!$this->_objectManager->get('\Magento\Downloadable\Helper\Data')->getIsShareable($linkPurchasedItem)) {
             $customerId = $this->_getCustomerSession()->getCustomerId();
             if (!$customerId) {
                 $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($linkPurchasedItem->getProductId());
@@ -180,7 +180,7 @@ class Download extends \Magento\Core\Controller\Front\Action
                 $resource = $linkPurchasedItem->getLinkUrl();
                 $resourceType = \Magento\Downloadable\Helper\Download::LINK_TYPE_URL;
             } elseif ($linkPurchasedItem->getLinkType() == \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE) {
-                $resource = \Mage::helper('Magento\Downloadable\Helper\File')->getFilePath(
+                $resource = $this->_objectManager->get('Magento\Downloadable\Helper\File')->getFilePath(
                     \Magento\Downloadable\Model\Link::getBasePath(), $linkPurchasedItem->getLinkFile()
                 );
                 $resourceType = \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE;

@@ -25,6 +25,11 @@ class Observer
      */
     protected $_flagInCustomerRegistration = false;
 
+    /**
+     * Invitation configuration
+     *
+     * @var Magento_Invitation_Model_Config
+     */
     protected $_config;
 
     public function __construct()
@@ -33,24 +38,20 @@ class Observer
     }
 
     /**
-     * Observe customer registration for invitations
+     * Invitation data
      *
-     * @return void
+     * @var Magento_Invitation_Helper_Data
      */
-    public function restrictCustomerRegistration(\Magento\Event\Observer $observer)
-    {
-        if (!$this->_config->isEnabledOnFront()) {
-            return;
-        }
+    protected $_invitationData = null;
 
-        $result = $observer->getEvent()->getResult();
-
-        if (!$result->getIsAllowed()) {
-            \Mage::helper('Magento\Invitation\Helper\Data')->isRegistrationAllowed(false);
-        } else {
-            \Mage::helper('Magento\Invitation\Helper\Data')->isRegistrationAllowed(true);
-            $result->setIsAllowed(!$this->_config->getInvitationRequired());
-        }
+    /**
+     * @param Magento_Invitation_Helper_Data $invitationData
+     */
+    public function __construct(
+        Magento_Invitation_Helper_Data $invitationData
+    ) {
+        $this->_invitationData = $invitationData;
+        $this->_config = Mage::getSingleton('Magento_Invitation_Model_Config');
     }
 
     /**

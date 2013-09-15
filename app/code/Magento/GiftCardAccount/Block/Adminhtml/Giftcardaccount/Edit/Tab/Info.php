@@ -10,9 +10,8 @@
 
 namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
 
-class Info extends \Magento\Adminhtml\Block\Widget\Form
+class Info extends \Magento\Backend\Block\Widget\Form\Generic
 {
-
     protected $_template = 'edit/tab/info.phtml';
 
     /**
@@ -21,16 +20,22 @@ class Info extends \Magento\Adminhtml\Block\Widget\Form
     protected $_storeManager;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
         $this->_storeManager = $storeManager;
     }
 
@@ -41,16 +46,17 @@ class Info extends \Magento\Adminhtml\Block\Widget\Form
      */
     public function initForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_info');
 
-        $model = \Mage::registry('current_giftcardaccount');
+        $model = $this->_coreRegistry->registry('current_giftcardaccount');
 
         $fieldset = $form->addFieldset('base_fieldset',
             array('legend'=>__('Information'))
         );
 
-        if ($model->getId()){
+        if ($model->getId()) {
             $fieldset->addField('code', 'label', array(
                 'name'      => 'code',
                 'label'     => __('Gift Card Code'),
@@ -70,10 +76,8 @@ class Info extends \Magento\Adminhtml\Block\Widget\Form
             'name'      => 'status',
             'required'  => true,
             'options'   => array(
-                \Magento\GiftCardAccount\Model\Giftcardaccount::STATUS_ENABLED =>
-                    __('Yes'),
-                \Magento\GiftCardAccount\Model\Giftcardaccount::STATUS_DISABLED =>
-                    __('No'),
+                \Magento\GiftCardAccount\Model\Giftcardaccount::STATUS_ENABLED => __('Yes'),
+                \Magento\GiftCardAccount\Model\Giftcardaccount::STATUS_DISABLED => __('No'),
             ),
         ));
         if (!$model->getId()) {
@@ -86,10 +90,8 @@ class Info extends \Magento\Adminhtml\Block\Widget\Form
             'name'      => 'is_redeemable',
             'required'  => true,
             'options'   => array(
-                \Magento\GiftCardAccount\Model\Giftcardaccount::REDEEMABLE =>
-                    __('Yes'),
-                \Magento\GiftCardAccount\Model\Giftcardaccount::NOT_REDEEMABLE =>
-                    __('No'),
+                \Magento\GiftCardAccount\Model\Giftcardaccount::REDEEMABLE => __('Yes'),
+                \Magento\GiftCardAccount\Model\Giftcardaccount::NOT_REDEEMABLE => __('No'),
             ),
         ));
         if (!$model->getId()) {
@@ -162,7 +164,7 @@ class Info extends \Magento\Adminhtml\Block\Widget\Form
     public function getCurrencyJson()
     {
         $result = $this->_getCurrency();
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 
     /**

@@ -93,7 +93,7 @@ class Datetime extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Date
      */
     public function getHtml()
     {
-        $htmlId = \Mage::helper('Magento\Core\Helper\Data')->uniqHash($this->_getHtmlId());
+        $htmlId = $this->_coreData->uniqHash($this->_getHtmlId());
         $format = $this->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         $timeFormat = '';
 

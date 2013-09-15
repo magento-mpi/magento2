@@ -26,17 +26,19 @@ class Collection
     protected $_registryManager;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\Registry $registryManager
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\Registry $registryManager,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_registryManager = $registryManager;
-        parent::__construct($fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $resource);
     }
 
     /**

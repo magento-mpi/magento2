@@ -44,7 +44,7 @@ class Compare extends \Magento\Core\Controller\Front\Action
         $beforeUrl = $this->getRequest()->getParam(self::PARAM_NAME_URL_ENCODED);
         if ($beforeUrl) {
             \Mage::getSingleton('Magento\Catalog\Model\Session')
-                ->setBeforeCompareUrl(\Mage::helper('Magento\Core\Helper\Data')->urlDecode($beforeUrl));
+                ->setBeforeCompareUrl($this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode($beforeUrl));
         }
 
         if ($items) {
@@ -74,15 +74,15 @@ class Compare extends \Magento\Core\Controller\Front\Action
                 ->load($productId);
 
             if ($product->getId()/* && !$product->isSuper()*/) {
-                \Mage::getSingleton('Magento\Catalog\Model\Product\Compare\ListCompare')->addProduct($product);
-                $productName = \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($product->getName());
-                \Mage::getSingleton('Magento\Catalog\Model\Session')->addSuccess(
+                \Mage::getSingleton('Magento\Catalog\Model\Product\Compare\List')->addProduct($product);
+                $productName = $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($product->getName());
+                Mage::getSingleton('Magento\Catalog\Model\Session')->addSuccess(
                     __('You added product %1 to the comparison list.', $productName)
                 );
                 $this->_eventManager->dispatch('catalog_product_compare_add_product', array('product'=>$product));
             }
 
-            \Mage::helper('Magento\Catalog\Helper\Product\Compare')->calculate();
+            $this->_objectManager->get('Magento\Catalog\Helper\Product\Compare')->calculate();
         }
 
         $this->_redirectReferer();
@@ -114,7 +114,7 @@ class Compare extends \Magento\Core\Controller\Front\Action
 
                 $item->loadByProduct($product);
                 /** @var $helper \Magento\Catalog\Helper\Product\Compare */
-                $helper = \Mage::helper('Magento\Catalog\Helper\Product\Compare');
+                $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Compare');
                 if ($item->getId()) {
                     $item->delete();
                     $productName = $helper->escapeHtml($product->getName());
@@ -153,7 +153,7 @@ class Compare extends \Magento\Core\Controller\Front\Action
         try {
             $items->clear();
             $session->addSuccess(__('You cleared the comparison list.'));
-            \Mage::helper('Magento\Catalog\Helper\Product\Compare')->calculate();
+            $this->_objectManager->get('Magento\Catalog\Helper\Product\Compare')->calculate();
         } catch (\Magento\Core\Exception $e) {
             $session->addError($e->getMessage());
         } catch (\Exception $e) {

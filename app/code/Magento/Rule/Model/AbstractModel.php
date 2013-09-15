@@ -65,6 +65,31 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
     abstract public function getActionsInstance();
 
     /**
+     * @var Magento_Data_Form_Factory
+     */
+    protected $_formFactory;
+
+    /**
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_formFactory = $formFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Prepare data before saving
      *
      * @return \Magento\Rule\Model\AbstractModel
@@ -238,7 +263,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
     public function getForm()
     {
         if (!$this->_form) {
-            $this->_form = new \Magento\Data\Form();
+            $this->_form = $this->_formFactory->create();
         }
         return $this->_form;
     }

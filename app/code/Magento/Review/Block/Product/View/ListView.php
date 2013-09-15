@@ -23,7 +23,7 @@ class ListView extends \Magento\Review\Block\Product\View
 
     public function getProductId()
     {
-        return \Mage::registry('product')->getId();
+        return $this->_coreRegistry->registry('product')->getId();
     }
 
     protected function _prepareLayout()

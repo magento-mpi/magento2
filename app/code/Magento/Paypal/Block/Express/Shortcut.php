@@ -49,6 +49,49 @@ class Shortcut extends \Magento\Core\Block\Template
      */
     protected $_checkoutType = 'Magento\Paypal\Model\Express\Checkout';
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Payment data
+     *
+     * @var Magento_Payment_Helper_Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * Paypal data
+     *
+     * @var Magento_Paypal_Helper_Data
+     */
+    protected $_paypalData = null;
+
+    /**
+     * @param Magento_Paypal_Helper_Data $paypalData
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Paypal_Helper_Data $paypalData,
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_paypalData = $paypalData;
+        $this->_paymentData = $paymentData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _beforeToHtml()
     {
         $result = parent::_beforeToHtml();
@@ -67,8 +110,8 @@ class Shortcut extends \Magento\Core\Block\Template
 
         if ($isInCatalog) {
             // Show PayPal shortcut on a product view page only if product has nonzero price
-            /** @var $currentProduct \Magento\Catalog\Model\Product */
-            $currentProduct = \Mage::registry('current_product');
+            /** @var $currentProduct Magento_Catalog_Model_Product */
+            $currentProduct = $this->_coreRegistry->registry('current_product');
             if (!is_null($currentProduct)) {
                 $productPrice = (float)$currentProduct->getFinalPrice();
                 if (empty($productPrice) && !$currentProduct->isGrouped()) {
@@ -85,7 +128,7 @@ class Shortcut extends \Magento\Core\Block\Template
         }
 
         // check payment method availability
-        $methodInstance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance($this->_paymentMethodCode);
+        $methodInstance = $this->_paymentData->getMethodInstance($this->_paymentMethodCode);
         if (!$methodInstance || !$methodInstance->isAvailable($quote)) {
             $this->_shouldRender = false;
             return $result;
@@ -112,11 +155,12 @@ class Shortcut extends \Magento\Core\Block\Template
 
         // ask whether to create a billing agreement
         $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId(); // potential issue for caching
-        if (\Mage::helper('Magento\Paypal\Helper\Data')->shouldAskToCreateBillingAgreement($config, $customerId)) {
+        if ($this->_paypalData->shouldAskToCreateBillingAgreement($config, $customerId)) {
             $this->setConfirmationUrl($this->getUrl($this->_startAction,
                 array(\Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT => 1)
             ));
-            $this->setConfirmationMessage(__('Would you like to sign a billing agreement to streamline further purchases with PayPal?'));
+            $this->setConfirmationMessage(__('Would you like to sign a billing agreement '
+                . 'to streamline further purchases with PayPal?'));
         }
 
         return $result;

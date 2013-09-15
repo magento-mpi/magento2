@@ -15,7 +15,6 @@ namespace Magento\GiftRegistry\Block\Customer;
 
 class Items extends \Magento\Catalog\Block\Product\AbstractProduct
 {
-
     /**
      * Return gift registry form header
      */
@@ -31,9 +30,9 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getItemCollection()
     {
-         if (!$this->hasItemCollection()) {
-             $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
-             $collection = \Mage::getModel('Magento\GiftRegistry\Model\Item')->getCollection()
+        if (!$this->hasItemCollection()) {
+            $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
+            $collection = \Mage::getModel('Magento\GiftRegistry\Model\Item')->getCollection()
                 ->addRegistryFilter($this->getEntity()->getId());
             $this->setData('item_collection', $collection);
         }
@@ -124,6 +123,6 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
     {
         $product = $item->getProduct();
         $product->setCustomOptions($item->getOptionsByCode());
-        return \Mage::helper('Magento\Core\Helper\Data')->currency($product->getFinalPrice(),true,true);
+        return $this->_coreData->currency($product->getFinalPrice(), true, true);
     }
 }

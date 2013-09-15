@@ -36,6 +36,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     {
         parent::_construct();
 
+        // TODO: Avoid varienForm usage, it is deprecated
         $this->_formScripts[] = "function saveAndContinueEdit(url)" .
             "{var tagForm = new varienForm('edit_form'); tagForm.submit(url);}";
 

@@ -30,8 +30,10 @@ class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_T
     {
         $this->_product = Mage::getModel('Magento\Catalog\Model\Product');
         $this->_product->load(1);
-        Mage::unregister('current_product');
-        Mage::register('current_product', $this->_product);
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->unregister('current_product');
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $this->_product);
         $this->_block = Mage::app()->getLayout()->createBlock('Magento\Catalog\Block\Product\View\Options');
     }
 

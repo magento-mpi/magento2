@@ -26,7 +26,8 @@ class General extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $htmlIdPrefix = 'rma_properties_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
 

@@ -43,24 +43,25 @@ class Edit extends \Magento\Adminhtml\Block\Widget
     protected $_template = 'system/email/template/edit.phtml';
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Backend\Model\Menu\Config $menuConfig
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Backend\Model\Menu\Config $menuConfig,
         \Magento\Backend\Model\Config\Structure $configStructure,
         array $data = array()
-    )
-    {
-        parent::__construct($context, $data);
+    ) {
         $this->_registryManager = $registry;
         $this->_menuConfig = $menuConfig;
         $this->_configStructure = $configStructure;
+        parent::__construct($coreData, $context, $data);
     }
 
     protected function _prepareLayout()
@@ -76,7 +77,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget
                 )
         );
 
-
         $this->setChild('reset_button',
             $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
@@ -86,7 +86,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget
                     )
                 )
         );
-
 
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
@@ -110,7 +109,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget
                 )
         );
 
-
         $this->setChild('to_html_button',
             $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
@@ -133,7 +131,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget
                     )
                 )
         );
-
 
         $this->setChild('preview_button',
             $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
@@ -168,7 +165,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget
                 )
         );
 
-
         $this->addChild('form', 'Magento\Adminhtml\Block\System\Email\Template\Edit\Form');
         return parent::_prepareLayout();
     }
@@ -199,7 +195,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget
     {
         return $this->getChildHtml('toggle_button');
     }
-
 
     public function getResetButtonHtml()
     {
@@ -253,13 +248,11 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      */
     public function getHeaderText()
     {
-        if($this->getEditMode()) {
-          return __('Edit Email Template');
+        if ($this->getEditMode()) {
+            return __('Edit Email Template');
         }
-
         return  __('New Email Template');
     }
-
 
     /**
      * Return form block HTML
@@ -338,7 +331,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
         $template = $this->getEmailTemplate();
         $paths = $template->getSystemConfigPathsWhereUsedAsDefault();
         $pathsParts = $this->_getSystemConfigPathsParts($paths);
-        if($asJSON){
+        if ($asJSON) {
             return $this->helper('Magento\Core\Helper\Data')->jsonEncode($pathsParts);
         }
         return $pathsParts;
@@ -356,8 +349,8 @@ class Edit extends \Magento\Adminhtml\Block\Widget
         $template = $this->getEmailTemplate();
         $paths = $template->getSystemConfigPathsWhereUsedCurrently();
         $pathsParts = $this->_getSystemConfigPathsParts($paths);
-        if($asJSON){
-            return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($pathsParts);
+        if ($asJSON) {
+            return $this->_coreData->jsonEncode($pathsParts);
         }
         return $pathsParts;
     }

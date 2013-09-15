@@ -141,10 +141,13 @@ class Magento_Adminhtml_Controller_CustomerTest extends Magento_Backend_Utility_
          */
         $this->assertSessionMessages($this->logicalNot($this->isEmpty()), \Magento\Core\Model\Message::SUCCESS);
 
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
         /**
          * Check that customer id set and addresses saved
          */
-        $customer = Mage::registry('current_customer');
+        $customer = $objectManager->get('Magento_Core_Model_Registry')->registry('current_customer');
         $this->assertInstanceOf('Magento\Customer\Model\Customer', $customer);
         $this->assertCount(1, $customer->getAddressesCollection());
 
@@ -213,10 +216,13 @@ class Magento_Adminhtml_Controller_CustomerTest extends Magento_Backend_Utility_
             $this->equalTo(array('You saved the customer.')), \Magento\Core\Model\Message::SUCCESS
         );
 
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
         /**
          * Check that customer id set and addresses saved
          */
-        $customer = Mage::registry('current_customer');
+        $customer = $objectManager->get('Magento\Core\Model\Registry')->registry('current_customer');
         $this->assertInstanceOf('Magento\Customer\Model\Customer', $customer);
 
         /**

@@ -45,6 +45,25 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Init resource model (catalog/category)
      *
      */
+    /**
+     * Sitemap data
+     *
+     * @var Magento_Sitemap_Helper_Data
+     */
+    protected $_sitemapData = null;
+
+    /**
+     * @param Magento_Sitemap_Helper_Data $sitemapData
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Sitemap_Helper_Data $sitemapData,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_sitemapData = $sitemapData;
+        parent::__construct($resource);
+    }
+
     protected function _construct()
     {
         $this->_init('catalog_product_entity', 'entity_id');
@@ -189,7 +208,7 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
             \Mage::getSingleton('Magento\Catalog\Model\Product\Status')->getVisibleStatusIds(), 'in');
 
         // Join product images required attributes
-        $imageIncludePolicy = \Mage::helper('Magento\Sitemap\Helper\Data')->getProductImageIncludePolicy($store->getId());
+        $imageIncludePolicy = $this->_sitemapData->getProductImageIncludePolicy($store->getId());
         if (\Magento\Sitemap\Model\Source\Product\Image\Include::INCLUDE_NONE != $imageIncludePolicy) {
             $this->_joinAttribute($store->getId(), 'name');
             $this->_select->columns(array(
@@ -247,8 +266,8 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _loadProductImages($product, $storeId)
     {
-        /** @var $helper \Magento\Sitemap\Helper\Data */
-        $helper = \Mage::helper('Magento\Sitemap\Helper\Data');
+        /** @var $helper Magento_Sitemap_Helper_Data */
+        $helper = $this->_sitemapData;
         $imageIncludePolicy = $helper->getProductImageIncludePolicy($storeId);
 
         // Get product images

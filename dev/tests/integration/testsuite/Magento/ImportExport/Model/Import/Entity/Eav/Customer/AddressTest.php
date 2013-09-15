@@ -80,7 +80,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      */
     public function setUp()
     {
-        $this->_entityAdapter = new $this->_testClassName();
+        $this->_entityAdapter = Mage::getObjectManager()->create($this->_testClassName);
     }
 
     /**
@@ -128,8 +128,11 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      */
     public function testInitAddresses()
     {
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
         // get addressed from fixture
-        $customers = Mage::registry($this->_fixtureKey);
+        $customers = $objectManager->get('Magento_Core_Model_Registry')->registry($this->_fixtureKey);
         $correctAddresses = array();
         /** @var $customer \Magento\Customer\Model\Customer */
         foreach ($customers as $customer) {
@@ -196,8 +199,11 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      */
     protected function _addTestAddress(\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address $entityAdapter)
     {
-        $customers = Mage::registry($this->_fixtureKey);
-        /** @var $customer \Magento\Customer\Model\Customer */
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+        $customers = $objectManager->get('Magento\Core\Model\Registry')->registry($this->_fixtureKey);
+        /** @var $customer Magento\Customer\Model\Customer */
         $customer = reset($customers);
         $customerId = $customer->getId();
 
@@ -273,9 +279,12 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      */
     public function testSaveCustomerDefaults()
     {
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
         // get not default address
-        $customers = Mage::registry($this->_fixtureKey);
-        /** @var $notDefaultAddress \Magento\Customer\Model\Address */
+        $customers = $objectManager->get('Magento\Core\Model\Registry')->registry($this->_fixtureKey);
+        /** @var $notDefaultAddress Magento_Customer_Model_Address */
         $notDefaultAddress = null;
         /** @var $addressCustomer \Magento\Customer\Model\Customer */
         $addressCustomer = null;

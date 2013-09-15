@@ -18,6 +18,25 @@ namespace Magento\Sales\Controller\Billing;
 class Agreement extends \Magento\Core\Controller\Front\Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * View billing agreements
      *
      */
@@ -170,7 +189,7 @@ class Agreement extends \Magento\Core\Controller\Front\Action
                 return false;
             }
         }
-        \Mage::register('current_billing_agreement', $billingAgreement);
+        $this->_coreRegistry->register('current_billing_agreement', $billingAgreement);
         return $billingAgreement;
     }
 

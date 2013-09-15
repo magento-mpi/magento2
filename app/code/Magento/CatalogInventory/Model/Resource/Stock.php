@@ -70,6 +70,25 @@ class Stock extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_stock;
 
     /**
+     * Catalog inventory data
+     *
+     * @var Magento_CatalogInventory_Helper_Data
+     */
+    protected $_catalogInventoryData = null;
+
+    /**
+     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_catalogInventoryData = $catalogInventoryData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Define main table and initialize connection
      *
      */
@@ -210,7 +229,7 @@ class Stock extends \Magento\Core\Model\Resource\Db\AbstractDb
 
             $this->_isConfig = true;
             $this->_stock = \Mage::getModel('Magento\CatalogInventory\Model\Stock');
-            $this->_configTypeIds = array_keys(\Mage::helper('Magento\CatalogInventory\Helper\Data')->getIsQtyTypeIds(true));
+            $this->_configTypeIds = array_keys($this->_catalogInventoryData->getIsQtyTypeIds(true));
         }
     }
 

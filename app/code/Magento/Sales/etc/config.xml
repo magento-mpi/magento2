@@ -327,7 +327,7 @@
                         <after>shipping,subtotal</after>
                     </grand_total>
                     <cost_total>
-                        <class>Magento\Sales\Model\Order\Creditmemo\Total\Cost</class>
+                        <class>Magento\Sales\Model\Order\Creditmemo\Total\Cos</class>
                         <after>discount</after>
                         <before>grand_total</before>
                     </cost_total>
@@ -398,27 +398,7 @@
         <secure_url>
             <sales>/sales/</sales>
         </secure_url>
-        <translate>
-            <modules>
-                <Magento_Sales>
-                    <files>
-                        <default>Magento_Sales.csv</default>
-                    </files>
-                </Magento_Sales>
-            </modules>
-        </translate>
     </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Sales>
-                    <files>
-                        <default>Magento_Sales.csv</default>
-                    </files>
-                </Magento_Sales>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <sales>
             <totals_sort>

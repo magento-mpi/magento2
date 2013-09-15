@@ -118,27 +118,59 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $_config;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Customer_Helper_Data $customerData
+     * @param Magento_Core_Helper_Data $coreData
      * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Sender $sender
-     * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Eav\Model\Config $config
-     * @param \Magento\Core\Model\Resource\AbstractResource|null $resource
-     * @param \Magento\Data\Collection\Db|null $resourceCollection
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Sender $sender
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Eav_Model_Config $config
+     * @param Magento_Customer_Model_Resource_Customer $resource
+     * @param Magento_Data_Collection_Db|null $resourceCollection
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Customer_Helper_Data $customerData,
+        Magento_Core_Helper_Data $coreData,
         \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Sender $sender,
-        \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\Eav\Model\Config $config,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Sender $sender,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Eav_Model_Config $config,
+        Magento_Customer_Model_Resource_Customer $resource,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_customerData = $customerData;
+        $this->_coreData = $coreData;
         $this->_sender = $sender;
         $this->_storeManager = $storeManager;
         $this->_config = $config;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -183,7 +215,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
                 self::EXCEPTION_INVALID_EMAIL_OR_PASSWORD
             );
         }
-        \Mage::dispatchEvent('customer_customer_authenticated', array(
+        $this->_eventManager->dispatch('customer_customer_authenticated', array(
            'model'    => $this,
            'password' => $password,
         ));
@@ -383,7 +415,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     public function hashPassword($password, $salt = null)
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->getHash($password, !is_null($salt) ? $salt : 2);
+        return $this->_coreData->getHash($password, !is_null($salt) ? $salt : 2);
     }
 
     /**
@@ -394,7 +426,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     public function generatePassword($length = 6)
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->getRandomString($length);
+        return $this->_coreData->getRandomString($length);
     }
 
     /**
@@ -409,7 +441,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         if (!$hash) {
             return false;
         }
-        return \Mage::helper('Magento\Core\Helper\Data')->validateHash($password, $hash);
+        return $this->_coreData->validateHash($password, $hash);
     }
 
 
@@ -421,7 +453,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     public function encryptPassword($password)
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->encrypt($password);
+        return $this->_coreData->encrypt($password);
     }
 
     /**
@@ -432,7 +464,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     public function decryptPassword($password)
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->decrypt($password);
+        return $this->_coreData->decrypt($password);
     }
 
     /**
@@ -1101,7 +1133,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
             return true;
         }
 
-        $expirationPeriod = \Mage::helper('Magento\Customer\Helper\Data')->getResetPasswordLinkExpirationPeriod();
+        $expirationPeriod = $this->_customerData->getResetPasswordLinkExpirationPeriod();
 
         $currentDate = \Magento\Date::now();
         $currentTimestamp = \Magento\Date::toTimestamp($currentDate);

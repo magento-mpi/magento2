@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Create Configurable product Settings Tab Block
  *
@@ -18,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super;
 
-class Settings extends \Magento\Adminhtml\Block\Widget\Form
+class Settings extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare block children and data
@@ -44,7 +43,7 @@ class Settings extends \Magento\Adminhtml\Block\Widget\Form
      */
     public function getProduct()
     {
-        return \Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**
@@ -54,7 +53,8 @@ class Settings extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset('settings', array(
             'legend' => __('Select Configurable Attributes')
         ));

@@ -37,6 +37,11 @@
             <value>86400</value>
         </param>
     </type>
+    <type name="Magento\Core\Model\Store">
+        <param name="isCustomEntryPoint">
+            <value type="argument">Magento\Core\Model\Store::CUSTOM_ENTRY_POINT_PARAM</value>
+        </param>
+    </type>
     <type name="Magento\Core\Model\Acl\Cache">
         <param name="cacheKey">
             <value>global_acl_resources</value>
@@ -249,6 +254,11 @@
                     <sortOrder>100</sortOrder>
                 </default>
             </value>
+        </param>
+    </type>
+    <type name="Magento\Core\Controller\Request\Http">
+        <param name="backendData">
+            <instance type="Magento\Backend\Helper\Data\Proxy" />
         </param>
     </type>
 </config>

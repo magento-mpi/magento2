@@ -10,15 +10,11 @@
 
 /**
  * Poll edit form
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Adminhtml\Block\Rating\Edit\Tab;
 
-class Form extends \Magento\Backend\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Store manager instance
@@ -28,17 +24,23 @@ class Form extends \Magento\Backend\Block\Widget\Form
     protected $_storeManager;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
-        parent::__construct($context, $data);
+        parent::__construct($coreRegistry, $formFactory, $coreData, $context, $data);
     }
 
 
@@ -49,7 +51,8 @@ class Form extends \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form   = $this->_formFactory->create();
         $this->setForm($form);
 
         $fieldset = $form->addFieldset('rating_form', array(
@@ -77,17 +80,17 @@ class Form extends \Magento\Backend\Block\Widget\Form
                $this->_setRatingCodes($data['rating_codes']);
             }
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setRatingData(null);
-        } elseif (\Mage::registry('rating_data')) {
-            $form->setValues(\Mage::registry('rating_data')->getData());
-            if (\Mage::registry('rating_data')->getRatingCodes()) {
-               $this->_setRatingCodes(\Mage::registry('rating_data')->getRatingCodes());
+        } elseif ($this->_coreRegistry->registry('rating_data')) {
+            $form->setValues($this->_coreRegistry->registry('rating_data')->getData());
+            if ($this->_coreRegistry->registry('rating_data')->getRatingCodes()) {
+               $this->_setRatingCodes($this->_coreRegistry->registry('rating_data')->getRatingCodes());
             }
         }
 
-        if (\Mage::registry('rating_data')) {
+        if ($this->_coreRegistry->registry('rating_data')) {
             $collection = \Mage::getModel('Magento\Rating\Model\Rating\Option')
                 ->getResourceCollection()
-                ->addRatingFilter(\Mage::registry('rating_data')->getId())
+                ->addRatingFilter($this->_coreRegistry->registry('rating_data')->getId())
                 ->load();
 
             $i = 1;
@@ -122,8 +125,8 @@ class Form extends \Magento\Backend\Block\Widget\Form
             $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
 
-            if (\Mage::registry('rating_data')) {
-                $form->getElement('stores')->setValue(\Mage::registry('rating_data')->getStores());
+            if ($this->_coreRegistry->registry('rating_data')) {
+                $form->getElement('stores')->setValue($this->_coreRegistry->registry('rating_data')->getStores());
             }
         }
 
@@ -138,17 +141,19 @@ class Form extends \Magento\Backend\Block\Widget\Form
             'name' => 'position',
         ));
 
-        if (\Mage::registry('rating_data')) {
-            $form->getElement('position')->setValue(\Mage::registry('rating_data')->getPosition());
-            $form->getElement('is_active')->setIsChecked(\Mage::registry('rating_data')->getIsActive());
+        if ($this->_coreRegistry->registry('rating_data')) {
+            $form->getElement('position')->setValue($this->_coreRegistry->registry('rating_data')->getPosition());
+            $form->getElement('is_active')->setIsChecked($this->_coreRegistry->registry('rating_data')->getIsActive());
         }
 
         return parent::_prepareForm();
     }
 
-    protected function _setRatingCodes($ratingCodes) {
+    protected function _setRatingCodes($ratingCodes)
+    {
         foreach($ratingCodes as $store=>$value) {
-            if($element = $this->getForm()->getElement('rating_code_' . $store)) {
+            $element = $this->getForm()->getElement('rating_code_' . $store);
+            if ($element) {
                $element->setValue($value);
             }
         }
@@ -165,12 +170,10 @@ class Form extends \Magento\Backend\Block\Widget\Form
 <ul class="messages">
     <li class="notice-msg">
         <ul>
-            <li>'.__('Please specify a rating title for a store, or we\'ll just use the default value.').'</li>
+            <li>' . __('Please specify a rating title for a store, or we\'ll just use the default value.') . '</li>
         </ul>
     </li>
 </ul>
 </div>';
     }
-
-
 }

@@ -49,56 +49,44 @@ class Processor
     }
 
     /**
-     * Process given arguments, prepare arguments of custom type.
-     * @param array $arguments
-     * @throws \InvalidArgumentException
+     * Parse given argument
+     *
+     * @param \Magento\Core\Model\Layout\Element $argument
+     * @throws InvalidArgumentException
      * @return array
      */
-    public function process(array $arguments)
+    public function parse(\Magento\Core\Model\Layout\Element $argument)
     {
-        $processedArguments = array();
-        foreach ($arguments as $argumentKey => $argumentValue) {
-            $value = is_array($argumentValue) && isset($argumentValue['value']) ? $argumentValue['value'] : null;
-
-            if (!in_array($argumentValue['type'], array('string', 'array', 'helper'))) {
-                if (!isset($value) && $argumentValue['type'] !== 'url') {
-                    throw new \InvalidArgumentException('Argument value is required for type ' . $argumentValue['type']);
-                }
-
-                $handler = $this->_getArgumentHandler($argumentValue['type']);
-                $value   = $handler->process($value);
-            }
-
-            if (!empty($argumentValue['updater'])) {
-                $value = $this->_argumentUpdater->applyUpdaters($value, $argumentValue['updater']);
-            }
-            $processedArguments[$argumentKey] = $value;
-        }
-        return $processedArguments;
+        $type = $this->_getArgumentType($argument);
+        $handler = $this->_handlerFactory->getArgumentHandlerByType($type);
+        return $handler->parse($argument);
     }
 
     /**
-     * Get argument handler by type
+     * Process given argument
      *
-     * @param string $type
-     * @throws \InvalidArgumentException
-     * @return \Magento\Core\Model\Layout\Argument\HandlerInterface
+     * @param array $argument
+     * @throws InvalidArgumentException
+     * @return mixed
      */
-    protected function _getArgumentHandler($type)
+    public function process(array $argument)
     {
-        if (isset($this->_argumentHandlers[$type])) {
-            return $this->_argumentHandlers[$type];
+        $handler = $this->_handlerFactory->getArgumentHandlerByType($argument['type']);
+        $result = $handler->process($argument);
+        if (!empty($argument['updaters'])) {
+            $result = $this->_argumentUpdater->applyUpdaters($result, $argument['updaters']);
         }
+        return $result;
+    }
 
-        /** @var $handler \Magento\Core\Model\Layout\Argument\HandlerInterface */
-        $handler = $this->_handlerFactory->getArgumentHandlerByType($type);
-
-        if (false === ($handler instanceof \Magento\Core\Model\Layout\Argument\HandlerInterface)) {
-            throw new \InvalidArgumentException($type
-            . ' type handler should implement \Magento\Core\Model\Layout\Argument\HandlerInterface');
-        }
-
-        $this->_argumentHandlers[$type] = $handler;
-        return $handler;
+    /**
+     * Get Argument's XSI type
+     *
+     * @param \Magento\Core\Model\Layout\Element $argument
+     * @return string
+     */
+    protected function _getArgumentType(\Magento\Core\Model\Layout\Element $argument)
+    {
+        return (string)$argument->attributes('xsi', true)->type;
     }
 }

@@ -18,10 +18,35 @@ namespace Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab;
 
 class Permissions
     extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
 
     protected $_template = 'catalog/category/tab/permissions.phtml';
+
+    /**
+     * Catalog permissions data
+     *
+     * @var Magento_CatalogPermissions_Helper_Data
+     */
+    protected $_catalogPermData = null;
+
+    /**
+     * @param Magento_CatalogPermissions_Helper_Data $catalogPermData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_CatalogPermissions_Helper_Data $catalogPermData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_catalogPermData = $catalogPermData;
+        parent::__construct($coreData, $context, $registry, $data);
+    }
 
     /**
      * Prepare layout
@@ -75,7 +100,7 @@ class Permissions
             $config = array_merge($additionalConfig, $config);
         }
 
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($config);
+        return $this->_coreData->jsonEncode($config);
     }
 
     /**
@@ -129,8 +154,8 @@ class Permissions
         $websites = \Mage::app()->getWebsites(false);
         $groups   = \Mage::getModel('Magento\Customer\Model\Group')->getCollection()->getAllIds();
 
-        /* @var $helper \Magento\CatalogPermissions\Helper\Data */
-        $helper   = \Mage::helper('Magento\CatalogPermissions\Helper\Data');
+        /* @var $helper \Magento\CatalogPermissions\Helper\Data  */
+        $helper   = $this->_catalogPermData;
 
         $parent = (string)\Magento\CatalogPermissions\Model\Permission::PERMISSION_PARENT;
         $allow  = (string)\Magento\CatalogPermissions\Model\Permission::PERMISSION_ALLOW;

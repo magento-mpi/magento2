@@ -108,7 +108,7 @@ class Grouped
         /**
          * Add additional external limitation
          */
-        \Mage::dispatchEvent('catalog_product_prepare_index_select', array(
+        $this->_eventManager->dispatch('catalog_product_prepare_index_select', array(
             'select'        => $select,
             'entity_field'  => new \Zend_Db_Expr('e.entity_id'),
             'website_field' => new \Zend_Db_Expr('cw.website_id'),

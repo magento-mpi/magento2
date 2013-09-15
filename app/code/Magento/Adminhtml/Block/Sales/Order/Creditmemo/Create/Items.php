@@ -10,10 +10,6 @@
 
 /**
  * Adminhtml creditmemo items grid
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Adminhtml\Block\Sales\Order\Creditmemo\Create;
@@ -21,6 +17,32 @@ namespace Magento\Adminhtml\Block\Sales\Order\Creditmemo\Create;
 class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
 {
     protected $_canReturnToStock;
+
+    /**
+     * Sales data
+     *
+     * @var Magento_Sales_Helper_Data
+     */
+    protected $_salesData = null;
+
+    /**
+     * @param Magento_Sales_Helper_Data $salesData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Sales_Helper_Data $salesData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_salesData = $salesData;
+        parent::__construct($coreData, $context, $registry, $data);
+    }
+
     /**
      * Prepare child blocks
      *
@@ -49,8 +71,7 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
                 'onclick'   => 'disableElements(\'submit-button\');submitCreditMemoOffline()',
             ));
 
-        }
-        else {
+        } else {
             $this->addChild('submit_button', 'Magento\Adminhtml\Block\Widget\Button', array(
                 'label'     => __('Refund Offline'),
                 'class'     => 'save submit-button',
@@ -98,14 +119,14 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
      */
     public function getOrderTotalbarData()
     {
-        $totalbarData = array();
         $this->setPriceDataObject($this->getOrder());
+
+        $totalbarData = array();
         $totalbarData[] = array(__('Paid Amount'), $this->displayPriceAttribute('total_invoiced'), false);
         $totalbarData[] = array(__('Refund Amount'), $this->displayPriceAttribute('total_refunded'), false);
         $totalbarData[] = array(__('Shipping Amount'), $this->displayPriceAttribute('shipping_invoiced'), false);
         $totalbarData[] = array(__('Shipping Refund'), $this->displayPriceAttribute('shipping_refunded'), false);
         $totalbarData[] = array(__('Order Grand Total'), $this->displayPriceAttribute('grand_total'), true);
-
         return $totalbarData;
     }
 
@@ -116,7 +137,7 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
      */
     public function getCreditmemo()
     {
-        return \Mage::registry('current_creditmemo');
+        return $this->_coreRegistry->registry('current_creditmemo');
     }
 
     public function canEditQty()
@@ -135,8 +156,8 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
     public function getUpdateUrl()
     {
         return $this->getUrl('*/*/updateQty', array(
-                'order_id'=>$this->getCreditmemo()->getOrderId(),
-                'invoice_id'=>$this->getRequest()->getParam('invoice_id', null),
+            'order_id' => $this->getCreditmemo()->getOrderId(),
+            'invoice_id' => $this->getRequest()->getParam('invoice_id', null),
         ));
     }
 
@@ -156,10 +177,14 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
     public function canReturnItemsToStock()
     {
         if (is_null($this->_canReturnToStock)) {
-            if ($this->_canReturnToStock = \Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT)) {
+            $this->_canReturnToStock = Mage::getStoreConfig(
+                Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT
+            );
+            if ($this->_canReturnToStock) {
                 $canReturnToStock = false;
                 foreach ($this->getCreditmemo()->getAllItems() as $item) {
-                    $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($item->getOrderItem()->getProductId());
+                    $product = Mage::getModel('Magento_Catalog_Model_Product')
+                        ->load($item->getOrderItem()->getProductId());
                     if ( $product->getId() && $product->getStockItem()->getManageStock() ) {
                         $item->setCanReturnToStock($canReturnToStock = true);
                     } else {
@@ -174,6 +199,6 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
 
     public function canSendCreditmemoEmail()
     {
-        return \Mage::helper('Magento\Sales\Helper\Data')->canSendNewCreditmemoEmail($this->getOrder()->getStore()->getId());
+        return $this->_salesData->canSendNewCreditmemoEmail($this->getOrder()->getStore()->getId());
     }
 }

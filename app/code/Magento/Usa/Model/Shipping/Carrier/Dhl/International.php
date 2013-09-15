@@ -142,22 +142,59 @@ class International
     /**
      * Factory for \Magento\Usa\Model\Simplexml\Element
      *
-     * @var \Magento\Usa\Model\Simplexml\ElementFactory
+     * @var Magento_Usa_Model_Simplexml_ElementFactory
      */
-    protected $_simpleXmlElementFactory;
+    protected $_xmlElFactory;
+
+    /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * Usa data
+     *
+     * @var Magento_Usa_Helper_Data
+     */
+    protected $_usaData = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
 
     /**
      * Dhl International Class constructor
      *
      * Sets necessary data
-     * @var \Magento\Usa\Model\Simplexml\ElementFactory $simpleXmlElementFactory
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Usa_Helper_Data $usaData
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
+     * @param Magento_Directory_Helper_Data $directoryData
+     * @param array $data
      */
-    public function __construct(\Magento\Usa\Model\Simplexml\ElementFactory $simpleXmlElementFactory)
-    {
-        $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Usa_Helper_Data $usaData,
+        Magento_Core_Helper_String $coreString,
+        Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
+        Magento_Directory_Helper_Data $directoryData,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        $this->_usaData = $usaData;
+        $this->_coreString = $coreString;
+        $this->_xmlElFactory = $xmlElFactory;
         if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_DOC) {
             $this->_freeMethod = 'free_method_doc';
         }
+        parent::__construct($directoryData, $data);
     }
 
     /**
@@ -311,7 +348,7 @@ class International
             ->setValueWithDiscount($request->getPackageValueWithDiscount())
             ->setCustomsValue($request->getPackageCustomsValue())
             ->setDestStreet(
-                \Mage::helper('Magento\Core\Helper\String')->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35))
+                $this->_coreString->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35))
             ->setDestStreetLine2($request->getDestStreetLine2())
             ->setDestCity($request->getDestCity())
             ->setOrigCompanyName($request->getOrigCompanyName())
@@ -554,7 +591,7 @@ class International
         $countryWeightUnit = $this->getCode('dimensions_variables', $this->_getWeightUnit());
 
         if ($configWeightUnit != $countryWeightUnit) {
-            $weight = \Mage::helper('Magento\Usa\Helper\Data')->convertMeasureWeight(
+            $weight = $this->_usaData->convertMeasureWeight(
                 round($weight,3),
                 $configWeightUnit,
                 $countryWeightUnit
@@ -609,7 +646,7 @@ class International
                        if ($itemWeight > $maxWeight) {
                            $qtyItem = floor($itemWeight / $maxWeight);
                            $decimalItems[] = array('weight' => $maxWeight, 'qty' => $qtyItem);
-                           $weightItem = \Mage::helper('Magento\Core\Helper\Data')->getExactDivision($itemWeight, $maxWeight);
+                           $weightItem = $this->_coreData->getExactDivision($itemWeight, $maxWeight);
                            if ($weightItem) {
                                $decimalItems[] = array('weight' => $weightItem, 'qty' => 1);
                            }
@@ -741,7 +778,7 @@ class International
         $countryDimensionUnit = $this->getCode('dimensions_variables', $this->_getDimensionUnit());
 
         if ($configDimensionUnit != $countryDimensionUnit) {
-            $dimension = \Mage::helper('Magento\Usa\Helper\Data')->convertMeasureDimension(
+            $dimension = $this->_usaData->convertMeasureDimension(
                 round($dimension, 3),
                 $configDimensionUnit,
                 $countryDimensionUnit
@@ -785,7 +822,7 @@ class International
                 . 'xmlns:p2="http://www.dhl.com/DCTRequestdatatypes" '
                 . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
                 . 'xsi:schemaLocation="http://www.dhl.com DCT-req.xsd "/>';
-        $xml = $this->_simpleXmlElementFactory->create(array($xmlStr));
+        $xml = $this->_xmlElFactory->create(array($xmlStr));
         $nodeGetQuote = $xml->addChild('GetQuote', '', '');
         $nodeRequest = $nodeGetQuote->addChild('Request');
 
@@ -1225,7 +1262,7 @@ class International
             . ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
             . ' xsi:schemaLocation="http://www.dhl.com ship-val-req'
             . ($originRegion ? '_' . $originRegion : '') . '.xsd" />';
-        $xml = $this->_simpleXmlElementFactory->create(array($xmlStr));
+        $xml = $this->_xmlElFactory->create(array($xmlStr));
 
         $nodeRequest = $xml->addChild('Request', '', '');
         $nodeServiceHeader = $nodeRequest->addChild('ServiceHeader');
@@ -1267,7 +1304,7 @@ class International
         $nodeConsignee->addChild('CompanyName', substr($companyName, 0, 35));
 
         $address = $rawRequest->getRecipientAddressStreet1(). ' ' . $rawRequest->getRecipientAddressStreet2();
-        $address = \Mage::helper('Magento\Core\Helper\String')->str_split($address, 35, false, true);
+        $address = $this->_coreString->str_split($address, 35, false, true);
         if (is_array($address)) {
             foreach ($address as $addressLine) {
                 $nodeConsignee->addChild('AddressLine', $addressLine);
@@ -1326,7 +1363,7 @@ class International
         $nodeShipper->addChild('RegisteredAccount', (string)$this->getConfigData('account'));
 
         $address = $rawRequest->getShipperAddressStreet1(). ' ' . $rawRequest->getShipperAddressStreet2();
-        $address = \Mage::helper('Magento\Core\Helper\String')->str_split($address, 35, false, true);
+        $address = $this->_coreString->str_split($address, 35, false, true);
         if (is_array($address)) {
             foreach ($address as $addressLine) {
                 $nodeShipper->addChild('AddressLine', $addressLine);
@@ -1508,7 +1545,7 @@ class International
             . ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
             . ' xsi:schemaLocation="http://www.dhl.com TrackingRequestKnown.xsd" />';
 
-        $xml = $this->_simpleXmlElementFactory->create(array($xmlStr));
+        $xml = $this->_xmlElFactory->create(array($xmlStr));
 
         $requestNode = $xml->addChild('Request', '', '');
         $serviceHeaderNode = $requestNode->addChild('ServiceHeader', '', '');

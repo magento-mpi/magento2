@@ -52,18 +52,19 @@ class Image extends \Magento\Core\Block\Template
     protected $_productImageView;
 
     /**
-     * Constructor
-     * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Catalog\Model\Product\Image\View $productImageView
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Catalog_Model_Product_Image_View $productImageView
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Catalog\Model\Product\Image\View $productImageView,
         array $data = array()
     ) {
         $this->_productImageView = $productImageView;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

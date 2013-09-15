@@ -20,18 +20,25 @@ class Labels
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
-
+    
     /**
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
-    public function __construct(\Magento\Backend\Block\Template\Context $context,
+    public function __construct(
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
-        parent::__construct($context, $data);
+        parent::__construct($coreRegistry, $formFactory, $coreData, $context, $data);
     }
 
     /**
@@ -76,8 +83,10 @@ class Labels
 
     protected function _prepareForm()
     {
-        $rule = \Mage::registry('current_promo_quote_rule');
-        $form = new \Magento\Data\Form();
+        $rule = $rule = $this->_coreRegistry->registry('current_promo_quote_rule');
+
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset = $form->addFieldset('default_label_fieldset', array(

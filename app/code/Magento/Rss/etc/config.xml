@@ -10,27 +10,7 @@
  */
 -->
 <config>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Rss>
-                    <files>
-                        <default>Magento_Rss.csv</default>
-                    </files>
-                </Magento_Rss>
-            </modules>
-        </translate>
-    </adminhtml>
     <frontend>
-        <translate>
-            <modules>
-                <Magento_Rss>
-                    <files>
-                        <default>Magento_Rss.csv</default>
-                    </files>
-                </Magento_Rss>
-            </modules>
-        </translate>
         <secure_url>
             <rss_catalog_review>/rss/catalog/review</rss_catalog_review>
             <rss_order_neworder>/rss/order/new</rss_order_neworder>

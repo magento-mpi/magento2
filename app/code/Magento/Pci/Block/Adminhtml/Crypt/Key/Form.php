@@ -14,7 +14,7 @@
  */
 namespace Magento\Pci\Block\Adminhtml\Crypt\Key;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Add form fields
@@ -23,7 +23,14 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
         $fieldset = $form->addFieldset('main_fieldset', array('legend' => __('New Encryption Key')));
         $fieldset->addField('enc_key_note', 'note', array(
             'text' => __('The encryption key is used to protect passwords and other sensitive data.')

@@ -16,6 +16,25 @@ namespace Magento\Theme\Controller\Adminhtml\System\Design;
 class Theme extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Index action
      */
     public function indexAction()
@@ -56,7 +75,7 @@ class Theme extends \Magento\Adminhtml\Controller\Action
             if ($themeId && (!$theme->load($themeId)->getId() || !$theme->isVisible())) {
                 throw new \Magento\Core\Exception(__('We cannot find theme "%1".', $themeId));
             }
-            \Mage::register('current_theme', $theme);
+            $this->_coreRegistry->register('current_theme', $theme);
 
             $this->loadLayout();
             /** @var $tab \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css */

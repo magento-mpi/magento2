@@ -35,18 +35,20 @@ class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_PaymentTest ext
             ->method('isEnabled')
             ->will($this->returnValue(false));
 
-        $helperFactoryMock = $this->getMock('Magento\Core\Model\Factory\Helper', array('get'));
+        $helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper', array('get'), array(), '', false);
         $helperFactoryMock->expects($this->once())
             ->method('get')
             ->with($this->equalTo('Magento\CustomerBalance\Helper\Data'))
             ->will($this->returnValue($helperMock));
+
+        $coreDataMock = $this->_getCoreDataMock();
 
         $contextMock = $this->_getContextMock();
         $contextMock->expects($this->any())
             ->method('getHelperFactory')
             ->will($this->returnValue($helperFactoryMock));
 
-        $arguments = array($contextMock);
+        $arguments = array($coreDataMock, $contextMock);
         $objectMock = $this->getMockBuilder($this->_className)
             ->setConstructorArgs($arguments, array())
             ->setMethods(array('_getStoreManagerModel', '_getOrderCreateModel', '_getBalanceInstance'))
@@ -69,7 +71,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_PaymentTest ext
             ->method('isEnabled')
             ->will($this->returnValue(true));
 
-        $helperFactoryMock = $this->getMock('Magento\Core\Model\Factory\Helper', array('get'));
+        $helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper', array('get'), array(), '', false);
         $helperFactoryMock->expects($this->once())
             ->method('get')
             ->with($this->equalTo('Magento\CustomerBalance\Helper\Data'))
@@ -85,7 +87,6 @@ class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_PaymentTest ext
         $convertedAmount = $amount * 2;
         $storeMock = $this->getMockBuilder('Magento\Core\Model\Store')
             ->disableOriginalConstructor()
-            ->setMethods(array('convertPrice'))
             ->getMock();
         $storeMock->expects($this->once())
             ->method('convertPrice')
@@ -101,7 +102,9 @@ class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_PaymentTest ext
             ->method('getStore')
             ->will($this->returnValue($storeMock));
 
-        $arguments = array($contextMock);
+        $coreDataMock = $this->_getCoreDataMock();
+
+        $arguments = array($coreDataMock, $contextMock);
         $objectMock = $this->getMockBuilder($this->_className)
             ->setConstructorArgs($arguments, array())
             ->setMethods(array('_getStoreManagerModel', '_getOrderCreateModel', '_getBalanceInstance'))
@@ -139,7 +142,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_PaymentTest ext
             ->method('isEnabled')
             ->will($this->returnValue(true));
 
-        $helperFactoryMock = $this->getMock('Magento\Core\Model\Factory\Helper', array('get'));
+        $helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper', array('get'), array(), '', false);
         $helperFactoryMock->expects($this->once())
             ->method('get')
             ->with($this->equalTo('Magento\CustomerBalance\Helper\Data'))
@@ -150,7 +153,9 @@ class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_PaymentTest ext
             ->method('getHelperFactory')
             ->will($this->returnValue($helperFactoryMock));
 
-        $arguments = array($contextMock);
+        $coreDataMock = $this->_getCoreDataMock();
+
+        $arguments = array($coreDataMock, $contextMock);
         $objectMock = $this->getMockBuilder($this->_className)
             ->setConstructorArgs($arguments, array())
             ->setMethods(array('_getStoreManagerModel', '_getOrderCreateModel', '_getBalanceInstance'))
@@ -173,6 +178,20 @@ class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_PaymentTest ext
             'getTranslator', 'getCache', 'getDesignPackage', 'getSession', 'getStoreConfig', 'getFrontController',
             'getDirs', 'getLogger', 'getFilesystem');
         return $this->getMockBuilder('Magento\Core\Block\Template\Context')
+            ->disableOriginalConstructor()
+            ->setMethods($methods)
+            ->getMock();
+    }
+
+    /**
+     * Return mock instance of Magento_Core_Helper_Data object
+     *
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function _getCoreDataMock()
+    {
+        $methods = array();
+        return $this->getMockBuilder('Magento_Core_Helper_Data')
             ->disableOriginalConstructor()
             ->setMethods($methods)
             ->getMock();

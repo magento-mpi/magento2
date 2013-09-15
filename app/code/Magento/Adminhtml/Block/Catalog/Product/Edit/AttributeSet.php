@@ -19,6 +19,28 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Edit;
 
 class AttributeSet extends \Magento\Backend\Block\Widget\Form
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Get options for suggest widget
@@ -33,7 +55,7 @@ class AttributeSet extends \Magento\Backend\Block\Widget\Form
             'showRecent' => true,
             'storageKey' => 'product-template-key',
             'minLength' => 0,
-            'currentlySelected' => \Mage::registry('product')->getAttributeSetId(),
+            'currentlySelected' => $this->_coreRegistry->registry('product')->getAttributeSetId(),
         );
     }
 }

@@ -42,6 +42,33 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
     protected $_inventoryItemTableAlias    = 'lowstock_inventory_item';
 
     /**
+     * Catalog inventory data
+     *
+     * @var Magento_CatalogInventory_Helper_Data
+     */
+    protected $_inventoryData = null;
+
+    /**
+     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Catalog_Model_Resource_Product $product
+     */
+    public function __construct(
+        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Catalog_Model_Resource_Product $product
+    ) {
+        $this->_inventoryData = $catalogInventoryData;
+        parent::__construct($catalogProductFlat, $catalogData, $eventManager, $fetchStrategy, $product);
+    }
+
+    /**
      * Retrieve CatalogInventory Stock Item Resource instance
      *
      * @return \Magento\CatalogInventory\Model\Resource\Stock\Item
@@ -126,8 +153,8 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
     /**
      * Join catalog inventory stock item table for further stock_item values filters
      *
-     * @param unknown_type $fields
-     * @return \Magento\Reports\Model\Resource\Product\Lowstock\Collection
+     * @param array $fields
+     * @return $this
      */
     public function joinInventoryItem($fields = array())
     {
@@ -187,7 +214,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
     public function filterByIsQtyProductTypes()
     {
         $this->filterByProductType(
-            array_keys(array_filter(\Mage::helper('Magento\CatalogInventory\Helper\Data')->getIsQtyTypeIds()))
+            array_keys(array_filter($this->_inventoryData->getIsQtyTypeIds()))
         );
         return $this;
     }

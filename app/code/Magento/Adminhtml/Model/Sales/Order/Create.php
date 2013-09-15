@@ -104,8 +104,43 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      */
     protected $_quote;
 
-    public function __construct()
-    {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_coreData = $coreData;
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($data);
         $this->_session = \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote');
     }
 
@@ -154,7 +189,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      */
     public function initRuleData()
     {
-        \Mage::register('rule_data', new \Magento\Object(array(
+        $this->_coreRegistry->register('rule_data', new \Magento\Object(array(
             'store_id'  => $this->_session->getStore()->getId(),
             'website_id'  => $this->_session->getStore()->getWebsiteId(),
             'customer_group_id' => $this->getCustomerGroupId(),
@@ -315,9 +350,9 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             $quote->collectTotals();
         }
 
-        \Mage::helper('Magento\Core\Helper\Data')->copyFieldset('sales_copy_order', 'to_edit', $order, $quote);
+        $this->_coreData->copyFieldset('sales_copy_order', 'to_edit', $order, $quote);
 
-        \Mage::dispatchEvent('sales_convert_order_to_quote', array('order' => $order, 'quote' => $quote));
+        $this->_eventManager->dispatch('sales_convert_order_to_quote', array('order' => $order, 'quote' => $quote));
 
         if (!$order->getCustomerId()) {
             $quote->setCustomerIsGuest(true);
@@ -346,7 +381,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected function _initBillingAddressFromOrder(\Magento\Sales\Model\Order $order)
     {
         $this->getQuote()->getBillingAddress()->setCustomerAddressId('');
-        \Mage::helper('Magento\Core\Helper\Data')->copyFieldset(
+        $this->_coreData->copyFieldset(
             'sales_copy_order_billing_address',
             'to_order',
             $order->getBillingAddress(),
@@ -360,7 +395,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $quoteShippingAddress = $this->getQuote()->getShippingAddress()
             ->setCustomerAddressId('')
             ->setSameAsBilling($orderShippingAddress && $orderShippingAddress->getSameAsBilling());
-        \Mage::helper('Magento\Core\Helper\Data')->copyFieldset(
+        $this->_coreData->copyFieldset(
             'sales_copy_order_shipping_address',
             'to_order',
             $orderShippingAddress,
@@ -406,7 +441,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 ));
             }
 
-            \Mage::dispatchEvent('sales_convert_order_item_to_quote_item', array(
+            $this->_eventManager->dispatch('sales_convert_order_item_to_quote_item', array(
                 'order_item' => $orderItem,
                 'quote_item' => $item
             ));
@@ -420,6 +455,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * Retrieve customer wishlist model object
      *
      * @params bool $cacheReload pass cached wishlist object and get new one
+     * @param bool $cacheReload
      * @return \Magento\Wishlist\Model\Wishlist
      */
     public function getCustomerWishlist($cacheReload = false)
@@ -670,20 +706,22 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 $this->removeQuoteItem($itemId);
                 break;
             case 'cart':
-                if ($cart = $this->getCustomerCart()) {
+                $cart = $this->getCustomerCart();
+                if ($cart) {
                     $cart->removeItem($itemId);
                     $cart->collectTotals()
                         ->save();
                 }
                 break;
             case 'wishlist':
-                if ($wishlist = $this->getCustomerWishlist()) {
+                $wishlist = $this->getCustomerWishlist();
+                if ($wishlist) {
                     $item = \Mage::getModel('Magento\Wishlist\Model\Item')->load($itemId);
                     $item->delete();
                 }
                 break;
             case 'compared':
-                $item = \Mage::getModel('Magento\Catalog\Model\Product\Compare\Item')
+                \Mage::getModel('Magento\Catalog\Model\Product\Compare\Item')
                     ->load($itemId)
                     ->delete();
                 break;
@@ -710,7 +748,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * $config can be either buyRequest config, or just qty
      *
      * @param   int|\Magento\Catalog\Model\Product $product
-     * @param   float|array|\Magento\Object $config
+     * @param array|float|int|\Magento\Object $config
      * @return  \Magento\Adminhtml\Model\Sales\Order\Create
      */
     public function addProduct($product, $config = 1)
@@ -791,6 +829,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * Update quantity of order quote items
      *
      * @param   array $data
+     * @throws \Exception|\Magento\Core\Exception
      * @return  \Magento\Adminhtml\Model\Sales\Order\Create
      */
     public function updateQuoteItems($data)
@@ -850,8 +889,9 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     /**
      * Parse additional options and sync them with product options
      *
-     * @param \Magento\Sales\Model\Quote\Item $product
-     * @param array $options
+     * @param \Magento\Sales\Model\Quote\Item $item
+     * @param $additionalOptions
+     * @return array
      */
     protected function _parseOptions(\Magento\Sales\Model\Quote\Item $item, $additionalOptions)
     {
@@ -884,7 +924,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                     $optionId = $productOptions[$label]['option_id'];
                     $option = $item->getProduct()->getOptionById($optionId);
 
-                    $group = \Mage::getSingleton('Magento\Catalog\Model\Product\Option')->groupFactory($option->getType())
+                    $group = Mage::getSingleton('Magento_Catalog_Model_Product_Option')
+                        ->groupFactory($option->getType())
                         ->setOption($option)
                         ->setProduct($item->getProduct());
 
@@ -918,10 +959,12 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      *
      * @param \Magento\Sales\Model\Quote\Item $item
      * @param array $options
+     * @return $this
      */
     protected function _assignOptionsToItem(\Magento\Sales\Model\Quote\Item $item, $options)
     {
-        if ($optionIds = $item->getOptionByCode('option_ids')) {
+        $optionIds = $item->getOptionByCode('option_ids');
+        if ($optionIds) {
             foreach (explode(',', $optionIds->getValue()) as $optionId) {
                 $item->removeOption('option_'.$optionId);
             }
@@ -972,7 +1015,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected function _prepareOptionsForRequest($item)
     {
         $newInfoOptions = array();
-        if ($optionIds = $item->getOptionByCode('option_ids')) {
+        $optionIds = $item->getOptionByCode('option_ids');
+        if ($optionIds) {
             foreach (explode(',', $optionIds->getValue()) as $optionId) {
                 $option = $item->getProduct()->getOptionById($optionId);
                 $optionValue = $item->getOptionByCode('option_'.$optionId)->getValue();
@@ -990,7 +1034,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected function _parseCustomPrice($price)
     {
         $price = \Mage::app()->getLocale()->getNumber($price);
-        $price = $price>0 ? $price : 0;
+        $price = $price > 0 ? $price : 0;
         return $price;
     }
 
@@ -1524,7 +1568,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             $order->sendNewOrderEmail();
         }
 
-        \Mage::dispatchEvent('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));
+        $this->_eventManager->dispatch('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));
 
         return $order;
     }

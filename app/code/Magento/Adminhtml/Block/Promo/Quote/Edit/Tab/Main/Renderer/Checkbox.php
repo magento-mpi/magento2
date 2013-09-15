@@ -22,6 +22,25 @@ class Checkbox
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
+     * @var Magento_Data_Form_Element_Factory
+     */
+    protected $_elementFactory;
+
+    /**
+     * @param Magento_Data_Form_Element_Factory $elementFactory
+     * @param Magento_Backend_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Data_Form_Element_Factory $elementFactory,
+        Magento_Backend_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_elementFactory = $elementFactory;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Checkbox render function
      *
      * @param \Magento\Data\Form\Element\AbstractElement $element
@@ -29,7 +48,8 @@ class Checkbox
      */
     public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
-        $checkbox = new \Magento\Data\Form\Element\Checkbox($element->getData());
+        /** @var Magento_Data_Form_Element_Checkbox $checkbox */
+        $checkbox = $this->_elementFactory->create('checkbox', array('attributes' => $element->getData()));
         $checkbox->setForm($element->getForm());
 
         $elementHtml = sprintf(

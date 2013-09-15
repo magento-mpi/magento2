@@ -37,7 +37,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_ContainerTest extends PHPUnit_
      */
     protected function _getBlockArguments()
     {
-        $helperFactory = $this->getMock('Magento\Core\Model\Factory\Helper', array('get'));
+        $helperFactory = $this->getMock('Magento_Core_Model_Factory_Helper', array('get'), array(), '', false);
 
         return array(
             'urlBuilder'    => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false),

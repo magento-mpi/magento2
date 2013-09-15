@@ -34,6 +34,22 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_productIds;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager
+    ) {
+        $this->_eventManager = $eventManager;
+    }
+
+    /**
      * Get shopping cart resource model
      *
      * @return \Magento\Checkout\Model\Resource\Cart
@@ -273,7 +289,10 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             \Mage::throwException(__('The product does not exist.'));
         }
 
-        \Mage::dispatchEvent('checkout_cart_product_add_after', array('quote_item' => $result, 'product' => $product));
+        $this->_eventManager->dispatch('checkout_cart_product_add_after', array(
+            'quote_item' => $result,
+            'product' => $product,
+        ));
         $this->getCheckoutSession()->setLastAddedProductId($productId);
         return $this;
     }
@@ -373,7 +392,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      */
     public function updateItems($data)
     {
-        \Mage::dispatchEvent('checkout_cart_update_items_before', array('cart'=>$this, 'info'=>$data));
+        $this->_eventManager->dispatch('checkout_cart_update_items_before', array('cart'=>$this, 'info'=>$data));
 
         /* @var $messageFactory \Magento\Core\Model\Message */
         $messageFactory = \Mage::getSingleton('Magento\Core\Model\Message');
@@ -414,7 +433,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             );
         }
 
-        \Mage::dispatchEvent('checkout_cart_update_items_after', array('cart'=>$this, 'info'=>$data));
+        $this->_eventManager->dispatch('checkout_cart_update_items_after', array('cart'=>$this, 'info'=>$data));
         return $this;
     }
 
@@ -437,7 +456,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      */
     public function save()
     {
-        \Mage::dispatchEvent('checkout_cart_save_before', array('cart'=>$this));
+        $this->_eventManager->dispatch('checkout_cart_save_before', array('cart'=>$this));
 
         $this->getQuote()->getBillingAddress();
         $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
@@ -447,7 +466,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         /**
          * Cart save usually called after changes with cart items.
          */
-        \Mage::dispatchEvent('checkout_cart_save_after', array('cart'=>$this));
+        $this->_eventManager->dispatch('checkout_cart_save_after', array('cart'=>$this));
         return $this;
     }
 
@@ -582,7 +601,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             \Mage::throwException($result);
         }
 
-        \Mage::dispatchEvent('checkout_cart_product_update_after', array(
+        $this->_eventManager->dispatch('checkout_cart_product_update_after', array(
             'quote_item' => $result,
             'product' => $product
         ));

@@ -40,25 +40,27 @@ class Locale extends \Magento\Core\Model\Locale
     /**
      * Constructor
      *
-     * @param \Magento\Backend\Model\Session $session
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Backend_Model_Session $session
      * @param \Magento\Backend\Model\Locale\Manager $localeManager
      * @param \Magento\Core\Controller\Request\Http $request
      * @param \Magento\Core\Model\Locale\Validator $localeValidator
      * @param string $locale
      */
     public function __construct(
-        \Magento\Backend\Model\Session $session,
-        \Magento\Backend\Model\Locale\Manager $localeManager,
-        \Magento\Core\Controller\Request\Http $request,
-        \Magento\Core\Model\Locale\Validator $localeValidator,
-        $locale=null
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Backend_Model_Session $session,
+        Magento_Backend_Model_Locale_Manager $localeManager,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Core_Model_Locale_Validator $localeValidator,
+        $locale = null
     ) {
         $this->_session = $session;
         $this->_localeManager = $localeManager;
         $this->_request = $request;
         $this->_localeValidator = $localeValidator;
 
-        parent::__construct($locale);
+        parent::__construct($eventManager, $locale);
     }
 
     /**

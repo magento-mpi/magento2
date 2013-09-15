@@ -37,10 +37,23 @@ class NotProtectedExtension extends \Zend_Validate_Abstract
     protected $_protectedFileExtensions = array();
 
     /**
-     * Construct
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
      */
-    public function __construct()
-    {
+    protected $_coreData = null;
+
+    /**
+     * Construct
+     *
+     *
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData
+    ) {
+        $this->_coreData = $coreData;
         $this->_initMessageTemplates();
         $this->_initProtectedFileExtensions();
     }
@@ -69,7 +82,7 @@ class NotProtectedExtension extends \Zend_Validate_Abstract
     {
         if (!$this->_protectedFileExtensions) {
             /** @var $helper \Magento\Core\Helper\Data */
-            $helper = \Mage::helper('Magento\Core\Helper\Data');
+            $helper = $this->_coreData;
             $extensions = $helper->getProtectedFileExtensions();
             if (is_string($extensions)) {
                 $extensions = explode(',', $extensions);

@@ -20,6 +20,31 @@ namespace Magento\Banner\Block\Adminhtml\Widget;
 class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
 {
     /**
+     * @var Magento_Data_Form_Element_Factory
+     */
+    protected $_elementFactory;
+
+    /**
+     * @param Magento_Data_Form_Element_Factory $elementFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Data_Form_Element_Factory $elementFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_elementFactory = $elementFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Store selected banner Ids
      * Used in initial setting selected banners
      *
@@ -57,7 +82,7 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
         $this->_selectedBanners = explode(',', $element->getValue());
 
         //Create hidden field that store selected banner ids
-        $hidden = new \Magento\Data\Form\Element\Hidden($element->getData());
+        $hidden = $this->_elementFactory->create('hidden', array('attributes' => $element->getData()));
         $hidden->setId($this->_elementValueId)->setForm($element->getForm());
         $hiddenHtml = $hidden->getElementHtml();
 

@@ -17,15 +17,17 @@ class Collection
     protected $_registryManager;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\Registry $registryManager
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\Registry $registryManager
     ) {
         $this->_registryManager = $registryManager;
-        parent::__construct($fetchStrategy);
+        parent::__construct($eventManager, $fetchStrategy);
     }
 
     /**

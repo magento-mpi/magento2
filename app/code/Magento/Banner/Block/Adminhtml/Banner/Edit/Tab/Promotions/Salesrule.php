@@ -13,20 +13,33 @@ namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
 class Salesrule extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param Magento_Core_Helper_Data $coreData
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\SalesRule\Model\Resource\Rule\Collection $ruleCollection
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\SalesRule\Model\Resource\Rule\Collection $ruleCollection,
+        Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
-        parent::__construct($context, $storeManager, $urlModel, $data);
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
         $this->setCollection($ruleCollection);
     }
 
@@ -44,7 +57,7 @@ class Salesrule extends \Magento\Adminhtml\Block\Widget\Grid
         $this->setSaveParametersInSession(true);
         $this->setVarNameFilter('related_salesrule_filter');
         if ($this->_getBanner() && $this->_getBanner()->getId()) {
-            $this->setDefaultFilter(array('in_banner_salesrule'=>1));
+            $this->setDefaultFilter(array('in_banner_salesrule' => 1));
         }
     }
 
@@ -62,10 +75,10 @@ class Salesrule extends \Magento\Adminhtml\Block\Widget\Grid
                 $ruleIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('main_table.rule_id', array('in'=>$ruleIds));
+                $this->getCollection()->addFieldToFilter('main_table.rule_id', array('in' => $ruleIds));
             } else {
                 if ($ruleIds) {
-                    $this->getCollection()->addFieldToFilter('main_table.rule_id', array('nin'=>$ruleIds));
+                    $this->getCollection()->addFieldToFilter('main_table.rule_id', array('nin' => $ruleIds));
                 }
             }
         } else {
@@ -140,7 +153,7 @@ class Salesrule extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/salesRuleGrid', array('_current'=>true));
+        return $this->getUrl('*/*/salesRuleGrid', array('_current' => true));
     }
 
     /**
@@ -174,6 +187,6 @@ class Salesrule extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _getBanner()
     {
-        return \Mage::registry('current_banner');
+        return $this->_coreRegistry->registry('current_banner');
     }
 }

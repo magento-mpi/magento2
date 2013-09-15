@@ -39,5 +39,21 @@ Magento_TestFramework_Helper_Bootstrap::setInstance(new Magento_TestFramework_He
 
 Magento_TestFramework_Utility_Files::init(new Magento_TestFramework_Utility_Files($magentoBaseDir));
 
+function tool_autoloader($className)
+{
+    if (strpos($className, 'Magento\\Tools\\') === false) {
+        return false;
+    }
+    $filePath = str_replace('\\', DS, $className);
+    $filePath = BP . DS . 'dev' . DS . 'tools' . DS . $filePath . '.php';
+
+    if (file_exists($filePath)) {
+        include_once($filePath);
+    } else {
+        return false;
+    }
+}
+spl_autoload_register('tool_autoloader');
+
 /* Unset declared global variables to release the PHPUnit from maintaining their values between tests */
 unset($bootstrap);

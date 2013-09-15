@@ -10,23 +10,42 @@
 
 /**
  * Adminhtml Google Content Types Mapping form block
- *
- * @category   Magento
- * @package    Magento_GoogleShopping
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\GoogleShopping\Block\Adminhtml\Types;
 
 class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
         $this->_blockGroup = 'Magento_GoogleShopping';
         $this->_controller = 'adminhtml_types';
         $this->_mode = 'edit';
-        $model = \Mage::registry('current_item_type');
+        $model = $this->_coreRegistry->registry('current_item_type');
         $this->_removeButton('reset');
         $this->_updateButton('save', 'label', __('Save Mapping'));
         $this->_updateButton('save', 'id', 'save_button');
@@ -55,7 +74,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getHeaderText()
     {
-        if(!is_null(\Mage::registry('current_item_type')->getId())) {
+        if (!is_null($this->_coreRegistry->registry('current_item_type')->getId())) {
             return __('Edit attribute set mapping');
         } else {
             return __('New attribute set mapping');
@@ -71,5 +90,4 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     {
         return 'icon-head head-customer-groups';
     }
-
 }

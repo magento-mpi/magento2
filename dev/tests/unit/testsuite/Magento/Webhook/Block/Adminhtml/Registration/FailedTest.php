@@ -21,6 +21,9 @@ class Magento_Webhook_Block_Adminhtml_Registration_FailedTest extends PHPUnit_Fr
     {
         $urlBuilder = $this->getMock('Magento\Core\Model\Url', array('getUrl'), array(), '', false);
 
+        /** @var  $coreData Magento_Core_Helper_Data */
+        $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+
         $context = $this->getMockBuilder('Magento\Backend\Block\Template\Context')
             ->disableOriginalConstructor()
             ->getMock();
@@ -43,7 +46,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_FailedTest extends PHPUnit_Fr
         $session->expects($this->once())
             ->method('getMessages')
             ->will($this->returnValue($messages));
-        $this->_block = new \Magento\Webhook\Block\Adminhtml\Registration\Failed($session, $context);
+        $this->_block = new Magento_Webhook_Block_Adminhtml_Registration_Failed($coreData, $session, $context);
     }
 
     public function testGetSessionError()

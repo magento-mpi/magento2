@@ -14,6 +14,25 @@ namespace Magento\Adminhtml\Controller\Promo;
 class Widget extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Prepare block for chooser
      *
      * @return void
@@ -74,7 +93,8 @@ class Widget extends \Magento\Adminhtml\Controller\Action
      */
     public function categoriesJsonAction()
     {
-        if ($categoryId = (int) $this->getRequest()->getPost('id')) {
+        $categoryId = (int) $this->getRequest()->getPost('id');
+        if ($categoryId) {
             $this->getRequest()->setParam('id', $categoryId);
 
             if (!$category = $this->_initCategory()) {
@@ -94,8 +114,8 @@ class Widget extends \Magento\Adminhtml\Controller\Action
      */
     protected function _initCategory()
     {
-        $categoryId = (int) $this->getRequest()->getParam('id',false);
-        $storeId    = (int) $this->getRequest()->getParam('store');
+        $categoryId = (int)$this->getRequest()->getParam('id',false);
+        $storeId    = (int)$this->getRequest()->getParam('store');
 
         $category   = \Mage::getModel('Magento\Catalog\Model\Category');
         $category->setStoreId($storeId);
@@ -105,14 +125,14 @@ class Widget extends \Magento\Adminhtml\Controller\Action
             if ($storeId) {
                 $rootId = \Mage::app()->getStore($storeId)->getRootCategoryId();
                 if (!in_array($rootId, $category->getPathIds())) {
-                    $this->_redirect('*/*/', array('_current'=>true, 'id'=>null));
+                    $this->_redirect('*/*/', array('_current' => true, 'id' => null));
                     return false;
                 }
             }
         }
 
-        \Mage::register('category', $category);
-        \Mage::register('current_category', $category);
+        $this->_coreRegistry->register('category', $category);
+        $this->_coreRegistry->register('current_category', $category);
 
         return $category;
     }

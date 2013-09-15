@@ -15,15 +15,6 @@
             <magento_pbridge_pbridge>/magento_pbridge/pbridge/</magento_pbridge_pbridge>
             <magento_pbridge_payment_profile>/magento_pbridge/payment_profile/</magento_pbridge_payment_profile>
         </secure_url>
-        <translate>
-            <modules>
-                <Magento_Pbridge>
-                    <files>
-                        <default>Magento_Pbridge.csv</default>
-                    </files>
-                </Magento_Pbridge>
-            </modules>
-        </translate>
     </frontend>
     <default>
         <payment>

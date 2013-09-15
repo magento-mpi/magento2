@@ -12,6 +12,28 @@ namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit;
 
 class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Intialize form
@@ -44,7 +66,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
             'active'  => true
         ));
 
-        $segment = \Mage::registry('current_customer_segment');
+        $segment = $this->_coreRegistry->registry('current_customer_segment');
 
         if ($segment && $segment->getId()) {
             $conditionsSectionContent = $this->getLayout()
@@ -71,5 +93,4 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 
         return parent::_beforeToHtml();
     }
-
 }

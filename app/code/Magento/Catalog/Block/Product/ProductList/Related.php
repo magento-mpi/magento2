@@ -31,21 +31,20 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct
 
     protected function _prepareData()
     {
-        $product = \Mage::registry('product');
+        $product = $this->_coreRegistry->registry('product');
         /* @var $product \Magento\Catalog\Model\Product */
 
         $this->_itemCollection = $product->getRelatedProductCollection()
             ->addAttributeToSelect('required_options')
             ->setPositionOrder()
-            ->addStoreFilter()
-        ;
+            ->addStoreFilter();
 
-        if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_Checkout')) {
-            \Mage::getResourceSingleton('Magento\Checkout\Model\Resource\Cart')
+        if ($this->_catalogData->isModuleEnabled('Magento_Checkout')) {
+            Mage::getResourceSingleton('Magento\Checkout\Model\Resource\Cart')
                 ->addExcludeProductFilter(
                     $this->_itemCollection,
-                    \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuoteId()
-                );
+                    Mage::getSingleton('Magento\Checkout\Model\Session')->getQuoteId()
+            );
             $this->_addProductAttributesAndPrices($this->_itemCollection);
         }
         $this->_itemCollection->setVisibility(

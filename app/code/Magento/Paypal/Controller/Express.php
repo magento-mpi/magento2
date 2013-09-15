@@ -43,8 +43,8 @@ class Express extends \Magento\Paypal\Controller\Express\AbstractExpress
         $this->setFlag('', 'no-dispatch', true);
         \Mage::getSingleton('Magento\Customer\Model\Session')->setBeforeAuthUrl($this->_getRefererUrl());
         $this->getResponse()->setRedirect(
-            \Mage::helper('Magento\Core\Helper\Url')->addRequestParam(
-                \Mage::helper('Magento\Customer\Helper\Data')->getLoginUrl(),
+            $this->_objectManager->get('Magento\Core\Helper\Url')->addRequestParam(
+                $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl(),
                 array('context' => 'checkout')
             )
         );

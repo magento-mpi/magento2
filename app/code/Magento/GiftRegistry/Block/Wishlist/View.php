@@ -16,13 +16,48 @@ namespace Magento\GiftRegistry\Block\Wishlist;
 class View extends \Magento\Wishlist\Block\Customer\Wishlist
 {
     /**
+     * Gift registry data
+     *
+     * @var Magento_GiftRegistry_Helper_Data
+     */
+    protected $_giftRegistryData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product_ConfigurationPool $helperPool
+     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
+     * @param Magento_Wishlist_Helper_Data $wishlistData
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product_ConfigurationPool $helperPool,
+        Magento_GiftRegistry_Helper_Data $giftRegistryData,
+        Magento_Wishlist_Helper_Data $wishlistData,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_giftRegistryData = $giftRegistryData;
+        parent::__construct(
+            $helperPool, $wishlistData, $coreRegistry, $taxData, $catalogData, $coreData, $context, $data
+        );
+    }
+
+    /**
      * Prepare block layout, override wishlist block with different template
      *
      * @return \Magento\GiftRegistry\Block\Wishlist\View
      */
     protected function _prepareLayout()
     {
-        $outputEnabled = \Mage::helper('Magento\Core\Helper\Data')->isModuleOutputEnabled($this->getModuleName());
+        $outputEnabled = $this->_coreData->isModuleOutputEnabled($this->getModuleName());
         if ($outputEnabled) {
             if ($this->_layout->hasElement('my.account.wrapper')) {
                 $oldBlock = $this->_layout->getBlock('customer.wishlist');
@@ -53,7 +88,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
      */
     public function getEnabled()
     {
-        return  \Mage::helper('Magento\GiftRegistry\Helper\Data')->isEnabled();
+        return  $this->_giftRegistryData->isEnabled();
     }
 
     /**
@@ -63,7 +98,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
      */
     public function getEntityValues()
     {
-        return \Mage::helper('Magento\GiftRegistry\Helper\Data')->getCurrentCustomerEntityOptions();
+        return $this->_giftRegistryData->getCurrentCustomerEntityOptions();
     }
 
     /**
@@ -74,6 +109,6 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
      */
     public function checkProductType($item)
     {
-        return \Mage::helper('Magento\GiftRegistry\Helper\Data')->canAddToGiftRegistry($item);
+        return $this->_giftRegistryData->canAddToGiftRegistry($item);
     }
 }

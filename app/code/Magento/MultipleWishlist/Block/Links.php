@@ -20,13 +20,36 @@ namespace Magento\MultipleWishlist\Block;
 class Links extends \Magento\Wishlist\Block\Links
 {
     /**
+     * Wishlist data
+     *
+     * @var Magento_MultipleWishlist_Helper_Data
+     */
+    protected $_wishlistData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_MultipleWishlist_Helper_Data $wishlistData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_MultipleWishlist_Helper_Data $wishlistData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_wishlistData = $wishlistData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Count items in wishlist
      *
      * @return int
      */
     protected function _getItemCount()
     {
-        return $this->helper('Magento\MultipleWishlist\Helper\Data')->getItemCount();
+        return $this->_wishlistData->getItemCount();
     }
 
     /**
@@ -37,7 +60,7 @@ class Links extends \Magento\Wishlist\Block\Links
      */
     protected function _createLabel($count)
     {
-        if (\Mage::helper('Magento\MultipleWishlist\Helper\Data')->isMultipleEnabled()) {
+        if ($this->_wishlistData->isMultipleEnabled()) {
             if ($count > 1) {
                 return __('My Wish Lists (%1 items)', $count);
             } else if ($count == 1) {

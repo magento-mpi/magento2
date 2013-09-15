@@ -8,16 +8,12 @@
  * @license     {license_link}
  */
 
-
 /**
  * Form Type Edit Form Block
- *
- * @category   Magento
- * @package    Magento_CustomerCustomAttributes
  */
 namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Retrieve current form type instance
@@ -26,7 +22,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _getFormType()
     {
-        return \Mage::registry('current_form_type');
+        return $this->_coreRegistry->registry('current_form_type');
     }
 
     /**
@@ -36,7 +32,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $editMode = \Mage::registry('edit_mode');
+        $editMode = $this->_coreRegistry->registry('edit_mode');
         if ($editMode == 'edit') {
             $saveUrl = $this->getUrl('*/*/save');
             $showNew = false;
@@ -44,11 +40,14 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             $saveUrl = $this->getUrl('*/*/create');
             $showNew = true;
         }
-        $form = new \Magento\Data\Form(array(
-            'id'        => 'edit_form',
-            'action'    => $saveUrl,
-            'method'    => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $saveUrl,
+                'method'    => 'post',
+            ))
+        );
 
         if ($showNew) {
             $fieldset = $form->addFieldset('base_fieldset', array(

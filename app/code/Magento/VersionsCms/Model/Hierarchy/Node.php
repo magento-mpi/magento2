@@ -12,7 +12,6 @@
 /**
  * Cms Hierarchy Pages Node Model
  *
- * @method \Magento\VersionsCms\Model\Resource\Hierarchy\Node _getResource()
  * @method \Magento\VersionsCms\Model\Resource\Hierarchy\Node getResource()
  * @method int getParentNodeId()
  * @method \Magento\VersionsCms\Model\Hierarchy\Node setParentNodeId(int $value)
@@ -93,18 +92,30 @@ class Node extends \Magento\Core\Model\AbstractModel
     const META_NODE_TYPE_PREVIOUS = 'prev';
 
     /**
+     * Cms hierarchy
+     *
+     * @var Magento_VersionsCms_Helper_Hierarchy
+     */
+    protected $_cmsHierarchy = null;
+
+    /**
+     * @param Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy
      * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_VersionsCms_Model_Resource_Hierarchy_Node $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_VersionsCms_Model_Resource_Hierarchy_Node $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        $this->_cmsHierarchy = $cmsHierarchy;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
         $scope = $scopeId = null;
         if (array_key_exists('scope', $data)) {
@@ -151,7 +162,7 @@ class Node extends \Magento\Core\Model\AbstractModel
         }
 
         $isSet = false;
-        foreach($collection as $scope) {
+        foreach ($collection as $scope) {
             if ($scope->getCode() == $scopeId || $scope->getId() == $scopeId) {
                 $isSet = true;
                 $this->_scopeId = $scope->getId();
@@ -194,7 +205,7 @@ class Node extends \Magento\Core\Model\AbstractModel
                 'identifier'        => $item->getIdentifier(),
                 'page_id'           => $item->getPageId()
             );
-            $nodes[] = \Mage::helper('Magento\VersionsCms\Helper\Hierarchy')->copyMetaData($item->getData(), $node);
+            $nodes[] = $this->_cmsHierarchy->copyMetaData($item->getData(), $node);
         }
 
         return $nodes;
@@ -207,7 +218,6 @@ class Node extends \Magento\Core\Model\AbstractModel
      */
     public function getNodesCollection()
     {
-        $nodes = array();
         $collection = $this->getCollection()
                 ->joinCmsPage()
                 ->addCmsPageInStoresColumn()
@@ -280,7 +290,7 @@ class Node extends \Magento\Core\Model\AbstractModel
                 'scope_id'           => $this->_scopeId,
             );
 
-            $nodes[$parentNodeId][$v['node_id']] = \Mage::helper('Magento\VersionsCms\Helper\Hierarchy')
+            $nodes[$parentNodeId][$v['node_id']] = $this->_cmsHierarchy
                 ->copyMetaData($v, $_node);
         }
 
@@ -744,7 +754,7 @@ class Node extends \Magento\Core\Model\AbstractModel
     {
         parent::_afterSave();
         // we save to metadata table not only metadata :(
-        //if (\Mage::helper('Magento\VersionsCms\Helper\Hierarchy')->isMetadataEnabled()) {
+        //if ($this->_cmsHierarchy->isMetadataEnabled()) {
             $this->_getResource()->saveMetaData($this);
         //}
 
@@ -806,7 +816,7 @@ class Node extends \Magento\Core\Model\AbstractModel
     public function getHeritage()
     {
         if ($this->getIsInherited()) {
-            $helper = \Mage::helper('Magento\VersionsCms\Helper\Hierarchy');
+            $helper = $this->_cmsHierarchy;
             $parentScope = $helper->getParentScope($this->_scope, $this->_scopeId);
             $parentScopeNode = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node', array('data' =>
                 array(

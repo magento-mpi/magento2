@@ -40,6 +40,14 @@ class Widget extends \Magento\Object
     protected $_viewFileSystem;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param \Magento\Core\Model\Config\Modules\Reader $configReader
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Model\View\Url $viewUrl
@@ -47,12 +55,14 @@ class Widget extends \Magento\Object
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         \Magento\Core\Model\Config\Modules\Reader $configReader,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
         parent::__construct($data);
         $this->_configReader = $configReader;
         $this->_configCacheType = $configCacheType;
@@ -260,7 +270,7 @@ class Widget extends \Magento\Object
         $html = sprintf('<img id="%s" src="%s" title="%s">',
             $this->_idEncode($directive),
             $this->getPlaceholderImageUrl($type),
-            \Mage::helper('Magento\Core\Helper\Data')->escapeUrl($directive)
+            $this->_coreData->escapeUrl($directive)
         );
         return $html;
     }

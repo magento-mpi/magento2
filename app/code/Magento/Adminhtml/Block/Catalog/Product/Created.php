@@ -74,7 +74,7 @@ class Created extends \Magento\Adminhtml\Block\Widget
             );
         }
 
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 
     /**

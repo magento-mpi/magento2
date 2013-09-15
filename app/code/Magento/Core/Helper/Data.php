@@ -70,11 +70,33 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_config;
 
     /**
+     * Core http
+     *
+     * @var Magento_Core_Helper_Http
+     */
+    protected $_coreHttp = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config $config
      */
-    public function __construct(\Magento\Core\Helper\Context $context, \Magento\Core\Model\Config $config)
-    {
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $config
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_coreHttp = $coreHttp;
         parent::__construct($context);
         $this->_config = $config;
     }
@@ -364,11 +386,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $allow = true;
 
         $allowedIps = \Mage::getStoreConfig(self::XML_PATH_DEV_ALLOW_IPS, $storeId);
-        $remoteAddr = \Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr();
+        $remoteAddr = $this->_coreHttp->getRemoteAddr();
         if (!empty($allowedIps) && !empty($remoteAddr)) {
             $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
             if (array_search($remoteAddr, $allowedIps) === false
-                && array_search(\Mage::helper('Magento\Core\Helper\Http')->getHttpHost(), $allowedIps) === false) {
+                && array_search($this->_coreHttp->getHttpHost(), $allowedIps) === false) {
                 $allow = false;
             }
         }
@@ -446,7 +468,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         }
 
         $eventName = sprintf('core_copy_fieldset_%s_%s', $fieldset, $aspect);
-        \Mage::dispatchEvent($eventName, array(
+        $this->_eventManager->dispatch($eventName, array(
             'target' => $target,
             'source' => $source,
             'root'   => $root

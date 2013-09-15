@@ -48,20 +48,20 @@ class Breadcrumbs extends \Magento\FullPageCache\Model\Container\AbstractContain
                 ->setStoreId(\Mage::app()->getStore()->getId())
                 ->load($productId);
             if ($product) {
-                \Mage::register('current_product', $product);
+                $this->_coreRegistry->register('current_product', $product);
             }
         }
         $categoryId = $this->_getCategoryId();
 
         if ($product !== null && !$product->canBeShowInCategory($categoryId)) {
             $categoryId = null;
-            \Mage::unregister('current_category');
+            $this->_coreRegistry->unregister('current_category');
         }
 
-        if ($categoryId && !\Mage::registry('current_category')) {
+        if ($categoryId && !$this->_coreRegistry->registry('current_category')) {
             $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
             if ($category) {
-                \Mage::register('current_category', $category);
+                $this->_coreRegistry->register('current_category', $category);
             }
         }
 
@@ -81,7 +81,7 @@ class Breadcrumbs extends \Magento\FullPageCache\Model\Container\AbstractContain
             }
         }
 
-        \Mage::dispatchEvent('render_block', array('block' => $breadcrumbsBlock, 'placeholder' => $this->_placeholder));
+        $this->_eventManager->dispatch('render_block', array('block' => $breadcrumbsBlock, 'placeholder' => $this->_placeholder));
         return $breadcrumbsBlock->toHtml();
     }
 }

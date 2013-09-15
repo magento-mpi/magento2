@@ -22,7 +22,7 @@ class Magento_Checkout_Block_Onepage_Payment_MethodsTest extends PHPUnit_Framewo
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Mage::getModel('Magento\Core\Model\Layout')
+        $this->_block = Mage::getSingleton('Magento\Core\Model\Layout')
             ->createBlock('Magento\Checkout\Block\Onepage\Payment\Methods');
     }
 

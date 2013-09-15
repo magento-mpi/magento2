@@ -10,7 +10,7 @@
 
 namespace Magento\TargetRule\Block\Adminhtml;
 
-class Product extends \Magento\Adminhtml\Block\Widget
+class Product extends \Magento\Backend\Block\Widget
 {
     /**
      * Attributes is read only flag
@@ -20,33 +20,45 @@ class Product extends \Magento\Adminhtml\Block\Widget
     protected $_readOnly = false;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * Target rule data
+     *
+     * @var Magento_TargetRule_Helper_Data
+     */
+    protected $_targetRuleData = null;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param Magento_TargetRule_Helper_Data $targetRuleData
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_TargetRule_Helper_Data $targetRuleData
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManager $storeManager,
+        Magento_TargetRule_Helper_Data $targetRuleData,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        $this->_coreRegistry = $registry;
+        $this->_targetRuleData = $targetRuleData;
         $this->_storeManager = $storeManager;
-    }
-
-
-    /**
-     * Retrieve TargetRule Data Helper
-     *
-     * @return \Magento\TargetRule\Helper\Data
-     */
-    protected function _getRuleHelper()
-    {
-        return \Mage::helper('Magento\TargetRule\Helper\Data');
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -75,7 +87,7 @@ class Product extends \Magento\Adminhtml\Block\Widget
      */
     public function getProduct()
     {
-        return \Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**
@@ -97,7 +109,7 @@ class Product extends \Magento\Adminhtml\Block\Widget
     {
         $position = $this->_getValue('position_limit');
         if (is_null($position)) {
-            $position = $this->_getRuleHelper()->getMaximumNumberOfProduct($this->_getProductListType());
+            $position = $this->_targetRuleData->getMaximumNumberOfProduct($this->_getProductListType());
         }
         return $position;
     }
@@ -111,7 +123,7 @@ class Product extends \Magento\Adminhtml\Block\Widget
     {
         $show = $this->_getValue('position_behavior');
         if (is_null($show)) {
-            $show = $this->_getRuleHelper()->getShowProducts($this->_getProductListType());
+            $show = $this->_targetRuleData->getShowProducts($this->_getProductListType());
         }
         return $show;
     }

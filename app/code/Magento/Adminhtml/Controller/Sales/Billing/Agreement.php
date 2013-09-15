@@ -10,13 +10,30 @@
 
 /**
  * Adminhtml billing agreement controller
- *
- * @author Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Adminhtml\Controller\Sales\Billing;
 
 class Agreement extends \Magento\Adminhtml\Controller\Action
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
     /**
      * Billing agreements
      *
@@ -74,7 +91,7 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
     }
 
     /**
-     * Cutomer billing agreements ajax action
+     * Customer billing agreements ajax action
      *
      */
     public function customerGridAction()
@@ -148,7 +165,7 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
             return false;
         }
 
-        \Mage::register('current_billing_agreement', $agreementModel);
+        $this->_coreRegistry->register('current_billing_agreement', $agreementModel);
         return $agreementModel;
     }
 
@@ -166,7 +183,7 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
             $customer->load($customerId);
         }
 
-        \Mage::register('current_customer', $customer);
+        $this->_coreRegistry->register('current_customer', $customer);
         return $this;
     }
 
@@ -182,14 +199,11 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
             case 'grid' :
             case 'view' :
                 return $this->_authorization->isAllowed('Magento_Sales::billing_agreement_actions_view');
-                break;
             case 'cancel':
             case 'delete':
                 return $this->_authorization->isAllowed('Magento_Sales::actions_manage');
-                break;
             default:
                 return $this->_authorization->isAllowed('Magento_Sales::billing_agreement');
-                break;
         }
     }
 }

@@ -19,9 +19,36 @@
 
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form
 {
     protected $_template = 'page/version/form.phtml';
+
+    /**
+     * Cms data
+     *
+     * @var Magento_VersionsCms_Helper_Data
+     */
+    protected $_cmsData = null;
+
+    /**
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_VersionsCms_Helper_Data $cmsData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Data_Form_Factory $formFactory,
+        Magento_VersionsCms_Helper_Data $cmsData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_cmsData = $cmsData;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
 
     /**
      * Preparing from for version page
@@ -30,16 +57,19 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form(array(
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
                 'id' => 'edit_form',
                 'action' => $this->getUrl('*/*/save', array('_current' => true)),
-                'method' => 'post'
-            ));
+                'method' => 'post',
+            ))
+        );
 
         $form->setUseContainer(true);
 
-        /* @var $model \Magento\Cms\Model\Page */
-        $version = \Mage::registry('cms_page_version');
+        /* @var $model Magento_Cms_Model_Page */
+        $version = $this->_coreRegistry->registry('cms_page_version');
 
         $config = \Mage::getSingleton('Magento\VersionsCms\Model\Config');
         /* @var $config \Magento\VersionsCms\Model\Config */
@@ -70,7 +100,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             'label'     => __('Access Level'),
             'title'     => __('Access Level'),
             'name'      => 'access_level',
-            'options'   => \Mage::helper('Magento\VersionsCms\Helper\Data')->getVersionAccessLevels(),
+            'options'   => $this->_cmsData->getVersionAccessLevels(),
             'disabled'  => !$isOwner && !$isPublisher
         ));
 
@@ -79,7 +109,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
                 'label'     => __('Owner'),
                 'title'     => __('Owner'),
                 'name'      => 'user_id',
-                'options'   => \Mage::helper('Magento\VersionsCms\Helper\Data')->getUsersArray(!$version->getUserId()),
+                'options'   => $this->_cmsData->getUsersArray(!$version->getUserId()),
                 'required'  => !$version->getUserId()
             ));
         }

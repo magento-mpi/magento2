@@ -180,21 +180,33 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     protected $_errorInfos;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param \Magento\Core\Model\Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param \Magento\Sales\Model\Status\ListFactory $statusListFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         \Magento\Core\Model\Context $context,
+        Magento_Core_Model_Registry $registry,
         \Magento\Sales\Model\Status\ListFactory $statusListFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_errorInfos = $statusListFactory->create();
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
 
@@ -308,7 +320,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
         $oldQty = $this->_getData('qty');
         $this->setData('qty', $qty);
 
-        \Mage::dispatchEvent('sales_quote_item_qty_set_after', array('item'=>$this));
+        $this->_eventManager->dispatch('sales_quote_item_qty_set_after', array('item'=>$this));
 
         if ($this->getQuote() && $this->getQuote()->getIgnoreOldQty()) {
             return $this;
@@ -395,7 +407,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
             $this->setIsQtyDecimal($product->getStockItem()->getIsQtyDecimal());
         }
 
-        \Mage::dispatchEvent('sales_quote_item_set_product', array(
+        $this->_eventManager->dispatch('sales_quote_item_set_product', array(
             'product' => $product,
             'quote_item'=>$this
         ));

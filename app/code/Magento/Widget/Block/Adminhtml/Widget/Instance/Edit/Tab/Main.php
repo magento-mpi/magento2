@@ -18,7 +18,7 @@
 namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab;
 
 class Main
-    extends \Magento\Adminhtml\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
@@ -78,7 +78,7 @@ class Main
      */
     public function getWidgetInstance()
     {
-        return \Mage::registry('current_widget_instance');
+        return $this->_coreRegistry->registry('current_widget_instance');
     }
 
     /**
@@ -89,11 +89,15 @@ class Main
     protected function _prepareForm()
     {
         $widgetInstance = $this->getWidgetInstance();
-        $form = new \Magento\Data\Form(array(
-            'id' => 'edit_form',
-            'action' => $this->getData('action'),
-            'method' => 'post'
-        ));
+
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset',
             array('legend' => __('Frontend Properties'))
@@ -142,7 +146,8 @@ class Main
                 'label'     => __('Assign to Store Views'),
                 'title'     => __('Assign to Store Views'),
                 'required'  => true,
-                'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(false, true),
+                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')
+                    ->getStoreValuesForForm(false, true),
             ));
             $renderer = $this->getLayout()
                 ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');

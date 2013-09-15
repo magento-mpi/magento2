@@ -18,6 +18,33 @@ class AbstractGrid extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_storeIds                = array();
     protected $_aggregatedColumns       = null;
 
+    /**
+     * Reports data
+     *
+     * @var Magento_Reports_Helper_Data
+     */
+    protected $_reportsData = null;
+
+    /**
+     * @param Magento_Reports_Helper_Data $reportsData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Reports_Helper_Data $reportsData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_reportsData = $reportsData;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -136,8 +163,8 @@ class AbstractGrid extends \Magento\Adminhtml\Block\Widget\Grid
 
         $orderStatuses = $filterData->getData('order_statuses');
         if (is_array($orderStatuses)) {
-            if (count($orderStatuses) == 1 && strpos($orderStatuses[0],',')!== false) {
-                $filterData->setData('order_statuses', explode(',',$orderStatuses[0]));
+            if (count($orderStatuses) == 1 && strpos($orderStatuses[0], ',') !== false) {
+                $filterData->setData('order_statuses', explode(',', $orderStatuses[0]));
             }
         }
 
@@ -156,7 +183,7 @@ class AbstractGrid extends \Magento\Adminhtml\Block\Widget\Grid
         }
 
         if ($filterData->getData('show_empty_rows', false)) {
-            \Mage::helper('Magento\Reports\Helper\Data')->prepareIntervalsCollection(
+            $this->_reportsData->prepareIntervalsCollection(
                 $this->getCollection(),
                 $filterData->getData('from', null),
                 $filterData->getData('to', null),

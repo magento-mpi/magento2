@@ -67,6 +67,32 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     protected $_pbridgeMethodInstance = null;
 
     /**
+     * Pbridge data
+     *
+     * @var Magento_Pbridge_Helper_Data
+     */
+    protected $_pbridgeData = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Pbridge_Helper_Data $pbridgeData
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Pbridge_Helper_Data $pbridgeData,
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Payment_Helper_Data $paymentData,
+        array $data = array()
+    ) {
+        $this->_pbridgeData = $pbridgeData;
+        parent::__construct($eventManager, $moduleList, $paymentData, $data);
+    }
+
+
+    /**
      * Return that current payment method is dummy
      *
      * @return boolean
@@ -84,7 +110,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = $this->_paymentData->getMethodInstance('pbridge');
             if ($this->_pbridgeMethodInstance) {
                 $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
             }
@@ -200,11 +226,12 @@ class Direct extends \Magento\Payment\Model\Method\Cc
      * Store id setter, also set storeId to helper
      *
      * @param int $store
+     * @return Magento_Pbridge_Model_Payment_Method_Eway_Direct
      */
     public function setStore($store)
     {
         $this->setData('store', $store);
-        \Mage::helper('Magento\Pbridge\Helper\Data')->setStoreId(is_object($store) ? $store->getId() : $store);
+        $this->_pbridgeData->setStoreId(is_object($store) ? $store->getId() : $store);
         return $this;
     }
 }

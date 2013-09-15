@@ -87,7 +87,7 @@ class Import
         $element->setData('onchange', 'varienImportExportScheduled.handleEntityTypeSelector();');
 
         /** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
-        $operation = \Mage::registry('current_operation');
+        $operation = $this->_coreRegistry->registry('current_operation');
         $this->_setFormValues($operation->getData());
 
         return $this;

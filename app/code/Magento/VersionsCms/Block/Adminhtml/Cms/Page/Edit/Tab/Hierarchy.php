@@ -18,14 +18,48 @@
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab;
 
 class Hierarchy
-    extends \Magento\Adminhtml\Block\Template
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    extends \Magento\Backend\Block\Template
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Array of nodes for tree
      * @var array|null
      */
     protected $_nodes = null;
+    
+    /**
+     * Cms hierarchy
+     *
+     * @var Magento_VersionsCms_Helper_Hierarchy
+     */
+    protected $_cmsHierarchy = null;
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_cmsHierarchy = $cmsHierarchy;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Retrieve current page instance
      *
@@ -33,7 +67,7 @@ class Hierarchy
      */
     public function getPage()
     {
-        return \Mage::registry('cms_page');
+        return $this->_coreRegistry->registry('cms_page');
     }
 
     /**
@@ -43,7 +77,7 @@ class Hierarchy
      */
     public function getNodesJson()
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($this->getNodes());
+        return $this->_coreData->jsonEncode($this->getNodes());
     }
 
     /**
@@ -55,7 +89,7 @@ class Hierarchy
         if (is_null($this->_nodes)) {
             $this->_nodes = array();
             try{
-                $data = \Mage::helper('Magento\Core\Helper\Data')->jsonDecode($this->getPage()->getNodesData());
+                $data = $this->_coreData->jsonDecode($this->getPage()->getNodesData());
             }catch (\Zend_Json_Exception $e){
                 $data = null;
             }
@@ -170,7 +204,7 @@ class Hierarchy
             'id' => $this->getPage()->getId()
         );
 
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($data);
+        return $this->_coreData->jsonEncode($data);
     }
 
     /**
@@ -201,7 +235,7 @@ class Hierarchy
     public function canShowTab()
     {
         if (!$this->getPage()->getId()
-            || !\Mage::helper('Magento\VersionsCms\Helper\Hierarchy')->isEnabled()
+            || !$this->_cmsHierarchy->isEnabled()
             || !$this->_authorization->isAllowed('Magento_VersionsCms::hierarchy'))
         {
             return false;

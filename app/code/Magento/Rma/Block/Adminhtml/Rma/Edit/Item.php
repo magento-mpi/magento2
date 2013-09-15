@@ -17,8 +17,35 @@
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit;
 
-class Item extends \Magento\Adminhtml\Block\Widget\Form
+class Item extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * Rma data
+     *
+     * @var Magento_Rma_Helper_Data
+     */
+    protected $_rmaData = null;
+
+    /**
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Rma_Helper_Data $rmaData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Rma_Helper_Data $rmaData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_rmaData = $rmaData;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
     /**
      * Preparing form - container, which contains all attributes
      *
@@ -26,11 +53,12 @@ class Item extends \Magento\Adminhtml\Block\Widget\Form
      */
     public function initForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_rma');
         $form->setFieldNameSuffix();
 
-        $item = \Mage::registry('current_rma_item');
+        $item = $this->_coreRegistry->registry('current_rma_item');
 
         if (!$item->getId()) {
             // for creating RMA process when we have no item loaded, $item is just empty model
@@ -130,7 +158,7 @@ class Item extends \Magento\Adminhtml\Block\Widget\Form
         if ($this->getProductId()) {
             $orderItem = \Mage::getModel('Magento\Sales\Model\Order\Item')->load($this->getProductId());
             if ($orderItem && $orderItem->getId()) {
-                $item->setProductAdminName(\Mage::helper('Magento\Rma\Helper\Data')->getAdminProductName($orderItem));
+                $item->setProductAdminName($this->_rmaData->getAdminProductName($orderItem));
             }
         }
     }

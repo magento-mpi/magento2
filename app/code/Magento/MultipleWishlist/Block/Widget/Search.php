@@ -122,7 +122,7 @@ class Search extends \Magento\Core\Block\Template implements \Magento\Widget\Blo
     public function getBlockId()
     {
         if ($this->getData('id') === null) {
-            $this->setData('id', \Mage::helper('Magento\Core\Helper\Data')->uniqHash());
+            $this->setData('id', $this->_coreData->uniqHash());
         }
         return $this->getData('id');
     }

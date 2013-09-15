@@ -32,6 +32,25 @@ class Product extends \Magento\Adminhtml\Controller\Action
     protected $_publicActions = array('edit');
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Initialize product from request parameters
      *
      * @return \Magento\Catalog\Model\Product
@@ -69,10 +88,8 @@ class Product extends \Magento\Adminhtml\Controller\Action
             $attributes = $this->getRequest()->getParam('attributes');
             if (!empty($attributes)) {
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE);
-                $this->_objectManager->get('Magento\Catalog\Model\Product\Type\Configurable')->setUsedProductAttributeIds(
-                    $attributes,
-                    $product
-                );
+                $this->_objectManager->get('Magento\Catalog\Model\Product\Type\Configurable')
+                    ->setUsedProductAttributeIds($attributes, $product);
             } else {
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
             }
@@ -92,7 +109,8 @@ class Product extends \Magento\Adminhtml\Controller\Action
         if ($this->getRequest()->getParam('popup')
             && $this->getRequest()->getParam('product')
             && !is_array($this->getRequest()->getParam('product'))
-            && $this->getRequest()->getParam('id', false) === false) {
+            && $this->getRequest()->getParam('id', false) === false
+        ) {
 
             $configProduct = \Mage::getModel('Magento\Catalog\Model\Product')
                 ->setStoreId(0)
@@ -116,9 +134,9 @@ class Product extends \Magento\Adminhtml\Controller\Action
                 ->setWebsiteIds($configProduct->getWebsiteIds());
         }
 
-        \Mage::register('product', $product);
-        \Mage::register('current_product', $product);
-        \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->setStoreId($this->getRequest()->getParam('store'));
+        $this->_coreRegistry->register('product', $product);
+        $this->_coreRegistry->register('current_product', $product);
+        Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->setStoreId($this->getRequest()->getParam('store'));
         return $product;
     }
 
@@ -130,8 +148,11 @@ class Product extends \Magento\Adminhtml\Controller\Action
      * @param array $productsArray
      * @return \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Ajax\Serializer
      */
-    protected function _createSerializerBlock($inputName, \Magento\Adminhtml\Block\Widget\Grid $gridBlock, $productsArray)
-    {
+    protected function _createSerializerBlock(
+        $inputName,
+        Magento_Adminhtml_Block_Widget_Grid $gridBlock,
+        $productsArray
+    ) {
         return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Ajax\Serializer')
             ->setGridBlock($gridBlock)
             ->setProducts($productsArray)
@@ -333,9 +354,10 @@ class Product extends \Magento\Adminhtml\Controller\Action
     /**
      * Save attribute options just created by user
      *
-     * @TODO Move this logic to configurable product type model when full set of operations for attribute options during
-     *  product creation will be implemented: edit labels, remove, reorder. Currently only addition of options to end
-     *  and removal of just added option is supported.
+     * @TODO Move this logic to configurable product type model
+     *   when full set of operations for attribute options during
+     *   product creation will be implemented: edit labels, remove, reorder.
+     * Currently only addition of options to end and removal of just added option is supported.
      */
     protected function _saveAttributeOptions()
     {
@@ -501,8 +523,8 @@ class Product extends \Magento\Adminhtml\Controller\Action
         $this->_initProduct();
         $this->loadLayout();
         $this->getLayout()->getBlock('admin.product.reviews')
-                ->setProductId(\Mage::registry('product')->getId())
-                ->setUseAjax(true);
+            ->setProductId($this->_coreRegistry->registry('product')->getId())
+            ->setUseAjax(true);
         $this->renderLayout();
     }
 
@@ -590,14 +612,15 @@ class Product extends \Magento\Adminhtml\Controller\Action
 //            if (is_array($errors = $product->validate())) {
 //                foreach ($errors as $code => $error) {
 //                    if ($error === true) {
-//                        \Mage::throwException(__('Attribute "%1" is invalid.', $product->getResource()->getAttribute($code)->getFrontend()->getLabel()));
+//                        Mage::throwException(__('Attribute "%1" is invalid.',
+//                           $product->getResource()->getAttribute($code)->getFrontend()->getLabel()));
 //                    }
 //                    else {
 //                        \Mage::throwException($error);
 //                    }
 //                }
 //            }
-        }
+        } catch (Magento_Eav_Model_Entity_Attribute_Exception $e) {
         catch (\Magento\Eav\Model\Entity\Attribute\Exception $e) {
             $response->setError(true);
             $response->setAttribute($e->getAttributeCode());
@@ -642,7 +665,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
 
             $product->addData($productData);
             $product->setCollectExceptionMessages(true);
-            $configurableAttribute = \Mage::helper('Magento\Core\Helper\Data')
+            $configurableAttribute = $this->_objectManager->get('Magento\Core\Helper\Data')
                 ->jsonDecode($productData['configurable_attribute']);
             $configurableAttribute = implode('-', $configurableAttribute);
 
@@ -719,16 +742,16 @@ class Product extends \Magento\Adminhtml\Controller\Action
         $links = $this->getRequest()->getPost('links');
         if (isset($links['related']) && !$product->getRelatedReadonly()) {
             $product->setRelatedLinkData(
-                \Mage::helper('Magento\Adminhtml\Helper\Js')->decodeGridSerializedInput($links['related'])
+                $this->_objectManager->get('Magento\Adminhtml\Helper\Js')->decodeGridSerializedInput($links['related'])
             );
         }
         if (isset($links['upsell']) && !$product->getUpsellReadonly()) {
             $product->setUpSellLinkData(
-                \Mage::helper('Magento\Adminhtml\Helper\Js')->decodeGridSerializedInput($links['upsell'])
+                $this->_objectManager->get('Magento\Adminhtml\Helper\Js')->decodeGridSerializedInput($links['upsell'])
             );
         }
         if (isset($links['crosssell']) && !$product->getCrosssellReadonly()) {
-            $product->setCrossSellLinkData(\Mage::helper('Magento\Adminhtml\Helper\Js')
+            $product->setCrossSellLinkData($this->_objectManager->get('Magento\Adminhtml\Helper\Js')
                 ->decodeGridSerializedInput($links['crosssell']));
         }
 
@@ -742,10 +765,8 @@ class Product extends \Magento\Adminhtml\Controller\Action
 
         $attributes = $this->getRequest()->getParam('attributes');
         if (!empty($attributes)) {
-            $this->_objectManager->get('Magento\Catalog\Model\Product\Type\Configurable')->setUsedProductAttributeIds(
-                $attributes,
-                $product
-            );
+            $this->_objectManager->get('Magento\Catalog\Model\Product\Type\Configurable')
+                ->setUsedProductAttributeIds($attributes, $product);
 
             $product->setNewVariationsAttributeSetId($this->getRequest()->getPost('new-variations-attribute-set-id'));
             $associatedProductIds = $this->getRequest()->getPost('associated_product_ids', array());
@@ -852,10 +873,9 @@ class Product extends \Magento\Adminhtml\Controller\Action
 
                 $this->_getSession()->addSuccess(__('You saved the product.'));
                 if ($product->getSku() != $originalSku) {
-                    $this->_getSession()->addNotice(
-                        __('SKU for product %1 has been changed to %2.', \Mage::helper('Magento\Core\Helper\Data')
-                            ->escapeHtml($product->getName()),
-                            \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($product->getSku()))
+                    $this->_getSession()->addNotice(__('SKU for product %1 has been changed to %2.',
+                            $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($product->getName()),
+                            $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($product->getSku()))
                     );
                 }
 
@@ -1005,8 +1025,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
             $this->_getSession()->addSuccess(
                 __('A total of %1 record(s) have been updated.', count($productIds))
             );
-        }
-        catch (Magento_Core_Model_Exception $e) {
+        } catch (Magento_Core_Model_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -1055,10 +1074,10 @@ class Product extends \Magento\Adminhtml\Controller\Action
     public function showUpdateResultAction()
     {
         $session = \Mage::getSingleton('Magento\Adminhtml\Model\Session');
-        if ($session->hasCompositeProductResult() && $session->getCompositeProductResult() instanceof \Magento\Object) {
-            /* @var $helper \Magento\Adminhtml\Helper\Catalog\Product\Composite */
-            $helper = \Mage::helper('Magento\Adminhtml\Helper\Catalog\Product\Composite');
-            $helper->renderUpdateResult($this, $session->getCompositeProductResult());
+        if ($session->hasCompositeProductResult()
+            && $session->getCompositeProductResult() instanceof Magento_Object) {
+            $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite')
+                ->renderUpdateResult($this, $session->getCompositeProductResult());
             $session->unsCompositeProductResult();
         } else {
             $session->unsCompositeProductResult();
@@ -1080,7 +1099,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
      */
     public function customOptionsAction()
     {
-        \Mage::register('import_option_products', $this->getRequest()->getPost('products'));
+        $this->_coreRegistry->register('import_option_products', $this->getRequest()->getPost('products'));
         $this->loadLayout();
         $this->renderLayout();
     }
@@ -1091,7 +1110,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
     public function suggestProductTemplatesAction()
     {
         $this->_initProduct();
-        $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode(
+        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
             $this->getLayout()->createBlock('Magento\Catalog\Block\Product\TemplateSelector')
                 ->getSuggestedTemplates($this->getRequest()->getParam('label_part'))
         ));
@@ -1146,6 +1165,5 @@ class Product extends \Magento\Adminhtml\Controller\Action
             $response->setMessage($e->getMessage());
             $this->getResponse()->setBody($response->toJson());
         }
-
     }
 }

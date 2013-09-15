@@ -18,8 +18,8 @@
 namespace Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab;
 
 abstract class AbstractTab
-    extends \Magento\Adminhtml\Block\Widget\Form
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * TODO

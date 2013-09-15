@@ -20,6 +20,25 @@ namespace Magento\Paypal\Controller\Adminhtml\Paypal;
 class Reports extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Grid action
      */
     public function indexAction()
@@ -48,7 +67,7 @@ class Reports extends \Magento\Adminhtml\Controller\Action
             $this->_redirect('*/*/');
             return;
         }
-        \Mage::register('current_transaction', $row);
+        $this->_coreRegistry->register('current_transaction', $row);
         $this->_initAction()
             ->_title(__('View Transaction'))
             ->_addContent($this->getLayout()

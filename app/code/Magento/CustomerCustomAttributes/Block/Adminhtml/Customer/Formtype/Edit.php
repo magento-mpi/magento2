@@ -20,13 +20,36 @@ namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype;
 class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve current form type instance
      *
      * @return \Magento\Eav\Model\Form\Type
      */
     protected function _getFormType()
     {
-        return \Mage::registry('current_form_type');
+        return $this->_coreRegistry->registry('current_form_type');
     }
 
     /**
@@ -41,7 +64,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 
         parent::_construct();
 
-        $editMode = \Mage::registry('edit_mode');
+        $editMode = $this->_coreRegistry->registry('edit_mode');
         if ($editMode == 'edit') {
             $this->_updateButton('save', 'onclick', 'formType.save(false)');
             $this->_updateButton('save', 'data_attribute', null);

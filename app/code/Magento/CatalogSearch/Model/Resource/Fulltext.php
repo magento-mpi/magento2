@@ -63,13 +63,52 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_engine                   = null;
 
     /**
+     * Catalog search data
+     *
+     * @var Magento_CatalogSearch_Helper_Data
+     */
+    protected $_catalogSearchData = null;
+
+    /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_String $coreString,
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_coreString = $coreString;
+        $this->_catalogSearchData = $catalogSearchData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Init resource model
      *
      */
     protected function _construct()
     {
         $this->_init('catalogsearch_fulltext', 'product_id');
-        $this->_engine = \Mage::helper('Magento\CatalogSearch\Helper\Data')->getEngine();
+        $this->_engine = $this->_catalogSearchData->getEngine();
     }
 
     /**
@@ -266,7 +305,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
             // Keeping public interface
             $adapter->update($this->getTable('catalogsearch_query'), array('is_processed' => 0));
             $adapter->truncateTable($this->getTable('catalogsearch_result'));
-            \Mage::dispatchEvent('catalogsearch_reset_search_result');
+            $this->_eventManager->dispatch('catalogsearch_reset_search_result');
         } else {
             // Optimized deletion only product-related records
             /** @var $select \Magento\DB\Select */
@@ -346,7 +385,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
                 || $searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_COMBINE
             ) {
                 $helper = \Mage::getResourceHelper('Magento_Core');
-                $words = \Mage::helper('Magento\Core\Helper\String')
+                $words = $this->_coreString
                     ->splitWords($queryText, true, $query->getMaxQueryWords());
                 foreach ($words as $word) {
                     $like[] = $helper->getCILike('s.data_index', $word, array('position' => 'any'));
@@ -430,7 +469,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
             }
             $attributes = $productAttributes->getItems();
 
-            \Mage::dispatchEvent('catelogsearch_searchable_attributes_load_after', array(
+            $this->_eventManager->dispatch('catelogsearch_searchable_attributes_load_after', array(
                 'engine' => $this->_engine,
                 'attributes' => $attributes
             ));
@@ -676,7 +715,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
             return $this->_engine->prepareEntityIndex($index, $this->_separator);
         }
 
-        return \Mage::helper('Magento\CatalogSearch\Helper\Data')->prepareIndexdata($index, $this->_separator);
+        return $this->_catalogSearchData->prepareIndexdata($index, $this->_separator);
     }
 
     /**

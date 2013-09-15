@@ -20,7 +20,7 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Action\Attribute\Tab;
 
 class Attributes
     extends \Magento\Adminhtml\Block\Catalog\Form
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     protected function _construct()
     {
@@ -40,9 +40,12 @@ class Attributes
             'recurring_profile',
             'tier_price',
         ));
-        \Mage::dispatchEvent('adminhtml_catalog_product_form_prepare_excluded_field_list', array('object'=>$this));
+        $this->_eventManager->dispatch('adminhtml_catalog_product_form_prepare_excluded_field_list', array(
+            'object' => $this,
+        ));
 
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset('fields', array(
             'legend' => __('Attributes'),
         ));

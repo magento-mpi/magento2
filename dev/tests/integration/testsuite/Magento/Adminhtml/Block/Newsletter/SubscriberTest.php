@@ -16,11 +16,11 @@ class Magento_Adminhtml_Block_Newsletter_SubscriberTest extends PHPUnit_Framewor
 {
     public function testGetShowQueueAdd()
     {
-        /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('Magento\Core\Model\Layout');
-        /** @var $block \Magento\Adminhtml\Block\Newsletter\Subscriber */
+        /** @var $layout Magento_Core_Model_Layout */
+        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        /** @var $block Magento_Adminhtml_Block_Newsletter_Subscriber */
         $block = $layout->createBlock('Magento\Adminhtml\Block\Newsletter\Subscriber', 'block');
-        /** @var $childBlock \Magento\Core\Block\Template */
+        /** @var $childBlock Magento_Core_Block_Template */
         $childBlock = $layout->addBlock('Magento\Core\Block\Template', 'grid', 'block');
 
         $expected = 'test_data';

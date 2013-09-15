@@ -67,10 +67,10 @@ class Authorize extends \Magento\Core\Controller\Front\Action
             $block = $contentBlock->getChildBlock('oauth.authorize.form');
         }
 
-        /** @var $helper \Magento\Core\Helper\Url */
-        $helper = \Mage::helper('Magento\Core\Helper\Url');
+        /** @var $coreUrl \Magento\Core\Helper\Url */
+        $coreUrl = $this->_objectManager->get('Magento\Core\Helper\Url');
         $session->setAfterAuthUrl(\Mage::getUrl('customer/account/login', array('_nosid' => true)))
-                ->setBeforeAuthUrl($helper->getCurrentUrl());
+                ->setBeforeAuthUrl($coreUrl->getCurrentUrl());
 
         $block->setIsSimple($simple)
             ->setToken($this->getRequest()->getQuery('oauth_token'))
@@ -86,14 +86,14 @@ class Authorize extends \Magento\Core\Controller\Front\Action
      */
     protected function _initConfirmPage($simple = false)
     {
-        /** @var $helper \Magento\Oauth\Helper\Data */
-        $helper = \Mage::helper('Magento\Oauth\Helper\Data');
+        /** @var $oauthData \Magento\Oauth\Helper\Data */
+        $oauthData = $this->_objectManager->get('Magento\Oauth\Helper\Data');
 
         /** @var $session \Magento\Customer\Model\Session */
         $session = \Mage::getSingleton($this->_sessionName);
         if (!$session->getCustomerId()) {
             $session->addError(__('Please login to proceed authorization.'));
-            $url = $helper->getAuthorizeUrl(\Magento\Oauth\Model\Token::USER_TYPE_CUSTOMER);
+            $url = $oauthData->getAuthorizeUrl(\Magento\Oauth\Model\Token::USER_TYPE_CUSTOMER);
             $this->_redirectUrl($url);
             return $this;
         }
@@ -111,7 +111,7 @@ class Authorize extends \Magento\Core\Controller\Front\Action
             /** @var $token \Magento\Oauth\Model\Token */
             $token = $server->authorizeToken($session->getCustomerId(), \Magento\Oauth\Model\Token::USER_TYPE_CUSTOMER);
 
-            if (($callback = $helper->getFullCallbackUrl($token))) { //false in case of OOB
+            if (($callback = $oauthData->getFullCallbackUrl($token))) { //false in case of OOB
                 $this->_redirectUrl($callback . ($simple ? '&simple=1' : ''));
                 return $this;
             } else {
@@ -154,10 +154,10 @@ class Authorize extends \Magento\Core\Controller\Front\Action
 
             /** @var $token \Magento\Oauth\Model\Token */
             $token = $server->checkAuthorizeRequest();
-            /** @var $helper \Magento\Oauth\Helper\Data */
-            $helper = \Mage::helper('Magento\Oauth\Helper\Data');
+            /** @var $oauthData \Magento\Oauth\Helper\Data */
+            $oauthData = $this->_objectManager->get('Magento\Oauth\Helper\Data');
 
-            if (($callback = $helper->getFullCallbackUrl($token, true))) {
+            if (($callback = $oauthData->getFullCallbackUrl($token, true))) {
                 $this->_redirectUrl($callback . ($simple ? '&simple=1' : ''));
                 return $this;
             } else {

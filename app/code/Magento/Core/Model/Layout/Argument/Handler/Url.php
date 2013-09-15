@@ -28,26 +28,59 @@ class Url extends \Magento\Core\Model\Layout\Argument\HandlerAbstract
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\UrlInterface $urlModel
      */
-    public function __construct(\Magento\ObjectManager $objectManager, \Magento\Core\Model\UrlInterface $urlModel)
+    public function __construct(\Magento\Core\Model\UrlInterface  $urlModel)
     {
-        parent::__construct($objectManager);
-
         $this->_urlModel = $urlModel;
     }
 
     /**
      * Generate url
-     * @param string $value
-     * @throws \InvalidArgumentException
-     * @return \Magento\Core\Model\AbstractModel|boolean
+     *
+     * @param array $argument
+     * @return string
+     * @throws InvalidArgumentException
      */
-    public function process($value)
+    public function process(array $argument)
     {
-        if (false === is_array($value) || (!isset($value['path']))) {
-            throw new \InvalidArgumentException('Passed value has incorrect format');
+        $this->_validate($argument);
+        $value = $argument['value'];
+
+        return $this->_urlModel->getUrl($value['path'], $value['params']);
+    }
+
+    /**
+     * @param array $argument
+     * @throws InvalidArgumentException
+     */
+    protected function _validate(array $argument)
+    {
+        parent::_validate($argument);
+        $value = $argument['value'];
+
+        if (!isset($value['path'])) {
+            throw new \InvalidArgumentException(
+                'Passed value has incorrect format. ' . $this->_getArgumentInfo($argument)
+            );
+        }
+    }
+
+    /**
+     * @param $argument
+     * @return array
+     */
+    protected function _getArgumentValue(\Magento\Core\Model\Layout\Element $argument)
+    {
+        $result = array(
+            'path' => (string)$argument['path'],
+            'params' => array()
+        );
+
+        if (isset($argument->param)) {
+            foreach ($argument->param as $param) {
+                $result['params'][(string)$param['name']] = (string)$param;
+            }
         }
 
-        $params = array_key_exists('params', $value) ? $value['params'] : null;
-        return $this->_urlModel->getUrl($value['path'], $params);
+        return $result;
     }
 }

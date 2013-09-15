@@ -122,6 +122,53 @@ class Item extends \Magento\Core\Model\AbstractModel
     protected $_processIndexEvents = true;
 
     /**
+     * Catalog inventory minsaleqty
+     *
+     * @var Magento_CatalogInventory_Helper_Minsaleqty
+     */
+    protected $_catalogInventoryMinsaleqty = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Catalog inventory data
+     *
+     * @var Magento_CatalogInventory_Helper_Data
+     */
+    protected $_catalogInventoryData = null;
+
+    /**
+     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_CatalogInventory_Helper_Minsaleqty $catalogInventoryMinsaleqty
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_CatalogInventory_Helper_Minsaleqty $catalogInventoryMinsaleqty,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_catalogInventoryData = $catalogInventoryData;
+        $this->_coreData = $coreData;
+        $this->_catalogInventoryMinsaleqty = $catalogInventoryMinsaleqty;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
      *
      */
@@ -297,7 +344,7 @@ class Item extends \Magento\Core\Model\AbstractModel
 
         if (!isset($this->_minSaleQtyCache[$customerGroupId])) {
             $minSaleQty = $this->getUseConfigMinSaleQty()
-                ? \Mage::helper('Magento\CatalogInventory\Helper\Minsaleqty')->getConfigValue($customerGroupId)
+                ? $this->_catalogInventoryMinsaleqty->getConfigValue($customerGroupId)
                 : $this->getData('min_sale_qty');
 
             $this->_minSaleQtyCache[$customerGroupId] = empty($minSaleQty) ? 0 : (float)$minSaleQty;
@@ -631,7 +678,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             $qtyIncrements = $this->getDefaultQtyIncrements();
         }
 
-        if ($qtyIncrements && (\Mage::helper('Magento\Core\Helper\Data')->getExactDivision($qty, $qtyIncrements) != 0)) {
+        if ($qtyIncrements && ($this->_coreData->getExactDivision($qty, $qtyIncrements) != 0)) {
             $result->setHasError(true)
                 ->setQuoteMessage(
                     __('Please correct the quantity for some products.')
@@ -696,7 +743,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             $typeId = $productTypeId;
         }
 
-        $isQty = \Mage::helper('Magento\CatalogInventory\Helper\Data')->isQty($typeId);
+        $isQty = $this->_catalogInventoryData->isQty($typeId);
 
         if ($isQty) {
             if ($this->getManageStock() && !$this->verifyStock()) {

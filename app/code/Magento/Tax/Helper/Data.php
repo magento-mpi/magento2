@@ -44,13 +44,36 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_postCodeSubStringLength = 10;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Tax\Model\Config $taxConfig
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
      */
-    public function  __construct(\Magento\Core\Helper\Context $context, \Magento\Tax\Model\Config $taxConfig)
-    {
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Tax_Model_Config $taxConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Tax_Model_Config $taxConfig
+    ) {
         parent::__construct($context);
         $this->_config = $taxConfig;
+        $this->_coreData = $coreData;
+        $this->_coreRegistry = $coreRegistry;
     }
 
     /**
@@ -340,7 +363,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         if ($store) {
             $priceFormat['pattern'] = \Mage::app()->getStore($store)->getCurrentCurrency()->getOutputFormat();
         }
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($priceFormat);
+        return $this->_coreData->jsonEncode($priceFormat);
     }
 
     /**
@@ -375,7 +398,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             $result["value_{$class}"] = $rate;
         }
 
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 
     /**
@@ -779,10 +802,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getCalculatedTaxes($source)
     {
-        if (\Mage::registry('current_invoice')) {
-            $current = \Mage::registry('current_invoice');
-        } elseif (\Mage::registry('current_creditmemo')) {
-            $current = \Mage::registry('current_creditmemo');
+        if ($this->_coreRegistry->registry('current_invoice')) {
+            $current = $this->_coreRegistry->registry('current_invoice');
+        } elseif ($this->_coreRegistry->registry('current_creditmemo')) {
+            $current = $this->_coreRegistry->registry('current_creditmemo');
         } else {
             $current = $source;
         }
@@ -849,10 +872,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getShippingTax($source)
     {
-        if (\Mage::registry('current_invoice')) {
-            $current = \Mage::registry('current_invoice');
-        } elseif (\Mage::registry('current_creditmemo')) {
-            $current = \Mage::registry('current_creditmemo');
+        if ($this->_coreRegistry->registry('current_invoice')) {
+            $current = $this->_coreRegistry->registry('current_invoice');
+        } elseif ($this->_coreRegistry->registry('current_creditmemo')) {
+            $current = $this->_coreRegistry->registry('current_creditmemo');
         } else {
             $current = $source;
         }

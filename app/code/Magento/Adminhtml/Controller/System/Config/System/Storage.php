@@ -104,14 +104,16 @@ class Storage extends \Magento\Adminhtml\Controller\Action
                     break;
                 case \Magento\Core\Model\File\Storage\Flag::STATE_RUNNING:
                     if (!$flag->getLastUpdate()
-                        || time() <= (strtotime($flag->getLastUpdate()) + \Magento\Core\Model\File\Storage\Flag::FLAG_TTL)
+                        || time() <= (strtotime($flag->getLastUpdate())
+                            + Magento_Core_Model_File_Storage_Flag::FLAG_TTL)
                     ) {
                         $flagData = $flag->getFlagData();
                         if (is_array($flagData)
                             && isset($flagData['source']) && !empty($flagData['source'])
                             && isset($flagData['destination']) && !empty($flagData['destination'])
                         ) {
-                            $result['message'] = __('Synchronizing %1 to %2', $flagData['source'], $flagData['destination']);
+                            $result['message'] = __('Synchronizing %1 to %2', $flagData['source'],
+                                $flagData['destination']);
                         } else {
                             $result['message'] = __('Synchronizing...');
                         }
@@ -149,7 +151,7 @@ class Storage extends \Magento\Adminhtml\Controller\Action
             $state = \Magento\Core\Model\File\Storage\Flag::STATE_INACTIVE;
         }
         $result['state'] = $state;
-        $result = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
+        $result = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result);
         $this->_response->setBody($result);
     }
 }

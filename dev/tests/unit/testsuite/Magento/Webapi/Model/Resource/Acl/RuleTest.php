@@ -149,6 +149,7 @@ class Magento_Webapi_Model_Resource_Acl_RuleTest extends Magento_Webapi_Model_Re
         $rule = $this->getMockBuilder('Magento\Webapi\Model\Acl\Rule')
             ->setConstructorArgs(array(
                 'context' => $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
+                'coreRegistry' => $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false),
                 'resource' => $ruleResource
             ))
             ->setMethods(array('getResources'))

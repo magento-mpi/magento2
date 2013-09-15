@@ -13,14 +13,37 @@ namespace Magento\Shipping\Block\Tracking;
 class Popup extends \Magento\Core\Block\Template
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve array of tracking info
      *
      * @return array
      */
     public function getTrackingInfo()
     {
-        /* @var $info \Magento\Shipping\Model\Info */
-        $info = \Mage::registry('current_shipping_info');
+        /* @var $info Magento_Shipping_Model_Info */
+        $info = $this->_coreRegistry->registry('current_shipping_info');
 
         return $info->getTrackingInfo();
     }

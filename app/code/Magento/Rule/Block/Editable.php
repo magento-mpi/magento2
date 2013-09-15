@@ -16,6 +16,37 @@ class Editable
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_coreString = $coreString;
+        $this->_coreData = $coreData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Render element
      *
      * @see \Magento\Data\Form\Element\Renderer\RendererInterface::render()
@@ -31,9 +62,6 @@ class Editable
             $valueName = '...';
         }
 
-        $coreHelper = \Mage::helper('Magento\Core\Helper\Data');
-        $stringHelper = \Mage::helper('Magento\Core\Helper\String');
-
         if ($element->getShowAsText()) {
             $html = ' <input type="hidden" class="hidden" id="' . $element->getHtmlId()
                 . '" name="' . $element->getName() . '" value="' . $element->getValue() . '"/> '
@@ -44,9 +72,9 @@ class Editable
                 . '<a href="javascript:void(0)" class="label">';
 
             if ($this->_translator->isAllowed()) {
-                $html .= $coreHelper->escapeHtml($valueName);
+                $html .= $this->_coreData->escapeHtml($valueName);
             } else {
-                $html .= $coreHelper->escapeHtml($stringHelper->truncate($valueName, 33, '...'));
+                $html .= $this->_coreData->escapeHtml($this->_coreString->truncate($valueName, 33, '...'));
             }
 
             $html .= '</a><span class="element"> ' . $element->getElementHtml();

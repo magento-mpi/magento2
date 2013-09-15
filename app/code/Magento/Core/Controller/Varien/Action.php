@@ -833,11 +833,11 @@ abstract class Action extends \Magento\Core\Controller\Varien\ActionAbstract
         }
         $url = $this->getRequest()->getParam(self::PARAM_NAME_BASE64_URL);
         if ($url) {
-            $refererUrl = \Mage::helper('Magento\Core\Helper\Data')->urlDecode($url);
+            $refererUrl = $this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode($url);
         }
         $url = $this->getRequest()->getParam(self::PARAM_NAME_URL_ENCODED);
         if ($url) {
-            $refererUrl = \Mage::helper('Magento\Core\Helper\Data')->urlDecode($url);
+            $refererUrl = $this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode($url);
         }
 
         if (!$this->_isUrlInternal($refererUrl)) {

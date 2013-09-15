@@ -13,6 +13,25 @@ namespace Magento\Rma\Controller;
 class Tracking extends \Magento\Core\Controller\Front\Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Popup action
      * Shows tracking info if it's present, otherwise redirects to 404
      *
@@ -23,7 +42,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
         $shippingInfoModel = \Mage::getModel('Magento\Rma\Model\Shipping\Info')
             ->loadByHash($this->getRequest()->getParam('hash'));
 
-        \Mage::register('rma_current_shipping', $shippingInfoModel);
+        $this->_coreRegistry->register('rma_current_shipping', $shippingInfoModel);
         if (count($shippingInfoModel->getTrackingInfo()) == 0) {
             $this->norouteAction();
             return;
@@ -47,7 +66,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
         $shippingInfoModel = \Mage::getModel('Magento\Rma\Model\Shipping\Info')
             ->loadPackage($this->getRequest()->getParam('hash'));
 
-        \Mage::register('rma_package_shipping', $shippingInfoModel);
+        $this->_coreRegistry->register('rma_package_shipping', $shippingInfoModel);
         if (!$shippingInfoModel->getPackages()) {
             $this->norouteAction();
             return;
@@ -65,7 +84,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
     protected function _canViewRma($rma)
     {
         if (!\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
-            $currentOrder = \Mage::registry('current_order');
+            $currentOrder = $this->_coreRegistry->registry('current_order');
             if ($rma->getOrderId() && ($rma->getOrderId() === $currentOrder->getId())) {
                 return true;
             }
@@ -84,7 +103,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
     protected function _loadValidRma($entityId = null)
     {
         if (!\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()
-            && !\Mage::helper('Magento\Sales\Helper\Guest')->loadValidOrder()
+            && !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder()
         ) {
             return;
         }
@@ -101,7 +120,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
         $rma = \Mage::getModel('Magento\Rma\Model\Rma')->load($entityId);
 
         if ($this->_canViewRma($rma)) {
-            \Mage::register('current_rma', $rma);
+            $this->_coreRegistry->register('current_rma', $rma);
             return true;
         } else {
             $this->_redirect('*/*/returns');
@@ -115,14 +134,14 @@ class Tracking extends \Magento\Core\Controller\Front\Action
     public function printLabelAction()
     {
         try {
-            $data = \Mage::helper('Magento\Rma\Helper\Data')
+            $data = $this->_objectManager->get('Magento\Rma\Helper\Data')
                 ->decodeTrackingHash($this->getRequest()->getParam('hash'));
 
             $rmaIncrementId = '';
             if ($data['key'] == 'rma_id') {
                 $this->_loadValidRma($data['id']);
-                if (\Mage::registry('current_rma')) {
-                    $rmaIncrementId = \Mage::registry('current_rma')->getIncrementId();
+                if ($this->_coreRegistry->registry('current_rma')) {
+                    $rmaIncrementId = $this->_coreRegistry->registry('current_rma')->getIncrementId();
                 }
             }
             $model = \Mage::getModel('Magento\Rma\Model\Shipping\Info')
@@ -167,7 +186,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
      */
     public function packagePrintAction()
     {
-        $data = \Mage::helper('Magento\Rma\Helper\Data')->decodeTrackingHash($this->getRequest()->getParam('hash'));
+        $data = $this->_objectManager->get('Magento\Rma\Helper\Data')->decodeTrackingHash($this->getRequest()->getParam('hash'));
 
         if ($data['key'] == 'rma_id') {
             $this->_loadValidRma($data['id']);

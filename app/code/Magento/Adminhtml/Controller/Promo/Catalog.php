@@ -26,6 +26,25 @@ class Catalog extends \Magento\Adminhtml\Controller\Action
      */
     protected $_dirtyRulesNoticeMessage;
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
     protected function _initAction()
     {
         $this->loadLayout()
@@ -86,16 +105,13 @@ class Catalog extends \Magento\Adminhtml\Controller\Action
         }
         $model->getConditions()->setJsFormObject('rule_conditions_fieldset');
 
-        \Mage::register('current_promo_catalog_rule', $model);
+        $this->_coreRegistry->register('current_promo_catalog_rule', $model);
 
         $this->_initAction()->getLayout()->getBlock('promo_catalog_edit')
              ->setData('action', $this->getUrl('*/promo_catalog/save'));
 
-        $breadcrumb = $id
-            ? __('Edit Rule')
-            : __('New Rule');
+        $breadcrumb = $id ? __('Edit Rule') : __('New Rule');
         $this->_addBreadcrumb($breadcrumb, $breadcrumb)->renderLayout();
-
     }
 
     public function saveAction()
@@ -109,7 +125,8 @@ class Catalog extends \Magento\Adminhtml\Controller\Action
                 );
                 $data = $this->getRequest()->getPost();
                 $data = $this->_filterDates($data, array('from_date', 'to_date'));
-                if ($id = $this->getRequest()->getParam('rule_id')) {
+                $id = $this->getRequest()->getParam('rule_id');
+                if ($id) {
                     $model->load($id);
                     if ($id != $model->getId()) {
                         \Mage::throwException(__('Wrong rule specified.'));
@@ -170,7 +187,8 @@ class Catalog extends \Magento\Adminhtml\Controller\Action
 
     public function deleteAction()
     {
-        if ($id = $this->getRequest()->getParam('id')) {
+        $id = $this->getRequest()->getParam('id');
+        if ($id) {
             try {
                 $model = \Mage::getModel('Magento\CatalogRule\Model\Rule');
                 $model->load($id);

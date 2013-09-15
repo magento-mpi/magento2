@@ -13,4 +13,14 @@
             <instance type="Magento\Wishlist\Model\Resource\Item" />
         </param>
     </type>
+    <type name="Magento_Wishlist_Helper_Data">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Wishlist_Model_Wishlist">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
 </config>

@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Sitemap edit form
  *
@@ -18,9 +17,8 @@
  */
 namespace Magento\Adminhtml\Block\Sitemap\Edit;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
-
     /**
      * Init form
      */
@@ -34,13 +32,16 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
 
     protected function _prepareForm()
     {
-        $model = \Mage::registry('sitemap_sitemap');
+        $model = $this->_coreRegistry->registry('sitemap_sitemap');
 
-        $form = new \Magento\Data\Form(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getData('action'),
-            'method'    => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getData('action'),
+                'method'    => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('add_sitemap_form', array('legend' => __('Sitemap')));
 
@@ -77,8 +78,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             ));
             $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
-        }
-        else {
+        } else {
             $fieldset->addField('store_id', 'hidden', array(
                 'name'     => 'store_id',
                 'value'    => \Mage::app()->getStore(true)->getId()
@@ -87,12 +87,9 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
         }
 
         $form->setValues($model->getData());
-
         $form->setUseContainer(true);
-
         $this->setForm($form);
 
         return parent::_prepareForm();
     }
-
 }

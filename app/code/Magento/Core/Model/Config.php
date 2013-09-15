@@ -435,9 +435,6 @@ class Config implements \Magento\Core\Model\ConfigInterface
      */
     public function removeCache()
     {
-        /** @var $eventManager \Magento\Core\Model\Event\Manager */
-        $eventManager = $this->_objectManager->get('Magento\Core\Model\Event\Manager');
-        $eventManager->dispatch('application_clean_cache', array('tags' => array(self::CACHE_TAG)));
         $this->_storage->removeCache();
     }
 

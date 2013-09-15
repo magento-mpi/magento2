@@ -11,16 +11,19 @@
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
 
 class Sharing
-    extends \Magento\Adminhtml\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
 
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form(array(
-            'id' => 'edit_form',
-            'action' => $this->getActionUrl(),
-            'method' => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getActionUrl(),
+                'method' => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend' => __('Sharing Information'),

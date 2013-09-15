@@ -33,6 +33,30 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
     protected $_activeFlag = 'active';
 
     /**
+     * Directory data
+     *
+     * @var Magento_Directory_Helper_Data
+     */
+    protected $_directoryData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Directory_Helper_Data $directoryData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Directory_Helper_Data $directoryData,
+        array $data = array()
+    ) {
+        $this->_directoryData = $directoryData;
+        parent::__construct($data);
+    }
+
+    /**
      * Set flag for check carriers for activity
      *
      * @param string $code
@@ -102,7 +126,7 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
     public function isZipCodeRequired($countryId = null)
     {
         if ($countryId != null) {
-            return !\Mage::helper('Magento\Directory\Helper\Data')->isZipCodeOptional($countryId);
+            return !$this->_directoryData->isZipCodeOptional($countryId);
         }
         return true;
     }

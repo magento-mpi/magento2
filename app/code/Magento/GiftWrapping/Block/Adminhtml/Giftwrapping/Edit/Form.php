@@ -10,9 +10,8 @@
 
 namespace Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Edit;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
-
     /**
      * Intialize form
      *
@@ -49,19 +48,22 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $model = \Mage::registry('current_giftwrapping_model');
+        $model = $this->_coreRegistry->registry('current_giftwrapping_model');
 
         $actionParams = array('store' => $model->getStoreId());
         if ($model->getId()) {
             $actionParams['id'] = $model->getId();
         }
-        $form = new \Magento\Data\Form(array(
-            'id' => 'edit_form',
-            'action' => $this->getUrl('*/*/save', $actionParams),
-            'method' => 'post',
-            'field_name_suffix' => 'wrapping',
-            'enctype'=> 'multipart/form-data'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getUrl('*/*/save', $actionParams),
+                'method' => 'post',
+                'field_name_suffix' => 'wrapping',
+                'enctype'=> 'multipart/form-data',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend'=>__('Gift Wrapping Information')));

@@ -67,6 +67,25 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     );
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context);
+    }
+
+    /**
      * Generate random string for token or secret or verifier
      *
      * @param int $length String length
@@ -74,10 +93,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     protected function _generateRandomString($length)
     {
-        /** @var $helper \Magento\Core\Helper\Data */
-        $helper = \Mage::helper('Magento\Core\Helper\Data');
-
-        return $helper->getRandomString(
+        return $this->_coreData->getRandomString(
             $length, \Magento\Core\Helper\Data::CHARS_DIGITS . \Magento\Core\Helper\Data::CHARS_LOWERS
         );
     }
@@ -250,6 +266,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * Get authorize endpoint url
      *
      * @param string $userType
+     * @throws Exception
      * @return string
      */
     public function getAuthorizeUrl($userType)

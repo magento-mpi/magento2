@@ -51,7 +51,7 @@
             <value>Magento_Webapi</value>
         </param>
     </type>
-    <type name="Magento\Webapi\Controller\Router\Route" shared="false" />
+    <type name="Magento\Webapi\Controller\Rest\Router\Route" shared="false" />
     <type name="Magento\Xml\Generator" shared="false" />
     <type name="Magento\Xml\Parser" shared="false" />
     <type name="Magento_Code_Scanner_DirectoryScanner" shared="false" />

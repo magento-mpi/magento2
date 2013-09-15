@@ -152,7 +152,7 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
     public function __wakeup()
     {
         if (\Mage::getIsSerializable()) {
-            $this->_resources = \Mage::getSingleton('Magento\Core\Model\Resource');
+            $this->_resources = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\Resource');
         }
     }
 

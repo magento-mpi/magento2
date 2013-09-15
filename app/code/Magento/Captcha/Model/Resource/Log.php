@@ -30,6 +30,29 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
     const TYPE_LOGIN = 2;
 
     /**
+     * Core http
+     *
+     * @var Magento_Core_Helper_Http
+     */
+    protected $_coreHttp = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_coreHttp = $coreHttp;
+        parent::__construct($resource);
+    }
+
+    /**
      * Define main table
      *
      */
@@ -56,7 +79,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
                 array('count' => new \Zend_Db_Expr('count+1'), 'updated_at')
             );
         }
-        $ip = \Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr();
+        $ip = $this->_coreHttp->getRemoteAddr();
         if ($ip != null) {
             $this->_getWriteAdapter()->insertOnDuplicate(
                 $this->getMainTable(),
@@ -84,7 +107,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
                 array('type = ?' => self::TYPE_LOGIN, 'value = ?' => $login)
             );
         }
-        $ip = \Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr();
+        $ip = $this->_coreHttp->getRemoteAddr();
         if ($ip != null) {
             $this->_getWriteAdapter()->delete(
                 $this->getMainTable(), array('type = ?' => self::TYPE_REMOTE_ADDRESS, 'value = ?' => $ip)
@@ -101,7 +124,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function countAttemptsByRemoteAddress()
     {
-        $ip = \Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr();
+        $ip = $this->_coreHttp->getRemoteAddr();
         if (!$ip) {
             return 0;
         }

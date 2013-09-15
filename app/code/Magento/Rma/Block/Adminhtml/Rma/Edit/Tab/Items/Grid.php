@@ -18,7 +18,7 @@
 
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Default limit collection
@@ -33,6 +33,43 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      * @var null|array
      */
     protected $_attributeOptionValues = null;
+
+    /**
+     * Rma eav
+     *
+     * @var Magento_Rma_Helper_Eav
+     */
+    protected $_rmaEav = null;
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Rma_Helper_Eav $rmaEav
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Rma_Helper_Eav $rmaEav,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        $this->_rmaEav = $rmaEav;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     /**
      * Block constructor
@@ -56,8 +93,8 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _gatherOrderItemsData()
     {
         $itemsData = array();
-        if (\Mage::registry('current_order')) {
-            foreach (\Mage::registry('current_order')->getItemsCollection() as $item) {
+        if ($this->_coreRegistry->registry('current_order')) {
+            foreach ($this->_coreRegistry->registry('current_order')->getItemsCollection() as $item) {
                 $itemsData[$item->getId()] = array(
                     'qty_shipped' => $item->getQtyShipped(),
                     'qty_returned' => $item->getQtyReturned()
@@ -74,7 +111,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $rma = \Mage::registry('current_rma');
+        $rma = $this->_coreRegistry->registry('current_rma');
 
         /** @var $collection \Magento\Rma\Model\Resource\Item\Collection */
         $collection = $rma->getItemsForDisplay();
@@ -95,8 +132,8 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
-        $statusManager = \Mage::getSingleton('Magento\Rma\Model\Item\Status');
-        $rma = \Mage::registry('current_rma');
+        $statusManager = Mage::getSingleton('Magento\Rma\Model\Item\Status');
+        $rma = $this->_coreRegistry->registry('current_rma');
         if ($rma
             && (($rma->getStatus() === \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED)
                 || ($rma->getStatus() === \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED))
@@ -172,7 +209,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'header'=> __('Return Reason'),
             'getter'   => array($this, 'getReasonOptionStringValue'),
             'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Reasonselect',
-            'options' => \Mage::helper('Magento\Rma\Helper\Eav')->getAttributeOptionValues('reason'),
+            'options' => $this->_rmaEav->getAttributeOptionValues('reason'),
             'index' => 'reason',
             'header_css_class'  => 'col-reason',
             'column_css_class'  => 'col-reason'
@@ -182,7 +219,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'header'=> __('Item Condition'),
             'getter'   => array($this, 'getConditionOptionStringValue'),
             'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textselect',
-            'options' => \Mage::helper('Magento\Rma\Helper\Eav')->getAttributeOptionValues('condition'),
+            'options' => $this->_rmaEav->getAttributeOptionValues('condition'),
             'index' => 'condition',
             'header_css_class'  => 'col-condition',
             'column_css_class'  => 'col-condition'
@@ -193,7 +230,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'index' => 'resolution',
             'getter'   => array($this, 'getResolutionOptionStringValue'),
             'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textselect',
-            'options' => \Mage::helper('Magento\Rma\Helper\Eav')->getAttributeOptionValues('resolution'),
+            'options' => $this->_rmaEav->getAttributeOptionValues('resolution'),
             'header_css_class'  => 'col-resolution',
             'column_css_class'  => 'col-resolution'
         ));
@@ -311,7 +348,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _getAttributeOptionStringValue($value)
     {
         if (is_null($this->_attributeOptionValues)) {
-            $this->_attributeOptionValues = \Mage::helper('Magento\Rma\Helper\Eav')->getAttributeOptionStringValues();
+            $this->_attributeOptionValues = $this->_rmaEav->getAttributeOptionStringValues();
         }
         if (isset($this->_attributeOptionValues[$value])) {
             return $this->escapeHtml($this->_attributeOptionValues[$value]);

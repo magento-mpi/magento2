@@ -21,13 +21,38 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
 {
 
     /**
+     * Downloadable catalog product configuration
+     *
+     * @var Magento_Downloadable_Helper_Catalog_Product_Configuration
+     */
+    protected $_downloadProdConfig = null;
+
+    /**
+     * @param Magento_Downloadable_Helper_Catalog_Product_Configuration $dwnCtlgProdConfig
+     * @param Magento_Catalog_Helper_Product_Configuration $productConfiguration
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Downloadable_Helper_Catalog_Product_Configuration $dwnCtlgProdConfig,
+        Magento_Catalog_Helper_Product_Configuration $productConfiguration,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_downloadProdConfig = $dwnCtlgProdConfig;
+        parent::__construct($productConfiguration, $coreData, $context, $data);
+    }
+
+    /**
      * Retrieves item links options
      *
      * @return array
      */
     public function getLinks()
     {
-        return \Mage::helper('Magento\Downloadable\Helper\Catalog\Product\Configuration')->getLinks($this->getItem());
+        return $this->_downloadProdConfig->getLinks($this->getItem());
     }
 
     /**
@@ -37,6 +62,6 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      */
     public function getLinksTitle()
     {
-        return \Mage::helper('Magento\Downloadable\Helper\Catalog\Product\Configuration')->getLinksTitle($this->getProduct());
+        return $this->_downloadProdConfig->getLinksTitle($this->getProduct());
     }
 }

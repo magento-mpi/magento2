@@ -21,6 +21,27 @@ namespace Magento\Adminhtml\Block\Sales\Order\Invoice\View;
 class Comments extends \Magento\Adminhtml\Block\Text\ListText
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve invoice order
      *
      * @return \Magento\Sales\Model\Order
@@ -47,6 +68,6 @@ class Comments extends \Magento\Adminhtml\Block\Text\ListText
      */
     public function getInvoice()
     {
-        return \Mage::registry('current_invoice');
+        return $this->_coreRegistry->registry('current_invoice');
     }
 }

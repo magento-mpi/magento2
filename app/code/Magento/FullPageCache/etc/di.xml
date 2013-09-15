@@ -24,6 +24,9 @@
         <param name="requestIdentifier">
             <instance type="Magento\FullPageCache\Model\Request\Identifier\Proxy" />
         </param>
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
     </type>
     <type name="Magento\FullPageCache\Model\DesignPackage\Rules">
         <param name="designChange">
@@ -31,6 +34,16 @@
         </param>
         <param name="design">
             <instance type="Magento\Core\Model\View\Design\Proxy" />
+        </param>
+    </type>
+    <type name="Magento_FullPageCache_Model_Container_Abstract">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_FullPageCache_Model_Cookie">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
     </type>
 </config>

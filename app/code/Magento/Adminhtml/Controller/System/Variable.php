@@ -20,6 +20,25 @@ namespace Magento\Adminhtml\Controller\System;
 class Variable extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Initialize Layout and set breadcrumbs
      *
      * @return \Magento\Adminhtml\Controller\System\Variable
@@ -49,13 +68,12 @@ class Variable extends \Magento\Adminhtml\Controller\Action
             $variable->setStoreId($storeId)
                 ->load($variableId);
         }
-        \Mage::register('current_variable', $variable);
+        $this->_coreRegistry->register('current_variable', $variable);
         return $variable;
     }
 
     /**
      * Index Action
-     *
      */
     public function indexAction()
     {
@@ -67,7 +85,6 @@ class Variable extends \Magento\Adminhtml\Controller\Action
 
     /**
      * New Action (forward to edit action)
-     *
      */
     public function newAction()
     {
@@ -76,7 +93,6 @@ class Variable extends \Magento\Adminhtml\Controller\Action
 
     /**
      * Edit Action
-     *
      */
     public function editAction()
     {
@@ -94,7 +110,6 @@ class Variable extends \Magento\Adminhtml\Controller\Action
 
     /**
      * Validate Action
-     *
      */
     public function validateAction()
     {
@@ -113,7 +128,6 @@ class Variable extends \Magento\Adminhtml\Controller\Action
 
     /**
      * Save Action
-     *
      */
     public function saveAction()
     {
@@ -146,7 +160,6 @@ class Variable extends \Magento\Adminhtml\Controller\Action
 
     /**
      * Delete Action
-     *
      */
     public function deleteAction()
     {
@@ -169,7 +182,6 @@ class Variable extends \Magento\Adminhtml\Controller\Action
 
     /**
      * WYSIWYG Plugin Action
-     *
      */
     public function wysiwygPluginAction()
     {

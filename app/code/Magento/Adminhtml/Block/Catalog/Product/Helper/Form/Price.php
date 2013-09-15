@@ -19,6 +19,30 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form;
 
 class Price extends \Magento\Data\Form\Element\Text
 {
+    /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Data_Form_Element_Factory $factoryElement
+     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param array $attributes
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Data_Form_Element_Factory $factoryElement,
+        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
+        Magento_Tax_Helper_Data $taxData,
+        array $attributes = array()
+    ) {
+        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
+        $this->_taxData = $taxData;
+    }
 
     protected function _construct()
     {
@@ -37,9 +61,9 @@ class Price extends \Magento\Data\Form\Element\Text
             if (!($storeId = $attribute->getStoreId())) {
                 $storeId = $this->getForm()->getDataObject()->getStoreId();
             }
-            $store = \Mage::app()->getStore($storeId);
-            $html.= '<strong>' . \Mage::app()->getLocale()->currency($store->getBaseCurrencyCode())->getSymbol() . '</strong>';
-            if (\Mage::helper('Magento\Tax\Helper\Data')->priceIncludesTax($store)) {
+            $store = Mage::app()->getStore($storeId);
+            $html.= '<strong>' . Mage::app()->getLocale()->currency($store->getBaseCurrencyCode())->getSymbol() . '</strong>';
+            if ($this->_taxData->priceIncludesTax($store)) {
                 if ($attribute->getAttributeCode()!=='cost') {
                     $addJsObserver = true;
                     $html.= ' <strong>['.__('Inc. Tax').'<span id="dynamic-tax-'.$attribute->getAttributeCode().'"></span>]</strong>';

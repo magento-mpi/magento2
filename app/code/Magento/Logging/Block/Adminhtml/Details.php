@@ -30,6 +30,29 @@ class Details extends \Magento\Adminhtml\Block\Widget\Container
     protected $_eventUser = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Add back button
      *
      */
@@ -64,7 +87,7 @@ class Details extends \Magento\Adminhtml\Block\Widget\Container
     public function getCurrentEvent()
     {
         if (null === $this->_currentEevent) {
-            $this->_currentEevent = \Mage::registry('current_event');
+            $this->_currentEevent = $this->_coreRegistry->registry('current_event');
         }
         return $this->_currentEevent;
     }

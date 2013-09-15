@@ -18,7 +18,10 @@ class Magento_ImportExport_Controller_Adminhtml_ImportTest extends Magento_Backe
     {
         $this->dispatch('backend/admin/import/index');
         $body = $this->getResponse()->getBody();
-        $this->assertContains((string)\Mage::helper('Magento\ImportExport\Helper\Data')->getMaxUploadSizeMessage(),
-            $body);
+        $this->assertContains(
+            (string)Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\ImportExport\Helper\Data')
+                ->getMaxUploadSizeMessage(),
+            $body
+        );
     }
 }

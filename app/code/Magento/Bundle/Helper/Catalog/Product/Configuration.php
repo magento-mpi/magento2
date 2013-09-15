@@ -21,6 +21,35 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
     implements \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
 {
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Catalog product configuration
+     *
+     * @var Magento_Catalog_Helper_Product_Configuration
+     */
+    protected $_ctlgProdConfigur = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_ctlgProdConfigur = $ctlgProdConfigur;
+        $this->_coreData = $coreData;
+        parent::__construct($context);
+    }
+
+    /**
      * Get selection quantity
      *
      * @param \Magento\Catalog\Model\Product $product
@@ -111,7 +140,7 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
                             $qty = $this->getSelectionQty($product, $bundleSelection->getSelectionId()) * 1;
                             if ($qty) {
                                 $option['value'][] = $qty . ' x ' . $this->escapeHtml($bundleSelection->getName())
-                                    . ' ' . \Mage::helper('Magento\Core\Helper\Data')->currency(
+                                    . ' ' . $this->_coreData->currency(
                                         $this->getSelectionFinalPrice($item, $bundleSelection)
                                     );
                             }
@@ -138,7 +167,7 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
     {
         return array_merge(
             $this->getBundleOptions($item),
-            \Mage::helper('Magento\Catalog\Helper\Product\Configuration')->getCustomOptions($item)
+            $this->_ctlgProdConfigur->getCustomOptions($item)
         );
     }
 }

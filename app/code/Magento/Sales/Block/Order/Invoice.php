@@ -45,7 +45,7 @@ class Invoice extends \Magento\Sales\Block\Order\Invoice\Items
      */
     public function getOrder()
     {
-        return \Mage::registry('current_order');
+        return $this->_coreRegistry->registry('current_order');
     }
 
     /**

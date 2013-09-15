@@ -20,7 +20,6 @@ namespace Magento\Sales\Controller;
 
 class Order extends \Magento\Sales\Controller\AbstractController
 {
-
     /**
      * Action predispatch
      *
@@ -30,7 +29,7 @@ class Order extends \Magento\Sales\Controller\AbstractController
     {
         parent::preDispatch();
         $action = $this->getRequest()->getActionName();
-        $loginUrl = \Mage::helper('Magento\Customer\Helper\Data')->getLoginUrl();
+        $loginUrl = $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl();
 
         if (!\Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this, $loginUrl)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);

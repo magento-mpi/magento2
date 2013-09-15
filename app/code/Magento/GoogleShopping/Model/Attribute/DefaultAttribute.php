@@ -41,8 +41,7 @@ class DefaultAttribute extends \Magento\GoogleShopping\Model\Attribute
         if (is_null($this->getName())) {
             return $entry;
         }
-        $productAttribute = \Mage::helper('Magento\GoogleShopping\Helper\Product')
-            ->getProductAttribute($product, $this->getAttributeId());
+        $productAttribute = $this->_gsProduct->getProductAttribute($product, $this->getAttributeId());
         $type = $this->getGcontentAttributeType($productAttribute);
         $value = $this->getProductAttributeValue($product);
 
@@ -64,8 +63,7 @@ class DefaultAttribute extends \Magento\GoogleShopping\Model\Attribute
             return null;
         }
 
-        $productAttribute = \Mage::helper('Magento\GoogleShopping\Helper\Product')
-            ->getProductAttribute($product, $this->getAttributeId());
+        $productAttribute = $this->_gsProduct->getProductAttribute($product, $this->getAttributeId());
         if (is_null($productAttribute)) {
             return null;
         }

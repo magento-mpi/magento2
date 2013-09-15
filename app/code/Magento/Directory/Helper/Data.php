@@ -73,11 +73,23 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_configCacheType;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      */
-    public function __construct(\Magento\Core\Helper\Context $context, \Magento\Core\Model\Cache\Type\Config $configCacheType)
-    {
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Cache_Type_Config $configCacheType
+    ) {
+        $this->_coreData = $coreData;
         parent::__construct($context);
         $this->_configCacheType = $configCacheType;
     }
@@ -146,7 +158,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                         'name' => __($region->getName())
                     );
                 }
-                $json = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($regions);
+                $json = $this->_coreData->jsonEncode($regions);
 
                 $this->_configCacheType->save($json, $cacheKey);
             }
@@ -190,7 +202,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                 \Mage::getStoreConfig(self::OPTIONAL_ZIP_COUNTRIES_CONFIG_PATH), 0, PREG_SPLIT_NO_EMPTY);
         }
         if ($asJson) {
-            return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($this->_optionalZipCountries);
+            return $this->_coreData->jsonEncode($this->_optionalZipCountries);
         }
         return $this->_optionalZipCountries;
     }
@@ -217,7 +229,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     {
         $countryList = explode(',', \Mage::getStoreConfig(self::XML_PATH_STATES_REQUIRED));
         if ($asJson) {
-            return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($countryList);
+            return $this->_coreData->jsonEncode($countryList);
         }
         return $countryList;
     }

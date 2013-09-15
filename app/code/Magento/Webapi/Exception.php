@@ -1,6 +1,6 @@
 <?php
 /**
- * Webapi module exception. Should be used in web API resources implementation.
+ * Webapi module exception. Should be used in web API services implementation.
  *
  * {license_notice}
  *
@@ -23,23 +23,48 @@ class Exception extends \RuntimeException
     const HTTP_INTERNAL_ERROR = 500;
     /**#@-*/
 
-    const ORIGINATOR_SENDER = 'Sender';
-    const ORIGINATOR_RECEIVER = 'Receiver';
+    /**
+     * Optional exception details.
+     *
+     * @var array
+     */
+    protected $_details;
+
+    /**
+     * HTTP status code associated with current exception.
+     *
+     * @var int
+     */
+    protected $_httpCode;
 
     /**
      * Initialize exception with HTTP code.
      *
      * @param string $message
-     * @param int $code
+     * @param int $httpCode
+     * @param int $code Error code
+     * @param array $details Additional exception details
      * @throws \InvalidArgumentException
      */
-    public function __construct($message, $code)
+    public function __construct($message, $code = 0, $httpCode = self::HTTP_BAD_REQUEST, array $details = array())
     {
         /** Only HTTP error codes are allowed. No success or redirect codes must be used. */
-        if ($code < 400 || $code > 599) {
-            throw new \InvalidArgumentException(sprintf('The specified code "%d" is invalid.', $code));
+        if ($httpCode < 400 || $httpCode > 599) {
+            throw new InvalidArgumentException(sprintf('The specified HTTP code "%d" is invalid.', $httpCode));
         }
         parent::__construct($message, $code);
+        $this->_httpCode = $httpCode;
+        $this->_details = $details;
+    }
+
+    /**
+     * Retrieve current HTTP code.
+     *
+     * @return int
+     */
+    public function getHttpCode()
+    {
+        return $this->_httpCode;
     }
 
     /**
@@ -49,6 +74,18 @@ class Exception extends \RuntimeException
      */
     public function getOriginator()
     {
-        return ($this->getCode() < 500) ? self::ORIGINATOR_SENDER : self::ORIGINATOR_RECEIVER;
+        return ($this->getHttpCode() < 500)
+            ? Magento_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER
+            : Magento_Webapi_Model_Soap_Fault::FAULT_CODE_RECEIVER;
+    }
+
+    /**
+     * Retrieve exception details.
+     *
+     * @return array
+     */
+    public function getDetails()
+    {
+        return $this->_details;
     }
 }

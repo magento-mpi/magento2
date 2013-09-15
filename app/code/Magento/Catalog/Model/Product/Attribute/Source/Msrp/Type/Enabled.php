@@ -36,6 +36,22 @@ class Enabled
     const MSRP_ENABLE_USE_CONFIG = 2;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData
+    ) {
+        $this->_coreData = $coreData;
+    }
+
+    /**
      * Retrieve all attribute options
      *
      * @return array
@@ -75,7 +91,7 @@ class Enabled
             'extra'     => null
         );
 
-        if (\Mage::helper('Magento\Core\Helper\Data')->useDbCompatibleMode()) {
+        if ($this->_coreData->useDbCompatibleMode()) {
             $column['type']     = 'tinyint(1)';
             $column['is_null']  = true;
         } else {

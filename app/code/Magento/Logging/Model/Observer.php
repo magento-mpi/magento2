@@ -25,11 +25,19 @@ class Observer
     protected $_processor;
 
     /**
-     * Initialize \Magento\Logging\Model\Processor class
+     * Core http
      *
+     * @var Magento_Core_Helper_Http
      */
-    public function __construct()
-    {
+    protected $_coreHttp = null;
+
+    /**
+     * @param Magento_Core_Helper_Http $coreHttp
+     */
+    public function __construct(
+        Magento_Core_Helper_Http $coreHttp
+    ) {
+        $this->_coreHttp = $coreHttp;
         $this->_processor = \Mage::getSingleton('Magento\Logging\Model\Processor');
     }
 
@@ -164,7 +172,7 @@ class Observer
         /** @var \Magento\Logging\Model\Event $event */
         $event = \Mage::getSingleton('Magento\Logging\Model\Event');
         $event->setData(array(
-            'ip'         => \Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr(),
+            'ip'         => $this->_coreHttp->getRemoteAddr(),
             'user'       => $username,
             'user_id'    => $userId,
             'is_success' => $success,

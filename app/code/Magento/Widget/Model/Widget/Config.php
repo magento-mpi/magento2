@@ -25,11 +25,23 @@ class Config extends \Magento\Object
     protected $_viewUrl;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param array $data
      */
-    public function __construct(\Magento\Core\Model\View\Url $viewUrl, array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_View_Url $viewUrl,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
         $this->_viewUrl = $viewUrl;
         parent::__construct($data);
     }
@@ -92,7 +104,7 @@ class Config extends \Magento\Object
     {
         $widgets = is_array($widgets) ? $widgets : array($widgets);
         $param = implode(',', $widgets);
-        return \Mage::helper('Magento\Core\Helper\Data')->urlEncode($param);
+        return $this->_coreData->urlEncode($param);
     }
 
     /**
@@ -103,7 +115,7 @@ class Config extends \Magento\Object
      */
     public function decodeWidgetsFromQuery($queryParam)
     {
-        $param = \Mage::helper('Magento\Core\Helper\Data')->urlDecode($queryParam);
+        $param = $this->_coreData->urlDecode($queryParam);
         return preg_split('/\s*\,\s*/', $param, 0, PREG_SPLIT_NO_EMPTY);
     }
 

@@ -76,17 +76,6 @@
             </export_product_types>
         </importexport>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_ImportExport>
-                    <files>
-                        <default>Magento_ImportExport.csv</default>
-                    </files>
-                </Magento_ImportExport>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <general>
             <file>

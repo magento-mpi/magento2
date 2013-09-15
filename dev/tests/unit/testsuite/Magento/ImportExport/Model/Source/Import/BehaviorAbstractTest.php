@@ -49,7 +49,7 @@ class Magento_ImportExport_Model_Source_Import_BehaviorAbstractTest
             'Magento\ImportExport\Model\Source\Import\BehaviorAbstract',
             array(array()),
             '',
-            true,
+            false,
             true,
             true,
             array('toArray')

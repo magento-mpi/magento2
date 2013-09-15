@@ -56,6 +56,25 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_engine;
 
     /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve search query parameter name
      *
      * @return string
@@ -90,7 +109,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function isMinQueryLength()
     {
         $minQueryLength = $this->getMinQueryLength();
-        $thisQueryLength = \Mage::helper('Magento\Core\Helper\String')->strlen($this->getQueryText());
+        $thisQueryLength = $this->_coreString->strlen($this->getQueryText());
         return !$thisQueryLength || $minQueryLength !== '' && $thisQueryLength < $minQueryLength;
     }
 
@@ -107,7 +126,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                 $this->_queryText = '';
             } else {
                 /* @var $stringHelper \Magento\Core\Helper\String */
-                $stringHelper = \Mage::helper('Magento\Core\Helper\String');
+                $stringHelper = $this->_coreString;
                 $this->_queryText = is_array($this->_queryText) ? ''
                     : $stringHelper->cleanString(trim($this->_queryText));
 
@@ -268,7 +287,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         }
 
         /* @var $stringHelper \Magento\Core\Helper\String */
-        $stringHelper = \Mage::helper('Magento\Core\Helper\String');
+        $stringHelper = $this->_coreString;
 
         $searchType = \Mage::getStoreConfig(\Magento\CatalogSearch\Model\Fulltext::XML_PATH_CATALOG_SEARCH_TYPE);
         if ($searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_COMBINE

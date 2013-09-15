@@ -20,17 +20,6 @@
             </customersegment_setup>
         </resources>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_CustomerSegment>
-                    <files>
-                        <default>Magento_CustomerSegment.csv</default>
-                    </files>
-                </Magento_CustomerSegment>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <customer>
             <magento_customersegment>

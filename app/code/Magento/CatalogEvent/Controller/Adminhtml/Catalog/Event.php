@@ -10,15 +10,31 @@
 
 /**
  * Catalog Events Adminhtml controller
- *
- * @category   Magento
- * @package    Magento_CatalogEvent
  */
 
 namespace Magento\CatalogEvent\Controller\Adminhtml\Catalog;
 
 class Event extends \Magento\Adminhtml\Controller\Action
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
     /**
      * Check is enabled module in config
      *
@@ -27,7 +43,7 @@ class Event extends \Magento\Adminhtml\Controller\Action
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!\Mage::helper('Magento\CatalogEvent\Helper\Data')->isEnabled()) {
+        if (!$this->_objectManager->get('Magento\CatalogEvent\Helper\Data')->isEnabled()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }
@@ -43,14 +59,8 @@ class Event extends \Magento\Adminhtml\Controller\Action
     public function _initAction()
     {
         $this->loadLayout()
-            ->_addBreadcrumb(
-                __('Catalog'),
-                __('Catalog')
-            )
-            ->_addBreadcrumb(
-                __('Events'),
-                __('Events')
-            )
+            ->_addBreadcrumb(__('Catalog'), __('Catalog'))
+            ->_addBreadcrumb(__('Events'), __('Events'))
             ->_setActiveMenu('Magento_CatalogEvent::catalog_magento_catalogevent_events');
         return $this;
     }
@@ -63,7 +73,6 @@ class Event extends \Magento\Adminhtml\Controller\Action
     public function indexAction()
     {
         $this->_title(__('Events'));
-
         $this->_initAction();
         $this->renderLayout();
     }
@@ -87,7 +96,8 @@ class Event extends \Magento\Adminhtml\Controller\Action
 
         $event = \Mage::getModel('Magento\CatalogEvent\Model\Event')
             ->setStoreId($this->getRequest()->getParam('store', 0));
-        if ($eventId = $this->getRequest()->getParam('id', false)) {
+        $eventId = $this->getRequest()->getParam('id', false);
+        if ($eventId) {
             $event->load($eventId);
         } else {
             $event->setCategoryId($this->getRequest()->getParam('category_id'));
@@ -100,7 +110,7 @@ class Event extends \Magento\Adminhtml\Controller\Action
             $event->addData($sessionData);
         }
 
-        \Mage::register('magento_catalogevent_event', $event);
+        $this->_coreRegistry->register('magento_catalogevent_event', $event);
 
         $this->_initAction();
         $layout = $this->getLayout();
@@ -119,15 +129,14 @@ class Event extends \Magento\Adminhtml\Controller\Action
 
     /**
      * Save action
-     *
-     * @return void
      */
     public function saveAction()
     {
         $event = \Mage::getModel('Magento\CatalogEvent\Model\Event')
             ->setStoreId($this->getRequest()->getParam('store', 0));
         /* @var $event \Magento\CatalogEvent\Model\Event */
-        if ($eventId = $this->getRequest()->getParam('id', false)) {
+        $eventId = $this->getRequest()->getParam('id', false);
+        if ($eventId) {
             $event->load($eventId);
         } else {
             $event->setCategoryId($this->getRequest()->getParam('category_id'));
@@ -152,7 +161,8 @@ class Event extends \Magento\Adminhtml\Controller\Action
 
         $isUploaded = true;
         try {
-            $uploader = new \Magento\Core\Model\File\Uploader('image');
+            $uploader = $this->_objectManager
+                ->create('Magento_Core_Model_File_Uploader', array('fileId' => 'image'));;
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->setAllowCreateFolders(true);
@@ -200,14 +210,10 @@ class Event extends \Magento\Adminhtml\Controller\Action
             $this->_getSession()->setEventData($event->getData());
             $this->_redirect('*/*/edit', array('_current' => true));
         }
-
-
     }
 
     /**
      * Delete action
-     *
-     * @return void
      */
     public function deleteAction()
     {
@@ -233,7 +239,6 @@ class Event extends \Magento\Adminhtml\Controller\Action
 
     /**
      * Ajax categories tree loader action
-     *
      */
     public function categoriesJsonAction()
     {
@@ -257,17 +262,16 @@ class Event extends \Magento\Adminhtml\Controller\Action
     /**
      * Filtering posted data. Converting localized data if needed
      *
-     * @param array
+     * @param array $data
      * @return array
      */
     protected function _filterPostData($data)
     {
-        if(isset($data['catalogevent'])) {
+        if (isset($data['catalogevent'])) {
             $_data = $data['catalogevent'];
             $_data = $this->_filterDateTime($_data, array('date_start', 'date_end'));
             $data['catalogevent'] = $_data;
         }
         return $data;
     }
-
 }

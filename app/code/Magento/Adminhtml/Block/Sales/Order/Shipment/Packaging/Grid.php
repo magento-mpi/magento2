@@ -23,6 +23,29 @@ class Grid extends \Magento\Adminhtml\Block\Template
     protected $_template = 'sales/order/shipment/packaging/grid.phtml';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Return collection of shipment items
      *
      * @return array
@@ -32,7 +55,7 @@ class Grid extends \Magento\Adminhtml\Block\Template
         if ($this->getShipment()->getId()) {
             $collection = \Mage::getModel('Magento\Sales\Model\Order\Shipment\Item')->getCollection()
                     ->setShipmentFilter($this->getShipment()->getId());
-        } else{
+        } else {
             $collection = $this->getShipment()->getAllItems();
         }
         return $collection;
@@ -45,7 +68,7 @@ class Grid extends \Magento\Adminhtml\Block\Template
      */
     public function getShipment()
     {
-        return \Mage::registry('current_shipment');
+        return $this->_coreRegistry->registry('current_shipment');
     }
 
     /**

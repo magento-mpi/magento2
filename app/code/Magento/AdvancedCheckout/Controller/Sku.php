@@ -39,7 +39,7 @@ class Sku extends \Magento\Core\Controller\Front\Action
         }
 
         /** @var $helper \Magento\AdvancedCheckout\Helper\Data */
-        $helper = \Mage::helper('Magento\AdvancedCheckout\Helper\Data');
+        $helper = $this->_objectManager->get('Magento\AdvancedCheckout\Helper\Data');
         if (!$helper->isSkuEnabled() || !$helper->isSkuApplied()) {
             $this->_redirect('customer/account');
         }
@@ -71,7 +71,7 @@ class Sku extends \Magento\Core\Controller\Front\Action
     public function uploadFileAction()
     {
         /** @var $helper \Magento\AdvancedCheckout\Helper\Data */
-        $helper = \Mage::helper('Magento\AdvancedCheckout\Helper\Data');
+        $helper = $this->_objectManager->get('Magento\AdvancedCheckout\Helper\Data');
         $rows = $helper->isSkuFileUploaded($this->getRequest())
             ? $helper->processSkuFileUploading($this->_getSession())
             : array();

@@ -17,8 +17,8 @@
  */
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab;
 
-class Content extends \Magento\Adminhtml\Block\Widget\Form
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+class Content extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * WYSIWYG config object
@@ -36,13 +36,6 @@ class Content extends \Magento\Adminhtml\Block\Widget\Form
     protected $_wysiwygConfig;
 
     /**
-     * Registry model
-     *
-     * @var \Magento\Core\Model\Registry
-     */
-    protected $_registryManager;
-
-    /**
      * Application model
      *
      * @var \Magento\Core\Model\App
@@ -50,13 +43,17 @@ class Content extends \Magento\Adminhtml\Block\Widget\Form
     protected $_app;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\App $app
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Magento\Core\Model\Registry $registry,
@@ -64,10 +61,9 @@ class Content extends \Magento\Adminhtml\Block\Widget\Form
         array $data = array()
     ) {
         $this->_wysiwygConfigModel = $wysiwygConfig;
-        $this->_registryManager = $registry;
         $this->_app = $app;
 
-        parent::__construct($context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
 
@@ -118,10 +114,11 @@ class Content extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('banner_content_');
 
-        $model = $this->_registryManager->registry('current_banner');
+        $model = $this->_coreRegistry->registry('current_banner');
 
         $this->_eventManager->dispatch(
             'adminhtml_banner_edit_tab_content_before_prepare_form',
@@ -189,7 +186,7 @@ class Content extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _createStoreDefaultContentField($fieldset, $model, $form)
     {
-        $storeContents = $this->_registryManager->registry('current_banner')->getStoreContents();
+        $storeContents = $this->_coreRegistry->registry('current_banner')->getStoreContents();
         $isDisabled = (bool)$model->getIsReadonly() || ($model->getCanSaveAllStoreViewsContent() === false)
             || (isset($storeContents[0]) ? false : (!$model->getId() ? false : true));
         $isVisible = (bool)$model->getIsReadonly() || ($model->getCanSaveAllStoreViewsContent() === false);
@@ -218,7 +215,7 @@ class Content extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _createDefaultContentForStoresField($fieldset, $form, $model)
     {
-        $storeContents = $this->_registryManager->registry('current_banner')->getStoreContents();
+        $storeContents = $this->_coreRegistry->registry('current_banner')->getStoreContents();
         $onclickScript = "$('store_default_content').toggle(); \n $('"
             . $form->getHtmlIdPrefix() . "store_default_content').disabled = !$('"
             . $form->getHtmlIdPrefix() . "store_default_content').disabled;";
@@ -250,7 +247,7 @@ class Content extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _createStoresContentFieldset($form, $model)
     {
-        $storeContents = $this->_registryManager->registry('current_banner')->getStoreContents();
+        $storeContents = $this->_coreRegistry->registry('current_banner')->getStoreContents();
         $fieldset = $form->addFieldset('scopes_fieldset', array(
             'legend' => __('Store View Specific Content'),
             'class' => 'store-scope',

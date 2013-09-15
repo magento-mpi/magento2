@@ -41,11 +41,43 @@ class Images extends \Magento\Core\Helper\AbstractHelper
     protected $_filesystem;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Adminhtml data
+     *
+     * @var Magento_Backend_Helper_Data
+     */
+    protected $_backendData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Backend_Helper_Data $backendData
+     * @param Magento_Core_Helper_Data $coreData
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(\Magento\Core\Helper\Context $context, \Magento\Filesystem $filesystem)
-    {
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Backend_Helper_Data $backendData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Context $context,
+        Magento_Filesystem $filesystem
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_backendData = $backendData;
+        $this->_coreData = $coreData;
         parent::__construct($context);
         $this->_filesystem = $filesystem;
         $this->_filesystem->setIsAllowCreateDirectories(true);
@@ -159,7 +191,7 @@ class Images extends \Magento\Core\Helper\AbstractHelper
     {
         $checkResult = new StdClass;
         $checkResult->isAllowed = false;
-        \Mage::dispatchEvent('cms_wysiwyg_images_static_urls_allowed', array(
+        $this->_eventManager->dispatch('cms_wysiwyg_images_static_urls_allowed', array(
             'result'   => $checkResult,
             'store_id' => $this->_storeId
         ));
@@ -184,8 +216,8 @@ class Images extends \Magento\Core\Helper\AbstractHelper
             if ($this->isUsingStaticUrlsAllowed()) {
                 $html = $fileurl; // $mediaPath;
             } else {
-                $directive = \Mage::helper('Magento\Core\Helper\Data')->urlEncode($directive);
-                $html = \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl(
+                $directive = $this->_coreData->urlEncode($directive);
+                $html = $this->_backendData->getUrl(
                     '*/cms_wysiwyg/directive',
                     array('___directive' => $directive)
                 );

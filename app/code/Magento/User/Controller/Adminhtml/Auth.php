@@ -39,7 +39,7 @@ class Auth extends \Magento\Backend\Controller\ActionAbstract
                     foreach ($collection as $item) {
                         $user = \Mage::getModel('Magento\User\Model\User')->load($item->getId());
                         if ($user->getId()) {
-                            $newPassResetToken = \Mage::helper('Magento\User\Helper\Data')
+                            $newPassResetToken = $this->_objectManager->get('Magento\User\Helper\Data')
                                 ->generateResetPasswordLinkToken();
                             $user->changeResetPasswordLinkToken($newPassResetToken);
                             $user->save();
@@ -50,9 +50,11 @@ class Auth extends \Magento\Backend\Controller\ActionAbstract
                 }
                 // @codingStandardsIgnoreStart
                 $this->_getSession()
-                    ->addSuccess(__('If there is an account associated with %1 you will receive an email with a link to reset your password.', \Mage::helper('Magento\User\Helper\Data')->escapeHtml($email)));
+                    ->addSuccess(__('If there is an account associated with %1 you will receive an email with a link to reset your password.', $this->_objectManager->get('Magento\User\Helper\Data')->escapeHtml($email)));
                 // @codingStandardsIgnoreEnd
-                $this->getResponse()->setRedirect(\Mage::helper('Magento\Backend\Helper\Data')->getHomePageUrl());
+                $this->getResponse()->setRedirect(
+                    $this->_objectManager->get('Magento\Backend\Helper\Data')->getHomePageUrl()
+                );
                 return;
             } else {
                 $this->_getSession()->addError(__('Please correct this email address:'));
@@ -112,6 +114,9 @@ class Auth extends \Magento\Backend\Controller\ActionAbstract
             $this->_getSession()->addError(
                 __('Your password reset link has expired.')
             );
+            $this->getResponse()->setRedirect(
+                $this->_objectManager->get('Magento_Backend_Helper_Data')->getHomePageUrl()
+            );
             $this->getResponse()->setRedirect(\Mage::helper('Magento\Backend\Helper\Data')->getHomePageUrl());
             return;
         }
@@ -132,7 +137,9 @@ class Auth extends \Magento\Backend\Controller\ActionAbstract
             $this->_getSession()->addSuccess(
                 __('Your password has been updated.')
             );
-            $this->getResponse()->setRedirect(\Mage::helper('Magento\Backend\Helper\Data')->getHomePageUrl());
+            $this->getResponse()->setRedirect(
+                $this->_objectManager->get('Magento_Backend_Helper_Data')->getHomePageUrl()
+            );
         } catch (\Magento\Core\Exception $exception) {
             $this->_getSession()->addMessages($exception->getMessages());
             $this->_redirect('*/auth/resetpassword', array(

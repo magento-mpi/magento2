@@ -35,6 +35,30 @@ class Layer extends \Magento\Object
     protected $_stateKey = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($data);
+    }
+
+    /**
      * Get layer state key
      *
      * @return string
@@ -42,7 +66,7 @@ class Layer extends \Magento\Object
     public function getStateKey()
     {
         if ($this->_stateKey === null) {
-            $this->_stateKey = 'STORE_'.Mage::app()->getStore()->getId()
+            $this->_stateKey = 'STORE_' . Mage::app()->getStore()->getId()
                 . '_CAT_' . $this->getCurrentCategory()->getId()
                 . '_CUSTGROUP_' . \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
         }
@@ -134,11 +158,12 @@ class Layer extends \Magento\Object
     {
         $category = $this->getData('current_category');
         if (is_null($category)) {
-            if ($category = \Mage::registry('current_category')) {
+            $category = $this->_coreRegistry->registry('current_category');
+            if ($category) {
                 $this->setData('current_category', $category);
-            }
-            else {
-                $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($this->getCurrentStore()->getRootCategoryId());
+            } else {
+                $category = \Mage::getModel('Magento\Catalog\Model\Category')
+                    ->load($this->getCurrentStore()->getRootCategoryId());
                 $this->setData('current_category', $category);
             }
         }
@@ -188,9 +213,6 @@ class Layer extends \Magento\Object
      */
     public function getFilterableAttributes()
     {
-//        $entity = \Mage::getSingleton('Magento\Eav\Model\Config')
-//            ->getEntityType('catalog_product');
-
         $setIds = $this->_getSetIds();
         if (!$setIds) {
             return array();

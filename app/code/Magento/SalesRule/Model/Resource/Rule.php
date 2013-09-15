@@ -39,6 +39,25 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     );
 
     /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize main table and table id field
      */
     protected function _construct()
@@ -159,7 +178,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
         $data    = array();
         foreach ($labels as $storeId => $label) {
-            if (\Mage::helper('Magento\Core\Helper\String')->strlen($label)) {
+            if ($this->_coreString->strlen($label)) {
                 $data[] = array('rule_id' => $ruleId, 'store_id' => $storeId, 'label' => $label);
             } else {
                 $deleteByStoreIds[] = $storeId;

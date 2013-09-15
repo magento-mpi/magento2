@@ -99,28 +99,6 @@
             </product>
         </catalog>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Tax>
-                    <files>
-                        <default>Magento_Tax.csv</default>
-                    </files>
-                </Magento_Tax>
-            </modules>
-        </translate>
-    </adminhtml>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Tax>
-                    <files>
-                        <default>Magento_Tax.csv</default>
-                    </files>
-                </Magento_Tax>
-            </modules>
-        </translate>
-    </frontend>
     <default>
         <tax>
             <classes>

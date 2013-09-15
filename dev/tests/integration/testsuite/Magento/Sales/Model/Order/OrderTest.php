@@ -23,7 +23,9 @@ class Magento_Sales_Model_Order_OrderTest extends PHPUnit_Framework_TestCase
         $order->setCustomerEmail('customer@example.com');
 
         $payment = $order->getPayment();
-        $paymentInfoBlock = Mage::helper('Magento\Payment\Helper\Data')->getInfoBlock($payment);
+        $paymentInfoBlock = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento\Payment\Helper\Data')
+            ->getInfoBlock($payment);
         $paymentInfoBlock->setArea('invalid-area');
         $payment->setBlockMock($paymentInfoBlock);
 

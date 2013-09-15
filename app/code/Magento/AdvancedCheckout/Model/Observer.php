@@ -19,6 +19,22 @@ namespace Magento\AdvancedCheckout\Model;
 class Observer
 {
     /**
+     * Checkout data
+     *
+     * @var Magento_AdvancedCheckout_Helper_Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
+     */
+    public function __construct(
+        Magento_AdvancedCheckout_Helper_Data $checkoutData
+    ) {
+        $this->_checkoutData = $checkoutData;
+    }
+
+    /**
      * Get cart model instance
      *
      * @return \Magento\AdvancedCheckout\Model\Cart
@@ -103,7 +119,7 @@ class Observer
     public function uploadSkuCsv(\Magento\Event\Observer $observer)
     {
         /** @var $helper \Magento\AdvancedCheckout\Helper\Data */
-        $helper = \Mage::helper('Magento\AdvancedCheckout\Helper\Data');
+        $helper = $this->_checkoutData;
         $rows = $helper->isSkuFileUploaded($observer->getRequestModel())
             ? $helper->processSkuFileUploading($observer->getSession())
             : array();
@@ -162,7 +178,7 @@ class Observer
         $quote = \Mage::getModel('Magento\Sales\Model\Quote');
         $collection = new \Magento\Data\Collection();
 
-        foreach (\Mage::helper('Magento\AdvancedCheckout\Helper\Data')->getFailedItems(false) as $item) {
+        foreach ($this->_checkoutData->getFailedItems(false) as $item) {
             /** @var $item \Magento\Sales\Model\Quote\Item */
             if ((float)$item->getQty() <= 0) {
                 $item->setSkuRequestedQty($item->getQty());

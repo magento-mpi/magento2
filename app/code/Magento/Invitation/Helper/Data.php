@@ -21,14 +21,44 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_isRegistrationAllowed = null;
 
     /**
-     * Return text for invetation status
+     * Core data
      *
-     * @return \Magento\Invitation\Model\Invitation $invitation
-     * @return string
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * @param Magento_Customer_Helper_Data $customerData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Customer_Helper_Data $customerData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_customerData = $customerData;
+        $this->_coreData = $coreData;
+        parent::__construct($context);
+    }
+
+    /**
+     * Return text for invitation status
+     *
+     * @param $invitation
+     * @return Magento_Invitation_Model_Invitation
      */
     public function getInvitationStatusText($invitation)
     {
-        return \Mage::getSingleton('Magento\Invitation\Model\Source\Invitation\Status')->getOptionText($invitation->getStatus());
+        return Mage::getSingleton('Magento_Invitation_Model_Source_Invitation_Status')
+            ->getOptionText($invitation->getStatus());
     }
 
     /**
@@ -41,7 +71,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     {
         return \Mage::getModel('Magento\Core\Model\Url')->setStore($invitation->getStoreId())
             ->getUrl('magento_invitation/customer_account/create', array(
-                'invitation' => \Mage::helper('Magento\Core\Helper\Data')->urlEncode($invitation->getInvitationCode()),
+                'invitation' => $this->_coreData->urlEncode($invitation->getInvitationCode()),
                 '_store_to_url' => true,
                 '_nosid' => true
             ));
@@ -76,7 +106,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function isRegistrationAllowed($isAllowed = null)
     {
         if ($isAllowed === null && $this->_isRegistrationAllowed === null) {
-            $result = \Mage::helper('Magento\Customer\Helper\Data')->isRegistrationAllowed();
+            $result = $this->_customerData->isRegistrationAllowed();
             if ($this->_isRegistrationAllowed === null) {
                 $this->_isRegistrationAllowed = $result;
             }

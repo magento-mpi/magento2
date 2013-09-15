@@ -21,22 +21,45 @@ class View
  extends \Magento\Adminhtml\Block\Template
  implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
-
     protected $_customer;
 
     protected $_customerLog;
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getCustomer()
     {
         if (!$this->_customer) {
-            $this->_customer = \Mage::registry('current_customer');
+            $this->_customer = $this->_coreRegistry->registry('current_customer');
         }
         return $this->_customer;
     }
 
     public function getGroupName()
     {
-        if ($groupId = $this->getCustomer()->getGroupId()) {
+        $groupId = $this->getCustomer()->getGroupId();
+        if ($groupId) {
             return \Mage::getModel('Magento\Customer\Model\Group')
                 ->load($groupId)
                 ->getCustomerGroupCode();
@@ -64,7 +87,7 @@ class View
      */
     public function getCreateDate()
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->formatDate(
+        return $this->_coreData->formatDate(
             $this->getCustomer()->getCreatedAtTimestamp(),
             \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
             true
@@ -96,7 +119,7 @@ class View
     {
         $date = $this->getCustomerLog()->getLoginAtTimestamp();
         if ($date) {
-            return \Mage::helper('Magento\Core\Helper\Data')->formatDate(
+            return $this->_coreData->formatDate(
                 $date,
                 \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
                 true
@@ -107,7 +130,8 @@ class View
 
     public function getStoreLastLoginDate()
     {
-        if ($date = $this->getCustomerLog()->getLoginAtTimestamp()) {
+        $date = $this->getCustomerLog()->getLoginAtTimestamp();
+        if ($date) {
             $date = \Mage::app()->getLocale()->storeDate(
                 $this->getCustomer()->getStoreId(),
                 $date,
@@ -127,8 +151,8 @@ class View
     public function getCurrentStatus()
     {
         $log = $this->getCustomerLog();
-        if ($log->getLogoutAt() ||
-            strtotime(now())-strtotime($log->getLastVisitAt())>\Magento\Log\Model\Visitor::getOnlineMinutesInterval()*60) {
+        $interval = \Magento\Log\Model\Visitor::getOnlineMinutesInterval();
+        if ($log->getLogoutAt() || (strtotime(now()) - strtotime($log->getLastVisitAt()) > $interval * 60)) {
             return __('Offline');
         }
         return __('Online');
@@ -158,14 +182,10 @@ class View
 
     public function getBillingAddressHtml()
     {
-        $html = '';
         if ($address = $this->getCustomer()->getPrimaryBillingAddress()) {
-            $html = $address->format('html');
+            return $address->format('html');
         }
-        else {
-            $html = __('The customer does not have default billing address.');
-        }
-        return $html;
+        return __('The customer does not have default billing address.');
     }
 
     public function getAccordionHtml()
@@ -190,7 +210,7 @@ class View
 
     public function canShowTab()
     {
-        if (\Mage::registry('current_customer')->getId()) {
+        if ($this->_coreRegistry->registry('current_customer')->getId()) {
             return true;
         }
         return false;
@@ -198,10 +218,9 @@ class View
 
     public function isHidden()
     {
-        if (\Mage::registry('current_customer')->getId()) {
+        if ($this->_coreRegistry->registry('current_customer')->getId()) {
             return false;
         }
         return true;
     }
-
 }

@@ -45,6 +45,22 @@ class Shipping
     protected $_availabilityConfigField = 'active';
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData
+    ) {
+        $this->_coreData = $coreData;
+    }
+
+    /**
      * Get shipping rate result model
      *
      * @return \Magento\Shipping\Model\Rate\Result
@@ -257,7 +273,7 @@ class Shipping
                        if ($itemWeight > $maxWeight) {
                            $qtyItem = floor($itemWeight / $maxWeight);
                            $decimalItems[] = array('weight' => $maxWeight, 'qty' => $qtyItem);
-                           $weightItem = \Mage::helper('Magento\Core\Helper\Data')->getExactDivision($itemWeight, $maxWeight);
+                           $weightItem = $this->_coreData->getExactDivision($itemWeight, $maxWeight);
                            if ($weightItem) {
                                $decimalItems[] = array('weight' => $weightItem, 'qty' => 1);
                            }

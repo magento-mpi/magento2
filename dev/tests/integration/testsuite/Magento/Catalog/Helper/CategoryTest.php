@@ -18,14 +18,17 @@ class Magento_Catalog_Helper_CategoryTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Mage::helper('Magento\Catalog\Helper\Category');
+        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Helper\Category');
     }
 
     protected function tearDown()
     {
         if ($this->_helper) {
             $helperClass = get_class($this->_helper);
-            Mage::unregister('_helper/' . $helperClass);
+            /** @var $objectManager Magento_TestFramework_ObjectManager */
+            $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+            $objectManager->get('Magento\Core\Model\Registry')->unregister('_helper/' . $helperClass);
         }
         $this->_helper = null;
     }

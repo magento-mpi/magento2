@@ -13,6 +13,32 @@ namespace Magento\Banner\Block\Adminhtml\Promo\Catalogrule\Edit\Tab\Banners;
 class Grid
     extends \Magento\Banner\Block\Adminhtml\Banner\Grid
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     /**
      * Initialize grid, set promo catalog rule grid ID
@@ -24,7 +50,7 @@ class Grid
         $this->setId('related_catalogrule_banners_grid');
         $this->setVarNameFilter('related_catalogrule_banners_filter');
         if ($this->_getRule() && $this->_getRule()->getId()) {
-            $this->setDefaultFilter(array('in_banners'=>1));
+            $this->setDefaultFilter(array('in_banners' => 1));
         }
     }
 
@@ -59,10 +85,10 @@ class Grid
                 $bannerIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('main_table.banner_id', array('in'=>$bannerIds));
+                $this->getCollection()->addFieldToFilter('main_table.banner_id', array('in' => $bannerIds));
             } else {
                 if ($bannerIds) {
-                    $this->getCollection()->addFieldToFilter('main_table.banner_id', array('nin'=>$bannerIds));
+                    $this->getCollection()->addFieldToFilter('main_table.banner_id', array('nin' => $bannerIds));
                 }
             }
         } else {
@@ -88,7 +114,7 @@ class Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/banner/catalogRuleBannersGrid', array('_current'=>true));
+        return $this->getUrl('*/banner/catalogRuleBannersGrid', array('_current' => true));
     }
 
     /**
@@ -122,7 +148,7 @@ class Grid
      */
     public function getRelatedBannersByRule()
     {
-        $ruleId = \Mage::registry('current_promo_catalog_rule')->getRuleId();
+        $ruleId = $this->_coreRegistry->registry('current_promo_catalog_rule')->getRuleId();
         return \Mage::getModel('Magento\Banner\Model\Banner')->getRelatedBannersByCatalogRuleId($ruleId);
     }
 
@@ -133,6 +159,6 @@ class Grid
      */
     protected function _getRule()
     {
-        return \Mage::registry('current_promo_catalog_rule');
+        return $this->_coreRegistry->registry('current_promo_catalog_rule');
     }
 }

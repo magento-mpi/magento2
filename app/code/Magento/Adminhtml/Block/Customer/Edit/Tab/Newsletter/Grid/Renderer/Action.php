@@ -19,6 +19,26 @@ namespace Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter\Grid\Renderer;
 
 class Action extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
 
     public function render(\Magento\Object $row)
     {
@@ -29,9 +49,9 @@ class Action extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Abstra
                 'href'  => $this->getUrl('*/newsletter_template/preview',
                     array(
                         'id'        => $row->getTemplateId(),
-                        'subscriber'=> \Mage::registry('subscriber')->getId()
+                        'subscriber'=> $this->_coreRegistry->registry('subscriber')->getId()
                     )
-                                ),
+                ),
                 'target'=>	'_blank'
             ),
             '#'	=> __('View')

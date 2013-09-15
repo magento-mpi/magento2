@@ -17,6 +17,25 @@ class Customer extends \Magento\Adminhtml\Controller\Action
     protected $_validator;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Customer initialization
      *
      * @param string $idFieldName
@@ -33,7 +52,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
             $customer->load($customerId);
         }
 
-        \Mage::register('current_customer', $customer);
+        $this->_coreRegistry->register('current_customer', $customer);
         return $this;
     }
 
@@ -89,8 +108,8 @@ class Customer extends \Magento\Adminhtml\Controller\Action
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Customer::customer_manage');
 
-        /* @var $customer \Magento\Customer\Model\Customer */
-        $customer = \Mage::registry('current_customer');
+        /* @var $customer Magento_Customer_Model_Customer */
+        $customer = $this->_coreRegistry->registry('current_customer');
 
         // set entered data if was error when we do save
         $data = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getCustomerData(true);
@@ -167,7 +186,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
     public function deleteAction()
     {
         $this->_initCustomer();
-        $customer = \Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
         if ($customer->getId()) {
             try {
                 $customer->delete();
@@ -467,24 +486,23 @@ class Customer extends \Magento\Adminhtml\Controller\Action
     public function newsletterAction()
     {
         $this->_initCustomer();
-        $subscriber = \Mage::getModel('Magento\Newsletter\Model\Subscriber')
-            ->loadByCustomer(\Mage::registry('current_customer'));
+        $subscriber = Mage::getModel('Magento\Newsletter\Model\Subscriber')
+            ->loadByCustomer($this->_coreRegistry->registry('current_customer'));
 
-        \Mage::register('subscriber', $subscriber);
+        $this->_coreRegistry->register('subscriber', $subscriber);
         $this->loadLayout()->renderLayout();
     }
 
     public function wishlistAction()
     {
         $this->_initCustomer();
-        $customer = \Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
         $itemId = (int)$this->getRequest()->getParam('delete');
         if ($customer->getId() && $itemId) {
             try {
                 \Mage::getModel('Magento\Wishlist\Model\Item')->load($itemId)
                     ->delete();
-            }
-            catch (\Exception $exception) {
+            } catch (\Exception $exception) {
                 \Mage::logException($exception);
             }
         }
@@ -519,7 +537,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
         if ($deleteItemId) {
             $quote = \Mage::getModel('Magento\Sales\Model\Quote')
                 ->setWebsite(\Mage::app()->getWebsite($websiteId))
-                ->loadByCustomer(\Mage::registry('current_customer'));
+                ->loadByCustomer($this->_coreRegistry->registry('current_customer'));
             $item = $quote->getItemById($deleteItemId);
             if ($item && $item->getId()) {
                 $quote->removeItem($deleteItemId);
@@ -567,7 +585,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
         $this->loadLayout()
             ->getLayout()
             ->getBlock('admin.customer.reviews')
-            ->setCustomerId(\Mage::registry('current_customer')->getId())
+            ->setCustomerId($this->_coreRegistry->registry('current_customer')->getId())
             ->setUseAjax(true);
         $this->renderLayout();
     }
@@ -717,7 +735,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
     public function massUnsubscribeAction()
     {
         $customersIds = $this->getRequest()->getParam('customer');
-        if(!is_array($customersIds)) {
+        if (!is_array($customersIds)) {
              \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('Please select customer(s).'));
         } else {
             try {
@@ -799,10 +817,12 @@ class Customer extends \Magento\Adminhtml\Controller\Action
         $plain  = false;
         if ($this->getRequest()->getParam('file')) {
             // download file
-            $file   = \Mage::helper('Magento\Core\Helper\Data')->urlDecode($this->getRequest()->getParam('file'));
+            $file   = $this->_objectManager->get('Magento_Core_Helper_Data')
+                ->urlDecode($this->getRequest()->getParam('file'));
         } else if ($this->getRequest()->getParam('image')) {
             // show plain image
-            $file   = \Mage::helper('Magento\Core\Helper\Data')->urlDecode($this->getRequest()->getParam('image'));
+            $file   = $this->_objectManager->get('Magento_Core_Helper_Data')
+                ->urlDecode($this->getRequest()->getParam('image'));
             $plain  = true;
         } else {
             return $this->norouteAction();
@@ -815,7 +835,8 @@ class Customer extends \Magento\Adminhtml\Controller\Action
         $filesystem->setWorkingDirectory($path);
         $fileName   = $path . $file;
         if (!$filesystem->isFile($fileName)
-            && !\Mage::helper('Magento\Core\Helper\File\Storage')->processStorageFile(str_replace('/', DS, $fileName))
+            && !$this->_objectManager->get('Magento_Core_Helper_File_Storage')
+                ->processStorageFile(str_replace('/', DS, $fileName))
         ) {
             return $this->norouteAction();
         }

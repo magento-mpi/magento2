@@ -23,6 +23,49 @@ class Price extends \Magento\Core\Block\Template
     protected $_idSuffix = '';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_catalogData = $catalogData;
+        $this->_taxData = $taxData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve product
      *
      * @return \Magento\Catalog\Model\Product
@@ -31,7 +74,7 @@ class Price extends \Magento\Core\Block\Template
     {
         $product = $this->_getData('product');
         if (!$product) {
-            $product = \Mage::registry('product');
+            $product = $this->_coreRegistry->registry('product');
         }
         return $product;
     }
@@ -85,16 +128,16 @@ class Price extends \Magento\Core\Block\Template
                     $price['savePercent'] = ceil(100 - ((100 / $productPrice) * $price['price']));
 
                     $tierPrice = \Mage::app()->getStore()->convertPrice(
-                        \Mage::helper('Magento\Tax\Helper\Data')->getPrice($product, $price['website_price'])
+                        $this->_taxData->getPrice($product, $price['website_price'])
                     );
                     $price['formated_price'] = \Mage::app()->getStore()->formatPrice($tierPrice);
                     $price['formated_price_incl_tax'] = \Mage::app()->getStore()->formatPrice(
                         \Mage::app()->getStore()->convertPrice(
-                            \Mage::helper('Magento\Tax\Helper\Data')->getPrice($product, $price['website_price'], true)
+                            $this->_taxData->getPrice($product, $price['website_price'], true)
                         )
                     );
 
-                    if (\Mage::helper('Magento\Catalog\Helper\Data')->canApplyMsrp($product)) {
+                    if ($this->_catalogData->canApplyMsrp($product)) {
                         $oldPrice = $product->getFinalPrice();
                         $product->setPriceCalculation(false);
                         $product->setPrice($tierPrice);
@@ -149,6 +192,6 @@ class Price extends \Magento\Core\Block\Template
     public function getRealPriceJs($product)
     {
         $html = $this->hasRealPriceHtml() ? $this->getRealPriceHtml() : $product->getRealPriceHtml();
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($html);
+        return $this->_coreData->jsonEncode($html);
     }
 }

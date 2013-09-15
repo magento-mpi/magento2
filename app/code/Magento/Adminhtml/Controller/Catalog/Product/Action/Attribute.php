@@ -46,7 +46,8 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
         $websiteAddData     = $this->getRequest()->getParam('add_website_ids', array());
 
         /* Prepare inventory data item options (use config settings) */
-        foreach (\Mage::helper('Magento\CatalogInventory\Helper\Data')->getConfigItemOptions() as $option) {
+        $options = $this->_objectManager->get('Magento\CatalogInventory\Helper\Data')->getConfigItemOptions();
+        foreach ($options as $option) {
             if (isset($inventoryData[$option]) && !isset($inventoryData['use_config_' . $option])) {
                 $inventoryData['use_config_' . $option] = 0;
             }
@@ -54,7 +55,8 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
 
         try {
             if ($attributesData) {
-                $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+                $dateFormat = Mage::app()->getLocale()
+                    ->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
                 $storeId    = $this->_getHelper()->getSelectedStoreId();
 
                 foreach ($attributesData as $attributeCode => $value) {
@@ -142,7 +144,8 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
                 ));
 
                 $this->_getSession()->addNotice(
-                    __('Please refresh "Catalog URL Rewrites" and "Product Attributes" in System -> <a href="%1">Index Management</a>.', $this->getUrl('adminhtml/process/list'))
+                    __('Please refresh "Catalog URL Rewrites" and "Product Attributes" in System -> '
+                        . '<a href="%1">Index Management</a>.', $this->getUrl('adminhtml/process/list'))
                 );
             }
 
@@ -154,7 +157,8 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
             $this->_getSession()->addError($e->getMessage());
         }
         catch (\Exception $e) {
-            $this->_getSession()->addException($e, __('Something went wrong while updating the product(s) attributes.'));
+            $this->_getSession()
+                ->addException($e, __('Something went wrong while updating the product(s) attributes.'));
         }
 
         $this->_redirect('*/catalog_product/', array('store'=>$this->_getHelper()->getSelectedStoreId()));
@@ -190,7 +194,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
      */
     protected function _getHelper()
     {
-        return \Mage::helper('Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute');
+        return $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute');
     }
 
     protected function _isAllowed()
@@ -211,7 +215,8 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
 
         try {
             if ($attributesData) {
-                $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+                $dateFormat = Mage::app()->getLocale()
+                    ->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
                 $storeId    = $this->_getHelper()->getSelectedStoreId();
 
                 foreach ($attributesData as $attributeCode => $value) {
@@ -233,7 +238,8 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
             $response->setError(true);
             $response->setMessage($e->getMessage());
         } catch (\Exception $e) {
-            $this->_getSession()->addException($e, __('Something went wrong while updating the product(s) attributes.'));
+            $this->_getSession()
+                ->addException($e, __('Something went wrong while updating the product(s) attributes.'));
             $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());

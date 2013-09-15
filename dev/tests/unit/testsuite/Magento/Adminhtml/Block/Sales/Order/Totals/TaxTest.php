@@ -46,6 +46,7 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_TaxTest extends PHPUnit_Framewo
         return $objectManagerHelper->getConstructArguments(
             'Magento\Adminhtml\Block\Sales\Order\Totals\Tax',
             array(
+                'coreData'        => $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
                 'context'         => $this->getMock('Magento\Backend\Block\Template\Context', array(), array(), '',
                     false),
                 'taxConfig'       => $this->getMock('Magento\Tax\Model\Config', array(), array(), '', false),
@@ -78,7 +79,12 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_TaxTest extends PHPUnit_Framewo
     protected function _getTaxHelperMock()
     {
         $taxHelper = $this->getMockBuilder('Magento\Tax\Helper\Data')
-            ->disableOriginalConstructor()
+            ->setConstructorArgs(array(
+                'coreData' => $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
+                'context' => $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false),
+                'coreRegistry' => $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
+                'taxConfig' => $this->getMock('Magento\Tax\Model\Config', array(), array(), '', false)
+            ))
             ->setMethods(null)
             ->getMock();
         return $taxHelper;

@@ -20,6 +20,29 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes;
 class Search extends \Magento\Backend\Block\Widget
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Define block template
      */
     protected function _construct()
@@ -33,7 +56,7 @@ class Search extends \Magento\Backend\Block\Widget
      */
     public function getSelectorOptions()
     {
-        $templateId = \Mage::registry('product')->getAttributeSetId();
+        $templateId = $this->_coreRegistry->registry('product')->getAttributeSetId();
         return array(
             'source' => $this->getUrl('*/catalog_product/suggestAttributes'),
             'minLength' => 0,

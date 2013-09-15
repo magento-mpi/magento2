@@ -18,8 +18,8 @@
 namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
 
 class Conditions
-    extends \Magento\Adminhtml\Block\Widget\Form
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Prepare target rule actions form before rendering HTML
@@ -28,10 +28,11 @@ class Conditions
      */
     protected function _prepareForm()
     {
-        /* @var $model \Magento\TargetRule\Model\Rule */
-        $model  = \Mage::registry('current_target_rule');
+        /* @var $model Magento_TargetRule_Model_Rule */
+        $model  = $this->_coreRegistry->registry('current_target_rule');
 
-        $form   = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset   = $form->addFieldset('conditions_fieldset', array(

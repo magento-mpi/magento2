@@ -18,7 +18,7 @@
 
 namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab;
 
-class Front extends \Magento\Backend\Block\Widget\Form
+class Front extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * @inheritdoc
@@ -26,9 +26,16 @@ class Front extends \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $attributeObject = \Mage::registry('entity_attribute');
+        $attributeObject = $this->_coreRegistry->registry('entity_attribute');
 
-        $form = new \Magento\Data\Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
 
         $yesnoSource = \Mage::getModel('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();;
 

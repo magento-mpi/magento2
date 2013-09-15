@@ -70,12 +70,12 @@ class Magento_Test_Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     {
         foreach (glob(__DIR__ . '/_files/' . $filePattern) as $file) {
             foreach (self::_readList($file) as $row) {
-                list($item, $scope, $replacement) = self::_padRow($row, $hasScope);
+                list($item, $scope, $replacement, $isDeprecated) = self::_padRow($row, $hasScope);
                 $key = "{$item}|{$scope}";
                 if (isset($list[$key])) {
                     $errors[$file][] = $key;
                 } else {
-                    $list[$key] = array($item, $scope, $replacement);
+                    $list[$key] = array($item, $scope, $replacement, $isDeprecated);
                 }
             }
         }
@@ -91,10 +91,10 @@ class Magento_Test_Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     protected static function _padRow($row, $hasScope)
     {
         if ($hasScope) {
-            return array_pad($row, 3, '');
+            return array_pad($row, 4, '');
         }
         list($item, $replacement) = array_pad($row, 2, '');
-        return array($item, '', $replacement);
+        return array($item, '', $replacement, '');
     }
 
     /**
@@ -116,7 +116,7 @@ class Magento_Test_Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     {
         $content = file_get_contents($file);
         $this->_testObsoleteClasses($content);
-        $this->_testObsoleteMethods($content);
+        $this->_testObsoleteMethods($content, $file);
         $this->_testGetChildSpecialCase($content, $file);
         $this->_testGetOptionsSpecialCase($content);
         $this->_testObsoleteMethodArguments($content);
@@ -216,14 +216,18 @@ class Magento_Test_Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      * - usage of $this, self and static within the class and its descendants
      *
      * @param string $content
+     * @param string $file
      */
-    protected function _testObsoleteMethods($content)
+    protected function _testObsoleteMethods($content, $file)
     {
         foreach (self::$_methods as $row) {
-            list($method, $class, $replacement) = $row;
+            list($method, $class, $replacement, $isDeprecated) = $row;
             $quotedMethod = preg_quote($method, '/');
             if ($class) {
-                $message = $this->_suggestReplacement("Method '{$class}::{$method}()' is obsolete.", $replacement);
+                $message = $this->_suggestReplacement(
+                    "Method '{$class}::{$method}()' is obsolete in file '{$file}'.",
+                    $replacement
+                );
                 // without opening parentheses to match static callbacks notation
                 $this->_assertNotRegExp(
                     '/' . preg_quote($class, '/') . '::\s*' . $quotedMethod . '[^a-z\d_]/iS',
@@ -231,14 +235,19 @@ class Magento_Test_Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
                     $message
                 );
                 if ($this->_isClassOrInterface($content, $class) || $this->_isDirectDescendant($content, $class)) {
-                    $this->_assertNotRegExp('/function\s*' . $quotedMethod . '\s*\(/iS', $content, $message);
+                    if (!$isDeprecated) {
+                        $this->_assertNotRegExp('/function\s*' . $quotedMethod . '\s*\(/iS', $content, $message);
+                    }
                     $this->_assertNotRegExp('/this->' . $quotedMethod . '\s*\(/iS', $content, $message);
                     $this->_assertNotRegExp(
                         '/(self|static|parent)::\s*' . $quotedMethod . '\s*\(/iS', $content, $message
                     );
                 }
             } else {
-                $message = $this->_suggestReplacement("Function or method '{$method}()' is obsolete.", $replacement);
+                $message = $this->_suggestReplacement(
+                    "Function or method '{$method}()' is obsolete in file '{$file}'.",
+                    $replacement
+                );
                 $this->_assertNotRegExp('/function\s*' . $quotedMethod . '\s*\(/iS', $content, $message);
                 $this->_assertNotRegExp('/[^a-z\d_]' . $quotedMethod . '\s*\(/iS', $content, $message);
             }
@@ -251,7 +260,7 @@ class Magento_Test_Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      * This method will search the content for references to class
      * that start with obsolete namespace
      *
-     * @param string $content
+     * @param string $file
      */
     protected function _testObsoleteNamespace($file)
     {

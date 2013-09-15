@@ -36,13 +36,13 @@ class Customer extends \Magento\Core\Controller\Front\Action
         if (isset($data['giftcard_code'])) {
             $code = $data['giftcard_code'];
             try {
-                if (!\Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
+                if (!$this->_objectManager->get('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
                     \Mage::throwException(__("You can't redeem a gift card now."));
                 }
                 \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')->loadByCode($code)
                     ->setIsRedeemed(true)->redeem();
                 \Mage::getSingleton('Magento\Customer\Model\Session')->addSuccess(
-                    __('Gift Card "%1" was redeemed.', \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($code))
+                    __('Gift Card "%1" was redeemed.', $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($code))
                 );
             } catch (\Magento\Core\Exception $e) {
                 \Mage::getSingleton('Magento\Customer\Model\Session')->addError($e->getMessage());

@@ -22,17 +22,21 @@ namespace Magento\Adminhtml\Helper\Media;
 class Js extends \Magento\Core\Helper\Js
 {
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_Context $context
      * @param \Magento\Core\Model\Config\Modules\Reader $configReader
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param Magento_Core_Model_View_Url $viewUrl
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config\Modules\Reader $configReader,
-        \Magento\Core\Model\Cache\Type\Config $configCacheType,
-        \Magento\Core\Model\View\Url $viewUrl
-    ) {
-        parent::__construct($context, $configReader, $configCacheType, $viewUrl);
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config_Modules_Reader $configReader,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_View_Url $viewUrl
+    )
+    {
+        parent::__construct($coreData, $context, $configReader, $configCacheType, $viewUrl);
         $this->_translateData = array(
             'Complete' => __('Complete'),
             'The file size should be more than 0 bytes.' => __('The file size should be more than 0 bytes.'),
@@ -58,5 +62,4 @@ class Js extends \Magento\Core\Helper\Js
         $script = '(function($) {$.mage.translate.add(' . $this->getTranslateJson() . ')})(jQuery);';
         return $this->getScript($script);
     }
-
 }

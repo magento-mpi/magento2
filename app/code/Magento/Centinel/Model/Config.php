@@ -37,6 +37,22 @@ class Config
     protected $_cardTypesConfigPath = 'global/payment/cc/types';
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData
+    ) {
+        $this->_coreData = $coreData;
+    }
+
+    /**
      * Set store to congif model
      *
      * @param int|\Magento\Core\Model\Store $store
@@ -100,7 +116,7 @@ class Config
      */
     public function getTransactionPwd()
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->decrypt($this->_getServiceConfigValue('password'));
+        return $this->_coreData->decrypt($this->_getServiceConfigValue('password'));
     }
 
     /**

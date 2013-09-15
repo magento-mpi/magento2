@@ -141,8 +141,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         if (is_null($this->_orderItem)) {
             if ($this->getCreditmemo()) {
                 $this->_orderItem = $this->getCreditmemo()->getOrder()->getItemById($this->getOrderItemId());
-            }
-            else {
+            } else {
                 $this->_orderItem = \Mage::getModel('Magento\Sales\Model\Order\Item')
                     ->load($this->getOrderItemId());
             }
@@ -159,10 +158,9 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function setQty($qty)
     {
         if ($this->getOrderItem()->getIsQtyDecimal()) {
-            $qty = (float) $qty;
-        }
-        else {
-            $qty = (int) $qty;
+            $qty = (float)$qty;
+        } else {
+            $qty = (int)$qty;
         }
         $qty = $qty > 0 ? $qty : 0;
         /**
@@ -170,8 +168,7 @@ class Item extends \Magento\Core\Model\AbstractModel
          */
         if ($qty <= $this->getOrderItem()->getQtyToRefund() || $this->getOrderItem()->isDummy()) {
             $this->setData('qty', $qty);
-        }
-        else {
+        } else {
             \Mage::throwException(
                 __('We found an invalid quantity to refund item "%1".', $this->getName())
             );
@@ -262,7 +259,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     {
         $orderItem = $this->getOrderItem();
         if ((string)(float)$this->getQty() == (string)(float)$orderItem->getQtyToRefund()
-                && !$orderItem->getQtyToInvoice()) {
+            && !$orderItem->getQtyToInvoice()
+        ) {
             return true;
         }
         return false;

@@ -100,21 +100,43 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
     protected $_filesystem;
 
     /**
+     * Sitemap data
+     *
+     * @var Magento_Sitemap_Helper_Data
+     */
+    protected $_sitemapData = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Sitemap_Helper_Data $sitemapData
      * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param \Magento\Filesystem $filesystem
+     * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Sitemap_Helper_Data $sitemapData,
+        Magento_Core_Model_Context $context,
+        Magento_Filesystem $filesystem,
+        Magento_Core_Model_Registry $registry,
         \Magento\Data\Collection\Db $resourceCollection = null,
         \Magento\Filesystem $filesystem,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
+        $this->_sitemapData = $sitemapData;
         $this->_filesystem = $filesystem;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -145,8 +167,8 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      */
     protected function _initSitemapItems()
     {
-        /** @var $helper \Magento\Sitemap\Helper\Data */
-        $helper = \Mage::helper('Magento\Sitemap\Helper\Data');
+        /** @var $helper Magento_Sitemap_Helper_Data */
+        $helper = $this->_sitemapData;
         $storeId = $this->getStoreId();
 
         $this->_sitemapItems[] = new \Magento\Object(array(
@@ -230,8 +252,8 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
         /**
          * Check path is allow
          */
-        /** @var $helper \Magento\Sitemap\Helper\Data */
-        $helper = \Mage::helper('Magento\Sitemap\Helper\Data');
+        /** @var $helper Magento_Sitemap_Helper_Data */
+        $helper = $this->_sitemapData;
         if (!$file->allowedPath($realPath, $this->_getBaseDir())) {
             \Mage::throwException(__('Please define a correct path.'));
         }
@@ -240,7 +262,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
          */
         if (!$file->fileExists($realPath, false)) {
             \Mage::throwException(__('Please create the specified folder "%1" before saving the sitemap.',
-                \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($this->getSitemapPath())));
+                $this->_coreData->escapeHtml($this->getSitemapPath())));
         }
 
         if (!$file->isWriteable($realPath)) {
@@ -351,8 +373,8 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      */
     protected function _isSplitRequired($row)
     {
-        /** @var $helper \Magento\Sitemap\Helper\Data */
-        $helper = \Mage::helper('Magento\Sitemap\Helper\Data');
+        /** @var $helper Magento_Sitemap_Helper_Data */
+        $helper = $this->_sitemapData;
         $storeId = $this->getStoreId();
         if ($this->_lineCount + 1 > $helper->getMaximumLinesNumber($storeId)) {
             return true;
@@ -625,8 +647,8 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      */
     protected function _isEnabledSubmissionRobots()
     {
-        /** @var $helper \Magento\Sitemap\Helper\Data */
-        $helper = \Mage::helper('Magento\Sitemap\Helper\Data');
+        /** @var $helper Magento_Sitemap_Helper_Data */
+        $helper = $this->_sitemapData;
         $storeId = $this->getStoreId();
         return (bool) $helper->getEnableSubmissionRobots($storeId);
     }

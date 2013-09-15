@@ -38,6 +38,35 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
     protected $_rangeDelimiter  = '...';
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @var Magento_Data_Form_Factory
+     */
+    protected $_formFactory;
+
+    /**
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_formFactory = $formFactory;
+        $this->_coreData = $coreData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Render the chooser HTML
      * Target element should be set.
      *
@@ -49,25 +78,26 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
             return '';
         }
 
-        $idSuffix = \Mage::helper('Magento\Core\Helper\Data')->uniqHash();
-        $form = new \Magento\Data\Form();
-        foreach (array(
+        $idSuffix = $this->_coreData->uniqHash();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
+        $dateFields = array(
             'from' => __('From'),
-            'to'   => __('To')) as $key => $label) {
-            $id = "{$key}_{$idSuffix}";
-            $element = new \Magento\Data\Form\Element\Date(array(
-                'format'   => \Magento\Date::DATE_INTERNAL_FORMAT, // hardcode because hardcoded values delimiter
+            'to'   => __('To'),
+        );
+        foreach ($dateFields as $key => $label) {
+            $form->addField("{$key}_{$idSuffix}", 'date', array(
+                'format'   => \Magento\Date::DATE_INTERNAL_FORMAT, // hardcoded because hardcoded values delimiter
                 'label'    => $label,
                 'image'    => $this->getViewFileUrl('images/grid-cal.gif'),
                 'onchange' => "dateTimeChoose_{$idSuffix}()", // won't work through Event.observe()
                 'value'    => $this->_rangeValues[$key],
             ));
-            $element->setId($id);
-            $form->addElement($element);
         }
         return $form->toHtml() . "<script type=\"text/javascript\">
             dateTimeChoose_{$idSuffix} = function() {
-                $('{$this->_targetElementId}').value = $('from_{$idSuffix}').value + '{$this->_rangeDelimiter}' + $('to_{$idSuffix}').value;
+                $('{$this->_targetElementId}').value = "
+                    . "$('from_{$idSuffix}').value + '{$this->_rangeDelimiter}' + $('to_{$idSuffix}').value;
             };
             </script>";
     }

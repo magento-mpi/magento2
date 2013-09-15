@@ -98,6 +98,29 @@ class Graph extends \Magento\Adminhtml\Block\Dashboard\AbstractDashboard
     protected $_template = 'dashboard/graph.phtml';
 
     /**
+     * Adminhtml dashboard data
+     *
+     * @var Magento_Adminhtml_Helper_Dashboard_Data
+     */
+    protected $_dashboardData = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Dashboard_Data $dashboardData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Dashboard_Data $dashboardData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_dashboardData = $dashboardData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get tab template
      *
      * @return string
@@ -176,7 +199,8 @@ class Graph extends \Magento\Adminhtml\Block\Dashboard\AbstractDashboard
             $this->setAxisLabels($axis, $this->getRowsData($attr, true));
         }
 
-        $timezoneLocal = \Mage::app()->getStore()->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
+        $timezoneLocal = Mage::app()->getStore()
+            ->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
 
         list ($dateStart, $dateEnd) = \Mage::getResourceModel('Magento\Reports\Model\Resource\Order\Collection')
             ->getDateRange($this->getDataHelper()->getParam('period'), '', '', true);
@@ -413,7 +437,7 @@ class Graph extends \Magento\Adminhtml\Block\Dashboard\AbstractDashboard
             return self::API_URL . '?' . implode('&', $p);
         } else {
             $gaData = urlencode(base64_encode(json_encode($params)));
-            $gaHash = \Mage::helper('Magento\Adminhtml\Helper\Dashboard\Data')->getChartDataHash($gaData);
+            $gaHash = $this->_dashboardData->getChartDataHash($gaData);
             $params = array('ga' => $gaData, 'h' => $gaHash);
             return $this->getUrl('*/*/tunnel', array('_query' => $params));
         }

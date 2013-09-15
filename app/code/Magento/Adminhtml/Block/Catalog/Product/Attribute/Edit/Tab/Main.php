@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Product attribute add/edit form main tab
  *
@@ -69,7 +68,7 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
 
         $response = new \Magento\Object();
         $response->setTypes(array());
-        \Mage::dispatchEvent('adminhtml_product_attribute_types', array('response'=>$response));
+        $this->_eventManager->dispatch('adminhtml_product_attribute_types', array('response'=>$response));
         $_disabledTypes = array();
         $_hiddenFields = array();
         foreach ($response->getTypes() as $type) {
@@ -81,14 +80,14 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
                 $_disabledTypes[$type['value']] = $type['disabled_types'];
             }
         }
-        \Mage::register('attribute_type_hidden_fields', $_hiddenFields);
-        \Mage::register('attribute_type_disabled_types', $_disabledTypes);
+        $this->_coreRegistry->register('attribute_type_hidden_fields', $_hiddenFields);
+        $this->_coreRegistry->register('attribute_type_disabled_types', $_disabledTypes);
 
         $frontendInputValues = array_merge($frontendInputElm->getValues(), $additionalTypes);
         $frontendInputElm->setValues($frontendInputValues);
 
 
-        \Mage::dispatchEvent('adminhtml_catalog_product_attribute_edit_prepare_form', array(
+        $this->_eventManager->dispatch('adminhtml_catalog_product_attribute_edit_prepare_form', array(
             'form'      => $form,
             'attribute' => $attributeObject
         ));

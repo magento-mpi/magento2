@@ -28,10 +28,31 @@ class Postcode extends \Magento\Eav\Model\Attribute\Data\Text
      * @param array|string $value
      * @return boolean|array
      */
+    /**
+     * Directory data
+     *
+     * @var Magento_Directory_Helper_Data
+     */
+    protected $_directoryData = null;
+
+    /**
+     * @param Magento_Directory_Helper_Data $directoryData
+     * @param Magento_Core_Helper_String $coreString
+     * @param array $arguments
+     */
+    public function __construct(
+        Magento_Directory_Helper_Data $directoryData,
+        Magento_Core_Helper_String $coreString,
+        array $arguments = array()
+    ) {
+        $this->_directoryData = $directoryData;
+        parent::__construct($coreString, $arguments);
+    }
+
     public function validateValue($value)
     {
         $countryId      = $this->getExtractedData('country_id');
-        $optionalZip    = \Mage::helper('Magento\Directory\Helper\Data')->getCountriesWithOptionalZip();
+        $optionalZip    = $this->_directoryData->getCountriesWithOptionalZip();
         if (!in_array($countryId, $optionalZip)) {
             return parent::validateValue($value);
         }

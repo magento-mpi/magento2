@@ -26,15 +26,17 @@ $customer->addData(array(
 ));
 $customerEmail = 'customer_finance_test@test.com';
 $registerKey = 'customer_finance_email';
-Mage::unregister($registerKey);
-Mage::register($registerKey, $customerEmail);
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+$objectManager->get('Magento\Core\Model\Registry')->unregister($registerKey);
+$objectManager->get('Magento\Core\Model\Registry')->register($registerKey, $customerEmail);
 $customer->setEmail($customerEmail);
 $customer->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 $customer->save();
 
 // create store credit and reward points
-/** @var $helper \Magento\ScheduledImportExport\Helper\Data */
-$helper = Mage::helper('Magento\ScheduledImportExport\Helper\Data');
+/** @var $helper Magento_ScheduledImportExport_Helper_Data */
+$helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\ScheduledImportExport\Helper\Data');
 
 // increment to modify balance values
 $increment = 0;
@@ -47,8 +49,8 @@ foreach (Mage::app()->getWebsites() as $website) {
     $customerBalance->setCustomerId($customer->getId());
     $customerBalanceAmount = 50 + $increment;
     $registerKey = 'customer_balance_' . $website->getCode();
-    Mage::unregister($registerKey);
-    Mage::register($registerKey, $customerBalanceAmount);
+    $objectManager->get('Magento_Core_Model_Registry')->unregister($registerKey);
+    $objectManager->get('Magento_Core_Model_Registry')->register($registerKey, $customerBalanceAmount);
     $customerBalance->setAmountDelta($customerBalanceAmount);
     $customerBalance->setWebsiteId($website->getId());
     $customerBalance->save();
@@ -58,8 +60,8 @@ foreach (Mage::app()->getWebsites() as $website) {
     $rewardPoints->setCustomerId($customer->getId());
     $rewardPointsBalance = 100 + $increment;
     $registerKey = 'reward_point_balance_' . $website->getCode();
-    Mage::unregister($registerKey);
-    Mage::register($registerKey, $rewardPointsBalance);
+    $objectManager->get('Magento_Core_Model_Registry')->unregister($registerKey);
+    $objectManager->get('Magento_Core_Model_Registry')->register($registerKey, $rewardPointsBalance);
     $rewardPoints->setPointsBalance($rewardPointsBalance);
     $rewardPoints->setWebsiteId($website->getId());
     $rewardPoints->save();

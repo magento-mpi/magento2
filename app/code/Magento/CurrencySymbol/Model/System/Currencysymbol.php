@@ -67,6 +67,22 @@ class Currencysymbol
     const CONFIG_SECTION = 'currency';
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager
+    ) {
+        $this->_eventManager = $eventManager;
+    }
+
+    /**
      * Sets store Id
      *
      * @param  $storeId
@@ -201,7 +217,7 @@ class Currencysymbol
             ->setGroups($value)
             ->save();
 
-        \Mage::dispatchEvent('admin_system_config_changed_section_currency_before_reinit',
+        $this->_eventManager->dispatch('admin_system_config_changed_section_currency_before_reinit',
             array('website' => $this->_websiteId, 'store' => $this->_storeId)
         );
 
@@ -211,7 +227,7 @@ class Currencysymbol
 
         $this->clearCache();
 
-        \Mage::dispatchEvent('admin_system_config_changed_section_currency',
+        $this->_eventManager->dispatch('admin_system_config_changed_section_currency',
             array('website' => $this->_websiteId, 'store' => $this->_storeId)
         );
 

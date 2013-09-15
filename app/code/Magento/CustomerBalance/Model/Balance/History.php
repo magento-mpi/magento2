@@ -50,21 +50,23 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_design = null;
 
     /**
-     * @param \Magento\Core\Model\View\DesignInterface $design
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\View\DesignInterface $design,
         \Magento\Core\Model\Context $context,
+        Magento_Core_Model_Registry $registry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_design = $design;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -121,9 +123,9 @@ class History extends \Magento\Core\Model\AbstractModel
                         && $user = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()
                     ) {
                         if ($user->getUsername()) {
-                            if (!trim($balance->getComment())){
+                            if (!trim($balance->getComment())) {
                                 $this->setAdditionalInfo(__('By admin: %1.', $user->getUsername()));
-                            }else{
+                            } else {
                                 $this->setAdditionalInfo(__('By admin: %1. (%2)', $user->getUsername(), $balance->getComment()));
                             }
                         }
@@ -216,7 +218,7 @@ class History extends \Magento\Core\Model\AbstractModel
         $result = array();
         /** @var $collection \Magento\CustomerBalance\Model\Resource\Balance\History\Collection */
         $collection = $this->getCollection()->loadHistoryData($customerId, $websiteId);
-        foreach($collection as $historyItem) {
+        foreach ($collection as $historyItem) {
             $result[] = $historyItem->getData();
         }
         return $result;

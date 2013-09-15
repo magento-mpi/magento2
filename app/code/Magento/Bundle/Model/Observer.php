@@ -20,6 +20,32 @@ namespace Magento\Bundle\Model;
 class Observer
 {
     /**
+     * Bundle data
+     *
+     * @var Magento_Bundle_Helper_Data
+     */
+    protected $_bundleData = null;
+
+    /**
+     * Adminhtml catalog
+     *
+     * @var Magento_Adminhtml_Helper_Catalog
+     */
+    protected $_adminhtmlCatalog = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog
+     * @param Magento_Bundle_Helper_Data $bundleData
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog,
+        Magento_Bundle_Helper_Data $bundleData
+    ) {
+        $this->_adminhtmlCatalog = $adminhtmlCatalog;
+        $this->_bundleData = $bundleData;
+    }
+
+    /**
      * Setting Bundle Items Data to product for father processing
      *
      * @param \Magento\Object $observer
@@ -69,7 +95,7 @@ class Observer
         /**
          * Check is current product type is allowed for bundle selection product type
          */
-        if (!in_array($product->getTypeId(), \Mage::helper('Magento\Bundle\Helper\Data')->getAllowedSelectionTypes())) {
+        if (!in_array($product->getTypeId(), $this->_bundleData->getAllowedSelectionTypes())) {
             return $this;
         }
 
@@ -126,26 +152,6 @@ class Observer
                 $items[$item->getEntityId()] = $item;
             }
             $collection->setItems($items);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Append selection attributes to selection's order item
-     *
-     * @param \Magento\Object $observer
-     * @return \Magento\Bundle\Model\Observer
-     */
-    public function appendBundleSelectionData($observer)
-    {
-        $orderItem = $observer->getEvent()->getOrderItem();
-        $quoteItem = $observer->getEvent()->getItem();
-
-        if ($attributes = $quoteItem->getProduct()->getCustomOption('bundle_selection_attributes')) {
-            $productOptions = $orderItem->getProductOptions();
-            $productOptions['bundle_selection_attributes'] = $attributes->getValue();
-            $orderItem->setProductOptions($productOptions);
         }
 
         return $this;
@@ -234,7 +240,7 @@ class Observer
     {
         $product = $observer->getEvent()->getProduct();
         if ($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
-            \Mage::helper('Magento\Adminhtml\Helper\Catalog')
+            $this->_adminhtmlCatalog
                 ->setAttributeTabBlock('Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes');
         }
         return $this;

@@ -55,7 +55,7 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
         foreach ($types as $type) {
             $this->_addMessagesToBlock($type, $block);
         }
-        \Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+        $this->_eventManager->dispatch('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
 
         return $block->toHtml();
     }

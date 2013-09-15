@@ -21,6 +21,33 @@ class DefaultPrice
     extends \Magento\Core\Model\Config\Value
 {
     /**
+     * Price permissions data
+     *
+     * @var Magento_PricePermissions_Helper_Data
+     */
+    protected $_pricePermData = null;
+
+    /**
+     * @param Magento_PricePermissions_Helper_Data $pricePermData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_PricePermissions_Helper_Data $pricePermData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_pricePermData = $pricePermData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Check permission to edit product prices before the value is saved
      *
      * @return \Magento\PricePermissions\Model\System\Config\Backend\Catalog\Product\Price\DefaultPrice
@@ -29,7 +56,7 @@ class DefaultPrice
     {
         parent::_beforeSave();
         $defaultProductPriceValue = floatval($this->getValue());
-        if (!\Mage::helper('Magento\PricePermissions\Helper\Data')->getCanAdminEditProductPrice()
+        if (!$this->_pricePermData->getCanAdminEditProductPrice()
             || ($defaultProductPriceValue < 0)
         ) {
             $defaultProductPriceValue = floatval($this->getOldValue());
@@ -46,7 +73,7 @@ class DefaultPrice
     protected function _afterLoad()
     {
         parent::_afterLoad();
-        if (!\Mage::helper('Magento\PricePermissions\Helper\Data')->getCanAdminReadProductPrice()) {
+        if (!$this->_pricePermData->getCanAdminReadProductPrice()) {
             $this->setValue(null);
         }
         return $this;

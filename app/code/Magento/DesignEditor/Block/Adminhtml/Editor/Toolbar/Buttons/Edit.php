@@ -32,13 +32,15 @@ class Edit
     protected $_localeModel;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param \Magento\DesignEditor\Model\Theme\Context $themeContext
      * @param \Magento\DesignEditor\Model\Theme\ChangeFactory $changeFactory
      * @param \Magento\Core\Model\LocaleInterface $localeModel
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\DesignEditor\Model\Theme\Context $themeContext,
         \Magento\DesignEditor\Model\Theme\ChangeFactory $changeFactory,
@@ -48,7 +50,7 @@ class Edit
         $this->_themeContext = $themeContext;
         $this->_changeFactory = $changeFactory;
         $this->_localeModel = $localeModel;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

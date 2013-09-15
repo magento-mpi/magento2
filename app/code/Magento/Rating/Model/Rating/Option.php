@@ -46,9 +46,4 @@ class Option extends \Magento\Core\Model\AbstractModel
         $this->setOptionId($id);
         return $this;
     }
-
-//    public function getId()
-//    {
-//        return $this->getOptionId();
-//    }
 }

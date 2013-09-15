@@ -50,7 +50,7 @@ class Upsell
             /**
              * Updating collection with desired items
              */
-            \Mage::dispatchEvent('catalog_product_upsell', array(
+            $this->_eventManager->dispatch('catalog_product_upsell', array(
                 'product'       => $this->getProduct(),
                 'collection'    => $this->_linkCollection,
                 'limit'         => $this->getPositionLimit()
@@ -77,7 +77,7 @@ class Upsell
             /**
              * Updating collection with desired items
              */
-            \Mage::dispatchEvent('catalog_product_upsell', array(
+            $this->_eventManager->dispatch('catalog_product_upsell', array(
                 'product'       => $this->getProduct(),
                 'collection'    => $ids,
                 'limit'         => null,

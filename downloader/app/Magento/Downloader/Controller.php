@@ -1007,16 +1007,16 @@ final class Controller
             $type = $this->_getBackupTypeByCode($archiveType);
 
             $backupManager = \Magento\Backup::getBackupInstance($type)
-                ->setBackupExtension(\Mage::helper('Magento\Backup\Helper\Data')->getExtensionByType($type))
+                ->setBackupExtension($this->_getExtensionType($type))
                 ->setTime(time())
                 ->setName($archiveName)
-                ->setBackupsDir(\Mage::helper('Magento\Backup\Helper\Data')->getBackupsDir());
+                ->setBackupsDir(\Mage::getBaseDir('var') . DS . 'backups');
 
-            \Mage::register('backup_manager', $backupManager);
+            \Mage::getObjectManager()->get('Magento\Core\Model\Registry')->register('backup_manager', $backupManager);
 
             if ($type != \Magento\Backup\Helper\Data::TYPE_DB) {
                 $backupManager->setRootDir(\Mage::getBaseDir())
-                    ->addIgnorePaths(\Mage::helper('Magento\Backup\Helper\Data')->getBackupIgnorePaths());
+                    ->addIgnorePaths($this->_getBackupIgnorePaths());
             }
             $backupManager->create();
             $connect->runHtmlConsole(
@@ -1035,6 +1035,33 @@ final class Controller
         }
 
         return $isSuccess;
+    }
+
+    protected function _getExtensionType($type)
+    {
+        $extensionType = array(
+            Magento_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT => 'tgz',
+            Magento_Backup_Helper_Data::TYPE_SNAPSHOT_WITHOUT_MEDIA => 'tgz',
+            Magento_Backup_Helper_Data::TYPE_MEDIA => 'tgz',
+            Magento_Backup_Helper_Data::TYPE_DB => 'gz'
+        );
+
+        return $extensionType[$type];
+    }
+
+    protected function _getBackupIgnorePaths()
+    {
+        return array(
+            '.git',
+            '.svn',
+            'maintenance.flag',
+            Mage::getBaseDir('var') . DS . 'session',
+            Mage::getBaseDir('var') . DS . 'cache',
+            Mage::getBaseDir('var') . DS . 'full_page_cache',
+            Mage::getBaseDir('var') . DS . 'locks',
+            Mage::getBaseDir('var') . DS . 'log',
+            Mage::getBaseDir('var') . DS . 'report'
+        );
     }
 
     /**

@@ -44,7 +44,10 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function testGetLinkData()
     {
-        Mage::register('product', new \Magento\Object(array('type_id' => 'simple')));
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')
+            ->register('product', new \Magento\Object(array('type_id' => 'simple')));
         $block = Mage::app()->getLayout()
             ->createBlock('Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links');
         $this->assertEmpty($block->getLinkData());
@@ -63,7 +66,9 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function testGetLinksTitle($productType, $linksTitle, $expectedResult)
     {
-        Mage::register('product', new \Magento\Object(array(
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('product', new \Magento\Object(array(
             'type_id' => $productType,
             'id' => '1',
             'links_title' => $linksTitle

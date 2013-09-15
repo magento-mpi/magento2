@@ -16,7 +16,7 @@ namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form;
 class Builder
 {
     /**
-     * @var \Magento\Data\Form\Factory
+     * @var Magento_Data_FormFactory
      */
     protected $_formFactory;
 
@@ -43,16 +43,16 @@ class Builder
     /**
      * Constructor
      *
-     * @param \Magento\Data\Form\Factory $formFactory
-     * @param \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory $configFactory
-     * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory $rendererFactory
-     * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory $elementsFactory
+     * @param Magento_Data_FormFactory $formFactory
+     * @param Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $configFactory
+     * @param Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory
+     * @param Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
      */
     public function __construct(
-        \Magento\Data\Form\Factory $formFactory,
-        \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory $configFactory,
-        \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory $rendererFactory,
-        \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory $elementsFactory
+        Magento_Data_FormFactory $formFactory,
+        Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $configFactory,
+        Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory,
+        Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
     ) {
         $this->_formFactory     = $formFactory;
         $this->_configFactory   = $configFactory;
@@ -85,15 +85,21 @@ class Builder
         }
 
         if ($isFilePresent) {
-            /** @var $form \Magento\Data\Form */
-            $form = $this->_formFactory->create($data);
+            /** @var $form Magento_Data_Form */
+            $form = $this->_formFactory->create(array(
+                'attributes' => $data,
+            ));
 
             $this->_addElementTypes($form);
 
             $columns = $this->_initColumns($form, $data['tab']);
             $this->_populateColumns($columns, $data['tab']);
         } else {
-            $form = new \Magento\Data\Form(array('action' => '#'));
+            $form = $this->_formFactory->create(array(
+                'attributes' => array(
+                    'action' => '#',
+                ))
+            );
         }
 
         if ($this->_isFormEmpty($form)) {

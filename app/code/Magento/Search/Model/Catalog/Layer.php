@@ -17,6 +17,30 @@ namespace Magento\Search\Model\Catalog;
 class Layer extends \Magento\Catalog\Model\Layer
 {
     /**
+     * Catalog search data
+     *
+     * @var Magento_CatalogSearch_Helper_Data
+     */
+    protected $_catalogSearchData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        array $data = array()
+    ) {
+        $this->_catalogSearchData = $catalogSearchData;
+        parent::__construct($data);
+    }
+
+    /**
      * Retrieve current layer product collection
      *
      * @return \Magento\Search\Model\Resource\Collection
@@ -26,7 +50,7 @@ class Layer extends \Magento\Catalog\Model\Layer
         if (isset($this->_productCollections[$this->getCurrentCategory()->getId()])) {
             $collection = $this->_productCollections[$this->getCurrentCategory()->getId()];
         } else {
-            $engine = \Mage::helper('Magento\CatalogSearch\Helper\Data')->getEngine();
+            $engine = $this->_catalogSearchData->getEngine();
             $collection = $engine->getResultCollection();
             $collection->setStoreId($this->getCurrentCategory()->getStoreId())
                 ->addCategoryFilter($this->getCurrentCategory())

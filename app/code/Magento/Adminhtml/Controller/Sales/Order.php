@@ -27,6 +27,25 @@ class Order extends \Magento\Adminhtml\Controller\Action
     protected $_publicActions = array('view', 'index');
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Init layout, menu and breadcrumb
      *
      * @return \Magento\Adminhtml\Controller\Sales\Order
@@ -56,8 +75,8 @@ class Order extends \Magento\Adminhtml\Controller\Action
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
         }
-        \Mage::register('sales_order', $order);
-        \Mage::register('current_order', $order);
+        $this->_coreRegistry->register('sales_order', $order);
+        $this->_coreRegistry->register('current_order', $order);
         return $order;
     }
 
@@ -67,9 +86,7 @@ class Order extends \Magento\Adminhtml\Controller\Action
     public function indexAction()
     {
         $this->_title(__('Orders'));
-
-        $this->_initAction()
-            ->renderLayout();
+        $this->_initAction()->renderLayout();
     }
 
     /**
@@ -88,11 +105,10 @@ class Order extends \Magento\Adminhtml\Controller\Action
     {
         $this->_title(__('Orders'));
 
-        if ($order = $this->_initOrder()) {
+        $order = $this->_initOrder();
+        if ($order) {
             $this->_initAction();
-
             $this->_title(sprintf("#%s", $order->getRealOrderId()));
-
             $this->renderLayout();
         }
     }
@@ -272,7 +288,7 @@ class Order extends \Magento\Adminhtml\Controller\Action
                 );
             }
             if (is_array($response)) {
-                $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
+                $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
                 $this->getResponse()->setBody($response);
             }
         }
@@ -729,7 +745,7 @@ class Order extends \Magento\Adminhtml\Controller\Action
         $addressId = $this->getRequest()->getParam('address_id');
         $address = \Mage::getModel('Magento\Sales\Model\Order\Address')->load($addressId);
         if ($address->getId()) {
-            \Mage::register('order_address', $address);
+            $this->_coreRegistry->register('order_address', $address);
             $this->loadLayout();
             // Do not display VAT validation button on edit order address form
             $addressFormContainer = $this->getLayout()->getBlock('sales_order_address.form.container');

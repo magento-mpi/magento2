@@ -9,6 +9,11 @@
  */
 class Magento_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        parent::setUp();
+    }
+
     /**
      * Test for \Magento\Webapi\Model\Resource\Acl\Role::getRolesIds().
      *

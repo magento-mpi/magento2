@@ -58,7 +58,8 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     protected $_flagOptionsSaved = null;
 
-    function _construct() {
+    protected function _construct()
+    {
         $this->_init('Magento\GiftRegistry\Model\Resource\Item');
     }
 
@@ -177,7 +178,8 @@ class Item extends \Magento\Core\Model\AbstractModel
             }
             if ( !isset($options2[$code])
                 || ($options2[$code]->getValue() === null)
-                || $options2[$code]->getValue() != $option->getValue()) {
+                || $options2[$code]->getValue() != $option->getValue()
+            ) {
                 return false;
             }
         }
@@ -371,7 +373,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             $option = \Mage::getModel('Magento\GiftRegistry\Model\Item\Option')->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
-        } elseif($option instanceof \Magento\GiftRegistry\Model\Item\Option) {
+        } elseif ($option instanceof \Magento\GiftRegistry\Model\Item\Option) {
             $option->setItem($this);
         } else {
             \Mage::throwException(__('Please correct the item option format.'));

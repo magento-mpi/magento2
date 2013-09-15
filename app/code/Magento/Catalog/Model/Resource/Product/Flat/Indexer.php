@@ -87,6 +87,45 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
     protected $_preparedFlatTables   = array();
 
     /**
+     * Catalog product flat
+     *
+     * @var Magento_Catalog_Helper_Product_Flat
+     */
+    protected $_catalogProductFlat = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_coreData = $coreData;
+        $this->_catalogProductFlat = $catalogProductFlat;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize connection
      *
      */
@@ -132,7 +171,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
      */
     public function getFlatHelper()
     {
-        return \Mage::helper('Magento\Catalog\Helper\Product\Flat');
+        return $this->_catalogProductFlat;
     }
 
     /**
@@ -400,7 +439,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
     public function getFlatColumns()
     {
         if ($this->_columns === null) {
-            if (\Mage::helper('Magento\Core\Helper\Data')->useDbCompatibleMode()) {
+            if ($this->_coreData->useDbCompatibleMode()) {
                 $this->_columns = $this->_getFlatColumnsOldDefinition();
             } else {
                 $this->_columns = $this->_getFlatColumnsDdlDefinition();
@@ -419,7 +458,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
 
             $columnsObject = new \Magento\Object();
             $columnsObject->setColumns($this->_columns);
-            \Mage::dispatchEvent('catalog_product_flat_prepare_columns',
+            $this->_eventManager->dispatch('catalog_product_flat_prepare_columns',
                 array('columns' => $columnsObject)
             );
             $this->_columns = $columnsObject->getColumns();
@@ -479,7 +518,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
 
             $indexesObject = new \Magento\Object();
             $indexesObject->setIndexes($this->_indexes);
-            \Mage::dispatchEvent('catalog_product_flat_prepare_indexes', array(
+            $this->_eventManager->dispatch('catalog_product_flat_prepare_indexes', array(
                 'indexes'   => $indexesObject
             ));
             $this->_indexes = $indexesObject->getIndexes();
@@ -533,7 +572,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
 
         // Extract columns we need to have in flat table
         $columns = $this->getFlatColumns();
-        if (\Mage::helper('Magento\Core\Helper\Data')->useDbCompatibleMode()) {
+        if ($this->_coreData->useDbCompatibleMode()) {
              /* Convert old format of flat columns to new MMDB format that uses DDL types and definitions */
             foreach ($columns as $key => $column) {
                 $columns[$key] = \Mage::getResourceHelper('Magento_Core')->convertOldColumnDefinition($column);
@@ -945,7 +984,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
      */
     public function updateEventAttributes($storeId = null)
     {
-        \Mage::dispatchEvent('catalog_product_flat_rebuild', array(
+        $this->_eventManager->dispatch('catalog_product_flat_rebuild', array(
             'store_id' => $storeId,
             'table'    => $this->getFlatTableName($storeId)
         ));
@@ -1188,7 +1227,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
 
         $this->saveProduct($productIds, $storeId);
 
-        \Mage::dispatchEvent('catalog_product_flat_update_product', array(
+        $this->_eventManager->dispatch('catalog_product_flat_update_product', array(
             'store_id'      => $storeId,
             'table'         => $this->getFlatTableName($storeId),
             'product_ids'   => $productIds

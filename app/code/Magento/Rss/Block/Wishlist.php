@@ -49,7 +49,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
                     $this->_wishlist->unsetData();
                 }
             } else {
-                if($this->_getCustomer()->getId()) {
+                if ($this->_getCustomer()->getId()) {
                     $this->_wishlist->loadByCustomer($this->_getCustomer());
                 }
             }
@@ -67,7 +67,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         if (is_null($this->_customer)) {
             $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer');
 
-            $params = \Mage::helper('Magento\Core\Helper\Data')->urlDecode($this->getRequest()->getParam('data'));
+            $params = $this->_coreData->urlDecode($this->getRequest()->getParam('data'));
             $data   = explode(',', $params);
             $cId    = abs(intval($data[0]));
             if ($cId && ($cId == \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId()) ) {
@@ -124,7 +124,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
                 $product->setProductUrl($productUrl);
                 $args = array('product' => $product);
 
-                \Mage::dispatchEvent('rss_wishlist_xml_callback', $args);
+                $this->_eventManager->dispatch('rss_wishlist_xml_callback', $args);
 
                 if (!$product->getAllowedInRss()) {
                     continue;
@@ -139,7 +139,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
                     . '<p>';
 
                 if ($product->getAllowedPriceInRss()) {
-                    $description .= $this->getPriceHtml($product,true);
+                    $description .= $this->getPriceHtml($product, true);
                 }
                 $description .= '</p>';
                 if ($this->hasDescription($product)) {
@@ -158,8 +158,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
                     'description'   => $description,
                 ));
             }
-        }
-        else {
+        } else {
             $rssObj->_addHeader(array(
                 'title'         => __('We cannot retrieve the wish list.'),
                 'description'   => __('We cannot retrieve the wish list.'),

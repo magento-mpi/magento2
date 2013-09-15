@@ -27,7 +27,7 @@ class Selector
      */
     public function isEnabled()
     {
-        return \Mage::helper('Magento\MultipleWishlist\Helper\Data')->isMultipleEnabled() || $this->getIsEnabled();
+        return $this->_wishlistData->isMultipleEnabled() || $this->getIsEnabled();
     }
 
     /**

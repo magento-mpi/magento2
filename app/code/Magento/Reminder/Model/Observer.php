@@ -20,6 +20,22 @@ class Observer
     const CRON_DAILY    = 'D';
 
     /**
+     * Reminder data
+     *
+     * @var Magento_Reminder_Helper_Data
+     */
+    protected $_reminderData = null;
+
+    /**
+     * @param Magento_Reminder_Helper_Data $reminderData
+     */
+    public function __construct(
+        Magento_Reminder_Helper_Data $reminderData
+    ) {
+        $this->_reminderData = $reminderData;
+    }
+
+    /**
      * Include auto coupon type
      *
      * @param   \Magento\Event\Observer $observer
@@ -91,8 +107,8 @@ class Observer
      */
     public function scheduledNotification()
     {
-        if (\Mage::helper('Magento\Reminder\Helper\Data')->isEnabled()) {
-            \Mage::getModel('Magento\Reminder\Model\Rule')->sendReminderEmails();
+        if ($this->_reminderData->isEnabled()) {
+            Mage::getModel('Magento\Reminder\Model\Rule')->sendReminderEmails();
             return $this;
         }
     }

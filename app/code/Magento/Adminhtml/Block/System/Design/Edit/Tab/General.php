@@ -9,9 +9,8 @@
  */
 namespace Magento\Adminhtml\Block\System\Design\Edit\Tab;
 
-class General extends \Magento\Adminhtml\Block\Widget\Form
+class General extends \Magento\Backend\Block\Widget\Form\Generic
 {
-
     /**
      * Initialise form fields
      *
@@ -19,7 +18,8 @@ class General extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('general', array(
             'legend' => __('General Settings'))
@@ -74,7 +74,7 @@ class General extends \Magento\Adminhtml\Block\Widget\Form
 
         $formData = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getDesignData(true);
         if (!$formData) {
-            $formData = \Mage::registry('design')->getData();
+            $formData = $this->_coreRegistry->registry('design')->getData();
         } else {
             $formData = $formData['design'];
         }

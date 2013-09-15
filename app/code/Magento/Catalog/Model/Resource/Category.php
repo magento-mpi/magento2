@@ -49,11 +49,23 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
     protected $_storeId                  = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * Class constructor
      *
+     *
+     *
+     * @param Magento_Core_Model_Event_Manager $eventManager
      */
-    public function __construct()
-    {
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager
+    ) {
+        $this->_eventManager = $eventManager;
         $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
         $this->setType(\Magento\Catalog\Model\Category::ENTITY)
             ->setConnection(
@@ -347,7 +359,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
 
         if (!empty($insert) || !empty($delete)) {
             $productIds = array_unique(array_merge(array_keys($insert), array_keys($delete)));
-            \Mage::dispatchEvent('catalog_category_change_products', array(
+            $this->_eventManager->dispatch('catalog_category_change_products', array(
                 'category'      => $category,
                 'product_ids'   => $productIds
             ));

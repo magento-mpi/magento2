@@ -8,16 +8,30 @@
  * @license     {license_link}
  */
 
-/**
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-
-namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main;
-
 class Formset extends \Magento\Adminhtml\Block\Widget\Form
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Prepares attribute set form
@@ -28,7 +42,8 @@ class Formset extends \Magento\Adminhtml\Block\Widget\Form
         $data = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')
             ->load($this->getRequest()->getParam('id'));
 
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset('set_name', array('legend'=> __('Edit Set Name')));
         $fieldset->addField('attribute_set_name', 'text', array(
             'label' => __('Name'),
@@ -47,7 +62,7 @@ class Formset extends \Magento\Adminhtml\Block\Widget\Form
 
             $sets = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')
                 ->getResourceCollection()
-                ->setEntityTypeFilter(\Mage::registry('entityType'))
+                ->setEntityTypeFilter($this->_coreRegistry->registry('entityType'))
                 ->load()
                 ->toOptionArray();
 

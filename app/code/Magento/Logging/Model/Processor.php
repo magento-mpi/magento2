@@ -89,10 +89,19 @@ class Processor
     protected $_collectedAdditionalData = array();
 
     /**
-     * Initialize configuration model, controller and model handler
+     * Core http
+     *
+     * @var Magento_Core_Helper_Http
      */
-    public function __construct()
-    {
+    protected $_coreHttp = null;
+
+    /**
+     * @param Magento_Core_Helper_Http $coreHttp
+     */
+    public function __construct(
+        Magento_Core_Helper_Http $coreHttp
+    ) {
+        $this->_coreHttp = $coreHttp;
         $this->_config = \Mage::getSingleton('Magento\Logging\Model\Config');
         $this->_modelsHandler = \Mage::getModel('Magento\Logging\Model\Handler\Models');
         $this->_controllerActionsHandler = \Mage::getModel('Magento\Logging\Model\Handler\Controllers');
@@ -263,8 +272,8 @@ class Processor
         }
         $errors = \Mage::getModel('Magento\Adminhtml\Model\Session')->getMessages()->getErrors();
         /** @var \Magento\Logging\Model\Event $loggingEvent */
-        $loggingEvent = \Mage::getModel('Magento\Logging\Model\Event')->setData(array(
-            'ip'            => \Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr(),
+        $loggingEvent = \Mage::getModel('\Magento\Logging\Model\Event')->setData(array(
+            'ip'            => $this->_coreHttp->getRemoteAddr(),
             'x_forwarded_ip'=> \Mage::app()->getRequest()->getServer('HTTP_X_FORWARDED_FOR'),
             'user'          => $username,
             'user_id'       => $userId,

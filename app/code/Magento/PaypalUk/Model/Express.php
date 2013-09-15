@@ -46,7 +46,7 @@ class Express extends \Magento\Paypal\Model\Express
             return false;
         }
         if (!$this->_ecInstance) {
-            $this->_ecInstance = \Mage::helper('Magento\Payment\Helper\Data')
+            $this->_ecInstance = $this->_paymentData
                 ->getMethodInstance(\Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS);
         }
         if ($quote && $this->_ecInstance) {
@@ -68,7 +68,8 @@ class Express extends \Magento\Paypal\Model\Express
                 $api->getRedirectRequired() || $api->getRedirectRequested()
             )
             ->setIsTransactionPending($api->getIsPaymentPending())
-            ->setTransactionAdditionalInfo(\Magento\PaypalUk\Model\Pro::TRANSPORT_PAYFLOW_TXN_ID, $api->getTransactionId())
+            ->setTransactionAdditionalInfo(\Magento\PaypalUk\Model\Pro::TRANSPORT_PAYFLOW_TXN_ID,
+                $api->getTransactionId())
         ;
         $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getTransactionId()));
         \Mage::getModel('Magento\Paypal\Model\Info')->importToPayment($api, $payment);

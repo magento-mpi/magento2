@@ -105,14 +105,6 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
                 'fixture_template.phtml', 'frontend', 'vendor_custom_theme2', null,
                 '%s/frontend/vendor_default/fixture_template.phtml',
             ),
-            'non-modular: inherit parent package & parent theme' => array(
-                'fixture_template_two.phtml', 'frontend', 'test_external_package_descendant', null,
-                '%s/frontend/vendor_custom_theme/fixture_template_two.phtml',
-            ),
-            'non-modular: inherit parent package & grandparent theme' => array(
-                'fixture_template.phtml', 'frontend', 'test_external_package_descendant', null,
-                '%s/frontend/vendor_default/fixture_template.phtml',
-            ),
             'modular: no default inheritance' => array(
                 'fixture_template.phtml', 'frontend', 'vendor_standalone_theme', 'Fixture_Module',
                 null,
@@ -129,19 +121,10 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
                 'fixture_template.phtml', 'frontend', 'vendor_custom_theme2', 'Fixture_Module',
                 '%s/frontend/vendor_default/Fixture_Module/fixture_template.phtml',
             ),
-            'modular: inherit parent package & parent theme' => array(
-                'fixture_template_two.phtml', 'frontend', 'test_external_package_descendant', 'Fixture_Module',
-                '%s/frontend/vendor_custom_theme/Fixture_Module/fixture_template_two.phtml',
-            ),
-            'modular: inherit parent package & grandparent theme' => array(
-                'fixture_template.phtml', 'frontend', 'test_external_package_descendant', 'Fixture_Module',
-                '%s/frontend/vendor_default/Fixture_Module/fixture_template.phtml',
-            ),
         );
     }
 
     /**
-     * @param string $file
      * @param string $area
      * @param string $themePath
      * @param string $locale
@@ -149,13 +132,14 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
      *
      * @dataProvider getLocaleFileDataProvider
      */
-    public function testGetLocaleFile($file, $area, $themePath, $locale, $expectedFilename)
+    public function testGetI18nCsvFile($area, $themePath, $locale, $expectedFilename)
     {
         $model = $this->_buildModel($area, $themePath, $locale);
         $themeModel = $this->_getThemeModel($area, $themePath);
 
         $expectedFilename = str_replace('/', DIRECTORY_SEPARATOR, $expectedFilename);
-        $actualFilename = $model->getLocaleFile($area, $themeModel, $locale, $file);
+        $actualFilename = $model->getFile($area, $themeModel, 'i18n/' . $locale . '.csv');
+
         if ($expectedFilename) {
             $this->assertStringMatchesFormat($expectedFilename, $actualFilename);
             $this->assertFileExists($actualFilename);
@@ -168,24 +152,16 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
     {
         return array(
             'no default inheritance' => array(
-                'fixture_translate.csv', 'frontend', 'vendor_standalone_theme', 'en_US',
+                'frontend', 'vendor_standalone_theme', 'en_US',
                 null,
             ),
-            'inherit same package & parent theme' => array(
-                'fixture_translate.csv', 'frontend', 'vendor_custom_theme', 'en_US',
-                '%s/frontend/vendor_default/locale/en_US/fixture_translate.csv',
+            'inherit parent theme' => array(
+                'frontend', 'vendor_custom_theme', 'en_US',
+                '%s/frontend/vendor_custom_theme/i18n/en_US.csv',
             ),
-            'inherit same package & grandparent theme' => array(
-                'fixture_translate.csv', 'frontend', 'vendor_custom_theme2', 'en_US',
-                '%s/frontend/vendor_default/locale/en_US/fixture_translate.csv',
-            ),
-            'inherit parent package & parent theme' => array(
-                'fixture_translate_two.csv', 'frontend', 'test_external_package_descendant', 'en_US',
-                '%s/frontend/vendor_custom_theme/locale/en_US/fixture_translate_two.csv',
-            ),
-            'inherit parent package & grandparent theme' => array(
-                'fixture_translate.csv', 'frontend', 'test_external_package_descendant', 'en_US',
-                '%s/frontend/vendor_default/locale/en_US/fixture_translate.csv',
+            'inherit grandparent theme' => array(
+                'frontend', 'vendor_custom_theme2', 'en_US',
+                '%s/frontend/vendor_custom_theme/i18n/en_US.csv',
             ),
         );
     }
@@ -232,21 +208,13 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
                 'fixture_script.js', 'frontend', 'vendor_custom_theme2', null, null,
                 '%s/frontend/vendor_default/fixture_script.js',
             ),
-            'non-modular: inherit parent package & parent theme' => array(
-                'fixture_script_two.js', 'frontend', 'test_external_package_descendant', null, null,
-                '%s/frontend/vendor_custom_theme/fixture_script_two.js',
-            ),
-            'non-modular: inherit parent package & grandparent theme' => array(
-                'fixture_script.js', 'frontend', 'test_external_package_descendant', null, null,
-                '%s/frontend/vendor_default/fixture_script.js',
-            ),
             'non-modular: fallback to non-localized file' => array(
                 'fixture_script.js', 'frontend', 'vendor_default', 'en_US', null,
                 '%s/frontend/vendor_default/fixture_script.js',
             ),
             'non-modular: localized file' => array(
                 'fixture_script.js', 'frontend', 'vendor_default', 'ru_RU', null,
-                '%s/frontend/vendor_default/locale/ru_RU/fixture_script.js',
+                '%s/frontend/vendor_default/i18n/ru_RU/fixture_script.js',
             ),
             'non-modular: override js lib file' => array(
                 'mage/script.js', 'frontend', 'vendor_custom_theme', null, null,
@@ -280,21 +248,13 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
                 'fixture_script.js', 'frontend', 'vendor_custom_theme2', null, 'Fixture_Module',
                 '%s/frontend/vendor_default/Fixture_Module/fixture_script.js',
             ),
-            'modular: inherit parent package & parent theme' => array(
-                'fixture_script_two.js', 'frontend', 'test_external_package_descendant', null, 'Fixture_Module',
-                '%s/frontend/vendor_custom_theme/Fixture_Module/fixture_script_two.js',
-            ),
-            'modular: inherit parent package & grandparent theme' => array(
-                'fixture_script.js', 'frontend', 'test_external_package_descendant', null, 'Fixture_Module',
-                '%s/frontend/vendor_default/Fixture_Module/fixture_script.js',
-            ),
             'modular: fallback to non-localized file' => array(
                 'fixture_script.js', 'frontend', 'vendor_default', 'en_US', 'Fixture_Module',
                 '%s/frontend/vendor_default/Fixture_Module/fixture_script.js',
             ),
             'modular: localized file' => array(
                 'fixture_script.js', 'frontend', 'vendor_custom_theme2', 'ru_RU', 'Fixture_Module',
-                '%s/frontend/vendor_default/locale/ru_RU/Fixture_Module/fixture_script.js',
+                '%s/frontend/vendor_default/i18n/ru_RU/Fixture_Module/fixture_script.js',
             ),
         );
     }

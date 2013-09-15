@@ -20,7 +20,6 @@ namespace Magento\Catalog\Block\Product;
 
 class Send extends \Magento\Catalog\Block\Product\AbstractProduct
 {
-
     /**
      * Retrieve username for form field
      *
@@ -43,7 +42,7 @@ class Send extends \Magento\Catalog\Block\Product\AbstractProduct
 
     public function getMaxRecipients()
     {
-        $sendToFriendModel = \Mage::registry('send_to_friend_model');
+        $sendToFriendModel = $this->_coreRegistry->registry('send_to_friend_model');
         return $sendToFriendModel->getMaxRecipients();
     }
 }

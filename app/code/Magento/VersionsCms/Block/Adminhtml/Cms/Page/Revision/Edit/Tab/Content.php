@@ -23,6 +23,37 @@ class Content
     extends \Magento\Adminhtml\Block\Cms\Page\Edit\Tab\Content
 {
     /**
+     * Cms data
+     *
+     * @var Magento_VersionsCms_Helper_Data
+     */
+    protected $_cmsData = null;
+
+    /**
+     * @param Magento_VersionsCms_Helper_Data $cmsData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_VersionsCms_Helper_Data $cmsData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_cmsData = $cmsData;
+        parent::__construct(
+            $context, $formFactory, $coreData, $eventManager, $coreRegistry, $data
+        );
+    }
+
+    /**
      * Preparing form by adding extra fields.
      * Adding on change js call.
      *
@@ -30,12 +61,12 @@ class Content
      */
     protected function _prepareForm()
     {
-        /* @var $model \Magento\Cms\Model\Page */
-        $model = \Mage::registry('cms_page');
+        /* @var $model Magento_Cms_Model_Page */
+        $model = $this->_coreRegistry->registry('cms_page');
 
         parent::_prepareForm();
 
-        \Mage::helper('Magento\VersionsCms\Helper\Data')->addOnChangeToFormElements($this->getForm(), 'dataChanged();');
+        $this->_cmsData->addOnChangeToFormElements($this->getForm(), 'dataChanged();');
 
         /* @var $fieldset \Magento\Data\Form\Element\Fieldset */
         $fieldset = $this->getForm()->getElement('content_fieldset');

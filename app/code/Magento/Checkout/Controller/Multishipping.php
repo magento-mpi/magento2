@@ -44,7 +44,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
      */
     protected function _getHelper()
     {
-        return \Mage::helper('Magento\Checkout\Helper\Url');
+        return $this->_objectManager->get('Magento\Checkout\Helper\Url');
     }
 
     /**
@@ -97,7 +97,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             }
 
-            if (!\Mage::helper('Magento\Checkout\Helper\Data')->isMultishippingCheckoutAvailable()) {
+            if (!$this->_objectManager->get('Magento\Checkout\Helper\Data')->isMultishippingCheckoutAvailable()) {
                 $error = $this->_getCheckout()->getMinimumAmountError();
                 $this->_getCheckoutSession()->addError($error);
                 $this->_redirectUrl($this->_getHelper()->getCartUrl());
@@ -453,7 +453,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
         }
 
         try {
-            $requiredAgreements = \Mage::helper('Magento\Checkout\Helper\Data')->getRequiredAgreementIds();
+            $requiredAgreements = $this->_objectManager->get('Magento\Checkout\Helper\Data')->getRequiredAgreementIds();
             if ($requiredAgreements) {
                 $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
                 $diff = array_diff($requiredAgreements, $postedAgreements);
@@ -491,19 +491,19 @@ class Multishipping extends \Magento\Checkout\Controller\Action
             }
             $this->_redirect('*/*/billing');
         } catch (\Magento\Checkout\Exception $e) {
-            \Mage::helper('Magento\Checkout\Helper\Data')
+            $this->_objectManager->get('Magento\Checkout\Helper\Data')
                 ->sendPaymentFailedEmail($this->_getCheckout()->getQuote(), $e->getMessage(), 'multi-shipping');
             $this->_getCheckout()->getCheckoutSession()->clear();
             $this->_getCheckoutSession()->addError($e->getMessage());
             $this->_redirect('*/cart');
         } catch (\Magento\Core\Exception $e) {
-            \Mage::helper('Magento\Checkout\Helper\Data')
+            $this->_objectManager->get('Magento\Checkout\Helper\Data')
                 ->sendPaymentFailedEmail($this->_getCheckout()->getQuote(), $e->getMessage(), 'multi-shipping');
             $this->_getCheckoutSession()->addError($e->getMessage());
             $this->_redirect('*/*/billing');
         } catch (\Exception $e) {
             \Mage::logException($e);
-            \Mage::helper('Magento\Checkout\Helper\Data')
+            $this->_objectManager->get('Magento\Checkout\Helper\Data')
                 ->sendPaymentFailedEmail($this->_getCheckout()->getQuote(), $e->getMessage(), 'multi-shipping');
             $this->_getCheckoutSession()->addError(__('Order place error'));
             $this->_redirect('*/*/billing');
@@ -538,7 +538,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
             ->setBeforeAuthUrl(\Mage::getUrl('*/*', array('_secure' => true)));
 
         $this->getResponse()->setRedirect(
-            \Mage::helper('Magento\Core\Helper\Url')->addRequestParam(
+            $this->_objectManager->get('Magento\Core\Helper\Url')->addRequestParam(
                 $this->_getHelper()->getMSLoginUrl(),
                 array('context' => 'checkout')
             )

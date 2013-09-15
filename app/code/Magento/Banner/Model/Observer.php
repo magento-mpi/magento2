@@ -17,6 +17,22 @@ class Observer
 {
 
     /**
+     * Adminhtml js
+     *
+     * @var Magento_Adminhtml_Helper_Js
+     */
+    protected $_adminhtmlJs = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Js $adminhtmlJs
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Js $adminhtmlJs
+    ) {
+        $this->_adminhtmlJs = $adminhtmlJs;
+    }
+
+    /**
      * Prepare catalog rule post data to save
      *
      * @param \Magento\Event\Observer $observer
@@ -27,7 +43,7 @@ class Observer
         $request = $observer->getEvent()->getRequest();
         $request->setPost(
             'related_banners',
-            \Mage::helper('Magento\Adminhtml\Helper\Js')->decodeGridSerializedInput($request->getPost('related_banners'))
+            $this->_adminhtmlJs->decodeGridSerializedInput($request->getPost('related_banners'))
         );
         return $this;
     }
@@ -61,7 +77,7 @@ class Observer
         $request = $observer->getEvent()->getRequest();
         $request->setPost(
             'related_banners',
-            \Mage::helper('Magento\Adminhtml\Helper\Js')->decodeGridSerializedInput($request->getPost('related_banners'))
+            $this->_adminhtmlJs->decodeGridSerializedInput($request->getPost('related_banners'))
         );
         return $this;
     }

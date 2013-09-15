@@ -71,7 +71,7 @@ class Page extends \Magento\Adminhtml\Controller\Cms\Page
             $page->load($pageId);
         }
 
-        \Mage::register('cms_page', $page);
+        $this->_coreRegistry->register('cms_page', $page);
         return $page;
     }
 

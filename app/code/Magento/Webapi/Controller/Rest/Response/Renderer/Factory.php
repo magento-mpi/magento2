@@ -1,0 +1,95 @@
+<?php
+/**
+ * Factory of REST renderers.
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Webapi\Controller\Response\Rest\Renderer;
+
+class Factory
+{
+    /**
+     * Response render adapters.
+     */
+    const XML_PATH_WEBAPI_RESPONSE_RENDERS = 'global/webapi/rest/response/renders';
+
+    /**
+     * @var \Magento\ObjectManager
+     */
+    protected $_objectManager;
+
+    /** @var \Magento\Core\Model\Config */
+    protected $_applicationConfig;
+
+    /** @var Magento_Webapi_Controller_Rest_Request */
+    protected $_request;
+
+    /**
+     * Initialize dependencies.
+     *
+     * @param Magento_ObjectManager $objectManager
+     * @param Magento_Core_Model_Config $applicationConfig
+     * @param Magento_Webapi_Controller_Rest_Request $request
+     */
+    public function __construct(
+        Magento_ObjectManager $objectManager,
+        Magento_Core_Model_Config $applicationConfig,
+        Magento_Webapi_Controller_Rest_Request $request
+    ) {
+        $this->_objectManager = $objectManager;
+        $this->_applicationConfig = $applicationConfig;
+        $this->_request = $request;
+    }
+
+    /**
+     * Get renderer for Mime-Type specified in Accept header of request.
+     *
+     * @return Magento_Webapi_Controller_Rest_Response_RendererInterface
+     * @throws Magento_Webapi_Exception
+     * @throws LogicException
+     */
+    public function get()
+    {
+        $renderer = $this->_objectManager->get($this->_getRendererClass());
+        if (!$renderer instanceof Magento_Webapi_Controller_Rest_Response_RendererInterface) {
+            throw new LogicException(
+                'The renderer must implement "Magento_Webapi_Controller_Rest_Response_RendererInterface".');
+        }
+        return $renderer;
+    }
+
+    /**
+     * Find renderer which can render response in requested format.
+     *
+     * @return string
+     * @throws Magento_Webapi_Exception
+     */
+    protected function _getRendererClass()
+    {
+        $acceptTypes = $this->_request->getAcceptTypes();
+        $availableRenderers = (array)$this->_applicationConfig->getNode(self::XML_PATH_WEBAPI_RESPONSE_RENDERS);
+        if (!is_array($acceptTypes)) {
+            $acceptTypes = array($acceptTypes);
+        }
+        foreach ($acceptTypes as $acceptType) {
+            foreach ($availableRenderers as $rendererConfig) {
+                $rendererType = (string)$rendererConfig->type;
+                if ($acceptType == $rendererType
+                    || ($acceptType == current(explode('/', $rendererType)) . '/*')
+                    || $acceptType == '*/*'
+                ) {
+                    return (string)$rendererConfig->model;
+                }
+            }
+        }
+        /** If server does not have renderer for any of the accepted types it SHOULD send 406 (not acceptable). */
+        throw new \Magento\Webapi\Exception(
+            __('Server cannot understand Accept HTTP header media type.'),
+            0,
+            \Magento\Webapi\Exception::HTTP_NOT_ACCEPTABLE
+        );
+    }
+}

@@ -18,7 +18,8 @@ class Magento_Catalog_Helper_Product_FlatTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Mage::helper('Magento\Catalog\Helper\Product\Flat');
+        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Helper\Product\Flat');
     }
 
     public function testGetFlag()

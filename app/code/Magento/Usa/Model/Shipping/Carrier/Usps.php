@@ -110,18 +110,34 @@ class Usps
     /**
      * Factory for \Magento\Usa\Model\Simplexml\Element
      *
-     * @var \Magento\Usa\Model\Simplexml\ElementFactory
+     * @var Magento_Usa_Model_Simplexml_ElementFactory
      */
-    protected $_simpleXmlElementFactory;
+    protected $_xmlElFactory;
+
+    /**
+     * Usa data
+     *
+     * @var Magento_Usa_Helper_Data
+     */
+    protected $_usaData = null;
 
     /**
      * Usps constructor
      *
-     * @param \Magento\Usa\Model\Simplexml\ElementFactory $simpleXmlElementFactory
+     * @param Magento_Usa_Helper_Data $usaData
+     * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
+     * @param Magento_Directory_Helper_Data $directoryData
+     * @param array $data
      */
-    public function __construct(\Magento\Usa\Model\Simplexml\ElementFactory $simpleXmlElementFactory)
-    {
-        $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
+    public function __construct(
+        Magento_Usa_Helper_Data $usaData,
+        Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
+        Magento_Directory_Helper_Data $directoryData,
+        array $data = array()
+    ) {
+        $this->_usaData = $usaData;
+        $this->_xmlElFactory = $xmlElFactory;
+        parent::__construct($directoryData, $data);
     }
 
     /**
@@ -323,7 +339,7 @@ class Usps
         }
 
         if ($this->_isUSCountry($r->getDestCountryId())) {
-            $xml = $this->_simpleXmlElementFactory->create(
+            $xml = $this->_xmlElFactory->create(
                 array('<?xml version="1.0" encoding="UTF-8"?><RateV4Request/>')
             );
             $xml->addAttribute('USERID', $r->getUserId());
@@ -365,7 +381,7 @@ class Usps
 
             $api = 'RateV4';
         } else {
-            $xml = $this->_simpleXmlElementFactory->create(
+            $xml = $this->_xmlElFactory->create(
                 array('<?xml version = "1.0" encoding = "UTF-8"?><IntlRateV2Request/>')
             );
             $xml->addAttribute('USERID', $r->getUserId());
@@ -816,7 +832,7 @@ class Usps
          $r = $this->_rawTrackRequest;
 
          foreach ($trackings as $tracking) {
-             $xml = $this->_simpleXmlElementFactory->create(
+             $xml = $this->_xmlElFactory->create(
                  array('<?xml version = "1.0" encoding = "UTF-8"?><TrackRequest/>')
              );
              $xml->addAttribute('USERID', $r->getUserId());
@@ -1222,7 +1238,7 @@ class Usps
 
         $packageWeight = $request->getPackageWeight();
         if ($packageParams->getWeightUnits() != \Zend_Measure_Weight::OUNCE) {
-            $packageWeight = round(\Mage::helper('Magento\Usa\Helper\Data')->convertMeasureWeight(
+            $packageWeight = round($this->_usaData->convertMeasureWeight(
                 $request->getPackageWeight(),
                 $packageParams->getWeightUnits(),
                 \Zend_Measure_Weight::OUNCE
@@ -1234,7 +1250,7 @@ class Usps
 
         $rootNode = 'ExpressMailLabelRequest';
         // the wrap node needs for remove xml declaration above
-        $xmlWrap = $this->_simpleXmlElementFactory->create(
+        $xmlWrap = $this->_xmlElFactory->create(
             array('<?xml version = "1.0" encoding = "UTF-8"?><wrap/>')
         );
         $xml = $xmlWrap->addChild($rootNode);
@@ -1307,7 +1323,7 @@ class Usps
         $packageParams = $request->getPackageParams();
         $packageWeight = $request->getPackageWeight();
         if ($packageParams->getWeightUnits() != \Zend_Measure_Weight::OUNCE) {
-            $packageWeight = round(\Mage::helper('Magento\Usa\Helper\Data')->convertMeasureWeight(
+            $packageWeight = round($this->_usaData->convertMeasureWeight(
                 $request->getPackageWeight(),
                 $packageParams->getWeightUnits(),
                 \Zend_Measure_Weight::OUNCE
@@ -1323,7 +1339,7 @@ class Usps
             $rootNode = 'SigConfirmCertifyV3.0Request';
         }
         // the wrap node needs for remove xml declaration above
-        $xmlWrap = $this->_simpleXmlElementFactory->create(
+        $xmlWrap = $this->_xmlElFactory->create(
             array('<?xml version = "1.0" encoding = "UTF-8"?><wrap/>')
         );
         $xml = $xmlWrap->addChild($rootNode);
@@ -1386,31 +1402,31 @@ class Usps
         $girth = $packageParams->getGirth();
         $packageWeight = $request->getPackageWeight();
         if ($packageParams->getWeightUnits() != \Zend_Measure_Weight::POUND) {
-            $packageWeight = \Mage::helper('Magento\Usa\Helper\Data')->convertMeasureWeight(
+            $packageWeight = $this->_usaData->convertMeasureWeight(
                 $request->getPackageWeight(),
                 $packageParams->getWeightUnits(),
                 \Zend_Measure_Weight::POUND
             );
         }
         if ($packageParams->getDimensionUnits() != \Zend_Measure_Length::INCH) {
-            $length = round(\Mage::helper('Magento\Usa\Helper\Data')->convertMeasureDimension(
+            $length = round($this->_usaData->convertMeasureDimension(
                 $packageParams->getLength(),
                 $packageParams->getDimensionUnits(),
                 \Zend_Measure_Length::INCH
             ));
-            $width = round(\Mage::helper('Magento\Usa\Helper\Data')->convertMeasureDimension(
+            $width = round($this->_usaData->convertMeasureDimension(
                 $packageParams->getWidth(),
                 $packageParams->getDimensionUnits(),
                 \Zend_Measure_Length::INCH
             ));
-            $height = round(\Mage::helper('Magento\Usa\Helper\Data')->convertMeasureDimension(
+            $height = round($this->_usaData->convertMeasureDimension(
                 $packageParams->getHeight(),
                 $packageParams->getDimensionUnits(),
                 \Zend_Measure_Length::INCH
             ));
         }
         if ($packageParams->getGirthDimensionUnits() != \Zend_Measure_Length::INCH) {
-            $girth = round(\Mage::helper('Magento\Usa\Helper\Data')->convertMeasureDimension(
+            $girth = round($this->_usaData->convertMeasureDimension(
                 $packageParams->getGirth(),
                 $packageParams->getGirthDimensionUnits(),
                 \Zend_Measure_Length::INCH
@@ -1441,7 +1457,7 @@ class Usps
         list($fromZip5, $fromZip4) = $this->_parseZip($request->getShipperAddressPostalCode());
 
         // the wrap node needs for remove xml declaration above
-        $xmlWrap = $this->_simpleXmlElementFactory->create(
+        $xmlWrap = $this->_xmlElFactory->create(
             array('<?xml version = "1.0" encoding = "UTF-8"?><wrap/>')
         );
         $method = '';
@@ -1538,7 +1554,7 @@ class Usps
 
             $itemWeight = $item->getWeight() * $item->getQty();
             if ($packageParams->getWeightUnits() != \Zend_Measure_Weight::POUND) {
-                $itemWeight = \Mage::helper('Magento\Usa\Helper\Data')->convertMeasureWeight(
+                $itemWeight = $this->_usaData->convertMeasureWeight(
                     $itemWeight,
                     $packageParams->getWeightUnits(),
                     \Zend_Measure_Weight::POUND

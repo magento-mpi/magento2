@@ -31,15 +31,13 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $pathChunks = array(dirname(__FILE__), '_files', 'design', 'frontend', 'test_default', 'locale', 'en_US',
-            'translate.csv');
+        $pathChunks = array(dirname(__FILE__), '_files', 'design', 'frontend', 'test_default', 'i18n', 'en_US.csv');
 
         $this->_viewFileSystem = $this->getMock('Magento\Core\Model\View\FileSystem',
-            array('getLocaleFileName', 'getDesignTheme'), array(), '', false);
-
+            array('getFilename', 'getDesignTheme'), array(), '', false);
 
         $this->_viewFileSystem->expects($this->any())
-            ->method('getLocaleFileName')
+            ->method('getFilename')
             ->will($this->returnValue(implode(DIRECTORY_SEPARATOR, $pathChunks)));
 
         $theme = $this->getMock('Magento\Core\Model\Theme', array('getId', 'getCollection'), array(), '', false);
@@ -63,9 +61,9 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->addSharedInstance($this->_viewFileSystem, 'Magento\Core\Model\View\FileSystem');
 
-        Mage::getConfig()->setModuleDir('Magento_Core', 'locale', dirname(__FILE__) . '/_files/Magento/Core/locale');
-        Mage::getConfig()->setModuleDir('Magento_Catalog', 'locale',
-            dirname(__FILE__) . '/_files/Magento/Catalog/locale');
+        Mage::getConfig()->setModuleDir('Magento_Core', 'i18n', dirname(__FILE__) . '/_files/Magento/Core/i18n');
+        Mage::getConfig()->setModuleDir('Magento_Catalog', 'i18n',
+            dirname(__FILE__) . '/_files/Magento/Catalog/i18n');
 
         $this->_designModel = $this->getMock('Magento\Core\Model\View\Design',
             array('getDesignTheme'),

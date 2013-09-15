@@ -26,13 +26,36 @@ class Edit
     protected $_controller = 'adminhtml_cms_page_version';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Constructor
      *
      */
     protected function _construct()
     {
         parent::_construct();
-        $version = \Mage::registry('cms_page_version');
+        $version = $this->_coreRegistry->registry('cms_page_version');
 
         $config = \Mage::getSingleton('Magento\VersionsCms\Model\Config');
         /* @var $config \Magento\VersionsCms\Model\Config */
@@ -96,8 +119,8 @@ class Edit
      */
     public function getHeaderText()
     {
-        $versionLabel = $this->escapeHtml(\Mage::registry('cms_page_version')->getLabel());
-        $title = $this->escapeHtml(\Mage::registry('cms_page')->getTitle());
+        $versionLabel = $this->escapeHtml($this->_coreRegistry->registry('cms_page_version')->getLabel());
+        $title = $this->escapeHtml($this->_coreRegistry->registry('cms_page')->getTitle());
 
         if (!$versionLabel) {
             $versionLabel = __('N/A');
@@ -113,11 +136,11 @@ class Edit
      */
     public function getBackUrl()
     {
-        return $this->getUrl('*/cms_page/edit',
-             array(
-                'page_id' => \Mage::registry('cms_page') ? \Mage::registry('cms_page')->getPageId() : null,
-                'tab' => 'versions'
-             ));
+        $cmsPage = $this->_coreRegistry->registry('cms_page');
+        return $this->getUrl('*/cms_page/edit', array(
+            'page_id' => $cmsPage ? $cmsPage->getPageId() : null,
+            'tab' => 'versions'
+        ));
     }
 
     /**

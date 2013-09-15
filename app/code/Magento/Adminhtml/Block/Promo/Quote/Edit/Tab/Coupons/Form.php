@@ -19,8 +19,35 @@
 namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons;
 
 class Form
-    extends \Magento\Adminhtml\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * Sales rule coupon
+     *
+     * @var Magento_SalesRule_Helper_Coupon
+     */
+    protected $_salesRuleCoupon = null;
+
+    /**
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_SalesRule_Helper_Coupon $salesRuleCoupon
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Data_Form_Factory $formFactory,
+        Magento_SalesRule_Helper_Coupon $salesRuleCoupon,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_salesRuleCoupon = $salesRuleCoupon;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
     /**
      * Prepare coupon codes generation parameters form
      *
@@ -28,14 +55,15 @@ class Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         /**
          * @var \Magento\SalesRule\Helper\Coupon $couponHelper
          */
-        $couponHelper = \Mage::helper('Magento\SalesRule\Helper\Coupon');
+        $couponHelper = $this->_salesRuleCoupon;
 
-        $model = \Mage::registry('current_promo_quote_rule');
+        $model = $this->_coreRegistry->registry('current_promo_quote_rule');
         $ruleId = $model->getId();
 
         $form->setHtmlIdPrefix('coupons_');
@@ -116,7 +144,9 @@ class Form
 
         $this->setForm($form);
 
-        \Mage::dispatchEvent('adminhtml_promo_quote_edit_tab_coupons_form_prepare_form', array('form' => $form));
+        $this->_eventManager->dispatch('adminhtml_promo_quote_edit_tab_coupons_form_prepare_form', array(
+            'form' => $form,
+        ));
 
         return parent::_prepareForm();
     }

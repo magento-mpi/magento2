@@ -18,7 +18,7 @@
 namespace Magento\Adminhtml\Block\Catalog\Helper\Form\Wysiwyg;
 
 class Content
-    extends \Magento\Adminhtml\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare form.
@@ -28,7 +28,14 @@ class Content
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form(array('id' => 'wysiwyg_edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'wysiwyg_edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
 
         $config['document_base_url']     = $this->getData('store_media_url');
         $config['store_id']              = $this->getData('store_id');

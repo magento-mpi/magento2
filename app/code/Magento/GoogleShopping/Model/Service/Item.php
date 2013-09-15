@@ -20,6 +20,23 @@ namespace Magento\GoogleShopping\Model\Service;
 class Item extends \Magento\GoogleShopping\Model\Service
 {
     /**
+     * @var Magento_GoogleShopping_Helper_Data|null
+     */
+    protected $_gsData = null;
+
+    /**
+     * @param Magento_GoogleShopping_Helper_Data $gsData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GoogleShopping_Helper_Data $gsData,
+        array $data = array()
+    ) {
+        $this->_gsData = $gsData;
+        parent::__construct($data);
+    }
+
+    /**
      * Return Store level Service Instance
      *
      * @param int $storeId
@@ -136,7 +153,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
         $service = $this->getService($storeId);
 
         $countryInfo = $this->getConfig()->getTargetCountryInfo($storeId);
-        $itemId = \Mage::helper('Magento\GoogleShopping\Helper\Data')->buildContentProductId($item->getProductId(), $item->getStoreId());
+        $itemId = $this->_gsData->buildContentProductId($item->getProductId(), $item->getStoreId());
 
         $query = $service->newItemQuery()
             ->setId($itemId)

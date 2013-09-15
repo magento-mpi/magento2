@@ -62,6 +62,31 @@ class Ogone extends \Magento\Payment\Model\Method\Cc
     protected $_pbridgeMethodInstance = null;
 
     /**
+     * Pbridge data
+     *
+     * @var Magento_Pbridge_Helper_Data
+     */
+    protected $_pbridgeData = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Pbridge_Helper_Data $pbridgeData
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Pbridge_Helper_Data $pbridgeData,
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Payment_Helper_Data $paymentData,
+        array $data = array()
+    ) {
+        $this->_pbridgeData = $pbridgeData;
+        parent::__construct($eventManager, $moduleList, $paymentData, $data);
+    }
+
+    /**
      * Return that current payment method is dummy
      * @return boolean
      */
@@ -78,7 +103,7 @@ class Ogone extends \Magento\Payment\Model\Method\Cc
      */
     public function isAvailable($quote = null)
     {
-        return \Mage::helper('Magento\Pbridge\Helper\Data')->isEnabled($quote ? $quote->getStoreId() : null)
+        return $this->_pbridgeData->isEnabled($quote ? $quote->getStoreId() : null)
             && \Magento\Payment\Model\Method\AbstractMethod::isAvailable($quote);
     }
 
@@ -110,7 +135,7 @@ class Ogone extends \Magento\Payment\Model\Method\Cc
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = $this->_paymentData->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
         }
         return $this->_pbridgeMethodInstance;
@@ -230,7 +255,7 @@ class Ogone extends \Magento\Payment\Model\Method\Cc
     public function setStore($store)
     {
         $this->setData('store', $store);
-        \Mage::helper('Magento\Pbridge\Helper\Data')->setStoreId(is_object($store) ? $store->getId() : $store);
+        $this->_pbridgeData->setStoreId(is_object($store) ? $store->getId() : $store);
         return $this;
     }
 }

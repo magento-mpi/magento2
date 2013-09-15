@@ -116,7 +116,7 @@ getFinalPrice() - used in shopping cart calculations
 
         $product->setAllowedInRss(true);
         $product->setAllowedPriceInRss(true);
-        \Mage::dispatchEvent('rss_catalog_newcatalog_xml_callback', $args);
+        $this->_eventManager->dispatch('rss_catalog_new_xml_callback', $args);
 
         if (!$product->getAllowedInRss()) {
             //Skip adding product to RSS

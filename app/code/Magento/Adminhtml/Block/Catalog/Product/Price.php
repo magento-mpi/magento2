@@ -25,16 +25,24 @@ class Price extends \Magento\Catalog\Block\Product\Price
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Helper_Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        Magento_Core_Model_Registry $registry,
         \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($catalogData, $taxData, $coreData, $context, $registry, $data);
         $this->_storeManager = $storeManager;
     }
 

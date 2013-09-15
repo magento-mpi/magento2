@@ -17,8 +17,35 @@
  */
 namespace Magento\Adminhtml\Block\Sales\Order;
 
-class View extends \Magento\Adminhtml\Block\Widget\Form\Container
+class View extends \Magento\Backend\Block\Widget\Form\Container
 {
+    /**
+     * @var string
+     */
+    protected $_blockGroup = 'Magento_Adminhtml';
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     protected function _construct()
     {
@@ -175,7 +202,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getOrder()
     {
-        return \Mage::registry('sales_order');
+        return $this->_coreRegistry->registry('sales_order');
     }
 
     /**
@@ -190,7 +217,8 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
 
     public function getHeaderText()
     {
-        if ($_extOrderId = $this->getOrder()->getExtOrderId()) {
+        $_extOrderId = $this->getOrder()->getExtOrderId();
+        if ($_extOrderId) {
             $_extOrderId = '[' . $_extOrderId . '] ';
         } else {
             $_extOrderId = '';
@@ -285,29 +313,4 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
     {
         return $this->getUrl('*/*/reviewPayment', array('action' => $action));
     }
-//
-//    /**
-//     * Return URL for accept payment action
-//     *
-//     * @return string
-//     */
-//    public function getAcceptPaymentUrl()
-//    {
-//        return $this->getUrl('*/*/reviewPayment', array('action' => 'accept'));
-//    }
-//
-//    /**
-//     * Return URL for deny payment action
-//     *
-//     * @return string
-//     */
-//    public function getDenyPaymentUrl()
-//    {
-//        return $this->getUrl('*/*/reviewPayment', array('action' => 'deny'));
-//    }
-//
-//    public function getPaymentReviewUpdateUrl()
-//    {
-//        return $this->getUrl('*/*/reviewPaymentUpdate');
-//    }
 }

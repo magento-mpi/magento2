@@ -30,6 +30,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
     protected $_registryManager;
 
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
@@ -37,7 +38,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
-        parent::__construct($context, $storeManager, $urlModel, $data);
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
         $this->_options = $options;
         $this->_registryManager = $registry;
         $this->setDefaultFilter(array('query_id_selected' => 1));

@@ -13,7 +13,7 @@
  */
 namespace Magento\Adminhtml\Block\Promo\Widget;
 
-class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
+class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Block constructor, prepare grid params
@@ -34,7 +34,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
-        $uniqId = \Mage::helper('Magento\Core\Helper\Data')->uniqHash($element->getId());
+        $uniqId = $this->_coreData->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/promo_quote/chooser', array('uniq_id' => $uniqId));
 
         $chooser = $this->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Chooser')
@@ -86,7 +86,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
         $collection = \Mage::getModel('Magento\SalesRule\Model\Rule')->getResourceCollection();
         $this->setCollection($collection);
 
-        \Mage::dispatchEvent('adminhtml_block_promo_widget_chooser_prepare_collection', array(
+        $this->_eventManager->dispatch('adminhtml_block_promo_widget_chooser_prepare_collection', array(
             'collection' => $collection
         ));
 
@@ -100,7 +100,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
-       $this->addColumn('rule_id', array(
+        $this->addColumn('rule_id', array(
             'header'    => __('ID'),
             'align'     => 'right',
             'width'     => '50px',

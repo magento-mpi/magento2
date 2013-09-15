@@ -17,12 +17,14 @@ class Magento_Sales_Block_Order_Print_CreditmemoTest extends PHPUnit_Framework_T
     public function testGetTotalsHtml()
     {
         $order = Mage::getModel('Magento\Sales\Model\Order');
-        Mage::register('current_order', $order);
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_order', $order);
         $payment = Mage::getModel('Magento\Sales\Model\Order\Payment');
         $payment->setMethod('checkmo');
         $order->setPayment($payment);
 
-        $layout = Mage::getModel('Magento\Core\Model\Layout');
+        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
         $block = $layout->createBlock('Magento\Sales\Block\Order\PrintOrder\Creditmemo', 'block');
         $childBlock = $layout->addBlock('Magento\Core\Block\Text', 'creditmemo_totals', 'block');
 

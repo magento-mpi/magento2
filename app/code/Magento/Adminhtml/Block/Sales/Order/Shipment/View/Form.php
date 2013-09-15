@@ -26,7 +26,7 @@ class Form extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
      */
     public function getShipment()
     {
-        return \Mage::registry('current_shipment');
+        return $this->_coreRegistry->registry('current_shipment');
     }
 
     /**

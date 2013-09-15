@@ -10,36 +10,44 @@
 
 /**
  * Cms page edit form main tab
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Adminhtml\Block\Cms\Page\Edit\Tab;
 
 class Content
-    extends \Magento\Adminhtml\Block\Widget\Form
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
         \Magento\Core\Model\Event\Manager $eventManager,
+        Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
-        parent::__construct($context, $data);
+        parent::__construct($coreRegistry, $formFactory, $coreData, $context, $data);
     }
 
     /**
@@ -55,8 +63,8 @@ class Content
 
     protected function _prepareForm()
     {
-        /** @var $model \Magento\Cms\Model\Page */
-        $model = \Mage::registry('cms_page');
+        /** @var $model Magento_Cms_Model_Page */
+        $model = $this->_coreRegistry->registry('cms_page');
 
         /*
          * Checking if user have permissions to save information
@@ -68,7 +76,8 @@ class Content
         }
 
 
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form   = $this->_formFactory->create();
 
         $form->setHtmlIdPrefix('page_');
 

@@ -20,6 +20,29 @@ namespace Magento\GiftWrapping\Block\Adminhtml\Sales\Order\Create;
 class Link extends \Magento\Adminhtml\Block\Template
 {
     /**
+     * Gift wrapping data
+     *
+     * @var Magento_GiftWrapping_Helper_Data
+     */
+    protected $_giftWrappingData = null;
+
+    /**
+     * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GiftWrapping_Helper_Data $giftWrappingData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_giftWrappingData = $giftWrappingData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get order item from parent block
      *
      * @return \Magento\Sales\Model\Order\Item
@@ -37,7 +60,8 @@ class Link extends \Magento\Adminhtml\Block\Template
     public function getDesign()
     {
         if ($this->getItem()->getGwId()) {
-            $wrappingModel = \Mage::getModel('Magento\GiftWrapping\Model\Wrapping')->load($this->getItem()->getGwId());
+            $wrappingModel = Mage::getModel('Magento_GiftWrapping_Model_Wrapping')
+                ->load($this->getItem()->getGwId());
             if ($wrappingModel->getId()) {
                 return $this->escapeHtml($wrappingModel->getDesign());
             }
@@ -55,6 +79,6 @@ class Link extends \Magento\Adminhtml\Block\Template
         $product = $this->getItem()->getProduct();
         $allowed = !$product->getTypeInstance()->isVirtual($product) && $product->getGiftWrappingAvailable();
         $storeId = $this->getItem()->getStoreId();
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->isGiftWrappingAvailableForProduct($allowed, $storeId);
+        return $this->_giftWrappingData->isGiftWrappingAvailableForProduct($allowed, $storeId);
     }
 }

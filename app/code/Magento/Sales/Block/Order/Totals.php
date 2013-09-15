@@ -23,6 +23,29 @@ class Totals extends \Magento\Core\Block\Template
     protected $_order = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Initialize self totals and children blocks totals before html building
      *
      * @return \Magento\Sales\Block\Order\Totals
@@ -48,8 +71,8 @@ class Totals extends \Magento\Core\Block\Template
         if ($this->_order === null) {
             if ($this->hasData('order')) {
                 $this->_order = $this->_getData('order');
-            } elseif (\Mage::registry('current_order')) {
-                $this->_order = \Mage::registry('current_order');
+            } elseif ($this->_coreRegistry->registry('current_order')) {
+                $this->_order = $this->_coreRegistry->registry('current_order');
             } elseif ($this->getParentBlock()->getOrder()) {
                 $this->_order = $this->getParentBlock()->getOrder();
             }

@@ -21,6 +21,25 @@ class Info extends \Magento\Object
     protected $_trackingInfo = array();
 
     /**
+     * Shipping data
+     *
+     * @var Magento_Shipping_Helper_Data
+     */
+    protected $_shippingData = null;
+
+    /**
+     * @param Magento_Shipping_Helper_Data $shippingData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Shipping_Helper_Data $shippingData,
+        array $data = array()
+    ) {
+        $this->_shippingData = $shippingData;
+        parent::__construct($data);
+    }
+
+    /**
      * Generating tracking info
      *
      * @param array $hash
@@ -28,8 +47,8 @@ class Info extends \Magento\Object
      */
     public function loadByHash($hash)
     {
-        /* @var $helper \Magento\Shipping\Helper\Data */
-        $helper = \Mage::helper('Magento\Shipping\Helper\Data');
+        /* @var $helper Magento_Shipping_Helper_Data */
+        $helper = $this->_shippingData;
         $data = $helper->decodeTrackingHash($hash);
         if (!empty($data)) {
             $this->setData($data['key'], $data['id']);

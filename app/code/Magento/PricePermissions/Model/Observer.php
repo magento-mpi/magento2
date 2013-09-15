@@ -83,12 +83,31 @@ class Observer
     );
 
     /**
-     * Price Permissions Observer class constructor
+     * Price permissions data
      *
-     * Sets necessary data
+     * @var Magento_PricePermissions_Helper_Data
      */
-    public function __construct(array $data = array())
-    {
+    protected $_pricePermData = null;
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_PricePermissions_Helper_Data $pricePermData
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param  $data
+     */
+    public function __construct(
+        Magento_PricePermissions_Helper_Data $pricePermData,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        $this->_pricePermData = $pricePermData;
         $this->_request = (isset($data['request']) && false === $data['request']) ? false : \Mage::app()->getRequest();
         if (isset($data['can_edit_product_price']) && false === $data['can_edit_product_price']) {
             $this->_canEditProductPrice = false;
@@ -117,8 +136,8 @@ class Observer
         // load role with true websites and store groups
         if ($session->isLoggedIn() && $session->getUser()->getRole()) {
             // Set all necessary flags
-            /** @var $helper \Magento\PricePermissions\Helper\Data */
-            $helper = \Mage::helper('Magento\PricePermissions\Helper\Data');
+            /** @var $helper Magento_PricePermissions_Helper_Data */
+            $helper = $this->_pricePermData;
             $this->_canEditProductPrice = $helper->getCanAdminEditProductPrice();
             $this->_canReadProductPrice = $helper->getCanAdminReadProductPrice();
             $this->_canEditProductStatus = $helper->getCanAdminEditProductStatus();
@@ -357,7 +376,7 @@ class Observer
         switch ($blockNameInLayout) {
             // Handle product Recurring Profile tab
             case 'adminhtml_recurring_profile_edit_form' :
-                if (!\Mage::registry('product')->isObjectNew()) {
+                if (!$this->_coreRegistry->registry('product')->isObjectNew()) {
                     if (!$this->_canReadProductPrice) {
                         $block->setProductEntity(\Mage::getModel('Magento\Catalog\Model\Product'));
                     }
@@ -370,7 +389,7 @@ class Observer
                 if (!$this->_canEditProductPrice) {
                     $block->addConfigOptions(array('can_edit_price' => false));
                     if (!$this->_canReadProductPrice) {
-                        $dependenceValue = (\Mage::registry('product')->getIsRecurring()) ? '0' : '1';
+                        $dependenceValue = ($this->_coreRegistry->registry('product')->getIsRecurring()) ? '0' : '1';
                         // Override previous dependence value
                         $block->addFieldDependence('product[recurring_profile]', 'product[is_recurring]',
                             $dependenceValue);
@@ -448,8 +467,8 @@ class Observer
      */
     public function adminhtmlCatalogProductEditPrepareForm(\Magento\Event\Observer $observer)
     {
-        /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::registry('product');
+        /** @var $product Magento_Catalog_Model_Product */
+        $product = $this->_coreRegistry->registry('product');
         if ($product->isObjectNew()) {
             $form = $observer->getEvent()->getForm();
             // Disable Status drop-down if needed
@@ -760,8 +779,8 @@ class Observer
      */
     protected function _hidePriceElements($block)
     {
-        /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::registry('product');
+        /** @var $product Magento_Catalog_Model_Product */
+        $product = $this->_coreRegistry->registry('product');
         $form = $block->getForm();
         $group = $block->getGroup();
         $fieldset = null;
@@ -789,7 +808,8 @@ class Observer
             );
 
             // Leave price element for bundle product active in order to change/view price type when product is created
-            if (\Mage::registry('product')->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
+            $typeId = $this->_coreRegistry->registry('product')->getTypeId();
+            if ($typeId != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
                 array_push($priceElementIds, 'price');
             }
 
@@ -819,7 +839,7 @@ class Observer
                     $priceElement = $form->getElement('price');
                     if (!is_null($priceElement)
                         && $this->_canReadProductPrice
-                        && (\Mage::registry('product')->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE)
+                        && ($typeId != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE)
                     ) {
                         $priceElement->setValue($this->_defaultProductPriceString);
                     }

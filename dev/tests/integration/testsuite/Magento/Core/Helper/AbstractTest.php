@@ -110,13 +110,6 @@ class Magento_Core_Helper_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected[1], $this->_helper->quoteEscape($data, true));
     }
 
-    public function testSetGetLayout()
-    {
-        $this->assertNull($this->_helper->getLayout());
-        $this->assertInstanceof(get_class($this->_helper), $this->_helper->setLayout(Mage::app()->getLayout()));
-        $this->assertInstanceOf('Magento\Core\Model\Layout', $this->_helper->getLayout());
-    }
-
     public function testUrlEncodeDecode()
     {
         $data = uniqid();

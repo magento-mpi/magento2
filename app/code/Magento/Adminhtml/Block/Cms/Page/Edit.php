@@ -20,6 +20,29 @@ namespace Magento\Adminhtml\Block\Cms\Page;
 class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Initialize cms page edit block
      *
      * @return void
@@ -60,8 +83,8 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getHeaderText()
     {
-        if (\Mage::registry('cms_page')->getId()) {
-            return __("Edit Page '%1'", $this->escapeHtml(\Mage::registry('cms_page')->getTitle()));
+        if ($this->_coreRegistry->registry('cms_page')->getId()) {
+            return __("Edit Page '%1'", $this->escapeHtml($this->_coreRegistry->registry('cms_page')->getTitle()));
         }
         else {
             return __('New Page');

@@ -80,7 +80,8 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
 
         $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false, false);
         $configFactoryMock = $this->getMock('Magento\Backend\Model\Config\Factory', array(), array(), '', false, false);
-        $this->_formFactoryMock = $this->getMock('Magento\Data\Form\Factory', array(), array(), '', false, false);
+        $this->_formFactoryMock = $this->getMock('Magento\Data\Form\Factory', array('create'),
+            array(), '', false, false);
         $cloneFactoryMock = $this->getMock('Magento\Backend\Model\Config\BackendClone\Factory',
             array(), array(), '', false, false
         );
@@ -88,9 +89,6 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
             array(), array(), '', false, false
         );
         $this->_fieldFactoryMock = $this->getMock('Magento\Backend\Block\System\Config\Form\Field\Factory',
-            array(), array(), '', false, false
-        );
-        $this->_coreConfigMock = $this->getMock('Magento\Core\Model\Config',
             array(), array(), '', false, false
         );
 
@@ -117,7 +115,6 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
             'configStructure' => $this->_systemConfigMock,
             'configFactory' => $configFactoryMock,
             'formFactory' => $this->_formFactoryMock,
-            'cloneModelFactory' => $cloneFactoryMock,
             'fieldsetFactory' => $this->_fieldsetFactoryMock,
             'fieldFactory' => $this->_fieldFactoryMock,
             'coreConfig' => $this->_coreConfigMock,

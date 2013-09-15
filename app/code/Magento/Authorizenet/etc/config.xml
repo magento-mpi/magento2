@@ -10,28 +10,6 @@
  */
 -->
 <config>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Authorizenet>
-                    <files>
-                        <default>Magento_Authorizenet.csv</default>
-                    </files>
-                </Magento_Authorizenet>
-            </modules>
-        </translate>
-    </adminhtml>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Authorizenet>
-                    <files>
-                        <default>Magento_Authorizenet.csv</default>
-                    </files>
-                </Magento_Authorizenet>
-            </modules>
-        </translate>
-    </frontend>
     <default>
         <payment>
             <authorizenet_directpost>

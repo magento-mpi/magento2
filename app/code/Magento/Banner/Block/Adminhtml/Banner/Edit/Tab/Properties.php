@@ -14,11 +14,13 @@
  * @category   Magento
  * @package    Magento_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab;
 
-class Properties extends \Magento\Adminhtml\Block\Widget\Form
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+class Properties extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Set form id prefix, declare fields for banner properties
@@ -27,14 +29,15 @@ class Properties extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $htmlIdPrefix = 'banner_properties_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
 
-        $model = \Mage::registry('current_banner');
+        $model = $this->_coreRegistry->registry('current_banner');
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>__('Banner Properties'))
+            array('legend' => __('Banner Properties'))
         );
 
         if ($model->getBannerId()) {
@@ -56,10 +59,8 @@ class Properties extends \Magento\Adminhtml\Block\Widget\Form
             'required'  => true,
             'disabled'  => (bool)$model->getIsReadonly(),
             'options'   => array(
-                \Magento\Banner\Model\Banner::STATUS_ENABLED  =>
-                    __('Yes'),
-                \Magento\Banner\Model\Banner::STATUS_DISABLED =>
-                    __('No'),
+                \Magento\Banner\Model\Banner::STATUS_ENABLED  => __('Yes'),
+                \Magento\Banner\Model\Banner::STATUS_DISABLED => __('No'),
             ),
         ));
         if (!$model->getId()) {
@@ -90,8 +91,12 @@ class Properties extends \Magento\Adminhtml\Block\Widget\Form
             ->addFieldMap("{$htmlIdPrefix}types", 'types')
             ->addFieldDependence('types', 'is_types', '1');
 
-        \Mage::dispatchEvent('banner_edit_tab_properties_after_prepare_form', array('model' => $model, 'form' => $form,
-            'block' => $this, 'after_form_block' => $afterFormBlock));
+        $this->_eventManager->dispatch('banner_edit_tab_properties_after_prepare_form', array(
+            'model' => $model,
+            'form' => $form,
+            'block' => $this,
+            'after_form_block' => $afterFormBlock,
+        ));
 
         $this->setChild('form_after', $afterFormBlock);
 

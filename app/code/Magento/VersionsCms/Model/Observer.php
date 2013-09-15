@@ -32,10 +32,43 @@ class Observer
     protected $_authorization;
 
     /**
-     * Constructor
+     * Cms hierarchy
+     *
+     * @var Magento_VersionsCms_Helper_Hierarchy
      */
-    public function __construct(\Magento\VersionsCms\Model\Config $config, \Magento\AuthorizationInterface $authorization)
-    {
+    protected $_cmsHierarchy = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_VersionsCms_Model_Config $config
+     * @param Magento_AuthorizationInterface $authorization
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_VersionsCms_Model_Config $config,
+        Magento_AuthorizationInterface $authorization
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        $this->_coreData = $coreData;
+        $this->_cmsHierarchy = $cmsHierarchy;
         $this->_config = $config;
         $this->_authorization = $authorization;
     }
@@ -65,7 +98,7 @@ class Observer
          * Adding link to current published revision
          */
         /* @var $page Magento_VersionsCms_Model_Page */
-        $page = \Mage::registry('cms_page');
+        $page = $this->_coreRegistry->registry('cms_page');
         $revisionAvailable = false;
         if ($page) {
 
@@ -130,9 +163,7 @@ class Observer
      */
     public function cmsControllerRouterMatchBefore(\Magento\Event\Observer $observer)
     {
-        /* @var $helper \Magento\VersionsCms\Helper\Hierarchy */
-        $helper = \Mage::helper('Magento\VersionsCms\Helper\Hierarchy');
-        if (!$helper->isEnabled()) {
+        if (!$this->_cmsHierarchy->isEnabled()) {
             return $this;
         }
 
@@ -185,7 +216,7 @@ class Observer
             }
 
             // register hierarchy and node
-            \Mage::register('current_cms_hierarchy_node', $node);
+            $this->_coreRegistry->register('current_cms_hierarchy_node', $node);
 
             $condition->setContinue(true);
             $condition->setIdentifier($node->getPageIdentifier());
@@ -231,7 +262,7 @@ class Observer
             }
         }
 
-        if (!\Mage::helper('Magento\VersionsCms\Helper\Hierarchy')->isEnabled()) {
+        if (!$this->_cmsHierarchy->isEnabled()) {
             return $this;
         }
 
@@ -291,7 +322,7 @@ class Observer
         $sortOrder = array();
         if ($nodesData) {
             try{
-                $nodesData = \Mage::helper('Magento\Core\Helper\Data')->jsonDecode($page->getNodesData());
+                $nodesData = $this->_coreData->jsonDecode($page->getNodesData());
             } catch (\Zend_Json_Exception $e) {
                 $nodesData=null;
             }
@@ -430,20 +461,6 @@ class Observer
     }
 
     /**
-     * Modify status's label from 'Enabled' to 'Published'.
-     *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\VersionsCms\Model\Observer
-     */
-    public function modifyPageStatuses(\Magento\Event\Observer $observer)
-    {
-        $statuses = $observer->getEvent()->getStatuses();
-        $statuses->setData(\Magento\Cms\Model\Page::STATUS_ENABLED, __('Published'));
-
-        return $this;
-    }
-
-    /**
      * Removing unneeded data from increment table for removed page.
      *
      * @param $observer
@@ -506,14 +523,12 @@ class Observer
      */
     public function affectCmsPageRender(\Magento\Event\Observer $observer)
     {
-        /* @var $helper \Magento\VersionsCms\Helper\Hierarchy */
-        $helper = \Mage::helper('Magento\VersionsCms\Helper\Hierarchy');
-        if (!is_object(\Mage::registry('current_cms_hierarchy_node')) || !$helper->isEnabled()) {
+        if (!is_object($this->_coreRegistry->registry('current_cms_hierarchy_node')) || !$helper->isEnabled()) {
             return $this;
         }
 
-        /* @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
-        $node = \Mage::registry('current_cms_hierarchy_node');
+        /* @var $node Magento_VersionsCms_Model_Hierarchy_Node */
+        $node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
 
         /* @var $action \Magento\Core\Controller\Varien\Action */
         $action = $observer->getEvent()->getControllerAction();
@@ -609,7 +624,7 @@ class Observer
      */
     protected function _isCmsNodeActive($cmsNode)
     {
-        $currentNode = \Mage::registry('current_cms_hierarchy_node');
+        $currentNode = $this->_coreRegistry->registry('current_cms_hierarchy_node');
 
         if (!$currentNode) {
             return false;

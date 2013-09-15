@@ -27,14 +27,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_app;
 
     /**
-     * Collection constructor
-     *
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      * @param array $data
      * @throws \InvalidArgumentException
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null,
         $data = array()
@@ -44,7 +44,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         if (!($this->_app instanceof \Magento\Core\Model\App)) {
             throw new \InvalidArgumentException('Required app object is invalid');
         }
-        parent::__construct($fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $resource);
     }
 
     /**

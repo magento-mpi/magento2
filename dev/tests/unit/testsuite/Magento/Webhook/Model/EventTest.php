@@ -40,8 +40,10 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
             ->method('getEventDispatcher')
             ->will($this->returnValue($mockEventManager));
 
-        $this->_event = $this->getMockBuilder('Magento\Webhook\Model\Event')
-            ->setConstructorArgs(array($this->_mockContext))
+        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+
+        $this->_event = $this->getMockBuilder('Magento_Webhook_Model_Event')
+            ->setConstructorArgs(array($this->_mockContext, $coreRegistry))
             ->setMethods(
                 array('_init', 'isDeleted', 'isObjectNew', 'getId', '_hasModelChanged', '_getResource')
             )

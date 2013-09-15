@@ -41,6 +41,6 @@ class Json extends \Magento\Adminhtml\Controller\Action
                 }
             }
         }
-        $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($arrRes));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($arrRes));
     }
 }

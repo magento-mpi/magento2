@@ -72,8 +72,11 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
             ->will($this->returnCallback(array($this, 'jsonEncodeCallback')));
 
         $importModel = $this->getMock(
-            'Magento\ImportExport\Model\Import',
-            array('getEntityBehaviors', 'getUniqueEntityBehaviors')
+            'Magento_ImportExport_Model_Import',
+            array('getEntityBehaviors', 'getUniqueEntityBehaviors'),
+            array(),
+            '',
+            false
         );
         $importModel->staticExpects($this->any())
             ->method('getEntityBehaviors')
@@ -83,7 +86,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
             ->will($this->returnValue($this->_sourceBehaviors));
 
         $arguments = array(
-            'coreHelper'  => $coreHelper,
+            'coreData'  => $coreHelper,
             'importModel' => $importModel,
             'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
         );

@@ -42,14 +42,18 @@ class AssociatedProduct
     protected $_configurationHelper;
 
     /**
-     * Collection constructor
-     *
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Core\Model\Registry $registryManager
-     * @param \Magento\Catalog\Model\Product\Type\Configurable $productType
-     * @param \Magento\Catalog\Helper\Product\Configuration $configurationHelper
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Registry $registryManager
+     * @param Magento_Catalog_Model_Product_Type_Configurable $productType
+     * @param Magento_Catalog_Helper_Product_Configuration $configurationHelper
      */
     public function __construct(
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Model_Event_Manager $eventManager,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\Registry $registryManager,
         \Magento\Catalog\Model\Product\Type\Configurable $productType,
@@ -58,7 +62,7 @@ class AssociatedProduct
         $this->_registryManager = $registryManager;
         $this->_productType = $productType;
         $this->_configurationHelper = $configurationHelper;
-        parent::__construct($fetchStrategy);
+        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy);
     }
 
     /**

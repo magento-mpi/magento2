@@ -18,7 +18,7 @@
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Currently selected store in store switcher
@@ -35,16 +35,32 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
     protected $_nodePreviewStoreId;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * Cms hierarchy
+     *
+     * @var Magento_VersionsCms_Helper_Hierarchy
+     */
+    protected $_cmsHierarchy = null;
+
+    /**
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        $this->_cmsHierarchy = $cmsHierarchy;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
 
         $this->setTemplate('hierarchy/edit.phtml');
 
@@ -60,11 +76,14 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getUrl('*/*/save'),
-            'method'    => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getUrl('*/*/save'),
+                'method'    => 'post',
+            ))
+        );
 
         /**
          * Define general properties for each node
@@ -144,7 +163,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
         /**
          * Define field set with elements for root nodes
          */
-        if (\Mage::helper('Magento\VersionsCms\Helper\Hierarchy')->isMetadataEnabled()) {
+        if ($this->_cmsHierarchy->isMetadataEnabled()) {
             $fieldset   = $form->addFieldset('metadata_fieldset', array(
                 'legend'    => __('Render Metadata in HTML Head.')
             ));
@@ -402,8 +421,8 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     public function getNodesJson()
     {
-        /** @var $nodeModel \Magento\VersionsCms\Model\Hierarchy\Node */
-        $nodeModel = \Mage::registry('current_hierarchy_node');
+        /** @var $nodeModel Magento_VersionsCms_Model_Hierarchy_Node */
+        $nodeModel = $this->_coreRegistry->registry('current_hierarchy_node');
         $this->setData('current_scope', $nodeModel->getScope());
         $this->setData('current_scope_id', $nodeModel->getScopeId());
 
@@ -433,7 +452,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             }
         }
 
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($nodes);
+        return $this->_coreData->jsonEncode($nodes);
     }
 
     /**
@@ -604,7 +623,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             $result[$listType][$type] = $label;
         }
 
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 
     /**

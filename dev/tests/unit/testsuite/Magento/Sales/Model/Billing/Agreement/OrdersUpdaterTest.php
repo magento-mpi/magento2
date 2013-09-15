@@ -57,9 +57,7 @@ class Magento_Sales_Model_Billing_Agreement_OrdersUpdaterTest extends PHPUnit_Fr
             false
         );
 
-        $this->_object = new \Magento\Sales\Model\Billing\Agreement\OrdersUpdater(
-            array('registry' => $this->_registryMock)
-        );
+        $this->_object = new Magento_Sales_Model_Billing_Agreement_OrdersUpdater($this->_registryMock);
     }
 
     /**

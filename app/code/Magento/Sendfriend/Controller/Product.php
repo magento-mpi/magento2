@@ -20,6 +20,25 @@ namespace Magento\Sendfriend\Controller;
 class Product extends \Magento\Core\Controller\Front\Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Predispatch: check is enable module
      * If allow only for customer - redirect to login page
      *
@@ -30,7 +49,7 @@ class Product extends \Magento\Core\Controller\Front\Action
         parent::preDispatch();
 
         /* @var $helper \Magento\Sendfriend\Helper\Data */
-        $helper = \Mage::helper('Magento\Sendfriend\Helper\Data');
+        $helper = $this->_objectManager->get('Magento\Sendfriend\Helper\Data');
         /* @var $session \Magento\Customer\Model\Session */
         $session = \Mage::getSingleton('Magento\Customer\Model\Session');
 
@@ -70,7 +89,7 @@ class Product extends \Magento\Core\Controller\Front\Action
             return false;
         }
 
-        \Mage::register('product', $product);
+        $this->_coreRegistry->register('product', $product);
         return $product;
     }
 
@@ -82,11 +101,11 @@ class Product extends \Magento\Core\Controller\Front\Action
     protected function _initSendToFriendModel()
     {
         $model  = \Mage::getModel('Magento\Sendfriend\Model\Sendfriend');
-        $model->setRemoteAddr(\Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr(true));
-        $model->setCookie(\Mage::app()->getCookie());
-        $model->setWebsiteId(\Mage::app()->getStore()->getWebsiteId());
+        $model->setRemoteAddr($this->_objectManager->get('Magento\Core\Helper\Http')->getRemoteAddr(true));
+        $model->setCookie(Mage::app()->getCookie());
+        $model->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 
-        \Mage::register('send_to_friend_model', $model);
+        $this->_coreRegistry->register('send_to_friend_model', $model);
 
         return $model;
     }
@@ -151,7 +170,7 @@ class Product extends \Magento\Core\Controller\Front\Action
             $category = \Mage::getModel('Magento\Catalog\Model\Category')
                 ->load($categoryId);
             $product->setCategory($category);
-            \Mage::register('current_category', $category);
+            $this->_coreRegistry->register('current_category', $category);
         }
 
         $model->setSender($this->getRequest()->getPost('sender'));

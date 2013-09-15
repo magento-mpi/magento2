@@ -24,25 +24,26 @@ class Element extends \Magento\Core\Block\Template
     protected $_regionCollection;
 
     /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         array $data = array()
     ) {
         $this->_configCacheType = $configCacheType;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
 
     /**
      * Load country collection
      *
-     * @param null|string $country
-     * @return \Magento\Directory\Model\Resource\Country\Collection
+     * @return mixed
      */
     protected function _getCountryCollection()
     {

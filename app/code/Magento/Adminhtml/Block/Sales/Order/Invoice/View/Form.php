@@ -46,7 +46,7 @@ class Form extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
      */
     public function getInvoice()
     {
-        return \Mage::registry('current_invoice');
+        return $this->_coreRegistry->registry('current_invoice');
     }
 
     /**

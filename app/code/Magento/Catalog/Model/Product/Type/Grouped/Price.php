@@ -53,7 +53,6 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         }
 
         $product->setFinalPrice($finalPrice);
-        \Mage::dispatchEvent('catalog_product_type_grouped_price', array('product' => $product));
 
         return max(0, $product->getData('final_price'));
     }

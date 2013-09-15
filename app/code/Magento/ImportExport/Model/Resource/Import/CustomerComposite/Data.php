@@ -82,7 +82,6 @@ class Data
      * Prepare row
      *
      * @param array $rowData
-     * @internal param array $data
      * @return array
      */
     protected function _prepareRow(array $rowData)

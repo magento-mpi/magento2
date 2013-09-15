@@ -47,6 +47,7 @@ class Job extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub\J
      * @param \Magento\Webhook\Model\Event\Factory $eventFactory
      * @param \Magento\Webhook\Model\Subscription\Factory $subscriptionFactory
      * @param \Magento\Core\Model\Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -55,13 +56,14 @@ class Job extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub\J
         \Magento\Webhook\Model\Event\Factory $eventFactory,
         \Magento\Webhook\Model\Subscription\Factory $subscriptionFactory,
         \Magento\Core\Model\Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventFactory = $eventFactory;
         $this->_subscriptionFactory = $subscriptionFactory;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $coreRegistry, $resource, $resourceCollection, $data);
     }
 
     /**

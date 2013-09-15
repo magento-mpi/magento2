@@ -19,6 +19,42 @@ namespace Magento\Adminhtml\Block\Customer\Edit\Tab;
 
 class Orders extends \Magento\Adminhtml\Block\Widget\Grid
 {
+    /**
+     * Sales reorder
+     *
+     * @var Magento_Sales_Helper_Reorder
+     */
+    protected $_salesReorder = null;
+    
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Sales_Helper_Reorder $salesReorder
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Sales_Helper_Reorder $salesReorder,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        $this->_salesReorder = $salesReorder;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -40,7 +76,7 @@ class Orders extends \Magento\Adminhtml\Block\Widget\Grid
             ->addFieldToSelect('store_id')
             ->addFieldToSelect('billing_name')
             ->addFieldToSelect('shipping_name')
-            ->addFieldToFilter('customer_id', \Mage::registry('current_customer')->getId())
+            ->addFieldToFilter('customer_id', $this->_coreRegistry->registry('current_customer')->getId())
             ->setIsCustomerMode(true);
 
         $this->setCollection($collection);
@@ -61,15 +97,6 @@ class Orders extends \Magento\Adminhtml\Block\Widget\Grid
             'type'      => 'datetime',
         ));
 
-        /*$this->addColumn('shipping_firstname', array(
-            'header'    => __('Shipped to First Name'),
-            'index'     => 'shipping_firstname',
-        ));
-
-        $this->addColumn('shipping_lastname', array(
-            'header'    => __('Shipped to Last Name'),
-            'index'     => 'shipping_lastname',
-        ));*/
         $this->addColumn('billing_name', array(
             'header'    => __('Bill-to Name'),
             'index'     => 'billing_name',
@@ -96,7 +123,7 @@ class Orders extends \Magento\Adminhtml\Block\Widget\Grid
             ));
         }
 
-        if (\Mage::helper('Magento\Sales\Helper\Reorder')->isAllow()) {
+        if ($this->_salesReorder->isAllow()) {
             $this->addColumn('action', array(
                 'header'    => ' ',
                 'filter'    => false,
@@ -118,5 +145,4 @@ class Orders extends \Magento\Adminhtml\Block\Widget\Grid
     {
         return $this->getUrl('*/*/orders', array('_current' => true));
     }
-
 }

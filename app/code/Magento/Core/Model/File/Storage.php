@@ -43,6 +43,33 @@ class Storage extends \Magento\Core\Model\AbstractModel
     protected $_eventPrefix = 'core_file_storage';
 
     /**
+     * Core file storage
+     *
+     * @var Magento_Core_Helper_File_Storage
+     */
+    protected $_coreFileStorage = null;
+
+    /**
+     * @param Magento_Core_Helper_File_Storage $coreFileStorage
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_File_Storage $coreFileStorage,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreFileStorage = $coreFileStorage;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Show if there were errors while synchronize process
      *
      * @param  \Magento\Core\Model\AbstractModel $sourceModel
@@ -85,7 +112,7 @@ class Storage extends \Magento\Core\Model\AbstractModel
     public function getStorageModel($storage = null, $params = array())
     {
         if (is_null($storage)) {
-            $storage = \Mage::helper('Magento\Core\Helper\File\Storage')->getCurrentStorageCode();
+            $storage = $this->_coreFileStorage->getCurrentStorageCode();
         }
 
         switch ($storage) {
@@ -124,7 +151,7 @@ class Storage extends \Magento\Core\Model\AbstractModel
         if (is_array($storage) && isset($storage['type'])) {
             $storageDest    = (int) $storage['type'];
             $connection     = (isset($storage['connection'])) ? $storage['connection'] : null;
-            $helper         = \Mage::helper('Magento\Core\Helper\File\Storage');
+            $helper         = $this->_coreFileStorage;
 
             // if unable to sync to internal storage from itself
             if ($storageDest == $helper->getCurrentStorageCode() && $helper->isInternalStorage()) {

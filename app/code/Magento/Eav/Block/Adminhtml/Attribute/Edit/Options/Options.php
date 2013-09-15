@@ -31,14 +31,14 @@ class Options extends \Magento\Backend\Block\Template
     protected $_template = 'Magento_Adminhtml::catalog/product/attribute/options.phtml';
 
     /**
-     * @inheritdoc
-     *
-     * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Core\Model\Registry $registry
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Registry $registry,
@@ -46,7 +46,7 @@ class Options extends \Magento\Backend\Block\Template
     ) {
         $this->_storeManager = $storeManager;
         $this->_registry = $registry;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

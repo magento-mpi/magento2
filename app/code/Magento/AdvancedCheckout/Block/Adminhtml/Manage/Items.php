@@ -20,6 +20,29 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 class Items extends \Magento\Adminhtml\Block\Template
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Rterieve grid id in template
      *
      * @return string
@@ -71,8 +94,7 @@ class Items extends \Magento\Adminhtml\Block\Template
     {
         if ($this->getQuote()->isVirtual()) {
             $address = $this->getQuote()->getBillingAddress();
-        }
-        else {
+        } else {
             $address = $this->getQuote()->getShippingAddress();
         }
         if ($this->displayTotalsIncludeTax()) {
@@ -148,7 +170,7 @@ class Items extends \Magento\Adminhtml\Block\Template
      */
     protected function getQuote()
     {
-        return \Mage::registry('checkout_current_quote');
+        return $this->_coreRegistry->registry('checkout_current_quote');
     }
 
     /**
@@ -158,7 +180,7 @@ class Items extends \Magento\Adminhtml\Block\Template
      */
     protected function getStore()
     {
-        return \Mage::registry('checkout_current_store');
+        return $this->_coreRegistry->registry('checkout_current_store');
     }
 
     /**
@@ -168,7 +190,7 @@ class Items extends \Magento\Adminhtml\Block\Template
      */
     protected function getCustomer()
     {
-        return \Mage::registry('checkout_current_customer');
+        return $this->_coreRegistry->registry('checkout_current_customer');
     }
 
     /**

@@ -47,6 +47,29 @@ abstract class AbstractFilter extends \Magento\Core\Block\Template
     protected $_template = 'Magento_Catalog::layer/filter.phtml';
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Initialize filter model object
      *
      * @return \Magento\Catalog\Block\Layer\Filter\AbstractFilter
@@ -122,7 +145,7 @@ abstract class AbstractFilter extends \Magento\Core\Block\Template
     public function shouldDisplayProductCount()
     {
         if ($this->_displayProductCount === null) {
-            $this->_displayProductCount = \Mage::helper('Magento\Catalog\Helper\Data')->shouldDisplayProductCountOnLayer();
+            $this->_displayProductCount = $this->_catalogData->shouldDisplayProductCountOnLayer();
         }
         return $this->_displayProductCount;
     }

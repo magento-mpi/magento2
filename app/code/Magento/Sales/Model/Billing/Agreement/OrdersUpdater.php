@@ -10,29 +10,24 @@
 
 /**
  * Sales orders grid massaction items updater
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Billing\Agreement;
 
 class OrdersUpdater implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
 {
-
     /**
      * @var \Magento\Core\Model\Registry
      */
     protected $_registryManager;
+
     /**
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      * @throws \InvalidArgumentException
      */
-    public function __construct(array $data = array())
+    public function __construct(Magento_Core_Model_Registry $coreRegistry, array $data = array())
     {
-        $this->_registryManager = isset($data['registry']) ?
-            $data['registry'] :
-            \Mage::getSingleton('Magento\Core\Model\Registry');
+        $this->_registryManager = isset($data['registry']) ? $data['registry'] : $coreRegistry;
 
         if (false === ($this->_registryManager instanceof \Magento\Core\Model\Registry)) {
             throw new \InvalidArgumentException('registry object has to be an instance of \Magento\Core\Model\Registry');
@@ -45,6 +40,7 @@ class OrdersUpdater implements \Magento\Core\Model\Layout\Argument\UpdaterInterf
      * @param mixed $argument
      * @throws \DomainException
      * @return mixed
+     * @throws DomainException
      */
     public function update($argument)
     {

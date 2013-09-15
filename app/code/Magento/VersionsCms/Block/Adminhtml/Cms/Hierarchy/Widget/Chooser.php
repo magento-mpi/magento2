@@ -30,7 +30,7 @@ class Chooser extends \Magento\Adminhtml\Block\Template
      */
     public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
-        $uniqueId = \Mage::helper('Magento\Core\Helper\Data')->uniqHash($element->getId());
+        $uniqueId = $this->_coreData->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/cms_hierarchy_widget/chooser', array('uniq_id' => $uniqueId));
 
         $chooser = $this->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Chooser')
@@ -138,7 +138,7 @@ class Chooser extends \Magento\Adminhtml\Block\Template
      */
     public function getNodesJson()
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($this->getNodes());
+        return $this->_coreData->jsonEncode($this->getNodes());
     }
 
     /**

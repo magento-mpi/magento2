@@ -53,12 +53,24 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     protected $_resource;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * Class constructor
      *
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
      */
-    public function __construct()
-    {
-        parent::__construct();
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($data);
         $this->_requestVar = 'price';
     }
 
@@ -84,7 +96,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     {
         $range = $this->getData('price_range');
         if (!$range) {
-            $currentCategory = \Mage::registry('current_category_filter');
+            $currentCategory = $this->_coreRegistry->registry('current_category_filter');
             if ($currentCategory) {
                 $range = $currentCategory->getFilterPriceRange();
             } else {

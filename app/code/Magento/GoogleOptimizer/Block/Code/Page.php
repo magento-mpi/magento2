@@ -17,7 +17,8 @@ class Page extends \Magento\GoogleOptimizer\Block\CodeAbstract
     protected $_page;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
      * @param \Magento\GoogleOptimizer\Helper\Data $helper
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\GoogleOptimizer\Helper\Code $codeHelper
@@ -25,6 +26,7 @@ class Page extends \Magento\GoogleOptimizer\Block\CodeAbstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\GoogleOptimizer\Helper\Data $helper,
         \Magento\Core\Model\Registry $registry,
@@ -34,7 +36,7 @@ class Page extends \Magento\GoogleOptimizer\Block\CodeAbstract
     ) {
         // \Magento\Cms\Model\Page is singleton
         $this->_page = $page;
-        parent::__construct($context, $helper, $registry, $codeHelper, $data);
+        parent::__construct($coreData, $context, $helper, $registry, $codeHelper, $data);
     }
 
     /**

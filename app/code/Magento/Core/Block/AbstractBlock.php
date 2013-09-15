@@ -781,9 +781,6 @@ abstract class AbstractBlock extends \Magento\Object
      */
     public function helper($name)
     {
-        if ($this->getLayout()) {
-            return $this->getLayout()->helper($name);
-        }
         return $this->_helperFactory->get($name);
     }
 

@@ -31,20 +31,22 @@ class Endpoint extends \Magento\Core\Model\AbstractModel implements \Magento\Out
     private $_userFactory;
 
     /**
-     * @param \Magento\Webhook\Model\User\Factory $userFactory
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Webhook\Model\User\Factory $userFactory,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
         $this->_userFactory = $userFactory;
     }

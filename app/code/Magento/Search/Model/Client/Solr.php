@@ -10,10 +10,6 @@
 
 /**
  * Solr client
- *
- * @category   Magento
- * @package    Magento_Search
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Search\Model\Client;

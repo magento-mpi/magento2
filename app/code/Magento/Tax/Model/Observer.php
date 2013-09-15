@@ -18,6 +18,22 @@ namespace Magento\Tax\Model;
 class Observer
 {
     /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param Magento_Tax_Helper_Data $taxData
+     */
+    public function __construct(
+        Magento_Tax_Helper_Data $taxData
+    ) {
+        $this->_taxData = $taxData;
+    }
+
+    /**
      * Put quote address tax information into order
      *
      * @param \Magento\Event\Observer $observer
@@ -146,7 +162,7 @@ class Observer
      */
     public function addTaxPercentToProductCollection($observer)
     {
-        $helper = \Mage::helper('Magento\Tax\Helper\Data');
+        $helper = $this->_taxData;
         $collection = $observer->getEvent()->getCollection();
         $store = $collection->getStoreId();
         if (!$helper->needPriceConversion($store)) {

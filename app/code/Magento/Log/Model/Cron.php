@@ -81,8 +81,7 @@ class Cron extends \Magento\Core\Model\AbstractModel
 
         try {
             \Mage::getModel('Magento\Log\Model\Log')->clean();
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->_errors[] = $e->getMessage();
             $this->_errors[] = $e->getTrace();
         }

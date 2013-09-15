@@ -42,6 +42,67 @@ class Checkout extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
     protected $_shippingCalculated = false;
 
     /**
+     * Weee data
+     *
+     * @var Magento_Weee_Helper_Data
+     */
+    protected $_weeeData = null;
+
+    /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * Google checkout data
+     *
+     * @var Magento_GoogleCheckout_Helper_Data
+     */
+    protected $_googleCheckoutData = null;
+
+    /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Customer_Helper_Data $customerData
+     * @param Magento_GoogleCheckout_Helper_Data $googleCheckoutData
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Weee_Helper_Data $weeeData
+     * @param Magento_Core_Model_Translate $translator
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Customer_Helper_Data $customerData,
+        Magento_GoogleCheckout_Helper_Data $googleCheckoutData,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Weee_Helper_Data $weeeData,
+        Magento_Core_Model_Translate $translator,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_customerData = $customerData;
+        $this->_googleCheckoutData = $googleCheckoutData;
+        $this->_taxData = $taxData;
+        $this->_weeeData = $weeeData;
+        parent::__construct($translator, $data);
+    }
+
+    /**
      * API URL getter
      *
      * @return string
@@ -109,7 +170,7 @@ EOT;
             $weightUnit = self::ITEM_WEIGHT_UNIT;
 
             $unitPrice = $item->getBaseCalculationPrice();
-            if (\Mage::helper('Magento\Weee\Helper\Data')->includeInSubtotal()) {
+            if ($this->_weeeData->includeInSubtotal()) {
                 $unitPrice += $item->getBaseWeeeTaxAppliedAmount();
             }
 
@@ -146,7 +207,7 @@ EOT;
             'description' => __('A virtual item to reflect the discount total')
         ));
 
-        \Mage::dispatchEvent('google_checkout_discount_item_price', array(
+        $this->_eventManager->dispatch('google_checkout_discount_item_price', array(
             'quote'         => $this->getQuote(),
             'discount_item' => $discountItem
         ));
@@ -205,13 +266,22 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $active = \Mage::getStoreConfigFlag(\Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_VIRTUAL_ACTIVE, $storeId);
+        $active = Mage::getStoreConfigFlag(
+            \Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_VIRTUAL_ACTIVE,
+            $storeId
+        );
         if (!$active) {
             return '';
         }
 
-        $schedule = \Mage::getStoreConfig(\Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_VIRTUAL_SCHEDULE, $storeId);
-        $method   = \Mage::getStoreConfig(\Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_VIRTUAL_METHOD, $storeId);
+        $schedule = Mage::getStoreConfig(
+            \Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_VIRTUAL_SCHEDULE,
+            $storeId
+        );
+        $method   = Mage::getStoreConfig(
+            \Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_VIRTUAL_METHOD,
+            $storeId
+        );
 
         $xml = "<display-disposition>{$schedule}</display-disposition>";
 
@@ -383,8 +453,14 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $active = \Mage::getStoreConfigFlag(\Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_CARRIER_ACTIVE, $storeId);
-        $methods = \Mage::getStoreConfig(\Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_CARRIER_METHODS, $storeId);
+        $active = Mage::getStoreConfigFlag(
+            \Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_CARRIER_ACTIVE,
+            $storeId
+        );
+        $methods = Mage::getStoreConfig(
+            \Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_CARRIER_METHODS,
+            $storeId
+        );
 
         if (!$active || !$methods) {
             return '';
@@ -417,7 +493,7 @@ EOT;
             \Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_CARRIER_ADDRESS_CATEGORY,
             $storeId
         );
-        $defPrice = (float) \Mage::helper('Magento\Tax\Helper\Data')->getShippingPrice($defPrice, false, false);
+        $defPrice = (float) $this->_taxData->getShippingPrice($defPrice, false, false);
 
         $this->getQuote()->getShippingAddress()
             ->setCountryId($country)
@@ -527,7 +603,11 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        if (!\Mage::getStoreConfigFlag(\Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_FLATRATE_ACTIVE, $storeId)) {
+        $isFlatrateActive = Mage::getStoreConfigFlag(
+            \Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_FLATRATE_ACTIVE,
+            $storeId
+        );
+        if (!$isFlatrateActive) {
             return '';
         }
 
@@ -542,8 +622,8 @@ EOT;
             $title         = \Mage::getStoreConfig('google/checkout_shipping_flatrate/title_' . $i, $storeId);
             $price         = (float)\Mage::getStoreConfig('google/checkout_shipping_flatrate/price_' . $i, $storeId);
             $price         = number_format($price, 2, '.', '');
-            $price         = (float)\Mage::helper('Magento\Tax\Helper\Data')->getShippingPrice($price, false, false);
-            $allowSpecific = \Mage::getStoreConfigFlag(
+            $price         = (float)$this->_taxData->getShippingPrice($price, false, false);
+            $allowSpecific = Mage::getStoreConfigFlag(
                 'google/checkout_shipping_flatrate/sallowspecific_' . $i,
                 $storeId
             );
@@ -628,8 +708,8 @@ EOT;
 
         $xml           = '';
         $methods       = unserialize($methods);
-        $taxHelper     = \Mage::helper('Magento\Tax\Helper\Data');
-        $shippingModel = \Mage::getModel('Magento\Shipping\Model\Shipping');
+        $taxHelper     = $this->_taxData;
+        $shippingModel = Mage::getModel('Magento\Shipping\Model\Shipping');
 
         foreach ($methods['method'] as $i => $method) {
             if (!$i || !$method) {
@@ -684,9 +764,9 @@ EOT;
             return '';
         }
 
-        $title = \Mage::getStoreConfig(\Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_PICKUP_TITLE, $storeId);
-        $price = \Mage::getStoreConfig(\Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_PICKUP_PRICE, $storeId);
-        $price = (float) \Mage::helper('Magento\Tax\Helper\Data')->getShippingPrice($price, false, false);
+        $title = Mage::getStoreConfig(\Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_PICKUP_TITLE, $storeId);
+        $price = Mage::getStoreConfig(\Magento\GoogleCheckout\Helper\Data::XML_PATH_SHIPPING_PICKUP_PRICE, $storeId);
+        $price = (float) $this->_taxData->getShippingPrice($price, false, false);
 
         $xml = <<<EOT
                 <pickup name="{$title}">
@@ -734,7 +814,7 @@ EOT;
 EOT;
                         if ($rate['country'] === \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier::USA_COUNTRY_ID) {
                             if (!empty($rate['postcode']) && $rate['postcode'] !== '*') {
-                                $rate['postcode'] = \Mage::helper('Magento\GoogleCheckout\Helper\Data')
+                                $rate['postcode'] = $this->_googleCheckoutData
                                     ->zipRangeToZipPattern($rate['postcode']);
                                 foreach ($rate['postcode'] as $postcode) {
                                     $xml .= <<<EOT
@@ -882,7 +962,7 @@ EOT;
     {
         $customerGroup = $this->getQuote()->getCustomerGroupId();
         if (!$customerGroup) {
-            $customerGroup = \Mage::helper('Magento\Customer\Helper\Data')->getDefaultCustomerGroupId($this->getQuote()->getStoreId());
+            $customerGroup = $this->_customerData->getDefaultCustomerGroupId($this->getQuote()->getStoreId());
         }
         return \Mage::getModel('Magento\Customer\Model\Group')->load($customerGroup)->getTaxClassId();
     }
@@ -902,7 +982,7 @@ EOT;
         $taxCalculationModel = \Mage::getSingleton('Magento\Tax\Model\Calculation');
 
         if ($shippingTaxClass) {
-            if (\Mage::helper('Magento\Tax\Helper\Data')->getTaxBasedOn() == 'origin') {
+            if ($this->_taxData->getTaxBasedOn() == 'origin') {
                 $request = $taxCalculationModel->getRateRequest();
                 $request
                     ->setCustomerClassId($customerTaxClass)
@@ -935,7 +1015,7 @@ EOT;
         $customerTaxClass    = $this->_getCustomerTaxClass();
         $taxCalculationModel = \Mage::getSingleton('Magento\Tax\Model\Calculation');
 
-        if (\Mage::helper('Magento\Tax\Helper\Data')->getTaxBasedOn() == 'origin') {
+        if ($this->_taxData->getTaxBasedOn() == 'origin') {
             $request = $taxCalculationModel->getRateRequest()->setCustomerClassId($customerTaxClass);
             return $taxCalculationModel->getRatesForAllProductTaxClasses($request);
         }

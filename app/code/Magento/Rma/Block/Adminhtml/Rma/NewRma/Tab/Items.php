@@ -17,9 +17,43 @@
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab;
 
-class Items extends \Magento\Adminhtml\Block\Widget\Form
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+class Items extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * Rma eav
+     *
+     * @var Magento_Rma_Helper_Eav
+     */
+    protected $_rmaEav = null;
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Rma_Helper_Eav $rmaEav
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Rma_Helper_Eav $rmaEav,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_rmaEav = $rmaEav;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
     /**
      * Class constructor
      *
@@ -42,7 +76,10 @@ class Items extends \Magento\Adminhtml\Block\Widget\Form
             'onclick' => "rma.addProduct()",
             'class' => 'add',
         );
-        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData($addButtonData)->toHtml();
+        return $this->getLayout()
+            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            ->setData($addButtonData)
+            ->toHtml();
     }
 
     /**
@@ -57,7 +94,10 @@ class Items extends \Magento\Adminhtml\Block\Widget\Form
             'onclick' => "rma.addSelectedProduct()",
             'class' => 'add',
         );
-        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData($addButtonData)->toHtml();
+        return $this->getLayout()
+            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            ->setData($addButtonData)
+            ->toHtml();
     }
 
     /**
@@ -67,11 +107,12 @@ class Items extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $htmlIdPrefix = 'rma_properties_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
 
-        $model = \Mage::registry('current_rma');
+        $model = $this->_coreRegistry->registry('current_rma');
 
         $fieldset = $form->addFieldset('rma_item_fields', array());
 
@@ -111,7 +152,7 @@ class Items extends \Magento\Adminhtml\Block\Widget\Form
             'required'  => false
         ));
 
-        $eavHelper = \Mage::helper('Magento\Rma\Helper\Eav');
+        $eavHelper = $this->_rmaEav;
         $fieldset->addField('reason', 'select', array(
             'label'=> __('Reason to Return'),
             'options' => array(''=>'')

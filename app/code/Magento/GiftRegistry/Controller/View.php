@@ -16,12 +16,31 @@ namespace Magento\GiftRegistry\Controller;
 class View extends \Magento\Core\Controller\Front\Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Check if gift registry is enabled on current store before all other actions
      */
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!\Mage::helper('Magento\GiftRegistry\Helper\Data')->isEnabled()) {
+        if (!$this->_objectManager->get('Magento\GiftRegistry\Helper\Data')->isEnabled()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
@@ -44,7 +63,7 @@ class View extends \Magento\Core\Controller\Front\Action
         $customer = \Mage::getModel('Magento\Customer\Model\Customer');
         $customer->load($entity->getCustomerId());
         $entity->setCustomer($customer);
-        \Mage::register('current_entity', $entity);
+        $this->_coreRegistry->register('current_entity', $entity);
 
         $this->loadLayout();
         $this->_initLayoutMessages('Magento\Customer\Model\Session');

@@ -12,11 +12,12 @@
  * Theme form tab abstract block
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit;
 
 abstract class TabAbstract
-    extends \Magento\Backend\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
@@ -25,16 +26,29 @@ abstract class TabAbstract
     protected $_objectManager;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param \Magento\ObjectManager $objectManager
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        Magento_Core_Model_Registry $registry,
         \Magento\ObjectManager $objectManager,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
         $this->_objectManager = $objectManager;
     }
 
@@ -45,7 +59,7 @@ abstract class TabAbstract
      */
     protected function _getCurrentTheme()
     {
-        return \Mage::registry('current_theme');
+        return $this->_coreRegistry->registry('current_theme');
     }
 
     /**

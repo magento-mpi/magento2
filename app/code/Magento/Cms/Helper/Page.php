@@ -25,6 +25,20 @@ class Page extends \Magento\Core\Helper\AbstractHelper
     const XML_PATH_HOME_PAGE            = 'web/default/cms_home_page';
 
     /**
+     * Catalog product
+     *
+     * @var Magento_Page_Helper_Layout
+     */
+    protected $_pageLayout = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * Design package instance
      *
      * @var \Magento\Core\Model\View\DesignInterface
@@ -32,13 +46,19 @@ class Page extends \Magento\Core\Helper\AbstractHelper
     protected $_design = null;
 
     /**
-     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Page_Helper_Layout $pageLayout
+     * @param Magento_Core_Model_View_DesignInterface $design
      * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Page_Helper_Layout $pageLayout,
         \Magento\Core\Model\View\DesignInterface $design,
         \Magento\Core\Helper\Context $context
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_pageLayout = $pageLayout;
         $this->_design = $design;
         parent::__construct($context);
     }
@@ -100,10 +120,10 @@ class Page extends \Magento\Core\Helper\AbstractHelper
             $handle = ($page->getCustomRootTemplate()
                         && $page->getCustomRootTemplate() != 'empty'
                         && $inRange) ? $page->getCustomRootTemplate() : $page->getRootTemplate();
-            $action->getLayout()->helper('Magento\Page\Helper\Layout')->applyHandle($handle);
+            $this->_pageLayout->applyHandle($handle);
         }
 
-        \Mage::dispatchEvent('cms_page_render', array('page' => $page, 'controller_action' => $action));
+        $this->_eventManager->dispatch('cms_page_render', array('page' => $page, 'controller_action' => $action));
 
         $action->loadLayoutUpdates();
         $layoutUpdate = ($page->getCustomLayoutUpdateXml() && $inRange)
@@ -120,8 +140,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
         }
 
         if ($page->getRootTemplate()) {
-            $action->getLayout()->helper('Magento\Page\Helper\Layout')
-                ->applyTemplate($page->getRootTemplate());
+            $this->_pageLayout->applyTemplate($page->getRootTemplate());
         }
 
         /* @TODO: Move catalog and checkout storage types to appropriate modules */

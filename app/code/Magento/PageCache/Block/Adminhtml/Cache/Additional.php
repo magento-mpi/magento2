@@ -17,8 +17,31 @@
  */
 namespace Magento\PageCache\Block\Adminhtml\Cache;
 
-class Additional extends \Magento\Adminhtml\Block\Template
+class Additional extends \Magento\Backend\Block\Template
 {
+    /**
+     * Page cache data
+     *
+     * @var Magento_PageCache_Helper_Data
+     */
+    protected $_pageCacheData = null;
+
+    /**
+     * @param Magento_PageCache_Helper_Data $pageCacheData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_PageCache_Helper_Data $pageCacheData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_pageCacheData = $pageCacheData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Get clean cache url
      *
@@ -36,7 +59,7 @@ class Additional extends \Magento\Adminhtml\Block\Template
      */
     public function canShowButton()
     {
-        return \Mage::helper('Magento\PageCache\Helper\Data')->isEnabled()
+        return $this->_pageCacheData->isEnabled()
             && $this->_authorization->isAllowed('Magento_PageCache::page_cache');
     }
 }

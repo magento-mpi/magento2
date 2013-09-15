@@ -49,15 +49,21 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_orderFactory;
 
     /**
-     * Class constructor. Initialize checkout session namespace
-     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
      * @param string $sessionName
+     * @param array $data
      */
     public function __construct(
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        $sessionName = null
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
+        $sessionName = null,
+        array $data = array()
     ) {
         $this->_orderFactory = $orderFactory;
+        parent::__construct($eventManager, $coreHttp, $data);
         $this->init('checkout', $sessionName);
     }
 
@@ -111,7 +117,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      */
     public function getQuote()
     {
-        \Mage::dispatchEvent('custom_quote_process', array('checkout_session' => $this));
+        $this->_eventManager->dispatch('custom_quote_process', array('checkout_session' => $this));
 
         if ($this->_quote === null) {
             /** @var $quote \Magento\Sales\Model\Quote */
@@ -152,7 +158,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
                     $this->setQuoteId($quote->getId());
                 } else {
                     $quote->setIsCheckoutCart(true);
-                    \Mage::dispatchEvent('checkout_quote_init', array('quote'=>$quote));
+                    $this->_eventManager->dispatch('checkout_quote_init', array('quote'=>$quote));
                 }
             }
 
@@ -167,7 +173,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
             $this->_quote = $quote;
         }
 
-        if ($remoteAddr = \Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr()) {
+        if ($remoteAddr = $this->_coreHttp->getRemoteAddr()) {
             $this->_quote->setRemoteIp($remoteAddr);
             $xForwardIp = \Mage::app()->getRequest()->getServer('HTTP_X_FORWARDED_FOR');
             $this->_quote->setXForwardedFor($xForwardIp);
@@ -201,7 +207,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
             return $this;
         }
 
-        \Mage::dispatchEvent('load_customer_quote_before', array('checkout_session' => $this));
+        $this->_eventManager->dispatch('load_customer_quote_before', array('checkout_session' => $this));
 
         $customerQuote = \Mage::getModel('Magento\Sales\Model\Quote')
             ->setStoreId(\Mage::app()->getStore()->getId())
@@ -362,7 +368,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
 
     public function clear()
     {
-        \Mage::dispatchEvent('checkout_quote_destroy', array('quote'=>$this->getQuote()));
+        $this->_eventManager->dispatch('checkout_quote_destroy', array('quote'=>$this->getQuote()));
         $this->_quote = null;
         $this->setQuoteId(null);
         $this->setLastSuccessQuoteId(null);

@@ -26,6 +26,35 @@ class Rviewed
     protected $_listType = 'rviewed';
 
     /**
+     * Adminhtml sales
+     *
+     * @var Magento_Adminhtml_Helper_Sales
+     */
+    protected $_adminhtmlSales = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Sales $adminhtmlSales,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_adminhtmlSales = $adminhtmlSales;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
+    }
+
+    /**
      * Initialize Grid
      */
     protected function _construct()
@@ -68,7 +97,7 @@ class Rviewed
 
                 \Mage::getSingleton('Magento\CatalogInventory\Model\Stock\Status')
                     ->addIsInStockFilterToCollection($productCollection);
-                $productCollection = \Mage::helper('Magento\Adminhtml\Helper\Sales')
+                $productCollection = $this->_adminhtmlSales
                     ->applySalableProductTypesFilter($productCollection);
                 $productCollection->addOptionsToResult();
             }

@@ -35,6 +35,29 @@ class Calculation extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_isPkAutoIncrement    = false;
 
     /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_taxData = $taxData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Resource initialization
      *
      */
@@ -189,7 +212,7 @@ class Calculation extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _createSearchPostCodeTemplates($postcode)
     {
-        $len = \Mage::helper('Magento\Tax\Helper\Data')->getPostCodeSubStringLength();
+        $len = $this->_taxData->getPostCodeSubStringLength();
         $strlen = strlen($postcode);
         if ($strlen > $len) {
             $postcode = substr($postcode, 0, $len);

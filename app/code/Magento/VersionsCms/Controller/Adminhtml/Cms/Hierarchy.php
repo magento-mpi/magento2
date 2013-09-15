@@ -48,6 +48,25 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
     protected $_store = '';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Controller pre dispatch method
      *
      * @return Magento_VersionsCms_HierarchyController
@@ -55,7 +74,7 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!\Mage::helper('Magento\VersionsCms\Helper\Hierarchy')->isEnabled()) {
+        if (!$this->_objectManager->get('Magento\VersionsCms\Helper\Hierarchy')->isEnabled()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }
@@ -149,7 +168,7 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
             unset($formData);
         }
 
-        \Mage::register('current_hierarchy_node', $nodeModel);
+        $this->_coreRegistry->register('current_hierarchy_node', $nodeModel);
 
         $this->_initAction()
             ->renderLayout();
@@ -263,7 +282,7 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
                 } else {
                     if (!empty($data['nodes_data'])) {
                         try{
-                            $nodesData = \Mage::helper('Magento\Core\Helper\Data')->jsonDecode($data['nodes_data']);
+                            $nodesData = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonDecode($data['nodes_data']);
                         }catch (\Zend_Json_Exception $e){
                             $nodesData = array();
                         }

@@ -24,10 +24,32 @@ class Category extends \Magento\Data\Form\Element\Multiselect
      */
     protected $_layout;
 
-    public function __construct($attributes = array(), \Magento\Core\Model\Layout $layout = null)
-    {
-        parent::__construct($attributes);
-        $this->_layout = $layout ?: \Mage::getObjectManager()->get('Magento\Core\Model\Layout');
+    /**
+     * Backend data
+     *
+     * @var Magento_Backend_Helper_Data
+     */
+    protected $_backendData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Data_Form_Element_Factory $factoryElement
+     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
+     * @param Magento_Backend_Helper_Data $backendData
+     * @param Magento_Core_Model_Layout $layout
+     * @param array $attributes
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Data_Form_Element_Factory $factoryElement,
+        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
+        Magento_Backend_Helper_Data $backendData,
+        Magento_Core_Model_Layout $layout,
+        array $attributes = array()
+    ) {
+        $this->_backendData = $backendData;
+        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
+        $this->_layout = $layout;
     }
 
     /**
@@ -71,11 +93,9 @@ class Category extends \Magento\Data\Form\Element\Multiselect
      */
     public function getAfterElementHtml()
     {
-        /** @var $coreHelper \Magento\Core\Helper\Data */
-        $coreHelper = \Mage::helper('Magento\Core\Helper\Data');
         $htmlId = $this->getHtmlId();
         $suggestPlaceholder = __('start typing to search category');
-        $selectorOptions = $coreHelper->jsonEncode($this->_getSelectorOptions());
+        $selectorOptions = $this->_coreData->jsonEncode($this->_getSelectorOptions());
         $newCategoryCaption = __('New Category');
 
         $button = $this->_layout
@@ -103,7 +123,7 @@ HTML;
     protected function _getSelectorOptions()
     {
         return array(
-            'source' => \Mage::helper('Magento\Backend\Helper\Data')
+            'source' => $this->_backendData
                 ->getUrl('adminhtml/catalog_category/suggestCategories'),
             'valueField' => '#' . $this->getHtmlId(),
             'className' => 'category-select',

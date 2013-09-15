@@ -21,6 +21,33 @@ class Cert extends \Magento\Core\Model\AbstractModel
     const BASEPATH_PAYPAL_CERT  = 'cert/paypal';
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
      */
     protected function _construct()
@@ -77,7 +104,7 @@ class Cert extends \Magento\Core\Model\AbstractModel
             $this->_removeOutdatedCertFile();
         }
 
-        file_put_contents($file, \Mage::helper('Magento\Core\Helper\Data')->decrypt($this->getContent()));
+        file_put_contents($file, $this->_coreData->decrypt($this->getContent()));
     }
 
     /**

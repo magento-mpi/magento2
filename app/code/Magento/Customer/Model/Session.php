@@ -34,6 +34,20 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_isCustomerIdChecked = null;
 
     /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * Core url
+     *
+     * @var Magento_Core_Helper_Url
+     */
+    protected $_coreUrl = null;
+
+    /**
      * Retrieve customer sharing configuration model
      *
      * @return \Magento\Customer\Model\Config\Share
@@ -46,17 +60,31 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     /**
      * Class constructor. Initialize session namespace
      *
+     * @param Magento_Core_Helper_Url $coreUrl
+     * @param Magento_Customer_Helper_Data $customerData
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param array $data
      * @param string $sessionName
      */
-    public function __construct($sessionName = null)
-    {
+    public function __construct(
+        Magento_Core_Helper_Url $coreUrl,
+        Magento_Customer_Helper_Data $customerData,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
+        array $data = array(),
+        $sessionName = null
+    ) {
+        $this->_coreUrl = $coreUrl;
+        $this->_customerData = $customerData;
+        parent::__construct($eventManager, $coreHttp, $data);
         $namespace = 'customer';
         if ($this->getCustomerConfigShare()->isWebsiteScope()) {
             $namespace .= '_' . (\Mage::app()->getStore()->getWebsite()->getCode());
         }
 
         $this->init($namespace, $sessionName);
-        \Mage::dispatchEvent('customer_session_init', array('customer_session'=>$this));
+        $this->_eventManager->dispatch('customer_session_init', array('customer_session'=>$this));
     }
 
     /**
@@ -207,7 +235,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     public function setCustomerAsLoggedIn($customer)
     {
         $this->setCustomer($customer);
-        \Mage::dispatchEvent('customer_login', array('customer'=>$customer));
+        $this->_eventManager->dispatch('customer_login', array('customer'=>$customer));
         return $this;
     }
 
@@ -235,7 +263,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     public function logout()
     {
         if ($this->isLoggedIn()) {
-            \Mage::dispatchEvent('customer_logout', array('customer' => $this->getCustomer()) );
+            $this->_eventManager->dispatch('customer_logout', array('customer' => $this->getCustomer()) );
             $this->_logout();
         }
         return $this;
@@ -259,7 +287,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
             $action->getResponse()->setRedirect($loginUrl);
         } else {
             $action->setRedirectWithCookieCheck(\Magento\Customer\Helper\Data::ROUTE_ACCOUNT_LOGIN,
-                \Mage::helper('Magento\Customer\Helper\Data')->getLoginUrlParams()
+                $this->_customerData->getLoginUrlParams()
             );
         }
 
@@ -275,8 +303,8 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      */
     protected function _setAuthUrl($key, $url)
     {
-        $url = \Mage::helper('Magento\Core\Helper\Url')
-            ->removeRequestParam($url, \Mage::getSingleton('Magento\Core\Model\Session')->getSessionIdQueryParam());
+        $url = $this->_coreUrl
+            ->removeRequestParam($url, Mage::getSingleton('Magento\Core\Model\Session')->getSessionIdQueryParam());
         // Add correct session ID to URL if needed
         $url = \Mage::getModel('Magento\Core\Model\Url')->getRebuiltUrl($url);
         return $this->setData($key, $url);

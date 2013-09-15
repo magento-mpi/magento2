@@ -10,15 +10,11 @@
 
 /**
  * Adminhtml system template edit form
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Adminhtml\Block\System\Email\Template\Edit;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare layout.
@@ -28,7 +24,8 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareLayout()
     {
-        if ($head = $this->getLayout()->getBlock('head')) {
+        $head = $this->getLayout()->getBlock('head');
+        if ($head) {
             $head->addJs('prototype/window.js')
                 ->addCss('prototype/windows/themes/default.css')
                 ->addCss('Magento_Core::prototype/magento.css')
@@ -44,7 +41,8 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend' => __('Template Information'),
@@ -133,7 +131,8 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             $form->addValues($this->getEmailTemplate()->getData());
         }
 
-        if ($values = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getData('email_template_form_data', true)) {
+        $values = Mage::getSingleton('Magento\Adminhtml\Model\Session')->getData('email_template_form_data', true);
+        if ($values) {
             $form->setValues($values);
         }
 
@@ -149,7 +148,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     public function getEmailTemplate()
     {
-        return \Mage::registry('current_email_template');
+        return $this->_coreRegistry->registry('current_email_template');
     }
 
     /**
@@ -167,8 +166,8 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
         if ($customVariables) {
             $variables[] = $customVariables;
         }
-        /* @var $template \Magento\Core\Model\Email\Template */
-        $template = \Mage::registry('current_email_template');
+        /* @var $template Magento_Core_Model_Email_Template */
+        $template = $this->_coreRegistry->registry('current_email_template');
         if ($template->getId() && $templateVariables = $template->getVariablesOptionArray(true)) {
             $variables[] = $templateVariables;
         }

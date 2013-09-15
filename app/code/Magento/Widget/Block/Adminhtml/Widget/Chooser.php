@@ -18,8 +18,29 @@
 
 namespace Magento\Widget\Block\Adminhtml\Widget;
 
-class Chooser extends \Magento\Adminhtml\Block\Template
+class Chooser extends \Magento\Backend\Block\Template
 {
+    /**
+     * @var Magento_Data_Form_Element_Factory
+     */
+    protected $_elementFactory;
+
+    /**
+     * @param Magento_Data_Form_Element_Factory $elementFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Data_Form_Element_Factory $elementFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_elementFactory = $elementFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Chooser source URL getter
      *
@@ -128,7 +149,7 @@ class Chooser extends \Magento\Adminhtml\Block\Template
         ));
         $hiddenHtml = '';
         if ($this->getHiddenEnabled()) {
-            $hidden = new \Magento\Data\Form\Element\Hidden($element->getData());
+            $hidden = $this->_elementFactory->create('hidden', array('attributes' => $element->getData()));
             $hidden->setId("{$chooserId}value")->setForm($element->getForm());
             if ($element->getRequired()) {
                 $hidden->addClass('required-entry');
@@ -148,7 +169,7 @@ class Chooser extends \Magento\Adminhtml\Block\Template
         $chooser->setData('after_element_html', $hiddenHtml . $chooseButton->toHtml());
 
         // render label and chooser scripts
-        $configJson = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($config->getData());
+        $configJson = $this->_coreData->jsonEncode($config->getData());
         return '
             <label class="widget-option-label" id="' . $chooserId . 'label">'
             . ($this->getLabel() ? $this->getLabel() : __('Not Selected')) . '</label>

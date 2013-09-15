@@ -44,6 +44,29 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
     protected $_mapRenderer = 'msrp_rss';
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Return Price Block renderer for specified product type
      *
      * @param string $productTypeId Catalog Product type
@@ -89,13 +112,13 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
      */
     public function getPriceHtml($product, $displayMinimalPrice = false, $idSuffix='')
     {
-        $type_id = $product->getTypeId();
-        if (\Mage::helper('Magento\Catalog\Helper\Data')->canApplyMsrp($product)) {
-            $type_id = $this->_mapRenderer;
+        $typeId = $product->getTypeId();
+        if ($this->_catalogData->canApplyMsrp($product)) {
+            $typeId = $this->_mapRenderer;
         }
 
-        return $this->_getPriceBlock($type_id)
-            ->setTemplate($this->_getPriceBlockTemplate($type_id))
+        return $this->_getPriceBlock($typeId)
+            ->setTemplate($this->_getPriceBlockTemplate($typeId))
             ->setProduct($product)
             ->setDisplayMinimalPrice($displayMinimalPrice)
             ->setIdSuffix($idSuffix)

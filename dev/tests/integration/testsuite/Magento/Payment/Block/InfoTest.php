@@ -18,7 +18,7 @@ class Magento_Payment_Block_InfoTest extends PHPUnit_Framework_TestCase
     public function testGetChildPdfAsArray()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('Magento\Core\Model\Layout');
+        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
         $block = $layout->createBlock('Magento\Payment\Block\Info', 'block');
 
         /** @var $paymentInfoBank\Magento\Payment\Model\Info  */

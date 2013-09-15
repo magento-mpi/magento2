@@ -19,8 +19,12 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
      */
     protected function tearDown()
     {
-        /** @var $testWebsite \Magento\Core\Model\Website */
-        $testWebsite = Mage::registry('Magento_ScheduledImportExport_Model_Website');
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+        /** @var $testWebsite Magento_Core_Model_Website */
+        $testWebsite = $objectManager->get('Magento\Core\Model\Registry')
+            ->registry('Magento\ScheduledImportExport\Model\Website');
         if ($testWebsite) {
             // Clear test website info from application cache.
             Mage::app()->clearWebsiteCache($testWebsite->getId());
@@ -44,8 +48,12 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
          * Try to get test website instance,
          * in this case test website will be added into protected property of Application instance class.
          */
-        /** @var $testWebsite \Magento\Core\Model\Website */
-        $testWebsite = Mage::registry('Magento_ScheduledImportExport_Model_Website');
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+        /** @var $testWebsite Magento_Core_Model_Website */
+        $testWebsite = $objectManager->get('Magento\Core\Model\Registry')
+            ->registry('Magento\ScheduledImportExport\Model\Website');
         Mage::app()->getWebsite($testWebsite->getId());
 
         // load websites to have ability get website code by id.
@@ -145,9 +153,12 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
 
         $rewards  = Mage::getResourceModel('Magento\Reward\Model\Resource\Reward\Collection');
         $balances = Mage::getResourceModel('Magento\CustomerBalance\Model\Resource\Balance\Collection');
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
-        $expectedRewards = Mage::registry('_fixture/Magento_ScheduledImportExport_Customers_ExpectedRewards');
-        /** @var $reward \Magento\Reward\Model\Reward */
+        $expectedRewards = $objectManager->get('Magento\Core\Model\Registry')
+            ->registry('_fixture/Magento\ScheduledImportExport\Customers\ExpectedRewards');
+        /** @var $reward Magento_Reward_Model_Reward */
         foreach ($rewards as $reward) {
             $this->assertEquals(
                 $reward->getPointsBalance(),
@@ -155,8 +166,9 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
             );
         }
 
-        $expectedBalances = Mage::registry('_fixture/Magento_ScheduledImportExport_Customers_ExpectedBalances');
-        /** @var $balance \Magento\CustomerBalance\Model\Balance */
+        $expectedBalances = $objectManager->get('Magento\Core\Model\Registry')
+            ->registry('_fixture/Magento\ScheduledImportExport\Customers\ExpectedBalances');
+        /** @var $balance Magento_CustomerBalance_Model_Balance */
         foreach ($balances as $balance) {
             $this->assertEquals(
                 $balance->getAmount(),

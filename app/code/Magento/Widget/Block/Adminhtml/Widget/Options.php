@@ -18,7 +18,7 @@
 
 namespace Magento\Widget\Block\Adminhtml\Widget;
 
-class Options extends \Magento\Adminhtml\Block\Widget\Form
+class Options extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Element type used by default if configuration is omitted
@@ -49,7 +49,8 @@ class Options extends \Magento\Adminhtml\Block\Widget\Form
         if ($this->_form instanceof \Magento\Data\Form) {
             return $this->_form;
         }
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $this->setForm($form);
         return $form;
     }

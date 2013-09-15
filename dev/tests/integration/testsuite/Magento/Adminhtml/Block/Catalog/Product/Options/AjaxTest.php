@@ -35,7 +35,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Options_AjaxTest extends PHPUnit_F
      */
     public function testToHtml()
     {
-        Mage::register('import_option_products', array(1));
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')->register('import_option_products', array(1));
         $result = json_decode($this->_block->toHtml(), true);
         $this->assertEquals('test_option_code_1', $result[0]['title']);
     }

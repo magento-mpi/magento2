@@ -74,7 +74,6 @@ abstract class ActionAbstract extends \Magento\Core\Controller\Varien\Action
         parent::__construct($context);
         $this->_helper = $context->getHelper();
         $this->_session = $context->getSession();
-        $this->_eventManager = $context->getEventManager();
         $this->_authorization = $context->getAuthorization();
         $this->_translator = $context->getTranslator();
     }
@@ -247,7 +246,7 @@ abstract class ActionAbstract extends \Magento\Core\Controller\Varien\Action
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
             if ($this->getRequest()->getQuery('isAjax', false) || $this->getRequest()->getQuery('ajax', false)) {
-                $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode(array(
+                $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
                     'error' => true,
                     'message' => $_keyErrorMsg
                 )));

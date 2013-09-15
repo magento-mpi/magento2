@@ -22,28 +22,6 @@
         <eav_frontendclasses />
         <eav_attributes />
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Eav>
-                    <files>
-                        <default>Magento_Eav.csv</default>
-                    </files>
-                </Magento_Eav>
-            </modules>
-        </translate>
-    </adminhtml>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Eav>
-                    <files>
-                        <default>Magento_Eav.csv</default>
-                    </files>
-                </Magento_Eav>
-            </modules>
-        </translate>
-    </frontend>
     <default>
         <general>
             <validator_data>

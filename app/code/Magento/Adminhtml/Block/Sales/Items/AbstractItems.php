@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Abstract items renderer
- *
- * @category    Magento
- * @package     Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Adminhtml\Block\Sales\Items;
 
@@ -46,6 +41,29 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
      * @var boolean | null
      */
     protected $_canEditQty = null;
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Init block
@@ -208,7 +226,7 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
 
     public function getCreditmemo()
     {
-        return \Mage::registry('current_creditmemo');
+        return $this->_coreRegistry->registry('current_creditmemo');
     }
 
     /**
@@ -225,22 +243,19 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
         if ($this->hasOrder()) {
             return $this->getData('order');
         }
-        if (\Mage::registry('current_order')) {
-            return \Mage::registry('current_order');
+        if ($this->_coreRegistry->registry('current_order')) {
+            return $this->_coreRegistry->registry('current_order');
         }
-        if (\Mage::registry('order')) {
-            return \Mage::registry('order');
+        if ($this->_coreRegistry->registry('order')) {
+            return $this->_coreRegistry->registry('order');
         }
-        if ($this->getInvoice())
-        {
+        if ($this->getInvoice()) {
             return $this->getInvoice()->getOrder();
         }
-        if ($this->getCreditmemo())
-        {
+        if ($this->getCreditmemo()) {
             return $this->getCreditmemo()->getOrder();
         }
-        if ($this->getItem()->getOrder())
-        {
+        if ($this->getItem()->getOrder()) {
             return $this->getItem()->getOrder();
         }
 
@@ -290,7 +305,7 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
     }
 
     /**
-     * Retrieve price formated html content
+     * Retrieve price formatted html content
      *
      * @param float $basePrice
      * @param float $price
@@ -313,15 +328,14 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
      * @param   string $separator
      * @return  string
      */
-    public function displayRoundedPrices($basePrice, $price, $precision=2, $strong = false, $separator = '<br />')
+    public function displayRoundedPrices($basePrice, $price, $precision = 2, $strong = false, $separator = '<br />')
     {
         if ($this->getOrder()->isCurrencyDifferent()) {
             $res = '';
             $res.= $this->getOrder()->formatBasePricePrecision($basePrice, $precision);
             $res.= $separator;
             $res.= $this->getOrder()->formatPricePrecision($price, $precision, true);
-        }
-        else {
+        } else {
             $res = $this->getOrder()->formatPricePrecision($price, $precision);
             if ($strong) {
                 $res = '<strong>'.$res.'</strong>';
@@ -331,7 +345,7 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
     }
 
     /**
-     * Retrieve include tax html formated content
+     * Retrieve include tax html formatted content
      *
      * @param \Magento\Object $item
      * @return string
@@ -436,7 +450,8 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
      * @see self::_canEditQty
      * @see self::canEditQty
      */
-    public function setCanEditQty($value) {
+    public function setCanEditQty($value)
+    {
         $this->_canEditQty = $value;
         return $this;
     }
@@ -500,16 +515,16 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
      */
     public function getInvoice()
     {
-        return \Mage::registry('current_invoice');
+        return $this->_coreRegistry->registry('current_invoice');
     }
 
     /**
      * CREDITMEMO
      */
 
-    public function canReturnToStock() {
-        $canReturnToStock = \Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT);
-        if (\Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT)) {
+    public function canReturnToStock()
+    {
+        if (Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT)) {
             return true;
         } else {
             return false;
@@ -521,15 +536,15 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
      * @param \Magento\Sales\Model\Order\Creditmemo\Item $item
      * @return bool
      */
-    public function canReturnItemToStock($item=null) {
+    public function canReturnItemToStock($item = null)
+    {
         $canReturnToStock = \Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT);
         if (!is_null($item)) {
             if (!$item->hasCanReturnToStock()) {
                 $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($item->getOrderItem()->getProductId());
                 if ( $product->getId() && $product->getStockItem()->getManageStock() ) {
                     $item->setCanReturnToStock(true);
-                }
-                else {
+                } else {
                     $item->setCanReturnToStock(false);
                 }
             }
@@ -537,6 +552,7 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
         }
         return $canReturnToStock;
     }
+
     /**
      * Whether to show 'Return to stock' column for item parent
      * @param \Magento\Sales\Model\Order\Creditmemo\Item $item
@@ -564,7 +580,7 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
     public function canShipPartially($order = null)
     {
         if (is_null($order) || !$order instanceof \Magento\Sales\Model\Order) {
-            $order = \Mage::registry('current_shipment')->getOrder();
+            $order = $this->_coreRegistry->registry('current_shipment')->getOrder();
         }
         $value = $order->getCanShipPartially();
         if (!is_null($value) && !$value) {
@@ -582,7 +598,7 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
     public function canShipPartiallyItem($order = null)
     {
         if (is_null($order) || !$order instanceof \Magento\Sales\Model\Order) {
-            $order = \Mage::registry('current_shipment')->getOrder();
+            $order = $this->_coreRegistry->registry('current_shipment')->getOrder();
         }
         $value = $order->getCanShipPartiallyItem();
         if (!is_null($value) && !$value) {
@@ -598,5 +614,4 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
         }
         return true;
     }
-
 }

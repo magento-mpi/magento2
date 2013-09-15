@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Catalog category widgets controller for CMS WYSIWYG
  *
@@ -20,6 +19,25 @@ namespace Magento\Adminhtml\Controller\Catalog\Category;
 
 class Widget extends \Magento\Adminhtml\Controller\Action
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
     /**
      * Chooser Source action
      */
@@ -35,12 +53,13 @@ class Widget extends \Magento\Adminhtml\Controller\Action
      */
     public function categoriesJsonAction()
     {
-        if ($categoryId = (int) $this->getRequest()->getPost('id')) {
+        $categoryId = (int)$this->getRequest()->getPost('id');
+        if ($categoryId) {
 
             $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
             if ($category->getId()) {
-                \Mage::register('category', $category);
-                \Mage::register('current_category', $category);
+                $this->_coreRegistry->register('category', $category);
+                $this->_coreRegistry->register('current_category', $category);
             }
             $this->getResponse()->setBody(
                 $this->_getCategoryTreeBlock()->getTreeJson($category)

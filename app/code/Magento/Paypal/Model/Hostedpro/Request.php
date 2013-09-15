@@ -50,6 +50,27 @@ class Request extends \Magento\Object
         'METHOD', 'BUTTONCODE', 'BUTTONTYPE');
 
     /**
+     * Customer address
+     *
+     * @var Magento_Customer_Helper_Address
+     */
+    protected $_customerAddress = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Customer_Helper_Address $customerAddress
+     */
+    public function __construct(
+        Magento_Customer_Helper_Address $customerAddress
+    ) {
+        $this->_customerAddress = $customerAddress;
+    }
+
+    /**
      * Build and return request array from object data
      *
      * @return array
@@ -186,7 +207,7 @@ class Request extends \Magento\Object
         );
 
         // convert streets to tow lines format
-        $street = \Mage::helper('Magento\Customer\Helper\Address')
+        $street = $this->_customerAddress
             ->convertStreetLines($address->getStreet(), 2);
 
         $request['address1'] = isset($street[0]) ? $street[0]: '';
@@ -213,7 +234,7 @@ class Request extends \Magento\Object
         );
 
         // convert streets to tow lines format
-        $street = \Mage::helper('Magento\Customer\Helper\Address')
+        $street = $this->_customerAddress
             ->convertStreetLines($address->getStreet(), 2);
 
         $request['billing_address1'] = isset($street[0]) ? $street[0]: '';

@@ -38,28 +38,6 @@
             </email>
         </template>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_ProductAlert>
-                    <files>
-                        <default>Magento_ProductAlert.csv</default>
-                    </files>
-                </Magento_ProductAlert>
-            </modules>
-        </translate>
-    </adminhtml>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_ProductAlert>
-                    <files>
-                        <default>Magento_ProductAlert.csv</default>
-                    </files>
-                </Magento_ProductAlert>
-            </modules>
-        </translate>
-    </frontend>
     <default>
         <catalog>
             <productalert>

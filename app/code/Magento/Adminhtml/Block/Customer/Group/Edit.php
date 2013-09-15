@@ -10,15 +10,33 @@
 
 /**
  * Customer group edit block
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Adminhtml\Block\Customer\Group;
 
 class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     protected function _construct()
     {
@@ -30,22 +48,24 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         $this->_updateButton('save', 'label', __('Save Customer Group'));
         $this->_updateButton('delete', 'label', __('Delete Customer Group'));
 
-        $group = \Mage::registry('current_group');
-        if(!$group || !$group->getId() || $group->usesAsDefault()) {
+        $group = $this->_coreRegistry->registry('current_group');
+        if (!$group || !$group->getId() || $group->usesAsDefault()) {
             $this->_removeButton('delete');
         }
     }
 
     public function getHeaderText()
     {
-        if(!is_null(\Mage::registry('current_group')->getId())) {
-            return __('Edit Customer Group "%1"', $this->escapeHtml(\Mage::registry('current_group')->getCustomerGroupCode()));
+        $currentGroup = $this->_coreRegistry->registry('current_group');
+        if (!is_null($currentGroup->getId())) {
+            return __('Edit Customer Group "%1"', $this->escapeHtml($currentGroup->getCustomerGroupCode()));
         } else {
             return __('New Customer Group');
         }
     }
 
-    public function getHeaderCssClass() {
+    public function getHeaderCssClass()
+    {
         return 'icon-head head-customer-groups';
     }
 }

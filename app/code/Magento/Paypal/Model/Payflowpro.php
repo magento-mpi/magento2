@@ -101,6 +101,31 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
     );
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Payment_Helper_Data $paymentData,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($eventManager, $moduleList, $paymentData, $data);
+    }
+
+    /**
      * Check whether payment method can be used
      *
      * @param \Magento\Sales\Model\Quote
@@ -465,7 +490,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
       */
     protected function _generateRequestId()
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->uniqHash();
+        return $this->_coreData->uniqHash();
     }
 
      /**

@@ -31,8 +31,8 @@ class Api extends \Magento\Pbridge\Model\Pbridge\Api\AbstractApi
     {
         $request['action'] = 'Payments';
         $request['token'] = $this->getMethodInstance()->getPbridgeResponse('token');
-        $request = \Mage::helper('Magento\Pbridge\Helper\Data')->getRequestParams($request);
-        $request = array('data' => \Mage::helper('Magento\Pbridge\Helper\Data')->encrypt(json_encode($request)));
+        $request = $this->_pbridgeData->getRequestParams($request);
+        $request = array('data' => $this->_pbridgeData->encrypt(json_encode($request)));
         return http_build_query($request, '', '&');
     }
 

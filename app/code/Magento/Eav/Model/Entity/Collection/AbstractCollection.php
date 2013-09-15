@@ -88,12 +88,21 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     );
 
     /**
-     * Collection constructor
+     * Core event manager proxy
      *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      */
-    public function __construct(\Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy)
-    {
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+    ) {
+        $this->_eventManager = $eventManager;
         parent::__construct($fetchStrategy);
         $this->_construct();
         $this->setConnection($this->getEntity()->getReadConnection());
@@ -841,7 +850,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
         \Magento\Profiler::start('EAV:load_collection');
 
         \Magento\Profiler::start('before_load');
-        \Mage::dispatchEvent('eav_collection_abstract_load_before', array('collection' => $this));
+        $this->_eventManager->dispatch('eav_collection_abstract_load_before', array('collection' => $this));
         $this->_beforeLoad();
         \Magento\Profiler::stop('before_load');
 

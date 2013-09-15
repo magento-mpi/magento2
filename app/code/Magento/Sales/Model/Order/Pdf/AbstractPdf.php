@@ -65,6 +65,45 @@ abstract class AbstractPdf extends \Magento\Object
     abstract public function getPdf();
 
     /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Payment data
+     *
+     * @var Magento_Payment_Helper_Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_String $coreString
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_String $coreString,
+        array $data = array()
+    ) {
+        $this->_paymentData = $paymentData;
+        $this->_coreData = $coreData;
+        $this->_coreString = $coreString;
+        parent::__construct($data);
+    }
+
+    /**
      * Returns the total width in points of the string using the specified font and
      * size.
      *
@@ -190,7 +229,7 @@ abstract class AbstractPdf extends \Magento\Object
         foreach (explode("\n", \Mage::getStoreConfig('sales/identity/address', $store)) as $value){
             if ($value !== '') {
                 $value = preg_replace('/<br[^>]*>/i', "\n", $value);
-                foreach (\Mage::helper('Magento\Core\Helper\String')->str_split($value, 45, true, true) as $_value) {
+                foreach ($this->_coreString->str_split($value, 45, true, true) as $_value) {
                     $page->drawText(trim(strip_tags($_value)),
                         $this->getAlignRight($_value, 130, 440, $font, 10),
                         $top,
@@ -212,7 +251,7 @@ abstract class AbstractPdf extends \Magento\Object
     {
         $return = array();
         foreach (explode('|', $address) as $str) {
-            foreach (\Mage::helper('Magento\Core\Helper\String')->str_split($str, 45, true, true) as $part) {
+            foreach ($this->_coreString->str_split($str, 45, true, true) as $part) {
                 if (empty($part)) {
                     continue;
                 }
@@ -234,7 +273,7 @@ abstract class AbstractPdf extends \Magento\Object
         foreach ($address as $value){
             if ($value !== '') {
                 $text = array();
-                foreach (\Mage::helper('Magento\Core\Helper\String')->str_split($value, 55, true, true) as $_value) {
+                foreach ($this->_coreString->str_split($value, 55, true, true) as $_value) {
                     $text[] = $_value;
                 }
                 foreach ($text as $part) {
@@ -278,7 +317,7 @@ abstract class AbstractPdf extends \Magento\Object
             );
         }
         $page->drawText(
-            __('Order Date: ') . \Mage::helper('Magento\Core\Helper\Data')->formatDate(
+            __('Order Date: ') . $this->_coreData->formatDate(
                 $order->getCreatedAtStoreDate(), 'medium', false
             ),
             35,
@@ -299,7 +338,7 @@ abstract class AbstractPdf extends \Magento\Object
         $billingAddress = $this->_formatAddress($order->getBillingAddress()->format('pdf'));
 
         /* Payment */
-        $paymentInfo = \Mage::helper('Magento\Payment\Helper\Data')->getInfoBlock($order->getPayment())
+        $paymentInfo = $this->_paymentData->getInfoBlock($order->getPayment())
             ->setIsSecureMode(true)
             ->toPdf();
         $paymentInfo = htmlspecialchars_decode($paymentInfo, ENT_QUOTES);
@@ -343,7 +382,7 @@ abstract class AbstractPdf extends \Magento\Object
         foreach ($billingAddress as $value){
             if ($value !== '') {
                 $text = array();
-                foreach (\Mage::helper('Magento\Core\Helper\String')->str_split($value, 45, true, true) as $_value) {
+                foreach ($this->_coreString->str_split($value, 45, true, true) as $_value) {
                     $text[] = $_value;
                 }
                 foreach ($text as $part) {
@@ -360,7 +399,7 @@ abstract class AbstractPdf extends \Magento\Object
             foreach ($shippingAddress as $value){
                 if ($value!=='') {
                     $text = array();
-                    foreach (\Mage::helper('Magento\Core\Helper\String')->str_split($value, 45, true, true) as $_value) {
+                    foreach ($this->_coreString->str_split($value, 45, true, true) as $_value) {
                         $text[] = $_value;
                     }
                     foreach ($text as $part) {
@@ -402,7 +441,7 @@ abstract class AbstractPdf extends \Magento\Object
             if (trim($value) != '') {
                 //Printing "Payment Method" lines
                 $value = preg_replace('/<br[^>]*>/i', "\n", $value);
-                foreach (\Mage::helper('Magento\Core\Helper\String')->str_split($value, 45, true, true) as $_value) {
+                foreach ($this->_coreString->str_split($value, 45, true, true) as $_value) {
                     $page->drawText(strip_tags(trim($_value)), $paymentLeft, $yPayments, 'UTF-8');
                     $yPayments -= 15;
                 }
@@ -422,7 +461,7 @@ abstract class AbstractPdf extends \Magento\Object
             $methodStartY = $this->y;
             $this->y     -= 15;
 
-            foreach (\Mage::helper('Magento\Core\Helper\String')->str_split($shippingMethod, 45, true, true) as $_value) {
+            foreach ($this->_coreString->str_split($shippingMethod, 45, true, true) as $_value) {
                 $page->drawText(strip_tags(trim($_value)), 285, $this->y, 'UTF-8');
                 $this->y -= 15;
             }

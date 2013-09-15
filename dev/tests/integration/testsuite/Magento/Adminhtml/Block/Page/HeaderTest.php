@@ -28,7 +28,8 @@ class Magento_Adminhtml_Block_Page_HeaderTest extends PHPUnit_Framework_TestCase
 
     public function testGetHomeLink()
     {
-        $expected = Mage::helper('Magento\Backend\Helper\Data')->getHomePageUrl();
+        $expected = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Backend\Helper\Data')
+            ->getHomePageUrl();
         $this->assertEquals($expected, $this->_block->getHomeLink());
     }
 }

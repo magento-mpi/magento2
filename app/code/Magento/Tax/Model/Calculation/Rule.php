@@ -60,7 +60,16 @@ class Rule extends \Magento\Core\Model\AbstractModel
     protected $_taxClass;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param \Magento\Core\Model\Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param \Magento\Tax\Helper\Data $taxHelper
      * @param \Magento\Tax\Model\ClassModel $taxClass
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -68,19 +77,17 @@ class Rule extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         \Magento\Core\Model\Context $context,
+        Magento_Core_Model_Registry $registry,
         \Magento\Tax\Helper\Data $taxHelper,
         \Magento\Tax\Model\ClassModel $taxClass,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct(
-            $context,
-            $resource,
-            $resourceCollection,
-            $data
-        );
+        $this->_eventManager = $eventManager;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
         $this->_init('Magento\Tax\Model\Resource\Calculation\Rule');
 
@@ -98,7 +105,7 @@ class Rule extends \Magento\Core\Model\AbstractModel
     {
         parent::_afterSave();
         $this->saveCalculationData();
-        \Mage::dispatchEvent('tax_settings_change_after');
+        $this->_eventManager->dispatch('tax_settings_change_after');
         return $this;
     }
 
@@ -110,7 +117,7 @@ class Rule extends \Magento\Core\Model\AbstractModel
      */
     protected function _afterDelete()
     {
-        \Mage::dispatchEvent('tax_settings_change_after');
+        $this->_eventManager->dispatch('tax_settings_change_after');
         return parent::_afterDelete();
     }
 
@@ -207,7 +214,8 @@ class Rule extends \Magento\Core\Model\AbstractModel
      * @param string $classFilter
      * @return array
      */
-    public function getAllOptionsForClass($classFilter) {
+    public function getAllOptionsForClass($classFilter)
+    {
         $classes = $this->_taxClass
             ->getCollection()
             ->setClassTypeFilter($classFilter)

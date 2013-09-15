@@ -37,7 +37,7 @@ class Factory
     {
         $themesDir = $this->_dirs->getDir(\Magento\Core\Model\Dir::THEMES);
         return new \Magento\Core\Model\Design\Fallback\Rule\Theme(
-            new \Magento\Core\Model\Design\Fallback\Rule\Simple("$themesDir/<area>/<theme_path>/locale/<locale>")
+            new \Magento\Core\Model\Design\Fallback\Rule\Simple("$themesDir/<area>/<theme_path>/i18n/<locale>")
         );
     }
 
@@ -84,7 +84,7 @@ class Factory
                 new \Magento\Core\Model\Design\Fallback\Rule\Theme(
                     new \Magento\Core\Model\Design\Fallback\Rule\Composite(array(
                         new \Magento\Core\Model\Design\Fallback\Rule\Simple(
-                            "$themesDir/<area>/<theme_path>/locale/<locale>", array('locale')
+                            "$themesDir/<area>/<theme_path>/i18n/<locale>", array('locale')
                         ),
                         new \Magento\Core\Model\Design\Fallback\Rule\Simple(
                             "$themesDir/<area>/<theme_path>"
@@ -97,7 +97,7 @@ class Factory
                 new \Magento\Core\Model\Design\Fallback\Rule\Theme(
                     new \Magento\Core\Model\Design\Fallback\Rule\Composite(array(
                         new \Magento\Core\Model\Design\Fallback\Rule\Simple(
-                            "$themesDir/<area>/<theme_path>/locale/<locale>/<namespace>_<module>", array('locale')
+                            "$themesDir/<area>/<theme_path>/i18n/<locale>/<namespace>_<module>", array('locale')
                         ),
                         new \Magento\Core\Model\Design\Fallback\Rule\Simple(
                             "$themesDir/<area>/<theme_path>/<namespace>_<module>"
@@ -105,7 +105,7 @@ class Factory
                     ))
                 ),
                 new \Magento\Core\Model\Design\Fallback\Rule\Simple(
-                    "$modulesDir/<namespace>/<module>/view/<area>/locale/<locale>", array('locale')
+                    "$modulesDir/<namespace>/<module>/view/<area>/i18n/<locale>", array('locale')
                 ),
                 new \Magento\Core\Model\Design\Fallback\Rule\Simple(
                     "$modulesDir/<namespace>/<module>/view/<area>"

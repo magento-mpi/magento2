@@ -109,17 +109,27 @@ abstract class AbstractModel extends \Magento\Object
     protected $_cacheManager;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param \Magento\Core\Model\Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
+        Magento_Core_Model_Registry $registry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_eventDispatcher = $context->getEventDispatcher();
         $this->_cacheManager = $context->getCacheManager();
         $this->_resource = $resource;
@@ -161,7 +171,7 @@ abstract class AbstractModel extends \Magento\Object
     {
         $properties = array_keys(get_object_vars($this));
         if (\Mage::getIsSerializable()) {
-            $properties = array_diff($properties, array('_eventDispatcher', '_cacheManager'));
+            $properties = array_diff($properties, array('_eventDispatcher', '_cacheManager', '_coreRegistry'));
         }
         return $properties;
     }
@@ -171,9 +181,13 @@ abstract class AbstractModel extends \Magento\Object
      */
     public function __wakeup()
     {
-        if (\Mage::getIsSerializable()) {
-            $this->_eventDispatcher = \Mage::getSingleton('Magento\Core\Model\Event\Manager');
-            $this->_cacheManager    = \Mage::getSingleton('Magento\Core\Model\CacheInterface');
+        if (Mage::getIsSerializable()) {
+            $this->_eventDispatcher = \Magento\Core\Model\ObjectManager::getInstance()
+                ->get('Magento_Core_Model_Event_Manager');
+            $this->_cacheManager    = \Magento\Core\Model\ObjectManager::getInstance()
+                ->get('Magento_Core_Model_CacheInterface');
+            $this->_coreRegistry    = Magento_Core_Model_ObjectManager::getInstance()
+                ->get('Magento_Core_Model_Registry');
         }
     }
 
@@ -231,9 +245,9 @@ abstract class AbstractModel extends \Magento\Object
                 __('Model collection resource name is not defined.')
             );
         }
-        return $this->_resourceCollection ?
-            clone $this->_resourceCollection :
-            \Mage::getResourceModel($this->_collectionName, array('resource' => $this->_getResource()));
+        return $this->_resourceCollection
+            ? clone $this->_resourceCollection
+            : \Mage::getResourceModel($this->_collectionName, array('resource' => $this->_getResource()));
     }
 
     /**
@@ -600,7 +614,7 @@ abstract class AbstractModel extends \Magento\Object
      */
     protected function _protectFromNonAdmin()
     {
-        if (\Mage::registry('isSecureArea')) {
+        if ($this->_coreRegistry->registry('isSecureArea')) {
             return;
         }
         if (!\Mage::app()->getStore()->isAdmin()) {
@@ -627,9 +641,9 @@ abstract class AbstractModel extends \Magento\Object
      */
     protected function _afterDeleteCommit()
     {
-         $this->_eventDispatcher->dispatch('model_delete_commit_after', array('object' => $this));
-         $this->_eventDispatcher->dispatch($this->_eventPrefix . '_delete_commit_after', $this->_getEventData());
-         return $this;
+        $this->_eventDispatcher->dispatch('model_delete_commit_after', array('object' => $this));
+        $this->_eventDispatcher->dispatch($this->_eventPrefix . '_delete_commit_after', $this->_getEventData());
+        return $this;
     }
 
     /**
@@ -684,5 +698,4 @@ abstract class AbstractModel extends \Magento\Object
     {
         return $this;
     }
-
 }

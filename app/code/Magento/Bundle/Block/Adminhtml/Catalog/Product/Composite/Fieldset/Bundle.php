@@ -39,6 +39,6 @@ class Bundle
             }
         }
         $config = array('options' => $options);
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($config);
+        return $this->_coreData->jsonEncode($config);
     }
 }

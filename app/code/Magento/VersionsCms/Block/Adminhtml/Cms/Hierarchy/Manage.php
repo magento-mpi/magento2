@@ -17,9 +17,8 @@
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy;
 
-class Manage extends \Magento\Adminhtml\Block\Widget\Form
+class Manage extends \Magento\Backend\Block\Widget\Form\Generic
 {
-
     /**
      * Retrieve Delete Hierarchies Url
      *
@@ -47,10 +46,13 @@ class Manage extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form(array(
-            'id'        => 'manage_form',
-            'method'    => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'        => 'manage_form',
+                'method'    => 'post',
+            ))
+        );
 
         $currentWebsite = $this->getRequest()->getParam('website');
         $currentStore   = $this->getRequest()->getParam('store');

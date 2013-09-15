@@ -23,6 +23,33 @@ class Design
     extends \Magento\Adminhtml\Block\Cms\Page\Edit\Tab\Design
 {
     /**
+     * Cms data
+     *
+     * @var Magento_VersionsCms_Helper_Data
+     */
+    protected $_cmsData = null;
+
+    /**
+     * @param Magento_VersionsCms_Helper_Data $cmsData
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_VersionsCms_Helper_Data $cmsData,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_cmsData = $cmsData;
+        parent::__construct($coreRegistry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Adding onchange js call
      *
      * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Design
@@ -31,7 +58,7 @@ class Design
     {
         parent::_prepareForm();
 
-        \Mage::helper('Magento\VersionsCms\Helper\Data')->addOnChangeToFormElements($this->getForm(), 'dataChanged();');
+        $this->_cmsData->addOnChangeToFormElements($this->getForm(), 'dataChanged();');
 
         return $this;
     }

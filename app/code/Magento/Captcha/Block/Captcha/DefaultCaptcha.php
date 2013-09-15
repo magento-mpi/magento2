@@ -27,6 +27,29 @@ class DefaultCaptcha extends \Magento\Core\Block\Template
     protected $_captcha;
 
     /**
+     * Captcha data
+     *
+     * @var Magento_Captcha_Helper_Data
+     */
+    protected $_captchaData = null;
+
+    /**
+     * @param Magento_Captcha_Helper_Data $captchaData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Captcha_Helper_Data $captchaData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_captchaData = $captchaData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Returns template path
      *
      * @return string
@@ -75,6 +98,6 @@ class DefaultCaptcha extends \Magento\Core\Block\Template
      */
     public function getCaptchaModel()
     {
-        return \Mage::helper('Magento\Captcha\Helper\Data')->getCaptcha($this->getFormId());
+        return $this->_captchaData->getCaptcha($this->getFormId());
     }
 }

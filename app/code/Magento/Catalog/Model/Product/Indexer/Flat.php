@@ -47,10 +47,37 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
      *
      * @return bool
      */
+    /**
+     * Catalog product flat
+     *
+     * @var Magento_Catalog_Helper_Product_Flat
+     */
+    protected $_catalogProductFlat = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_catalogProductFlat = $catalogProductFlat;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
     public function isVisible()
     {
         /** @var $productFlatHelper \Magento\Catalog\Helper\Product\Flat */
-        $productFlatHelper = \Mage::helper('Magento\Catalog\Helper\Product\Flat');
+        $productFlatHelper = $this->_catalogProductFlat;
         return $productFlatHelper->isEnabled() || !$productFlatHelper->isBuilt();
     }
 
@@ -95,7 +122,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
     public function matchEvent(\Magento\Index\Model\Event $event)
     {
         /** @var $productFlatHelper \Magento\Catalog\Helper\Product\Flat */
-        $productFlatHelper = $event->getFlatHelper() ?: \Mage::helper('Magento\Catalog\Helper\Product\Flat');
+        $productFlatHelper = $event->getFlatHelper() ?: $this->_catalogProductFlat;
         if (!$productFlatHelper->isAvailable() || !$productFlatHelper->isBuilt()) {
             return false;
         }

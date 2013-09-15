@@ -21,6 +21,29 @@ namespace Magento\Adminhtml\Block\Sales\Items\Column;
 class Name extends \Magento\Adminhtml\Block\Sales\Items\Column\DefaultColumn
 {
     /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Add line breaks and truncate value
      *
      * @param string $value
@@ -29,7 +52,7 @@ class Name extends \Magento\Adminhtml\Block\Sales\Items\Column\DefaultColumn
     public function getFormattedOption($value)
     {
         $_remainder = '';
-        $value = \Mage::helper('Magento\Core\Helper\String')->truncate($value, 55, '', $_remainder);
+        $value = $this->_coreString->truncate($value, 55, '', $_remainder);
         $result = array(
             'value' => nl2br($value),
             'remainder' => nl2br($_remainder)
@@ -38,4 +61,3 @@ class Name extends \Magento\Adminhtml\Block\Sales\Items\Column\DefaultColumn
         return $result;
     }
 }
-?>

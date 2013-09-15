@@ -29,7 +29,8 @@ class Release
     {
         parent::_prepareForm();
 
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_release');
 
         $fieldset = $form->addFieldset('release_fieldset', array(

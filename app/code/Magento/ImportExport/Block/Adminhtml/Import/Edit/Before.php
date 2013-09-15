@@ -20,13 +20,6 @@ namespace Magento\ImportExport\Block\Adminhtml\Import\Edit;
 class Before extends \Magento\Backend\Block\Template
 {
     /**
-     * Core helper
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreHelper;
-
-    /**
      * Basic import model
      *
      * @var \Magento\ImportExport\Model\Import
@@ -34,20 +27,19 @@ class Before extends \Magento\Backend\Block\Template
     protected $_importModel;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreHelper
-     * @param \Magento\ImportExport\Model\Import $importModel
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_ImportExport_Model_Import $importModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreHelper,
-        \Magento\ImportExport\Model\Import $importModel,
+        Magento_ImportExport_Model_Import $importModel,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
-        $this->_coreHelper = $coreHelper;
         $this->_importModel = $importModel;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -62,7 +54,7 @@ class Before extends \Magento\Backend\Block\Template
         foreach ($behaviors as $entityCode => $behavior) {
             $behaviors[$entityCode] = $behavior['code'];
         }
-        return $this->_coreHelper->jsonEncode($behaviors);
+        return $this->_coreData->jsonEncode($behaviors);
     }
 
     /**
@@ -74,6 +66,6 @@ class Before extends \Magento\Backend\Block\Template
     {
         $importModel = $this->_importModel;
         $uniqueBehaviors = $importModel::getUniqueEntityBehaviors();
-        return $this->_coreHelper->jsonEncode(array_keys($uniqueBehaviors));
+        return $this->_coreData->jsonEncode(array_keys($uniqueBehaviors));
     }
 }

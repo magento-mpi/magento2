@@ -21,6 +21,39 @@ class AbstractView extends \Magento\Core\Block\Template
 {
     protected $_designCollection;
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Gift wrapping data
+     *
+     * @var Magento_GiftWrapping_Helper_Data
+     */
+    protected $_giftWrappingData = null;
+
+    /**
+     * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GiftWrapping_Helper_Data $giftWrappingData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_giftWrappingData = $giftWrappingData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /*
      * Retrieve order model instance
      *
@@ -28,7 +61,7 @@ class AbstractView extends \Magento\Core\Block\Template
      */
     public function getOrder()
     {
-        return \Mage::registry('sales_order');
+        return $this->_coreRegistry->registry('sales_order');
     }
 
     /*
@@ -71,7 +104,7 @@ class AbstractView extends \Magento\Core\Block\Template
             $temp['design'] = $this->escapeHtml($item->getDesign());
             $data[$item->getId()] = $temp;
         }
-       return new \Magento\Object($data);
+        return new \Magento\Object($data);
     }
 
     /**
@@ -92,7 +125,7 @@ class AbstractView extends \Magento\Core\Block\Template
      */
     public function getDisplayWrappingBothPrices()
     {
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->displaySalesWrappingBothPrices();
+        return $this->_giftWrappingData->displaySalesWrappingBothPrices();
     }
 
     /**
@@ -102,7 +135,7 @@ class AbstractView extends \Magento\Core\Block\Template
      */
     public function getDisplayWrappingPriceInclTax()
     {
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->displaySalesWrappingIncludeTaxPrice();
+        return $this->_giftWrappingData->displaySalesWrappingIncludeTaxPrice();
     }
 
     /**
@@ -112,7 +145,7 @@ class AbstractView extends \Magento\Core\Block\Template
      */
     public function getDisplayCardBothPrices()
     {
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->displaySalesCardBothPrices();
+        return $this->_giftWrappingData->displaySalesCardBothPrices();
     }
 
     /**
@@ -122,6 +155,6 @@ class AbstractView extends \Magento\Core\Block\Template
      */
     public function getDisplayCardPriceInclTax()
     {
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->displaySalesCardIncludeTaxPrice();
+        return $this->_giftWrappingData->displaySalesCardIncludeTaxPrice();
     }
 }

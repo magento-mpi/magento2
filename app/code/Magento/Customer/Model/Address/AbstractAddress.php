@@ -54,21 +54,41 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
     static protected $_regionModels = array();
 
     /**
-     * Enforce format of the street field
+     * Directory data
      *
+     * @var Magento_Directory_Helper_Data
+     */
+    protected $_directoryData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Directory_Helper_Data $directoryData
      * @param \Magento\Core\Model\Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Directory_Helper_Data $directoryData,
         \Magento\Core\Model\Context $context,
+        Magento_Core_Model_Registry $registry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_directoryData = $directoryData;
         $data = $this->_implodeStreetField($data);
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -354,7 +374,7 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
             || !$formatType->getRenderer()) {
             return null;
         }
-        \Mage::dispatchEvent('customer_address_format', array('type' => $formatType, 'address' => $this));
+        $this->_eventManager->dispatch('customer_address_format', array('type' => $formatType, 'address' => $this));
         return $formatType->getRenderer()->render($this);
     }
 
@@ -403,7 +423,7 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
             $errors[] = __('Please enter the telephone number.');
         }
 
-        $_havingOptionalZip = \Mage::helper('Magento\Directory\Helper\Data')->getCountriesWithOptionalZip();
+        $_havingOptionalZip = $this->_directoryData->getCountriesWithOptionalZip();
         if (!in_array($this->getCountryId(), $_havingOptionalZip)
             && !\Zend_Validate::is($this->getPostcode(), 'NotEmpty')
         ) {
@@ -416,7 +436,7 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
 
         if ($this->getCountryModel()->getRegionCollection()->getSize()
                && !\Zend_Validate::is($this->getRegionId(), 'NotEmpty')
-               && \Mage::helper('Magento\Directory\Helper\Data')->isRegionRequired($this->getCountryId())
+               && $this->_directoryData->isRegionRequired($this->getCountryId())
         ) {
             $errors[] = __('Please enter the state/province.');
         }

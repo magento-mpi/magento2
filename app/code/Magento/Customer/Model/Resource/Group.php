@@ -21,6 +21,29 @@ namespace Magento\Customer\Model\Resource;
 class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Magento_Customer_Helper_Data $customerData
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Customer_Helper_Data $customerData,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_customerData = $customerData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Resource initialization
      */
     protected function _construct()
@@ -72,7 +95,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
             ->load();
         foreach ($customerCollection as $customer) {
             $customer->load();
-            $defaultGroupId = \Mage::helper('Magento\Customer\Helper\Data')->getDefaultCustomerGroupId($customer->getStoreId());
+            $defaultGroupId = $this->_customerData->getDefaultCustomerGroupId($customer->getStoreId());
             $customer->setGroupId($defaultGroupId);
             $customer->save();
         }

@@ -65,7 +65,7 @@ class Serializer extends \Magento\Core\Block\Template
     public function getColumnInputNames($asJSON = false)
     {
         if ($asJSON) {
-            return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($this->_inputsToSerialize);
+            return $this->_coreData->jsonEncode($this->_inputsToSerialize);
         }
         return $this->_inputsToSerialize;
     }
@@ -83,7 +83,7 @@ class Serializer extends \Magento\Core\Block\Template
         } elseif (!empty($this->_inputsToSerialize)) {
             return '{}';
         }
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 
 
@@ -112,5 +112,4 @@ class Serializer extends \Magento\Core\Block\Template
                  ->setSerializeData($grid->$callback());
         }
     }
-
 }

@@ -11,9 +11,6 @@
     <event name="sales_order_place_after">
         <observer name="salesrule" instance="Magento\SalesRule\Model\Observer" method="salesOrderAfterPlace" />
     </event>
-    <event name="sales_quote_config_get_product_attributes">
-        <observer name="salesrule" instance="Magento\SalesRule\Model\Observer" method="addProductAttributes" />
-    </event>
     <event name="sales_convert_quote_to_order">
         <observer name="salesrule" instance="Magento\SalesRule\Model\Observer" method="addSalesRuleNameToOrder" />
     </event>

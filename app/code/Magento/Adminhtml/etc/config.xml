@@ -25,15 +25,6 @@
                 <acl>Magento_Sales::sales</acl>
             </sales>
         </global_search>
-        <translate>
-            <modules>
-                <Magento_Adminhtml>
-                    <files>
-                        <default>Magento_Adminhtml.csv</default>
-                    </files>
-                </Magento_Adminhtml>
-            </modules>
-        </translate>
         <sales>
             <order>
                 <create>

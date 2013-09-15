@@ -22,28 +22,41 @@ class Observer extends \Magento\Core\Model\AbstractModel
     protected $_emailTemplateModel;
 
     /**
+     * Gift card data
+     *
+     * @var Magento_GiftCard_Helper_Data
+     */
+    protected $_giftCardData = null;
+
+    /**
+     * @param Magento_GiftCard_Helper_Data $giftCardData
      * @param \Magento\Core\Model\Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $resourceCollection
      * @param array $data
      * @throws \InvalidArgumentException
      */
     public function __construct(
+        Magento_GiftCard_Helper_Data $giftCardData,
         \Magento\Core\Model\Context $context,
+        Magento_Core_Model_Registry $registry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_giftCardData = $giftCardData;
         if (isset($data['email_template_model'])) {
             if (!$data['email_template_model'] instanceof \Magento\Core\Model\Email\Template) {
-                throw new \InvalidArgumentException(
-                    'Argument "email_template_model" is expected to be an instance of "Magento\Core\Model\Email\Template".'
+                throw new InvalidArgumentException(
+                    'Argument "email_template_model" is expected to be an'
+                        . ' instance of "Magento_Core_Model_Email_Template".'
                 );
             }
             $this->_emailTemplateModel = $data['email_template_model'];
             unset($data['email_template_model']);
         }
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -80,75 +93,6 @@ class Observer extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Append gift card additional data to order item options
-     *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\GiftCard\Model\Observer
-     */
-    public function appendGiftcardAdditionalData(\Magento\Event\Observer $observer)
-    {
-        //sales_convert_quote_item_to_order_item
-
-        $orderItem = $observer->getEvent()->getOrderItem();
-        $quoteItem = $observer->getEvent()->getItem();
-        $keys = array(
-            'giftcard_sender_name',
-            'giftcard_sender_email',
-            'giftcard_recipient_name',
-            'giftcard_recipient_email',
-            'giftcard_message',
-        );
-        $productOptions = $orderItem->getProductOptions();
-        foreach ($keys as $key) {
-            if ($option = $quoteItem->getProduct()->getCustomOption($key)) {
-                $productOptions[$key] = $option->getValue();
-            }
-        }
-
-        $product = $quoteItem->getProduct();
-        // set lifetime
-        $lifetime = 0;
-        if ($product->getUseConfigLifetime()) {
-            $lifetime = \Mage::getStoreConfig(
-                \Magento\GiftCard\Model\Giftcard::XML_PATH_LIFETIME,
-                $orderItem->getStore()
-            );
-        } else {
-            $lifetime = $product->getLifetime();
-        }
-        $productOptions['giftcard_lifetime'] = $lifetime;
-
-        // set is_redeemable
-        $isRedeemable = 0;
-        if ($product->getUseConfigIsRedeemable()) {
-            $isRedeemable = \Mage::getStoreConfigFlag(
-                \Magento\GiftCard\Model\Giftcard::XML_PATH_IS_REDEEMABLE,
-                $orderItem->getStore()
-            );
-        } else {
-            $isRedeemable = (int) $product->getIsRedeemable();
-        }
-        $productOptions['giftcard_is_redeemable'] = $isRedeemable;
-
-        // set email_template
-        $emailTemplate = 0;
-        if ($product->getUseConfigEmailTemplate()) {
-            $emailTemplate = \Mage::getStoreConfig(
-                \Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_TEMPLATE,
-                $orderItem->getStore()
-            );
-        } else {
-            $emailTemplate = $product->getEmailTemplate();
-        }
-        $productOptions['giftcard_email_template'] = $emailTemplate;
-        $productOptions['giftcard_type'] = $product->getGiftcardType();
-
-        $orderItem->setProductOptions($productOptions);
-
-        return $this;
-    }
-
-    /**
      * Generate gift card accounts after order save
      *
      * @param \Magento\Event\Observer $observer
@@ -182,7 +126,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
 
                         foreach ($invoiceItemCollection as $invoiceItem) {
                             $invoiceId = $invoiceItem->getParentId();
-                            if(isset($loadedInvoices[$invoiceId])) {
+                            if (isset($loadedInvoices[$invoiceId])) {
                                 $invoice = $loadedInvoices[$invoiceId];
                             } else {
                                 $invoice = \Mage::getModel('Magento\Sales\Model\Order\Invoice')->load($invoiceId);
@@ -209,12 +153,14 @@ class Observer extends \Magento\Core\Model\AbstractModel
                 $hasFailedCodes = false;
                 if ($qty > 0) {
                     $isRedeemable = 0;
-                    if ($option = $item->getProductOptionByCode('giftcard_is_redeemable')) {
+                    $option = $item->getProductOptionByCode('giftcard_is_redeemable');
+                    if ($option) {
                         $isRedeemable = $option;
                     }
 
                     $lifetime = 0;
-                    if ($option = $item->getProductOptionByCode('giftcard_lifetime')) {
+                    $option = $item->getProductOptionByCode('giftcard_lifetime');
+                    if ($option) {
                         $lifetime = $option;
                     }
 
@@ -233,7 +179,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
                     for ($i = 0; $i < $qty; $i++) {
                         try {
                             $code = new \Magento\Object();
-                            \Mage::dispatchEvent('magento_giftcardaccount_create', array(
+                            $this->_eventDispatcher->dispatch('magento_giftcardaccount_create', array(
                                 'request' => $data, 'code' => $code
                             ));
                             $codes[] = $code->getCode();
@@ -246,11 +192,12 @@ class Observer extends \Magento\Core\Model\AbstractModel
                     if ($goodCodes && $item->getProductOptionByCode('giftcard_recipient_email')) {
                         $sender = $item->getProductOptionByCode('giftcard_sender_name');
                         $senderName = $item->getProductOptionByCode('giftcard_sender_name');
-                        if ($senderEmail = $item->getProductOptionByCode('giftcard_sender_email')) {
+                        $senderEmail = $item->getProductOptionByCode('giftcard_sender_email');
+                        if ($senderEmail) {
                             $sender = "$sender <$senderEmail>";
                         }
 
-                        $codeList = \Mage::helper('Magento\GiftCard\Helper\Data')->getEmailGeneratedItemsBlock()
+                        $codeList = $this->_giftCardData->getEmailGeneratedItemsBlock()
                             ->setCodes($codes)
                             ->setIsRedeemable($isRedeemable)
                             ->setStore(\Mage::app()->getStore($order->getStoreId()));

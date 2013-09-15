@@ -1,8 +1,6 @@
 <?php
 /**
  * Magento-specific SOAP server.
- * TODO: Remove dependency on Zend SOAP Server and methods overrides. Create Magento_Soap_Server instead.
- * TODO: Remove dependence on application config, probably move it to dispatcher.
  *
  * {license_notice}
  *
@@ -11,7 +9,7 @@
  */
 namespace Magento\Webapi\Model\Soap;
 
-class Server extends \Zend\Soap\Server
+class Server
 {
     const SOAP_DEFAULT_ENCODING = 'UTF-8';
 
@@ -22,123 +20,74 @@ class Server extends \Zend\Soap\Server
     const CONFIG_PATH_SOAP_CHARSET = 'webapi/soap/charset';
     /**#@-*/
 
-    const REQUEST_PARAM_RESOURCES = 'resources';
+    const REQUEST_PARAM_SERVICES = 'services';
     const REQUEST_PARAM_WSDL = 'wsdl';
 
-    /** @var \Magento\Core\Model\Store */
-    protected $_application;
+    /** @var Magento_Core_Model_Config */
+    protected $_applicationConfig;
 
     /** @var \Magento\DomDocument\Factory */
     protected $_domDocumentFactory;
 
-    /** @var \Magento\Webapi\Controller\Request\Soap */
+    /** @var Magento_Webapi_Controller_Soap_Request */
     protected $_request;
 
+    /** @var Magento_Core_Model_StoreManagerInterface */
+    protected $_storeManager;
+
+    /** @var Magento_Webapi_Model_Soap_Server_FactoryInterface */
+    protected $_soapServerFactory;
+
     /**
-     * Initialize dependencies.
+     * Initialize dependencies, initialize WSDL cache.
      *
-     * @param \Magento\Core\Model\App $application
-     * @param \Magento\Webapi\Controller\Request\Soap $request
-     * @param \Magento\DomDocument\Factory $domDocumentFactory
+     * @param Magento_Core_Model_Config $applicationConfig
+     * @param Magento_Webapi_Controller_Soap_Request $request
+     * @param Magento_DomDocument_Factory $domDocumentFactory
+     * @param Magento_Core_Model_StoreManagerInterface
+     * @param Magento_Webapi_Model_Soap_Server_Factory
+     * @throws Magento_Webapi_Exception with invalid SOAP extension
      */
     public function __construct(
-        \Magento\Core\Model\App $application,
-        \Magento\Webapi\Controller\Request\Soap $request,
-        \Magento\DomDocument\Factory $domDocumentFactory
+        Magento_Core_Model_Config $applicationConfig,
+        Magento_Webapi_Controller_Soap_Request $request,
+        Magento_DomDocument_Factory $domDocumentFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Webapi_Model_Soap_Server_Factory $soapServerFactory
     ) {
-        parent::__construct();
-
-        $this->_application = $application;
+        if (!extension_loaded('soap')) {
+            throw new Magento_Webapi_Exception('SOAP extension is not loaded.', 0,
+                Magento_Webapi_Exception::HTTP_INTERNAL_ERROR);
+        }
+        $this->_applicationConfig = $applicationConfig;
         $this->_request = $request;
         $this->_domDocumentFactory = $domDocumentFactory;
-    }
-
-    /**
-     * Process Webapi SOAP fault.
-     *
-     * @param \Magento\Webapi\Model\Soap\Fault|Exception|string $fault
-     * @param string $code
-     * @return \SoapFault|string
-     */
-    public function fault($fault = null, $code = null)
-    {
-        if ($fault instanceof \Magento\Webapi\Model\Soap\Fault) {
-            return $fault->toXml($this->_application->isDeveloperMode());
-        } else {
-            return parent::fault($fault, $code);
-        }
-    }
-
-    /**
-     * Catch exceptions if request is invalid and output fault message.
-     *
-     * @param \DOMDocument|DOMNode|SimpleXMLElement|stdClass|string $request
-     * @return \Magento\Webapi\Model\Soap\Server
-     * @SuppressWarnings(PHPMD.ExitExpression)
-     */
-    protected function _setRequest($request)
-    {
-        try {
-            parent::_setRequest($request);
-        } catch (\Exception $e) {
-            $fault = new \Magento\Webapi\Model\Soap\Fault(
-                $e->getMessage(),
-                \Magento\Webapi\Model\Soap\Fault::FAULT_CODE_SENDER
-            );
-            die($fault->toXml($this->_application->isDeveloperMode()));
-        }
-        return $this;
-    }
-
-    /**
-     * Suppress PHP error output because it has already been displayed by \SoapServer extension.
-     * TODO: remove this method when removing dependence on Zend/Soap/Server
-     *
-     * @param int $errno
-     * @param string $errstr
-     * @param string $errfile
-     * @param int $errline
-     * @param array $errcontext
-     * @return void
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     * @SuppressWarnings(PHPMD.ExitExpression)
-     */
-    public function handlePhpErrors($errno, $errstr, $errfile = null, $errline = null, array $errcontext = null)
-    {
-        die();
-    }
-
-    /**
-     * Get SOAP Header names from request.
-     *
-     * @return array
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     */
-    public function getRequestHeaders()
-    {
-        $dom = $this->_domDocumentFactory->createDomDocument();
-        $dom->loadXML($this->getLastRequest());
-        $headers = array();
-        /** @var \DOMElement $header */
-        foreach ($dom->getElementsByTagName('Header')->item(0)->childNodes as $header) {
-            list($headerNs, $headerName) = explode(":", $header->nodeName);
-            $headers[] = $headerName;
-        }
-
-        return $headers;
-    }
-
-    /**
-     * Enable or disable SOAP extension WSDL cache depending on Magento configuration.
-     */
-    public function initWsdlCache()
-    {
-        $wsdlCacheEnabled = (bool)$this->_application->getStore()->getConfig(self::CONFIG_PATH_WSDL_CACHE_ENABLED);
+        $this->_storeManager = $storeManager;
+        $this->_soapServerFactory = $soapServerFactory;
+        /** Enable or disable SOAP extension WSDL cache depending on Magento configuration. */
+        $wsdlCacheEnabled = (bool)$storeManager->getStore()->getConfig(self::CONFIG_PATH_WSDL_CACHE_ENABLED);
         if ($wsdlCacheEnabled) {
             ini_set('soap.wsdl_cache_enabled', '1');
         } else {
             ini_set('soap.wsdl_cache_enabled', '0');
         }
+    }
+
+    /**
+     * Handle SOAP request.
+     *
+     * @return string
+     */
+    public function handle()
+    {
+        $rawRequestBody = file_get_contents('php://input');
+        $this->_checkRequest($rawRequestBody);
+        $options = array(
+            'encoding' => $this->getApiCharset(),
+            'soap_version' => SOAP_1_2
+        );
+        $soap = $this->_soapServerFactory->create($this->generateUri(true), $options);
+        return $soap->handle($rawRequestBody);
     }
 
     /**
@@ -148,7 +97,7 @@ class Server extends \Zend\Soap\Server
      */
     public function getApiCharset()
     {
-        $charset = $this->_application->getStore()->getConfig(self::CONFIG_PATH_SOAP_CHARSET);
+        $charset = $this->_storeManager->getStore()->getConfig(self::CONFIG_PATH_SOAP_CHARSET);
         return $charset ? $charset : \Magento\Webapi\Model\Soap\Server::SOAP_DEFAULT_ENCODING;
     }
 
@@ -161,7 +110,9 @@ class Server extends \Zend\Soap\Server
     public function generateUri($isWsdl = false)
     {
         $params = array(
-            self::REQUEST_PARAM_RESOURCES => $this->_request->getRequestedResources()
+            self::REQUEST_PARAM_SERVICES => $this->_request->getParam(
+                Magento_Webapi_Model_Soap_Server::REQUEST_PARAM_SERVICES
+            )
         );
         if ($isWsdl) {
             $params[self::REQUEST_PARAM_WSDL] = true;
@@ -177,9 +128,49 @@ class Server extends \Zend\Soap\Server
      */
     public function getEndpointUri()
     {
-        // @TODO: Implement proper endpoint URL retrieval mechanism in APIA-718 story
-        return $this->_application->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_WEB)
-            . $this->_application->getConfig()->getAreaFrontName() . '/'
-            . \Magento\Webapi\Controller\Front::API_TYPE_SOAP;
+        return $this->_storeManager->getStore()->getBaseUrl() . $this->_applicationConfig->getAreaFrontName();
+    }
+
+    /**
+     * Get SOAP Header names from request.
+     *
+     * @return array
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     * @TODO Remove this method if it is not used after SOAP authentication implementation
+     */
+    public function getRequestHeaders()
+    {
+        $dom = $this->_domDocumentFactory->createDomDocument();
+        $dom->loadXML($this->_request);
+        $headers = array();
+        /** @var DOMElement $header */
+        foreach ($dom->getElementsByTagName('Header')->item(0)->childNodes as $header) {
+            list($headerNs, $headerName) = explode(":", $header->nodeName);
+            $headers[] = $headerName;
+        }
+
+        return $headers;
+    }
+
+    /**
+     * Generate exception if request is invalid.
+     *
+     * @param string $soapRequest
+     * @throws Magento_Webapi_Exception with invalid SOAP extension
+     * @return Magento_Webapi_Model_Soap_Server
+     */
+    protected function _checkRequest($soapRequest)
+    {
+        $dom = new DOMDocument();
+        if (strlen($soapRequest) == 0 || !$dom->loadXML($soapRequest)) {
+            throw new Magento_Webapi_Exception(__('Invalid XML'), 0, Magento_Webapi_Exception::HTTP_INTERNAL_ERROR);
+        }
+        foreach ($dom->childNodes as $child) {
+            if ($child->nodeType === XML_DOCUMENT_TYPE_NODE) {
+                throw new Magento_Webapi_Exception(__('Invalid XML: Detected use of illegal DOCTYPE'), 0,
+                    \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR);
+            }
+        }
+        return $this;
     }
 }

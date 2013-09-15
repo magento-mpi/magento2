@@ -20,9 +20,19 @@ namespace Magento\Core\Model\Layout\Argument;
 interface HandlerInterface
 {
     /**
-     * Process argument value
-     * @param $value
-     * @return mixed
+     * Parse specified argument node
+     *
+     * @param Magento_Core_Model_Layout_Element $argument
+     * @return array
      */
-    public function process($value);
+    public function parse(Magento_Core_Model_Layout_Element $argument);
+
+    /**
+     * Process argument value
+     *
+     * @param array $argument
+     * @return mixed
+     * @throws InvalidArgumentException
+     */
+    public function process(array $argument);
 }

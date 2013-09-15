@@ -36,9 +36,10 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
 
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $emailTemplate = $this->getMock('Magento\Core\Model\Email\Template',
-            array('_getMail', '_getLogoUrl'),
+            array('_getMail', '_getLogoUrl', '__wakeup'),
             array(
                 $objectManager->get('Magento\Core\Model\Context'),
+                $objectManager->get('Magento\Core\Model\Registry'),
                 $objectManager->get('Magento\Filesystem'),
                 $objectManager->get('Magento\Core\Model\View\Url'),
                 $objectManager->get('Magento\Core\Model\View\FileSystem'),
@@ -70,9 +71,10 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
         $brokenMail->expects($this->any())->method('send')->will($this->throwException(new Exception($errorMsg, 99)));
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $template = $this->getMock('Magento\Core\Model\Email\Template',
-            array('_getMail', '_getLogoUrl'),
+            array('_getMail', '_getLogoUrl', '__wakeup'),
             array(
                 $objectManager->get('Magento\Core\Model\Context'),
+                $objectManager->get('Magento\Core\Model\Registry'),
                 $objectManager->get('Magento\Filesystem'),
                 $objectManager->get('Magento\Core\Model\View\Url'),
                 $objectManager->get('Magento\Core\Model\View\FileSystem'),

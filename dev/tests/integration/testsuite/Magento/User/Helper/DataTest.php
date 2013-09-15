@@ -22,7 +22,7 @@ class Magento_User_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_helper = Mage::helper('Magento\User\Helper\Data');
+        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\User\Helper\Data');
     }
 
     /**

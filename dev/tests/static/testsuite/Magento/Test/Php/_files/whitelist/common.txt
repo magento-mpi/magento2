@@ -19,14 +19,15 @@ app/code/Magento/Adminhtml/Controller/Report/Customer.php
 app/code/Magento/Adminhtml/Controller/Report/Product.php
 app/code/Magento/Adminhtml/Controller/Report/Product.php
 app/code/Magento/Adminhtml/Controller/Urlrewrite.php
-app/code/Magento/Api/Model/Cache/Type.php
 app/code/Magento/Backend
+app/code/Magento/Bundle/Model/Plugin
 app/code/Magento/Catalog/Block/Product/Configurable
 app/code/Magento/Catalog/Block/Product/Grouped
 app/code/Magento/Catalog/Block/Product/TemplateSelector.php
 app/code/Magento/Catalog/Block/Product/View/Tabs.php
 app/code/Magento/Catalog/Model/Resource/Product/Collection
 app/code/Magento/Catalog/Model/Product/Type.php
+app/code/Magento/Catalog/Model/Plugin
 app/code/Magento/Catalog/Model/Observer/Reindex.php
 app/code/Magento/CatalogInventory/Block/Adminhtml/Form/Field/Stock.php
 app/code/Magento/Centinel/Model/State/Jcb.php
@@ -86,6 +87,7 @@ app/code/Magento/Index/Model/EntryPoint/Shell.php
 app/code/Magento/Index/Model/EntryPoint/Indexer.php
 app/code/Magento/Index/Model/Shell.php
 app/code/Magento/Install/Model/EntryPoint
+app/code/Magento/GiftMessage/Model/Plugin
 app/code/Magento/Log/Model/EntryPoint
 app/code/Magento/Log/Model/Resource/Helper
 app/code/Magento/Log/Model/Resource/Shell.php
@@ -98,6 +100,8 @@ app/code/Magento/Reports/Block/Adminhtml/Product
 app/code/Magento/Reports/Model/Resource/Accounts
 app/code/Magento/Reports/Model/Resource/Customer
 app/code/Magento/Reports/Model/Resource/Report/Collection.php
+app/code/Magento/Reports/Model/Plugin
+app/code/Magento/SalesRule/Model/Plugin
 app/code/Magento/Theme
 app/code/Magento/User
 app/code/Magento/Webapi

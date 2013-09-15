@@ -23,6 +23,29 @@ class AbstractCreate
     protected $_designCollection;
 
     /**
+     * Gift wrapping data
+     *
+     * @var Magento_GiftWrapping_Helper_Data
+     */
+    protected $_giftWrappingData = null;
+
+    /**
+     * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GiftWrapping_Helper_Data $giftWrappingData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_giftWrappingData = $giftWrappingData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Gift wrapping collection
      *
      * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
@@ -51,7 +74,8 @@ class AbstractCreate
                 $temp['price_incl_tax'] = $this->calculatePrice($item, $item->getBasePrice(), true);
                 $temp['price_excl_tax'] = $this->calculatePrice($item, $item->getBasePrice());
             } else {
-                $temp['price'] = $this->calculatePrice($item, $item->getBasePrice(), $this->getDisplayWrappingPriceInclTax());
+                $temp['price'] = $this->calculatePrice($item, $item->getBasePrice(),
+                    $this->getDisplayWrappingPriceInclTax());
             }
             $temp['path'] = $item->getImageUrl();
             $temp['design'] = $item->getDesign();
@@ -69,12 +93,13 @@ class AbstractCreate
     {
         $data = array();
         if ($this->getAllowPrintedCard()) {
-            $price = \Mage::helper('Magento\GiftWrapping\Helper\Data')->getPrintedCardPrice($this->getStoreId());
+            $price = $this->_giftWrappingData->getPrintedCardPrice($this->getStoreId());
              if ($this->getDisplayCardBothPrices()) {
                  $data['price_incl_tax'] = $this->calculatePrice(new \Magento\Object(), $price, true);
                  $data['price_excl_tax'] = $this->calculatePrice(new \Magento\Object(), $price);
              } else {
-                $data['price'] = $this->calculatePrice(new \Magento\Object(), $price, $this->getDisplayCardPriceInclTax());
+                $data['price'] = $this->calculatePrice(new \Magento\Object(), $price,
+                    $this->getDisplayCardPriceInclTax());
              }
         }
         return new \Magento\Object($data);
@@ -93,17 +118,17 @@ class AbstractCreate
         $shippingAddress = $this->getQuote()->getShippingAddress();
         $billingAddress  = $this->getQuote()->getBillingAddress();
 
-        $taxClass = \Mage::helper('Magento\GiftWrapping\Helper\Data')->getWrappingTaxClass($this->getStoreId());
+        $taxClass = $this->_giftWrappingData->getWrappingTaxClass($this->getStoreId());
         $item->setTaxClassId($taxClass);
 
-        $price = \Mage::helper('Magento\GiftWrapping\Helper\Data')->getPrice(
+        $price = $this->_giftWrappingData->getPrice(
             $item,
             $basePrice,
             $includeTax,
             $shippingAddress,
             $billingAddress
         );
-        return \Mage::helper('Magento\Core\Helper\Data')->currency($price, true, false);
+        return $this->_coreData->currency($price, true, false);
     }
 
     /**
@@ -113,7 +138,7 @@ class AbstractCreate
      */
     public function getDisplayWrappingBothPrices()
     {
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')
+        return $this->_giftWrappingData
             ->displayCartWrappingBothPrices($this->getStoreId());
     }
 
@@ -124,7 +149,7 @@ class AbstractCreate
      */
     public function getDisplayWrappingPriceInclTax()
     {
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')
+        return $this->_giftWrappingData
             ->displayCartWrappingIncludeTaxPrice($this->getStoreId());
     }
 

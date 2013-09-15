@@ -18,7 +18,7 @@
 
 namespace Magento\Adminhtml\Block\Catalog\Search\Edit;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Init Form properties
@@ -38,14 +38,17 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $model = \Mage::registry('current_catalog_search');
-        /* @var $model \Magento\CatalogSearch\Model\Query */
+        $model = $this->_coreRegistry->registry('current_catalog_search');
+        /* @var $model Magento_CatalogSearch_Model_Query */
 
-        $form = new \Magento\Data\Form(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getData('action'),
-            'method' => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
 

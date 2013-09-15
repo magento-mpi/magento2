@@ -17,16 +17,18 @@ class Messages extends \Magento\Backend\Block\Template
     protected $_messages;
 
     /**
+     * @param Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\AdminNotification\Model\Resource\System\Message\Collection\Synchronized $messages
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\AdminNotification\Model\Resource\System\Message\Collection\Synchronized $messages,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_messages = $messages;
     }
 

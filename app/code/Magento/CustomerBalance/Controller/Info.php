@@ -36,7 +36,7 @@ class Info extends \Magento\Core\Controller\Front\Action
      */
     public function indexAction()
     {
-        if (!\Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
+        if (!$this->_objectManager->get('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
             $this->_redirect('customer/account/');
             return;
         }

@@ -8,9 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+/**
+ * @magentoAppIsolation enabled
+ */
 class Magento_CustomerCustomAttributes_Block_FormTest extends PHPUnit_Framework_TestCase
 {
+
     public function testPrepareLayout()
     {
         $layout = Mage::getModel('Magento\Core\Model\Layout');

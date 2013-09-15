@@ -25,6 +25,39 @@ class Switcher extends \Magento\Backend\Block\Store\Switcher
     protected $_hasDefaultOption = false;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_App $application
+     * @param Magento_Core_Model_Website_Factory $websiteFactory
+     * @param Magento_Core_Model_Store_Group_Factory $storeGroupFactory
+     * @param Magento_Core_Model_StoreFactory $storeFactory
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_App $application,
+        Magento_Core_Model_Website_Factory $websiteFactory,
+        Magento_Core_Model_Store_Group_Factory $storeGroupFactory,
+        Magento_Core_Model_StoreFactory $storeFactory,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct(
+            $coreData, $context, $application, $websiteFactory, $storeGroupFactory, $storeFactory, $data
+        );
+    }
+
+    /**
      * Add website filter
      */
     protected function _construct()
@@ -37,22 +70,22 @@ class Switcher extends \Magento\Backend\Block\Store\Switcher
     }
 
     /**
-     * Return current customer from regisrty
+     * Return current customer from registry
      *
      * @return \Magento\Customer\Model\Customer
      */
     protected function _getCustomer()
     {
-        return \Mage::registry('checkout_current_customer');
+        return $this->_coreRegistry->registry('checkout_current_customer');
     }
 
     /**
-     * Return current store from regisrty
+     * Return current store from registry
      *
      * @return \Magento\Core\Model\Store
      */
     protected function _getStore()
     {
-        return \Mage::registry('checkout_current_store');
+        return $this->_coreRegistry->registry('checkout_current_store');
     }
 }

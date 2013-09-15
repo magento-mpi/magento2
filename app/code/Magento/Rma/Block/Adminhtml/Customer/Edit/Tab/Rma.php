@@ -21,6 +21,33 @@ class Rma
     extends \Magento\Rma\Block\Adminhtml\Rma\Grid
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     public function _construct()
     {
         parent::_construct();
@@ -46,10 +73,10 @@ class Rma
     protected function _beforePrepareCollection()
     {
         $customerId = null;
-
-        if (\Mage::registry('current_customer') && \Mage::registry('current_customer')->getId()) {
-            $customerId = \Mage::registry('current_customer')->getId();
-        } elseif ($this->getCustomerId())  {
+        $customer = $this->_coreRegistry->registry('current_customer');
+        if ($customer && $customer->getId()) {
+            $customerId = $customer->getId();
+        } elseif ($this->getCustomerId()) {
             $customerId = $this->getCustomerId();
         }
         if ($customerId) {
@@ -100,7 +127,7 @@ class Rma
      */
     public function getOrder()
     {
-        return \Mage::registry('current_order');
+        return $this->_coreRegistry->registry('current_order');
     }
 
     /**
@@ -133,7 +160,7 @@ class Rma
      */
     public function canShowTab()
     {
-        $customer = \Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
         return (bool)$customer->getId();
     }
 

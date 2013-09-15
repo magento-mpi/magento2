@@ -63,7 +63,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
      */
     public function getAddToWishlistUrl($product)
     {
-        $continueUrl    = \Mage::helper('Magento\Core\Helper\Data')->urlEncode($this->getUrl('customer/account'));
+        $continueUrl    = $this->_coreData->urlEncode($this->getUrl('customer/account'));
         $urlParamName   = \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED;
 
         $params = array(
@@ -95,7 +95,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
     public function getItems()
     {
         if (is_null($this->_items)) {
-            \Mage::helper('Magento\Catalog\Helper\Product\Compare')->setAllowUsedFlat(false);
+            $this->_catalogProductCompare->setAllowUsedFlat(false);
 
             $this->_items = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Compare\Item\Collection')
                 ->useProductItem(true)

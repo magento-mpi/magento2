@@ -14,13 +14,14 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Adminhtml\Block\Customer\Edit\Tab;
 
-class Account extends \Magento\Adminhtml\Block\Widget\Form
+class Account extends \Magento\Backend\Block\Widget\Form\Generic
 {
-
-    /*
+    /**
      * Disable Auto Group Change Attribute Name
      */
     const DISABLE_ATTRIBUTE_NAME = 'disable_auto_group_change';
@@ -32,7 +33,8 @@ class Account extends \Magento\Adminhtml\Block\Widget\Form
      */
     public function initForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_account');
         $form->setFieldNameSuffix('account');
 
@@ -40,8 +42,8 @@ class Account extends \Magento\Adminhtml\Block\Widget\Form
             'legend' => __('Account Information')
         ));
 
-        $customer = \Mage::registry('current_customer');
-        /** @var $customerForm \Magento\Customer\Model\Form */
+        $customer = $this->_coreRegistry->registry('current_customer');
+        /** @var $customerForm Magento_Customer_Model_Form */
         $customerForm = $this->_initCustomerForm($customer);
         $attributes = $this->_initCustomerAttributes($customerForm);
         $this->_setFieldset($attributes, $fieldset, array(self::DISABLE_ATTRIBUTE_NAME));
@@ -235,7 +237,7 @@ class Account extends \Magento\Adminhtml\Block\Widget\Form
             $form->getElement('website_id')->setAfterElementHtml(
                 '<script type="text/javascript">'
                 . "
-                var {$prefix}_websites = " . \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($websites) .";
+                var {$prefix}_websites = " . $this->_coreData->jsonEncode($websites) . ";
                 jQuery.validator.addMethod('validate-website-has-store', function(v, elem){
                         return {$prefix}_websites[elem.value] == true;
                     },

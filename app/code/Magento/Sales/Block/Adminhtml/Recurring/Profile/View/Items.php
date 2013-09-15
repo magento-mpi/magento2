@@ -37,7 +37,7 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
      */
     public function _getRecurringProfile()
     {
-        return \Mage::registry('current_recurring_profile');
+        return $this->_coreRegistry->registry('current_recurring_profile');
     }
 
     /**

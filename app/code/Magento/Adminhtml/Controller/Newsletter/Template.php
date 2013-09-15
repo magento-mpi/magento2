@@ -19,11 +19,30 @@ namespace Magento\Adminhtml\Controller\Newsletter;
 class Template extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Check is allowed access
      *
      * @return bool
      */
-    protected function _isAllowed ()
+    protected function _isAllowed()
     {
         return $this->_authorization
             ->isAllowed('Magento_Newsletter::template');
@@ -43,7 +62,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
      * View Templates list
      *
      */
-    public function indexAction ()
+    public function indexAction()
     {
         $this->_setTitle();
 
@@ -62,7 +81,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
      * JSON Grid Action
      *
      */
-    public function gridAction ()
+    public function gridAction()
     {
         $this->loadLayout();
         $grid = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Newsletter\Template\Grid')
@@ -74,7 +93,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
      * Create new Newsletter Template
      *
      */
-    public function newAction ()
+    public function newAction()
     {
         $this->_forward('edit');
     }
@@ -83,16 +102,17 @@ class Template extends \Magento\Adminhtml\Controller\Action
      * Edit Newsletter Template
      *
      */
-    public function editAction ()
+    public function editAction()
     {
         $this->_setTitle();
 
         $model = \Mage::getModel('Magento\Newsletter\Model\Template');
-        if ($id = $this->getRequest()->getParam('id')) {
+        $id = $this->getRequest()->getParam('id');
+        if ($id) {
             $model->load($id);
         }
 
-        \Mage::register('_current_template', $model);
+        $this->_coreRegistry->register('_current_template', $model);
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Newsletter::newsletter_template');
@@ -100,8 +120,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
         if ($model->getId()) {
             $breadcrumbTitle = __('Edit Template');
             $breadcrumbLabel = $breadcrumbTitle;
-        }
-        else {
+        } else {
             $breadcrumbTitle = __('New Template');
             $breadcrumbLabel = __('Create Newsletter Template');
         }
@@ -111,11 +130,13 @@ class Template extends \Magento\Adminhtml\Controller\Action
         $this->_addBreadcrumb($breadcrumbLabel, $breadcrumbTitle);
 
         // restore data
-        if ($values = $this->_getSession()->getData('newsletter_template_form_data', true)) {
+        $values = $this->_getSession()->getData('newsletter_template_form_data', true);
+        if ($values) {
             $model->addData($values);
         }
 
-        if ($editBlock = $this->getLayout()->getBlock('template_edit')) {
+        $editBlock = $this->getLayout()->getBlock('template_edit');
+        if ($editBlock) {
             $editBlock->setEditMode($model->getId() > 0);
         }
 
@@ -126,7 +147,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
      * Drop Newsletter Template
      *
      */
-    public function dropAction ()
+    public function dropAction()
     {
         $this->loadLayout('newsletter_template_preview');
         $this->renderLayout();
@@ -136,7 +157,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
      * Save Newsletter Template
      *
      */
-    public function saveAction ()
+    public function saveAction()
     {
         $request = $this->getRequest();
         if (!$request->isPost()) {
@@ -144,7 +165,8 @@ class Template extends \Magento\Adminhtml\Controller\Action
         }
         $template = \Mage::getModel('Magento\Newsletter\Model\Template');
 
-        if ($id = (int)$request->getParam('id')) {
+        $id = (int)$request->getParam('id');
+        if ($id) {
             $template->load($id);
         }
 
@@ -194,7 +216,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
      * Delete newsletter Template
      *
      */
-    public function deleteAction ()
+    public function deleteAction()
     {
         $template = \Mage::getModel('Magento\Newsletter\Model\Template')
             ->load($this->getRequest()->getParam('id'));
@@ -218,7 +240,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
      * Preview Newsletter template
      *
      */
-    public function previewAction ()
+    public function previewAction()
     {
         $this->_setTitle();
         $this->loadLayout();

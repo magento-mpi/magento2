@@ -18,7 +18,7 @@
 namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tab;
 
 class General
-    extends \Magento\Adminhtml\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare general properties form
@@ -27,9 +27,10 @@ class General
      */
     protected function _prepareForm()
     {
-        $model = \Mage::registry('current_customer_segment');
+        $model = $this->_coreRegistry->registry('current_customer_segment');
 
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         $form->setHtmlIdPrefix('segment_');
 

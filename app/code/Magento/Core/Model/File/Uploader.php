@@ -28,6 +28,37 @@ class Uploader extends \Magento\File\Uploader
     protected $_skipDbProcessing = false;
 
     /**
+     * Core file storage
+     *
+     * @var Magento_Core_Helper_File_Storage
+     */
+    protected $_coreFileStorage = null;
+
+    /**
+     * Core file storage database
+     *
+     * @var Magento_Core_Helper_File_Storage_Database
+     */
+    protected $_coreFileStorageDb = null;
+
+    /**
+     * Init upload
+     *
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
+     * @param Magento_Core_Helper_File_Storage $coreFileStorage
+     * @param $fileId
+     */
+    public function __construct(
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
+        Magento_Core_Helper_File_Storage $coreFileStorage,
+        $fileId
+    ) {
+        $this->_coreFileStorageDb = $coreFileStorageDb;
+        $this->_coreFileStorage = $coreFileStorage;
+        parent::__construct($fileId);
+    }
+
+    /**
      * Save file to storage
      *
      * @param  array $result
@@ -39,16 +70,11 @@ class Uploader extends \Magento\File\Uploader
             return $this;
         }
 
-        /** @var $helper \Magento\Core\Helper\File\Storage */
-        $helper = \Mage::helper('Magento\Core\Helper\File\Storage');
-
-        if ($helper->isInternalStorage() || $this->skipDbProcessing()) {
+        if ($this->_coreFileStorage->isInternalStorage() || $this->skipDbProcessing()) {
             return $this;
         }
 
-        /** @var $dbHelper \Magento\Core\Helper\File\Storage\Database */
-        $dbHelper = \Mage::helper('Magento\Core\Helper\File\Storage\Database');
-        $this->_result['file'] = $dbHelper->saveUploadedFile($result);
+        $this->_result['file'] = $this->_coreFileStorageDb->saveUploadedFile($result);
 
         return $this;
     }

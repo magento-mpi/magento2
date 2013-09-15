@@ -1,20 +1,14 @@
 <?php
 /**
+ * Filter for removing malicious code from HTML
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Filter for removing malicious code from HTML
- *
- * @category   Magento
- * @package    Magento_Core
- * @author     Magento Core Team <core@magentocommerce.com>
- */
+
 namespace Magento\Core\Model\Input\Filter;
 
 class MaliciousCode implements \Zend_Filter_Interface

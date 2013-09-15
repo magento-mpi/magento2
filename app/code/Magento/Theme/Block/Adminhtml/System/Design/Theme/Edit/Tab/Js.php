@@ -25,7 +25,8 @@ class Js
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $this->setForm($form);
         $this->_addThemeJsFieldset();
         parent::_prepareForm();

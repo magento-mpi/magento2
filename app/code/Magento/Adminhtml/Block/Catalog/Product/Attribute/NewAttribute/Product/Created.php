@@ -17,10 +17,33 @@
  */
 namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\NewAttribute\Product;
 
-class Created extends \Magento\Adminhtml\Block\Widget
+class Created extends \Magento\Backend\Block\Widget
 {
 
     protected $_template = 'catalog/product/attribute/new/created.phtml';
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Retrieve list of product attributes
@@ -31,7 +54,7 @@ class Created extends \Magento\Adminhtml\Block\Widget
     {
         $attributes = array();
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::registry('product');
+        $product = $this->_coreRegistry->registry('product');
         foreach($product->getAttributes($this->getRequest()->getParam('group')) as $attribute) {
             /** @var $attribute \Magento\Eav\Model\Entity\Attribute */
             if ($attribute->getId() == $this->getRequest()->getParam('attribute')) {
@@ -83,6 +106,6 @@ class Created extends \Magento\Adminhtml\Block\Widget
             );
         }
 
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 }

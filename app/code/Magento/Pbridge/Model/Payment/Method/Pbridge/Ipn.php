@@ -55,6 +55,22 @@ class Ipn
     protected $_debugReplacePrivateDataKeys = array();
 
     /**
+     * Pbridge data
+     *
+     * @var Magento_Pbridge_Helper_Data
+     */
+    protected $_pbridgeData = null;
+
+    /**
+     * @param Magento_Pbridge_Helper_Data $pbridgeData
+     */
+    public function __construct(
+        Magento_Pbridge_Helper_Data $pbridgeData
+    ) {
+        $this->_pbridgeData = $pbridgeData;
+    }
+
+    /**
      * Config model setter
      * @param \Magento\Paypal\Model\Config $config
      * @return \Magento\Paypal\Model\Ipn
@@ -107,7 +123,7 @@ class Ipn
         $sReq .= "&cmd=_notify-validate";
         $sReq = substr($sReq, 1);
 
-        $helper = \Mage::helper('Magento\Pbridge\Helper\Data');
+        $helper = $this->_pbridgeData;
         $url = rtrim($helper->getBridgeBaseUrl(), '/') . '/ipn.php?action=PaypalIpn';
 
         try {

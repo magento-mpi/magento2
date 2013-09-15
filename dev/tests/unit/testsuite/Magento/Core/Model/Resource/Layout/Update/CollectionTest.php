@@ -20,7 +20,10 @@ class Magento_Core_Model_Resource_Layout_Update_CollectionTest
      */
     protected function _getCollection(Zend_Db_Select $select)
     {
+        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+
         return new \Magento\Core\Model\Resource\Layout\Update\Collection(
+            $eventManager,
             $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface'),
             $this->_getResource($select)
         );

@@ -80,6 +80,43 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
     protected $_eventObject = 'shipment';
 
     /**
+     * Sales data
+     *
+     * @var Magento_Sales_Helper_Data
+     */
+    protected $_salesData = null;
+
+    /**
+     * Payment data
+     *
+     * @var Magento_Payment_Helper_Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Sales_Helper_Data $salesData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Sales_Helper_Data $salesData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_paymentData = $paymentData;
+        $this->_salesData = $salesData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize shipment resource model
      */
     protected function _construct()
@@ -372,7 +409,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
         $order = $this->getOrder();
         $storeId = $order->getStore()->getId();
 
-        if (!\Mage::helper('Magento\Sales\Helper\Data')->canSendNewShipmentEmail($storeId)) {
+        if (!$this->_salesData->canSendNewShipmentEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to
@@ -383,7 +420,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
             return $this;
         }
 
-        $paymentBlockHtml = \Mage::helper('Magento\Payment\Helper\Data')->getInfoBlockHtml($order->getPayment(), $storeId);
+        $paymentBlockHtml = $this->_paymentData->getInfoBlockHtml($order->getPayment(), $storeId);
 
         // Retrieve corresponding email template id and customer name
         if ($order->getCustomerIsGuest()) {
@@ -449,7 +486,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
         $order = $this->getOrder();
         $storeId = $order->getStore()->getId();
 
-        if (!\Mage::helper('Magento\Sales\Helper\Data')->canSendShipmentCommentEmail($storeId)) {
+        if (!$this->_salesData->canSendShipmentCommentEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to

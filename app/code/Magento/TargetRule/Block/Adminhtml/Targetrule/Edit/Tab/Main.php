@@ -18,8 +18,8 @@
 namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
 
 class Main
-    extends \Magento\Adminhtml\Block\Widget\Form
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Prepare Mail Target Rule Edit form
@@ -28,9 +28,10 @@ class Main
      */
     protected function _prepareForm()
     {
-        /* @var $model \Magento\TargetRule\Model\Rule */
-        $model = \Mage::registry('current_target_rule');
-        $form = new \Magento\Data\Form();
+        /* @var $model Magento_TargetRule_Model_Rule */
+        $model = $this->_coreRegistry->registry('current_target_rule');
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
 
         $form->setHtmlIdPrefix('rule_');
@@ -98,9 +99,11 @@ class Main
             'note'  => __('Maximum number of products that can be matched by this Rule. Capped to 20.'),
         ));
 
-
-        \Mage::dispatchEvent('targetrule_edit_tab_main_after_prepare_form', array('model' => $model, 'form' => $form,
-            'block' => $this));
+        $this->_eventManager->dispatch('targetrule_edit_tab_main_after_prepare_form', array(
+            'model' => $model,
+            'form' => $form,
+            'block' => $this,
+        ));
 
         $form->setValues($model->getData());
 

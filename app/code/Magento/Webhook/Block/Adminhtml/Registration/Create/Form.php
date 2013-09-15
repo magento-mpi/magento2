@@ -34,23 +34,22 @@ class Form extends \Magento\Backend\Block\Widget\Form
     private $_registry;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreHelper
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreHelper,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Data\Form\Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
 
         $this->_formFactory = $formFactory;
-        $this->_coreHelper = $coreHelper;
         $this->_registry = $registry;
     }
 
@@ -67,10 +66,11 @@ class Form extends \Magento\Backend\Block\Widget\Form
         $inputLength = max(self::API_KEY_LENGTH, self::API_SECRET_LENGTH, self::MIN_TEXT_INPUT_LENGTH);
 
         $form = $this->_formFactory->create(array(
+            'attributes' => array(
                 'id' => 'api_user',
                 'action' => $this->getUrl('*/*/register', array('id' => $subscription[self::DATA_SUBSCRIPTION_ID])),
                 'method' => 'post',
-            )
+            ))
         );
 
         $fieldset = $form;
@@ -122,7 +122,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
      */
     private function _generateRandomString($length)
     {
-        return $this->_coreHelper
+        return $this->_coreData
             ->getRandomString($length, \Magento\Core\Helper\Data::CHARS_DIGITS . \Magento\Core\Helper\Data::CHARS_LOWERS);
     }
 }

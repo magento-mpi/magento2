@@ -27,10 +27,12 @@ class Magento_Backend_Block_System_Config_Form_Field_ExportTest extends PHPUnit_
             array(), array(), '', false, false
         );
 
-        $data = array(
-            'helperFactory' => $this->_helperFactoryMock
+        $coreHelper = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
+        $factoryColl = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array(), array(), '', false);
+        $this->_object = new \Magento\Backend\Block\System\Config\Form\Field\Export(
+            $coreHelper, $factory, $factoryColl, $this->_helperFactoryMock
         );
-        $this->_object = new \Magento\Backend\Block\System\Config\Form\Field\Export($data);
     }
 
     public function testGetElementHtml()

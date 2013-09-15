@@ -77,6 +77,25 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     protected $_eventObject                  = 'resource';
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($resource);
+    }
+
+    /**
      * Add new virtual grid column
      *
      * @param string $alias
@@ -125,7 +144,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     {
         $this->_virtualGridColumns = array();
         if ($this->_eventPrefix && $this->_eventObject) {
-            \Mage::dispatchEvent($this->_eventPrefix . '_init_virtual_grid_columns', array(
+            $this->_eventManager->dispatch($this->_eventPrefix . '_init_virtual_grid_columns', array(
                 $this->_eventObject => $this
             ));
         }
@@ -150,7 +169,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
                 $proxy->setIds($ids)
                     ->setData($this->_eventObject, $this);
 
-                \Mage::dispatchEvent($this->_eventPrefix . '_update_grid_records', array('proxy' => $proxy));
+                $this->_eventManager->dispatch($this->_eventPrefix . '_update_grid_records', array('proxy' => $proxy));
                 $ids = $proxy->getIds();
             }
 
@@ -278,7 +297,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     protected function _beforeSaveAttribute(\Magento\Core\Model\AbstractModel $object, $attribute)
     {
         if ($this->_eventObject && $this->_eventPrefix) {
-            \Mage::dispatchEvent($this->_eventPrefix . '_save_attribute_before', array(
+            $this->_eventManager->dispatch($this->_eventPrefix . '_save_attribute_before', array(
                 $this->_eventObject => $this,
                 'object' => $object,
                 'attribute' => $attribute
@@ -297,7 +316,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     protected function _afterSaveAttribute(\Magento\Core\Model\AbstractModel $object, $attribute)
     {
         if ($this->_eventObject && $this->_eventPrefix) {
-            \Mage::dispatchEvent($this->_eventPrefix . '_save_attribute_after', array(
+            $this->_eventManager->dispatch($this->_eventPrefix . '_save_attribute_after', array(
                 $this->_eventObject => $this,
                 'object' => $object,
                 'attribute' => $attribute

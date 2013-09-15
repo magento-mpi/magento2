@@ -16,6 +16,25 @@ namespace Magento\CustomerSegment\Controller\Adminhtml;
 class Customersegment extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Initialize proper segment model
      *
      * @param string $requestParam
@@ -32,7 +51,7 @@ class Customersegment extends \Magento\Adminhtml\Controller\Action
                 \Mage::throwException(__('You requested the wrong customer segment.'));
             }
         }
-        \Mage::register('current_customer_segment', $segment);
+        $this->_coreRegistry->register('current_customer_segment', $segment);
         return $segment;
     }
 
@@ -68,7 +87,7 @@ class Customersegment extends \Magento\Adminhtml\Controller\Action
 
         try {
             $model = $this->_initSegment();
-        }
+        } catch (Magento_Core_Exception $e) {
         catch (\Magento\Core\Exception $e) {
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             $this->_redirect('*/*/');
@@ -244,9 +263,8 @@ class Customersegment extends \Magento\Adminhtml\Controller\Action
         try {
             $model = $this->_initSegment('id', true);
             $model->delete();
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('You deleted the segment.'));
-        }
-        catch (\Magento\Core\Exception $e) {
+            Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('You deleted the segment.'));
+        } catch (\Magento\Core\Exception $e) {
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
             return;
@@ -266,7 +284,7 @@ class Customersegment extends \Magento\Adminhtml\Controller\Action
     {
         return $this->_authorization
             ->isAllowed('Magento_CustomerSegment::customersegment')
-            && \Mage::helper('Magento\CustomerSegment\Helper\Data')->isEnabled();
+            && $this->_objectManager->get('Magento\CustomerSegment\Helper\Data')->isEnabled();
     }
 
     /**

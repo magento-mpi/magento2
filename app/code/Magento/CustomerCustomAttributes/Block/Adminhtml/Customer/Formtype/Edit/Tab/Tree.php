@@ -8,12 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Form Type Edit General Tab Block
- *
- * @category   Magento
- * @package    Magento_CustomerCustomAttributes
  */
 namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit\Tab;
 
@@ -22,13 +18,36 @@ class Tree
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve current form type instance
      *
      * @return \Magento\Eav\Model\Form\Type
      */
     protected function _getFormType()
     {
-        return \Mage::registry('current_form_type');
+        return $this->_coreRegistry->registry('current_form_type');
     }
 
     public function getTreeButtonsHtml()
@@ -94,7 +113,7 @@ class Tree
             $result[$stores->getId()] = $stores->getName();
         }
 
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 
     /**
@@ -140,7 +159,7 @@ class Tree
             );
         }
 
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($nodes);
+        return $this->_coreData->jsonEncode($nodes);
     }
 
     /**

@@ -24,7 +24,8 @@ class Magento_TestFramework_Annotation_AppArea
         \Magento\Core\Model\App\Area::AREA_ADMINHTML,
         \Magento\Core\Model\App\Area::AREA_FRONTEND,
         'install',
-        'webapi',
+        'webapi_rest',
+        'webapi_soap',
         'cron',
     );
 

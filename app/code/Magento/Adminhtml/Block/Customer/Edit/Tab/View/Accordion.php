@@ -19,9 +19,32 @@ namespace Magento\Adminhtml\Block\Customer\Edit\Tab\View;
 
 class Accordion extends \Magento\Adminhtml\Block\Widget\Accordion
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _prepareLayout()
     {
-        $customer = \Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
 
         $this->setId('customerViewAccordion');
 
@@ -32,8 +55,8 @@ class Accordion extends \Magento\Adminhtml\Block\Widget\Accordion
         ));
 
         // add shopping cart block of each website
-        foreach (\Mage::registry('current_customer')->getSharedWebsiteIds() as $websiteId) {
-            $website = \Mage::app()->getWebsite($websiteId);
+        foreach ($this->_coreRegistry->registry('current_customer')->getSharedWebsiteIds() as $websiteId) {
+            $website = Mage::app()->getWebsite($websiteId);
 
             // count cart items
             $cartItemsCount = \Mage::getModel('Magento\Sales\Model\Quote')

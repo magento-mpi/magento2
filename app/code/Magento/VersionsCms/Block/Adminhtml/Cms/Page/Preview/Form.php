@@ -18,7 +18,7 @@
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Preparing from for revision page
@@ -27,11 +27,14 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form(array(
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
                 'id' => 'preview_form',
                 'action' => $this->getUrl('*/*/drop', array('_current' => true)),
-                'method' => 'post'
-            ));
+                'method' => 'post',
+            ))
+        );
 
         if ($data = $this->getFormData()) {
             foreach ($data as $key => $value) {

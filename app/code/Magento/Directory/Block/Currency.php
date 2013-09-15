@@ -23,19 +23,31 @@ class Currency extends \Magento\Core\Block\Template
      * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
+    
+    /**
+     * Directory url
+     *
+     * @var Magento_Directory_Helper_Url
+     */
+    protected $_directoryUrl = null;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param Magento_Directory_Helper_Url $directoryUrl
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManager $storeManager,
+        Magento_Directory_Helper_Url $directoryUrl,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        $this->_directoryUrl = $directoryUrl;
         $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -99,7 +111,7 @@ class Currency extends \Magento\Core\Block\Template
      */
     public function getSwitchCurrencyUrl($code)
     {
-        return \Mage::helper('Magento\Directory\Helper\Url')->getSwitchCurrencyUrl(array('currency' => $code));
+        return $this->_directoryUrl->getSwitchCurrencyUrl(array('currency' => $code));
     }
 
     /**

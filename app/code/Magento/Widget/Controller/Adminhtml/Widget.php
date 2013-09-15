@@ -20,6 +20,25 @@ namespace Magento\Widget\Controller\Adminhtml;
 class Widget extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Wisywyg widget plugin main page
      */
     public function indexAction()
@@ -28,7 +47,7 @@ class Widget extends \Magento\Adminhtml\Controller\Action
         $skipped = $this->getRequest()->getParam('skip_widgets');
         $skipped = \Mage::getSingleton('Magento\Widget\Model\Widget\Config')->decodeWidgetsFromQuery($skipped);
 
-        \Mage::register('skip_widgets', $skipped);
+        $this->_coreRegistry->register('skip_widgets', $skipped);
 
         $this->loadLayout('empty')->renderLayout();
     }
@@ -41,7 +60,7 @@ class Widget extends \Magento\Adminhtml\Controller\Action
         try {
             $this->loadLayout('empty');
             if ($paramsJson = $this->getRequest()->getParam('widget')) {
-                $request = \Mage::helper('Magento\Core\Helper\Data')->jsonDecode($paramsJson);
+                $request = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonDecode($paramsJson);
                 if (is_array($request)) {
                     $optionsBlock = $this->getLayout()->getBlock('wysiwyg_widget.options');
                     if (isset($request['widget_type'])) {
@@ -55,7 +74,7 @@ class Widget extends \Magento\Adminhtml\Controller\Action
             }
         } catch (\Magento\Core\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
         }
     }
 

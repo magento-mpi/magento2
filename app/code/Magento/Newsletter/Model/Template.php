@@ -57,6 +57,31 @@ class Template extends \Magento\Core\Model\Template
     protected $_mail;
 
     /**
+     * Newsletter data
+     *
+     * @var Magento_Newsletter_Helper_Data
+     */
+    protected $_newsletterData = null;
+
+    /**
+     * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Newsletter_Helper_Data $newsletterData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_View_DesignInterface $design,
+        Magento_Newsletter_Helper_Data $newsletterData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_newsletterData = $newsletterData;
+        parent::__construct($design, $context, $registry, $data);
+    }
+
+    /**
      * Initialize resource model
      *
      */
@@ -92,8 +117,7 @@ class Template extends \Magento\Core\Model\Template
                     foreach ($messages as $message) {
                         $errorMessages[] = $message;
                     }
-                }
-                else {
+                } else {
                     $errorMessages[] = $messages;
                 }
             }
@@ -130,7 +154,8 @@ class Template extends \Magento\Core\Model\Template
      *
      * @return int|string
      */
-    public function getType(){
+    public function getType()
+    {
         return $this->getTemplateType();
     }
 
@@ -168,7 +193,7 @@ class Template extends \Magento\Core\Model\Template
     public function getProcessedTemplate(array $variables = array(), $usePreprocess = false)
     {
         /* @var $processor \Magento\Newsletter\Model\Template\Filter */
-        $processor = \Mage::helper('Magento\Newsletter\Helper\Data')->getTemplateProcessor();
+        $processor = $this->_newsletterData->getTemplateProcessor();
 
         if (!$this->_preprocessFlag) {
             $variables['this'] = $this;
@@ -250,8 +275,9 @@ class Template extends \Magento\Core\Model\Template
     {
         if (!$this->getData('template_text') && !$this->getId()) {
             $this->setData('template_text',
-                __('Follow this link to unsubscribe <!-- This tag is for unsubscribe link  --><a href="{{var subscriber.getUnsubscriptionLink()}}">{{var subscriber.getUnsubscriptionLink()}}</a>')
-            );
+                __('Follow this link to unsubscribe <!-- This tag is for unsubscribe link  -->'
+                    . '<a href="{{var subscriber.getUnsubscriptionLink()}}">{{var subscriber.getUnsubscriptionLink()}}'
+                    . '</a>'));
         }
 
         return $this->getData('template_text');

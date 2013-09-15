@@ -20,6 +20,25 @@ namespace Magento\CurrencySymbol\Controller\Adminhtml\System;
 class Currency extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Init currency by currency code from request
      *
      * @return \Magento\CurrencySymbol\Controller\Adminhtml\System\Currency
@@ -30,7 +49,7 @@ class Currency extends \Magento\Adminhtml\Controller\Action
         $currency = \Mage::getModel('Magento\Directory\Model\Currency')
             ->load($code);
 
-        \Mage::register('currency', $currency);
+        $this->_coreRegistry->register('currency', $currency);
         return $this;
     }
 
@@ -52,7 +71,7 @@ class Currency extends \Magento\Adminhtml\Controller\Action
         try {
             $service = $this->getRequest()->getParam('rate_services');
             $this->_getSession()->setCurrencyRateService($service);
-            if( !$service ) {
+            if (!$service) {
                 throw new \Exception(__('Please specify a correct Import Service.'));
             }
             try {
@@ -64,7 +83,7 @@ class Currency extends \Magento\Adminhtml\Controller\Action
             }
             $rates = $importModel->fetchRates();
             $errors = $importModel->getMessages();
-            if( sizeof($errors) > 0 ) {
+            if (sizeof($errors) > 0) {
                 foreach ($errors as $error) {
                     \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addWarning($error);
                 }
@@ -84,7 +103,7 @@ class Currency extends \Magento\Adminhtml\Controller\Action
     public function saveRatesAction()
     {
         $data = $this->getRequest()->getParam('rate');
-        if( is_array($data) ) {
+        if (is_array($data)) {
             try {
                 foreach ($data as $currencyCode => $rate) {
                     foreach( $rate as $currencyTo => $value ) {

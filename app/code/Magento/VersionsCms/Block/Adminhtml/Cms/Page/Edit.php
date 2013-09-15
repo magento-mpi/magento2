@@ -22,6 +22,29 @@ class Edit
     extends \Magento\Adminhtml\Block\Template
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Adding js to CE blocks to implement special functionality which
      * will allow go back to edit page with pre loaded tab passed through query string.
      * Added permission checking to remove some buttons if needed.
@@ -36,7 +59,7 @@ class Edit
             $editBlock = $this->getLayout()->getBlock('cms_page_edit');
             /* @var $editBlock \Magento\Adminhtml\Block\Cms\Page\Edit */
             if ($editBlock) {
-                $page = \Mage::registry('cms_page');
+                $page = $this->_coreRegistry->registry('cms_page');
                 if ($page) {
                     if ($page->getId()) {
                         $editBlock->addButton('preview', array(

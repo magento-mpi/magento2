@@ -21,7 +21,8 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_object = Mage::getModel('Magento\CatalogRule\Model\Rule');
+        $this->_object = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento\CatalogRule\Model\Rule');
     }
 
     /**
@@ -30,14 +31,35 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testCalcProductPriceRule()
     {
+        $resourceMock = $this->getMock('Magento_CatalogRule_Model_Resource_Rule',
+            array('getIdFieldName'), array(), '', false);
+        $resourceMock->expects($this->any())
+            ->method('getIdFieldName')
+            ->will($this->returnValue('id'));
+        $contextMock = $this->getMock('Magento_Core_Model_Context',
+            array(), array(), '', false);
+        $registryMock = $this->getMock('Magento_Core_Model_Registry',
+            array(), array(), '', false);
+        $formFactoryMock = $this->getMock('Magento_Data_Form_Factory',
+            array(), array(), '', false);
+        $ctlgRuleHlprMock = $this->getMock('Magento_CatalogRule_Helper_Data',
+            array('__construct'), array(), '', false);
         /** @var $catalogRule \Magento\CatalogRule\Model\Rule */
         $catalogRule = $this->getMock('Magento\CatalogRule\Model\Rule',
-            array('_getRulesFromProduct'), array(), '', false);
+            array('_getRulesFromProduct'), array(
+                $ctlgRuleHlprMock,
+                $formFactoryMock,
+                $contextMock,
+                $registryMock,
+                $resourceMock
+            ), '');
+
         $catalogRule->expects(self::any())
             ->method('_getRulesFromProduct')
             ->will($this->returnValue($this->_getCatalogRulesFixtures()));
 
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->assertEquals($catalogRule->calcProductPriceRule($product, 100), 45);
         $product->setParentId(true);
         $this->assertEquals($catalogRule->calcProductPriceRule($product, 50), 5);

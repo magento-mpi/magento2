@@ -24,6 +24,29 @@ class Options extends \Magento\Core\Block\Template
     protected $_giftWrappingAvailable = false;
 
     /**
+     * Gift wrapping data
+     *
+     * @var Magento_GiftWrapping_Helper_Data
+     */
+    protected $_giftWrappingData = null;
+
+    /**
+     * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GiftWrapping_Helper_Data $giftWrappingData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_giftWrappingData = $giftWrappingData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Gift wrapping collection
      *
      * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
@@ -80,13 +103,13 @@ class Options extends \Magento\Core\Block\Template
     public function calculatePrice($item, $basePrice, $shippingAddress, $includeTax = false)
     {
         $billingAddress = $this->getQuote()->getBillingAddress();
-        $taxClass = \Mage::helper('Magento\GiftWrapping\Helper\Data')->getWrappingTaxClass();
+        $taxClass = $this->_giftWrappingData->getWrappingTaxClass();
         $item->setTaxClassId($taxClass);
 
-        $price = \Mage::helper('Magento\GiftWrapping\Helper\Data')->getPrice($item, $basePrice, $includeTax, $shippingAddress,
+        $price = $this->_giftWrappingData->getPrice($item, $basePrice, $includeTax, $shippingAddress,
             $billingAddress
         );
-        return \Mage::helper('Magento\Core\Helper\Data')->currency($price, true, false);
+        return $this->_coreData->currency($price, true, false);
     }
 
     /**
@@ -161,7 +184,7 @@ class Options extends \Magento\Core\Block\Template
                 continue;
             }
             $allowed = $item->getProduct()->getGiftWrappingAvailable();
-            if (\Mage::helper('Magento\GiftWrapping\Helper\Data')->isGiftWrappingAvailableForProduct($allowed)
+            if ($this->_giftWrappingData->isGiftWrappingAvailableForProduct($allowed)
                 && !$item->getIsVirtual()) {
                 $temp = array();
                 if ($price = $item->getProduct()->getGiftWrappingPrice()) {
@@ -201,7 +224,7 @@ class Options extends \Magento\Core\Block\Template
     {
         $data = array();
         if ($this->getAllowPrintedCard()) {
-            $price = \Mage::helper('Magento\GiftWrapping\Helper\Data')->getPrintedCardPrice();
+            $price = $this->_giftWrappingData->getPrintedCardPrice();
             foreach ($this->getQuote()->getAllShippingAddresses() as $address) {
                 $entityId = $this->getQuote()->getIsMultiShipping()
                     ? $address->getId()
@@ -239,7 +262,7 @@ class Options extends \Magento\Core\Block\Template
      */
     public function getDisplayWrappingBothPrices()
     {
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->displayCartWrappingBothPrices();
+        return $this->_giftWrappingData->displayCartWrappingBothPrices();
     }
 
     /**
@@ -249,7 +272,7 @@ class Options extends \Magento\Core\Block\Template
      */
     public function getDisplayCardBothPrices()
     {
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->displayCartCardBothPrices();
+        return $this->_giftWrappingData->displayCartCardBothPrices();
     }
 
     /**
@@ -259,7 +282,7 @@ class Options extends \Magento\Core\Block\Template
      */
     public function getDisplayWrappingIncludeTaxPrice()
     {
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->displayCartWrappingIncludeTaxPrice();
+        return $this->_giftWrappingData->displayCartWrappingIncludeTaxPrice();
     }
 
     /**
@@ -269,7 +292,7 @@ class Options extends \Magento\Core\Block\Template
      */
     public function getDisplayCardIncludeTaxPrice()
     {
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->displayCartCardIncludeTaxPrice();
+        return $this->_giftWrappingData->displayCartCardIncludeTaxPrice();
     }
 
     /**
@@ -279,7 +302,7 @@ class Options extends \Magento\Core\Block\Template
      */
     public function getAllowPrintedCard()
     {
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->allowPrintedCard();
+        return $this->_giftWrappingData->allowPrintedCard();
     }
 
     /**
@@ -289,7 +312,7 @@ class Options extends \Magento\Core\Block\Template
      */
     public function getAllowGiftReceipt()
     {
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->allowGiftReceipt();
+        return $this->_giftWrappingData->allowGiftReceipt();
     }
 
     /**
@@ -299,7 +322,7 @@ class Options extends \Magento\Core\Block\Template
      */
     public function getAllowForOrder()
     {
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->isGiftWrappingAvailableForOrder();
+        return $this->_giftWrappingData->isGiftWrappingAvailableForOrder();
     }
 
     /**
@@ -309,7 +332,7 @@ class Options extends \Magento\Core\Block\Template
      */
     public function getAllowForItems()
     {
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->isGiftWrappingAvailableForItems();
+        return $this->_giftWrappingData->isGiftWrappingAvailableForItems();
     }
 
     /**

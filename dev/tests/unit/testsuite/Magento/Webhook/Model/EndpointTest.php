@@ -56,14 +56,15 @@ class Magento_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo($apiUsedId))
             ->will($this->returnValue($mockWebhookUser));
 
+        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+
         // we have to use a mock because ancestor code utilizes deprecated static methods
-        $this->_endpoint = $this->getMockBuilder('Magento\Webhook\Model\Endpoint')
-            ->setConstructorArgs(
-                array($this->_mockUserFactory,
-                      $this->_mockContext,
-                      null,
-                      null)
-            )
+        $this->_endpoint = $this->getMockBuilder('Magento_Webhook_Model_Endpoint')
+            ->setConstructorArgs(array(
+                $this->_mockContext,
+                $coreRegistry,
+                $this->_mockUserFactory
+            ))
             ->setMethods(array('_init'))
             ->getMock();
 
@@ -111,9 +112,15 @@ class Magento_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
             ->method('getEventDispatcher')
             ->will($this->returnValue($mockEventManager));
 
+        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+
         // we have to use a mock because ancestor code utilizes deprecated static methods
-        $this->_endpoint = $this->getMockBuilder('Magento\Webhook\Model\Endpoint')
-            ->setConstructorArgs(array($this->_mockUserFactory, $this->_mockContext))
+        $this->_endpoint = $this->getMockBuilder('Magento_Webhook_Model_Endpoint')
+            ->setConstructorArgs(array(
+                $this->_mockContext,
+                $coreRegistry,
+                $this->_mockUserFactory,
+            ))
             ->setMethods(
                 array('_init', '_getResource', 'hasAuthenticationType', 'setAuthenticationType', 'setUpdatedAt',
                       'isDeleted', '_hasModelChanged')

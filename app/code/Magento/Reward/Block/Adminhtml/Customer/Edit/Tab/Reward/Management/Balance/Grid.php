@@ -19,7 +19,7 @@
 namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance;
 
 class Grid
-    extends \Magento\Adminhtml\Block\Widget\Grid
+    extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Flag to store if customer has orphan points
@@ -27,6 +27,43 @@ class Grid
      * @var boolean
      */
     protected $_customerHasOrphanPoints = false;
+
+    /**
+     * Reward data
+     *
+     * @var Magento_Reward_Helper_Data
+     */
+    protected $_rewardData = null;
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Reward_Helper_Data $rewardData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Reward_Helper_Data $rewardData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        $this->_rewardData = $rewardData;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     /**
      * Internal constructor
@@ -48,7 +85,7 @@ class Grid
      */
     public function getCustomer()
     {
-        return \Mage::registry('current_customer');
+        return $this->_coreRegistry->registry('current_customer');
     }
 
     /**
@@ -77,11 +114,11 @@ class Grid
         foreach ($this->getCollection() as $item) {
             $website = $item->getData('website_id');
             if ($website !== null) {
-                $minBalance = \Mage::helper('Magento\Reward\Helper\Data')->getGeneralConfig(
+                $minBalance = $this->_rewardData->getGeneralConfig(
                     'min_points_balance',
                     (int)$website
                 );
-                $maxBalance = \Mage::helper('Magento\Reward\Helper\Data')->getGeneralConfig(
+                $maxBalance = $this->_rewardData->getGeneralConfig(
                     'max_points_balance',
                     (int)$website
                 );

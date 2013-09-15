@@ -48,7 +48,10 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
         sort($correctHeader);
         $this->assertEquals($correctHeader, $csvHeader);
 
-        /** @var $website \Magento\Core\Model\Website */
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+        /** @var $website Magento_Core_Model_Website */
         foreach (Mage::app()->getWebsites() as $website) {
             $websiteCode = $website->getCode();
             // CSV data
@@ -58,16 +61,17 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
             // prepare correct data
             $correctCustomerData = array(
                 \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_EMAIL
-                    => Mage::registry('customer_finance_email'),
+                    => $objectManager->get('Magento\Core\Model\Registry')->registry('customer_finance_email'),
                 \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_WEBSITE
                     => Mage::app()->getStore()->getWebsite()->getCode(),
                 \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_FINANCE_WEBSITE
                     => $websiteCode,
                 \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
                     COLUMN_CUSTOMER_BALANCE
-                    => Mage::registry('customer_balance_' . $websiteCode),
+                    => $objectManager->get('Magento\Core\Model\Registry')->registry('customer_balance_' . $websiteCode),
                 \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_REWARD_POINTS
-                    => Mage::registry('reward_point_balance_' . $websiteCode),
+                    => $objectManager->get('Magento\Core\Model\Registry')
+                        ->registry('reward_point_balance_' . $websiteCode),
             );
 
             asort($csvCustomerData);

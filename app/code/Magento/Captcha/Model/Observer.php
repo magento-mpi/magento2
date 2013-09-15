@@ -46,17 +46,37 @@ class Observer
     protected $_filesystem;
 
     /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Customer_Helper_Data $customerData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Captcha\Helper\Data $helper
      * @param \Magento\Core\Model\Url $urlManager
      * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Customer_Helper_Data $customerData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Captcha\Helper\Data $helper,
         \Magento\Core\Model\Url $urlManager,
         \Magento\Filesystem $filesystem
     ) {
+        $this->_coreData = $coreData;
+        $this->_customerData = $customerData;
         $this->_customerSession = $customerSession;
         $this->_helper = $helper;
         $this->_urlManager = $urlManager;
@@ -123,7 +143,7 @@ class Observer
                 $controller->setFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH, true);
                 \Mage::getSingleton('Magento\Customer\Model\Session')->setUsername($login);
                 $beforeUrl = \Mage::getSingleton('Magento\Customer\Model\Session')->getBeforeAuthUrl();
-                $url =  $beforeUrl ? $beforeUrl : \Mage::helper('Magento\Customer\Helper\Data')->getLoginUrl();
+                $url =  $beforeUrl ? $beforeUrl : $this->_customerData->getLoginUrl();
                 $controller->getResponse()->setRedirect($url);
             }
         }
@@ -170,7 +190,7 @@ class Observer
                 if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
                     $controller->setFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH, true);
                     $result = array('error' => 1, 'message' => __('Incorrect CAPTCHA'));
-                    $controller->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
+                    $controller->getResponse()->setBody($this->_coreData->jsonEncode($result));
                 }
             }
         }
@@ -194,7 +214,7 @@ class Observer
                 if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
                     $controller->setFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH, true);
                     $result = array('error' => 1, 'message' => __('Incorrect CAPTCHA'));
-                    $controller->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
+                    $controller->getResponse()->setBody($this->_coreData->jsonEncode($result));
                 }
             }
         }

@@ -15,6 +15,27 @@ class Layer extends \Magento\Catalog\Model\Layer
     const XML_PATH_DISPLAY_LAYER_COUNT = 'catalog/search/use_layered_navigation_count';
 
     /**
+     * Catalog search data
+     *
+     * @var Magento_CatalogSearch_Helper_Data
+     */
+    protected $_catalogSearchData = null;
+
+    /**
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        array $data = array()
+    ) {
+        $this->_catalogSearchData = $catalogSearchData;
+        parent::__construct($coreRegistry, $data);
+    }
+
+    /**
      * Get current layer product collection
      *
      * @return Magento_Catalog_Model_Resource_Eav_Resource_Product_Collection
@@ -40,9 +61,9 @@ class Layer extends \Magento\Catalog\Model\Layer
     public function prepareProductCollection($collection)
     {
         $collection
-            ->addAttributeToSelect(\Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes())
-            ->addSearchFilter(\Mage::helper('Magento\CatalogSearch\Helper\Data')->getQuery()->getQueryText())
-            ->setStore(\Mage::app()->getStore())
+            ->addAttributeToSelect(Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes())
+            ->addSearchFilter($this->_catalogSearchData->getQuery()->getQueryText())
+            ->setStore(Mage::app()->getStore())
             ->addMinimalPrice()
             ->addFinalPrice()
             ->addTaxPercents()
@@ -61,7 +82,7 @@ class Layer extends \Magento\Catalog\Model\Layer
     public function getStateKey()
     {
         if ($this->_stateKey === null) {
-            $this->_stateKey = 'Q_' . \Mage::helper('Magento\CatalogSearch\Helper\Data')->getQuery()->getId()
+            $this->_stateKey = 'Q_' . $this->_catalogSearchData->getQuery()->getId()
                 . '_'. parent::getStateKey();
         }
         return $this->_stateKey;

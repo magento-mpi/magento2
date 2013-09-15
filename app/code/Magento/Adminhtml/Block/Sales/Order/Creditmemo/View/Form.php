@@ -58,7 +58,7 @@ class Form extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
      */
     public function getCreditmemo()
     {
-        return \Mage::registry('current_creditmemo');
+        return $this->_coreRegistry->registry('current_creditmemo');
     }
 
     public function getOrderUrl()

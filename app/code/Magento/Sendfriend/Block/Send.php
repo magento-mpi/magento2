@@ -21,6 +21,39 @@ namespace Magento\Sendfriend\Block;
 class Send extends \Magento\Core\Block\Template
 {
     /**
+     * Sendfriend data
+     *
+     * @var Magento_Sendfriend_Helper_Data
+     */
+    protected $_sendfriendData = null;
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Sendfriend_Helper_Data $sendfriendData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Sendfriend_Helper_Data $sendfriendData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_sendfriendData = $sendfriendData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve username for form field
      *
      * @return string
@@ -132,7 +165,7 @@ class Send extends \Magento\Core\Block\Template
      */
     public function getMaxRecipients()
     {
-        return \Mage::helper('Magento\Sendfriend\Helper\Data')->getMaxRecipients();
+        return $this->_sendfriendData->getMaxRecipients();
     }
 
     /**
@@ -155,7 +188,7 @@ class Send extends \Magento\Core\Block\Template
      */
     protected function _getSendfriendModel()
     {
-        return \Mage::registry('send_to_friend_model');
+        return $this->_coreRegistry->registry('send_to_friend_model');
     }
 
     /**

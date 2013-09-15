@@ -20,8 +20,37 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab;
 
 class Main
     extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * Rma eav
+     *
+     * @var Magento_Rma_Helper_Eav
+     */
+    protected $_rmaEav = null;
+
+    /**
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Rma_Helper_Eav $rmaEav
+     * @param Magento_Eav_Helper_Data $eavData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Rma_Helper_Eav $rmaEav,
+        Magento_Eav_Helper_Data $eavData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_rmaEav = $rmaEav;
+        parent::__construct($formFactory, $eavData, $coreData, $context, $registry, $data);
+    }
+
     /**
      * Preparing global layout
      *
@@ -49,8 +78,8 @@ class Main
         $attribute  = $this->getAttributeObject();
         $form       = $this->getForm();
         $fieldset   = $form->getElement('base_fieldset');
-        /* @var $helper \Magento\Rma\Helper\Eav */
-        $helper     = \Mage::helper('Magento\Rma\Helper\Eav');
+        /* @var $helper Magento_Rma_Helper_Eav */
+        $helper     = $this->_rmaEav;
 
         $fieldset->removeField('frontend_class');
         $fieldset->removeField('is_unique');

@@ -80,6 +80,45 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_groups;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Customer address
+     *
+     * @var Magento_Customer_Helper_Address
+     */
+    protected $_customerAddress = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Customer_Helper_Address $customerAddress
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Customer_Helper_Address $customerAddress,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_customerAddress = $customerAddress;
+        $this->_coreData = $coreData;
+        parent::__construct($context);
+    }
+
+    /**
      * Check customer is logged in
      *
      * @return bool
@@ -176,7 +215,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             && !\Mage::getSingleton('Magento\Customer\Model\Session')->getNoReferer()
         ) {
             $referer = \Mage::getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
-            $referer = \Mage::helper('Magento\Core\Helper\Data')->urlEncode($referer);
+            $referer = $this->_coreData->urlEncode($referer);
         }
 
         if ($referer) {
@@ -310,9 +349,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isRegistrationAllowed()
     {
-        $result = new \Magento\Object(array('is_allowed' => true));
-        \Mage::dispatchEvent('customer_registration_is_allowed', array('result' => $result));
-        return $result->getIsAllowed();
+        return true;
     }
 
     /**
@@ -323,7 +360,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getNamePrefixOptions($store = null)
     {
         return $this->_prepareNamePrefixSuffixOptions(
-            \Mage::helper('Magento\Customer\Helper\Address')->getConfig('prefix_options', $store)
+            $this->_customerAddress->getConfig('prefix_options', $store)
         );
     }
 
@@ -335,7 +372,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getNameSuffixOptions($store = null)
     {
         return $this->_prepareNamePrefixSuffixOptions(
-            \Mage::helper('Magento\Customer\Helper\Address')->getConfig('suffix_options', $store)
+            $this->_customerAddress->getConfig('suffix_options', $store)
         );
     }
 
@@ -367,7 +404,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function generateResetPasswordLinkToken()
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->uniqHash();
+        return $this->_coreData->uniqHash();
     }
 
     /**
@@ -491,7 +528,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     {
         $result = true;
         /** @var $coreHelper \Magento\Core\Helper\Data */
-        $coreHelper = \Mage::helper('Magento\Core\Helper\Data');
+        $coreHelper = $this->_coreData;
 
         if (!is_string($countryCode)
             || !is_string($vatNumber)
@@ -526,7 +563,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
 
         if (is_string($customerCountryCode)
             && !empty($customerCountryCode)
-            && $customerCountryCode === \Mage::helper('Magento\Core\Helper\Data')->getMerchantCountryCode($store)
+            && $customerCountryCode === $this->_coreData->getMerchantCountryCode($store)
             && $isVatNumberValid
         ) {
             $vatClass = self::VAT_CLASS_DOMESTIC;

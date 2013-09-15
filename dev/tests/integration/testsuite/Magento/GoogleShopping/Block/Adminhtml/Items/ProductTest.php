@@ -22,7 +22,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_ProductTest extends PHPUnit_F
         $filter = Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text');
         $search = Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text');
 
-        $layout = Mage::getModel('Magento\Core\Model\Layout');
+        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
         $layout->addBlock($block, 'product');
         $layout->addBlock($filter, 'reset_filter_button', 'product');
         $layout->addBlock($search, 'search_button', 'product');

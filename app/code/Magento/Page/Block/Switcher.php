@@ -27,17 +27,19 @@ class Switcher extends \Magento\Core\Block\Template
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Helper_Data $coreData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
         $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
     }
 
     public function getCurrentWebsiteId()

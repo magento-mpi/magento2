@@ -20,6 +20,25 @@ namespace Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer;
 class Formtype extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Load layout, set active menu and breadcrumbs
      *
      * @return \Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer\Formtype
@@ -61,7 +80,7 @@ class Formtype extends \Magento\Adminhtml\Controller\Action
         if (!empty($data)) {
             $model->addData($data);
         }
-        \Mage::register('current_form_type', $model);
+        $this->_coreRegistry->register('current_form_type', $model);
         return $model;
     }
 
@@ -71,7 +90,7 @@ class Formtype extends \Magento\Adminhtml\Controller\Action
      */
     public function newAction()
     {
-        \Mage::register('edit_mode', 'new');
+        $this->_coreRegistry->register('edit_mode', 'new');
         $this->_initFormType();
         $this->_initAction()
             ->renderLayout();
@@ -99,12 +118,11 @@ class Formtype extends \Magento\Adminhtml\Controller\Action
                 ));
                 $formType->save();
                 $formType->createFromSkeleton($skeleton);
-            }
+            } catch(Magento_Core_Exception $e) {
             catch(\Magento\Core\Exception $e) {
                 $hasError = true;
                 $this->_getSession()->addError($e->getMessage());
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 $hasError = true;
                 $this->_getSession()->addException($e,
                     __("We can't save the form type right now."));
@@ -126,7 +144,7 @@ class Formtype extends \Magento\Adminhtml\Controller\Action
      */
     public function editAction()
     {
-        \Mage::register('edit_mode', 'edit');
+        $this->_coreRegistry->register('edit_mode', 'edit');
         $this->_initFormType();
         $this->_initAction()
             ->renderLayout();
@@ -233,16 +251,16 @@ class Formtype extends \Magento\Adminhtml\Controller\Action
                 $formType->setLabel($request->getPost('label'));
                 $formType->save();
 
-                $treeData = \Mage::helper('Magento\Core\Helper\Data')->jsonDecode($request->getPost('form_type_data'));
+                $treeData = $this->_objectManager->get('Magento_Core_Helper_Data')
+                    ->jsonDecode($request->getPost('form_type_data'));
                 if (!empty($treeData) && is_array($treeData)) {
                     $this->_saveTreeData($formType, $treeData);
                 }
-            }
+            } catch (Magento_Core_Exception $e) {
             catch (\Magento\Core\Exception $e) {
                 $hasError = true;
                 $this->_getSession()->addError($e->getMessage());
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 $hasError = true;
                 $this->_getSession()->addException($e,
                     __("We can't save the form type right now."));
@@ -274,10 +292,10 @@ class Formtype extends \Magento\Adminhtml\Controller\Action
                     $formType->delete();
                     $message = __('The form type has been deleted.');
                     $this->_getSession()->addSuccess($message);
-                }
+                } catch (Magento_Core_Exception $e) {
                 catch (\Magento\Core\Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
-                }
+                } catch (Exception $e) {
                 catch (\Exception $e) {
                     $message = __('Something went wrong deleting the form type.');
                     $this->_getSession()->addException($e, $message);

@@ -20,6 +20,25 @@ namespace Magento\Adminhtml\Controller\Catalog\Product;
 
 class Set extends \Magento\Adminhtml\Controller\Action
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
     public function indexAction()
     {
         $this->_title(__('Product Templates'));
@@ -52,7 +71,7 @@ class Set extends \Magento\Adminhtml\Controller\Action
 
         $this->_title($attributeSet->getId() ? $attributeSet->getAttributeSetName() : __('New Set'));
 
-        \Mage::register('current_attribute_set', $attributeSet);
+        $this->_coreRegistry->register('current_attribute_set', $attributeSet);
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_attributes_sets');
@@ -63,15 +82,16 @@ class Set extends \Magento\Adminhtml\Controller\Action
             __('Manage Product Sets'),
             __('Manage Product Sets'));
 
-        $this->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main'));
+        $this->_addContent(
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main')
+        );
 
         $this->renderLayout();
     }
 
     public function setGridAction()
     {
-
-       $this->_setTypeId();
+        $this->_setTypeId();
         $this->loadLayout(false);
         $this->renderLayout();
     }
@@ -95,7 +115,7 @@ class Set extends \Magento\Adminhtml\Controller\Action
             ->setEntityTypeId($entityTypeId);
 
         /** @var $helper \Magento\Adminhtml\Helper\Data */
-        $helper = \Mage::helper('Magento\Adminhtml\Helper\Data');
+        $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Data');
 
         try {
             if ($isNewSet) {
@@ -109,7 +129,8 @@ class Set extends \Magento\Adminhtml\Controller\Action
                 if (!$model->getId()) {
                     \Mage::throwException(__('This attribute set no longer exists.'));
                 }
-                $data = \Mage::helper('Magento\Core\Helper\Data')->jsonDecode($this->getRequest()->getPost('data'));
+                $data = $this->_objectManager->get('Magento_Core_Helper_Data')
+                    ->jsonDecode($this->getRequest()->getPost('data'));
 
                 //filter html tags
                 $data['attribute_set_name'] = $helper->stripTags($data['attribute_set_name']);
@@ -161,7 +182,8 @@ class Set extends \Magento\Adminhtml\Controller\Action
                 $response['error']   = 0;
                 $response['url']     = $this->getUrl('*/*/');
             }
-            $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')
+                ->jsonEncode($response));
         }
     }
 
@@ -204,7 +226,7 @@ class Set extends \Magento\Adminhtml\Controller\Action
      */
     protected function _setTypeId()
     {
-        \Mage::register('entityType',
+        $this->_coreRegistry->register('entityType',
             \Mage::getModel('Magento\Catalog\Model\Product')->getResource()->getTypeId());
     }
 
@@ -220,9 +242,9 @@ class Set extends \Magento\Adminhtml\Controller\Action
      */
     protected function _getEntityTypeId()
     {
-        if (is_null(\Mage::registry('entityType'))) {
+        if (is_null($this->_coreRegistry->registry('entityType'))) {
             $this->_setTypeId();
         }
-        return \Mage::registry('entityType');
+        return $this->_coreRegistry->registry('entityType');
     }
 }

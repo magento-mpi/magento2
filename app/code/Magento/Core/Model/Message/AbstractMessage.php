@@ -19,14 +19,26 @@ namespace Magento\Core\Model\Message;
 
 abstract class AbstractMessage
 {
+    /**
+     * @var string
+     */
     protected $_type;
+
+    /**
+     * @var string
+     */
     protected $_code;
+
     protected $_class;
     protected $_method;
     protected $_identifier;
     protected $_isSticky = false;
 
-    public function __construct($type, $code='')
+    /**
+     * @param string $type
+     * @param string $code
+     */
+    public function __construct($type, $code = '')
     {
         $this->_type = $type;
         $this->_code = $code;

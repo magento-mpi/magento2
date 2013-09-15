@@ -21,6 +21,29 @@ namespace Magento\Checkout\Model\Resource;
 class Agreement extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * Checkout data
+     *
+     * @var Magento_Checkout_Helper_Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Magento_Checkout_Helper_Data $checkoutData
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Checkout_Helper_Data $checkoutData,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_checkoutData = $checkoutData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Model initialization
      *
      */
@@ -39,7 +62,7 @@ class Agreement extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         // format height
         $height = $object->getContentHeight();
-        $height = \Mage::helper('Magento\Checkout\Helper\Data')->stripTags($height);
+        $height = $this->_checkoutData->stripTags($height);
         if (!$height) {
             $height = '';
         }

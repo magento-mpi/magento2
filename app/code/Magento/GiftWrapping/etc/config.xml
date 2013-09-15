@@ -70,28 +70,6 @@
             </order_creditmemo>
         </sales>
     </global>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_GiftWrapping>
-                    <files>
-                        <default>Magento_GiftWrapping.csv</default>
-                    </files>
-                </Magento_GiftWrapping>
-            </modules>
-        </translate>
-    </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_GiftWrapping>
-                    <files>
-                        <default>Magento_GiftWrapping.csv</default>
-                    </files>
-                </Magento_GiftWrapping>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <system>
             <media_storage_configuration>

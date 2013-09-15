@@ -120,35 +120,6 @@ class Observer
     }
 
     /**
-     * Copy additional information about theme change time
-     *
-     * @param \Magento\Event\Observer $event
-     */
-    public function copyChangeTime($event)
-    {
-        /** @var $sourceTheme \Magento\Core\Model\Theme|null */
-        $sourceTheme = $event->getData('sourceTheme');
-        /** @var $targetTheme \Magento\Core\Model\Theme|null */
-        $targetTheme = $event->getData('targetTheme');
-        if ($sourceTheme && $targetTheme) {
-            /** @var $sourceChange \Magento\DesignEditor\Model\Theme\Change */
-            $sourceChange = $this->_objectManager->create('Magento\DesignEditor\Model\Theme\Change');
-            $sourceChange->loadByThemeId($sourceTheme->getId());
-            /** @var $targetChange \Magento\DesignEditor\Model\Theme\Change */
-            $targetChange = $this->_objectManager->create('Magento\DesignEditor\Model\Theme\Change');
-            $targetChange->loadByThemeId($targetTheme->getId());
-
-            if ($sourceChange->getId()) {
-                $targetChange->setThemeId($targetTheme->getId());
-                $targetChange->setChangeTime($sourceChange->getChangeTime());
-                $targetChange->save();
-            } elseif ($targetChange->getId()) {
-                $targetChange->delete();
-            }
-        }
-    }
-
-    /**
      * Determine if the vde specific translation class should be used.
      *
      * @param  \Magento\Event\Observer $observer

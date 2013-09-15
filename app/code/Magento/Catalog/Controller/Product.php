@@ -1,19 +1,13 @@
 <?php
 /**
+ * Product controller.
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Product controller
- *
- * @category   Magento
- * @package    Magento_Catalog
- */
 namespace Magento\Catalog\Controller;
 
 class Product
@@ -33,7 +27,7 @@ class Product
         $params = new \Magento\Object();
         $params->setCategoryId($categoryId);
 
-        return \Mage::helper('Magento\Catalog\Helper\Product')->initProduct($productId, $this, $params);
+        return $this->_objectManager->get('Magento\Catalog\Helper\Product')->initProduct($productId, $this, $params);
     }
 
     /**
@@ -44,7 +38,7 @@ class Product
      */
     protected function _initProductLayout($product)
     {
-        \Mage::helper('Magento\Catalog\Helper\Product\View')->initProductLayout($product, $this);
+        $this->_objectManager->get('Magento\Catalog\Helper\Product\View')->initProductLayout($product, $this);
         return $this;
     }
 
@@ -60,7 +54,7 @@ class Product
 
         // Prepare helper and params
         /** @var \Magento\Catalog\Helper\Product\View $viewHelper */
-        $viewHelper = \Mage::helper('Magento\Catalog\Helper\Product\View');
+        $viewHelper = $this->_objectManager->get('Magento\Catalog\Helper\Product\View');
 
         $params = new \Magento\Object();
         $params->setCategoryId($categoryId);

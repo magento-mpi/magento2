@@ -49,7 +49,9 @@ class Magento_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(Mage::app()->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')));
         $this->_layoutMock->expects($this->any())->method('helper')
             ->with('Magento\Core\Helper\Data')
-            ->will($this->returnValue(Mage::helper('Magento\Core\Helper\Data')));
+            ->will($this->returnValue(
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
+            ));
 
 
         $this->_block = Mage::app()->getLayout()->createBlock('Magento\Backend\Block\Widget\Grid');
@@ -65,6 +67,7 @@ class Magento_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
     protected function _getColumnSetMock()
     {
         return $this->getMock('Magento\Backend\Block\Widget\Grid\ColumnSet', array(), array(
+            $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
             Mage::getModel('Magento\Core\Block\Template\Context', array(
                 'dirs' => new \Magento\Core\Model\Dir(__DIR__),
                 'filesystem' => new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local),

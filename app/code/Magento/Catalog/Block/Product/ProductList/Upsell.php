@@ -10,10 +10,6 @@
 
 /**
  * Catalog product related items block
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Catalog\Block\Product\ProductList;
@@ -37,13 +33,12 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct
 
     protected function _prepareData()
     {
-        $product = \Mage::registry('product');
+        $product = $this->_coreRegistry->registry('product');
         /* @var $product \Magento\Catalog\Model\Product */
         $this->_itemCollection = $product->getUpSellProductCollection()
             ->setPositionOrder()
-            ->addStoreFilter()
-        ;
-        if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_Checkout')) {
+            ->addStoreFilter();
+        if ($this->_catalogData->isModuleEnabled('Magento_Checkout')) {
             \Mage::getResourceSingleton('Magento\Checkout\Model\Resource\Cart')
                 ->addExcludeProductFilter(
                     $this->_itemCollection,
@@ -65,7 +60,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct
         /**
          * Updating collection with desired items
          */
-        \Mage::dispatchEvent('catalog_product_upsell', array(
+        $this->_eventManager->dispatch('catalog_product_upsell', array(
             'product'       => $product,
             'collection'    => $this->_itemCollection,
             'limit'         => $this->getItemLimit()
@@ -151,8 +146,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct
         }
         if (isset($this->_itemLimits[$type])) {
             return $this->_itemLimits[$type];
-        }
-        else {
+        } else {
             return 0;
         }
     }

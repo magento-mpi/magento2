@@ -115,14 +115,6 @@ interface AppInterface extends \Magento\Core\Model\StoreManagerInterface
     public function getLayout();
 
     /**
-     * Retrieve helper object
-     *
-     * @param string $name
-     * @return \Magento\Core\Helper\AbstractHelper
-     */
-    public function getHelper($name);
-
-    /**
      * Retrieve application base currency code
      *
      * @return string

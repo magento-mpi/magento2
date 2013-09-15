@@ -23,7 +23,8 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
         $this->_segmentHelper = $this->getMock(
             'Magento\CustomerSegment\Helper\Data', array('isEnabled', 'addSegmentFieldsToForm'), array(), '', false
         );
-        $this->_model = new \Magento\CustomerSegment\Model\Observer($this->_segmentHelper);
+        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $this->_model = new Magento_CustomerSegment_Model_Observer($this->_segmentHelper, $coreRegistry);
     }
 
     protected function tearDown()
@@ -48,9 +49,12 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
             ->will($this->returnValue($formDependency))
         ;
 
-        $form = new \Magento\Data\Form();
-        $model = new \Magento\Object();
-        $block = new \Magento\Object(array('layout' => $layout));
+        $factoryElement = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
+        $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array('create'),
+            array(), '', false);
+        $form = new Magento_Data_Form($factoryElement, $collectionFactory);
+        $model = new Magento_Object();
+        $block = new Magento_Object(array('layout' => $layout));
 
         $this->_segmentHelper
             ->expects($this->once())->method('addSegmentFieldsToForm')->with($form, $model, $formDependency);
@@ -67,9 +71,12 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
         $layout = $this->getMock('Magento\Core\Model\Layout', array('createBlock'), array(), '', false);
         $layout->expects($this->never())->method('createBlock');
 
-        $form = new \Magento\Data\Form();
-        $model = new \Magento\Object();
-        $block = new \Magento\Object(array('layout' => $layout));
+        $factoryElement = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
+        $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array('create'),
+            array(), '', false);
+        $form = new Magento_Data_Form($factoryElement, $collectionFactory);
+        $model = new Magento_Object();
+        $block = new Magento_Object(array('layout' => $layout));
 
         $this->_segmentHelper->expects($this->never())->method('addSegmentFieldsToForm');
 

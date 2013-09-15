@@ -44,7 +44,7 @@ class Category extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategor
             $result = $this->_getNodesArray($this->getRoot(null, $recursionLevel));
         }
         if ($asJson) {
-            return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
+            return $this->_coreData->jsonEncode($result);
         }
         return $result;
     }

@@ -38,10 +38,29 @@ class Form extends \Magento\Backend\Block\AbstractBlock
     protected $_profile = null;
 
     /**
-     *
+     * @var Magento_Catalog_Model_Product
      * @var \Magento\Catalog\Model\Product
      */
     protected $_product = null;
+
+    /**
+     * @var Magento_Data_Form_Factory
+     */
+    protected $_formFactory;
+
+    /**
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Backend_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Backend_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_formFactory = $formFactory;
+        parent::__construct($context, $data);
+    }
 
     /**
      * Setter for parent element
@@ -96,7 +115,7 @@ class Form extends \Magento\Backend\Block\AbstractBlock
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        $form = $this->_formFactory->create();
 
         $form->setFieldsetRenderer(
             $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')

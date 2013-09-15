@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Block\Catalog\Category;
 
-class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
+class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * Default Attribute Tab Block
@@ -27,6 +27,39 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
     protected $_attributeTabBlock = 'Magento\Adminhtml\Block\Catalog\Category\Tab\Attributes';
 
     protected $_template = 'widget/tabshoriz.phtml';
+
+   /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * Adminhtml catalog
+     *
+     * @var \Magento\Adminhtml\Helper\Catalog
+     */
+    protected $_adminhtmlCatalog = null;
+
+    /**
+     * @param \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_adminhtmlCatalog = $adminhtmlCatalog;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Initialize Tabs
@@ -48,17 +81,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
      */
     public function getCategory()
     {
-        return \Mage::registry('current_category');
-    }
-
-    /**
-     * Return Adminhtml Catalog Helper
-     *
-     * @return \Magento\Adminhtml\Helper\Catalog
-     */
-    public function getCatalogHelper()
-    {
-        return \Mage::helper('Magento\Adminhtml\Helper\Catalog');
+        return $this->_coreRegistry->registry('current_category');
     }
 
     /**
@@ -68,7 +91,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
      */
     public function getAttributeTabBlock()
     {
-        if ($block = $this->getCatalogHelper()->getCategoryAttributeTabBlock()) {
+        if ($block = $this->_adminhtmlCatalog->getCategoryAttributeTabBlock()) {
             return $block;
         }
         return $this->_attributeTabBlock;
@@ -143,7 +166,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
         ));
 
         // dispatch event add custom tabs
-        \Mage::dispatchEvent('adminhtml_catalog_category_tabs', array(
+        $this->_eventManager->dispatch('adminhtml_catalog_category_tabs', array(
             'tabs'  => $this
         ));
 

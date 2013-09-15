@@ -27,7 +27,11 @@ class Magento_Webhook_Block_Adminhtml_Registration_ActivateTest extends PHPUnit_
     public function setUp()
     {
         $this->_urlBuilder = $this->getMock('Magento\Core\Model\Url', array('getUrl'), array(), '', false);
-        /** @var \Magento\Core\Block\Template\Context $context */
+
+        /** @var  $coreData Magento_Core_Helper_Data */
+        $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+
+        /** @var Magento_Core_Block_Template_Context $context */
         $context = $this->getMock('Magento\Backend\Block\Template\Context', array('getUrlBuilder'), array(), '', false);
         $context->expects($this->once())
             ->method('getUrlBuilder')
@@ -38,7 +42,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_ActivateTest extends PHPUnit_
             ->method('registry')
             ->with('current_subscription')
             ->will($this->returnValue($this->_subscription));
-        $this->_block = new \Magento\Webhook\Block\Adminhtml\Registration\Activate($context, $registry);
+        $this->_block = new Magento_Webhook_Block_Adminhtml_Registration_Activate($coreData, $context, $registry);
     }
 
     public function testGetAcceptUrl()

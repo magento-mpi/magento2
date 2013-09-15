@@ -20,6 +20,37 @@ namespace Magento\Rss\Block\Catalog;
 class Review extends \Magento\Core\Block\AbstractBlock
 {
     /**
+     * Rss data
+     *
+     * @var Magento_Rss_Helper_Data
+     */
+    protected $_rssData = null;
+
+    /**
+     * Adminhtml data
+     *
+     * @var Magento_Backend_Helper_Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * @param Magento_Backend_Helper_Data $adminhtmlData
+     * @param Magento_Rss_Helper_Data $rssData
+     * @param Magento_Core_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Helper_Data $adminhtmlData,
+        Magento_Rss_Helper_Data $rssData,
+        Magento_Core_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_adminhtmlData = $adminhtmlData;
+        $this->_rssData = $rssData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Render XML response
      *
      * @return string
@@ -28,7 +59,7 @@ class Review extends \Magento\Core\Block\AbstractBlock
     {
         $newUrl = \Mage::getUrl('rss/catalog/review');
         $title = __('Pending product review(s)');
-        \Mage::helper('Magento\Rss\Helper\Data')->disableFlat();
+        $this->_rssData->disableFlat();
 
         $rssObj = \Mage::getModel('Magento\Rss\Model\Rss');
         $data = array(
@@ -46,7 +77,7 @@ class Review extends \Magento\Core\Block\AbstractBlock
             ->addAttributeToSelect('name', 'inner')
             ->setDateOrder();
 
-        \Mage::dispatchEvent('rss_catalog_review_collection_select', array('collection' => $collection));
+        $this->_eventManager->dispatch('rss_catalog_review_collection_select', array('collection' => $collection));
 
         \Mage::getSingleton('Magento\Core\Model\Resource\Iterator')->walk(
             $collection->getSelect(),
@@ -69,7 +100,7 @@ class Review extends \Magento\Core\Block\AbstractBlock
         $store = \Mage::app()->getStore($row['store_id']);
         $urlModel = \Mage::getModel('Magento\Core\Model\Url')->setStore($store);
         $productUrl = $urlModel->getUrl('catalog/product/view', array('id' => $row['entity_id']));
-        $reviewUrl = \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl(
+        $reviewUrl = $this->_adminhtmlData->getUrl(
             'adminhtml/catalog_product_review/edit/',
             array('id' => $row['review_id'], '_secure' => true, '_nosecret' => true));
         $storeName = $store->getName();

@@ -36,7 +36,7 @@ class Magento_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
         $urlMock->expects($this->at($setStoreCount))->method('setStore');
         $urlMock->expects($this->any())->method('getUrl')->will($this->returnValue('some_url'));
 
-        $storeMock = $this->getMock('Magento\Core\Model\Store', array('isUseStoreInUrl'), array(), '', false);
+        $storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $storeMock->expects($this->any())->method('isUseStoreInUrl')->will($this->returnValue($isUseStoreInUrl));
         $storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface');
         $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));

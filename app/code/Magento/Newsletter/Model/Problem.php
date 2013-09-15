@@ -89,11 +89,11 @@ class Problem extends \Magento\Core\Model\AbstractModel
      */
     public function getSubscriber()
     {
-        if(!$this->getSubscriberId()) {
+        if (!$this->getSubscriberId()) {
             return null;
         }
 
-        if(is_null($this->_subscriber)) {
+        if (is_null($this->_subscriber)) {
             $this->_subscriber = \Mage::getModel('Magento\Newsletter\Model\Subscriber')
                 ->load($this->getSubscriberId());
         }
@@ -108,7 +108,7 @@ class Problem extends \Magento\Core\Model\AbstractModel
      */
     public function unsubscribe()
     {
-        if($this->getSubscriber()) {
+        if ($this->getSubscriber()) {
             $this->getSubscriber()->setSubscriberStatus(\Magento\Newsletter\Model\Subscriber::STATUS_UNSUBSCRIBED)
                 ->setIsStatusChanged(true)
                 ->save();

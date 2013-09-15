@@ -21,6 +21,25 @@ namespace Magento\CatalogSearch\Model\Resource\Fulltext;
 class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * Catalog search data
+     *
+     * @var Magento_CatalogSearch_Helper_Data
+     */
+    protected $_catalogSearchData = null;
+
+    /**
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_catalogSearchData = $catalogSearchData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Init resource model
      *
      */
@@ -132,7 +151,7 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function prepareEntityIndex($index, $separator = ' ')
     {
-        return \Mage::helper('Magento\CatalogSearch\Helper\Data')->prepareIndexdata($index, $separator);
+        return $this->_catalogSearchData->prepareIndexdata($index, $separator);
     }
 
     /**

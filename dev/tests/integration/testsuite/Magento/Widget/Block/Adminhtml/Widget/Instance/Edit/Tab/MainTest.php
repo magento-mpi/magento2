@@ -16,7 +16,9 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_MainTest extends P
 {
     public function testPackageThemeElement()
     {
-        Mage::register('current_widget_instance', new \Magento\Object());
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_widget_instance', new \Magento\Object());
         $block = Mage::app()->getLayout()->createBlock(
             'Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main');
         $block->setTemplate(null);

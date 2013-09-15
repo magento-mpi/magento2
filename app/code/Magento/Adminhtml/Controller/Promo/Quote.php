@@ -13,11 +13,30 @@ namespace Magento\Adminhtml\Controller\Promo;
 
 class Quote extends \Magento\Adminhtml\Controller\Action
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
     protected function _initRule()
     {
         $this->_title(__('Cart Price Rules'));
 
-        \Mage::register('current_promo_quote_rule', \Mage::getModel('Magento\SalesRule\Model\Rule'));
+        $this->_coreRegistry->register('current_promo_quote_rule', \Mage::getModel('Magento\SalesRule\Model\Rule'));
         $id = (int)$this->getRequest()->getParam('id');
 
         if (!$id && $this->getRequest()->getParam('rule_id')) {
@@ -25,7 +44,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
         }
 
         if ($id) {
-            \Mage::registry('current_promo_quote_rule')->load($id);
+            $this->_coreRegistry->registry('current_promo_quote_rule')->load($id);
         }
     }
 
@@ -78,7 +97,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
         $model->getConditions()->setJsFormObject('rule_conditions_fieldset');
         $model->getActions()->setJsFormObject('rule_actions_fieldset');
 
-        \Mage::register('current_promo_quote_rule', $model);
+        $this->_coreRegistry->register('current_promo_quote_rule', $model);
 
         $this->_initAction()->getLayout()->getBlock('promo_quote_edit')
              ->setData('action', $this->getUrl('*/*/save'));
@@ -120,7 +139,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
 
                 $validateResult = $model->validateData(new \Magento\Object($data));
                 if ($validateResult !== true) {
-                    foreach($validateResult as $errorMessage) {
+                    foreach ($validateResult as $errorMessage) {
                         $session->addError($errorMessage);
                     }
                     $session->setPageData($data);
@@ -129,7 +148,8 @@ class Quote extends \Magento\Adminhtml\Controller\Action
                 }
 
                 if (isset($data['simple_action']) && $data['simple_action'] == 'by_percent'
-                && isset($data['discount_amount'])) {
+                    && isset($data['discount_amount'])
+                ) {
                     $data['discount_amount'] = min(100,$data['discount_amount']);
                 }
                 if (isset($data['rule']['conditions'])) {
@@ -179,7 +199,8 @@ class Quote extends \Magento\Adminhtml\Controller\Action
 
     public function deleteAction()
     {
-        if ($id = $this->getRequest()->getParam('id')) {
+        $id = $this->getRequest()->getParam('id');
+        if ($id) {
             try {
                 $model = \Mage::getModel('Magento\SalesRule\Model\Rule');
                 $model->load($id);
@@ -274,7 +295,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
     public function exportCouponsXmlAction()
     {
         $this->_initRule();
-        $rule = \Mage::registry('current_promo_quote_rule');
+        $rule = $this->_coreRegistry->registry('current_promo_quote_rule');
         if ($rule->getId()) {
             $fileName = 'coupon_codes.xml';
             $content = $this->getLayout()
@@ -295,7 +316,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
     public function exportCouponsCsvAction()
     {
         $this->_initRule();
-        $rule = \Mage::registry('current_promo_quote_rule');
+        $rule = $this->_coreRegistry->registry('current_promo_quote_rule');
         if ($rule->getId()) {
             $fileName = 'coupon_codes.csv';
             $content = $this->getLayout()
@@ -314,7 +335,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
     public function couponsMassDeleteAction()
     {
         $this->_initRule();
-        $rule = \Mage::registry('current_promo_quote_rule');
+        $rule = $this->_coreRegistry->registry('current_promo_quote_rule');
 
         if (!$rule->getId()) {
             $this->_forward('noRoute');
@@ -345,8 +366,8 @@ class Quote extends \Magento\Adminhtml\Controller\Action
         $result = array();
         $this->_initRule();
 
-        /** @var $rule \Magento\SalesRule\Model\Rule */
-        $rule = \Mage::registry('current_promo_quote_rule');
+        /** @var $rule Magento_SalesRule_Model_Rule */
+        $rule = $this->_coreRegistry->registry('current_promo_quote_rule');
 
         if (!$rule->getId()) {
             $result['error'] = __('Rule is not defined');
@@ -372,11 +393,12 @@ class Quote extends \Magento\Adminhtml\Controller\Action
             } catch (\Magento\Core\Exception $e) {
                 $result['error'] = $e->getMessage();
             } catch (\Exception $e) {
-                $result['error'] = __('Something went wrong while generating coupons. Please review the log and try again.');
+                $result['error'] = __('Something went wrong while generating coupons. '
+                    . 'Please review the log and try again.');
                 \Mage::logException($e);
             }
         }
-        $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 
     /**
@@ -385,9 +407,8 @@ class Quote extends \Magento\Adminhtml\Controller\Action
     public function chooserAction()
     {
         $uniqId = $this->getRequest()->getParam('uniq_id');
-        $chooserBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Promo\Widget\Chooser', '', array(
-            'data' => array('id' => $uniqId)
-        ));
+        $chooserBlock = $this->getLayout()
+            ->createBlock('Magento\Adminhtml\Block\Promo\Widget\Chooser', '', array('data' => array('id' => $uniqId)));
         $this->getResponse()->setBody($chooserBlock->toHtml());
     }
 

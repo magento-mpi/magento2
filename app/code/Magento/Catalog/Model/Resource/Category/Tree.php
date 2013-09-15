@@ -61,11 +61,23 @@ class Tree extends \Magento\Data\Tree\Dbp
     protected $_storeId                          = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * Initialize tree
      *
+     *
+     *
+     * @param Magento_Core_Model_Event_Manager $eventManager
      */
-    public function __construct()
-    {
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager
+    ) {
+        $this->_eventManager = $eventManager;
         $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
 
         parent::__construct(
@@ -116,8 +128,8 @@ class Tree extends \Magento\Data\Tree\Dbp
      * @return \Magento\Catalog\Model\Resource\Category\Tree
      */
     public function addCollectionData($collection = null, $sorted = false, $exclude = array(), $toLoad = true,
-        $onlyActive = false)
-    {
+        $onlyActive = false
+    ) {
         if (is_null($collection)) {
             $collection = $this->getCollection($sorted);
         } else {
@@ -193,7 +205,7 @@ class Tree extends \Magento\Data\Tree\Dbp
     protected function _initInactiveCategoryIds()
     {
         $this->_inactiveCategoryIds = array();
-        \Mage::dispatchEvent('catalog_category_tree_init_inactive_category_ids', array('tree' => $this));
+        $this->_eventManager->dispatch('catalog_category_tree_init_inactive_category_ids', array('tree' => $this));
         return $this;
     }
 
@@ -380,25 +392,6 @@ class Tree extends \Magento\Data\Tree\Dbp
     }
 
     /**
-     * Move tree before
-     *
-     * @param unknown_type $category
-     * @param \Magento\Data\Tree\Node $newParent
-     * @param \Magento\Data\Tree\Node $prevNode
-     * @return \Magento\Catalog\Model\Resource\Category\Tree
-     */
-    protected function _beforeMove($category, $newParent, $prevNode)
-    {
-        \Mage::dispatchEvent('catalog_category_tree_move_before', array(
-            'category'      => $category,
-            'prev_parent'   => $prevNode,
-            'parent'        => $newParent
-        ));
-
-        return $this;
-    }
-
-    /**
      * Executing parents move method and cleaning cache after it
      *
      * @param unknown_type $category
@@ -407,32 +400,24 @@ class Tree extends \Magento\Data\Tree\Dbp
      */
     public function move($category, $newParent, $prevNode = null)
     {
-        $this->_beforeMove($category, $newParent, $prevNode);
         \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category')
             ->move($category->getId(), $newParent->getId());
         parent::move($category, $newParent, $prevNode);
 
-        $this->_afterMove($category, $newParent, $prevNode);
+        $this->_afterMove();
     }
 
     /**
      * Move tree after
      *
-     * @param unknown_type $category
+     * @return \Magento\Catalog\Model\Resource\Category\Tree
      * @param \Magento\Data\Tree\Node $newParent
      * @param \Magento\Data\Tree\Node $prevNode
      * @return \Magento\Catalog\Model\Resource\Category\Tree
      */
-    protected function _afterMove($category, $newParent, $prevNode)
+    protected function _afterMove()
     {
         \Mage::app()->cleanCache(array(\Magento\Catalog\Model\Category::CACHE_TAG));
-
-        \Mage::dispatchEvent('catalog_category_tree_move_after', array(
-            'category'  => $category,
-            'prev_node' => $prevNode,
-            'parent'    => $newParent
-        ));
-
         return $this;
     }
 

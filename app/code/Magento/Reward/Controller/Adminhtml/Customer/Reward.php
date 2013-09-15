@@ -28,7 +28,7 @@ class Reward extends \Magento\Adminhtml\Controller\Action
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!\Mage::helper('Magento\Reward\Helper\Data')->isEnabled()
+        if (!$this->_objectManager->get('Magento\Reward\Helper\Data')->isEnabled()
             && $this->getRequest()->getActionName() != 'noroute'
         ) {
             $this->_forward('noroute');

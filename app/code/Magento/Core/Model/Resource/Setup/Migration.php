@@ -10,6 +10,7 @@
 
 /**
  * Resource setup model with methods needed for migration process between Magento versions
+ * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
 namespace Magento\Core\Model\Resource\Setup;
 
@@ -130,33 +131,39 @@ class Migration extends \Magento\Core\Model\Resource\Setup
     protected $_filesystem;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param \Magento\Core\Model\Config\Resource $resourcesConfig
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
      * @param \Magento\Filesystem $filesystem
+     * @param Magento_Core_Helper_Data $helper
      * @param $resourceName
+     * @param Magento_Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         \Magento\Core\Model\Config\Resource $resourcesConfig,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\ModuleListInterface $moduleList,
         \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\Config\Modules\Reader $modulesReader,
         \Magento\Filesystem $filesystem,
+        Magento_Core_Helper_Data $helper,
         $resourceName,
         array $data = array()
     ) {
         $this->_filesystem = $filesystem;
+        $this->_coreHelper = $helper;
         if (!isset($data['resource_config'])
             || !isset($data['connection_config'])
             || !isset($data['module_config'])
             || !isset($data['connection'])
         ) {
             parent::__construct(
-                $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
+                $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
             );
         } else {
             $this->_resourceModel = $resource;

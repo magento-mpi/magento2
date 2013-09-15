@@ -18,7 +18,7 @@
 
 namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar;
 
-class Main extends \Magento\Adminhtml\Block\Template
+class Main extends \Magento\Backend\Block\Template
 {
     /**
      * @var string
@@ -47,7 +47,9 @@ class Main extends \Magento\Adminhtml\Block\Template
 
     protected function _toHtml()
     {
-        \Mage::dispatchEvent('adminhtml_catalog_product_attribute_set_toolbar_main_html_before', array('block' => $this));
+        $this->_eventManager->dispatch('adminhtml_catalog_product_attribute_set_toolbar_main_html_before', array(
+            'block' => $this,
+        ));
         return parent::_toHtml();
     }
 }

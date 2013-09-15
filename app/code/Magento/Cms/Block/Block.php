@@ -21,6 +21,27 @@ namespace Magento\Cms\Block;
 class Block extends \Magento\Core\Block\AbstractBlock
 {
     /**
+     * Cms data
+     *
+     * @var Magento_Cms_Helper_Data
+     */
+    protected $_cmsData = null;
+
+    /**
+     * @param Magento_Cms_Helper_Data $cmsData
+     * @param Magento_Core_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Cms_Helper_Data $cmsData,
+        Magento_Core_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_cmsData = $cmsData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Prepare Content HTML
      *
      * @return string
@@ -36,7 +57,7 @@ class Block extends \Magento\Core\Block\AbstractBlock
                 ->load($blockId);
             if ($block->getIsActive()) {
                 /* @var $helper \Magento\Cms\Helper\Data */
-                $helper = \Mage::helper('Magento\Cms\Helper\Data');
+                $helper = $this->_cmsData;
                 $processor = $helper->getBlockTemplateProcessor();
                 $html = $processor->setStoreId($storeId)
                     ->filter($block->getContent());

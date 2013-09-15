@@ -10,14 +10,20 @@
 
 namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
-
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
 
-        $giftcardaccount = \Mage::registry('current_giftcardaccount');
+        $giftcardaccount = $this->_coreRegistry->registry('current_giftcardaccount');
 
         if ($giftcardaccount->getId()) {
             $form->addField('giftcardaccount_id', 'hidden', array(

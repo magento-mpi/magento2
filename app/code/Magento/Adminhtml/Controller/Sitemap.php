@@ -11,14 +11,30 @@
 
 /**
  * XML sitemap controller
- *
- * @category   Magento
- * @package    Magento_Sitemap
  */
 namespace Magento\Adminhtml\Controller;
 
 class Sitemap extends  \Magento\Adminhtml\Controller\Action
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
     /**
      * Init actions
      *
@@ -34,8 +50,8 @@ class Sitemap extends  \Magento\Adminhtml\Controller\Action
                 __('Catalog'))
             ->_addBreadcrumb(
                 __('XML Sitemap'),
-                __('XML Sitemap'))
-        ;
+                __('XML Sitemap')
+        );
         return $this;
     }
 
@@ -83,19 +99,20 @@ class Sitemap extends  \Magento\Adminhtml\Controller\Action
         $this->_title($model->getId() ? $model->getSitemapFilename() : __('New Site Map'));
 
         // 3. Set entered data if was error when we do save
-        $data = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getFormData(true);
-        if (! empty($data)) {
+        $data = Mage::getSingleton('Magento\Adminhtml\Model\Session')->getFormData(true);
+        if (!empty($data)) {
             $model->setData($data);
         }
 
         // 4. Register model to use later in blocks
-        \Mage::register('sitemap_sitemap', $model);
+        $this->_coreRegistry->register('sitemap_sitemap', $model);
 
         // 5. Build edit form
         $this->_initAction()
             ->_addBreadcrumb(
                 $id ? __('Edit Sitemap') : __('New Sitemap'),
-                $id ? __('Edit Sitemap') : __('New Sitemap'))
+                $id ? __('Edit Sitemap') : __('New Sitemap')
+            )
             ->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Sitemap\Edit'))
             ->renderLayout();
     }
@@ -106,7 +123,8 @@ class Sitemap extends  \Magento\Adminhtml\Controller\Action
     public function saveAction()
     {
         // check if data sent
-        if ($data = $this->getRequest()->getPost()) {
+        $data = $this->getRequest()->getPost();
+        if ($data) {
             // init model and set data
             /** @var \Magento\Sitemap\Model\Sitemap $model */
             $model = \Mage::getModel('Magento\Sitemap\Model\Sitemap');
@@ -118,7 +136,7 @@ class Sitemap extends  \Magento\Adminhtml\Controller\Action
                 /** @var $validator \Magento\Core\Model\File\Validator\AvailablePath */
                 $validator = \Mage::getModel('Magento\Core\Model\File\Validator\AvailablePath');
                 /** @var $helper \Magento\Adminhtml\Helper\Catalog */
-                $helper = \Mage::helper('Magento\Adminhtml\Helper\Catalog');
+                $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog');
                 $validator->setPaths($helper->getSitemapValidPaths());
                 if (!$validator->isValid($path)) {
                     foreach ($validator->getMessages() as $message) {
@@ -197,7 +215,8 @@ class Sitemap extends  \Magento\Adminhtml\Controller\Action
         /** @var \Magento\Filesystem $filesystem */
         $filesystem = $this->_objectManager->get('Magento\Filesystem');
         // check if we know what should be deleted
-        if ($id = $this->getRequest()->getParam('sitemap_id')) {
+        $id = $this->getRequest()->getParam('sitemap_id');
+        if ($id) {
             try {
                 // init model and delete
                 $model = \Mage::getModel('Magento\Sitemap\Model\Sitemap');
@@ -250,11 +269,10 @@ class Sitemap extends  \Magento\Adminhtml\Controller\Action
 
                 $this->_getSession()->addSuccess(
                     __('The sitemap "%1" has been generated.', $sitemap->getSitemapFilename()));
-            }
+            } catch (Magento_Core_Exception $e) {
             catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addException($e,
                     __('Something went wrong generating the sitemap.'));
             }

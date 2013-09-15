@@ -46,6 +46,13 @@ class Config extends \Magento\Core\Model\Config\Base
      */
     protected $_defaultTypes    = array();
 
+    /**
+     * Customer address
+     *
+     * @var Magento_Customer_Helper_Address
+     */
+    protected $_customerAddress = null;
+
     public function setStore($store)
     {
         $this->_store = \Mage::app()->getStore($store);
@@ -68,10 +75,15 @@ class Config extends \Magento\Core\Model\Config\Base
     /**
      * Define node
      *
+     *
+     *
+     * @param Magento_Customer_Helper_Address $customerAddress
      */
-    public function __construct()
-    {
-        parent::__construct(\Mage::getConfig()->getNode()->global->customer->address);
+    public function __construct(
+        Magento_Customer_Helper_Address $customerAddress
+    ) {
+        $this->_customerAddress = $customerAddress;
+        parent::__construct(Mage::getConfig()->getNode()->global->customer->address);
     }
 
     /**
@@ -102,7 +114,7 @@ class Config extends \Magento\Core\Model\Config\Base
                 }
 
                 $type->setRenderer(
-                    \Mage::helper('Magento\Customer\Helper\Address')->getRenderer($renderer)->setType($type)
+                    $this->_customerAddress->getRenderer($renderer)->setType($type)
                 );
 
                 $this->_types[$storeId][] = $type;
@@ -129,7 +141,7 @@ class Config extends \Magento\Core\Model\Config\Base
                         . '{{var street}}, {{var city}}, {{var region}} {{var postcode}}, {{var country}}');
 
             $this->_defaultType[$storeId]->setRenderer(
-                \Mage::helper('Magento\Customer\Helper\Address')
+                $this->_customerAddress
                     ->getRenderer(self::DEFAULT_ADDRESS_RENDERER)->setType($this->_defaultType[$storeId])
             );
         }

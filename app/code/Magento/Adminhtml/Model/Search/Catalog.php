@@ -20,20 +20,55 @@ namespace Magento\Adminhtml\Model\Search;
 class Catalog extends \Magento\Object
 {
     /**
+     * Catalog search data
+     *
+     * @var Magento_CatalogSearch_Helper_Data
+     */
+    protected $_catalogSearchData = null;
+
+    /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * Adminhtml data
+     *
+     * @var Magento_Adminhtml_Helper_Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Data $adminhtmlData,
+        Magento_Core_Helper_String $coreString,
+        Magento_CatalogSearch_Helper_Data $catalogSearchData
+    ) {
+        $this->_adminhtmlData = $adminhtmlData;
+        $this->_coreString = $coreString;
+        $this->_catalogSearchData = $catalogSearchData;
+    }
+
+    /**
      * Load search results
      *
      * @return \Magento\Adminhtml\Model\Search\Catalog
      */
     public function load()
     {
-        $arr = array();
-
+        $result = array();
         if (!$this->hasStart() || !$this->hasLimit() || !$this->hasQuery()) {
-            $this->setResults($arr);
+            $this->setResults($result);
             return $this;
         }
 
-        $collection = \Mage::helper('Magento\CatalogSearch\Helper\Data')->getQuery()->getSearchCollection()
+        $collection = $this->_catalogSearchData->getQuery()->getSearchCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('description')
             ->addSearchFilter($this->getQuery())
@@ -43,21 +78,16 @@ class Catalog extends \Magento\Object
 
         foreach ($collection as $product) {
             $description = strip_tags($product->getDescription());
-            $arr[] = array(
+            $result[] = array(
                 'id'            => 'product/1/'.$product->getId(),
                 'type'          => __('Product'),
                 'name'          => $product->getName(),
-                'description'   => \Mage::helper('Magento\Core\Helper\String')->substr($description, 0, 30),
-                'url' => \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl(
-                    '*/catalog_product/edit',
-                    array(
-                        'id' => $product->getId()
-                    )
-                ),
+                'description'   => $this->_coreString->substr($description, 0, 30),
+                'url' => $this->_adminhtmlData->getUrl('*/catalog_product/edit', array('id' => $product->getId())),
             );
         }
 
-        $this->setResults($arr);
+        $this->setResults($result);
 
         return $this;
     }

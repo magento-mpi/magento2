@@ -98,7 +98,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
                 )
             ));
 
-            \Mage::dispatchEvent('sales_prepare_amount_expression', array(
+            $this->_eventManager->dispatch('sales_prepare_amount_expression', array(
                 'collection' => $this,
                 'expression_object' => $expressionTransferObject,
             ));

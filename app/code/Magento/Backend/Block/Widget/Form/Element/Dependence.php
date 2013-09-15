@@ -50,6 +50,27 @@ class Dependence extends \Magento\Backend\Block\AbstractBlock
      * @param string $fieldName - element name in their fieldset/form namespace
      * @return \Magento\Backend\Block\Widget\Form\Element\Dependence
      */
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context, $data);
+    }
+
     public function addFieldMap($fieldId, $fieldName)
     {
         $this->_fields[$fieldName] = $fieldId;
@@ -100,7 +121,7 @@ class Dependence extends \Magento\Backend\Block\AbstractBlock
         return '<script type="text/javascript"> new FormElementDependenceController('
             . $this->_getDependsJson()
             . ($this->_configOptions ? ', '
-            . \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($this->_configOptions) : '')
+            . $this->_coreData->jsonEncode($this->_configOptions) : '')
             . '); </script>';
     }
 
@@ -120,6 +141,6 @@ class Dependence extends \Magento\Backend\Block\AbstractBlock
                 );
             }
         }
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 }

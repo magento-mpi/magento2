@@ -20,7 +20,6 @@ namespace Magento\Adminhtml\Block\Dashboard\Tab\Products;
 
 class Ordered extends \Magento\Adminhtml\Block\Dashboard\Grid
 {
-
     protected function _construct()
     {
         parent::_construct();
@@ -29,7 +28,7 @@ class Ordered extends \Magento\Adminhtml\Block\Dashboard\Grid
 
     protected function _prepareCollection()
     {
-        if (!\Mage::helper('Magento\Core\Helper\Data')->isModuleEnabled('Magento_Sales')) {
+        if (!$this->_coreData->isModuleEnabled('Magento_Sales')) {
             return $this;
         }
         if ($this->getParam('website')) {

@@ -41,7 +41,7 @@ class Content extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         } else {
             $descrText = 'no description';
         }
-        $descrText = \Mage::helper('Magento\GoogleShopping\Helper\Data')->cleanAtomAttribute($descrText);
+        $descrText = $this->_gsData->cleanAtomAttribute($descrText);
         $entry->setContent($entry->getService()->newContent()->setText($descrText));
 
         return $entry;

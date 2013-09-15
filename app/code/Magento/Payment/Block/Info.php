@@ -145,7 +145,7 @@ class Info extends \Magento\Core\Block\Template
             } elseif (is_array($transport)) {
                 $transport = new \Magento\Object($transport);
             }
-            \Mage::dispatchEvent('payment_info_block_prepare_specific_information', array(
+            $this->_eventManager->dispatch('payment_info_block_prepare_specific_information', array(
                 'transport' => $transport,
                 'payment'   => $this->getInfo(),
                 'block'     => $this,

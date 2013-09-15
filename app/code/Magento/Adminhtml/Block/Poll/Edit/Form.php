@@ -18,15 +18,17 @@
 
 namespace Magento\Adminhtml\Block\Poll\Edit;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form(array(
-                                        'id' => 'edit_form',
-                                        'action' => $this->getUrl('*/*/save', array('id' => $this->getRequest()->getParam('id'))),
-                                        'method' => 'post',
-                                     )
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getUrl('*/*/save', array('id' => $this->getRequest()->getParam('id'))),
+                'method' => 'post',
+            ))
         );
 
         $form->setUseContainer(true);

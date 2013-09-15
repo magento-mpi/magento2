@@ -24,7 +24,8 @@ class Widget extends \Magento\Backend\Block\Template
     public function getId()
     {
         if (null === $this->getData('id')) {
-            $this->setData('id', $this->helper('Magento\Core\Helper\Data')->uniqHash('id_'));
+            $helper = $this->helper('Magento_Core_Helper_Data');
+            $this->setData('id', $helper->uniqHash('id_'));
         }
         return $this->getData('id');
     }

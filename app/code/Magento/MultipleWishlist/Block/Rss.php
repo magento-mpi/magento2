@@ -32,7 +32,7 @@ class Rss extends \Magento\Rss\Block\Wishlist
             if ($wishlistId) {
                 $this->_wishlist->load($wishlistId);
             } else {
-                if($this->_getCustomer()->getId()) {
+                if ($this->_getCustomer()->getId()) {
                     $this->_wishlist->loadByCustomer($this->_getCustomer());
                 }
             }
@@ -51,8 +51,8 @@ class Rss extends \Magento\Rss\Block\Wishlist
         if ($this->_getWishlist()->getCustomerId() !== $customer->getId()) {
             $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($this->_getWishlist()->getCustomerId());
         }
-        if (\Mage::helper('Magento\MultipleWishlist\Helper\Data')->isWishlistDefault($this->_getWishlist())
-            && $this->_getWishlist()->getName() == \Mage::helper('Magento\MultipleWishlist\Helper\Data')->getDefaultWishlistName()
+        if ($this->_wishlistData->isWishlistDefault($this->_getWishlist())
+            && $this->_getWishlist()->getName() == $this->_wishlistData->getDefaultWishlistName()
         ) {
             return __("%1's Wish List", $customer->getName());
         } else {

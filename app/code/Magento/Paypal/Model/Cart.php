@@ -96,15 +96,26 @@ class Cart
     protected $_isShippingAsItem = false;
 
     /**
-     * Require instance of an order or a quote
+     * Core event manager proxy
      *
-     * @param array $params
+     * @var Magento_Core_Model_Event_Manager
      */
-    public function __construct($params = array())
-    {
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param array $params
+     * @throws Exception
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        $params = array()
+    ) {
+        $this->_eventManager = $eventManager;
         $salesEntity = array_shift($params);
         if (is_object($salesEntity)
-            && (($salesEntity instanceof \Magento\Sales\Model\Order) || ($salesEntity instanceof \Magento\Sales\Model\Quote))) {
+            && (($salesEntity instanceof Magento_Sales_Model_Order)
+                || ($salesEntity instanceof Magento_Sales_Model_Quote))) {
             $this->_salesEntity = $salesEntity;
         } else {
             throw new \Exception('Invalid sales entity provided.');
@@ -301,7 +312,7 @@ class Cart
         $originalDiscount = $this->_totals[self::TOTAL_DISCOUNT];
 
         // arbitrary items, total modifications
-        \Mage::dispatchEvent('paypal_prepare_line_items', array('paypal_cart' => $this));
+        $this->_eventManager->dispatch('paypal_prepare_line_items', array('paypal_cart' => $this));
 
         // distinguish original discount among the others
         if ($originalDiscount > 0.0001 && isset($this->_totalLineItemDescriptions[self::TOTAL_DISCOUNT])) {

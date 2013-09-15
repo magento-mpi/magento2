@@ -8,6 +8,11 @@
  * @license     {license_link}
  */
 
+/**
+ * @var Magento_Banner_Model_Resource_Setup $install
+ */
+$install = $this;
+
 $banners = array(
     array(
         'top.container',
@@ -56,7 +61,7 @@ foreach ($banners as $sortOrder => $bannerData) {
             'types'        => array(''),
             'rotate'       => '',
             'banner_ids'   => $banner->getId(),
-            'unique_id'    => \Mage::helper('Magento\Core\Helper\Data')->uniqHash()
+            'unique_id'    => $install->getCoreData()->uniqHash()
         ))
         ->addData(array(
             'instance_type' => 'Magento\Banner\Block\Widget\Banner',

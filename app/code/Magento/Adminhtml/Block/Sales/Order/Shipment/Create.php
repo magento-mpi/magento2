@@ -10,16 +10,35 @@
 
 /**
  * Adminhtml shipment create
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Adminhtml\Block\Sales\Order\Shipment;
 
 class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         $this->_objectId = 'order_id';
@@ -28,7 +47,6 @@ class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
 
         parent::_construct();
 
-        //$this->_updateButton('save', 'label', __('Submit Shipment'));
         $this->_removeButton('save');
         $this->_removeButton('delete');
     }
@@ -40,7 +58,7 @@ class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getShipment()
     {
-        return \Mage::registry('current_shipment');
+        return $this->_coreRegistry->registry('current_shipment');
     }
 
     public function getHeaderText()
@@ -53,6 +71,7 @@ class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
     {
         return $this->getUrl(
             '*/sales_order/view',
-            array('order_id' => $this->getShipment() ? $this->getShipment()->getOrderId() : null));
+            array('order_id' => $this->getShipment() ? $this->getShipment()->getOrderId() : null)
+        );
     }
 }

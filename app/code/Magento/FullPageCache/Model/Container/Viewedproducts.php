@@ -58,7 +58,7 @@ class Viewedproducts extends \Magento\FullPageCache\Model\Container\AbstractCont
     {
         $block = $this->_getPlaceHolderBlock();
         $block->setProductIds($this->_getProductIds());
-        \Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+        $this->_eventManager->dispatch('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
         return $block->toHtml();
     }
 }

@@ -65,6 +65,35 @@ class AbstractSession extends \Magento\Object
     protected $_skipSessionIdFlag   = false;
 
     /**
+     * Core http
+     *
+     * @var Magento_Core_Helper_Http
+     */
+    protected $_coreHttp = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_coreHttp = $coreHttp;
+        parent::__construct($data);
+    }
+
+    /**
      * This method needs to support sessions with APC enabled
      */
     public function __destruct()
@@ -173,7 +202,7 @@ class AbstractSession extends \Magento\Object
      * @param string $sessionName
      * @return \Magento\Core\Model\Session\AbstractSession
      */
-    public function init($namespace, $sessionName=null)
+    public function init($namespace, $sessionName = null)
     {
         if (!isset($_SESSION)) {
             $this->start($sessionName);
@@ -336,8 +365,8 @@ class AbstractSession extends \Magento\Object
         );
 
         // collect ip data
-        if (\Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr()) {
-            $parts[self::VALIDATOR_REMOTE_ADDR_KEY] = \Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr();
+        if ($this->_coreHttp->getRemoteAddr()) {
+            $parts[self::VALIDATOR_REMOTE_ADDR_KEY] = $this->_coreHttp->getRemoteAddr();
         }
         if (isset($_ENV['HTTP_VIA'])) {
             $parts[self::VALIDATOR_HTTP_VIA_KEY] = (string)$_ENV['HTTP_VIA'];
@@ -414,7 +443,7 @@ class AbstractSession extends \Magento\Object
         if ($clear) {
             $messages = clone $this->getData('messages');
             $this->getData('messages')->clear();
-            \Mage::dispatchEvent('core_session_abstract_clear_messages');
+            $this->_eventManager->dispatch('core_session_abstract_clear_messages');
             return $messages;
         }
         return $this->getData('messages');
@@ -450,7 +479,7 @@ class AbstractSession extends \Magento\Object
     public function addMessage(\Magento\Core\Model\Message\AbstractMessage $message)
     {
         $this->getMessages()->add($message);
-        \Mage::dispatchEvent('core_session_abstract_add_message');
+        $this->_eventManager->dispatch('core_session_abstract_add_message');
         return $this;
     }
 

@@ -48,13 +48,17 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AgreementAbs
     protected $_pro = null;
 
     /**
-     * Initialize \Magento\Paypal\Model\Pro model
-     *
-     * @param array $params
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param array $data
      */
-    public function __construct($params = array())
-    {
-        $proInstance = array_shift($params);
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Payment_Helper_Data $paymentData,
+        array $data = array()
+    ) {
+        parent::__construct($eventManager, $paymentData, $data);
+        $proInstance = array_shift($data);
         if ($proInstance && ($proInstance instanceof \Magento\Paypal\Model\Pro)) {
             $this->_pro = $proInstance;
         } else {

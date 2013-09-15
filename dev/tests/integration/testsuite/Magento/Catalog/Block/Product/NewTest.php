@@ -75,7 +75,7 @@ class Magento_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
 
         $this->_block->setProductsCount(5);
         $this->_block->setTemplate('product/widget/new/content/new_list.phtml');
-        $this->_block->setLayout(Mage::getModel('Magento\Core\Model\Layout'));
+        $this->_block->setLayout(Mage::getSingleton('Magento\Core\Model\Layout'));
 
         $html = $this->_block->toHtml();
         $this->assertNotEmpty($html);

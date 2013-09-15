@@ -55,6 +55,33 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
     protected $_pdfPage;
 
     /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_taxData = $taxData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Set order model
      *
      * @param  \Magento\Sales\Model\Order $order
@@ -232,7 +259,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
     {
         $order = $this->getOrder();
         $item  = $this->getItem();
-        if (\Mage::helper('Magento\Tax\Helper\Data')->displaySalesBothPrices()) {
+        if ($this->_taxData->displaySalesBothPrices()) {
             $prices = array(
                 array(
                     'label'    => __('Excl. Tax') . ':',
@@ -245,7 +272,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
                     'subtotal' => $order->formatPriceTxt($item->getRowTotalInclTax())
                 ),
             );
-        } elseif (\Mage::helper('Magento\Tax\Helper\Data')->displaySalesPriceInclTax()) {
+        } elseif ($this->_taxData->displaySalesPriceInclTax()) {
             $prices = array(array(
                 'price' => $order->formatPriceTxt($item->getPriceInclTax()),
                 'subtotal' => $order->formatPriceTxt($item->getRowTotalInclTax()),

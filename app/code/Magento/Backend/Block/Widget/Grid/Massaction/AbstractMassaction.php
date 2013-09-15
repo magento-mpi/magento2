@@ -119,7 +119,7 @@ abstract class AbstractMassaction extends \Magento\Backend\Block\Widget
             $result[$itemId] = $item->toArray();
         }
 
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 
     /**

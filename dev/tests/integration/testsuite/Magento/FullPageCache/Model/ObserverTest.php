@@ -46,7 +46,8 @@ class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCas
     public function testProcessPreDispatchCanProcessRequest()
     {
         $request = new Magento_TestFramework_Request();
-        $response = new Magento_TestFramework_Response();
+        $response = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_TestFramework_Response');
 
         $request->setRouteName('catalog');
         $request->setControllerName('product');
@@ -91,8 +92,11 @@ class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCas
         $restriction->setIsDenied();
 
         $observerData = new \Magento\Event\Observer();
-        $arguments = array('request' => new Magento_TestFramework_Request(),
-                           'response' => new Magento_TestFramework_Response());
+        $arguments = array(
+            'request' => new Magento_TestFramework_Request(),
+            'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_TestFramework_Response')
+        );
         $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
         $observerData->setEvent(new \Magento\Event(array(

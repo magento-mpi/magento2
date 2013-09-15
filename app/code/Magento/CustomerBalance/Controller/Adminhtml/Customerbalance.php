@@ -17,6 +17,25 @@ namespace Magento\CustomerBalance\Controller\Adminhtml;
 class Customerbalance extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Check is enabled module in config
      *
      * @return \Magento\CustomerBalance\Controller\Adminhtml\Customerbalance
@@ -24,7 +43,7 @@ class Customerbalance extends \Magento\Adminhtml\Controller\Action
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!\Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
+        if (!$this->_objectManager->get('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }
@@ -67,7 +86,7 @@ class Customerbalance extends \Magento\Adminhtml\Controller\Action
         $balance = \Mage::getSingleton('Magento\CustomerBalance\Model\Balance')->deleteBalancesByCustomerId(
             (int)$this->getRequest()->getParam('id')
         );
-        $this->_redirect('*/customer/edit/', array('_current'=>true));
+        $this->_redirect('*/customer/edit/', array('_current' => true));
     }
 
     /**
@@ -81,7 +100,7 @@ class Customerbalance extends \Magento\Adminhtml\Controller\Action
         if (!$customer->getId()) {
             \Mage::throwException(__('Failed to initialize customer'));
         }
-        \Mage::register('current_customer', $customer);
+        $this->_coreRegistry->register('current_customer', $customer);
     }
 
     /**

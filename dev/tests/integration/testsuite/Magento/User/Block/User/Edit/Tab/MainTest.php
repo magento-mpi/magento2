@@ -27,18 +27,23 @@ class Magento_User_Block_User_Edit_Tab_MainTest extends Magento_Backend_Utility_
     public function setUp()
     {
         parent::setUp();
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento\User\Block\User\Edit\Tab\Main');
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        
+        $this->_block = $objectManager->create('Magento\User\Block\User\Edit\Tab\Main');
         $this->_block->setArea('adminhtml');
-        $this->_user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\User\Model\User');
-        Mage::register('permissions_user', $this->_user);
+        $this->_user = $objectManager->create('Magento\User\Model\User');
+
+        $objectManager->get('Magento_Core_Model_Registry')->register('permissions_user', $this->_user);
     }
 
     protected function tearDown()
     {
         $this->_block = null;
         $this->_user = null;
-        Mage::unregister('permissions_user');
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')->unregister('permissions_user');
         parent::tearDown();
     }
 

@@ -40,7 +40,7 @@ class Export
         parent::_prepareForm();
         $form = $this->getForm();
         /** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
-        $operation = \Mage::registry('current_operation');
+        $operation = $this->_coreRegistry->registry('current_operation');
 
         /** @var $fileFormatModel \Magento\ImportExport\Model\Source\Export\Format */
         $fileFormatModel = \Mage::getModel('Magento\ImportExport\Model\Source\Export\Format');

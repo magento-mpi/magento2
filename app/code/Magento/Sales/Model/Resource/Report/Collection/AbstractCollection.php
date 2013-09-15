@@ -28,11 +28,17 @@ class AbstractCollection
      */
     protected $_orderStatus        = null;
 
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Sales_Model_Resource_Report $resource
+     */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Sales\Model\Resource\Report $resource
     ) {
-        parent::__construct($fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $resource);
         $this->setModel('Magento\Adminhtml\Model\Report\Item');
     }
 

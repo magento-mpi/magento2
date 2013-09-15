@@ -10,8 +10,41 @@
 
 namespace Magento\Rma\Block\Adminhtml\Rma;
 
-class NewRma extends \Magento\Adminhtml\Block\Widget\Form\Container
+class NewRma extends \Magento\Backend\Block\Widget\Form\Container
 {
+    /**
+     * Rma data
+     *
+     * @var Magento_Rma_Helper_Data
+     */
+    protected $_rmaData = null;
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Rma_Helper_Data $rmaData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Rma_Helper_Data $rmaData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_rmaData = $rmaData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Initialize RMA new page. Set management buttons
      *
@@ -27,13 +60,11 @@ class NewRma extends \Magento\Adminhtml\Block\Widget\Form\Container
         $this->_updateButton('reset', 'label', __('Cancel'));
         $this->_updateButton('reset', 'class', 'cancel');
 
-        $orderId    = false;
-        $link       = $this->getUrl('*/*/');
+        $link = $this->getUrl('*/*/');
+        $order = $this->_coreRegistry->registry('current_order');
 
-        if (\Mage::registry('current_order') && \Mage::registry('current_order')->getId()) {
-            $order      = \Mage::registry('current_order');
+        if ($order && $order->getId()) {
             $orderId    = $order->getId();
-
             $referer    = $this->getRequest()->getServer('HTTP_REFERER');
 
             if (strpos($referer, 'customer') !== false) {
@@ -48,7 +79,7 @@ class NewRma extends \Magento\Adminhtml\Block\Widget\Form\Container
             return;
         }
 
-        if (\Mage::helper('Magento\Rma\Helper\Data')->canCreateRma($orderId, true)) {
+        if ($this->_rmaData->canCreateRma($orderId, true)) {
             $this->_updateButton('reset', 'onclick', "setLocation('" . $link . "')");
             $this->_updateButton('save', 'label', __('Submit Returns'));
         } else {
@@ -75,6 +106,6 @@ class NewRma extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getFormActionUrl()
     {
-        return $this->getUrl('*/*/save', array('order_id' => \Mage::registry('current_order')->getId()));
+        return $this->getUrl('*/*/save', array('order_id' => $this->_coreRegistry->registry('current_order')->getId()));
     }
 }

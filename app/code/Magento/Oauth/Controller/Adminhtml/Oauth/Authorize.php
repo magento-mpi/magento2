@@ -140,8 +140,8 @@ class Authorize extends \Magento\Adminhtml\Controller\Action
      */
     protected function _initConfirmPage($simple = false)
     {
-        /** @var $helper \Magento\Oauth\Helper\Data */
-        $helper = \Mage::helper('Magento\Oauth\Helper\Data');
+        /** @var $oauthData Magento_Oauth_Helper_Data */
+        $oauthData = $this->_objectManager->get('Magento\Oauth\Helper\Data');
 
         /** @var $session \Magento\Backend\Model\Auth\Session */
         $session = \Mage::getSingleton($this->_sessionName);
@@ -150,7 +150,7 @@ class Authorize extends \Magento\Adminhtml\Controller\Action
         $user = $session->getData('user');
         if (!$user) {
             $session->addError(__('Please login to proceed authorization.'));
-            $url = $helper->getAuthorizeUrl(\Magento\Oauth\Model\Token::USER_TYPE_ADMIN);
+            $url = $oauthData->getAuthorizeUrl(\Magento\Oauth\Model\Token::USER_TYPE_ADMIN);
             $this->_redirectUrl($url);
             return $this;
         }
@@ -167,7 +167,7 @@ class Authorize extends \Magento\Adminhtml\Controller\Action
 
             $token = $server->authorizeToken($user->getId(), \Magento\Oauth\Model\Token::USER_TYPE_ADMIN);
 
-            if (($callback = $helper->getFullCallbackUrl($token))) { //false in case of OOB
+            if (($callback = $oauthData->getFullCallbackUrl($token))) { //false in case of OOB
                 $this->getResponse()->setRedirect($callback . ($simple ? '&simple=1' : ''));
                 return $this;
             } else {
@@ -210,10 +210,9 @@ class Authorize extends \Magento\Adminhtml\Controller\Action
 
         try {
             $token = $server->checkAuthorizeRequest();
-            /** @var $helper \Magento\Oauth\Helper\Data */
-            $helper = \Mage::helper('Magento\Oauth\Helper\Data');
-
-            if (($callback = $helper->getFullCallbackUrl($token, true))) {
+            /** @var $oauthData Magento_Oauth_Helper_Data */
+            $oauthData = $this->_objectManager->get('\Magento\Oauth\Helper\Data');
+            if (($callback = $oauthData->getFullCallbackUrl($token, true))) {
                 $this->_redirectUrl($callback . ($simple ? '&simple=1' : ''));
                 return $this;
             } else {

@@ -70,7 +70,7 @@ class Key extends \Magento\Adminhtml\Controller\Action
                 if (empty($key)) {
                     throw new \Exception(__('Please enter an encryption key.'));
                 }
-                \Mage::helper('Magento\Core\Helper\Data')->validateKey($key);
+                $this->_objectManager->get('Magento\Core\Helper\Data')->validateKey($key);
             }
 
             $newKey = \Mage::getResourceSingleton('Magento\Pci\Model\Resource\Key\Change')

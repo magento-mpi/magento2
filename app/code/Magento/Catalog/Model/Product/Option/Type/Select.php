@@ -25,6 +25,35 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     protected $_formattedOptionValue = null;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Helper_Data $coreData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Helper_Data $coreData,
+        array $data = array()
+    ) {
+        $this->_coreString = $coreString;
+        $this->_coreData = $coreData;
+        parent::__construct($data);
+    }
+
+    /**
      * Validate user input for option
      *
      * @throws \Magento\Core\Exception
@@ -77,7 +106,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     public function getFormattedOptionValue($optionValue)
     {
         if ($this->_formattedOptionValue === null) {
-            $this->_formattedOptionValue = \Mage::helper('Magento\Core\Helper\Data')->escapeHtml(
+            $this->_formattedOptionValue = $this->_coreData->escapeHtml(
                 $this->getEditableOptionValue($optionValue)
             );
         }
@@ -131,7 +160,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
                     }
                 }
             }
-            $result = \Mage::helper('Magento\Core\Helper\String')->substr($result, 0, -2);
+            $result = $this->_coreString->substr($result, 0, -2);
         } elseif ($this->_isSingleSelection()) {
             if ($_result = $option->getValueById($optionValue)) {
                 $result = $_result->getTitle();

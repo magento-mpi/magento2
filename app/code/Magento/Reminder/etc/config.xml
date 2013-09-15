@@ -29,17 +29,6 @@
             </email>
         </template>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Reminder>
-                    <files>
-                        <default>Magento_Reminder.csv</default>
-                    </files>
-                </Magento_Reminder>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <promo>
             <magento_reminder>

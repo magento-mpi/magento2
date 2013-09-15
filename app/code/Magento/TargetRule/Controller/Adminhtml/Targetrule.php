@@ -14,6 +14,25 @@ class Targetrule extends \Magento\Adminhtml\Controller\Action
 {
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Initial actions
      *
      * @return unknown
@@ -82,7 +101,7 @@ class Targetrule extends \Magento\Adminhtml\Controller\Action
             $model->addData($data);
         }
 
-        \Mage::register('current_target_rule', $model);
+        $this->_coreRegistry->register('current_target_rule', $model);
 
         $this->_initAction();
         $this->renderLayout();

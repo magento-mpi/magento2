@@ -20,6 +20,22 @@ namespace Magento\GiftWrapping\Model;
 class Observer
 {
     /**
+     * Gift wrapping data
+     *
+     * @var Magento_GiftWrapping_Helper_Data
+     */
+    protected $_giftWrappingData = null;
+
+    /**
+     * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
+     */
+    public function __construct(
+        Magento_GiftWrapping_Helper_Data $giftWrappingData
+    ) {
+        $this->_giftWrappingData = $giftWrappingData;
+    }
+
+    /**
      * Prepare quote item info about gift wrapping
      *
      * @param mixed $entity
@@ -203,7 +219,7 @@ class Observer
        $items = $observer->getEvent()->getItems();
        foreach ($items as $item) {
            $allowed = $item->getProduct()->getGiftWrappingAvailable();
-           if (\Mage::helper('Magento\GiftWrapping\Helper\Data')->isGiftWrappingAvailableForProduct($allowed)
+           if ($this->_giftWrappingData->isGiftWrappingAvailableForProduct($allowed)
                && !$item->getIsVirtual()) {
                $item->setIsGiftOptionsAvailable(true);
            }
@@ -237,7 +253,7 @@ class Observer
         $order = $observer->getEvent()->getOrder();
         $storeId = $order->getStore()->getId();
         // Do not import giftwrapping data if order is reordered or GW is not available for order
-        $giftWrappingHelper = \Mage::helper('Magento\GiftWrapping\Helper\Data');
+        $giftWrappingHelper = $this->_giftWrappingData;
         if ($order->getReordered() || !$giftWrappingHelper->isGiftWrappingAvailableForOrder($storeId)) {
             return $this;
         }
@@ -260,7 +276,7 @@ class Observer
         $orderItem = $observer->getEvent()->getOrderItem();
         // Do not import giftwrapping data if order is reordered or GW is not available for items
         $order = $orderItem->getOrder();
-        $giftWrappingHelper = \Mage::helper('Magento\GiftWrapping\Helper\Data');
+        $giftWrappingHelper = $this->_giftWrappingData;
         if ($order && ($order->getReordered()
             || !$giftWrappingHelper->isGiftWrappingAvailableForItems($order->getStore()->getId()))
         ) {

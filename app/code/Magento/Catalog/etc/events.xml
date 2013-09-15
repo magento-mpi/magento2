@@ -11,9 +11,6 @@
     <event name="catalog_category_save_commit_after">
         <observer name="fulltext_reindex" instance="Magento\Catalog\Model\Observer\Reindex" method="fulltextReindex" />
     </event>
-    <event name="log_log_clean_after">
-        <observer name="catalog_product_compare_item" instance="Magento\Catalog\Model\Observer" method="catalogProductCompareClean" />
-    </event>
     <event name="page_block_html_topmenu_gethtml_before">
         <observer name="catalog_add_topmenu_items" instance="Magento\Catalog\Model\Observer" method="addCatalogToTopmenuItems" />
     </event>

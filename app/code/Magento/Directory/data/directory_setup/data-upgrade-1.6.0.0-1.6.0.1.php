@@ -8,10 +8,11 @@
  * @license     {license_link}
  */
 
-/*
- * @var $installer \Magento\Core\Model\Resource\Setup
+/**
+ * @var Magento_Directory_Model_Resource_Setup $installer
  */
 $installer = $this;
+
 $installer->getConnection()->insert(
     $installer->getTable('core_config_data'), array(
        'scope'    => 'default',
@@ -25,7 +26,7 @@ $installer->getConnection()->insert(
  * @var $countries array
  */
 $countries = array();
-foreach(\Mage::helper('Magento\Directory\Helper\Data')->getCountryCollection() as $country) {
+foreach($installer->getDirectoryData()->getCountryCollection() as $country) {
     if($country->getRegionCollection()->getSize() > 0) {
         $countries[] = $country->getId();
     }

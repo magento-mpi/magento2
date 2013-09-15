@@ -11,11 +11,48 @@ namespace Magento\Paypal\Block\Standard;
 
 class Redirect extends \Magento\Core\Block\AbstractBlock
 {
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @var Magento_Data_FormFactory
+     */
+    protected $_formFactory;
+
+    /**
+     * @var Magento_Data_Form_Element_Factory
+     */
+    protected $_elementFactory;
+
+    /**
+     * @param Magento_Data_FormFactory $formFactory
+     * @param Magento_Data_Form_Element_Factory $elementFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Data_FormFactory $formFactory,
+        Magento_Data_Form_Element_Factory $elementFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        $this->_formFactory = $formFactory;
+        $this->_elementFactory = $elementFactory;
+        parent::__construct($context, $data);
+    }
+
     protected function _toHtml()
     {
         $standard = \Mage::getModel('Magento\Paypal\Model\Standard');
 
-        $form = new \Magento\Data\Form();
+        $form = $this->_formFactory->create();
         $form->setAction($standard->getConfig()->getPaypalUrl())
             ->setId('paypal_standard_checkout')
             ->setName('paypal_standard_checkout')
@@ -24,10 +61,10 @@ class Redirect extends \Magento\Core\Block\AbstractBlock
         foreach ($standard->getStandardCheckoutFormFields() as $field=>$value) {
             $form->addField($field, 'hidden', array('name'=>$field, 'value'=>$value));
         }
-        $idSuffix = \Mage::helper('Magento\Core\Helper\Data')->uniqHash();
-        $submitButton = new \Magento\Data\Form\Element\Submit(array(
+        $idSuffix = $this->_coreData->uniqHash();
+        $submitButton = $this->_elementFactory->create('submit', array('attributes' => array(
             'value'    => __('Click here if you are not redirected within 10 seconds.'),
-        ));
+        )));
         $id = "submit_to_paypal_button_{$idSuffix}";
         $submitButton->setId($id);
         $form->addElement($submitButton);

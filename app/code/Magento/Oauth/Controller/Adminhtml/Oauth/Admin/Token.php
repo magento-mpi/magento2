@@ -28,8 +28,8 @@ class Token extends \Magento\Adminhtml\Controller\Action
      */
     protected function  _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Oauth::system_legacy_api_oauth_admin_token');
+        // TODO: Fix during Web API authentication implementation
+        // $this->loadLayout()->_setActiveMenu('Magento_Oauth::system_legacy_api_oauth_admin_token');
         return $this;
     }
 

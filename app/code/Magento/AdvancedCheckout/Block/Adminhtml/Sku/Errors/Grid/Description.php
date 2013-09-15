@@ -22,9 +22,32 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid;
 
-class Description extends \Magento\Adminhtml\Block\Template
+class Description extends \Magento\Backend\Block\Template
 {
     protected $_template = 'sku/errors/grid/description.phtml';
+
+    /**
+     * Checkout data
+     *
+     * @var Magento_AdvancedCheckout_Helper_Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_AdvancedCheckout_Helper_Data $checkoutData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_checkoutData = $checkoutData;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Retrieves HTML code of "Configure" button
@@ -34,8 +57,8 @@ class Description extends \Magento\Adminhtml\Block\Template
     public function getConfigureButtonHtml()
     {
         $canConfigure = $this->getProduct()->canConfigure() && !$this->getItem()->getIsConfigureDisabled();
-        $productId = $this->escapeHtml(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($this->getProduct()->getId()));
-        $itemSku = $this->escapeHtml(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($this->getItem()->getSku()));
+        $productId = $this->escapeHtml($this->_coreData->jsonEncode($this->getProduct()->getId()));
+        $itemSku = $this->escapeHtml($this->_coreData->jsonEncode($this->getItem()->getSku()));
 
         /* @var $button \Magento\Adminhtml\Block\Widget\Button */
         $button = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button', '', array('data' => array(
@@ -68,6 +91,6 @@ class Description extends \Magento\Adminhtml\Block\Template
      */
     public function getErrorMessage($item)
     {
-        return \Mage::helper('Magento\AdvancedCheckout\Helper\Data')->getMessageByItem($item);
+        return $this->_checkoutData->getMessageByItem($item);
     }
 }

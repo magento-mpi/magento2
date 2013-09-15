@@ -23,16 +23,18 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected $_subscriptionData;
 
     /**
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Backend\Block\Template\Context $context,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
 
         $this->_objectId = 'id';
         $this->_blockGroup = 'Magento_Webhook';
@@ -74,7 +76,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
     /**
      * Check whether subscription was generated from configuration.
-     * 
+     *
      * Return false if subscription created within UI.
      *
      * @return bool

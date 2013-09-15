@@ -80,28 +80,6 @@
             </totals>
         </pdf>
     </global>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_GiftCardAccount>
-                    <files>
-                        <default>Magento_GiftCardAccount.csv</default>
-                    </files>
-                </Magento_GiftCardAccount>
-            </modules>
-        </translate>
-    </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_GiftCardAccount>
-                    <files>
-                        <default>Magento_GiftCardAccount.csv</default>
-                    </files>
-                </Magento_GiftCardAccount>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <giftcard>
             <giftcardaccount_email>

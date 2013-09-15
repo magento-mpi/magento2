@@ -27,18 +27,28 @@ class Output extends \Magento\Core\Helper\AbstractHelper
     protected $_templateProcessor = null;
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
      * @param \Magento\Core\Helper\Context $context
      */
-    public function __construct(\Magento\Core\Helper\Context $context)
-    {
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_catalogData = $catalogData;
         parent::__construct($context);
-        \Mage::dispatchEvent('catalog_helper_output_construct', array('helper'=>$this));
     }
 
     protected function _getTemplateProcessor()
     {
         if (null === $this->_templateProcessor) {
-            $this->_templateProcessor = \Mage::helper('Magento\Catalog\Helper\Data')->getPageTemplateProcessor();
+            $this->_templateProcessor = $this->_catalogData->getPageTemplateProcessor();
         }
 
         return $this->_templateProcessor;
@@ -117,7 +127,7 @@ class Output extends \Magento\Core\Helper\AbstractHelper
                 }
         }
         if ($attribute->getIsHtmlAllowedOnFront() && $attribute->getIsWysiwygEnabled()) {
-            if (\Mage::helper('Magento\Catalog\Helper\Data')->isUrlDirectivesParsingAllowed()) {
+            if ($this->_catalogData->isUrlDirectivesParsingAllowed()) {
                 $attributeHtml = $this->_getTemplateProcessor()->filter($attributeHtml);
             }
         }
@@ -147,7 +157,7 @@ class Output extends \Magento\Core\Helper\AbstractHelper
             $attributeHtml = $this->escapeHtml($attributeHtml);
         }
         if ($attribute->getIsHtmlAllowedOnFront() && $attribute->getIsWysiwygEnabled()) {
-            if (\Mage::helper('Magento\Catalog\Helper\Data')->isUrlDirectivesParsingAllowed()) {
+            if ($this->_catalogData->isUrlDirectivesParsingAllowed()) {
                 $attributeHtml = $this->_getTemplateProcessor()->filter($attributeHtml);
             }
         }

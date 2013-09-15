@@ -23,27 +23,7 @@
         <secure_url>
             <persistent_onepage_register>/persistent/index/saveMethod</persistent_onepage_register>
         </secure_url>
-        <translate>
-            <modules>
-                <Magento_Persistent>
-                    <files>
-                        <default>Magento_Persistent.csv</default>
-                    </files>
-                </Magento_Persistent>
-            </modules>
-        </translate>
     </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Persistent>
-                    <files>
-                        <default>Magento_Persistent.csv</default>
-                    </files>
-                </Magento_Persistent>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <persistent>
             <options>

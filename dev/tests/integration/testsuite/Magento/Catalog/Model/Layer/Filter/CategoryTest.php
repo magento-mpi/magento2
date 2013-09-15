@@ -49,8 +49,9 @@ class Magento_Catalog_Model_Layer_Filter_CategoryTest extends PHPUnit_Framework_
             new Magento_TestFramework_Request(),
             Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text')
         );
-
-        $this->assertNull(Mage::registry('current_category_filter'));
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->assertNull($objectManager->get('Magento_Core_Model_Registry')->registry('current_category_filter'));
     }
 
     public function testApply()
@@ -59,8 +60,11 @@ class Magento_Catalog_Model_Layer_Filter_CategoryTest extends PHPUnit_Framework_
         $request->setParam('cat', 3);
         $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text'));
 
-        /** @var $category \Magento\Catalog\Model\Category */
-        $category = Mage::registry('current_category_filter');
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+        /** @var $category Magento_Catalog_Model_Category */
+        $category = $objectManager->get('Magento\Core\Model\Registry')->registry('current_category_filter');
         $this->assertInstanceOf('Magento\Catalog\Model\Category', $category);
         $this->assertEquals(3, $category->getId());
 

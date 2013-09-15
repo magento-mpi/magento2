@@ -85,7 +85,7 @@ abstract class AbstractForm extends \Magento\Pbridge\Block\Iframe\AbstractIframe
             $shipping = $this->getQuote()->getShippingAddress();
             $requestParams['shipping'] = $this->getMethod()->getPbridgeMethodInstance()->getAddressInfo($shipping);
         }
-        $sourceUrl = \Mage::helper('Magento\Pbridge\Helper\Data')->getGatewayFormUrl($requestParams, $this->getQuote());
+        $sourceUrl = $this->_pbridgeData->getGatewayFormUrl($requestParams, $this->getQuote());
         return $sourceUrl;
     }
 

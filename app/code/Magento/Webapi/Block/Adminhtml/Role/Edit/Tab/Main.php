@@ -9,10 +9,12 @@
  *
  * @method \Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Main setApiRole(\Magento\Webapi\Model\Acl\Role $role)
  * @method \Magento\Webapi\Model\Acl\Role getApiRole()
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Webapi\Block\Adminhtml\Role\Edit\Tab;
 
-class Main extends \Magento\Backend\Block\Widget\Form
+class Main extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare Form.
@@ -21,7 +23,8 @@ class Main extends \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend' => __('Role Information'))

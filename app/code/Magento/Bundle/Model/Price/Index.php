@@ -106,8 +106,7 @@ class Index extends \Magento\Core\Model\AbstractModel
                     ->setData('_price_index', true)
                     ->setData('_price_index_min_price', $prices[$productId]['min_price'])
                     ->setData('_price_index_max_price', $prices[$productId]['max_price']);
-            }
-            else {
+            } else {
                 $addOptionsToResult = true;
             }
         }

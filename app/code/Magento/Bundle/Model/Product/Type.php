@@ -76,6 +76,45 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $_canConfigure                = true;
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * Catalog product
+     *
+     * @var Magento_Catalog_Helper_Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
+     * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_File_Storage_Database $fileStorageDb,
+        Magento_Filesystem $filesystem,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_catalogProduct = $catalogProduct;
+        $this->_catalogData = $catalogData;
+        parent::__construct($eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $data);
+    }
+
+    /**
      * Return relation info about used products
      *
      * @return \Magento\Object Object with information data
@@ -395,8 +434,8 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                 ->addFilterByRequiredOptions()
                 ->setOptionIdsFilter($optionIds);
 
-            if (!\Mage::helper('Magento\Catalog\Helper\Data')->isPriceGlobal() && $storeId) {
-                $websiteId = \Mage::app()->getStore($storeId)->getWebsiteId();
+            if (!$this->_catalogData->isPriceGlobal() && $storeId) {
+                $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
                 $selectionsCollection->joinPrices($websiteId);
             }
 
@@ -519,7 +558,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         $selections = array();
         $isStrictProcessMode = $this->_isStrictProcessMode($processMode);
 
-        $skipSaleableCheck = \Mage::helper('Magento\Catalog\Helper\Product')->getSkipSaleableCheck();
+        $skipSaleableCheck = $this->_catalogProduct->getSkipSaleableCheck();
         $_appendAllSelections = (bool)$product->getSkipCheckRequiredOption() || $skipSaleableCheck;
 
         $options = $buyRequest->getBundleOption();
@@ -722,8 +761,8 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                 ->addFilterByRequiredOptions()
                 ->setSelectionIdsFilter($selectionIds);
 
-                if (!\Mage::helper('Magento\Catalog\Helper\Data')->isPriceGlobal() && $storeId) {
-                    $websiteId = \Mage::app()->getStore($storeId)->getWebsiteId();
+                if (!$this->_catalogData->isPriceGlobal() && $storeId) {
+                    $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
                     $usedSelections->joinPrices($websiteId);
                 }
             $product->setData($this->_keyUsedSelections, $usedSelections);
@@ -922,7 +961,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
             \Mage::throwException($this->getSpecifyOptionMessage());
         }
 
-        $skipSaleableCheck = \Mage::helper('Magento\Catalog\Helper\Product')->getSkipSaleableCheck();
+        $skipSaleableCheck = $this->_catalogProduct->getSkipSaleableCheck();
         foreach ($selectionIds as $selectionId) {
             /* @var $selection \Magento\Bundle\Model\Selection */
             $selection = $productSelections->getItemById($selectionId);
@@ -1026,7 +1065,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
          */
         /*
         $collection = $this->getUsedProductCollection($product);
-        $helper = \Mage::helper('Magento\Catalog\Helper\Data');
+        $helper = $this->_catalogData;
 
         $result = null;
         $parentVisibility = $product->getMsrpDisplayActualPriceType();

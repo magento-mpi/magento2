@@ -20,9 +20,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
         $currentProduct = Mage::getModel('Magento\Catalog\Model\Product');
         $currentProduct->setTypeInstance(Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($type));
 
-        $block = new \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight();
+        $block = Mage::getObjectManager()->create('\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight');
 
-        $form = new \Magento\Data\Form();
+        $form = Mage::getObjectManager()->create('Magento\Data\Form');
         $form->setDataObject($currentProduct);
         $block->setForm($form);
 
@@ -50,9 +50,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
         $currentProduct = Mage::getModel('Magento\Catalog\Model\Product');
         $currentProduct->setTypeInstance(Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($type));
 
-        $block = new \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight();
+        $block = Mage::getObjectManager()->create('\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight');
 
-        $form = new \Magento\Data\Form();
+        $form = Mage::getObjectManager()->create('Magento\Data\Form');
         $form->setDataObject($currentProduct);
         $block->setForm($form);
 

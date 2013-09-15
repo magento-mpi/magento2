@@ -40,7 +40,7 @@ class Magento_Webapi_Controller_ResponseTest extends PHPUnit_Framework_TestCase
         /** Test message adding functionality. */
         $this->_response->addMessage(
             'Message text',
-            200,
+            Magento_Webapi_Controller_Response::HTTP_OK,
             array('key' => 'value'),
             \Magento\Webapi\Controller\Response::MESSAGE_TYPE_SUCCESS
         );
@@ -49,7 +49,11 @@ class Magento_Webapi_Controller_ResponseTest extends PHPUnit_Framework_TestCase
         /** Test message getting functionality. */
         $expectedMessage = array(
             \Magento\Webapi\Controller\Response::MESSAGE_TYPE_SUCCESS => array(
-                array('key' => 'value', 'message' => 'Message text', 'code' => 200)
+                array(
+                    'key' => 'value',
+                    'message' => 'Message text',
+                    'code' => Magento_Webapi_Controller_Response::HTTP_OK
+                )
             )
         );
         $this->assertEquals($expectedMessage, $this->_response->getMessages(), 'Message is got incorrectly.');

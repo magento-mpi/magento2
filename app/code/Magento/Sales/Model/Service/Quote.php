@@ -58,12 +58,25 @@ class Quote
     protected $_shouldInactivateQuote = true;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * Class constructor
      *
+     *
+     *
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param \Magento\Sales\Model\Quote $quote
      */
-    public function __construct(\Magento\Sales\Model\Quote $quote)
-    {
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Sales_Model_Quote $quote
+    ) {
+        $this->_eventManager = $eventManager;
         $this->_quote       = $quote;
         $this->_convertor   = \Mage::getModel('Magento\Sales\Model\Convert\Quote');
     }
@@ -159,13 +172,13 @@ class Quote
         /**
          * We can use configuration data for declare new order status
          */
-        \Mage::dispatchEvent('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$quote));
-        \Mage::dispatchEvent('sales_model_service_quote_submit_before', array('order'=>$order, 'quote'=>$quote));
+        $this->_eventManager->dispatch('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$quote));
+        $this->_eventManager->dispatch('sales_model_service_quote_submit_before', array('order'=>$order, 'quote'=>$quote));
         try {
             $transaction->save();
             $this->_inactivateQuote();
-            \Mage::dispatchEvent('sales_model_service_quote_submit_success', array('order'=>$order, 'quote'=>$quote));
-        } catch (\Exception $e) {
+            $this->_eventManager->dispatch('sales_model_service_quote_submit_success', array('order'=>$order, 'quote'=>$quote));
+        } catch (Exception $e) {
 
             if (!\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
                 // reset customer ID's on exception, because customer not saved
@@ -180,10 +193,10 @@ class Quote
                 $item->setItemId(null);
             }
 
-            \Mage::dispatchEvent('sales_model_service_quote_submit_failure', array('order'=>$order, 'quote'=>$quote));
+            $this->_eventManager->dispatch('sales_model_service_quote_submit_failure', array('order'=>$order, 'quote'=>$quote));
             throw $e;
         }
-        \Mage::dispatchEvent('sales_model_service_quote_submit_after', array('order'=>$order, 'quote'=>$quote));
+        $this->_eventManager->dispatch('sales_model_service_quote_submit_after', array('order'=>$order, 'quote'=>$quote));
         $this->_order = $order;
         return $order;
     }

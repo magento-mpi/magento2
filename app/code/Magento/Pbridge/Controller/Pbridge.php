@@ -55,7 +55,7 @@ class Pbridge extends \Magento\Core\Controller\Front\Action
     {
         $methodCode = $this->getRequest()->getParam('method_code', null);
         if ($methodCode) {
-            $methodInstance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance($methodCode);
+            $methodInstance = $this->_objectManager->get('Magento\Payment\Helper\Data')->getMethodInstance($methodCode);
             if ($methodInstance) {
                 $block = $this->getLayout()->createBlock($methodInstance->getFormBlockType());
                 $block->setMethod($methodInstance);
@@ -80,7 +80,7 @@ class Pbridge extends \Magento\Core\Controller\Front\Action
     {
         $methodCode = $this->getRequest()->getParam('method_code', null);
         if ($methodCode) {
-            $methodInstance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance($methodCode);
+            $methodInstance = $this->_objectManager->get('Magento\Payment\Helper\Data')->getMethodInstance($methodCode);
             if ($methodInstance) {
                 $block = $this->getLayout()->createBlock('Magento\Pbridge\Block\Checkout\Payment\Review\Iframe');
                 $block->setMethod($methodInstance);
@@ -134,7 +134,7 @@ class Pbridge extends \Magento\Core\Controller\Front\Action
     {
         $result = array();
         $result['success'] = true;
-        $requiredAgreements = \Mage::helper('Magento\Checkout\Helper\Data')->getRequiredAgreementIds();
+        $requiredAgreements = $this->_objectManager->get('Magento\Checkout\Helper\Data')->getRequiredAgreementIds();
         if ($requiredAgreements) {
             $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
             $diff = array_diff($requiredAgreements, $postedAgreements);
@@ -144,6 +144,6 @@ class Pbridge extends \Magento\Core\Controller\Front\Action
                 $result['error_messages'] = __('Please agree to all the terms and conditions before placing the order.');
             }
         }
-        $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 }

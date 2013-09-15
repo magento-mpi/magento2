@@ -21,6 +21,29 @@ namespace Magento\Reward\Block\Checkout\Payment;
 class Additional extends \Magento\Core\Block\Template
 {
     /**
+     * Reward data
+     *
+     * @var Magento_Reward_Helper_Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * @param Magento_Reward_Helper_Data $rewardData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Reward_Helper_Data $rewardData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_rewardData = $rewardData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Getter
      *
      * @return \Magento\Customer\Model\Customer
@@ -76,8 +99,8 @@ class Additional extends \Magento\Core\Block\Template
      */
     public function getCanUseRewardPoints()
     {
-        /** @var $helper \Magento\Reward\Helper\Data */
-        $helper = \Mage::helper('Magento\Reward\Helper\Data');
+        /** @var $helper Magento_Reward_Helper_Data */
+        $helper = $this->_rewardData;
         if (!$helper->getHasRates() || !$helper->isEnabledOnFront()) {
             return false;
         }

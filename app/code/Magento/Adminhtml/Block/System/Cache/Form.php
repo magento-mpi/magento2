@@ -18,7 +18,7 @@
  */
 namespace Magento\Adminhtml\Block\System\Cache;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Initialize cache management form
@@ -27,7 +27,8 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     public function initForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('cache_enable', array(
             'legend' => __('Cache Control')
@@ -48,7 +49,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
         /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
         $cacheState = \Mage::getObjectManager()->get('Magento\Core\Model\Cache\StateInterface');
 
-        foreach (\Mage::helper('Magento\Core\Helper\Data')->getCacheTypes() as $type=>$label) {
+        foreach ($this->_coreData->getCacheTypes() as $type=>$label) {
             $fieldset->addField('enable_'.$type, 'checkbox', array(
                 'name'=>'enable['.$type.']',
                 'label'=>__($label),

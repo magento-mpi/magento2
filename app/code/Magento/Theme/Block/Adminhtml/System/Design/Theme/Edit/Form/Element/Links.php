@@ -19,13 +19,18 @@ class Links
     extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
-     * Initialize form element
-     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Data_Form_Element_Factory $factoryElement
+     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
      * @param array $attributes
      */
-    public function __construct($attributes=array())
-    {
-        parent::__construct($attributes);
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Data_Form_Element_Factory $factoryElement,
+        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
+        $attributes = array()
+    ) {
+        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
         $this->setType('links');
     }
 

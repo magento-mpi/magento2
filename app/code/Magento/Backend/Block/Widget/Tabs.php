@@ -369,7 +369,7 @@ class Tabs extends \Magento\Backend\Block\Widget
             }
         }
         if ($asJson) {
-            return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
+            return $this->_coreData->jsonEncode($result);
         }
         return $result;
     }

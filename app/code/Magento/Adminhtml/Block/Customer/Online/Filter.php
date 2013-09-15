@@ -18,12 +18,12 @@
 
 namespace Magento\Adminhtml\Block\Customer\Online;
 
-class Filter extends \Magento\Adminhtml\Block\Widget\Form
+class Filter extends \Magento\Backend\Block\Widget\Form\Generic
 {
-
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         $form->addField('filter_value', 'select',
                 array(

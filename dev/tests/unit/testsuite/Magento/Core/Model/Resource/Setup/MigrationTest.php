@@ -134,12 +134,14 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
     public function testAppendClassAliasReplace()
     {
         $setupModel = new \Magento\Core\Model\Resource\Setup\Migration(
+            $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Config\Resource', array(), array(), '', false, false),
             $this->getMock('Magento\Core\Model\Config', array(), array(), '', false, false),
             $this->getMock('Magento\Core\Model\ModuleListInterface'),
             $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false, false),
             $this->getMock('Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false, false),
             $this->getMock('Magento\Filesystem', array(), array(), '', false),
+            $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
             'core_setup',
             $this->_getModelDependencies()
         );
@@ -191,12 +193,14 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
         $tableRowsCount = count($tableData);
 
         $setupModel = new \Magento\Core\Model\Resource\Setup\Migration(
+            $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Config\Resource', array(), array(), '', false, false),
             $this->getMock('Magento\Core\Model\Config', array(), array(), '', false, false),
             $this->getMock('Magento\Core\Model\ModuleListInterface'),
             $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false, false),
             $this->getMock('Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false, false),
             $this->getMock('Magento\Filesystem', array(), array(), '', false),
+            $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
             'core_setup',
             $this->_getModelDependencies($tableRowsCount, $tableData, $aliasesMap)
         );

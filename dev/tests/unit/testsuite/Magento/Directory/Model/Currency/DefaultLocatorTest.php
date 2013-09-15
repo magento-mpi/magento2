@@ -28,7 +28,9 @@ class Magento_Directory_Model_Currency_DefaultLocatorTest extends PHPUnit_Framew
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http');
+        $backendData = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
+        $this->_requestMock = $this->getMockForAbstractClass('Magento_Core_Controller_Request_Http',
+            array($backendData), '', false, false, true, array('getParam'));
         $this->_appMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
         $this->_model = new \Magento\Directory\Model\Currency\DefaultLocator($this->_appMock);
     }

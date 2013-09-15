@@ -13,6 +13,11 @@ namespace Magento\Core\Model;
 class ObjectManager extends \Magento\ObjectManager\ObjectManager
 {
     /**
+     * @var \Magento\Core\Model\ObjectManager
+     */
+    protected static $_instance;
+
+    /**
      * @var \Magento\ObjectManager\Relations
      */
     protected $_compiledRelations;
@@ -67,9 +72,20 @@ class ObjectManager extends \Magento\ObjectManager\ObjectManager
             $this->configure($configData);
         }
 
-        $interceptorGenerator = ($definitions instanceof \Magento\ObjectManager\Definition\Compiled)
-            ? null
-            : new \Magento\Interception\CodeGenerator\CodeGenerator();
+        if ($definitions instanceof \Magento\ObjectManager\Definition\Compiled) {
+            $interceptorGenerator = null;
+        } else {
+            $autoloader = new \Magento\Autoload\IncludePath();
+            $interceptorGenerator = new \Magento\Interception\CodeGenerator\CodeGenerator(new \Magento\Code\Generator(
+                null,
+                $autoloader,
+                new \Magento\Code\Generator\Io(
+                    new \Magento\Io\File(),
+                    $autoloader,
+                    $primaryConfig->getDirectories()->getDir(\Magento\Core\Model\Dir::GENERATION)
+                )
+            ));
+        }
 
         \Magento\Profiler::stop('global_primary');
         $verification = $this->get('Magento\Core\Model\Dir\Verification');
@@ -103,5 +119,20 @@ class ObjectManager extends \Magento\ObjectManager\ObjectManager
         ));
         $this->_config->setCache($this->get('Magento\Core\Model\ObjectManager\ConfigCache'));
         $this->configure($this->get('Magento\Core\Model\ObjectManager\ConfigLoader')->load('global'));
+
+        self::$_instance = $this;
+    }
+
+    /**
+     * Return global instance
+     *
+     * Temporary solution for removing Mage God Object, removed when Serialization problem has resolved
+     *
+     * @deprecated
+     * @return \Magento\ObjectManager
+     */
+    public static function getInstance()
+    {
+        return self::$_instance;
     }
 }

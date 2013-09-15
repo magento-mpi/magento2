@@ -28,8 +28,20 @@ class Observer
      */
     protected $_config;
 
-    public function __construct()
-    {
+    /**
+     * Adminhtml data
+     *
+     * @var Magento_Backend_Helper_Data
+     */
+    protected $_backendData = null;
+
+    /**
+     * @param Magento_Backend_Helper_Data $backendData
+     */
+    public function __construct(
+        Magento_Backend_Helper_Data $backendData
+    ) {
+        $this->_backendData = $backendData;
         $this->_archive = \Mage::getModel('Magento\SalesArchive\Model\Archive');
         $this->_config  = \Mage::getSingleton('Magento\SalesArchive\Model\Config');
     }
@@ -70,7 +82,7 @@ class Observer
 
         if ($object->getIsArchived()) {
             $object->setBackUrl(
-                \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl('adminhtml/sales_archive/' . $archiveEntity . 's')
+                $this->_backendData->getUrl('adminhtml/sales_archive/' . $archiveEntity . 's')
             );
         } elseif ($object->getIsMoveable() !== false) {
             $object->setIsMoveable(

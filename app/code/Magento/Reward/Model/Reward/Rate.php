@@ -35,6 +35,33 @@ class Rate extends \Magento\Core\Model\AbstractModel
     const RATE_EXCHANGE_DIRECTION_TO_POINTS   = 2;
 
     /**
+     * Reward data
+     *
+     * @var Magento_Reward_Helper_Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * @param Magento_Reward_Helper_Data $rewardData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Reward_Model_Resource_Reward_Rate $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Reward_Helper_Data $rewardData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Reward_Model_Resource_Reward_Rate $resource,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_rewardData = $rewardData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Rate text getter
      *
      * @param int $direction
@@ -43,13 +70,13 @@ class Rate extends \Magento\Core\Model\AbstractModel
      * @param string $currencyCode
      * @return string|null
      */
-    public static function getRateText($direction, $points, $amount, $currencyCode = null)
+    public function getRateText($direction, $points, $amount, $currencyCode = null)
     {
         switch ($direction) {
             case self::RATE_EXCHANGE_DIRECTION_TO_CURRENCY:
-                return \Mage::helper('Magento\Reward\Helper\Data')->formatRateToCurrency($points, $amount, $currencyCode);
+                return $this->_rewardData->formatRateToCurrency($points, $amount, $currencyCode);
             case self::RATE_EXCHANGE_DIRECTION_TO_POINTS:
-                return \Mage::helper('Magento\Reward\Helper\Data')->formatRateToPoints($points, $amount, $currencyCode);
+                return $this->_rewardData->formatRateToPoints($points, $amount, $currencyCode);
         }
     }
 

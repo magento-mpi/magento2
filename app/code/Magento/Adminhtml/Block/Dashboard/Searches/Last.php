@@ -30,7 +30,7 @@ class Last extends \Magento\Adminhtml\Block\Dashboard\Grid
 
     protected function _prepareCollection()
     {
-        if (!\Mage::helper('Magento\Core\Helper\Data')->isModuleEnabled('Magento_CatalogSearch')) {
+        if (!$this->_coreData->isModuleEnabled('Magento_CatalogSearch')) {
             return parent::_prepareCollection();
         }
         $this->_collection = \Mage::getModel('Magento\CatalogSearch\Model\Query')
@@ -39,11 +39,11 @@ class Last extends \Magento\Adminhtml\Block\Dashboard\Grid
 
         if ($this->getRequest()->getParam('store')) {
             $this->_collection->addFieldToFilter('store_id', $this->getRequest()->getParam('store'));
-        } else if ($this->getRequest()->getParam('website')){
-            $storeIds = \Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+        } else if ($this->getRequest()->getParam('website')) {
+            $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
             $this->_collection->addFieldToFilter('store_id', array('in' => $storeIds));
-        } else if ($this->getRequest()->getParam('group')){
-            $storeIds = \Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+        } else if ($this->getRequest()->getParam('group')) {
+            $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
             $this->_collection->addFieldToFilter('store_id', array('in' => $storeIds));
         }
 

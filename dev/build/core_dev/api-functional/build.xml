@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * Ant build configuration for Web API functional tests
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<project name="Core Development Web API Functional Tests" basedir="../../../../" default="run">
+    <import file="../util.xml"/>
+    <property name="product_root_dir" location="${env.deploy_directory}/${env.build.key}/build-${env.build.number}"/>
+    <property name="product_edition_code" value="${env.magento_edition}"/>
+    <property name="magento_instance_base_url" value="${env.http_host}${env.build.key}/build-${env.build.number}"/>
+
+
+    <target name="run" description="Test Magento Web API.">
+        <antcall target="_deploy_magento"/>
+        <antcall target="_run_tests"/>
+    </target>
+
+    <target name="_deploy_magento"
+            description="Deploy Magento instance (installation is done later during tests execution in bootstrap).">
+        <!--Remove all files that are irrelevant for current Magento edition-->
+        <antcall target="_product_edition">
+            <param name="product_root_dir" value="${basedir}"/>
+        </antcall>
+
+        <copy todir="${product_root_dir}" failonerror="true">
+            <fileset dir="${basedir}"/>
+        </copy>
+        <!--TODO: Check if this pub cache creation is necessary-->
+        <mkdir dir="${product_root_dir}/pub/cache"/>
+        <!--Make all necessary directories writable-->
+        <antcall target="_installation_requirements"/>
+    </target>
+
+    <target name="_run_tests" depends="_configure_tests" description="Run Web API functional tests.">
+        <exec dir="${product_root_dir}/dev/tests/api-functional" executable="phpunit" failonerror="true">
+            <arg line="--log-junit ${basedir}/test-cases-report.xml"/>
+        </exec>
+    </target>
+
+    <target name="_configure_tests">
+        <!--Prepare local.xml-->
+        <condition property="db_vendor_name" value="mysql">
+            <not>
+                <isset property="db_vendor_name"/>
+            </not>
+        </condition>
+        <condition property="db_table_prefix" value="">
+            <not>
+                <isset property="db_table_prefix"/>
+            </not>
+        </condition>
+        <condition property="app_mode" value="developer">
+            <not>
+                <isset property="app_mode"/>
+            </not>
+        </condition>
+        <copy file="${basedir}/dev/build/core_dev/api-functional/local-${db_vendor_name}.xml"
+              todir="${product_root_dir}/dev/tests/api-functional/etc" overwrite="true"/>
+
+        <property name="db_config_file"
+                  value="${product_root_dir}/dev/tests/api-functional/etc/local-${db_vendor_name}.xml"/>
+        <antcall target="_database_credential_substitution"/>
+
+        <replace file="${db_config_file}">
+            <replacefilter token="{{db_table_prefix}}" value="${db_table_prefix}"/>
+        </replace>
+
+        <!--Prepare configuration for magento installation-->
+        <copy file="${basedir}/${env.build_customization_dir}/install.php" failonerror="true" overwrite="true"
+              tofile="${product_root_dir}/dev/tests/api-functional/config/install.php"/>
+
+        <replace file="${product_root_dir}/dev/tests/api-functional/config/install.php">
+            <replacefilter token="{{db_model}}" value="${env.db_model}"/>
+            <replacefilter token="{{db_host}}" value="${env.db_host}"/>
+            <replacefilter token="{{db_name}}" value="${env.db_name}"/>
+            <replacefilter token="{{db_user}}" value="${env.db_user}"/>
+            <replacefilter token="{{db_password}}" value="${env.db_password}"/>
+            <replacefilter token="{{url}}" value="${magento_instance_base_url}"/>
+            <replacefilter token="{{secure_url}}" value="${magento_instance_base_url}"/>
+        </replace>
+
+        <!--Prepare phpunit.xml-->
+        <copy file="${basedir}/${env.build_customization_dir}/phpunit.xml" failonerror="true" overwrite="true"
+              tofile="${product_root_dir}/dev/tests/api-functional/phpunit.xml"/>
+        <replace file="${product_root_dir}/dev/tests/api-functional/phpunit.xml">
+            <!--URL rewrites are disabled on agents thus 'index.php' should be used as entry point-->
+            <replacefilter token="{{base_url}}" value="${magento_instance_base_url}/index.php"/>
+            <replacefilter token="{{web_api_adapter}}" value="${env.web_api_adapter}"/>
+            <replacefilter token="{{local_config_file}}" value="etc/local-${db_vendor_name}.xml"/>
+            <replacefilter token="{{app_mode}}" value="${app_mode}"/>
+        </replace>
+
+        <!--Make test modules available over HTTP-->
+        <copy todir="${product_root_dir}/app/code/Magento" overwrite="true" failonerror="true">
+            <fileset dir="${product_root_dir}/dev/tests/api-functional/_files" includes="TestModule*/**"/>
+        </copy>
+
+        <!--Ensure that tmp directory fore tests is writable-->
+        <chmod perm="a+w">
+            <dirset dir="${product_root_dir}/dev/tests/api-functional/tmp"/>
+        </chmod>
+    </target>
+</project>

@@ -176,8 +176,8 @@ class Lock extends \Magento\Core\Model\AbstractModel
     {
         $this->loadLockData();
         if ($this->_getData('user_id') == $this->_getSession()->getUser()->getId()
-            && $this->_getData('session_id') == $this->_getSession()->getSessionId())
-        {
+            && $this->_getData('session_id') == $this->_getSession()->getSessionId()
+        ) {
             return true;
         }
         return false;

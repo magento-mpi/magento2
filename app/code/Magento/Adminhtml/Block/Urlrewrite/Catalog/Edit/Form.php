@@ -19,6 +19,8 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit;
 
@@ -34,7 +36,7 @@ class Form extends \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
     {
         // Set form action
         $form->setAction(
-            \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl('*/*/save', array(
+            $this->_adminhtmlData->getUrl('*/*/save', array(
                 'id'       => $this->_getModel()->getId(),
                 'product'  => $this->_getProduct()->getId(),
                 'category' => $this->_getCategory()->getId()

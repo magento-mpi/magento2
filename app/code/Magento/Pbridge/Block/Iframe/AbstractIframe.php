@@ -63,6 +63,29 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     protected $_allowReload = true;
 
     /**
+     * Pbridge data
+     *
+     * @var Magento_Pbridge_Helper_Data
+     */
+    protected $_pbridgeData = null;
+
+    /**
+     * @param Magento_Pbridge_Helper_Data $pbridgeData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Pbridge_Helper_Data $pbridgeData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_pbridgeData = $pbridgeData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Return redirect url for Payment Bridge application
      *
      * @return string
@@ -248,8 +271,6 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     /**
      * Generate unique identifier for current merchant and customer
      *
-     *
-     * @internal param $storeId
      * @return null|string
      */
     public function getCustomerIdentifier()
@@ -257,7 +278,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         $customer = $this->_getCurrentCustomer();
         $store = $this->_getCurrentStore();
         if ($customer && $customer->getEmail()) {
-            return \Mage::helper('Magento\Pbridge\Helper\Data')
+            return $this->_pbridgeData
                 ->getCustomerIdentifierByEmail($customer->getId(), $store->getId());
         }
         return null;
@@ -266,8 +287,6 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     /**
      * Return current merchant and customer email
      *
-     *
-     * @internal param $storeId
      * @return null|string
      */
     public function getCustomerEmail()

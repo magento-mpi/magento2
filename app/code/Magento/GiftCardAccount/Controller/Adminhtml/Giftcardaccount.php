@@ -20,6 +20,25 @@ class Giftcardaccount extends \Magento\Adminhtml\Controller\Action
     protected $_showCodePoolStatusMessage = true;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Default action
      */
     public function indexAction()
@@ -96,7 +115,8 @@ class Giftcardaccount extends \Magento\Adminhtml\Controller\Action
     public function saveAction()
     {
         // check if data sent
-        if ($data = $this->getRequest()->getPost()) {
+        $data = $this->getRequest()->getPost();
+        if ($data) {
             $data = $this->_filterPostData($data);
             // init model and set data
             $id = $this->getRequest()->getParam('giftcardaccount_id');
@@ -127,8 +147,7 @@ class Giftcardaccount extends \Magento\Adminhtml\Controller\Action
                         if($model->getStatus()){
                             $model->sendEmail();
                             $sending = $model->getEmailSent();
-                        }
-                        else {
+                        } else {
                             $status = true;
                         }
                     } catch (\Exception $e) {
@@ -181,7 +200,8 @@ class Giftcardaccount extends \Magento\Adminhtml\Controller\Action
     public function deleteAction()
     {
         // check if we know what should be deleted
-        if ($id = $this->getRequest()->getParam('id')) {
+        $id = $this->getRequest()->getParam('id');
+        if ($id) {
             try {
                 // init model and delete
                 $model = \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount');
@@ -265,6 +285,7 @@ class Giftcardaccount extends \Magento\Adminhtml\Controller\Action
      * Load GCA from request
      *
      * @param string $idFieldName
+     * @return Magento_Core_Model_Abstract
      */
     protected function _initGca($idFieldName = 'id')
     {
@@ -275,7 +296,7 @@ class Giftcardaccount extends \Magento\Adminhtml\Controller\Action
         if ($id) {
             $model->load($id);
         }
-        \Mage::register('current_giftcardaccount', $model);
+        $this->_coreRegistry->register('current_giftcardaccount', $model);
         return $model;
     }
 

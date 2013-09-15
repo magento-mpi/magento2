@@ -21,6 +21,29 @@ namespace Magento\Reward\Block\Adminhtml\Sales\Order\Create;
 class Payment extends \Magento\Backend\Block\Template
 {
     /**
+     * Reward data
+     *
+     * @var Magento_Reward_Helper_Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * @param Magento_Reward_Helper_Data $rewardData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Reward_Helper_Data $rewardData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_rewardData = $rewardData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Getter
      *
      * @return \Magento\Adminhtml\Model\Sales\Order\Create
@@ -54,7 +77,7 @@ class Payment extends \Magento\Backend\Block\Template
         );
 
         return $this->getReward()->getPointsBalance() >= $minPointsBalance
-            && \Mage::helper('Magento\Reward\Helper\Data')->isEnabledOnFront($websiteId)
+            && $this->_rewardData->isEnabledOnFront($websiteId)
             && $this->_authorization->isAllowed(\Magento\Reward\Helper\Data::XML_PATH_PERMISSION_AFFECT)
             && (float)$this->getCurrencyAmount()
             && $this->getQuote()->getBaseGrandTotal() + $this->getQuote()->getBaseRewardCurrencyAmount() > 0;
@@ -88,7 +111,7 @@ class Payment extends \Magento\Backend\Block\Template
     {
         $points = $this->getReward()->getPointsBalance();
         $amount = $this->getReward()->getCurrencyAmount();
-        $rewardFormatted = \Mage::helper('Magento\Reward\Helper\Data')
+        $rewardFormatted = $this->_rewardData
             ->formatReward($points, $amount, $this->getQuote()->getStore()->getId());
         $this->setPointsBalance($points)->setCurrencyAmount($amount)
             ->setUseLabel(__('Use my reward points; %1 are available.', $rewardFormatted))

@@ -55,7 +55,7 @@ class Pbridge extends \Magento\Adminhtml\Controller\Action
     {
         $methodCode = $this->getRequest()->getParam('method_code', null);
         if ($methodCode) {
-            $methodInstance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance($methodCode);
+            $methodInstance = $this->_objectManager->get('Magento\Payment\Helper\Data')->getMethodInstance($methodCode);
             if ($methodInstance) {
                 $block = $this->getLayout()->createBlock($methodInstance->getFormBlockType());
                 $block->setMethod($methodInstance);
@@ -79,7 +79,7 @@ class Pbridge extends \Magento\Adminhtml\Controller\Action
     public function resultAction()
     {
         if ($this->getRequest()->getParam('store')) {
-            \Mage::helper('Magento\Pbridge\Helper\Data')->setStoreId($this->getRequest()->getParam('store'));
+            $this->_objectManager->get('Magento\Pbridge\Helper\Data')->setStoreId($this->getRequest()->getParam('store'));
         }
         $this->_initActionLayout();
         $this->renderLayout();

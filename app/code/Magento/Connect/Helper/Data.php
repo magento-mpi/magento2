@@ -25,16 +25,30 @@ class Data extends \Magento\Core\Helper\Data
     protected $_filesystem;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_Http $coreHttp
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Http $coreHttp,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Config $config,
         \Magento\Filesystem $filesystem
     ) {
-        parent::__construct($context, $config);
+        $this->_coreData = $coreData;
+        parent::__construct($eventManager, $coreHttp, $context, $config);
         $this->_filesystem = $filesystem;
     }
 
@@ -134,7 +148,7 @@ class Data extends \Magento\Core\Helper\Data
 
         if ($this->_filesystem->isFile($xmlFile) && $this->_filesystem->isReadable($xmlFile)) {
             $xml  = simplexml_load_string($this->_filesystem->read($xmlFile));
-            $data = \Mage::helper('Magento\Core\Helper\Data')->xmlToAssoc($xml);
+            $data = $this->_coreData->xmlToAssoc($xml);
             if (!empty($data)) {
                 return $data;
             }

@@ -19,13 +19,14 @@
 namespace Magento\Backend\Block\Widget\Grid\Massaction\Item\Additional;
 
 class DefaultAdditional
-    extends \Magento\Backend\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Grid\Massaction\Item\Additional\AdditionalInterface
 {
 
     public function createFromConfiguration(array $configuration)
     {
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         foreach ($configuration as $itemId=>$item) {
             $item['class'] = isset($item['class']) ? $item['class'] . ' absolute-advice' : 'absolute-advice';

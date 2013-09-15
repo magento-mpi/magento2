@@ -26,28 +26,6 @@
             </indexer>
         </index>
     </global>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_CatalogSearch>
-                    <files>
-                        <default>Magento_CatalogSearch.csv</default>
-                    </files>
-                </Magento_CatalogSearch>
-            </modules>
-        </translate>
-    </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_CatalogSearch>
-                    <files>
-                        <default>Magento_CatalogSearch.csv</default>
-                    </files>
-                </Magento_CatalogSearch>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <catalog>
             <seo>

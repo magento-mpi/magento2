@@ -27,6 +27,29 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
     protected $_events = null;
 
     /**
+     * Catalog event data
+     *
+     * @var Magento_CatalogEvent_Helper_Data
+     */
+    protected $_catalogEventData = null;
+
+    /**
+     * @param Magento_CatalogEvent_Helper_Data $catalogEventData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_CatalogEvent_Helper_Data $catalogEventData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogEventData = $catalogEventData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve html id
      *
      * @return string
@@ -47,7 +70,7 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
      */
     public function canDisplay()
     {
-        return \Mage::helper('Magento\CatalogEvent\Helper\Data')->isEnabled()
+        return $this->_catalogEventData->isEnabled()
             && \Mage::getStoreConfigFlag('catalog/magento_catalogevent/lister_output')
             && (count($this->getEvents()) > 0);
     }

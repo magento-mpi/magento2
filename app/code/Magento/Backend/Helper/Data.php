@@ -24,7 +24,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_pageHelpUrl;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\Core\Model\ConfigInterface
      */
     protected $_config;
 
@@ -50,20 +50,30 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_routerList;
 
     /**
-     * @param \Magento\Core\Model\Config $applicationConfig
-     * @param \Magento\Core\Model\Config\Primary $primaryConfig
-     * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\RouterList $routerList
-     * @param string $defaultAreaFrontName
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_ConfigInterface $applicationConfig
+     * @param Magento_Core_Model_Config_Primary $primaryConfig
+     * @param Magento_Core_Model_RouterList $routerList
+     * @param $defaultAreaFrontName
      */
     public function __construct(
-        \Magento\Core\Model\Config $applicationConfig,
-        \Magento\Core\Model\Config\Primary $primaryConfig,
-        \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\RouterList $routerList,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_ConfigInterface $applicationConfig,
+        Magento_Core_Model_Config_Primary $primaryConfig,
+        Magento_Core_Model_RouterList $routerList,
         $defaultAreaFrontName
     ) {
         parent::__construct($context);
+        $this->_coreData = $coreData;
         $this->_config = $applicationConfig;
         $this->_primaryConfig = $primaryConfig;
         $this->_defaultAreaFrontName = $defaultAreaFrontName;
@@ -158,7 +168,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function generateResetPasswordLinkToken()
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->uniqHash();
+        return $this->_coreData->uniqHash();
     }
 
     /**

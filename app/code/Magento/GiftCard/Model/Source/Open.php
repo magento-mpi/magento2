@@ -13,6 +13,22 @@ namespace Magento\GiftCard\Model\Source;
 class Open extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData
+    ) {
+        $this->_coreData = $coreData;
+    }
+
+    /**
      * Get all options
      *
      * @return array
@@ -33,7 +49,8 @@ class Open extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     /**
      * Get option text
      *
-     * @return string|null
+     * @param int|string $value
+     * @return bool|null|string
      */
     public function getOptionText($value)
     {
@@ -75,7 +92,7 @@ class Open extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
             'default'  => $isNullable ? null : $attributeDefaultValue
         );
 
-        if (\Mage::helper('Magento\Core\Helper\Data')->useDbCompatibleMode()) {
+        if ($this->_coreData->useDbCompatibleMode()) {
             $column['type']     = $attributeType;
             $column['is_null']  = $isNullable;
         } else {

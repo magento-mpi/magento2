@@ -290,7 +290,7 @@ END;
         $packageXmlV1x = simplexml_load_string($packageXmlV1xStub);
         // Note: The previous version of MCM requires precise node order in package.xml file
         $packageXmlV1x->addChild('name', (string)$newPackageXml->name);
-        $packageXmlV1x->addChild('channel', \Mage::helper('Magento\Connect\Helper\Data')->convertChannelToV1x((string)$newPackageXml->channel));
+        $packageXmlV1x->addChild('channel', $this->_convertChannelToV1x((string)$newPackageXml->channel));
         $packageXmlV1x->addChild('summary', (string)$newPackageXml->summary);
         $packageXmlV1x->addChild('description', (string)$newPackageXml->description);
         // Import authors
@@ -337,7 +337,7 @@ END;
             $packageNode->addChild('name', (string)$package->name);
             // Convert channel to previous version format
             $channel = (string)$package->channel;
-            $channel = \Mage::helper('Magento\Connect\Helper\Data')->convertChannelToV1x($channel);
+            $channel = $this->_convertChannelToV1x($channel);
             $packageNode->addChild('channel', $channel);
             $minVersion = (string)$package->min;
             if ($minVersion) {
@@ -1483,4 +1483,20 @@ END;
         return $this;
     }
 
+    /**
+     * Convert package channel in order for it to be compatible with previous version of Magento Connect Manager
+     *
+     * @param string $channel
+     * @return string
+     */
+    protected function _convertChannelToV1x($channel)
+    {
+        $channelMap = array(
+            'community' => 'connect.magentocommerce.com/community'
+        );
+        if (isset($channelMap[$channel])) {
+            $channel = $channelMap[$channel];
+        }
+        return $channel;
+    }
 }

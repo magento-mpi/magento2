@@ -50,6 +50,35 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_storeData = array();
 
     /**
+     * Reminder data
+     *
+     * @var Magento_Reminder_Helper_Data
+     */
+    protected $_reminderData = null;
+
+    /**
+     * @param Magento_Reminder_Helper_Data $reminderData
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Reminder_Model_Resource_Rule $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Reminder_Helper_Data $reminderData,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Reminder_Model_Resource_Rule $resource,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_reminderData = $reminderData;
+        parent::__construct($formFactory, $context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Init resource model
      *
      * @return void
@@ -135,10 +164,10 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
         $translate->setTranslateInline(false);
 
-        $identity = \Mage::helper('Magento\Reminder\Helper\Data')->getEmailIdentity();
+        $identity = $this->_reminderData->getEmailIdentity();
 
         $this->_matchCustomers();
-        $limit = \Mage::helper('Magento\Reminder\Helper\Data')->getOneRunLimit();
+        $limit = $this->_reminderData->getOneRunLimit();
 
         $recipients = $this->_getResource()->getCustomersForNotification($limit, $this->getRuleId());
 
@@ -197,7 +226,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     protected function _matchCustomers()
     {
-        $threshold   = \Mage::helper('Magento\Reminder\Helper\Data')->getSendFailureThreshold();
+        $threshold   = $this->_reminderData->getSendFailureThreshold();
         $currentDate = \Mage::getModel('Magento\Core\Model\Date')->date('Y-m-d');
         $rules       = $this->getCollection()->addDateFilter($currentDate)->addIsActiveFilter(1);
 

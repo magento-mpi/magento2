@@ -20,6 +20,25 @@ namespace Magento\ScheduledImportExport\Controller\Adminhtml\Scheduled;
 class Operation extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Initialize layout.
      *
      * @return \Magento\ScheduledImportExport\Controller\Adminhtml\Scheduled\Operation
@@ -67,10 +86,10 @@ class Operation extends \Magento\Adminhtml\Controller\Action
     public function newAction()
     {
         $operationType = $this->getRequest()->getParam('type');
-        $this->_initAction()
-            ->_title(
-                \Mage::helper('Magento\ScheduledImportExport\Helper\Data')->getOperationHeaderText($operationType, 'new')
-            );
+        $this->_initAction()->_title(
+            $this->_objectManager->get('Magento\ScheduledImportExport\Helper\Data')
+                ->getOperationHeaderText($operationType, 'new')
+        );
 
         $this->renderLayout();
     }
@@ -85,11 +104,11 @@ class Operation extends \Magento\Adminhtml\Controller\Action
         $this->_initAction();
 
         /** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
-        $operation = \Mage::registry('current_operation');
+        $operation = $this->_coreRegistry->registry('current_operation');
         $operationType = $operation->getOperationType();
 
         /** @var $helper \Magento\ScheduledImportExport\Helper\Data */
-        $helper = \Mage::helper('Magento\ScheduledImportExport\Helper\Data');
+        $helper = $this->_objectManager->get('Magento\ScheduledImportExport\Helper\Data');
         $this->_title(
             $helper->getOperationHeaderText($operationType, 'edit')
         );
@@ -129,7 +148,7 @@ class Operation extends \Magento\Adminhtml\Controller\Action
                 $operation = \Mage::getModel('Magento\ScheduledImportExport\Model\Scheduled\Operation')->setData($data);
                 $operation->save();
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
-                    \Mage::helper('Magento\ScheduledImportExport\Helper\Data')
+                    $this->_objectManager->get('Magento\ScheduledImportExport\Helper\Data')
                         ->getSuccessSaveMessage($operation->getOperationType())
                 );
             } catch (\Magento\Core\Exception $e) {
@@ -157,7 +176,7 @@ class Operation extends \Magento\Adminhtml\Controller\Action
             try {
                 \Mage::getModel('Magento\ScheduledImportExport\Model\Scheduled\Operation')->setId($id)->delete();
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
-                    \Mage::helper('Magento\ScheduledImportExport\Helper\Data')->getSuccessDeleteMessage(
+                    $this->_objectManager->get('Magento\ScheduledImportExport\Helper\Data')->getSuccessDeleteMessage(
                         $request->getParam('type')
                     )
                 );

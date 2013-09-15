@@ -39,7 +39,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      *
      * @param \Magento\Data\Form\AbstractForm $container
      */
-    public function __construct($container)
+    public function __construct(Magento_Data_Form_Abstract $container)
     {
         $this->_elements = array();
         $this->_container = $container;

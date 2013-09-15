@@ -10,10 +10,6 @@
 
 /**
  * Renderer for Payments Advanced information
- *
- * @category   Magento
- * @package    Magento_Paypal
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Paypal\Block\Adminhtml\System\Config\Payflowlink;
 

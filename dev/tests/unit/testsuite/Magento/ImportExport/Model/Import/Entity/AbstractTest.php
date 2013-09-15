@@ -46,11 +46,21 @@ class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Fram
     {
         /** @var $helper \Magento\ImportExport\Helper\Data */
         $helper = $this->getMock('Magento\ImportExport\Helper\Data', array(), array(), '', false);
-        $registryKey = '_helper/Magento\ImportExport\Helper\Data';
-        if (Mage::registry($registryKey)) {
-            Mage::unregister($registryKey);
-        }
-        Mage::register($registryKey, $helper);
+
+        $coreRegisterMock = $this->getMock('Magento_Core_Model_Registry');
+        $coreRegisterMock->expects($this->any())
+            ->method('registry')
+            ->with('_helper/Magento_ImportExport_Helper_Data')
+            ->will($this->returnValue($helper));
+
+        $objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')->getMock();
+        $objectManagerMock->expects($this->any())
+            ->method('get')
+            ->with('Magento_Core_Model_Registry')
+            ->will($this->returnValue($coreRegisterMock));
+
+        Mage::reset();
+        Mage::setObjectManager($objectManagerMock);
 
         return $helper;
     }

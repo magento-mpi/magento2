@@ -323,7 +323,7 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
     public function placeOrderAction()
     {
         try {
-            $requiredAgreements = \Mage::helper('Magento\Checkout\Helper\Data')->getRequiredAgreementIds();
+            $requiredAgreements = $this->_objectManager->get('Magento\Checkout\Helper\Data')->getRequiredAgreementIds();
             if ($requiredAgreements) {
                 $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
                 if (array_diff($requiredAgreements, $postedAgreements)) {
@@ -358,7 +358,7 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
             $profiles = $this->_checkout->getRecurringPaymentProfiles();
             if ($profiles) {
                 $ids = array();
-                foreach($profiles as $profile) {
+                foreach ($profiles as $profile) {
                     $ids[] = $profile->getId();
                 }
                 $session->setLastRecurringProfileIds($ids);
@@ -392,7 +392,7 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
     {
         $quote = $this->_getQuote();
         if (!$quote->hasItems() || $quote->getHasError()) {
-            $this->getResponse()->setHeader('HTTP/1.1','403 Forbidden');
+            $this->getResponse()->setHeader('HTTP/1.1', '403 Forbidden');
             \Mage::throwException(__('We can\'t initialize Express Checkout.'));
         }
         if (false === isset($this->_checkoutTypes[$this->_checkoutType])) {
@@ -479,8 +479,8 @@ abstract class AbstractExpress extends \Magento\Core\Controller\Front\Action
     {
         $this->setFlag('', 'no-dispatch', true);
         $this->getResponse()->setRedirect(
-            \Mage::helper('Magento\Core\Helper\Url')->addRequestParam(
-                \Mage::helper('Magento\Customer\Helper\Data')->getLoginUrl(),
+            $this->_objectManager->get('Magento\Core\Helper\Url')->addRequestParam(
+                $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl(),
                 array('context' => 'checkout')
             )
         );

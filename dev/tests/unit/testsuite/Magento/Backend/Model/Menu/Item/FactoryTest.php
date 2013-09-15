@@ -37,10 +37,13 @@ class Magento_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_Test
     {
         $this->_objectFactoryMock = $this->getMock('Magento\ObjectManager');
         $this->_helperFactoryMock = $this->getMock('Magento\Core\Model\Factory\Helper', array(), array(), '', false);
-        $this->_helperFactoryMock->expects($this->any())->method('get')->will($this->returnValueMap(array(
-            array('Magento\Backend\Helper\Data', 'backend_helper'),
-            array('Magento\User\Helper\Data', 'user_helper')
-        )));
+        $this->_helperFactoryMock
+            ->expects($this->any())
+            ->method('get')
+            ->will($this->returnValueMap(array(
+                array('Magento\Backend\Helper\Data', array(), 'backend_helper'),
+                array('Magento\User\Helper\Data', array(), 'user_helper')
+            )));
 
         $this->_model = new \Magento\Backend\Model\Menu\Item\Factory($this->_objectFactoryMock,
             $this->_helperFactoryMock);
@@ -48,7 +51,8 @@ class Magento_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_Test
 
     public function testCreate()
     {
-        $this->_objectFactoryMock->expects($this->once())
+        $this->_objectFactoryMock
+            ->expects($this->once())
             ->method('create')
             ->with(
                 $this->equalTo('Magento\Backend\Model\Menu\Item'),

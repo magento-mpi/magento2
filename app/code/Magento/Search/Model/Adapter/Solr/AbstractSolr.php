@@ -72,20 +72,31 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     protected $_clientHelper;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * Initialize connect to Solr Client
+     *
+     *
      *
      * @param \Magento\Search\Model\Client\FactoryInterface $clientFactory
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Search\Helper\ClientInterface $clientHelper
+     * @param Magento_Core_Model_Registry $registry
      * @param array $options
-     * @throws \Exception
      */
     public function __construct(
         \Magento\Search\Model\Client\FactoryInterface $clientFactory,
         \Magento\Core\Model\Logger $logger,
         \Magento\Search\Helper\ClientInterface $clientHelper,
+        Magento_Core_Model_Registry $registry,
         $options = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_clientHelper = $clientHelper;
         $this->_log = $logger;
         $this->_clientFactory = $clientFactory;
@@ -335,7 +346,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
             } elseif ($sortBy == 'name') {
                 $sortBy = 'alphaNameSort' . $languageSuffix;
             } elseif ($sortBy == 'position') {
-                $sortBy = 'position_category_' . \Mage::registry('current_category')->getId();
+                $sortBy = 'position_category_' . $this->_coreRegistry->registry('current_category')->getId();
             } elseif ($sortBy == 'price') {
                 $websiteId       = \Mage::app()->getStore()->getWebsiteId();
                 $customerGroupId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
@@ -353,7 +364,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
             if ($sortField == 'relevance') {
                 $sortField = 'score';
             } elseif ($sortField == 'position') {
-                $sortField = 'position_category_' . \Mage::registry('current_category')->getId();
+                $sortField = 'position_category_' . $this->_coreRegistry->registry('current_category')->getId();
             } elseif ($sortField == 'price') {
                 $sortField = $this->getPriceFieldName();
             } else {

@@ -44,7 +44,7 @@ class Auth extends \Magento\Backend\Controller\ActionAbstract
         $auth = \Mage::getSingleton('Magento\Backend\Model\Auth');
         $auth->logout();
         $auth->getAuthStorage()->addSuccess(__('You have logged out.'));
-        $this->getResponse()->setRedirect(\Mage::helper('Magento\Backend\Helper\Data')->getHomePageUrl());
+        $this->getResponse()->setRedirect($this->_objectManager->get('Magento\Backend\Helper\Data')->getHomePageUrl());
     }
 
     /**
@@ -62,9 +62,9 @@ class Auth extends \Magento\Backend\Controller\ActionAbstract
      */
     protected function _getDeniedJson()
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode(array(
+        return $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
             'ajaxExpired' => 1,
-            'ajaxRedirect' => \Mage::helper('Magento\Backend\Helper\Data')->getHomePageUrl()
+            'ajaxRedirect' => $this->_objectManager->get('Magento\Backend\Helper\Data')->getHomePageUrl()
         ));
     }
 
@@ -83,7 +83,7 @@ class Auth extends \Magento\Backend\Controller\ActionAbstract
     protected function _getDeniedIframe()
     {
         return '<script type="text/javascript">parent.window.location = \''
-            . \Mage::helper('Magento\Backend\Helper\Data')->getHomePageUrl() . '\';</script>';
+            . $this->_objectManager->get('Magento\Backend\Helper\Data')->getHomePageUrl() . '\';</script>';
     }
 
     /**

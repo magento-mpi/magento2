@@ -9,7 +9,6 @@
  */
 
 /**
- *
  * PayPal Express Module
  */
 namespace Magento\Paypal\Model;
@@ -61,13 +60,23 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * Payment additional information key for number of used authorizations
+     *
      * @var string
      */
     protected $_authorizationCountKey = 'authorization_count';
 
-    public function __construct($params = array())
-    {
-        $proInstance = array_shift($params);
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Payment_Helper_Data $paymentData,
+        array $data = array()
+    ) {
+        parent::__construct($eventManager, $paymentData, $data);
+        $proInstance = array_shift($data);
         if ($proInstance && ($proInstance instanceof \Magento\Paypal\Model\Pro)) {
             $this->_pro = $proInstance;
         } else {

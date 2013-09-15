@@ -27,22 +27,34 @@ class Magento_Adminhtml_Block_Page_System_Config_Robots_ResetTest extends PHPUni
     protected function setUp()
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_resetRobotsBlock = $objectManagerHelper->getObject(
-            'Magento\Adminhtml\Block\Page\System\Config\Robots\Reset',
-            array(
-                'application' => $this->getMock('Magento\Core\Model\App', array(), array(), '', false),
-                'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
-            )
-        );
+
         $this->_mockRobotsHelper = $this->getMock('Magento\Page\Helper\Robots',
             array('getRobotsDefaultCustomInstructions'), array(), '', false, false
         );
-        Mage::register('_helper/Magento\Page\Helper\Robots', $this->_mockRobotsHelper);
-    }
 
-    protected function tearDown()
-    {
-        Mage::unregister('_helper/Magento\Page\Helper\Robots');
+        $this->_resetRobotsBlock = $objectManagerHelper->getObject(
+            'Magento\Adminhtml\Block\Page\System\Config\Robots\Reset',
+            array(
+                'pageRobots' => $this->_mockRobotsHelper,
+                'coreData' => $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
+                'application' => $this->getMock('Magento\Core\Model\App', array(), array(), '', false),
+            )
+        );
+
+        $coreRegisterMock = $this->getMock('Magento\Core\Model\Registry');
+        $coreRegisterMock->expects($this->any())
+            ->method('registry')
+            ->with('_helper/Magento_Page_Helper_Robots')
+            ->will($this->returnValue($this->_mockRobotsHelper));
+
+        $objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->getMock();
+        $objectManagerMock->expects($this->any())
+            ->method('get')
+            ->with('Magento_Core_Model_Registry')
+            ->will($this->returnValue($coreRegisterMock));
+
+        Mage::reset();
+        Mage::setObjectManager($objectManagerMock);
     }
 
     /**
@@ -51,8 +63,7 @@ class Magento_Adminhtml_Block_Page_System_Config_Robots_ResetTest extends PHPUni
     public function testGetRobotsDefaultCustomInstructions()
     {
         $expectedInstructions = 'User-agent: *';
-        $this->_mockRobotsHelper
-            ->expects($this->once())
+        $this->_mockRobotsHelper->expects($this->once())
             ->method('getRobotsDefaultCustomInstructions')
             ->will($this->returnValue($expectedInstructions));
         $this->assertEquals($expectedInstructions, $this->_resetRobotsBlock->getRobotsDefaultCustomInstructions());

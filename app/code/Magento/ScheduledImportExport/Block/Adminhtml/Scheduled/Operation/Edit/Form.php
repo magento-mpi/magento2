@@ -27,7 +27,7 @@
 namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit;
 
 abstract class Form
-    extends \Magento\Adminhtml\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare general form for scheduled operation
@@ -37,11 +37,14 @@ abstract class Form
     protected function _prepareForm()
     {
         /** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
-        $operation = \Mage::registry('current_operation');
-        $form = new \Magento\Data\Form(array(
-            'id'     => 'edit_form',
-            'name'   => 'scheduled_operation'
-        ));
+        $operation = $this->_coreRegistry->registry('current_operation');
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'     => 'edit_form',
+                'name'   => 'scheduled_operation',
+            ))
+        );
         // settings information
         $this->_addGeneralSettings($form, $operation);
 

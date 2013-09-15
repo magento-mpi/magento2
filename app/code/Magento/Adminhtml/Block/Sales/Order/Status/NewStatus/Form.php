@@ -13,7 +13,7 @@
  */
 namespace Magento\Adminhtml\Block\Sales\Order\Status\NewStatus;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected function _construct()
     {
@@ -28,13 +28,16 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $model = \Mage::registry('current_status');
+        $model = $this->_coreRegistry->registry('current_status');
 
-        $form = new \Magento\Data\Form(array(
-            'id' => 'edit_form',
-            'action' => $this->getData('action'),
-            'method' => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend' => __('Order Status Information')
@@ -51,14 +54,12 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             )
         );
 
-        $fieldset->addField('label', 'text',
-            array(
-                'name' => 'label',
-                'label' => __('Status Label'),
-                'class' => 'required-entry',
-                'required' => true,
-            )
-        );
+        $fieldset->addField('label', 'text', array(
+            'name' => 'label',
+            'label' => __('Status Label'),
+            'class' => 'required-entry',
+            'required' => true,
+        ));
 
         if (!\Mage::app()->isSingleStoreMode()) {
             $this->_addStoresFieldset($model, $form);

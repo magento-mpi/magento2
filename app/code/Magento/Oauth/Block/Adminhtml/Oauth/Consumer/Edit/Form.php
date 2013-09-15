@@ -18,7 +18,7 @@
  */
 namespace Magento\Oauth\Block\Adminhtml\Oauth\Consumer\Edit;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Consumer model
@@ -35,7 +35,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
     public function getModel()
     {
         if (null === $this->_model) {
-            $this->_model = \Mage::registry('current_consumer');
+            $this->_model = $this->_coreRegistry->registry('current_consumer');
         }
         return $this->_model;
     }
@@ -48,9 +48,14 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
     protected function _prepareForm()
     {
         $model = $this->getModel();
-        $form = new \Magento\Data\Form(array(
-            'id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend' => __('Consumer Information'), 'class' => 'fieldset-wide'

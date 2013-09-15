@@ -46,6 +46,7 @@ class Magento_Catalog_Model_Resource_Product_Option_ValueTest extends PHPUnit_Fr
     {
         $object = new Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value_Magento_Core_Model_Stub(
             $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
             null,
             null,
             self::$valueTitleData

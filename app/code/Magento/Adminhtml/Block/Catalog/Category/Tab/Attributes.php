@@ -18,7 +18,7 @@
  */
 namespace Magento\Adminhtml\Block\Catalog\Category\Tab;
 
-class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
+class Attributes extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Retrieve Category object
@@ -27,14 +27,15 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
      */
     public function getCategory()
     {
-        return \Mage::registry('current_category');
+        return $this->_coreRegistry->registry('current_category');
     }
 
     /**
      * Initialize tab
      *
      */
-    protected function _construct() {
+    protected function _construct()
+    {
         parent::_construct();
         $this->setShowGlobalIcon(true);
     }
@@ -55,11 +56,13 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
      *
      * @return \Magento\Adminhtml\Block\Catalog\Category\Tab\Attributes
      */
-    protected function _prepareForm() {
+    protected function _prepareForm()
+    {
         $group      = $this->getGroup();
         $attributes = $this->getAttributes();
 
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('group_' . $group->getId());
         $form->setDataObject($this->getCategory());
 
@@ -76,15 +79,13 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
                         'name'  => 'path',
                         'value' => $this->getRequest()->getParam('parent')
                     ));
-                }
-                else {
+                } else {
                     $fieldset->addField('path', 'hidden', array(
                         'name'  => 'path',
                         'value' => 1
                     ));
                 }
-            }
-            else {
+            } else {
                 $fieldset->addField('id', 'hidden', array(
                     'name'  => 'id',
                     'value' => $this->getCategory()->getId()
@@ -109,7 +110,8 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
                     ));
                 } else {
                     $form->getElement('url_key')->setRenderer(
-                        $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Form\Renderer\Attribute\Urlkey')
+                        $this->getLayout()
+                            ->createBlock('Magento\Adminhtml\Block\Catalog\Form\Renderer\Attribute\Urlkey')
                     );
                 }
             }
@@ -138,13 +140,13 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
             }
         }
 
-        if (!$this->getCategory()->getId()){
+        if (!$this->getCategory()->getId()) {
             $this->getCategory()->setIncludeInMenu(1);
         }
 
         $form->addValues($this->getCategory()->getData());
 
-        \Mage::dispatchEvent('adminhtml_catalog_category_edit_prepare_form', array('form'=>$form));
+        $this->_eventManager->dispatch('adminhtml_catalog_category_edit_prepare_form', array('form'=>$form));
 
         $form->setFieldNameSuffix('general');
         $this->setForm($form);

@@ -31,11 +31,12 @@ class Magento_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_
         $objectManager->addSharedInstance($this->_moduleListMock, 'Magento\Core\Model\ModuleList');
         $objectManager->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-        $this->_layout = Mage::getModel('Magento\Core\Model\Layout');
+        $this->_layout = Mage::getSingleton('Magento\Core\Model\Layout');
     }
 
     /**
      * @dataProvider blockHtmlBeforeDataProvider
+     * @magentoAppIsolation enabled
      */
     public function testAdminhtmlBlockHtmlBefore($parentBlock, $childBlock)
     {
@@ -61,6 +62,9 @@ class Magento_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_
         $this->assertFalse($this->_layout->getChildBlock($childBlock, 'banners_grid_serializer'));
     }
 
+    /**
+     * @return array
+     */
     public function blockHtmlBeforeDataProvider()
     {
         return array(

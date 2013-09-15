@@ -6,12 +6,14 @@
  * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Adminhtml\Block\Cms\Page\Edit\Tab;
 
 class Design
-    extends \Magento\Adminhtml\Block\Widget\Form
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Prepare form tab configuration
@@ -32,17 +34,16 @@ class Design
         /*
          * Checking if user have permissions to save information
          */
-        if ($this->_isAllowedAction('Magento_Cms::save')) {
-            $isElementDisabled = false;
-        } else {
-            $isElementDisabled = true;
-        }
+        $isElementDisabled = !$this->_isAllowedAction('Magento_Cms::save');
 
-        $form = new \Magento\Data\Form();
+        /** @var Magento_Data_Form $form */
+        $form   = $this->_formFactory->create(array(
+            'attributes' => array(
+                'html_id_prefix' => 'page_',
+            ))
+        );
 
-        $form->setHtmlIdPrefix('page_');
-
-        $model = \Mage::registry('cms_page');
+        $model = $this->_coreRegistry->registry('cms_page');
 
         $layoutFieldset = $form->addFieldset('layout_fieldset', array(
             'legend' => __('Page Layout'),
@@ -118,7 +119,7 @@ class Design
             'disabled'  => $isElementDisabled
         ));
 
-        \Mage::dispatchEvent('adminhtml_cms_page_edit_tab_design_prepare_form', array('form' => $form));
+        $this->_eventManager->dispatch('adminhtml_cms_page_edit_tab_design_prepare_form', array('form' => $form));
 
         $form->setValues($model->getData());
 

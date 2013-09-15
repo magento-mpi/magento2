@@ -19,6 +19,32 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab;
 
 class Upsell extends \Magento\Adminhtml\Block\Widget\Grid
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     /**
      * Set grid params
@@ -45,7 +71,7 @@ class Upsell extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function getProduct()
     {
-        return \Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**
@@ -246,7 +272,7 @@ class Upsell extends \Magento\Adminhtml\Block\Widget\Grid
     public function getSelectedUpsellProducts()
     {
         $products = array();
-        foreach (\Mage::registry('current_product')->getUpSellProducts() as $product) {
+        foreach ($this->_coreRegistry->registry('current_product')->getUpSellProducts() as $product) {
             $products[$product->getId()] = array('position' => $product->getPosition());
         }
         return $products;
