@@ -173,7 +173,7 @@ abstract class HandlerAbstract
     protected function _prepareResourceModelName($resource)
     {
         if (null !== $this->_resourceSuffix) {
-            return $resource . $this->_resourceSuffix;
+            return $resource . str_replace('_', \Magento\Autoload\IncludePath::NS_SEPARATOR, $this->_resourceSuffix);
         }
         return $resource;
     }
