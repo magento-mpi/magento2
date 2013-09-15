@@ -19,7 +19,8 @@ class Magento_Core_Model_Module_Declaration_Reader_FilesystemTest extends PHPUni
         $applicationDirs->expects($this->any())->method('getDir')
             ->will($this->returnValueMap(array(
                 array(
-                    \Magento\Core\Model\Dir::CONFIG, $baseDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR .'etc',
+                    \Magento\Core\Model\Dir::CONFIG, $baseDir . DIRECTORY_SEPARATOR . 'app' .
+                        DIRECTORY_SEPARATOR .'etc',
                 ),
                 array(
                     \Magento\Core\Model\Dir::MODULES,
