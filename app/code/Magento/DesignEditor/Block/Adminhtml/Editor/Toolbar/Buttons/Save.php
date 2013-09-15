@@ -18,7 +18,7 @@
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons;
 
 class Save
-    extends \Magento\Backend\Block\Widget\Button\Split
+    extends \Magento\Backend\Block\Widget\Button\SplitButton
 {
     /**
      * Current theme used for preview

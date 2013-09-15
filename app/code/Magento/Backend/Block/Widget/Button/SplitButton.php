@@ -22,7 +22,7 @@
  */
 namespace Magento\Backend\Block\Widget\Button;
 
-class Split extends \Magento\Backend\Block\Widget
+class SplitButton extends \Magento\Backend\Block\Widget
 {
     /**
      * Define block template
