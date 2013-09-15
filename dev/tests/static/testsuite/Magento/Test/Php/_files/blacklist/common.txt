@@ -6,6 +6,7 @@ app/code/Magento/Backend/Model/Config.php
 app/code/Magento/Backend/Model/Config/Structure/Converter.php
 app/code/Magento/Backend/Model/Menu/Config.php
 app/code/Magento/Backend/Block/Widget/Grid
+app/code/Magento/Backend/Block/Context.php
 app/code/Magento/Backend/view
 app/code/Magento/Core/Model/Config/Element.php
 app/code/Magento/DesignEditor/view
