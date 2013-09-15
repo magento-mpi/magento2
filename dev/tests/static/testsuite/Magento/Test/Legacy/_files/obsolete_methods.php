@@ -686,12 +686,10 @@ return array(
     array('getInsertFromSelectUsingAnalytic', 'Magento_Eav_Model_Resource_Helper_Mysql4'),
     array('setOneRowLimit', 'Magento_Eav_Model_Resource_Helper_Mysql4'),
     array('getCastToIntExpression', 'Magento_Eav_Model_Resource_Helper_Mysql4'),
-<<<<<<< HEAD:dev/tests/static/testsuite/Legacy/_files/obsolete_methods.php
     array('validate', 'Magento_Core_Model_Session_Abstract'),
     array('_validate', 'Magento_Core_Model_Session_Abstract'),
     array('_getSessionEnvironment', 'Magento_Core_Model_Session_Abstract'),
     array('getValidateHttpUserAgentSkip', 'Magento_Core_Model_Session_Abstract'),
-=======
     array('addProductAttributes', 'Magento_SalesRule_Model_Observer'),
     array('_helper', 'Magento_Catalog_Model_Product_Type_Abstract'),
     array('getHelper', 'Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection'),
@@ -705,5 +703,4 @@ return array(
     array('unregister', 'Mage', 'use Magento_Core_Model_Registry'),
     array('registry', 'Mage', 'use Magento_Core_Model_Registry'),
     array('getCatalogHelper', 'Magento_Adminhtml_Block_Catalog_Category_Tabs'),
->>>>>>> develop:dev/tests/static/testsuite/Magento/Test/Legacy/_files/obsolete_methods.php
 );
