@@ -350,7 +350,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             $quote->collectTotals();
         }
 
-        $this->_coreData->copyFieldset('sales_copy_order', 'to_edit', $order, $quote);
+        $this->_coreData->copyFieldsetToTarget('sales_copy_order', 'to_edit', $order, $quote);
 
         $this->_eventManager->dispatch('sales_convert_order_to_quote', array('order' => $order, 'quote' => $quote));
 
@@ -381,7 +381,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected function _initBillingAddressFromOrder(\Magento\Sales\Model\Order $order)
     {
         $this->getQuote()->getBillingAddress()->setCustomerAddressId('');
-        $this->_coreData->copyFieldset(
+        $this->_coreData->copyFieldsetToTarget(
             'sales_copy_order_billing_address',
             'to_order',
             $order->getBillingAddress(),
@@ -395,7 +395,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $quoteShippingAddress = $this->getQuote()->getShippingAddress()
             ->setCustomerAddressId('')
             ->setSameAsBilling($orderShippingAddress && $orderShippingAddress->getSameAsBilling());
-        $this->_coreData->copyFieldset(
+        $this->_coreData->copyFieldsetToTarget(
             'sales_copy_order_shipping_address',
             'to_order',
             $orderShippingAddress,

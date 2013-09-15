@@ -57,9 +57,9 @@ class Observer
     /**
      * Handler for invitation mass update
      *
-     * @param \Magento\Simplexml\Element $config
-     * @param \Magento\Logging\Model\Event $eventModel
-     * @return \Magento\Logging\Model\Event
+     * @param array $config
+     * @param Magento_Logging_Model_Event $eventModel
+     * @return Magento_Logging_Model_Event
      */
     public function postDispatchInvitationMassUpdate($config, $eventModel)
     {

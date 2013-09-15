@@ -68,7 +68,7 @@ class Quote extends \Magento\Object
             ->setQuote($quote)
             ->setCustomer($quote->getCustomer());
 
-        $this->_coreData->copyFieldset('sales_convert_quote', 'to_order', $quote, $order);
+        $this->_coreData->copyFieldsetToTarget('sales_convert_quote', 'to_order', $quote, $order);
         $this->_eventManager->dispatch('sales_convert_quote_to_order', array('order'=>$order, 'quote'=>$quote));
         return $order;
     }
@@ -85,7 +85,7 @@ class Quote extends \Magento\Object
             $order = $this->toOrder($address->getQuote());
         }
 
-        $this->_coreData->copyFieldset(
+        $this->_coreData->copyFieldsetToTarget(
             'sales_convert_quote_address',
             'to_order',
             $address,
@@ -110,7 +110,7 @@ class Quote extends \Magento\Object
             ->setCustomerId($address->getCustomerId())
             ->setCustomerAddressId($address->getCustomerAddressId());
 
-        $this->_coreData->copyFieldset(
+        $this->_coreData->copyFieldsetToTarget(
             'sales_convert_quote_address',
             'to_order_address',
             $address,
@@ -135,7 +135,7 @@ class Quote extends \Magento\Object
             ->setStoreId($payment->getStoreId())
             ->setCustomerPaymentId($payment->getCustomerPaymentId());
 
-        $this->_coreData->copyFieldset(
+        $this->_coreData->copyFieldsetToTarget(
             'sales_convert_quote_payment',
             'to_order_payment',
             $payment,
@@ -169,7 +169,7 @@ class Quote extends \Magento\Object
             $options = $item->getProduct()->getTypeInstance()->getOrderOptions($item->getProduct());
         }
         $orderItem->setProductOptions($options);
-        $this->_coreData->copyFieldset(
+        $this->_coreData->copyFieldsetToTarget(
             'sales_convert_quote_item',
             'to_order_item',
             $item,
@@ -181,7 +181,7 @@ class Quote extends \Magento\Object
         }
 
         if (!$item->getNoDiscount()) {
-            $this->_coreData->copyFieldset(
+            $this->_coreData->copyFieldsetToTarget(
                 'sales_convert_quote_item',
                 'to_order_item_discount',
                 $item,

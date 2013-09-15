@@ -1,5 +1,7 @@
 <?php
 /**
+ * Wishlist item report collection
+ *
  * {license_notice}
  *
  * @category    Magento
@@ -8,13 +10,6 @@
  * @license     {license_link}
  */
 
-/**
- * Wishlist item report collection
- *
- * @category    Magento
- * @package     Magento_MultipleWishlist
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\MultipleWishlist\Model\Resource\Item\Report;
 
 class Collection
@@ -35,11 +30,17 @@ class Collection
     protected $_wishlistData = null;
 
     /**
+     * @var Magento_Core_Model_Fieldset_Config
+     */
+    protected $_fieldsetConfig;
+
+    /**
      * Collection constructor
      *
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_MultipleWishlist_Model_Resource_Item $resource
      */
@@ -47,11 +48,13 @@ class Collection
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Wishlist_Helper_Data $wishlistData,
         Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Model_Fieldset_Config $fieldsetConfig,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_MultipleWishlist_Model_Resource_Item $resource
     ) {
         $this->_wishlistData = $wishlistData;
         $this->_catalogData = $catalogData;
+        $this->_fieldsetConfig = $fieldsetConfig;
         parent::__construct($eventManager, $fetchStrategy, $resource);
     }
 
@@ -72,11 +75,11 @@ class Collection
     {
         /* @var \Magento\Customer\Model\Resource\Customer $customer */
         $customer  = \Mage::getResourceSingleton('Magento\Customer\Model\Resource\Customer');
-        $select = $this->getSelect();
 
-        $customerAccount = \Mage::getConfig()->getFieldset('customer_account');
-        foreach ($customerAccount as $code => $node) {
-            if ($node->is('name')) {
+        $customerAccount = $this->_fieldsetConfig->getFieldset('customer_account');
+
+        foreach ($customerAccount as $code => $field) {
+            if (isset($field['name'])) {
                 $fields[$code] = $code;
             }
         }

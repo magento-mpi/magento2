@@ -111,13 +111,13 @@ class Observer
             $links = $product->getTypeInstance()->getLinks($product);
             if ($linkIds = $orderItem->getProductOptionByCode('links')) {
                 $linkPurchased = Mage::getModel('Magento\Downloadable\Model\Link\Purchased');
-                $this->_helper->copyFieldset(
+                $this->_helper->copyFieldsetToTarget(
                     'downloadable_sales_copy_order',
                     'to_downloadable',
                     $orderItem->getOrder(),
                     $linkPurchased
                 );
-                $this->_helper->copyFieldset(
+                $this->_helper->copyFieldsetToTarget(
                     'downloadable_sales_copy_order_item',
                     'to_downloadable',
                     $orderItem,
@@ -136,7 +136,7 @@ class Observer
                             ->setPurchasedId($linkPurchased->getId())
                             ->setOrderItemId($orderItem->getId());
 
-                        $this->_helper->copyFieldset(
+                        $this->_helper->copyFieldsetToTarget(
                             'downloadable_sales_copy_link',
                             'to_purchased',
                             $links[$linkId],

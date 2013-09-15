@@ -354,9 +354,10 @@ class Type extends \Magento\Core\Model\AbstractModel
     /**
      * Custom handler for giftregistry type save action
      *
-     * @param \Magento\Simplexml\Element $config
-     * @param \Magento\Logging\Model\Event $eventModel
-     * @return \Magento\Logging\Model\Event
+     * @param array $config
+     * @param Magento_Logging_Model_Event $eventModel
+     * @param Magento_Logging_Model_Processor
+     * @return Magento_Logging_Model_Event
      */
     public function postDispatchTypeSave($config, $eventModel, $processor)
     {

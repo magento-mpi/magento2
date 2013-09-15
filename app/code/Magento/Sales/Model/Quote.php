@@ -480,7 +480,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     {
         $this->_customer = $customer;
         $this->setCustomerId($customer->getId());
-        $this->_coreData->copyFieldset('customer_account', 'to_quote', $customer, $this);
+        $this->_coreData->copyFieldsetToTarget('customer_account', 'to_quote', $customer, $this);
         return $this;
     }
 

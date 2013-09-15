@@ -20,14 +20,16 @@ class Collection
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\Registry $registryManager
+     * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Core\Model\Registry $registryManager
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Registry $registryManager,
+        Magento_Core_Model_Fieldset_Config $fieldsetConfig
     ) {
         $this->_registryManager = $registryManager;
-        parent::__construct($eventManager, $fetchStrategy);
+        parent::__construct($eventManager, $fetchStrategy, $fieldsetConfig);
     }
 
     /**

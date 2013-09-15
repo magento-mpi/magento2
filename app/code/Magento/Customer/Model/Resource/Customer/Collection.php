@@ -21,6 +21,25 @@ namespace Magento\Customer\Model\Resource\Customer;
 class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
 {
     /**
+     * @var Magento_Core_Model_Fieldset_Config
+     */
+    protected $_fieldsetConfig;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Fieldset_Config $fieldsetConfig
+    ) {
+        $this->_fieldsetConfig = $fieldsetConfig;
+        parent::__construct($eventManager, $fetchStrategy);
+    }
+
+    /**
      * Resource initialization
      */
     protected function _construct()
@@ -54,9 +73,9 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
     public function addNameToSelect()
     {
         $fields = array();
-        $customerAccount = \Mage::getConfig()->getFieldset('customer_account');
-        foreach ($customerAccount as $code => $node) {
-            if ($node->is('name')) {
+        $customerAccount = $this->_fieldsetConfig->getFieldset('customer_account');
+        foreach ($customerAccount as $code => $field) {
+            if (isset($field['name'])) {
                 $fields[$code] = $code;
             }
         }

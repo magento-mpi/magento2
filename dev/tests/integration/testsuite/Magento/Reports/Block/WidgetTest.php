@@ -14,39 +14,62 @@ class Magento_Reports_Block_WidgetTest extends PHPUnit_Framework_TestCase
     public function testViewedProductsWidget()
     {
         $model = Mage::getModel('Magento\Widget\Model\Widget\Instance');
-        $config = $model->setType('Magento\Reports\Block\Product\Widget\Viewed')->getWidgetConfig();
-        $templates = $config->xpath('parameters/template/values');
-        $templates = (array) $templates[0]->children();
+        $config = $model->setType('Magento\Reports\Block\Product\Widget\Viewed')->getWidgetConfigAsArray();
+
+        $this->assertArrayHasKey('parameters', $config);
+        $templates = $config['parameters'];
+        $this->assertArrayHasKey('template', $templates);
+        $templates = $templates['template'];
+        $this->assertArrayHasKey('values', $templates);
+        $templates = $templates['values'];
+
         $this->assertArrayHasKey('default', $templates);
         $this->assertArrayHasKey('list', $templates);
         $this->assertArrayHasKey('list_default', $templates);
         $this->assertArrayHasKey('list_names', $templates);
         $this->assertArrayHasKey('list_images', $templates);
 
-        $blocks = $config->xpath('supported_containers');
-        $blocks = (array) $blocks[0]->children();
-        $this->assertArrayHasKey('left_column', $blocks);
-        $this->assertArrayHasKey('main_content', $blocks);
-        $this->assertArrayHasKey('right_column', $blocks);
+        $this->assertArrayHasKey('supported_containers', $config);
+        $blocks = $config['supported_containers'];
+
+        $containers = array();
+        foreach ($blocks as $block) {
+            $containers[] = $block['container_name'];
+        }
+
+        $this->assertContains('left', $containers);
+        $this->assertContains('content', $containers);
+        $this->assertContains('right', $containers);
     }
 
     public function testComparedProductsWidget()
     {
         $model = Mage::getModel('Magento\Widget\Model\Widget\Instance');
-        $config = $model->setType('Magento\Reports\Block\Product\Widget\Compared')->getWidgetConfig();
-        $templates = $config->xpath('parameters/template/values');
-        $templates = (array) $templates[0]->children();
+        $config = $model->setType('Magento\Reports\Block\Product\Widget\Compared')->getWidgetConfigAsArray();
+
+        $this->assertArrayHasKey('parameters', $config);
+        $templates = $config['parameters'];
+        $this->assertArrayHasKey('template', $templates);
+        $templates = $templates['template'];
+        $this->assertArrayHasKey('values', $templates);
+        $templates = $templates['values'];
+
         $this->assertArrayHasKey('default', $templates);
         $this->assertArrayHasKey('list', $templates);
         $this->assertArrayHasKey('list_default', $templates);
         $this->assertArrayHasKey('list_names', $templates);
         $this->assertArrayHasKey('list_images', $templates);
 
-        $blocks = $config->xpath('supported_containers');
-        $blocks = (array) $blocks[0]->children();
-        $this->assertArrayHasKey('left_column', $blocks);
-        $this->assertArrayHasKey('main_content', $blocks);
-        $this->assertArrayHasKey('right_column', $blocks);
+        $this->assertArrayHasKey('supported_containers', $config);
+        $blocks = $config['supported_containers'];
+        $containers = array();
+        foreach ($blocks as $block) {
+            $containers[] = $block['container_name'];
+        }
+
+        $this->assertContains('left', $containers);
+        $this->assertContains('content', $containers);
+        $this->assertContains('right', $containers);
     }
 
 }

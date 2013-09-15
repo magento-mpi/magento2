@@ -892,10 +892,10 @@ class Entity extends \Magento\Core\Model\AbstractModel
     /**
      * Custom handler for giftregistry share email action
      *
-     * @param \Magento\Simplexml\Element $config
-     * @param \Magento\Logging\Model\Event $eventModel
-     * @param object $processor
-     * @return \Magento\Logging\Model\Event
+     * @param array $config
+     * @param Magento_Logging_Model_Event $eventModel
+     * @param Magento_Logging_Model_Processor $processor
+     * @return Magento_Logging_Model_Event
      */
     public function postDispatchShare($config, $eventModel, $processor)
     {

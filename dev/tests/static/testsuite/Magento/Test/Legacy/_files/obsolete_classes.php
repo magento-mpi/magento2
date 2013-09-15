@@ -565,6 +565,7 @@ return array(
     array('Mage_Core_Block_Template_Zend'),
     array('Mage_Core_Controller_Varien_Router_Admin', 'Magento\Backend\Controller\Router\DefaultRouter'),
     array('Mage_Core_Model_Convert'),
+    array('Mage_Core_Model_Config_Fieldset', 'Magento_Core_Model_Fieldset_Config'),
     array('Mage_Core_Model_Config_Options', 'Magento\Core\Model\Dir'),
     array('Mage_Core_Model_Config_Module'),
     array('Mage_Core_Model_Config_System'),

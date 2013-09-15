@@ -1,5 +1,7 @@
 <?php
 /**
+ * Magento_Core_Model_Config
+ * 
  * {license_notice}
  *
  * @category    Magento
@@ -8,7 +10,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -22,7 +23,12 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_configScopeMock;
 
     /**
-     * @var \Magento\Core\Model\ModuleListInterface
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_objectManagerMock;
+
+    /**
+     * @var Magento_Core_Model_ModuleListInterface
      */
     protected $_moduleListMock;
 
@@ -58,7 +64,7 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
                 </config>';
 
         $configBase = new \Magento\Core\Model\Config\Base($xml);
-        $objectManagerMock = $this->getMock('Magento\Core\Model\ObjectManager', array(), array(), '', false);
+        $this->_objectManagerMock = $this->getMock('Magento\Core\Model\ObjectManager', array(), array(), '', false);
         $configStorageMock = $this->getMock('Magento\Core\Model\Config\StorageInterface');
         $configStorageMock->expects($this->any())->method('getConfiguration')->will($this->returnValue($configBase));
         $modulesReaderMock = $this->getMock('Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false);
@@ -67,7 +73,7 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_sectionPoolMock = $this->getMock('Magento\Core\Model\Config\SectionPool', array(), array(), '', false);
 
         $this->_model = new \Magento\Core\Model\Config(
-            $objectManagerMock, $configStorageMock, $modulesReaderMock, $this->_moduleListMock,
+            $this->_objectManagerMock, $configStorageMock, $modulesReaderMock, $this->_moduleListMock,
             $this->_configScopeMock, $this->_sectionPoolMock
         );
     }

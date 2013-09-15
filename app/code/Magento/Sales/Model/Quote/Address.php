@@ -314,7 +314,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      */
     public function importCustomerAddress(\Magento\Customer\Model\Address $address)
     {
-        $this->_coreData->copyFieldset('customer_address', 'to_quote_address', $address, $this);
+        $this->_coreData->copyFieldsetToTarget('customer_address', 'to_quote_address', $address, $this);
         $email = null;
         if ($address->hasEmail()) {
             $email =  $address->getEmail();
@@ -336,7 +336,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     {
         $address = \Mage::getModel('Magento\Customer\Model\Address');
         $this->_coreData
-            ->copyFieldset('sales_convert_quote_address', 'to_customer_address', $this, $address);
+            ->copyFieldsetToTarget('sales_convert_quote_address', 'to_customer_address', $this, $address);
         return $address;
     }
 
@@ -354,7 +354,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             ->setEmail($address->getEmail());
 
         $this->_coreData
-            ->copyFieldset('sales_convert_order_address', 'to_quote_address', $address, $this);
+            ->copyFieldsetToTarget('sales_convert_order_address', 'to_quote_address', $address, $this);
 
         return $this;
     }

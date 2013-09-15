@@ -110,6 +110,18 @@ class Filesystem implements \Magento\Config\ReaderInterface
         if (!count($fileList)) {
             return array();
         }
+        $output = $this->_readFiles($fileList);
+
+        return $output;
+    }
+
+    /**
+     * @param array $fileList
+     * @return array
+     * @throws Magento_Exception
+     */
+    protected function _readFiles(array $fileList)
+    {
         /** @var \Magento\Config\Dom $domDocument */
         $domDocument = null;
         foreach ($fileList as $file) {

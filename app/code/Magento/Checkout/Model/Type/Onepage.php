@@ -403,7 +403,7 @@ class Onepage
             $customer->setPassword($password);
             $customer->setConfirmation($password);
             // set NOT LOGGED IN group id explicitly,
-            // otherwise copyFieldset('customer_account', 'to_quote') will fill it with default group id value
+            // otherwise copyFieldsetToTarget('customer_account', 'to_quote') will fill it with default group id value
             $customer->setGroupId(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID);
         }
 
@@ -424,7 +424,7 @@ class Onepage
         $quote->getBillingAddress()->setEmail($customer->getEmail());
 
         // copy customer data to quote
-        $this->_coreData->copyFieldset('customer_account', 'to_quote', $customer, $quote);
+        $this->_coreData->copyFieldsetToTarget('customer_account', 'to_quote', $customer, $quote);
 
         return true;
     }
@@ -630,7 +630,7 @@ class Onepage
             $customerBilling->setIsDefaultShipping(true);
         }
 
-        $this->_coreData->copyFieldset('checkout_onepage_quote', 'to_customer', $quote, $customer);
+        $this->_coreData->copyFieldsetToTarget('checkout_onepage_quote', 'to_customer', $quote, $customer);
         $customer->setPassword($customer->decryptPassword($quote->getPasswordHash()));
         $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
         $quote->setCustomer($customer)

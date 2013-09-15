@@ -1,5 +1,7 @@
 <?php
 /**
+ * Widgets Insertion Plugin Config for Editor HTML Element
+ *
  * {license_notice}
  *
  * @category    Magento
@@ -8,16 +10,9 @@
  * @license     {license_link}
  */
 
-/**
- * Widgets Insertion Plugin Config for Editor HTML Element
- *
- * @category    Magento
- * @package     Magento_Widget
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Widget\Model\Widget;
 
-class Config extends \Magento\Object
+class Config
 {
     /**
      * @var \Magento\Core\Model\View\Url
@@ -25,25 +20,36 @@ class Config extends \Magento\Object
     protected $_viewUrl;
 
     /**
-     * Core data
-     *
-     * @var Magento_Core_Helper_Data
+     * @var Magento_Widget_Model_Widget
      */
-    protected $_coreData = null;
+    protected $_widget;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param \Magento\Core\Model\View\Url $viewUrl
-     * @param array $data
+     * @var Magento_Backend_Model_Url
+     */
+    protected $_backendUrl;
+
+    /**
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreHelper;
+
+    /**
+     * @param Magento_Widget_Model_Widget $widget
+     * @param Magento_Backend_Model_Url $backendUrl
+     * @param Magento_Core_Helper_Data $coreHelper
+     * @param Magento_Core_Model_View_Url $viewUrl
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_View_Url $viewUrl,
-        array $data = array()
+        Magento_Widget_Model_Widget $widget,
+        Magento_Backend_Model_Url $backendUrl,
+        Magento_Core_Helper_Data $coreHelper,
+        Magento_Core_Model_View_Url $viewUrl
     ) {
-        $this->_coreData = $coreData;
+        $this->_widget = $widget;
+        $this->_backendUrl = $backendUrl;
+        $this->_coreHelper = $coreHelper;
         $this->_viewUrl = $viewUrl;
-        parent::__construct($data);
     }
 
     /**
@@ -59,7 +65,7 @@ class Config extends \Magento\Object
         );
         $settings = array(
             'widget_plugin_src'   => $url,
-            'widget_placeholders' => \Mage::getModel('Magento\Widget\Model\Widget')->getPlaceholderImageUrls(),
+            'widget_placeholders' => $this->_widget->getPlaceholderImageUrls(),
             'widget_window_url'   => $this->getWidgetWindowUrl($config)
         );
 
@@ -69,7 +75,7 @@ class Config extends \Magento\Object
     /**
      * Return Widgets Insertion Plugin Window URL
      *
-     * @param \Magento\Object Editor element config
+     * @param Magento_Object $config Editor element config
      * @return string
      */
     public function getWidgetWindowUrl($config)
@@ -78,12 +84,11 @@ class Config extends \Magento\Object
 
         $skipped = is_array($config->getData('skip_widgets')) ? $config->getData('skip_widgets') : array();
         if ($config->hasData('widget_filters')) {
-            $all = \Mage::getModel('Magento\Widget\Model\Widget')->getWidgetsXml();
-            $filtered = \Mage::getModel('Magento\Widget\Model\Widget')->getWidgetsXml($config->getData('widget_filters'));
-            $reflection = new \ReflectionObject($filtered);
+            $all = $this->_widget->getWidgets();
+            $filtered = $this->_widget->getWidgets($config->getData('widget_filters'));
             foreach ($all as $code => $widget) {
-                if (!$reflection->hasProperty($code)) {
-                    $skipped[] = $widget->getAttribute('type');
+                if (!isset($filtered[$code])) {
+                    $skipped[] = $widget['@']['type'];
                 }
             }
         }
@@ -91,7 +96,7 @@ class Config extends \Magento\Object
         if (count($skipped) > 0) {
             $params['skip_widgets'] = $this->encodeWidgetsToQuery($skipped);
         }
-        return \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl('*/widget/index', $params);
+        return $this->_backendUrl->getUrl('*/widget/index', $params);
     }
 
     /**
@@ -104,7 +109,7 @@ class Config extends \Magento\Object
     {
         $widgets = is_array($widgets) ? $widgets : array($widgets);
         $param = implode(',', $widgets);
-        return $this->_coreData->urlEncode($param);
+        return $this->_coreHelper->urlEncode($param);
     }
 
     /**
@@ -115,7 +120,7 @@ class Config extends \Magento\Object
      */
     public function decodeWidgetsFromQuery($queryParam)
     {
-        $param = $this->_coreData->urlDecode($queryParam);
+        $param = $this->_coreHelper->urlDecode($queryParam);
         return preg_split('/\s*\,\s*/', $param, 0, PREG_SPLIT_NO_EMPTY);
     }
 

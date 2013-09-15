@@ -943,7 +943,7 @@ class Checkout
             $billing->setCustomerGender($quote->getCustomerGender());
         }
 
-        $this->_coreData->copyFieldset('checkout_onepage_billing', 'to_customer', $billing, $customer);
+        $this->_coreData->copyFieldsetToTarget('checkout_onepage_billing', 'to_customer', $billing, $customer);
         $customer->setEmail($quote->getCustomerEmail());
         $customer->setPrefix($quote->getCustomerPrefix());
         $customer->setFirstname($quote->getCustomerFirstname());

@@ -19,6 +19,34 @@ namespace Magento\Widget\Model\Template;
 
 class Filter extends \Magento\Cms\Model\Template\Filter
 {
+    /** @var  Magento_Widget_Model_Widget */
+    protected $_widget;
+
+    /** @var  Magento_Widget_Model_Resource_Widget */
+    protected $_widgetResource;
+
+    /** @var  Magento_Core_Model_App */
+    protected $_coreApp;
+
+    /**
+     * @param Magento_Widget_Model_Widget $widget
+     * @param Magento_Widget_Model_Resource_Widget $widgetResource
+     * @param Magento_Core_Model_App $coreApp
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_View_Url $viewUrl
+     */
+    public function __construct(
+        Magento_Widget_Model_Widget $widget,
+        Magento_Widget_Model_Resource_Widget $widgetResource,
+        Magento_Core_Model_App $coreApp,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_View_Url $viewUrl
+    ) {
+        $this->_widget = $widget;
+        $this->_widgetResource = $widgetResource;
+        $this->_coreApp = $coreApp;
+        parent::__construct($coreData, $viewUrl);
+    }
     /**
      * Generate widget
      *
@@ -39,8 +67,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
         if (!empty($params['type'])) {
             $type = $params['type'];
         } elseif (!empty($params['id'])) {
-            $preconfigured = \Mage::getResourceSingleton('Magento\Widget\Model\Resource\Widget')
-                ->loadPreconfiguredWidget($params['id']);
+            $preconfigured = $this->_widgetResource->loadPreconfiguredWidget($params['id']);
             $type = $preconfigured['widget_type'];
             $params = $preconfigured['parameters'];
         } else {
@@ -48,14 +75,17 @@ class Filter extends \Magento\Cms\Model\Template\Filter
         }
         
         // we have no other way to avoid fatal errors for type like 'cms/widget__link', '_cms/widget_link' etc. 
-        $xml = \Mage::getSingleton('Magento\Widget\Model\Widget')->getXmlElementByType($type);
+        $xml = $this->_widget->getWidgetByClassType($type);
         if ($xml === null) {
             return '';
         }
         
-        // define widget block and check the type is instance of Widget Interface
-        $widget = \Mage::app()->getLayout()->createBlock($type, $name, array('data' => $params));
-        if (!$widget instanceof \Magento\Widget\Block\BlockInterface) {
+        /**
+         * define widget block and check the type is instance of Widget Interface
+         * @var Magento_Core_Block_Abstract $widget
+         */
+        $widget = $this->_coreApp->getLayout()->createBlock($type, $name, array('data' => $params));
+        if (!$widget instanceof \Magento\Widget\Block\Interface) {
             return '';
         }
 

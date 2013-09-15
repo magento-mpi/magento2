@@ -177,16 +177,19 @@ class Magento_TestFramework_Utility_Files
      * @param string $fileNamePattern
      * @param array $excludedFileNames
      * @param bool $asDataSet
+     * @param bool $includeDesign
      * @return array
      */
     public function getConfigFiles(
         $fileNamePattern = '*.xml',
         $excludedFileNames = array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'),
-        $asDataSet = true
+        $asDataSet = true,
+        $includeDesign = false
     ) {
+        $searchDir = $includeDesign ? "{code,design}" : "code";
         $cacheKey = __METHOD__ . '|' . $this->_path . '|' . serialize(func_get_args());
         if (!isset(self::$_cache[$cacheKey])) {
-            $files = glob($this->_path . "/app/code/*/*/etc/$fileNamePattern", GLOB_NOSORT | GLOB_BRACE);
+            $files = glob($this->_path . "/app/" . $searchDir . "/*/*/etc/$fileNamePattern", GLOB_NOSORT | GLOB_BRACE);
             $files = array_filter(
                 $files,
                 function ($file) use ($excludedFileNames) {
