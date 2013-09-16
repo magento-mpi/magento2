@@ -23,7 +23,7 @@ class Magento_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Catalog\Block\Product\New');
+        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Catalog\Block\Product\NewProduct');
         Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
     }
 
