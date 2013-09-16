@@ -45,7 +45,7 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
             ->getMock();
         $collection = new \Magento\Webhook\Model\Resource\Event\Collection($eventManager, $mockFetchStrategy);
         $this->assertInstanceOf('Magento\Webhook\Model\Resource\Event\Collection', $collection);
-        $this->assertEquals('Magento_Webhook_Model_Resource_Event', $collection->getResourceModelName());
+        $this->assertEquals('Magento\Webhook\Model\Resource\Event', $collection->getResourceModelName());
         $this->assertEquals('Magento\Webhook\Model\Event', $collection->getModelName());
     }
 
