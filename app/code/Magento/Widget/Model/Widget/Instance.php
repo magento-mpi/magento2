@@ -67,7 +67,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Widget data
@@ -77,12 +77,29 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     protected $_widgetData = null;
 
     /**
+     * @var Magento_Widget_Model_Widget
+     */
+    protected $_widget;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @var Magento_Core_Model_Cache_TypeListInterface
+     */
+    protected $_list;
+
+    /**
      * @param Magento_Widget_Helper_Data $widgetData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Widget_Model_Resource_Widget_Instance $resource
+     * @param Magento_Widget_Model_Widget $widget
+     * @param Magento_Core_Model_Config $config
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
@@ -93,13 +110,20 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Widget_Model_Resource_Widget_Instance $resource,
+        Magento_Widget_Model_Widget $widget,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Cache_TypeListInterface $list,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_widgetData = $widgetData;
         $this->_coreData = $coreData;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_viewFileSystem = $viewFileSystem;
+        $this->_widget = $widget;
+        $this->_config = $config;
+        $this->_list = $list;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+
     }
 
     /**
@@ -287,7 +311,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     public function getWidgetsOptionArray()
     {
         $widgets = array();
-        $widgetsArr = Mage::getSingleton('Magento_Widget_Model_Widget')->getWidgetsArray();
+        $widgetsArr = $this->_widget->getWidgetsArray();
         foreach ($widgetsArr as $widget) {
             $widgets[] = array(
                 'value' => $widget['type'],
@@ -305,13 +329,12 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     public function getWidgetConfig()
     {
         if ($this->_widgetConfigXml === null) {
-            $this->_widgetConfigXml = Mage::getSingleton('Magento_Widget_Model_Widget')
-                ->getXmlElementByType($this->getType());
+            $this->_widgetConfigXml = $this->_widget->getXmlElementByType($this->getType());
             if ($this->_widgetConfigXml) {
                 $configFile = $this->_viewFileSystem->getFilename('widget.xml', array(
                     'area'   => $this->getArea(),
                     'theme'  => $this->getThemeId(),
-                    'module' => Mage::getConfig()->determineOmittedNamespace(
+                    'module' => $this->_config->determineOmittedNamespace(
                         preg_replace('/^(.+?)\/.+$/', '\\1', $this->getType()), true
                     ),
                 ));
@@ -457,11 +480,11 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      */
     protected function _invalidateCache()
     {
-        $types = Mage::getConfig()->getNode(self::XML_NODE_RELATED_CACHE);
+        $types = $this->_config->getNode(self::XML_NODE_RELATED_CACHE);
         if ($types) {
             $types = $types->asArray();
             /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-            $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
+            $cacheTypeList = $this->_list;
             $cacheTypeList->invalidate($types);
         }
         return $this;

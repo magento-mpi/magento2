@@ -19,6 +19,34 @@
 class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * @var Magento_Widget_Model_Widget
+     */
+    protected $_widget;
+
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Widget_Model_Widget $widget
+     * @param Magento_Widget_Model_OptionsFactory $optionsFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Widget_Model_Widget $widget,
+        Magento_Widget_Model_OptionsFactory $optionsFactory,
+        array $data = array()
+    ) {
+        $this->_widget = $widget;
+        $this->_optionsFactory = $optionsFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Element type used by default if configuration is omitted
      * @var string
      */
@@ -81,15 +109,16 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
     /**
      * Add fields to main fieldset based on specified widget type
      *
+     * @throws Magento_Core_Exception
      * @return Magento_Adminhtml_Block_Widget_Form
      */
     public function addFields()
     {
         // get configuration node and translation helper
         if (!$this->getWidgetType()) {
-            Mage::throwException(__('Please specify a Widget Type.'));
+            throw new Magento_Core_Exception(__('Please specify a Widget Type.'));
         }
-        $config = Mage::getSingleton('Magento_Widget_Model_Widget')->getConfigAsObject($this->getWidgetType());
+        $config = $this->_widget->getConfigAsObject($this->getWidgetType());
         if (!$config->getParameters()) {
             return $this;
         }
@@ -145,7 +174,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
         }
         // otherwise, a source model is specified
         elseif ($sourceModel = $parameter->getSourceModel()) {
-            $data['values'] = Mage::getModel($sourceModel)->toOptionArray();
+            $data['values'] = $this->_optionsFactory->create($sourceModel)->toOptionArray();
         }
 
         // prepare field type or renderer

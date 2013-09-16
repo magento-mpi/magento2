@@ -22,17 +22,33 @@ class Magento_Widget_Controller_Adminhtml_Widget extends Magento_Adminhtml_Contr
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_Widget_Model_Widget_Config
+     */
+    protected $_widgetConfig;
+
+    /**
+     * @var Magento_Widget_Model_Widget
+     */
+    protected $_widget;
 
     /**
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Widget_Model_Widget_Config $widgetConfig
+     * @param Magento_Widget_Model_Widget $widget
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Widget_Model_Widget_Config $widgetConfig,
+        Magento_Widget_Model_Widget $widget
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_widgetConfig = $widgetConfig;
+        $this->_widget = $widget;
         parent::__construct($context);
     }
 
@@ -43,7 +59,7 @@ class Magento_Widget_Controller_Adminhtml_Widget extends Magento_Adminhtml_Contr
     {
         // save extra params for widgets insertion form
         $skipped = $this->getRequest()->getParam('skip_widgets');
-        $skipped = Mage::getSingleton('Magento_Widget_Model_Widget_Config')->decodeWidgetsFromQuery($skipped);
+        $skipped = $this->_widgetConfig->decodeWidgetsFromQuery($skipped);
 
         $this->_coreRegistry->register('skip_widgets', $skipped);
 
@@ -84,7 +100,7 @@ class Magento_Widget_Controller_Adminhtml_Widget extends Magento_Adminhtml_Contr
         $type = $this->getRequest()->getPost('widget_type');
         $params = $this->getRequest()->getPost('parameters', array());
         $asIs = $this->getRequest()->getPost('as_is');
-        $html = Mage::getSingleton('Magento_Widget_Model_Widget')->getWidgetDeclaration($type, $params, $asIs);
+        $html = $this->_widget->getWidgetDeclaration($type, $params, $asIs);
         $this->getResponse()->setBody($html);
     }
 }

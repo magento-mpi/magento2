@@ -18,6 +18,16 @@
 class Magento_Widget_Model_Observer
 {
     /**
+     * @var Magento_Widget_Model_Widget_ConfigFactory
+     */
+    protected $_configFactory;
+
+    function __construct(Magento_Widget_Model_Widget_ConfigFactory $configFactory)
+    {
+        $this->_configFactory = $configFactory;
+    }
+
+    /**
      * Add additional settings to wysiwyg config for Widgets Insertion Plugin
      *
      * @param Magento_Event_Observer $observer
@@ -28,7 +38,7 @@ class Magento_Widget_Model_Observer
         $config = $observer->getEvent()->getConfig();
 
         if ($config->getData('add_widgets')) {
-            $settings = Mage::getModel('Magento_Widget_Model_Widget_Config')->getPluginSettings($config);
+            $settings = $this->_configFactory->create()->getPluginSettings($config);
             $config->addData($settings);
         }
         return $this;

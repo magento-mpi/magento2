@@ -27,20 +27,37 @@ class Magento_Widget_Model_Widget_Config extends Magento_Object
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
+
+    /**
+     * @var Magento_Widget_Model_WidgetFactory
+     */
+    protected $_widgetFactory;
+
+    /**
+     * @var Magento_Backend_Model_Url
+     */
+    protected $_url;
+
 
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Widget_Model_WidgetFactory $widgetFactory
+     * @param Magento_Backend_Model_Url $url
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_View_Url $viewUrl,
+        Magento_Widget_Model_WidgetFactory $widgetFactory,
+        Magento_Backend_Model_Url $url,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
         $this->_viewUrl = $viewUrl;
+        $this->_widgetFactory = $widgetFactory;
+        $this->_url = $url;
         parent::__construct($data);
     }
 
@@ -57,7 +74,7 @@ class Magento_Widget_Model_Widget_Config extends Magento_Object
         );
         $settings = array(
             'widget_plugin_src'   => $url,
-            'widget_placeholders' => Mage::getModel('Magento_Widget_Model_Widget')->getPlaceholderImageUrls(),
+            'widget_placeholders' => $this->_widgetFactory->create()->getPlaceholderImageUrls(),
             'widget_window_url'   => $this->getWidgetWindowUrl($config)
         );
 
@@ -76,8 +93,8 @@ class Magento_Widget_Model_Widget_Config extends Magento_Object
 
         $skipped = is_array($config->getData('skip_widgets')) ? $config->getData('skip_widgets') : array();
         if ($config->hasData('widget_filters')) {
-            $all = Mage::getModel('Magento_Widget_Model_Widget')->getWidgetsXml();
-            $filtered = Mage::getModel('Magento_Widget_Model_Widget')->getWidgetsXml($config->getData('widget_filters'));
+            $all = $this->_widgetFactory->create()->getWidgetsXml();
+            $filtered = $this->_widgetFactory->create()->getWidgetsXml($config->getData('widget_filters'));
             $reflection = new ReflectionObject($filtered);
             foreach ($all as $code => $widget) {
                 if (!$reflection->hasProperty($code)) {
@@ -89,7 +106,7 @@ class Magento_Widget_Model_Widget_Config extends Magento_Object
         if (count($skipped) > 0) {
             $params['skip_widgets'] = $this->encodeWidgetsToQuery($skipped);
         }
-        return Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/widget/index', $params);
+        return $this->_url->getUrl('*/widget/index', $params);
     }
 
     /**

@@ -24,21 +24,29 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_Core_Model_Theme_LabelFactory
+     */
+    protected $_themeLabelFactory;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Theme_LabelFactory $themeLabelFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Theme_LabelFactory $themeLabelFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_themeLabelFactory = $themeLabelFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -129,7 +137,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
         ));
 
         /** @var $label Magento_Core_Model_Theme_Label */
-        $label = Mage::getModel('Magento_Core_Model_Theme_Label');
+        $label = $this->_themeLabelFactory->create();
         $options = $label->getLabelsCollection(__('-- Please Select --'));
         $fieldset->addField('theme_id', 'select', array(
             'name'     => 'theme_id',
