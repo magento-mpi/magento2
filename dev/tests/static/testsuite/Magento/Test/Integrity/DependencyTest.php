@@ -300,7 +300,7 @@ class Magento_Test_Integrity_DependencyTest extends PHPUnit_Framework_TestCase
 
         $undeclared = array();
         foreach ($dependencies as $dependency) {
-            $this->collectDependency($dependency, $currentModule);
+            $this->collectDependency($dependency, $currentModule, $undeclared);
         }
         return $undeclared;
     }
@@ -312,7 +312,7 @@ class Magento_Test_Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      * @param $currentModule
      * @return array
      */
-    private function collectDependency($dependency, $currentModule)
+    private function collectDependency($dependency, $currentModule, $undeclared)
     {
         $module = $dependency['module'];
         $nsModule = str_replace('_', '\\', $module);
@@ -327,6 +327,7 @@ class Magento_Test_Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 $this->_addFake($currentModule, $module);
                 return;
             }
+            $undeclared[$type][] = $module;
         }
 
         $this->_addDependencies($currentModule, $type, self::MAP_TYPE_FOUND, $nsModule);
