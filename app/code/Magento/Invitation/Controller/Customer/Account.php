@@ -113,11 +113,6 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
             $customerId = $customer->getId();
             if ($customerId) {
                 $invitation->accept(Mage::app()->getWebsite()->getId(), $customerId);
-
-                $this->_eventManager->dispatch('magento_invitation_customer_accepted', array(
-                   'customer' => $customer,
-                   'invitation' => $invitation
-                ));
             }
             return;
         } catch (Magento_Core_Exception $e) {

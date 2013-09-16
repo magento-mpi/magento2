@@ -71,7 +71,11 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Additional extends Magento_Ba
     {
         if ($item['type'] == 'select' && is_string($item['values'])) {
             $argumentHandler = $this->_handlerFactory->getArgumentHandlerByType('options');
-            $item['values'] = $argumentHandler->process($item['values']);
+            $item['values'] = $argumentHandler->process(array(
+                'value' => array(
+                    'model' => $item['values']
+                )
+            ));
         }
         $item['class'] = isset($item['class']) ? $item['class'] . ' absolute-advice' : 'absolute-advice';
     }

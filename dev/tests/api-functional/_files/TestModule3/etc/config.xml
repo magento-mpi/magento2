@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Magento_TestModule3
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <testmodule3_setup>
+                <setup>
+                    <module>Magento_TestModule3</module>
+                </setup>
+            </testmodule3_setup>
+        </resources>
+    </global>
+</config>

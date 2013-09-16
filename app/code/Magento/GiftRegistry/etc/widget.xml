@@ -1,55 +1,38 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
-<widgets>
-    <magento_giftregistry_search type="Magento_GiftRegistry_Block_Search_Widget_Form" translate="name description">
-        <name>Gift Registry Search</name>
-        <description>Gift Registry Quick Search Form</description>
-        <is_email_compatible>0</is_email_compatible>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Widget/etc/widget.xsd">
+    <widget id="magento_giftregistry_search" class="Magento_GiftRegistry_Block_Search_Widget_Form"
+            is_email_compatible="false">
+        <label translate="true">Gift Registry Search</label>
+        <description translate="true">Gift Registry Quick Search Form</description>
         <parameters>
-            <types translate="label">
-                <visible>1</visible>
-                <required>1</required>
-                <label>Quick Search Form Types</label>
-                <type>multiselect</type>
-                <source_model>Magento_GiftRegistry_Model_Source_Search</source_model>
-            </types>
-            <template>
-                <values>
-                    <default_template translate="label">
-                        <label>Default Template</label>
-                        <value>search/widget/form.phtml</value>
-                    </default_template>
-                </values>
-            </template>
+            <parameter name="types" xsi:type="multiselect" visible="true" required="true"
+                       source_model="Magento_GiftRegistry_Model_Source_Search">
+                <label translate="true">Quick Search Form Types</label>
+            </parameter>
+            <parameter name="template" xsi:type="select" visible="false">
+                <options>
+                    <option name="default_template" value="search/widget/form.phtml">
+                        <label translate="true">Default Template</label>
+                    </option>
+                </options>
+            </parameter>
         </parameters>
-        <supported_containers>
-            <left_column>
-                <container_name>left</container_name>
-                <template>
-                    <default>default_template</default>
-                </template>
-            </left_column>
-            <!--main_content>
-                <container_name>content</container_name>
-                <template>
-                    <default>default_template</default>
-                </template>
-            </main_content-->
-            <right_column>
-                <container_name>right</container_name>
-                <template>
-                    <default>default_template</default>
-                </template>
-            </right_column>
-        </supported_containers>
-    </magento_giftregistry_search>
+        <containers>
+            <container name="left">
+                <template name="default" value="default_template" />
+            </container>
+            <container name="right">
+                <template name="default" value="default_template" />
+            </container>
+        </containers>
+    </widget>
 </widgets>

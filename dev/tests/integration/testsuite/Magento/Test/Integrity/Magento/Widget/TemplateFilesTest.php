@@ -43,12 +43,17 @@ class Magento_Test_Integrity_Magento_Widget_TemplateFilesTest extends PHPUnit_Fr
         foreach ($model->getWidgetsArray() as $row) {
             /** @var $instance Magento_Widget_Model_Widget_Instance */
             $instance = Mage::getModel('Magento_Widget_Model_Widget_Instance');
-            $config = $instance->setType($row['type'])->getWidgetConfig();
+            $config = $instance->setType($row['type'])->getWidgetConfigAsArray();
             $class = $row['type'];
             if (is_subclass_of($class, 'Magento_Core_Block_Template')) {
-                $templates = $config->xpath('/widgets/' . $row['code'] . '/parameters/template/values/*/value');
-                foreach ($templates as $template) {
-                    $result[] = array($class, (string)$template);
+                if (isset($config['parameters']) && isset($config['parameters']['template'])
+                    && isset($config['parameters']['template']['values'])) {
+                    $templates = $config['parameters']['template']['values'];
+                    foreach ($templates as $template) {
+                        if (isset($template['value'])) {
+                            $result[] = array($class, (string)$template['value']);
+                        }
+                    }
                 }
             }
         }

@@ -184,18 +184,6 @@ class Magento_Catalog_Model_Observer
     }
 
     /**
-     * Catalog Product Compare Items Clean
-     *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Catalog_Model_Observer
-     */
-    public function catalogProductCompareClean(Magento_Event_Observer $observer)
-    {
-        Mage::getModel('Magento_Catalog_Model_Product_Compare_Item')->clean();
-        return $this;
-    }
-
-    /**
      * After save event of category
      *
      * @param Magento_Event_Observer $observer

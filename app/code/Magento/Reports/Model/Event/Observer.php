@@ -221,24 +221,4 @@ class Magento_Reports_Model_Event_Observer
             $observer->getEvent()->getWishlist()->getId()
         );
     }
-
-    /**
-     * Clean events by old visitors
-     *
-     * @see Global Log Clean Settings
-     *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Reports_Model_Event_Observer
-     */
-    public function eventClean(Magento_Event_Observer $observer)
-    {
-        /* @var $event Magento_Reports_Model_Event */
-        $event = Mage::getModel('Magento_Reports_Model_Event');
-        $event->clean();
-
-        Mage::getModel('Magento_Reports_Model_Product_Index_Compared')->clean();
-        Mage::getModel('Magento_Reports_Model_Product_Index_Viewed')->clean();
-
-        return $this;
-    }
 }

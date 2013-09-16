@@ -158,20 +158,6 @@ class Magento_Pci_Model_Observer
     }
 
     /**
-     * Upgrade API key hash when api user has logged in
-     *
-     * @param Magento_Event_Observer $observer
-     */
-    public function upgradeApiKey($observer)
-    {
-        $apiKey = $observer->getEvent()->getApiKey();
-        $model  = $observer->getEvent()->getModel();
-        if (!$this->_coreData->getEncryptor()->validateHashByVersion($apiKey, $model->getApiKey())) {
-            Mage::getModel('Magento_Api_Model_User')->load($model->getId())->setNewApiKey($apiKey)->save();
-        }
-    }
-
-    /**
      * Upgrade customer password hash when customer has logged in
      *
      * @param Magento_Event_Observer $observer

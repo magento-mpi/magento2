@@ -12,14 +12,15 @@
         <sequence>
             <module name="Magento_Core"/>
             <module name="Magento_Oauth"/>
+            <module name="Magento_Service"/>
             <module name="Magento_Backend"/>
         </sequence>
         <depends>
             <module name="Magento_Core"/>
             <module name="Magento_Oauth"/>
+            <module name="Magento_Service"/>
             <module name="Magento_Backend"/>
             <module name="Magento_Adminhtml"/>
-            <module name="Magento_Catalog"/>
         </depends>
     </module>
 </config>

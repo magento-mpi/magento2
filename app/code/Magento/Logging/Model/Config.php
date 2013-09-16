@@ -1,5 +1,9 @@
 <?php
 /**
+ * Logging configuration model
+ *
+ * Provides access to nodes and labels
+ *
  * {license_notice}
  *
  * @category    Magento
@@ -8,17 +12,12 @@
  * @license     {license_link}
  */
 
-/**
- * Logging configuration model
- *
- * Merges logging.xml files and provides access to nodes and labels
- */
 class Magento_Logging_Model_Config
 {
     /**
      * logging.xml merged config
      *
-     * @var Magento_Simplexml_Config
+     * @var array
      */
     protected $_xmlConfig;
 
@@ -29,7 +28,17 @@ class Magento_Logging_Model_Config
      */
     protected $_labels = array();
 
+    /**
+     * Configuration for event groups from System Configuration
+     *
+     * @var array
+     */
     protected $_systemConfigValues = null;
+
+    /**
+     * @var Magento_Core_Model_Store
+     */
+    protected $_store;
 
     /**
      * Core store config
@@ -37,28 +46,14 @@ class Magento_Logging_Model_Config
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig;
-
     /**
-     * @param Magento_Core_Model_Config_Modules_Reader $configReader
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Logging_Model_Config_Data $dataStorage
      */
-    public function __construct(
-        Magento_Core_Model_Config_Modules_Reader $configReader,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+    public function __construct(Magento_Logging_Model_Config_Data $dataStorage,
+        Magento_Core_Model_StoreManager $storeManager
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
-        $configXml = $configCacheType->load('magento_logging_config');
-        if ($configXml) {
-            $this->_xmlConfig = new Magento_Simplexml_Config($configXml);
-        } else {
-            $config = new Magento_Simplexml_Config;
-            $config->loadString('<?xml version="1.0"?><logging></logging>');
-            $configReader->loadModulesConfiguration('logging.xml', $config);
-            $this->_xmlConfig = $config;
-            $configCacheType->save($config->getXmlString(), 'magento_logging_config');
-        }
+        $this->_xmlConfig = $dataStorage->get('logging');
+        $this->_store = $storeManager->getStore();
     }
 
     /**
@@ -69,7 +64,7 @@ class Magento_Logging_Model_Config
     public function getSystemConfigValues()
     {
         if (null === $this->_systemConfigValues) {
-            $this->_systemConfigValues = $this->_coreStoreConfig->getConfig('admin/magento_logging/actions');
+            $this->_systemConfigValues = Mage::getStoreConfig('admin/magento_logging/actions');
             if (null === $this->_systemConfigValues) {
                 $this->_systemConfigValues = array();
                 foreach ($this->getLabels() as $key => $label) {

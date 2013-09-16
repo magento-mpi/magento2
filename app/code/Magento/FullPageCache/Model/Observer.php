@@ -32,9 +32,9 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Page Cache Config
      *
-     * @var Magento_FullPageCache_Model_Config
+     * @var Magento_FullPageCache_Model_Placeholder_Mapper
      */
-    protected $_config;
+    protected $_mapper;
 
     /**
      * Is Enabled Full Page Cache
@@ -115,7 +115,7 @@ class Magento_FullPageCache_Model_Observer
      * @param Magento_Catalog_Helper_Product_Compare $ctlgProdCompare
      * @param Magento_FullPageCache_Model_Processor $processor
      * @param Magento_FullPageCache_Model_Request_Identifier $_requestIdentifier
-     * @param Magento_FullPageCache_Model_Config $config
+     * @param Magento_FullPageCache_Model_Placeholder_Mapper $mapper
      * @param Magento_Core_Model_Cache_StateInterface $cacheState
      * @param Magento_FullPageCache_Model_Cache $fpcCache
      * @param Magento_FullPageCache_Model_Cookie $cookie
@@ -130,7 +130,7 @@ class Magento_FullPageCache_Model_Observer
         Magento_Catalog_Helper_Product_Compare $ctlgProdCompare,
         Magento_FullPageCache_Model_Processor $processor,
         Magento_FullPageCache_Model_Request_Identifier $_requestIdentifier,
-        Magento_FullPageCache_Model_Config $config,
+        Magento_FullPageCache_Model_Placeholder_Mapper $mapper,
         Magento_Core_Model_Cache_StateInterface $cacheState,
         Magento_FullPageCache_Model_Cache $fpcCache,
         Magento_FullPageCache_Model_Cookie $cookie,
@@ -145,7 +145,7 @@ class Magento_FullPageCache_Model_Observer
         $this->_ctlgProdCompare = $ctlgProdCompare;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_processor = $processor;
-        $this->_config    = $config;
+        $this->_mapper    = $mapper;
         $this->_cacheState = $cacheState;
         $this->_fpcCache = $fpcCache;
         $this->_cookie = $cookie;
@@ -371,7 +371,7 @@ class Magento_FullPageCache_Model_Observer
         }
         $block = $layout->getBlock($name);
         $transport = $event->getData('transport');
-        $placeholder = $this->_config->getBlockPlaceholder($block);
+        $placeholder = $this->_mapper->map($block);
         if ($transport && $placeholder && !$block->getSkipRenderTag()) {
             $blockHtml = $transport->getData('output');
             $blockHtml = $placeholder->getStartTag() . $blockHtml . $placeholder->getEndTag();

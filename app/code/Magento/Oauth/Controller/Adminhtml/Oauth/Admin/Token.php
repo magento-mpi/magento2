@@ -26,8 +26,8 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Admin_Token extends Magento_Admin
      */
     protected function  _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Oauth::system_legacy_api_oauth_admin_token');
+        // TODO: Fix during Web API authentication implementation
+        // $this->loadLayout()->_setActiveMenu('Magento_Oauth::system_legacy_api_oauth_admin_token');
         return $this;
     }
 

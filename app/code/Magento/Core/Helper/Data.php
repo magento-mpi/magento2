@@ -427,43 +427,34 @@ $allowedIps = $this->_coreStoreConfig->getConfig(self::XML_PATH_DEV_ALLOW_IPS, $
      * from fieldset matching an aspect.
      *
      * Contents of $aspect are a field name in target object or array.
-     * If '*' - will be used the same name as in the source object or array.
+     * If targetField attribute is not provided - will be used the same name as in the source object or array.
      *
      * @param string $fieldset
      * @param string $aspect
      * @param array|Magento_Object $source
      * @param array|Magento_Object $target
      * @param string $root
-     * @return boolean
+     * @return array|Magento_Object|null the value of $target
      */
-    public function copyFieldset($fieldset, $aspect, $source, $target, $root='global')
+    public function copyFieldsetToTarget($fieldset, $aspect, $source, $target, $root='global')
     {
-        if (!(is_array($source) || $source instanceof Magento_Object)
-            || !(is_array($target) || $target instanceof Magento_Object)) {
-
-            return false;
+        if (!$this->_isFieldsetInputValid($source, $target)) {
+            return null;
         }
-        $fields = $this->_config->getFieldset($fieldset, $root);
-        if (!$fields) {
-            return false;
+        $fields = Mage::getObjectManager()->get('Magento_Core_Model_Fieldset_Config')->getFieldset($fieldset, $root);
+        if (is_null($fields)) {
+            return $target;
         }
-
-        $sourceIsArray = is_array($source);
         $targetIsArray = is_array($target);
 
-        $result = false;
-        foreach ($fields as $code=>$node) {
-            if (empty($node->$aspect)) {
+        foreach ($fields as $code => $node) {
+            if (empty($node[$aspect])) {
                 continue;
             }
 
-            if ($sourceIsArray) {
-                $value = isset($source[$code]) ? $source[$code] : null;
-            } else {
-                $value = $source->getDataUsingMethod($code);
-            }
+            $value = $this->_getFieldsetFieldValue($source, $code);
 
-            $targetCode = (string)$node->$aspect;
+            $targetCode = (string)$node[$aspect];
             $targetCode = $targetCode == '*' ? $code : $targetCode;
 
             if ($targetIsArray) {
@@ -471,8 +462,6 @@ $allowedIps = $this->_coreStoreConfig->getConfig(self::XML_PATH_DEV_ALLOW_IPS, $
             } else {
                 $target->setDataUsingMethod($targetCode, $value);
             }
-
-            $result = true;
         }
 
         $eventName = sprintf('core_copy_fieldset_%s_%s', $fieldset, $aspect);
@@ -482,7 +471,37 @@ $allowedIps = $this->_coreStoreConfig->getConfig(self::XML_PATH_DEV_ALLOW_IPS, $
             'root'   => $root
         ));
 
-        return $result;
+        return $target;
+    }
+
+    /**
+     * Check if source and target are valid input for converting using fieldset
+     *
+     * @param array|Magento_Object $source
+     * @param array|Magento_Object $target
+     * @return bool
+     */
+    private function _isFieldsetInputValid($source, $target)
+    {
+        return (is_array($source) || $source instanceof Magento_Object)
+        && (is_array($target) || $target instanceof Magento_Object);
+    }
+
+    /**
+     * Get value of source by code
+     *
+     * @param $source
+     * @param $code
+     * @return null
+     */
+    private function _getFieldsetFieldValue($source, $code)
+    {
+        if (is_array($source)) {
+            $value = isset($source[$code]) ? $source[$code] : null;
+        } else {
+            $value = $source->getDataUsingMethod($code);
+        }
+        return $value;
     }
 
     /**
