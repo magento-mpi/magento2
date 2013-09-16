@@ -19,20 +19,30 @@ class Magento_WebsiteRestriction_Block_Cms_Stub extends Magento_Cms_Block_Page
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
+     * @var Magento_Cms_Model_PageFactory
+     */
+    protected $_pageFactory;
+
+    /**
+     * @param Magento_Cms_Helper_Data $cmsData
      * @param Magento_Core_Block_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Cms_Model_PageFactory $pageFactory
      * @param array $data
      */
     public function __construct(
+        Magento_Cms_Helper_Data $cmsData,
         Magento_Core_Block_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Cms_Model_PageFactory $pageFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        $this->_pageFactory = $pageFactory;
+        parent::__construct($cmsData, $context, $data);
     }
 
     /**
@@ -46,8 +56,7 @@ class Magento_WebsiteRestriction_Block_Cms_Stub extends Magento_Cms_Block_Page
         if (!$this->hasData('page')) {
             $page = $this->_coreRegistry->registry('restriction_landing_page');
             if (!$page) {
-                $page = Mage::getModel('Magento_Cms_Model_Page')
-                    ->load($this->getPageIdentifier(), 'identifier');
+                $page = $this->_pageFactory->create()->load($this->getPageIdentifier(), 'identifier');
             }
             $this->setData('page', $page);
         }

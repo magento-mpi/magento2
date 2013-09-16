@@ -15,6 +15,23 @@
 class Magento_WebsiteRestriction_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_storeConfig;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $storeConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $storeConfig
+    ) {
+        $this->_storeConfig = $storeConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Website restriction settings
      */
     const XML_PATH_RESTRICTION_ENABLED            = 'general/restriction/is_active';
@@ -33,6 +50,6 @@ class Magento_WebsiteRestriction_Helper_Data extends Magento_Core_Helper_Abstrac
      */
     public function getIsRestrictionEnabled($store = null)
     {
-        return (bool)(int)Mage::getStoreConfig(self::XML_PATH_RESTRICTION_ENABLED, $store);
+        return (bool)(int)$this->_storeConfig->getConfig(self::XML_PATH_RESTRICTION_ENABLED, $store);
     }
 }

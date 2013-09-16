@@ -18,6 +18,31 @@
 class Magento_WebsiteRestriction_Model_System_Config_Backend_Active extends Magento_Core_Model_Config_Value
 {
     /**
+     * @var Magento_Core_Model_App
+     */
+    protected $_app;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_App $app,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_app = $app;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Prefix of model events names
      *
      * @var string
@@ -32,7 +57,7 @@ class Magento_WebsiteRestriction_Model_System_Config_Backend_Active extends Mage
     protected function _afterSave()
     {
         if ($this->isValueChanged()) {
-            Mage::app()->cleanCache(array(Magento_Core_Model_Store::CACHE_TAG, Magento_Cms_Model_Block::CACHE_TAG));
+            $this->_app->cleanCache(array(Magento_Core_Model_Store::CACHE_TAG, Magento_Cms_Model_Block::CACHE_TAG));
         }
         return parent::_afterSave();
     }
