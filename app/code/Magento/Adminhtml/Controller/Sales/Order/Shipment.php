@@ -564,8 +564,9 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
 
         if ($shipment) {
             $pdf = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Shipment\Packaging')->getPdf($shipment);
-            $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s').'.pdf',
-                $pdf->render(), 'application/pdf'
+            $this->_prepareDownloadResponse('packingslip'
+                    . \Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s')
+                    . '.pdf', $pdf->render(), 'application/pdf'
             );
         }
         else {

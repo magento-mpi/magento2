@@ -90,8 +90,9 @@ class CreditmemoAbstract extends \Magento\Adminhtml\Controller\Action
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
 
-            return $this->_prepareDownloadResponse('creditmemo'.Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s').
-                '.pdf', $pdf->render(), 'application/pdf');
+            return $this->_prepareDownloadResponse('creditmemo'
+                    . \Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s')
+                    . '.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('*/*/');
     }
@@ -102,8 +103,9 @@ class CreditmemoAbstract extends \Magento\Adminhtml\Controller\Action
         if ($creditmemoId = $this->getRequest()->getParam('creditmemo_id')) {
             if ($creditmemo = \Mage::getModel('Magento\Sales\Model\Order\Creditmemo')->load($creditmemoId)) {
                 $pdf = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf(array($creditmemo));
-                $this->_prepareDownloadResponse('creditmemo'.Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s').
-                    '.pdf', $pdf->render(), 'application/pdf');
+                $this->_prepareDownloadResponse('creditmemo'
+                        . \Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s')
+                        . '.pdf', $pdf->render(), 'application/pdf');
             }
         }
         else {
