@@ -29,17 +29,19 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
     protected $_productType;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Catalog_Model_Product_Type $productType
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Catalog_Model_Product_Type $productType,
         array $data = array()
     ) {
         $this->_productType = $productType;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
