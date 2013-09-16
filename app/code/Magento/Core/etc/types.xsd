@@ -10,6 +10,11 @@
  */
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" >
+
+    <xs:complexType name="argumentType" abstract="true" mixed="true">
+        <xs:attribute name="name" use="required"/>
+    </xs:complexType>
+
     <xs:complexType name="simpleType" mixed="true">
         <xs:complexContent>
             <xs:extension base="argumentType">
