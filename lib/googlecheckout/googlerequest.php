@@ -60,17 +60,17 @@
       protected $_logAdapterFactory;
 
       /**
-       * @var Magento_Core_Model_Store_Config
+       * @var Magento_Core_Model_Store_ConfigInterface
        */
       protected $_coreStoreConfig;
 
       /**
        * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
-       * @param Magento_Core_Model_Store_Config $coreStoreConfig
+       * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
        */
       public function __construct(
           Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
-          Magento_Core_Model_Store_Config $coreStoreConfig
+          Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
       ) {
           $this->_logAdapterFactory = $logAdapterFactory;
           $this->_coreStoreConfig = $coreStoreConfig;
