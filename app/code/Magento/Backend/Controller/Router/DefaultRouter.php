@@ -215,7 +215,7 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
         return $realModule . \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Controller' .
             \Magento\Autoload\IncludePath::NS_SEPARATOR . ucfirst($this->_areaCode) .
             \Magento\Autoload\IncludePath::NS_SEPARATOR .
-            str_replace('_','\\', uc_words(str_replace('_', ' ', $controller)));
+            str_replace('_', '\\', uc_words(str_replace('_', ' ', $controller)));
     }
 
     /**
