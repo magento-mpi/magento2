@@ -119,4 +119,16 @@ class Magento_Config_DomTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($actualResult);
         $this->assertEquals($expectedErrors, $actualErrors);
     }
+
+    /**
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Error format '%message%,%unknown%' contains unsupported placeholders
+     */
+    public function testValidateCustomErrorFormatInvalid()
+    {
+        $xml = '<root><unknown_node/></root>';
+        $errorFormat = '%message%,%unknown%';
+        $dom = new Magento_Config_Dom($xml, array(), null, $errorFormat);
+        $dom->validate(__DIR__ . '/_files/sample.xsd', $actualErrors);
+    }
 }
