@@ -75,7 +75,7 @@ class Magento_Core_Model_Layout_Argument_Handler_StringTest extends PHPUnit_Fram
         $result = $this->_model->process($argument);
         $this->assertEquals($result, $expectedResult);
         if (!empty($argument['value']['translate'])) {
-            $this->assertInstanceOf('Magento_Phrase', $result);
+            $this->assertContains($expectedResult, $result);
         }
     }
 
