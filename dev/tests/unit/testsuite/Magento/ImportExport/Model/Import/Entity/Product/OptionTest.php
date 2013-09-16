@@ -424,12 +424,8 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
         );
 
         $select = $this->getMock('Zend_Db_Select', array('join', 'where'), array(), '', false);
-        $select->expects($this->any())
-            ->method('join')
-            ->will($this->returnSelf());
-        $select->expects($this->any())
-            ->method('where')
-            ->will($this->returnSelf());
+        $select->expects($this->any())->method('join')->will($this->returnSelf());
+        $select->expects($this->any())->method('where')->will($this->returnSelf());
 
         $optionCollection->expects($this->any())
             ->method('getNewEmptyItem')
