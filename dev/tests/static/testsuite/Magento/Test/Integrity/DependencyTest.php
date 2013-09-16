@@ -319,7 +319,6 @@ class Magento_Test_Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 $this->_addFake($currentModule, $module);
                 return;
             }
-            $undeclared[$type][] = $module;
         }
 
         $this->_addDependencies($currentModule, $type, self::MAP_TYPE_FOUND, $nsModule);
