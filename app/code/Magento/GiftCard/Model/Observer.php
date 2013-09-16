@@ -111,7 +111,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
         // sales_order_save_after
 
         $order = $observer->getEvent()->getOrder();
-        $requiredStatus = Mage::getStoreConfig(
+        $requiredStatus = $this->_coreStoreConfig->getConfig(
             Magento_GiftCard_Model_Giftcard::XML_PATH_ORDER_ITEM_STATUS,
             $order->getStore()
         );
@@ -234,7 +234,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
                         ));
                         $email->sendTransactional(
                             $item->getProductOptionByCode('giftcard_email_template'),
-                            Mage::getStoreConfig(
+                            $this->_coreStoreConfig->getConfig(
                                 Magento_GiftCard_Model_Giftcard::XML_PATH_EMAIL_IDENTITY,
                                 $item->getOrder()->getStoreId()
                             ),
