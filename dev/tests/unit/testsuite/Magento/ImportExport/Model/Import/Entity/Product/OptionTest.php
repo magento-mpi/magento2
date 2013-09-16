@@ -415,10 +415,12 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
             'Magento_Data_Collection_Db_FetchStrategyInterface', array('fetchAll')
         );
 
+        $entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
+
         $optionCollection = $this->getMock(
             'Magento_Data_Collection_Db',
             array('reset', 'addProductToFilter', 'getSelect', 'getNewEmptyItem'),
-            array($fetchStrategy)
+            array($fetchStrategy, $entityFactory)
         );
 
         $select = $this->getMock('Zend_Db_Select', array('join', 'where'), array(), '', false);

@@ -34,6 +34,7 @@ class Magento_Core_Model_Resource_Layout_Link_CollectionTest extends Magento_Cor
         return new Magento_Core_Model_Resource_Layout_Link_Collection(
             $eventManager,
             $this->getMockForAbstractClass('Magento_Data_Collection_Db_FetchStrategyInterface'),
+            $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false),
             $this->_getResource($select)
         );
     }

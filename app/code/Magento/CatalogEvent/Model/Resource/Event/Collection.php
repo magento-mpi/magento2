@@ -53,7 +53,7 @@ class Magento_CatalogEvent_Model_Resource_Event_Collection extends Magento_Core_
         Magento_Core_Model_App $application,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
-        parent::__construct($eventManager, $entityFactory, $fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $entityFactory, $resource);
         $this->_application = $application;
     }
 
