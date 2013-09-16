@@ -15,19 +15,23 @@ class Magento_Catalog_WidgetTest extends PHPUnit_Framework_TestCase
     {
         /** @var $model Magento_Widget_Model_Widget_Instance */
         $model = Mage::getModel('Magento_Widget_Model_Widget_Instance');
-        $config = $model->setType('Magento_Catalog_Block_Product_Widget_New')->getWidgetConfig();
-        $templates = $config->xpath('parameters/template/values');
-        $templates = (array) $templates[0]->children();
+        $config = $model->setType('Magento_Catalog_Block_Product_Widget_New')->getWidgetConfigAsArray();
+        $templates = $config['parameters']['template']['values'];
         $this->assertArrayHasKey('default', $templates);
         $this->assertArrayHasKey('list', $templates);
         $this->assertArrayHasKey('list_default', $templates);
         $this->assertArrayHasKey('list_names', $templates);
         $this->assertArrayHasKey('list_images', $templates);
 
-        $blocks = $config->xpath('supported_containers');
-        $blocks = (array) $blocks[0]->children();
-        $this->assertArrayHasKey('left_column', $blocks);
-        $this->assertArrayHasKey('main_content', $blocks);
-        $this->assertArrayHasKey('right_column', $blocks);
+        $blocks = $config['supported_containers'];
+
+        $containers = array();
+        foreach ($blocks as $block) {
+            $containers[] = $block['container_name'];
+        }
+
+        $this->assertContains('left', $containers);
+        $this->assertContains('content', $containers);
+        $this->assertContains('right', $containers);
     }
 }

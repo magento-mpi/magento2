@@ -44,16 +44,18 @@ class Magento_Logging_Model_Observer
      * Construct
      *
      * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Logging_Model_Processor $processor
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Logging_Model_FlagFactory $flagFactory
      */
     public function __construct(
         Magento_Core_Helper_Http $coreHttp,
+        Magento_Logging_Model_Processor $processor,
         Magento_Core_Controller_Request_Http $request,
         Magento_Logging_Model_FlagFactory $flagFactory
     ) {
         $this->_coreHttp = $coreHttp;
-        $this->_processor = Mage::getSingleton('Magento_Logging_Model_Processor');
+        $this->_processor = $processor;
         $this->_request = $request;
         $this->_flagFactory = $flagFactory;
     }
@@ -178,7 +180,7 @@ class Magento_Logging_Model_Observer
     protected function _logAdminLogin($username, $userId = null)
     {
         $eventCode = 'admin_login';
-        if (!Mage::getSingleton('Magento_Logging_Model_Config')->isActive($eventCode, true)) {
+        if (!Mage::getSingleton('Magento_Logging_Model_Config')->isEventGroupLogged($eventCode)) {
             return;
         }
         $success = (bool)$userId;
