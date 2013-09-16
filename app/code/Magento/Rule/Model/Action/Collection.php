@@ -31,7 +31,7 @@ class Magento_Rule_Model_Action_Collection extends Magento_Rule_Model_Action_Abs
         $this->_actionFactory = $actionFactory;
         $this->_layout = $layout;
 
-        parent::__construct($viewUrl, $data);
+        parent::__construct($viewUrl, $layout, $data);
 
         $this->setActions(array());
         $this->setType('Magento_Rule_Model_Action_Collection');
