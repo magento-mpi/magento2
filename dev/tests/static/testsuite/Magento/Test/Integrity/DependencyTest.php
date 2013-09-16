@@ -300,12 +300,20 @@ class Magento_Test_Integrity_DependencyTest extends PHPUnit_Framework_TestCase
 
         $undeclared = array();
         foreach ($dependencies as $dependency) {
-            $this->collectDependency($dependency, $currentModule);
+            $this->collectDependency($dependency, $currentModule, $undeclared);
         }
         return $undeclared;
     }
 
-    private function collectDependency($dependency, $currentModule) {
+    /**
+     * Collect a dependency
+     *
+     * @param $dependency
+     * @param $currentModule
+     * @return array
+     */
+    private function collectDependency($dependency, $currentModule, $undeclared)
+    {
         $module = $dependency['module'];
         $nsModule = str_replace('_', '\\', $module);
         $type = isset($dependency['type']) ? $dependency['type'] : self::TYPE_HARD;

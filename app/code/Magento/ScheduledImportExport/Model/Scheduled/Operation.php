@@ -473,7 +473,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
             \Mage::throwException(__('Please correct the server type.'));
         }
 
-        $class = 'Magento_Io_' . ucfirst(strtolower($fileInfo['server_type']));
+        $class = 'Magento\\Io\\' . ucfirst(strtolower($fileInfo['server_type']));
         if (!class_exists($class)) {
             \Mage::throwException(
                 __('Please correct the server communication class "%1".', $class)

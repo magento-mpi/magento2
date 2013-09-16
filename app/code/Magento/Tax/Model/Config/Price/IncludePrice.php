@@ -9,7 +9,7 @@
  */
 namespace Magento\Tax\Model\Config\Price;
 
-class Include extends \Magento\Core\Model\Config\Value
+class IncludePrice extends \Magento\Core\Model\Config\Value
 {
     public function afterSave()
     {

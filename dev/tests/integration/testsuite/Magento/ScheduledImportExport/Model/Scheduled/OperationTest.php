@@ -48,7 +48,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUni
         $this->_model->setOperationType($operationType);
 
         $this->assertInstanceOf(
-            'Magento_ScheduledImportExport_Model_' . uc_words($operationType),
+            'Magento\\ScheduledImportExport\\Model\\' . uc_words($operationType),
             $this->_model->getInstance()
         );
     }
