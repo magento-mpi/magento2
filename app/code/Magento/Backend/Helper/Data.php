@@ -54,7 +54,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Model\Config\Primary $primaryConfig
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\RouterList $routerList
-     * @param string $defaultAreaFrontName
+     * @param string $dfltAreaFrontName
      */
     public function __construct(
         \Magento\Core\Model\Config $applicationConfig,
