@@ -187,7 +187,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
                     for ($i = 0; $i < $qty; $i++) {
                         try {
                             $code = new Magento_Object();
-                            Mage::dispatchEvent('magento_giftcardaccount_create', array(
+                            $this->_eventDispatcher->dispatch('magento_giftcardaccount_create', array(
                                 'request' => $data, 'code' => $code
                             ));
                             $codes[] = $code->getCode();
@@ -205,7 +205,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
                             $sender = "$sender <$senderEmail>";
                         }
 
-                        $codeList = Mage::helper('Magento_GiftCard_Helper_Data')->getEmailGeneratedItemsBlock()
+                        $codeList = $this->_giftCardData->getEmailGeneratedItemsBlock()
                             ->setCodes($codes)
                             ->setIsRedeemable($isRedeemable)
                             ->setStore(Mage::app()->getStore($order->getStoreId()));

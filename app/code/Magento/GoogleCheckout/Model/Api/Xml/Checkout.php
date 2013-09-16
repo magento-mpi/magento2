@@ -787,7 +787,7 @@ EOT;
         $price = $this->_coreStoreConfig->getConfig(
             Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_PICKUP_PRICE, $storeId
         );
-        $price = (float) Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice($price, false, false);
+        $price = (float)$this->_taxData->getShippingPrice($price, false, false);
 
         $xml = <<<EOT
                 <pickup name="{$title}">

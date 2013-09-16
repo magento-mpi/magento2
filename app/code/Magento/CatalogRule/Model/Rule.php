@@ -337,7 +337,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
                 foreach ($rulesData as $ruleData) {
                     if ($product->getParentId()) {
                         if (!empty($ruleData['sub_simple_action'])) {
-                            $priceRules = Mage::helper('Magento_CatalogRule_Helper_Data')->calcPriceRule(
+                            $priceRules = $this->_catalogRuleData->calcPriceRule(
                                 $ruleData['sub_simple_action'],
                                 $ruleData['sub_discount_amount'],
                                 $priceRules ? $priceRules : $price
@@ -349,7 +349,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
                             break;
                         }
                     } else {
-                        $priceRules = Mage::helper('Magento_CatalogRule_Helper_Data')->calcPriceRule(
+                        $priceRules = $this->_catalogRuleData->calcPriceRule(
                             $ruleData['action_operator'],
                             $ruleData['action_amount'],
                             $priceRules ? $priceRules : $price
@@ -427,7 +427,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
      *
      * @return string
      */
-    public function toString($format='')
+    public function toString($format = '')
     {
         return '';
     }
