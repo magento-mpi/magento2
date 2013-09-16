@@ -46,16 +46,28 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
     protected static $_currencyCache = array();
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * @var Magento_Core_Helper_Translate
      */
     protected $_translate;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Translate $translate
-     * @param null $locale
+     * @param $locale
      */
-    public function __construct(Magento_Core_Helper_Translate $translate, $locale = null)
-    {
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Translate $translate,
+        $locale = null
+    ) {
+        $this->_eventManager = $eventManager;
         $this->_translate = $translate;
         $this->setLocale($locale);
     }
@@ -522,7 +534,7 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
             }
 
             $options = new Magento_Object($options);
-            Mage::dispatchEvent('currency_display_options_forming', array(
+            $this->_eventManager->dispatch('currency_display_options_forming', array(
                 'currency_options' => $options,
                 'base_code' => $currency
             ));

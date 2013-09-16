@@ -14,7 +14,7 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Block_Adminhtml_Invitation_Add_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Invitation_Block_Adminhtml_Invitation_Add_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Return invitation form action url
@@ -33,12 +33,13 @@ class Magento_Invitation_Block_Adminhtml_Invitation_Add_Form extends Magento_Adm
      */
     protected function _prepareForm()
     {
-        $form = $this->_createForm(
-            array(
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
                 'id' => 'edit_form',
                 'action' => $this->getActionUrl(),
-                'method' => 'post'
-            )
+                'method' => 'post',
+            ))
         );
 
         $fieldset = $form->addFieldset('base_fieldset', array(

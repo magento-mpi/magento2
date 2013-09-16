@@ -110,6 +110,7 @@ class Magento_FullPageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCa
         $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
 
         $this->_model = new  Magento_FullPageCache_Model_Processor(
+            $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
             $this->_restrictionMock,
             $this->_fpcCacheMock,
             $this->_subProcFactoryMock,

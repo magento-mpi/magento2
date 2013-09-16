@@ -16,32 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Backend_Block_Widget_Form_Generic
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $formFactory, $data);
-    }
-
     /**
      * Prepare Mail Target Rule Edit form
      *
@@ -51,7 +28,8 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
     {
         /* @var $model Magento_TargetRule_Model_Rule */
         $model = $this->_coreRegistry->registry('current_target_rule');
-        $form = $this->_createForm();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
 
         $form->setHtmlIdPrefix('rule_');
@@ -119,9 +97,11 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
             'note'  => __('Maximum number of products that can be matched by this Rule. Capped to 20.'),
         ));
 
-
-        Mage::dispatchEvent('targetrule_edit_tab_main_after_prepare_form', array('model' => $model, 'form' => $form,
-            'block' => $this));
+        $this->_eventManager->dispatch('targetrule_edit_tab_main_after_prepare_form', array(
+            'model' => $model,
+            'form' => $form,
+            'block' => $this,
+        ));
 
         $form->setValues($model->getData());
 

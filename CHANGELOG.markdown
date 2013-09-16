@@ -1,9 +1,11 @@
 2.0.0.0-dev46
 =============
-* Various improvements:
-  * Static method `getObjectManager` of Mage class was eliminated
+* I18n refactoring and improvements:
   * Removed "translate" node from configuration XML files
   * Added I18n tools for translation dictionary generation and language package generation
+* Various improvements:
+  * Static method `getObjectManager` of Mage class was eliminated
+  * Eliminated Mage::helper and Mage::dispatchEvent in code
 
 2.0.0.0-dev45
 =============

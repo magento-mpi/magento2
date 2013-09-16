@@ -63,6 +63,20 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     protected $_viewFileSystem;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Widget data
+     *
+     * @var Magento_Widget_Helper_Data
+     */
+    protected $_widgetData = null;
+
+    /**
      * @var Magento_Core_Model_Cache_TypeListInterface
      */
     protected $_typeList;
@@ -73,25 +87,31 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     protected $_productType;
 
     /**
+     * @param Magento_Widget_Helper_Data $widgetData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_Cache_TypeListInterface $typeList
      * @param Magento_Catalog_Model_Product_Type $productType
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Widget_Model_Resource_Widget_Instance $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        Magento_Widget_Helper_Data $widgetData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_Cache_TypeListInterface $typeList,
         Magento_Catalog_Model_Product_Type $productType,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Widget_Model_Resource_Widget_Instance $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_widgetData = $widgetData;
+        $this->_coreData = $coreData;
         $this->_viewFileSystem = $viewFileSystem;
         $this->_typeList = $typeList;
         $this->_productType = $productType;
@@ -427,7 +447,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
             $template = ' template="' . $templatePath . '"';
         }
 
-        $hash = Mage::helper('Magento_Core_Helper_Data')->uniqHash();
+        $hash = $this->_coreData->uniqHash();
         $xml .= '<block class="' . $this->getType() . '" name="' . $hash . '"' . $template . '>';
         foreach ($parameters as $name => $value) {
             if (is_array($value)) {
@@ -437,7 +457,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
                 $xml .= '<action method="setData">'
                     . '<argument name="name" xsi:type="string">' . $name . '</argument>'
                     . '<argument name="value" xsi:type="string">'
-                    . Mage::helper('Magento_Widget_Helper_Data')->escapeHtml($value) . '</argument>'
+                    . $this->_widgetData->escapeHtml($value) . '</argument>'
                     . '</action>';
             }
         }

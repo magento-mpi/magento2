@@ -34,9 +34,11 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_AbstractTest
         $block = $this->getMockForAbstractClass(
             'Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract',
             array(
-                $objectManager->get('Magento_Backend_Block_Template_Context'),
-                $objectManager->get('Magento_Data_Form_Factory'),
-                $objectManager->get('Magento_Core_Model_Registry'),
+                 $objectManager->get('Magento_Data_Form_Factory'),
+                 $objectManager->get('Magento_Eav_Helper_Data'),
+                 $objectManager->get('Magento_Core_Helper_Data'),
+                 $objectManager->get('Magento_Backend_Block_Template_Context'),
+                 $objectManager->get('Magento_Core_Model_Registry'),
             )
         )
         ->setLayout($objectManager->create('Magento_Core_Model_Layout'));

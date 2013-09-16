@@ -14,6 +14,11 @@
 class Magento_GiftCard_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
+     * @var Magento_Core_Model_Layout
+     */
+    protected $_layout;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Layout $layout
      */
@@ -21,8 +26,8 @@ class Magento_GiftCard_Helper_Data extends Magento_Core_Helper_Abstract
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Layout $layout
     ) {
+        $this->_layout = $layout;
         parent::__construct($context);
-        $this->setLayout($layout);
     }
 
     /**

@@ -12,7 +12,7 @@
  * Recurring profile editing form
  * Can work in scope of product edit form
  */
-class Magento_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Magento_Backend_Block_Widget_Form
+class Magento_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Magento_Backend_Block_Abstract
 {
     /**
      * Reference to the parent element (optional)
@@ -36,10 +36,28 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Magento_
     protected $_profile = null;
 
     /**
-     *
      * @var Magento_Catalog_Model_Product
      */
     protected $_product = null;
+
+    /**
+     * @var Magento_Data_Form_Factory
+     */
+    protected $_formFactory;
+
+    /**
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Backend_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Backend_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_formFactory = $formFactory;
+        parent::__construct($context, $data);
+    }
 
     /**
      * Setter for parent element
@@ -94,7 +112,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Magento_
      */
     protected function _prepareForm()
     {
-        $form = $this->_createForm();
+        $form = $this->_formFactory->create();
 
         $form->setFieldsetRenderer(
             $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset')

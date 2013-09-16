@@ -11,37 +11,54 @@
 /**
  * Adminhtml Google Content types mapping form block
  */
-class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+
+class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Backend_Block_Widget_Form
 {
+    /**
+     * @var Magento_GoogleShopping_Helper_Category|null
+     */
+    protected $_googleShoppingCategory = null;
+
+    /**
+     * @var Magento_Data_Form_Element_Factory
+     */
+    protected $_elementFactory;
+
+    /**
+     * @var Magento_Data_Form_Factory
+     */
+    protected $_formFactory;
+
     /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry;
+    protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Data_Form_ElementFactory
-     */
-    protected $_elementFactory;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Data_Form_ElementFactory $elementFactory
+     * @param Magento_Data_Form_Element_Factory $elementFactory
+     * @param Magento_GoogleShopping_Helper_Category $googleShoppingCategory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
         Magento_Data_Form_Factory $formFactory,
-        Magento_Data_Form_ElementFactory $elementFactory,
+        Magento_Data_Form_Element_Factory $elementFactory,
+        Magento_GoogleShopping_Helper_Category $googleShoppingCategory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        $this->_elementFactory = $elementFactory;
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $formFactory, $data);
+        $this->_googleShoppingCategory = $googleShoppingCategory;
+        $this->_elementFactory = $elementFactory;
+        $this->_formFactory = $formFactory;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -51,7 +68,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adm
      */
     protected function _prepareForm()
     {
-        $form = $this->_createForm();
+        $form = $this->_formFactory->create();
 
         $itemType = $this->getItemType();
 
@@ -88,7 +105,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adm
             'text'      => '<div id="attribute_set_select">' . $attributeSetsSelect->toHtml() . '</div>',
         ));
 
-        $categories = Mage::helper('Magento_GoogleShopping_Helper_Category')->getCategories();
+        $categories = $this->_googleShoppingCategory->getCategories();
         $fieldset->addField('category', 'select', array(
             'label'     => __('Google Product Category'),
             'title'     => __('Google Product Category'),
@@ -134,10 +151,10 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adm
      */
     public function getAttributeSetsSelectElement($targetCountry)
     {
-        $field = $this->_elementFactory->create('Magento_Data_Form_Element_Select');
+        $field = $this->_elementFactory->create('select');
         $field->setName('attribute_set_id')
             ->setId('select_attribute_set')
-            ->setForm($this->_createForm())
+            ->setForm($this->_formFactory->create())
             ->addClass('required-entry')
             ->setValues($this->_getAttributeSetsArray($targetCountry));
         return $field;

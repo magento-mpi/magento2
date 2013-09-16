@@ -26,7 +26,7 @@ class Magento_Catalog_Block_Layer_ViewTest extends PHPUnit_Framework_TestCase
         $layer->setCurrentCategory($currentCategory);
 
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
         /** @var $block Magento_Catalog_Block_Layer_View */
         $block = $layout->createBlock('Magento_Catalog_Block_Layer_View', 'block');
 

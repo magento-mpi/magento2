@@ -11,7 +11,7 @@
 /**
  * Abstract items renderer
  */
-class Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Block_Template
+class Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Backend_Block_Template
 {
     /**
      * Renderers with render type key
@@ -48,17 +48,19 @@ class Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Blo
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

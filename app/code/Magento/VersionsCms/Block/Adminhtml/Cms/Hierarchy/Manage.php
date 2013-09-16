@@ -15,9 +15,8 @@
  * @package    Magento_VersionsCms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_Adminhtml_Block_Widget_Form
+class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_Backend_Block_Widget_Form_Generic
 {
-
     /**
      * Retrieve Delete Hierarchies Url
      *
@@ -45,10 +44,13 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_A
      */
     protected function _prepareForm()
     {
-        $form = $this->_createForm(array(
-            'id'        => 'manage_form',
-            'method'    => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'        => 'manage_form',
+                'method'    => 'post',
+            ))
+        );
 
         $currentWebsite = $this->getRequest()->getParam('website');
         $currentStore   = $this->getRequest()->getParam('store');

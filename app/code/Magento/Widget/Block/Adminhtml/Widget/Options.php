@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Element type used by default if configuration is omitted
@@ -47,7 +47,8 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Adminhtml_Bl
         if ($this->_form instanceof Magento_Data_Form) {
             return $this->_form;
         }
-        $form = $this->_createForm();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $this->setForm($form);
         return $form;
     }

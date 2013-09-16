@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Prepare form for newsletter queue editing.
@@ -31,7 +31,8 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Adminht
         /* @var $queue Magento_Newsletter_Model_Queue */
         $queue = Mage::getSingleton('Magento_Newsletter_Model_Queue');
 
-        $form = $this->_createForm();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend'    =>  __('Queue Information'),
@@ -41,8 +42,8 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Adminht
         $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
         $timeFormat = Mage::app()->getLocale()->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
 
-        if($queue->getQueueStatus() == Magento_Newsletter_Model_Queue::STATUS_NEVER) {
-            $fieldset->addField('date', 'date',array(
+        if ($queue->getQueueStatus() == Magento_Newsletter_Model_Queue::STATUS_NEVER) {
+            $fieldset->addField('date', 'date', array(
                 'name'      =>    'start_at',
                 'date_format' => $dateFormat,
                 'time_format' => $timeFormat,
@@ -51,7 +52,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Adminht
             ));
 
             if (!Mage::app()->hasSingleStore()) {
-                $fieldset->addField('stores','multiselect',array(
+                $fieldset->addField('stores', 'multiselect', array(
                     'name'          => 'stores[]',
                     'label'         => __('Subscribers From'),
                     'image'         => $this->getViewFileUrl('images/grid-cal.gif'),
@@ -77,7 +78,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Adminht
             ));
 
             if (!Mage::app()->hasSingleStore()) {
-                $fieldset->addField('stores','multiselect',array(
+                $fieldset->addField('stores', 'multiselect', array(
                     'name'          => 'stores[]',
                     'label'         => __('Subscribers From'),
                     'image'         => $this->getViewFileUrl('images/grid-cal.gif'),
@@ -85,8 +86,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Adminht
                     'values'        => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
                     'value'         => $queue->getStores()
                 ));
-            }
-            else {
+            } else {
                 $fieldset->addField('stores', 'hidden', array(
                     'name'      => 'stores[]',
                     'value'     => Mage::app()->getStore(true)->getId()
@@ -135,7 +135,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Adminht
             ->getConfig(array('widget_filters' => $widgetFilters));
 
         if ($queue->isNew()) {
-            $fieldset->addField('text','editor', array(
+            $fieldset->addField('text', 'editor', array(
                 'name'      => 'text',
                 'label'     => __('Message'),
                 'state'     => 'html',
@@ -152,7 +152,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Adminht
                 'value'         => $queue->getTemplate()->getTemplateStyles()
             ));
         } elseif (Magento_Newsletter_Model_Queue::STATUS_NEVER != $queue->getQueueStatus()) {
-            $fieldset->addField('text','textarea', array(
+            $fieldset->addField('text', 'textarea', array(
                 'name'      =>    'text',
                 'label'     =>    __('Message'),
                 'value'     =>    $queue->getNewsletterText(),
@@ -171,7 +171,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Adminht
             $form->getElement('sender_email')->setDisabled('true')->setRequired(false);
             $form->getElement('stores')->setDisabled('true');
         } else {
-            $fieldset->addField('text','editor', array(
+            $fieldset->addField('text', 'editor', array(
                 'name'      =>    'text',
                 'label'     =>    __('Message'),
                 'state'     => 'html',

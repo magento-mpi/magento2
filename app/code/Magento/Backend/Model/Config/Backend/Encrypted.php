@@ -14,28 +14,42 @@ class Magento_Backend_Model_Config_Backend_Encrypted
     implements Magento_Core_Model_Config_Data_BackendModelInterface
 {
     /**
+     * Core data
+     *
      * @var Magento_Core_Helper_Data
      */
-    protected $_helper;
+    protected $_coreData = null;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Helper_Data $helper
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Core_Helper_Data $helper,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_helper = $helper;
+        $this->_coreData = $coreData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    public function __sleep()
+    {
+        $properties = parent::__sleep();
+        return array_diff($properties, array('_coreData'));
+    }
+
+    public function __wakeup()
+    {
+        parent::__wakeup();
+        $this->_coreData = Mage::getSingleton('Magento_Core_Helper_Data');
     }
 
     /**
@@ -45,7 +59,7 @@ class Magento_Backend_Model_Config_Backend_Encrypted
     protected function _afterLoad()
     {
         $value = (string)$this->getValue();
-        if (!empty($value) && ($decrypted = $this->_helper->decrypt($value))) {
+        if (!empty($value) && ($decrypted = $this->_coreData->decrypt($value))) {
             $this->setValue($decrypted);
         }
     }
@@ -61,7 +75,7 @@ class Magento_Backend_Model_Config_Backend_Encrypted
         if (preg_match('/^\*+$/', $this->getValue())) {
             $value = $this->getOldValue();
         }
-        if (!empty($value) && ($encrypted = $this->_helper->encrypt($value))) {
+        if (!empty($value) && ($encrypted = $this->_coreData->encrypt($value))) {
             $this->setValue($encrypted);
         }
     }
@@ -73,7 +87,7 @@ class Magento_Backend_Model_Config_Backend_Encrypted
      */
     public function getOldValue()
     {
-        return $this->_helper->decrypt(parent::getOldValue());
+        return $this->_coreData->decrypt(parent::getOldValue());
     }
 
     /**
@@ -84,6 +98,6 @@ class Magento_Backend_Model_Config_Backend_Encrypted
      */
     public function processValue($value)
     {
-        return $this->_helper->decrypt($value);
+        return $this->_coreData->decrypt($value);
     }
 }

@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_System_Account_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_System_Account_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     protected function _prepareForm()
     {
@@ -25,7 +25,8 @@ class Magento_Adminhtml_Block_System_Account_Edit_Form extends Magento_Adminhtml
             ->load($userId);
         $user->unsetData('password');
 
-        $form = $this->_createForm();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Account Information')));
 

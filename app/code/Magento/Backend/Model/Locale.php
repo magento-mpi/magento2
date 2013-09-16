@@ -38,19 +38,19 @@ class Magento_Backend_Model_Locale extends Magento_Core_Model_Locale
     /**
      * Constructor
      *
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Backend_Model_Session $session
      * @param Magento_Backend_Model_Locale_Manager $localeManager
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Model_Locale_Validator $localeValidator
-     * @param Magento_Core_Helper_Translate $translate
      * @param string $locale
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Backend_Model_Session $session,
         Magento_Backend_Model_Locale_Manager $localeManager,
         Magento_Core_Controller_Request_Http $request,
         Magento_Core_Model_Locale_Validator $localeValidator,
-        Magento_Core_Helper_Translate $translate,
         $locale = null
     ) {
         $this->_session = $session;
@@ -58,7 +58,7 @@ class Magento_Backend_Model_Locale extends Magento_Core_Model_Locale
         $this->_request = $request;
         $this->_localeValidator = $localeValidator;
 
-        parent::__construct($translate, $locale);
+        parent::__construct($eventManager, $locale);
     }
 
     /**

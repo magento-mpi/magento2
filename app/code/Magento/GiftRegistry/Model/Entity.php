@@ -11,7 +11,6 @@
 /**
  * Entity data model
  *
- * @method Magento_GiftRegistry_Model_Resource_Entity _getResource()
  * @method Magento_GiftRegistry_Model_Resource_Entity getResource()
  * @method Magento_GiftRegistry_Model_Entity setTypeId(int $value)
  * @method int getCustomerId()
@@ -77,13 +76,6 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     protected $_attributes = null;
 
     /**
-     * Helpers list
-     *
-     * @var array
-     */
-    protected $_helpers = array();
-
-    /**
      * Store instance
      *
      * @var Magento_Core_Model_Store
@@ -117,30 +109,49 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     protected $_templateFactory;
 
     /**
+     * Gift registry data
+     *
+     * @var Magento_GiftRegistry_Helper_Data
+     */
+    protected $_giftRegistryData = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_App $application
-     * @param Magento_Core_Model_Store $store
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Translate $translate
      * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_GiftRegistry_Model_Resource_Entity $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_GiftRegistry_Helper_Data $giftRegistryData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_App $application,
-        Magento_Core_Model_Store $store,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Translate $translate,
         Magento_Core_Model_Email_TemplateFactory $templateFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_GiftRegistry_Model_Resource_Entity $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
+        $this->_giftRegistryData = $giftRegistryData;
         $this->_app = $application;
-        $this->_helpers = isset($data['helpers']) ? $data['helpers'] : array();
-        $this->_store = $store;
+        $this->_store = $storeManager->getStore();
         $this->_translate = $translate;
         $this->_templateFactory = $templateFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -184,7 +195,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
 
             foreach ($quote->getAllVisibleItems() as $item) {
                 if (in_array($item->getId(), $itemsIds)) {
-                    if (!Mage::helper('Magento_GiftRegistry_Helper_Data')->canAddToGiftRegistry($item)) {
+                     if (!$this->_giftRegistryData->canAddToGiftRegistry($item)) {
                         $skippedItems++;
                         continue;
                     }
@@ -316,7 +327,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
             'entity' => $this,
             'message' => $message,
             'recipient_name' => $recipientName,
-            'url' => $this->_helper('Magento_GiftRegistry_Helper_Data')->getRegistryLink($this)
+            'url' => $this->_giftRegistryData->getRegistryLink($this)
         );
 
         $mail->setDesignConfig(array('area' => Magento_Core_Model_App_Area::AREA_FRONTEND, 'store' => $store->getId()));
@@ -344,8 +355,8 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     public function sendShareRegistryEmails()
     {
         $senderMessage = $this->getSenderMessage();
-        $senderName = $this->_helper('Magento_GiftRegistry_Helper_Data')->escapeHtml($this->getSenderName());
-        $senderEmail = $this->_helper('Magento_GiftRegistry_Helper_Data')->escapeHtml($this->getSenderEmail());
+        $senderName = $this->_giftRegistryData->escapeHtml($this->getSenderName());
+        $senderEmail = $this->_giftRegistryData->escapeHtml($this->getSenderEmail());
         $result = new Magento_Object(array('is_success' => false));
 
         if (empty($senderName) || empty($senderMessage) || empty($senderEmail)) {
@@ -369,7 +380,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
                 );
             }
 
-            $recipient['name'] = $this->_helper('Magento_GiftRegistry_Helper_Data')->escapeHtml($recipient['name']);
+            $recipient['name'] = $this->_giftRegistryData->escapeHtml($recipient['name']);
             if (empty($recipient['name'])) {
                 return $result->setErrorMessage(
                     __('Please enter a recipient name.')
@@ -466,7 +477,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
             'store' => $store,
             'owner' => $owner,
             'entity' => $this,
-            'url' => Mage::helper('Magento_GiftRegistry_Helper_Data')->getRegistryLink($this)
+            'url' => $this->_giftRegistryData->getRegistryLink($this)
         );
 
         $mail->setDesignConfig(array('area' => Magento_Core_Model_App_Area::AREA_FRONTEND, 'store' => $store->getId()));
@@ -760,7 +771,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
             }
         }
 
-        $errorsCustom = Mage::helper('Magento_GiftRegistry_Helper_Data')->validateCustomAttributes(
+        $errorsCustom = $this->_giftRegistryData->validateCustomAttributes(
             $allCustomValues, $this->getRegistryAttributes()
         );
         if ($errorsCustom !== true) {
@@ -853,7 +864,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      */
     public function getGenerateKeyId()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->uniqHash();
+        return $this->_coreData->uniqHash();
     }
 
     /**
@@ -966,19 +977,5 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
             }
         }
         return $this;
-    }
-
-    /**
-     * Retrieve helper by specified name
-     *
-     * @param string $name
-     * @return Magento_Core_Helper_Abstract
-     */
-    protected function _helper($name)
-    {
-        if (!isset($this->_helpers[$name])) {
-            $this->_helpers[$name] = Mage::helper($name);
-        }
-        return $this->_helpers[$name];
     }
 }

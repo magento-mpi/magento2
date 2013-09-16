@@ -67,7 +67,8 @@ class Magento_Core_Model_Store_Storage_DefaultTest extends PHPUnit_Framework_Tes
             ->expects($this->once())
             ->method('create')
             ->will($this->returnValue($this->_groupMock));
-        $this->_storeMock = $this->getMock('Magento_Core_Model_Store', array('setId', 'setCode', 'getCode'),
+        $this->_storeMock = $this->getMock('Magento_Core_Model_Store',
+            array('setId', 'setCode', 'getCode', '__sleep', '__wakeup'),
             array(), '', false, false);
         $this->_storeFactoryMock->expects($this->once())
             ->method('create')

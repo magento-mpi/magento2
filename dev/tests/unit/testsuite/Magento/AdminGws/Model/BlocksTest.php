@@ -26,17 +26,21 @@ class Magento_AdminGws_Model_BlocksTest extends PHPUnit_Framework_TestCase
 
     public function testDisableTaxRelatedMultiselects()
     {
-        $testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $form = $testHelper->getObject('Magento_Data_Form');
-        $element1 = $testHelper->getObject('Magento_Data_Form_Element_Editablemultiselect');
-        $element1->setId('tax_customer_class');
-        $element2 = $testHelper->getObject('Magento_Data_Form_Element_Editablemultiselect');
-        $element2->setId('tax_product_class');
-        $element3 = $testHelper->getObject('Magento_Data_Form_Element_Editablemultiselect');
-        $element3->setId('tax_rate');
-        $form->addElement($element1);
-        $form->addElement($element2);
-        $form->addElement($element3);
+        $form = $this->getMock('Magento_Data_Form', array('getElement' ,'setDisabled'), array(), '', false);
+        $form->expects($this->exactly(3))
+            ->method('getElement')
+            ->with($this->logicalOr(
+                $this->equalTo('tax_customer_class'),
+                $this->equalTo('tax_product_class'),
+                $this->equalTo('tax_rate'))
+            )
+            ->will($this->returnSelf());
+
+        $form->expects($this->exactly(3))
+            ->method('setDisabled')
+            ->with($this->equalTo(true))
+            ->will($this->returnSelf());
+
         $observerMock = new Magento_Object(array(
             'event' => new Magento_Object(array(
                 'block' => new Magento_Object(array('form' => $form))
@@ -44,9 +48,5 @@ class Magento_AdminGws_Model_BlocksTest extends PHPUnit_Framework_TestCase
         ));
 
         $this->_model->disableTaxRelatedMultiselects($observerMock);
-
-        $this->assertTrue($form->getElement('tax_product_class')->getDisabled());
-        $this->assertTrue($form->getElement('tax_customer_class')->getDisabled());
-        $this->assertTrue($form->getElement('tax_rate')->getDisabled());
     }
 }

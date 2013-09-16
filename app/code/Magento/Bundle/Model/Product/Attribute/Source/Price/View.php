@@ -16,8 +16,25 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Model_Product_Attribute_Source_Price_View extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+class Magento_Bundle_Model_Product_Attribute_Source_Price_View
+    extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
 {
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData
+    ) {
+        $this->_coreData = $coreData;
+    }
+
     /**
      * Get all options
      *
@@ -71,7 +88,7 @@ class Magento_Bundle_Model_Product_Attribute_Source_Price_View extends Magento_E
             'extra'     => null
         );
 
-        if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
+        if ($this->_coreData->useDbCompatibleMode()) {
             $column['type']     = 'int';
             $column['is_null']  = true;
         } else {

@@ -24,7 +24,8 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_General extends Magento_Rma_Block_
      */
     protected function _prepareForm()
     {
-        $form = $this->_createForm();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $htmlIdPrefix = 'rma_properties_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
 

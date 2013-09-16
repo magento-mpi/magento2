@@ -96,32 +96,41 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
     protected static $_priceRulesData = array();
 
     /**
+     * Catalog rule data
+     *
+     * @var Magento_CatalogRule_Helper_Data
+     */
+    protected $_catalogRuleData;
+
+    /**
      * @var Magento_Core_Model_Cache_TypeListInterface
      */
     protected $_cacheTypeList;
 
     /**
-     * @param Magento_Core_Model_Context $context
+     * @param Magento_CatalogRule_Helper_Data $catalogRuleData
      * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_CatalogRule_Model_Resource_Rule $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
+        Magento_CatalogRule_Helper_Data $catalogRuleData,
         Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_CatalogRule_Model_Resource_Rule $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_catalogRuleData = $catalogRuleData;
         $this->_cacheTypeList = $cacheTypeList;
-        parent::__construct($context, $formFactory, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($formFactory, $context, $registry, $resource, $resourceCollection, $data);
     }
-
 
     /**
      * Init resource model and id field
@@ -328,7 +337,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
                 foreach ($rulesData as $ruleData) {
                     if ($product->getParentId()) {
                         if (!empty($ruleData['sub_simple_action'])) {
-                            $priceRules = Mage::helper('Magento_CatalogRule_Helper_Data')->calcPriceRule(
+                            $priceRules = $this->_catalogRuleData->calcPriceRule(
                                 $ruleData['sub_simple_action'],
                                 $ruleData['sub_discount_amount'],
                                 $priceRules ? $priceRules : $price
@@ -340,7 +349,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
                             break;
                         }
                     } else {
-                        $priceRules = Mage::helper('Magento_CatalogRule_Helper_Data')->calcPriceRule(
+                        $priceRules = $this->_catalogRuleData->calcPriceRule(
                             $ruleData['action_operator'],
                             $ruleData['action_amount'],
                             $priceRules ? $priceRules : $price

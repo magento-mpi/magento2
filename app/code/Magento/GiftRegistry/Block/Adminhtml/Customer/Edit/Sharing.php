@@ -9,16 +9,19 @@
  */
 
 class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing
-    extends Magento_Adminhtml_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
 
     protected function _prepareForm()
     {
-        $form = $this->_createForm(array(
-            'id' => 'edit_form',
-            'action' => $this->getActionUrl(),
-            'method' => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getActionUrl(),
+                'method' => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend' => __('Sharing Information'),

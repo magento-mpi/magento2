@@ -17,31 +17,36 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
     protected $_template = 'page/version/form.phtml';
 
     /**
-     * Core registry
+     * Cms data
      *
-     * @var Magento_Core_Model_Registry
+     * @var Magento_VersionsCms_Helper_Data
      */
-    protected $_coreRegistry = null;
+    protected $_cmsData = null;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_VersionsCms_Helper_Data $cmsData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
         Magento_Data_Form_Factory $formFactory,
+        Magento_VersionsCms_Helper_Data $cmsData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $formFactory, $data);
+        $this->_cmsData = $cmsData;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     /**
@@ -51,11 +56,14 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mag
      */
     protected function _prepareForm()
     {
-        $form = $this->_createForm(array(
-            'id' => 'edit_form',
-            'action' => $this->getUrl('*/*/save', array('_current' => true)),
-            'method' => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getUrl('*/*/save', array('_current' => true)),
+                'method' => 'post',
+            ))
+        );
 
         $form->setUseContainer(true);
 
@@ -91,7 +99,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mag
             'label'     => __('Access Level'),
             'title'     => __('Access Level'),
             'name'      => 'access_level',
-            'options'   => Mage::helper('Magento_VersionsCms_Helper_Data')->getVersionAccessLevels(),
+            'options'   => $this->_cmsData->getVersionAccessLevels(),
             'disabled'  => !$isOwner && !$isPublisher
         ));
 
@@ -100,7 +108,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mag
                 'label'     => __('Owner'),
                 'title'     => __('Owner'),
                 'name'      => 'user_id',
-                'options'   => Mage::helper('Magento_VersionsCms_Helper_Data')->getUsersArray(!$version->getUserId()),
+                'options'   => $this->_cmsData->getUsersArray(!$version->getUserId()),
                 'required'  => !$version->getUserId()
             ));
         }

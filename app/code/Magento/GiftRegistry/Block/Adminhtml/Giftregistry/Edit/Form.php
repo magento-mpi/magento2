@@ -11,7 +11,7 @@
 /**
  * Gift registry type edit form block
  */
-class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Intialize form
@@ -32,8 +32,13 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Form extends Magent
      */
     protected function _prepareForm()
     {
-        $form = $this->_createForm(
-            array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post')
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
         );
         $form->setUseContainer(true);
         $this->setForm($form);

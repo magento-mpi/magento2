@@ -15,7 +15,7 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Block_Adminhtml_Export_Edit_Form extends Magento_Backend_Block_Widget_Form
+class Magento_ImportExport_Block_Adminhtml_Export_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Prepare form before rendering HTML.
@@ -24,11 +24,14 @@ class Magento_ImportExport_Block_Adminhtml_Export_Edit_Form extends Magento_Back
      */
     protected function _prepareForm()
     {
-        $form = $this->_createForm(array(
-            'id'     => 'edit_form',
-            'action' => $this->getUrl('*/*/getFilter'),
-            'method' => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'     => 'edit_form',
+                'action' => $this->getUrl('*/*/getFilter'),
+                'method' => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Export Settings')));
         /** @var $entitySourceModel Magento_ImportExport_Model_Source_Export_Entity */

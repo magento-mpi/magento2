@@ -18,19 +18,19 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $formFactory, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -42,7 +42,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends
         $data = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
             ->load($this->getRequest()->getParam('id'));
 
-        $form = $this->_createForm();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset('set_name', array('legend'=> __('Edit Set Name')));
         $fieldset->addField('attribute_set_name', 'text', array(
             'label' => __('Name'),

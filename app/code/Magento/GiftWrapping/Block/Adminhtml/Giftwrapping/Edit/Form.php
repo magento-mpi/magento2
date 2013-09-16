@@ -8,31 +8,8 @@
  * @license     {license_link}
  */
 
-class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $formFactory, $data);
-    }
-
     /**
      * Intialize form
      *
@@ -75,13 +52,16 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
         if ($model->getId()) {
             $actionParams['id'] = $model->getId();
         }
-        $form = $this->_createForm(array(
-            'id' => 'edit_form',
-            'action' => $this->getUrl('*/*/save', $actionParams),
-            'method' => 'post',
-            'field_name_suffix' => 'wrapping',
-            'enctype'=> 'multipart/form-data'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getUrl('*/*/save', $actionParams),
+                'method' => 'post',
+                'field_name_suffix' => 'wrapping',
+                'enctype'=> 'multipart/form-data',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend'=>__('Gift Wrapping Information')));

@@ -26,6 +26,29 @@ class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template impleme
     static protected $_widgetUsageMap = array();
 
     /**
+     * Cms data
+     *
+     * @var Magento_Cms_Helper_Data
+     */
+    protected $_cmsData = null;
+
+    /**
+     * @param Magento_Cms_Helper_Data $cmsData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Cms_Helper_Data $cmsData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_cmsData = $cmsData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Prepare block text and determine whether block output enabled or not
      * Prevent blocks recursion if needed
      *
@@ -49,7 +72,7 @@ class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template impleme
                 ->load($blockId);
             if ($block->getIsActive()) {
                 /* @var $helper Magento_Cms_Helper_Data */
-                $helper = Mage::helper('Magento_Cms_Helper_Data');
+                $helper = $this->_cmsData;
                 $processor = $helper->getBlockTemplateProcessor();
                 $this->setText($processor->setStoreId($storeId)->filter($block->getContent()));
             }

@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg_Content
-    extends Magento_Adminhtml_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Prepare form.
@@ -26,8 +26,13 @@ class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg_Content
      */
     protected function _prepareForm()
     {
-        $form = $this->_createForm(
-            array('id' => 'wysiwyg_edit_form', 'action' => $this->getData('action'), 'method' => 'post')
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'wysiwyg_edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
         );
 
         $config['document_base_url']     = $this->getData('store_media_url');

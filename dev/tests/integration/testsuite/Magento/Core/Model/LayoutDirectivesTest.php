@@ -20,6 +20,8 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
      * 5) when entire layout is read, all scheduled operations are executed in the same order as declared
      *    (blocks are instantiated first, of course)
      * The end result can be observed in container1
+     *
+     * @magentoAppIsolation enabled
      */
     public function testRenderElement()
     {
@@ -108,12 +110,18 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedSimpleData, $layout->getBlock('block_with_object_updater_args')->getTwo());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testMoveSameAlias()
     {
         $layout = $this->_getLayoutModel('move_the_same_alias.xml');
         $this->assertEquals('container1', $layout->getParentName('no_name3'));
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testMoveNewAlias()
     {
         $layout = $this->_getLayoutModel('move_new_alias.xml');
@@ -127,6 +135,9 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('schedule_block_1', $layout->getParentName('test.block.append'));
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testRemove()
     {
         $layout = $this->_getLayoutModel('remove.xml');
@@ -135,6 +146,9 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($layout->isBlock('child_block2'));
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testMove()
     {
         $layout = $this->_getLayoutModel('move.xml');
@@ -185,6 +199,7 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
      * @param string $case
      * @param string $expectedResult
      * @dataProvider sortSpecialCasesDataProvider
+     * @magentoAppIsolation enabled
      */
     public function testSortSpecialCases($case, $expectedResult)
     {
@@ -215,7 +230,7 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
     protected function _getLayoutModel($fixtureFile)
     {
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
         /** @var $xml Magento_Core_Model_Layout_Element */
         $xml = simplexml_load_file(
             __DIR__ . "/_files/layout_directives_test/{$fixtureFile}",

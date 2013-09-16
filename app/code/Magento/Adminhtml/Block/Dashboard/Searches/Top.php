@@ -28,7 +28,7 @@ class Magento_Adminhtml_Block_Dashboard_Searches_Top extends Magento_Adminhtml_B
 
     protected function _prepareCollection()
     {
-        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Magento_CatalogSearch')) {
+        if (!$this->_coreData->isModuleEnabled('Magento_CatalogSearch')) {
             return parent::_prepareCollection();
         }
         $this->_collection = Mage::getModel('Magento_CatalogSearch_Model_Query')
@@ -36,9 +36,9 @@ class Magento_Adminhtml_Block_Dashboard_Searches_Top extends Magento_Adminhtml_B
 
         if ($this->getRequest()->getParam('store')) {
             $storeIds = $this->getRequest()->getParam('store');
-        } else if ($this->getRequest()->getParam('website')){
+        } else if ($this->getRequest()->getParam('website')) {
             $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
-        } else if ($this->getRequest()->getParam('group')){
+        } else if ($this->getRequest()->getParam('group')) {
             $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
         } else {
             $storeIds = '';

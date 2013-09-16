@@ -104,7 +104,20 @@ class Magento_Banner_Block_Widget_Banner
      */
     protected $_renderedParams = array();
 
+    /**
+     * @param array $data
+     * @param Magento_Core_Helper_Data $coreData
+     * @param  $context
+     * @param  $resource
+     * @param  $coreSession
+     * @param  $checkoutSession
+     * @param  $customerSession
+     * @param  $cmsHelper
+     * @param  $storeManager
+     * @param  $data
+     */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Banner_Model_Resource_Banner $resource,
         Magento_Core_Model_Session $coreSession,
@@ -114,7 +127,7 @@ class Magento_Banner_Block_Widget_Banner
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_bannerResource = $resource;
         $this->_coreSession = $coreSession;
         $this->_checkoutSession = $checkoutSession;

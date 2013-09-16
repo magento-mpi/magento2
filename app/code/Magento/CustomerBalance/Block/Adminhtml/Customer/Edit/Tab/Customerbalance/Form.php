@@ -15,8 +15,8 @@
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Form extends
-    Magento_Adminhtml_Block_Widget_Form
+class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Prepare form fields
@@ -25,7 +25,8 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
      */
     protected function _prepareForm()
     {
-        $form = $this->_createForm();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $prefix = '_customerbalance';
         $form->setHtmlIdPrefix($prefix);
         $form->setFieldNameSuffix('customerbalance');

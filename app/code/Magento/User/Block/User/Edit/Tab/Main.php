@@ -14,33 +14,12 @@
  * @category   Magento
  * @package    Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 
-class Magento_User_Block_User_Edit_Tab_Main extends Magento_Backend_Block_Widget_Form
+class Magento_User_Block_User_Edit_Tab_Main extends Magento_Backend_Block_Widget_Form_Generic
 {
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $formFactory, $data);
-    }
-
     /**
      * Prepare form fields
      *
@@ -52,8 +31,8 @@ class Magento_User_Block_User_Edit_Tab_Main extends Magento_Backend_Block_Widget
         /** @var $model Magento_User_Model_User */
         $model = $this->_coreRegistry->registry('permissions_user');
 
-        $form = $this->_createForm();
-
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('user_');
 
         $fieldset = $form->addFieldset(

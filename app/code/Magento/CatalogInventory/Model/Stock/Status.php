@@ -48,11 +48,19 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
     protected $_websites;
 
     /**
+     * Catalog inventory data
+     *
+     * @var Magento_CatalogInventory_Helper_Data
+     */
+    protected $_catalogInventoryData = null;
+
+    /**
      * @var Magento_Catalog_Model_Product_Type
      */
     protected $_productType;
 
     /**
+     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Catalog_Model_Product_Type $productType
@@ -61,6 +69,7 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
      * @param array $data
      */
     public function __construct(
+        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Catalog_Model_Product_Type $productType,
@@ -68,6 +77,7 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_catalogInventoryData = $catalogInventoryData;
         $this->_productType = $productType;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -525,7 +535,7 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
      */
     public function prepareCatalogProductIndexSelect(Magento_DB_Select $select, $entityField, $websiteField)
     {
-        if (Mage::helper('Magento_CatalogInventory_Helper_Data')->isShowOutOfStock()) {
+        if ($this->_catalogInventoryData->isShowOutOfStock()) {
             return $this;
         }
 

@@ -15,36 +15,14 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Magento_Backend_Block_Widget_Form_Generic
 {
     protected $_template = 'customer/tab/newsletter.phtml';
 
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $formFactory, $data);
-    }
-
     public function initForm()
     {
-        $form = $this->_createForm();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_newsletter');
         $customer = $this->_coreRegistry->registry('current_customer');
         $subscriber = Mage::getModel('Magento_Newsletter_Model_Subscriber')->loadByCustomer($customer);
@@ -74,7 +52,6 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Magento_Admin
             ));
         }
 
-
         $this->setForm($form);
         return $this;
     }
@@ -83,7 +60,9 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Magento_Admin
     {
         $subscriber = $this->_coreRegistry->registry('subscriber');
         if($subscriber->getChangeStatusAt()) {
-            return $this->formatDate($subscriber->getChangeStatusAt(), Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true);
+            return $this->formatDate(
+                $subscriber->getChangeStatusAt(), Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true
+            );
         }
 
         return null;
@@ -92,7 +71,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Magento_Admin
     protected function _prepareLayout()
     {
         $this->setChild('grid',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid','newsletter.grid')
+            $this->getLayout()
+                ->createBlock('Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid', 'newsletter.grid')
         );
         return parent::_prepareLayout();
     }

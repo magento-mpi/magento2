@@ -15,29 +15,33 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
-     * Core registry
+     * Rma data
      *
-     * @var Magento_Core_Model_Registry
+     * @var Magento_Rma_Helper_Data
      */
-    protected $_coreRegistry = null;
+    protected $_rmaData = null;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Rma_Helper_Data $rmaData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Rma_Helper_Data $rmaData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $formFactory, $data);
+        $this->_rmaData = $rmaData;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     /**
@@ -47,7 +51,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Adminhtml_Block_
      */
     public function initForm()
     {
-        $form = $this->_createForm();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_rma');
         $form->setFieldNameSuffix();
 
@@ -151,7 +156,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Adminhtml_Block_
         if ($this->getProductId()) {
             $orderItem = Mage::getModel('Magento_Sales_Model_Order_Item')->load($this->getProductId());
             if ($orderItem && $orderItem->getId()) {
-                $item->setProductAdminName(Mage::helper('Magento_Rma_Helper_Data')->getAdminProductName($orderItem));
+                $item->setProductAdminName($this->_rmaData->getAdminProductName($orderItem));
             }
         }
     }

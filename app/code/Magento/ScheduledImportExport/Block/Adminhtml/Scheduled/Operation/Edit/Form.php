@@ -25,31 +25,8 @@
  */
 // @codingStandardsIgnoreEnd
 abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form
-    extends Magento_Adminhtml_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $formFactory, $data);
-    }
-
     /**
      * Prepare general form for scheduled operation
      *
@@ -59,10 +36,13 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
     {
         /** @var $operation Magento_ScheduledImportExport_Model_Scheduled_Operation */
         $operation = $this->_coreRegistry->registry('current_operation');
-        $form = $this->_createForm(array(
-            'id'     => 'edit_form',
-            'name'   => 'scheduled_operation'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'     => 'edit_form',
+                'name'   => 'scheduled_operation',
+            ))
+        );
         // settings information
         $this->_addGeneralSettings($form, $operation);
 

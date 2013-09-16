@@ -16,7 +16,7 @@
  * @package    Magento_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Consumer model
@@ -24,29 +24,6 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form extends Magento_Adm
      * @var Magento_Oauth_Model_Consumer
      */
     protected $_model;
-
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $formFactory, $data);
-    }
 
     /**
      * Get consumer model
@@ -69,9 +46,14 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form extends Magento_Adm
     protected function _prepareForm()
     {
         $model = $this->getModel();
-        $form = $this->_createForm(array(
-            'id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend' => __('Consumer Information'), 'class' => 'fieldset-wide'

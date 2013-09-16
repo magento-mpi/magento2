@@ -9,29 +9,6 @@
  */
 class Magento_Adminhtml_Block_Catalog_Category_Tab_Design extends Magento_Adminhtml_Block_Catalog_Form
 {
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $formFactory, $data);
-    }
-
     public function _construct()
     {
         parent::_construct();
@@ -49,7 +26,8 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Design extends Magento_Adminh
     public function _prepareLayout()
     {
         parent::_prepareLayout();
-        $form = $this->_createForm();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setDataObject($this->getCategory());
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Custom Design')));

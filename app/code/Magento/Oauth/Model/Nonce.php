@@ -25,6 +25,33 @@
 class Magento_Oauth_Model_Nonce extends Magento_Core_Model_Abstract
 {
     /**
+     * Oauth data
+     *
+     * @var Magento_Oauth_Helper_Data
+     */
+    protected $_oauthData = null;
+
+    /**
+     * @param Magento_Oauth_Helper_Data $oauthData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Oauth_Helper_Data $oauthData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_oauthData = $oauthData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
      *
      * @return void
@@ -44,10 +71,8 @@ class Magento_Oauth_Model_Nonce extends Magento_Core_Model_Abstract
         parent::_afterSave();
 
         //Cleanup old entries
-        /** @var $helper Magento_Oauth_Helper_Data */
-        $helper = Mage::helper('Magento_Oauth_Helper_Data');
-        if ($helper->isCleanupProbability()) {
-            $this->_getResource()->deleteOldEntries($helper->getCleanupExpirationPeriod());
+        if ($this->_oauthData->isCleanupProbability()) {
+            $this->_getResource()->deleteOldEntries($this->_oauthData->getCleanupExpirationPeriod());
         }
         return $this;
     }

@@ -10,6 +10,22 @@
 class Magento_GiftCard_Model_Customer_Api extends Magento_Api_Model_Resource_Abstract
 {
     /**
+     * Customer balance data
+     *
+     * @var Magento_CustomerBalance_Helper_Data
+     */
+    protected $_customerBalanceData = null;
+
+    /**
+     * @param Magento_CustomerBalance_Helper_Data $customerBalanceData
+     */
+    public function __construct(
+        Magento_CustomerBalance_Helper_Data $customerBalanceData
+    ) {
+        $this->_customerBalanceData = $customerBalanceData;
+    }
+
+    /**
      * Retrieve GiftCard data
      *
      * @param string $code
@@ -42,7 +58,7 @@ class Magento_GiftCard_Model_Customer_Api extends Magento_Api_Model_Resource_Abs
      */
     public function redeem($code, $customerId, $store = null)
     {
-        if (!Mage::helper('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             $this->_fault('redemption_disabled');
         }
         /** @var $card Magento_GiftCardAccount_Model_Giftcardaccount */

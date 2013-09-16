@@ -21,17 +21,31 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_taxData = $taxData;
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        parent::__construct($catalogData, $coreData, $context, $data);
     }
 
     /**
@@ -66,11 +80,11 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
                     ->setOptions($item->getOptions());
 
                 $product->setCustomOptions($item->getOptionsByCode());
-                if (Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($product)) {
+                if ($this->_catalogData->canApplyMsrp($product)) {
                     $quoteItem->setCanApplyMsrp(true);
                     $product->setRealPriceHtml(
                         Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
-                            Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $product->getFinalPrice(), true)
+                            $this->_taxData->getPrice($product, $product->getFinalPrice(), true)
                         ))
                     );
                     $product->setAddToCartUrl($this->helper('Magento_Checkout_Helper_Cart')->getAddUrl($product));

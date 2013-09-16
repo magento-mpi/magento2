@@ -28,7 +28,8 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Depends
     {
         parent::_prepareForm();
 
-        $form = $this->_createForm();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_depends');
 
         $fieldset = $form->addFieldset('depends_php_fieldset', array(

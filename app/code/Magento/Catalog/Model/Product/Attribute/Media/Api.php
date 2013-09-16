@@ -49,20 +49,23 @@ class Magento_Catalog_Model_Product_Attribute_Media_Api extends Magento_Catalog_
     protected $_imageFactory;
 
     /**
+     * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Filesystem $filesystem
      * @param Magento_Catalog_Model_Product_Media_Config $mediaConfig
      * @param Magento_Core_Model_Image_Factory $imageFactory
      */
     public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Filesystem $filesystem,
         Magento_Catalog_Model_Product_Media_Config $mediaConfig,
         Magento_Core_Model_Image_Factory $imageFactory
     ) {
         $this->_filesystem = $filesystem;
-        $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_mediaConfig = $mediaConfig;
-        $this->_storeIdSessionField = 'product_store_id';
         $this->_imageFactory = $imageFactory;
+        parent::__construct($catalogProduct);
+        $this->_filesystem->setIsAllowCreateDirectories(true);
+        $this->_storeIdSessionField = 'product_store_id';
     }
 
     /**
@@ -400,7 +403,7 @@ class Magento_Catalog_Model_Product_Attribute_Media_Api extends Magento_Catalog_
      */
     protected function _initProduct($productId, $store = null, $identifierType = null)
     {
-        $product = Mage::helper('Magento_Catalog_Helper_Product')->getProduct($productId, $this->_getStoreId($store), $identifierType);
+        $product = $this->_catalogProduct->getProduct($productId, $this->_getStoreId($store), $identifierType);
         if (!$product->getId()) {
             $this->_fault('product_not_exists');
         }

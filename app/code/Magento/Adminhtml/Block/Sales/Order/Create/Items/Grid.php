@@ -24,6 +24,29 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
      */
     protected $_moveToCustomerStorage = true;
 
+    /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_taxData = $taxData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -73,7 +96,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
         } elseif ($item->hasCustomPrice()) {
             $result = $item->getCustomPrice()*1;
         } else {
-            if (Mage::helper('Magento_Tax_Helper_Data')->priceIncludesTax($this->getStore())) {
+            if ($this->_taxData->priceIncludesTax($this->getStore())) {
                 $result = $item->getPriceInclTax()*1;
             } else {
                 $result = $item->getOriginalPrice()*1;
@@ -319,7 +342,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
 
     public function getInclExclTaxMessage()
     {
-        if (Mage::helper('Magento_Tax_Helper_Data')->priceIncludesTax($this->getStore())) {
+        if ($this->_taxData->priceIncludesTax($this->getStore())) {
             return __('* - Enter custom price including tax');
         } else {
             return __('* - Enter custom price excluding tax');

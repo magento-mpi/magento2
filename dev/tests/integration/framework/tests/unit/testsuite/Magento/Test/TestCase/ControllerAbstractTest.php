@@ -16,26 +16,8 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
 {
     protected $_bootstrap;
 
-    /**
-     * @varMagento_Test_ObjectManager
-     */
-    protected $_objectManager;
-
     protected function setUp()
     {
-        if (!Magento_TestFramework_ObjectManager::getInstance()) {
-            $instanceConfig = new Magento_TestFramework_ObjectManager_Config();
-            $primaryConfig = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
-            $dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
-            $primaryConfig->expects($this->any())->method('getDirectories')->will($this->returnValue($dirs));
-
-            $this->_objectManager = new Magento_TestFramework_ObjectManager(
-                $primaryConfig,
-                $instanceConfig
-            );
-        }
-        parent::setUp();
-
         // emulate session messages
         $messagesCollection = new Magento_Core_Model_Message_Collection();
         $messagesCollection
@@ -44,14 +26,25 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
             ->add(new Magento_Core_Model_Message_Error('error_two'))
             ->add(new Magento_Core_Model_Message_Notice('some_notice'))
         ;
-        $sessionModelFixture = new Magento_Object(array('messages' => $messagesCollection));
-        $this->_objectManager->addSharedInstance($sessionModelFixture, 'Magento_Core_Model_Session');
-    }
+        $session = new Magento_Object(array('messages' => $messagesCollection));
 
-    protected function _prepareRequestResponse()
-    {
-        $this->_request = new Magento_TestFramework_Request();
-        $this->_response = new Magento_TestFramework_Response();
+        $response = new Magento_TestFramework_Response(
+            $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false)
+        );
+
+        $this->_objectManager = $this->getMock(
+            'Magento_TestFramework_ObjectManager', array('get', 'create'), array(), '', false
+        );
+        $this->_objectManager->expects($this->any())
+            ->method('get')
+            ->will($this->returnValueMap(array(
+                array('Magento_TestFramework_Response', $response),
+                array('Magento_Core_Model_Session', $session),
+            )));
+        $this->_objectManager->expects($this->any())
+            ->method('create')
+            ->with('Magento_TestFramework_Request')
+            ->will($this->returnValue(new Magento_TestFramework_Request()));
     }
 
     /**
@@ -71,16 +64,14 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
 
     public function testGetRequest()
     {
-        $this->_objectManager = $this->getMock('Magento_TestFramework_ObjectManager', array(), array(), '', false);
-        $this->_objectManager->expects($this->once())->method('get')->with('Magento_TestFramework_Request');
-        $this->getRequest();
+        $request = $this->getRequest();
+        $this->assertInstanceOf('Magento_TestFramework_Request', $request);
     }
 
     public function testGetResponse()
     {
-        $this->_objectManager = $this->getMock('Magento_TestFramework_ObjectManager', array(), array(), '', false);
-        $this->_objectManager->expects($this->once())->method('get')->with('Magento_TestFramework_Response');
-        $this->getResponse();
+        $response = $this->getResponse();
+        $this->assertInstanceOf('Magento_TestFramework_Response', $response);
     }
 
     /**
@@ -88,7 +79,6 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
      */
     public function testAssert404NotFound()
     {
-        $this->_prepareRequestResponse();
         $this->getRequest()->setActionName('noRoute');
         $this->getResponse()->setBody(
             '404 Not Found test <h3>We are sorry, but the page you are looking for cannot be found.</h3>'
@@ -109,7 +99,6 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
      */
     public function testAssertRedirectFailure()
     {
-        $this->_prepareRequestResponse();
         $this->assertRedirect();
     }
 
@@ -118,10 +107,9 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
      */
     public function testAssertRedirect()
     {
-        $this->_prepareRequestResponse();
         /*
-         * Prevent calling Magento_Core_Controller_Response_Http::setRedirect() because it executes
-         * Mage::dispatchEvent(), which requires fully initialized application environment intentionally not available
+         * Prevent calling Magento_Core_Controller_Response_Http::setRedirect() because it dispatches event,
+         * which requires fully initialized application environment intentionally not available
          * for unit tests
          */
         $setRedirectMethod = new ReflectionMethod('Zend_Controller_Response_Http', 'setRedirect');

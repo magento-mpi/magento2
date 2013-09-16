@@ -9,8 +9,10 @@
  *
  * @method Magento_Webapi_Block_Adminhtml_User_Edit setApiUser() setApiUser(Magento_Webapi_Model_Acl_User $user)
  * @method Magento_Webapi_Model_Acl_User getApiUser() getApiUser()
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Webapi_Block_Adminhtml_User_Edit_Form extends Magento_Backend_Block_Widget_Form
+class Magento_Webapi_Block_Adminhtml_User_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Prepare Form.
@@ -19,7 +21,8 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_Form extends Magento_Backend_Bloc
      */
     protected function _prepareForm()
     {
-        $form = $this->_createForm();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setId('edit_form');
         $form->setAction($this->getUrl('*/*/save'));
         $form->setMethod('post');

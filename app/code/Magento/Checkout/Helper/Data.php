@@ -21,6 +21,25 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_agreements = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve checkout session model
      *
      * @return Magento_Checkout_Model_Session
@@ -263,7 +282,7 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
         if ($guestCheckout == true) {
             $result = new Magento_Object();
             $result->setIsAllowed($guestCheckout);
-            Mage::dispatchEvent('checkout_allow_guest', array(
+            $this->_eventManager->dispatch('checkout_allow_guest', array(
                 'quote'  => $quote,
                 'store'  => $store,
                 'result' => $result

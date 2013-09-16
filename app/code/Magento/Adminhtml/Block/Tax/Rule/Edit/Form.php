@@ -21,19 +21,19 @@ class Magento_Adminhtml_Block_Tax_Rule_Edit_Form extends Magento_Backend_Block_W
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $formFactory, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -55,11 +55,14 @@ class Magento_Adminhtml_Block_Tax_Rule_Edit_Form extends Magento_Backend_Block_W
     protected function _prepareForm()
     {
         $model  = $this->_coreRegistry->registry('tax_rule');
-        $form   = $this->_createForm(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getData('action'),
-            'method'    => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getData('action'),
+                'method'    => 'post',
+            ))
+        );
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
             'legend' => __('Tax Rule Information')

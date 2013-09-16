@@ -32,6 +32,13 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
     protected $_appliedCategory = null;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -39,15 +46,16 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
     protected $_coreRegistry = null;
 
     /**
-     * Class constructor
-     *
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($data);
         $this->_requestVar = 'cat';
@@ -161,7 +169,7 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
         foreach ($categories as $category) {
             if ($category->getIsActive() && $category->getProductCount()) {
                 $data[] = array(
-                    'label' => Mage::helper('Magento_Core_Helper_Data')->escapeHtml($category->getName()),
+                    'label' => $this->_coreData->escapeHtml($category->getName()),
                     'value' => $category->getId(),
                     'count' => $category->getProductCount(),
                 );

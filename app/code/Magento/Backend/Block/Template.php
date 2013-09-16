@@ -25,13 +25,17 @@ class Magento_Backend_Block_Template extends Magento_Core_Block_Template
     protected $_authorization;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
         $this->_authorization = $context->getAuthorization();
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

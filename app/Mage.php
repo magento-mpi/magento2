@@ -377,22 +377,6 @@ final class Mage
     }
 
     /**
-     * Dispatch event
-     *
-     * Calls all observer callbacks registered for this event
-     * and multiple observers matching event name pattern
-     *
-     * @param string $name
-     * @param array $data
-     *
-     * @deprecated use Magento_Core_Model_Event_Manager::dispatch
-     */
-    public static function dispatchEvent($name, array $data = array())
-    {
-        return Mage::getSingleton('Magento_Core_Model_Event_Manager')->dispatch($name, $data);
-    }
-
-    /**
      * Retrieve model object
      *
      * @param   string $modelClass

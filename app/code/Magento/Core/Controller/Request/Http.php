@@ -57,6 +57,21 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     protected $_beforeForwardInfo = array();
 
     /**
+     * @var Magento_Backend_Helper_DataProxy
+     */
+    protected $_helper;
+
+    /**
+     * @param Magento_Backend_Helper_DataProxy $helper
+     * @param null $uri
+     */
+    public function __construct(Magento_Backend_Helper_DataProxy $helper, $uri = null)
+    {
+        $this->_helper = $helper;
+        parent::__construct($uri);
+    }
+
+    /**
      * Returns ORIGINAL_PATH_INFO.
      * This value is calculated instead of reading PATH_INFO
      * directly from $_SERVER due to cross-platform differences.
@@ -132,7 +147,7 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      */
     protected function _isFrontArea($storeCode)
     {
-        return $storeCode != Mage::helper('Magento_Backend_Helper_Data')->getAreaFrontName();
+        return $storeCode != $this->_helper->getAreaFrontName();
     }
 
     /**

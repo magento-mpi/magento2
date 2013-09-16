@@ -18,6 +18,31 @@
 class Magento_Banner_Block_Adminhtml_Widget_Chooser extends Magento_Banner_Block_Adminhtml_Banner_Grid
 {
     /**
+     * @var Magento_Data_Form_Element_Factory
+     */
+    protected $_elementFactory;
+
+    /**
+     * @param Magento_Data_Form_Element_Factory $elementFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Data_Form_Element_Factory $elementFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_elementFactory = $elementFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Store selected banner Ids
      * Used in initial setting selected banners
      *
@@ -31,29 +56,6 @@ class Magento_Banner_Block_Adminhtml_Widget_Chooser extends Magento_Banner_Block
      * @var string
      */
     protected $_elementValueId = '';
-
-    /**
-     * @var Magento_Data_Form_ElementFactory
-     */
-    protected $_elementFactory;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Data_Form_ElementFactory $elementFactory
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Data_Form_ElementFactory $elementFactory,
-        array $data = array()
-    ) {
-        $this->_elementFactory = $elementFactory;
-        parent::__construct($context, $storeManager, $urlModel, $data);
-    }
 
     /**
      * Block construction, prepare grid params
@@ -78,7 +80,7 @@ class Magento_Banner_Block_Adminhtml_Widget_Chooser extends Magento_Banner_Block
         $this->_selectedBanners = explode(',', $element->getValue());
 
         //Create hidden field that store selected banner ids
-        $hidden = $this->_elementFactory->create('Magento_Data_Form_Element_Hidden', $element->getData());
+        $hidden = $this->_elementFactory->create('hidden', array('attributes' => $element->getData()));
         $hidden->setId($this->_elementValueId)->setForm($element->getForm());
         $hiddenHtml = $hidden->getElementHtml();
 

@@ -16,31 +16,8 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General
-    extends Magento_Adminhtml_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $formFactory, $data);
-    }
-
     /**
      * Prepare general properties form
      *
@@ -50,7 +27,8 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General
     {
         $model = $this->_coreRegistry->registry('current_customer_segment');
 
-        $form = $this->_createForm();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         $form->setHtmlIdPrefix('segment_');
 

@@ -28,19 +28,23 @@ class Magento_Adminhtml_Block_Sales_Order_Address_Form
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses
      * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
+        Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses,
         Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $formFactory, $data);
+        parent::__construct($adminhtmlAddresses, $formFactory, $coreData, $context, $data);
     }
 
     /**

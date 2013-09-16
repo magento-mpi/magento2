@@ -24,7 +24,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
     protected function _getFormInstance($args = array())
     {
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
         /** @var $block Magento_Adminhtml_Block_Urlrewrite_Edit_Form */
         $block = $layout->createBlock('Magento_Adminhtml_Block_Urlrewrite_Edit_Form', 'block', array('data' => $args));
         $block->setTemplate(null);
@@ -34,6 +34,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
 
     /**
      * Test that form was prepared correctly
+     * @magentoAppIsolation enabled
      */
     public function testPrepareForm()
     {
@@ -63,6 +64,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
 
     /**
      * Check session data restoring
+     * @magentoAppIsolation enabled
      */
     public function testSessionRestore()
     {
@@ -88,6 +90,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
     /**
      * Test store element is hidden when only one store available
      *
+     * @magentoAppIsolation enabled
      * @magentoConfigFixture current_store general/single_store_mode/enabled 1
      */
     public function testStoreElementSingleStore()
@@ -131,6 +134,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
     /**
      * Test fields disabled status
      * @dataProvider fieldsStateDataProvider
+     * @magentoAppIsolation enabled
      */
     public function testDisabledFields($urlRewrite, $fields)
     {

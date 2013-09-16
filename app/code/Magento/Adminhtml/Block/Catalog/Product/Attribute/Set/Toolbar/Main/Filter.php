@@ -14,12 +14,14 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main_Filter extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main_Filter
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
 
     protected function _prepareForm()
     {
-        $form = $this->_createForm();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         $collection = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
             ->getResourceCollection()

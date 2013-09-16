@@ -11,6 +11,29 @@
 class Magento_GiftCardAccount_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_Core_Block_Template
 {
     /**
+     * Gift card account data
+     *
+     * @var Magento_GiftCardAccount_Helper_Data
+     */
+    protected $_giftCardAccountData = null;
+
+    /**
+     * @param Magento_GiftCardAccount_Helper_Data $giftCardAccountData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GiftCardAccount_Helper_Data $giftCardAccountData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_giftCardAccountData = $giftCardAccountData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve order create model
      *
      * @return Magento_Adminhtml_Model_Sales_Order_Create
@@ -24,7 +47,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Sales_Order_Create_Payment extends
     {
         $result = array();
         $quote = $this->_getOrderCreateModel()->getQuote();
-        $cards = Mage::helper('Magento_GiftCardAccount_Helper_Data')->getCards($quote);
+        $cards = $this->_giftCardAccountData->getCards($quote);
         foreach ($cards as $card) {
             $result[] = $card['c'];
         }

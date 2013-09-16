@@ -80,7 +80,7 @@ class Magento_Catalog_Model_Category extends Magento_Catalog_Model_Abstract
      *
      * @var array
      */
-    private $_designAttributes  = array(
+    protected $_designAttributes  = array(
         'custom_design',
         'custom_design_from',
         'custom_design_to',
@@ -97,6 +97,53 @@ class Magento_Catalog_Model_Category extends Magento_Catalog_Model_Abstract
     protected $_treeModel = null;
 
     /**
+     * Catalog category flat
+     *
+     * @var Magento_Catalog_Helper_Category_Flat
+     */
+    protected $_catalogCategoryFlat = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_coreData = $coreData;
+        $this->_catalogCategoryFlat = $catalogCategoryFlat;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource mode
      *
      * @return void
@@ -104,7 +151,7 @@ class Magento_Catalog_Model_Category extends Magento_Catalog_Model_Abstract
     protected function _construct()
     {
         // If Flat Data enabled then use it but only on frontend
-        if (Mage::helper('Magento_Catalog_Helper_Category_Flat')->isAvailable() && !Mage::app()->getStore()->isAdmin()) {
+        if ($this->_catalogCategoryFlat->isAvailable() && !Mage::app()->getStore()->isAdmin()) {
             $this->_init('Magento_Catalog_Model_Resource_Category_Flat');
             $this->_useFlatResource = true;
         } else {
@@ -214,13 +261,13 @@ class Magento_Catalog_Model_Category extends Magento_Catalog_Model_Abstract
              * catalog_category_tree_move_before and catalog_category_tree_move_after
              * events declared for backward compatibility
              */
-            Mage::dispatchEvent('catalog_category_tree_move_before', $eventParams);
-            Mage::dispatchEvent($this->_eventPrefix.'_move_before', $eventParams);
+            $this->_eventManager->dispatch('catalog_category_tree_move_before', $eventParams);
+            $this->_eventManager->dispatch($this->_eventPrefix.'_move_before', $eventParams);
 
             $this->getResource()->changeParent($this, $parent, $afterCategoryId);
 
-            Mage::dispatchEvent($this->_eventPrefix.'_move_after', $eventParams);
-            Mage::dispatchEvent('catalog_category_tree_move_after', $eventParams);
+            $this->_eventManager->dispatch($this->_eventPrefix.'_move_after', $eventParams);
+            $this->_eventManager->dispatch('catalog_category_tree_move_after', $eventParams);
             $this->_getResource()->commit();
 
             // Set data for indexer
@@ -232,7 +279,7 @@ class Magento_Catalog_Model_Category extends Magento_Catalog_Model_Abstract
             throw $e;
         }
         if ($moveComplete) {
-            Mage::dispatchEvent('category_move', $eventParams);
+            $this->_eventManager->dispatch('category_move', $eventParams);
             Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
                 $this, self::ENTITY, Magento_Index_Model_Event::TYPE_SAVE
             );
@@ -446,7 +493,7 @@ class Magento_Catalog_Model_Category extends Magento_Catalog_Model_Abstract
      */
     public function formatUrlKey($str)
     {
-        $str = Mage::helper('Magento_Core_Helper_Data')->removeAccents($str);
+        $str = $this->_coreData->removeAccents($str);
         $urlKey = preg_replace('#[^0-9a-z]+#i', '-', $str);
         $urlKey = strtolower($urlKey);
         $urlKey = trim($urlKey, '-');

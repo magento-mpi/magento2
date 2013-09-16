@@ -20,6 +20,9 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends Magento
     /** @var  Magento_Core_Model_Registry */
     private $_registry;
 
+    /** @var  Magento_Core_Helper_Data */
+    protected $_coreData;
+
     /** @var  PHPUnit_Framework_MockObject_MockObject */
     private $_formatMock;
 
@@ -40,8 +43,10 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends Magento
 
     public function testPrepareColumns()
     {
-        $this->_formFactoryMock = $this->_makeMock('Magento_Data_Form_Factory');
+        $this->_formFactoryMock = $this->getMock('Magento_Data_Form_Factory', array('create'),
+            array(), '', false, false);
         $this->_registry = new Magento_Core_Model_Registry();
+        $this->_coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
         $this->_formatMock = $this->_makeMock('Magento_Webhook_Model_Source_Format');
         $this->_authenticationMock = $this->_makeMock('Magento_Webhook_Model_Source_Authentication');
         $this->_hookMock = $this->_makeMock('Magento_Webhook_Model_Source_Hook');
@@ -61,9 +66,10 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends Magento
 
         // Arguments passed to UUT's constructor
         $arguments = array(
-            $this->_registry,
-            $this->_context,
             $this->_formFactoryMock,
+            $this->_registry,
+            $this->_coreData,
+            $this->_context,
             $this->_formatMock,
             $this->_authenticationMock,
             $this->_hookMock,

@@ -13,6 +13,7 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
 {
     public function testConstructor()
     {
+        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
         $mockFetchStrategy = $this->getMockBuilder('Magento_Data_Collection_Db_FetchStrategyInterface')
             ->disableOriginalConstructor()
             ->getMock();
@@ -27,7 +28,9 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
             ->method('getReadConnection')
             ->will($this->returnValue($mockDBAdapter));
 
-        $collection = new Magento_Webhook_Model_Resource_Job_Collection($mockFetchStrategy, $mockResourceEvent);
+        $collection = new Magento_Webhook_Model_Resource_Job_Collection(
+            $eventManager, $mockFetchStrategy, $mockResourceEvent
+        );
         $this->assertInstanceOf('Magento_Webhook_Model_Resource_Job_Collection', $collection);
         $this->assertEquals('Magento_Webhook_Model_Resource_Job', $collection->getResourceModelName());
     }

@@ -247,11 +247,19 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     protected $_configDataResource;
 
     /**
+     * Core file storage database
+     *
+     * @var Magento_Core_Helper_File_Storage_Database
+     */
+    protected $_coreFileStorageDatabase = null;
+
+    /**
      * @var Magento_Core_Model_Dir
      */
     protected $_dir;
 
     /**
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
@@ -260,12 +268,13 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Model_Resource_Config_Data $configDataResource
      * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Resource_Store $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param bool $isCustomEntryPoint
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
@@ -274,11 +283,12 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
         Magento_Core_Controller_Request_Http $request,
         Magento_Core_Model_Resource_Config_Data $configDataResource,
         Magento_Core_Model_Dir $dir,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Resource_Store $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         $isCustomEntryPoint = false,
         array $data = array()
     ) {
+        $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         $this->_urlModel = $urlModel;
         $this->_configCacheType = $configCacheType;
         $this->_appState = $appState;
@@ -287,6 +297,18 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
         $this->_isCustomEntryPoint = $isCustomEntryPoint;
         $this->_dir = $dir;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    public function __sleep()
+    {
+        $properties = parent::__sleep();
+        return array_diff($properties, array('_coreFileStorageDatabase'));
+    }
+
+    public function __wakeup()
+    {
+        parent::__wakeup();
+        $this->_coreFileStorageDatabase = Mage::getSingleton('Magento_Core_Helper_File_Storage_Database');
     }
 
     /**
@@ -571,7 +593,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     protected function _getMediaScriptUrl(Magento_Core_Model_Dir $dirs, $secure)
     {
         if (!$this->getConfig(self::XML_PATH_USE_REWRITES)
-            && Mage::helper('Magento_Core_Helper_File_Storage_Database')->checkDbUsage()
+            && $this->_coreFileStorageDatabase->checkDbUsage()
         ) {
             return $this->getBaseUrl(self::URL_TYPE_WEB, $secure) . $dirs->getUri(Magento_Core_Model_Dir::PUB)
                 . '/' . self::MEDIA_REWRITE_SCRIPT;

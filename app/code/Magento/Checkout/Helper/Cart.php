@@ -23,6 +23,25 @@ class Magento_Checkout_Helper_Cart extends Magento_Core_Helper_Url
     const COUPON_CODE_MAX_LENGTH = 255;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve cart instance
      *
      * @return Magento_Checkout_Model_Cart
@@ -40,7 +59,7 @@ class Magento_Checkout_Helper_Cart extends Magento_Core_Helper_Url
      */
     public function getAddUrl($product, $additional = array())
     {
-        $continueUrl    = Mage::helper('Magento_Core_Helper_Data')->urlEncode($this->getCurrentUrl());
+        $continueUrl    = $this->_coreData->urlEncode($this->getCurrentUrl());
         $urlParamName   = Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
 
         $routeParams = array(

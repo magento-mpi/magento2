@@ -27,14 +27,16 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     {
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setDefaultDesignTheme();
-        $this->_helper = Mage::helper('Magento_Catalog_Helper_Product_View');
+        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Catalog_Helper_Product_View');
         $request = new Magento_TestFramework_Request();
         $request->setRouteName('catalog')
             ->setControllerName('product')
             ->setActionName('view');
         $arguments = array(
             'request' => $request,
-            'response' => new Magento_TestFramework_Response(),
+            'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_TestFramework_Response'),
         );
         $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
@@ -99,7 +101,8 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
             'Magento_Core_Controller_Front_Action',
             array(
                 'request'  => new Magento_TestFramework_Request,
-                'response' => new Magento_TestFramework_Response,
+                'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                    ->get('Magento_TestFramework_Response'),
             )
         );
         $this->_helper->prepareAndRender(10, $controller);

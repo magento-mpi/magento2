@@ -65,15 +65,26 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
     const CONFIG_SECTION = 'currency';
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager;
+
+    /**
      * @var Magento_Core_Model_Cache_TypeListInterface
      */
     protected $_cacheTypeList;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
      */
-    public function __construct(Magento_Core_Model_Cache_TypeListInterface $cacheTypeList)
-    {
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
+    ) {
+        $this->_eventManager = $eventManager;
         $this->_cacheTypeList = $cacheTypeList;
     }
 
@@ -212,7 +223,7 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
             ->setGroups($value)
             ->save();
 
-        Mage::dispatchEvent('admin_system_config_changed_section_currency_before_reinit',
+        $this->_eventManager->dispatch('admin_system_config_changed_section_currency_before_reinit',
             array('website' => $this->_websiteId, 'store' => $this->_storeId)
         );
 
@@ -222,7 +233,7 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
 
         $this->clearCache();
 
-        Mage::dispatchEvent('admin_system_config_changed_section_currency',
+        $this->_eventManager->dispatch('admin_system_config_changed_section_currency',
             array('website' => $this->_websiteId, 'store' => $this->_storeId)
         );
 

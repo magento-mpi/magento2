@@ -11,29 +11,36 @@
 /**
  * Adminhtml Tax Rule Edit Form
  */
-class Magento_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Magento_Backend_Block_Widget_Form
 {
     /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry;
+    protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Data_Form_Factory
+     */
+    protected $_formFactory;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $formFactory, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -54,12 +61,15 @@ class Magento_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Magento_Admin
      */
     protected function _prepareForm()
     {
-        $model = $this->_coreRegistry->registry('checkout_agreement');
-        $form = $this->_createForm(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getData('action'),
-            'method'    => 'post'
-        ));
+        $model  = $this->_coreRegistry->registry('checkout_agreement');
+        /** @var Magento_Data_Form $form */
+        $form   = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getData('action'),
+                'method'    => 'post',
+            ))
+        );
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
             'legend'    => __('Terms and Conditions Information'),
@@ -106,9 +116,11 @@ class Magento_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Magento_Admin
                 'label'     => __('Store View'),
                 'title'     => __('Store View'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true),
+                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')
+                    ->getStoreValuesForForm(false, true),
             ));
-            $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()
+                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
         } else {
             $fieldset->addField('store_id', 'hidden', array(

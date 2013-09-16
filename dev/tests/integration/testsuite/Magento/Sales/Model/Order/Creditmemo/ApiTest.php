@@ -9,6 +9,11 @@
  */
 class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test sales order credit memo list, info, create, cancel
      *

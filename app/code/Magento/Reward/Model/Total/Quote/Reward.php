@@ -18,8 +18,20 @@
  */
 class Magento_Reward_Model_Total_Quote_Reward extends Magento_Sales_Model_Quote_Address_Total_Abstract
 {
-    public function __construct()
-    {
+    /**
+     * Reward data
+     *
+     * @var Magento_Reward_Helper_Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * @param Magento_Reward_Helper_Data $rewardData
+     */
+    public function __construct(
+        Magento_Reward_Helper_Data $rewardData
+    ) {
+        $this->_rewardData = $rewardData;
         $this->setCode('reward');
     }
 
@@ -33,7 +45,7 @@ class Magento_Reward_Model_Total_Quote_Reward extends Magento_Sales_Model_Quote_
     {
         /* @var $quote Magento_Sales_Model_Quote */
         $quote = $address->getQuote();
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront($quote->getStore()->getWebsiteId())) {
+        if (!$this->_rewardData->isEnabledOnFront($quote->getStore()->getWebsiteId())) {
             return $this;
         }
 
@@ -98,13 +110,13 @@ class Magento_Reward_Model_Total_Quote_Reward extends Magento_Sales_Model_Quote_
     public function fetch(Magento_Sales_Model_Quote_Address $address)
     {
         $websiteId = $address->getQuote()->getStore()->getWebsiteId();
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront($websiteId)) {
+        if (!$this->_rewardData->isEnabledOnFront($websiteId)) {
             return $this;
         }
         if ($address->getRewardCurrencyAmount()) {
             $address->addTotal(array(
                 'code'  => $this->getCode(),
-                'title' => Mage::helper('Magento_Reward_Helper_Data')->formatReward($address->getRewardPointsBalance()),
+                'title' => $this->_rewardData->formatReward($address->getRewardPointsBalance()),
                 'value' => -$address->getRewardCurrencyAmount()
             ));
         }

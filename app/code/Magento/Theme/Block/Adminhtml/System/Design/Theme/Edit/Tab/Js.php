@@ -23,7 +23,8 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
      */
     protected function _prepareForm()
     {
-        $form = $this->_createForm();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $this->setForm($form);
         $this->_addThemeJsFieldset();
         parent::_prepareForm();

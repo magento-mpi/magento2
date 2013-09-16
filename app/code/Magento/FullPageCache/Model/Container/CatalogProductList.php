@@ -15,29 +15,6 @@ class Magento_FullPageCache_Model_Container_CatalogProductList
     extends Magento_FullPageCache_Model_Container_Advanced_Quote
 {
     /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_FullPageCache_Model_Cache $fpcCache
-     * @param Magento_FullPageCache_Model_Container_Placeholder $placeholder
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_FullPageCache_Helper_Url $urlHelper
-     */
-    public function __construct(
-        Magento_FullPageCache_Model_Cache $fpcCache,
-        Magento_FullPageCache_Model_Container_Placeholder $placeholder,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_FullPageCache_Helper_Url $urlHelper
-    ) {
-        $this->_coreRegistry = $coreRegistry;
-        parent::__construct($fpcCache, $placeholder, $urlHelper);
-    }
-
-    /**
      * Render block that was not cached
      *
      * @return false|string
@@ -56,7 +33,10 @@ class Magento_FullPageCache_Model_Container_CatalogProductList
 
         if ($this->_coreRegistry->registry('product')) {
             $block = $this->_getPlaceHolderBlock();
-            Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+            $this->_eventManager->dispatch('render_block', array(
+                'block' => $block,
+                'placeholder' => $this->_placeholder,
+            ));
             return $block->toHtml();
         }
 

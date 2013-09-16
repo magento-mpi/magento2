@@ -37,7 +37,7 @@ class Magento_Data_Form_Element_Collection implements ArrayAccess, IteratorAggre
      *
      * @param Magento_Data_Form_Abstract $container
      */
-    public function __construct($container)
+    public function __construct(Magento_Data_Form_Abstract $container)
     {
         $this->_elements = array();
         $this->_container = $container;

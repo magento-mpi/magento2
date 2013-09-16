@@ -92,8 +92,7 @@ class Magento_Backup_Snapshot extends Magento_Backup_Filesystem
     protected function _createDbBackupInstance()
     {
         return Magento_Backup::getBackupInstance(Magento_Backup_Helper_Data::TYPE_DB)
-            ->setBackupExtension(Mage::helper('Magento_Backup_Helper_Data')
-            ->getExtensionByType(Magento_Backup_Helper_Data::TYPE_DB))
+            ->setBackupExtension('gz')
             ->setTime($this->getTime())
             ->setBackupsDir(Mage::getBaseDir("var"))
             ->setResourceModel($this->getResourceModel());

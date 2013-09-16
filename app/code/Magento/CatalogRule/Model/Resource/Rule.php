@@ -42,6 +42,35 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
     );
 
     /**
+     * Catalog rule data
+     *
+     * @var Magento_CatalogRule_Helper_Data
+     */
+    protected $_catalogRuleData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_CatalogRule_Helper_Data $catalogRuleData
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_CatalogRule_Helper_Data $catalogRuleData,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_catalogRuleData = $catalogRuleData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize main table and table id field
      */
     protected function _construct()
@@ -376,7 +405,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
         $write = $this->_getWriteAdapter();
         $write->beginTransaction();
 
-        Mage::dispatchEvent('catalogrule_before_apply', array('resource' => $this));
+        $this->_eventManager->dispatch('catalogrule_before_apply', array('resource' => $this));
 
         $clearOldData = false;
         if ($fromDate === null) {
@@ -514,7 +543,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
         $productCondition = Mage::getModel('Magento_Catalog_Model_Product_Condition')
             ->setTable($this->getTable('catalogrule_affected_product'))
             ->setPkFieldName('product_id');
-        Mage::dispatchEvent('catalogrule_after_apply', array(
+        $this->_eventManager->dispatch('catalogrule_after_apply', array(
             'product' => $product,
             'product_condition' => $productCondition
         ));
@@ -544,7 +573,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
             }
         }
 
-        $productPrice = Mage::helper('Magento_CatalogRule_Helper_Data')->calcPriceRule(
+        $productPrice = $this->_catalogRuleData->calcPriceRule(
             $ruleData['action_operator'],
             $ruleData['action_amount'],
             $productPrice);

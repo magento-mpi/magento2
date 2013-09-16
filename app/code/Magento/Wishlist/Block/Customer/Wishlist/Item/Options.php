@@ -17,6 +17,35 @@
  */
 class Magento_Wishlist_Block_Customer_Wishlist_Item_Options extends Magento_Wishlist_Block_Abstract
 {
+    /**
+     * @var Magento_Catalog_Helper_Product_ConfigurationPool
+     */
+    protected $_helperPool;
+
+    /**
+     * @param Magento_Catalog_Helper_Product_ConfigurationPool $helperPool
+     * @param Magento_Wishlist_Helper_Data $wishlistData
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product_ConfigurationPool $helperPool,
+        Magento_Wishlist_Helper_Data $wishlistData,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_helperPool = $helperPool;
+        parent::__construct($coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
     /*
      * List of product options rendering configurations by product type
      *
@@ -33,7 +62,7 @@ class Magento_Wishlist_Block_Customer_Wishlist_Item_Options extends Magento_Wish
     protected function _construct()
     {
         parent::_construct();
-        Mage::dispatchEvent('product_option_renderer_init', array('block' => $this));
+        $this->_eventManager->dispatch('product_option_renderer_init', array('block' => $this));
     }
 
     /*
@@ -76,13 +105,9 @@ class Magento_Wishlist_Block_Customer_Wishlist_Item_Options extends Magento_Wish
     {
         $item = $this->getItem();
         $data = $this->getOptionsRenderCfg($item->getProduct()->getTypeId());
-        if (empty($data['helper'])
-            || !$this->helper($data['helper']) instanceof Magento_Catalog_Helper_Product_Configuration_Interface
-        ) {
-            Mage::throwException(__("Helper for wish list options rendering doesn't implement required interface."));
-        }
+        $helper = $this->_helperPool->get($data['helper']);
 
-        return $this->helper($data['helper'])->getOptions($item);
+        return $helper->getOptions($item);
     }
 
     /**

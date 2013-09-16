@@ -43,14 +43,14 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
     );
 
     /**
-     * Initialize dependencies
-     *
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_DesignEditor_Model_Theme_Context $themeContext
      * @param Magento_Theme_Model_Config_Customization $customization
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_DesignEditor_Model_Theme_Context $themeContext,
         Magento_Theme_Model_Config_Customization $customization,
@@ -58,7 +58,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
     ) {
         $this->_themeContext = $themeContext;
         $this->_customization = $customization;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

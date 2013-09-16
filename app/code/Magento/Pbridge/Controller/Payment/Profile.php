@@ -25,7 +25,7 @@ class Magento_Pbridge_Controller_Payment_Profile extends Magento_Core_Controller
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('Magento_Pbridge_Helper_Data')->arePaymentProfilesEnables()) {
+        if (!$this->_objectManager->get('Magento_Pbridge_Helper_Data')->arePaymentProfilesEnables()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }

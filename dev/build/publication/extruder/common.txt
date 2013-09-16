@@ -2,7 +2,6 @@
 #
 app/etc/aliases_to_classes_map.json
 dev/tests/functional
-dev/tests/integration/testsuite/Magento/Catalog/Model/Product/Api/TagCRUDTest.php
 dev/tests/static/testsuite/Magento/Test/Legacy/_files/words_internal.xml
 dev/tests/static/testsuite/Magento/Test/Legacy/FilesystemTest.php
 dev/tests/static/testsuite/Magento/Test/Php/_files/{whitelist,blacklist}/non_public.txt

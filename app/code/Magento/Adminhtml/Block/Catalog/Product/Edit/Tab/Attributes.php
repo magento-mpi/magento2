@@ -18,26 +18,30 @@
 class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magento_Adminhtml_Block_Catalog_Form
 {
     /**
-     * Core registry
+     * Catalog data
      *
-     * @var Magento_Core_Model_Registry
+     * @var Magento_Catalog_Helper_Data
      */
-    protected $_coreRegistry;
+    protected $_catalogData = null;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
         Magento_Data_Form_Factory $formFactory,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $formFactory, $data);
+        $this->_catalogData = $catalogData;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     /**
@@ -46,7 +50,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_Cms')
+        if ($this->_catalogData->isModuleEnabled('Magento_Cms')
             && Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->isEnabled()
         ) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
@@ -63,7 +67,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
         /** @var $group Magento_Eav_Model_Entity_Attribute_Group */
         $group = $this->getGroup();
         if ($group) {
-            $form = $this->_createForm();
+            /** @var Magento_Data_Form $form */
+            $form = $this->_formFactory->create();
             $product = $this->_coreRegistry->registry('product');
             $isWrapped = $this->_coreRegistry->registry('use_wrapper');
             if (!isset($isWrapped)) {
@@ -164,7 +169,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
             $form->addValues($values);
             $form->setFieldNameSuffix('product');
 
-            Mage::dispatchEvent('adminhtml_catalog_product_edit_prepare_form', array('form' => $form));
+            $this->_eventManager->dispatch('adminhtml_catalog_product_edit_prepare_form', array('form' => $form));
 
             $this->setForm($form);
         }
@@ -188,7 +193,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
 
         $response = new Magento_Object();
         $response->setTypes(array());
-        Mage::dispatchEvent('adminhtml_catalog_product_edit_element_types', array('response' => $response));
+        $this->_eventManager->dispatch('adminhtml_catalog_product_edit_element_types', array('response' => $response));
 
         foreach ($response->getTypes() as $typeName => $typeClass) {
             $result[$typeName] = $typeClass;

@@ -30,17 +30,21 @@ class Magento_ImportExport_Helper_Data extends Magento_Core_Helper_Data
     protected $_fileSize;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      * @param Magento_File_Size $fileSize
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
         Magento_File_Size $fileSize
     ) {
         $this->_fileSize = $fileSize;
-        parent::__construct($context, $config);
+        parent::__construct($eventManager, $coreHttp, $context, $config);
     }
 
     /**

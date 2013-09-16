@@ -15,35 +15,13 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Attributes extends Magento_Adminhtml_Block_Catalog_Form
+class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Attributes
+    extends Magento_Adminhtml_Block_Catalog_Form
 {
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $formFactory, $data);
-    }
-
     protected function _prepareForm()
     {
-
-        $form = $this->_createForm();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         /**
          * Initialize product object as form property
          * for using it in elements generation
@@ -68,7 +46,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Attributes e
             }
         }
 
-        Mage::dispatchEvent('adminhtml_catalog_product_edit_prepare_form', array('form'=>$form));
+        $this->_eventManager->dispatch('adminhtml_catalog_product_edit_prepare_form', array('form'=>$form));
         $form->addValues($values);
         $form->setFieldNameSuffix('product');
         $this->setForm($form);
@@ -84,7 +62,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Attributes e
 
         $response = new Magento_Object();
         $response->setTypes(array());
-        Mage::dispatchEvent('adminhtml_catalog_product_edit_element_types', array('response'=>$response));
+        $this->_eventManager->dispatch('adminhtml_catalog_product_edit_element_types', array('response'=>$response));
 
         foreach ($response->getTypes() as $typeName=>$typeClass) {
             $result[$typeName] = $typeClass;

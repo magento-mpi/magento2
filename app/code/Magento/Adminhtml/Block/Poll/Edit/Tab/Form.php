@@ -11,34 +11,13 @@
 /**
  * Poll edit form
  */
-class Magento_Adminhtml_Block_Poll_Edit_Tab_Form extends Magento_Adminhtml_Block_Widget_Form
+
+class Magento_Adminhtml_Block_Poll_Edit_Tab_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $formFactory, $data);
-    }
-
     protected function _prepareForm()
     {
-        $form = $this->_createForm();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('poll_form', array('legend'=>__('Poll information')));
         $fieldset->addField('poll_title', 'text', array(
@@ -72,7 +51,8 @@ class Magento_Adminhtml_Block_Poll_Edit_Tab_Form extends Magento_Adminhtml_Block
                 'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
                 'value'     => $this->_coreRegistry->registry('poll_data')->getStoreIds()
             ));
-            $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()
+                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
         } else {
             $fieldset->addField('store_ids', 'hidden', array(
@@ -86,7 +66,7 @@ class Magento_Adminhtml_Block_Poll_Edit_Tab_Form extends Magento_Adminhtml_Block
         if (Mage::getSingleton('Magento_Adminhtml_Model_Session')->getPollData()) {
             $form->setValues(Mage::getSingleton('Magento_Adminhtml_Model_Session')->getPollData());
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPollData(null);
-        } elseif ( $this->_coreRegistry->registry('poll_data')) {
+        } elseif($this->_coreRegistry->registry('poll_data')) {
             $form->setValues($this->_coreRegistry->registry('poll_data')->getData());
 
             $fieldset->addField('was_closed', 'hidden', array(

@@ -19,6 +19,33 @@
 class Magento_Catalog_Model_Product_Action extends Magento_Core_Model_Abstract
 {
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
      *
      */
@@ -47,7 +74,7 @@ class Magento_Catalog_Model_Product_Action extends Magento_Core_Model_Abstract
      */
     public function updateAttributes($productIds, $attrData, $storeId)
     {
-        Mage::dispatchEvent('catalog_product_attribute_update_before', array(
+        $this->_eventManager->dispatch('catalog_product_attribute_update_before', array(
             'attributes_data' => &$attrData,
             'product_ids'   => &$productIds,
             'store_id'      => &$storeId
@@ -80,7 +107,7 @@ class Magento_Catalog_Model_Product_Action extends Magento_Core_Model_Abstract
      */
     public function updateWebsites($productIds, $websiteIds, $type)
     {
-        Mage::dispatchEvent('catalog_product_website_update_before', array(
+        $this->_eventManager->dispatch('catalog_product_website_update_before', array(
             'website_ids'   => $websiteIds,
             'product_ids'   => $productIds,
             'action'        => $type
@@ -104,7 +131,7 @@ class Magento_Catalog_Model_Product_Action extends Magento_Core_Model_Abstract
         );
 
         // add back compatibility system event
-        Mage::dispatchEvent('catalog_product_website_update', array(
+        $this->_eventManager->dispatch('catalog_product_website_update', array(
             'website_ids'   => $websiteIds,
             'product_ids'   => $productIds,
             'action'        => $type

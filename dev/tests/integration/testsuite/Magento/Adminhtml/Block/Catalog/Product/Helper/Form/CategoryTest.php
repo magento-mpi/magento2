@@ -7,6 +7,9 @@
  */
 class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_CategoryTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @magentoAppArea adminhtml
+     */
     public function testGetAfterElementHtml()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
