@@ -37,7 +37,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
     /**
      * Set required values
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->_userData = $this->getMockBuilder('Magento_User_Helper_Data')
             ->disableOriginalConstructor()

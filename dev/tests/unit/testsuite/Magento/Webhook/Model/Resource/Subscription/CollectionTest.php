@@ -38,7 +38,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
      */
     private $_eventManager;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_selectMock = $this->_makeMock('Zend_Db_Select');
         $this->_selectMock->expects($this->any())
@@ -81,7 +81,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
             ->will($this->returnValueMap($getReturnMap));
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         // Unsets object manager
         Mage::reset();

@@ -57,7 +57,7 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     protected $_requestMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_menuMock = $this->getMock('Magento_Backend_Model_Menu', array(), array(), '', false);
 

@@ -26,12 +26,12 @@ class Magento_Test_Tools_Migration_Acl_Db_Logger_FactoryTest extends PHPUnit_Fra
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = new Magento_Tools_Migration_Acl_Db_Logger_Factory();
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
     }

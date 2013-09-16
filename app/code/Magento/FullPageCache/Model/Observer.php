@@ -366,10 +366,10 @@ class Magento_FullPageCache_Model_Observer
         /** @var $layout Magento_Core_Model_Layout */
         $layout = $event->getData('layout');
         $name = $event->getData('element_name');
-        if (!$layout->isBlock($name)) {
+        if (!$layout->isBlock($name) || !($block = $layout->getBlock($name))) {
             return $this;
         }
-        $block = $layout->getBlock($name);
+
         $transport = $event->getData('transport');
         $placeholder = $this->_mapper->map($block);
         if ($transport && $placeholder && !$block->getSkipRenderTag()) {

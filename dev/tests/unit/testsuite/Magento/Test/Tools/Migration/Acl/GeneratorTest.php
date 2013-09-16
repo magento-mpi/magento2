@@ -47,7 +47,7 @@ class Magento_Test_Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_T
      */
     protected $_fileManagerMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_xmlFormatterMock = $this->getMock('Magento_Tools_Migration_Acl_Formatter');
         $this->_fileManagerMock = $this->getMock('Magento_Tools_Migration_Acl_FileManager');

@@ -65,4 +65,4 @@
     <event name="assign_theme_to_stores_after">
         <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="cleanCache" />
     </event>
-</config>
+</config>

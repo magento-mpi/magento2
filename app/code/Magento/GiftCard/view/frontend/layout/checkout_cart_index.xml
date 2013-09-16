@@ -17,11 +17,7 @@
             </action>
         </reference>
         <reference name="checkout.cart">
-            <action method="addItemRender">
-                <argument name="type" xsi:type="string">giftcard</argument>
-                <argument name="block" xsi:type="string">Magento_GiftCard_Block_Checkout_Cart_Item_Renderer</argument>
-                <argument name="template" xsi:type="string">Magento_Checkout::cart/item/default.phtml</argument>
-            </action>
+            <block class="Magento_GiftCard_Block_Checkout_Cart_Item_Renderer" as="giftcard" template="Magento_Checkout::cart/item/default.phtml"/>
         </reference>
     </handle>
 </layout>

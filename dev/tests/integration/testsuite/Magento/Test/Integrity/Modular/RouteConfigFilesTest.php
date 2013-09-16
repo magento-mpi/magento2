@@ -33,7 +33,7 @@ class Magento_Test_Integrity_Modular_RouteConfigFilesTest extends PHPUnit_Framew
      */
     protected $_mergedSchemaFile;
 
-    public function setUp()
+    protected function setUp()
     {
         global $magentoBaseDir;
 

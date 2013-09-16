@@ -40,7 +40,7 @@ class Magento_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCas
      */
     protected $_repositoryMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_invokerMock = $this->getMock('Magento_Core_Model_DataService_Invoker', array(), array(), "", false);
         $this->_repositoryMock = $this->getMock(

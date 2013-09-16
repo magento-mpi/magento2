@@ -80,7 +80,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->_generator = ServiceLocator::getDictionaryGenerator();
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         if (file_exists($this->_outputFileName)) {
             unlink($this->_outputFileName);

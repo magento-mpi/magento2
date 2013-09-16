@@ -35,4 +35,4 @@
     <event name="controller_action_predispatch">
         <observer name="magento_pricepermissions" instance="Magento_PricePermissions_Model_Observer" method="adminControllerPredispatch" />
     </event>
-</config>
+</config>

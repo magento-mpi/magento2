@@ -20,6 +20,11 @@ class StdoTest extends \PHPUnit_Framework_TestCase
         $this->_handler = STDOUT;
     }
 
+    protected function tearDown()
+    {
+        fclose($this->_handler);
+    }
+
     public function testThatHandlerIsRight()
     {
         $objectManagerHelper = new \Magento_TestFramework_Helper_ObjectManager($this);

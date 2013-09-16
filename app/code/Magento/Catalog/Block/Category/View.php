@@ -61,8 +61,18 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
             if ($keywords) {
                 $headBlock->setKeywords($keywords);
             }
-            if ($this->helper('Magento_Catalog_Helper_Category')->canUseCanonicalTag()) {
-                $headBlock->addLinkRel('canonical', $category->getUrl());
+            //@todo: move canonical link to separate block
+            if ($this->helper('Magento_Catalog_Helper_Category')->canUseCanonicalTag()
+                && !$headBlock->getChildBlock('magento-page-head-category-canonical-link')
+            ) {
+                $headBlock->addChild(
+                    'magento-page-head-category-canonical-link',
+                    'Magento_Page_Block_Html_Head_Link',
+                    array(
+                        'url' => $category->getUrl(),
+                        'properties' => array('attributes' => array('rel' => 'canonical'))
+                    )
+                );
             }
             /**
              * want to show rss feed in the url
@@ -130,7 +140,7 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
      */
     public function isProductMode()
     {
-        return $this->getCurrentCategory()->getDisplayMode()==Magento_Catalog_Model_Category::DM_PRODUCT;
+        return $this->getCurrentCategory()->getDisplayMode() == Magento_Catalog_Model_Category::DM_PRODUCT;
     }
 
     /**
@@ -139,7 +149,7 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
      */
     public function isMixedMode()
     {
-        return $this->getCurrentCategory()->getDisplayMode()==Magento_Catalog_Model_Category::DM_MIXED;
+        return $this->getCurrentCategory()->getDisplayMode() == Magento_Catalog_Model_Category::DM_MIXED;
     }
 
     /**

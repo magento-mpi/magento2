@@ -30,13 +30,13 @@ class Magento_Test_Tools_Migration_System_Configuration_Logger_FileTest extends 
      */
     protected $_fileManagerMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_fileManagerMock = $this->getMock(
             'Magento_Tools_Migration_System_FileManager', array(), array(), '', false);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_fileManagerMock);
     }

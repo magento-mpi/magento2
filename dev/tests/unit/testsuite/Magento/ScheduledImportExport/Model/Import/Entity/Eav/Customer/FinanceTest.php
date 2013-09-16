@@ -127,7 +127,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
     /**
      * Init entity adapter model
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->_bunchNumber = 0;
         if ($this->getName() == 'testImportDataCustomBehavior') {
@@ -180,7 +180,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
     /**
      * Unset entity adapter model
      */
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
         unset($this->_bunchNumber);

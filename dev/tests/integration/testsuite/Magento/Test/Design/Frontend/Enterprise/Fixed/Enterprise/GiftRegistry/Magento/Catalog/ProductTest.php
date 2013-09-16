@@ -10,7 +10,6 @@ class Magento_Test_Design_Frontend_Enterprise_Fixed_Enterprise_GiftRegistry_Mage
     extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
-     * @magentoConfigFixture frontend/design/theme/full_name magento_fixed_width
      * @magentoDataFixture Magento/Bundle/_files/product.php
      */
     public function testViewActionBundle()

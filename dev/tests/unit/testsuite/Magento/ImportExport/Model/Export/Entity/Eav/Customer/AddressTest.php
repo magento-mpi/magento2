@@ -79,7 +79,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
 
@@ -90,7 +90,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
         );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
         unset($this->_objectManager);

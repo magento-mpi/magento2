@@ -13,12 +13,10 @@
  */
 class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignInterface
 {
-    /**#@+
+    /**
      * Common node path to theme design configuration
      */
-    const XML_PATH_THEME    = 'design/theme/full_name';
     const XML_PATH_THEME_ID = 'design/theme/theme_id';
-    /**#@-*/
 
     /**
      * Regular expressions matches cache
@@ -69,35 +67,43 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
     protected $_themeFactory;
 
     /**
-     * Core store config
-     *
-     * @var Magento_Core_Model_Store_Config
-     */
-    protected $_coreStoreConfig;
-
-    /**
      * @var Magento_Core_Model_Config
      */
-    protected $_coreConfig;
+    protected $_config;
 
     /**
-     * Constructor
+     * @var Magento_Core_Model_Store_Config
+     */
+    private $_storeConfig;
+
+    /**
+     * List of themes for all areas
+     *
+     * @var array
+     */
+    protected $_themes;
+
+    /**
+     * Design
      *
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Theme_FlyweightFactory $themeFactory
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param array $themes
      */
     public function __construct(
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Theme_FlyweightFactory $themeFactory,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Store_Config $storeConfig,
+        array $themes
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         $this->_themeFactory = $themeFactory;
-        $this->_coreConfig = $coreConfig;
+        $this->_config = $config;
+        $this->_storeConfig = $storeConfig;
+        $this->_themes = $themes;
     }
 
     /**
@@ -168,11 +174,15 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
 
         if ($this->_isThemePerStoveView($area)) {
             $theme = $this->_storeManager->isSingleStoreMode()
-                ? $this->_coreConfig->getValue(self::XML_PATH_THEME_ID, 'default')
-                : (string)$this->_coreStoreConfig->getConfig(self::XML_PATH_THEME_ID, $store);
+                ? $this->_config->getValue(self::XML_PATH_THEME_ID, 'default')
+                : (string)$this->_storeConfig->getConfig(self::XML_PATH_THEME_ID, $store);
         }
 
-        return $theme ?: (string)$this->_coreConfig->getNode($area . '/' . self::XML_PATH_THEME);
+        if (!$theme && isset($this->_themes[$area])) {
+            $theme = $this->_themes[$area];
+        }
+
+        return $theme;
     }
 
     /**

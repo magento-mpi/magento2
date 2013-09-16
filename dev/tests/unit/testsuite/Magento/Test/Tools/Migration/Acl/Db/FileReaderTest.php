@@ -18,7 +18,7 @@ class Magento_Test_Tools_Migration_Acl_Db_FileReaderTest extends PHPUnit_Framewo
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = new Magento_Tools_Migration_Acl_Db_FileReader();
     }

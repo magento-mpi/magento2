@@ -14,14 +14,9 @@
 class Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Backend_Block_Template
 {
     /**
-     * Renderers with render type key
-     * block    => the block name
-     * template => the template file
-     * renderer => the block object
-     *
-     * @var array
+     * Block alias fallback
      */
-    protected $_itemRenders = array();
+    const DEFAULT_TYPE = 'default';
 
     /**
      * Renderers for other column with column name key
@@ -75,34 +70,17 @@ class Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Backend_Block
     }
 
     /**
-     * Add item renderer
-     *
-     * @param string $type
-     * @param string $block
-     * @param string $template
-     * @return Magento_Adminhtml_Block_Sales_Items_Abstract
-     */
-    public function addItemRender($type, $block, $template)
-    {
-        $this->_itemRenders[$type] = array(
-            'block'     => $block,
-            'template'  => $template,
-            'renderer'  => null
-        );
-        return $this;
-    }
-
-    /**
      * Add column renderer
      *
      * @param string $column
      * @param string $block
      * @param string $template
-     * @return Magento_Adminhtml_Block_Sales_Items_Abstract
+     * @param string|null $type
+     * @return $this
      */
-    public function addColumnRender($column, $block, $template, $type=null)
+    public function addColumnRender($column, $block, $template, $type = null)
     {
-        if (!is_null($type)) {
+        if (isset($type)) {
             $column .= '_' . $type;
         }
         $this->_columnRenders[$column] = array(
@@ -118,21 +96,22 @@ class Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Backend_Block
      *
      * @param string $type
      * @return Magento_Core_Block_Abstract
+     * @throws RuntimeException
      */
     public function getItemRenderer($type)
     {
-        if (!isset($this->_itemRenders[$type])) {
-            $type = 'default';
+        $renderer = $this->getChildBlock($type) ?: $this->getChildBlock(self::DEFAULT_TYPE);
+        if (!$renderer instanceof Magento_Core_Block) {
+            throw new RuntimeException('Renderer for type "' . $type . '" does not exist.');
         }
-        if (is_null($this->_itemRenders[$type]['renderer'])) {
-            $this->_itemRenders[$type]['renderer'] = $this->getLayout()
-                ->createBlock($this->_itemRenders[$type]['block'])
-                ->setTemplate($this->_itemRenders[$type]['template']);
-            foreach ($this->_columnRenders as $columnType=>$renderer) {
-                $this->_itemRenders[$type]['renderer']->addColumnRender($columnType, $renderer['block'], $renderer['template']);
-            }
+        foreach ($this->_columnRenders as $columnType => $columnRenderer) {
+            $renderer->addColumnRender(
+                $columnType,
+                $columnRenderer['block'],
+                $columnRenderer['template']
+            );
         }
-        return $this->_itemRenders[$type]['renderer'];
+        return $renderer;
     }
 
     /**
@@ -351,8 +330,12 @@ class Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Backend_Block
     public function displayPriceInclTax(Magento_Object $item)
     {
         $qty = ($item->getQtyOrdered() ? $item->getQtyOrdered() : ($item->getQty() ? $item->getQty() : 1));
-        $baseTax = ($item->getTaxBeforeDiscount() ? $item->getTaxBeforeDiscount() : ($item->getTaxAmount() ? $item->getTaxAmount() : 0));
-        $tax = ($item->getBaseTaxBeforeDiscount() ? $item->getBaseTaxBeforeDiscount() : ($item->getBaseTaxAmount() ? $item->getBaseTaxAmount() : 0));
+        $baseTax = $item->getTaxBeforeDiscount()
+            ? $item->getTaxBeforeDiscount()
+            : ($item->getTaxAmount() ? $item->getTaxAmount() : 0);
+        $tax = $item->getBaseTaxBeforeDiscount()
+            ? $item->getBaseTaxBeforeDiscount()
+            : ($item->getBaseTaxAmount() ? $item->getBaseTaxAmount() : 0);
 
         $basePriceTax = 0;
         $priceTax = 0;
@@ -376,8 +359,12 @@ class Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Backend_Block
      */
     public function displaySubtotalInclTax($item)
     {
-        $baseTax = ($item->getTaxBeforeDiscount() ? $item->getTaxBeforeDiscount() : ($item->getTaxAmount() ? $item->getTaxAmount() : 0));
-        $tax = ($item->getBaseTaxBeforeDiscount() ? $item->getBaseTaxBeforeDiscount() : ($item->getBaseTaxAmount() ? $item->getBaseTaxAmount() : 0));
+        $baseTax = $item->getTaxBeforeDiscount()
+            ? $item->getTaxBeforeDiscount()
+            : ($item->getTaxAmount() ? $item->getTaxAmount() : 0);
+        $tax = $item->getBaseTaxBeforeDiscount()
+            ? $item->getBaseTaxBeforeDiscount()
+            : ($item->getBaseTaxAmount() ? $item->getBaseTaxAmount() : 0);
 
         return $this->displayPrices(
             $item->getBaseRowTotal()+$baseTax,

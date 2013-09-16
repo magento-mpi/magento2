@@ -17,7 +17,7 @@ class Magento_Paypal_Controller_StandardTest extends Magento_TestFramework_TestC
      */
     protected $_order;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         $this->_order = $this->_objectManager->create('Magento_Sales_Model_Order');

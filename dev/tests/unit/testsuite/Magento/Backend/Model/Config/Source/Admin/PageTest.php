@@ -35,7 +35,7 @@ class Magento_Backend_Model_Config_Source_Admin_PageTest extends PHPUnit_Framewo
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         $this->_menuModel = new Magento_Backend_Model_Menu($logger);

@@ -37,11 +37,6 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
     /**#@-*/
 
     /**
-     * Path to configuration node that indicates how to materialize view files: with or without "duplication"
-     */
-    const XML_PATH_ALLOW_DUPLICATION = 'global/design/theme/allow_view_files_duplication';
-
-    /**
      * @var Magento_Filesystem
      */
     protected $_filesystem;
@@ -64,9 +59,11 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
     protected $_viewFileSystem;
 
     /**
-     * @var Magento_Core_Model_Config
+     * Indicates how to materialize view files: with or without "duplication"
+     *
+     * @var bool
      */
-    protected $_coreConfig;
+    protected $_allowFilesDuplication;
 
     /**
      * View files publisher model
@@ -75,20 +72,20 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
      * @param Magento_Core_Helper_Css $cssHelper
      * @param Magento_Core_Model_View_Service $viewService
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param bool $allowFilesDuplication
      */
     public function __construct(
         Magento_Filesystem $filesystem,
         Magento_Core_Helper_Css $cssHelper,
         Magento_Core_Model_View_Service $viewService,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
-        Magento_Core_Model_Config $coreConfig
+        $allowFilesDuplication
     ) {
         $this->_filesystem = $filesystem;
         $this->_cssHelper = $cssHelper;
         $this->_viewService = $viewService;
         $this->_viewFileSystem = $viewFileSystem;
-        $this->_coreConfig = $coreConfig;
+        $this->_allowFilesDuplication = $allowFilesDuplication;
     }
 
     /**
@@ -197,11 +194,8 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
      */
     protected function _buildPublishedFilePath($filePath, $params, $sourcePath)
     {
-        $allowPublication = (string)$this->_coreConfig->getNode(
-            self::XML_PATH_ALLOW_DUPLICATION
-        );
         $isCssFile = $this->_getExtension($filePath) == self::CONTENT_TYPE_CSS;
-        if ($allowPublication || $isCssFile) {
+        if ($this->_allowFilesDuplication || $isCssFile) {
             $targetPath = $this->_buildPublicViewRedundantFilename($filePath, $params);
         } else {
             $targetPath = $this->_buildPublicViewSufficientFilename($sourcePath, $params);

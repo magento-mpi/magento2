@@ -13,7 +13,7 @@ class Magento_Backend_Model_Config_Backend_EncryptedTest extends PHPUnit_Framewo
     /** @var Magento_Backend_Model_Config_Backend_Encrypted */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $contextMock = $this->getMock('Magento_Core_Model_Context', array(), array(), '', false);
         $this->_helperMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);

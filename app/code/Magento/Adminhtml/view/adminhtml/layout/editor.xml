@@ -13,33 +13,51 @@
             <action method="setCanLoadExtJs">
                 <argument name="flag" xsi:type="string">1</argument>
             </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">Magento_Adminhtml::variables.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">mage/adminhtml/wysiwyg/widget.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">lib/flex.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">lib/FABridge.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">mage/adminhtml/flexuploader.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">mage/adminhtml/browser.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">prototype/window.js</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">prototype/windows/themes/default.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">Magento_Core::prototype/magento.css</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminhtml-variables-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_Adminhtml::variables.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminhtml-wysiwyg-widget-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">mage/adminhtml/wysiwyg/widget.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="lib-flex-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">lib/flex.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="lib-fabridge-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">lib/FABridge.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminhtml-flexuploader-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">mage/adminhtml/flexuploader.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminhtml-browser-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">mage/adminhtml/browser.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="prototype-window-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">prototype/window.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="prototype-windows-themes-default-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">prototype/windows/themes/default.css</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="magento-core-prototype-magento-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_Core::prototype/magento.css</argument>
+                </arguments>
+            </block>
         </reference>
     </handle>
 </layout>

@@ -21,7 +21,7 @@ class Magento_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
         Mage::app()->cleanCache(array(Magento_Core_Model_Design::CACHE_TAG));
     }
 
-    public function setUp()
+    protected function setUp()
     {
         /** @var $_model Magento_Core_Model_App_Area */
         $this->_model = Mage::getModel('Magento_Core_Model_App_Area', array('areaCode' => 'frontend'));

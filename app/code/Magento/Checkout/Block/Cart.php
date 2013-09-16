@@ -67,16 +67,6 @@ class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
         }
     }
 
-    public function chooseTemplate()
-    {
-        $itemsCount = $this->getItemsCount() ? $this->getItemsCount() : $this->getQuote()->getItemsCount();
-        if ($itemsCount) {
-            $this->setTemplate($this->getCartTemplate());
-        } else {
-            $this->setTemplate($this->getEmptyTemplate());
-        }
-    }
-
     public function hasError()
     {
         return $this->getQuote()->getHasError();
@@ -163,5 +153,13 @@ class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
         }
 
         return parent::getItems();
+    }
+
+    /**
+     * @return int
+     */
+    public function getItemsCount()
+    {
+        return $this->getQuote()->getItemsCount();
     }
 }

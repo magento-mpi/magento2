@@ -29,7 +29,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
      */
     protected $_viewFileSystem;
 
-    public function setUp()
+    protected function setUp()
     {
         $pathChunks = array(dirname(__FILE__), '_files', 'design', 'frontend', 'test_default', 'i18n', 'en_US.csv');
 
@@ -66,13 +66,15 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $configModel->setModuleDir('Magento_Core', 'i18n', dirname(__FILE__) . '/_files/Magento/Core/i18n');
         $configModel->setModuleDir('Magento_Catalog', 'i18n', dirname(__FILE__) . '/_files/Magento/Catalog/i18n');
 
+        /** @var Magento_Core_Model_View_Design _designModel */
         $this->_designModel = $this->getMock('Magento_Core_Model_View_Design',
             array('getDesignTheme'),
             array(
                 $objectManager->get('Magento_Core_Model_StoreManagerInterface'),
                 $objectManager->get('Magento_Core_Model_Theme_FlyweightFactory'),
+                $objectManager->get('Magento_Core_Model_Config'),
                 $objectManager->get('Magento_Core_Model_Store_Config'),
-                $objectManager->get('Magento_Core_Model_Config')
+                array('frontend' => 'test_default')
             )
         );
 

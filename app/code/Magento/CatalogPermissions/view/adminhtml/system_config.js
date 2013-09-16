@@ -24,7 +24,7 @@ Object.extend(Enterprise.CatalogPermissions.Config.prototype, {
         Event.observe(window.document, 'dom:loaded', this.handleDomLoaded.bindAsEventListener(this));
     },
     handleDomLoaded: function () {
-        $$('.enterprise-grant-select').each(function(element) {
+        $$('.magento-grant-select').each(function(element) {
             element.observe('change', this.updateFields.bind(this));
         }, this);
 
@@ -32,7 +32,7 @@ Object.extend(Enterprise.CatalogPermissions.Config.prototype, {
     },
 
     updateFields: function() {
-        $$('.enterprise-grant-select').each(function(element) {
+        $$('.magento-grant-select').each(function(element) {
             if (parseInt(element.value) !== 2) {
                 element.up('tr').next('tr').hide();
             } else {
