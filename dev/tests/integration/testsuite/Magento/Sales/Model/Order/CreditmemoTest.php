@@ -12,7 +12,6 @@
 class Magento_Sales_Model_Order_CreditmemoTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoConfigFixture frontend/design/theme/full_name magento_demo
      * @magentoDataFixture Magento/Sales/_files/order.php
      */
     public function testSendEmail()
