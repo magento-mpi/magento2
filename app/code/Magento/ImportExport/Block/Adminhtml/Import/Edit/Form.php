@@ -24,12 +24,23 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_Back
      */
     protected $_importModel;
 
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_ImportExport_Model_Import $importModel
+     * @param array $data
+     */
     public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_ImportExport_Model_Import $importModel,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
         $this->_importModel = $importModel;
     }
 

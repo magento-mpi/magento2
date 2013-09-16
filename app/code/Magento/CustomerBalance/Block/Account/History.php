@@ -10,7 +10,6 @@
 
 /**
  * Customer balance history block
- *
  */
 class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_Template
 {
@@ -22,14 +21,16 @@ class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_T
     protected $_actionNames = null;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -65,7 +66,7 @@ class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_T
     }
 
     /**
-     * Retreive action labels
+     * Retrieve action labels
      *
      * @return array
      */
@@ -79,7 +80,7 @@ class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_T
     }
 
     /**
-     * Retreive action label
+     * Retrieve action label
      *
      * @param mixed $action
      * @return string

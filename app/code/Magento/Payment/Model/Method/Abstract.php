@@ -83,7 +83,7 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      * @var Magento_Payment_Helper_Data
      */
     protected $_paymentData = null;
-    
+
     /**
      * Core store config
      *
@@ -600,7 +600,7 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
         if (null === $storeId) {
             $storeId = $this->getStore();
         }
-        $path = 'payment/'.$this->getCode().'/'.$field;
+        $path = 'payment/' . $this->getCode() . '/' . $field;
         return $this->_coreStoreConfig->getConfig($path, $storeId);
     }
 
@@ -621,8 +621,8 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
         return $this;
     }
 
-   /**
-     * Parepare info instance for save
+    /**
+     * Prepare info instance for save
      *
      * @return Magento_Payment_Model_Abstract
      */
@@ -637,7 +637,6 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      * TODO: payment method instance is not supposed to know about quote
      *
      * @param Magento_Sales_Model_Quote|null $quote
-     *
      * @return bool
      */
     public function isAvailable($quote = null)
