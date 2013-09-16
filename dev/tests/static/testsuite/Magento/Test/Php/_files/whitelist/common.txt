@@ -65,14 +65,12 @@ app/code/Magento/Core/Model/ShellAbstract.php
 app/code/Magento/Core/Model/TemplateEngine
 app/code/Magento/Core/Model/Theme
 app/code/Magento/Core/Model/ThemeInterface.php
-
 app/code/Magento/Core/Helper/AbstractHelper.php
 app/code/Magento/Core/sql/core_setup/upgrade-1.6.0.3-1.6.0.4.php
 app/code/Magento/Directory/Model/Currency/DefaultLocator.php
 app/code/Magento/DesignEditor
 app/code/Magento/Eav/Model/Cache/Type.php
 app/code/Magento/ImportExport/Model/Import/Entity/CustomerComposite.php
-
 app/code/Magento/ImportExport/Model/Resource/Customer/Storage.php
 app/code/Magento/ImportExport/Model/Resource/Import/CustomerComposite/Data.php
 app/code/Magento/ImportExport/Controller/Adminhtml/Import.php
