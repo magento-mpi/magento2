@@ -7,8 +7,6 @@
  */
 class Magento_Eav_Model_Entity_Attribute_Config extends Magento_Config_Data
 {
-    protected $_fieldsPerAttribute = array();
-
     /**
      * @param Magento_Eav_Model_Entity_Attribute_Config_Reader $reader
      * @param Magento_Config_CacheInterface $cache
