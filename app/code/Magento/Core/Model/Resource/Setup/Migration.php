@@ -175,11 +175,6 @@ class Migration extends \Magento\Core\Model\Resource\Setup
 
             $this->_initConfigs($data);
         }
-        if (isset($data['core_helper'])) {
-            $this->_coreHelper = $data['core_helper'];
-        } else {
-            $this->_coreHelper = \Mage::helper('Magento\Core\Helper\Data');
-        }
 
         if (isset($data['base_dir'])) {
             $this->_baseDir = $data['base_dir'];
