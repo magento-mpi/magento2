@@ -131,16 +131,6 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
 
     protected $_template = 'product/list/toolbar.phtml';
 
-    /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        parent::__construct($context, $data);
-    }
 
     /**
      * Retrieve Catalog Config object
