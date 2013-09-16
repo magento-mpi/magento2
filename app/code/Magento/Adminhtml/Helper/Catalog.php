@@ -39,15 +39,25 @@ class Magento_Adminhtml_Helper_Catalog extends Magento_Core_Helper_Abstract
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig;
+    
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
@@ -103,10 +113,9 @@ class Magento_Adminhtml_Helper_Catalog extends Magento_Core_Helper_Abstract
      */
     public function getSitemapValidPaths()
     {
-        $path = $this->_coreStoreConfig->getConfig(self::XML_PATH_SITEMAP_VALID_PATHS);
-        /** @var $helper Magento_Core_Helper_Data */
-        $helper = Mage::helper('Magento_Core_Helper_Data');
-        $path = array_merge($path, $helper->getPublicFilesValidPath());
-        return $path;
+        return array_merge(
+            $this->_coreStoreConfig->getConfig(self::XML_PATH_SITEMAP_VALID_PATHS),
+            $this->_coreData->getPublicFilesValidPath()
+        );
     }
 }

@@ -26,11 +26,23 @@ class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_F
      */
     protected $_model;
 
+    /**
+     * @var Magento_Core_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_coreDataMock;
+
+    /**
+     * @var Magento_Core_Helper_String|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_coreStringMock;
+
     public function setUp()
     {
+        $this->_coreDataMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $this->_coreStringMock = $this->getMock('Magento_Core_Helper_String', array('__construct'), array(), '', false);
         $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
         $this->_model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_Entity_EavAbstract',
-            array($coreStoreConfig, $this->_getModelDependencies())
+            array($this->_coreDataMock, $this->_coreStringMock, $coreStoreConfig, $this->_getModelDependencies())
         );
     }
 

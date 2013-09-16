@@ -61,7 +61,7 @@ class Magento_Catalog_Block_Product_Compare_List extends Magento_Catalog_Block_P
      */
     public function getAddToWishlistUrl($product)
     {
-        $continueUrl    = Mage::helper('Magento_Core_Helper_Data')->urlEncode($this->getUrl('customer/account'));
+        $continueUrl    = $this->_coreData->urlEncode($this->getUrl('customer/account'));
         $urlParamName   = Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
 
         $params = array(
@@ -93,7 +93,7 @@ class Magento_Catalog_Block_Product_Compare_List extends Magento_Catalog_Block_P
     public function getItems()
     {
         if (is_null($this->_items)) {
-            Mage::helper('Magento_Catalog_Helper_Product_Compare')->setAllowUsedFlat(false);
+            $this->_catalogProductCompare->setAllowUsedFlat(false);
 
             $this->_items = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Compare_Item_Collection')
                 ->useProductItem(true)

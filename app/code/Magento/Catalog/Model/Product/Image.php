@@ -61,6 +61,13 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
     protected $_viewFileSystem;
 
     /**
+     * Core file storage database
+     *
+     * @var Magento_Core_Helper_File_Storage_Database
+     */
+    protected $_coreFileStorageDatabase = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -68,6 +75,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Filesystem $filesystem
@@ -80,6 +88,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Filesystem $filesystem,
@@ -91,6 +100,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $baseDir = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
         $this->_filesystem = $filesystem;
@@ -523,7 +533,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
         }
         $filename = $this->getNewFile();
         $this->getImageProcessor()->save($filename);
-        Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFile($filename);
+        $this->_coreFileStorageDatabase->saveFile($filename);
         return $this;
     }
 
@@ -733,7 +743,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
         $directory = Mage::getBaseDir('media') . DS . 'catalog' . DS . 'product' . DS.'cache' . DS;
         $this->_filesystem->delete($directory);
 
-        Mage::helper('Magento_Core_Helper_File_Storage_Database')->deleteFolder($directory);
+        $this->_coreFileStorageDatabase->deleteFolder($directory);
     }
 
     /**
@@ -748,7 +758,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
         if ($this->_filesystem->isFile($filename)) {
             return true;
         } else {
-            return Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFileToFilesystem($filename);
+            return $this->_coreFileStorageDatabase->saveFileToFilesystem($filename);
         }
     }
 }

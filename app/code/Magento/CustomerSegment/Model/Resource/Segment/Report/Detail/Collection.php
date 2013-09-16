@@ -15,17 +15,19 @@ class Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection
     protected $_registryManager;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Registry $registryManager
      * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_Registry $registryManager,
         Magento_Core_Model_Config $coreConfig
     ) {
         $this->_registryManager = $registryManager;
-        parent::__construct($fetchStrategy, $coreConfig);
+        parent::__construct($eventManager, $fetchStrategy, $coreConfig);
     }
 
     /**

@@ -18,6 +18,23 @@
 class Magento_Page_Helper_Layout extends Magento_Core_Helper_Abstract
 {
     /**
+     * @var Magento_Core_Model_Layout
+     */
+    protected $_layout;
+
+    /**
+     * @param Magento_Core_Model_Layout $layout
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Model_Layout $layout,
+        Magento_Core_Helper_Context $context
+    ) {
+        parent::__construct($context);
+        $this->_layout = $layout;
+    }
+
+    /**
      * Apply page layout handle
      *
      * @param string $pageLayout
@@ -31,8 +48,7 @@ class Magento_Page_Helper_Layout extends Magento_Core_Helper_Abstract
             return $this;
         }
 
-        $this->getLayout()
-            ->getUpdate()
+        $this->_layout->getUpdate()
             ->addHandle($pageLayout->getLayoutHandle());
 
         return $this;
@@ -57,11 +73,10 @@ class Magento_Page_Helper_Layout extends Magento_Core_Helper_Abstract
             return $this;
         }
 
-        if ($this->getLayout()->getBlock('root') &&
-            !$this->getLayout()->getBlock('root')->getIsHandle()) {
+        if ($this->_layout->getBlock('root') &&
+            !$this->_layout->getBlock('root')->getIsHandle()) {
                 // If not applied handle
-                $this->getLayout()
-                    ->getBlock('root')
+                $this->_layout->getBlock('root')
                     ->setTemplate($pageLayout->getTemplate());
         }
 
@@ -75,13 +90,13 @@ class Magento_Page_Helper_Layout extends Magento_Core_Helper_Abstract
      */
     public function getCurrentPageLayout()
     {
-        if ($this->getLayout()->getBlock('root') &&
-            $this->getLayout()->getBlock('root')->getLayoutCode()) {
-            return $this->_getConfig()->getPageLayout($this->getLayout()->getBlock('root')->getLayoutCode());
+        if ($this->_layout->getBlock('root') &&
+            $this->_layout->getBlock('root')->getLayoutCode()) {
+            return $this->_getConfig()->getPageLayout($this->_layout->getBlock('root')->getLayoutCode());
         }
 
         // All loaded handles
-        $handles = $this->getLayout()->getUpdate()->getHandles();
+        $handles = $this->_layout->getUpdate()->getHandles();
         // Handles used in page layouts
         $pageLayoutHandles = $this->_getConfig()->getPageLayoutHandles();
         // Applied page layout handles

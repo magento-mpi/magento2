@@ -336,22 +336,6 @@ final class Mage
     }
 
     /**
-     * Dispatch event
-     *
-     * Calls all observer callbacks registered for this event
-     * and multiple observers matching event name pattern
-     *
-     * @param string $name
-     * @param array $data
-     *
-     * @deprecated use Magento_Core_Model_Event_Manager::dispatch
-     */
-    public static function dispatchEvent($name, array $data = array())
-    {
-        return Mage::getSingleton('Magento_Core_Model_Event_Manager')->dispatch($name, $data);
-    }
-
-    /**
      * Retrieve model object
      *
      * @param   string $modelClass
@@ -451,28 +435,6 @@ final class Mage
     {
         $action = self::app()->getFrontController()->getAction();
         return $action ? $action->getLayout()->getBlockSingleton($className) : false;
-    }
-
-    /**
-     * Retrieve helper object
-     *
-     * @param string $name the helper name
-     * @return Magento_Core_Helper_Abstract
-     */
-    public static function helper($name)
-    {
-        /* Default helper class for a module */
-        if (strpos($name, '_Helper_') === false) {
-            $name .= '_Helper_Data';
-        }
-
-        /** @var Magento_Core_Model_Registry $registryObject */
-        $registryObject = self::getObjectManager()->get('Magento_Core_Model_Registry');
-        $registryKey = '_helper/' . $name;
-        if (!$registryObject->registry($registryKey)) {
-            $registryObject->register($registryKey, self::getObjectManager()->get($name));
-        }
-        return $registryObject->registry($registryKey);
     }
 
     /**

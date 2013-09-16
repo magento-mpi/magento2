@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Block_Widget
+class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Backend_Block_Widget
 {
     /**
      * Attributes is read only flag
@@ -18,11 +18,19 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Block
     protected $_readOnly = false;
 
     /**
+     * Target rule data
+     *
+     * @var Magento_TargetRule_Helper_Data
+     */
+    protected $_targetRuleData = null;
+
+    /**
      * @var Magento_Core_Model_StoreManager
      */
     protected $_storeManager;
 
     /**
+     * @param Magento_TargetRule_Helper_Data $targetRuleData
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -30,31 +38,25 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Block
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_TargetRule_Helper_Data $targetRuleData
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
+        Magento_TargetRule_Helper_Data $targetRuleData,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        $this->_targetRuleData = $targetRuleData;
         $this->_storeManager = $storeManager;
-    }
-
-
-    /**
-     * Retrieve TargetRule Data Helper
-     *
-     * @return Magento_TargetRule_Helper_Data
-     */
-    protected function _getRuleHelper()
-    {
-        return Mage::helper('Magento_TargetRule_Helper_Data');
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -105,7 +107,7 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Block
     {
         $position = $this->_getValue('position_limit');
         if (is_null($position)) {
-            $position = $this->_getRuleHelper()->getMaximumNumberOfProduct($this->_getProductListType());
+            $position = $this->_targetRuleData->getMaximumNumberOfProduct($this->_getProductListType());
         }
         return $position;
     }
@@ -119,7 +121,7 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Block
     {
         $show = $this->_getValue('position_behavior');
         if (is_null($show)) {
-            $show = $this->_getRuleHelper()->getShowProducts($this->_getProductListType());
+            $show = $this->_targetRuleData->getShowProducts($this->_getProductListType());
         }
         return $show;
     }

@@ -53,6 +53,11 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
     protected $_backendHelperMock;
 
     /**
+     * @var Magento_Core_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_coreDataMock;
+
+    /**
      * @var Magento_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
@@ -93,13 +98,16 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue('Magento_Adminhtml::system_acl_roles'));
         $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
 
+        $this->_coreDataMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+
         $this->_model = new Magento_Backend_Model_Url(
             $this->_storeConfigMock,
             $coreConfig,
             $helperMock,
             $this->_coreHelperMock,
             $this->_coreSessionMock,
-            $this->_menuConfigMock
+            $this->_menuConfigMock,
+            $this->_coreDataMock
         );
 
         $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
@@ -175,7 +183,8 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             $helperMock,
             $this->_coreHelperMock,
             $this->_coreSessionMock,
-            $this->_menuConfigMock
+            $this->_menuConfigMock,
+            $this->_coreDataMock
         );
 
         $urlModel->getAreaFrontName();
@@ -212,7 +221,8 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             $helperMock,
             $this->_coreHelperMock,
             $this->_coreSessionMock,
-            $this->_menuConfigMock
+            $this->_menuConfigMock,
+            $this->_coreDataMock
         );
 
         $moduleFrontName = 'moduleFrontName';

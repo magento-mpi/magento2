@@ -156,17 +156,15 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
 
     /**
      * Redirect to login page
-     *
      */
     public function redirectLogin()
     {
         $this->setFlag('', 'no-dispatch', true);
         $this->getResponse()->setRedirect(
-            Mage::helper('Magento_Core_Helper_Url')->addRequestParam(
-                Mage::helper('Magento_Customer_Helper_Data')->getLoginUrl(),
+            $this->_objectManager->get('Magento_Core_Helper_Url')->addRequestParam(
+                $this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl(),
                 array('context' => 'checkout')
             )
         );
     }
-
 }

@@ -18,8 +18,14 @@ class Magento_Payment_Model_Method_CashondeliveryTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
+        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+        $paymentDataMock = $this->getMock('Magento_Payment_Helper_Data', array(), array(), '', false);
         $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
-        $this->_object = new Magento_Payment_Model_Method_Cashondelivery($coreStoreConfig);
+        $this->_object = new Magento_Payment_Model_Method_Cashondelivery(
+            $eventManager, 
+            $paymentDataMock, 
+            $coreStoreConfig
+        );
     }
 
     public function testGetInfoBlockType()

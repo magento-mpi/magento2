@@ -18,11 +18,20 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
     protected $_template = 'catalog/product/tab/inventory.phtml';
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
      * @var Magento_Core_Model_StoreManager
      */
     protected $_storeManager;
 
     /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -30,25 +39,30 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
+        Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_catalogData = $catalogData;
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $data);
         $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
     }
 
     public function getBackordersOption()
     {
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_CatalogInventory')) {
+        if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
             return Mage::getSingleton('Magento_CatalogInventory_Model_Source_Backorders')->toOptionArray();
         }
 
@@ -62,7 +76,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
      */
     public function getStockOption()
     {
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_CatalogInventory')) {
+        if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
             return Mage::getSingleton('Magento_CatalogInventory_Model_Source_Stock')->toOptionArray();
         }
 

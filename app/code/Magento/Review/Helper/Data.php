@@ -18,6 +18,13 @@ class Magento_Review_Helper_Data extends Magento_Core_Helper_Abstract
     const XML_REVIEW_GUETS_ALLOW = 'catalog/review/allow_guest';
 
     /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -25,24 +32,23 @@ class Magento_Review_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Helper_String $coreString,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_coreString = $coreString;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
-    /**
-     * @param $origDetail
-     * @return string
-     */
     public function getDetail($origDetail)
     {
-        return nl2br(Mage::helper('Magento_Core_Helper_String')->truncate($origDetail, 50));
+        return nl2br($this->_coreString->truncate($origDetail, 50));
     }
 
     /**
@@ -52,7 +58,7 @@ class Magento_Review_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getDetailHtml($origDetail)
     {
-        return nl2br(Mage::helper('Magento_Core_Helper_String')->truncate($this->escapeHtml($origDetail), 50));
+        return nl2br($this->_coreString->truncate($this->escapeHtml($origDetail), 50));
     }
 
     /**

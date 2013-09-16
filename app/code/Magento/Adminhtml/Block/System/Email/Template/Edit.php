@@ -44,8 +44,9 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
      * @var Magento_Core_Model_Email_Template
      */
     protected $_templateModel;
-
+    
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Backend_Model_Menu_Config $menuConfig
@@ -54,6 +55,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Backend_Model_Menu_Config $menuConfig,
@@ -61,11 +63,11 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
         Magento_Core_Model_Email_Template $templateModel,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
         $this->_registryManager = $registry;
         $this->_menuConfig = $menuConfig;
         $this->_configStructure = $configStructure;
         $this->_templateModel = $templateModel;
+        parent::__construct($coreData, $context, $data);
     }
 
     protected function _prepareLayout()
@@ -81,7 +83,6 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
                 )
         );
 
-
         $this->setChild('reset_button',
             $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                 ->setData(
@@ -91,7 +92,6 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
                     )
                 )
         );
-
 
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
@@ -115,7 +115,6 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
                 )
         );
 
-
         $this->setChild('to_html_button',
             $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                 ->setData(
@@ -138,7 +137,6 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
                     )
                 )
         );
-
 
         $this->setChild('preview_button',
             $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
@@ -173,7 +171,6 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
                 )
         );
 
-
         $this->addChild('form', 'Magento_Adminhtml_Block_System_Email_Template_Edit_Form');
         return parent::_prepareLayout();
     }
@@ -204,7 +201,6 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
     {
         return $this->getChildHtml('toggle_button');
     }
-
 
     public function getResetButtonHtml()
     {
@@ -258,13 +254,11 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
      */
     public function getHeaderText()
     {
-        if($this->getEditMode()) {
-          return __('Edit Email Template');
+        if ($this->getEditMode()) {
+            return __('Edit Email Template');
         }
-
         return  __('New Email Template');
     }
-
 
     /**
      * Return form block HTML
@@ -343,7 +337,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
         $template = $this->getEmailTemplate();
         $paths = $template->getSystemConfigPathsWhereUsedAsDefault();
         $pathsParts = $this->_getSystemConfigPathsParts($paths);
-        if($asJSON){
+        if ($asJSON) {
             return $this->helper('Magento_Core_Helper_Data')->jsonEncode($pathsParts);
         }
         return $pathsParts;
@@ -361,8 +355,8 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
         $template = $this->getEmailTemplate();
         $paths = $template->getSystemConfigPathsWhereUsedCurrently();
         $pathsParts = $this->_getSystemConfigPathsParts($paths);
-        if($asJSON){
-            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($pathsParts);
+        if ($asJSON) {
+            return $this->_coreData->jsonEncode($pathsParts);
         }
         return $pathsParts;
     }

@@ -65,6 +65,27 @@ class Magento_Downloadable_Helper_Download extends Magento_Core_Helper_Abstract
     protected $_fileName        = 'download';
 
     /**
+     * Core file storage database
+     *
+     * @var Magento_Core_Helper_File_Storage_Database
+     */
+    protected $_coreFileStorageDb = null;
+
+    /**
+     * Downloadable file
+     *
+     * @var Magento_Downloadable_Helper_File
+     */
+    protected $_downloadableFile = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -72,13 +93,22 @@ class Magento_Downloadable_Helper_Download extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Downloadable_Helper_File $downloadableFile
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Downloadable_Helper_File $downloadableFile,
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_coreData = $coreData;
+        $this->_downloadableFile = $downloadableFile;
+        $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
@@ -169,7 +199,7 @@ class Magento_Downloadable_Helper_Download extends Magento_Core_Helper_Abstract
             elseif ($this->_linkType == self::LINK_TYPE_FILE) {
                 $this->_handle = new Magento_Io_File();
                 if (!is_file($this->_resourceFile)) {
-                    Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFileToFilesystem($this->_resourceFile);
+                    $this->_coreFileStorageDb->saveFileToFilesystem($this->_resourceFile);
                 }
                 $this->_handle->open(array('path'=>Mage::getBaseDir('var')));
                 if (!$this->_handle->fileExists($this->_resourceFile, true)) {
@@ -208,7 +238,7 @@ class Magento_Downloadable_Helper_Download extends Magento_Core_Helper_Abstract
             if (function_exists('mime_content_type') && ($contentType = mime_content_type($this->_resourceFile))) {
                 return $contentType;
             } else {
-                return Mage::helper('Magento_Downloadable_Helper_File')->getFileType($this->_resourceFile);
+                return $this->_downloadableFile->getFileType($this->_resourceFile);
             }
         }
         elseif ($this->_linkType == self::LINK_TYPE_URL) {
@@ -252,7 +282,7 @@ class Magento_Downloadable_Helper_Download extends Magento_Core_Helper_Abstract
         if (self::LINK_TYPE_FILE == $linkType) {
             //check LFI protection
             /** @var $helper Magento_Core_Helper_Data */
-            $helper = Mage::helper('Magento_Core_Helper_Data');
+            $helper = $this->_coreData;
             $helper->checkLfiProtection($resourceFile);
         }
 

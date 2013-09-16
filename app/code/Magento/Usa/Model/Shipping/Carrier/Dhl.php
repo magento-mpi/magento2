@@ -82,7 +82,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
      *
      * @var Magento_Usa_Model_Simplexml_ElementFactory
      */
-    protected $_simpleXmlElementFactory;
+    protected $_xmlElFactory;
 
     /**
      * Container types that could be customized
@@ -106,19 +106,41 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
     const ADDITIONAL_PROTECTION_ROUNDING_ROUND = 2;
 
     /**
+     * Usa data
+     *
+     * @var Magento_Usa_Helper_Data
+     */
+    protected $_usaData = null;
+
+    /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
      * Dhl constructor
      *
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Usa_Helper_Data $usaData
+     * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
+     * @param Magento_Directory_Helper_Data $directoryData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Usa_Helper_Data $usaData,
+        Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
+        Magento_Directory_Helper_Data $directoryData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $data);
-        $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
+        $this->_coreString = $coreString;
+        $this->_usaData = $usaData;
+        $this->_xmlElFactory = $xmlElFactory;
+        parent::__construct($directoryData, $coreStoreConfig, $data);
     }
 
     /**
@@ -299,24 +321,24 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
             $packageParams = $request->getPackageParams();
             $shippingWeight = $request->getPackageWeight();
             if ($packageParams->getWeightUnits() != Zend_Measure_Weight::POUND) {
-                $shippingWeight = round(Mage::helper('Magento_Usa_Helper_Data')->convertMeasureWeight(
+                $shippingWeight = round($this->_usaData->convertMeasureWeight(
                     $request->getPackageWeight(),
                     $packageParams->getWeightUnits(),
                     Zend_Measure_Weight::POUND
                 ));
             }
             if ($packageParams->getDimensionUnits() != Zend_Measure_Length::INCH) {
-                $packageParams->setLength(round(Mage::helper('Magento_Usa_Helper_Data')->convertMeasureDimension(
+                $packageParams->setLength(round($this->_usaData->convertMeasureDimension(
                     $packageParams->getLength(),
                     $packageParams->getDimensionUnits(),
                     Zend_Measure_Length::INCH
                 )));
-                $packageParams->setWidth(round(Mage::helper('Magento_Usa_Helper_Data')->convertMeasureDimension(
+                $packageParams->setWidth(round($this->_usaData->convertMeasureDimension(
                     $packageParams->getWidth(),
                     $packageParams->getDimensionUnits(),
                     Zend_Measure_Length::INCH
                 )));
-                $packageParams->setHeight(round(Mage::helper('Magento_Usa_Helper_Data')->convertMeasureDimension(
+                $packageParams->setHeight(round($this->_usaData->convertMeasureDimension(
                     $packageParams->getHeight(),
                     $packageParams->getDimensionUnits(),
                     Zend_Measure_Length::INCH
@@ -338,7 +360,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
         $r->setValueWithDiscount($request->getPackageValueWithDiscount());
         $r->setCustomsValue($request->getPackageCustomsValue());
         $r->setDestStreet(
-            Mage::helper('Magento_Core_Helper_String')->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35)
+            $this->_coreString->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35)
         );
         $r->setDestStreetLine2($request->getDestStreetLine2());
         $r->setDestCity($request->getDestCity());
@@ -480,7 +502,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
     {
         $r = $this->_rawRequest;
 
-        $xml = $this->_simpleXmlElementFactory->create(array('<?xml version = "1.0" encoding = "UTF-8"?><eCommerce/>'));
+        $xml = $this->_xmlElFactory->create(array('<?xml version = "1.0" encoding = "UTF-8"?><eCommerce/>'));
         $xml->addAttribute('action', 'Request');
         $xml->addAttribute('version', '1.1');
 
@@ -1050,7 +1072,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
     {
         $r = $this->_rawTrackRequest;
 
-        $xml = $this->_simpleXmlElementFactory->create(array('<?xml version = "1.0" encoding = "UTF-8"?><eCommerce/>'));
+        $xml = $this->_xmlElFactory->create(array('<?xml version = "1.0" encoding = "UTF-8"?><eCommerce/>'));
         $xml->addAttribute('action', 'Request');
         $xml->addAttribute('version', '1.1');
 

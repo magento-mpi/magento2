@@ -68,6 +68,20 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_config;
 
     /**
+     * Core http
+     *
+     * @var Magento_Core_Helper_Http
+     */
+    protected $_coreHttp = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -75,18 +89,24 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
-        $this->_config = $config;
+        $this->_eventManager = $eventManager;
+        $this->_coreHttp = $coreHttp;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
+        $this->_config = $config;
     }
 
     /**
@@ -373,12 +393,12 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     {
         $allow = true;
 
-        $allowedIps = $this->_coreStoreConfig->getConfig(self::XML_PATH_DEV_ALLOW_IPS, $storeId);
-        $remoteAddr = Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr();
+$allowedIps = $this->_coreStoreConfig->getConfig(self::XML_PATH_DEV_ALLOW_IPS, $storeId);
+        $remoteAddr = $this->_coreHttp->getRemoteAddr();
         if (!empty($allowedIps) && !empty($remoteAddr)) {
             $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
             if (array_search($remoteAddr, $allowedIps) === false
-                && array_search(Mage::helper('Magento_Core_Helper_Http')->getHttpHost(), $allowedIps) === false) {
+                && array_search($this->_coreHttp->getHttpHost(), $allowedIps) === false) {
                 $allow = false;
             }
         }
@@ -456,7 +476,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
         }
 
         $eventName = sprintf('core_copy_fieldset_%s_%s', $fieldset, $aspect);
-        Mage::dispatchEvent($eventName, array(
+        $this->_eventManager->dispatch($eventName, array(
             'target' => $target,
             'source' => $source,
             'root'   => $root

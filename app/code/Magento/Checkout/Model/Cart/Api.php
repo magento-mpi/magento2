@@ -30,17 +30,47 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
      */
     protected $_coreStoreConfig;
 
+        /**
+     * Checkout data
+     *
+     * @var Magento_Checkout_Helper_Data
+     */
+    protected $_checkoutData = null;
+
     /**
+     * Payment data
+     *
+     * @var Magento_Payment_Helper_Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Checkout_Helper_Data $checkoutData
      * @param Magento_Api_Helper_Data $apiHelper
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config_Scope $configScope
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Checkout_Helper_Data $checkoutData,
         Magento_Api_Helper_Data $apiHelper,
         Magento_Core_Model_Config_Scope $configScope,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_eventManager = $eventManager;
+        $this->_paymentData = $paymentData;
+        $this->_checkoutData = $checkoutData;
         $this->_configScope = $configScope;
         parent::__construct($apiHelper);
         $this->_storeIdSessionField = "cart_store_id";
@@ -227,7 +257,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
             $this->_fault('invalid_checkout_type');
         }
         if ($quote->getCheckoutMethod() == Magento_Checkout_Model_Api_Resource_Customer::MODE_GUEST
-            && !Mage::helper('Magento_Checkout_Helper_Data')->isAllowedGuestCheckout($quote, $quote->getStoreId())
+            && !$this->_checkoutData->isAllowedGuestCheckout($quote, $quote->getStoreId())
         ) {
             $this->_fault('guest_checkout_is_not_enabled');
         }
@@ -253,7 +283,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
 
             $order = $service->getOrder();
             if ($order) {
-                Mage::dispatchEvent(
+                $this->_eventManager->dispatch(
                     'checkout_type_onepage_save_order_after',
                     array('order' => $order, 'quote' => $quote)
                 );
@@ -265,7 +295,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
                 }
             }
 
-            Mage::dispatchEvent('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));
+            $this->_eventManager->dispatch('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));
         } catch (Magento_Core_Exception $e) {
             $this->_fault('create_order_fault', $e->getMessage());
         }
@@ -309,7 +339,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
             }
 
             $total = $quote->getBaseSubtotal();
-            $methods = Mage::helper('Magento_Payment_Helper_Data')->getStoreMethods($store, $quote);
+            $methods = $this->_paymentData->getStoreMethods($store, $quote);
             foreach ($methods as $key => $method) {
                 if ($method->getCode() == $paymentData['method']) {
                     /** @var $method Magento_Payment_Model_Method_Abstract */
@@ -336,7 +366,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
      */
     protected function _checkAgreement($agreements = null)
     {
-        $requiredAgreements = Mage::helper('Magento_Checkout_Helper_Data')->getRequiredAgreementIds();
+        $requiredAgreements = $this->_checkoutData->getRequiredAgreementIds();
         if (!empty($requiredAgreements)) {
             $diff = array_diff($agreements, $requiredAgreements);
             if (!empty($diff)) {

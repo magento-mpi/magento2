@@ -29,6 +29,13 @@ class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstrac
     const GRANT_NONE            = 0;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -36,13 +43,16 @@ class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstrac
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_eventManager = $eventManager;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
@@ -69,7 +79,7 @@ class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstrac
         $options->setCategory($category);
         $options->setIsAllowed(true);
 
-        Mage::dispatchEvent('magento_catalog_permissions_is_allowed_category', array('options' => $options));
+        $this->_eventManager->dispatch('magento_catalog_permissions_is_allowed_category', array('options' => $options));
 
         return $options->getIsAllowed();
     }

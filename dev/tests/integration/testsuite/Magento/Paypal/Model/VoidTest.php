@@ -17,16 +17,21 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
      */
     public function testPayflowProVoid()
     {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $eventManager = $objectManager->get('Magento_Core_Model_Event_Manager');
+        $coreData = $objectManager->get('Magento_Core_Helper_Data');
+        $moduleList = $objectManager->get('Magento_Core_Model_ModuleListInterface');
+        $paymentData = $objectManager->get('Magento_Payment_Helper_Data');
+        
         /** @var $order Magento_Sales_Model_Order */
         $order = Mage::getModel('Magento_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
         $payment = $order->getPayment();
-        $storeConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Store_Config');
-        $instance = $this->getMock('Magento_Paypal_Model_Payflowpro',
-            array('_postRequest'),
-            array($storeConfig, $this->getMock('Magento_Core_Model_ModuleListInterface'))
-        );
+        
+        /** @var Magento_Paypal_Model_Payflowpro $instance */
+        $instance = $this->getMock('Magento_Paypal_Model_Payflowpro', array('_postRequest'),
+            array($eventManager, $coreData, $moduleList, $paymentData));
+
         $response = new Magento_Object(array(
             'result' => '0',
             'pnref' => 'V19A3D27B61E',
@@ -44,9 +49,9 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
         $payment->setMethodInstance($instance);
         $payment->void(new Magento_Object);
         $order->save();
+
         $order = Mage::getModel('Magento_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
         $this->assertFalse($order->canVoidPayment());
     }
 }
-

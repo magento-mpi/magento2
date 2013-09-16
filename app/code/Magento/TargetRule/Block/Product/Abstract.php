@@ -69,6 +69,35 @@ abstract class Magento_TargetRule_Block_Product_Abstract extends Magento_Catalog
     abstract public function getPositionBehavior();
 
     /**
+     * Target rule data
+     *
+     * @var Magento_TargetRule_Helper_Data
+     */
+    protected $_targetRuleData = null;
+
+    /**
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_TargetRule_Helper_Data $targetRuleData
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_TargetRule_Helper_Data $targetRuleData,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_targetRuleData = $targetRuleData;
+        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
+    /**
      * Return the behavior positions applicable to products based on the rule(s)
      *
      * @return array
@@ -95,16 +124,6 @@ abstract class Magento_TargetRule_Block_Product_Abstract extends Magento_Catalog
     }
 
     /**
-     * Retrieve TargetRule data helper
-     *
-     * @return Magento_TargetRule_Helper_Data
-     */
-    public function getTargetRuleHelper()
-    {
-        return Mage::helper('Magento_TargetRule_Helper_Data');
-    }
-
-    /**
      * Get link collection
      *
      * @return Magento_Catalog_Model_Resource_Product_Collection|null
@@ -117,7 +136,7 @@ abstract class Magento_TargetRule_Block_Product_Abstract extends Magento_Catalog
             if ($this->_linkCollection) {
                 // Perform rotation mode
                 $select = $this->_linkCollection->getSelect();
-                $rotationMode = $this->getTargetRuleHelper()->getRotationMode($this->getProductListType());
+                $rotationMode = $this->_targetRuleData->getRotationMode($this->getProductListType());
                 if ($rotationMode == Magento_TargetRule_Model_Rule::ROTATION_SHUFFLE) {
                     Mage::getResourceSingleton('Magento_TargetRule_Model_Resource_Index')->orderRand($select);
                 } else {
@@ -153,7 +172,7 @@ abstract class Magento_TargetRule_Block_Product_Abstract extends Magento_Catalog
      */
     public function isShuffled()
     {
-        $rotationMode = $this->getTargetRuleHelper()->getRotationMode($this->getProductListType());
+        $rotationMode = $this->_targetRuleData->getRotationMode($this->getProductListType());
         return $rotationMode == Magento_TargetRule_Model_Rule::ROTATION_SHUFFLE;
     }
 

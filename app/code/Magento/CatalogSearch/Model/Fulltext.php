@@ -32,6 +32,20 @@ class Magento_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
     const XML_PATH_CATALOG_SEARCH_TYPE  = 'catalog/search/search_type';
 
     /**
+     * Catalog search data
+     *
+     * @var Magento_CatalogSearch_Helper_Data
+     */
+    protected $_catalogSearchData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -39,6 +53,8 @@ class Magento_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
@@ -47,6 +63,8 @@ class Magento_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
@@ -54,6 +72,8 @@ class Magento_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_catalogSearchData = $catalogSearchData;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -79,14 +99,14 @@ class Magento_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
      */
     public function rebuildIndex($storeId = null, $productIds = null)
     {
-        Mage::dispatchEvent('catalogsearch_index_process_start', array(
+        $this->_eventManager->dispatch('catalogsearch_index_process_start', array(
             'store_id'      => $storeId,
             'product_ids'   => $productIds
         ));
 
         $this->getResource()->rebuildIndex($storeId, $productIds);
 
-        Mage::dispatchEvent('catalogsearch_index_process_complete', array());
+        $this->_eventManager->dispatch('catalogsearch_index_process_complete', array());
 
         return $this;
     }
@@ -130,9 +150,9 @@ class Magento_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
     public function prepareResult($query = null)
     {
         if (!$query instanceof Magento_CatalogSearch_Model_Query) {
-            $query = Mage::helper('Magento_CatalogSearch_Helper_Data')->getQuery();
+            $query = $this->_catalogSearchData->getQuery();
         }
-        $queryText = Mage::helper('Magento_CatalogSearch_Helper_Data')->getQueryText();
+        $queryText = $this->_catalogSearchData->getQueryText();
         if ($query->getSynonymFor()) {
             $queryText = $query->getSynonymFor();
         }

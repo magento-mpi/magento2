@@ -71,6 +71,13 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
     );
 
     /**
+     * Import export data
+     *
+     * @var Magento_ImportExport_Helper_Data
+     */
+    protected $_importExportData = null;
+
+    /**
      * @var Magento_Core_Model_Config
      */
     protected $_coreConfig;
@@ -83,21 +90,24 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
     /**
      * Constructor
      *
-     * By default is looking for first argument as array and assigns it as object attributes
-     * This behavior may change in child classes
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
      *
+     * @param Magento_ImportExport_Helper_Data $importExportData
      * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_ImportExport_Model_Config $config
      * @param array $data
      */
     public function __construct(
+        Magento_ImportExport_Helper_Data $importExportData,
         Magento_Core_Model_Config $coreConfig,
         Magento_ImportExport_Model_Config $config,
         array $data = array()
     ) {
-        parent::__construct($data);
+        $this->_importExportData = $importExportData;
         $this->_coreConfig = $coreConfig;
         $this->_config = $config;
+        parent::__construct($data);
     }
 
     /**
@@ -446,7 +456,7 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
         if (!$adapter->isValid(self::FIELD_NAME_SOURCE_FILE)) {
             $errors = $adapter->getErrors();
             if ($errors[0] == Zend_Validate_File_Upload::INI_SIZE) {
-                $errorMessage = Mage::helper('Magento_ImportExport_Helper_Data')->getMaxUploadSizeMessage();
+                $errorMessage = $this->_importExportData->getMaxUploadSizeMessage();
             } else {
                 $errorMessage = __('File was not uploaded.');
             }
@@ -455,7 +465,8 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
 
         $entity    = $this->getEntity();
         /** @var $uploader Magento_Core_Model_File_Uploader */
-        $uploader  = Mage::getModel('Magento_Core_Model_File_Uploader', array('fileId' => self::FIELD_NAME_SOURCE_FILE));
+        $uploader  = Mage::getModel('Magento_Core_Model_File_Uploader',
+            array('fileId' => self::FIELD_NAME_SOURCE_FILE));
         $uploader->skipDbProcessing(true);
         $result    = $uploader->save(self::getWorkingDir());
         $extension = pathinfo($result['file'], PATHINFO_EXTENSION);

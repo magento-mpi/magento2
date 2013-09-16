@@ -49,6 +49,13 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
     protected $_trackingInfo = array();
 
     /**
+     * Rma data
+     *
+     * @var Magento_Rma_Helper_Data
+     */
+    protected $_rmaData = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -56,21 +63,24 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Rma_Model_Resource_Shipping $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Helper_Data $rmaData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Rma_Model_Resource_Shipping $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_rmaData = $rmaData;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -109,11 +119,11 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
         $order              = Mage::getModel('Magento_Sales_Model_Order')->load($this->getRma()->getOrderId());
         $shipperAddress     = $order->getShippingAddress();
         /** @var Magento_Sales_Model_Quote_Address $recipientAddress */
-        $recipientAddress   = Mage::helper('Magento_Rma_Helper_Data')->getReturnAddressModel($this->getRma()->getStoreId());
+        $recipientAddress   = $this->_rmaData->getReturnAddressModel($this->getRma()->getStoreId());
 
         list($carrierCode, $shippingMethod) = explode('_', $this->getCode(), 2);
 
-        $shipmentCarrier    = Mage::helper('Magento_Rma_Helper_Data')->getCarrier($this->getCode(), $shipmentStoreId);
+        $shipmentCarrier    = $this->_rmaData->getCarrier($this->getCode(), $shipmentStoreId);
         $baseCurrencyCode   = Mage::app()->getStore($shipmentStoreId)->getBaseCurrencyCode();
 
         if (!$shipmentCarrier) {
@@ -124,7 +134,7 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
 
         $recipientRegionCode= $recipientAddress->getRegionId();
 
-        $recipientContactName = Mage::helper('Magento_Rma_Helper_Data')->getReturnContactName($this->getRma()->getStoreId());
+        $recipientContactName = $this->_rmaData->getReturnContactName($this->getRma()->getStoreId());
 
         if (!$recipientContactName->getName()
             || !$recipientContactName->getLastName()

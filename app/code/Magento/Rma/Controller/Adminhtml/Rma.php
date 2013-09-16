@@ -121,7 +121,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             try {
                 $this->_initCreateModel();
                 $this->_initModel();
-                if (!Mage::helper('Magento_Rma_Helper_Data')->canCreateRma($orderId, true)) {
+                if (!$this->_objectManager->get('Magento_Rma_Helper_Data')->canCreateRma($orderId, true)) {
                     Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
                         __('There are no applicable items for return in this order.')
                     );
@@ -482,7 +482,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             );
         }
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -546,7 +546,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             );
         }
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -620,7 +620,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         $response = $block->toHtml();
 
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -646,7 +646,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             ->toHtml();
 
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -703,7 +703,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             ->toHtml();
 
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -761,7 +761,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         ;
 
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -777,10 +777,10 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         $plain  = false;
         if ($this->getRequest()->getParam('file')) {
             // download file
-            $file   = Mage::helper('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('file'));
+            $file   = $this->_objectManager->get('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('file'));
         } else if ($this->getRequest()->getParam('image')) {
             // show plain image
-            $file   = Mage::helper('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('image'));
+            $file   = $this->_objectManager->get('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('image'));
             $plain  = true;
         } else {
             return $this->norouteAction();
@@ -880,7 +880,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         ;
 
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -929,7 +929,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         ;
 
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -957,7 +957,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         $thisPage       = $this->getUrl('*/*/edit', $urlParams);
 
         $code    = $this->getRequest()->getParam('method');
-        $carrier = Mage::helper('Magento_Rma_Helper_Data')->getCarrier($code, $model->getStoreId());
+        $carrier = $this->_objectManager->get('Magento_Rma_Helper_Data')->getCarrier($code, $model->getStoreId());
         if ($carrier) {
             $getCustomizableContainers =  $carrier->getCustomizableContainerTypes();
         }
@@ -994,7 +994,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             'customizable'              => $getCustomizableContainers
         );
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
+        return $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($data);
     }
 
     /**
@@ -1010,7 +1010,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         ;
 
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -1091,7 +1091,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             $shipment =  Mage::getModel('Magento_Rma_Model_Shipping')
                 ->getShippingLabelByRma($model);
 
-            $carrier = Mage::helper('Magento_Rma_Helper_Data')->getCarrier($data['code'], $model->getStoreId());
+            $carrier = $this->_objectManager->get('Magento_Rma_Helper_Data')->getCarrier($data['code'], $model->getStoreId());
             if (!$carrier->isShippingLabelsAvailable()) {
                 return false;
             }
@@ -1326,7 +1326,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             );
         }
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -1365,7 +1365,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             );
         }
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }

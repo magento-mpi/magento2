@@ -33,7 +33,7 @@ class Magento_Page_Block_Html_HeaderTest extends PHPUnit_Framework_TestCase
             ->method('checkDbUsage')
             ->will($this->returnValue(false));
 
-        $helperFactory = $this->getMock('Magento_Core_Model_Factory_Helper', array('get'));
+        $helperFactory = $this->getMock('Magento_Core_Model_Factory_Helper', array('get'), array(), '', false);
         $helperFactory->expects($this->once())
             ->method('get')
             ->will($this->returnValue($helper));

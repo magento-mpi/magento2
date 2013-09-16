@@ -43,10 +43,13 @@ class Magento_Rss_Controller_Catalog extends Magento_Core_Controller_Front_Actio
         /**
          * Format actionName => acrResourceId
          */
-        $acl = array('notifystock' => 'Magento_Catalog::products', 'review' => 'Magento_Review::reviews_all');
+        $acl = array(
+            'notifystock' => 'Magento_Catalog::products',
+            'review' => 'Magento_Review::reviews_all',
+        );
         if (isset($acl[$action])) {
             $this->_configScope->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-            if (Magento_Rss_Controller_Order::authenticateAndAuthorizeAdmin($this, $acl[$action])) {
+            if ($this->authenticateAndAuthorizeAdmin($acl[$action])) {
                 return;
             }
         }

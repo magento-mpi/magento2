@@ -36,6 +36,20 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
     protected $_viewUrl;
 
     /**
+     * Cms data
+     *
+     * @var Magento_Cms_Helper_Data
+     */
+    protected $_cmsData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -46,10 +60,10 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
      * @var Magento_Core_Model_Config
      */
     protected $_coreConfig;
-
+    
     /**
-     * Constructor
-     *
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Cms_Helper_Data $cmsData
      * @param Magento_AuthorizationInterface $authorization
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
@@ -57,12 +71,16 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Cms_Helper_Data $cmsData,
         Magento_AuthorizationInterface $authorization,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_cmsData = $cmsData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_authorization = $authorization;
         $this->_viewUrl = $viewUrl;
@@ -98,7 +116,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
             'add_variables'                 => true,
             'add_widgets'                   => true,
             'no_display'                    => false,
-            'translator'                    => Mage::helper('Magento_Cms_Helper_Data'),
+            'translator'                    => $this->_cmsData,
             'encode_directives'             => true,
             'directives_url'                =>
                 Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/cms_wysiwyg/directive'),
@@ -126,7 +144,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
             $config->addData($data);
         }
 
-        Mage::dispatchEvent('cms_wysiwyg_config_prepare', array('config' => $config));
+        $this->_eventManager->dispatch('cms_wysiwyg_config_prepare', array('config' => $config));
 
         return $config;
     }

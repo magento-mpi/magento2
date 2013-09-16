@@ -18,7 +18,7 @@
  */
 class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
     extends Magento_Pbridge_Block_Iframe_Abstract
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Block template
@@ -46,17 +46,21 @@ class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Pbridge_Helper_Data $pbridgeData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Pbridge_Helper_Data $pbridgeData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        parent::__construct($pbridgeData, $coreData, $context, $data);
     }
 
     /**
@@ -126,7 +130,7 @@ class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
      */
     public function getSourceUrl()
     {
-        $helper = Mage::helper('Magento_Pbridge_Helper_Data');
+        $helper = $this->_pbridgeData;
         $helper->setStoreId($this->_getCurrentStore()->getId());
         return $helper->getPaymentProfileUrl(
             array(

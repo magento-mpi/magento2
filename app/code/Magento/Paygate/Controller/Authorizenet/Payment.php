@@ -17,7 +17,6 @@
  */
 class Magento_Paygate_Controller_Authorizenet_Payment extends Magento_Core_Controller_Front_Action
 {
-
     /**
      * Cancel active partail authorizations
      */
@@ -25,10 +24,12 @@ class Magento_Paygate_Controller_Authorizenet_Payment extends Magento_Core_Contr
     {
         $result['success'] = false;
         try {
-            $paymentMethod = Mage::helper('Magento_Payment_Helper_Data')
+            $paymentMethod = $this->_objectManager->get('Magento_Payment_Helper_Data')
                 ->getMethodInstance(Magento_Paygate_Model_Authorizenet::METHOD_CODE);
             if ($paymentMethod) {
-                $paymentMethod->cancelPartialAuthorization(Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getPayment());
+                $paymentMethod->cancelPartialAuthorization(
+                    Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getPayment()
+                );
             }
             $result['success']  = true;
             $result['update_html'] = $this->_getPaymentMethodsHtml();
@@ -37,11 +38,12 @@ class Magento_Paygate_Controller_Authorizenet_Payment extends Magento_Core_Contr
             $result['error_message'] = $e->getMessage();
         } catch (Exception $e) {
             Mage::logException($e);
-            $result['error_message'] = __('There was an error canceling transactions. Please contact us or try again later.');
+            $result['error_message'] = __('There was an error canceling transactions. '
+                . 'Please contact us or try again later.');
         }
 
         Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getPayment()->save();
-        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**
@@ -52,10 +54,13 @@ class Magento_Paygate_Controller_Authorizenet_Payment extends Magento_Core_Contr
     protected function _getPaymentMethodsHtml()
     {
         $layout = $this->getLayout();
+
         $update = $layout->getUpdate();
         $update->load('checkout_onepage_paymentmethod');
+
         $layout->generateXml();
         $layout->generateElements();
+
         $output = $layout->getOutput();
         return $output;
     }

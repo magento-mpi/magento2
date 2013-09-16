@@ -40,6 +40,41 @@ class Magento_GoogleCheckout_Model_Api_Xml_Checkout extends Magento_GoogleChecko
     protected $_shippingCalculated = false;
 
     /**
+     * Weee data
+     *
+     * @var Magento_Weee_Helper_Data
+     */
+    protected $_weeeData = null;
+
+    /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * Google checkout data
+     *
+     * @var Magento_GoogleCheckout_Helper_Data
+     */
+    protected $_googleCheckoutData = null;
+
+    /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -47,15 +82,30 @@ class Magento_GoogleCheckout_Model_Api_Xml_Checkout extends Magento_GoogleChecko
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Customer_Helper_Data $customerData
+     * @param Magento_GoogleCheckout_Helper_Data $googleCheckoutData
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Weee_Helper_Data $weeeData
      * @param Magento_Core_Model_Translate $translator
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Customer_Helper_Data $customerData,
+        Magento_GoogleCheckout_Helper_Data $googleCheckoutData,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Weee_Helper_Data $weeeData,
         Magento_Core_Model_Translate $translator,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_customerData = $customerData;
+        $this->_googleCheckoutData = $googleCheckoutData;
+        $this->_taxData = $taxData;
+        $this->_weeeData = $weeeData;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($translator, $data);
     }
@@ -128,7 +178,7 @@ EOT;
             $weightUnit = self::ITEM_WEIGHT_UNIT;
 
             $unitPrice = $item->getBaseCalculationPrice();
-            if (Mage::helper('Magento_Weee_Helper_Data')->includeInSubtotal()) {
+            if ($this->_weeeData->includeInSubtotal()) {
                 $unitPrice += $item->getBaseWeeeTaxAppliedAmount();
             }
 
@@ -165,7 +215,7 @@ EOT;
             'description' => __('A virtual item to reflect the discount total')
         ));
 
-        Mage::dispatchEvent('google_checkout_discount_item_price', array(
+        $this->_eventManager->dispatch('google_checkout_discount_item_price', array(
             'quote'         => $this->getQuote(),
             'discount_item' => $discountItem
         ));
@@ -454,7 +504,7 @@ EOT;
             Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_ADDRESS_CATEGORY,
             $storeId
         );
-        $defPrice = (float) Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice($defPrice, false, false);
+        $defPrice = (float) $this->_taxData->getShippingPrice($defPrice, false, false);
 
         $this->getQuote()->getShippingAddress()
             ->setCountryId($country)
@@ -586,7 +636,7 @@ EOT;
                 'google/checkout_shipping_flatrate/price_' . $i, $storeId
             );
             $price = number_format($price, 2, '.', '');
-            $price = (float)Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice($price, false, false);
+            $price = (float)$this->_taxData->getShippingPrice($price, false, false);
             $allowSpecific = $this->_coreStoreConfig->getConfigFlag(
                 'google/checkout_shipping_flatrate/sallowspecific_' . $i,
                 $storeId
@@ -672,7 +722,7 @@ EOT;
 
         $xml           = '';
         $methods       = unserialize($methods);
-        $taxHelper     = Mage::helper('Magento_Tax_Helper_Data');
+        $taxHelper     = $this->_taxData;
         $shippingModel = Mage::getModel('Magento_Shipping_Model_Shipping');
 
         foreach ($methods['method'] as $i => $method) {
@@ -785,7 +835,7 @@ EOT;
 EOT;
                         if ($rate['country'] === Magento_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID) {
                             if (!empty($rate['postcode']) && $rate['postcode'] !== '*') {
-                                $rate['postcode'] = Mage::helper('Magento_GoogleCheckout_Helper_Data')
+                                $rate['postcode'] = $this->_googleCheckoutData
                                     ->zipRangeToZipPattern($rate['postcode']);
                                 foreach ($rate['postcode'] as $postcode) {
                                     $xml .= <<<EOT
@@ -933,9 +983,7 @@ EOT;
     {
         $customerGroup = $this->getQuote()->getCustomerGroupId();
         if (!$customerGroup) {
-            $customerGroup = Mage::helper('Magento_Customer_Helper_Data')->getDefaultCustomerGroupId(
-                $this->getQuote()->getStoreId()
-            );
+            $customerGroup = $this->_customerData->getDefaultCustomerGroupId($this->getQuote()->getStoreId());
         }
         return Mage::getModel('Magento_Customer_Model_Group')->load($customerGroup)->getTaxClassId();
     }
@@ -955,7 +1003,7 @@ EOT;
         $taxCalculationModel = Mage::getSingleton('Magento_Tax_Model_Calculation');
 
         if ($shippingTaxClass) {
-            if (Mage::helper('Magento_Tax_Helper_Data')->getTaxBasedOn() == 'origin') {
+            if ($this->_taxData->getTaxBasedOn() == 'origin') {
                 $request = $taxCalculationModel->getRateRequest();
                 $request
                     ->setCustomerClassId($customerTaxClass)
@@ -988,7 +1036,7 @@ EOT;
         $customerTaxClass    = $this->_getCustomerTaxClass();
         $taxCalculationModel = Mage::getSingleton('Magento_Tax_Model_Calculation');
 
-        if (Mage::helper('Magento_Tax_Helper_Data')->getTaxBasedOn() == 'origin') {
+        if ($this->_taxData->getTaxBasedOn() == 'origin') {
             $request = $taxCalculationModel->getRateRequest()->setCustomerClassId($customerTaxClass);
             return $taxCalculationModel->getRatesForAllProductTaxClasses($request);
         }

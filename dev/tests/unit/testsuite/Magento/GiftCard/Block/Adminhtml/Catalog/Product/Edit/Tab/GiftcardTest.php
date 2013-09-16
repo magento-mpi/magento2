@@ -27,7 +27,7 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_GiftcardTest ext
             ->setMethods($methods)
             ->getMock();
 
-        $helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper', array('get'));
+        $helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper', array('get'), array(), '', false);
 
         $contextMock->expects($this->any())
             ->method('getHelperFactory')

@@ -62,29 +62,6 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
     );
 
     /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_FullPageCache_Model_Cache $fpcCache
-     * @param Magento_FullPageCache_Model_Container_Placeholder $placeholder
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Registry $coreRegistry
-     */
-    public function __construct(
-        Magento_FullPageCache_Model_Cache $fpcCache,
-        Magento_FullPageCache_Model_Container_Placeholder $placeholder,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Registry $coreRegistry
-    ) {
-        $this->_coreRegistry = $coreRegistry;
-        parent::__construct($fpcCache, $placeholder, $coreStoreConfig);
-    }
-
-    /**
      * Get parent block type
      *
      * @return null|string
@@ -340,7 +317,7 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
             );
         }
 
-        Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+        $this->_eventManager->dispatch('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
 
         return $block->toHtml();
     }

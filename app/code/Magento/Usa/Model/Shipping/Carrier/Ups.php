@@ -114,19 +114,19 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
     protected $_simpleXmlElementFactory;
 
     /**
-     * Usp constructor
-     *
+     * @param Magento_Directory_Helper_Data $directoryData     *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
      * @param array $data
      */
     public function __construct(
+        Magento_Directory_Helper_Data $directoryData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory,
         array $data = array()
     ) {
         $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
-        parent::__construct($coreStoreConfig, $data);
+        parent::__construct($directoryData, $coreStoreConfig, $data);
     }
 
     /**

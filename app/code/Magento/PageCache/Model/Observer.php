@@ -20,29 +20,27 @@ class Magento_PageCache_Model_Observer
     const XML_NODE_ALLOWED_CACHE = 'frontend/cache/allowed_requests';
 
     /**
+     * Page cache data
+     *
+     * @var Magento_PageCache_Helper_Data
+     */
+    protected $_pageCacheData = null;
+
+    /**
      * @var Magento_Core_Model_Config
      */
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
+     * @param Magento_PageCache_Helper_Data $pageCacheData
      * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
+        Magento_PageCache_Helper_Data $pageCacheData,
         Magento_Core_Model_Config $coreConfig
     ) {
+        $this->_pageCacheData = $pageCacheData;
         $this->_coreConfig = $coreConfig;
-    }
-
-    /**
-     * Retrieve the helper instance
-     *
-     * @return Magento_PageCache_Helper_Data
-     */
-    protected function _getHelper()
-    {
-        return Mage::helper('Magento_PageCache_Helper_Data');
     }
 
     /**
@@ -52,7 +50,7 @@ class Magento_PageCache_Model_Observer
      */
     public function isCacheEnabled()
     {
-        return $this->_getHelper()->isEnabled();
+        return $this->_pageCacheData->isEnabled();
     }
 
     /**
@@ -98,7 +96,7 @@ class Magento_PageCache_Model_Observer
         }
 
         if (!$needCaching) {
-            $this->_getHelper()->setNoCacheCookie();
+            $this->_pageCacheData->setNoCacheCookie();
         }
 
         return $this;
@@ -115,7 +113,7 @@ class Magento_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_getHelper()->setNoCacheCookie(0)->lockNoCacheCookie();
+        $this->_pageCacheData->setNoCacheCookie(0)->lockNoCacheCookie();
         return $this;
     }
 
@@ -130,7 +128,7 @@ class Magento_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_getHelper()->unlockNoCacheCookie()->removeNoCacheCookie();
+        $this->_pageCacheData->unlockNoCacheCookie()->removeNoCacheCookie();
         return $this;
     }
 }

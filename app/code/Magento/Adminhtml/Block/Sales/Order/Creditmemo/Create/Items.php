@@ -14,6 +14,32 @@
 class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magento_Adminhtml_Block_Sales_Items_Abstract
 {
     protected $_canReturnToStock;
+
+    /**
+     * Sales data
+     *
+     * @var Magento_Sales_Helper_Data
+     */
+    protected $_salesData = null;
+
+    /**
+     * @param Magento_Sales_Helper_Data $salesData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Sales_Helper_Data $salesData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_salesData = $salesData;
+        parent::__construct($coreData, $context, $registry, $data);
+    }
+
     /**
      * Prepare child blocks
      *
@@ -90,14 +116,14 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
      */
     public function getOrderTotalbarData()
     {
-        $totalbarData = array();
         $this->setPriceDataObject($this->getOrder());
+
+        $totalbarData = array();
         $totalbarData[] = array(__('Paid Amount'), $this->displayPriceAttribute('total_invoiced'), false);
         $totalbarData[] = array(__('Refund Amount'), $this->displayPriceAttribute('total_refunded'), false);
         $totalbarData[] = array(__('Shipping Amount'), $this->displayPriceAttribute('shipping_invoiced'), false);
         $totalbarData[] = array(__('Shipping Refund'), $this->displayPriceAttribute('shipping_refunded'), false);
         $totalbarData[] = array(__('Order Grand Total'), $this->displayPriceAttribute('grand_total'), true);
-
         return $totalbarData;
     }
 
@@ -173,7 +199,6 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
 
     public function canSendCreditmemoEmail()
     {
-        return Mage::helper('Magento_Sales_Helper_Data')
-            ->canSendNewCreditmemoEmail($this->getOrder()->getStore()->getId());
+        return $this->_salesData->canSendNewCreditmemoEmail($this->getOrder()->getStore()->getId());
     }
 }

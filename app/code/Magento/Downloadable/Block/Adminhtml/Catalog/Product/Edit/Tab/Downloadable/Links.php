@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links
-    extends Magento_Adminhtml_Block_Template
+    extends Magento_Backend_Block_Template
 {
     /**
      * Block config data
@@ -35,10 +35,23 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     protected $_template = 'product/edit/downloadable/links.phtml';
 
     /**
+     * Downloadable file
+     *
+     * @var Magento_Downloadable_Helper_File
+     */
+    protected $_downloadableFile = null;
+
+    /**
+     * Core file storage database
+     *
+     * @var Magento_Core_Helper_File_Storage_Database
+     */
+    protected $_coreFileStorageDb = null;
+
+    /**
      * @var Magento_Core_Model_StoreManager
      */
     protected $_storeManager;
-
 
     /**
      * Core registry
@@ -48,20 +61,28 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
+     * @param Magento_Downloadable_Helper_File $downloadableFile
      * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
+        Magento_Downloadable_Helper_File $downloadableFile,
         Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $data);
+        $this->_coreFileStorageDb = $coreFileStorageDatabase;
+        $this->_downloadableFile = $downloadableFile;
         $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -184,7 +205,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
         }
         $links = $this->getProduct()->getTypeInstance()->getLinks($this->getProduct());
         $priceWebsiteScope = $this->getIsPriceWebsiteScope();
-        $fileHelper = Mage::helper('Magento_Downloadable_Helper_File');
+        $fileHelper = $this->_downloadableFile;
         foreach ($links as $item) {
             $tmpLinkItem = array(
                 'link_id' => $item->getId(),
@@ -204,7 +225,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
             );
 
             if ($item->getLinkFile() && !is_file($file)) {
-                Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFileToFilesystem($file);
+                $this->_coreFileStorageDb->saveFileToFilesystem($file);
             }
 
             if ($item->getLinkFile() && is_file($file)) {
@@ -336,7 +357,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
         $this->getConfig()->setReplaceBrowseWithRemove(true);
         $this->getConfig()->setWidth('32');
         $this->getConfig()->setHideUploadButton(true);
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getConfig()->getData());
+        return $this->_coreData->jsonEncode($this->getConfig()->getData());
     }
 
     /**

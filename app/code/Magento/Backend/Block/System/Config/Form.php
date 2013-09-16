@@ -110,10 +110,10 @@ class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Wid
     protected $_config;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Backend_Model_Config_Factory $configFactory
      * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Backend_Model_Config_Clone_Factory $cloneModelFactory
      * @param Magento_Backend_Model_Config_Structure $configStructure
      * @param Magento_Backend_Block_System_Config_Form_Fieldset_Factory $fieldsetFactory
      * @param Magento_Backend_Block_System_Config_Form_Field_Factory $fieldFactory
@@ -123,20 +123,19 @@ class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Wid
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Backend_Model_Config_Factory $configFactory,
         Magento_Data_Form_Factory $formFactory,
-        Magento_Backend_Model_Config_Clone_Factory $cloneModelFactory,
         Magento_Backend_Model_Config_Structure $configStructure,
         Magento_Backend_Block_System_Config_Form_Fieldset_Factory $fieldsetFactory,
         Magento_Backend_Block_System_Config_Form_Field_Factory $fieldFactory,
         Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_configFactory = $configFactory;
         $this->_formFactory = $formFactory;
-        $this->_cloneModelFactory = $cloneModelFactory;
         $this->_configStructure = $configStructure;
         $this->_fieldsetFactory = $fieldsetFactory;
         $this->_fieldFactory = $fieldFactory;

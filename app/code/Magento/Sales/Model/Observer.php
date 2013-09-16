@@ -26,18 +26,66 @@ class Magento_Sales_Model_Observer
     protected $_expireQuotesFilterFields = array();
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * Customer address
+     *
+     * @var Magento_Customer_Helper_Address
+     */
+    protected $_customerAddress = null;
+
+    /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * @var Magento_Core_Model_Config
      */
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Customer_Helper_Data $customerData
+     * @param Magento_Customer_Helper_Address $customerAddress
+     * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Customer_Helper_Data $customerData,
+        Magento_Customer_Helper_Address $customerAddress,
+        Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Model_Config $coreConfig
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_coreData = $coreData;
+        $this->_customerData = $customerData;
+        $this->_customerAddress = $customerAddress;
+        $this->_catalogData = $catalogData;
         $this->_coreConfig = $coreConfig;
     }
 
@@ -49,7 +97,7 @@ class Magento_Sales_Model_Observer
      */
     public function cleanExpiredQuotes($schedule)
     {
-        Mage::dispatchEvent('clear_expired_quotes_before', array('sales_observer' => $this));
+        $this->_eventManager->dispatch('clear_expired_quotes_before', array('sales_observer' => $this));
 
         $lifetimes = $this->_coreConfig->getStoresConfigByPath('checkout/cart/delete_quote_after');
         foreach ($lifetimes as $storeId=>$lifetime) {
@@ -184,7 +232,7 @@ class Magento_Sales_Model_Observer
         $quote = $observer->getEvent()->getQuote();
 
         $canApplyMsrp = false;
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isMsrpEnabled()) {
+        if ($this->_catalogData->isMsrpEnabled()) {
             foreach ($quote->getAllAddresses() as $adddress) {
                 if ($adddress->getCanApplyMsrp()) {
                     $canApplyMsrp = true;
@@ -233,7 +281,7 @@ class Magento_Sales_Model_Observer
      */
     protected function _getVatRequiredSalesAddress($salesModel, $store = null)
     {
-        $configAddressType = Mage::helper('Magento_Customer_Helper_Address')->getTaxCalculationAddressType($store);
+        $configAddressType = $this->_customerAddress->getTaxCalculationAddressType($store);
         $requiredAddress = null;
         switch ($configAddressType) {
             case Magento_Customer_Model_Address_Abstract::TYPE_SHIPPING:
@@ -254,7 +302,7 @@ class Magento_Sales_Model_Observer
      */
     protected function _getVatRequiredCustomerAddress(Magento_Customer_Model_Customer $customer, $store = null)
     {
-        $configAddressType = Mage::helper('Magento_Customer_Helper_Address')->getTaxCalculationAddressType($store);
+        $configAddressType = $this->_customerAddress->getTaxCalculationAddressType($store);
         $requiredAddress = null;
         switch ($configAddressType) {
             case Magento_Customer_Model_Address_Abstract::TYPE_SHIPPING:
@@ -274,7 +322,7 @@ class Magento_Sales_Model_Observer
     public function changeQuoteCustomerGroupId(Magento_Event_Observer $observer)
     {
         /** @var $addressHelper Magento_Customer_Helper_Address */
-        $addressHelper = Mage::helper('Magento_Customer_Helper_Address');
+        $addressHelper = $this->_customerAddress;
 
         $quoteAddress = $observer->getQuoteAddress();
         $quoteInstance = $quoteAddress->getQuote();
@@ -282,7 +330,7 @@ class Magento_Sales_Model_Observer
 
         $storeId = $customerInstance->getStore();
 
-        $configAddressType = Mage::helper('Magento_Customer_Helper_Address')->getTaxCalculationAddressType($storeId);
+        $configAddressType = $this->_customerAddress->getTaxCalculationAddressType($storeId);
 
         // When VAT is based on billing address then Magento have to handle only billing addresses
         $additionalBillingAddressCondition = ($configAddressType == Magento_Customer_Model_Address_Abstract::TYPE_BILLING)
@@ -293,12 +341,12 @@ class Magento_Sales_Model_Observer
         }
 
         /** @var $customerHelper Magento_Customer_Helper_Data */
-        $customerHelper = Mage::helper('Magento_Customer_Helper_Data');
+        $customerHelper = $this->_customerData;
 
         $customerCountryCode = $quoteAddress->getCountryId();
         $customerVatNumber = $quoteAddress->getVatId();
 
-        if (empty($customerVatNumber) || !Mage::helper('Magento_Core_Helper_Data')->isCountryInEU($customerCountryCode)) {
+        if (empty($customerVatNumber) || !$this->_coreData->isCountryInEU($customerCountryCode)) {
             $groupId = ($customerInstance->getId()) ? $customerHelper->getDefaultCustomerGroupId($storeId)
                 : Magento_Customer_Model_Group::NOT_LOGGED_IN_ID;
 
@@ -310,7 +358,7 @@ class Magento_Sales_Model_Observer
         }
 
         /** @var $coreHelper Magento_Core_Helper_Data */
-        $coreHelper = Mage::helper('Magento_Core_Helper_Data');
+        $coreHelper = $this->_coreData;
         $merchantCountryCode = $coreHelper->getMerchantCountryCode();
         $merchantVatNumber = $coreHelper->getMerchantVatNumber();
 
@@ -365,7 +413,7 @@ class Magento_Sales_Model_Observer
     public function restoreQuoteCustomerGroupId($observer)
     {
         $quoteAddress = $observer->getQuoteAddress();
-        $configAddressType = Mage::helper('Magento_Customer_Helper_Address')->getTaxCalculationAddressType();
+        $configAddressType = $this->_customerAddress->getTaxCalculationAddressType();
         // Restore initial customer group ID in quote only if VAT is calculated based on shipping address
         if ($quoteAddress->hasPrevQuoteCustomerGroupId()
             && $configAddressType == Magento_Customer_Model_Address_Abstract::TYPE_SHIPPING

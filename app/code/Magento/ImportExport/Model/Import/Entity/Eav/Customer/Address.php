@@ -187,10 +187,14 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
     protected $_importedRowPks = array();
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_String $coreString,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
@@ -202,7 +206,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
             $data['attribute_collection'] = $attributeCollection;
         }
 
-        parent::__construct($coreStoreConfig, $data);
+        parent::__construct($coreData, $coreString, $coreStoreConfig, $data);
 
         $this->_addressCollection = isset($data['address_collection']) ? $data['address_collection']
             : Mage::getResourceModel('Magento_Customer_Model_Resource_Address_Collection');

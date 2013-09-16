@@ -153,6 +153,27 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     protected $_eventObject = 'creditmemo';
 
     /**
+     * Sales data
+     *
+     * @var Magento_Sales_Helper_Data
+     */
+    protected $_salesData = null;
+
+    /**
+     * Payment data
+     *
+     * @var Magento_Payment_Helper_Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -160,6 +181,9 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Sales_Helper_Data $salesData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
@@ -168,6 +192,9 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Sales_Helper_Data $salesData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
@@ -175,6 +202,9 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_paymentData = $paymentData;
+        $this->_salesData = $salesData;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -457,7 +487,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
             $order->getPayment()->refund($this);
         }
 
-        Mage::dispatchEvent('sales_order_creditmemo_refund', array($this->_eventObject=>$this));
+        $this->_eventManager->dispatch('sales_order_creditmemo_refund', array($this->_eventObject=>$this));
         return $this;
     }
 
@@ -504,7 +534,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         );
         $this->getOrder()->setShippingRefunded($this->getOrder()->getShippingRefunded()-$this->getShippingAmount());
 
-        Mage::dispatchEvent('sales_order_creditmemo_cancel', array($this->_eventObject=>$this));
+        $this->_eventManager->dispatch('sales_order_creditmemo_cancel', array($this->_eventObject=>$this));
         return $this;
     }
 
@@ -716,7 +746,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         $order = $this->getOrder();
         $storeId = $order->getStore()->getId();
 
-        if (!Mage::helper('Magento_Sales_Helper_Data')->canSendNewCreditmemoEmail($storeId)) {
+        if (!$this->_salesData->canSendNewCreditmemoEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to
@@ -727,7 +757,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
             return $this;
         }
 
-        $paymentBlockHtml = Mage::helper('Magento_Payment_Helper_Data')->getInfoBlockHtml($order->getPayment(), $storeId);
+        $paymentBlockHtml = $this->_paymentData->getInfoBlockHtml($order->getPayment(), $storeId);
 
         // Retrieve corresponding email template id and customer name
         if ($order->getCustomerIsGuest()) {
@@ -792,7 +822,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         $order = $this->getOrder();
         $storeId = $order->getStore()->getId();
 
-        if (!Mage::helper('Magento_Sales_Helper_Data')->canSendCreditmemoCommentEmail($storeId)) {
+        if (!$this->_salesData->canSendCreditmemoCommentEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to

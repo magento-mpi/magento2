@@ -185,7 +185,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
     protected function _getSelectedProducts()
     {
         if ($this->getRequest()->getPost('source')) {
-            $source = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($this->getRequest()->getPost('source'));
+            $source = $this->_coreData->jsonDecode($this->getRequest()->getPost('source'));
             if (isset($source['source_products']) && is_array($source['source_products'])) {
                 return array_keys($source['source_products']);
             }

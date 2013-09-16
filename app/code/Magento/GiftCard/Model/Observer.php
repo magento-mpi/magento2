@@ -20,6 +20,13 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
     protected $_emailTemplateModel;
 
     /**
+     * Gift card data
+     *
+     * @var Magento_GiftCard_Helper_Data
+     */
+    protected $_giftCardData = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -27,6 +34,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_GiftCard_Helper_Data $giftCardData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
@@ -36,6 +44,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
      * @throws InvalidArgumentException
      */
     public function __construct(
+        Magento_GiftCard_Helper_Data $giftCardData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
@@ -43,6 +52,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
         Magento_Core_Model_Resource_Db_Collection_Abstract $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_giftCardData = $giftCardData;
         $this->_coreStoreConfig = $coreStoreConfig;
         if (isset($data['email_template_model'])) {
             if (!$data['email_template_model'] instanceof Magento_Core_Model_Email_Template) {
@@ -121,7 +131,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
         // set lifetime
         $lifetime = 0;
         if ($product->getUseConfigLifetime()) {
-            $lifetime = $this->_coreStoreConfig->getConfig(
+            $lifetime = Mage::getStoreConfig(
                 Magento_GiftCard_Model_Giftcard::XML_PATH_LIFETIME,
                 $orderItem->getStore()
             );
@@ -133,7 +143,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
         // set is_redeemable
         $isRedeemable = 0;
         if ($product->getUseConfigIsRedeemable()) {
-            $isRedeemable = $this->_coreStoreConfig->getConfigFlag(
+            $isRedeemable = Mage::getStoreConfigFlag(
                 Magento_GiftCard_Model_Giftcard::XML_PATH_IS_REDEEMABLE,
                 $orderItem->getStore()
             );
@@ -145,7 +155,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
         // set email_template
         $emailTemplate = 0;
         if ($product->getUseConfigEmailTemplate()) {
-            $emailTemplate = $this->_coreStoreConfig->getConfig(
+            $emailTemplate = Mage::getStoreConfig(
                 Magento_GiftCard_Model_Giftcard::XML_PATH_EMAIL_TEMPLATE,
                 $orderItem->getStore()
             );
@@ -171,7 +181,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
         // sales_order_save_after
 
         $order = $observer->getEvent()->getOrder();
-        $requiredStatus = $this->_coreStoreConfig->getConfig(
+        $requiredStatus = Mage::getStoreConfig(
             Magento_GiftCard_Model_Giftcard::XML_PATH_ORDER_ITEM_STATUS,
             $order->getStore()
         );
@@ -294,7 +304,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
                         ));
                         $email->sendTransactional(
                             $item->getProductOptionByCode('giftcard_email_template'),
-                            $this->_coreStoreConfig->getConfig(
+                            Mage::getStoreConfig(
                                 Magento_GiftCard_Model_Giftcard::XML_PATH_EMAIL_IDENTITY,
                                 $item->getOrder()->getStoreId()
                             ),

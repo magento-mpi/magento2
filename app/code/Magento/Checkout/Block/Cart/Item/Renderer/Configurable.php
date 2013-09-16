@@ -91,9 +91,6 @@ class Magento_Checkout_Block_Cart_Item_Renderer_Configurable extends Magento_Che
      */
     public function getOptionList()
     {
-        /* @var $helper Magento_Catalog_Helper_Product_Configuration */
-        $helper = Mage::helper('Magento_Catalog_Helper_Product_Configuration');
-        $options = $helper->getConfigurableOptions($this->getItem());
-        return $options;
+        return $this->_productConfigur->getConfigurableOptions($this->getItem());
     }
 }

@@ -88,7 +88,7 @@ class Magento_WebsiteRestriction_Controller_Index extends Magento_Core_Controlle
             $this->addActionLayoutHandles();
 
             if ($page->getRootTemplate()) {
-                $this->getLayout()->helper('Magento_Page_Helper_Layout')
+                $this->_objectManager->get('Magento_Page_Helper_Layout')
                     ->applyHandle($page->getRootTemplate());
             }
 
@@ -98,7 +98,7 @@ class Magento_WebsiteRestriction_Controller_Index extends Magento_Core_Controlle
             $this->generateLayoutXml()->generateLayoutBlocks();
 
             if ($page->getRootTemplate()) {
-                $this->getLayout()->helper('Magento_Page_Helper_Layout')
+                $this->_objectManager->get('Magento_Page_Helper_Layout')
                     ->applyTemplate($page->getRootTemplate());
             }
 

@@ -34,13 +34,13 @@ class Magento_Rma_Controller_Guest extends Magento_Core_Controller_Front_Action
      */
     public function returnsAction()
     {
-        if (!Mage::helper('Magento_Rma_Helper_Data')->isEnabled()
-            || !Mage::helper('Magento_Sales_Helper_Guest')->loadValidOrder()) {
+        if (!$this->_objectManager->get('Magento_Rma_Helper_Data')->isEnabled()
+            || !$this->_objectManager->get('Magento_Sales_Helper_Guest')->loadValidOrder()) {
             $this->_forward('noRoute');
             return;
         }
         $this->loadLayout();
-        Mage::helper('Magento_Sales_Helper_Guest')->getBreadcrumbs($this);
+        $this->_objectManager->get('Magento_Sales_Helper_Guest')->getBreadcrumbs($this);
         $this->renderLayout();
     }
 
@@ -70,7 +70,7 @@ class Magento_Rma_Controller_Guest extends Magento_Core_Controller_Front_Action
         }
 
         $this->loadLayout();
-        Mage::helper('Magento_Sales_Helper_Guest')->getBreadcrumbs($this);
+        $this->_objectManager->get('Magento_Sales_Helper_Guest')->getBreadcrumbs($this);
         $this->getLayout()
             ->getBlock('head')
             ->setTitle(__('Return #%1', $this->_coreRegistry->registry('current_rma')->getIncrementId()));
@@ -85,8 +85,8 @@ class Magento_Rma_Controller_Guest extends Magento_Core_Controller_Front_Action
      */
     protected function _loadValidRma($entityId = null)
     {
-        if (!Mage::helper('Magento_Rma_Helper_Data')->isEnabled() ||
-            !Mage::helper('Magento_Sales_Helper_Guest')->loadValidOrder()) {
+        if (!$this->_objectManager->get('Magento_Rma_Helper_Data')->isEnabled() ||
+            !$this->_objectManager->get('Magento_Sales_Helper_Guest')->loadValidOrder()) {
             return;
         }
 
@@ -115,7 +115,7 @@ class Magento_Rma_Controller_Guest extends Magento_Core_Controller_Front_Action
      */
     public function createAction()
     {
-        if (!Mage::helper('Magento_Sales_Helper_Guest')->loadValidOrder()) {
+        if (!$this->_objectManager->get('Magento_Sales_Helper_Guest')->loadValidOrder()) {
             return;
         }
         $order      = $this->_coreRegistry->registry('current_order');
@@ -183,7 +183,7 @@ class Magento_Rma_Controller_Guest extends Magento_Core_Controller_Front_Action
      */
     protected function _loadOrderItems($orderId)
     {
-        if (Mage::helper('Magento_Rma_Helper_Data')->canCreateRma($orderId)) {
+        if ($this->_objectManager->get('Magento_Rma_Helper_Data')->canCreateRma($orderId)) {
             return true;
         }
 
@@ -254,7 +254,8 @@ class Magento_Rma_Controller_Guest extends Magento_Core_Controller_Front_Action
                 $number    = $this->getRequest()->getPost('number');
                 $number    = trim(strip_tags($number));
                 $carrier   = $this->getRequest()->getPost('carrier');
-                $carriers  = Mage::helper('Magento_Rma_Helper_Data')->getShippingCarriers($rma->getStoreId());
+                $carriers  = $this->_objectManager->get('Magento_Rma_Helper_Data')
+                    ->getShippingCarriers($rma->getStoreId());
 
                 if (!isset($carriers[$carrier])) {
                     Mage::throwException(__('Please select a valid carrier.'));

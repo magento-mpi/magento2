@@ -80,8 +80,9 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
             __('Manage Product Sets'),
             __('Manage Product Sets'));
 
-        $this->_addContent($this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main'));
+        $this->_addContent(
+            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main')
+        );
 
         $this->renderLayout();
     }
@@ -112,7 +113,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
             ->setEntityTypeId($entityTypeId);
 
         /** @var $helper Magento_Adminhtml_Helper_Data */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
+        $helper = $this->_objectManager->get('Magento_Adminhtml_Helper_Data');
 
         try {
             if ($isNewSet) {
@@ -126,7 +127,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
                 if (!$model->getId()) {
                     Mage::throwException(__('This attribute set no longer exists.'));
                 }
-                $data = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($this->getRequest()->getPost('data'));
+                $data = $this->_objectManager->get('Magento_Core_Helper_Data')
+                    ->jsonDecode($this->getRequest()->getPost('data'));
 
                 //filter html tags
                 $data['attribute_set_name'] = $helper->stripTags($data['attribute_set_name']);
@@ -178,7 +180,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
                 $response['error']   = 0;
                 $response['url']     = $this->getUrl('*/*/');
             }
-            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')
+                ->jsonEncode($response));
         }
     }
 

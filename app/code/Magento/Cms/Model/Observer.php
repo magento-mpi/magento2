@@ -19,6 +19,13 @@
 class Magento_Cms_Model_Observer
 {
     /**
+     * Cms page
+     *
+     * @var Magento_Cms_Helper_Page
+     */
+    protected $_cmsPage = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -26,11 +33,14 @@ class Magento_Cms_Model_Observer
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Cms_Helper_Page $cmsPage
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Cms_Helper_Page $cmsPage,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_cmsPage = $cmsPage;
         $this->_coreStoreConfig = $coreStoreConfig;
     }
 
@@ -61,7 +71,7 @@ class Magento_Cms_Model_Observer
         $redirect = $observer->getEvent()->getRedirect();
 
         $pageId  = $this->_coreStoreConfig->getConfig(Magento_Cms_Helper_Page::XML_PATH_NO_COOKIES_PAGE);
-        $pageUrl = Mage::helper('Magento_Cms_Helper_Page')->getPageUrl($pageId);
+        $pageUrl = $this->_cmsPage->getPageUrl($pageId);
 
         if ($pageUrl) {
             $redirect->setRedirectUrl($pageUrl);

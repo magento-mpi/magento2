@@ -41,6 +41,13 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
     protected $_eventPrefix = 'core_file_storage';
 
     /**
+     * Core file storage
+     *
+     * @var Magento_Core_Helper_File_Storage
+     */
+    protected $_coreFileStorage = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -53,17 +60,18 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
+     * @param Magento_Core_Helper_File_Storage $coreFileStorage
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento_Data_Collection_Db $resourceCollection
+     * $resourceCollection
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_File_Storage $coreFileStorage,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
@@ -72,9 +80,10 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_coreFileStorage = $coreFileStorage;
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_coreConfig = $coreConfig;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -120,7 +129,7 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
     public function getStorageModel($storage = null, $params = array())
     {
         if (is_null($storage)) {
-            $storage = Mage::helper('Magento_Core_Helper_File_Storage')->getCurrentStorageCode();
+            $storage = $this->_coreFileStorage->getCurrentStorageCode();
         }
 
         switch ($storage) {
@@ -159,7 +168,7 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
         if (is_array($storage) && isset($storage['type'])) {
             $storageDest    = (int) $storage['type'];
             $connection     = (isset($storage['connection'])) ? $storage['connection'] : null;
-            $helper         = Mage::helper('Magento_Core_Helper_File_Storage');
+            $helper         = $this->_coreFileStorage;
 
             // if unable to sync to internal storage from itself
             if ($storageDest == $helper->getCurrentStorageCode() && $helper->isInternalStorage()) {

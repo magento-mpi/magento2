@@ -19,14 +19,21 @@ class Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator exten
 {
 
     /**
-     * Construct
+     * Eav data
+     *
+     * @var Magento_Eav_Helper_Data
      */
-    public function __construct()
-    {
+    protected $_eavData = null;
+
+    /**
+     * @param Magento_Eav_Helper_Data $eavData
+     */
+    public function __construct(
+        Magento_Eav_Helper_Data $eavData
+    ) {
+        $this->_eavData = $eavData;
         //set data haystack
-        /** @var $helper Magento_Eav_Helper_Data */
-        $helper = Mage::helper('Magento_Eav_Helper_Data');
-        $haystack = $helper->getInputTypesValidatorData();
+        $haystack = $this->_eavData->getInputTypesValidatorData();
 
         //reset message template and set custom
         $this->_messageTemplates = null;

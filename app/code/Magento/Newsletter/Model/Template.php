@@ -55,6 +55,13 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
     protected $_mail;
 
     /**
+     * Newsletter data
+     *
+     * @var Magento_Newsletter_Helper_Data
+     */
+    protected $_newsletterData = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -63,6 +70,7 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
 
     /**
      * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Newsletter_Helper_Data $newsletterData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
@@ -70,11 +78,13 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
      */
     public function __construct(
         Magento_Core_Model_View_DesignInterface $design,
+        Magento_Newsletter_Helper_Data $newsletterData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
+        $this->_newsletterData = $newsletterData;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($design, $context, $registry, $data);
     }
@@ -115,8 +125,7 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
                     foreach ($messages as $message) {
                         $errorMessages[] = $message;
                     }
-                }
-                else {
+                } else {
                     $errorMessages[] = $messages;
                 }
             }
@@ -153,7 +162,8 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
      *
      * @return int|string
      */
-    public function getType(){
+    public function getType()
+    {
         return $this->getTemplateType();
     }
 
@@ -191,7 +201,7 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
     public function getProcessedTemplate(array $variables = array(), $usePreprocess = false)
     {
         /* @var $processor Magento_Newsletter_Model_Template_Filter */
-        $processor = Mage::helper('Magento_Newsletter_Helper_Data')->getTemplateProcessor();
+        $processor = $this->_newsletterData->getTemplateProcessor();
 
         if (!$this->_preprocessFlag) {
             $variables['this'] = $this;
@@ -273,8 +283,9 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
     {
         if (!$this->getData('template_text') && !$this->getId()) {
             $this->setData('template_text',
-                __('Follow this link to unsubscribe <!-- This tag is for unsubscribe link  --><a href="{{var subscriber.getUnsubscriptionLink()}}">{{var subscriber.getUnsubscriptionLink()}}</a>')
-            );
+                __('Follow this link to unsubscribe <!-- This tag is for unsubscribe link  -->'
+                    . '<a href="{{var subscriber.getUnsubscriptionLink()}}">{{var subscriber.getUnsubscriptionLink()}}'
+                    . '</a>'));
         }
 
         return $this->getData('template_text');

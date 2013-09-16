@@ -19,6 +19,7 @@
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
 class Magento_Core_Model_Layout extends Magento_Simplexml_Config
 {
@@ -76,7 +77,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     /**
      * @var Magento_Core_Model_View_DesignInterface
      */
-    private $_design;
+    protected $_design;
 
     /**
      * Layout Update module
@@ -178,13 +179,37 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     protected $_renderers = array();
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Model_Factory_Helper
+     */
+    protected $_factoryHelper = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig;
-
+    
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Factory_Helper $factoryHelper
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Model_BlockFactory $blockFactory
      * @param Magento_Data_Structure $structure
@@ -195,6 +220,9 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * @param string $area
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Factory_Helper $factoryHelper,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Model_BlockFactory $blockFactory,
         Magento_Data_Structure $structure,
@@ -204,6 +232,9 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         Magento_Core_Model_Store_Config $coreStoreConfig,
         $area = Magento_Core_Model_View_DesignInterface::DEFAULT_AREA
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_factoryHelper = $factoryHelper;
+        $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_design = $design;
         $this->_blockFactory = $blockFactory;
@@ -655,7 +686,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         foreach ($argument->children() as $argumentChild) {
             /** @var $argumentChild Magento_Core_Model_Layout_Element */
             if ('updater' == $argumentChild->getName()) {
-                $updaters[uniqid()] = trim((string)$argumentChild);
+                $updaters[uniqid(rand())] = trim((string)$argumentChild);
             }
         }
         return $updaters;
@@ -1149,7 +1180,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             $this->_renderElementCache[$name] = $result;
         }
         $this->_renderingOutput->setData('output', $this->_renderElementCache[$name]);
-        Mage::dispatchEvent('core_layout_render_element', array(
+        $this->_eventManager->dispatch('core_layout_render_element', array(
             'element_name' => $name,
             'layout'       => $this,
             'transport'    => $this->_renderingOutput,
@@ -1278,7 +1309,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         list($helperName, $helperMethod) = explode('::', $helper);
         $arg = $this->_getArgsFromAssoc($arg);
         unset($arg['@']);
-        return call_user_func_array(array(Mage::helper($helperName), $helperMethod), $arg);
+        return call_user_func_array(array($this->_factoryHelper->get($helperName), $helperMethod), $arg);
     }
 
     /**
@@ -1423,7 +1454,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         $block->setLayout($this);
 
         $this->_blocks[$name] = $block;
-        Mage::dispatchEvent('core_layout_block_create_after', array('block' => $block));
+        $this->_eventManager->dispatch('core_layout_block_create_after', array('block' => $block));
         return $this->_blocks[$name];
     }
 
@@ -1638,21 +1669,6 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             }
         }
         return $this->_helpers[$type];
-    }
-
-    /**
-     * Retrieve helper object
-     *
-     * @param   string $name
-     * @return  Magento_Core_Helper_Abstract
-     */
-    public function helper($name)
-    {
-        $helper = Mage::helper($name);
-        if (!$helper) {
-            return false;
-        }
-        return $helper->setLayout($this);
     }
 
     /**

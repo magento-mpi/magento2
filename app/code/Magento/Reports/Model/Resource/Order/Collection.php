@@ -117,7 +117,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
                 )
             ));
 
-            Mage::dispatchEvent('sales_prepare_amount_expression', array(
+            $this->_eventManager->dispatch('sales_prepare_amount_expression', array(
                 'collection' => $this,
                 'expression_object' => $expressionTransferObject,
             ));

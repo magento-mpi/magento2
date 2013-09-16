@@ -108,22 +108,44 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * @var Magento_Core_Model_Registry
      */
     protected $_coreRegistry = null;
+    
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Data $coreData
      * @var Magento_Core_Model_Config
      */
     protected $_coreConfig;
-    
+
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_coreData = $coreData;
         $this->_coreRegistry = $coreRegistry;
         $this->_coreConfig = $coreConfig;
         parent::__construct($data);
@@ -201,8 +223,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      *
      * @return  Magento_Adminhtml_Model_Sales_Order_Create
      */
-    public function recollectCart()
-    {
+    public function recollectCart(){
         if ($this->_needCollectCart === true) {
             $this->getCustomerCart()
                 ->collectTotals()
@@ -337,9 +358,9 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             $quote->collectTotals();
         }
 
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldset('sales_copy_order', 'to_edit', $order, $quote);
+        $this->_coreData->copyFieldset('sales_copy_order', 'to_edit', $order, $quote);
 
-        Mage::dispatchEvent('sales_convert_order_to_quote', array('order' => $order, 'quote' => $quote));
+        $this->_eventManager->dispatch('sales_convert_order_to_quote', array('order' => $order, 'quote' => $quote));
 
         if (!$order->getCustomerId()) {
             $quote->setCustomerIsGuest(true);
@@ -368,7 +389,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     protected function _initBillingAddressFromOrder(Magento_Sales_Model_Order $order)
     {
         $this->getQuote()->getBillingAddress()->setCustomerAddressId('');
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldset(
+        $this->_coreData->copyFieldset(
             'sales_copy_order_billing_address',
             'to_order',
             $order->getBillingAddress(),
@@ -382,7 +403,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         $quoteShippingAddress = $this->getQuote()->getShippingAddress()
             ->setCustomerAddressId('')
             ->setSameAsBilling($orderShippingAddress && $orderShippingAddress->getSameAsBilling());
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldset(
+        $this->_coreData->copyFieldset(
             'sales_copy_order_shipping_address',
             'to_order',
             $orderShippingAddress,
@@ -428,7 +449,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 ));
             }
 
-            Mage::dispatchEvent('sales_convert_order_item_to_quote_item', array(
+            $this->_eventManager->dispatch('sales_convert_order_item_to_quote_item', array(
                 'order_item' => $orderItem,
                 'quote_item' => $item
             ));
@@ -442,6 +463,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * Retrieve customer wishlist model object
      *
      * @params bool $cacheReload pass cached wishlist object and get new one
+     * @param bool $cacheReload
      * @return Magento_Wishlist_Model_Wishlist
      */
     public function getCustomerWishlist($cacheReload = false)
@@ -734,7 +756,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * $config can be either buyRequest config, or just qty
      *
      * @param   int|Magento_Catalog_Model_Product $product
-     * @param   float|array|Magento_Object $config
+     * @param array|float|int|\Magento_Object $config
      * @return  Magento_Adminhtml_Model_Sales_Order_Create
      */
     public function addProduct($product, $config = 1)
@@ -815,6 +837,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * Update quantity of order quote items
      *
      * @param   array $data
+     * @throws Exception|Magento_Core_Exception
      * @return  Magento_Adminhtml_Model_Sales_Order_Create
      */
     public function updateQuoteItems($data)
@@ -874,8 +897,9 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Parse additional options and sync them with product options
      *
-     * @param Magento_Sales_Model_Quote_Item $product
-     * @param array $options
+     * @param Magento_Sales_Model_Quote_Item $item
+     * @param $additionalOptions
+     * @return array
      */
     protected function _parseOptions(Magento_Sales_Model_Quote_Item $item, $additionalOptions)
     {
@@ -943,6 +967,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      *
      * @param Magento_Sales_Model_Quote_Item $item
      * @param array $options
+     * @return $this
      */
     protected function _assignOptionsToItem(Magento_Sales_Model_Quote_Item $item, $options)
     {
@@ -1551,7 +1576,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             $order->sendNewOrderEmail();
         }
 
-        Mage::dispatchEvent('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));
+        $this->_eventManager->dispatch('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));
 
         return $order;
     }

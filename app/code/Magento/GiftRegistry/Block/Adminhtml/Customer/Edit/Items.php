@@ -22,6 +22,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
@@ -29,6 +30,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
@@ -36,7 +38,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $storeManager, $urlModel, $data);
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
     protected function _construct()

@@ -18,13 +18,6 @@
 class Magento_ImportExport_Block_Adminhtml_Import_Edit_Before extends Magento_Backend_Block_Template
 {
     /**
-     * Core helper
-     *
-     * @var Magento_Core_Helper_Data
-     */
-    protected $_coreHelper;
-
-    /**
      * Basic import model
      *
      * @var Magento_ImportExport_Model_Import
@@ -33,19 +26,18 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Before extends Magento_Ba
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Helper_Data $coreHelper
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_ImportExport_Model_Import $importModel
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Helper_Data $coreHelper,
         Magento_ImportExport_Model_Import $importModel,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
-        $this->_coreHelper = $coreHelper;
         $this->_importModel = $importModel;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -59,7 +51,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Before extends Magento_Ba
         foreach ($behaviors as $entityCode => $behavior) {
             $behaviors[$entityCode] = $behavior['code'];
         }
-        return $this->_coreHelper->jsonEncode($behaviors);
+        return $this->_coreData->jsonEncode($behaviors);
     }
 
     /**
@@ -70,6 +62,6 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Before extends Magento_Ba
     public function getUniqueBehaviors()
     {
         $uniqueBehaviors = $this->_importModel->getUniqueEntityBehaviors();
-        return $this->_coreHelper->jsonEncode(array_keys($uniqueBehaviors));
+        return $this->_coreData->jsonEncode(array_keys($uniqueBehaviors));
     }
 }

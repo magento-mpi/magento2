@@ -123,10 +123,30 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     );
 
     /**
+     * @var Magento_Core_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_coreDataMock;
+
+    /**
+     * @var Magento_Core_Helper_String|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_coreStringMock;
+
+    /**
+     * @var Magento_TestFramework_Helper_ObjectManager
+     */
+    protected $_objectManagerMock;
+
+    /**
      * Init entity adapter model
      */
     public function setUp()
     {
+        $this->_objectManagerMock = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_coreDataMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $this->_coreStringMock = $this->getMock(
+            'Magento_Core_Helper_String', array('__construct'), array(), '', false
+        );
         $this->_model = $this->_getModelMock();
     }
 
@@ -173,10 +193,6 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
         $data = array(
             'data_source_model'            => $dataSourceModel,
             'connection'                   => $connection,
-            'json_helper'                  => 'not_used',
-            'string_helper'                => new Magento_Core_Helper_String(
-                $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false)
-            ),
             'page_size'                    => 1,
             'max_data_size'                => 1,
             'bunch_size'                   => 1,
@@ -202,9 +218,9 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     protected function _createAttrCollectionMock()
     {
         $attributeCollection = $this->getMock('Magento_Data_Collection', array('getEntityTypeCode'));
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         foreach ($this->_attributes as $attributeData) {
-            $arguments = $objectManagerHelper->getConstructArguments('Magento_Eav_Model_Entity_Attribute_Abstract');
+            $arguments = $this->_objectManagerMock
+                ->getConstructArguments('Magento_Eav_Model_Entity_Attribute_Abstract');
             $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass('Magento_Eav_Model_Entity_Attribute_Abstract',
                 $arguments, '', true, true, true, array('_construct', 'getBackend')
@@ -229,12 +245,19 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     {
         $customerStorage = $this->getMock('Magento_ImportExport_Model_Resource_Customer_Storage', array('load'),
             array(), '', false);
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $resourceMock = $this->getMock(
+            'Magento_Customer_Model_Resource_Customer', array('getIdFieldName'), array(), '', false
+        );
+        $resourceMock->expects($this->any())
+            ->method('getIdFieldName')
+            ->will($this->returnValue('id'));
         foreach ($this->_customers as $customerData) {
-            $arguments = $objectManagerHelper->getConstructArguments('Magento_Customer_Model_Customer');
-            $arguments['data'] = $customerData;
+            $data = array(
+                'resource' => $resourceMock,
+                'data'     => $customerData,
+            );
             /** @var $customer Magento_Customer_Model_Customer */
-            $customer = $this->getMock('Magento_Customer_Model_Customer', array('_construct'), $arguments);
+            $customer = $this->_objectManagerMock->getObject('Magento_Customer_Model_Customer', $data);
             $customerStorage->addCustomer($customer);
         }
         return $customerStorage;
@@ -413,16 +436,12 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     protected function _getModelMock()
     {
         $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
-
-        $modelMock = $this->getMock('Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address',
-            array(
-                'isAttributeValid',
-            ),
-            array($coreStoreConfig, $this->_getModelDependencies()),
-            '',
-            true,
-            true,
-            true
+        
+        $modelMock = new Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address(
+            $this->_coreDataMock,
+            $this->_coreStringMock,
+            $coreStoreConfig,
+            $this->_getModelDependencies()
         );
 
         $property = new ReflectionProperty($modelMock, '_availableBehaviors');

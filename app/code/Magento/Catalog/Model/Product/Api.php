@@ -57,8 +57,23 @@ class Magento_Catalog_Model_Product_Api extends Magento_Catalog_Model_Api_Resour
         'updated_at'
     );
 
-    public function __construct()
-    {
+    /**
+     * Api data
+     *
+     * @var Magento_Api_Helper_Data
+     */
+    protected $_apiData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Api_Helper_Data $apiData
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Api_Helper_Data $apiData
+    ) {
+        $this->_apiData = $apiData;
+        parent::__construct($catalogProduct);
         $this->_storeIdSessionField = 'product_store_id';
         $this->_ignoredAttributeTypes[] = 'gallery';
         $this->_ignoredAttributeTypes[] = 'media_image';
@@ -78,7 +93,7 @@ class Magento_Catalog_Model_Product_Api extends Magento_Catalog_Model_Api_Resour
             ->addAttributeToSelect('name');
 
         /** @var $apiHelper Magento_Api_Helper_Data */
-        $apiHelper = Mage::helper('Magento_Api_Helper_Data');
+        $apiHelper = $this->_apiData;
         $filters = $apiHelper->parseFilters($filters, $this->_filtersMap);
         try {
             foreach ($filters as $field => $value) {

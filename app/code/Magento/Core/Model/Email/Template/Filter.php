@@ -49,22 +49,32 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
     protected $_viewUrl;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig;
-
+    
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreData = $coreData;
         $this->_viewUrl = $viewUrl;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_modifiers['escape'] = array($this, 'modifierEscape');
     }
 
@@ -331,7 +341,7 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
             $allowedTags = preg_split('/\s*\,\s*/', $params['allowed_tags'], 0, PREG_SPLIT_NO_EMPTY);
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->escapeHtml($params['var'], $allowedTags);
+        return $this->_coreData->escapeHtml($params['var'], $allowedTags);
     }
 
     /**

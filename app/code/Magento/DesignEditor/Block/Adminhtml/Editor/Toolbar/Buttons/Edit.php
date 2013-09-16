@@ -30,6 +30,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
     protected $_localeModel;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_DesignEditor_Model_Theme_Context $themeContext
      * @param Magento_DesignEditor_Model_Theme_ChangeFactory $changeFactory
@@ -37,6 +38,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_DesignEditor_Model_Theme_Context $themeContext,
         Magento_DesignEditor_Model_Theme_ChangeFactory $changeFactory,
@@ -46,7 +48,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
         $this->_themeContext = $themeContext;
         $this->_changeFactory = $changeFactory;
         $this->_localeModel = $localeModel;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

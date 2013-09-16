@@ -38,6 +38,22 @@ class Magento_Catalog_Model_Api_Resource extends Magento_Api_Model_Resource_Abst
     protected $_storeIdSessionField   = 'store_id';
 
     /**
+     * Catalog product
+     *
+     * @var Magento_Catalog_Helper_Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct
+    ) {
+        $this->_catalogProduct = $catalogProduct;
+    }
+
+    /**
      * Check is attribute allowed
      *
      * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
@@ -89,7 +105,7 @@ class Magento_Catalog_Model_Api_Resource extends Magento_Api_Model_Resource_Abst
      */
     protected function _getProduct($productId, $store = null, $identifierType = null)
     {
-        $product = Mage::helper('Magento_Catalog_Helper_Product')->getProduct($productId, $this->_getStoreId($store), $identifierType);
+        $product = $this->_catalogProduct->getProduct($productId, $this->_getStoreId($store), $identifierType);
         if (is_null($product->getId())) {
             $this->_fault('product_not_exists');
         }

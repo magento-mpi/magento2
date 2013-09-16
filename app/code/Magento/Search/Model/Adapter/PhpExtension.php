@@ -26,6 +26,14 @@ class Magento_Search_Model_Adapter_PhpExtension extends Magento_Search_Model_Ada
     protected $_clientDocObjectName = 'SolrInputDocument';
 
     /**
+     * Catalog inventory data
+     *
+     * @var Magento_CatalogInventory_Helper_Data
+     */
+    protected $_ctlgInventData = null;
+
+    /**
+     * @param Magento_CatalogInventory_Helper_Data $ctlgInventData
      * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Search_Helper_ClientInterface $clientHelper
@@ -35,6 +43,7 @@ class Magento_Search_Model_Adapter_PhpExtension extends Magento_Search_Model_Ada
      * @throws Exception
      */
     public function __construct(
+        Magento_CatalogInventory_Helper_Data $ctlgInventData,
         Magento_Search_Model_Client_FactoryInterface $clientFactory,
         Magento_Core_Model_Logger $logger,
         Magento_Search_Helper_ClientInterface $clientHelper,
@@ -42,6 +51,7 @@ class Magento_Search_Model_Adapter_PhpExtension extends Magento_Search_Model_Ada
         Magento_Core_Model_Store_Config $coreStoreConfig,
         $options = array()
     ) {
+        $this->_ctlgInventData = $ctlgInventData;
         if (!extension_loaded('solr')) {
             throw new Exception('Solr extension not enabled!');
         }
@@ -205,7 +215,7 @@ class Magento_Search_Model_Adapter_PhpExtension extends Magento_Search_Model_Ada
         if ($_params['store_id'] > 0) {
             $solrQuery->addFilterQuery('store_id:' . $_params['store_id']);
         }
-        if (!Mage::helper('Magento_CatalogInventory_Helper_Data')->isShowOutOfStock()) {
+        if (!$this->_ctlgInventData->isShowOutOfStock()) {
             $solrQuery->addFilterQuery('in_stock:true');
         }
 

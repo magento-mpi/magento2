@@ -36,13 +36,27 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
     protected $_loadExpired = false;
 
     /**
+     * Persistent data
+     *
+     * @var Magento_Persistent_Helper_Data
+     */
+    protected $_persistentData = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
      * @var Magento_Core_Model_Config
      */
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Persistent_Helper_Data $persistentData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Config $coreConfig
@@ -51,6 +65,8 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Persistent_Helper_Data $persistentData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Config $coreConfig,
@@ -58,14 +74,10 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct(
-            $context,
-            $registry,
-            $resource,
-            $resourceCollection,
-            $data
-        );
+        $this->_coreData = $coreData;
+        $this->_persistentData = $persistentData;
         $this->_coreConfig = $coreConfig;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -106,7 +118,7 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
      */
     public function getExpiredBefore($store = null)
     {
-        return gmdate('Y-m-d H:i:s', time() - Mage::helper('Magento_Persistent_Helper_Data')->getLifeTime($store));
+        return gmdate('Y-m-d H:i:s', time() - $this->_persistentData->getLifeTime($store));
     }
 
     /**
@@ -126,13 +138,13 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
                 $info[$index] = $value;
             }
         }
-        $this->setInfo(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($info));
+        $this->setInfo($this->_coreData->jsonEncode($info));
 
         if ($this->isObjectNew()) {
             $this->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
             // Setting cookie key
             do {
-                $this->setKey(Mage::helper('Magento_Core_Helper_Data')->getRandomString(self::KEY_LENGTH));
+                $this->setKey($this->_coreData->getRandomString(self::KEY_LENGTH));
             } while (!$this->getResource()->isKeyAllowed($this->getKey()));
         }
 
@@ -147,7 +159,7 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
     protected function _afterLoad()
     {
         parent::_afterLoad();
-        $info = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($this->getInfo());
+        $info = $this->_coreData->jsonDecode($this->getInfo());
         if (is_array($info)) {
             foreach ($info as $key => $value) {
                 $this->setData($key, $value);

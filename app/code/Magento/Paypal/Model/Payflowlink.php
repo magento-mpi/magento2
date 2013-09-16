@@ -131,6 +131,7 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
      *
      * @param string $paymentAction
      * @param Magento_Object $stateObject
+     * @return \Magento_Payment_Model_Abstract|void
      */
     public function initialize($paymentAction, $stateObject)
     {
@@ -460,14 +461,14 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
         }
     }
 
-    /**
+     /**
       * Return unique value for secure token id
       *
       * @return string
       */
     protected function _generateSecureTokenId()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->uniqHash();
+        return $this->_coreData->uniqHash();
     }
 
     /**
@@ -482,7 +483,7 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
         return sprintf($format, $string);
     }
 
-    /**
+     /**
       * If response is failed throw exception
       * Set token data in payment object
       *
@@ -521,7 +522,7 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
      */
     protected function _generateSecureSilentPostHash($payment)
     {
-        $secureHash = md5(Mage::helper('Magento_Core_Helper_Data')->getRandomString(10));
+        $secureHash = md5($this->_coreData->getRandomString(10));
         $payment->setAdditionalInformation($this->_secureSilentPostHashKey, $secureHash);
         return $secureHash;
     }

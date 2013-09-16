@@ -107,17 +107,19 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
     /**
      * Fedex constructor
      *
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
+     * @param Magento_Directory_Helper_Data $directoryData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory,
+        Magento_Directory_Helper_Data $directoryData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $data);
         $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
+        parent::__construct($directoryData, $coreStoreConfig, $data);
         $wsdlBasePath = Mage::getModuleDir('etc', 'Magento_Usa')  . DS . 'wsdl' . DS . 'FedEx' . DS;
         $this->_shipServiceWsdl = $wsdlBasePath . 'ShipService_v10.wsdl';
         $this->_rateServiceWsdl = $wsdlBasePath . 'RateService_v10.wsdl';

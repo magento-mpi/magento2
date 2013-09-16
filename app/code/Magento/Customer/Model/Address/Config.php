@@ -45,6 +45,13 @@ class Magento_Customer_Model_Address_Config extends Magento_Core_Model_Config_Ba
     protected $_defaultTypes    = array();
 
     /**
+     * Customer address
+     *
+     * @var Magento_Customer_Helper_Address
+     */
+    protected $_customerAddress = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -76,15 +83,16 @@ class Magento_Customer_Model_Address_Config extends Magento_Core_Model_Config_Ba
     }
 
     /**
-     * Define node
-     *
+     * @param Magento_Customer_Helper_Address $customerAddress
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
+        Magento_Customer_Helper_Address $customerAddress,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig
     ) {
+        $this->_customerAddress = $customerAddress;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
         parent::__construct($this->_coreConfig->getNode()->global->customer->address);
@@ -118,7 +126,7 @@ class Magento_Customer_Model_Address_Config extends Magento_Core_Model_Config_Ba
                 }
 
                 $type->setRenderer(
-                    Mage::helper('Magento_Customer_Helper_Address')->getRenderer($renderer)->setType($type)
+                    $this->_customerAddress->getRenderer($renderer)->setType($type)
                 );
 
                 $this->_types[$storeId][] = $type;
@@ -145,7 +153,7 @@ class Magento_Customer_Model_Address_Config extends Magento_Core_Model_Config_Ba
                         . '{{var street}}, {{var city}}, {{var region}} {{var postcode}}, {{var country}}');
 
             $this->_defaultType[$storeId]->setRenderer(
-                Mage::helper('Magento_Customer_Helper_Address')
+                $this->_customerAddress
                     ->getRenderer(self::DEFAULT_ADDRESS_RENDERER)->setType($this->_defaultType[$storeId])
             );
         }

@@ -247,6 +247,13 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     protected $_configDataResource;
 
     /**
+     * Core file storage database
+     *
+     * @var Magento_Core_Helper_File_Storage_Database
+     */
+    protected $_coreFileStorageDatabase = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -259,8 +266,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
@@ -270,12 +276,13 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Resource_Config_Data $configDataResource
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Resource_Store $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param bool $isCustomEntryPoint
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
@@ -285,11 +292,12 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
         Magento_Core_Model_Resource_Config_Data $configDataResource,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Resource_Store $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         $isCustomEntryPoint = false,
         array $data = array()
     ) {
+        $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_urlModel = $urlModel;
         $this->_configCacheType = $configCacheType;
@@ -301,24 +309,12 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
-    /**
-     * Initialize object
-     */
-    protected function _construct()
-    {
-        $this->_init('Magento_Core_Model_Resource_Store');
-    }
-
-    /**
-     * Remove not serializable fields
-     *
-     * @return array
-     */
     public function __sleep()
     {
-        $properties = array_keys(get_object_vars($this));
+        $properties = parent::__sleep();
         if (Mage::getIsSerializable()) {
             $properties = array_diff($properties, array(
+                '_coreFileStorageDatabase',
                 '_eventDispatcher',
                 '_cacheManager',
                 '_coreStoreConfig',
@@ -333,12 +329,22 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
      */
     public function __wakeup()
     {
+        parent::__wakeup();
         if (Mage::getIsSerializable()) {
             $this->_eventDispatcher = Mage::getSingleton('Magento_Core_Model_Event_Manager');
             $this->_cacheManager    = Mage::getSingleton('Magento_Core_Model_CacheInterface');
             $this->_coreStoreConfig = Mage::getObjectManager()->get('Magento_Core_Model_Store_Config');
             $this->_coreConfig = Mage::getObjectManager()->get('Magento_Core_Model_Config');
+            $this->_coreFileStorageDatabase = Mage::getSingleton('Magento_Core_Helper_File_Storage_Database');
         }
+    }
+
+    /**
+     * Initialize object
+     */
+    protected function _construct()
+    {
+        $this->_init('Magento_Core_Model_Resource_Store');
     }
 
     /**
@@ -618,7 +624,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     protected function _getMediaScriptUrl(Magento_Core_Model_Dir $dirs, $secure)
     {
         if (!$this->getConfig(self::XML_PATH_USE_REWRITES)
-            && Mage::helper('Magento_Core_Helper_File_Storage_Database')->checkDbUsage()
+            && $this->_coreFileStorageDatabase->checkDbUsage()
         ) {
             return $this->getBaseUrl(self::URL_TYPE_WEB, $secure) . $dirs->getUri(Magento_Core_Model_Dir::PUB)
                 . '/' . self::MEDIA_REWRITE_SCRIPT;

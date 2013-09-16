@@ -47,28 +47,26 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
     protected $_orderFactory;
 
     /**
-     * Class constructor. Initialize checkout session namespace
-     *
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
-     * @param string|null $sessionName
+     * @param string $sessionName
+     *
      * @param array $data
      */
     public function __construct(
+        Magento_Sales_Model_OrderFactory $orderFactory,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
-        Magento_Sales_Model_OrderFactory $orderFactory,
         $sessionName = null,
         array $data = array()
     ) {
-        parent::__construct(
-            $coreStoreConfig,
-            $coreConfig,
-            $data
-        );
-
         $this->_orderFactory = $orderFactory;
+        parent::__construct($eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
         $this->init('checkout', $sessionName);
     }
 
@@ -122,7 +120,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
      */
     public function getQuote()
     {
-        Mage::dispatchEvent('custom_quote_process', array('checkout_session' => $this));
+        $this->_eventManager->dispatch('custom_quote_process', array('checkout_session' => $this));
 
         if ($this->_quote === null) {
             /** @var $quote Magento_Sales_Model_Quote */
@@ -163,7 +161,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
                     $this->setQuoteId($quote->getId());
                 } else {
                     $quote->setIsCheckoutCart(true);
-                    Mage::dispatchEvent('checkout_quote_init', array('quote'=>$quote));
+                    $this->_eventManager->dispatch('checkout_quote_init', array('quote'=>$quote));
                 }
             }
 
@@ -178,7 +176,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
             $this->_quote = $quote;
         }
 
-        if ($remoteAddr = Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr()) {
+        if ($remoteAddr = $this->_coreHttp->getRemoteAddr()) {
             $this->_quote->setRemoteIp($remoteAddr);
             $xForwardIp = Mage::app()->getRequest()->getServer('HTTP_X_FORWARDED_FOR');
             $this->_quote->setXForwardedFor($xForwardIp);
@@ -212,7 +210,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
             return $this;
         }
 
-        Mage::dispatchEvent('load_customer_quote_before', array('checkout_session' => $this));
+        $this->_eventManager->dispatch('load_customer_quote_before', array('checkout_session' => $this));
 
         $customerQuote = Mage::getModel('Magento_Sales_Model_Quote')
             ->setStoreId(Mage::app()->getStore()->getId())
@@ -373,7 +371,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
 
     public function clear()
     {
-        Mage::dispatchEvent('checkout_quote_destroy', array('quote'=>$this->getQuote()));
+        $this->_eventManager->dispatch('checkout_quote_destroy', array('quote'=>$this->getQuote()));
         $this->_quote = null;
         $this->setQuoteId(null);
         $this->setLastSuccessQuoteId(null);

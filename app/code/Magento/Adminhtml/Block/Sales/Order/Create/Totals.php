@@ -22,27 +22,34 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals extends Magento_Adminhtm
     protected $_defaultRenderer = 'Magento_Adminhtml_Block_Sales_Order_Create_Totals_Default';
 
     /**
+     * Sales data
+     *
+     * @var Magento_Sales_Helper_Data
+     */
+    protected $_salesData = null;
+
+    /**
      * @var Magento_Core_Model_Config
      */
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
+     * @param Magento_Sales_Helper_Data $salesData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
+        Magento_Sales_Helper_Data $salesData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
-        parent::__construct(
-            $context,
-            $data
-        );
+        $this->_salesData = $salesData;
         $this->_coreConfig = $coreConfig;
+        parent::__construct($coreData, $context, $data);
     }
 
     protected function _construct()
@@ -98,7 +105,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals extends Magento_Adminhtm
     public function renderTotals($area = null, $colspan = 1)
     {
         $html = '';
-        foreach($this->getTotals() as $total) {
+        foreach ($this->getTotals() as $total) {
             if ($total->getArea() != $area && $area != -1) {
                 continue;
             }
@@ -109,6 +116,6 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals extends Magento_Adminhtm
 
     public function canSendNewOrderConfirmationEmail()
     {
-        return Mage::helper('Magento_Sales_Helper_Data')->canSendNewOrderConfirmationEmail($this->getQuote()->getStoreId());
+        return $this->_salesData->canSendNewOrderConfirmationEmail($this->getQuote()->getStoreId());
     }
 }

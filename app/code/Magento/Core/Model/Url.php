@@ -102,6 +102,13 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
     protected $_useSession;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -116,18 +123,24 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
     /**
      * Constructor
      *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
-        parent::__construct($data);
+        $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
+        parent::__construct($data);
     }
 
     /**
@@ -769,7 +782,7 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
             $session = Mage::getSingleton('Magento_Core_Model_Session');
             if (!$session->isValidForHost($this->getHost())) {
                 if (!self::$_encryptedSessionId) {
-                    $helper = Mage::helper('Magento_Core_Helper_Data');
+                    $helper = $this->_coreData;
                     if (!$helper) {
                         return $this;
                     }
@@ -791,7 +804,7 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
         $session = Mage::getSingleton('Magento_Core_Model_Session');
 
         if (!self::$_encryptedSessionId) {
-            $helper = Mage::helper('Magento_Core_Helper_Data');
+            $helper = $this->_coreData;
             if (!$helper) {
                 return $this;
             }

@@ -114,6 +114,14 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
     protected $_storeManager;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -133,6 +141,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
     protected $_coreConfig;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction
      * @param Magento_FullPageCache_Model_Cache $fpcCache
      * @param Magento_FullPageCache_Model_Cache_SubProcessorFactory $subProcessorFactory
@@ -149,6 +158,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
      * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction,
         Magento_FullPageCache_Model_Cache $fpcCache,
         Magento_FullPageCache_Model_Cache_SubProcessorFactory $subProcessorFactory,
@@ -164,6 +174,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig
     ) {
+        $this->_eventManager = $eventManager;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreRegistry = $coreRegistry;
         $this->_containerFactory = $containerFactory;
@@ -521,7 +532,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
                     Mage::getSingleton('Magento_Core_Model_Session')->getSessionName()
                 );
 
-                Mage::dispatchEvent('pagecache_processor_metadata_before_save', array('processor' => $this));
+                $this->_eventManager->dispatch('pagecache_processor_metadata_before_save', array('processor' => $this));
 
                 $this->_metadata->saveMetadata($this->getRequestTags());
             }

@@ -19,6 +19,27 @@
 class Magento_Catalog_Model_Observer
 {
     /**
+     * Catalog category flat
+     *
+     * @var Magento_Catalog_Helper_Category_Flat
+     */
+    protected $_catalogCategoryFlat = null;
+
+    /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * Catalog category
+     *
+     * @var Magento_Catalog_Helper_Category
+     */
+    protected $_catalogCategory = null;
+    
+    /**
      * @var Magento_Core_Model_Config
      */
     protected $_coreConfig;
@@ -26,12 +47,21 @@ class Magento_Catalog_Model_Observer
     /**
      * Constructor
      *
+     * @param Magento_Catalog_Helper_Category $catalogCategory
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat
      * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
+        Magento_Catalog_Helper_Category $catalogCategory,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat,
         Magento_Core_Model_Config $coreConfig
     ) {
         $this->_coreConfig = $coreConfig;
+        $this->_catalogCategory = $catalogCategory;
+        $this->_catalogData = $catalogData;
+        $this->_catalogCategoryFlat = $catalogCategoryFlat;
     }
 
     /**
@@ -47,7 +77,7 @@ class Magento_Catalog_Model_Observer
         if ($store->dataHasChangedFor('group_id')) {
             Mage::app()->reinitStores();
             /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
-            $categoryFlatHelper = Mage::helper('Magento_Catalog_Helper_Category_Flat');
+            $categoryFlatHelper = $this->_catalogCategoryFlat;
             if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
                 Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Flat')
                     ->synchronize(null, array($store->getId()));
@@ -70,7 +100,7 @@ class Magento_Catalog_Model_Observer
         Mage::app()->reinitStores();
         $this->_coreConfig->reinit();
         /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
-        $categoryFlatHelper = Mage::helper('Magento_Catalog_Helper_Category_Flat');
+        $categoryFlatHelper = $this->_catalogCategoryFlat;
         if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
             Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Flat')
                 ->synchronize(null, array($store->getId()));
@@ -93,7 +123,7 @@ class Magento_Catalog_Model_Observer
             Mage::app()->reinitStores();
             foreach ($group->getStores() as $store) {
                 /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
-                $categoryFlatHelper = Mage::helper('Magento_Catalog_Helper_Category_Flat');
+                $categoryFlatHelper = $this->_catalogCategoryFlat;
                 if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
                     Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Flat')
                         ->synchronize(null, array($store->getId()));
@@ -112,7 +142,7 @@ class Magento_Catalog_Model_Observer
     public function storeDelete(Magento_Event_Observer $observer)
     {
         /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
-        $categoryFlatHelper = Mage::helper('Magento_Catalog_Helper_Category_Flat');
+        $categoryFlatHelper = $this->_catalogCategoryFlat;
         if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
             $store = $observer->getEvent()->getStore();
             Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Flat')->deleteStores($store->getId());
@@ -132,7 +162,7 @@ class Magento_Catalog_Model_Observer
         $prevParentId = $observer->getEvent()->getPrevParentId();
         $parentId = $observer->getEvent()->getParentId();
         /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
-        $categoryFlatHelper = Mage::helper('Magento_Catalog_Helper_Category_Flat');
+        $categoryFlatHelper = $this->_catalogCategoryFlat;
         if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
             Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Flat')
                 ->move($categoryId, $prevParentId, $parentId);
@@ -174,7 +204,7 @@ class Magento_Catalog_Model_Observer
     public function categorySaveAfter(Magento_Event_Observer $observer)
     {
         /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
-        $categoryFlatHelper = Mage::helper('Magento_Catalog_Helper_Category_Flat');
+        $categoryFlatHelper = $this->_catalogCategoryFlat;
         if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
             $category = $observer->getEvent()->getCategory();
             Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Flat')->synchronize($category);
@@ -192,7 +222,7 @@ class Magento_Catalog_Model_Observer
     {
         $storeId = $observer->getEvent()->getData('store_id');
         $result  = $observer->getEvent()->getData('result');
-        $result->isAllowed = Mage::helper('Magento_Catalog_Helper_Data')->setStoreId($storeId)->isUsingStaticUrlsAllowed();
+        $result->isAllowed = $this->_catalogData->setStoreId($storeId)->isUsingStaticUrlsAllowed();
     }
 
     /**
@@ -216,7 +246,7 @@ class Magento_Catalog_Model_Observer
     public function addCatalogToTopmenuItems(Magento_Event_Observer $observer)
     {
         $this->_addCategoriesToMenu(
-            Mage::helper('Magento_Catalog_Helper_Category')->getStoreCategories(),
+            $this->_catalogCategory->getStoreCategories(),
             $observer->getMenu()
         );
     }
@@ -240,13 +270,13 @@ class Magento_Catalog_Model_Observer
             $categoryData = array(
                 'name' => $category->getName(),
                 'id' => $nodeId,
-                'url' => Mage::helper('Magento_Catalog_Helper_Category')->getCategoryUrl($category),
+                'url' => $this->_catalogCategory->getCategoryUrl($category),
                 'is_active' => $this->_isActiveMenuCategory($category)
             );
             $categoryNode = new Magento_Data_Tree_Node($categoryData, 'id', $tree, $parentCategoryNode);
             $parentCategoryNode->addChild($categoryNode);
 
-            if (Mage::helper('Magento_Catalog_Helper_Category_Flat')->isEnabled()) {
+            if ($this->_catalogCategoryFlat->isEnabled()) {
                 $subcategories = (array)$category->getChildrenNodes();
             } else {
                 $subcategories = $category->getChildren();

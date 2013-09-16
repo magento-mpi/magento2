@@ -9,4 +9,24 @@
 -->
 <config>
     <type name="Magento_SalesRule_Model_Resource_Rule_Collection" shared="false" />
+    <type name="Magento_SalesRule_Model_Quote_Discount">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_SalesRule_Model_Rule_Condition_Combine">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_SalesRule_Model_Rule">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_SalesRule_Model_Validator">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
 </config>

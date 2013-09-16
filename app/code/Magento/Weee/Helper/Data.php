@@ -28,6 +28,13 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
      * @var Magento_Core_Model_Registry
      */
     protected $_coreRegistry = null;
+    
+    /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
 
     /**
      * Core store config
@@ -37,16 +44,19 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
     
     /**
+     * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Tax_Helper_Data $taxData,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_taxData = $taxData;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
@@ -337,10 +347,10 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
         $store = Mage::app()->getStore();
         foreach ($tierPrices as $index => &$tier) {
             $html = $store->formatPrice($store->convertPrice(
-                Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $tier['website_price'], true)+$weeeAmount), false);
+                $this->_taxData->getPrice($product, $tier['website_price'], true)+$weeeAmount), false);
             $tier['formated_price_incl_weee'] = '<span class="price tier-' . $index . '-incl-tax">' . $html . '</span>';
             $html = $store->formatPrice($store->convertPrice(
-                Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $tier['website_price'])+$weeeAmount), false);
+                $this->_taxData->getPrice($product, $tier['website_price'])+$weeeAmount), false);
             $tier['formated_price_incl_weee_only'] = '<span class="price tier-' . $index . '">' . $html . '</span>';
             $tier['formated_weee'] = $store->formatPrice($store->convertPrice($weeeAmount));
         }

@@ -25,6 +25,11 @@ class Magento_GoogleShopping_Model_Config extends Magento_Object
     protected $_config = array();
 
     /**
+     * @var Magento_Core_Helper_Data|null
+     */
+    protected $_coreData = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -32,15 +37,18 @@ class Magento_GoogleShopping_Model_Config extends Magento_Object
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
+     *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
         parent::__construct($data);
-        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**
@@ -89,7 +97,7 @@ class Magento_GoogleShopping_Model_Config extends Magento_Object
      */
     public function getAccountPassword($storeId = null)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->decrypt($this->getConfigData('password', $storeId));
+        return $this->_coreData->decrypt($this->getConfigData('password', $storeId));
     }
 
     /**

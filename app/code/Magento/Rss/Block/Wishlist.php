@@ -47,7 +47,7 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
                     $this->_wishlist->unsetData();
                 }
             } else {
-                if($this->_getCustomer()->getId()) {
+                if ($this->_getCustomer()->getId()) {
                     $this->_wishlist->loadByCustomer($this->_getCustomer());
                 }
             }
@@ -65,7 +65,7 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
         if (is_null($this->_customer)) {
             $this->_customer = Mage::getModel('Magento_Customer_Model_Customer');
 
-            $params = Mage::helper('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('data'));
+            $params = $this->_coreData->urlDecode($this->getRequest()->getParam('data'));
             $data   = explode(',', $params);
             $cId    = abs(intval($data[0]));
             if ($cId && ($cId == Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId()) ) {
@@ -122,7 +122,7 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
                 $product->setProductUrl($productUrl);
                 $args = array('product' => $product);
 
-                Mage::dispatchEvent('rss_wishlist_xml_callback', $args);
+                $this->_eventManager->dispatch('rss_wishlist_xml_callback', $args);
 
                 if (!$product->getAllowedInRss()) {
                     continue;
@@ -137,7 +137,7 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
                     . '<p>';
 
                 if ($product->getAllowedPriceInRss()) {
-                    $description .= $this->getPriceHtml($product,true);
+                    $description .= $this->getPriceHtml($product, true);
                 }
                 $description .= '</p>';
                 if ($this->hasDescription($product)) {
@@ -156,8 +156,7 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
                     'description'   => $description,
                 ));
             }
-        }
-        else {
+        } else {
             $rssObj->_addHeader(array(
                 'title'         => __('We cannot retrieve the wish list.'),
                 'description'   => __('We cannot retrieve the wish list.'),

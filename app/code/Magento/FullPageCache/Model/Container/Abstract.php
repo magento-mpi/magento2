@@ -31,6 +31,20 @@ abstract class Magento_FullPageCache_Model_Container_Abstract implements Magento
     protected $_fpcCache;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -38,18 +52,24 @@ abstract class Magento_FullPageCache_Model_Container_Abstract implements Magento
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_FullPageCache_Model_Cache $fpcCache
      * @param Magento_FullPageCache_Model_Container_Placeholder $placeholder
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_FullPageCache_Model_Cache $fpcCache,
         Magento_FullPageCache_Model_Container_Placeholder $placeholder,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_placeholder = $placeholder;
         $this->_fpcCache = $fpcCache;
+        $this->_eventManager = $eventManager;
+        $this->_coreRegistry = $coreRegistry;
     }
 
     /**

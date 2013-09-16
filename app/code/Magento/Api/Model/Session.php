@@ -33,19 +33,23 @@ class Magento_Api_Model_Session extends Magento_Core_Model_Session_Abstract
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($coreStoreConfig, $coreConfig, $data);
+        parent::__construct($eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
     }
 
     public function start($sessionName = null)

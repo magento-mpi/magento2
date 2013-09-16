@@ -8,10 +8,12 @@
 class Magento_Backend_Block_Widget_Grid_Column_Extended extends Magento_Backend_Block_Widget_Grid_Column
 {
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
@@ -21,6 +23,6 @@ class Magento_Backend_Block_Widget_Grid_Column_Extended extends Magento_Backend_
         $this->_rendererTypes['checkbox'] = 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Checkboxes_Extended';
         $this->_rendererTypes['radio'] = 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Radio_Extended';
 
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 }

@@ -40,12 +40,14 @@ class Magento_DesignEditor_Model_Url_NavigationMode extends Magento_Core_Model_U
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_DesignEditor_Helper_Data $helper
+     * @param Magento_Core_Helper_Data $coreData
      * @param array $data
      */
     public function __construct(
+        Magento_DesignEditor_Helper_Data $helper,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
-        Magento_DesignEditor_Helper_Data $helper,
         array $data = array()
     ) {
         $this->_helper = $helper;
@@ -57,6 +59,7 @@ class Magento_DesignEditor_Model_Url_NavigationMode extends Magento_Core_Model_U
             $this->_themeId = $data['themeId'];
         }
         parent::__construct(
+            $coreData,
             $coreStoreConfig,
             $coreConfig,
             $data

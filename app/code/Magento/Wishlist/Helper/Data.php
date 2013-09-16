@@ -57,12 +57,26 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_wishlistItemCollection = null;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
      */
     protected $_coreRegistry = null;
-    
+
     /**
      * Core store config
      *
@@ -71,17 +85,23 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_eventManager = $eventManager;
+        $this->_coreData = $coreData;
+         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -340,7 +360,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     public function getAddToCartUrl($item)
     {
         $urlParamName = Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
-        $continueUrl  = Mage::helper('Magento_Core_Helper_Data')->urlEncode(
+        $continueUrl  = $this->_coreData->urlEncode(
             Mage::getUrl('*/*/*', array(
                 '_current'      => true,
                 '_use_rewrite'  => true,
@@ -364,7 +384,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getSharedAddToCartUrl($item)
     {
-        $continueUrl  = Mage::helper('Magento_Core_Helper_Data')->urlEncode(Mage::getUrl('*/*/*', array(
+        $continueUrl  = $this->_coreData->urlEncode(Mage::getUrl('*/*/*', array(
             '_current'      => true,
             '_use_rewrite'  => true,
             '_store_to_url' => true,
@@ -441,7 +461,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
         if ($customer) {
             $key = $customer->getId() . ',' . $customer->getEmail();
             $params = array(
-                'data' => Mage::helper('Magento_Core_Helper_Data')->urlEncode($key),
+                'data' => $this->_coreData->urlEncode($key),
                 '_secure' => false,
             );
         }
@@ -508,7 +528,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
             );
         }
         $session->setWishlistItemCount($count);
-        Mage::dispatchEvent('wishlist_items_renewed');
+        $this->_eventManager->dispatch('wishlist_items_renewed');
         return $this;
     }
 

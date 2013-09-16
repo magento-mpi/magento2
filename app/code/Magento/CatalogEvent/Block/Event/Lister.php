@@ -25,14 +25,26 @@ class Magento_CatalogEvent_Block_Event_Lister extends Magento_CatalogEvent_Block
     protected $_events = null;
 
     /**
+     * Catalog event data
+     *
+     * @var Magento_CatalogEvent_Helper_Data
+     */
+    protected $_catalogEventData = null;
+
+    /**
+     * @param Magento_CatalogEvent_Helper_Data $catalogEventData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_CatalogEvent_Helper_Data $catalogEventData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        $this->_catalogEventData = $catalogEventData;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -56,7 +68,7 @@ class Magento_CatalogEvent_Block_Event_Lister extends Magento_CatalogEvent_Block
      */
     public function canDisplay()
     {
-        return Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()
+        return $this->_catalogEventData->isEnabled()
             && $this->_storeConfig->getConfigFlag('catalog/magento_catalogevent/lister_output')
             && (count($this->getEvents()) > 0);
     }

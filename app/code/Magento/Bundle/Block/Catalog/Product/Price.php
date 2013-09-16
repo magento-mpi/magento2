@@ -23,18 +23,24 @@ class Magento_Bundle_Block_Catalog_Product_Price extends Magento_Catalog_Block_P
     protected $_storeManager;
 
     /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
-        parent::__construct($context, $registry, $data);
+        parent::__construct($catalogData, $taxData, $coreData, $context, $registry, $data);
         $this->_storeManager = $storeManager;
     }
 
@@ -75,11 +81,11 @@ class Magento_Bundle_Block_Catalog_Product_Price extends Magento_Catalog_Block_P
     protected function _toHtml()
     {
         $product = $this->getProduct();
-        if ($this->getMAPTemplate() && Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($product)
+        if ($this->getMAPTemplate() && $this->_catalogData->canApplyMsrp($product)
                 && $product->getPriceType() != Magento_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC
         ) {
             $hiddenPriceHtml = parent::_toHtml();
-            if (Mage::helper('Magento_Catalog_Helper_Data')->isShowPriceOnGesture($product)) {
+            if ($this->_catalogData->isShowPriceOnGesture($product)) {
                 $this->setWithoutPrice(true);
             }
             $realPriceHtml = parent::_toHtml();

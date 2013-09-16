@@ -26,6 +26,20 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
     protected $_response = array();
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Pbridge data
+     *
+     * @var Magento_Pbridge_Helper_Data
+     */
+    protected $_pbridgeData = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -33,23 +47,34 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
     protected $_coreStoreConfig;
 
     /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Pbridge_Helper_Data $pbridgeData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
+        Magento_Pbridge_Helper_Data $pbridgeData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        parent::__construct($data);
+        $this->_pbridgeData = $pbridgeData;
+        $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($data);
     }
 
     /**
      * Make a call to Payment Bridge service with given request parameters
      *
      * @param array $request
-     * @return array
-     * @throws Magento_Core_Exception
+     * @throws Exception
+     * @return bool
      */
     protected function _call(array $request)
     {
@@ -82,7 +107,7 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
         if ($response) {
 
             $response = preg_split('/^\r?$/m', $response, 2);
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonDecode(trim($response[1]));
+            $response = $this->_coreData->jsonDecode(trim($response[1]));
 
             $debugData['result'] = $response;
             $this->_debug($debugData);
@@ -136,8 +161,8 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
      */
     protected function _prepareRequestParams($request)
     {
-        $request = Mage::helper('Magento_Pbridge_Helper_Data')->getRequestParams($request);
-        $request = array('data' => Mage::helper('Magento_Pbridge_Helper_Data')->encrypt(json_encode($request)));
+        $request = $this->_pbridgeData->getRequestParams($request);
+        $request = array('data' => $this->_pbridgeData->encrypt(json_encode($request)));
         return http_build_query($request, '', '&');
     }
 
@@ -148,7 +173,7 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
      */
     public function getPbridgeEndpoint()
     {
-        return Mage::helper('Magento_Pbridge_Helper_Data')->getRequestUrl();
+        return $this->_pbridgeData->getRequestUrl();
     }
 
     /**

@@ -249,7 +249,6 @@
  * @method Magento_Sales_Model_Order setRelationParentRealId(string $value)
  * @method string getRemoteIp()
  * @method Magento_Sales_Model_Order setRemoteIp(string $value)
- * @method string getShippingMethod()
  * @method Magento_Sales_Model_Order setShippingMethod(string $value)
  * @method string getStoreCurrencyCode()
  * @method Magento_Sales_Model_Order setStoreCurrencyCode(string $value)
@@ -390,6 +389,34 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
     protected $_historyEntityName = self::HISTORY_ENTITY_NAME;
 
     /**
+     * Sales data
+     *
+     * @var Magento_Sales_Helper_Data
+     */
+    protected $_salesData = null;
+
+    /**
+     * Payment data
+     *
+     * @var Magento_Payment_Helper_Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -397,6 +424,10 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Sales_Helper_Data $salesData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
@@ -405,6 +436,10 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Sales_Helper_Data $salesData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
@@ -412,6 +447,10 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_coreData = $coreData;
+        $this->_paymentData = $paymentData;
+        $this->_salesData = $salesData;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -1093,9 +1132,9 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
      */
     public function place()
     {
-        Mage::dispatchEvent('sales_order_place_before', array('order'=>$this));
+        $this->_eventManager->dispatch('sales_order_place_before', array('order'=>$this));
         $this->_placePayment();
-        Mage::dispatchEvent('sales_order_place_after', array('order'=>$this));
+        $this->_eventManager->dispatch('sales_order_place_after', array('order'=>$this));
         return $this;
     }
 
@@ -1138,7 +1177,7 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
             $this->getPayment()->cancel();
             $this->registerCancellation();
 
-            Mage::dispatchEvent('order_cancel_after', array('order' => $this));
+            $this->_eventManager->dispatch('order_cancel_after', array('order' => $this));
         }
 
         return $this;
@@ -1255,14 +1294,14 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
     {
         $storeId = $this->getStore()->getId();
 
-        if (!Mage::helper('Magento_Sales_Helper_Data')->canSendNewOrderEmail($storeId)) {
+        if (!$this->_salesData->canSendNewOrderEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to
         $copyTo = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO);
         $copyMethod = $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_COPY_METHOD, $storeId);
 
-        $paymentBlockHtml = Mage::helper('Magento_Payment_Helper_Data')->getInfoBlockHtml($this->getPayment(), $storeId);
+        $paymentBlockHtml = $this->_paymentData->getInfoBlockHtml($this->getPayment(), $storeId);
 
         // Retrieve corresponding email template id and customer name
         if ($this->getCustomerIsGuest()) {
@@ -1322,7 +1361,7 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
     {
         $storeId = $this->getStore()->getId();
 
-        if (!Mage::helper('Magento_Sales_Helper_Data')->canSendOrderCommentEmail($storeId)) {
+        if (!$this->_salesData->canSendOrderCommentEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to
@@ -1998,7 +2037,7 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
      */
     public function getCreatedAtFormated($format)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->formatDate($this->getCreatedAtStoreDate(), $format, true);
+        return $this->_coreData->formatDate($this->getCreatedAtStoreDate(), $format, true);
     }
 
     public function getEmailCustomerNote()

@@ -42,16 +42,6 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
     }
 
     /**
-     * Retrieve current customer
-     *
-     * @return Magento_Customer_Model_Customer
-     */
-    public function getCustomer()
-    {
-        return Mage::helper('Magento_Wishlist_Helper_Data')->getCustomer();
-    }
-
-    /**
      * Check whether multiple wishlist is enabled
      *
      * @return bool

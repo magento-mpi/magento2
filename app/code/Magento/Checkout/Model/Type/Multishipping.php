@@ -25,6 +25,13 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
     protected $_quoteShippingAddressesItems;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -32,15 +39,17 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
     protected $_coreStoreConfig;
 
     /**
-     * Constructor
+     * @param Magento_Core_Model_Event_Manager $eventManager
      *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($data);
         $this->_init();
@@ -272,7 +281,7 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
             }
 
             $this->save();
-            Mage::dispatchEvent('checkout_type_multishipping_set_shipping_items', array('quote'=>$quote));
+            $this->_eventManager->dispatch('checkout_type_multishipping_set_shipping_items', array('quote'=>$quote));
         }
         return $this;
     }
@@ -508,7 +517,7 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
                 $order = $this->_prepareOrder($address);
 
                 $orders[] = $order;
-                Mage::dispatchEvent(
+                $this->_eventManager->dispatch(
                     'checkout_type_multishipping_create_orders_single',
                     array('order'=>$order, 'address'=>$address)
                 );
@@ -530,11 +539,11 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
                 ->setIsActive(false)
                 ->save();
 
-            Mage::dispatchEvent('checkout_submit_all_after', array('orders' => $orders, 'quote' => $this->getQuote()));
+            $this->_eventManager->dispatch('checkout_submit_all_after', array('orders' => $orders, 'quote' => $this->getQuote()));
 
             return $this;
         } catch (Exception $e) {
-            Mage::dispatchEvent('checkout_multishipping_refund_all', array('orders' => $orders));
+            $this->_eventManager->dispatch('checkout_multishipping_refund_all', array('orders' => $orders));
             throw $e;
         }
     }

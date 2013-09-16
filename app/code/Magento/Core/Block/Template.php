@@ -76,13 +76,23 @@ class Magento_Core_Block_Template extends Magento_Core_Block_Abstract
     protected $_tmplEngineFactory;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
         $this->_dirs = $context->getDirs();
         $this->_logger = $context->getLogger();
         $this->_filesystem = $context->getFilesystem();
@@ -196,9 +206,9 @@ class Magento_Core_Block_Template extends Magento_Core_Block_Abstract
     {
         if (is_null(self::$_showTemplateHints)) {
             self::$_showTemplateHints = $this->_storeConfig->getConfig(self::XML_PATH_DEBUG_TEMPLATE_HINTS)
-                && Mage::helper('Magento_Core_Helper_Data')->isDevAllowed();
+                && $this->_coreData->isDevAllowed();
             self::$_showTemplateHintsBlocks = $this->_storeConfig->getConfig(self::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS)
-                && Mage::helper('Magento_Core_Helper_Data')->isDevAllowed();
+                && $this->_coreData->isDevAllowed();
         }
         return self::$_showTemplateHints;
     }

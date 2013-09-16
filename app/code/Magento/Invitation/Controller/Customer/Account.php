@@ -65,7 +65,7 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
         if (!$this->_coreRegistry->registry('current_invitation')) {
             $invitation = Mage::getModel('Magento_Invitation_Model_Invitation');
             $invitation
-                ->loadByInvitationCode(Mage::helper('Magento_Core_Helper_Data')->urlDecode(
+                ->loadByInvitationCode($this->_objectManager->get('Magento_Core_Helper_Data')->urlDecode(
                     $this->getRequest()->getParam('invitation', false)
                 ))
                 ->makeSureCanBeAccepted();
@@ -80,7 +80,7 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
     public function createAction()
     {
         try {
-            $invitation = $this->_initInvitation();
+            $this->_initInvitation();
             $this->loadLayout();
             $this->_initLayoutMessages('Magento_Customer_Model_Session');
             $this->renderLayout();
@@ -129,15 +129,16 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
                 $this->_getSession()->addError($e->getMessage())
                     ->setCustomerFormData($this->getRequest()->getPost());
             } else {
-                if (Mage::helper('Magento_Customer_Helper_Data')->isRegistrationAllowed()) {
+                if ($this->_objectManager->get('Magento_Customer_Helper_Data')->isRegistrationAllowed()) {
                     $this->_getSession()->addError(
                         __('Your invitation is not valid. Please create an account.')
                     );
                     $this->_redirect('customer/account/create');
                     return;
                 } else {
-                    $this->_getSession()->addError(
-                        __('Your invitation is not valid. Please contact us at %1.', $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('trans_email/ident_support/email'))
+                    $this->_getSession()->addError(__('Your invitation is not valid. Please contact us at %1.',
+                            $this->_objectManager->get('Magento_Core_Model_Store_Config')
+                                ->getConfig('trans_email/ident_support/email'))
                     );
                     $this->_redirect('customer/account/login');
                     return;

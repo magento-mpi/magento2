@@ -36,6 +36,7 @@ class Magento_Backend_Model_Locale extends Magento_Core_Model_Locale
     protected $_localeValidator;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Backend_Model_Session $session
      * @param Magento_Backend_Model_Locale_Manager $localeManager
      * @param Magento_Core_Controller_Request_Http $request
@@ -44,6 +45,7 @@ class Magento_Backend_Model_Locale extends Magento_Core_Model_Locale
      * @param string|null $locale
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Backend_Model_Session $session,
         Magento_Backend_Model_Locale_Manager $localeManager,
         Magento_Core_Controller_Request_Http $request,
@@ -56,7 +58,7 @@ class Magento_Backend_Model_Locale extends Magento_Core_Model_Locale
         $this->_request = $request;
         $this->_localeValidator = $localeValidator;
 
-        parent::__construct($coreStoreConfig, $locale);
+        parent::__construct($eventManager, $coreStoreConfig, $locale);
     }
 
     /**

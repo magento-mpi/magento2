@@ -95,6 +95,27 @@ class Magento_User_Model_User
     protected $_sender;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * User data
+     *
+     * @var Magento_User_Helper_Data
+     */
+    protected $_userData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -102,25 +123,37 @@ class Magento_User_Model_User
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_User_Helper_Data $userData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Sender $sender
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Sender $sender
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
+     *
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_User_Helper_Data $userData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Sender $sender,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Sender $sender,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_eventManager = $eventManager;
+        $this->_userData = $userData;
+        $this->_coreData = $coreData;
         $this->_sender = $sender;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -132,38 +165,29 @@ class Magento_User_Model_User
         $this->_init('Magento_User_Model_Resource_User');
     }
 
-    /**
-     * Remove not serializable fields
-     *
-     * @return array
-     */
     public function __sleep()
     {
-        $properties = array_keys(get_object_vars($this));
-        if (Mage::getIsSerializable()) {
-            $properties = array_diff($properties, array(
-                '_eventDispatcher',
-                '_cacheManager',
-                '_coreStoreConfig',
-                '_sender',
-                '_coreRegistry'
-            ));
-        }
+        $properties = parent::__sleep();
+        return array_diff($properties, array(
+            '_eventManager',
+            '_sender',
+            '_coreData',
+            '_userData',
+            '_coreStoreConfig',
+            '_coreRegistry'
+        ));
         return $properties;
     }
 
-    /**
-     * Init not serializable fields
-     */
     public function __wakeup()
     {
-        if (Mage::getIsSerializable()) {
-            $this->_eventDispatcher = Mage::getSingleton('Magento_Core_Model_Event_Manager');
-            $this->_cacheManager    = Mage::getSingleton('Magento_Core_Model_CacheInterface');
-            $this->_coreStoreConfig = Mage::getObjectManager()->get('Magento_Core_Model_Store_Config');
-            $this->_sender = Mage::getObjectManager()->get('Magento_Core_Model_Sender');
-            $this->_coreRegistry = Mage::getObjectManager()->get('Magento_Core_Model_Registry');
-        }
+        parent::__wakeup();
+        $this->_eventManager = Mage::getSingleton('Magento_Core_Model_Event_Manager');
+        $this->_sender       = Mage::getSingleton('Magento_Core_Model_Sender');
+        $this->_coreData     = Mage::getSingleton('Magento_Core_Helper_Data');
+        $this->_userData     = Mage::getSingleton('Magento_User_Helper_Data');
+        $this->_coreStoreConfig = Mage::getObjectManager()->get('Magento_Core_Model_Store_Config');
+        $this->_coreRegistry = Mage::getObjectManager()->get('Magento_Core_Model_Registry');
     }
 
     /**
@@ -493,7 +517,7 @@ class Magento_User_Model_User
         $result = false;
 
         try {
-            Mage::dispatchEvent('admin_user_authenticate_before', array(
+            $this->_eventManager->dispatch('admin_user_authenticate_before', array(
                 'username' => $username,
                 'user'     => $this
             ));
@@ -502,7 +526,7 @@ class Magento_User_Model_User
 
             if ($sensitive
                 && $this->getId()
-                && Mage::helper('Magento_Core_Helper_Data')->validateHash($password, $this->getPassword())
+                && $this->_coreData->validateHash($password, $this->getPassword())
             ) {
                 if ($this->getIsActive() != '1') {
                     throw new Magento_Backend_Model_Auth_Exception(
@@ -517,7 +541,7 @@ class Magento_User_Model_User
                 $result = true;
             }
 
-            Mage::dispatchEvent('admin_user_authenticate_after', array(
+            $this->_eventManager->dispatch('admin_user_authenticate_after', array(
                 'username' => $username,
                 'password' => $password,
                 'user'     => $this,
@@ -596,7 +620,7 @@ class Magento_User_Model_User
      */
     protected function _getEncodedPassword($password)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->getHash($password, 2);
+        return $this->_coreData->getHash($password, 2);
     }
 
     /**
@@ -637,7 +661,7 @@ class Magento_User_Model_User
             return true;
         }
 
-        $expirationPeriod = Mage::helper('Magento_User_Helper_Data')->getResetPasswordLinkExpirationPeriod();
+        $expirationPeriod = $this->_userData->getResetPasswordLinkExpirationPeriod();
 
         $currentDate = Magento_Date::now();
         $currentTimestamp = Magento_Date::toTimestamp($currentDate);

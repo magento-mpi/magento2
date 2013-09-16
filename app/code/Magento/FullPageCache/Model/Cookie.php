@@ -68,13 +68,23 @@ class Magento_FullPageCache_Model_Cookie extends Magento_Core_Model_Cookie
     protected $_fpcCache;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_FullPageCache_Model_Cache $_fpcCache
      */
     public function __construct(
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_FullPageCache_Model_Cache $_fpcCache
     ) {
+        $this->_eventManager = $eventManager;
         $this->_fpcCache = $_fpcCache;
         parent::__construct($coreStoreConfig);
     }
@@ -130,7 +140,7 @@ class Magento_FullPageCache_Model_Cookie extends Magento_Core_Model_Cookie
         $customerGroupId = $session->getCustomerGroupId();
         if (!$customerId || is_null($customerGroupId)) {
             $customerCookies = new Magento_Object();
-            Mage::dispatchEvent('update_customer_cookies', array('customer_cookies' => $customerCookies));
+            $this->_eventManager->dispatch('update_customer_cookies', array('customer_cookies' => $customerCookies));
             if (!$customerId) {
                 $customerId = $customerCookies->getCustomerId();
             }

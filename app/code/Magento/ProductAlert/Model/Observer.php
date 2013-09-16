@@ -60,6 +60,13 @@ class Magento_ProductAlert_Model_Observer
     protected $_errors = array();
 
     /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -67,11 +74,14 @@ class Magento_ProductAlert_Model_Observer
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Tax_Helper_Data $taxData,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_taxData = $taxData;
         $this->_coreStoreConfig = $coreStoreConfig;
     }
 
@@ -140,8 +150,7 @@ class Magento_ProductAlert_Model_Observer
                         $previousCustomer = $customer;
                         $email->clean();
                         $email->setCustomer($customer);
-                    }
-                    else {
+                    } else {
                         $customer = $previousCustomer;
                     }
 
@@ -154,8 +163,8 @@ class Magento_ProductAlert_Model_Observer
                     $product->setCustomerGroupId($customer->getGroupId());
                     if ($alert->getPrice() > $product->getFinalPrice()) {
                         $productPrice = $product->getFinalPrice();
-                        $product->setFinalPrice(Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $productPrice));
-                        $product->setPrice(Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $product->getPrice()));
+                        $product->setFinalPrice($this->_taxData->getPrice($product, $productPrice));
+                        $product->setPrice($this->_taxData->getPrice($product, $product->getPrice()));
                         $email->addPriceProduct($product);
 
                         $alert->setPrice($productPrice);
@@ -230,8 +239,7 @@ class Magento_ProductAlert_Model_Observer
                         $previousCustomer = $customer;
                         $email->clean();
                         $email->setCustomer($customer);
-                    }
-                    else {
+                    } else {
                         $customer = $previousCustomer;
                     }
 

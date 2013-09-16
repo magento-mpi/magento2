@@ -65,6 +65,27 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreRegistry = null;
     
     /**
+     * Catalog product
+     *
+     * @var Magento_Catalog_Helper_Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * Catalog category
+     *
+     * @var Magento_Catalog_Helper_Category
+     */
+    protected $_catalogCategory = null;
+
+    /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -75,21 +96,28 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      * @var Magento_Core_Model_Config
      */
     protected $_coreConfig;
-
+    
     /**
-     * Constructor
-     *
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Catalog_Helper_Category $catalogCategory
+     * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Catalog_Helper_Category $catalogCategory,
+        Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig
     ) {
+        $this->_coreString = $coreString;
+        $this->_catalogCategory = $catalogCategory;
+        $this->_catalogProduct = $catalogProduct;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -194,7 +222,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
         if ($productId) {
             $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
             /* @var $product Magento_Catalog_Model_Product */
-            if (Mage::helper('Magento_Catalog_Helper_Product')->canShow($product, 'catalog')) {
+            if ($this->_catalogProduct->canShow($product, 'catalog')) {
                 return $product->getProductUrl();
             }
         }
@@ -202,7 +230,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
         if ($categoryId) {
             $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
             /* @var $category Magento_Catalog_Model_Category */
-            if (!Mage::helper('Magento_Catalog_Helper_Category')->canShow($category)) {
+            if (!$this->_catalogCategory->canShow($category)) {
                 return '';
             }
             return $category->getCategoryUrl();
@@ -220,7 +248,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function splitSku($sku, $length = 30)
     {
-        return Mage::helper('Magento_Core_Helper_String')->str_split($sku, $length, true, false, '[\-\s]');
+        return $this->_coreString->str_split($sku, $length, true, false, '[\-\s]');
     }
 
     /**

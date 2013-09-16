@@ -81,7 +81,6 @@ class Magento_ImportExport_Model_Resource_Import_CustomerComposite_Data
      * Prepare row
      *
      * @param array $rowData
-     * @internal param array $data
      * @return array
      */
     protected function _prepareRow(array $rowData)

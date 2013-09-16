@@ -42,6 +42,14 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_postCodeSubStringLength = 10;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -54,14 +62,16 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig;
-
+    
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Tax_Model_Config $taxConfig
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
@@ -70,6 +80,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_config = $taxConfig;
+        $this->_coreData = $coreData;
         $this->_coreRegistry = $coreRegistry;
     }
 
@@ -360,7 +371,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
         if ($store) {
             $priceFormat['pattern'] = Mage::app()->getStore($store)->getCurrentCurrency()->getOutputFormat();
         }
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($priceFormat);
+        return $this->_coreData->jsonEncode($priceFormat);
     }
 
     /**
@@ -395,7 +406,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
             $result["value_{$class}"] = $rate;
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 
     /**

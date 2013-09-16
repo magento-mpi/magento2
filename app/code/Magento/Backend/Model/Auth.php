@@ -29,22 +29,40 @@ class Magento_Backend_Model_Auth
     protected $_credentialStorage = null;
 
     /**
+     * Backend data
+     *
+     * @var Magento_Backend_Helper_Data
+     */
+    protected $_backendData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * @var Magento_Core_Model_Config
      */
     protected $_coreConfig;
-
+    
     /**
-     * Constructor
-     *
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Backend_Model_Auth_StorageInterface $authStorage
      * @param Magento_Backend_Model_Auth_Credential_StorageInterface $credentialStorage
      * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Backend_Helper_Data $backendData,
         Magento_Backend_Model_Auth_StorageInterface $authStorage,
         Magento_Backend_Model_Auth_Credential_StorageInterface $credentialStorage,
         Magento_Core_Model_Config $coreConfig
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_backendData = $backendData;
         $this->_authStorage = $authStorage;
         $this->_credentialStorage = $credentialStorage;
         $this->_coreConfig = $coreConfig;
@@ -96,7 +114,7 @@ class Magento_Backend_Model_Auth
      */
     protected function _initCredentialStorage()
     {
-        $areaConfig = $this->_coreConfig->getAreaConfig(Mage::helper('Magento_Backend_Helper_Data')->getAreaCode());
+        $areaConfig = $this->_coreConfig->getAreaConfig($this->_backendData->getAreaCode());
         $storage = Mage::getModel($areaConfig['auth']['credential_storage']);
 
         if ($storage instanceof Magento_Backend_Model_Auth_Credential_StorageInterface) {
@@ -143,7 +161,8 @@ class Magento_Backend_Model_Auth
                 $this->getAuthStorage()->setUser($this->getCredentialStorage());
                 $this->getAuthStorage()->processLogin();
 
-                Mage::dispatchEvent('backend_auth_user_login_success', array('user' => $this->getCredentialStorage()));
+                $this->_eventManager
+                    ->dispatch('backend_auth_user_login_success', array('user' => $this->getCredentialStorage()));
             }
 
             if (!$this->getAuthStorage()->getUser()) {
@@ -153,10 +172,12 @@ class Magento_Backend_Model_Auth
             }
 
         } catch (Magento_Backend_Model_Auth_Plugin_Exception $e) {
-            Mage::dispatchEvent('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
+            $this->_eventManager
+                ->dispatch('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
             throw $e;
         } catch (Magento_Core_Exception $e) {
-            Mage::dispatchEvent('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
+            $this->_eventManager
+                ->dispatch('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
             self::throwException(
                 __('Please correct the user name or password.')
             );
@@ -171,7 +192,7 @@ class Magento_Backend_Model_Auth
     public function logout()
     {
         $this->getAuthStorage()->processLogout();
-        Mage::dispatchEvent('admin_session_user_logout');
+        $this->_eventManager->dispatch('admin_session_user_logout');
     }
 
     /**

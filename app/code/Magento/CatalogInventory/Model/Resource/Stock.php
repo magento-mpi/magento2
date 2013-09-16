@@ -68,21 +68,22 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
     protected $_stock;
 
     /**
-     * Core store config
+     * Catalog inventory data
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_CatalogInventory_Helper_Data
      */
-    protected $_coreStoreConfig;
+    protected $_catalogInventoryData = null;
 
+    
     /**
+     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
+        Magento_Core_Model_Resource $resource
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_catalogInventoryData = $catalogInventoryData;
         parent::__construct($resource);
     }
 
@@ -185,7 +186,7 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
      */
     public function setInStockFilterToCollection($collection)
     {
-        $manageStock = $this->_coreStoreConfig->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
+        $manageStock = Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
         $cond = array(
             '{{table}}.use_config_manage_stock = 0 AND {{table}}.manage_stock=1 AND {{table}}.is_in_stock=1',
             '{{table}}.use_config_manage_stock = 0 AND {{table}}.manage_stock=0',
@@ -222,7 +223,7 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
             );
 
             foreach ($configMap as $field => $const) {
-                $this->$field = (int)$this->_coreStoreConfig->getConfig($const);
+                $this->$field = (int)Mage::getStoreConfig($const);
             }
 
             $this->_isConfig = true;

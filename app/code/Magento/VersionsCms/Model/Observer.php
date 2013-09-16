@@ -30,6 +30,20 @@ class Magento_VersionsCms_Model_Observer
     protected $_authorization;
 
     /**
+     * Cms hierarchy
+     *
+     * @var Magento_VersionsCms_Helper_Hierarchy
+     */
+    protected $_cmsHierarchy = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -37,20 +51,22 @@ class Magento_VersionsCms_Model_Observer
     protected $_coreRegistry = null;
 
     /**
-     * Constructor
-     *
-     *
-     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy
      * @param Magento_Core_Model_Registry $coreRegistry
-     * @param  $config
-     * @param  $authorization
+     * @param Magento_VersionsCms_Model_Config $config
+     * @param Magento_AuthorizationInterface $authorization
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_VersionsCms_Model_Config $config,
         Magento_AuthorizationInterface $authorization
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_coreData = $coreData;
+        $this->_cmsHierarchy = $cmsHierarchy;
         $this->_config = $config;
         $this->_authorization = $authorization;
     }
@@ -145,9 +161,7 @@ class Magento_VersionsCms_Model_Observer
      */
     public function cmsControllerRouterMatchBefore(Magento_Event_Observer $observer)
     {
-        /* @var $helper Magento_VersionsCms_Helper_Hierarchy */
-        $helper = Mage::helper('Magento_VersionsCms_Helper_Hierarchy');
-        if (!$helper->isEnabled()) {
+        if (!$this->_cmsHierarchy->isEnabled()) {
             return $this;
         }
 
@@ -246,7 +260,7 @@ class Magento_VersionsCms_Model_Observer
             }
         }
 
-        if (!Mage::helper('Magento_VersionsCms_Helper_Hierarchy')->isEnabled()) {
+        if (!$this->_cmsHierarchy->isEnabled()) {
             return $this;
         }
 
@@ -306,7 +320,7 @@ class Magento_VersionsCms_Model_Observer
         $sortOrder = array();
         if ($nodesData) {
             try{
-                $nodesData = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($page->getNodesData());
+                $nodesData = $this->_coreData->jsonDecode($page->getNodesData());
             } catch (Zend_Json_Exception $e) {
                 $nodesData=null;
             }
@@ -521,8 +535,6 @@ class Magento_VersionsCms_Model_Observer
      */
     public function affectCmsPageRender(Magento_Event_Observer $observer)
     {
-        /* @var $helper Magento_VersionsCms_Helper_Hierarchy */
-        $helper = Mage::helper('Magento_VersionsCms_Helper_Hierarchy');
         if (!is_object($this->_coreRegistry->registry('current_cms_hierarchy_node')) || !$helper->isEnabled()) {
             return $this;
         }

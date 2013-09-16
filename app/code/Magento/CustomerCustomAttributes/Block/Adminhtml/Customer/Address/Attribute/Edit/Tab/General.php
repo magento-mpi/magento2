@@ -18,8 +18,37 @@
  */
 class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General
     extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
+    /**
+     * Customer data
+     *
+     * @var Magento_CustomerCustomAttributes_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_CustomerCustomAttributes_Helper_Data $customerData
+     * @param Magento_Eav_Helper_Data $eavData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Data_Form_Factory $formFactory,
+        Magento_CustomerCustomAttributes_Helper_Data $customerData,
+        Magento_Eav_Helper_Data $eavData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_customerData = $customerData;
+        parent::__construct($formFactory, $eavData, $coreData, $context, $registry, $data);
+    }
+
     /**
      * Preparing global layout
      *
@@ -47,14 +76,12 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
         $attribute  = $this->getAttributeObject();
         $form       = $this->getForm();
         $fieldset   = $form->getElement('base_fieldset');
-        /* @var $helper Magento_CustomerCustomAttributes_Helper_Data */
-        $helper     = Mage::helper('Magento_CustomerCustomAttributes_Helper_Data');
 
         $fieldset->removeField('frontend_class');
         $fieldset->removeField('is_unique');
 
         // update Input Types
-        $values     = $helper->getFrontendInputOptions();
+        $values     = $this->_customerData->getFrontendInputOptions();
         $element    = $form->getElement('frontend_input');
         $element->setValues($values);
         $element->setLabel(__('Input Type'));
@@ -130,7 +157,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
             'label'     => __('Minimal value'),
             'title'     => __('Minimal value'),
             'image'     => $this->getViewFileUrl('images/grid-cal.gif'),
-            'date_format' => $helper->getDateFormat()
+            'date_format' => $this->_customerData->getDateFormat()
         ), 'default_value_date');
 
         $fieldset->addField('date_range_max', 'date', array(
@@ -138,7 +165,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
             'label'     => __('Maximum value'),
             'title'     => __('Maximum value'),
             'image'     => $this->getViewFileUrl('images/grid-cal.gif'),
-            'date_format' => $helper->getDateFormat()
+            'date_format' => $this->_customerData->getDateFormat()
         ), 'date_range_min');
 
         $yesnoSource = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
@@ -166,7 +193,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
             'name'         => 'used_in_forms',
             'label'        => __('Forms to Use In'),
             'title'        => __('Forms to Use In'),
-            'values'       => $helper->getCustomerAddressAttributeFormOptions(),
+            'values'       => $this->_customerData->getCustomerAddressAttributeFormOptions(),
             'value'        => $attribute->getUsedInForms(),
             'can_be_empty' => true,
         ))->setSize(5);
@@ -183,11 +210,11 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
                 $form->getElement($elementId)->setDisabled(true);
             }
 
-            $inputTypeProp = $helper->getAttributeInputTypes($attribute->getFrontendInput());
+            $inputTypeProp = $this->_customerData->getAttributeInputTypes($attribute->getFrontendInput());
 
             // input_filter
             if ($inputTypeProp['filter_types']) {
-                $filterTypes = $helper->getAttributeFilterTypes();
+                $filterTypes = $this->_customerData->getAttributeFilterTypes();
                 $values = $form->getElement('input_filter')->getValues();
                 foreach ($inputTypeProp['filter_types'] as $filterTypeCode) {
                     $values[$filterTypeCode] = $filterTypes[$filterTypeCode];
@@ -197,7 +224,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
 
             // input_validation getAttributeValidateFilters
             if ($inputTypeProp['validate_filters']) {
-                $filterTypes = $helper->getAttributeValidateFilters();
+                $filterTypes = $this->_customerData->getAttributeValidateFilters();
                 $values = $form->getElement('input_validation')->getValues();
                 foreach ($inputTypeProp['validate_filters'] as $filterTypeCode) {
                     $values[$filterTypeCode] = $filterTypes[$filterTypeCode];
@@ -207,7 +234,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
         }
 
         // apply scopes
-        foreach ($helper->getAttributeElementScopes() as $elementId => $scope) {
+        foreach ($this->_customerData->getAttributeElementScopes() as $elementId => $scope) {
             $element = $form->getElement($elementId);
             if ($element->getDisabled()) {
                 continue;
@@ -220,7 +247,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
 
         $this->getForm()->setDataObject($this->getAttributeObject());
 
-        Mage::dispatchEvent('magento_customercustomattributes_address_attribute_edit_tab_general_prepare_form', array(
+        $this->_eventManager->dispatch('magento_customercustomattributes_address_attribute_edit_tab_general_prepare_form', array(
             'form'      => $form,
             'attribute' => $attribute
         ));

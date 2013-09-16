@@ -27,6 +27,10 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form_ContainerTest ext
     public function setUp()
     {
         $this->_urlBuilder = $this->getMock('Magento_Core_Model_Url', array('getUrl'), array(), '', false);
+
+        /** @var  $coreData Magento_Core_Helper_Data */
+        $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+
         /** @var Magento_Core_Block_Template_Context $context */
         $context = $this->getMock('Magento_Backend_Block_Template_Context', array('getUrlBuilder'), array(), '', false);
         $context->expects($this->once())
@@ -39,9 +43,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form_ContainerTest ext
             ->with('current_subscription')
             ->will($this->returnValue($this->_subscription));
         $this->_block = new Magento_Webhook_Block_Adminhtml_Registration_Create_Form_Container(
-            $context,
-            $registry
-        );
+            $coreData, $context, $registry);
     }
 
     public function testGetAcceptUrl()

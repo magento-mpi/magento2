@@ -63,6 +63,20 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     protected $_skipSessionIdFlag   = false;
 
     /**
+     * Core http
+     *
+     * @var Magento_Core_Helper_Http
+     */
+    protected $_coreHttp = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -75,20 +89,24 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
-        parent::__construct($data);
+        $this->_eventManager = $eventManager;
+        $this->_coreHttp = $coreHttp;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
+        parent::__construct($data);
     }
 
     /**
@@ -363,8 +381,8 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
         );
 
         // collect ip data
-        if (Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr()) {
-            $parts[self::VALIDATOR_REMOTE_ADDR_KEY] = Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr();
+        if ($this->_coreHttp->getRemoteAddr()) {
+            $parts[self::VALIDATOR_REMOTE_ADDR_KEY] = $this->_coreHttp->getRemoteAddr();
         }
         if (isset($_ENV['HTTP_VIA'])) {
             $parts[self::VALIDATOR_HTTP_VIA_KEY] = (string)$_ENV['HTTP_VIA'];
@@ -441,7 +459,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
         if ($clear) {
             $messages = clone $this->getData('messages');
             $this->getData('messages')->clear();
-            Mage::dispatchEvent('core_session_abstract_clear_messages');
+            $this->_eventManager->dispatch('core_session_abstract_clear_messages');
             return $messages;
         }
         return $this->getData('messages');
@@ -477,7 +495,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     public function addMessage(Magento_Core_Model_Message_Abstract $message)
     {
         $this->getMessages()->add($message);
-        Mage::dispatchEvent('core_session_abstract_add_message');
+        $this->_eventManager->dispatch('core_session_abstract_add_message');
         return $this;
     }
 

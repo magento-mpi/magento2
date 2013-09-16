@@ -55,18 +55,20 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
      */
     protected function _getModelDependencies()
     {
+        $coreHelper = $this->getMock('Magento_Core_Helper_Data', array('__construct'), array(), '', false);
+        $stringHelper = $this->getMock('Magento_Core_Helper_String', array('__construct'), array(), '', false);
         $data = array(
-            'data_source_model'            => 'not_used',
-            'connection'                   => 'not_used',
-            'helpers'                      => array(),
-            'json_helper'                  => 'not_used',
-            'string_helper'                => new Magento_Core_Helper_String(
-                $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false)
+            'coreData'   => $coreHelper,
+            'coreString' => $stringHelper,
+            'data'       => array(
+                'data_source_model'            => 'not_used',
+                'connection'                   => 'not_used',
+                'helpers'                      => array(),
+                'page_size'                    => 1,
+                'max_data_size'                => 1,
+                'bunch_size'                   => 1,
+                'collection_by_pages_iterator' => 'not_used',
             ),
-            'page_size'                    => 1,
-            'max_data_size'                => 1,
-            'bunch_size'                   => 1,
-            'collection_by_pages_iterator' => 'not_used',
         );
 
         return $data;

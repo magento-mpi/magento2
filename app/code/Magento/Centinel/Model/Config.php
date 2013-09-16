@@ -35,6 +35,13 @@ class Magento_Centinel_Model_Config
     protected $_cardTypesConfigPath = 'global/payment/cc/types';
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -47,15 +54,16 @@ class Magento_Centinel_Model_Config
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig
     ) {
+        $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
     }
@@ -124,7 +132,7 @@ class Magento_Centinel_Model_Config
      */
     public function getTransactionPwd()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->decrypt($this->_getServiceConfigValue('password'));
+        return $this->_coreData->decrypt($this->_getServiceConfigValue('password'));
     }
 
     /**

@@ -21,6 +21,13 @@ class Magento_Shipping_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_allowedHashKeys = array('ship_id', 'order_id', 'track_id');
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -28,13 +35,16 @@ class Magento_Shipping_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
@@ -47,7 +57,7 @@ class Magento_Shipping_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function decodeTrackingHash($hash)
     {
-        $hash = explode(':', Mage::helper('Magento_Core_Helper_Data')->urlDecode($hash));
+        $hash = explode(':', $this->_coreData->urlDecode($hash));
         if (count($hash) === 3 && in_array($hash[0], $this->_allowedHashKeys)) {
             return array('key' => $hash[0], 'id' => (int)$hash[1], 'hash' => $hash[2]);
         }
@@ -64,7 +74,7 @@ class Magento_Shipping_Helper_Data extends Magento_Core_Helper_Abstract
      */
     protected function _getTrackingUrl($key, $model, $method = 'getId')
     {
-        $helper = Mage::helper('Magento_Core_Helper_Data');
+        $helper = $this->_coreData;
         $urlPart = "{$key}:{$model->$method()}:{$model->getProtectCode()}";
         $param = array('hash' => $helper->urlEncode($urlPart));
 

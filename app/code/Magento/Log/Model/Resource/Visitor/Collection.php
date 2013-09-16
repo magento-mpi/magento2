@@ -172,7 +172,7 @@ class Magento_Log_Model_Resource_Visitor_Collection extends Magento_Core_Model_R
         if ($this->isLoaded()) {
             return $this;
         }
-        Mage::dispatchEvent('log_visitor_collection_load_before', array('collection' => $this));
+        $this->_eventManager->dispatch('log_visitor_collection_load_before', array('collection' => $this));
         return parent::load($printQuery, $logQuery);
     }
 

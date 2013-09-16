@@ -19,16 +19,30 @@
 class Magento_Connect_Model_Session extends Magento_Core_Model_Session_Abstract
 {
     /**
+     * Connect data
+     *
+     * @var Magento_Connect_Helper_Data
+     */
+    protected $_connectData = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Connect_Helper_Data $connectData
+     * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Connect_Helper_Data $connectData,
+        Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $coreConfig, $data);
+        $this->_connectData = $connectData;
+        parent::__construct($eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
         $this->init('adminhtml');
     }
 
@@ -59,7 +73,7 @@ class Magento_Connect_Model_Session extends Magento_Core_Model_Session_Abstract
                     array_push($data['authors']['email'], $data['maintainers']['email'][$i]);
                 }
                 // Convert channel from previous version for entire package
-                $helper = Mage::helper('Magento_Connect_Helper_Data');
+                $helper = $this->_connectData;
                 if (isset($data['channel'])) {
                     $data['channel'] = $helper->convertChannelFromV1x($data['channel']);
                 }

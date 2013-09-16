@@ -24,7 +24,12 @@ class Magento_Page_Block_HtmlTest extends PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->will($this->returnValueMap($configData));
 
-        $urlBuilder = $this->getMock('Magento_Core_Model_Url', array('getBaseUrl'), array($storeConfig), '', false);
+        $urlHelperMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $urlBuilder = $this->getMock(
+            'Magento_Core_Model_Url',
+            array('getBaseUrl'),
+            array($urlHelperMock, $storeConfig)
+        );
         $urlBuilder->expects($this->any())
             ->method('getBaseUrl')
             ->will($this->returnValue('http://localhost/pub/media/'));

@@ -92,7 +92,7 @@ class Magento_Rss_Controller_Index extends Magento_Core_Controller_Front_Action
             if ($wishlistId) {
                 $this->_wishlist->load($wishlistId);
             } else {
-                if($this->_getCustomer()->getId()) {
+                if ($this->_getCustomer()->getId()) {
                     $this->_wishlist->loadByCustomer($this->_getCustomer());
                 }
             }
@@ -110,10 +110,12 @@ class Magento_Rss_Controller_Index extends Magento_Core_Controller_Front_Action
         if (is_null($this->_customer)) {
             $this->_customer = Mage::getModel('Magento_Customer_Model_Customer');
 
-            $params = Mage::helper('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('data'));
+            $params = $this->_objectManager->get('Magento_Core_Helper_Data')
+                ->urlDecode($this->getRequest()->getParam('data'));
             $data   = explode(',', $params);
             $customerId    = abs(intval($data[0]));
-            if ($customerId && ($customerId == Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId()) ) {
+            if ($customerId
+                && ($customerId == Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId()) ) {
                 $this->_customer->load($customerId);
             }
         }
