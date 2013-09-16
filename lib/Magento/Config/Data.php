@@ -28,7 +28,6 @@ class Magento_Config_Data implements Magento_Config_DataInterface
      */
     protected $_cache;
 
-
     /**
      * Cache tag
      *

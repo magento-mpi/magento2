@@ -24,7 +24,7 @@ class Magento_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_Test
      */
     protected $_resource;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_resource = $this->getMock('Magento_Core_Model_Resource',
             array('getConnection'), array(), '', false, false

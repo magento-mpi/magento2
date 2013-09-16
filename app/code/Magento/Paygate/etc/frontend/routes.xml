@@ -13,4 +13,4 @@
             <module name="Magento_Paygate" />
         </route>
     </router>
-</config>
+</config>

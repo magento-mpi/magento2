@@ -520,8 +520,6 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
                     Mage::getSingleton('Magento_Core_Model_Session')->getSessionName()
                 );
 
-                $this->_eventManager->dispatch('pagecache_processor_metadata_before_save', array('processor' => $this));
-
                 $this->_metadata->saveMetadata($this->getRequestTags());
             }
 

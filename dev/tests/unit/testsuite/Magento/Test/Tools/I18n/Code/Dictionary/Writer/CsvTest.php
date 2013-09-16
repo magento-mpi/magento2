@@ -35,7 +35,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
             false);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         if (file_exists($this->_testFile)) {
             unlink($this->_testFile);

@@ -45,7 +45,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             'resource' => $objectManager->get('Magento_Core_Model_Resource_Store'),
         );
 
-        return $this->_model = $this->getMock(
+        return $this->getMock(
             'Magento_Core_Model_Store',
             array('getUrl'),
             $this->_modelParams

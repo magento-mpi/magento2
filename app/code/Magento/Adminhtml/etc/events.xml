@@ -14,4 +14,4 @@
     <event name="admin_user_authenticate_after">
         <observer name="configuration_files_access_level_verification" instance="Magento_Adminhtml_Model_Observer" method="clearCacheConfigurationFilesAccessLevelVerification" />
     </event>
-</config>
+</config>

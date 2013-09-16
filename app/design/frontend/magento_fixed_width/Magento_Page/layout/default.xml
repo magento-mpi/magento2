@@ -15,22 +15,40 @@
         </reference>
         <move element="breadcrumbs" destination="breadcrumbs.container"/>
         <reference name="head">
-            <action method="addCss">
-                <argument name="file" xsi:type="string">css/styles.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">css/styles-ie.css</argument>
-                <argument name="params" xsi:type="string"/>
-                <argument name="if" xsi:type="string">lt IE 8</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">css/print.css</argument>
-                <argument name="params" xsi:type="string">media="print"</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Css" name="css-styles-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">css/styles.css</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="css-styles-ie-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">css/styles-ie.css</argument>
+                    <argument name="properties" xsi:type="array">
+                        <item name="attributes" xsi:type="string"/>
+                        <item name="ie_condition" xsi:type="string">lt IE 8</item>
+                    </argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="css-print-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">css/print.css</argument>
+                    <argument name="properties" xsi:type="array">
+                        <item name="attributes" xsi:type="string">media="print"</item>
+                    </argument>
+                </arguments>
+            </block>
         </reference>
         <reference name="header">
-            <block class="Magento_Page_Block_Template_Links" name="account.links" as="accountLinks" before="top.links"/>
-            <block class="Magento_Page_Block_Template_Links" name="checkout.links" as="checkoutLinks" after="top.links"/>
+            <block class="Magento_Page_Block_Links" name="account.links" as="accountLinks" before="top.links">
+                <arguments>
+                    <argument name="css_class" xsi:type="string">links</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Links" name="checkout.links" as="checkoutLinks" after="top.links">
+                <arguments>
+                    <argument name="css_class" xsi:type="string">links</argument>
+                </arguments>
+            </block>
             <container name="top.switches" as="switches" label="Store Language" after="checkout.links"/>
             <block class="Magento_Page_Block_Html_Welcome" name="welcome" as="welcome" after="top.container"/>
         </reference>

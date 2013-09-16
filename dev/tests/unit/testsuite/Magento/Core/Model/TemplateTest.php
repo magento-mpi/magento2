@@ -21,7 +21,7 @@ class Magento_Core_Model_TemplateTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $this->getMockForAbstractClass(

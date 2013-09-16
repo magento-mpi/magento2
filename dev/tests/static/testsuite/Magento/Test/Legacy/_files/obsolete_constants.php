@@ -131,5 +131,6 @@ return array(
         'Magento_Core_Model_Design_Package::XML_PATH_THEME_ID'
     ),
     array('XML_STORE_ROUTERS_PATH', 'Mage_Core_Controller_Varien_Front'),
+    array('XML_PATH_THEME'),
+    array('XML_PATH_ALLOW_DUPLICATION'),
 );
-

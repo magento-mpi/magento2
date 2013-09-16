@@ -62,7 +62,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Properties
     /**
      * Getter
      *
-     * @return age_Widget_Model_Widget_Instance
+     * @return Magento_Widget_Model_Widget_Instance
      */
     public function getWidgetInstance()
     {

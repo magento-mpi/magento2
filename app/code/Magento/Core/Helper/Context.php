@@ -19,6 +19,11 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
      */
     protected $_moduleManager;
 
+    /** 
+     * @var  Magento_Core_Model_Event_Manager 
+     */
+    protected $_eventManager;
+
     /**
      * @var Magento_Core_Controller_Request_Http
      */
@@ -40,19 +45,22 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
      * @param Magento_Core_Controller_Request_Http $httpRequest
      * @param Magento_Core_Model_Cache_Config $cacheConfig
      * @param Magento_Core_Model_EncryptionFactory $encyptorFactory
+     * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
         Magento_Core_Model_Translate $translator,
         Magento_Core_Model_ModuleManager $moduleManager,
         Magento_Core_Controller_Request_Http $httpRequest,
         Magento_Core_Model_Cache_Config $cacheConfig,
-        Magento_Core_Model_EncryptionFactory $encyptorFactory
+        Magento_Core_Model_EncryptionFactory $encyptorFactory,
+        Magento_Core_Model_Event_Manager $eventManager
     ) {
         $this->_translator = $translator;
         $this->_moduleManager = $moduleManager;
         $this->_httpRequest = $httpRequest;
         $this->_cacheConfig = $cacheConfig;
         $this->_encryptorFactory = $encyptorFactory;
+        $this->_eventManager = $eventManager;
     }
 
     /**
@@ -93,5 +101,13 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     public function getEncryptorFactory()
     {
         return $this->_encryptorFactory;
+    }
+
+    /**
+     * @return Magento_Core_Model_Event_Manager
+     */
+    public function getEventManager()
+    {
+        return $this->_eventManager;
     }
 }

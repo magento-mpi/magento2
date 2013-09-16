@@ -54,7 +54,7 @@ class Magento_CustomerCustomAttributes_Helper_CustomerTest extends PHPUnit_Frame
     /**
      * Clean up after test
      */
-    public function tearDown()
+    protected function tearDown()
     {
         Mage::reset();
     }

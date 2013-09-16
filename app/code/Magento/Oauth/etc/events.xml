@@ -17,4 +17,4 @@
     <event name="admin_session_user_login_failed">
         <observer name="oauth" instance="Magento_Oauth_Model_Observer" method="afterAdminLoginFailed" />
     </event>
-</config>
+</config>

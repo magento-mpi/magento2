@@ -14,4 +14,4 @@
     <event name="checkout_multishipping_controller_success_action">
         <observer name="googleadwords_order_success" instance="Magento_GoogleAdwords_Model_Observer" method="setConversionValue" />
     </event>
-</config>
+</config>

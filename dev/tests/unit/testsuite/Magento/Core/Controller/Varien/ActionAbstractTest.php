@@ -34,7 +34,7 @@ class Magento_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framewor
      *
      * Create request, response and forward action (child of ActionAbstract)
      */
-    public function setUp()
+    protected function setUp()
     {
         $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(),
             'Magento_Backend_Helper_DataProxy', false);

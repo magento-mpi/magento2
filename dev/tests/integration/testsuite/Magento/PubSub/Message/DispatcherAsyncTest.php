@@ -22,7 +22,7 @@ class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestC
     /**
      * Initialize the model
      */
-    public function setUp()
+    protected function setUp()
     {
         /** @var Magento_Webhook_Model_Resource_Event_Collection $eventCollection */
         $eventCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()

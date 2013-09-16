@@ -44,4 +44,4 @@
     <event name="after_reindex_process_catalog_category_product">
         <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Adminhtml_Observer" method="applyPermissionsAfterReindex" />
     </event>
-</config>
+</config>

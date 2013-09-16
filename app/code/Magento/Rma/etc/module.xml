@@ -23,10 +23,10 @@
             <module name="Magento_CustomAttribute"/>
             <module name="Magento_Backend"/>
             <module name="Magento_Tax"/>
+            <module name="Magento_Payment"/>
             <module name="Magento_Shipping"/>
             <module name="Magento_Usa"/>
             <module name="Magento_Page"/>
-            <module name="Magento_Payment"/>
             <module name="Magento_Directory"/>
             <module name="Magento_Enterprise"/>
             <module name="Magento_CustomerCustomAttributes" type="soft"/>

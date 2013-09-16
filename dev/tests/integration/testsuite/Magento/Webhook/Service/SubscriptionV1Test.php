@@ -32,7 +32,7 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
     /** @var  int */
     private $_apiUserId;
 
-    public function setUp()
+    protected function setUp()
     {
         $userContext = array(
             'email'     => 'email@example.com',
@@ -53,7 +53,7 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
         );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         /** @var Magento_Webapi_Model_Acl_User $user */
         $user = Mage::getModel('Magento_Webapi_Model_Acl_User');

@@ -66,7 +66,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             ->setQuote($quote)
             ->setCustomer($quote->getCustomer());
 
-        $this->_coreData->copyFieldset('sales_convert_quote', 'to_order', $quote, $order);
+        $this->_coreData->copyFieldsetToTarget('sales_convert_quote', 'to_order', $quote, $order);
         $this->_eventManager->dispatch('sales_convert_quote_to_order', array('order'=>$order, 'quote'=>$quote));
         return $order;
     }
@@ -83,7 +83,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             $order = $this->toOrder($address->getQuote());
         }
 
-        $this->_coreData->copyFieldset(
+        $this->_coreData->copyFieldsetToTarget(
             'sales_convert_quote_address',
             'to_order',
             $address,
@@ -108,7 +108,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             ->setCustomerId($address->getCustomerId())
             ->setCustomerAddressId($address->getCustomerAddressId());
 
-        $this->_coreData->copyFieldset(
+        $this->_coreData->copyFieldsetToTarget(
             'sales_convert_quote_address',
             'to_order_address',
             $address,
@@ -133,15 +133,12 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             ->setStoreId($payment->getStoreId())
             ->setCustomerPaymentId($payment->getCustomerPaymentId());
 
-        $this->_coreData->copyFieldset(
+        $this->_coreData->copyFieldsetToTarget(
             'sales_convert_quote_payment',
             'to_order_payment',
             $payment,
             $orderPayment
         );
-
-        $this->_eventManager->dispatch('sales_convert_quote_payment_to_order_payment',
-            array('order_payment' => $orderPayment, 'quote_payment' => $payment));
 
         return $orderPayment;
     }
@@ -170,7 +167,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             $options = $item->getProduct()->getTypeInstance()->getOrderOptions($item->getProduct());
         }
         $orderItem->setProductOptions($options);
-        $this->_coreData->copyFieldset(
+        $this->_coreData->copyFieldsetToTarget(
             'sales_convert_quote_item',
             'to_order_item',
             $item,
@@ -182,7 +179,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
         }
 
         if (!$item->getNoDiscount()) {
-            $this->_coreData->copyFieldset(
+            $this->_coreData->copyFieldsetToTarget(
                 'sales_convert_quote_item',
                 'to_order_item_discount',
                 $item,
@@ -190,9 +187,6 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             );
         }
 
-        $this->_eventManager->dispatch('sales_convert_quote_item_to_order_item',
-            array('order_item'=>$orderItem, 'item'=>$item)
-        );
         return $orderItem;
     }
 }

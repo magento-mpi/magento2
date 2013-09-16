@@ -20,7 +20,7 @@ class Magento_Webhook_Block_Adminhtml_Subscription_EditTest extends Magento_Test
     /** @var  Magento_Core_Helper_Data */
     protected $_coreData;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         $this->_coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);

@@ -14,4 +14,4 @@
     <event name="adminhtml_catalog_product_form_prepare_excluded_field_list">
         <observer name="magento_giftcard_product_excluded_field_list" instance="Magento_GiftCard_Model_Observer" method="updateExcludedFieldList" />
     </event>
-</config>
+</config>

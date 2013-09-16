@@ -27,7 +27,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_mockUser;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_mockEndpoint = $this->getMockBuilder('Magento_Webhook_Model_Endpoint')
             ->setMethods(array('_init', 'save', 'setEndpointId', 'getId', 'getUser', '_getResource', 'delete',

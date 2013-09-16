@@ -62,4 +62,4 @@
     <event name="paypal_prepare_line_items">
         <observer name="magento_customerbalance" instance="Magento_CustomerBalance_Model_Observer" method="addPaypalCustomerBalanceItem" />
     </event>
-</config>
+</config>

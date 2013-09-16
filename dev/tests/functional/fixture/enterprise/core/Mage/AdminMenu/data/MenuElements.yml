@@ -145,12 +145,6 @@ menu:
         scheduled_import_export: ~
 #     Magento Connect group
         system_package_extentions: ~
-#     SOAP/XML - RPC group
-        api_soap_users: ~
-        api_soap_roles_management: ~
-#     REST group
-        api_users: ~
-        api_roles_management: ~
 #     Tools group
         cache_storage_management: ~
         index_management: ~

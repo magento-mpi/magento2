@@ -328,24 +328,6 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     }
 
     /**
-     * Get fieldset from configuration
-     *
-     * @param string $name fieldset name
-     * @param string $root fieldset area, could be 'admin'
-     * @return null|array
-     */
-    public function getFieldset($name, $root = 'global')
-    {
-        /** @var $config Magento_Core_Model_Config_Base */
-        $config = $this->_objectManager->get('Magento_Core_Model_Config_Fieldset');
-        $rootNode = $config->getNode($root . '/fieldsets');
-        if (!$rootNode) {
-            return null;
-        }
-        return $rootNode->$name ? $rootNode->$name->children() : null;
-    }
-
-    /**
      * Check whether given path should be secure according to configuration security requirements for URL
      * "Secure" should not be confused with https protocol, it is about web/secure/*_url settings usage only
      *
@@ -428,9 +410,6 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
      */
     public function removeCache()
     {
-        /** @var $eventManager Magento_Core_Model_Event_Manager */
-        $eventManager = $this->_objectManager->get('Magento_Core_Model_Event_Manager');
-        $eventManager->dispatch('application_clean_cache', array('tags' => array(self::CACHE_TAG)));
         $this->_storage->removeCache();
     }
 

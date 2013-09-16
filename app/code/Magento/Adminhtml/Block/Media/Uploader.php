@@ -97,7 +97,13 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
     {
         $head = $this->getLayout()->getBlock('head');
         if ($head) {
-            $head->addCss('jquery/fileUploader/css/jquery.fileupload-ui.css');
+            $head->addChild(
+                'jquery-fileUploader-css-jquery-fileupload-ui-css',
+                'Magento_Page_Block_Html_Head_Css',
+                array(
+                    'file' => 'jquery/fileUploader/css/jquery.fileupload-ui.css'
+                )
+            );
         }
         return parent::_prepareLayout();
     }

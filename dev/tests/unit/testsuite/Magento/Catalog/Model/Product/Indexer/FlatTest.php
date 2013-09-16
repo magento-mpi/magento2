@@ -24,7 +24,7 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
      */
     protected $_event = null;
 
-    public function setUp()
+    protected function setUp()
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento_Catalog_Model_Product_Indexer_Flat');

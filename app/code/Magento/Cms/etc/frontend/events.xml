@@ -14,4 +14,4 @@
     <event name="controller_action_nocookies">
         <observer name="cms" instance="Magento_Cms_Model_Observer" method="noCookies" />
     </event>
-</config>
+</config>

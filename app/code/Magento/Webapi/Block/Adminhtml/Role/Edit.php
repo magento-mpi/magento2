@@ -34,6 +34,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit extends Magento_Backend_Block_Wid
     {
         parent::_construct();
 
+        // TODO: Avoid varienForm usage, it is deprecated
         $this->_formScripts[] = "function saveAndContinueEdit(url)" .
             "{var tagForm = new varienForm('edit_form'); tagForm.submit(url);}";
 

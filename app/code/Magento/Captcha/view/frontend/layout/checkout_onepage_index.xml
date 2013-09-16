@@ -28,9 +28,11 @@
             <container name="form.additional.info" label="Form Additional Info">
                 <block class="Magento_Captcha_Block_Captcha" name="captcha.guest.checkout">
                     <reference name="head">
-                        <action method="addJs">
-                            <argument name="file" xsi:type="string">Magento_Captcha::onepage.js</argument>
-                        </action>
+                        <block class="Magento_Page_Block_Html_Head_Script" name="magento-captcha-onepage-js">
+                            <arguments>
+                                <argument name="file" xsi:type="string">Magento_Captcha::onepage.js</argument>
+                            </arguments>
+                        </block>
                     </reference>
                     <action method="setFormId">
                         <argument name="formId" xsi:type="string">guest_checkout</argument>
@@ -44,9 +46,11 @@
                 </block>
                 <block class="Magento_Captcha_Block_Captcha" name="captcha.register.during.checkout">
                     <reference name="head">
-                        <action method="addJs">
-                            <argument name="file" xsi:type="string">Magento_Captcha::onepage.js</argument>
-                        </action>
+                        <block class="Magento_Page_Block_Html_Head_Script" name="magento-captcha-onepage-js">
+                            <arguments>
+                                <argument name="file" xsi:type="string">Magento_Captcha::onepage.js</argument>
+                            </arguments>
+                        </block>
                     </reference>
                     <action method="setFormId">
                         <argument name="formId" xsi:type="string">register_during_checkout</argument>

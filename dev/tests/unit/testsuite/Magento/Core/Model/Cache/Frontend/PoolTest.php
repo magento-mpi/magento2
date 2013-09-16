@@ -17,7 +17,7 @@ class Magento_Core_Model_Cache_Frontend_PoolTest extends PHPUnit_Framework_TestC
      */
     protected $_frontendInstances = array();
 
-    public function setUp()
+    protected function setUp()
     {
         // Init frontend factory
         $frontendFactory = $this->getMock('Magento_Core_Model_Cache_Frontend_Factory', array(), array(), '', false);

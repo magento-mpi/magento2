@@ -17,4 +17,4 @@
     <event name="controller_action_predispatch_adminhtml">
         <observer name="googleshopping_observer" instance="Magento_GoogleShopping_Model_Observer" method="checkSynchronizationOperations" />
     </event>
-</config>
+</config>

@@ -19,7 +19,7 @@ class Magento_Data_Form_Element_FieldsetTest extends PHPUnit_Framework_TestCase
      */
     protected $_fieldset;
 
-    public function setUp()
+    protected function setUp()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var $elementFactory Magento_Data_Form_ElementFactory */

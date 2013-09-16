@@ -12,7 +12,7 @@ class Magento_Cron_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     private $_model = null;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = Mage::getModel('Magento_Cron_Model_Observer');
         $this->_model->dispatch('this argument is not used');
