@@ -180,7 +180,7 @@
         </item>
         <item>
             <word>Magento_JobQueue</word>
-            <path>dev/tools/nmparser/PHP-Parser-0.9.3/nmscanner/nmrenameClass-libMagento.txt</path>
+            <path>dev/tools/nmparser/PHP-Parser-0.9.3/nmscanner/nmrenameClass-appCodeMagento.txt</path>
         </item>
     </whitelist>
 </config>
