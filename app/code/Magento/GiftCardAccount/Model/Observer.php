@@ -49,13 +49,11 @@ class Magento_GiftCardAccount_Model_Observer
         $cards = $this->_giftCardAccountData->getCards($order);
         if (is_array($cards)) {
             foreach ($cards as &$card) {
-                $args = array(
-                    'amount'=>$card['ba'],
-                    'giftcardaccount_id'=>$card['i'],
-                    'order'=>$order
-                );
-
-                $this->_eventManager->dispatch('magento_giftcardaccount_charge', $args);
+                Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount')
+                    ->load($card['i'])
+                    ->charge($card['ba'])
+                    ->setOrder($order)
+                    ->save();
                 $card['authorized'] = $card['ba'];
             }
 
@@ -104,27 +102,6 @@ class Magento_GiftCardAccount_Model_Observer
 
         Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount')
             ->loadByCode($id)
-            ->charge($amount)
-            ->setOrder($observer->getEvent()->getOrder())
-            ->save();
-
-        return $this;
-    }
-
-    /**
-     * Charge specified Gift Card (using id)
-     * used for event: magento_giftcardaccount_charge
-     *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GiftCardAccount_Model_Observer
-     */
-    public function chargeById(Magento_Event_Observer $observer)
-    {
-        $id = $observer->getEvent()->getGiftcardaccountId();
-        $amount = $observer->getEvent()->getAmount();
-
-        Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount')
-            ->load($id)
             ->charge($amount)
             ->setOrder($observer->getEvent()->getOrder())
             ->save();

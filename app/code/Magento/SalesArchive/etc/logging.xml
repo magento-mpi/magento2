@@ -9,46 +9,44 @@
  * @license     {license_link}
  */
 -->
-<logging>
+<logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
     <actions>
-        <massAdd translate="label">
-            <label>Mass Add</label>
-        </massAdd>
-        <add translate="label">
-            <label>Add</label>
-        </add>
+        <action id="massAdd">
+            <label translate="true">Mass Add</label>
+        </action>
+        <action id="add">
+            <label translate="true">Add</label>
+        </action>
     </actions>
-    <magento_salesarchive translate="label">
-        <label>Sales Archive</label>
-        <expected_models>
-            <Magento_SalesArchive_Model_Archive />
-        </expected_models>
-        <actions>
-            <adminhtml_sales_archive_add>
-                <action>add</action>
-                <skip_on_back>
-                    <adminhtml_sales_order_view />
-                </skip_on_back>
-                <post_dispatch>postDispatchSalesArchiveManagement</post_dispatch>
-            </adminhtml_sales_archive_add>
-
-            <adminhtml_sales_archive_remove>
-                <action>delete</action>
-                <skip_on_back>
-                    <adminhtml_sales_order_view />
-                </skip_on_back>
-                <post_dispatch>postDispatchSalesArchiveManagement</post_dispatch>
-            </adminhtml_sales_archive_remove>
-
-            <adminhtml_sales_archive_massAdd>
-                <action>massAdd</action>
-                <post_dispatch>postDispatchSalesArchiveManagement</post_dispatch>
-            </adminhtml_sales_archive_massAdd>
-
-            <adminhtml_sales_archive_massRemove>
-                <action>massDelete</action>
-                <post_dispatch>postDispatchSalesArchiveManagement</post_dispatch>
-            </adminhtml_sales_archive_massRemove>
-        </actions>
-    </magento_salesarchive>
+    <groups>
+        <group name="magento_salesarchive">
+            <label translate="true">Sales Archive</label>
+            <expected_models>
+                <expected_model class="Magento_SalesArchive_Model_Archive" />
+            </expected_models>
+            <events>
+                <event controller_action="adminhtml_sales_archive_add"
+                       action_alias="add"
+                       post_dispatch="postDispatchSalesArchiveManagement">
+                    <skip_on_back>
+                        <controller_action name="adminhtml_sales_order_view" />
+                    </skip_on_back>
+                </event>
+                <event controller_action="adminhtml_sales_archive_remove"
+                       action_alias="delete"
+                       post_dispatch="postDispatchSalesArchiveManagement">
+                    <skip_on_back>
+                        <controller_action name="adminhtml_sales_order_view" />
+                    </skip_on_back>
+                </event>
+                <event controller_action="adminhtml_sales_archive_massAdd"
+                       action_alias="massAdd"
+                       post_dispatch="postDispatchSalesArchiveManagement" />
+                <event controller_action="adminhtml_sales_archive_massRemove"
+                       action_alias="massDelete"
+                       post_dispatch="postDispatchSalesArchiveManagement" />
+            </events>
+        </group>
+    </groups>
 </logging>

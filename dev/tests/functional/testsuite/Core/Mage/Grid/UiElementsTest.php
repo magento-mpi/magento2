@@ -103,7 +103,6 @@ class Core_Mage_Grid_UiElementsTest extends Mage_Selenium_TestCase
             array('manage_ratings'),
             array('manage_cms_widgets'),
             array('paypal_reports'),
-            array('api_soap_users'),
             array('manage_customer_groups'),
             array('cache_storage_management'),
             array('manage_shopping_cart_price_rules'),

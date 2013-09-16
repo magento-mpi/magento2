@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="config">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="placeholder" type="placeholderDeclaration" minOccurs="1" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+        <xs:unique name="uniquePlaceholderName">
+            <xs:annotation>
+                <xs:documentation>
+                    Placeholder name must be unique.
+                </xs:documentation>
+            </xs:annotation>
+            <xs:selector xpath="placeholder"/>
+            <xs:field xpath="@name"/>
+        </xs:unique>
+    </xs:element>
+
+    <xs:complexType name="placeholderDeclaration">
+        <xs:annotation>
+            <xs:documentation>
+                Placeholder declaration.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:all>
+            <xs:element name="container" type="containerDeclaration" minOccurs="0" />
+            <xs:element name="block" type="blockDeclaration" minOccurs="0" />
+        </xs:all>
+        <xs:attribute name="name" type="xs:string" use="required" />
+        <xs:attribute name="code" type="xs:string" use="optional" />
+        <xs:attribute name="cacheLifeTime" type="xs:nonNegativeInteger" use="optional" />
+    </xs:complexType>
+
+    <xs:complexType name="containerDeclaration">
+        <xs:annotation>
+            <xs:documentation>
+                Container declaration.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="instance" type="instanceName" use="required" />
+    </xs:complexType>
+
+    <xs:complexType name="blockDeclaration">
+        <xs:annotation>
+            <xs:documentation>
+                Block declaration.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="instance" type="instanceName" use="optional" />
+        <xs:attribute name="name" type="xs:string" use="optional" />
+    </xs:complexType>
+
+    <xs:simpleType name="instanceName">
+        <xs:annotation>
+            <xs:documentation>
+                Instance name can contain only [a-zA-Z_].
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-zA-Z_]+" />
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

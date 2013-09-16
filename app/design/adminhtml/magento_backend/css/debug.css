@@ -745,8 +745,6 @@ th.required:after {
 /* system */
 .adminhtml-notification-index .col-1-layout,
 .adminhtml-system-backup-index .col-1-layout,
-.adminhtml-api-user-index .col-1-layout,
-.adminhtml-api-role-index .col-1-layout,
 .adminhtml-webapi-user-index .col-1-layout,
 .adminhtml-webapi-role-index .col-1-layout,
 .adminhtml-system-design-index .col-1-layout,
@@ -820,8 +818,6 @@ th.required:after {
 /* reports */
 .adminhtml-paypal-reports-index .page-actions,
 /* system */
-.adminhtml-api-user-index .page-actions,
-.adminhtml-api-role-index .page-actions,
 .adminhtml-webapi-user-index .page-actions,
 .adminhtml-webapi-role-index .page-actions,
 .adminhtml-system-design-index .page-actions,
@@ -881,8 +877,6 @@ th.required:after {
 /* reports */
 .adminhtml-paypal-reports-index .page-actions.fixed,
 /* system */
-.adminhtml-api-user-index .page-actions.fixed,
-.adminhtml-api-role-index .page-actions.fixed,
 .adminhtml-webapi-user-index .page-actions.fixed,
 .adminhtml-webapi-role-index .page-actions.fixed,
 .adminhtml-system-design-index .page-actions.fixed,
@@ -941,8 +935,6 @@ th.required:after {
 /* reports */
 .adminhtml-paypal-reports-index .page-actions .task,
 /* system */
-.adminhtml-api-user-index .page-actions .add,
-.adminhtml-api-role-index .page-actions .add,
 .adminhtml-webapi-user-index .page-actions .add,
 .adminhtml-webapi-role-index .page-actions .add,
 .adminhtml-system-design-index .page-actions .add,
@@ -1014,8 +1006,6 @@ th.required:after {
 /* reports */
 .eq-ie8 .adminhtml-paypal-reports-index .page-actions .task,
 /* system */
-.eq-ie8 .adminhtml-api-user-index .page-actions .add,
-.eq-ie8 .adminhtml-api-role-index .page-actions .add,
 .eq-ie8 .adminhtml-webapi-user-index .page-actions .add,
 .eq-ie8 .adminhtml-webapi-role-index .page-actions .add,
 .eq-ie8 .adminhtml-system-design-index .page-actions .add,
@@ -1071,8 +1061,6 @@ th.required:after {
 /* reports */
 .adminhtml-paypal-reports-index .page-actions .task:hover,
 /* system */
-.adminhtml-api-user-index .page-actions .add:hover,
-.adminhtml-api-role-index .page-actions .add:hover,
 .adminhtml-webapi-user-index .page-actions .add:hover,
 .adminhtml-webapi-role-index .page-actions .add:hover,
 .adminhtml-system-design-index .page-actions .add:hover,
@@ -1136,8 +1124,6 @@ th.required:after {
 /* reports */
 .eq-ie8 .adminhtml-paypal-reports-index .page-actions .task:hover,
 /* system */
-.eq-ie8 .adminhtml-api-user-index .page-actions .add:hover,
-.eq-ie8 .adminhtml-api-role-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-webapi-user-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-webapi-role-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-system-design-index .page-actions .add:hover,
@@ -1193,8 +1179,6 @@ th.required:after {
 /* reports */
 .adminhtml-paypal-reports-index .page-actions .task:active,
 /* system */
-.adminhtml-api-user-index .page-actions .add:active,
-.adminhtml-api-role-index .page-actions .add:active,
 .adminhtml-webapi-user-index .page-actions .add:active,
 .adminhtml-webapi-role-index .page-actions .add:active,
 .adminhtml-system-design-index .page-actions .add:active,
@@ -1254,8 +1238,6 @@ th.required:after {
 /* reports */
 .adminhtml-paypal-reports-index .page-actions .task > span,
 /* system */
-.adminhtml-api-user-index .page-actions .add > span,
-.adminhtml-api-role-index .page-actions .add > span,
 .adminhtml-webapi-user-index .page-actions .add > span,
 .adminhtml-webapi-role-index .page-actions .add > span,
 .adminhtml-system-design-index .page-actions .add > span,
@@ -1314,8 +1296,6 @@ th.required:after {
 /* reports */
 .adminhtml-paypal-reports-index .page-actions .task > span:before,
 /* system */
-.adminhtml-api-user-index .page-actions .add > span:before,
-.adminhtml-api-role-index .page-actions .add > span:before,
 .adminhtml-webapi-user-index .page-actions .add > span:before,
 .adminhtml-webapi-role-index .page-actions .add > span:before,
 .adminhtml-system-design-index .page-actions .add > span:before,
@@ -1483,8 +1463,6 @@ th.required:after {
 /* reports */
 .adminhtml-paypal-reports-index .grid-actions,
 /* system */
-.adminhtml-api-user-index .grid-actions,
-.adminhtml-api-role-index .grid-actions,
 .adminhtml-webapi-user-index .grid-actions,
 .adminhtml-webapi-role-index .grid-actions,
 .adminhtml-system-design-index .grid-actions,

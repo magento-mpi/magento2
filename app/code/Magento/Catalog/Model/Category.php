@@ -257,17 +257,9 @@ class Magento_Catalog_Model_Category extends Magento_Catalog_Model_Abstract
 
         $this->_getResource()->beginTransaction();
         try {
-            /**
-             * catalog_category_tree_move_before and catalog_category_tree_move_after
-             * events declared for backward compatibility
-             */
-            $this->_eventManager->dispatch('catalog_category_tree_move_before', $eventParams);
-            $this->_eventManager->dispatch($this->_eventPrefix.'_move_before', $eventParams);
-
+            $this->_eventManager->dispatch($this->_eventPrefix . '_move_before', $eventParams);
             $this->getResource()->changeParent($this, $parent, $afterCategoryId);
-
-            $this->_eventManager->dispatch($this->_eventPrefix.'_move_after', $eventParams);
-            $this->_eventManager->dispatch('catalog_category_tree_move_after', $eventParams);
+            $this->_eventManager->dispatch($this->_eventPrefix . '_move_after', $eventParams);
             $this->_getResource()->commit();
 
             // Set data for indexer
@@ -857,6 +849,7 @@ class Magento_Catalog_Model_Category extends Magento_Catalog_Model_Abstract
      */
     public function isInRootCategoryList()
     {
+        // TODO there are bugs in resource models' methods, store_id set to model o/andr to resource model are ignored
         return $this->getResource()->isInRootCategoryList($this);
     }
 
