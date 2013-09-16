@@ -30,7 +30,7 @@
                 <model>Magento\PaypalUk\Model\Express</model>
             </paypaluk_express>
             <paypaluk_direct>
-                <model>Magento\PaypalUk\Model\Direct<</model>
+                <model>Magento\PaypalUk\Model\Direct</model>
             </paypaluk_direct>
         </payment>
     </default>

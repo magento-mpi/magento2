@@ -13,7 +13,7 @@
     <global>
         <helpers>
             <core>
-                <encryption_model>Magento\Core\Model\Encryption<</encryption_model>
+                <encryption_model>Magento\Core\Model\Encryption</encryption_model>
             </core>
         </helpers>
         <template>
