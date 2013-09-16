@@ -47,6 +47,7 @@ class Magento_GoogleShopping_Model_Config extends Magento_Object
         Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreData = $coreData;
         parent::__construct($data);
     }
