@@ -12,11 +12,11 @@
         <update handle="customer_account"/>
         <reference name="customer_account_navigation">
             <action method="setActive">
-                <argument name="path" xsi:type="string">rma/return/history/</argument>
+                <argument name="path" xsi:type="string">rma/returnshipment/history/</argument>
             </action>
         </reference>
         <reference name="my.account.wrapper">
-            <block class="Magento\Rma\Block\Return\History" name="rma.return.history">
+            <block class="Magento\Rma\Block\ReturnShipment\History" name="rma.return.history">
                 <container name="rma.return.history.info" as="info" label="Returns History Info"/>
             </block>
             <block class="Magento\Customer\Block\Account\Dashboard" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>

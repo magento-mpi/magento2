@@ -26,7 +26,7 @@ class Info extends \Magento\Core\Block\Template
             if (!empty($returns)) {
                 \Mage::app()->getLayout()
                     ->getBlock('sales.order.info')
-                    ->addLink('returns', 'rma/return/returns', 'Returns');
+                    ->addLink('returns', 'rma/returnshipment/returns', 'Returns');
             }
         }
     }

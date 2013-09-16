@@ -184,8 +184,9 @@ class Tracking extends \Magento\Core\Controller\Front\Action
             ;
 
             $this->_prepareDownloadResponse(
-                'packingslip'.Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
-                'application/pdf'
+                'packingslip'
+                    . \Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s')
+                    . '.pdf', $pdf->render(), 'application/pdf'
             );
         }
     }

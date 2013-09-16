@@ -42,7 +42,8 @@ class Layer extends \Magento\Object
     public function getStateKey()
     {
         if ($this->_stateKey === null) {
-            $this->_stateKey = 'STORE_'.Mage::app()->getStore()->getId()
+            $this->_stateKey = 'STORE_'
+                . \Mage::app()->getStore()->getId()
                 . '_CAT_' . $this->getCurrentCategory()->getId()
                 . '_CUSTGROUP_' . \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
         }

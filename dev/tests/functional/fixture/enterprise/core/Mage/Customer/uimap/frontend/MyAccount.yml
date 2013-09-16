@@ -87,7 +87,7 @@ order_by_sku:
             qty_sku_outofrange_number: //div[@class='validation-advice' and contains(.,'The value is not within the specified range.')]
 
 create_new_return:
-   mca: rma/return/create/order_id/%id%/
+   mca: rma/returnshipment/create/order_id/%id%/
    title: Create New Return
    uimap:
        form:
@@ -115,7 +115,7 @@ create_new_return:
            specify_product_quantity: //li[normalize-space(@class)='error-msg' and contains(.,'Quantity of %productName% is greater than you can return.')]
 
 my_returns:
-   mca: rma/return/history/
+   mca: rma/returnshipment/history/
    title: My Returns
    uimap:
        form:
