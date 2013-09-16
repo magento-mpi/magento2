@@ -60,7 +60,7 @@ $installer->endSetup();
 $cms = \Mage::getModel('Magento\Cms\Model\Page')->load('home', 'identifier');
 
 $reportLayoutUpdate    = '<!--<reference name="content">
-        <block class="Magento\Catalog\Block\Product\New" name="home.catalog.product.new" alias="product_new" template="product/new.phtml" after="cms_page">
+        <block class="Magento\Catalog\Block\Product\NewProduct" name="home.catalog.product.new" alias="product_new" template="product/new.phtml" after="cms_page">
             <action method="addPriceBlockType">
                 <argument name="type" xsi:type="string">bundle</argument>
                 <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\Price</argument>
