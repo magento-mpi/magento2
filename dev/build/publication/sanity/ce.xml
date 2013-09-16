@@ -176,6 +176,10 @@
         </item>
         <item>
             <word>enterprise</word>
+            <path>dev/tools/nmparser/PHP-Parser-0.9.3/nmscanner/nmrenameClass-appCodeMagento.txt</path>
+        </item>
+        <item>
+            <word>enterprise</word>
             <path>dev/tools/nmparser/PHP-Parser-0.9.3/nmscanner/nmrenameClass-downloader.txt</path>
         </item>
         <item>
