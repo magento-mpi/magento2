@@ -174,7 +174,7 @@ class Magento_Install_Model_ConfigTest extends PHPUnit_Framework_TestCase
             array(
                 'name' => "begin",
                 'controller' => 'wizard_custom',
-                'action' => 'begin_new',
+                'action' => 'begin',
                 'code' => 'License Agreement Updated'
             ),
             array(
