@@ -8,7 +8,7 @@
 class Magento_WebsiteRestriction_Model_Plugin_CustomerRegistration
 {
     /**
-     * @var Magento_WebsiteRestriction_Model_Config
+     * @var Magento_WebsiteRestriction_Model_ConfigInterface
      */
     protected $_restrictionConfig;
 
@@ -19,11 +19,11 @@ class Magento_WebsiteRestriction_Model_Plugin_CustomerRegistration
 
     /**
      * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_WebsiteRestriction_Model_Config $restrictionConfig
+     * @param Magento_WebsiteRestriction_Model_ConfigInterface $restrictionConfig
      */
     public function __construct(
         Magento_Core_Model_StoreManager $storeManager,
-        Magento_WebsiteRestriction_Model_Config $restrictionConfig
+        Magento_WebsiteRestriction_Model_ConfigInterface $restrictionConfig
     ) {
         $this->_storeManager = $storeManager;
         $this->_restrictionConfig = $restrictionConfig;
@@ -39,11 +39,8 @@ class Magento_WebsiteRestriction_Model_Plugin_CustomerRegistration
     {
         $currentStore = $this->_storeManager->getStore();
         if ((!$currentStore->isAdmin()) && $invocationResult) {
-            $restrictionMode = (int)$currentStore->getConfig(
-                Magento_WebsiteRestriction_Model_Config::XML_PATH_RESTRICTION_MODE
-            );
             $invocationResult = (!$this->_restrictionConfig->isRestrictionEnabled())
-                || (Magento_WebsiteRestriction_Model_Mode::ALLOW_REGISTER === $restrictionMode);
+                || (Magento_WebsiteRestriction_Model_Mode::ALLOW_REGISTER === $this->_restrictionConfig->getMode());
         }
         return $invocationResult;
     }

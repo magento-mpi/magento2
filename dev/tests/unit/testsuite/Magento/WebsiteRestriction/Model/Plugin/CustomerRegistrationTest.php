@@ -25,8 +25,7 @@ class Magento_WebsiteRestriction_Model_Plugin_CustomerRegistrationTest extends P
     protected function setUp()
     {
         $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
-        $this->_restrictionConfig = $this->getMock('Magento_WebsiteRestriction_Model_Config',
-            array(), array(), '', false);
+        $this->_restrictionConfig = $this->getMock('Magento_WebsiteRestriction_Model_ConfigInterface');
         $this->_model = new Magento_WebsiteRestriction_Model_Plugin_CustomerRegistration(
             $this->_storeManagerMock,
             $this->_restrictionConfig
@@ -39,10 +38,6 @@ class Magento_WebsiteRestriction_Model_Plugin_CustomerRegistrationTest extends P
         $storeMock->expects($this->any())
             ->method('isAdmin')
             ->will($this->returnValue(false));
-        $storeMock->expects($this->any())
-            ->method('getConfig')
-            ->with(Magento_WebsiteRestriction_Model_Config::XML_PATH_RESTRICTION_MODE)
-            ->will($this->returnValue(Magento_WebsiteRestriction_Model_Mode::ALLOW_NONE));
         $this->_storeManagerMock->expects($this->any())
             ->method('getStore')
             ->with(null)
@@ -50,7 +45,8 @@ class Magento_WebsiteRestriction_Model_Plugin_CustomerRegistrationTest extends P
         $this->_restrictionConfig->expects($this->any())
             ->method('isRestrictionEnabled')
             ->will($this->returnValue(true));
-
+        $this->_restrictionConfig->expects($this->once())
+            ->method('getMode')->will($this->returnValue(Magento_WebsiteRestriction_Model_Mode::ALLOW_NONE));
         $this->assertFalse($this->_model->afterIsRegistrationAllowed(true));
     }
 }

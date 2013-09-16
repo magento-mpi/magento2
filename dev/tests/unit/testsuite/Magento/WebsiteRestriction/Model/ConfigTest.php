@@ -34,9 +34,6 @@ class Magento_WebsiteRestriction_Model_ConfigTest extends PHPUnit_Framework_Test
 
     protected function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-14185');
-        /** @todo Implement test logic here */
-        
         $this->_readerMock = $this->getMock(
             'Magento_WebsiteRestriction_Model_Config_Reader',
             array(), array(), '', false
@@ -55,60 +52,76 @@ class Magento_WebsiteRestriction_Model_ConfigTest extends PHPUnit_Framework_Test
         );
     }
 
-    public function testGetGenericActions()
+    /**
+     * @dataProvider getGenericActionsDataProvider
+     */
+    public function testGetGenericActions($value, $expected)
     {
-        $this->markTestIncomplete('MAGETWO-14185');
-        /** @todo Implement test logic here */
-        
-        $this->_model->getGenericActions();
+        $this->_cacheMock->expects($this->any())->method('get')->will($this->returnValue($value));
+
+        $this->assertEquals($expected, $this->_model->getGenericActions());
     }
 
-    public function testGetRegisterActions()
+    public function getGenericActionsDataProvider()
     {
-        $this->markTestIncomplete('MAGETWO-14185');
-        /** @todo Implement test logic here */
+        return array(
+            'generic_key_exist' => array(array('generic' => 'value'), 'value'),
+            'return_default_value' => array(array('key_one' =>'value'), array()),
+        );
+    }
+
+    /**
+     * @dataProvider getRegisterActionsDataProvider
+     */
+    public function testGetRegisterActions($value, $expected)
+    {
+        $this->_cacheMock->expects($this->any())->method('get')->will($this->returnValue($value));
         
-        $this->_model->getRegisterActions();
+        $this->assertEquals($expected, $this->_model->getRegisterActions());
+    }
+
+    public function getRegisterActionsDataProvider()
+    {
+        return array(
+            'register_key_exist' => array(array('register' => 'value'), 'value'),
+            'return_default_value' => array(array('key_one' =>'value'), array()),
+        );
     }
 
     public function testIsRestrictionEnabled()
     {
-        $this->markTestIncomplete('MAGETWO-14185');
-        /** @todo Implement test logic here */
-        
         $store = null;
-        
-        $this->_model->isRestrictionEnabled($store);
+        $this->_storeConfigMock->expects($this->once())
+            ->method('getConfig')->with('general/restriction/is_active', $store)->will($this->returnValue(false));
+
+        $this->assertEquals(false, $this->_model->isRestrictionEnabled($store));
     }
 
     public function testGetMode()
     {
-        $this->markTestIncomplete('MAGETWO-14185');
-        /** @todo Implement test logic here */
-        
-        $this->_model->getMode();
+        $this->_storeConfigMock->expects($this->once())
+            ->method('getConfig')->with('general/restriction/mode')->will($this->returnValue(false));
+        $this->assertEquals(0, $this->_model->getMode());
     }
 
     public function testGetHTTPStatusCode()
     {
-        /** @todo Implement test logic here */
-        
-        $this->_model->getHTTPStatusCode();
+        $this->_storeConfigMock->expects($this->once())
+            ->method('getConfig')->with('general/restriction/http_status')->will($this->returnValue(false));
+        $this->assertEquals(0, $this->_model->getHTTPStatusCode());
     }
 
     public function testGetHTTPRedirectCode()
     {
-        $this->markTestIncomplete('MAGETWO-14185');
-        /** @todo Implement test logic here */
-        
-        $this->_model->getHTTPRedirectCode();
+        $this->_storeConfigMock->expects($this->once())
+            ->method('getConfig')->with('general/restriction/http_redirect')->will($this->returnValue(true));
+        $this->assertEquals(1, $this->_model->getHTTPRedirectCode());
     }
 
     public function testGetLandingPageCode()
     {
-        $this->markTestIncomplete('MAGETWO-14185');
-        /** @todo Implement test logic here */
-        
-        $this->_model->getLandingPageCode();
+        $this->_storeConfigMock->expects($this->once())
+            ->method('getConfig')->with('general/restriction/cms_page')->will($this->returnValue('config'));
+        $this->assertEquals('config', $this->_model->getLandingPageCode());
     }
 }

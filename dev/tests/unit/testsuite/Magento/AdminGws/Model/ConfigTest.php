@@ -29,9 +29,6 @@ class Magento_AdminGws_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-14185');
-        /** @todo Implement test logic here */
-        
         $this->_readerMock = $this->getMock('Magento_AdminGws_Model_Config_Reader', array(), array(), '', false);
         $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
         $this->_cacheMock = $this->getMock('Magento_Config_CacheInterface');
@@ -45,23 +42,45 @@ class Magento_AdminGws_Model_ConfigTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetCallbacks()
+    /**
+     * @dataProvider getCallbacksDataProvider
+     */
+    public function testGetCallbacks($value, $expected)
     {
-        $this->markTestIncomplete('MAGETWO-14185');
-        /** @todo Implement test logic here */
-        
-        $groupName = null;
-        
-        $this->_model->getCallbacks($groupName);
+        $this->_cacheMock->expects($this->any())->method('get')->will($this->returnValue($value));
+
+        $this->assertEquals($expected, $this->_model->getCallbacks('group'));
     }
 
-    public function testGetDeniedAclResources()
+    public function getCallbacksDataProvider()
     {
-        $this->markTestIncomplete('MAGETWO-14185');
-        /** @todo Implement test logic here */
+        return array(
+            'generic_key_exist' => array(
+                array('callbacks' => array(
+                    'group' => 'value')
+                ), 'value'),
+            'return_default_value' => array(array('key_one' =>'value'), array()),
+        );
+    }
+
+    /**
+     * @dataProvider getDeniedAclResourcesDataProvider
+     */
+    public function testGetDeniedAclResources($value, $expected)
+    {
+        $this->_cacheMock->expects($this->any())->method('get')->will($this->returnValue($value));
         
-        $level = null;
-        
-        $this->_model->getDeniedAclResources($level);
+        $this->assertEquals($expected, $this->_model->getDeniedAclResources('level'));
+    }
+
+    public function getDeniedAclResourcesDataProvider()
+    {
+        return array(
+            'generic_key_exist' => array(
+                array('acl' => array(
+                    'level' => 'value')
+                ), 'value'),
+            'return_default_value' => array(array('key_one' =>'value'), array()),
+        );
     }
 }

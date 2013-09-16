@@ -12,21 +12,25 @@ class Magento_AdminGws_Model_Config_ConverterTest extends PHPUnit_Framework_Test
      */
     protected $_model;
 
+    /**
+     * @var string
+     */
+    protected $_fixturePath;
+
     protected function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-14185');
-        /** @todo Implement test logic here */
-        
         $this->_model = new Magento_AdminGws_Model_Config_Converter();
+        $this->_fixturePath = realpath(__DIR__ )
+            . DIRECTORY_SEPARATOR . '_files'
+            . DIRECTORY_SEPARATOR;
     }
 
     public function testConvert()
     {
-        $this->markTestIncomplete('MAGETWO-14185');
-        /** @todo Implement test logic here */
-        
-        $source = null;
-        
-        $this->_model->convert($source);
+        $dom = new DOMDocument();
+        $dom->load($this->_fixturePath . 'adminGws.xml');
+        $actual = $this->_model->convert($dom);
+        $expected = require ($this->_fixturePath . 'adminGws.php');
+        $this->assertEquals($expected, $actual);
     }
 }
