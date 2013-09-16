@@ -19,6 +19,37 @@
 class Magento_Index_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
 {
     /**
+     * @var Magento_Index_Model_Indexer_Config
+     */
+    protected $_indexerConfig;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Config_Resource $resourcesConfig
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Index_Model_Indexer_Config $indexerConfig
+     * @param string $resourceName
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Config_Resource $resourcesConfig,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Index_Model_Indexer_Config $indexerConfig,
+        $resourceName
+    ) {
+        parent::__construct(
+            $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
+        );
+        $this->_indexerConfig = $indexerConfig;
+    }
+
+    /**
      * Apply Index module DB updates and sync indexes declaration
      *
      * @return void
@@ -40,10 +71,9 @@ class Magento_Index_Model_Resource_Setup extends Magento_Core_Model_Resource_Set
         if (!$connection) {
             return $this;
         }
-        $indexes = $this->_config->getNode(Magento_Index_Model_Process::XML_PATH_INDEXER_DATA);
         $indexCodes = array();
-        foreach ($indexes->children() as $code => $index) {
-            $indexCodes[] = $code;
+        foreach ($this->_indexerConfig->getAll() as $name => $indexerData) {
+            $indexCodes[] = $name;
         }
         $table = $this->getTable('index_process');
         $select = $connection->select()->from($table, 'indexer_code');

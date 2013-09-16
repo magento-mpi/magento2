@@ -28,7 +28,6 @@
  */
 class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
 {
-    const XML_PATH_INDEXER_DATA     = 'global/index/indexer';
     /**
      * Process statuses
      */
@@ -87,11 +86,23 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Index_Model_Indexer_Config
+     */
+    protected $_indexerConfig;
+
+    /**
+     * @var Magento_Index_Model_Indexer_Factory
+     */
+    protected $_indexerFactory;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Index_Model_Indexer_Config $indexerConfig
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Index_Model_Lock_Storage $lockStorage
      * @param Magento_Index_Model_EventRepository $eventRepository
+     * @param Magento_Index_Model_Indexer_Factory $indexerFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -99,15 +110,19 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Context $context,
+        Magento_Index_Model_Indexer_Config $indexerConfig,
         Magento_Core_Model_Registry $registry,
         Magento_Index_Model_Lock_Storage $lockStorage,
         Magento_Index_Model_EventRepository $eventRepository,
+        Magento_Index_Model_Indexer_Factory $indexerFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_indexerConfig = $indexerConfig;
+        $this->_indexerFactory = $indexerFactory;
         $this->_lockStorage = $lockStorage;
         $this->_eventRepository = $eventRepository;
     }
@@ -320,18 +335,17 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     public function getIndexer()
     {
         if ($this->_indexer === null) {
-            $code = $this->_getData('indexer_code');
-            if (!$code) {
-                Mage::throwException(__('Indexer code is not defined.'));
+            $name = $this->_getData('indexer_code');
+            if (!$name) {
+                Mage::throwException(__('Indexer name is not defined.'));
             }
-            $xmlPath = self::XML_PATH_INDEXER_DATA . '/' . $code;
-            $config = Mage::getConfig()->getNode($xmlPath);
-            if (!$config || empty($config->model)) {
+            $indexerConfiguration = $this->_indexerConfig->getIndexer($name);
+            if (!$indexerConfiguration || empty($indexerConfiguration['instance'])) {
                 Mage::throwException(__('Indexer model is not defined.'));
             }
-            $model = Mage::getModel((string)$config->model);
-            if ($model instanceof Magento_Index_Model_Indexer_Abstract) {
-                $this->_indexer = $model;
+            $indexerModel = $this->_indexerFactory->create($indexerConfiguration['instance']);
+            if ($indexerModel instanceof Magento_Index_Model_Indexer_Abstract) {
+                $this->_indexer = $indexerModel;
             } else {
                 Mage::throwException(__('Indexer model should extend Magento_Index_Model_Indexer_Abstract.'));
             }
@@ -557,12 +571,10 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
         $depends = $this->getData('depends');
         if (is_null($depends)) {
             $depends = array();
-            $path = self::XML_PATH_INDEXER_DATA . '/' . $this->getIndexerCode();
-            $node = Mage::getConfig()->getNode($path);
-            if ($node) {
-                $data = $node->asArray();
-                if (isset($data['depends']) && is_array($data['depends'])) {
-                    $depends = array_keys($data['depends']);
+            $indexerConfiguration = $this->_indexerConfig->getIndexer($this->getIndexerCode());
+            if ($indexerConfiguration) {
+                if (isset($indexerConfiguration['depends']) && is_array($indexerConfiguration['depends'])) {
+                    $depends = $indexerConfiguration['depends'];
                 }
             }
 

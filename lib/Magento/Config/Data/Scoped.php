@@ -96,8 +96,9 @@ class Magento_Config_Data_Scoped extends Magento_Config_Data
                     if (false === $data) {
                         $data = $this->_reader->read($scopeCode);
                         $this->_cache->save(serialize($data), $scopeCode . '::' . $this->_cacheId);
+                    } else {
+                        $data = unserialize($data);
                     }
-                    $data = unserialize($data);
                     $this->merge($data);
                     $this->_loadedScopes[$scopeCode] = true;
                 }

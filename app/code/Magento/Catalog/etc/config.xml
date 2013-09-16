@@ -19,28 +19,6 @@
                 </setup>
             </catalog_setup>
         </resources>
-        <index>
-            <indexer>
-                <catalog_product_attribute>
-                    <model>Magento_Catalog_Model_Product_Indexer_Eav</model>
-                </catalog_product_attribute>
-                <catalog_product_price>
-                    <model>Magento_Catalog_Model_Product_Indexer_Price</model>
-                </catalog_product_price>
-                <catalog_url>
-                    <model>Magento_Catalog_Model_Indexer_Url</model>
-                </catalog_url>
-                <catalog_product_flat>
-                    <model>Magento_Catalog_Model_Product_Indexer_Flat</model>
-                </catalog_product_flat>
-                <catalog_category_flat>
-                    <model>Magento_Catalog_Model_Category_Indexer_Flat</model>
-                </catalog_category_flat>
-                <catalog_category_product>
-                    <model>Magento_Catalog_Model_Category_Indexer_Product</model>
-                </catalog_category_product>
-            </indexer>
-        </index>
         <catalog>
             <product>
                 <type>

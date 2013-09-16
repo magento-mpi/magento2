@@ -115,6 +115,7 @@ return array(
     array('XML_PATH_DEFAULT_TIMEZONE', 'Magento_Core_Model_Locale',
         'Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE'
     ),
+    array('XML_PATH_INDEXER_DATA', 'Magento_Index_Model_Process'),
     array('XML_PATH_INSTALL_DATE', 'Mage_Core_Model_App', 'Mage_Core_Model_Config_Primary::XML_PATH_INSTALL_DATE'),
     array('XML_PATH_LOCALE_INHERITANCE', 'Mage_Core_Model_Translate'),
     array('XML_PATH_SENDING_SET_RETURN_PATH', 'Mage_Newsletter_Model_Subscriber'),

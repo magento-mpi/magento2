@@ -83,6 +83,10 @@ app/code/Magento/ImportExport/Model/Import/Entity/Product/Option.php
 app/code/Magento/ImportExport/Model/Resource/Customer/Storage.php
 app/code/Magento/ImportExport/Model/Resource/Import/CustomerComposite/Data.php
 app/code/Magento/ImportExport/Controller/Adminhtml/Import.php
+app/code/Magento/Index/Model/Indexer/Config
+app/code/Magento/Index/Model/Indexer/Config.php
+app/code/Magento/Index/Model/Indexer/ConfigInterface.php
+app/code/Magento/Index/Model/Indexer/Factory.php
 app/code/Magento/Index/Model/Indexer/Abstract.php
 app/code/Magento/Index/Model/EntryPoint/Shell.php
 app/code/Magento/Index/Model/EntryPoint/Indexer.php
