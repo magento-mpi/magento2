@@ -107,12 +107,6 @@ class Magento_Catalog_Model_Product_Action extends Magento_Core_Model_Abstract
      */
     public function updateWebsites($productIds, $websiteIds, $type)
     {
-        $this->_eventManager->dispatch('catalog_product_website_update_before', array(
-            'website_ids'   => $websiteIds,
-            'product_ids'   => $productIds,
-            'action'        => $type
-        ));
-
         if ($type == 'add') {
             Mage::getModel('Magento_Catalog_Model_Product_Website')->addProducts($websiteIds, $productIds);
         } else if ($type == 'remove') {
@@ -129,12 +123,5 @@ class Magento_Catalog_Model_Product_Action extends Magento_Core_Model_Abstract
         Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
             $this, Magento_Catalog_Model_Product::ENTITY, Magento_Index_Model_Event::TYPE_MASS_ACTION
         );
-
-        // add back compatibility system event
-        $this->_eventManager->dispatch('catalog_product_website_update', array(
-            'website_ids'   => $websiteIds,
-            'product_ids'   => $productIds,
-            'action'        => $type
-        ));
     }
 }

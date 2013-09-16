@@ -85,6 +85,9 @@ class Magento_User_Controller_Adminhtml_UserTest extends Magento_Backend_Utility
         $this->assertStringMatchesFormat($expected, $this->getResponse()->getBody());
     }
 
+    /**
+     * @depends testSaveAction
+     */
     public function testRolesGridAction()
     {
         $this->getRequest()
@@ -96,6 +99,9 @@ class Magento_User_Controller_Adminhtml_UserTest extends Magento_Backend_Utility
         $this->assertStringMatchesFormat($expected, $this->getResponse()->getBody());
     }
 
+    /**
+     * @depends testSaveAction
+     */
     public function testEditAction()
     {
         $this->getRequest()->setParam('user_id', 1);

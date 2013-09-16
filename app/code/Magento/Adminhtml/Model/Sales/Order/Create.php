@@ -348,7 +348,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             $quote->collectTotals();
         }
 
-        $this->_coreData->copyFieldset('sales_copy_order', 'to_edit', $order, $quote);
+        $this->_coreData->copyFieldsetToTarget('sales_copy_order', 'to_edit', $order, $quote);
 
         $this->_eventManager->dispatch('sales_convert_order_to_quote', array('order' => $order, 'quote' => $quote));
 
@@ -379,7 +379,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     protected function _initBillingAddressFromOrder(Magento_Sales_Model_Order $order)
     {
         $this->getQuote()->getBillingAddress()->setCustomerAddressId('');
-        $this->_coreData->copyFieldset(
+        $this->_coreData->copyFieldsetToTarget(
             'sales_copy_order_billing_address',
             'to_order',
             $order->getBillingAddress(),
@@ -393,7 +393,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         $quoteShippingAddress = $this->getQuote()->getShippingAddress()
             ->setCustomerAddressId('')
             ->setSameAsBilling($orderShippingAddress && $orderShippingAddress->getSameAsBilling());
-        $this->_coreData->copyFieldset(
+        $this->_coreData->copyFieldsetToTarget(
             'sales_copy_order_shipping_address',
             'to_order',
             $orderShippingAddress,
