@@ -112,7 +112,7 @@ class Dom
                 }
             } else { /* recursive merge for all child nodes */
                 foreach ($node->childNodes as $childNode) {
-                    if ($childNode instanceof DOMElement) {
+                    if ($childNode instanceof \DOMElement) {
                         $this->_mergeNode($childNode, $path);
                     }
                 }
@@ -133,7 +133,7 @@ class Dom
      */
     protected function _isTextNode($node)
     {
-        return $node->childNodes->length == 1 && $node->childNodes->item(0) instanceof DOMText;
+        return $node->childNodes->length == 1 && $node->childNodes->item(0) instanceof \DOMText;
     }
 
     /**
