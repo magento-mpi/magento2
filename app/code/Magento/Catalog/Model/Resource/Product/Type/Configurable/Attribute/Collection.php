@@ -62,7 +62,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
         Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute  $resource
     ) {
         $this->_catalogData = $catalogData;
-        parent::__construct($eventManager, $entityFactory, $fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $entityFactory, $resource);
     }
 
     /**
