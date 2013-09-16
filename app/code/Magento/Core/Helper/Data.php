@@ -92,6 +92,11 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_encryptorFactory;
 
     /**
+     * @var Magento_Core_Model_Fieldset_Config
+     */
+    protected $_fieldsetConfig;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
@@ -109,6 +114,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
         $this->_config = $config;
         $this->_cacheConfig = $context->getCacheConfig();
         $this->_encryptorFactory = $context->getEncryptorFactory();
+        $this->_fieldsetConfig = $context->getFieldsetConfig();
     }
 
     /**
@@ -439,7 +445,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
         if (!$this->_isFieldsetInputValid($source, $target)) {
             return null;
         }
-        $fields = Mage::getObjectManager()->get('Magento_Core_Model_Fieldset_Config')->getFieldset($fieldset, $root);
+        $fields = $this->_fieldsetConfig->getFieldset($fieldset, $root);
         if (is_null($fields)) {
             return $target;
         }

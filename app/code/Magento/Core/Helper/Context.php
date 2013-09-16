@@ -40,11 +40,17 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     protected $_encryptorFactory;
 
     /**
+     * @var Magento_Core_Model_Fieldset_Config
+     */
+    protected $_fieldsetConfig;
+
+    /**
      * @param Magento_Core_Model_Translate $translator
      * @param Magento_Core_Model_ModuleManager $moduleManager
      * @param Magento_Core_Controller_Request_Http $httpRequest
      * @param Magento_Core_Model_Cache_Config $cacheConfig
      * @param Magento_Core_Model_EncryptionFactory $encyptorFactory
+     * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
      * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
@@ -53,6 +59,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
         Magento_Core_Controller_Request_Http $httpRequest,
         Magento_Core_Model_Cache_Config $cacheConfig,
         Magento_Core_Model_EncryptionFactory $encyptorFactory,
+        Magento_Core_Model_Fieldset_Config $fieldsetConfig,
         Magento_Core_Model_Event_Manager $eventManager
     ) {
         $this->_translator = $translator;
@@ -60,6 +67,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
         $this->_httpRequest = $httpRequest;
         $this->_cacheConfig = $cacheConfig;
         $this->_encryptorFactory = $encyptorFactory;
+        $this->_fieldsetConfig = $fieldsetConfig;
         $this->_eventManager = $eventManager;
     }
 
@@ -109,5 +117,13 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     public function getEventManager()
     {
         return $this->_eventManager;
+    }
+
+    /**
+     * @return Magento_Core_Model_Fieldset_Config
+     */
+    public function getFieldsetConfig()
+    {
+        return $this->_fieldsetConfig;
     }
 }
