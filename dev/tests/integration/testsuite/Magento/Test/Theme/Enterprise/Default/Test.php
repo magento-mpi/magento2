@@ -27,7 +27,6 @@ class Magento_Test_Theme_Enterprise_Default_Test extends Magento_TestFramework_T
     }
 
     /**
-     * @magentoConfigFixture frontend/design/theme/full_name magento_fixed_width
      * @magentoConfigFixture current_store dev/js/merge_files 0
      * @magentoConfigFixture current_store dev/js/minify_files 0
      */
@@ -38,7 +37,6 @@ class Magento_Test_Theme_Enterprise_Default_Test extends Magento_TestFramework_T
     }
 
     /**
-     * @magentoConfigFixture frontend/design/theme/full_name magento_fixed_width
      * @magentoConfigFixture current_store dev/js/merge_files 0
      * @magentoConfigFixture current_store dev/js/minify_files 0
      */
