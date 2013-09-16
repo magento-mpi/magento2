@@ -187,6 +187,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
+        parent::__construct($directoryData, $coreStoreConfig, $data);
         $this->_coreData = $coreData;
         $this->_usaData = $usaData;
         $this->_coreString = $coreString;
@@ -194,7 +195,6 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_DOC) {
             $this->_freeMethod = 'free_method_doc';
         }
-        parent::__construct($directoryData, $coreStoreConfig, $data);
     }
 
     /**
