@@ -13,7 +13,7 @@ class Magento_Core_Helper_CssTest extends PHPUnit_Framework_TestCase
      */
     protected $_object;
 
-    public function setUp()
+    protected function setUp()
     {
         $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local());
         $dirs = new Magento_Core_Model_Dir('/base_dir');

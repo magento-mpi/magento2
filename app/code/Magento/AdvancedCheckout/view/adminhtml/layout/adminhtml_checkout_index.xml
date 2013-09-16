@@ -10,15 +10,21 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_checkout_index">
         <reference name="head">
-            <action method="addJs">
-                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/product/composite/configure.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">varien/configurable.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">Magento_AdvancedCheckout::shopping_cart.js</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminhtml-catalog-product-composite-configure-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/product/composite/configure.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="varien-configurable-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">varien/configurable.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="magento-checkout-shopping-cart-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_AdvancedCheckout::shopping_cart.js</argument>
+                </arguments>
+            </block>
         </reference>
         <reference name="content">
             <update handle="adminhtml_sku_errors_block"/>

@@ -56,7 +56,7 @@ class Magento_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected $_storeManager;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_eventManagerMock = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
         $this->_structureReaderMock = $this->getMock(

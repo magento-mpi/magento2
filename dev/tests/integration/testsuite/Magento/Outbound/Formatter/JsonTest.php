@@ -13,7 +13,7 @@ class Magento_Outbound_Formatter_JsonTest extends PHPUnit_Framework_TestCase
     /** @var Magento_Outbound_Formatter_Json */
     protected $_formatter;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_formatter = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Outbound_Formatter_Json');

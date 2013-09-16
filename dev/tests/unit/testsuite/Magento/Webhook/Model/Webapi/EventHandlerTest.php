@@ -20,7 +20,7 @@ class Magento_Webhook_Model_Webapi_EventHandlerTest extends PHPUnit_Framework_Te
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_resourceAclUser;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_collection = $this->getMockBuilder('Magento_Webhook_Model_Resource_Subscription_Collection')
             ->disableOriginalConstructor()

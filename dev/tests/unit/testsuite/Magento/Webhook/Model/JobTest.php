@@ -26,7 +26,7 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_mockEvent;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_mockEventFactory = $this->getMockBuilder('Magento_Webhook_Model_Event_Factory')
             ->disableOriginalConstructor()

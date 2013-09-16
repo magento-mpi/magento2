@@ -15,9 +15,11 @@
             </action>
         </reference>
         <reference name="head">
-            <action method="addJs">
-                <argument name="file" xsi:type="string">scriptaculous/scriptaculous.js</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Script" name="scriptaculous-scriptaculous-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">scriptaculous/scriptaculous.js</argument>
+                </arguments>
+            </block>
         </reference>
         <reference name="content">
             <block class="Magento_Catalog_Block_Product_Compare_List" name="catalog.compare.list" template="product/compare/list.phtml"/>

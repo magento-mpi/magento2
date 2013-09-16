@@ -59,7 +59,7 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
     /**
      * Prepare required values
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->_request = $this->getMockBuilder('Magento_Core_Controller_Request_Http')
             ->disableOriginalConstructor()

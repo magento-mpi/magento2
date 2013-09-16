@@ -18,7 +18,7 @@ class Magento_Test_Tools_Migration_Acl_Db_Adapter_FactoryTest extends PHPUnit_Fr
      */
     protected $_config;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_config = array(
             'dbname' => 'some_db_name',

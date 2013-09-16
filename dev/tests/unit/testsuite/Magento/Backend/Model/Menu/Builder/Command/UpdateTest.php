@@ -20,7 +20,7 @@ class Magento_Backend_Model_Menu_Builder_Command_UpdateTest extends PHPUnit_Fram
         'id' => 'item', 'title' => 'item', 'module' => 'Magento_Backend', 'parent' => 'parent'
     );
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = new Magento_Backend_Model_Menu_Builder_Command_Update($this->_params);
     }

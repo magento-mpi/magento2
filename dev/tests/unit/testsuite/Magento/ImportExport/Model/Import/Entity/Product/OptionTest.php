@@ -284,7 +284,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
     /**
      * Init entity adapter model
      */
-    public function setUp()
+    protected function setUp()
     {
         $addExpectations = false;
         $deleteBehavior  = false;
@@ -311,7 +311,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
     /**
      * Unset entity adapter model
      */
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
         unset($this->_productEntity);

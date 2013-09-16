@@ -17,4 +17,4 @@
     <event name="core_config_data_save_commit_after">
         <observer name="magento_targetrule" instance="Magento_TargetRule_Model_Observer" method="coreConfigSaveCommitAfter" />
     </event>
-</config>
+</config>

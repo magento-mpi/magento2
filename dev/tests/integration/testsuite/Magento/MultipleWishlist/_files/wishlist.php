@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Magento_MultipleWishlist
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */

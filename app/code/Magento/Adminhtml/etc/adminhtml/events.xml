@@ -11,4 +11,4 @@
     <event name="admin_system_config_changed_section_admin">
         <observer name="bind_locale" instance="Magento_Backend_Model_Config_Backend_Admin_Observer" method="afterCustomUrlChanged" />
     </event>
-</config>
+</config>

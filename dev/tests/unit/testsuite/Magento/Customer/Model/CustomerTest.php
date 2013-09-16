@@ -49,7 +49,7 @@ class Magento_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
     /**
      * Set required values
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->_customerData = $this->getMockBuilder('Magento_Customer_Helper_Data')
             ->disableOriginalConstructor()

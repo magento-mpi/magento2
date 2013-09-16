@@ -39,7 +39,7 @@ class Magento_GoogleOptimizer_Model_Observer_Block_Category_TabTest extends PHPU
      */
     protected $_observer;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_helperMock = $this->getMock('Magento_GoogleOptimizer_Helper_Data', array(), array(), '', false);
         $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);

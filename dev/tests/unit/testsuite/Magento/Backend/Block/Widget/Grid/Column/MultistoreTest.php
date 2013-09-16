@@ -21,7 +21,7 @@ class Magento_Backend_Block_Widget_Grid_Column_MultistoreTest extends PHPUnit_Fr
      */
     protected $_storeManagerMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManagerInterface');
 

@@ -2,6 +2,7 @@
 # These items are mentioned in "extruder" configuration of publication build: dev/build/publication/extruder/common.txt
 # This file will not be published, too
 #
+dev/tests/functional/testsuite/Core/Mage/UrlRewrite/Helper.php
 dev/tests/functional/testsuite/Enterprise/Mage/Acl/CatalogManageCategoryTest.php
 dev/tests/functional/testsuite/Enterprise/Mage/Acl/CmsPoll.php
 dev/tests/functional/testsuite/Enterprise/Mage/Acl/SystemPermissionTest.php

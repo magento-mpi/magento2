@@ -22,7 +22,7 @@ class Magento_Core_Model_Cache_Type_FrontendPoolTest extends PHPUnit_Framework_T
      */
     protected $_cachePool;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
         $this->_cachePool = $this->getMock('Magento_Core_Model_Cache_Frontend_Pool', array(), array(), '', false);

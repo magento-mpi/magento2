@@ -25,7 +25,7 @@ class Magento_Test_Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit
      */
     protected $_objectManager;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $serviceCallsFiles = $this->getServiceCallsConfigFiles();

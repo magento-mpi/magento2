@@ -28,7 +28,7 @@ class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_Test
     /** @var string[] */
     private $_apiUserIds = array('api_user_id1', 'api_user_id2', 'api_user_id3');
 
-    public function setUp()
+    protected function setUp()
     {
         // Select mock
         $this->_selectMock = $this->_makeMock('Magento_DB_Select');

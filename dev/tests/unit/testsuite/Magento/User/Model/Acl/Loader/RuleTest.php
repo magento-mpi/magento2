@@ -26,7 +26,7 @@ class Magento_User_Model_Acl_Loader_RuleTest extends PHPUnit_Framework_TestCase
      */
     protected $_rootResourceMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_resourceMock = $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false, false);
         $this->_rootResourceMock = new Magento_Core_Model_Acl_RootResource('Magento_Adminhtml::all');

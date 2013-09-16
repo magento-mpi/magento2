@@ -21,7 +21,7 @@ class Magento_Webhook_Model_Job_QueueReaderTest extends PHPUnit_Framework_TestCa
     /** @var PHPUnit_Framework_MockObject_MockObject */
     private $_mockIterator;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_mockCollection = $this->getMockBuilder('Magento_Webhook_Model_Resource_Job_Collection')
             ->disableOriginalConstructor()

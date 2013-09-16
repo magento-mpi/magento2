@@ -32,4 +32,4 @@
     <event name="sales_quote_item_qty_set_after">
         <observer name="magento_catalogevent" instance="Magento_CatalogEvent_Model_Observer" method="applyEventOnQuoteItemSetQty" />
     </event>
-</config>
+</config>

@@ -20,7 +20,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_AbstractTest extends
      * On product import abstract class methods level it doesn't matter what product type is using.
      * That is why current tests are using simple product entity type by default
      */
-    public function setUp()
+    protected function setUp()
     {
         $arguments = array(Mage::getModel('Magento_ImportExport_Model_Import_Entity_Product'), 'simple');
         $this->_model = $this->getMockForAbstractClass(
