@@ -340,7 +340,9 @@ function __()
  */
 function magePrintException(Exception $e, $extra = '')
 {
-    if (Mage::getIsDeveloperMode()) {
+    $objectManager = Magento_Core_Model_ObjectManager::getInstance();
+    $mode = $objectManager->get('Magento_Core_Model_App_State')->getMode();
+    if ($mode == Magento_Core_Model_App_State::MODE_DEVELOPER) {
         print '<pre>';
 
         if (!empty($extra)) {
@@ -366,7 +368,6 @@ function magePrintException(Exception $e, $extra = '')
                 $reportData['script_name'] = $_SERVER['SCRIPT_NAME'];
             }
         }
-        $objectManager  = Magento_Core_Model_ObjectManager::getInstance();
         // attempt to specify store as a skin
         try {
             $storeCode = $objectManager->get('Magento_Core_Model_StoreManager')->getStore()->getCode();
