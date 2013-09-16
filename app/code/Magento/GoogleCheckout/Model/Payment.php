@@ -53,7 +53,8 @@ class Magento_GoogleCheckout_Model_Payment extends Magento_Payment_Model_Method_
     /**
      * Authorize
      *
-     * @param   Magento_Object $orderPayment
+     * @param Magento_Object $payment
+     * @param float $amount
      * @return  Magento_GoogleCheckout_Model_Payment
      */
     public function authorize(Magento_Object $payment, $amount)
@@ -67,19 +68,12 @@ class Magento_GoogleCheckout_Model_Payment extends Magento_Payment_Model_Method_
     /**
      * Capture payment
      *
-     * @param   Magento_Object $orderPayment
+     * @param Magento_Object $payment
+     * @param float $amount
      * @return  Magento_GoogleCheckout_Model_Payment
      */
     public function capture(Magento_Object $payment, $amount)
     {
-        /*
-        try {
-            $this->authorize($payment, $amount);
-        } catch (Exception $e) {
-            // authorization is not expired yet
-        }
-        */
-
         if ($payment->getOrder()->getPaymentAuthExpiration() < Mage::getModel('Magento_Core_Model_Date')->gmtTimestamp()) {
             try {
                 $this->authorize($payment, $amount);
