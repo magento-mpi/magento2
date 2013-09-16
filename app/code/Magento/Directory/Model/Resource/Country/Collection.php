@@ -37,16 +37,18 @@ class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_M
      * @param Magento_Core_Helper_String $stringHelper
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param null $resource
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_String $stringHelper,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
         $resource = null
     ) {
-        parent::__construct($eventManager, $fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $entityFactory, $resource);
         $this->_stringHelper = $stringHelper;
         $this->_locale = $locale;
     }

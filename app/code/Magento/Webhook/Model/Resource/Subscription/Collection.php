@@ -22,15 +22,17 @@ class Magento_Webhook_Model_Resource_Subscription_Collection
      * @param Magento_Webhook_Model_Resource_Endpoint $endpointResource
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
         Magento_Webhook_Model_Resource_Endpoint $endpointResource,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
-        parent::__construct($eventManager, $fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $entityFactory, $resource);
         $this->_endpointResource = $endpointResource;
     }
 

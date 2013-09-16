@@ -95,13 +95,15 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory
     ) {
         $this->_eventManager = $eventManager;
-        parent::__construct($fetchStrategy);
+        parent::__construct($fetchStrategy, $entityFactory);
         $this->_construct();
         $this->setConnection($this->getEntity()->getReadConnection());
         $this->_prepareStaticFields();

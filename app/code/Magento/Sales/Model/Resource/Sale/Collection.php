@@ -61,16 +61,17 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
      *
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Sales_Model_Resource_Order $resource
-     * @todo: incorrect constructor
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Sales_Model_Resource_Order $resource
     ) {
         $this->_eventManager = $eventManager;
-        parent::__construct($fetchStrategy, $resource->getReadConnection());
+        parent::__construct($fetchStrategy, $entityFactory, $resource->getReadConnection());
     }
 
     /**

@@ -23,6 +23,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection_Grid extends Magento_Wishl
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Wishlist_Model_Resource_Item $resource
      */
@@ -31,11 +32,14 @@ class Magento_Wishlist_Model_Resource_Item_Collection_Grid extends Magento_Wishl
         Magento_CatalogInventory_Helper_Data $catalogInventoryData,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Core_Model_Registry $registry,
         Magento_Wishlist_Model_Resource_Item $resource
     ) {
         $this->_registryManager = $registry;
-        parent::__construct($catalogInventoryData, $adminhtmlSales, $eventManager, $fetchStrategy, $resource);
+        parent::__construct(
+            $catalogInventoryData, $adminhtmlSales, $eventManager, $fetchStrategy, $entityFactory, $resource
+        );
     }
 
     /**

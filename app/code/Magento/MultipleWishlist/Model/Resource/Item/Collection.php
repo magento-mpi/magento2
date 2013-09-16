@@ -30,6 +30,7 @@ class Magento_MultipleWishlist_Model_Resource_Item_Collection extends Magento_Wi
      * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Wishlist_Model_Resource_Item $resource
      */
     public function __construct(
@@ -38,10 +39,13 @@ class Magento_MultipleWishlist_Model_Resource_Item_Collection extends Magento_Wi
         Magento_Adminhtml_Helper_Sales $adminhtmlSales,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Wishlist_Model_Resource_Item $resource
     ) {
         $this->_wishlistData = $wishlistData;
-        parent::__construct($catalogInventoryData, $adminhtmlSales, $eventManager, $fetchStrategy, $resource);
+        parent::__construct(
+            $catalogInventoryData, $adminhtmlSales, $eventManager, $fetchStrategy, $entityFactory, $resource
+        );
     }
 
     /**
