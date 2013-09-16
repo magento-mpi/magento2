@@ -525,16 +525,15 @@ class Magento_VersionsCms_Model_Observer
         }
 
         // check whether menu handle is compatible with page handles
-        $allowedHandles = $menuLayout->getPageLayoutHandles();
+        $allowedHandles = $menuLayout['pageLayoutHandles'];
         if (is_array($allowedHandles) && count($allowedHandles) > 0) {
-            $allowedHandles = array_keys($allowedHandles);
             if (count(array_intersect($allowedHandles, $loadedHandles)) == 0) {
                 return $this;
             }
         }
 
         // add menu handle to layout update
-        $action->getLayout()->getUpdate()->addHandle($menuLayout->getLayoutHandle());
+        $action->getLayout()->getUpdate()->addHandle($menuLayout['handle']);
 
         return $this;
     }

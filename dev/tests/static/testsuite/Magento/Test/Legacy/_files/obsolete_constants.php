@@ -110,6 +110,7 @@ return array(
     array('XML_PATH_BACKEND_FRONTNAME', 'Mage_Backend_Helper_Data'),
     array('XML_PATH_CACHE_BETA_TYPES'),
     array('XML_PATH_CHECK_EXTENSIONS', 'Magento_Install_Model_Config'),
+    array('XML_PATH_CONTEXT_MENU_LAYOUTS', 'Magento_VersionsCms_Model_Hierarchy_Config'),
     array('XML_PATH_COUNTRY_DEFAULT', 'Magento_Paypal_Model_System_Config_Backend_MerchantCountry'),
     array('XML_PATH_DEFAULT_COUNTRY', 'Magento_Core_Model_Locale'),
     array('XML_PATH_DEFAULT_LOCALE', 'Magento_Core_Model_Locale',

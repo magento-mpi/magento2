@@ -10,3 +10,6 @@ app/code/Magento/Invitation/Controller/Adminhtml/Report
 app/code/Magento/FullPageCache/Model/Cache/Type.php
 app/code/Magento/Pbridge/Model/Authorizenet/Source/PaymentAction.php
 app/code/Magento/SalesArchive/Model/Order
+app/code/Magento/VersionsCms/Model/Hierarchy/Config
+app/code/Magento/VersionsCms/Model/Hierarchy/Config.php
+app/code/Magento/VersionsCms/Model/Hierarchy/ConfigInterface.php

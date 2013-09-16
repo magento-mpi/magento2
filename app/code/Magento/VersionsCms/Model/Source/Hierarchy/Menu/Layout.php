@@ -30,10 +30,10 @@ class Magento_VersionsCms_Model_Source_Hierarchy_Menu_Layout
            $options[] = array('label' => __('Use default'), 'value' => '');
         }
 
-        foreach (Mage::getSingleton('Magento_VersionsCms_Model_Hierarchy_Config')->getContextMenuLayouts() as $code => $info) {
+        foreach (Mage::getSingleton('Magento_VersionsCms_Model_Hierarchy_Config')->getContextMenuLayouts() as $name => $info) {
             $options[] = array(
-                'label' => $info->getLabel(),
-                'value' => $code
+                'label' => $info['label'],
+                'value' => $name
             );
         }
 

@@ -227,21 +227,12 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
     }
 
     /**
-     * Retrieve Resource instance wrapper
-     *
-     * @return Magento_VersionsCms_Model_Resource_Hierarchy_Node
-     */
-    protected function _getResource()
-    {
-        return parent::_getResource();
-    }
-
-    /**
      * Collect and save tree
      *
      * @param array $data       modified nodes data array
      * @param array $remove     the removed node ids
      * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @throws Exception
      */
     public function collectTree($data, $remove)
     {
@@ -722,15 +713,15 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
         if (!array_key_exists('menu_layout', $rootParams)) {
             return null;
         }
-        $layoutCode = $rootParams['menu_layout'];
-        if (!$layoutCode) {
-            $layoutCode = Mage::getStoreConfig('cms/hierarchy/menu_layout');
+        $layoutName = $rootParams['menu_layout'];
+        if (!$layoutName) {
+            $layoutName = Mage::getStoreConfig('cms/hierarchy/menu_layout');
         }
-        if (!$layoutCode) {
+        if (!$layoutName) {
             return null;
         }
-        $layout = Mage::getSingleton('Magento_VersionsCms_Model_Hierarchy_Config')->getContextMenuLayout($layoutCode);
-        return is_object($layout) ? $layout : null;
+        $layout = Mage::getSingleton('Magento_VersionsCms_Model_Hierarchy_Config')->getContextMenuLayout($layoutName);
+        return ($layout) ? $layout : null;
     }
 
     /**

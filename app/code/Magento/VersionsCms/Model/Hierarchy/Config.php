@@ -1,24 +1,14 @@
 <?php
 /**
+ * Cms Hierarchy Model for config processing
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Cms Hierarchy Model for config processing
- *
- * @category   Magento
- * @package    Magento_VersionsCms
- */
 class Magento_VersionsCms_Model_Hierarchy_Config
 {
-    const XML_PATH_CONTEXT_MENU_LAYOUTS = 'global/magento_versionscms/hierarchy/menu/layouts';
-
     /**
      * Menu layouts configuration
      * @var array
@@ -26,38 +16,16 @@ class Magento_VersionsCms_Model_Hierarchy_Config
     protected $_contextMenuLayouts = null;
 
     /**
-     * Defalt code for menu layouts
-     * @var string
+     * @var Magento_VersionsCms_Model_Hierarchy_Config_Data
      */
-    protected $_defaultMenuLayoutCode;
+    protected $_configData;
 
     /**
-     * Initialization for $_contextMenuLayouts
-     *
-     * @return Magento_VersionsCms_Model_Hierarchy_Config
+     * @param Magento_VersionsCms_Model_Hierarchy_Config_Data $configData
      */
-    protected function _initContextMenuLayouts()
+    public function __construct(Magento_VersionsCms_Model_Hierarchy_Config_Data $configData)
     {
-        $config = Mage::getConfig()->getNode(self::XML_PATH_CONTEXT_MENU_LAYOUTS);
-        if ($this->_contextMenuLayouts !== null || !$config) {
-            return $this;
-        }
-        if (!is_array($this->_contextMenuLayouts)) {
-            $this->_contextMenuLayouts = array();
-        }
-        foreach ($config->children() as $layoutCode => $layoutConfig) {
-            $this->_contextMenuLayouts[$layoutCode] = new Magento_Object(array(
-                'label'                 => __((string)$layoutConfig->label),
-                'code'                  => $layoutCode,
-                'layout_handle'         => (string)$layoutConfig->layout_handle,
-                'is_default'            => (int)$layoutConfig->is_default,
-                'page_layout_handles'   => (array)$layoutConfig->page_layout_handles,
-            ));
-            if ((bool)$layoutConfig->is_default) {
-                $this->_defaultMenuLayoutCode = $layoutCode;
-            }
-        }
-        return $this;
+        $this->_configData = $configData;
     }
 
     /**
@@ -67,30 +35,18 @@ class Magento_VersionsCms_Model_Hierarchy_Config
      */
     public function getContextMenuLayouts()
     {
-        $this->_initContextMenuLayouts();
-        return $this->_contextMenuLayouts;
+        return $this->_configData->get();
     }
 
     /**
-     * Return Context Menu layout by its code
+     * Return Context Menu layout by its name
      *
-     * @param string $layoutCode
+     * @param string $layoutName
      * @return Magento_Object|boolean
      */
-    public function getContextMenuLayout($layoutCode)
+    public function getContextMenuLayout($layoutName)
     {
-        $this->_initContextMenuLayouts();
-        return isset($this->_contextMenuLayouts[$layoutCode]) ? $this->_contextMenuLayouts[$layoutCode] : false;
-    }
-
-    /**
-     * Getter for $_defaultMenuLayoutCode
-     *
-     * @return string
-     */
-    public function getDefaultMenuLayoutCode()
-    {
-        $this->_initContextMenuLayouts();
-        return $this->_defaultMenuLayoutCode;
+        $menuLayouts = $this->_configData->get();
+        return isset($menuLayouts[$layoutName]) ? $menuLayouts[$layoutName] : false;
     }
 }

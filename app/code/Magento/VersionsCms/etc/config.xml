@@ -19,35 +19,6 @@
                 </setup>
             </versionscms_setup>
         </resources>
-        <magento_versionscms>
-            <hierarchy>
-                <menu>
-                    <layouts>
-                        <content translate="label">
-                            <label>Content</label>
-                            <layout_handle>magento_versionscms_hierarchy_menu_content</layout_handle>
-                            <is_default>1</is_default>
-                        </content>
-                        <left_column translate="label">
-                            <label>Left Column</label>
-                            <layout_handle>magento_versionscms_hierarchy_menu_left_column</layout_handle>
-                            <page_layout_handles>
-                                <page_two_columns_left />
-                                <page_three_columns />
-                            </page_layout_handles>
-                        </left_column>
-                        <right_column translate="label">
-                            <label>Right Column</label>
-                            <layout_handle>magento_versionscms_hierarchy_menu_right_column</layout_handle>
-                            <page_layout_handles>
-                                <page_two_columns_right />
-                                <page_three_columns />
-                            </page_layout_handles>
-                        </right_column>
-                    </layouts>
-                </menu>
-            </hierarchy>
-        </magento_versionscms>
     </global>
     <adminhtml>
         <translate>
@@ -72,4 +43,4 @@
             </content>
         </cms>
     </default>
-</config>
+</config>
