@@ -117,7 +117,6 @@ class Auth extends \Magento\Backend\Controller\ActionAbstract
             $this->getResponse()->setRedirect(
                 $this->_objectManager->get('Magento\Backend\Helper\Data')->getHomePageUrl()
             );
-            $this->getResponse()->setRedirect(\Mage::helper('Magento\Backend\Helper\Data')->getHomePageUrl());
             return;
         }
 

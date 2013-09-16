@@ -124,18 +124,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
             \Magento\TargetRule\Model\Rule::SELECTED_ONLY,
         );
     }
-
-    /**
-     * Retrieve TargetRule data helper
-     *
-     * @return \Magento\TargetRule\Helper\Data
-     */
-    public function getTargetRuleHelper()
-    {
-        return \Mage::helper('Magento\TargetRule\Helper\Data');
-    }
-
-    /**
+     /**
      * Get link collection
      *
      * @return \Magento\Catalog\Model\Resource\Product\Collection|null

@@ -324,15 +324,6 @@ abstract class AbstractMethod extends \Magento\Object
                && ($this instanceof \Magento\Payment\Model\Recurring\Profile\MethodInterface);
     }
 
-    /**
-     * Retrieve model helper
-     *
-     * @return \Magento\Payment\Helper\Data
-     */
-    protected function _getHelper()
-    {
-        return \Mage::helper('Magento\Payment\Helper\Data');
-    }
 
     /**
      * Retrieve payment method code

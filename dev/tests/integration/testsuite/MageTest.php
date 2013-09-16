@@ -177,17 +177,7 @@ class MageTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @param string $classId
-     * @param string $expectedClassName
-     * @dataProvider helperDataProvider
-     */
-    public function testHelper($classId, $expectedClassName)
-    {
-        $this->assertInstanceOf($expectedClassName, Mage::helper($classId));
-    }
-
-    /**
+     /**
      * @return array
      */
     public function helperDataProvider()

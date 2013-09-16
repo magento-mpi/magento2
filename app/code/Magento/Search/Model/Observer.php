@@ -124,62 +124,6 @@ class Observer
     }
 
     /**
-     * Hold commit at indexation start if needed
-     *
-     * @param \Magento\Event\Observer $observer
-     */
-    public function holdCommit(\Magento\Event\Observer $observer)
-    {
-        if (!\Mage::helper('Magento\Search\Helper\Data')->isThirdPartyEngineAvailable()) {
-            return;
-        }
-
-        $engine = \Mage::helper('Magento\CatalogSearch\Helper\Data')->getEngine();
-        if (!$engine->holdCommit()) {
-            return;
-        }
-
-        /*
-         * Index needs to be optimized if all products were affected
-         */
-        $productIds = $observer->getEvent()->getProductIds();
-        if (is_null($productIds)) {
-            $engine->setIndexNeedsOptimization();
-        }
-    }
-
-    /**
-     * Apply changes in search engine index.
-     * Make index optimization if documents were added to index.
-     * Allow commit if it was held.
-     *
-     * @param \Magento\Event\Observer $observer
-     */
-    public function applyIndexChanges(\Magento\Event\Observer $observer)
-    {
-        if (!\Mage::helper('Magento\Search\Helper\Data')->isThirdPartyEngineAvailable()) {
-            return;
-        }
-
-        $engine = \Mage::helper('Magento\CatalogSearch\Helper\Data')->getEngine();
-        if (!$engine->allowCommit()) {
-            return;
-        }
-
-        if ($engine->getIndexNeedsOptimization()) {
-            $engine->optimizeIndex();
-        } else {
-            $engine->commitChanges();
-        }
-
-        /**
-         * Cleaning MAXPRICE cache
-         */
-        $cacheTag = \Mage::getSingleton('Magento\Search\Model\Catalog\Layer\Filter\Price')->getCacheTag();
-        \Mage::app()->cleanCache(array($cacheTag));
-    }
-
-    /**
      * Store searchable attributes at adapter to avoid new collection load there
      *
      * @param \Magento\Event\Observer $observer

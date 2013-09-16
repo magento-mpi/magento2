@@ -325,17 +325,6 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     }
 
     /**
-     * Helper getter
-     *
-     * @param string $helperName
-     * @return \Magento\Core\Helper\AbstractHelper
-     */
-    protected function _helper($helperName)
-    {
-        return isset($this->_helpers[$helperName]) ? $this->_helpers[$helperName] : \Mage::helper($helperName);
-    }
-
-    /**
      * Initialize table names
      *
      * @param array $data
