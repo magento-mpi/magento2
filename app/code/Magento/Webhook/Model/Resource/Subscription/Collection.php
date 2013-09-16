@@ -29,7 +29,7 @@ class Collection
     public function __construct(
         \Magento\Webhook\Model\Resource\Endpoint $endpointResource,
         \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Webhook\Model\Resource\Endpoint $endpointResource,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($eventManager, $fetchStrategy, $resource);

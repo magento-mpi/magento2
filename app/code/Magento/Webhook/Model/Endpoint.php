@@ -33,7 +33,7 @@ class Endpoint extends \Magento\Core\Model\AbstractModel implements \Magento\Out
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Webhook\Model\User\Factory $userFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -41,7 +41,7 @@ class Endpoint extends \Magento\Core\Model\AbstractModel implements \Magento\Out
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Context $context,
+        \Magento\Webhook\Model\User\Factory $userFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
