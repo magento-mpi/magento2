@@ -24,7 +24,7 @@ class Reader extends \Magento\Config\XmlAbstract
     /**
      * Extract configuration data from the DOM structure
      *
-     * @param DOMDocument $dom
+     * @param \DOMDocument $dom
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -79,7 +79,7 @@ class Reader extends \Magento\Config\XmlAbstract
 
     /**
      * Retrieve services
-     * @return DOMDocument
+     * @return \DOMDocument
      */
     public function getServices()
     {

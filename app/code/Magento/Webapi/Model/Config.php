@@ -143,10 +143,10 @@ class Config
     }
 
     /**
-     * Get node ID of DOMNode class
+     * Get node ID of \DOMNode class
      *
-     * @param array $children - Child nodes of a DOMNode
-     * @param DOMNode $child
+     * @param array $children - Child nodes of a \DOMNode
+     * @param \DOMNode $child
      * @return string
      */
     protected function _getNodeId($children, $child)
@@ -158,9 +158,9 @@ class Config
     }
 
     /**
-     * Convert attributes of a DOMNode into an associative array.
+     * Convert attributes of a \DOMNode into an associative array.
      *
-     * @param DOMNode $node
+     * @param \DOMNode $node
      * @return array
      */
     protected function _getAttributes($node)
@@ -177,10 +177,10 @@ class Config
     }
 
     /**
-     * Check the first DOMNode in a DOMNodeList of size 1 to see if it's an XML_TEXT_NODE and store it's value.
+     * Check the first \DOMNode in a \DOMNodeList of size 1 to see if it's an XML_TEXT_NODE and store it's value.
      *
-     * @param array $result - Associative array of attributes from a DOMNode
-     * @param DOMNodeList $children - Child nodes of a DOMNode
+     * @param array $result - Associative array of attributes from a \DOMNode
+     * @param \DOMNodeList $children - Child nodes of a \DOMNode
      * @return array|string|null
      */
     protected function _checkForTextNode($result, $children)
@@ -197,10 +197,10 @@ class Config
     }
 
     /**
-     * Process all child nodes of a root DOMNode, establishing all operations, routes, etc.
+     * Process all child nodes of a root \DOMNode, establishing all operations, routes, etc.
      *
      * @param array $result
-     * @param DOMNodeList $children
+     * @param \DOMNodeList $children
      * @return array
      */
     protected function _processChildren($result, $children)
@@ -245,7 +245,7 @@ class Config
     /**
      * Convert elements to array
      *
-     * @param DOMNode $root
+     * @param \DOMNode $root
      * @return array|string
      */
     protected function _toArray($root)

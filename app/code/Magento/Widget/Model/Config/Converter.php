@@ -18,7 +18,7 @@ class Converter implements \Magento\Config\ConverterInterface
     {
         $widgets = array();
         $xpath = new \DOMXPath($source);
-        /** @var $widget DOMNode */
+        /** @var $widget \DOMNode */
         foreach ($xpath->query('/widgets/widget') as $widget) {
             $widgetAttributes = $widget->attributes;
             $widgetArray = array('@' => array());
@@ -34,7 +34,7 @@ class Converter implements \Magento\Config\ConverterInterface
             }
 
             $widgetId = $widgetAttributes->getNamedItem('id');
-            /** @var $widgetSubNode DOMNode */
+            /** @var $widgetSubNode \DOMNode */
             foreach ($widget->childNodes as $widgetSubNode) {
                 switch ($widgetSubNode->nodeName) {
                     case 'label':
@@ -44,7 +44,7 @@ class Converter implements \Magento\Config\ConverterInterface
                         $widgetArray['description'] = $widgetSubNode->nodeValue;
                         break;
                     case 'parameters':
-                        /** @var $parameter DOMNode */
+                        /** @var $parameter \DOMNode */
                         foreach ($widgetSubNode->childNodes as $parameter) {
                             if ($parameter->nodeName === '#text') {
                                 continue;
@@ -90,7 +90,7 @@ class Converter implements \Magento\Config\ConverterInterface
     /**
      * Convert dom Container node to magneto array
      *
-     * @param DOMNode $source
+     * @param \DOMNode $source
      * @return array
      * @throws \LogicException
      */
@@ -100,7 +100,7 @@ class Converter implements \Magento\Config\ConverterInterface
         $containerAttributes = $source->attributes;
         $template = array();
         foreach ($source->childNodes as $containerTemplate) {
-            if (!$containerTemplate instanceof DOMElement) {
+            if (!$containerTemplate instanceof \DOMElement) {
                 continue;
             }
             if ($containerTemplate->nodeName !== 'template') {
@@ -120,7 +120,7 @@ class Converter implements \Magento\Config\ConverterInterface
     /**
      * Convert dom Parameter node to Magento array
      *
-     * @param DOMNode $source
+     * @param \DOMNode $source
      * @return array
      * @throws \LogicException
      * @SuppressWarnings(PHPMD.NPathComplexity)
@@ -148,10 +148,10 @@ class Converter implements \Magento\Config\ConverterInterface
             }
             $parameter['type'] = $xsiType;
 
-            /** @var $paramSubNode DOMNode */
+            /** @var $paramSubNode \DOMNode */
             foreach ($source->childNodes as $paramSubNode) {
                 if ($paramSubNode->nodeName == 'options') {
-                    /** @var $option DOMNode */
+                    /** @var $option \DOMNode */
                     foreach ($paramSubNode->childNodes as $option) {
                         if ($option->nodeName === '#text') {
                             continue;
@@ -212,7 +212,7 @@ class Converter implements \Magento\Config\ConverterInterface
     /**
      * Convert dom Depends node to Magento array
      *
-     * @param DOMNode $source
+     * @param \DOMNode $source
      * @return array
      * @throws \LogicException
      */
@@ -241,7 +241,7 @@ class Converter implements \Magento\Config\ConverterInterface
     /**
      * Convert dom Renderer node to magneto array
      *
-     * @param DOMNode $source
+     * @param \DOMNode $source
      * @return array
      * @throws \LogicException
      */
@@ -269,7 +269,7 @@ class Converter implements \Magento\Config\ConverterInterface
     /**
      * Convert dom Data node to magneto array
      *
-     * @param DOMElement $source
+     * @param \DOMElement $source
      * @return array
      */
     protected function _convertData($source)
@@ -279,7 +279,7 @@ class Converter implements \Magento\Config\ConverterInterface
             return $data;
         }
         foreach ($source->childNodes as $dataChild) {
-            if ($dataChild instanceof DOMElement) {
+            if ($dataChild instanceof \DOMElement) {
                 $data[$dataChild->attributes->getNamedItem('name')->nodeValue] = $this->_convertData($dataChild);
             } else {
                 if (strlen(trim($dataChild->nodeValue))) {
@@ -293,7 +293,7 @@ class Converter implements \Magento\Config\ConverterInterface
     /**
      * Convert dom Option node to magneto array
      *
-     * @param DOMNode $source
+     * @param \DOMNode $source
      * @return array
      * @throws \LogicException
      */

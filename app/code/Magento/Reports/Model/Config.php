@@ -15,7 +15,7 @@ class Config extends \Magento\Object
 {
     public function getGlobalConfig()
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->load(\Mage::getModuleDir('etc', 'Magento_Reports') . DS . 'flexConfig.xml');
 
         $baseUrl = $dom->createElement('baseUrl');

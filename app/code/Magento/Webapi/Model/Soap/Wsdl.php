@@ -32,7 +32,7 @@ class Wsdl extends \Zend\Soap\Wsdl
     /**
      * Add complex type definition
      *
-     * @param DOMNode $complexTypeNode XSD of service method for input/output
+     * @param \DOMNode $complexTypeNode XSD of service method for input/output
      * @return string|null
      */
     public function addComplexType($complexTypeNode)

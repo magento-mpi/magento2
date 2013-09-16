@@ -155,8 +155,8 @@ class Generator
      *
      * @param string $serviceName
      * @param string $typeName Type names as defined in Service XSDs
-     * @param DOMDocument $domDocument
-     * @return DOMNode[]
+     * @param \DOMDocument $domDocument
+     * @return \DOMNode[]
      */
     public function getComplexTypeNodes($serviceName, $typeName, $domDocument)
     {
@@ -409,7 +409,7 @@ class Generator
         $serviceClass = $serviceData[\Magento\Webapi\Model\Soap\Config::KEY_CLASS];
         foreach ($serviceData['methods'] as $operationData) {
             $serviceMethod = $operationData[\Magento\Webapi\Model\Soap\Config::KEY_METHOD];
-            /** @var $payloadSchemaDom DOMDocument */
+            /** @var $payloadSchemaDom \DOMDocument */
             $payloadSchemaDom = $this->_apiConfig->getServiceSchemaDOM($serviceClass);
             $operationName = $this->getOperationName($serviceName, $serviceMethod);
             $inputParameterName = $this->getInputMessageName($operationName);
@@ -448,7 +448,7 @@ class Generator
      * Generate empty complex type with the specified name.
      *
      * @param string $complexTypeName
-     * @return DOMElement
+     * @return \DOMElement
      */
     protected function _generateEmptyComplexType($complexTypeName)
     {

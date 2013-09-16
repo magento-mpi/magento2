@@ -188,7 +188,7 @@ class Config
      * Load and return Service XSD for the provided Service Class
      *
      * @param $serviceClass
-     * @return DOMDocument
+     * @return \DOMDocument
      */
     public function getServiceSchemaDOM($serviceClass)
     {

@@ -17,7 +17,7 @@ class AnyComplexType extends AbstractComplexTypeStrategy
     /**
      * Inject XSD describing service method input/output directly into WSDL.
      *
-     * @param DOMNode $complexTypeNode DOMNode to be added to the WSDL
+     * @param \DOMNode $complexTypeNode \DOMNode to be added to the WSDL
      * @return string|null
      */
     public function addComplexType($complexTypeNode)

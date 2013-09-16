@@ -14,7 +14,7 @@ class Converter implements \Magento\Config\ConverterInterface
     /**
      * Convert dom node tree to array
      *
-     * @param DOMDocument $source
+     * @param \DOMDocument $source
      * @return array
      */
     public function convert($source)
@@ -24,7 +24,7 @@ class Converter implements \Magento\Config\ConverterInterface
         $result['logging']['actions'] = $this->_getActionTitles($xpath);
 
         $groups = $xpath->query('/logging/groups/group');
-        /** @var DOMNode $group */
+        /** @var \DOMNode $group */
         foreach ($groups as $group) {
             $groupId = $group->attributes->getNamedItem('name')->nodeValue;
             $result['logging'][$groupId] = $this->_convertGroup($group, $groupId);
@@ -44,7 +44,7 @@ class Converter implements \Magento\Config\ConverterInterface
         $result = array();
         $actions = $xpath->query('/logging/actions/action');
 
-        /** @var DOMNode $action */
+        /** @var \DOMNode $action */
         foreach ($actions as $action) {
             $actionId = $action->attributes->getNamedItem('id')->nodeValue;
             foreach ($action->childNodes as $label) {
@@ -59,7 +59,7 @@ class Converter implements \Magento\Config\ConverterInterface
     /**
      * Convert Group node to array
      *
-     * @param DOMNode $group
+     * @param \DOMNode $group
      * @param string $groupId
      * @return array
      */
@@ -85,7 +85,7 @@ class Converter implements \Magento\Config\ConverterInterface
     /**
      * Convert Event node to array
      *
-     * @param DOMNode $event
+     * @param \DOMNode $event
      * @param string $groupId
      * @return array
      */
@@ -119,7 +119,7 @@ class Converter implements \Magento\Config\ConverterInterface
     /**
      * Convert events grouping node
      *
-     * @param DOMNode $events
+     * @param \DOMNode $events
      * @param string $groupId
      * @return array
      */
@@ -138,7 +138,7 @@ class Converter implements \Magento\Config\ConverterInterface
     /**
      * Convert skip_on_back node to array
      *
-     * @param DOMNode $skipOnBack
+     * @param \DOMNode $skipOnBack
      * @return array
      */
     protected function _convertSkipOnBack($skipOnBack)
@@ -155,7 +155,7 @@ class Converter implements \Magento\Config\ConverterInterface
     /**
      * Convert expected_models grouping node
      *
-     * @param DOMNode $expectedModels
+     * @param \DOMNode $expectedModels
      * @return array
      */
     protected function _convertExpectedModels($expectedModels)
@@ -177,7 +177,7 @@ class Converter implements \Magento\Config\ConverterInterface
     /**
      * Convert Expected Model node to array
      *
-     * @param DOMNode $expectedModel
+     * @param \DOMNode $expectedModel
      * @return array
      */
     protected function _convertExpectedModel($expectedModel)
@@ -198,7 +198,7 @@ class Converter implements \Magento\Config\ConverterInterface
     /**
      * Convert skip_fields node to array
      *
-     * @param DOMNode $skipFields
+     * @param \DOMNode $skipFields
      * @return array
      */
     protected function _convertSkipFields($skipFields)
@@ -215,7 +215,7 @@ class Converter implements \Magento\Config\ConverterInterface
     /**
      * Convert additional_fields node to array
      *
-     * @param DOMNode $additionalFields
+     * @param \DOMNode $additionalFields
      * @return array
      */
     protected function _convertAdditionalFields($additionalFields)

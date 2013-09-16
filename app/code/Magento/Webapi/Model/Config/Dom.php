@@ -15,7 +15,7 @@ class Dom extends \Magento\Config\Dom
      * Getter for node by path
      *
      * @param string $nodePath
-     * @return DOMElement|null
+     * @return \DOMElement|null
      */
     protected function _getMatchedNode($nodePath)
     {

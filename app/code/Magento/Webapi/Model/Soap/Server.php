@@ -143,7 +143,7 @@ class Server
         $dom = $this->_domDocumentFactory->createDomDocument();
         $dom->loadXML($this->_request);
         $headers = array();
-        /** @var DOMElement $header */
+        /** @var \DOMElement $header */
         foreach ($dom->getElementsByTagName('Header')->item(0)->childNodes as $header) {
             list($headerNs, $headerName) = explode(":", $header->nodeName);
             $headers[] = $headerName;
@@ -161,7 +161,7 @@ class Server
      */
     protected function _checkRequest($soapRequest)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         if (strlen($soapRequest) == 0 || !$dom->loadXML($soapRequest)) {
             throw new \Magento\Webapi\Exception(__('Invalid XML'), 0, \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR);
         }
