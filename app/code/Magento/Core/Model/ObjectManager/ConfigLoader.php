@@ -48,7 +48,9 @@ class Magento_Core_Model_ObjectManager_ConfigLoader
 
         if (!$data) {
             $data = $this->_reader->read($area);
-            $this->_cache->save($data, $cacheId);
+            $this->_cache->save(serialize($data), $cacheId);
+        } else {
+            $data = unserialize($data);
         }
 
         return $data;

@@ -58,7 +58,9 @@ class Magento_Config_Data implements Magento_Config_DataInterface
         $data = $cache->load($cacheId);
         if (false === $data) {
             $data = $reader->read();
-            $cache->save($data, $cacheId);
+            $cache->save(serialize($data), $cacheId);
+        } else {
+            $data = unserialize($data);
         }
         $this->merge($data);
     }

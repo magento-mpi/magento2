@@ -49,7 +49,7 @@ class Magento_Core_Model_Route_Config implements Magento_Core_Model_Route_Config
     public function getRoutes($areaCode, $routerId)
     {
         $cacheId = $areaCode . '::'  . $this->_cacheId . '-' . $routerId;
-        $cachedRoutes = $this->_cache->load($cacheId);
+        $cachedRoutes = unserialize($this->_cache->load($cacheId));
         if (is_array($cachedRoutes)) {
             return $cachedRoutes;
         }
@@ -58,7 +58,7 @@ class Magento_Core_Model_Route_Config implements Magento_Core_Model_Route_Config
         $areaConfig = $this->_reader->read($areaCode);
         if (array_key_exists($routerId, $areaConfig)) {
             $routes = $areaConfig[$routerId]['routes'];
-            $this->_cache->save($routes, $cacheId);
+            $this->_cache->save(serialize($routes), $cacheId);
         }
 
         return $routes;
