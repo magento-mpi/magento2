@@ -58,7 +58,6 @@ app/code/Magento/Core/Model/LocaleInterface.php
 app/code/Magento/Core/Model/ObjectManager
 app/code/Magento/Core/Model/Page
 app/code/Magento/Core/Model/Page.php
-app/code/Magento/Core/Model/Resource/Setup/Migration.php
 app/code/Magento/Core/Model/Resource/Theme
 app/code/Magento/Core/Model/Resource/Theme.php
 app/code/Magento/Core/Model/Sender.php

@@ -7,9 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/**
- * Class Magento_Webapi_Block_Adminhtml_Role_Edit_Form
- *
 namespace Magento\Webapi\Block\Adminhtml\Role\Edit;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic

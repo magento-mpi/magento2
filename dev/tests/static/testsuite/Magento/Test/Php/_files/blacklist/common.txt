@@ -12,6 +12,7 @@ app/code/Magento/Backend/Block/Template.php
 app/code/Magento/Backend/Block/Template/Context.php
 app/code/Magento/Backend/Block/Widget/Form.php
 app/code/Magento/Backend/Block/Widget/Tabs.php
+app/code/Magento/Backend/Block/Widget/Form/Generic.php
 app/code/Magento/Backend/Model/Menu/Item.php
 app/code/Magento/Backend/Model/Url/Proxy.php
 app/code/Magento/Backend/view
@@ -22,6 +23,7 @@ app/code/Magento/Core/Model/Config/Value.php
 app/code/Magento/Core/Model/Layout.php
 app/code/Magento/Core/Model/ObjectManager/DefinitionFactory.php
 app/code/Magento/Core/Model/Observer.php
+app/code/Magento/Core/Model/Resource/Setup/Migration.php
 app/code/Magento/Core/Model/Theme.php
 app/code/Magento/Core/Model/Translate.php
 app/code/Magento/DesignEditor/Block/Adminhtml/Editor/Form/Renderer/LogoUploader.php

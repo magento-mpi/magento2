@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class \Magento\Sales\Model\Order\ShipmentTest extends PHPUnit_Framework_TestCase
+class Magento_Sales_Model_Order_ShipmentTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoConfigFixture frontend/design/theme/full_name magento_demo

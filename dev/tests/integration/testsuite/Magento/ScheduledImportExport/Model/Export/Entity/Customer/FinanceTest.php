@@ -69,7 +69,8 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
                 \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
                     COLUMN_CUSTOMER_BALANCE
                     => $objectManager->get('Magento\Core\Model\Registry')->registry('customer_balance_' . $websiteCode),
-                \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_REWARD_POINTS
+                \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
+                    COLUMN_REWARD_POINTS
                     => $objectManager->get('Magento\Core\Model\Registry')
                         ->registry('reward_point_balance_' . $websiteCode),
             );

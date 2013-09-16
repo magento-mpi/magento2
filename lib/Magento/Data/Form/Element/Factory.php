@@ -85,7 +85,8 @@ class Factory
 
         $element = $this->_objectManager->create($className, $config);
         if (!($element instanceof \Magento\Data\Form\Element\AbstractElement)) {
-            throw new \InvalidArgumentException($className . ' doesn\'n extend \Magento\Data\Form\Element\AbstractElement');
+            throw new \InvalidArgumentException($className
+            . ' doesn\'n extend \Magento\Data\Form\Element\AbstractElement');
         }
         return $element;
     }

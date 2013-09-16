@@ -499,7 +499,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         ));
 
         $callbackCount = 0;
-        $callback = function($actualCustomer, $actualData, $actualAddresses) use ($customer, $customerData,
+        $callback = function ($actualCustomer, $actualData, $actualAddresses) use ($customer, $customerData,
             $addressData, &$callbackCount
         ) {
             $callbackCount++;

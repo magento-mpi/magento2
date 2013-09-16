@@ -113,7 +113,8 @@ class Config
                 continue;
             }
             foreach ($serviceData['methods'] as $methodName => $methodInfo) {
-                if (strtoupper($methodInfo[\Magento\Webapi\Model\Config::ATTR_HTTP_METHOD]) == strtoupper($httpMethod)) {
+                if (strtoupper($methodInfo[\Magento\Webapi\Model\Config::ATTR_HTTP_METHOD])
+                    == strtoupper($httpMethod)) {
                     $secure = isset($methodInfo[\Magento\Webapi\Model\Config::ATTR_IS_SECURE])
                         ? $methodInfo[\Magento\Webapi\Model\Config::ATTR_IS_SECURE] : false;
                     $methodRoute = isset($methodInfo['route']) ? $methodInfo['route'] : '';
