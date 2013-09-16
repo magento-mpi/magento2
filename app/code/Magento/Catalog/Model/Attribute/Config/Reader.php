@@ -21,9 +21,11 @@ class Magento_Catalog_Model_Attribute_Config_Reader extends Magento_Config_Reade
         Magento_Catalog_Model_Attribute_Config_SchemaLocator $schemaLocator,
         Magento_Config_ValidationStateInterface $validationState
     ) {
-        parent::__construct($fileResolver, $converter, $schemaLocator, $validationState, 'attributes.xml', array(
+        $fileName = 'catalog_attributes.xml';
+        $idAttributes = array(
             '/config/group' => 'name',
             '/config/group/attribute' => 'name',
-        ));
+        );
+        parent::__construct($fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes);
     }
 }
