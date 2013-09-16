@@ -65,7 +65,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_OptionsTest ext
                 'option' => $option,
             )
         );
-        $this->_optionsBlock->setProduct($this->_objectHelper->getObject('Magento_Catalog_Model_Product'));
+        $this->_optionsBlock->setProduct(
+            $this->_objectHelper->getObject(
+                'Magento_Catalog_Model_Product',
+                array('collectionFactory' => $this->getMock('Magento_Data_CollectionFactory', array(), array(), '', false))
+            )
+        );
 
         $option = $this->_objectHelper->getObject('Magento_Catalog_Model_Product_Option',
             array('resource' => $this->_optionResource)

@@ -117,7 +117,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
             array(
                 'resource' => $this->_productResource,
                 'resourceCollection' => $productCollection,
-                'collectionFactory' => $this->getMock('Magento_Data_CollectionFactory', array(), array(), '' , false)
+                'collectionFactory' => $this->getMock('Magento_Data_CollectionFactory', array(), array(), '', false)
             )
         );
         $this->_product = $this->getMock(
