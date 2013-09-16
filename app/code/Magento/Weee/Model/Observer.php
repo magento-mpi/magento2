@@ -16,26 +16,6 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
     protected $_productType;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Catalog_Model_Product_Type $productType
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Catalog_Model_Product_Type $productType,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
-        array $data = array()
-    ) {
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-        $this->_productType = $productType;
-    }
-
-    /**
      * Assign custom renderer for product create/edit form weee attribute element
      *
      * @param Magento_Event_Observer $observer
@@ -52,6 +32,7 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
      * @param Magento_Weee_Helper_Data $weeeData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Catalog_Model_Product_Type $productType
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -60,10 +41,12 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
         Magento_Weee_Helper_Data $weeeData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Catalog_Model_Product_Type $productType,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_productType = $productType;
         $this->_weeeData = $weeeData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }

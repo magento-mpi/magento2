@@ -18,7 +18,7 @@ class Magento_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $coreRegistry = $objectManager->get('Magento_Core_Model_Registry');
         $wishlistData = $objectManager->get('Magento_Wishlist_Helper_Data');
         $taxData = $objectManager->get('Magento_Tax_Helper_Data');
