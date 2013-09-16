@@ -29,4 +29,4 @@
     <event name="adminhtml_catalog_category_tabs">
         <observer name="googleoptimizer_observer" instance="Magento_GoogleOptimizer_Model_Observer_Block_Category_Tab" method="addGoogleExperimentTab" />
     </event>
-</config>
+</config>

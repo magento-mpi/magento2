@@ -14,65 +14,72 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
     /**
      * @var Magento_Core_Controller_Varien_Action|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_model;
+    protected $_object;
+
+    /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
 
     protected function setUp()
     {
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         Mage::getConfig();
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        $this->_objectManager->get('Magento_Core_Model_View_DesignInterface')
             ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
             ->setDefaultDesignTheme();
         $arguments = array(
             'request'  => new Magento_TestFramework_Request(),
-            'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_TestFramework_Response'),
-        );
-        $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
-        $this->_model = $this->getMockForAbstractClass(
+            'response' => $this->_objectManager->get('Magento_TestFramework_Response'),
+        );        
+        $this->_objectManager->get('Magento_Core_Model_View_DesignInterface')
+            ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
+            ->setDefaultDesignTheme();
+        $context = $this->_objectManager->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
+        $this->_object = $this->getMockForAbstractClass(
             'Magento_Core_Controller_Varien_Action',
-            array($context)
+            array('context' => $context)
         );
     }
 
     public function testHasAction()
     {
-        $this->assertFalse($this->_model->hasAction('test'));
-        $this->assertTrue($this->_model->hasAction('noroute'));
+        $this->assertFalse($this->_object->hasAction('test'));
+        $this->assertTrue($this->_object->hasAction('noroute'));
     }
 
     public function testGetRequest()
     {
-        $this->assertInstanceOf('Magento_TestFramework_Request', $this->_model->getRequest());
+        $this->assertInstanceOf('Magento_TestFramework_Request', $this->_object->getRequest());
     }
 
     public function testGetResponse()
     {
-        $this->assertInstanceOf('Magento_TestFramework_Response', $this->_model->getResponse());
+        $this->assertInstanceOf('Magento_TestFramework_Response', $this->_object->getResponse());
     }
 
     public function testSetGetFlag()
     {
-        $this->assertEmpty($this->_model->getFlag(''));
+        $this->assertEmpty($this->_object->getFlag(''));
 
-        $this->_model->setFlag('test', 'test_flag', 'test_value');
-        $this->assertFalse($this->_model->getFlag('', 'test_flag'));
-        $this->assertEquals('test_value', $this->_model->getFlag('test', 'test_flag'));
-        $this->assertNotEmpty($this->_model->getFlag(''));
+        $this->_object->setFlag('test', 'test_flag', 'test_value');
+        $this->assertFalse($this->_object->getFlag('', 'test_flag'));
+        $this->assertEquals('test_value', $this->_object->getFlag('test', 'test_flag'));
+        $this->assertNotEmpty($this->_object->getFlag(''));
 
-        $this->_model->setFlag('', 'test', 'value');
-        $this->assertEquals('value', $this->_model->getFlag('', 'test'));
+        $this->_object->setFlag('', 'test', 'value');
+        $this->assertEquals('value', $this->_object->getFlag('', 'test'));
     }
 
     public function testGetFullActionName()
     {
         /* empty request */
-        $this->assertEquals('__', $this->_model->getFullActionName());
+        $this->assertEquals('__', $this->_object->getFullActionName());
 
-        $this->_model->getRequest()->setRouteName('test')
+        $this->_object->getRequest()->setRouteName('test')
             ->setControllerName('controller')
             ->setActionName('action');
-        $this->assertEquals('test/controller/action', $this->_model->getFullActionName('/'));
+        $this->assertEquals('test/controller/action', $this->_object->getFullActionName('/'));
     }
 
     /**
@@ -83,35 +90,33 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
      */
     public function testGetLayout($controllerClass, $expectedArea)
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Config_Scope')->setCurrentScope($expectedArea);
+        $this->_objectManager->get('Magento_Core_Model_Config_Scope')->setCurrentScope($expectedArea);
         /** @var $controller Magento_Core_Controller_Varien_Action */
-        $controller = $objectManager->create($controllerClass);
+        $controller = $this->_objectManager->create($controllerClass);
         $this->assertInstanceOf('Magento_Core_Model_Layout', $controller->getLayout());
         $this->assertEquals($expectedArea, $controller->getLayout()->getArea());
     }
 
     /**
      * @magentoAppIsolation enabled
+     * @expectedException RuntimeException
+     * @expectedExceptionMessage Layout must be loaded only once.
      */
-    public function testLoadLayout()
+    public function testLoadLayoutThrowsExceptionWhenCalledTwice()
     {
-        $this->_model->loadLayout();
-        $this->assertContains('default', $this->_model->getLayout()->getUpdate()->getHandles());
-
-        $this->_model->loadLayout('test');
-        $this->assertContains('test', $this->_model->getLayout()->getUpdate()->getHandles());
-
-        $this->assertInstanceOf('Magento_Core_Block_Abstract', $this->_model->getLayout()->getBlock('root'));
+        $this->_object->loadLayout();
+        $this->assertContains('default', $this->_object->getLayout()->getUpdate()->getHandles());
+        $this->assertInstanceOf('Magento_Core_Block_Abstract', $this->_object->getLayout()->getBlock('root'));
+        $this->_object->loadLayout('test');
     }
 
     public function testGetDefaultLayoutHandle()
     {
-        $this->_model->getRequest()
+        $this->_object->getRequest()
             ->setRouteName('Test')
             ->setControllerName('Controller')
             ->setActionName('Action');
-        $this->assertEquals('test_controller_action', $this->_model->getDefaultLayoutHandle());
+        $this->assertEquals('test_controller_action', $this->_object->getDefaultLayoutHandle());
     }
 
     /**
@@ -126,12 +131,12 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
      */
     public function testAddActionLayoutHandles($route, $controller, $action, $expected, $nonExpected)
     {
-        $this->_model->getRequest()
+        $this->_object->getRequest()
             ->setRouteName($route)
             ->setControllerName($controller)
             ->setActionName($action);
-        $this->_model->addActionLayoutHandles();
-        $handles = $this->_model->getLayout()->getUpdate()->getHandles();
+        $this->_object->addActionLayoutHandles();
+        $handles = $this->_object->getLayout()->getUpdate()->getHandles();
 
         foreach ($expected as $expectedHandle) {
             $this->assertContains($expectedHandle, $handles);
@@ -168,12 +173,12 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
      */
     public function testAddActionLayoutHandlesInherited($route, $controller, $action, $expected)
     {
-        $this->_model->getRequest()
+        $this->_object->getRequest()
             ->setRouteName($route)
             ->setControllerName($controller)
             ->setActionName($action);
-        $this->_model->addActionLayoutHandles();
-        $handles = $this->_model->getLayout()->getUpdate()->getHandles();
+        $this->_object->addActionLayoutHandles();
+        $handles = $this->_object->getLayout()->getUpdate()->getHandles();
         foreach ($expected as $expectedHandle) {
             $this->assertContains($expectedHandle, $handles);
         }
@@ -195,19 +200,19 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
      */
     public function testAddPageLayoutHandles()
     {
-        $this->_model->getRequest()->setRouteName('test')
+        $this->_object->getRequest()->setRouteName('test')
             ->setControllerName('controller')
             ->setActionName('action');
-        $result = $this->_model->addPageLayoutHandles();
+        $result = $this->_object->addPageLayoutHandles();
         $this->assertFalse($result);
-        $this->assertEmpty($this->_model->getLayout()->getUpdate()->getHandles());
+        $this->assertEmpty($this->_object->getLayout()->getUpdate()->getHandles());
 
-        $this->_model->getRequest()->setRouteName('catalog')
+        $this->_object->getRequest()->setRouteName('catalog')
             ->setControllerName('product')
             ->setActionName('view');
-        $result = $this->_model->addPageLayoutHandles(array('type' => 'simple'));
+        $result = $this->_object->addPageLayoutHandles(array('type' => 'simple'));
         $this->assertTrue($result);
-        $handles = $this->_model->getLayout()->getUpdate()->getHandles();
+        $handles = $this->_object->getLayout()->getUpdate()->getHandles();
         $this->assertContains('default', $handles);
         $this->assertContains('catalog_product_view', $handles);
         $this->assertContains('catalog_product_view_type_simple', $handles);
@@ -219,10 +224,10 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
      */
     public function testRenderLayout()
     {
-        $this->_model->loadLayout();
-        $this->assertEmpty($this->_model->getResponse()->getBody());
-        $this->_model->renderLayout();
-        $this->assertNotEmpty($this->_model->getResponse()->getBody());
+        $this->_object->loadLayout();
+        $this->assertEmpty($this->_object->getResponse()->getBody());
+        $this->_object->renderLayout();
+        $this->assertNotEmpty($this->_object->getResponse()->getBody());
     }
 
     /**
@@ -230,7 +235,6 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
      */
     public function testDispatch()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         if (headers_sent()) {
             $this->markTestSkipped('Can\' dispatch - headers already sent');
         }
@@ -239,17 +243,17 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
 
         $arguments = array(
             'request'  => $request,
-            'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_TestFramework_Response'),
+            'response' => $this->_objectManager->get('Magento_TestFramework_Response'),
         );
-        $context = $objectManager->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
+        $context = $this->_objectManager->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
 
         /* Area-specific controller is used because area must be known at the moment of loading the design */
-        $this->_model = $objectManager->create('Magento_Core_Controller_Front_Action',
+        $this->_object = $this->_objectManager->create(
+            'Magento_Core_Controller_Front_Action',
             array('context'  => $context)
         );
-        $objectManager->get('Magento_Core_Model_Config_Scope')->setCurrentScope('frontend');
-        $this->_model->dispatch('not_exists');
+        $this->_objectManager->get('Magento_Core_Model_Config_Scope')->setCurrentScope('frontend');
+        $this->_object->dispatch('not_exists');
 
         $this->assertFalse($request->isDispatched());
         $this->assertEquals('cms', $request->getModuleName());
@@ -259,7 +263,7 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
 
     public function testGetActionMethodName()
     {
-        $this->assertEquals('testAction', $this->_model->getActionMethodName('test'));
+        $this->assertEquals('testAction', $this->_object->getActionMethodName('test'));
     }
 
     /**
@@ -268,20 +272,17 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
      */
     public function testNoCookiesAction()
     {
-        $this->assertEmpty($this->_model->getResponse()->getBody());
-        $this->_model->noCookiesAction();
+        $this->assertEmpty($this->_object->getResponse()->getBody());
+        $this->_object->noCookiesAction();
         $redirect = array(
             'name' => 'Location',
             'value' => 'http://localhost/index.php/enable-cookies',
             'replace' => true,
         );
-        $this->assertEquals($redirect, $this->_model->getResponse()->getHeader('Location'));
+        $this->assertEquals($redirect, $this->_object->getResponse()->getHeader('Location'));
     }
 
     /**
-     * @magentoConfigFixture install/design/theme/full_name magento_basic
-     * @magentoConfigFixture frontend/design/theme/full_name magento_demo
-     * @magentoConfigFixture adminhtml/design/theme/full_name magento_basic
      * @magentoAppIsolation enabled
      * @dataProvider controllerAreaDesignDataProvider
      *
@@ -293,19 +294,20 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
      */
     public function testPreDispatch($controllerClass, $expectedArea, $expectedStore, $expectedDesign, $context)
     {
-        Mage::app()->loadArea($expectedArea);
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $controller Magento_Core_Controller_Varien_Action */
-        $context =
-        $context = $objectManager->create($context, array(
-            'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_TestFramework_Response')
-        ));
-        $controller = $objectManager->create($controllerClass, array('context' => $context));
-        $controller->preDispatch();
+        $themes = array('frontend' => 'magento_blank', 'adminhtml' => 'magento_backend', 'install' => 'magento_basic');
+        $design = $this->_objectManager->create('Magento_Core_Model_View_Design', array('themes' => $themes));
+        $this->_objectManager->addSharedInstance($design, 'Magento_Core_Model_View_Design');
 
-        $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_View_DesignInterface');
+        Mage::app()->loadArea($expectedArea);
+        /** @var $controller Magento_Core_Controller_Varien_Action */
+        $context = $this->_objectManager->create($context, array(
+            'response' => $this->_objectManager->get('Magento_TestFramework_Response')
+        ));
+        $controller = $this->_objectManager->create($controllerClass, array('context' => $context));
+        $controller->preDispatch();
+        
+        $design = $this->_objectManager->get('Magento_Core_Model_View_DesignInterface');
+
         $this->assertEquals($expectedArea, $design->getArea());
         $this->assertEquals($expectedStore, Mage::app()->getStore()->getCode());
         if ($expectedDesign) {
@@ -330,14 +332,14 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
                 'Magento_Core_Controller_Front_Action',
                 'frontend',
                 'default',
-                'magento_demo',
+                'magento_blank',
                 'Magento_Core_Controller_Varien_Action_Context'
             ),
             'backend' => array(
                 'Magento_Adminhtml_Controller_Action',
                 'adminhtml',
                 'admin',
-                'magento_basic',
+                'magento_backend',
                 'Magento_Backend_Controller_Context'
             ),
         );
@@ -349,11 +351,11 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
     public function testNoRouteAction()
     {
         $status = 'test';
-        $this->_model->getRequest()->setParam('__status__', $status);
+        $this->_object->getRequest()->setParam('__status__', $status);
         $caughtException = false;
         $message = '';
         try {
-            $this->_model->norouteAction();
+            $this->_object->norouteAction();
         } catch (Exception $e) {
             $caughtException = true;
             $message = $e->getMessage();

@@ -11,4 +11,4 @@
     <event name="cms_page_render">
         <observer name="magento_versionscms" instance="Magento_VersionsCms_Model_Observer" method="affectCmsPageRender" />
     </event>
-</config>
+</config>

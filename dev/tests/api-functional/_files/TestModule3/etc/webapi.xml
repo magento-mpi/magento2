@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <service class="Magento_TestModule3_Service_ErrorV1Interface" baseUrl="/V1/errortest">
+        <rest-route httpMethod="GET" method="success">/success</rest-route>
+        <rest-route httpMethod="GET" method="resourceNotFoundException">/notfound</rest-route>
+        <rest-route httpMethod="GET" method="serviceException">/serviceexception</rest-route>
+        <rest-route httpMethod="GET" method="parameterizedServiceException">/parameterizedserviceexception</rest-route>
+        <rest-route httpMethod="GET" method="authorizationException">/unauthorized</rest-route>
+        <rest-route httpMethod="GET" method="otherException">/otherexception</rest-route>
+        <rest-route httpMethod="GET" method="returnIncompatibleDataType">/returnIncompatibleDataType</rest-route>
+    </service>
+</config>

@@ -23,7 +23,7 @@ class Magento_GoogleOptimizer_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     protected $_helper;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_storeConfigMock = $this->getMock('Magento_Core_Model_Store_ConfigInterface');
         $this->_googleAnalyticsHelperMock = $this->getMock('Magento_GoogleAnalytics_Helper_Data', array(), array(), '',

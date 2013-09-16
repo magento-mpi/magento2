@@ -76,7 +76,7 @@ class Magento_Core_Block_Messages extends Magento_Core_Block_Template
      *
      * @return Magento_Core_Block_Messages
      */
-    public function _prepareLayout()
+    protected function _prepareLayout()
     {
         $this->addStorageType(get_class($this->_session));
         $this->addMessages($this->_session->getMessages(true));

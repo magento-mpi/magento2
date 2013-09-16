@@ -18,7 +18,7 @@ class Magento_Core_Model_Design_Fallback_FactoryTest extends PHPUnit_Framework_T
      */
     protected $_defaultParams;
 
-    public function setUp()
+    protected function setUp()
     {
         $dirs = new Magento_Core_Model_Dir(__DIR__, array(), array(
             Magento_Core_Model_Dir::THEMES => 'themes',

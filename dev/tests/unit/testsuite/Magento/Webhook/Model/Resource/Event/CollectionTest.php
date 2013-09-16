@@ -11,7 +11,7 @@
  */
 class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         $mockDBAdapter = $this->getMockBuilder('Magento_DB_Adapter_Pdo_Mysql')
             ->disableOriginalConstructor()
@@ -31,7 +31,7 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
             ->will($this->returnValue($mockResourceEvent));
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         // Unsets object manager
         Mage::reset();

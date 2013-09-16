@@ -10,6 +10,25 @@
 class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * @var Magento_Core_Model_Validator_Factory
+     */
+    protected $_validatorFactory;
+
+    /**
+     * Initialize dependencies.
+     *
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Validator_Factory $validatorFactory
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Validator_Factory $validatorFactory
+    ) {
+        parent::__construct($context);
+        $this->_validatorFactory = $validatorFactory;
+    }
+
+    /**
      * Init.
      *
      * @return Magento_Webapi_Controller_Adminhtml_Webapi_Role
@@ -187,8 +206,7 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_
     protected function _validateRole($role)
     {
         $group = $role->isObjectNew() ? 'create' : 'update';
-        $validator = $this->_objectManager->get('Magento_Core_Model_Validator_Factory')
-            ->createValidator('api_role', $group);
+        $validator = $this->_validatorFactory->createValidator('api_role', $group);
         if (!$validator->isValid($role)) {
             throw new Magento_Validator_Exception($validator->getMessages());
         }

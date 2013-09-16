@@ -13,4 +13,4 @@
             <module name="Magento_Captcha" />
         </route>
     </router>
-</config>
+</config>

@@ -9,12 +9,13 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="customer_account">
-        <reference name="customer_account_navigation">
-            <action method="addLink">
-                <argument name="name" xsi:type="string">magento_giftcardaccount</argument>
-                <argument name="path" xsi:type="string">magento_giftcardaccount/customer/</argument>
-                <argument translate="true" name="label" xsi:type="string">Gift Card</argument>
-            </action>
+        <reference name="customer-account-navigation">
+            <block class="Magento_Page_Block_Link_Current" name="customer-account-navigation-gift-card-link">
+                <arguments>
+                    <argument name="path" xsi:type="string">magento_giftcardaccount/customer</argument>
+                    <argument name="label" xsi:type="string">Gift Card</argument>
+                </arguments>
+            </block>
         </reference>
     </handle>
 </layout>

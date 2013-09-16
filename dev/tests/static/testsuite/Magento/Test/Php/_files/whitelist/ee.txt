@@ -3,6 +3,8 @@
 #
 app/code/Magento/AdminGws/Model/Plugin
 app/code/Magento/Banner*
+app/code/Magento/CustomerCustomAttributes/Block/Account
+app/code/Magento/FullPageCache/Model/Cache/Type.php
 app/code/Magento/GiftCard/Model/Plugin
 app/code/Magento/GiftCard/Block/Adminhtml/Renderer/OpenAmount.php
 app/code/Magento/GiftRegistry/Model/Plugin
@@ -11,8 +13,10 @@ app/code/Magento/Invitation/Block/Adminhtml/Report
 app/code/Magento/Invitation/Model/Resource/Report
 app/code/Magento/Invitation/Model/Plugin
 app/code/Magento/Invitation/Controller/Adminhtml/Report
-app/code/Magento/FullPageCache/Model/Cache/Type.php
+app/code/Magento/MultipleWishlist/Block/Link.php
 app/code/Magento/Pbridge/Model/Authorizenet/Source/PaymentAction.php
+app/code/Magento/Reward/Block/Customer/AccountLink.php
+app/code/Magento/Rma/Block/Order/Link.php
 app/code/Magento/SalesArchive/Model/Order
 app/code/Magento/Search/Model/Plugin
 app/code/Magento/VersionsCms/Model/Plugin

@@ -16,7 +16,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framewo
      */
     protected $_objectHelper;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
     }
