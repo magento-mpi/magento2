@@ -10,7 +10,7 @@
 
 namespace Magento\Rma\Controller;
 
-class Return extends \Magento\Core\Controller\Front\Action
+class Returns extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Action predispatch

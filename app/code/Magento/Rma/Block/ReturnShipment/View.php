@@ -205,7 +205,7 @@ class View extends \Magento\Rma\Block\Form
     public function getBackUrl()
     {
         if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
-            return $this->getUrl('rma/return/history');
+            return $this->getUrl('rma/returnshipment/history');
         } else {
             return $this->getUrl('rma/guest/returns');
         }

@@ -13,7 +13,7 @@
             <action method="addDashboardLink">
                 <argument name="block" xsi:type="string">customer_account_navigation</argument>
                 <argument name="name" xsi:type="string">return</argument>
-                <argument name="path" xsi:type="string">rma/return/history/</argument>
+                <argument name="path" xsi:type="string">rma/returnshipment/history/</argument>
                 <argument translate="true" name="label" xsi:type="string">My Returns</argument>
             </action>
         </block>
