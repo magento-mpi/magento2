@@ -44,12 +44,10 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPU
     {
         $this->_coreHelperMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);        
         $this->_factoryElementMock = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
-        $this->_collectionFactoryMock = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array('create'),
-            array(), '', false);        
-        $this->_qtyMock = $this->getMock('Magento_Data_Form_Element_Text',
-            array('getElementHtml', 'setForm', 'setValue', 'setName'),
-            array($this->_coreHelperMock, $this->_factoryElementMock, $this->_collectionFactoryMock)
-        );
+        $this->_collectionFactoryMock = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array(),
+            array(), '', false);
+        $this->_qtyMock = $this->getMock('Magento_Data_Form_Element_Text', array('setForm', 'setValue', 'setName'),
+            array(), '', false);
         $this->_factoryTextMock = $this->getMock('Magento_Data_Form_Element_TextFactory', array('create'));
 
         $objectManagerHelper = new \Magento_TestFramework_Helper_ObjectManager($this);
@@ -71,6 +69,7 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPU
     {
         $this->_qtyMock->expects($this->once())->method('setForm')
             ->with($this->isInstanceOf('Magento_Data_Form_Element_Abstract'));
+
         $this->_block->setForm(new Magento_Data_Form_Element_Text(
             $this->_coreHelperMock, 
             $this->_factoryElementMock, 
@@ -82,12 +81,14 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPU
     {
         $value = array('qty' => 1, 'is_in_stock' => 0);
         $this->_qtyMock->expects($this->once())->method('setValue')->with($this->equalTo(1));
+
         $this->_block->setValue($value);
     }
 
     public function testSetName()
     {
         $this->_qtyMock->expects($this->once())->method('setName')->with(self::ATTRIBUTE_NAME . '[qty]');
+
         $this->_block->setName(self::ATTRIBUTE_NAME);
     }
 }
