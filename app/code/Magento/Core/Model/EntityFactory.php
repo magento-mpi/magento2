@@ -30,14 +30,15 @@ class Magento_Core_Model_EntityFactory
      * @param $className
      * @param array $data
      * @throws LogicException
-     * @return Magento_Core_Model_Abstract
+     * @return Magento_Object
      */
     public function create($className, array $data = array())
     {
         $model = $this->_objectManager->create($className, $data);
-        if (!$model instanceof Magento_Core_Model_Abstract) {
-            throw new LogicException($className . ' doesn\'t implement Magento_Core_Model_Abstract');
-        }
+        //TODO: fix that when this factory used only for Magento_Core_Model_Abstract
+        //if (!$model instanceof Magento_Core_Model_Abstract) {
+        //    throw new LogicException($className . ' doesn\'t implement Magento_Core_Model_Abstract');
+        //}
         return $model;
     }
 }
