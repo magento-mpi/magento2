@@ -48,7 +48,6 @@ class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct
      * @param Magento_Catalog_Model_Product_Type_Configurable $productType
      * @param Magento_Catalog_Helper_Product_Configuration $configurationHelper
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @internal param $Mage nto_Catalog_Helper_Product_Configuration $configurationHelper* nto_Catalog_Helper_Product_Configuration $configurationHelper
      */
     public function __construct(
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
