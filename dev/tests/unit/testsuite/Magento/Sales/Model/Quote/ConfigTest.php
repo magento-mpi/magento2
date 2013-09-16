@@ -32,17 +32,6 @@ class Magento_Sales_Model_Quote_ConfigTest extends PHPUnit_Framework_TestCase
             ->with('sales_quote_item')
             ->will($this->returnValue($attributes))
         ;
-        $constraint = function ($actual) {
-            try {
-                $expectedData = array('attribute_one' => true, 'attribute_two' => true);
-                PHPUnit_Framework_Assert::assertArrayHasKey('attributes', $actual);
-                PHPUnit_Framework_Assert::assertInstanceOf('Magento_Object', $actual['attributes']);
-                PHPUnit_Framework_Assert::assertEquals($expectedData, $actual['attributes']->getData());
-                return true;
-            } catch (PHPUnit_Framework_AssertionFailedError $e) {
-                return false;
-            }
-        };
         $this->assertEquals($attributes, $this->_model->getProductAttributes());
     }
 }
