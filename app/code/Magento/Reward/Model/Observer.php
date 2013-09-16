@@ -33,19 +33,12 @@ class Magento_Reward_Model_Observer
     protected $_coreData = null;
 
     /**
-     * Core store config
-     *
-     * @var Magento_Core_Model_Store_Config
-     */
-    protected $_coreStoreConfig;
-    
-    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Reward_Helper_Data $rewardData
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
-        Magento_Reward_Helper_Data $rewardData,
+        Magento_Reward_Helper_Data $rewardData
     ) {
         $this->_coreData = $coreData;
         $this->_rewardData = $rewardData;
@@ -59,7 +52,7 @@ class Magento_Reward_Model_Observer
      */
     public function saveRewardPoints($observer)
     {
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabled()) {
+        if (!$this->_rewardData->isEnabled()) {
             return;
         }
 
@@ -98,7 +91,7 @@ class Magento_Reward_Model_Observer
      */
     public function saveRewardNotifications($observer)
     {
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabled()) {
+        if (!$this->_rewardData->isEnabled()) {
             return;
         }
 
@@ -106,7 +99,7 @@ class Magento_Reward_Model_Observer
         $customer = $observer->getEvent()->getCustomer();
 
         $data = $request->getPost('reward');
-        $subscribeByDefault = (int)Mage::helper('Magento_Reward_Helper_Data')
+        $subscribeByDefault = (int)$this->_rewardData
             ->getNotificationConfig('subscribe_by_default', (int)$customer->getWebsiteId());
         if ($customer->isObjectNew()) {
             $data['reward_update_notification']  = $subscribeByDefault;
@@ -127,7 +120,7 @@ class Magento_Reward_Model_Observer
      */
     public function customerRegister($observer)
     {
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront()) {
+        if (!$this->_rewardData->isEnabledOnFront()) {
             return $this;
         }
         /* @var $customer Magento_Customer_Model_Customer */
@@ -135,7 +128,7 @@ class Magento_Reward_Model_Observer
         $customerOrigData = $customer->getOrigData();
         if (empty($customerOrigData)) {
             try {
-                $subscribeByDefault = Mage::helper('Magento_Reward_Helper_Data')
+                $subscribeByDefault = $this->_rewardData
                     ->getNotificationConfig('subscribe_by_default', Mage::app()->getStore()->getWebsiteId());
                 $reward = Mage::getModel('Magento_Reward_Model_Reward')
                     ->setCustomer($customer)
@@ -167,7 +160,7 @@ class Magento_Reward_Model_Observer
         /* @var $review Magento_Review_Model_Review */
         $review = $observer->getEvent()->getObject();
         $websiteId = Mage::app()->getStore($review->getStoreId())->getWebsiteId();
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront($websiteId)) {
+        if (!$this->_rewardData->isEnabledOnFront($websiteId)) {
             return $this;
         }
         if ($review->isApproved() && $review->getCustomerId()) {
@@ -197,7 +190,7 @@ class Magento_Reward_Model_Observer
             return $this;
         }
         $websiteId = Mage::app()->getStore($subscriber->getStoreId())->getWebsiteId();
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront($websiteId)) {
+        if (!$this->_rewardData->isEnabledOnFront($websiteId)) {
             return $this;
         }
 
@@ -222,7 +215,7 @@ class Magento_Reward_Model_Observer
         /* @var $invitation Magento_Invitation_Model_Invitation */
         $invitation = $observer->getEvent()->getInvitation();
         $websiteId = Mage::app()->getStore($invitation->getStoreId())->getWebsiteId();
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront($websiteId)) {
+        if (!$this->_rewardData->isEnabledOnFront($websiteId)) {
             return $this;
         }
 
@@ -249,7 +242,7 @@ class Magento_Reward_Model_Observer
         /* @var $order Magento_Sales_Model_Order */
         $order = $observer->getEvent()->getOrder();
         if ($order->getCustomerIsGuest()
-            || !Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront($order->getStore()->getWebsiteId())
+            || !$this->_rewardData->isEnabledOnFront($order->getStore()->getWebsiteId())
         ) {
             return $this;
         }
@@ -264,7 +257,7 @@ class Magento_Reward_Model_Observer
                 ->updateRewardPoints();
             if ($reward->getRewardPointsUpdated() && $reward->getPointsDelta()) {
                 $order->addStatusHistoryComment(
-                    __('The customer earned %1 for this order.', Mage::helper('Magento_Reward_Helper_Data')->formatReward($reward->getPointsDelta()))
+                    __('The customer earned %1 for this order.', $this->_rewardData->formatReward($reward->getPointsDelta()))
                 )->save();
             }
         }
@@ -300,7 +293,7 @@ class Magento_Reward_Model_Observer
      */
     protected function _invitationToOrder($observer)
     {
-        if (Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Magento_Invitation')) {
+        if ($this->_coreData->isModuleEnabled('Magento_Invitation')) {
             $invoice = $observer->getEvent()->getInvoice();
             /* @var $invoice Magento_Sales_Model_Order_Invoice */
             $order = $invoice->getOrder();
@@ -362,7 +355,7 @@ class Magento_Reward_Model_Observer
      */
     public function paymentDataImport(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront()) {
+        if (!$this->_rewardData->isEnabledOnFront()) {
             return $this;
         }
         $input = $observer->getEvent()->getInput();
@@ -381,7 +374,7 @@ class Magento_Reward_Model_Observer
      */
     public function preparePaymentMethod($observer)
     {
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront()) {
+        if (!$this->_rewardData->isEnabledOnFront()) {
             return $this;
         }
 
@@ -415,7 +408,7 @@ class Magento_Reward_Model_Observer
     {
         /* @var $quote Magento_Sales_Model_Quote */
         $quote = $observer->getEvent()->getOrderCreateModel()->getQuote();
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront($quote->getStore()->getWebsiteId())) {
+        if (!$this->_rewardData->isEnabledOnFront($quote->getStore()->getWebsiteId())) {
             return $this;
         }
         $request = $observer->getEvent()->getRequest();
@@ -638,7 +631,7 @@ class Magento_Reward_Model_Observer
         $order = $creditmemo->getOrder();
 
         if ($creditmemo->getAutomaticallyCreated()) {
-            if (Mage::helper('Magento_Reward_Helper_Data')->isAutoRefundEnabled()) {
+            if ($this->_rewardData->isAutoRefundEnabled()) {
                 $creditmemo->setRewardPointsBalanceRefund($creditmemo->getRewardPointsBalance());
             } else {
                 return $this;
@@ -679,20 +672,20 @@ class Magento_Reward_Model_Observer
      */
     public function scheduledBalanceExpireNotification()
     {
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabled()) {
+        if (!$this->_rewardData->isEnabled()) {
             return $this;
         }
 
         foreach (Mage::app()->getWebsites() as $website) {
-            if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront($website->getId())) {
+            if (!$this->_rewardData->isEnabledOnFront($website->getId())) {
                 continue;
             }
-            $inDays = (int)Mage::helper('Magento_Reward_Helper_Data')->getNotificationConfig('expiry_day_before');
+            $inDays = (int)$this->_rewardData->getNotificationConfig('expiry_day_before');
             if (!$inDays) {
                 continue;
             }
             $collection = Mage::getResourceModel('Magento_Reward_Model_Resource_Reward_History_Collection')
-                ->setExpiryConfig(Mage::helper('Magento_Reward_Helper_Data')->getExpiryConfig())
+                ->setExpiryConfig($this->_rewardData->getExpiryConfig())
                 ->loadExpiredSoonPoints($website->getId(), true)
                 ->addNotificationSentFlag(false)
                 ->addCustomerInfo()
@@ -720,14 +713,14 @@ class Magento_Reward_Model_Observer
      */
     public function scheduledPointsExpiration()
     {
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabled()) {
+        if (!$this->_rewardData->isEnabled()) {
             return $this;
         }
         foreach (Mage::app()->getWebsites() as $website) {
-            if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront($website->getId())) {
+            if (!$this->_rewardData->isEnabledOnFront($website->getId())) {
                 continue;
             }
-            $expiryType = Mage::helper('Magento_Reward_Helper_Data')
+            $expiryType = $this->_rewardData
                 ->getGeneralConfig('expiry_calculation', $website->getId());
             Mage::getResourceModel('Magento_Reward_Model_Resource_Reward_History')
                 ->expirePoints($website->getId(), $expiryType, 100);
@@ -759,7 +752,7 @@ class Magento_Reward_Model_Observer
      */
     public function prepareSalesruleForm(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabled()) {
+        if (!$this->_rewardData->isEnabled()) {
             return $this;
         }
         $form = $observer->getEvent()->getForm();
@@ -780,7 +773,7 @@ class Magento_Reward_Model_Observer
      */
     public function loadRewardSalesruleData(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabled()) {
+        if (!$this->_rewardData->isEnabled()) {
             return $this;
         }
         /* @var $salesRule Magento_SalesRule_Model_Rule */
@@ -803,7 +796,7 @@ class Magento_Reward_Model_Observer
      */
     public function saveRewardSalesruleData(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabled()) {
+        if (!$this->_rewardData->isEnabled()) {
             return $this;
         }
         /* @var $salesRule Magento_SalesRule_Model_Rule */
@@ -823,7 +816,7 @@ class Magento_Reward_Model_Observer
     {
         /* @var $order Magento_Sales_Model_Order */
         $order = $observer->getEvent()->getInvoice()->getOrder();
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront($order->getStore()->getWebsiteId())) {
+        if (!$this->_rewardData->isEnabledOnFront($order->getStore()->getWebsiteId())) {
             return $this;
         }
         if ($order->getCustomerId() && !$order->canInvoice() && $order->getRewardSalesrulePoints()) {
@@ -836,7 +829,7 @@ class Magento_Reward_Model_Observer
                 ->updateRewardPoints();
             if ($reward->getPointsDelta()) {
                 $order->addStatusHistoryComment(
-                    __('Customer earned promotion extra %1.', Mage::helper('Magento_Reward_Helper_Data')->formatReward($reward->getPointsDelta()))
+                    __('Customer earned promotion extra %1.', $this->_rewardData->formatReward($reward->getPointsDelta()))
                 )->save();
             }
         }
@@ -851,7 +844,7 @@ class Magento_Reward_Model_Observer
      */
     public function checkRates(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront()) {
+        if (!$this->_rewardData->isEnabledOnFront()) {
             return $this;
         }
 
@@ -869,7 +862,7 @@ class Magento_Reward_Model_Observer
                 Magento_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS
             )->getId();
 
-        Mage::helper('Magento_Reward_Helper_Data')->setHasRates($hasRates);
+        $this->_rewardData->setHasRates($hasRates);
 
         return $this;
     }
@@ -887,7 +880,7 @@ class Magento_Reward_Model_Observer
             $paypalCart->updateTotal(
                 Magento_Paypal_Model_Cart::TOTAL_DISCOUNT,
                 (float)$salesEntity->getBaseRewardCurrencyAmount(),
-                Mage::helper('Magento_Reward_Helper_Data')->formatReward($salesEntity->getRewardPointsBalance())
+                $this->_rewardData->formatReward($salesEntity->getRewardPointsBalance())
             );
         }
     }
