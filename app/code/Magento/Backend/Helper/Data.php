@@ -36,7 +36,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * @var string
      */
-    protected $_defaultAreaFrontName;
+    protected $_dfltAreaFrontName;
 
     /**
      * Area front name
@@ -61,12 +61,12 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Model\Config\Primary $primaryConfig,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\RouterList $routerList,
-        $defaultAreaFrontName
+        $dfltAreaFrontName
     ) {
         parent::__construct($context);
         $this->_config = $applicationConfig;
         $this->_primaryConfig = $primaryConfig;
-        $this->_defaultAreaFrontName = $defaultAreaFrontName;
+        $this->_dfltAreaFrontName = $dfltAreaFrontName;
         $this->_routerList = $routerList;
     }
 
@@ -197,7 +197,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             } elseif ($configAreaFrontName) {
                 $this->_areaFrontName = $configAreaFrontName;
             } else {
-                $this->_areaFrontName = $this->_defaultAreaFrontName;
+                $this->_areaFrontName = $this->_dfltAreaFrontName;
             }
         }
 
