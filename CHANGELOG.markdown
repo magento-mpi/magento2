@@ -49,7 +49,7 @@
   * Implemented ability to declare containers in layout that don't have any specific semantic value
   * Removed handle declaration from layout update files. Name of the file stands for the handle ID and handle's attributes are defined in the root <layout> node
 * PHP 5.4 and 5.5 support:
-  * Fixed PHP 5.4/5.5 backwards incompatible changes
+  * Made application compatible with PHP 5.4 and 5.5
   * Removed workarounds for older PHP versions
   * Minimum supported PHP version is set to 5.4.0
 * Fixed bugs:
