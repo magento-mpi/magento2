@@ -14,56 +14,61 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Block_Link extends Magento_Core_Block_Template
+class Magento_Invitation_Block_Link extends Magento_Page_Block_Link
 {
     /**
-     * Adding link to account links block link params if invitation
-     * is allowed globally and for current website
-     *
-     * @return Magento_Invitation_Block_Link
+     * @var Magento_Invitation_Helper_Data
      */
-    public function addAccountLink()
-    {
-        if (Mage::getSingleton('Magento_Invitation_Model_Config')->isEnabledOnFront()
-            && Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()
-        ) {
-            /** @var $blockInstance Magento_Page_Block_Template_Links */
-            $blockInstance = $this->getLayout()->getBlock('account.links');
-            if ($blockInstance) {
-                $blockInstance->addLink(
-                    __('Send Invitations'),
-                    Mage::helper('Magento_Invitation_Helper_Data')->getCustomerInvitationFormUrl(),
-                    __('Send Invitations'),
-                    true,
-                    array(),
-                    1,
-                    'id="invitation-send-link"'
-                );
-            }
-        }
-        return $this;
+    protected $_invitationConfiguration;
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+    /**
+     * @var Magento_Invitation_Helper_Data
+     */
+    protected $_invitationHelper;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Invitation_Helper_Data $invitationHelper
+     * @param Magento_Invitation_Model_Config $invitationConfiguration
+     * @param Magento_Core_Helper_Data $coreData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Invitation_Helper_Data $invitationHelper,
+        Magento_Invitation_Model_Config $invitationConfiguration,
+        Magento_Core_Helper_Data $coreData,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+        $this->_customerSession = $customerSession;
+        $this->_invitationConfiguration = $invitationConfiguration;
+        $this->_invitationHelper = $invitationHelper;
     }
 
     /**
-     * Adding link to account links block link params if invitation
-     * is allowed globally and for current website
-     *
-     * @param string $block
-     * @param string $name
-     * @param string $path
-     * @param string $label
-     * @param array $urlParams
-     * @return Magento_Invitation_Block_Link
+     * @return string
      */
-    public function addDashboardLink($block, $name, $path, $label, $urlParams = array())
+    public function getHref()
     {
-        if (Mage::getSingleton('Magento_Invitation_Model_Config')->isEnabledOnFront()) {
-            /** @var $blockInstance Magento_Customer_Block_Account_Navigation */
-            $blockInstance = $this->getLayout()->getBlock($block);
-            if ($blockInstance) {
-                $blockInstance->addLink($name, $path, $label, $urlParams);
-            }
+        return $this->_invitationHelper->getCustomerInvitationFormUrl();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function _toHtml()
+    {
+        if ($this->_invitationConfiguration->isEnabledOnFront()
+            && $this->_customerSession->isLoggedIn()
+        ) {
+            return parent::_toHtml();
         }
-        return $this;
+        return '';
     }
 }

@@ -48,6 +48,14 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     protected $_viewUrl;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -55,16 +63,19 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_eventManager = $eventManager;
         parent::__construct($context);
         $this->_viewUrl = $viewUrl;
     }
@@ -246,8 +257,8 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     public function getAttributeInputTypes($inputType = null)
     {
         /**
-        * @todo specify there all relations for properties depending on input type
-        */
+         * @todo specify there all relations for properties depending on input type
+         */
         $inputTypes = array(
             'multiselect'   => array(
                 'backend_model'     => 'Magento_Eav_Model_Entity_Attribute_Backend_Array'
@@ -315,7 +326,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
         }
 
         // Init and load product
-        Mage::dispatchEvent('catalog_controller_product_init_before', array(
+        $this->_eventManager->dispatch('catalog_controller_product_init_before', array(
             'controller_action' => $controller,
             'params' => $params,
         ));
@@ -357,8 +368,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
         $this->_coreRegistry->register('product', $product);
 
         try {
-            Mage::dispatchEvent('catalog_controller_product_init', array('product' => $product));
-            Mage::dispatchEvent('catalog_controller_product_init_after', array(
+            $this->_eventManager->dispatch('catalog_controller_product_init_after', array(
                 'product' => $product,
                 'controller_action' => $controller
             ));

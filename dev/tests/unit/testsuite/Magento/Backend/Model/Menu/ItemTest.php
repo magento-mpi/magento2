@@ -64,7 +64,7 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         'tooltip' => 'Item tooltip',
     );
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_aclMock = $this->getMock('Magento_AuthorizationInterface');
         $this->_storeConfigMock = $this->getMock('Magento_Core_Model_Store_Config');

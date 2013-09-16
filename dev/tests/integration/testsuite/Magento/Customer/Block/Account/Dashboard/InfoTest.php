@@ -16,7 +16,7 @@ class Magento_Customer_Block_Account_Dashboard_InfoTest extends PHPUnit_Framewor
      */
     protected $_block;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_block = Mage::app()->getLayout()->createBlock('Magento_Customer_Block_Account_Dashboard_Info');
     }

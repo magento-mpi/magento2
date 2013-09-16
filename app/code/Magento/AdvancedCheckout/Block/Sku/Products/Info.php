@@ -20,11 +20,11 @@
 class Magento_AdvancedCheckout_Block_Sku_Products_Info extends Magento_Core_Block_Template
 {
     /**
-     * Helper instance
+     * Checkout data
      *
-     * @var Magento_AdvancedCheckout_Helper_Data|null
+     * @var Magento_AdvancedCheckout_Helper_Data
      */
-    protected $_helper;
+    protected $_checkoutData = null;
 
     /**
      * Core registry
@@ -34,30 +34,32 @@ class Magento_AdvancedCheckout_Block_Sku_Products_Info extends Magento_Core_Bloc
     protected $_coreRegistry = null;
 
     /**
+     * Product alert data
+     *
+     * @var Magento_ProductAlert_Helper_Data
+     */
+    protected $_productAlertData = null;
+
+    /**
+     * @param Magento_ProductAlert_Helper_Data $productAlertData
+     * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_ProductAlert_Helper_Data $productAlertData,
+        Magento_AdvancedCheckout_Helper_Data $checkoutData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_productAlertData = $productAlertData;
+        $this->_checkoutData = $checkoutData;
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
-    }
-
-    /**
-     * Retrieve helper instance
-     *
-     * @return Magento_AdvancedCheckout_Helper_Data
-     */
-    protected function _getHelper()
-    {
-        if (is_null($this->_helper)) {
-            $this->_helper = Mage::helper('Magento_AdvancedCheckout_Helper_Data');
-        }
-        return $this->_helper;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -70,19 +72,19 @@ class Magento_AdvancedCheckout_Block_Sku_Products_Info extends Magento_Core_Bloc
         switch ($this->getItem()->getCode()) {
             case Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
                 $message = '<span class="sku-out-of-stock" id="sku-stock-failed-' . $this->getItem()->getId() . '">'
-                    . $this->_getHelper()->getMessage(
+                    . $this->_checkoutData->getMessage(
                         Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK
                     ) . '</span>';
                 return $message;
             case Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED:
-                $message = $this->_getHelper()->getMessage(
+                $message = $this->_checkoutData->getMessage(
                     Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED
                 );
                 $message .= '<br/>' . __("Only %1%2%3 left in stock", '<span class="sku-failed-qty" id="sku-stock-failed-' . $this->getItem()->getId() . '">', $this->getItem()->getQtyMaxAllowed(), '</span>');
                 return $message;
             case Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART:
                 $item = $this->getItem();
-                $message = $this->_getHelper()->getMessage(
+                $message = $this->_checkoutData->getMessage(
                     Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART
                 );
                 $message .= '<br/>';
@@ -93,7 +95,7 @@ class Magento_AdvancedCheckout_Block_Sku_Products_Info extends Magento_Core_Bloc
                 }
                 return $message;
             default:
-                $error = $this->_getHelper()->getMessage($this->getItem()->getCode());
+                $error = $this->_checkoutData->getMessage($this->getItem()->getCode());
                 $error = $error ? $error : $this->escapeHtml($this->getItem()->getError());
                 return $error ? $error : '';
         }
@@ -139,7 +141,7 @@ class Magento_AdvancedCheckout_Block_Sku_Products_Info extends Magento_Core_Bloc
                         . '</a>';
             case Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
                 /** @var $helper Magento_ProductAlert_Helper_Data */
-                $helper = Mage::helper('Magento_ProductAlert_Helper_Data');
+                $helper = $this->_productAlertData;
 
                 if (!$helper->isStockAlertAllowed()) {
                     return '';

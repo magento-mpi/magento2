@@ -21,7 +21,7 @@ class Magento_Backend_Model_Authorization_RoleLocatorTest extends PHPUnit_Framew
      */
     protected $_sessionMock = array();
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_sessionMock = $this->getMock(
             'Magento_Backend_Model_Auth_Session',

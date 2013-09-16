@@ -108,6 +108,18 @@ class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
         if (!count($fileList)) {
             return array();
         }
+        $output = $this->_readFiles($fileList);
+
+        return $output;
+    }
+
+    /**
+     * @param array $fileList
+     * @return array
+     * @throws Magento_Exception
+     */
+    protected function _readFiles(array $fileList)
+    {
         /** @var Magento_Config_Dom $domDocument */
         $domDocument = null;
         foreach ($fileList as $file) {

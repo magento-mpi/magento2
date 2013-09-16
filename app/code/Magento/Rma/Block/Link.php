@@ -16,28 +16,38 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Link extends Magento_Core_Block_Template
+class Magento_Rma_Block_Link extends Magento_Page_Block_Link_Current
 {
     /**
-     * Adding link to account links block link params if rma
-     * is allowed globaly and for current store view
-     *
-     * @param string $block
-     * @param string $name
-     * @param string $path
-     * @param string $label
-     * @param array $urlParams
-     * @return Magento_Rma_Block_Link
+     * @var Magento_Rma_Helper_Data
      */
-    public function addDashboardLink($block, $name, $path, $label, $urlParams = array())
+    protected $_rmaHelper = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Rma_Helper_Data $rmaHelper
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Rma_Helper_Data $rmaHelper,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+        $this->_rmaHelper = $rmaHelper;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function _toHtml()
     {
-        if (Mage::helper('Magento_Rma_Helper_Data')->isEnabled()) {
-            /** @var $blockInstance Magento_Page_Block_Template_Links */
-            $blockInstance = $this->getLayout()->getBlock($block);
-            if ($blockInstance) {
-                $blockInstance->addLink($name, $path, $label, $urlParams);
-            }
+        if ($this->_rmaHelper->isEnabled()) {
+            return parent::_toHtml();
+        } else {
+            return '';
         }
-        return $this;
     }
 }

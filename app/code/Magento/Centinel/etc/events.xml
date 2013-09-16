@@ -14,4 +14,4 @@
     <event name="checkout_submit_all_after">
         <observer name="centinel" instance="Magento_Centinel_Model_Observer" method="checkoutSubmitAllAfter" />
     </event>
-</config>
+</config>

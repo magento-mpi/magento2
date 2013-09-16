@@ -33,15 +33,4 @@
             </related_cache_types>
         </widget>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Widget>
-                    <files>
-                        <default>Magento_Widget.csv</default>
-                    </files>
-                </Magento_Widget>
-            </modules>
-        </translate>
-    </adminhtml>
-</config>
+</config>

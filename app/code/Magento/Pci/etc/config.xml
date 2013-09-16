@@ -25,28 +25,6 @@
             </pci_setup>
         </resources>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Pci>
-                    <files>
-                        <default>Magento_Pci.csv</default>
-                    </files>
-                </Magento_Pci>
-            </modules>
-        </translate>
-    </adminhtml>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Pci>
-                    <files>
-                        <default>Magento_Pci.csv</default>
-                    </files>
-                </Magento_Pci>
-            </modules>
-        </translate>
-    </frontend>
     <default>
         <admin>
             <security>
@@ -58,4 +36,4 @@
             </security>
         </admin>
     </default>
-</config>
+</config>

@@ -26,7 +26,7 @@ class Magento_Catalog_Block_Product_List_CrosssellTest extends PHPUnit_Framework
         $objectManager->get('Magento_Core_Model_Registry')->register('product', $product);
         /** @var $block Magento_Catalog_Block_Product_List_Crosssell */
         $block = Mage::app()->getLayout()->createBlock('Magento_Catalog_Block_Product_List_Crosssell');
-        $block->setLayout(Mage::getModel('Magento_Core_Model_Layout'));
+        $block->setLayout(Mage::getSingleton('Magento_Core_Model_Layout'));
         $block->setTemplate('Magento_Checkout::cart/crosssell.phtml');
         $block->setItemCount(1);
 

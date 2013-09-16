@@ -9,7 +9,7 @@
  */
 
 class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
-    extends Magento_Backend_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
@@ -18,29 +18,25 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
      * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
-
+    
     /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $coreRegistry;
         $this->_storeManager = $storeManager;
-        parent::__construct($context, $data);
+        parent::__construct($coreRegistry, $formFactory, $coreData, $context, $data);
     }
 
     /**
@@ -85,8 +81,10 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
 
     protected function _prepareForm()
     {
-        $rule = $this->_coreRegistry->registry('current_promo_quote_rule');
-        $form = new Magento_Data_Form();
+        $rule = $rule = $this->_coreRegistry->registry('current_promo_quote_rule');
+
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset = $form->addFieldset('default_label_fieldset', array(

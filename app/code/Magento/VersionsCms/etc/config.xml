@@ -3,8 +3,6 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -49,17 +47,6 @@
             </hierarchy>
         </magento_versionscms>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_VersionsCms>
-                    <files>
-                        <default>Magento_VersionsCms.csv</default>
-                    </files>
-                </Magento_VersionsCms>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <cms>
             <hierarchy>
@@ -72,4 +59,4 @@
             </content>
         </cms>
     </default>
-</config>
+</config>

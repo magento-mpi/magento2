@@ -16,25 +16,35 @@
  */
 class Magento_AdvancedCheckout_Block_Customer_Link extends Magento_Core_Block_Template
 {
+    /** @var Magento_AdvancedCheckout_Helper_Data  */
+    protected $_customerHelper;
+
     /**
-     * Adding link to dashboard links block
+     * Constructor
      *
-     * @param string $block
-     * @param string $name
-     * @param string $path
-     * @param string $label
-     * @param array $urlParams
-     * @return Magento_AdvancedCheckout_Block_Customer_Link
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_AdvancedCheckout_Helper_Data $customerHelper
+     * @param array $data
      */
-    public function addDashboardLink($block, $name, $path, $label, $urlParams = array())
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Helper_Data $coreData,
+        Magento_AdvancedCheckout_Helper_Data $customerHelper,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+        $this->_customerHelper = $customerHelper;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function _toHtml()
     {
-        if (Mage::helper('Magento_AdvancedCheckout_Helper_Data')->isSkuApplied()) {
-            /** @var $blockInstance Magento_Customer_Block_Account_Navigation */
-            $blockInstance = $this->getLayout()->getBlock($block);
-            if ($blockInstance) {
-                $blockInstance->addLink($name, $path, $label, $urlParams);
-            }
+        if ($this->_customerHelper->isSkuApplied()) {
+            return parent::_toHtml();
+        } else {
+            return '';
         }
-        return $this;
     }
 }

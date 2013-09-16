@@ -19,6 +19,12 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
      */
     public function testSendPerSubscriber()
     {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+        $themes = array('frontend' => 'magento_blank', 'adminhtml' => 'magento_backend', 'install' => 'magento_basic');
+        $design = $objectManager->create('Magento_Core_Model_View_Design', array('themes' => $themes));
+        $objectManager->addSharedInstance($design, 'Magento_Core_Model_View_Design');
+
         Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $collection = Mage::getModel('Magento_Core_Model_Resource_Theme_Collection');
         $themeId = $collection->getThemeByFullPath('frontend/magento_demo')->getId();
@@ -36,7 +42,7 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
 
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $emailTemplate = $this->getMock('Magento_Core_Model_Email_Template',
-            array('_getMail', '_getLogoUrl'),
+            array('_getMail', '_getLogoUrl', '__wakeup'),
             array(
                 $objectManager->get('Magento_Core_Model_Context'),
                 $objectManager->get('Magento_Core_Model_Registry'),
@@ -71,7 +77,7 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
         $brokenMail->expects($this->any())->method('send')->will($this->throwException(new Exception($errorMsg, 99)));
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $template = $this->getMock('Magento_Core_Model_Email_Template',
-            array('_getMail', '_getLogoUrl'),
+            array('_getMail', '_getLogoUrl', '__wakeup'),
             array(
                 $objectManager->get('Magento_Core_Model_Context'),
                 $objectManager->get('Magento_Core_Model_Registry'),

@@ -20,37 +20,47 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
 {
     protected $_product;
 
-    protected $_optionRenders = array();
+    /**
+     * Product option
+     *
+     * @var Magento_Catalog_Model_Product_Option
+     */
+    protected $_option;
 
     /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_registry = null;
 
     /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Catalog_Model_Product_Option $option
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Catalog_Model_Product_Option $option,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
-    }
-
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->addOptionRenderer(
-            'default',
-            'Magento_Catalog_Block_Product_View_Options_Type_Default',
-            'product/view/options/type/default.phtml'
-        );
+        parent::__construct($coreData, $context, $data);
+        $this->_registry = $registry;
+        $this->_option = $option;
+        $this->_taxData = $taxData;
     }
 
     /**
@@ -61,8 +71,8 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
     public function getProduct()
     {
         if (!$this->_product) {
-            if ($this->_coreRegistry->registry('current_product')) {
-                $this->_product = $this->_coreRegistry->registry('current_product');
+            if ($this->_registry->registry('current_product')) {
+                $this->_product = $this->_registry->registry('current_product');
             } else {
                 $this->_product = Mage::getSingleton('Magento_Catalog_Model_Product');
             }
@@ -82,42 +92,9 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
         return $this;
     }
 
-    /**
-     * Add option renderer to renderers array
-     *
-     * @param string $type
-     * @param string $block
-     * @param string $template
-     * @return Magento_Catalog_Block_Product_View_Options
-     */
-    public function addOptionRenderer($type, $block, $template)
-    {
-        $this->_optionRenders[$type] = array(
-            'block' => $block,
-            'template' => $template,
-            'renderer' => null
-        );
-        return $this;
-    }
-
-    /**
-     * Get option render by given type
-     *
-     * @param string $type
-     * @return array
-     */
-    public function getOptionRender($type)
-    {
-        if (isset($this->_optionRenders[$type])) {
-            return $this->_optionRenders[$type];
-        }
-
-        return $this->_optionRenders['default'];
-    }
-
     public function getGroupOfOption($type)
     {
-        $group = Mage::getSingleton('Magento_Catalog_Model_Product_Option')->getGroupByType($type);
+        $group = $this->_option->getGroupByType($type);
 
         return $group == '' ? 'default' : $group;
     }
@@ -149,12 +126,12 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
     protected function _getPriceConfiguration($option)
     {
         $data = array();
-        $data['price']      = Mage::helper('Magento_Core_Helper_Data')->currency($option->getPrice(true), false, false);
-        $data['oldPrice']   = Mage::helper('Magento_Core_Helper_Data')->currency($option->getPrice(false), false, false);
+        $data['price']      = $this->_coreData->currency($option->getPrice(true), false, false);
+        $data['oldPrice']   = $this->_coreData->currency($option->getPrice(false), false, false);
         $data['priceValue'] = $option->getPrice(false);
         $data['type']       = $option->getPriceType();
-        $data['excludeTax'] = $price = Mage::helper('Magento_Tax_Helper_Data')->getPrice($option->getProduct(), $data['price'], false);
-        $data['includeTax'] = $price = Mage::helper('Magento_Tax_Helper_Data')->getPrice($option->getProduct(), $data['price'], true);
+        $data['excludeTax'] = $price = $this->_taxData->getPrice($option->getProduct(), $data['price'], false);
+        $data['includeTax'] = $price = $this->_taxData->getPrice($option->getProduct(), $data['price'], true);
         return $data;
     }
 
@@ -184,7 +161,7 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
             $config[$option->getId()] = $priceValue;
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
+        return $this->_coreData->jsonEncode($config);
     }
 
     /**
@@ -194,16 +171,12 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
      */
     public function getOptionHtml(Magento_Catalog_Model_Product_Option $option)
     {
-        $renderer = $this->getOptionRender(
-            $this->getGroupOfOption($option->getType())
-        );
-        if (is_null($renderer['renderer'])) {
-            $renderer['renderer'] = $this->getLayout()->createBlock($renderer['block'])
-                ->setTemplate($renderer['template']);
-        }
-        return $renderer['renderer']
-            ->setProduct($this->getProduct())
-            ->setOption($option)
-            ->toHtml();
+        $type = $this->getGroupOfOption($option->getType());
+        $renderer = $this->getChildBlock($type);
+
+        $renderer->setProduct($this->getProduct())
+            ->setOption($option);
+
+        return $this->getChildHtml($type, false);
     }
 }

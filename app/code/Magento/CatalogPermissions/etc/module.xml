@@ -19,13 +19,12 @@
         </sequence>
         <depends>
             <module name="Magento_Adminhtml"/>
+            <module name="Magento_Backend"/>
             <module name="Magento_Catalog"/>
             <module name="Magento_Core"/>
             <module name="Magento_Customer"/>
             <module name="Magento_Index"/>
             <module name="Magento_Eav"/>
-            <module name="Magento_CatalogSearch" type="soft"/>
-            <module name="Magento_Page" type="soft"/>
         </depends>
     </module>
 </config>

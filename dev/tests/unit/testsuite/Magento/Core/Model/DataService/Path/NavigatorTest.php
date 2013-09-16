@@ -17,7 +17,7 @@ class Magento_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framewor
      */
     private $_navigator;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_navigator = new Magento_Core_Model_DataService_Path_Navigator();
     }

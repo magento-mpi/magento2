@@ -26,6 +26,22 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Sku extends Magento_Eav_Mo
     const SKU_MAX_LENGTH = 64;
 
     /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString
+    ) {
+        $this->_coreString = $coreString;
+    }
+
+    /**
      * Validate SKU
      *
      * @param Magento_Catalog_Model_Product $object
@@ -34,7 +50,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Sku extends Magento_Eav_Mo
      */
     public function validate($object)
     {
-        $helper = Mage::helper('Magento_Core_Helper_String');
+        $helper = $this->_coreString;
         $attrCode = $this->getAttribute()->getAttributeCode();
         $value = $object->getData($attrCode);
         if ($this->getAttribute()->getIsRequired() && $this->getAttribute()->isValueEmpty($value)) {

@@ -158,7 +158,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
                 }
                 /* @translation __('Viewing combined "%1" report from segments: %2') */
                 if ($segments) {
-                    $viewModeLabel = Mage::helper('Magento_CustomerSegment_Helper_Data')->getViewModeLabel(
+                    $viewModeLabel = $this->_objectManager->get('Magento_CustomerSegment_Helper_Data')->getViewModeLabel(
                         $this->_getAdminSession()->getViewMode()
                     );
                     Mage::getSingleton('Magento_Adminhtml_Model_Session')->addNotice(
@@ -269,6 +269,6 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
     protected function _isAllowed()
     {
         return  $this->_authorization->isAllowed('Magento_CustomerSegment::customersegment')
-                && Mage::helper('Magento_CustomerSegment_Helper_Data')->isEnabled();
+                && $this->_objectManager->get('Magento_CustomerSegment_Helper_Data')->isEnabled();
     }
 }

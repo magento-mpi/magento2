@@ -1,0 +1,24 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ * @var $this Magento_Page_Block_Link_Current
+ */
+?>
+<?php if ($this->isCurrent()):?>
+<li class="current">
+    <strong><?php echo $this->escapeHtml(__($this->getLabel()))?></strong>
+</li>
+<?php else:?>
+<li>
+    <a href="<?php echo $this->escapeHtml($this->getHref())?>"
+        <?php if ($title = $this->getTitle()):?> title="<?php echo $this->escapeHtml(__($title))?>"<?php endif;?>
+    >
+        <?php echo $this->escapeHtml(__($this->getLabel()))?>
+    </a>
+</li>
+<?php endif;?>

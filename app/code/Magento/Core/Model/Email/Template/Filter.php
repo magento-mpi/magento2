@@ -49,12 +49,25 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
     protected $_viewUrl;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
      * Setup callbacks for filters
      *
+     *
+     *
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_View_Url $viewUrl
      */
-    public function __construct(Magento_Core_Model_View_Url $viewUrl)
-    {
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_View_Url $viewUrl
+    ) {
+        $this->_coreData = $coreData;
         $this->_viewUrl = $viewUrl;
         $this->_modifiers['escape'] = array($this, 'modifierEscape');
     }
@@ -185,7 +198,6 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
     public function layoutDirective($construction)
     {
         $skipParams = array('handle', 'area');
-
         $params = $this->_getIncludeParameters($construction[2]);
         $layoutParams = array();
         if (isset($params['area'])) {
@@ -193,31 +205,31 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
         }
         /** @var $layout Magento_Core_Model_Layout */
         $layout = Mage::getModel('Magento_Core_Model_Layout', $layoutParams);
-
-        $layout->getUpdate()->addHandle($params['handle']);
-        $layout->getUpdate()->load();
+        $layout->getUpdate()->addHandle($params['handle'])
+            ->load();
 
         $layout->generateXml();
         $layout->generateElements();
 
+        $rootBlock = false;
         foreach ($layout->getAllBlocks() as $block) {
             /* @var $block Magento_Core_Block_Abstract */
+            if (!$block->getParentBlock() && !$rootBlock) {
+                $rootBlock = $block;
+            }
             foreach ($params as $k => $v) {
                 if (in_array($k, $skipParams)) {
                     continue;
                 }
-
                 $block->setDataUsingMethod($k, $v);
             }
         }
 
         /**
-         * Add output method for first block
+         * Add root block to output
          */
-        $allBlocks = $layout->getAllBlocks();
-        $firstBlock = reset($allBlocks);
-        if ($firstBlock) {
-            $layout->addOutputElement($firstBlock->getNameInLayout());
+        if ($rootBlock) {
+            $layout->addOutputElement($rootBlock->getNameInLayout());
         }
 
         $layout->setDirectOutput(false);
@@ -322,7 +334,7 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
             $allowedTags = preg_split('/\s*\,\s*/', $params['allowed_tags'], 0, PREG_SPLIT_NO_EMPTY);
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->escapeHtml($params['var'], $allowedTags);
+        return $this->_coreData->escapeHtml($params['var'], $allowedTags);
     }
 
     /**

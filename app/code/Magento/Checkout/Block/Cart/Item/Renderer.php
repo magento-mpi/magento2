@@ -23,8 +23,8 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
     /** @var Magento_Checkout_Model_Session */
     protected $_checkoutSession;
     protected $_item;
-    protected $_productUrl = null;
-    protected $_productThumbnail = null;
+    protected $_productUrl;
+    protected $_productThumbnail;
 
     /**
      * Whether qty will be converted to number
@@ -41,10 +41,33 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
     protected $_ignoreProductUrl = false;
 
     /**
+     * Catalog product configuration
+     *
+     * @var Magento_Catalog_Helper_Product_Configuration
+     */
+    protected $_productConfigur = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product_Configuration $productConfigur
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product_Configuration $productConfigur,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_productConfigur = $productConfigur;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Set item for render
      *
-     * @param   Magento_Sales_Model_Quote_Item $item
-     * @return  Magento_Checkout_Block_Cart_Item_Renderer
+     * @param Magento_Sales_Model_Quote_Item_Abstract $item
+     * @return $this
      */
     public function setItem(Magento_Sales_Model_Quote_Item_Abstract $item)
     {
@@ -229,7 +252,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
     public function getProductOptions()
     {
         /* @var $helper Magento_Catalog_Helper_Product_Configuration */
-        $helper = Mage::helper('Magento_Catalog_Helper_Product_Configuration');
+        $helper = $this->_productConfigur;
         return $helper->getCustomOptions($this->getItem());
     }
 
@@ -371,7 +394,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
     public function getFormatedOptionValue($optionValue)
     {
         /* @var $helper Magento_Catalog_Helper_Product_Configuration */
-        $helper = Mage::helper('Magento_Catalog_Helper_Product_Configuration');
+        $helper = $this->_productConfigur;
         $params = array(
             'max_length' => 55,
             'cut_replacer' => ' <a href="#" class="dots" onclick="return false">...</a>'

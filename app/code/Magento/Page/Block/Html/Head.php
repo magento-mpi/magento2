@@ -59,7 +59,26 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      */
     private $_pageAssets;
 
+    /**
+     * Core file storage database
+     *
+     * @var Magento_Core_Helper_File_Storage_Database
+     */
+    protected $_fileStorageDatabase = null;
+
+    /**
+     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDatabase
+     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento_Core_Block_Template_Context $context
+     * @param \Magento_ObjectManager $objectManager
+     * @param \Magento_Core_Model_Page $page
+     * @param \Magento_Core_Model_Page_Asset_MergeService $assetMergeService
+     * @param \Magento_Core_Model_Page_Asset_MinifyService $assetMinifyService
+     * @param array $data
+     */
     public function __construct(
+        Magento_Core_Helper_File_Storage_Database $fileStorageDatabase,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_ObjectManager $objectManager,
         Magento_Core_Model_Page $page,
@@ -67,83 +86,12 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
         Magento_Core_Model_Page_Asset_MinifyService $assetMinifyService,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        $this->_fileStorageDatabase = $fileStorageDatabase;
+        parent::__construct($coreData, $context, $data);
         $this->_objectManager = $objectManager;
         $this->_assetMergeService = $assetMergeService;
         $this->_assetMinifyService = $assetMinifyService;
         $this->_pageAssets = $page->getAssets();
-    }
-
-    /**
-     * Add CSS file to HEAD entity
-     *
-     * @param string $file
-     * @param string $attributes
-     * @param string|null $ieCondition
-     * @param string|null $flagName
-     * @return Magento_Page_Block_Html_Head
-     */
-    public function addCss($file, $attributes = '', $ieCondition = null, $flagName = null)
-    {
-        $contentType = Magento_Core_Model_View_Publisher::CONTENT_TYPE_CSS;
-        $asset = $this->_objectManager->create(
-            'Magento_Core_Model_Page_Asset_ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
-        );
-        $this->_pageAssets->add("$contentType/$file", $asset, array(
-            'attributes'    => (string)$attributes,
-            'ie_condition'  => (string)$ieCondition,
-            'flag_name'     => (string)$flagName,
-        ));
-        return $this;
-    }
-
-    /**
-     * Add JavaScript file to HEAD entity
-     *
-     * @param string $file
-     * @param string $attributes
-     * @param string|null $ieCondition
-     * @param string|null $flagName
-     * @return Magento_Page_Block_Html_Head
-     */
-    public function addJs($file, $attributes = '', $ieCondition = null, $flagName = null)
-    {
-        $contentType = Magento_Core_Model_View_Publisher::CONTENT_TYPE_JS;
-        $asset = $this->_objectManager->create(
-            'Magento_Core_Model_Page_Asset_ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
-        );
-        $this->_pageAssets->add("$contentType/$file", $asset, array(
-            'attributes'    => (string)$attributes,
-            'ie_condition'  => (string)$ieCondition,
-            'flag_name'     => (string)$flagName,
-        ));
-        return $this;
-    }
-
-    /**
-     * Add CSS file for Internet Explorer only to HEAD entity
-     *
-     * @param string $file
-     * @param string $attributes
-     * @param string|null $flagName
-     * @return Magento_Page_Block_Html_Head
-     */
-    public function addCssIe($file, $attributes = '', $flagName = null)
-    {
-        return $this->addCss($file, $attributes, 'IE', $flagName);
-    }
-
-    /**
-     * Add JavaScript file for Internet Explorer only to HEAD entity
-     *
-     * @param string $file
-     * @param string $attributes
-     * @param string|null $flagName
-     * @return Magento_Page_Block_Html_Head
-     */
-    public function addJsIe($file, $attributes = '', $flagName = null)
-    {
-        return $this->addJs($file, $attributes, 'IE', $flagName);
     }
 
     /**
@@ -164,116 +112,25 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     }
 
     /**
-     * Add Link element to HEAD entity
-     *
-     * @param string $rel forward link types
-     * @param string $href URI for linked resource
-     * @return Magento_Page_Block_Html_Head
-     */
-    public function addLinkRel($rel, $href)
-    {
-        $asset = $this->_objectManager->create(
-            'Magento_Core_Model_Page_Asset_Remote', array('url' => (string)$href)
-        );
-        $this->_pageAssets->add("link/$href", $asset, array('attributes' => 'rel="' . $rel . '"'));
-        return $this;
-    }
-
-    /**
-     * Add Meta element to HEAD entity
-     *
-     * @param string|array $metaData
-     * @param string $content
-     * @return Magento_Page_Block_Html_Head
-     */
-    public function addMetaTag($metaData, $content = null)
-    {
-        $this->_initMetaTags();
-        if (!is_array($metaData)) {
-            $metaData = array('name' => $metaData, 'content' => $content);
-        }
-        if (!empty($metaData['name']) && !empty($metaData['content'])) {
-             $this->_data['meta_tag'][] = $metaData;
-        }
-        return $this;
-    }
-
-    /**
-     * Create empy array form meta tags
-     *
-     * @return $this
-     */
-    protected function _initMetaTags()
-    {
-        if (!isset($this->_data['meta_tag'])) {
-            $this->_data['meta_tag'] = array();
-        }
-        return $this;
-    }
-
-    /**
-     * Get default Meta elements
-     *
-     * @return array
-     */
-    public function getDefaultMetaTags()
-    {
-        return array(
-            array('name' => 'description', 'content' => $this->getDescription()),
-            array('name' => 'keywords', 'content' => $this->getKeywords()),
-            array('name' => 'robots', 'content' => $this->getRobots()),
-        );
-    }
-
-    /**
-     * Get Meta elements
-     *
-     * @return array
-     */
-    public function getMetaTags()
-    {
-        $this->_initMetaTags();
-        return array_merge($this->getDefaultMetaTags(), $this->_data['meta_tag']);
-    }
-
-    /**
-     * Get meta tags as html
-     *
-     * @return string
-     */
-    public function getMetaTagHtml()
-    {
-        $metaTags = array();
-        foreach ($this->getMetaTags() as $metaTag) {
-            $metaTags[] = sprintf(
-                '<meta name="%s" content="%s"/>',
-                $metaTag['name'],
-                htmlspecialchars($metaTag['content'])
-            );
-        }
-        return implode("\n", $metaTags);
-    }
-
-    /**
-     * Remove Item from HEAD entity
-     *
-     * @param string $type
-     * @param string $name
-     * @return Magento_Page_Block_Html_Head
-     */
-    public function removeItem($type, $name)
-    {
-        $this->_pageAssets->remove("$type/$name");
-        return $this;
-    }
-
-    /**
      * Render HTML for the added head items
      *
      * @return string
      */
     public function getCssJsHtml()
     {
+        foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $block) {
+            /** @var $block Magento_Core_Block_Abstract */
+            if ($block instanceof Magento_Page_Block_Html_Head_AssetBlock) {
+                /** @var Magento_Core_Model_Page_Asset_AssetInterface $asset */
+                $asset = $block->getAsset();
+                $this->_pageAssets->add(
+                    $block->getNameInLayout(),
+                    $asset,
+                    (array)$block->getProperties()
+                );
+            }
+        }
+
         $result = '';
         /** @var $group Magento_Page_Model_Asset_PropertyGroup */
         foreach ($this->_pageAssets->getGroups() as $group) {
@@ -294,8 +151,17 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
             }
 
             if (!empty($attributes)) {
-                $attributes = ' ' . $attributes;
+                if (is_array($attributes)) {
+                    $attributesString = '';
+                    foreach ($attributes as $name => $value) {
+                        $attributesString .= ' ' . $name . '="' . $this->escapeHtml($value) . '"';
+                    }
+                    $attributes = $attributesString;
+                } else {
+                    $attributes = ' ' . $attributes;
+                }
             }
+
             if ($contentType == Magento_Core_Model_View_Publisher::CONTENT_TYPE_JS ) {
                 $groupTemplate = '<script' . $attributes . ' type="text/javascript" src="%s"></script>' . "\n";
             } else {
@@ -446,7 +312,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     }
 
     /**
-     * Retrieve content for keyvords tag
+     * Retrieve content for keywords tag
      *
      * @return string
      */
@@ -525,8 +391,8 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      */
     protected function _isFile($filename)
     {
-        if (Mage::helper('Magento_Core_Helper_File_Storage_Database')->checkDbUsage() && !is_file($filename)) {
-            Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFileToFilesystem($filename);
+        if ($this->_fileStorageDatabase->checkDbUsage() && !is_file($filename)) {
+            $this->_fileStorageDatabase->saveFileToFilesystem($filename);
         }
         return is_file($filename);
     }

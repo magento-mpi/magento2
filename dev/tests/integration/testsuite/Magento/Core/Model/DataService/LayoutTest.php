@@ -11,7 +11,7 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_Te
 {
     private $_dataServiceGraph;
 
-    public function setUp()
+    protected function setUp()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         // Need to call this first so we get proper config

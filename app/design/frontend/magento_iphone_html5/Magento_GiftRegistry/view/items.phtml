@@ -18,7 +18,6 @@
 <?php
     $_itemsCount = count($this->getItems());
 ?>
-<!--<h2 class="subtitle"><?php echo $this->__('Gift Registry Items') ?></h2>-->
 <form action="<?php echo $this->getActionUrl() ?>" method="post">
     <fieldset>
         <ul class="list">
@@ -28,11 +27,11 @@
         </ul>
         <?php if ($_itemsCount): ?>
         <div class="buttons-set">
-            <button type="submit" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-update"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+            <button type="submit" title="<?php echo __('Add to Cart') ?>" class="button btn-update"><span><span><?php echo __('Add to Cart') ?></span></span></button>
         </div>
         <?php endif; ?>
     </fieldset>
 </form>
 <?php if (!$_itemsCount): ?>
-    <p><?php echo $this->__('Gift Registry has no items.') ?></p>
+    <p><?php echo __('Gift Registry has no items.') ?></p>
 <?php endif; ?>

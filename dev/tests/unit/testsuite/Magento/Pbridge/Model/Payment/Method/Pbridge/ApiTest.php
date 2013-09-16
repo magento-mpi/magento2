@@ -14,6 +14,11 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_ApiTest extends PHPUnit_Frame
         Magento_Profiler::reset();
     }
 
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * @param array $data
      * @return PHPUnit_Framework_MockObject_MockObject|Magento_Pbridge_Model_Payment_Method_Pbridge_Api

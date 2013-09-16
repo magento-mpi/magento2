@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Sales_Model_Convert_Quote">
+        <plugin name="append_gift_card_data_to_order" type="Magento_GiftCard_Model_Plugin_QuoteItem"/>
+    </type>
+</config>

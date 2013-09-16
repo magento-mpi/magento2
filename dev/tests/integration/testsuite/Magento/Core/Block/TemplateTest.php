@@ -54,7 +54,7 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->_block->getDirectOutput());
 
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
         $layout->setDirectOutput(true);
         $this->_block->setLayout($layout);
         $this->assertTrue($this->_block->getDirectOutput());

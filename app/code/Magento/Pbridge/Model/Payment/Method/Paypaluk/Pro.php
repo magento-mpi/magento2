@@ -29,6 +29,22 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Magento_PaypalUk
     protected $_pbridgePaymentMethod = null;
 
     /**
+     * Payment data
+     *
+     * @var Magento_Payment_Helper_Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * @param Magento_Payment_Helper_Data $paymentData
+     */
+    public function __construct(
+        Magento_Payment_Helper_Data $paymentData
+    ) {
+        $this->_paymentData = $paymentData;
+    }
+
+    /**
      * Pbridge payment method setter
      *
      * @param Magento_Pbridge_Model_Payment_Method_Paypal $pbridgePaymentMethod
@@ -47,7 +63,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Magento_PaypalUk
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = $this->_paymentData->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this->_pbridgePaymentMethod);
         }
         return $this->_pbridgeMethodInstance;

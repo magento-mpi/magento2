@@ -17,6 +17,22 @@ class Magento_GoogleCheckout_Model_Api extends Magento_Object
      */
     protected $_debugReplacePrivateDataKeys = array();
 
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager
+    ) {
+        $this->_eventManager = $eventManager;
+    }
+
     protected function _getApi($area)
     {
         $api = Mage::getModel('Magento_GoogleCheckout_Model_Api_Xml_' . uc_words($area))->setStoreId($this->getStoreId());
@@ -79,7 +95,7 @@ class Magento_GoogleCheckout_Model_Api extends Magento_Object
     public function deliver($gOrderId, $carrier, $trackingNo, $sendMail = true)
     {
         $this->setCarriers(array('dhl' => 'DHL', 'fedex' => 'FedEx', 'ups' => 'UPS', 'usps' => 'USPS'));
-        Mage::dispatchEvent('googlecheckout_api_deliver_carriers_array', array('api' => $this));
+        $this->_eventManager->dispatch('googlecheckout_api_deliver_carriers_array', array('api' => $this));
         $gCarriers = $this->getCarriers();
         $carrier = strtolower($carrier);
         $carrier = isset($gCarriers[$carrier]) ? $gCarriers[$carrier] : 'Other';

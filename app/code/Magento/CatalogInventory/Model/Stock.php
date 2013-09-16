@@ -31,6 +31,33 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
 
     const DEFAULT_STOCK_ID          = 1;
 
+    /**
+     * Catalog inventory data
+     *
+     * @var Magento_CatalogInventory_Helper_Data
+     */
+    protected $_catalogInventoryData = null;
+
+    /**
+     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_catalogInventoryData = $catalogInventoryData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
     protected function _construct()
     {
         $this->_init('Magento_CatalogInventory_Model_Resource_Stock');
@@ -96,7 +123,7 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
                 $stockItem = $item['item'];
             }
             $canSubtractQty = $stockItem->getId() && $stockItem->canSubtractQty();
-            if ($canSubtractQty && Mage::helper('Magento_CatalogInventory_Helper_Data')->isQty($stockItem->getTypeId())) {
+            if ($canSubtractQty && $this->_catalogInventoryData->isQty($stockItem->getTypeId())) {
                 $qtys[$productId] = $item['qty'];
             }
         }
@@ -155,7 +182,7 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
         $productId = $item->getProductId();
         if ($productId) {
             $stockItem = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item')->loadByProduct($productId);
-            if (Mage::helper('Magento_CatalogInventory_Helper_Data')->isQty($stockItem->getTypeId())) {
+            if ($this->_catalogInventoryData->isQty($stockItem->getTypeId())) {
                 if ($item->getStoreId()) {
                     $stockItem->setStoreId($item->getStoreId());
                 }
@@ -181,7 +208,7 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
     public function backItemQty($productId, $qty)
     {
         $stockItem = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item')->loadByProduct($productId);
-        if ($stockItem->getId() && Mage::helper('Magento_CatalogInventory_Helper_Data')->isQty($stockItem->getTypeId())) {
+        if ($stockItem->getId() && $this->_catalogInventoryData->isQty($stockItem->getTypeId())) {
             $stockItem->addQty($qty);
             if ($stockItem->getCanBackInStock() && $stockItem->getQty() > $stockItem->getMinQty()) {
                 $stockItem->setIsInStock(true)

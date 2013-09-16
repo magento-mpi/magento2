@@ -20,4 +20,4 @@
     <event name="sales_quote_collect_totals_before">
         <observer name="tax" instance="Magento_Tax_Model_Observer" method="quoteCollectTotalsBefore" />
     </event>
-</config>
+</config>

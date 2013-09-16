@@ -42,7 +42,7 @@ abstract class Magento_Sales_Model_Resource_Order_Collection_Abstract extends Ma
     {
         $this->_salesOrder = $order;
         if ($this->_eventPrefix && $this->_eventObject) {
-            Mage::dispatchEvent($this->_eventPrefix . '_set_sales_order', array(
+            $this->_eventManager->dispatch($this->_eventPrefix . '_set_sales_order', array(
                 'collection' => $this,
                 $this->_eventObject => $this,
                 'order' => $order

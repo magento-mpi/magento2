@@ -35,6 +35,35 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
     protected static $_urlRewrite;
 
     /**
+     * Catalog product url
+     *
+     * @var Magento_Catalog_Helper_Product_Url
+     */
+    protected $_catalogProductUrl = null;
+
+    /**
+     * Catalog category
+     *
+     * @var Magento_Catalog_Helper_Category
+     */
+    protected $_catalogCategory = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Category $catalogCategory
+     * @param Magento_Catalog_Helper_Product_Url $catalogProductUrl
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Category $catalogCategory,
+        Magento_Catalog_Helper_Product_Url $catalogProductUrl,
+        array $data = array()
+    ) {
+        $this->_catalogCategory = $catalogCategory;
+        $this->_catalogProductUrl = $catalogProductUrl;
+        parent::__construct($data);
+    }
+
+    /**
      * Retrieve URL Instance
      *
      * @return Magento_Core_Model_Url
@@ -116,7 +145,7 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
      */
     public function formatUrlKey($str)
     {
-        $urlKey = preg_replace('#[^0-9a-z]+#i', '-', Mage::helper('Magento_Catalog_Helper_Product_Url')->format($str));
+        $urlKey = preg_replace('#[^0-9a-z]+#i', '-', $this->_catalogProductUrl->format($str));
         $urlKey = strtolower($urlKey);
         $urlKey = trim($urlKey, '-');
 
@@ -142,7 +171,7 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
             Mage::throwException('Invalid category object supplied');
         }
 
-        return Mage::helper('Magento_Catalog_Helper_Category')->getCategoryUrlPath($category->getUrlPath())
+        return $this->_catalogCategory->getCategoryUrlPath($category->getUrlPath())
             . '/' . $path;
     }
 

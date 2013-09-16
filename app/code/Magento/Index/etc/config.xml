@@ -23,15 +23,4 @@
             <indexer />
         </index>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Index>
-                    <files>
-                        <default>Magento_Index.csv</default>
-                    </files>
-                </Magento_Index>
-            </modules>
-        </translate>
-    </adminhtml>
-</config>
+</config>

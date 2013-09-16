@@ -47,7 +47,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
         $this->markTestIncomplete('MAGETWO-9058');
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $form = new Magento_Data_Form();
+        $form = Mage::getObjectManager()->create('Magento_Data_Form');
         $fieldset = $form->addFieldset($section->getId() . '_' . $group->getId(), array());
 
         /* @TODO Eliminate stub by proper mock / config fixture usage */
@@ -100,7 +100,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
         $this->markTestIncomplete('MAGETWO-9058');
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $form = new Magento_Data_Form();
+        $form = Mage::getObjectManager()->create('Magento_Data_Form');
         $fieldset = $form->addFieldset($section->getId() . '_' . $group->getId(), array());
 
         /* @TODO Eliminate stub by proper mock / config fixture usage */

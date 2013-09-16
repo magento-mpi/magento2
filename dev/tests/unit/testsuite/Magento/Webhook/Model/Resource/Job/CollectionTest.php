@@ -11,7 +11,7 @@
  */
 class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         $mockDBAdapter = $this->getMockBuilder('Magento_DB_Adapter_Pdo_Mysql')
             ->disableOriginalConstructor()
@@ -31,7 +31,7 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
             ->will($this->returnValue($mockResourceEvent));
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         // Unsets object manager
         Mage::reset();
@@ -39,10 +39,11 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
 
     public function testConstructor()
     {
+        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
         $mockFetchStrategy = $this->getMockBuilder('Magento_Data_Collection_Db_FetchStrategyInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $collection = new Magento_Webhook_Model_Resource_Job_Collection($mockFetchStrategy);
+        $collection = new Magento_Webhook_Model_Resource_Job_Collection($eventManager, $mockFetchStrategy);
         $this->assertInstanceOf('Magento_Webhook_Model_Resource_Job_Collection', $collection);
         $this->assertEquals('Magento_Webhook_Model_Resource_Job', $collection->getResourceModelName());
     }

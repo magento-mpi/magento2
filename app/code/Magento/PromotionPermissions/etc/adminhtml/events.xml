@@ -17,4 +17,4 @@
     <event name="controller_action_predispatch">
         <observer name="magento_promotionpermissions" instance="Magento_PromotionPermissions_Model_Observer" method="controllerActionPredispatch" />
     </event>
-</config>
+</config>

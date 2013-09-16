@@ -15,9 +15,15 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Backend_Block_Widget_Form_Generic
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
+    /**
+     * Rma eav
+     *
+     * @var Magento_Rma_Helper_Eav
+     */
+    protected $_rmaEav = null;
     /**
      * Core registry
      *
@@ -26,17 +32,24 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Adminhtml_Bl
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Rma_Helper_Eav $rmaEav
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
+        Magento_Rma_Helper_Eav $rmaEav,
         Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        $this->_rmaEav = $rmaEav;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     /**
@@ -61,7 +74,10 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Adminhtml_Bl
             'onclick' => "rma.addProduct()",
             'class' => 'add',
         );
-        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData($addButtonData)->toHtml();
+        return $this->getLayout()
+            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            ->setData($addButtonData)
+            ->toHtml();
     }
 
     /**
@@ -76,7 +92,10 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Adminhtml_Bl
             'onclick' => "rma.addSelectedProduct()",
             'class' => 'add',
         );
-        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData($addButtonData)->toHtml();
+        return $this->getLayout()
+            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            ->setData($addButtonData)
+            ->toHtml();
     }
 
     /**
@@ -86,7 +105,8 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Adminhtml_Bl
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $htmlIdPrefix = 'rma_properties_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
 
@@ -130,7 +150,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Adminhtml_Bl
             'required'  => false
         ));
 
-        $eavHelper = Mage::helper('Magento_Rma_Helper_Eav');
+        $eavHelper = $this->_rmaEav;
         $fieldset->addField('reason', 'select', array(
             'label'=> __('Reason to Return'),
             'options' => array(''=>'')

@@ -11,29 +11,9 @@
 /**
  * Adminhtml system template edit form
  */
-class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+
+class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
-    }
-
     /**
      * Prepare layout.
      * Add files to use dialog windows
@@ -42,12 +22,35 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ad
      */
     protected function _prepareLayout()
     {
-        $head = $this->getLayout()->getBlock('head');
-        if ($head) {
-            $head->addJs('prototype/window.js')
-                ->addCss('prototype/windows/themes/default.css')
-                ->addCss('Magento_Core::prototype/magento.css')
-                ->addJs('Magento_Adminhtml::variables.js');
+        if ($head = $this->getLayout()->getBlock('head')) {
+            $head->addChild(
+                'prototype-window-js',
+                'Magento_Page_Block_Html_Head_Script',
+                array(
+                    'file' => 'prototype/window.js'
+                )
+            );
+            $head->addChild(
+                'prototype-windows-themes-default-css',
+                'Magento_Page_Block_Html_Head_Css',
+                array(
+                    'file' => 'prototype/windows/themes/default.css'
+                )
+            );
+            $head->addChild(
+                'magento-core-prototype-magento-css',
+                'Magento_Page_Block_Html_Head_Css',
+                array(
+                    'file' => 'Magento_Core::prototype/magento.css'
+                )
+            );
+            $head->addChild(
+                'magento-adminhtml-variables-js',
+                'Magento_Page_Block_Html_Head_Script',
+                array(
+                    'file' => 'Magento_Adminhtml::variables.js'
+                )
+            );
         }
         return parent::_prepareLayout();
     }
@@ -59,7 +62,8 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ad
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend' => __('Template Information'),

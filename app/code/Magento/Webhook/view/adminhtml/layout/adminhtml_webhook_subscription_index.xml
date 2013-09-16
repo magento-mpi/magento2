@@ -10,12 +10,16 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_webhook_subscription_index">
         <reference name="head">
-            <action method="addCss">
-                <argument name="file" xsi:type="string">Magento_Webhook::css/modal.css</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">Magento_Webhook::js/webhook.js</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Css" name="magento-webhook-css-modal-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_Webhook::css/modal.css</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="magento-webhook-js-webhook-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_Webhook::js/webhook.js</argument>
+                </arguments>
+            </block>
         </reference>
         <update handle="adminhtml_webhook_subscription_grid"/>
         <reference name="content">

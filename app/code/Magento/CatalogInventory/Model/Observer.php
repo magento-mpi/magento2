@@ -36,6 +36,22 @@ class Magento_CatalogInventory_Model_Observer
     protected $_stockItemsArray = array();
 
     /**
+     * Catalog inventory data
+     *
+     * @var Magento_CatalogInventory_Helper_Data
+     */
+    protected $_catalogInventoryData = null;
+
+    /**
+     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
+     */
+    public function __construct(
+        Magento_CatalogInventory_Helper_Data $catalogInventoryData
+    ) {
+        $this->_catalogInventoryData = $catalogInventoryData;
+    }
+
+    /**
      * Add stock information to product
      *
      * @param   Magento_Event_Observer $observer
@@ -719,7 +735,7 @@ class Magento_CatalogInventory_Model_Observer
                 if ($item->getBackToStock() && $item->getQty()) {
                     $return = true;
                 }
-            } elseif (Mage::helper('Magento_CatalogInventory_Helper_Data')->isAutoReturnEnabled()) {
+            } elseif ($this->_catalogInventoryData->isAutoReturnEnabled()) {
                 $return = true;
             }
             if ($return) {
@@ -865,7 +881,7 @@ class Magento_CatalogInventory_Model_Observer
     public function displayProductStatusInfo($observer)
     {
         $info = $observer->getEvent()->getStatus();
-        $info->setDisplayStatus(Mage::helper('Magento_CatalogInventory_Helper_Data')->isDisplayProductStockStatus());
+        $info->setDisplayStatus($this->_catalogInventoryData->isDisplayProductStockStatus());
         return $this;
     }
 }

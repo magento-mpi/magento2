@@ -39,28 +39,6 @@
             </email>
         </template>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_GiftRegistry>
-                    <files>
-                        <default>Magento_GiftRegistry.csv</default>
-                    </files>
-                </Magento_GiftRegistry>
-            </modules>
-        </translate>
-    </adminhtml>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_GiftRegistry>
-                    <files>
-                        <default>Magento_GiftRegistry.csv</default>
-                    </files>
-                </Magento_GiftRegistry>
-            </modules>
-        </translate>
-    </frontend>
     <default>
         <magento_giftregistry>
             <general>
@@ -82,4 +60,4 @@
             </update_email>
         </magento_giftregistry>
     </default>
-</config>
+</config>

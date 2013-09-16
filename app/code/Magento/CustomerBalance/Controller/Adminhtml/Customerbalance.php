@@ -41,7 +41,7 @@ class Magento_CustomerBalance_Controller_Adminhtml_Customerbalance extends Magen
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!$this->_objectManager->get('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }

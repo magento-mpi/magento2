@@ -12,7 +12,7 @@ class Magento_Phrase_Renderer_CompositeTest extends PHPUnit_Framework_TestCase
      */
     protected $_rendererFactory;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_rendererFactory = $this->getMock('Magento_Phrase_Renderer_Factory', array(), array(), '', false);
     }

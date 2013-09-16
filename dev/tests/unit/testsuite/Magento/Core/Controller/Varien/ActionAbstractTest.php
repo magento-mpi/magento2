@@ -34,7 +34,7 @@ class Magento_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framewor
      *
      * Create request, response and forward action (child of ActionAbstract)
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->_request = $this->getMock('Magento_Core_Controller_Request_Http',
             array('getRequestedRouteName', 'getRequestedControllerName', 'getRequestedActionName'), array(), '', false
@@ -74,8 +74,10 @@ class Magento_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framewor
      */
     public function testResponseHeaders()
     {
+        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+
         $request = new Magento_Core_Controller_Request_Http();
-        $response = new Magento_Core_Controller_Response_Http();
+        $response = new Magento_Core_Controller_Response_Http($eventManager);
         $response->headersSentThrowsException = false;
         $action = new Magento_Core_Controller_Varien_Action_Forward($request, $response);
 

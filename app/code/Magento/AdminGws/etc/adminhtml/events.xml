@@ -50,12 +50,6 @@
     <event name="adminhtml_catalog_category_tree_can_add_sub_category">
         <observer name="magento_admingws" instance="Magento_AdminGws_Model_Blocks" method="catalogCategoryCanBeAdded" />
     </event>
-    <event name="catalog_category_tree_move_before">
-        <observer name="magento_admingws" instance="Magento_AdminGws_Model_Models" method="catalogCategoryMoveBefore" />
-    </event>
-    <event name="magento_catalog_permissions_is_allowed_category">
-        <observer name="magento_admingws" instance="Magento_AdminGws_Model_Models" method="catalogCategoryIsCatalogPermissionsAllowed" />
-    </event>
     <event name="adminhtml_block_html_before">
         <observer name="magento_admingws" instance="Magento_AdminGws_Model_Observer" method="restrictBlocks" />
     </event>
@@ -77,9 +71,6 @@
     <event name="sales_sale_collection_query_before">
         <observer name="magento_admingws" instance="Magento_AdminGws_Model_Collections" method="addSalesSaleCollectionStoreFilter" />
     </event>
-    <event name="catalog_product_website_update_before">
-        <observer name="magento_admingws" instance="Magento_AdminGws_Model_Models" method="catalogProductActionWithWebsitesAfter" />
-    </event>
     <event name="rss_catalog_notify_stock_collection_select">
         <observer name="magento_admingws" instance="Magento_AdminGws_Model_Collections" method="rssCatalogNotifyStockCollectionSelect" />
     </event>
@@ -92,4 +83,4 @@
     <event name="adminhtml_banner_edit_tab_content_before_prepare_form">
         <observer name="magento_admingws" instance="Magento_AdminGws_Model_Blocks" method="disableAllStoreViewsContentFeild" />
     </event>
-</config>
+</config>

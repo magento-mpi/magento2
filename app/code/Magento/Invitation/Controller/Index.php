@@ -19,7 +19,6 @@ class Magento_Invitation_Controller_Index extends Magento_Core_Controller_Front_
     /**
      * Only logged in users can use this functionality,
      * this function checks if user is logged in before all other actions
-     *
      */
     public function preDispatch()
     {
@@ -31,7 +30,9 @@ class Magento_Invitation_Controller_Index extends Magento_Core_Controller_Front_
         }
 
         if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
-            $this->getResponse()->setRedirect(Mage::helper('Magento_Customer_Helper_Data')->getLoginUrl());
+            $this->getResponse()->setRedirect(
+                $this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl()
+            );
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }
@@ -64,10 +65,10 @@ class Magento_Invitation_Controller_Index extends Magento_Core_Controller_Front_
                         'message'  => (isset($data['message']) ? $data['message'] : ''),
                     ))->save();
                     if ($invitation->sendInvitationEmail()) {
-                        Mage::getSingleton('Magento_Customer_Model_Session')->addSuccess(__('You sent the invitation for %1.', $email));
+                        Mage::getSingleton('Magento_Customer_Model_Session')
+                            ->addSuccess(__('You sent the invitation for %1.', $email));
                         $sent++;
-                    }
-                    else {
+                    } else {
                         throw new Exception(''); // not Magento_Core_Exception intentionally
                     }
 
@@ -75,13 +76,13 @@ class Magento_Invitation_Controller_Index extends Magento_Core_Controller_Front_
                 catch (Magento_Core_Exception $e) {
                     if (Magento_Invitation_Model_Invitation::ERROR_CUSTOMER_EXISTS === $e->getCode()) {
                         $customerExists++;
-                    }
-                    else {
+                    } else {
                         Mage::getSingleton('Magento_Customer_Model_Session')->addError($e->getMessage());
                     }
                 }
                 catch (Exception $e) {
-                    Mage::getSingleton('Magento_Customer_Model_Session')->addError(__('Something went wrong sending an email to %1.', $email));
+                    Mage::getSingleton('Magento_Customer_Model_Session')
+                        ->addError(__('Something went wrong sending an email to %1.', $email));
                 }
             }
             if ($customerExists) {

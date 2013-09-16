@@ -1,0 +1,18 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ * @var $this Magento_Page_Block_Link
+ */
+?>
+<li>
+    <a href="<?php echo $this->escapeHtml($this->getHref())?>"
+        <?php if ($title = $this->getTitle()):?> title="<?php echo $this->escapeHtml(__($title))?>"<?php endif;?>
+    >
+        <?php echo $this->escapeHtml(__($this->getLabel()))?>
+    </a>
+</li>

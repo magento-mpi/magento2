@@ -71,7 +71,7 @@ class Magento_MultipleWishlist_Controller_Search extends Magento_Core_Controller
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('Magento_MultipleWishlist_Helper_Data')->isModuleEnabled()) {
+        if (!$this->_objectManager->get('Magento_MultipleWishlist_Helper_Data')->isModuleEnabled()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
@@ -220,8 +220,8 @@ class Magento_MultipleWishlist_Controller_Search extends Magento_Core_Controller
             }
         }
 
-        if (Mage::helper('Magento_Checkout_Helper_Cart')->getShouldRedirectToCart()) {
-            $redirectUrl = Mage::helper('Magento_Checkout_Helper_Cart')->getCartUrl();
+        if ($this->_objectManager->get('Magento_Checkout_Helper_Cart')->getShouldRedirectToCart()) {
+            $redirectUrl = $this->_objectManager->get('Magento_Checkout_Helper_Cart')->getCartUrl();
         } else if ($this->_getRefererUrl()) {
             $redirectUrl = $this->_getRefererUrl();
         }

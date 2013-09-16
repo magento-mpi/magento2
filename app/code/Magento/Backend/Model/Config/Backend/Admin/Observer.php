@@ -11,6 +11,13 @@
 class Magento_Backend_Model_Config_Backend_Admin_Observer
 {
     /**
+     * Backend data
+     *
+     * @var Magento_Backend_Helper_Data
+     */
+    protected $_backendData = null;
+
+    /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -18,11 +25,14 @@ class Magento_Backend_Model_Config_Backend_Admin_Observer
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
+        Magento_Backend_Helper_Data $backendData,
         Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_backendData = $backendData;
         $this->_coreRegistry = $coreRegistry;
     }
 
@@ -42,7 +52,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Observer
         $adminSession->unsetAll();
         $adminSession->getCookie()->delete($adminSession->getSessionName());
 
-        $route = Mage::helper('Magento_Backend_Helper_Data')->getAreaFrontName();
+        $route = $this->_backendData->getAreaFrontName();
 
         Mage::app()->getResponse()
             ->setRedirect(Mage::getBaseUrl() . $route)

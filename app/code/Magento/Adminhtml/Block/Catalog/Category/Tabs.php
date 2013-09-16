@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Backend_Block_Widget_Tabs
 {
     /**
      * Default Attribute Tab Block
@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Bl
 
     protected $_template = 'widget/tabshoriz.phtml';
 
-    /**
+   /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -34,17 +34,29 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Bl
     protected $_coreRegistry = null;
 
     /**
+     * Adminhtml catalog
+     *
+     * @var Magento_Adminhtml_Helper_Catalog
+     */
+    protected $_adminhtmlCatalog = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        $this->_adminhtmlCatalog = $adminhtmlCatalog;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -71,23 +83,13 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Bl
     }
 
     /**
-     * Return Adminhtml Catalog Helper
-     *
-     * @return Magento_Adminhtml_Helper_Catalog
-     */
-    public function getCatalogHelper()
-    {
-        return Mage::helper('Magento_Adminhtml_Helper_Catalog');
-    }
-
-    /**
      * Getting attribute block name for tabs
      *
      * @return string
      */
     public function getAttributeTabBlock()
     {
-        if ($block = $this->getCatalogHelper()->getCategoryAttributeTabBlock()) {
+        if ($block = $this->_adminhtmlCatalog->getCategoryAttributeTabBlock()) {
             return $block;
         }
         return $this->_attributeTabBlock;
@@ -162,7 +164,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Bl
         ));
 
         // dispatch event add custom tabs
-        Mage::dispatchEvent('adminhtml_catalog_category_tabs', array(
+        $this->_eventManager->dispatch('adminhtml_catalog_category_tabs', array(
             'tabs'  => $this
         ));
 

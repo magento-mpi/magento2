@@ -134,7 +134,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
             $categoryById[$category->getParentId()]['children'][] = &$categoryById[$category->getId()];
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode(
+        return $this->_coreData->jsonEncode(
             $categoryById[Magento_Catalog_Model_Category::TREE_ROOT_ID]['children']
         );
     }
@@ -208,7 +208,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
     public function getTreeJson($parenNodeCategory=null)
     {
         $rootArray = $this->_getNodeJson($this->getRoot($parenNodeCategory));
-        $json = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(
+        $json = $this->_coreData->jsonEncode(
             isset($rootArray['children']) ? $rootArray['children'] : array()
         );
         return $json;
@@ -237,7 +237,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
         }
         return
             '<script type="text/javascript">'
-            . $javascriptVarName . ' = ' . Mage::helper('Magento_Core_Helper_Data')->jsonEncode($categories) . ';'
+            . $javascriptVarName . ' = ' . $this->_coreData->jsonEncode($categories) . ';'
             . ($this->canAddSubCategory()
                 ? '$("add_subcategory_button").show();'
                 : '$("add_subcategory_button").hide();')
@@ -321,7 +321,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
             'category' => $node
         ));
 
-        Mage::dispatchEvent('adminhtml_catalog_category_tree_is_moveable',
+        $this->_eventManager->dispatch('adminhtml_catalog_category_tree_is_moveable',
             array('options'=>$options)
         );
 
@@ -358,7 +358,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
     public function canAddRootCategory()
     {
         $options = new Magento_Object(array('is_allow'=>true));
-        Mage::dispatchEvent(
+        $this->_eventManager->dispatch(
             'adminhtml_catalog_category_tree_can_add_root_category',
             array(
                 'category' => $this->getCategory(),
@@ -378,7 +378,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
     public function canAddSubCategory()
     {
         $options = new Magento_Object(array('is_allow'=>true));
-        Mage::dispatchEvent(
+        $this->_eventManager->dispatch(
             'adminhtml_catalog_category_tree_can_add_sub_category',
             array(
                 'category' => $this->getCategory(),

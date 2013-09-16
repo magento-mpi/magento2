@@ -256,4 +256,39 @@
             </value>
         </param>
     </type>
+    <type name="Magento_Core_Controller_Request_Http">
+        <param name="backendData">
+            <instance type="Magento_Backend_Helper_Data_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Core_Model_View_Design">
+        <param name="themes">
+            <value>
+                <frontend>magento_demo</frontend>
+                <adminhtml>magento_backend</adminhtml>
+                <install>magento_basic</install>
+            </value>
+        </param>
+    </type>
+    <type name="Magento_Core_Model_View_Publisher">
+        <param name="allowFilesDuplication">
+            <value type="bool">true</value>
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Fieldset_Config_Reader">
+        <param name="fileName">
+            <value>fieldset.xml</value>
+        </param>
+        <param name="schemaLocator">
+            <instance type="Magento_Core_Model_Fieldset_Config_SchemaLocator" />
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Fieldset_Config_Data">
+        <param name="reader">
+            <instance type="Magento_Core_Model_Fieldset_Config_Reader" />
+        </param>
+        <param name="cacheId">
+            <value>fieldset_config</value>
+        </param>
+    </type>
 </config>

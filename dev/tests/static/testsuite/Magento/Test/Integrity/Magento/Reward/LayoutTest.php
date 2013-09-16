@@ -17,7 +17,7 @@ class Magento_Test_Integrity_Magento_Reward_LayoutTest extends PHPUnit_Framework
     public function testInitRewardTypeClasses($file)
     {
         $xml = simplexml_load_file($file);
-        $nodes = $xml->xpath('//action[@method="initRewardType"]/*[1]') ?: array();
+        $nodes = $xml->xpath('//argument[@name="reward_type"]') ? : array();
         $errors = array();
         /** @var SimpleXMLElement $node */
         foreach ($nodes as $node) {

@@ -39,6 +39,11 @@ class Magento_Backend_Block_Widget_ButtonTest extends PHPUnit_Framework_TestCase
      */
     protected $_buttonMock;
 
+    /**
+     * @var Magento_Core_Model_Factory_Helper
+     */
+    protected $_helperFactoryMock;
+
     protected function setUp()
     {
         $this->_helperMock =
@@ -51,10 +56,15 @@ class Magento_Backend_Block_Widget_ButtonTest extends PHPUnit_Framework_TestCase
             ->method('helper')
             ->will($this->returnValue($this->_helperMock));
 
+        $this->_helperFactoryMock = $this->getMock(
+            'Magento_Core_Model_Factory_Helper', array('get'), array(), '', false, false
+        );
+
         $arguments = array(
             'urlBuilder' =>
                 $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false, false),
-            'layout' => $this->_layoutMock
+            'layout' => $this->_layoutMock,
+            'helperFactory' => $this->_helperFactoryMock,
         );
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
@@ -62,7 +72,7 @@ class Magento_Backend_Block_Widget_ButtonTest extends PHPUnit_Framework_TestCase
             $objectManagerHelper->getObject('Magento_Backend_Block_Widget_Button', $arguments);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_layoutMock);
         unset($this->_helperMock);
@@ -75,6 +85,20 @@ class Magento_Backend_Block_Widget_ButtonTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAttributesHtml($data, $expect)
     {
+        $coreHelperMock = $this->getMock(
+            'Magento_Core_Helper_Data', array(), array(), '', false, false
+        );
+        $backendHelperMock = $this->getMock(
+            'Magento_Backend_Helper_Data', array(), array(), '', false, false
+        );
+        $this->_helperFactoryMock
+            ->expects($this->any())
+            ->method('get')
+            ->will($this->returnValueMap(array(
+                array('Magento_Core_Helper_Data', array(), $coreHelperMock),
+                array('Magento_Backend_Helper_Data', array(), $backendHelperMock),
+            )));
+
         $this->_blockMock->setData($data);
         $attributes = $this->_blockMock->getAttributesHtml();
         $this->assertRegExp($expect, $attributes);

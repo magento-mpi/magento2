@@ -24,28 +24,6 @@
             </related_cache_types>
         </catalogrule>
     </global>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_CatalogRule>
-                    <files>
-                        <default>Magento_CatalogRule.csv</default>
-                    </files>
-                </Magento_CatalogRule>
-            </modules>
-        </translate>
-    </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_CatalogRule>
-                    <files>
-                        <default>Magento_CatalogRule.csv</default>
-                    </files>
-                </Magento_CatalogRule>
-            </modules>
-        </translate>
-    </adminhtml>
     <crontab>
         <jobs>
             <catalogrule_apply_all>
@@ -58,4 +36,4 @@
             </catalogrule_apply_all>
         </jobs>
     </crontab>
-</config>
+</config>

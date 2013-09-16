@@ -18,16 +18,36 @@
 class Magento_Adminhtml_Model_Search_Order extends Magento_Object
 {
     /**
+     * Adminhtml data
+     *
+     * @var Magento_Adminhtml_Helper_Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Data $adminhtmlData
+    ) {
+        $this->_adminhtmlData = $adminhtmlData;
+    }
+
+    /**
      * Load search results
      *
      * @return Magento_Adminhtml_Model_Search_Order
      */
     public function load()
     {
-        $arr = array();
-
+        $result = array();
         if (!$this->hasStart() || !$this->hasLimit() || !$this->hasQuery()) {
-            $this->setResults($arr);
+            $this->setResults($result);
             return $this;
         }
 
@@ -52,22 +72,19 @@ class Magento_Adminhtml_Model_Search_Order extends Magento_Object
             ->load();
 
         foreach ($collection as $order) {
-            $arr[] = array(
+            $result[] = array(
                 'id'                => 'order/1/'.$order->getId(),
                 'type'              => __('Order'),
                 'name'              => __('Order #%1', $order->getIncrementId()),
                 'description'       => $order->getBillingFirstname().' '.$order->getBillingLastname(),
-                'form_panel_title'  => __('Order #%1 (%2)', $order->getIncrementId(), $order->getBillingFirstname().' '.$order->getBillingLastname()),
-                'url' => Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl(
-                    '*/sales_order/view',
-                    array(
-                        'order_id' => $order->getId()
-                    )
-                ),
+                'form_panel_title'  => __('Order #%1 (%2)',
+                    $order->getIncrementId(),
+                    $order->getBillingFirstname() . ' ' . $order->getBillingLastname()),
+                'url' => $this->_adminhtmlData->getUrl('*/sales_order/view', array('order_id' => $order->getId())),
             );
         }
 
-        $this->setResults($arr);
+        $this->setResults($result);
 
         return $this;
     }

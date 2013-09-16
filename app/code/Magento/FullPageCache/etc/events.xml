@@ -14,4 +14,4 @@
     <event name="design_editor_deactivate">
         <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="deleteNoCacheCookie" />
     </event>
-</config>
+</config>

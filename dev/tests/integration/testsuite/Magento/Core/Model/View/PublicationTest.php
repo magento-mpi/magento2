@@ -66,10 +66,11 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      * @param string $file
      * @param string $expectedUrl
      * @param string|null $locale
+     * @param bool|null $allowDuplication
      */
-    protected function _testGetViewUrl($file, $expectedUrl, $locale = null)
+    protected function _testGetViewUrl($file, $expectedUrl, $locale = null, $allowDuplication = null)
     {
-        $this->_initTestTheme();
+        $this->_initTestTheme($allowDuplication);
 
         Mage::app()->getLocale()->setLocale($locale);
         $url = $this->_viewUrl->getViewFileUrl($file);
@@ -80,13 +81,12 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
-     * @magentoConfigFixture global/design/theme/allow_view_files_duplication 1
      * @magentoAppIsolation enabled
      * @dataProvider getViewUrlFilesDuplicationDataProvider
      */
     public function testGetViewUrlFilesDuplication($file, $expectedUrl, $locale = null)
     {
-        $this->_testGetViewUrl($file, $expectedUrl, $locale);
+        $this->_testGetViewUrl($file, $expectedUrl, $locale, true);
     }
 
     /**
@@ -117,13 +117,12 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
-     * @magentoConfigFixture global/design/theme/allow_view_files_duplication 0
      * @magentoAppIsolation enabled
      * @dataProvider testGetViewUrlNoFilesDuplicationDataProvider
      */
     public function testGetViewUrlNoFilesDuplication($file, $expectedUrl, $locale = null)
     {
-        $this->_testGetViewUrl($file, $expectedUrl, $locale);
+        $this->_testGetViewUrl($file, $expectedUrl, $locale, false);
     }
 
     /**
@@ -142,7 +141,7 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
             ),
             'theme localized file' => array(
                 'logo.gif',
-                'static/frontend/test_default/locale/fr_FR/logo.gif',
+                'static/frontend/test_default/i18n/fr_FR/logo.gif',
                 'fr_FR',
             )
         );
@@ -534,14 +533,25 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
     /**
      * Init the model with a test theme from fixture themes dir
      * Init application with custom view dir, @magentoAppIsolation required
+     *
+     * @param bool|null $allowDuplication
      */
-    protected function _initTestTheme()
+    protected function _initTestTheme($allowDuplication = null)
     {
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
                 Magento_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design/'
             )
         ));
+
+        if ($allowDuplication !== null) {
+            $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+            $publisher = $objectManager->create(
+                'Magento_Core_Model_View_Publisher',
+                array('allowFilesDuplication' => $allowDuplication)
+            );
+            $objectManager->addSharedInstance($publisher, 'Magento_Core_Model_View_Publisher');
+        }
 
         // Reinit model with new directories
         $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()

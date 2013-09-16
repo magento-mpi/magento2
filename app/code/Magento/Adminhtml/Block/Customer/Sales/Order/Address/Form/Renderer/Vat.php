@@ -44,31 +44,35 @@ class Magento_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat
             $validateUrl = Mage::getSingleton('Magento_Backend_Model_Url')
                 ->getUrl('*/customer_system_config_validatevat/validateAdvanced');
 
-            $groupSuggestionMessage = __('The customer is currently assigned to Customer Group %s.')
+            $groupMessage = __('The customer is currently assigned to Customer Group %s.')
                 . ' ' . __('Would you like to change the Customer Group for this order?');
 
-            $vatValidateOptions = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            $vatValidateOptions = $this->_coreData->jsonEncode(array(
                 'vatElementId' => $vatElementId,
                 'countryElementId' => $countryElementId,
                 'groupIdHtmlId' => 'group_id',
                 'validateUrl' => $validateUrl,
                 'vatValidMessage' => __('The VAT ID is valid. The current Customer Group will be used.'),
-                'vatValidAndGroupChangeMessage' => __('Based on the VAT ID, the customer would belong to the Customer Group %s.')
-                    . "\n" . $groupSuggestionMessage,
-                'vatInvalidMessage' => __('The VAT ID entered (%s) is not a valid VAT ID. The customer would belong to Customer Group %s.')
-                    . "\n" . $groupSuggestionMessage,
-                'vatValidationFailedMessage'    => __('There was an error validating the VAT ID. The customer would belong to Customer Group %s.')
-                    . "\n" . $groupSuggestionMessage,
+                'vatValidAndGroupChangeMessage' => __('Based on the VAT ID, '
+                    . 'the customer would belong to the Customer Group %s.')
+                    . "\n" . $groupMessage,
+                'vatInvalidMessage' => __('The VAT ID entered (%s) is not a valid VAT ID. '
+                    . 'The customer would belong to Customer Group %s.')
+                    . "\n" . $groupMessage,
+                'vatValidationFailedMessage'    => __('There was an error validating the VAT ID. '
+                    . 'The customer would belong to Customer Group %s.')
+                    . "\n" . $groupMessage,
                 'vatErrorMessage' => __('There was an error validating the VAT ID.')
             ));
 
             $optionsVarName = $this->getJsVariablePrefix() . 'VatParameters';
             $beforeHtml = '<script type="text/javascript">var ' . $optionsVarName . ' = ' . $vatValidateOptions
                 . ';</script>';
-            $this->_validateButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
-                'label'       => __('Validate VAT Number'),
-                'before_html' => $beforeHtml,
-                'onclick'     => 'order.validateVat(' . $optionsVarName . ')'
+            $this->_validateButton = $this->getLayout()
+                ->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
+                    'label'       => __('Validate VAT Number'),
+                    'before_html' => $beforeHtml,
+                    'onclick'     => 'order.validateVat(' . $optionsVarName . ')'
             ));
         }
         return $this->_validateButton;

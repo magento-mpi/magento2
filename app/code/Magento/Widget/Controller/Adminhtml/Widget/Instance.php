@@ -221,7 +221,7 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
         $chooser = $this->getLayout()
             ->createBlock('Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser')
             ->setUseMassaction(true)
-            ->setId(Mage::helper('Magento_Core_Helper_Data')->uniqHash('categories'))
+            ->setId($this->_objectManager->get('Magento_Core_Helper_Data')->uniqHash('categories'))
             ->setIsAnchorOnly($isAnchorOnly)
             ->setSelectedCategories(explode(',', $selected));
         $this->setBody($chooser->toHtml());
@@ -237,13 +237,23 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
         $productTypeId = $this->getRequest()->getParam('product_type_id', '');
         $chooser = $this->getLayout()
             ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser')
-            ->setName(Mage::helper('Magento_Core_Helper_Data')->uniqHash('products_grid_'))
+            ->setName($this->_objectManager->get('Magento_Core_Helper_Data')->uniqHash('products_grid_'))
             ->setUseMassaction(true)
             ->setProductTypeId($productTypeId)
             ->setSelectedProducts(explode(',', $selected));
         /* @var $serializer Magento_Adminhtml_Block_Widget_Grid_Serializer */
-        $serializer = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Grid_Serializer');
-        $serializer->initSerializerBlock($chooser, 'getSelectedProducts', 'selected_products', 'selected_products');
+        $serializer = $this->getLayout()->createBlock(
+            'Magento_Adminhtml_Block_Widget_Grid_Serializer',
+            '',
+            array(
+                'data' => array(
+                    'grid_block' => $chooser,
+                    'callback' => 'getSelectedProducts',
+                    'input_element_name' => 'selected_products',
+                    'reload_param_name' => 'selected_products'
+                )
+            )
+        );
         $this->setBody($chooser->toHtml() . $serializer->toHtml());
     }
 
@@ -253,7 +263,7 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
      */
     public function blocksAction()
     {
-        /* @var $widgetInstance age_Widget_Model_Widget_Instance */
+        /* @var $widgetInstance Magento_Widget_Model_Widget_Instance */
         $widgetInstance = $this->_initWidgetInstance();
         $layout = $this->getRequest()->getParam('layout');
         $selected = $this->getRequest()->getParam('selected', null);

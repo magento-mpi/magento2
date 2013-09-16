@@ -32,7 +32,13 @@ class Magento_Adminhtml_Block_Catalog_Category_Edit_Form extends Magento_Adminht
     protected function _prepareLayout()
     {
         if ($head = $this->getLayout()->getBlock('head')) {
-            $head->addJs('Magento_Adminhtml::catalog/category/edit.js');
+            $head->addChild(
+                'magento-adminhtml-catalog-category-edit-js',
+                'Magento_Page_Block_Html_Head_Script',
+                array(
+                    'file' => 'Magento_Adminhtml::catalog/category/edit.js'
+                )
+            );
         }
 
         $category = $this->getCategory();
@@ -200,7 +206,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Edit_Form extends Magento_Adminht
     {
         $products = $this->getCategory()->getProductsPosition();
         if (!empty($products)) {
-            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($products);
+            return $this->_coreData->jsonEncode($products);
         }
         return '{}';
     }

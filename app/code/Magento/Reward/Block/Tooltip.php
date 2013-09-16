@@ -18,11 +18,21 @@
 class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
 {
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Reward_Helper_Data
+     */
+    protected $_rewardHelper;
+
+    /**
      * Reward instance
      *
      * @var Magento_Reward_Model_Reward
      */
-    protected $_rewardInstance = null;
+    protected $_rewardInstance;
 
     /**
      * Reward action instance
@@ -31,19 +41,51 @@ class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
      */
     protected $_actionInstance = null;
 
-    public function initRewardType($action)
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Reward_Helper_Data $rewardHelper
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Reward_Model_Reward $rewardInstance
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Reward_Helper_Data $rewardHelper,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Reward_Model_Reward $rewardInstance,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Helper_Data $coreData,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+        $this->_customerSession = $customerSession;
+        $this->_rewardHelper = $rewardHelper;
+        $this->_rewardInstance = $rewardInstance;
+        $this->_storeManager = $storeManager;
+    }
+
+    protected function _prepareLayout()
     {
-        if ($action) {
-            if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront()) {
+        parent::_prepareLayout();
+        if ($action = $this->getRewardType()) {
+            if (!$this->_rewardHelper->isEnabledOnFront()) {
                 return $this;
             }
-            $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
-            $this->_rewardInstance = Mage::getSingleton('Magento_Reward_Model_Reward')
-                ->setCustomer($customer)
-                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+            $this->_rewardInstance
+                ->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())
+                ->setCustomer($this->_customerSession->getCustomer())
+                ->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())
                 ->loadByCustomer();
             $this->_actionInstance = $this->_rewardInstance->getActionInstance($action, true);
         }
+        return $this;
     }
 
     /**
@@ -57,7 +99,7 @@ class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
     public function getRewardAmount($amount = null, $asCurrency = false)
     {
         $amount = null === $amount ? $this->_getData('reward_amount') : $amount;
-        return Mage::helper('Magento_Reward_Helper_Data')->formatAmount($amount, $asCurrency);
+        return $this->_rewardHelper->formatAmount($amount, $asCurrency);
     }
 
     public function renderLearnMoreLink($format = '<a href="%1$s">%2$s</a>', $anchorText = null)
@@ -74,7 +116,7 @@ class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
         if ($this->_actionInstance) {
             $this->addData(array(
                 'reward_points' => $this->_rewardInstance->estimateRewardPoints($this->_actionInstance),
-                'landing_page_url' => Mage::helper('Magento_Reward_Helper_Data')->getLandingPageUrl(),
+                'landing_page_url' => $this->_rewardHelper->getLandingPageUrl(),
             ));
 
             if ($this->_rewardInstance->getId()) {

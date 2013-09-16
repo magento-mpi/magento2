@@ -25,7 +25,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
+        $this->_layout = Mage::getSingleton('Magento_Core_Model_Layout');
     }
 
     /**
@@ -57,6 +57,9 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($layout->hasElement('test.container'));
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testDestructor()
     {
         $this->_layout->addBlock('Magento_Core_Block_Text', 'test');
@@ -99,6 +102,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
      *
      * See sophisticated tests at Magento_Core_Model_LayoutDirectivesTest
      * @see Magento_Core_Model_LayoutDirectivesTest
+     * @magentoAppIsolation enabled
      */
     public function testGenerateGetAllBlocks()
     {
@@ -140,6 +144,9 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         ));
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testIsBlock()
     {
         $this->assertFalse($this->_layout->isBlock('container'));
@@ -228,6 +235,9 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('block1', $this->_layout->getParentName('block2'));
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testAddContainer()
     {
         $this->assertFalse($this->_layout->hasElement('container'));
@@ -239,6 +249,9 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('container1', $this->_layout->getChildName('container', 'c1'));
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testGetChildBlock()
     {
         $this->_layout->addContainer('parent', 'Parent');
@@ -295,6 +308,9 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertSame(array('two', 'four', 'three'), $layout->getChildNames('one'));
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testGetChildBlocks()
     {
         $this->_layout->addContainer('parent', 'Parent');
@@ -312,6 +328,9 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->_layout->addBlock('invalid_name', 'child');
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testIsContainer()
     {
         $block = 'block';
@@ -364,6 +383,9 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertSame($block, $this->_layout->getBlock('test'));
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testGetParentName()
     {
         $this->_layout->addContainer('one', 'One');
@@ -412,12 +434,5 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $block = $this->_layout->getBlockSingleton('Magento_Core_Block_Text');
         $this->assertInstanceOf('Magento_Core_Block_Text', $block);
         $this->assertSame($block, $this->_layout->getBlockSingleton('Magento_Core_Block_Text'));
-    }
-
-    public function testHelper()
-    {
-        $helper = $this->_layout->helper('Magento_Core_Helper_Data');
-        $this->assertInstanceOf('Magento_Core_Helper_Data', $helper);
-        $this->assertSame($this->_layout, $helper->getLayout());
     }
 }

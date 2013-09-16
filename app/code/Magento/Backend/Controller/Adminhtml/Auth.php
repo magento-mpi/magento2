@@ -42,7 +42,7 @@ class Magento_Backend_Controller_Adminhtml_Auth extends Magento_Backend_Controll
         $auth = Mage::getSingleton('Magento_Backend_Model_Auth');
         $auth->logout();
         $auth->getAuthStorage()->addSuccess(__('You have logged out.'));
-        $this->getResponse()->setRedirect(Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl());
+        $this->getResponse()->setRedirect($this->_objectManager->get('Magento_Backend_Helper_Data')->getHomePageUrl());
     }
 
     /**
@@ -60,9 +60,9 @@ class Magento_Backend_Controller_Adminhtml_Auth extends Magento_Backend_Controll
      */
     protected function _getDeniedJson()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+        return $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
             'ajaxExpired' => 1,
-            'ajaxRedirect' => Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl()
+            'ajaxRedirect' => $this->_objectManager->get('Magento_Backend_Helper_Data')->getHomePageUrl()
         ));
     }
 
@@ -81,7 +81,7 @@ class Magento_Backend_Controller_Adminhtml_Auth extends Magento_Backend_Controll
     protected function _getDeniedIframe()
     {
         return '<script type="text/javascript">parent.window.location = \''
-            . Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl() . '\';</script>';
+            . $this->_objectManager->get('Magento_Backend_Helper_Data')->getHomePageUrl() . '\';</script>';
     }
 
     /**

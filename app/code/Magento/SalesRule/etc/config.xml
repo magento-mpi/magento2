@@ -52,28 +52,6 @@
             </coupon>
         </salesrule>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_SalesRule>
-                    <files>
-                        <default>Magento_SalesRule.csv</default>
-                    </files>
-                </Magento_SalesRule>
-            </modules>
-        </translate>
-    </adminhtml>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_SalesRule>
-                    <files>
-                        <default>Magento_SalesRule.csv</default>
-                    </files>
-                </Magento_SalesRule>
-            </modules>
-        </translate>
-    </frontend>
     <crontab>
         <jobs>
             <aggregate_sales_report_coupons_data>
@@ -94,4 +72,4 @@
             </auto_generated_coupon_codes>
         </promo>
     </default>
-</config>
+</config>

@@ -34,12 +34,14 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
     protected $_fileSizeService;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_File_Size $fileSize
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_File_Size $fileSize,
@@ -47,7 +49,7 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
     ) {
         $this->_viewUrl = $viewUrl;
         $this->_fileSizeService = $fileSize;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     protected function _construct()
@@ -95,7 +97,13 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
     {
         $head = $this->getLayout()->getBlock('head');
         if ($head) {
-            $head->addCss('jquery/fileUploader/css/jquery.fileupload-ui.css');
+            $head->addChild(
+                'jquery-fileUploader-css-jquery-fileupload-ui-css',
+                'Magento_Page_Block_Html_Head_Css',
+                array(
+                    'file' => 'jquery/fileUploader/css/jquery.fileupload-ui.css'
+                )
+            );
         }
         return parent::_prepareLayout();
     }
@@ -117,7 +125,7 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
      */
     public function getConfigJson()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getConfig()->getData());
+        return $this->_coreData->jsonEncode($this->getConfig()->getData());
     }
 
     /**

@@ -46,12 +46,12 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
      */
     protected $_customers = array(
         array(
-            'id'         => 1,
+            'entity_id'  => 1,
             'email'      => 'test1@email.com',
             'website_id' => 1
         ),
         array(
-            'id'         => 2,
+            'entity_id'  => 2,
             'email'      => 'test2@email.com',
             'website_id' => 2
         ),
@@ -127,7 +127,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
     /**
      * Init entity adapter model
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->_bunchNumber = 0;
         if ($this->getName() == 'testImportDataCustomBehavior') {
@@ -136,10 +136,15 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
             $dependencies = $this->_getModelDependencies();
         }
 
-        $moduleHelper = $this->getMock('Magento_ScheduledImportExport_Helper_Data', array(), array(), '', false);
+        $moduleHelper = $this->getMock('Magento_ScheduledImportExport_Helper_Data',
+            array('isRewardPointsEnabled', 'isCustomerBalanceEnabled'), array(), '', false);
         $moduleHelper->expects($this->any())->method('__')->will($this->returnArgument(0));
         $moduleHelper->expects($this->any())->method('isRewardPointsEnabled')->will($this->returnValue(true));
         $moduleHelper->expects($this->any())->method('isCustomerBalanceEnabled')->will($this->returnValue(true));
+
+        $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+
+        $coreString = $this->getMock('Magento_Core_Helper_String', array(), array(), '', false);
 
         $customerFactory = $this->getMock(
             'Magento_Customer_Model_CustomerFactory', array('create'), array(), '', false
@@ -159,6 +164,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
             ->will($this->returnValue($this->getModelInstance('Magento_Reward_Model_Reward')));
 
         $this->_model = new Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance(
+            $coreData,
+            $coreString,
             $moduleHelper,
             $customerFactory,
             $balanceFactory,
@@ -170,7 +177,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
     /**
      * Unset entity adapter model
      */
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
         unset($this->_bunchNumber);
@@ -201,13 +208,23 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         /** @var $customerStorage Magento_ImportExport_Model_Resource_Customer_Storage */
         $customerStorage = $this->getMock('Magento_ImportExport_Model_Resource_Customer_Storage', array('load'),
             array(), '', false);
+        $customerResource = $this->getMock('Magento_Customer_Model_Resource_Customer', array('getIdFieldName'),
+            array(), '', false);
+        $customerResource->expects($this->any())
+            ->method('getIdFieldName')
+            ->will($this->returnValue('entity_id'));
         foreach ($this->_customers as $customerData) {
             /** @var $customer Magento_Customer_Model_Customer */
             $arguments = $objectManagerHelper->getConstructArguments('Magento_Customer_Model_Customer');
+            $arguments['resource'] = $customerResource;
             $arguments['data'] = $customerData;
             $customer = $this->getMock('Magento_Customer_Model_Customer', array('_construct'), $arguments);
             $customerStorage->addCustomer($customer);
         }
+
+        $objectFactory = $this->getMock('stdClass', array('getModelInstance'));
+        $objectFactory->expects($this->any())->method('getModelInstance')
+            ->will($this->returnCallback(array($this, 'getModelInstance')));
 
         /** @var $attributeCollection Magento_Data_Collection */
         $attributeCollection = $this->getMock('Magento_Data_Collection', array('getEntityTypeCode'));
@@ -240,6 +257,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
             'store_manager'                => 'not_used',
             'entity_type_id'               => 1,
             'customer_storage'             => $customerStorage,
+            'object_factory'               => $objectFactory,
             'attribute_collection'         => $attributeCollection,
             'admin_user'                   => $adminUser
         );

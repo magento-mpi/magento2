@@ -26,6 +26,7 @@
             <module name="Magento_Index"/>
             <module name="Magento_Customer"/>
             <module name="Magento_Eav"/>
+            <module name="Magento_Tax"/>
             <module name="Magento_CustomerSegment"/>
             <module name="Magento_Enterprise"/>
             <module name="Magento_Wishlist"/>

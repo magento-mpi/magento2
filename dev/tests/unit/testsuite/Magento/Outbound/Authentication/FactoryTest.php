@@ -26,7 +26,7 @@ class Magento_Outbound_Authentication_FactoryTest extends PHPUnit_Framework_Test
      */
     protected $_expectedObject;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
             ->setMethods(array('get'))

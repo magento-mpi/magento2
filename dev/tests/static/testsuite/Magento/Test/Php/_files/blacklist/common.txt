@@ -154,7 +154,6 @@ lib/Magento/Data/Form/Element/Submit.php
 lib/Magento/Data/Form/Element/Text.php
 lib/Magento/Data/Form/Element/Textarea.php
 lib/Magento/Data/Form/Element/Time.php
-lib/Magento/Data/Form/Factory.php
 lib/Magento/Data/Form/Filter/Date.php
 lib/Magento/Data/Form/Filter/Escapehtml.php
 lib/Magento/Data/Form/Filter/Interface.php
@@ -236,3 +235,4 @@ lib/Magento/Validator/Constraint/Property.php
 lib/Magento/Validator/Entity/Properties.php
 lib/Magento/Xml/Generator.php
 lib/Magento/Xml/Parser.php
+dev/tools/Magento/Tools/I18n/Zend

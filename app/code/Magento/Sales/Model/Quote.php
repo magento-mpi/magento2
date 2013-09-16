@@ -180,6 +180,63 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     protected $_preventSaving = false;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Catalog product
+     *
+     * @var Magento_Catalog_Helper_Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * Sales data
+     *
+     * @var Magento_Sales_Helper_Data
+     */
+    protected $_salesData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Sales_Helper_Data $salesData
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Sales_Helper_Data $salesData,
+        Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_salesData = $salesData;
+        $this->_catalogProduct = $catalogProduct;
+        $this->_coreData = $coreData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Init resource model
      */
     protected function _construct()
@@ -421,7 +478,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     {
         $this->_customer = $customer;
         $this->setCustomerId($customer->getId());
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldset('customer_account', 'to_quote', $customer, $this);
+        $this->_coreData->copyFieldsetToTarget('customer_account', 'to_quote', $customer, $this);
         return $this;
     }
 
@@ -888,7 +945,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
                 $parent->isDeleted(true);
             }
 
-            Mage::dispatchEvent('sales_quote_remove_item', array('quote_item' => $item));
+            $this->_eventManager->dispatch('sales_quote_remove_item', array('quote_item' => $item));
         }
 
         return $this;
@@ -936,7 +993,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
         $item->setQuote($this);
         if (!$item->getId()) {
             $this->getItemsCollection()->addItem($item);
-            Mage::dispatchEvent('sales_quote_add_item', array('quote_item' => $item));
+            $this->_eventManager->dispatch('sales_quote_add_item', array('quote_item' => $item));
         }
         return $this;
     }
@@ -1018,7 +1075,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
             Mage::throwException(implode("\n", $errors));
         }
 
-        Mage::dispatchEvent('sales_quote_product_add_after', array('items' => $items));
+        $this->_eventManager->dispatch('sales_quote_product_add_after', array('items' => $items));
 
         return $item;
     }
@@ -1122,7 +1179,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
             $params = new Magento_Object($params);
         }
         $params->setCurrentConfig($item->getBuyRequest());
-        $buyRequest = Mage::helper('Magento_Catalog_Helper_Product')->addParamsToBuyRequest($buyRequest, $params);
+        $buyRequest = $this->_catalogProduct->addParamsToBuyRequest($buyRequest, $params);
 
         $buyRequest->setResetCount(true);
         $resultItem = $this->addProduct($product, $buyRequest);
@@ -1330,7 +1387,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
         if ($this->getTotalsCollectedFlag()) {
             return $this;
         }
-        Mage::dispatchEvent($this->_eventPrefix . '_collect_totals_before', array($this->_eventObject => $this));
+        $this->_eventManager->dispatch($this->_eventPrefix . '_collect_totals_before', array($this->_eventObject => $this));
 
         $this->_collectItemsQtys();
 
@@ -1366,13 +1423,13 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
             $this->setBaseGrandTotal((float)$this->getBaseGrandTotal() + $address->getBaseGrandTotal());
         }
 
-        Mage::helper('Magento_Sales_Helper_Data')->checkQuoteAmount($this, $this->getGrandTotal());
-        Mage::helper('Magento_Sales_Helper_Data')->checkQuoteAmount($this, $this->getBaseGrandTotal());
+        $this->_salesData->checkQuoteAmount($this, $this->getGrandTotal());
+        $this->_salesData->checkQuoteAmount($this, $this->getBaseGrandTotal());
 
         $this->setData('trigger_recollect', 0);
         $this->_validateCouponCode();
 
-        Mage::dispatchEvent($this->_eventPrefix . '_collect_totals_after', array($this->_eventObject => $this));
+        $this->_eventManager->dispatch($this->_eventPrefix . '_collect_totals_after', array($this->_eventObject => $this));
 
         $this->setTotalsCollectedFlag(true);
         return $this;
@@ -1786,7 +1843,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      */
     public function merge(Magento_Sales_Model_Quote $quote)
     {
-        Mage::dispatchEvent($this->_eventPrefix . '_merge_before', array(
+        $this->_eventManager->dispatch($this->_eventPrefix . '_merge_before', array(
             $this->_eventObject => $this,
             'source' => $quote
         ));
@@ -1826,7 +1883,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
             $this->setCouponCode($quote->getCouponCode());
         }
 
-        Mage::dispatchEvent($this->_eventPrefix . '_merge_after', array(
+        $this->_eventManager->dispatch($this->_eventPrefix . '_merge_after', array(
             $this->_eventObject => $this,
             'source' => $quote
         ));

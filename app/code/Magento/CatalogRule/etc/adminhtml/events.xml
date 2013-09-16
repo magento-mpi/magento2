@@ -26,4 +26,4 @@
     <event name="catalog_entity_attribute_save_after">
         <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="catalogAttributeSaveAfter" />
     </event>
-</config>
+</config>

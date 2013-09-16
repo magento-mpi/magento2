@@ -40,7 +40,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
+        if (!$this->_objectManager->get('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }
@@ -158,7 +158,8 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
 
         $isUploaded = true;
         try {
-            $uploader = new Magento_Core_Model_File_Uploader('image');
+            $uploader = $this->_objectManager
+                ->create('Magento_Core_Model_File_Uploader', array('fileId' => 'image'));;
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->setAllowCreateFolders(true);
@@ -263,12 +264,11 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
      */
     protected function _filterPostData($data)
     {
-        if(isset($data['catalogevent'])) {
+        if (isset($data['catalogevent'])) {
             $_data = $data['catalogevent'];
             $_data = $this->_filterDateTime($_data, array('date_start', 'date_end'));
             $data['catalogevent'] = $_data;
         }
         return $data;
     }
-
 }

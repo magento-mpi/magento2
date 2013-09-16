@@ -23,7 +23,7 @@ class Magento_Sales_Model_Observer_Backend_BillingAgreementTest extends PHPUnit_
      */
     protected $_observerMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_authorizationMock = $this->getMock('Magento_AuthorizationInterface');
         $this->_observerMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);

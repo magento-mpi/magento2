@@ -42,7 +42,7 @@ class Magento_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Fr
      */
     protected $_storeId;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_helperMock = $this->getMock('Magento_GoogleOptimizer_Helper_Data', array(), array(), '', false);
         $this->_codeMock = $this->getMock('Magento_GoogleOptimizer_Model_Code', array(), array(), '', false);

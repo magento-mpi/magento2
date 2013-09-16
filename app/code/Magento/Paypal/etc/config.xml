@@ -55,30 +55,10 @@
             <paypal_express>/paypal/express</paypal_express>
             <paypal_standard>/paypal/standard</paypal_standard>
         </secure_url>
-        <translate>
-            <modules>
-                <Magento_Paypal>
-                    <files>
-                        <default>Magento_Paypal.csv</default>
-                    </files>
-                </Magento_Paypal>
-            </modules>
-        </translate>
         <secure_url>
             <paypal_express_callbackshippingoptions>paypal/express/callbackshippingoptions</paypal_express_callbackshippingoptions>
         </secure_url>
     </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Paypal>
-                    <files>
-                        <default>Magento_Paypal.csv</default>
-                    </files>
-                </Magento_Paypal>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <paypal>
             <style>

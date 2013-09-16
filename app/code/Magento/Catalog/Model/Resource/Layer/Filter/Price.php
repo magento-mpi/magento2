@@ -24,6 +24,29 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Price extends Magento_Core_Mod
     const MIN_POSSIBLE_PRICE = .01;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize connection and define main table name
      *
      */
@@ -141,19 +164,6 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Price extends Magento_Core_Mod
         // prepare response object for event
         $response = new Magento_Object();
         $response->setAdditionalCalculations(array());
-
-        // prepare event arguments
-        $eventArgs = array(
-            'select'          => $select,
-            'table'           => $this->_getIndexTableAlias(),
-            'store_id'        => $filter->getStoreId(),
-            'response_object' => $response
-        );
-
-        /**
-         * @since 1.4
-         */
-        Mage::dispatchEvent('catalog_prepare_price_select', $eventArgs);
 
         return $response;
     }

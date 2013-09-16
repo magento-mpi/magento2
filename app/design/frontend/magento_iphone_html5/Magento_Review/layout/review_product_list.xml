@@ -15,21 +15,19 @@
             </action>
         </reference>
         <reference name="head">
-            <action method="removeItem">
-                <argument name="type" xsi:type="string">js</argument>
-                <argument name="name" xsi:type="string">jquery/jqzoom/js/jquery.jqzoom-core-pack.js</argument>
-            </action>
-            <action method="removeItem">
-                <argument name="type" xsi:type="string">css</argument>
-                <argument name="name" xsi:type="string">jquery/jqzoom/css/jquery.jqzoom.css</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">varien/product.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">varien/configurable.js</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Script" name="varien-product-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">varien/product.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="varien-configurable-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">varien/configurable.js</argument>
+                </arguments>
+            </block>
         </reference>
+        <remove name="jquery-jqzoom-js-jquery-jqzoom-core-pack-js"/>
+        <remove name="jquery-jqzoom-css-jquery-jqzoom-css"/>
         <remove name="product.info.media"/>
         <remove name="product.info.addto"/>
         <remove name="product.info.addtocart"/>

@@ -27,9 +27,6 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit
      */
     protected function _prepareLayoutFeatures()
     {
-        /** @var $helper Magento_Adminhtml_Helper_Data */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
-
         if ($this->_getUrlRewrite()->getId()) {
             $this->_headerText = __('Edit URL Rewrite for a Category');
         } else {
@@ -39,7 +36,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit
         if ($this->_getCategory()->getId()) {
             $this->_addCategoryLinkBlock();
             $this->_addEditFormBlock();
-            $this->_updateBackButtonLink($helper->getUrl('*/*/edit') . 'category');
+            $this->_updateBackButtonLink($this->_adminhtmlData->getUrl('*/*/edit') . 'category');
         } else {
             $this->_addUrlRewriteSelectorBlock();
             $this->_addCategoryTreeBlock();
@@ -64,10 +61,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit
      */
     private function _addCategoryLinkBlock()
     {
-        /** @var $helper Magento_Adminhtml_Helper_Data */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
         $this->addChild('category_link', 'Magento_Adminhtml_Block_Urlrewrite_Link', array(
-            'item_url'  => $helper->getUrl('*/*/*') . 'category',
+            'item_url'  => $this->_adminhtmlData->getUrl('*/*/*') . 'category',
             'item_name' => $this->_getCategory()->getName(),
             'label'     => __('Category:')
         ));

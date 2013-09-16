@@ -10,9 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="cms_index_index">
         <reference name="head">
-            <action method="addMetaTag" ifconfig="google/googleshopping/verify_meta_tag">
-                <argument name="metadata" xsi:type="helper" helper="Magento_GoogleShopping_Helper_SiteVerification::getMetaTag"/>
-            </action>
+            <block class="Magento_GoogleShopping_Block_SiteVerification"/>
         </reference>
     </handle>
 </layout>
