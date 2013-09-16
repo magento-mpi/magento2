@@ -17,8 +17,12 @@ class Magento_Cms_Helper_PageTest extends PHPUnit_Framework_TestCase
      */
     public function testRenderPage()
     {
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $request Magento_TestFramework_Request */
+        $request = $objectManager->get('Magento_TestFramework_Request');
         $arguments = array(
-            'request' => new Magento_TestFramework_Request(),
+            'request' => $request,
             'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
                 ->get('Magento_TestFramework_Response')
         );
