@@ -47,6 +47,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
     protected $_orderFactory;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Sales_Model_OrderFactory $orderFactory
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
@@ -54,6 +55,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Sales_Model_OrderFactory $orderFactory,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
@@ -61,7 +63,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
         array $data = array()
     ) {
         $this->_orderFactory = $orderFactory;
-        parent::__construct($eventManager, $coreHttp, $data);
+        parent::__construct($logger, $eventManager, $coreHttp, $data);
         $this->init('checkout', $sessionName);
     }
 

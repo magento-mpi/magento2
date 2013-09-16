@@ -28,17 +28,20 @@ class Magento_GoogleShopping_Model_MassOperations
     protected $_gleShoppingCategory = null;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_GoogleShopping_Helper_Data $gleShoppingData
      * @param Magento_GoogleShopping_Helper_Category $gleShoppingCategory
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_GoogleShopping_Helper_Data $gleShoppingData,
         Magento_GoogleShopping_Helper_Category $gleShoppingCategory,
         array $data = array()
     ) {
         $this->_gleShoppingData = $gleShoppingData;
         $this->_gleShoppingCategory = $gleShoppingCategory;
+        $this->_logger = $logger;
     }
 
     /**
@@ -66,16 +69,6 @@ class Magento_GoogleShopping_Model_MassOperations
      * @var Magento_Core_Model_Logger
      */
     protected $_logger;
-
-    /**
-     * Constructor
-     *
-     * @param Magento_Core_Model_Logger $logger
-     */
-    public function __construct(Magento_Core_Model_Logger $logger)
-    {
-        $this->_logger = $logger;
-    }
 
     /**
      * Set process locking flag.
