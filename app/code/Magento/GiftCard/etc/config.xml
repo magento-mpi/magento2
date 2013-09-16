@@ -21,17 +21,6 @@
         </resources>
         <catalog>
             <product>
-                <type>
-                    <giftcard translate="label">
-                        <label>Gift Card</label>
-                        <model>Magento_GiftCard_Model_Catalog_Product_Type_Giftcard</model>
-                        <price_model>Magento_GiftCard_Model_Catalog_Product_Price_Giftcard</price_model>
-                        <index_priority>45</index_priority>
-                        <composite>0</composite>
-                        <is_qty>1</is_qty>
-                        <price_indexer>Magento_GiftCard_Model_Resource_Indexer_Price</price_indexer>
-                    </giftcard>
-                </type>
                 <attributes>
                     <unassignable>
                         <allow_open_amount />

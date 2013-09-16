@@ -19,24 +19,6 @@
                 </setup>
             </cataloginventory_setup>
         </resources>
-        <catalog>
-            <product>
-                <type>
-                    <simple>
-                        <is_qty>1</is_qty>
-                    </simple>
-                    <virtual>
-                        <is_qty>1</is_qty>
-                    </virtual>
-                    <configurable>
-                        <stock_indexer>Magento_CatalogInventory_Model_Resource_Indexer_Stock_Configurable</stock_indexer>
-                    </configurable>
-                    <grouped>
-                        <stock_indexer>Magento_CatalogInventory_Model_Resource_Indexer_Stock_Grouped</stock_indexer>
-                    </grouped>
-                </type>
-            </product>
-        </catalog>
         <index>
             <indexer>
                 <cataloginventory_stock>

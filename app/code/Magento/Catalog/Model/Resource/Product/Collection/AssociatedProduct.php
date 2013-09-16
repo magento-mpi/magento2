@@ -90,10 +90,7 @@ class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct
     {
         parent::_initSelect();
 
-        $allowedProductTypes = array();
-        foreach ($this->_configurationHelper->getConfigurableAllowedTypes() as $type) {
-            $allowedProductTypes[] = $type->getName();
-        }
+        $allowedProductTypes = $this->_configurationHelper->getConfigurableAllowedTypes();
 
         $this->addAttributeToSelect('name')
             ->addAttributeToSelect('price')

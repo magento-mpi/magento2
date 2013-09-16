@@ -34,6 +34,23 @@ class Magento_CatalogInventory_Helper_Data extends Magento_Core_Helper_Abstract
     protected static $_isQtyTypeIds;
 
     /**
+     * @var Magento_Catalog_Model_ProductTypes_ConfigInterface
+     */
+    protected $_config;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Catalog_Model_ProductTypes_ConfigInterface $config
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Catalog_Model_ProductTypes_ConfigInterface $config
+    ) {
+        $this->_config = $config;
+        parent::__construct($context);
+    }
+
+    /**
      * Check if quantity defined for specified product type
      *
      * @param string $productTypeId
@@ -58,9 +75,9 @@ class Magento_CatalogInventory_Helper_Data extends Magento_Core_Helper_Abstract
     {
         if (null === self::$_isQtyTypeIds) {
             self::$_isQtyTypeIds = array();
-            $productTypesXml = Mage::getConfig()->getNode('global/catalog/product/type');
-            foreach ($productTypesXml->children() as $typeId => $configXml) {
-                self::$_isQtyTypeIds[$typeId] = (bool)$configXml->is_qty;
+
+            foreach ($this->_config->getAll() as $typeId => $typeConfig) {
+                self::$_isQtyTypeIds[$typeId] = isset($typeConfig['is_qty']) ? $typeConfig['is_qty'] : false;
             }
         }
         if (null === $filter) {

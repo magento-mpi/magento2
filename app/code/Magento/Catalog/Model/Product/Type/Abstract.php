@@ -209,20 +209,20 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     }
 
     /**
-     * Compare attribues sorting
+     * Compare attributes sorting
      *
-     * @param Magento_Catalog_Model_Entity_Attribute $attribute1
-     * @param Magento_Catalog_Model_Entity_Attribute $attribute2
+     * @param Magento_Catalog_Model_Entity_Attribute $attributeOne
+     * @param Magento_Catalog_Model_Entity_Attribute $attributeTwo
      * @return int
      */
-    public function attributesCompare($attribute1, $attribute2)
+    public function attributesCompare($attributeOne, $attributeTwo)
     {
-        $sort1 =  ($attribute1->getGroupSortPath() * 1000) + ($attribute1->getSortPath() * 0.0001);
-        $sort2 =  ($attribute2->getGroupSortPath() * 1000) + ($attribute2->getSortPath() * 0.0001);
+        $sortOne =  ($attributeOne->getGroupSortPath() * 1000) + ($attributeOne->getSortPath() * 0.0001);
+        $sortTwo =  ($attributeTwo->getGroupSortPath() * 1000) + ($attributeTwo->getSortPath() * 0.0001);
 
-        if ($sort1 > $sort2) {
+        if ($sortOne > $sortTwo) {
             return 1;
-        } elseif ($sort1 < $sort2) {
+        } elseif ($sortOne < $sortTwo) {
             return -1;
         }
 
@@ -814,7 +814,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     /**
      * Retrieve store filter for associated products
      *
-     * @param object $product
+     * @param Magento_Catalog_Model_Product $product
      * @return int|Magento_Core_Model_Store
      */
     public function getStoreFilter($product)

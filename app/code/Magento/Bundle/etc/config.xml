@@ -21,21 +21,6 @@
         </resources>
         <catalog>
             <product>
-                <type>
-                    <bundle translate="label">
-                        <label>Bundle Product</label>
-                        <model>Magento_Bundle_Model_Product_Type</model>
-                        <composite>1</composite>
-                        <allowed_selection_types>
-                            <simple />
-                            <virtual />
-                        </allowed_selection_types>
-                        <price_model>Magento_Bundle_Model_Product_Price</price_model>
-                        <index_priority>40</index_priority>
-                        <price_indexer>Magento_Bundle_Model_Resource_Indexer_Price</price_indexer>
-                        <stock_indexer>Magento_Bundle_Model_Resource_Indexer_Stock</stock_indexer>
-                    </bundle>
-                </type>
                 <options>
                     <bundle>
                         <types>

@@ -26,6 +26,11 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Catalog_Model_ProductTypes_ConfigInterface
+     */
+    protected $_config;
+
+    /**
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
@@ -37,9 +42,11 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Catalog_Model_ProductTypes_ConfigInterface $config
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_config = $config;
         parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy);
     }
 
@@ -60,13 +67,8 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
     {
         parent::_initSelect();
 
-        $allowProductTypes = array();
-        $allowProductTypeNodes = Mage::getConfig()
-            ->getNode(Magento_Catalog_Model_Config::XML_PATH_GROUPED_ALLOWED_PRODUCT_TYPES)->children();
-        foreach ($allowProductTypeNodes as $type) {
-            $allowProductTypes[] = $type->getName();
-        }
-
+        $configData = $this->_config->getType('grouped');
+        $allowProductTypes = isset($configData['allow_product_types']) ? $configData['allow_product_types'] : array();
         $this->setProduct($this->_getProduct())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
