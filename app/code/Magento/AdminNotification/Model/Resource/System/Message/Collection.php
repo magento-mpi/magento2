@@ -38,7 +38,7 @@ class Magento_AdminNotification_Model_Resource_System_Message_Collection
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         $this->_messageList = $messageList;
-        parent::__construct($eventManager, $entityFactory, $fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $entityFactory, $resource);
     }
 
     /**
