@@ -46,8 +46,10 @@ class Magento_Logging_Model_Config
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig;
+
     /**
      * @param Magento_Logging_Model_Config_Data $dataStorage
+     * @param Magento_Core_Model_StoreManager $storeManager
      */
     public function __construct(Magento_Logging_Model_Config_Data $dataStorage,
         Magento_Core_Model_StoreManager $storeManager
@@ -70,8 +72,7 @@ class Magento_Logging_Model_Config
                 foreach ($this->getLabels() as $key => $label) {
                     $this->_systemConfigValues[$key] = 1;
                 }
-            }
-            else {
+            } else {
                 $this->_systemConfigValues = unserialize($this->_systemConfigValues);
             }
         }

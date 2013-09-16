@@ -251,11 +251,11 @@ abstract class Magento_ImportExport_Model_Import_EntityAbstract
         $this->_jsonHelper          =  $coreData;
         $this->_stringHelper        =  $coreString;
         $this->_pageSize            = isset($data['page_size']) ? $data['page_size']
-            : (static::XML_PATH_PAGE_SIZE ? (int) $this->_coreStoreConfig->getConfig(static::XML_PATH_PAGE_SIZE) : 0);
+            : (static::XML_PATH_PAGE_SIZE ? (int)$this->_coreStoreConfig->getConfig(static::XML_PATH_PAGE_SIZE) : 0);
         $this->_maxDataSize         = isset($data['max_data_size']) ? $data['max_data_size']
             : Mage::getResourceHelper('Magento_ImportExport')->getMaxDataSize();
         $this->_bunchSize           = isset($data['bunch_size']) ? $data['bunch_size']
-            : (static::XML_PATH_BUNCH_SIZE ? (int) $this->_coreStoreConfig->getConfig(static::XML_PATH_BUNCH_SIZE) : 0);
+            : (static::XML_PATH_BUNCH_SIZE ? (int)$this->_coreStoreConfig->getConfig(static::XML_PATH_BUNCH_SIZE) : 0);
     }
 
     /**
