@@ -8,20 +8,18 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="MAP_price_msrp_item">
-        <reference name="catalog_product_price_template">
-            <action method="addPriceBlockType">
-                <argument name="type" xsi:type="string">msrp</argument>
-                <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
-                <argument name="template" xsi:type="string">product/price_msrp_item.phtml</argument>
-            </action>
-        </reference>
-        <reference name="product.clone_prices">
-            <action method="addPriceBlockType">
-                <argument name="type" xsi:type="string">msrp</argument>
-                <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
-                <argument name="template" xsi:type="string">product/price_msrp_item.phtml</argument>
-            </action>
-        </reference>
-    </handle>
+    <reference name="catalog_product_price_template">
+        <action method="addPriceBlockType">
+            <argument name="type" xsi:type="string">msrp</argument>
+            <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
+            <argument name="template" xsi:type="string">product/price_msrp_item.phtml</argument>
+        </action>
+    </reference>
+    <reference name="product.clone_prices">
+        <action method="addPriceBlockType">
+            <argument name="type" xsi:type="string">msrp</argument>
+            <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
+            <argument name="template" xsi:type="string">product/price_msrp_item.phtml</argument>
+        </action>
+    </reference>
 </layout>

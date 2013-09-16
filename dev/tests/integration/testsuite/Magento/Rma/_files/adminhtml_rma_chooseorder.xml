@@ -11,13 +11,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
-    <handle id="adminhtml_rma_chooseorder">
-        <block class="Magento_Rma_Block_Adminhtml_Rma_Create" name="content">
-            <block class="Magento_Rma_Block_Adminhtml_Rma_Create_Form" template="create/form.phtml" name="form">
-                <block class="Magento_Rma_Block_Adminhtml_Rma_Create_Order" template="create/order.phtml" name="rma_create_order">
-                    <block class="Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid" name="grid" />
-                </block>
+    <block class="Magento_Rma_Block_Adminhtml_Rma_Create" name="content">
+        <block class="Magento_Rma_Block_Adminhtml_Rma_Create_Form" template="create/form.phtml" name="form">
+            <block class="Magento_Rma_Block_Adminhtml_Rma_Create_Order" template="create/order.phtml" name="rma_create_order">
+                <block class="Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid" name="grid" />
             </block>
         </block>
-    </handle>
+    </block>
 </layout>

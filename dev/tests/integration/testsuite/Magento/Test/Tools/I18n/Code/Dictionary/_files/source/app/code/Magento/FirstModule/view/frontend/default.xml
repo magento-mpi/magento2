@@ -9,11 +9,9 @@
 -->
 
 <layout>
-    <handle id="default">
-        <reference translate="description, label">
-            <description>Module layout description</description>
-            <label>Module layout label</label>
-            <title translate="true">Module layout title</title>
-        </reference>
-    </handle>
+    <reference translate="description, label">
+        <description>Module layout description</description>
+        <label>Module layout label</label>
+        <title translate="true">Module layout title</title>
+    </reference>
 </layout>

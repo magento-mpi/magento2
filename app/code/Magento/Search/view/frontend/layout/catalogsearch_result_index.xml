@@ -8,16 +8,14 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="catalogsearch_result_index">
-        <reference name="left">
-            <remove name="catalogsearch.leftnav"/>
-            <block class="Magento_Search_Block_Catalogsearch_Layer" name="magentosearch.leftnav" before="-" template="Magento_Catalog::layer/view.phtml"/>
-        </reference>
-        <reference name="search_result_list">
-            <container name="additional" label="Additional Info" after="product_list_toolbar">
-                <block class="Magento_Search_Block_Suggestions" name="search_suggestions" template="suggestions.phtml"/>
-                <block class="Magento_Search_Block_Recommendations" name="search_recommendations" template="recommendations.phtml"/>
-            </container>
-        </reference>
-    </handle>
+    <reference name="left">
+        <remove name="catalogsearch.leftnav"/>
+        <block class="Magento_Search_Block_Catalogsearch_Layer" name="magentosearch.leftnav" before="-" template="Magento_Catalog::layer/view.phtml"/>
+    </reference>
+    <reference name="search_result_list">
+        <container name="additional" label="Additional Info" after="product_list_toolbar">
+            <block class="Magento_Search_Block_Suggestions" name="search_suggestions" template="suggestions.phtml"/>
+            <block class="Magento_Search_Block_Recommendations" name="search_recommendations" template="recommendations.phtml"/>
+        </container>
+    </reference>
 </layout>
