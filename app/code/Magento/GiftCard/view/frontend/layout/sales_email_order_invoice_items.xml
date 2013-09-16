@@ -8,11 +8,13 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="items">
-        <action method="addItemRender">
-            <argument name="type" xsi:type="string">giftcard</argument>
-            <argument name="block" xsi:type="string">Magento_GiftCard_Block_Sales_Order_Item_Renderer_Noquote</argument>
-            <argument name="template" xsi:type="string">Magento_Sales::email/items/invoice/default.phtml</argument>
-        </action>
-    </reference>
+    <handle id="sales_email_order_invoice_items">
+        <reference name="items">
+            <action method="addItemRender">
+                <argument name="type" xsi:type="string">giftcard</argument>
+                <argument name="block" xsi:type="string">Magento_GiftCard_Block_Sales_Order_Item_Renderer_Noquote</argument>
+                <argument name="template" xsi:type="string">Magento_Sales::email/items/invoice/default.phtml</argument>
+            </action>
+        </reference>
+    </handle>
 </layout>

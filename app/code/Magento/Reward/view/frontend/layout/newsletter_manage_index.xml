@@ -8,17 +8,19 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="customer.newsletter.form.before">
-        <block class="Magento_Reward_Block_Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml">
-            <action method="initRewardType">
-                <argument name="type" xsi:type="string">Magento_Reward_Model_Action_Newsletter</argument>
-            </action>
-            <action method="setWrapperClass">
-                <argument name="class" xsi:type="string">reward-newsletter</argument>
-            </action>
-            <action method="setRewardMessage">
-                <argument translate="true" name="message" xsi:type="string">Subscribe to our newsletter now and earn %1.</argument>
-            </action>
-        </block>
-    </reference>
+    <handle id="newsletter_manage_index">
+        <reference name="customer.newsletter.form.before">
+            <block class="Magento_Reward_Block_Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml">
+                <action method="initRewardType">
+                    <argument name="type" xsi:type="string">Magento_Reward_Model_Action_Newsletter</argument>
+                </action>
+                <action method="setWrapperClass">
+                    <argument name="class" xsi:type="string">reward-newsletter</argument>
+                </action>
+                <action method="setRewardMessage">
+                    <argument translate="true" name="message" xsi:type="string">Subscribe to our newsletter now and earn %1.</argument>
+                </action>
+            </block>
+        </reference>
+    </handle>
 </layout>

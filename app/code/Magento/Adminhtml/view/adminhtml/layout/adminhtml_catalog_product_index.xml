@@ -8,22 +8,24 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="menu">
-        <action method="setActive">
-            <argument name="itemId" xsi:type="string">Magento_Catalog::catalog_products</argument>
-        </action>
-    </reference>
-    <reference name="page-title">
-        <block class="Magento_Backend_Block_Store_Switcher" name="store_switcher">
-            <action method="setUseConfirm">
-                <argument name="params" xsi:type="string">1</argument>
+    <handle id="adminhtml_catalog_product_index">
+        <reference name="menu">
+            <action method="setActive">
+                <argument name="itemId" xsi:type="string">Magento_Catalog::catalog_products</argument>
             </action>
-        </block>
-        <action method="setTitleClass">
-            <argument name="class" xsi:type="string">complex</argument>
-        </action>
-    </reference>
-    <reference name="content">
-        <block class="Magento_Adminhtml_Block_Catalog_Product" name="products_list"/>
-    </reference>
+        </reference>
+        <reference name="page-title">
+            <block class="Magento_Backend_Block_Store_Switcher" name="store_switcher">
+                <action method="setUseConfirm">
+                    <argument name="params" xsi:type="string">1</argument>
+                </action>
+            </block>
+            <action method="setTitleClass">
+                <argument name="class" xsi:type="string">complex</argument>
+            </action>
+        </reference>
+        <reference name="content">
+            <block class="Magento_Adminhtml_Block_Catalog_Product" name="products_list"/>
+        </reference>
+    </handle>
 </layout>

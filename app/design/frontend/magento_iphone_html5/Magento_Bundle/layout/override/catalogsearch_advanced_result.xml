@@ -8,11 +8,13 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="search_result_list">
-        <action method="addPriceBlockType">
-            <argument name="type" xsi:type="string">bundle</argument>
-            <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_Price</argument>
-            <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
-        </action>
-    </reference>
+    <handle id="catalogsearch_advanced_result">
+        <reference name="search_result_list">
+            <action method="addPriceBlockType">
+                <argument name="type" xsi:type="string">bundle</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_Price</argument>
+                <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
+            </action>
+        </reference>
+    </handle>
 </layout>

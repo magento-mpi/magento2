@@ -8,6 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <remove name="root"/>
-    <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Form_Coupon" template="form/coupon.phtml" name="form_coupon" output="1"/>
+    <handle id="adminhtml_checkout_applycoupon">
+        <remove name="root"/>
+        <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Form_Coupon" template="form/coupon.phtml" name="form_coupon" output="1"/>
+    </handle>
 </layout>

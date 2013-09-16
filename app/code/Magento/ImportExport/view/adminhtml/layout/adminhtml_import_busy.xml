@@ -8,7 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
-        <block class="Magento_Core_Block_Template" template="Magento_ImportExport::busy.phtml" name="busy" as="busy"/>
-    </reference>
+    <handle id="adminhtml_import_busy">
+        <reference name="content">
+            <block class="Magento_Core_Block_Template" template="Magento_ImportExport::busy.phtml" name="busy" as="busy"/>
+        </reference>
+    </handle>
 </layout>

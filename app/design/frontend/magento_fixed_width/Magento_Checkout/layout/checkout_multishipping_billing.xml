@@ -8,8 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="checkout_billing">
-        <container name="payment_methods_before" label="Payment Methods Before"/>
-        <container name="payment_methods_after" label="Payment Methods After"/>
-    </reference>
+    <handle id="checkout_multishipping_billing">
+        <reference name="checkout_billing">
+            <container name="payment_methods_before" label="Payment Methods Before"/>
+            <container name="payment_methods_after" label="Payment Methods After"/>
+        </reference>
+    </handle>
 </layout>

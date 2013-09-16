@@ -8,12 +8,14 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento_GiftRegistry_Block_Link" name="giftregistry_link_dashboard">
-        <action method="addDashboardLink">
-            <argument name="block" xsi:type="string">customer_account_navigation</argument>
-            <argument name="name" xsi:type="string">giftregistry</argument>
-            <argument name="path" xsi:type="string">magento_giftregistry/</argument>
-            <argument translate="true" name="label" xsi:type="string">Gift Registry</argument>
-        </action>
-    </block>
+    <handle id="customer_account">
+        <block class="Magento_GiftRegistry_Block_Link" name="giftregistry_link_dashboard">
+            <action method="addDashboardLink">
+                <argument name="block" xsi:type="string">customer_account_navigation</argument>
+                <argument name="name" xsi:type="string">giftregistry</argument>
+                <argument name="path" xsi:type="string">magento_giftregistry/</argument>
+                <argument translate="true" name="label" xsi:type="string">Gift Registry</argument>
+            </action>
+        </block>
+    </handle>
 </layout>

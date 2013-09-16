@@ -8,6 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="adminhtml_tax_rate_block"/>
-    <container name="adminhtml.tax.rate.container" label="Tax Rate Container"/>
+    <handle id="adminhtml_tax_rate_exportcsv">
+        <update handle="adminhtml_tax_rate_block"/>
+        <container name="adminhtml.tax.rate.container" label="Tax Rate Container"/>
+    </handle>
 </layout>

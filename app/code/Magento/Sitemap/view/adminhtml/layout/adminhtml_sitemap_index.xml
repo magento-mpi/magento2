@@ -8,8 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="adminhtml_sitemap_index_grid_block"/>
-    <reference name="content">
-        <block class="Magento_Adminhtml_Block_Sitemap" name="adminhtml.sitemap.container"/>
-    </reference>
+    <handle id="adminhtml_sitemap_index">
+        <update handle="adminhtml_sitemap_index_grid_block"/>
+        <reference name="content">
+            <block class="Magento_Adminhtml_Block_Sitemap" name="adminhtml.sitemap.container"/>
+        </reference>
+    </handle>
 </layout>

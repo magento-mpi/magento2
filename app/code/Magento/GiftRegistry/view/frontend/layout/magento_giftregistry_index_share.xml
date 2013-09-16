@@ -7,14 +7,16 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer GiftRegistry Share" type="page" parent="magento_giftregistry_index_index">
-    <update handle="customer_account"/>
-    <reference name="customer_account_navigation">
-        <action method="setActive">
-            <argument name="path" xsi:type="string">magento_giftregistry/index/index</argument>
-        </action>
-    </reference>
-    <reference name="my.account.wrapper">
-        <block class="Magento_GiftRegistry_Block_Customer_Share" name="giftregistry.customer.share" template="customer/share.phtml"/>
-    </reference>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Customer GiftRegistry Share" id="magento_giftregistry_index_share" type="page" parent="magento_giftregistry_index_index">
+        <update handle="customer_account"/>
+        <reference name="customer_account_navigation">
+            <action method="setActive">
+                <argument name="path" xsi:type="string">magento_giftregistry/index/index</argument>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block class="Magento_GiftRegistry_Block_Customer_Share" name="giftregistry.customer.share" template="customer/share.phtml"/>
+        </reference>
+    </handle>
 </layout>

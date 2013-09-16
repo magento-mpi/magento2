@@ -7,58 +7,60 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Wishlist View (From Search)" type="page" parent="default">
-    <reference name="head">
-        <action method="setTitle" ifconfig="wishlist/general/multiple_enabled">
-            <argument translate="true" name="title" xsi:type="string">Wish List Info</argument>
-        </action>
-    </reference>
-    <reference name="root">
-        <action method="setTemplate">
-            <argument name="template" xsi:type="string">1column.phtml</argument>
-        </action>
-    </reference>
-    <reference name="content">
-        <block class="Magento_MultipleWishlist_Block_Info" name="customer.wishlist.info" template="info.phtml">
-            <block class="Magento_Wishlist_Block_Customer_Wishlist_Items" name="wishlist.view.items" as="items" template="Magento_Wishlist::item/list.phtml">
-                <block class="Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Selector_Cart" name="customer.wishlist.item.selector" after="-" template="item/column/selector.phtml">
-                    <action method="setIsEnabled">
-                        <argument name="isEnabled" xsi:type="string">true</argument>
-                    </action>
-                </block>
-                <block class="Magento_Wishlist_Block_Customer_Wishlist_Item_Column_Image" name="customer.wishlist.item.image" template="Magento_Wishlist::item/column/image.phtml"/>
-                <block class="Magento_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.details" template="Magento_MultipleWishlist::item/column/details.phtml">
-                    <action method="setTitle">
-                        <argument translate="true" name="title" xsi:type="string">Product Info</argument>
-                    </action>
-                    <block class="Magento_Wishlist_Block_Customer_Wishlist_Item_Options" name="customer.wishlist.item.options"/>
-                </block>
-                <block class="Magento_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.comment" template="Magento_MultipleWishlist::item/column/comment.phtml">
-                    <action method="setTitle">
-                        <argument translate="true" name="title" xsi:type="string">Comment</argument>
-                    </action>
-                </block>
-                <block class="Magento_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.qty" template="Magento_MultipleWishlist::item/column/qty.phtml">
-                    <action method="setTitle">
-                        <argument translate="true" name="title" xsi:type="string">Wanted Qty</argument>
-                    </action>
-                </block>
-                <block class="Magento_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.price" template="Magento_MultipleWishlist::item/column/price.phtml">
-                    <action method="setTitle">
-                        <argument translate="true" name="title" xsi:type="string">Unit Price</argument>
-                    </action>
-                </block>
-                <block class="Magento_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.to_cart_qty" template="Magento_MultipleWishlist::item/column/qty_input.phtml">
-                    <action method="setTitle">
-                        <argument translate="true" name="title" xsi:type="string">Qty</argument>
-                    </action>
-                </block>
-                <block class="Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Copy" name="customer.wishlist.item.to_wishlist" template="item/column/copy.phtml">
-                    <action method="setTitle">
-                        <argument translate="true" name="title" xsi:type="string">Add to Wish List</argument>
-                    </action>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Wishlist View (From Search)" id="wishlist_search_view" type="page" parent="default">
+        <reference name="head">
+            <action method="setTitle" ifconfig="wishlist/general/multiple_enabled">
+                <argument translate="true" name="title" xsi:type="string">Wish List Info</argument>
+            </action>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">1column.phtml</argument>
+            </action>
+        </reference>
+        <reference name="content">
+            <block class="Magento_MultipleWishlist_Block_Info" name="customer.wishlist.info" template="info.phtml">
+                <block class="Magento_Wishlist_Block_Customer_Wishlist_Items" name="wishlist.view.items" as="items" template="Magento_Wishlist::item/list.phtml">
+                    <block class="Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Selector_Cart" name="customer.wishlist.item.selector" after="-" template="item/column/selector.phtml">
+                        <action method="setIsEnabled">
+                            <argument name="isEnabled" xsi:type="string">true</argument>
+                        </action>
+                    </block>
+                    <block class="Magento_Wishlist_Block_Customer_Wishlist_Item_Column_Image" name="customer.wishlist.item.image" template="Magento_Wishlist::item/column/image.phtml"/>
+                    <block class="Magento_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.details" template="Magento_MultipleWishlist::item/column/details.phtml">
+                        <action method="setTitle">
+                            <argument translate="true" name="title" xsi:type="string">Product Info</argument>
+                        </action>
+                        <block class="Magento_Wishlist_Block_Customer_Wishlist_Item_Options" name="customer.wishlist.item.options"/>
+                    </block>
+                    <block class="Magento_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.comment" template="Magento_MultipleWishlist::item/column/comment.phtml">
+                        <action method="setTitle">
+                            <argument translate="true" name="title" xsi:type="string">Comment</argument>
+                        </action>
+                    </block>
+                    <block class="Magento_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.qty" template="Magento_MultipleWishlist::item/column/qty.phtml">
+                        <action method="setTitle">
+                            <argument translate="true" name="title" xsi:type="string">Wanted Qty</argument>
+                        </action>
+                    </block>
+                    <block class="Magento_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.price" template="Magento_MultipleWishlist::item/column/price.phtml">
+                        <action method="setTitle">
+                            <argument translate="true" name="title" xsi:type="string">Unit Price</argument>
+                        </action>
+                    </block>
+                    <block class="Magento_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.to_cart_qty" template="Magento_MultipleWishlist::item/column/qty_input.phtml">
+                        <action method="setTitle">
+                            <argument translate="true" name="title" xsi:type="string">Qty</argument>
+                        </action>
+                    </block>
+                    <block class="Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Copy" name="customer.wishlist.item.to_wishlist" template="item/column/copy.phtml">
+                        <action method="setTitle">
+                            <argument translate="true" name="title" xsi:type="string">Add to Wish List</argument>
+                        </action>
+                    </block>
                 </block>
             </block>
-        </block>
-    </reference>
+        </reference>
+    </handle>
 </layout>

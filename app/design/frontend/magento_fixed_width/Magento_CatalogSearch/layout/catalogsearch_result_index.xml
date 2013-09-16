@@ -8,5 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <move element="catalogsearch.leftnav" destination="left" before="-"/>
+    <handle id="catalogsearch_result_index">
+        <move element="catalogsearch.leftnav" destination="left" before="-"/>
+    </handle>
 </layout>

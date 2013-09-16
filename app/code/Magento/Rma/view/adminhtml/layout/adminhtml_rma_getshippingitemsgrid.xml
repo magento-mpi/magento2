@@ -8,5 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Grid" name="magento_rma_getshippingitemsgrid" template="edit/shipping/grid.phtml" output="1"/>
+    <handle id="adminhtml_rma_getshippingitemsgrid">
+        <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Grid" name="magento_rma_getshippingitemsgrid" template="edit/shipping/grid.phtml" output="1"/>
+    </handle>
 </layout>

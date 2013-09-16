@@ -8,7 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="checkout.onepage.payment.methods_additional">
-        <block class="Magento_CustomerBalance_Block_Checkout_Onepage_Payment_Additional" template="checkout/onepage/payment/additional.phtml" name="customerbalance"/>
-    </reference>
+    <handle id="checkout_onepage_index">
+        <reference name="checkout.onepage.payment.methods_additional">
+            <block class="Magento_CustomerBalance_Block_Checkout_Onepage_Payment_Additional" template="checkout/onepage/payment/additional.phtml" name="customerbalance"/>
+        </reference>
+    </handle>
 </layout>

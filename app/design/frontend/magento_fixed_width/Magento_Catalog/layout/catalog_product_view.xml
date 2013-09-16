@@ -8,23 +8,25 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="page_one_column"/>
-    <reference name="head">
-        <action method="addJs">
-            <argument name="file" xsi:type="string">jquery/jqzoom/js/jquery.jqzoom-core-pack.js</argument>
-        </action>
-        <action method="addCss">
-            <argument name="file" xsi:type="string">jquery/jqzoom/css/jquery.jqzoom.css</argument>
-        </action>
-        <action method="removeItem">
-            <argument name="type" xsi:type="string">css</argument>
-            <argument name="name" xsi:type="string">Magento_Catalog::zoom.css</argument>
-        </action>
-    </reference>
-    <reference name="product.info">
-        <block class="Magento_Catalog_Block_Product_View" name="product.tierprices" as="tierprices" template="product/view/tierprices.phtml"/>
-    </reference>
-    <move element="catalog.product.related" destination="product.info" as="relatedProducts"/>
-    <move element="product.clone_prices" destination="product.info.options.wrapper.bottom" after="product.info.addto.additional"/>
-    <move element="product.tierprices.additional" destination="product.info.options.wrapper.bottom" after="product.clone_prices"/>
+    <handle id="catalog_product_view">
+        <update handle="page_one_column"/>
+        <reference name="head">
+            <action method="addJs">
+                <argument name="file" xsi:type="string">jquery/jqzoom/js/jquery.jqzoom-core-pack.js</argument>
+            </action>
+            <action method="addCss">
+                <argument name="file" xsi:type="string">jquery/jqzoom/css/jquery.jqzoom.css</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">css</argument>
+                <argument name="name" xsi:type="string">Magento_Catalog::zoom.css</argument>
+            </action>
+        </reference>
+        <reference name="product.info">
+            <block class="Magento_Catalog_Block_Product_View" name="product.tierprices" as="tierprices" template="product/view/tierprices.phtml"/>
+        </reference>
+        <move element="catalog.product.related" destination="product.info" as="relatedProducts"/>
+        <move element="product.clone_prices" destination="product.info.options.wrapper.bottom" after="product.info.addto.additional"/>
+        <move element="product.tierprices.additional" destination="product.info.options.wrapper.bottom" after="product.clone_prices"/>
+    </handle>
 </layout>

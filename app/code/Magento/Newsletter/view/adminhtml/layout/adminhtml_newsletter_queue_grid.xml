@@ -8,7 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="formkey"/>
-    <update handle="adminhtml_newsletter_queue_grid_block"/>
-    <container name="adminhtml.newsletter.queue.grid.container" label="Newsletter Queue Container" output="1"/>
+    <handle id="adminhtml_newsletter_queue_grid">
+        <update handle="formkey"/>
+        <update handle="adminhtml_newsletter_queue_grid_block"/>
+        <container name="adminhtml.newsletter.queue.grid.container" label="Newsletter Queue Container" output="1"/>
+    </handle>
 </layout>

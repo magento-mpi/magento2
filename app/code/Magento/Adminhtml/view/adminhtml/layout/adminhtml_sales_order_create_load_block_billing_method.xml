@@ -8,9 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
-        <block class="Magento_Adminhtml_Block_Sales_Order_Create_Billing_Method" template="sales/order/create/abstract.phtml" name="billing_method">
-            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form" template="sales/order/create/billing/method/form.phtml" name="order.create.billing.method.form" as="form"/>
-        </block>
-    </reference>
+    <handle id="adminhtml_sales_order_create_load_block_billing_method">
+        <reference name="content">
+            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Billing_Method" template="sales/order/create/abstract.phtml" name="billing_method">
+                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form" template="sales/order/create/billing/method/form.phtml" name="order.create.billing.method.form" as="form"/>
+            </block>
+        </reference>
+    </handle>
 </layout>

@@ -8,7 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
-        <block class="Magento_GoogleAdwords_Block_Code" name="google.adwords.code" template="code.phtml"/>
-    </reference>
+    <handle id="checkout_onepage_success">
+        <reference name="content">
+            <block class="Magento_GoogleAdwords_Block_Code" name="google.adwords.code" template="code.phtml"/>
+        </reference>
+    </handle>
 </layout>

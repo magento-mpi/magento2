@@ -7,9 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Review Details" type="page" parent="review_customer_index">
-    <update handle="customer_account"/>
-    <reference name="my.account.wrapper">
-        <block class="Magento_Review_Block_Customer_View" name="customers_review"/>
-    </reference>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Customer My Account Review Details" id="review_customer_view" type="page" parent="review_customer_index">
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block class="Magento_Review_Block_Customer_View" name="customers_review"/>
+        </reference>
+    </handle>
 </layout>

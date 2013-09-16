@@ -8,5 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="adminhtml_customer_reward_history"/>
+    <handle id="adminhtml_customer_reward_historygrid">
+        <update handle="adminhtml_customer_reward_history"/>
+    </handle>
 </layout>

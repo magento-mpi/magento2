@@ -8,11 +8,13 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="order_items">
-        <action method="addItemRender">
-            <argument name="type" xsi:type="string">bundle</argument>
-            <argument name="block" xsi:type="string">Magento_Bundle_Block_Adminhtml_Sales_Order_Items_Renderer</argument>
-            <argument name="template" xsi:type="string">sales/creditmemo/create/items/renderer.phtml</argument>
-        </action>
-    </reference>
+    <handle id="adminhtml_sales_order_creditmemo_updateqty">
+        <reference name="order_items">
+            <action method="addItemRender">
+                <argument name="type" xsi:type="string">bundle</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Adminhtml_Sales_Order_Items_Renderer</argument>
+                <argument name="template" xsi:type="string">sales/creditmemo/create/items/renderer.phtml</argument>
+            </action>
+        </reference>
+    </handle>
 </layout>

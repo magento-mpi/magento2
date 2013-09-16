@@ -8,9 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="oauth_root_handle_simple"/>
-    <reference name="content">
-        <block class="Magento_Oauth_Block_Adminhtml_Oauth_Authorize" name="oauth.authorize.form" template="authorize/form/login-simple.phtml"/>
-        <block class="Magento_Oauth_Block_Adminhtml_Oauth_Authorize_Button" name="oauth.authorize.button" template="authorize/button-simple.phtml"/>
-    </reference>
+    <handle id="adminhtml_oauth_authorize_simple">
+        <update handle="oauth_root_handle_simple"/>
+        <reference name="content">
+            <block class="Magento_Oauth_Block_Adminhtml_Oauth_Authorize" name="oauth.authorize.form" template="authorize/form/login-simple.phtml"/>
+            <block class="Magento_Oauth_Block_Adminhtml_Oauth_Authorize_Button" name="oauth.authorize.button" template="authorize/button-simple.phtml"/>
+        </reference>
+    </handle>
 </layout>

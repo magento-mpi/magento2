@@ -8,9 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
-        <block class="Magento_Adminhtml_Block_Sales_Order_Create_Search" template="sales/order/create/abstract.phtml" name="search">
-            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid" name="search.grid" as="grid"/>
-        </block>
-    </reference>
+    <handle id="adminhtml_sales_order_create_load_block_search">
+        <reference name="content">
+            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Search" template="sales/order/create/abstract.phtml" name="search">
+                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid" name="search.grid" as="grid"/>
+            </block>
+        </reference>
+    </handle>
 </layout>

@@ -8,7 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="sidebar">
-        <block class="Magento_MultipleWishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist" template="sales/order/create/sidebar/items.phtml" name="wishlist"/>
-    </reference>
+    <handle id="adminhtml_sales_order_create_load_block_data">
+        <reference name="sidebar">
+            <block class="Magento_MultipleWishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist" template="sales/order/create/sidebar/items.phtml" name="wishlist"/>
+        </reference>
+    </handle>
 </layout>

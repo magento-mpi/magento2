@@ -8,7 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
-        <block class="Magento_Oauth_Block_Adminhtml_Oauth_Admin_Token" name="oauth_admin_token"/>
-    </reference>
+    <handle id="adminhtml_oauth_admin_token_index">
+        <reference name="content">
+            <block class="Magento_Oauth_Block_Adminhtml_Oauth_Admin_Token" name="oauth_admin_token"/>
+        </reference>
+    </handle>
 </layout>

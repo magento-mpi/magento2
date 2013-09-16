@@ -8,5 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="sku_layout_update"/>
+    <handle id="adminhtml_sales_order_create_load_block_data">
+        <update handle="sku_layout_update"/>
+    </handle>
 </layout>

@@ -8,11 +8,13 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="customer_account_navigation">
-        <action method="addLink" ifconfig="wishlist/general/active">
-            <argument name="name" xsi:type="string">wishlist</argument>
-            <argument name="path" xsi:type="string">wishlist/</argument>
-            <argument translate="true" name="label" xsi:type="string">My Wish List</argument>
-        </action>
-    </reference>
+    <handle id="customer_account">
+        <reference name="customer_account_navigation">
+            <action method="addLink" ifconfig="wishlist/general/active">
+                <argument name="name" xsi:type="string">wishlist</argument>
+                <argument name="path" xsi:type="string">wishlist/</argument>
+                <argument translate="true" name="label" xsi:type="string">My Wish List</argument>
+            </action>
+        </reference>
+    </handle>
 </layout>

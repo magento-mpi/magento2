@@ -8,11 +8,13 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="customer_account_navigation">
-        <action method="addLink">
-            <argument name="name" xsi:type="string">OAuth Customer Tokens</argument>
-            <argument name="path" xsi:type="string">oauth/customer_token</argument>
-            <argument translate="true" name="label" xsi:type="string">My Applications</argument>
-        </action>
-    </reference>
+    <handle id="customer_account">
+        <reference name="customer_account_navigation">
+            <action method="addLink">
+                <argument name="name" xsi:type="string">OAuth Customer Tokens</argument>
+                <argument name="path" xsi:type="string">oauth/customer_token</argument>
+                <argument translate="true" name="label" xsi:type="string">My Applications</argument>
+            </action>
+        </reference>
+    </handle>
 </layout>

@@ -8,7 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
-        <block class="Magento_Adminhtml_Block_Sales_Order_Create_Billing_Address" template="sales/order/create/form/address.phtml" name="billing_address"/>
-    </reference>
+    <handle id="adminhtml_sales_order_create_load_block_billing_address">
+        <reference name="content">
+            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Billing_Address" template="sales/order/create/form/address.phtml" name="billing_address"/>
+        </reference>
+    </handle>
 </layout>

@@ -8,8 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="adminhtml_newsletter_queue_grid_block"/>
-    <reference name="content">
-        <block class="Magento_Backend_Block_Template" template="Magento_Newsletter::queue/list.phtml" name="adminhtml.newsletter.queue.grid.container"/>
-    </reference>
+    <handle id="adminhtml_newsletter_queue_index">
+        <update handle="adminhtml_newsletter_queue_grid_block"/>
+        <reference name="content">
+            <block class="Magento_Backend_Block_Template" template="Magento_Newsletter::queue/list.phtml" name="adminhtml.newsletter.queue.grid.container"/>
+        </reference>
+    </handle>
 </layout>

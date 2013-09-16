@@ -8,7 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
-        <block class="Magento_Adminhtml_Block_System_Account_Edit" name="adminhtml.system.account.edit"/>
-    </reference>
+    <handle id="adminhtml_system_account_index">
+        <reference name="content">
+            <block class="Magento_Adminhtml_Block_System_Account_Edit" name="adminhtml.system.account.edit"/>
+        </reference>
+    </handle>
 </layout>

@@ -8,9 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="persistent.remember.me.tooltip">
-        <action method="setTemplate">
-            <argument name="template" xsi:type="string">Magento_PersistentHistory::remember_me_tooltip.phtml</argument>
-        </action>
-    </reference>
+    <handle id="checkout_onepage_index">
+        <reference name="persistent.remember.me.tooltip">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Magento_PersistentHistory::remember_me_tooltip.phtml</argument>
+            </action>
+        </reference>
+    </handle>
 </layout>

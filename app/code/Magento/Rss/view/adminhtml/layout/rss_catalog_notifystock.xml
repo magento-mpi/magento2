@@ -8,5 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento_Rss_Block_Catalog_NotifyStock" output="1" name="rss.catalog.notifystock"/>
+    <handle id="rss_catalog_notifystock">
+        <block class="Magento_Rss_Block_Catalog_NotifyStock" output="1" name="rss.catalog.notifystock"/>
+    </handle>
 </layout>

@@ -7,7 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Multishipping Checkout Shipping Address Edit Form" type="page" parent="checkout_multishipping_shipping">
-    <update handle="checkout_multishipping"/>
-    <update handle="checkout_multishipping_customer_address"/>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Multishipping Checkout Shipping Address Edit Form" id="checkout_multishipping_address_editshipping" type="page" parent="checkout_multishipping_shipping">
+        <update handle="checkout_multishipping"/>
+        <update handle="checkout_multishipping_customer_address"/>
+    </handle>
 </layout>

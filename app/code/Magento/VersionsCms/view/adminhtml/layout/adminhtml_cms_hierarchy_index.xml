@@ -8,16 +8,18 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head">
-        <action method="setCanLoadExtJs">
-            <argument name="flag" xsi:type="string">1</argument>
-        </action>
-    </reference>
-    <reference name="content">
-        <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit" name="magento_versionscms_hierarchy_edit_tree">
-            <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage" name="hierarchy_manage" template="hierarchy/manage.phtml"/>
-            <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid" name="cms_page_grid"/>
-        </block>
-    </reference>
-    <block class="Magento_VersionsCms_Block_Adminhtml_Scope_Switcher" name="scope_switcher" template="hierarchy/scope/switcher.phtml"/>
+    <handle id="adminhtml_cms_hierarchy_index">
+        <reference name="head">
+            <action method="setCanLoadExtJs">
+                <argument name="flag" xsi:type="string">1</argument>
+            </action>
+        </reference>
+        <reference name="content">
+            <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit" name="magento_versionscms_hierarchy_edit_tree">
+                <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage" name="hierarchy_manage" template="hierarchy/manage.phtml"/>
+                <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid" name="cms_page_grid"/>
+            </block>
+        </reference>
+        <block class="Magento_VersionsCms_Block_Adminhtml_Scope_Switcher" name="scope_switcher" template="hierarchy/scope/switcher.phtml"/>
+    </handle>
 </layout>

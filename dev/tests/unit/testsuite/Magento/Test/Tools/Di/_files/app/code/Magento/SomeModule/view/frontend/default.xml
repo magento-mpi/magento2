@@ -8,7 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="root" after="header">
-        <block class="Magento_Backend_Block_Menu_Proxy" name="menu" as="menu" template="Magento_Backend::menu.phtml" />
-    </reference>
+    <handle id="default">
+        <reference name="root" after="header">
+            <block class="Magento_Backend_Block_Menu_Proxy" name="menu" as="menu" template="Magento_Backend::menu.phtml" />
+        </reference>
+    </handle>
 </layout>

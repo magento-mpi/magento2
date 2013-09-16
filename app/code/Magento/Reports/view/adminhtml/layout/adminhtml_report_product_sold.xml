@@ -8,8 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="adminhtml_report_product_sold_grid"/>
-    <reference name="content">
-        <block class="Magento_Reports_Block_Adminhtml_Product_Sold" name="adminhtml.report.grid.container"/>
-    </reference>
+    <handle id="adminhtml_report_product_sold">
+        <update handle="adminhtml_report_product_sold_grid"/>
+        <reference name="content">
+            <block class="Magento_Reports_Block_Adminhtml_Product_Sold" name="adminhtml.report.grid.container"/>
+        </reference>
+    </handle>
 </layout>

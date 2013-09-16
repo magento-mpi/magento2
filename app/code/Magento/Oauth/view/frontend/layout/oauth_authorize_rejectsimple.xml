@@ -7,10 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Reject Oauth token authorization (Simple)" type="page" parent="default">
-    <update handle="oauth_root_handle_simple"/>
-    <remove name="header"/>
-    <reference name="content">
-        <block class="Magento_Oauth_Block_Authorize_Button" name="oauth.authorize.reject" template="authorize/reject-simple.phtml"/>
-    </reference>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Reject Oauth token authorization (Simple)" id="oauth_authorize_rejectsimple" type="page" parent="default">
+        <update handle="oauth_root_handle_simple"/>
+        <remove name="header"/>
+        <reference name="content">
+            <block class="Magento_Oauth_Block_Authorize_Button" name="oauth.authorize.reject" template="authorize/reject-simple.phtml"/>
+        </reference>
+    </handle>
 </layout>

@@ -8,7 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="right">
-        <block class="Magento_Paypal_Block_Logo" name="paypal.partner.right.logo" template="partner/logo.phtml"/>
-    </reference>
+    <handle id="cms_index_index">
+        <reference name="right">
+            <block class="Magento_Paypal_Block_Logo" name="paypal.partner.right.logo" template="partner/logo.phtml"/>
+        </reference>
+    </handle>
 </layout>

@@ -8,6 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="adminhtml_catalog_product_superconfig_config"/>
-    <container output="1" name="admin.product.edit.tab.super.config.grid.container" label="grid"/>
+    <handle id="adminhtml_catalog_product_superconfig">
+        <update handle="adminhtml_catalog_product_superconfig_config"/>
+        <container output="1" name="admin.product.edit.tab.super.config.grid.container" label="grid"/>
+    </handle>
 </layout>

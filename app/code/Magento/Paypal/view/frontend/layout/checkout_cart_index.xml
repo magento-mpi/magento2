@@ -8,19 +8,21 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="checkout.cart.top_methods">
-        <block class="Magento_Paypal_Block_Express_Shortcut" name="checkout.cart.methods.paypal_express.top" before="-" template="express/shortcut.phtml">
-            <action method="setIsQuoteAllowed">
-                <argument name="value" xsi:type="string">1</argument>
-            </action>
-        </block>
-    </reference>
-    <reference name="checkout.cart.methods">
-        <block class="Magento_Paypal_Block_Express_Shortcut" name="checkout.cart.methods.paypal_express.bottom" before="-" template="express/shortcut.phtml">
-            <action method="setIsQuoteAllowed">
-                <argument name="value" xsi:type="string">1</argument>
-            </action>
-        </block>
-    </reference>
-    <update handle="SHORTCUT_popup"/>
+    <handle id="checkout_cart_index">
+        <reference name="checkout.cart.top_methods">
+            <block class="Magento_Paypal_Block_Express_Shortcut" name="checkout.cart.methods.paypal_express.top" before="-" template="express/shortcut.phtml">
+                <action method="setIsQuoteAllowed">
+                    <argument name="value" xsi:type="string">1</argument>
+                </action>
+            </block>
+        </reference>
+        <reference name="checkout.cart.methods">
+            <block class="Magento_Paypal_Block_Express_Shortcut" name="checkout.cart.methods.paypal_express.bottom" before="-" template="express/shortcut.phtml">
+                <action method="setIsQuoteAllowed">
+                    <argument name="value" xsi:type="string">1</argument>
+                </action>
+            </block>
+        </reference>
+        <update handle="SHORTCUT_popup"/>
+    </handle>
 </layout>

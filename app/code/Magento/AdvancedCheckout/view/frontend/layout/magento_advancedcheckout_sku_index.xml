@@ -7,16 +7,18 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer Checkout by SKU" type="page" parent="checkout_cart_index">
-    <update handle="customer_account"/>
-    <reference name="my.account.wrapper">
-        <block class="Magento_Core_Block_Template" name="checkout.customer.order" template="Magento_AdvancedCheckout::customer/sku.phtml">
-            <block class="Magento_AdvancedCheckout_Block_Customer_Sku" name="checkout.customer.sku" template="widget/sku.phtml">
-                <action method="setIsTitleHidden">
-                    <argument name="value" xsi:type="string">true</argument>
-                </action>
-                <block class="Magento_Core_Block_Template" template="Magento_AdvancedCheckout::customer/file.phtml"/>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Customer Checkout by SKU" id="magento_advancedcheckout_sku_index" type="page" parent="checkout_cart_index">
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block class="Magento_Core_Block_Template" name="checkout.customer.order" template="Magento_AdvancedCheckout::customer/sku.phtml">
+                <block class="Magento_AdvancedCheckout_Block_Customer_Sku" name="checkout.customer.sku" template="widget/sku.phtml">
+                    <action method="setIsTitleHidden">
+                        <argument name="value" xsi:type="string">true</argument>
+                    </action>
+                    <block class="Magento_Core_Block_Template" template="Magento_AdvancedCheckout::customer/file.phtml"/>
+                </block>
             </block>
-        </block>
-    </reference>
+        </reference>
+    </handle>
 </layout>

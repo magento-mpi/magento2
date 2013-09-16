@@ -7,6 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Multishipping Checkout Login User Form" type="page" parent="customer_account_login">
-    <update handle="customer_account_login"/>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Multishipping Checkout Login User Form" id="checkout_multishipping_login" type="page" parent="customer_account_login">
+        <update handle="customer_account_login"/>
+    </handle>
 </layout>

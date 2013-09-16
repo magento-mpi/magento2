@@ -8,10 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="page_three_columns"/>
-    <reference name="search_result_list">
-        <action method="setPageLayout">
-            <argument name="layout" xsi:type="string">three_columns</argument>
-        </action>
-    </reference>
+    <handle id="catalogsearch_advanced_result">
+        <update handle="page_three_columns"/>
+        <reference name="search_result_list">
+            <action method="setPageLayout">
+                <argument name="layout" xsi:type="string">three_columns</argument>
+            </action>
+        </reference>
+    </handle>
 </layout>

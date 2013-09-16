@@ -8,6 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="adminhtml_report_product_sold_grid"/>
-    <container name="adminhtml.report.grid.container" label="Report Product Sold Container"/>
+    <handle id="adminhtml_report_product_exportsoldcsv">
+        <update handle="adminhtml_report_product_sold_grid"/>
+        <container name="adminhtml.report.grid.container" label="Report Product Sold Container"/>
+    </handle>
 </layout>

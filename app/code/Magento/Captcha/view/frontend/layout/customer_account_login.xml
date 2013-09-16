@@ -8,19 +8,21 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="customer_form_login">
-        <container name="form.additional.info" label="Form Additional Info">
-            <block class="Magento_Captcha_Block_Captcha" name="captcha">
-                <action method="setFormId">
-                    <argument name="formId" xsi:type="string">user_login</argument>
-                </action>
-                <action method="setImgWidth">
-                    <argument name="width" xsi:type="string">230</argument>
-                </action>
-                <action method="setImgHeight">
-                    <argument name="width" xsi:type="string">50</argument>
-                </action>
-            </block>
-        </container>
-    </reference>
+    <handle id="customer_account_login">
+        <reference name="customer_form_login">
+            <container name="form.additional.info" label="Form Additional Info">
+                <block class="Magento_Captcha_Block_Captcha" name="captcha">
+                    <action method="setFormId">
+                        <argument name="formId" xsi:type="string">user_login</argument>
+                    </action>
+                    <action method="setImgWidth">
+                        <argument name="width" xsi:type="string">230</argument>
+                    </action>
+                    <action method="setImgHeight">
+                        <argument name="width" xsi:type="string">50</argument>
+                    </action>
+                </block>
+            </container>
+        </reference>
+    </handle>
 </layout>

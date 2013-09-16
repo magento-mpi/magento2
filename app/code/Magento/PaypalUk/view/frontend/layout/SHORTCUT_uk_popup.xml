@@ -8,16 +8,18 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="product.tooltip">
-        <container name="product.info.addtocart.paypaluk.wrapper" label="PayPal Express Checkout (Payflow Edition) Shortcut Wrapper" htmlTag="div">
-            <block class="Magento_PaypalUk_Block_Express_Shortcut" name="product.info.addtocart.paypaluk" template="Magento_Paypal::express/shortcut.phtml">
-                <action method="setIsInCatalogProduct">
-                    <argument name="value" xsi:type="string">1</argument>
-                </action>
-                <action method="setShowOrPosition">
-                    <argument name="value" xsi:type="string">after</argument>
-                </action>
-            </block>
-        </container>
-    </reference>
+    <handle id="SHORTCUT_uk_popup">
+        <reference name="product.tooltip">
+            <container name="product.info.addtocart.paypaluk.wrapper" label="PayPal Express Checkout (Payflow Edition) Shortcut Wrapper" htmlTag="div">
+                <block class="Magento_PaypalUk_Block_Express_Shortcut" name="product.info.addtocart.paypaluk" template="Magento_Paypal::express/shortcut.phtml">
+                    <action method="setIsInCatalogProduct">
+                        <argument name="value" xsi:type="string">1</argument>
+                    </action>
+                    <action method="setShowOrPosition">
+                        <argument name="value" xsi:type="string">after</argument>
+                    </action>
+                </block>
+            </container>
+        </reference>
+    </handle>
 </layout>

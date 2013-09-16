@@ -8,6 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <remove name="root"/>
-    <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions" output="1" name="cms_page_edit_version_edit_revisions"/>
+    <handle id="adminhtml_cms_page_version_revisions">
+        <remove name="root"/>
+        <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions" output="1" name="cms_page_edit_version_edit_revisions"/>
+    </handle>
 </layout>

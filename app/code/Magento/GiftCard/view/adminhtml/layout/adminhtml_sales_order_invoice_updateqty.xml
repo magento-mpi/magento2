@@ -8,12 +8,14 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="order_items">
-        <action method="addColumnRender">
-            <argument name="column" xsi:type="string">name</argument>
-            <argument name="block" xsi:type="string">Magento_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard</argument>
-            <argument name="template" xsi:type="string">Magento_Adminhtml::sales/items/column/name.phtml</argument>
-            <argument name="type" xsi:type="string">giftcard</argument>
-        </action>
-    </reference>
+    <handle id="adminhtml_sales_order_invoice_updateqty">
+        <reference name="order_items">
+            <action method="addColumnRender">
+                <argument name="column" xsi:type="string">name</argument>
+                <argument name="block" xsi:type="string">Magento_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard</argument>
+                <argument name="template" xsi:type="string">Magento_Adminhtml::sales/items/column/name.phtml</argument>
+                <argument name="type" xsi:type="string">giftcard</argument>
+            </action>
+        </reference>
+    </handle>
 </layout>

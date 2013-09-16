@@ -7,8 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="AuthorizeNet Directpost Response" type="fragment" owner="checkout_onepage_index">
-    <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
-        <block class="Magento_Authorizenet_Block_Directpost_Iframe" name="iframe" template="directpost/iframe.phtml"/>
-    </block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="AuthorizeNet Directpost Response" id="authorizenet_directpost_payment_response" type="fragment" owner="checkout_onepage_index">
+        <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
+            <block class="Magento_Authorizenet_Block_Directpost_Iframe" name="iframe" template="directpost/iframe.phtml"/>
+        </block>
+    </handle>
 </layout>

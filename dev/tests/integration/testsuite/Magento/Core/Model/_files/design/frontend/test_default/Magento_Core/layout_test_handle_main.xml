@@ -11,20 +11,22 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="layout_test_handle_sample"/>
-    <remove name="header"/>
-    <remove name="menu"/>
-    <remove name="some_element_1"/>
-    <remove name="some_element_2"/>
-    <reference name="root">
-        <action method="setTemplate">
-            <argument name="template" xsi:type="string">popup.phtml</argument>
-        </action>
-    </reference>
-    <reference name="some_element_1"/>
-    <block name="test.nonexisting.block" class="Mage_Core_Block_Text_List"/>
-    <remove name="test.nonexisting.block"/>
-    <reference name="test.nonexisting.block">
-        <action method="getSomething"/>
-    </reference>
+    <handle id="layout_test_handle_main">
+        <update handle="layout_test_handle_sample"/>
+        <remove name="header"/>
+        <remove name="menu"/>
+        <remove name="some_element_1"/>
+        <remove name="some_element_2"/>
+        <reference name="root">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">popup.phtml</argument>
+            </action>
+        </reference>
+        <reference name="some_element_1"/>
+        <block name="test.nonexisting.block" class="Mage_Core_Block_Text_List"/>
+        <remove name="test.nonexisting.block"/>
+        <reference name="test.nonexisting.block">
+            <action method="getSomething"/>
+        </reference>
+    </handle>
 </layout>

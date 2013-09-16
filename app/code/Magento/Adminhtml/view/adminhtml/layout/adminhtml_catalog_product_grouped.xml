@@ -8,18 +8,20 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="adminhtml_catalog_product_grouped_grid_popup"/>
-    <reference name="product_tabs">
-        <block class="Magento_Catalog_Block_Product_Grouped_AssociatedProducts" name="catalog.product.edit.grouped.container" template="Magento_Catalog::product/grouped/container.phtml">
-            <block class="Magento_Core_Block_Template" name="catalog.product.edit.tab.super.container" template="Magento_Catalog::product/grouped/grouped.phtml">
-                <block class="Magento_Catalog_Block_Product_Grouped_AssociatedProducts_List" name="catalog.product.edit.tab.super.list" as="list" template="Magento_Catalog::product/grouped/list.phtml">
+    <handle id="adminhtml_catalog_product_grouped">
+        <update handle="adminhtml_catalog_product_grouped_grid_popup"/>
+        <reference name="product_tabs">
+            <block class="Magento_Catalog_Block_Product_Grouped_AssociatedProducts" name="catalog.product.edit.grouped.container" template="Magento_Catalog::product/grouped/container.phtml">
+                <block class="Magento_Core_Block_Template" name="catalog.product.edit.tab.super.container" template="Magento_Catalog::product/grouped/grouped.phtml">
+                    <block class="Magento_Catalog_Block_Product_Grouped_AssociatedProducts_List" name="catalog.product.edit.tab.super.list" as="list" template="Magento_Catalog::product/grouped/list.phtml">
+                    </block>
+                    <block class="Magento_Core_Block_Template" name="catalog.product.edit.tab.super.grid.popup.container" as="catalog.product.group.grid.popup.container"/>
                 </block>
-                <block class="Magento_Core_Block_Template" name="catalog.product.edit.tab.super.grid.popup.container" as="catalog.product.group.grid.popup.container"/>
             </block>
-        </block>
-        <action method="addTab">
-            <argument name="name" xsi:type="string">grouped</argument>
-            <argument name="block" xsi:type="string">catalog.product.edit.grouped.container</argument>
-        </action>
-    </reference>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">grouped</argument>
+                <argument name="block" xsi:type="string">catalog.product.edit.grouped.container</argument>
+            </action>
+        </reference>
+    </handle>
 </layout>

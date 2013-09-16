@@ -8,24 +8,26 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="messages">
-        <action method="addNotice">
-            <argument translate="true" name="message" xsi:type="string">This report uses timezone configuration data. Be sure to refresh lifetime statistics any time you change store timezone.</argument>
-        </action>
-    </reference>
-    <reference name="content">
-        <block class="Magento_Adminhtml_Block_Report_Product_Viewed" template="report/grid/container.phtml" name="product.report.grid.container">
-            <block class="Magento_Backend_Block_Store_Switcher" template="Magento_Reports::store/switcher/enhanced.phtml" name="store.switcher">
-                <action method="setStoreVarName">
-                    <argument name="var_name" xsi:type="string">store_ids</argument>
-                </action>
+    <handle id="adminhtml_report_product_viewed">
+        <reference name="messages">
+            <action method="addNotice">
+                <argument translate="true" name="message" xsi:type="string">This report uses timezone configuration data. Be sure to refresh lifetime statistics any time you change store timezone.</argument>
+            </action>
+        </reference>
+        <reference name="content">
+            <block class="Magento_Adminhtml_Block_Report_Product_Viewed" template="report/grid/container.phtml" name="product.report.grid.container">
+                <block class="Magento_Backend_Block_Store_Switcher" template="Magento_Reports::store/switcher/enhanced.phtml" name="store.switcher">
+                    <action method="setStoreVarName">
+                        <argument name="var_name" xsi:type="string">store_ids</argument>
+                    </action>
+                </block>
+                <block class="Magento_Adminhtml_Block_Report_Filter_Form" name="grid.filter.form">
+                    <action method="setFieldVisibility">
+                        <argument name="field" xsi:type="string">report_type</argument>
+                        <argument name="visibility" xsi:type="string">0</argument>
+                    </action>
+                </block>
             </block>
-            <block class="Magento_Adminhtml_Block_Report_Filter_Form" name="grid.filter.form">
-                <action method="setFieldVisibility">
-                    <argument name="field" xsi:type="string">report_type</argument>
-                    <argument name="visibility" xsi:type="string">0</argument>
-                </action>
-            </block>
-        </block>
-    </reference>
+        </reference>
+    </handle>
 </layout>

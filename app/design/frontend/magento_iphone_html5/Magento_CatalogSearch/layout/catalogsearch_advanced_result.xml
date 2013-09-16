@@ -8,5 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="page_one_column"/>
+    <handle id="catalogsearch_advanced_result">
+        <update handle="page_one_column"/>
+    </handle>
 </layout>

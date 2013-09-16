@@ -7,9 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account My OAuth Applications" type="page" parent="default">
-    <update handle="customer_account"/>
-    <reference name="my.account.wrapper">
-        <block class="Magento_Oauth_Block_Customer_Token_List" name="oauth_customer_token_list" template="customer/token/list.phtml"/>
-    </reference>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Customer My Account My OAuth Applications" id="oauth_customer_token_index" type="page" parent="default">
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block class="Magento_Oauth_Block_Customer_Token_List" name="oauth_customer_token_list" template="customer/token/list.phtml"/>
+        </reference>
+    </handle>
 </layout>

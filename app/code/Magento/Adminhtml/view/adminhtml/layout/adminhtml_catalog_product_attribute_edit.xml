@@ -8,21 +8,23 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="left">
-        <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tabs" name="attribute_edit_tabs">
-            <container label="Main" name="main">
-                <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main" as="base"/>
-                <block class="Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Options" as="advanced"/>
-                <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced" as="options"/>
-            </container>
-            <block class="Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels" as="labels"/>
-            <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front" as="front"/>
-        </block>
-    </reference>
-    <reference name="content">
-        <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit" name="attribute_edit_content"/>
-    </reference>
-    <reference name="js">
-        <block class="Magento_Adminhtml_Block_Template" name="attribute_edit_js" template="catalog/product/attribute/js.phtml"/>
-    </reference>
+    <handle id="adminhtml_catalog_product_attribute_edit">
+        <reference name="left">
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tabs" name="attribute_edit_tabs">
+                <container label="Main" name="main">
+                    <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main" as="base"/>
+                    <block class="Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Options" as="advanced"/>
+                    <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced" as="options"/>
+                </container>
+                <block class="Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels" as="labels"/>
+                <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front" as="front"/>
+            </block>
+        </reference>
+        <reference name="content">
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit" name="attribute_edit_content"/>
+        </reference>
+        <reference name="js">
+            <block class="Magento_Adminhtml_Block_Template" name="attribute_edit_js" template="catalog/product/attribute/js.phtml"/>
+        </reference>
+    </handle>
 </layout>

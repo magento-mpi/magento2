@@ -7,12 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Order History" type="page" parent="sales_order_view">
-    <update handle="customer_account"/>
-    <reference name="my.account.wrapper">
-        <block class="Magento_Sales_Block_Order_History" name="sales.order.history">
-            <container name="sales.order.history.info" as="info" label="Order History Info"/>
-        </block>
-        <block class="Magento_Customer_Block_Account_Dashboard" name="customer.account.link.back" template="account/link/back.phtml"/>
-    </reference>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Customer My Account Order History" id="sales_order_history" type="page" parent="sales_order_view">
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block class="Magento_Sales_Block_Order_History" name="sales.order.history">
+                <container name="sales.order.history.info" as="info" label="Order History Info"/>
+            </block>
+            <block class="Magento_Customer_Block_Account_Dashboard" name="customer.account.link.back" template="account/link/back.phtml"/>
+        </reference>
+    </handle>
 </layout>

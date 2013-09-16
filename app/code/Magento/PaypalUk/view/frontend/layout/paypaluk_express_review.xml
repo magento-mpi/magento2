@@ -7,36 +7,38 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="PayPal Express Order Review Form" type="page" parent="default">
-    <reference name="root">
-        <action method="setTemplate">
-            <argument name="template" xsi:type="string">1column.phtml</argument>
-        </action>
-    </reference>
-    <reference name="content">
-        <block class="Magento_Paypal_Block_Express_Review" name="paypal.express.review" template="Magento_PaypalUk::express/review.phtml">
-            <action method="setPaypalActionPrefix">
-                <argument name="prefix" xsi:type="string">paypaluk</argument>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="PayPal Express Order Review Form" id="paypaluk_express_review" type="page" parent="default">
+        <reference name="root">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">1column.phtml</argument>
             </action>
-            <block class="Magento_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" as="details" template="express/review/details.phtml">
-                <action method="addItemRender">
-                    <argument name="type" xsi:type="string">default</argument>
-                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
-                    <argument name="template" xsi:type="string">onepage/review/item.phtml</argument>
+        </reference>
+        <reference name="content">
+            <block class="Magento_Paypal_Block_Express_Review" name="paypal.express.review" template="Magento_PaypalUk::express/review.phtml">
+                <action method="setPaypalActionPrefix">
+                    <argument name="prefix" xsi:type="string">paypaluk</argument>
                 </action>
-                <action method="addItemRender">
-                    <argument name="type" xsi:type="string">grouped</argument>
-                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
-                    <argument name="template" xsi:type="string">onepage/review/item.phtml</argument>
-                </action>
-                <action method="addItemRender">
-                    <argument name="type" xsi:type="string">configurable</argument>
-                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
-                    <argument name="template" xsi:type="string">onepage/review/item.phtml</argument>
-                </action>
-                <block class="Magento_Checkout_Block_Cart_Totals" name="paypal.express.review.details.totals" as="totals" template="onepage/review/totals.phtml"/>
+                <block class="Magento_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" as="details" template="express/review/details.phtml">
+                    <action method="addItemRender">
+                        <argument name="type" xsi:type="string">default</argument>
+                        <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
+                        <argument name="template" xsi:type="string">onepage/review/item.phtml</argument>
+                    </action>
+                    <action method="addItemRender">
+                        <argument name="type" xsi:type="string">grouped</argument>
+                        <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
+                        <argument name="template" xsi:type="string">onepage/review/item.phtml</argument>
+                    </action>
+                    <action method="addItemRender">
+                        <argument name="type" xsi:type="string">configurable</argument>
+                        <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
+                        <argument name="template" xsi:type="string">onepage/review/item.phtml</argument>
+                    </action>
+                    <block class="Magento_Checkout_Block_Cart_Totals" name="paypal.express.review.details.totals" as="totals" template="onepage/review/totals.phtml"/>
+                </block>
+                <block class="Magento_Checkout_Block_Agreements" name="paypal.express.review.details.agreements" as="agreements" template="onepage/agreements.phtml"/>
             </block>
-            <block class="Magento_Checkout_Block_Agreements" name="paypal.express.review.details.agreements" as="agreements" template="onepage/agreements.phtml"/>
-        </block>
-    </reference>
+        </reference>
+    </handle>
 </layout>

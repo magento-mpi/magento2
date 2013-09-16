@@ -7,8 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Paypal Payflow Cancel Payment" type="fragment" owner="checkout_onepage_index">
-    <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
-        <block class="Magento_Paypal_Block_Payflow_Link_Iframe" name="payflow.link.iframe" template="payflowlink/redirect.phtml"/>
-    </block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Paypal Payflow Cancel Payment" id="paypal_payflow_cancelpayment" type="fragment" owner="checkout_onepage_index">
+        <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
+            <block class="Magento_Paypal_Block_Payflow_Link_Iframe" name="payflow.link.iframe" template="payflowlink/redirect.phtml"/>
+        </block>
+    </handle>
 </layout>

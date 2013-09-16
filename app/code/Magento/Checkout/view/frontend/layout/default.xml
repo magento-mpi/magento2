@@ -8,33 +8,35 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head.components">
-        <block class="Magento_Adminhtml_Block_Page_Js_Components" name="checkout_page_head_components" template="Magento_Checkout::js/components.phtml"/>
-    </reference>
-    <reference name="top.links">
-        <block class="Magento_Checkout_Block_Links" name="checkout_cart_link">
-            <action method="addCartLink"/>
-            <action method="addCheckoutLink"/>
-        </block>
-    </reference>
-    <reference name="right">
-        <block class="Magento_Checkout_Block_Cart_Sidebar" name="cart_sidebar" template="cart/sidebar.phtml" before="-">
-            <action method="addItemRender">
-                <argument name="type" xsi:type="string">simple</argument>
-                <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
-                <argument name="template" xsi:type="string">cart/sidebar/default.phtml</argument>
-            </action>
-            <action method="addItemRender">
-                <argument name="type" xsi:type="string">grouped</argument>
-                <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
-                <argument name="template" xsi:type="string">cart/sidebar/default.phtml</argument>
-            </action>
-            <action method="addItemRender">
-                <argument name="type" xsi:type="string">configurable</argument>
-                <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
-                <argument name="template" xsi:type="string">cart/sidebar/default.phtml</argument>
-            </action>
-            <container name="cart_sidebar.extra_actions" as="extra_actions" label="My Cart Extra Actions"/>
-        </block>
-    </reference>
+    <handle id="default">
+        <reference name="head.components">
+            <block class="Magento_Adminhtml_Block_Page_Js_Components" name="checkout_page_head_components" template="Magento_Checkout::js/components.phtml"/>
+        </reference>
+        <reference name="top.links">
+            <block class="Magento_Checkout_Block_Links" name="checkout_cart_link">
+                <action method="addCartLink"/>
+                <action method="addCheckoutLink"/>
+            </block>
+        </reference>
+        <reference name="right">
+            <block class="Magento_Checkout_Block_Cart_Sidebar" name="cart_sidebar" template="cart/sidebar.phtml" before="-">
+                <action method="addItemRender">
+                    <argument name="type" xsi:type="string">simple</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
+                    <argument name="template" xsi:type="string">cart/sidebar/default.phtml</argument>
+                </action>
+                <action method="addItemRender">
+                    <argument name="type" xsi:type="string">grouped</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
+                    <argument name="template" xsi:type="string">cart/sidebar/default.phtml</argument>
+                </action>
+                <action method="addItemRender">
+                    <argument name="type" xsi:type="string">configurable</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
+                    <argument name="template" xsi:type="string">cart/sidebar/default.phtml</argument>
+                </action>
+                <container name="cart_sidebar.extra_actions" as="extra_actions" label="My Cart Extra Actions"/>
+            </block>
+        </reference>
+    </handle>
 </layout>

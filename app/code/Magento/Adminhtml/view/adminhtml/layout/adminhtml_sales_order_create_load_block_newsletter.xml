@@ -8,9 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
-        <block class="Magento_Adminhtml_Block_Sales_Order_Create_Newsletter" template="sales/order/create/abstract.phtml" name="newsletter">
-            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Newsletter_Form" template="sales/order/create/newsletter/form.phtml" name="order.create.newsletter.form" as="form"/>
-        </block>
-    </reference>
+    <handle id="adminhtml_sales_order_create_load_block_newsletter">
+        <reference name="content">
+            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Newsletter" template="sales/order/create/abstract.phtml" name="newsletter">
+                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Newsletter_Form" template="sales/order/create/newsletter/form.phtml" name="order.create.newsletter.form" as="form"/>
+            </block>
+        </reference>
+    </handle>
 </layout>

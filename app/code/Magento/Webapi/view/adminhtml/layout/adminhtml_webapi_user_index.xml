@@ -8,8 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="adminhtml_webapi_user_grid_block"/>
-    <reference name="content">
-        <block class="Magento_Webapi_Block_Adminhtml_User" name="webapi_user.grid.container"/>
-    </reference>
+    <handle id="adminhtml_webapi_user_index">
+        <update handle="adminhtml_webapi_user_grid_block"/>
+        <reference name="content">
+            <block class="Magento_Webapi_Block_Adminhtml_User" name="webapi_user.grid.container"/>
+        </reference>
+    </handle>
 </layout>

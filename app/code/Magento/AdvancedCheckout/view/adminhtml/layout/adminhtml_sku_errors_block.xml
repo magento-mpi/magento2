@@ -8,59 +8,61 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="errors">
-        <block class="Magento_Backend_Block_Widget_Grid" name="sku_error_grid" as="grid">
-            <arguments>
-                <argument name="id" xsi:type="string">sku_errors</argument>
-                <argument name="dataSource" xsi:type="object">Magento_AdvancedCheckout_Model_Resource_Sku_Errors_Grid_Collection</argument>
-                <argument name="pager_visibility" xsi:type="string">0</argument>
-            </arguments>
-            <block class="Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid_ColumnSet_SkuErrors" name="sku_error_grid.columnSet" as="grid.columnSet">
+    <handle id="adminhtml_sku_errors_block">
+        <reference name="errors">
+            <block class="Magento_Backend_Block_Widget_Grid" name="sku_error_grid" as="grid">
                 <arguments>
-                    <argument name="filter_visibility" xsi:type="string">0</argument>
+                    <argument name="id" xsi:type="string">sku_errors</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_AdvancedCheckout_Model_Resource_Sku_Errors_Grid_Collection</argument>
+                    <argument name="pager_visibility" xsi:type="string">0</argument>
                 </arguments>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="description">
+                <block class="Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid_ColumnSet_SkuErrors" name="sku_error_grid.columnSet" as="grid.columnSet">
                     <arguments>
-                        <argument name="header" xsi:type="string" translate="true">Product</argument>
-                        <argument name="index" xsi:type="string">description</argument>
-                        <argument name="class" xsi:type="string">no-link</argument>
-                        <argument name="sortable" xsi:type="string">0</argument>
-                        <argument name="renderer" xsi:type="string">Magento_AdvancedCheckout_Block_Sku_Column_Renderer_Description</argument>
+                        <argument name="filter_visibility" xsi:type="string">0</argument>
                     </arguments>
-                </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="price">
-                    <arguments>
-                        <argument name="header" xsi:type="string" translate="true">Price</argument>
-                        <argument name="index" xsi:type="string">price</argument>
-                        <argument name="class" xsi:type="string">no-link</argument>
-                        <argument name="sortable" xsi:type="string">0</argument>
-                        <argument name="type" xsi:type="string">text</argument>
-                        <argument name="width" xsi:type="string">100</argument>
-                    </arguments>
-                </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="qty">
-                    <arguments>
-                        <argument name="header" xsi:type="string" translate="true">Quantity</argument>
-                        <argument name="index" xsi:type="string">qty</argument>
-                        <argument name="class" xsi:type="string">no-link sku-error-qty</argument>
-                        <argument name="sortable" xsi:type="string">0</argument>
-                        <argument name="type" xsi:type="string">text</argument>
-                        <argument name="width" xsi:type="string">40</argument>
-                        <argument name="renderer" xsi:type="string">Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid_Renderer_Qty</argument>
-                    </arguments>
-                </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="remove">
-                    <arguments>
-                        <argument name="header" xsi:type="string" translate="true">Remove</argument>
-                        <argument name="index" xsi:type="string">remove_button</argument>
-                        <argument name="class" xsi:type="string">no-link</argument>
-                        <argument name="sortable" xsi:type="string">0</argument>
-                        <argument name="type" xsi:type="string">text</argument>
-                        <argument name="width" xsi:type="string">80</argument>
-                        <argument name="renderer" xsi:type="string">Magento_AdvancedCheckout_Block_Sku_Column_Renderer_Remove</argument>
-                    </arguments>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="description">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Product</argument>
+                            <argument name="index" xsi:type="string">description</argument>
+                            <argument name="class" xsi:type="string">no-link</argument>
+                            <argument name="sortable" xsi:type="string">0</argument>
+                            <argument name="renderer" xsi:type="string">Magento_AdvancedCheckout_Block_Sku_Column_Renderer_Description</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="price">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Price</argument>
+                            <argument name="index" xsi:type="string">price</argument>
+                            <argument name="class" xsi:type="string">no-link</argument>
+                            <argument name="sortable" xsi:type="string">0</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="width" xsi:type="string">100</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="qty">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Quantity</argument>
+                            <argument name="index" xsi:type="string">qty</argument>
+                            <argument name="class" xsi:type="string">no-link sku-error-qty</argument>
+                            <argument name="sortable" xsi:type="string">0</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="width" xsi:type="string">40</argument>
+                            <argument name="renderer" xsi:type="string">Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid_Renderer_Qty</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="remove">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Remove</argument>
+                            <argument name="index" xsi:type="string">remove_button</argument>
+                            <argument name="class" xsi:type="string">no-link</argument>
+                            <argument name="sortable" xsi:type="string">0</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="width" xsi:type="string">80</argument>
+                            <argument name="renderer" xsi:type="string">Magento_AdvancedCheckout_Block_Sku_Column_Renderer_Remove</argument>
+                        </arguments>
+                    </block>
                 </block>
             </block>
-        </block>
-    </reference>
+        </reference>
+    </handle>
 </layout>

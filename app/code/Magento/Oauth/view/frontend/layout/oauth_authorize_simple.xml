@@ -7,11 +7,13 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="OAuth authorization Pop Up for customer" type="page" parent="default">
-    <update handle="oauth_root_handle_simple"/>
-    <remove name="header"/>
-    <reference name="content">
-        <block class="Magento_Oauth_Block_Authorize" name="oauth.authorize.form" template="authorize/form/login-simple.phtml"/>
-        <block class="Magento_Oauth_Block_Authorize_Button" name="oauth.authorize.button" template="authorize/button-simple.phtml"/>
-    </reference>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="OAuth authorization Pop Up for customer" id="oauth_authorize_simple" type="page" parent="default">
+        <update handle="oauth_root_handle_simple"/>
+        <remove name="header"/>
+        <reference name="content">
+            <block class="Magento_Oauth_Block_Authorize" name="oauth.authorize.form" template="authorize/form/login-simple.phtml"/>
+            <block class="Magento_Oauth_Block_Authorize_Button" name="oauth.authorize.button" template="authorize/button-simple.phtml"/>
+        </reference>
+    </handle>
 </layout>

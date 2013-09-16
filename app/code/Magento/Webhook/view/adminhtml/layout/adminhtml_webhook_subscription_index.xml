@@ -8,16 +8,18 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head">
-        <action method="addCss">
-            <argument name="file" xsi:type="string">Magento_Webhook::css/modal.css</argument>
-        </action>
-        <action method="addJs">
-            <argument name="file" xsi:type="string">Magento_Webhook::js/webhook.js</argument>
-        </action>
-    </reference>
-    <update handle="adminhtml_webhook_subscription_grid"/>
-    <reference name="content">
-        <block class="Magento_Webhook_Block_Adminhtml_Subscription" name="webhook.subscriptions.list"/>
-    </reference>
+    <handle id="adminhtml_webhook_subscription_index">
+        <reference name="head">
+            <action method="addCss">
+                <argument name="file" xsi:type="string">Magento_Webhook::css/modal.css</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">Magento_Webhook::js/webhook.js</argument>
+            </action>
+        </reference>
+        <update handle="adminhtml_webhook_subscription_grid"/>
+        <reference name="content">
+            <block class="Magento_Webhook_Block_Adminhtml_Subscription" name="webhook.subscriptions.list"/>
+        </reference>
+    </handle>
 </layout>

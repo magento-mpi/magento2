@@ -8,7 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
-        <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute" name="magento_customercustomattributes_attribute"/>
-    </reference>
+    <handle id="adminhtml_customer_attribute_index">
+        <reference name="content">
+            <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute" name="magento_customercustomattributes_attribute"/>
+        </reference>
+    </handle>
 </layout>

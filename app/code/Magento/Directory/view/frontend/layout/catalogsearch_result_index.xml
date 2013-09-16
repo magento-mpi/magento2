@@ -8,7 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="left">
-        <block class="Magento_Directory_Block_Currency" name="currency" before="-" template="currency.phtml"/>
-    </reference>
+    <handle id="catalogsearch_result_index">
+        <reference name="left">
+            <block class="Magento_Directory_Block_Currency" name="currency" before="-" template="currency.phtml"/>
+        </reference>
+    </handle>
 </layout>

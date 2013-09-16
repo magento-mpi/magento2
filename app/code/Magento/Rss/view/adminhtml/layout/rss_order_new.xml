@@ -8,5 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento_Rss_Block_Order_New" output="1" name="rss.order.new"/>
+    <handle id="rss_order_new">
+        <block class="Magento_Rss_Block_Order_New" output="1" name="rss.order.new"/>
+    </handle>
 </layout>

@@ -7,12 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Store Credit" type="page" parent="customer_account_index">
-    <update handle="customer_account"/>
-    <reference name="my.account.wrapper">
-        <block class="Magento_Core_Block_Template" name="customerbalance.wrapper" template="Magento_CustomerBalance::account/wrapper.phtml">
-            <block class="Magento_CustomerBalance_Block_Account_Balance" name="balance" template="account/balance.phtml" before="-"/>
-            <block class="Magento_CustomerBalance_Block_Account_History" name="history" template="account/history.phtml" after="-"/>
-        </block>
-    </reference>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Customer My Account Store Credit" id="magento_customerbalance_info_index" type="page" parent="customer_account_index">
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block class="Magento_Core_Block_Template" name="customerbalance.wrapper" template="Magento_CustomerBalance::account/wrapper.phtml">
+                <block class="Magento_CustomerBalance_Block_Account_Balance" name="balance" template="account/balance.phtml" before="-"/>
+                <block class="Magento_CustomerBalance_Block_Account_History" name="history" template="account/history.phtml" after="-"/>
+            </block>
+        </reference>
+    </handle>
 </layout>

@@ -8,9 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="customer_edit">
-        <block class="Magento_AdvancedCheckout_Block_Adminhtml_Customer_Edit_Buttons" name="checkout.buttons">
-            <action method="addButtons"/>
-        </block>
-    </reference>
+    <handle id="adminhtml_customer_edit">
+        <reference name="customer_edit">
+            <block class="Magento_AdvancedCheckout_Block_Adminhtml_Customer_Edit_Buttons" name="checkout.buttons">
+                <action method="addButtons"/>
+            </block>
+        </reference>
+    </handle>
 </layout>

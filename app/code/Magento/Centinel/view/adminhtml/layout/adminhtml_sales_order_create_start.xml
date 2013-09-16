@@ -8,5 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="adminhtml_sales_order_create_index"/>
+    <handle id="adminhtml_sales_order_create_start">
+        <update handle="adminhtml_sales_order_create_index"/>
+    </handle>
 </layout>

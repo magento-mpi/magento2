@@ -8,5 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="adminhtml_targetrule_edit"/>
+    <handle id="adminhtml_targetrule_new">
+        <update handle="adminhtml_targetrule_edit"/>
+    </handle>
 </layout>

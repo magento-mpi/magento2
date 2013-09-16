@@ -8,17 +8,19 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <remove name="left"/>
-    <reference name="attribute_edit_content">
-        <arguments>
-            <argument name="template" xsi:type="string">Magento_Adminhtml::catalog/product/attribute/form.phtml</argument>
-        </arguments>
-        <container name="form" label="Form">
-            <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main" as="main"/>
-            <block class="Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Options" as="advanced-options"/>
-            <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced" as="options"/>
-            <block class="Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels" as="labels"/>
-            <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front" as="front-options"/>
-        </container>
-    </reference>
+    <handle id="adminhtml_catalog_product_attribute_edit_popup">
+        <remove name="left"/>
+        <reference name="attribute_edit_content">
+            <arguments>
+                <argument name="template" xsi:type="string">Magento_Adminhtml::catalog/product/attribute/form.phtml</argument>
+            </arguments>
+            <container name="form" label="Form">
+                <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main" as="main"/>
+                <block class="Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Options" as="advanced-options"/>
+                <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced" as="options"/>
+                <block class="Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels" as="labels"/>
+                <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front" as="front-options"/>
+            </container>
+        </reference>
+    </handle>
 </layout>

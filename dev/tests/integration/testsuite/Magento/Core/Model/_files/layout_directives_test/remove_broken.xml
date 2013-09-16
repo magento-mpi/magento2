@@ -8,14 +8,16 @@
  */
 -->
 <layout>
-    <block name="test.broken.block" type="Magento_Core_Block_Text"/>
-    <remove name="test.broken.block"/>
-    <block class="Magento_Core_Block_Template" name="bug.without.name.action.is.ignored">
-        <action method="insert">
-            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="element" xsi:type="string">test.broken.block</argument>
-        </action>
-        <action method="append">
-            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="element" xsi:type="string">test.broken.block</argument>
-        </action>
-    </block>
+    <handle id="remove_broken">
+        <block name="test.broken.block" type="Magento_Core_Block_Text"/>
+        <remove name="test.broken.block"/>
+        <block class="Magento_Core_Block_Template" name="bug.without.name.action.is.ignored">
+            <action method="insert">
+                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="element" xsi:type="string">test.broken.block</argument>
+            </action>
+            <action method="append">
+                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="element" xsi:type="string">test.broken.block</argument>
+            </action>
+        </block>
+    </handle>
 </layout>

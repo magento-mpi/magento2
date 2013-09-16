@@ -8,11 +8,13 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="rss.catalog.category">
-        <action method="addPriceBlockType">
-            <argument name="type" xsi:type="string">bundle</argument>
-            <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_Price</argument>
-            <argument name="template" xsi:type="string">rss/catalog/product/price.phtml</argument>
-        </action>
-    </reference>
+    <handle id="rss_catalog_category">
+        <reference name="rss.catalog.category">
+            <action method="addPriceBlockType">
+                <argument name="type" xsi:type="string">bundle</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_Price</argument>
+                <argument name="template" xsi:type="string">rss/catalog/product/price.phtml</argument>
+            </action>
+        </reference>
+    </handle>
 </layout>

@@ -7,8 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="One Page Checkout Choose Shipping Method" type="fragment" owner="checkout_onepage_index">
-    <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
-        <block class="Magento_Checkout_Block_Onepage_Shipping_Method_Available" name="shipping_method" template="onepage/shipping_method/available.phtml"/>
-    </block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="One Page Checkout Choose Shipping Method" id="checkout_onepage_shippingmethod" type="fragment" owner="checkout_onepage_index">
+        <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
+            <block class="Magento_Checkout_Block_Onepage_Shipping_Method_Available" name="shipping_method" template="onepage/shipping_method/available.phtml"/>
+        </block>
+    </handle>
 </layout>

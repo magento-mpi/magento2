@@ -8,7 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="formkey"/>
-    <update handle="adminhtml_webapi_role_grid_block"/>
-    <container name="webapi_role.grid.container" label="API Roles Grid Container" output="1"/>
+    <handle id="adminhtml_webapi_role_rolegrid">
+        <update handle="formkey"/>
+        <update handle="adminhtml_webapi_role_grid_block"/>
+        <container name="webapi_role.grid.container" label="API Roles Grid Container" output="1"/>
+    </handle>
 </layout>

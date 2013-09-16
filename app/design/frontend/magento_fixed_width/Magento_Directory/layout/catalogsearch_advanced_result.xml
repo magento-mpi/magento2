@@ -8,5 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <remove name="right_currency"/>
+    <handle id="catalogsearch_advanced_result">
+        <remove name="right_currency"/>
+    </handle>
 </layout>

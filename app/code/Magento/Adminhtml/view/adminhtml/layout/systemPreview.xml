@@ -8,7 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento_Core_Block_Template" name="root" output="1" template="Magento_Adminhtml::system/email/template/preview.phtml">
-        <block class="Magento_Adminhtml_Block_System_Email_Template_Preview" name="content" as="content"/>
-    </block>
+    <handle id="systemPreview">
+        <block class="Magento_Core_Block_Template" name="root" output="1" template="Magento_Adminhtml::system/email/template/preview.phtml">
+            <block class="Magento_Adminhtml_Block_System_Email_Template_Preview" name="content" as="content"/>
+        </block>
+    </handle>
 </layout>

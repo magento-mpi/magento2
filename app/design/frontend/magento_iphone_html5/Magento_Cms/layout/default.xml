@@ -8,12 +8,14 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head">
-        <action method="removeItem">
-            <argument name="type" xsi:type="string">css</argument>
-            <argument name="file" xsi:type="string">Magento_Cms::widgets.css</argument>
-        </action>
-    </reference>
-    <remove name="header.callout"/>
-    <move element="cms_footer_links" destination="footer" before="footer_links"/>
+    <handle id="default">
+        <reference name="head">
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">css</argument>
+                <argument name="file" xsi:type="string">Magento_Cms::widgets.css</argument>
+            </action>
+        </reference>
+        <remove name="header.callout"/>
+        <move element="cms_footer_links" destination="footer" before="footer_links"/>
+    </handle>
 </layout>

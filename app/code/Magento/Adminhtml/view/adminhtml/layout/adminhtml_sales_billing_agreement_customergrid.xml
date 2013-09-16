@@ -8,5 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement" name="customer.billing.agreement.grid" output="1"/>
+    <handle id="adminhtml_sales_billing_agreement_customergrid">
+        <block class="Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement" name="customer.billing.agreement.grid" output="1"/>
+    </handle>
 </layout>

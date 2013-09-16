@@ -8,10 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="my.account.wrapper">
-        <block class="Magento_Rma_Block_Order_Info" name="enterprise.rma.info"/>
-    </reference>
-    <reference name="sales.order.info.buttons">
-        <block class="Magento_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml"/>
-    </reference>
+    <handle id="sales_order_view">
+        <reference name="my.account.wrapper">
+            <block class="Magento_Rma_Block_Order_Info" name="enterprise.rma.info"/>
+        </reference>
+        <reference name="sales.order.info.buttons">
+            <block class="Magento_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml"/>
+        </reference>
+    </handle>
 </layout>

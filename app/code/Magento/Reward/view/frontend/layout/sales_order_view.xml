@@ -8,7 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="order_totals">
-        <block class="Magento_Reward_Block_Sales_Order_Total" name="reward.sales.order.total"/>
-    </reference>
+    <handle id="sales_order_view">
+        <reference name="order_totals">
+            <block class="Magento_Reward_Block_Sales_Order_Total" name="reward.sales.order.total"/>
+        </reference>
+    </handle>
 </layout>

@@ -8,7 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="left">
-        <block class="Magento_Backend_Block_Store_Switcher" name="store_switcher" before="-"/>
-    </reference>
+    <handle id="adminhtml_giftregistry_edit">
+        <reference name="left">
+            <block class="Magento_Backend_Block_Store_Switcher" name="store_switcher" before="-"/>
+        </reference>
+    </handle>
 </layout>

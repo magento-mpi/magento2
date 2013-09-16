@@ -8,12 +8,14 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head">
-        <action method="addJs">
-            <argument name="file" xsi:type="string">Magento_GiftRegistry::js/opcheckout.js</argument>
-            <argument name="params" xsi:type="string"/>
-            <argument name="if" xsi:type="string"/>
-            <argument name="condition" xsi:type="string">giftregistry_enabled</argument>
-        </action>
-    </reference>
+    <handle id="checkout_onepage_index">
+        <reference name="head">
+            <action method="addJs">
+                <argument name="file" xsi:type="string">Magento_GiftRegistry::js/opcheckout.js</argument>
+                <argument name="params" xsi:type="string"/>
+                <argument name="if" xsi:type="string"/>
+                <argument name="condition" xsi:type="string">giftregistry_enabled</argument>
+            </action>
+        </reference>
+    </handle>
 </layout>

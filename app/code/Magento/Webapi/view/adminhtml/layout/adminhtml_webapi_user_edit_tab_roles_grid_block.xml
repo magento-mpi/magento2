@@ -8,50 +8,52 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="webapi.user.edit.tab.roles.grid.container">
-        <block class="Magento_Backend_Block_Widget_Grid" name="webapi.user.edit.tab.roles.grid" as="grid">
-            <arguments>
-                <argument name="id" xsi:type="string">permissionsUserRolesGrid</argument>
-                <argument name="dataSource" xsi:type="object">Magento_Webapi_Model_Resource_Acl_Role_Collection</argument>
-                <argument name="use_ajax" xsi:type="string">true</argument>
-                <argument name="default_sort" xsi:type="string">sort_order</argument>
-                <argument name="default_dir" xsi:type="string">ASC</argument>
-                <argument name="grid_url" xsi:type="url" path="*/*/rolesgrid">
-                    <param name="_current">1</param>
-                </argument>
-            </arguments>
-            <action method="setTitle">
-                <argument translate="true" name="value" xsi:type="string">User Roles Information</argument>
-            </action>
-            <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="webapi.user.edit.tab.roles.grid.columnSet" as="grid.columnSet">
+    <handle id="adminhtml_webapi_user_edit_tab_roles_grid_block">
+        <reference name="webapi.user.edit.tab.roles.grid.container">
+            <block class="Magento_Backend_Block_Widget_Grid" name="webapi.user.edit.tab.roles.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">permissionsUserRolesGrid</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Webapi_Model_Resource_Acl_Role_Collection</argument>
+                    <argument name="use_ajax" xsi:type="string">true</argument>
+                    <argument name="default_sort" xsi:type="string">sort_order</argument>
+                    <argument name="default_dir" xsi:type="string">ASC</argument>
+                    <argument name="grid_url" xsi:type="url" path="*/*/rolesgrid">
+                        <param name="_current">1</param>
+                    </argument>
                 </arguments>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" name="webapi.user.edit.tab.roles.grid.columnSet.role_id" as="role_id">
+                <action method="setTitle">
+                    <argument translate="true" name="value" xsi:type="string">User Roles Information</argument>
+                </action>
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="webapi.user.edit.tab.roles.grid.columnSet" as="grid.columnSet">
                     <arguments>
-                        <argument name="id" xsi:type="string">role_id</argument>
-                        <argument name="index" xsi:type="string">role_id</argument>
-                        <argument name="html_name" xsi:type="string">role_id</argument>
-                        <argument name="header" xsi:type="string" translate="true">Assigned</argument>
-                        <argument name="type" xsi:type="string">radio</argument>
-                        <argument name="header_css_class" xsi:type="string">a-center</argument>
-                        <argument name="align" xsi:type="string">center</argument>
-                        <argument name="filter" xsi:type="string">0</argument>
-                        <argument name="sortable" xsi:type="string">0</argument>
-                        <argument name="required" xsi:type="string">0</argument>
-                        <argument name="value" xsi:type="string">
-                            <updater>Magento_Webapi_Model_Acl_User_RoleUpdater</updater>
-                        </argument>
+                        <argument name="id" xsi:type="string">permissionsUserRolesGrid</argument>
                     </arguments>
-                </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="role_name">
-                    <arguments>
-                        <argument name="id" xsi:type="string">role_name</argument>
-                        <argument name="header" xsi:type="string" translate="true">Role Name</argument>
-                        <argument name="index" xsi:type="string">role_name</argument>
-                    </arguments>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" name="webapi.user.edit.tab.roles.grid.columnSet.role_id" as="role_id">
+                        <arguments>
+                            <argument name="id" xsi:type="string">role_id</argument>
+                            <argument name="index" xsi:type="string">role_id</argument>
+                            <argument name="html_name" xsi:type="string">role_id</argument>
+                            <argument name="header" xsi:type="string" translate="true">Assigned</argument>
+                            <argument name="type" xsi:type="string">radio</argument>
+                            <argument name="header_css_class" xsi:type="string">a-center</argument>
+                            <argument name="align" xsi:type="string">center</argument>
+                            <argument name="filter" xsi:type="string">0</argument>
+                            <argument name="sortable" xsi:type="string">0</argument>
+                            <argument name="required" xsi:type="string">0</argument>
+                            <argument name="value" xsi:type="string">
+                                <updater>Magento_Webapi_Model_Acl_User_RoleUpdater</updater>
+                            </argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="role_name">
+                        <arguments>
+                            <argument name="id" xsi:type="string">role_name</argument>
+                            <argument name="header" xsi:type="string" translate="true">Role Name</argument>
+                            <argument name="index" xsi:type="string">role_name</argument>
+                        </arguments>
+                    </block>
                 </block>
             </block>
-        </block>
-    </reference>
+        </reference>
+    </handle>
 </layout>

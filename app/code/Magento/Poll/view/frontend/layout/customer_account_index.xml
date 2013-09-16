@@ -8,9 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="right">
-        <action method="unsetChild">
-            <argument name="name" xsi:type="string">right.poll</argument>
-        </action>
-    </reference>
+    <handle id="customer_account_index">
+        <reference name="right">
+            <action method="unsetChild">
+                <argument name="name" xsi:type="string">right.poll</argument>
+            </action>
+        </reference>
+    </handle>
 </layout>

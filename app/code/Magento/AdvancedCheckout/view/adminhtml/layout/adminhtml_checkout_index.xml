@@ -8,36 +8,38 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head">
-        <action method="addJs">
-            <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/product/composite/configure.js</argument>
-        </action>
-        <action method="addJs">
-            <argument name="file" xsi:type="string">varien/configurable.js</argument>
-        </action>
-        <action method="addJs">
-            <argument name="file" xsi:type="string">Magento_AdvancedCheckout::shopping_cart.js</argument>
-        </action>
-    </reference>
-    <reference name="content">
-        <update handle="adminhtml_sku_errors_block"/>
-        <block class="Magento_Adminhtml_Block_Catalog_Product_Composite_Configure" name="configure.popup"/>
-        <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage" name="ID" template="manage.phtml">
-            <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Store_Switcher" name="checkout.store.switcher"/>
-            <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Messages" name="checkout.message"/>
-            <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items" name="checkout.items" template="manage/items.phtml"/>
-            <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Sku_Errors" name="errors"/>
-            <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion" name="checkout.accordion">
-                <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products" name="products"/>
-                <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Sku" name="sku.accordion"/>
-                <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Wishlist" name="wishlist"/>
-                <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared" name="compared"/>
-                <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rcompared" name="rcompared"/>
-                <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rviewed" name="rviewed"/>
-                <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered" name="ordered"/>
+    <handle id="adminhtml_checkout_index">
+        <reference name="head">
+            <action method="addJs">
+                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/product/composite/configure.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">varien/configurable.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">Magento_AdvancedCheckout::shopping_cart.js</argument>
+            </action>
+        </reference>
+        <reference name="content">
+            <update handle="adminhtml_sku_errors_block"/>
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Composite_Configure" name="configure.popup"/>
+            <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage" name="ID" template="manage.phtml">
+                <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Store_Switcher" name="checkout.store.switcher"/>
+                <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Messages" name="checkout.message"/>
+                <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items" name="checkout.items" template="manage/items.phtml"/>
+                <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Sku_Errors" name="errors"/>
+                <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion" name="checkout.accordion">
+                    <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products" name="products"/>
+                    <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Sku" name="sku.accordion"/>
+                    <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Wishlist" name="wishlist"/>
+                    <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared" name="compared"/>
+                    <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rcompared" name="rcompared"/>
+                    <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rviewed" name="rviewed"/>
+                    <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered" name="ordered"/>
+                </block>
+                <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Form_Coupon" template="form/coupon.phtml" name="checkout.form_coupon"/>
             </block>
-            <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Form_Coupon" template="form/coupon.phtml" name="checkout.form_coupon"/>
-        </block>
-        <block class="Magento_Adminhtml_Block_Catalog_Product_Composite_Configure" name="configure.popup"/>
-    </reference>
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Composite_Configure" name="configure.popup"/>
+        </reference>
+    </handle>
 </layout>

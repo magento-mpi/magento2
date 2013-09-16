@@ -8,17 +8,19 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="footer_links">
-        <action method="addLink" ifconfig="rss/config/active">
-            <argument translate="true" name="label" xsi:type="string">RSS</argument>
-            <argument name="name" xsi:type="string">rss</argument>
-            <argument name="path" xsi:type="string">rss</argument>
-            <argument translate="true" name="title" xsi:type="string">RSS</argument>
-            <argument name="urlParams" xsi:type="string"/>
-            <argument name="position" xsi:type="string"/>
-            <argument name="li" xsi:type="string"/>
-            <argument name="a" xsi:type="string">class="link-rss"</argument>
-        </action>
-    </reference>
-    <block class="Magento_Rss_Block_List" name="head_rss" ifconfig="rss/config/active"/>
+    <handle id="default">
+        <reference name="footer_links">
+            <action method="addLink" ifconfig="rss/config/active">
+                <argument translate="true" name="label" xsi:type="string">RSS</argument>
+                <argument name="name" xsi:type="string">rss</argument>
+                <argument name="path" xsi:type="string">rss</argument>
+                <argument translate="true" name="title" xsi:type="string">RSS</argument>
+                <argument name="urlParams" xsi:type="string"/>
+                <argument name="position" xsi:type="string"/>
+                <argument name="li" xsi:type="string"/>
+                <argument name="a" xsi:type="string">class="link-rss"</argument>
+            </action>
+        </reference>
+        <block class="Magento_Rss_Block_List" name="head_rss" ifconfig="rss/config/active"/>
+    </handle>
 </layout>

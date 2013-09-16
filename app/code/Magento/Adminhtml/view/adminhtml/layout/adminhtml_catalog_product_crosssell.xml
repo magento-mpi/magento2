@@ -8,20 +8,22 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <container name="root" label="Root" output="1">
-        <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell" name="catalog.product.edit.tab.crosssell"/>
-        <block class="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="crosssell_grid_serializer">
-            <reference name="crosssell_grid_serializer">
-                <action method="initSerializerBlock">
-                    <argument name="grid_block_name" xsi:type="string">catalog.product.edit.tab.crosssell</argument>
-                    <argument name="data_callback" xsi:type="string">getSelectedCrossSellProducts</argument>
-                    <argument name="hidden_input_name" xsi:type="string">links[crosssell]</argument>
-                    <argument name="reload_param_name" xsi:type="string">products_crosssell</argument>
-                </action>
-                <action method="addColumnInputName">
-                    <argument name="input_name" xsi:type="string">position</argument>
-                </action>
-            </reference>
-        </block>
-    </container>
+    <handle id="adminhtml_catalog_product_crosssell">
+        <container name="root" label="Root" output="1">
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell" name="catalog.product.edit.tab.crosssell"/>
+            <block class="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="crosssell_grid_serializer">
+                <reference name="crosssell_grid_serializer">
+                    <action method="initSerializerBlock">
+                        <argument name="grid_block_name" xsi:type="string">catalog.product.edit.tab.crosssell</argument>
+                        <argument name="data_callback" xsi:type="string">getSelectedCrossSellProducts</argument>
+                        <argument name="hidden_input_name" xsi:type="string">links[crosssell]</argument>
+                        <argument name="reload_param_name" xsi:type="string">products_crosssell</argument>
+                    </action>
+                    <action method="addColumnInputName">
+                        <argument name="input_name" xsi:type="string">position</argument>
+                    </action>
+                </reference>
+            </block>
+        </container>
+    </handle>
 </layout>

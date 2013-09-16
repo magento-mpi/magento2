@@ -8,11 +8,13 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="sales.order.print.creditmemo">
-        <action method="addItemRender">
-            <argument name="type" xsi:type="string">downloadable</argument>
-            <argument name="block" xsi:type="string">Magento_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable</argument>
-            <argument name="template" xsi:type="string">sales/order/creditmemo/items/renderer/downloadable.phtml</argument>
-        </action>
-    </reference>
+    <handle id="sales_guest_printcreditmemo">
+        <reference name="sales.order.print.creditmemo">
+            <action method="addItemRender">
+                <argument name="type" xsi:type="string">downloadable</argument>
+                <argument name="block" xsi:type="string">Magento_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable</argument>
+                <argument name="template" xsi:type="string">sales/order/creditmemo/items/renderer/downloadable.phtml</argument>
+            </action>
+        </reference>
+    </handle>
 </layout>

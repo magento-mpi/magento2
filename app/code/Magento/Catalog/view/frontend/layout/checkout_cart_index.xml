@@ -8,5 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="MAP_popup"/>
+    <handle id="checkout_cart_index">
+        <update handle="MAP_popup"/>
+    </handle>
 </layout>

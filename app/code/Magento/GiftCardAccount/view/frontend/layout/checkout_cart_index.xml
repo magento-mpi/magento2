@@ -8,7 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="checkout.cart.extra">
-        <block class="Magento_GiftCardAccount_Block_Checkout_Cart_Giftcardaccount" template="cart/block.phtml" name="checkout.cart.giftcardaccount" as="giftcards"/>
-    </reference>
+    <handle id="checkout_cart_index">
+        <reference name="checkout.cart.extra">
+            <block class="Magento_GiftCardAccount_Block_Checkout_Cart_Giftcardaccount" template="cart/block.phtml" name="checkout.cart.giftcardaccount" as="giftcards"/>
+        </reference>
+    </handle>
 </layout>

@@ -8,13 +8,15 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <remove name="top.search"/>
-    <reference name="footer_links">
-        <action method="removeLinkByUrl">
-            <argument name="url" xsi:type="helper" helper="Magento_CatalogSearch_Helper_Data::getSearchTermUrl"/>
-        </action>
-        <action method="removeLinkByUrl">
-            <argument name="url" xsi:type="helper" helper="Magento_CatalogSearch_Helper_Data::getAdvancedSearchUrl"/>
-        </action>
-    </reference>
+    <handle id="CATALOGPERMISSIONS_DISABLED_CATALOG_SEARCH">
+        <remove name="top.search"/>
+        <reference name="footer_links">
+            <action method="removeLinkByUrl">
+                <argument name="url" xsi:type="helper" helper="Magento_CatalogSearch_Helper_Data::getSearchTermUrl"/>
+            </action>
+            <action method="removeLinkByUrl">
+                <argument name="url" xsi:type="helper" helper="Magento_CatalogSearch_Helper_Data::getAdvancedSearchUrl"/>
+            </action>
+        </reference>
+    </handle>
 </layout>

@@ -8,53 +8,55 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
-        <block class="Magento_CustomerCustomAttributes_Block_Form_Template" name="customer_form_template">
-            <action method="addRenderer">
-                <argument name="type" xsi:type="string">text</argument>
-                <argument name="renderer_block" xsi:type="string">Magento_CustomerCustomAttributes_Block_Form_Renderer_Text</argument>
-                <argument name="template" xsi:type="string">form/renderer/text.phtml</argument>
-            </action>
-            <action method="addRenderer">
-                <argument name="type" xsi:type="string">textarea</argument>
-                <argument name="renderer_block" xsi:type="string">Magento_CustomerCustomAttributes_Block_Form_Renderer_Textarea</argument>
-                <argument name="template" xsi:type="string">form/renderer/textarea.phtml</argument>
-            </action>
-            <action method="addRenderer">
-                <argument name="type" xsi:type="string">multiline</argument>
-                <argument name="renderer_block" xsi:type="string">Magento_CustomerCustomAttributes_Block_Form_Renderer_Multiline</argument>
-                <argument name="template" xsi:type="string">form/renderer/multiline.phtml</argument>
-            </action>
-            <action method="addRenderer">
-                <argument name="type" xsi:type="string">date</argument>
-                <argument name="renderer_block" xsi:type="string">Magento_CustomAttribute_Block_Form_Renderer_Date</argument>
-                <argument name="template" xsi:type="string">form/renderer/date.phtml</argument>
-            </action>
-            <action method="addRenderer">
-                <argument name="type" xsi:type="string">select</argument>
-                <argument name="renderer_block" xsi:type="string">Magento_CustomerCustomAttributes_Block_Form_Renderer_Select</argument>
-                <argument name="template" xsi:type="string">form/renderer/select.phtml</argument>
-            </action>
-            <action method="addRenderer">
-                <argument name="type" xsi:type="string">multiselect</argument>
-                <argument name="renderer_block" xsi:type="string">Magento_CustomerCustomAttributes_Block_Form_Renderer_Multiselect</argument>
-                <argument name="template" xsi:type="string">form/renderer/multiselect.phtml</argument>
-            </action>
-            <action method="addRenderer">
-                <argument name="type" xsi:type="string">boolean</argument>
-                <argument name="renderer_block" xsi:type="string">Magento_CustomerCustomAttributes_Block_Form_Renderer_Boolean</argument>
-                <argument name="template" xsi:type="string">form/renderer/boolean.phtml</argument>
-            </action>
-            <action method="addRenderer">
-                <argument name="type" xsi:type="string">file</argument>
-                <argument name="renderer_block" xsi:type="string">Magento_CustomerCustomAttributes_Block_Form_Renderer_File</argument>
-                <argument name="template" xsi:type="string">form/renderer/file.phtml</argument>
-            </action>
-            <action method="addRenderer">
-                <argument name="type" xsi:type="string">image</argument>
-                <argument name="renderer_block" xsi:type="string">Magento_CustomerCustomAttributes_Block_Form_Renderer_Image</argument>
-                <argument name="template" xsi:type="string">form/renderer/image.phtml</argument>
-            </action>
-        </block>
-    </reference>
+    <handle id="customer_form_template_handle">
+        <reference name="content">
+            <block class="Magento_CustomerCustomAttributes_Block_Form_Template" name="customer_form_template">
+                <action method="addRenderer">
+                    <argument name="type" xsi:type="string">text</argument>
+                    <argument name="renderer_block" xsi:type="string">Magento_CustomerCustomAttributes_Block_Form_Renderer_Text</argument>
+                    <argument name="template" xsi:type="string">form/renderer/text.phtml</argument>
+                </action>
+                <action method="addRenderer">
+                    <argument name="type" xsi:type="string">textarea</argument>
+                    <argument name="renderer_block" xsi:type="string">Magento_CustomerCustomAttributes_Block_Form_Renderer_Textarea</argument>
+                    <argument name="template" xsi:type="string">form/renderer/textarea.phtml</argument>
+                </action>
+                <action method="addRenderer">
+                    <argument name="type" xsi:type="string">multiline</argument>
+                    <argument name="renderer_block" xsi:type="string">Magento_CustomerCustomAttributes_Block_Form_Renderer_Multiline</argument>
+                    <argument name="template" xsi:type="string">form/renderer/multiline.phtml</argument>
+                </action>
+                <action method="addRenderer">
+                    <argument name="type" xsi:type="string">date</argument>
+                    <argument name="renderer_block" xsi:type="string">Magento_CustomAttribute_Block_Form_Renderer_Date</argument>
+                    <argument name="template" xsi:type="string">form/renderer/date.phtml</argument>
+                </action>
+                <action method="addRenderer">
+                    <argument name="type" xsi:type="string">select</argument>
+                    <argument name="renderer_block" xsi:type="string">Magento_CustomerCustomAttributes_Block_Form_Renderer_Select</argument>
+                    <argument name="template" xsi:type="string">form/renderer/select.phtml</argument>
+                </action>
+                <action method="addRenderer">
+                    <argument name="type" xsi:type="string">multiselect</argument>
+                    <argument name="renderer_block" xsi:type="string">Magento_CustomerCustomAttributes_Block_Form_Renderer_Multiselect</argument>
+                    <argument name="template" xsi:type="string">form/renderer/multiselect.phtml</argument>
+                </action>
+                <action method="addRenderer">
+                    <argument name="type" xsi:type="string">boolean</argument>
+                    <argument name="renderer_block" xsi:type="string">Magento_CustomerCustomAttributes_Block_Form_Renderer_Boolean</argument>
+                    <argument name="template" xsi:type="string">form/renderer/boolean.phtml</argument>
+                </action>
+                <action method="addRenderer">
+                    <argument name="type" xsi:type="string">file</argument>
+                    <argument name="renderer_block" xsi:type="string">Magento_CustomerCustomAttributes_Block_Form_Renderer_File</argument>
+                    <argument name="template" xsi:type="string">form/renderer/file.phtml</argument>
+                </action>
+                <action method="addRenderer">
+                    <argument name="type" xsi:type="string">image</argument>
+                    <argument name="renderer_block" xsi:type="string">Magento_CustomerCustomAttributes_Block_Form_Renderer_Image</argument>
+                    <argument name="template" xsi:type="string">form/renderer/image.phtml</argument>
+                </action>
+            </block>
+        </reference>
+    </handle>
 </layout>

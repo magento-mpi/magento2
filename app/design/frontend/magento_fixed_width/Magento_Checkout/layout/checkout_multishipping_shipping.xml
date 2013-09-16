@@ -8,5 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <container name="additional.product.info" label="Additional Product Info"/>
+    <handle id="checkout_multishipping_shipping">
+        <container name="additional.product.info" label="Additional Product Info"/>
+    </handle>
 </layout>

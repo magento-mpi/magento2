@@ -7,9 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Wishlist Search Results" type="page" parent="default">
-    <reference name="content">
-        <block class="Magento_MultipleWishlist_Block_Search_Form" name="wishlist.search.form" template="search/form.phtml"/>
-        <block class="Magento_MultipleWishlist_Block_Search_Results" name="wishlist.search.results" template="search/results.phtml"/>
-    </reference>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Wishlist Search Results" id="wishlist_search_results" type="page" parent="default">
+        <reference name="content">
+            <block class="Magento_MultipleWishlist_Block_Search_Form" name="wishlist.search.form" template="search/form.phtml"/>
+            <block class="Magento_MultipleWishlist_Block_Search_Results" name="wishlist.search.results" template="search/results.phtml"/>
+        </reference>
+    </handle>
 </layout>

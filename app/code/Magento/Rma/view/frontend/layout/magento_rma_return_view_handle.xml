@@ -7,14 +7,16 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="RMA Return View Image" type="page" parent="magento_rma_return_create_handle">
-    <reference name="content">
-        <block class="Magento_CustomAttribute_Block_Form_Template" name="magento_rma_item_form_template">
-            <action method="addRenderer">
-                <argument name="type" xsi:type="string">image</argument>
-                <argument name="renderer_block" xsi:type="string">Magento_Rma_Block_Form_Renderer_Image</argument>
-                <argument name="template" xsi:type="string">form/view/image.phtml</argument>
-            </action>
-        </block>
-    </reference>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="RMA Return View Image" id="magento_rma_return_view_handle" type="page" parent="magento_rma_return_create_handle">
+        <reference name="content">
+            <block class="Magento_CustomAttribute_Block_Form_Template" name="magento_rma_item_form_template">
+                <action method="addRenderer">
+                    <argument name="type" xsi:type="string">image</argument>
+                    <argument name="renderer_block" xsi:type="string">Magento_Rma_Block_Form_Renderer_Image</argument>
+                    <argument name="template" xsi:type="string">form/view/image.phtml</argument>
+                </action>
+            </block>
+        </reference>
+    </handle>
 </layout>

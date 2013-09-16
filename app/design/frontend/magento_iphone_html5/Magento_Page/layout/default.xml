@@ -8,33 +8,35 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="root">
-        <action method="setTemplate">
-            <argument name="template" xsi:type="string">1column.phtml</argument>
-        </action>
-    </reference>
-    <reference name="head">
-        <action method="addCss">
-            <argument name="file" xsi:type="string">css/iphone.css</argument>
-        </action>
-        <action method="addCss">
-            <argument name="file" xsi:type="string">css/widgets.css</argument>
-        </action>
-        <action method="addCss">
-            <argument name="file" xsi:type="string">css/custom.css</argument>
-        </action>
-        <action method="addJs">
-            <argument name="file" xsi:type="string">js/iphone.js</argument>
-        </action>
-        <action method="addJs">
-            <argument name="file" xsi:type="string">js/dnd.js</argument>
-        </action>
-        <action method="addJs">
-            <argument name="file" xsi:type="string">js/modernizr.js</argument>
-        </action>
-        <action method="addMetaTag">
-            <argument name="name" xsi:type="string">viewport</argument>
-            <argument name="content" xsi:type="string">width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no</argument>
-        </action>
-    </reference>
+    <handle id="default">
+        <reference name="root">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">1column.phtml</argument>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="addCss">
+                <argument name="file" xsi:type="string">css/iphone.css</argument>
+            </action>
+            <action method="addCss">
+                <argument name="file" xsi:type="string">css/widgets.css</argument>
+            </action>
+            <action method="addCss">
+                <argument name="file" xsi:type="string">css/custom.css</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">js/iphone.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">js/dnd.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">js/modernizr.js</argument>
+            </action>
+            <action method="addMetaTag">
+                <argument name="name" xsi:type="string">viewport</argument>
+                <argument name="content" xsi:type="string">width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no</argument>
+            </action>
+        </reference>
+    </handle>
 </layout>

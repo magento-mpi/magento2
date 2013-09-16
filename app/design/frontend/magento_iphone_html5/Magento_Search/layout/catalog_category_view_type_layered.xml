@@ -8,8 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
-        <remove name="catalog.leftnav"/>
-        <block class="Magento_Search_Block_Catalog_Layer_View" name="enterprisecatalog.leftnav" after="-" template="Magento_Catalog::layer/view.phtml"/>
-    </reference>
+    <handle id="catalog_category_view_type_layered">
+        <reference name="content">
+            <remove name="catalog.leftnav"/>
+            <block class="Magento_Search_Block_Catalog_Layer_View" name="enterprisecatalog.leftnav" after="-" template="Magento_Catalog::layer/view.phtml"/>
+        </reference>
+    </handle>
 </layout>

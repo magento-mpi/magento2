@@ -8,5 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento_Adminhtml_Block_Catalog_Product_Composite_Update_Result" name="product.composite.update.result" output="1"/>
+    <handle id="ADMINHTML_CATALOG_PRODUCT_COMPOSITE_UPDATE_RESULT">
+        <block class="Magento_Adminhtml_Block_Catalog_Product_Composite_Update_Result" name="product.composite.update.result" output="1"/>
+    </handle>
 </layout>

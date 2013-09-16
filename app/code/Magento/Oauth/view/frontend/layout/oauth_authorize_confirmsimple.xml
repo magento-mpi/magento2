@@ -7,10 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Confirm Oauth token authorization (Simple)" type="page">
-    <update handle="oauth_root_handle_simple"/>
-    <remove name="header"/>
-    <reference name="content">
-        <block class="Magento_Oauth_Block_Authorize_Button" name="oauth.authorize.confirm" template="authorize/confirm-simple.phtml"/>
-    </reference>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Confirm Oauth token authorization (Simple)" id="oauth_authorize_confirmsimple" type="page">
+        <update handle="oauth_root_handle_simple"/>
+        <remove name="header"/>
+        <reference name="content">
+            <block class="Magento_Oauth_Block_Authorize_Button" name="oauth.authorize.confirm" template="authorize/confirm-simple.phtml"/>
+        </reference>
+    </handle>
 </layout>

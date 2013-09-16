@@ -8,7 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="js">
-        <block class="Magento_Adminhtml_Block_Template" name="pbridge.js" template="Magento_Pbridge::sales/order/create/js.phtml"/>
-    </reference>
+    <handle id="adminhtml_sales_order_create_index">
+        <reference name="js">
+            <block class="Magento_Adminhtml_Block_Template" name="pbridge.js" template="Magento_Pbridge::sales/order/create/js.phtml"/>
+        </reference>
+    </handle>
 </layout>

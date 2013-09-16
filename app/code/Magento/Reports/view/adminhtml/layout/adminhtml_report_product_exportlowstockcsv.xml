@@ -8,6 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="adminhtml_report_product_lowstock_grid"/>
-    <container name="adminhtml.block.report.product.lowstock.grid.container" label="Export CSV"/>
+    <handle id="adminhtml_report_product_exportlowstockcsv">
+        <update handle="adminhtml_report_product_lowstock_grid"/>
+        <container name="adminhtml.block.report.product.lowstock.grid.container" label="Export CSV"/>
+    </handle>
 </layout>

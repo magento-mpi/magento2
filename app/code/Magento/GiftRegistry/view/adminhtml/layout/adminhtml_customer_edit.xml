@@ -8,10 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="customer_edit_tabs">
-        <action method="addTab">
-            <argument name="tab" xsi:type="string">giftregistry</argument>
-            <argument name="content" xsi:type="string">Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Tab_Giftregistry</argument>
-        </action>
-    </reference>
+    <handle id="adminhtml_customer_edit">
+        <reference name="customer_edit_tabs">
+            <action method="addTab">
+                <argument name="tab" xsi:type="string">giftregistry</argument>
+                <argument name="content" xsi:type="string">Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Tab_Giftregistry</argument>
+            </action>
+        </reference>
+    </handle>
 </layout>

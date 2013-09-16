@@ -8,7 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
-        <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit" name="magento_customercustomattributes_formtype_new"/>
-    </reference>
+    <handle id="adminhtml_customer_formtype_new">
+        <reference name="content">
+            <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit" name="magento_customercustomattributes_formtype_new"/>
+        </reference>
+    </handle>
 </layout>

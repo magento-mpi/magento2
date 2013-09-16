@@ -8,5 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <remove name="sale.reorder.sidebar"/>
+    <handle id="checkout_onepage_index">
+        <remove name="sale.reorder.sidebar"/>
+    </handle>
 </layout>

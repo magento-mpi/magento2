@@ -8,15 +8,17 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head">
-        <action method="addCss">
-            <argument name="file" xsi:type="string">Magento_Bundle::css/bundle-product.css</argument>
-        </action>
-    </reference>
-    <reference name="product_tabs">
-        <action method="addTab">
-            <argument name="name" xsi:type="string">bundle</argument>
-            <argument name="block" xsi:type="string">Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle</argument>
-        </action>
-    </reference>
+    <handle id="adminhtml_catalog_product_bundle">
+        <reference name="head">
+            <action method="addCss">
+                <argument name="file" xsi:type="string">Magento_Bundle::css/bundle-product.css</argument>
+            </action>
+        </reference>
+        <reference name="product_tabs">
+            <action method="addTab">
+                <argument name="name" xsi:type="string">bundle</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle</argument>
+            </action>
+        </reference>
+    </handle>
 </layout>

@@ -8,5 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking" name="shipment_tracking" template="edit/shipping/tracking.phtml" output="1"/>
+    <handle id="adminhtml_rma_removetrack">
+        <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking" name="shipment_tracking" template="edit/shipping/tracking.phtml" output="1"/>
+    </handle>
 </layout>

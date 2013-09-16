@@ -11,9 +11,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
-    <block class="Magento_Core_Block_Text" name="sample_text_block">
-        <action method="setText">
-            <argument name="text" xsi:type="string">Text declared in the frontend/test/test_theme</argument>
-        </action>
-    </block>
+    <handle id="layout_test_handle">
+        <block class="Magento_Core_Block_Text" name="sample_text_block">
+            <action method="setText">
+                <argument name="text" xsi:type="string">Text declared in the frontend/test/test_theme</argument>
+            </action>
+        </block>
+    </handle>
 </layout>
