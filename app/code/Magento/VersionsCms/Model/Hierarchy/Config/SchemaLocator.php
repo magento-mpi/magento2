@@ -28,8 +28,9 @@ class Magento_VersionsCms_Model_Hierarchy_Config_SchemaLocator implements Magent
      */
     public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader)
     {
-        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Core') . DIRECTORY_SEPARATOR . 'menuHierarchy.xsd';
-        $this->_perFileSchema = $this->_schema;
+        $etcDir = $moduleReader->getModuleDir('etc', 'Magento_VersionsCms');
+        $this->_schema =  $etcDir . DIRECTORY_SEPARATOR . 'menu_hierarchy_merged.xsd';
+        $this->_perFileSchema = $etcDir . DIRECTORY_SEPARATOR . 'menu_hierarchy.xsd';
     }
 
     /**

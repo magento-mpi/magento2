@@ -23,7 +23,7 @@ class Magento_VersionsCms_Model_Hierarchy_Config_ConverterTest extends PHPUnit_F
     public function testConvert()
     {
         $basePath = realpath(__DIR__) . '/_files/';
-        $path = $basePath . 'menuHierarchy.xml';
+        $path = $basePath . 'menu_hierarchy.xml';
         $domDocument = new DOMDocument();
         $domDocument->load($path);
         $expectedData = include($basePath . 'menuHierarchy.php');

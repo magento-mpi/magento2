@@ -8,39 +8,32 @@
 class Magento_Test_Integrity_Modular_MenuHierarchyConfigFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var string
+     * @var Magento_VersionsCms_Model_Hierarchy_Config_Reader
      */
-    protected $_schemaFile;
+    protected $_model;
 
     protected function setUp()
     {
-        $objectManager = Mage::getObjectManager();
-        $this->_schemaFile = $objectManager->get('Magento_VersionsCms_Model_Hierarchy_Config_SchemaLocator')
-            ->getSchema();
+        // List of all available menu_hierarchy.xml
+        $xmlFiles = Magento_TestFramework_Utility_Files::init()->getConfigFiles(
+            '{*/menu_hierarchy.xml,menu_hierarchy.xml}',
+            array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'),
+            false
+        );
+        $fileResolverMock = $this->getMock('Magento_Config_FileResolverInterface');
+        $fileResolverMock->expects($this->any())->method('get')->will($this->returnValue($xmlFiles));
+
+        $validationStateMock = $this->getMock('Magento_Config_ValidationStateInterface');
+        $validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_model = $objectManager->create('Magento_VersionsCms_Model_Hierarchy_Config_Reader', array(
+            'fileResolver' => $fileResolverMock,
+            'validationState' => $validationStateMock,
+        ));
     }
 
-    /**
-     * @param string $file
-     * @dataProvider menuHierarchyConfigFilesDataProvider
-     */
-    public function testMenuHierarchyConfigFiles($file)
+    public function testMenuHierarchyConfigFiles()
     {
-        $errors = array();
-        $dom = new Magento_Config_Dom(file_get_contents($file));
-        $result = $dom->validate($this->_schemaFile, $errors);
-        $message = "Invalid XML-file: {$file}\n";
-        foreach ($errors as $error) {
-            $message .= "{$error->message} Line: {$error->line}\n";
-        }
-        $this->assertTrue($result, $message);
-    }
-
-    /**
-     * @return array
-     */
-    public function menuHierarchyConfigFilesDataProvider()
-    {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('{*/menuHierarchy.xml,menuHierarchy.xml}');
-
+        $this->_model->read('global');
     }
 }

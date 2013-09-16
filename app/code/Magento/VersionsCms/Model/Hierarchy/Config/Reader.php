@@ -33,7 +33,7 @@ class Magento_VersionsCms_Model_Hierarchy_Config_Reader extends Magento_Config_R
         Magento_VersionsCms_Model_Hierarchy_Config_Converter $converter,
         Magento_VersionsCms_Model_Hierarchy_Config_SchemaLocator $schemaLocator,
         Magento_Config_ValidationStateInterface $validationState,
-        $fileName = 'menuHierarchy.xml',
+        $fileName = 'menu_hierarchy.xml',
         $idAttributes = array(),
         $domDocumentClass = 'Magento_Config_Dom'
     ) {
