@@ -33,6 +33,9 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
     /** @var PHPUnit_Framework_MockObject_MockObject  */
     private $_resourceMock;
 
+    /** @var  Magento_Core_Model_EntityFactory */
+    private $_entityFactory;
+
     /**
      * @var Magento_Core_Model_Event_Manager
      */
@@ -62,7 +65,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         $this->_resourceMock->expects($this->any())
             ->method('getReadConnection')
             ->will($this->returnValue($this->_connectionMock));
-
+        $this->_entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
         // Mock object manager
         $createReturnMap = array(
             array('Magento_Webhook_Model_Resource_Subscription', array(), $this->_resourceMock),
@@ -257,8 +260,14 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
      */
     private function _makeCollectionMock(array $methods)
     {
-        return $this->getMock('Magento_Webhook_Model_Resource_Subscription_Collection', $methods, array(
-            $this->_endpointResMock, $this->_eventManager, $this->_fetchStrategyMock, $this->_resourceMock), '', true);
+        return $this->getMock('Magento_Webhook_Model_Resource_Subscription_Collection', $methods,
+            array(
+                $this->_endpointResMock,
+                $this->_eventManager,
+                $this->_fetchStrategyMock,
+                $this->_entityFactory,
+                $this->_resourceMock
+            ), '', true);
     }
 
     /**
