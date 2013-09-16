@@ -41,7 +41,6 @@
         <callback class="magento_newsletter_model_resource_subscriber_collection" method="addStoreFilter" />
         <callback class="magento_core_model_resource_design_collection" method="addStoreFilter" />
         <callback class="magento_user_model_resource_role_collection" method="limitAdminPermissionRoles" />
-        <callback class="magento_user_model_resource_role_collection" method="limitAdminPermissionRoles" />
         <callback class="magento_user_model_resource_user_collection" method="limitAdminPermissionUsers" />
         <callback class="magento_user_model_resource_role_user_collection" method="limitAdminPermissionUsers" />
         <callback class="magento_reports_model_resource_quote_collection" method="addStoreFilter" />
@@ -51,7 +50,6 @@
         <callback class="magento_reward_model_resource_reward_history_collection" method="limitRewardHistoryWebsites" />
         <callback class="magento_reward_model_resource_reward_collection" method="limitRewardBalanceWebsites" />
         <callback class="magento_reward_model_resource_reward_rate_collection" method="limitRewardBalanceWebsites" />
-        <callback class="magento_customerBalance_model_resource_balance_history_collection" method="limitStoreCreditsHistory" />
         <callback class="magento_customerBalance_model_resource_balance_history_collection" method="limitStoreCredits" />
         <callback class="magento_giftRegistry_model_resource_entity_collection" method="limitGiftRegistryEntityWebsites" />
         <callback class="magento_review_model_resource_review_product_collection" method="limitProductReviews" />
@@ -241,8 +239,6 @@
         <callback class="magento_adminhtml_block_customer" method="widgetCustomerGridContainer" />
         <callback class="magento_adminhtml_block_system_store_store" method="widgetManageStores" />
         <callback class="magento_adminhtml_block_catalog_product" method="widgetProductGridContainer" />
-        <callback class="magento_catalogEvent_block_adminhtml_event" method="widgetCatalogEventGridContainer" />
-        <callback class="magento_catalogEvent_block_adminhtml_event" method="removeCatalogEventControlButtons" />
         <callback class="magento_catalogEvent_block_adminhtml_event" method="restrictCatalogEventEditForm" />
         <callback class="magento_adminhtml_block_catalog_product_attribute" method="removeCatalogProductAttributeAddButton" />
         <callback class="magento_adminhtml_block_catalog_product_attribute_edit" method="removeCatalogProductAttributeButtons" />
@@ -262,13 +258,10 @@
         <callback class="magento_giftWrapping_block_adminhtml_giftwrapping_edit" method="removeGiftWrappingEditButtons" />
         <callback class="magento_versionsCms_block_adminhtml_cms_page_revision_edit" method="removeRevisionEditButtons" />
         <callback class="magento_versionsCms_block_adminhtml_cms_page_preview_buttons" method="removePreviewPublishButton" />
-        <callback class="magento_giftCardAccount_block_adminhtml_giftcardaccount" method="removeGiftCardAccountAddButton" />
         <callback class="magento_giftCardAccount_block_adminhtml_giftcardaccount" method="removeGiftCardAccountControlButtons" />
         <callback class="magento_currencySymbol_block_adminhtml_system_currency" method="removeManageCurrencyRatesButtons" />
         <callback class="magento_adminhtml_block_system_email_template" method="removeEmailTemplateGridButtons" />
         <callback class="magento_adminhtml_block_system_email_template_edit" method="removeTransactionalEmailsEditButtons" />
-        <callback class="magento_targetRule_block_adminhtml_product" method="readonlyTargetRuleProductAttribute" />
-        <callback class="magento_targetRule_block_adminhtml_product" method="removeTargetRuleGridButtons" />
         <callback class="magento_targetRule_block_adminhtml_product" method="removeTargetRuleEditButtons" />
         <callback class="magento_catalogPermissions_block_adminhtml_catalog_category_tab_permissions" method="validateCatalogPermissions" />
         <callback class="magento_widget_block_adminhtml_widget_instance_edit" method="removeWidgetInstanceButtons" />

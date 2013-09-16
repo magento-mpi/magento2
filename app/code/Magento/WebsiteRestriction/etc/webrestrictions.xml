@@ -31,8 +31,6 @@
     <action path="googlecheckout_api_beacon" type="generic" />
     <action path="authorizenet_directpost_payment_response" type="generic" />
     <action path="magento_pbridge_PbridgeIpn_index" type="generic" />
-    <action path="authorizenet_directpost_payment_response" type="generic" />
-    <action path="magento_pbridge_PbridgeIpn_index" type="generic" />
     <action path="customer_account_create" type="register" />
     <action path="customer_account_createpost" type="register" />
 </config>
