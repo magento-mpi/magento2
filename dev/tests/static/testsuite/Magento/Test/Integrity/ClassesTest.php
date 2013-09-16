@@ -235,7 +235,6 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
 
         $namespaceMatch = array();
         $formalNamespaceArray = array();
-        $namespace = null;
         $namespaceFolders = null;
 
         if (preg_match($namespacePattern, $relativePath, $namespaceMatch) != 0) {
