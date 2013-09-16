@@ -43,7 +43,7 @@ class Magento_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
      */
     protected $_customizationPath;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_customizationPath = Magento_Filesystem::DIRECTORY_SEPARATOR
             . implode(Magento_Filesystem::DIRECTORY_SEPARATOR, array('var', 'theme'));
@@ -77,7 +77,7 @@ class Magento_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
         $themeFactoryProperty->setValue($this->_storageHelper, $this->_themeFactory);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->_filesystem = null;
         $this->_session = null;

@@ -32,4 +32,4 @@
     <event name="visitor_init">
         <observer name="magento_customersegment" instance="Magento_CustomerSegment_Model_Observer" method="processEvent" />
     </event>
-</config>
+</config>

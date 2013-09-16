@@ -13,14 +13,12 @@
             <block class="Magento_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners" name="salesrule.related.banners">
                 <block class="Magento_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners_Grid" name="related_salesrule_banners_grid"/>
                 <block class="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="banners_grid_serializer">
-                    <reference name="banners_grid_serializer">
-                        <action method="initSerializerBlock">
-                            <argument name="grid_block_name" xsi:type="string">related_salesrule_banners_grid</argument>
-                            <argument name="data_callback" xsi:type="string">getRelatedBannersByRule</argument>
-                            <argument name="hidden_input_name" xsi:type="string">related_banners</argument>
-                            <argument name="reload_param_name" xsi:type="string">selected_salesrule_banners</argument>
-                        </action>
-                    </reference>
+                    <arguments>
+                        <argument name="grid_block" xsi:type="string">related_salesrule_banners_grid</argument>
+                        <argument name="callback" xsi:type="string">getRelatedBannersByRule</argument>
+                        <argument name="input_element_name" xsi:type="string">related_banners</argument>
+                        <argument name="reload_param_name" xsi:type="string">selected_salesrule_banners</argument>
+                    </arguments>
                 </block>
             </block>
             <action method="addTab">

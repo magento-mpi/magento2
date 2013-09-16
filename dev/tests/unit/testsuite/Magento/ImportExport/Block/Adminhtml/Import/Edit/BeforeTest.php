@@ -64,7 +64,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
      */
     protected $_expectedBehaviors = array('behavior_1', 'behavior_2');
 
-    public function setUp()
+    protected function setUp()
     {
         $coreHelper = $this->getMock('Magento_Core_Helper_Data', array('jsonEncode'), array(), '', false, false);
         $coreHelper->expects($this->any())
@@ -96,7 +96,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
         );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
     }

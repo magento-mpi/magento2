@@ -34,14 +34,14 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
         Magento_ImportExport_Model_Import::BEHAVIOR_CUSTOM,
     );
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_EntityAbstract',
             $this->_getModelDependencies()
         );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
     }

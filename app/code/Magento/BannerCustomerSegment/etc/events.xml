@@ -23,4 +23,4 @@
     <event name="magento_banner_resource_banner_content_select_init">
         <observer name="magento_bannercustomersegment" instance="Magento_BannerCustomerSegment_Model_Observer" method="addCustomerSegmentFilterToSelect" />
     </event>
-</config>
+</config>

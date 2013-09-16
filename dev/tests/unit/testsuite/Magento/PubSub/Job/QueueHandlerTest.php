@@ -48,7 +48,7 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
     /** @var  PHPUnit_Framework_MockObject_MockObject */
     private $_endpointMockB;
 
-    public function setUp()
+    protected function setUp()
     {
         // Object mocks
         $this->_subscriptionMockA = $this->_makeMock('Magento_Webhook_Model_Subscription');

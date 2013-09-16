@@ -15,11 +15,7 @@
                     <block class="Magento_Adminhtml_Block_Sales_Order_View_Info" name="order_info" template="sales/order/view/info.phtml"/>
                     <block class="Magento_Adminhtml_Block_Sales_Order_Payment" name="order_payment"/>
                     <block class="Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items" name="order_items" template="sales/order/invoice/create/items.phtml">
-                        <action method="addItemRender">
-                            <argument name="type" xsi:type="string">default</argument>
-                            <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Items_Renderer_Default</argument>
-                            <argument name="template" xsi:type="string">sales/order/invoice/create/items/renderer/default.phtml</argument>
-                        </action>
+                        <block class="Magento_Adminhtml_Block_Sales_Items_Renderer_Default" as="default" template="sales/order/invoice/create/items/renderer/default.phtml"/>
                         <action method="addColumnRender">
                             <argument name="column" xsi:type="string">qty</argument>
                             <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Items_Column_Qty</argument>
@@ -40,7 +36,7 @@
                         <block class="Magento_Adminhtml_Block_Sales_Order_Totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"/>
                         <block class="Magento_Adminhtml_Block_Sales_Order_Invoice_Totals" name="invoice_totals" template="sales/order/totals.phtml">
                             <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Tax" name="tax" template="sales/order/totals/tax.phtml"/>
-                            <!--<block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="footer" template="sales/order/totals/footer.phtml">
+<!--<block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="footer" template="sales/order/totals/footer.phtml">
                                 <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="grand" template="sales/order/totals/grand.phtml"/>
                                 <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="paid" template="sales/order/totals/paid.phtml"/>
                                 <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="refunded" template="sales/order/totals/refunded.phtml"/>

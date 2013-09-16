@@ -33,7 +33,7 @@ class Magento_GoogleAdwords_Model_Config_Source_LanguageTest extends PHPUnit_Fra
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_helperMock = $this->getMock('Magento_GoogleAdwords_Helper_Data', array(), array(), '', false);
         $this->_localeMock = $this->getMock('Zend_Locale', array(), array(), '', false);

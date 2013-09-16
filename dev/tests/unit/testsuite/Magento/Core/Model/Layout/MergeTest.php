@@ -70,7 +70,13 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $this->_theme->expects($this->any())->method('getId')->will($this->returnValue(100));
 
         $this->_model = new Magento_Core_Model_Layout_Merge(
-            $design, $storeManager, $fileSource, $this->_resource, $this->_appState, $this->_cache, $this->_theme
+            $design,
+            $storeManager,
+            $fileSource,
+            $this->_resource,
+            $this->_appState,
+            $this->_cache,
+            $this->_theme
         );
     }
 

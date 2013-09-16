@@ -17,7 +17,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_FailedTest extends PHPUnit_Fr
     /** @var PHPUnit_Framework_MockObject_MockObject */
     private $_lastMessage;
 
-    public function setUp()
+    protected function setUp()
     {
         $urlBuilder = $this->getMock('Magento_Core_Model_Url', array('getUrl'), array(), '', false);
 

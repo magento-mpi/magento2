@@ -23,7 +23,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject */
     private $_logger;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_webapiEventHandler = $this->_getBasicMock('Magento_Webhook_Model_Webapi_EventHandler');
         $this->_subscriptionSet = $this->_getBasicMock('Magento_Webhook_Model_Resource_Subscription_Collection');

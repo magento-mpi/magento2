@@ -17,4 +17,4 @@
     <event name="sales_order_status_unassign">
         <observer name="sales_order_status_update" instance="Magento_Payment_Model_Observer" method="updateOrderStatusForPaymentMethods" />
     </event>
-</config>
+</config>

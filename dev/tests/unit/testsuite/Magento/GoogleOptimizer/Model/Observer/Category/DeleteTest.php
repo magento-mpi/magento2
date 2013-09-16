@@ -27,7 +27,7 @@ class Magento_GoogleOptimizer_Model_Observer_Category_DeleteTest extends PHPUnit
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_codeMock = $this->getMock('Magento_GoogleOptimizer_Model_Code', array(), array(), '', false);
         $this->_category = $this->getMock('Magento_Catalog_Model_Category', array(), array(), '', false);

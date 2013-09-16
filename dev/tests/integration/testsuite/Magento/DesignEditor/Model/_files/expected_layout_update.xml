@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <!--
 /**
  * {license_notice}
@@ -10,6 +11,30 @@
  */
 -->
 <layout>
+    <block name="root" type="Mage_Core_Block_Template" template="template.phtml">
+        <block name="head" type="Mage_Page_Block_Html_Head">
+            <block class="Mage_Page_Block_Html_Head_Script" name="">
+                <arguments>
+                    <file>1</file>
+                </arguments>
+            </block>
+        </block>
+        <container name="header" label="Header">
+            <block name="safe.block" type="Mage_Page_Block_Html_Header"/>
+        </container>
+        <container name="content" label="Content">
+            <block name="custom.not_safe" type="Mage_Core_Block_Template" template="Mage_DesignEditor::stub.phtml">%A</block>
+            <block class="Mage_Page_Block_Html" name="content_schedule_block"/>
+        </container>
+    </block>
+    <reference name="head">
+        <block class="Mage_Page_Block_Html_Head_Script" name="">
+            <arguments>
+                <file>1</file>
+            </arguments>
+        </block>
+    </reference>
+    <reference name="custom.not_safe">%A</reference>
    <block name="root" type="Magento_Core_Block_Template" template="template.phtml">
       <block name="head" type="Magento_Page_Block_Html_Head">
          <action method="addJs">
@@ -21,7 +46,7 @@
       </container>
       <container name="content" label="Content">
          <block name="custom.not_safe" type="Magento_Core_Block_Template" template="Magento_DesignEditor::stub.phtml">%A</block>
-         <block type="Magento_Page_Block_Html" name="content_schedule_block"/>
+         <block class="Magento_Page_Block_Html" name="content_schedule_block"/>
       </container>
    </block>
    <reference name="head">

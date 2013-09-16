@@ -20,7 +20,7 @@ class Magento_Webhook_Model_Event_QueueReaderTest extends PHPUnit_Framework_Test
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_mockIterator;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_mockCollection = $this->getMockBuilder('Magento_Webhook_Model_Resource_Event_Collection')
             ->disableOriginalConstructor()

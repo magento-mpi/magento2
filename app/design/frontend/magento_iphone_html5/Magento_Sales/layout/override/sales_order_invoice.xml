@@ -16,16 +16,8 @@
             </block>
             <block class="Magento_Sales_Block_Order_Invoice" name="sales.order.invoice" after="sales.order.info">
                 <block class="Magento_Sales_Block_Order_Invoice_Items" name="invoice_items" template="order/invoice/items.phtml">
-                    <action method="addItemRender">
-                        <argument name="type" xsi:type="string">default</argument>
-                        <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
-                        <argument name="template" xsi:type="string">Magento_Sales::order/invoice/items/renderer/default.phtml</argument>
-                    </action>
-                    <action method="addItemRender">
-                        <argument name="type" xsi:type="string">grouped</argument>
-                        <argument name="block" xsi:type="string">Magento_Sales_Block_Order_Item_Renderer_Grouped</argument>
-                        <argument name="template" xsi:type="string">order/invoice/items/renderer/default.phtml</argument>
-                    </action>
+                    <block class="Magento_Catalog_Block_Product_Price" as="default" template="Magento_Sales::order/invoice/items/renderer/default.phtml"/>
+                    <block class="Magento_Sales_Block_Order_Item_Renderer_Grouped" as="grouped" template="order/invoice/items/renderer/default.phtml"/>
                     <block class="Magento_Sales_Block_Order_Invoice_Totals" name="invoice_totals" template="order/totals.phtml">
                         <action method="setLabelProperties">
                             <argument name="value" xsi:type="string">colspan="4" class="a-right"</argument>
@@ -39,28 +31,7 @@
                 </block>
             </block>
         </reference>
-        <reference name="sales.order.info">
-            <action method="addLink">
-                <argument name="name" xsi:type="string">view</argument>
-                <argument name="path" xsi:type="string">*/*/view</argument>
-                <argument translate="true" name="label" xsi:type="string">Order Information</argument>
-            </action>
-            <action method="addLink">
-                <argument name="name" xsi:type="string">invoice</argument>
-                <argument name="path" xsi:type="string"/>
-                <argument translate="true" name="label" xsi:type="string">Invoices</argument>
-            </action>
-            <action method="addLink">
-                <argument name="name" xsi:type="string">shipment</argument>
-                <argument name="path" xsi:type="string">*/*/shipment</argument>
-                <argument translate="true" name="label" xsi:type="string">Shipments</argument>
-            </action>
-            <action method="addLink">
-                <argument name="name" xsi:type="string">creditmemo</argument>
-                <argument name="path" xsi:type="string">*/*/creditmemo</argument>
-                <argument translate="true" name="label" xsi:type="string">Refunds</argument>
-            </action>
-        </reference>
+        <update handle="sales_order_info_links"/>
         <container name="additional.product.info" label="Additional Product Info"/>
     </handle>
 </layout>

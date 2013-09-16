@@ -9,7 +9,7 @@
  */
 
 /**
- *
+ * @method string|array getInputNames()
  *
  * @category   Magento
  * @package    Magento_Backend
@@ -17,55 +17,46 @@
  */
 class Magento_Backend_Block_Widget_Grid_Serializer extends Magento_Core_Block_Template
 {
-
     /**
-     * Store grid input names to serialize
+     * Preparing global layout
      *
-     * @var array
+     * @return $this
      */
-    private $_inputsToSerialize = array();
+    protected function _prepareLayout()
+    {
+        $grid = $this->getGridBlock();
+        if (is_string($grid)) {
+            $grid = $this->getLayout()->getBlock($grid);
+        }
+        if ($grid instanceof Magento_Backend_Block_Widget_Grid) {
+            $this->setGridBlock($grid)
+                ->setSerializeData($grid->{$this->getCallback()}());
+        }
+        return parent::_prepareLayout();
+    }
 
     /**
      * Set serializer template
-     *
-     * @return Magento_Backend_Block_Widget_Grid_Serializer
      */
     public function _construct()
     {
         parent::_construct();
         $this->setTemplate('Magento_Backend::widget/grid/serializer.phtml');
-        return $this;
-    }
-
-    /**
-     * Register grid column input name to serialize
-     *
-     * @param string $name
-     */
-    public function addColumnInputName($names)
-    {
-        if (is_array($names)) {
-            foreach ($names as $name) {
-                $this->addColumnInputName($name);
-            }
-        } else {
-            if (!in_array($names, $this->_inputsToSerialize)) {
-                $this->_inputsToSerialize[] = $names;
-            }
-        }
     }
 
     /**
      * Get grid column input names to serialize
      *
-     * @return unknown
+     * @param bool $asJSON
+     *
+     * @return string|array
      */
     public function getColumnInputNames($asJSON = false)
     {
         if ($asJSON) {
-            return $this->_coreData->jsonEncode($this->_inputsToSerialize);
+            return $this->_coreData->jsonEncode((array)$this->getInputNames());
         }
-        return $this->_inputsToSerialize;
+        return (array)$this->getInputNames();
     }
 
     /**
@@ -76,38 +67,12 @@ class Magento_Backend_Block_Widget_Grid_Serializer extends Magento_Core_Block_Te
     public function getDataAsJSON()
     {
         $result = array();
+        $inputNames = $this->getInputNames();
         if ($serializeData = $this->getSerializeData()) {
             $result = $serializeData;
-        } elseif (!empty($this->_inputsToSerialize)) {
+        } elseif (!empty($inputNames)) {
             return '{}';
         }
         return $this->_coreData->jsonEncode($result);
-    }
-
-
-    /**
-     * Initialize grid block
-     *
-     * Get grid block from layout by specified block name
-     * Get serialize data to manage it (called specified method, that return data to manage)
-     * Also use reload param name for saving grid checked boxes states
-     *
-     *
-     * @param Magento_Backend_Block_Widget_Grid | string $grid grid object or grid block name
-     * @param string $callback block method  to retrieve data to serialize
-     * @param string $hiddenInputName hidden input name where serialized data will be store
-     * @param string $reloadParamName name of request parameter that will be used to save setted data while reload grid
-     */
-    public function initSerializerBlock($grid, $callback, $hiddenInputName, $reloadParamName = 'entityCollection')
-    {
-        if (is_string($grid)) {
-            $grid = $this->getLayout()->getBlock($grid);
-        }
-        if ($grid instanceof Magento_Backend_Block_Widget_Grid) {
-            $this->setGridBlock($grid)
-                 ->setInputElementName($hiddenInputName)
-                 ->setReloadParamName($reloadParamName)
-                 ->setSerializeData($grid->$callback());
-        }
     }
 }
