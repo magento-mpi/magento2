@@ -22,16 +22,18 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
     /**
      * Construct
      *
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
-        parent::__construct($fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $resource);
 
         $this->_storeManager = $storeManager;
     }
