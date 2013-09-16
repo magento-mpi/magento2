@@ -24,7 +24,7 @@ class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
      */
     protected $_factory;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager_ObjectManager',
             array('create'), array(), '', false);

@@ -17,7 +17,7 @@ class Magento_Cache_Frontend_Decorator_TagScopeTest extends PHPUnit_Framework_Te
      */
     protected $_frontend;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_frontend = $this->getMock('Magento_Cache_FrontendInterface');
         $this->_object = new Magento_Cache_Frontend_Decorator_TagScope($this->_frontend, 'enforced_tag');

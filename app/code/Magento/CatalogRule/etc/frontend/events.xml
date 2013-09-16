@@ -14,4 +14,4 @@
     <event name="prepare_catalog_product_collection_prices">
         <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="prepareCatalogProductCollectionPrices" />
     </event>
-</config>
+</config>

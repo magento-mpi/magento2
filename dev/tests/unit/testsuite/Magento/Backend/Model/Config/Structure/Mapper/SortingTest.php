@@ -16,7 +16,7 @@ class Magento_Backend_Model_Config_Structure_Mapper_SortingTest extends PHPUnit_
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = new Magento_Backend_Model_Config_Structure_Mapper_Sorting();
     }

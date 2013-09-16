@@ -10,11 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="paypal_express_review_details">
         <reference name="paypal.express.review.details">
-            <action method="addItemRender">
-                <argument name="type" xsi:type="string">giftcard</argument>
-                <argument name="block" xsi:type="string">Magento_GiftCard_Block_Checkout_Cart_Item_Renderer</argument>
-                <argument name="template" xsi:type="string">Magento_Checkout::onepage/review/item.phtml</argument>
-            </action>
+            <block class="Magento_GiftCard_Block_Checkout_Cart_Item_Renderer" as="giftcard" template="Magento_Checkout::onepage/review/item.phtml"/>
         </reference>
     </handle>
 </layout>

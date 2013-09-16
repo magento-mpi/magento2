@@ -14,4 +14,4 @@
     <event name="sales_order_shipment_save_after">
         <observer name="googlecheckout" instance="Magento_GoogleCheckout_Model_Observer" method="salesOrderShipmentSaveAfter" shared="false" />
     </event>
-</config>
+</config>

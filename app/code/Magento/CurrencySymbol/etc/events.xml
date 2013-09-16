@@ -11,4 +11,4 @@
     <event name="currency_display_options_forming">
         <observer name="magento_currencysymbol_currency_display_options" instance="Magento_CurrencySymbol_Model_Observer" method="currencyDisplayOptions" />
     </event>
-</config>
+</config>

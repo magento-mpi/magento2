@@ -33,7 +33,7 @@ class Magento_ImportExport_Model_Source_Import_Behavior_BasicTest
         Magento_ImportExport_Model_Import::BEHAVIOR_DELETE,
     );
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         $this->_model = new Magento_ImportExport_Model_Source_Import_Behavior_Basic();

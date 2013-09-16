@@ -51,7 +51,7 @@ class Magento_Backend_Controller_Adminhtml_System_Config_SaveTest extends PHPUni
      */
     protected $_cacheMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false,
             false);

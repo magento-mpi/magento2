@@ -11,7 +11,7 @@
  */
 class Magento_Paypal_Controller_PayflowTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 

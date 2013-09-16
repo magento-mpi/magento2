@@ -10,11 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="sales_email_order_creditmemo_items">
         <reference name="items">
-            <action method="addItemRender">
-                <argument name="type" xsi:type="string">downloadable</argument>
-                <argument name="block" xsi:type="string">Magento_Downloadable_Block_Sales_Order_Email_Items_Downloadable</argument>
-                <argument name="template" xsi:type="string">email/order/items/creditmemo/downloadable.phtml</argument>
-            </action>
+            <block class="Magento_Downloadable_Block_Sales_Order_Email_Items_Downloadable" as="downloadable" template="email/order/items/creditmemo/downloadable.phtml"/>
         </reference>
     </handle>
 </layout>

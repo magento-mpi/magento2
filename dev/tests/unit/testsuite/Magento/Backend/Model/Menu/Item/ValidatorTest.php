@@ -61,7 +61,7 @@ class Magento_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_Te
         'toolTip' => 'Item tooltip',
     );
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = new Magento_Backend_Model_Menu_Item_Validator();
     }

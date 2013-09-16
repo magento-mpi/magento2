@@ -18,7 +18,7 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Varien_ActionAbstract
+class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Varien_ActionAbstract
 {
     const FLAG_NO_CHECK_INSTALLATION    = 'no-install-check';
     const FLAG_NO_DISPATCH              = 'no-dispatch';
@@ -199,10 +199,14 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
      * @param   string|null|bool $handles
      * @param   bool $generateBlocks
      * @param   bool $generateXml
-     * @return  Magento_Core_Controller_Varien_Action
+     * @return  $this
+     * @throws  RuntimeException
      */
     public function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)
     {
+        if ($this->_isLayoutLoaded) {
+            throw new RuntimeException('Layout must be loaded only once.');
+        }
         // if handles were specified in arguments load them first
         if (false !== $handles && '' !== $handles) {
             $this->getLayout()->getUpdate()->addHandle($handles ? $handles : 'default');

@@ -38,7 +38,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
      */
     protected $_storageModel;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
         $this->_helperStorage = $this->getMock('Magento_Theme_Helper_Storage', array(), array(), '', false);
@@ -55,7 +55,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
         $this->_storageRoot = Magento_Filesystem::DIRECTORY_SEPARATOR . 'root';
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->_filesystem = null;
         $this->_helperStorage = null;

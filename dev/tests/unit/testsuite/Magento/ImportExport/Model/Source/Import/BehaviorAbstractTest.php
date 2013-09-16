@@ -41,7 +41,7 @@ class Magento_ImportExport_Model_Source_Import_BehaviorAbstractTest
         ),
     );
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 

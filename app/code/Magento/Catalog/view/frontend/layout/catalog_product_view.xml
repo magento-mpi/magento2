@@ -15,28 +15,17 @@
             </action>
         </reference>
         <reference name="head">
-            <action method="addCss">
-                <argument name="file" xsi:type="string">Magento_Catalog::zoom.css</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Css" name="magento-catalog-zoom-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_Catalog::zoom.css</argument>
+                </arguments>
+            </block>
         </reference>
         <update handle="page_calendar"/>
         <reference name="content">
             <block class="Magento_Catalog_Block_Product_View" name="product.info" template="product/view.phtml">
-                <!--
-                <action method="addReviewSummaryTemplate">
-                    <argument name="type" xsi:type="string">default</argument>
-                    <argument name="template" xsi:type="string">helper/summary.phtml</argument>
-                </action>
-                <action method="addReviewSummaryTemplate">
-                    <argument name="type" xsi:type="string">short</argument>
-                    <argument name="template" xsi:type="string">helper/summary_short.phtml</argument>
-                </action>
-                <action method="addReviewSummaryTemplate">
-                    <argument name="type" xsi:type="string">...</argument>
-                    <argument name="template" xsi:type="string">...</argument>
-                </action>
-                -->
-                <block class="Magento_Catalog_Block_Product_View_Media" name="product.info.media" as="media" template="product/view/media.phtml"/>
+                <block class="Magento_Catalog_Block_Product_View_BaseImage" name="product-info-base-image" as="base-image" template="product/view/base-image.phtml"/>
+                <block class="Magento_Catalog_Block_Product_View_Gallery" name="product-info-gallery" as="gallery" template="product/view/gallery.phtml"/>
                 <container name="alert.urls" as="alert_urls" label="Alert Urls"/>
                 <block class="Magento_Catalog_Block_Product_List_Upsell" name="product.info.upsell" as="upsell_products" template="product/list/upsell.phtml">
                     <action method="setColumnCount">
@@ -70,26 +59,11 @@
                 <block class="Magento_Core_Block_Template" name="product.info.container" as="options_container">
                     <block class="Magento_Catalog_Block_Product_View" name="product.info.options.wrapper" as="product_options_wrapper" template="product/view/options/wrapper.phtml">
                         <block class="Magento_Catalog_Block_Product_View_Options" name="product.info.options" as="product_options" template="product/view/options.phtml">
-                            <action method="addOptionRenderer">
-                                <argument name="type" xsi:type="string">text</argument>
-                                <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_View_Options_Type_Text</argument>
-                                <argument name="template" xsi:type="string">product/view/options/type/text.phtml</argument>
-                            </action>
-                            <action method="addOptionRenderer">
-                                <argument name="type" xsi:type="string">file</argument>
-                                <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_View_Options_Type_File</argument>
-                                <argument name="template" xsi:type="string">product/view/options/type/file.phtml</argument>
-                            </action>
-                            <action method="addOptionRenderer">
-                                <argument name="type" xsi:type="string">select</argument>
-                                <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_View_Options_Type_Select</argument>
-                                <argument name="template" xsi:type="string">product/view/options/type/select.phtml</argument>
-                            </action>
-                            <action method="addOptionRenderer">
-                                <argument name="type" xsi:type="string">date</argument>
-                                <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_View_Options_Type_Date</argument>
-                                <argument name="template" xsi:type="string">product/view/options/type/date.phtml</argument>
-                            </action>
+                            <block class="Magento_Catalog_Block_Product_View_Options_Type_Default" as="default" template="product/view/options/type/default.phtml"/>
+                            <block class="Magento_Catalog_Block_Product_View_Options_Type_Text" as="text" template="product/view/options/type/text.phtml"/>
+                            <block class="Magento_Catalog_Block_Product_View_Options_Type_File" as="file" template="product/view/options/type/file.phtml"/>
+                            <block class="Magento_Catalog_Block_Product_View_Options_Type_Select" as="select" template="product/view/options/type/select.phtml"/>
+                            <block class="Magento_Catalog_Block_Product_View_Options_Type_Date" as="date" template="product/view/options/type/date.phtml"/>
                         </block>
                         <block class="Magento_Core_Block_Html_Calendar" name="html_calendar" as="html_calendar" template="Magento_Page::js/calendar.phtml"/>
                     </block>

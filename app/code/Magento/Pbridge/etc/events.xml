@@ -14,4 +14,4 @@
     <event name="payment_method_is_active">
         <observer name="magento_pbridge" instance="Magento_Pbridge_Model_Observer" method="isPaymentMethodAvailable" />
     </event>
-</config>
+</config>

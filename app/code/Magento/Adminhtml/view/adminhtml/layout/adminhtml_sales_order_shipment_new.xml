@@ -10,9 +10,11 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_sales_order_shipment_new">
         <reference name="head">
-            <action method="addJs">
-                <argument name="file" xsi:type="string">Magento_Adminhtml::sales/order/shipment/packaging.js</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminhtml-sales-order-shipment-packaging-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_Adminhtml::sales/order/shipment/packaging.js</argument>
+                </arguments>
+            </block>
         </reference>
         <reference name="content">
             <block class="Magento_Adminhtml_Block_Sales_Order_Shipment_Create" name="sales_shipment_create">
@@ -21,11 +23,7 @@
                     <block class="Magento_Adminhtml_Block_Sales_Order_Payment" name="order_payment"/>
                     <block class="Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Tracking" name="shipment_tracking" template="sales/order/shipment/create/tracking.phtml"/>
                     <block class="Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Items" name="order_items" template="sales/order/shipment/create/items.phtml">
-                        <action method="addItemRender">
-                            <argument name="type" xsi:type="string">default</argument>
-                            <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Items_Renderer_Default</argument>
-                            <argument name="template" xsi:type="string">sales/order/shipment/create/items/renderer/default.phtml</argument>
-                        </action>
+                        <block class="Magento_Adminhtml_Block_Sales_Items_Renderer_Default" as="default" template="sales/order/shipment/create/items/renderer/default.phtml"/>
                         <action method="addColumnRender">
                             <argument name="column" xsi:type="string">qty</argument>
                             <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Items_Column_Qty</argument>

@@ -17,7 +17,7 @@ class Magento_Phrase_Renderer_TranslateTest extends PHPUnit_Framework_TestCase
      */
     protected $_renderer;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_translator = $this->getMock('Magento_Core_Model_Translate', array(), array(), '', false);
 
