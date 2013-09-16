@@ -27,11 +27,11 @@ class Magento_Core_Model_EntityFactory
     /**
      * Create class instance with specified parameters
      *
-     * @param Magento_Core_Model_Abstract $className
+     * @param $className
      * @param array $data
      * @return Magento_Core_Model_Abstract
      */
-    public function create(Magento_Core_Model_Abstract $className, array $data = array())
+    public function create($className, array $data = array())
     {
         return $this->_objectManager->create($className, $data);
     }
