@@ -74,7 +74,7 @@ class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
      */
     protected $_sessionTable;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_model         = $this->_objectManager->get('Magento_Core_Model_Resource_Session');

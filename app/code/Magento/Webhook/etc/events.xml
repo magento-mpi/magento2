@@ -20,4 +20,4 @@
     <event name="webapi_role_delete_commit_after">
         <observer name="webhook_subscription_status_update" instance="Magento_Webhook_Model_Observer" method="afterWebapiRoleChange" />
     </event>
-</config>
+</config>

@@ -14,4 +14,4 @@
     <event name="catalog_block_product_list_collection">
         <observer name="review" instance="Magento_Review_Model_Observer" method="catalogBlockProductCollectionBeforeToHtml" shared="false" />
     </event>
-</config>
+</config>

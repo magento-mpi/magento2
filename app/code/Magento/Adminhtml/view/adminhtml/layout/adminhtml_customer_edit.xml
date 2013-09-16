@@ -14,15 +14,21 @@
         </reference>
         <reference name="head">
             <block class="Magento_Adminhtml_Block_Template" name="optional_zip_countries" as="optional_zip_countries" template="Magento_Directory::js/optional_zip_countries.phtml"/>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/product/composite/configure.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">varien/configurable.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">Magento_Adminhtml::customer/edit/tab/js/addresses.js</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminhtml-catalog-product-composite-configure-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/product/composite/configure.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="varien-configurable-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">varien/configurable.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminhtml-customer-edit-tab-js-addresses.js">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_Adminhtml::customer/edit/tab/js/addresses.js</argument>
+                </arguments>
+            </block>
         </reference>
         <reference name="left">
             <block class="Magento_Adminhtml_Block_Customer_Edit_Tabs" name="customer_edit_tabs">

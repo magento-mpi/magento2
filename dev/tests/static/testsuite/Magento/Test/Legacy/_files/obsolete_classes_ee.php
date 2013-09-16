@@ -25,6 +25,7 @@ return array(
     array('Magento_Pci_Block_Adminhtml_Locks_Grid'),
     array('Magento_Reminder_Block_Adminhtml_Reminder_Grid'),
     array('Magento_Reward_Block_Adminhtml_Reward_Rate_Grid'),
+    array('Magento_Reward_Block_Customer_Account', 'Magento_Reward_Block_Customer_AccountLink'),
     array('Magento_Search_Model_Indexer_Price'),
     array('Magento_Search_Model_Resource_Suggestions'),
     array('Magento_TargetRule_Block_Adminhtml_Targetrule_Grid'),
@@ -74,4 +75,8 @@ return array(
     array('Magento_Queue_Model_Resource_Task'),
     array('Magento_Queue_Model_Task'),
     array('Magento_Queue_Model_TaskRepository'),
+    array('Magento_Rma_Block_Order_Guest'),
+    array('Magento_Rma_Block_Order_Info'),
+    array('Magento_Rma_Block_Return_Info'),
+    array('Magento_MultipleWishlist_Block_Links', 'Magento_MultipleWishlist_Block_Link'),
 );

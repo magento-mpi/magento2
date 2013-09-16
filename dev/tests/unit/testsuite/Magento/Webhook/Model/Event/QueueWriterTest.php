@@ -17,7 +17,7 @@ class Magento_Webhook_Model_Event_QueueWriterTest extends PHPUnit_Framework_Test
     /** @var Magento_Webhook_Model_Event_Factory  */
     protected $_eventFactory;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_eventFactory = $this->_mockCollection = $this->getMockBuilder('Magento_Webhook_Model_Event_Factory')
             ->disableOriginalConstructor()

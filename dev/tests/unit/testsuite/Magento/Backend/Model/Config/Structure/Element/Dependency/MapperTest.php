@@ -62,7 +62,7 @@ class Magento_Backend_Model_Config_Structure_Element_Dependency_MapperTest exten
      */
     protected $_fieldFactoryMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_testData = array(
             'field_x' => array(

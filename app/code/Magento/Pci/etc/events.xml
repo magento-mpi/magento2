@@ -14,4 +14,4 @@
     <event name="admin_user_save_after">
         <observer name="magento_pci" instance="Magento_Pci_Model_Observer" method="trackAdminNewPassword" />
     </event>
-</config>
+</config>

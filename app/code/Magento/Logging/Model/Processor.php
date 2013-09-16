@@ -544,7 +544,7 @@ class Magento_Logging_Model_Processor
             }
         } catch (Exception $e) {
             $return['handler'] = false;
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
 
         return $return;

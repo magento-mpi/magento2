@@ -38,4 +38,4 @@
     <event name="wishlist_share">
         <observer name="reports" instance="Magento_Reports_Model_Event_Observer" method="wishlistShare" />
     </event>
-</config>
+</config>

@@ -16,7 +16,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_
     /**
      * Initialize required data
      */
-    public function setUp()
+    protected function setUp()
     {
         $helperFactory = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')
             ->disableOriginalConstructor()

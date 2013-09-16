@@ -11,9 +11,9 @@
     <handle id="review_product_list">
         <reference name="product.review.form.fields.before">
             <block class="Magento_Reward_Block_Tooltip" name="reward.hint.review" template="tooltip.phtml" after="product.info">
-                <action method="initRewardType">
-                    <argument name="type" xsi:type="string">Magento_Reward_Model_Action_Review</argument>
-                </action>
+                <arguments>
+                    <argument name="reward_type" xsi:type="string">Magento_Reward_Model_Action_Review</argument>
+                </arguments>
                 <action method="setWrapperClass">
                     <argument name="class" xsi:type="string">reward-review</argument>
                 </action>

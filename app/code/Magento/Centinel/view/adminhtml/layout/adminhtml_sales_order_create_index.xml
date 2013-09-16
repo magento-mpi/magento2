@@ -10,9 +10,11 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_sales_order_create_index">
         <reference name="head">
-            <action method="addJs">
-                <argument name="file" xsi:type="string">Magento_Centinel::order_create.js</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Script" name="magento-centinel-order-create-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_Centinel::order_create.js</argument>
+                </arguments>
+            </block>
         </reference>
         <reference name="data">
             <block class="Magento_Centinel_Block_Adminhtml_Validation" as="card_validation" name="card_validation" template="Magento_Adminhtml::sales/order/create/abstract.phtml">

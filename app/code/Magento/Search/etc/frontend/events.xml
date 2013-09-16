@@ -17,4 +17,4 @@
     <event name="controller_action_predispatch_catalogsearch_advanced_result">
         <observer name="magento_search" instance="Magento_Search_Model_Observer" method="resetCurrentSearchLayer" />
     </event>
-</config>
+</config>

@@ -15,15 +15,15 @@
             </action>
         </reference>
         <reference name="head">
-            <action method="addCss">
-                <argument name="file" xsi:type="string">Magento_Catalog::zoom.css</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Css" name="magento-catalog-zoom-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_Catalog::zoom.css</argument>
+                </arguments>
+            </block>
         </reference>
         <reference name="content">
             <block class="Magento_Review_Block_Product_View" name="product.info" template="Magento_Catalog::product/view.phtml">
-                <block class="Magento_Catalog_Block_Product_View_Media" name="product.info.media" as="media" template="product/view/media.phtml">
-                    <action method="disableGallery"/>
-                </block>
+                <block class="Magento_Catalog_Block_Product_View_BaseImage" name="product-info-base-image" as="base-image" template="product/view/base-image.phtml"/>
                 <block class="Magento_Catalog_Block_Product_View" name="product.info.addto" as="addto" template="product/view/addto.phtml"/>
                 <block class="Magento_Catalog_Block_Product_View" name="product.info.addtocart" as="addtocart" template="product/view/addtocart.phtml">
                     <!-- workaround: a better place for this code is in paypal.xml -->

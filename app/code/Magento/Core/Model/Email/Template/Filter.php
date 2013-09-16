@@ -204,7 +204,6 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
     public function layoutDirective($construction)
     {
         $skipParams = array('handle', 'area');
-
         $params = $this->_getIncludeParameters($construction[2]);
         $layoutParams = array();
         if (isset($params['area'])) {
@@ -212,31 +211,31 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
         }
         /** @var $layout Magento_Core_Model_Layout */
         $layout = Mage::getModel('Magento_Core_Model_Layout', $layoutParams);
-
-        $layout->getUpdate()->addHandle($params['handle']);
-        $layout->getUpdate()->load();
+        $layout->getUpdate()->addHandle($params['handle'])
+            ->load();
 
         $layout->generateXml();
         $layout->generateElements();
 
+        $rootBlock = false;
         foreach ($layout->getAllBlocks() as $block) {
             /* @var $block Magento_Core_Block_Abstract */
+            if (!$block->getParentBlock() && !$rootBlock) {
+                $rootBlock = $block;
+            }
             foreach ($params as $k => $v) {
                 if (in_array($k, $skipParams)) {
                     continue;
                 }
-
                 $block->setDataUsingMethod($k, $v);
             }
         }
 
         /**
-         * Add output method for first block
+         * Add root block to output
          */
-        $allBlocks = $layout->getAllBlocks();
-        $firstBlock = reset($allBlocks);
-        if ($firstBlock) {
-            $layout->addOutputElement($firstBlock->getNameInLayout());
+        if ($rootBlock) {
+            $layout->addOutputElement($rootBlock->getNameInLayout());
         }
 
         $layout->setDirectOutput(false);

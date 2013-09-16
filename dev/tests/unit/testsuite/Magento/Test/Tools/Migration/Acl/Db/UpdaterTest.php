@@ -32,7 +32,7 @@ class Magento_Test_Tools_Migration_Acl_Db_UpdaterTest extends PHPUnit_Framework_
      */
     protected $_map = array();
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_readerMock = $this->getMock('Magento_Tools_Migration_Acl_Db_Reader', array(), array(), '', false);
         $this->_readerMock->expects($this->once())->method('fetchAll')->will($this->returnValue(array(

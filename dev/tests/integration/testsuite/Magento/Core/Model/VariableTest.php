@@ -16,7 +16,7 @@ class Magento_Core_Model_VariableTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = Mage::getModel('Magento_Core_Model_Variable');
     }

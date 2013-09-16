@@ -45,7 +45,7 @@ class Magento_Test_Tools_Migration_Acl_GeneratorRemoveTest extends PHPUnit_Frame
      */
     protected $_fileManagerMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $fixturePath = realpath(__DIR__) . DIRECTORY_SEPARATOR . '_files';
         $path = $fixturePath . DIRECTORY_SEPARATOR . 'remove' . DIRECTORY_SEPARATOR;
@@ -59,7 +59,7 @@ class Magento_Test_Tools_Migration_Acl_GeneratorRemoveTest extends PHPUnit_Frame
         $this->_model = new Magento_Tools_Migration_Acl_Generator($this->_xmlFormatterMock, $this->_fileManagerMock);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
     }

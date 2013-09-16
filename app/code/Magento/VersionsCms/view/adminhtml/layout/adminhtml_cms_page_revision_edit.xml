@@ -11,9 +11,11 @@
     <handle id="adminhtml_cms_page_revision_edit">
         <update handle="editor"/>
         <reference name="head">
-            <action method="addJs">
-                <argument name="file" xsi:type="string">Magento_VersionsCms::cms.js</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Script" name="magento-cms-cms-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_VersionsCms::cms.js</argument>
+                </arguments>
+            </block>
         </reference>
         <reference name="head.components">
             <block class="Magento_Adminhtml_Block_Page_Js_Components" name="cms_page_head_components" template="Magento_VersionsCms::page/js/components.phtml"/>

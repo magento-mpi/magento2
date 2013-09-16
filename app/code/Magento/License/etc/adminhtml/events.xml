@@ -14,4 +14,4 @@
     <event name="controller_action_predispatch">
         <observer name="magento_license" instance="Magento_License_Model_Observer" method="preDispatch" />
     </event>
-</config>
+</config>

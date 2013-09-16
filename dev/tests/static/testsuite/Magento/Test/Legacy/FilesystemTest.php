@@ -20,7 +20,9 @@ class Magento_Test_Legacy_FilesystemTest extends PHPUnit_Framework_TestCase
      */
     public function testRelocations($path)
     {
-        $this->assertFileNotExists(Magento_TestFramework_Utility_Files::init()->getPathToSource() . DIRECTORY_SEPARATOR . $path);
+        $this->assertFileNotExists(
+            Magento_TestFramework_Utility_Files::init()->getPathToSource() . DIRECTORY_SEPARATOR . $path
+        );
     }
 
     /**
@@ -37,9 +39,12 @@ class Magento_Test_Legacy_FilesystemTest extends PHPUnit_Framework_TestCase
             'Dissolved into themes under app/design ' => array('skin'),
             'Dissolved into different modules\' view/frontend' => array('app/design/frontend/base'),
             'Dissolved into different modules\' view/email/*.html' => array('app/locale/en_US/template'),
-            'The "core" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => array('app/code/core'),
-            'The "local" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => array('app/code/local'),
-            'The "community" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => array('app/code/community'),
+            'The "core" code pool no longer exists. Use root namespace as specified in PSR-0 standard'
+                => array('app/code/core'),
+            'The "local" code pool no longer exists. Use root namespace as specified in PSR-0 standard'
+                => array('app/code/local'),
+            'The "community" code pool no longer exists. Use root namespace as specified in PSR-0 standard'
+                => array('app/code/community'),
         );
     }
 

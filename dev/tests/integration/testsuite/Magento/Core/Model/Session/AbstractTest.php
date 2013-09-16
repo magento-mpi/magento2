@@ -16,7 +16,7 @@ class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_model = $this->getMockForAbstractClass('Magento_Core_Model_Session_Abstract',

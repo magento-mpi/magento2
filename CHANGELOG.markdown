@@ -1,3 +1,6 @@
+* Layout Improvements
+ * Removed access to direct execution of API through layout by removing <action> nodes
+ * Implemented ability to declare containers in layout that don't have any specific semantic value
 * Various improvements:
   * Removed some events (plugins must be used instead):
     * adminhtml_widget_container_html_before

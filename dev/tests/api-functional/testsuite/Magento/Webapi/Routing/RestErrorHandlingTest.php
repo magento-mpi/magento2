@@ -9,7 +9,7 @@
  */
 class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase_WebapiAbstract
 {
-    public function setUp()
+    protected function setUp()
     {
         $this->_markTestAsRestOnly();
         parent::setUp();

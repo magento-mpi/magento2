@@ -31,7 +31,7 @@ class Magento_ScheduledImportExport_Model_ExportTest extends PHPUnit_Framework_T
     /**
      * Init model for future tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $dateModelMock = $this->getMock('Magento_Core_Model_Date', array('date'), array(), '', false);
         $dateModelMock->expects($this->any())
@@ -47,7 +47,7 @@ class Magento_ScheduledImportExport_Model_ExportTest extends PHPUnit_Framework_T
     /**
      * Unset tested model
      */
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
     }

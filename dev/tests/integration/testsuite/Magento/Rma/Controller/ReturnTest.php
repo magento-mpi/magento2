@@ -16,7 +16,7 @@ class Magento_Rma_Controller_ReturnTest extends Magento_TestFramework_TestCase_C
      */
     protected $_customerSession;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
