@@ -8,11 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="report_sales">
-        <reference name="messages">
-            <action method="addNotice">
-                <argument translate="true" name="message" xsi:type="string">This report uses timezone configuration data. Be sure to refresh lifetime statistics any time you change store timezone.</argument>
-            </action>
-        </reference>
-    </handle>
+    <reference name="messages">
+        <action method="addNotice">
+            <argument translate="true" name="message" xsi:type="string">This report uses timezone configuration data. Be sure to refresh lifetime statistics any time you change store timezone.</argument>
+        </action>
+    </reference>
 </layout>

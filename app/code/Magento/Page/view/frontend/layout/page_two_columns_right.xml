@@ -7,19 +7,17 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="All Two-Column Layout Pages (Right Column)" id="page_two_columns_right" type="page" parent="default">
-        <reference name="root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">2columns-right.phtml</argument>
-            </action>
-            <!-- Mark root page block that template is applied -->
-            <action method="setIsHandle">
-                <argument name="applied" xsi:type="string">1</argument>
-            </action>
-            <action method="setLayoutCode">
-                <argument name="name" xsi:type="string">two_columns_right</argument>
-            </action>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="All Two-Column Layout Pages (Right Column)" type="page" parent="default">
+    <reference name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">2columns-right.phtml</argument>
+        </action>
+        <!-- Mark root page block that template is applied -->
+        <action method="setIsHandle">
+            <argument name="applied" xsi:type="string">1</argument>
+        </action>
+        <action method="setLayoutCode">
+            <argument name="name" xsi:type="string">two_columns_right</argument>
+        </action>
+    </reference>
 </layout>

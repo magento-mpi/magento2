@@ -8,28 +8,26 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_customer_formtype_edit">
-        <reference name="head">
-            <action method="setCanLoadExtJs">
-                <argument name="flag" xsi:type="string">1</argument>
+    <reference name="head">
+        <action method="setCanLoadExtJs">
+            <argument name="flag" xsi:type="string">1</argument>
+        </action>
+    </reference>
+    <reference name="content">
+        <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit" name="magento_customercustomattributes_formtype_edit"/>
+    </reference>
+    <reference name="left">
+        <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Tabs" name="magento_customercustomattributes_formtype_edit_tabs">
+            <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Tab_General" name="magento_customercustomattributes_formtype_edit_tab_general"/>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">magento_customercustomattributes_formtype_edit_tab_general</argument>
+                <argument name="block" xsi:type="string">magento_customercustomattributes_formtype_edit_tab_general</argument>
             </action>
-        </reference>
-        <reference name="content">
-            <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit" name="magento_customercustomattributes_formtype_edit"/>
-        </reference>
-        <reference name="left">
-            <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Tabs" name="magento_customercustomattributes_formtype_edit_tabs">
-                <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Tab_General" name="magento_customercustomattributes_formtype_edit_tab_general"/>
-                <action method="addTab">
-                    <argument name="name" xsi:type="string">magento_customercustomattributes_formtype_edit_tab_general</argument>
-                    <argument name="block" xsi:type="string">magento_customercustomattributes_formtype_edit_tab_general</argument>
-                </action>
-                <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree" name="magento_customercustomattributes_formtype_edit_tab_tree" template="formtype/edit/tab/tree.phtml"/>
-                <action method="addTab">
-                    <argument name="name" xsi:type="string">magento_customercustomattributes_formtype_edit_tab_tree</argument>
-                    <argument name="block" xsi:type="string">magento_customercustomattributes_formtype_edit_tab_tree</argument>
-                </action>
-            </block>
-        </reference>
-    </handle>
+            <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree" name="magento_customercustomattributes_formtype_edit_tab_tree" template="formtype/edit/tab/tree.phtml"/>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">magento_customercustomattributes_formtype_edit_tab_tree</argument>
+                <argument name="block" xsi:type="string">magento_customercustomattributes_formtype_edit_tab_tree</argument>
+            </action>
+        </block>
+    </reference>
 </layout>

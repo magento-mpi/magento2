@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Quick Search Form Suggestions" type="fragment" owner="root_page_with_own_containers"/>

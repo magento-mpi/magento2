@@ -30,7 +30,7 @@ class Magento_Test_Tools_Di_Code_Scanner_XmlScannerTest extends PHPUnit_Framewor
         $this->_testFiles =  array(
             $this->_testDir . '/app/code/Magento/SomeModule/etc/adminhtml/system.xml',
             $this->_testDir . '/app/code/Magento/SomeModule/etc/di.xml',
-            $this->_testDir . '/app/code/Magento/SomeModule/view/frontend/layout.xml',
+            $this->_testDir . '/app/code/Magento/SomeModule/view/frontend/default.xml',
             $this->_testDir . '/app/etc/di/config.xml'
 
         );

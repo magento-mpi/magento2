@@ -47,7 +47,7 @@ class Magento_Test_Tools_Di_Code_Scanner_DirectoryScannerTest extends PHPUnit_Fr
                 $this->_testDir . '/app/code/Magento/SomeModule/etc/config.xml'
             ),
             'view' => array(
-                $this->_testDir . '/app/code/Magento/SomeModule/view/frontend/layout.xml',
+                $this->_testDir . '/app/code/Magento/SomeModule/view/frontend/default.xml',
             ),
             'design' => array(
                 $this->_testDir . '/app/design/adminhtml/magento_backend/layout.xml',
