@@ -208,7 +208,7 @@ class CatalogProductItem
                     $productId = $this->_getProductId();
                     if ($productId && !$this->_coreRegistry->registry('product')) {
                         $product = \Mage::getModel('Magento\Catalog\Model\Product')
-                            ->setStoreId(Mage::app()->getStore()->getId())
+                            ->setStoreId(\Mage::app()->getStore()->getId())
                             ->load($productId);
                         if ($product) {
                             $this->_coreRegistry->register('product', $product);

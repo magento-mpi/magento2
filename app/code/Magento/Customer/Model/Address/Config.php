@@ -83,7 +83,7 @@ class Config extends \Magento\Core\Model\Config\Base
         \Magento\Customer\Helper\Address $customerAddress
     ) {
         $this->_customerAddress = $customerAddress;
-        parent::__construct(Mage::getConfig()->getNode()->global->customer->address);
+        parent::__construct(\Mage::getConfig()->getNode()->global->customer->address);
     }
 
     /**

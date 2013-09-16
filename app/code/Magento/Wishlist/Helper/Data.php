@@ -376,7 +376,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getSharedAddToCartUrl($item)
     {
-        $continueUrl  = $this->_coreData->urlEncode(Mage::getUrl('*/*/*', array(
+        $continueUrl  = $this->_coreData->urlEncode(\Mage::getUrl('*/*/*', array(
             '_current'      => true,
             '_use_rewrite'  => true,
             '_store_to_url' => true,

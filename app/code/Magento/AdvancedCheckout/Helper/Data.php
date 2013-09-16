@@ -328,7 +328,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                         if ($this->_catalogData->canApplyMsrp($itemProduct)) {
                             $quoteItem->setCanApplyMsrp(true);
                             $itemProduct->setRealPriceHtml(
-                                \Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
+                                \Mage::app()->getStore()->formatPrice(\Mage::app()->getStore()->convertPrice(
                                     $this->_taxData->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
                                 ))
                             );

@@ -39,8 +39,8 @@ class Helper
     public function get($className, array $arguments = array())
     {
         /* Default helper class for a module */
-        if (strpos($className, '_Helper_') === false) {
-            $className .= '_Helper_Data';
+        if (strpos($className, '\Helper\\') === false) {
+            $className .= '\Helper\Data';
         }
 
         $helper = $this->_objectManager->get($className, $arguments);

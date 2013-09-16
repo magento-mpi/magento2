@@ -37,7 +37,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template_Context $context,
+        \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,

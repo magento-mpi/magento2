@@ -108,7 +108,7 @@ class Observer
                             ->asArray()
                         );
                         if ($this->_customerData->isRegistrationAllowed()) {
-                            foreach(array_keys(Mage::getConfig()
+                            foreach(array_keys(\Mage::getConfig()
                                 ->getNode(
                                     \Magento\WebsiteRestriction\Helper\Data::XML_NODE_RESTRICTION_ALLOWED_REGISTER
                                 )

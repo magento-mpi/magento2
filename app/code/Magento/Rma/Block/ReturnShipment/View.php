@@ -266,7 +266,7 @@ class View extends \Magento\Rma\Block\Form
 
     public function getCustomerName()
     {
-        if (Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
             return $this->_customerData->getCustomerName();
         } else {
             $billingAddress = $this->_coreRegistry->registry('current_order')->getBillingAddress();

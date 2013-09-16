@@ -61,9 +61,9 @@ class Layer extends \Magento\Catalog\Model\Layer
     public function prepareProductCollection($collection)
     {
         $collection
-            ->addAttributeToSelect(Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes())
+            ->addAttributeToSelect(\Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes())
             ->addSearchFilter($this->_catalogSearchData->getQuery()->getQueryText())
-            ->setStore(Mage::app()->getStore())
+            ->setStore(\Mage::app()->getStore())
             ->addMinimalPrice()
             ->addFinalPrice()
             ->addTaxPercents()

@@ -102,8 +102,8 @@ class Product extends \Magento\Core\Controller\Front\Action
     {
         $model  = \Mage::getModel('Magento\Sendfriend\Model\Sendfriend');
         $model->setRemoteAddr($this->_objectManager->get('Magento\Core\Helper\Http')->getRemoteAddr(true));
-        $model->setCookie(Mage::app()->getCookie());
-        $model->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+        $model->setCookie(\Mage::app()->getCookie());
+        $model->setWebsiteId(\Mage::app()->getStore()->getWebsiteId());
 
         $this->_coreRegistry->register('send_to_friend_model', $model);
 

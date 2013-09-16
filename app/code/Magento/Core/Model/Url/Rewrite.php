@@ -192,7 +192,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
             $response = \Mage::app()->getFrontController()->getResponse();
         }
         if (is_null($this->getStoreId()) || false === $this->getStoreId()) {
-            $this->setStoreId(Mage::app()->getStore()->getId());
+            $this->setStoreId(\Mage::app()->getStore()->getId());
         }
 
         /**

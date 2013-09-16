@@ -524,7 +524,7 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
 
     public function canReturnToStock()
     {
-        if (Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT)) {
+        if (\Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT)) {
             return true;
         } else {
             return false;

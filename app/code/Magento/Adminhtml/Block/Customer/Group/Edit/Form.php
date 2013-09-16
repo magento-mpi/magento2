@@ -73,7 +73,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         }
 
         if ( \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getCustomerGroupData() ) {
-            $form->addValues(Mage::getSingleton('Magento\Adminhtml\Model\Session')->getCustomerGroupData());
+            $form->addValues(\Mage::getSingleton('Magento\Adminhtml\Model\Session')->getCustomerGroupData());
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setCustomerGroupData(null);
         } else {
             $form->addValues($customerGroup->getData());

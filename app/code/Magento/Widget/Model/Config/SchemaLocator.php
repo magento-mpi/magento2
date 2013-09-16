@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magent\Widget\Model\Config;
+namespace Magento\Widget\Model\Config;
 
 class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
 {

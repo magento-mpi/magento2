@@ -88,7 +88,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     {
         $block = false;
         $blockType = $method->getFormBlockType();
-        if (Mage::app()->getLayout()) {
+        if (\Mage::app()->getLayout()) {
             $block = \Mage::app()->getLayout()->createBlock($blockType, $method->getCode());
             $block->setMethod($method);
         }
