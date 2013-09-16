@@ -855,9 +855,7 @@ class Layout extends \Magento\Simplexml\Config
      */
     protected function _generateAnonymousName($class)
     {
-        $position = strpos($class, 'Block');
-        $key = $position !== false ? substr($class, $position + 6) : $class;
-        $key = strtolower(trim($key, '_'));
+        $key = strtolower($class);
 
         if (!isset($this->_nameIncrement[$key])) {
             $this->_nameIncrement[$key] = 0;
