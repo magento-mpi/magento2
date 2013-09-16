@@ -43,11 +43,6 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
     protected $_backendHelper;
 
     /**
-     * @var Magento_Core_Helper_Data
-     */
-    protected $_coreHelper;
-
-    /**
      * @var Magento_Core_Model_Session
      */
     protected $_coreSession;
@@ -63,7 +58,6 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Backend_Helper_Data $backendHelper
-     * @param Magento_Core_Helper_Data $coreHelper
      * @param Magento_Core_Model_Session $coreSession
      * @param Magento_Backend_Model_Menu_Config $menuConfig
      * @param Magento_Core_Helper_Data $coreData
@@ -73,7 +67,6 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
         Magento_Backend_Helper_Data $backendHelper,
-        Magento_Core_Helper_Data $coreHelper,
         Magento_Core_Model_Session $coreSession,
         Magento_Backend_Model_Menu_Config $menuConfig,
         Magento_Core_Helper_Data $coreData,
@@ -83,7 +76,6 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
         $this->_startupMenuItemId = $coreStoreConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM);
         $this->_backendHelper = $backendHelper;
         $this->_coreSession = $coreSession;
-        $this->_coreHelper = $coreHelper;
         $this->_menuConfig = $menuConfig;
     }
 
@@ -200,7 +192,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
         }
 
         $secret = $routeName . $controller . $action . $salt;
-        return $this->_coreHelper->getHash($secret);
+        return $this->_coreData->getHash($secret);
     }
 
     /**
