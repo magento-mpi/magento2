@@ -625,54 +625,6 @@ final class Mage
     }
 
     /**
-     * Display exception
-     *
-     * @param Exception $e
-     * @param string $extra
-     */
-    public static function printException(Exception $e, $extra = '')
-    {
-        if (self::getIsDeveloperMode()) {
-            print '<pre>';
-
-            if (!empty($extra)) {
-                print $extra . "\n\n";
-            }
-
-            print $e->getMessage() . "\n\n";
-            print $e->getTraceAsString();
-            print '</pre>';
-        } else {
-
-            $reportData = array(
-                !empty($extra) ? $extra . "\n\n" : '' . $e->getMessage(),
-                $e->getTraceAsString()
-            );
-
-            // retrieve server data
-            if (isset($_SERVER)) {
-                if (isset($_SERVER['REQUEST_URI'])) {
-                    $reportData['url'] = $_SERVER['REQUEST_URI'];
-                }
-                if (isset($_SERVER['SCRIPT_NAME'])) {
-                    $reportData['script_name'] = $_SERVER['SCRIPT_NAME'];
-                }
-            }
-
-            // attempt to specify store as a skin
-            try {
-                $storeCode = self::app()->getStore()->getCode();
-                $reportData['skin'] = $storeCode;
-            } catch (Exception $e) {
-            }
-
-            require_once(self::getBaseDir(Magento_Core_Model_Dir::PUB) . DS . 'errors' . DS . 'report.php');
-        }
-
-        die();
-    }
-
-    /**
      * Set is downloader flag
      *
      * @param bool $flag

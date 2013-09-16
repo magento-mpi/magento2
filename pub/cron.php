@@ -23,6 +23,6 @@ try {
     $entryPoint = new Magento_Core_Model_EntryPoint_Cron($config);
     $entryPoint->processRequest();
 } catch (Exception $e) {
-    Mage::printException($e);
+    magePrintException($e);
 }
 Magento_Profiler::stop('mage');

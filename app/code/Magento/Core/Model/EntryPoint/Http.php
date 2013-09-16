@@ -24,7 +24,7 @@ class Magento_Core_Model_EntryPoint_Http extends Magento_Core_Model_EntryPointAb
             header('Content-Type: text/plain', true, 503);
             echo $e->getMessage();
         } catch (Exception $e) {
-            Mage::printException($e);
+            magePrintException($e);
         }
     }
 

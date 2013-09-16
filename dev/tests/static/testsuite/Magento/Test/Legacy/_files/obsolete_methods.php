@@ -712,4 +712,5 @@ return array(
     array('unregister', 'Mage', 'use Magento_Core_Model_Registry'),
     array('registry', 'Mage', 'use Magento_Core_Model_Registry'),
     array('getCatalogHelper', 'Magento_Adminhtml_Block_Catalog_Category_Tabs'),
+    array('printException', 'Mage', 'magePrintException'),
 );
