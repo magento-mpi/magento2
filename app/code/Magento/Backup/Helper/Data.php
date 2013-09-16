@@ -189,7 +189,7 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
             $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'full_page_cache',
             $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'locks',
             $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'log',
-            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'report'
+            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'report',
         );
     }
 
@@ -209,8 +209,8 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
             $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'log',
             $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'report',
             $this->_dir->getDir(Magento_Core_Model_Dir::APP) . DS . 'Mage.php',
-            $this->_dir->getDir(Magento_Core_Model_Dir::ROOT) . DS . 'errors',
-            $this->_dir->getDir(Magento_Core_Model_Dir::ROOT) . DS . 'index.php',
+            $this->_dir->getDir() . DS . 'errors',
+            $this->_dir->getDir() . DS . 'index.php',
         );
     }
 
@@ -225,7 +225,7 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
         $result = $this->_filesystem->write(
             $maintenanceFlagFile,
             'maintenance',
-            $this->_dir->getDir(Magento_Core_Model_Dir::ROOT)
+            $this->_dir->getDir()
         );
 
         return $result !== false;
@@ -237,7 +237,7 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
     public function turnOffMaintenanceMode()
     {
         $maintenanceFlagFile = $this->getMaintenanceFlagFilePath();
-        $this->_filesystem->delete($maintenanceFlagFile, $this->_dir->getDir(Magento_Core_Model_Dir::ROOT));
+        $this->_filesystem->delete($maintenanceFlagFile, $this->_dir->getDir());
     }
 
     /**
@@ -269,7 +269,7 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
      */
     protected function getMaintenanceFlagFilePath()
     {
-        return $this->_dir->getDir(Magento_Core_Model_Dir::ROOT) . DS . 'maintenance.flag';
+        return $this->_dir->getDir() . DS . 'maintenance.flag';
     }
 
     /**

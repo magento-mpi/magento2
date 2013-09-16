@@ -49,12 +49,13 @@ class Magento_Backup_Model_Fs_Collection extends Magento_Data_Collection_Filesys
         Magento_Filesystem $filesystem,
         Magento_Core_Model_Dir $dir
     ) {
-        $this->_backupData = $backupData;
         parent::__construct();
 
+        $this->_backupData = $backupData;
+        $this->_filesystem = $filesystem;
         $this->_dir = $dir;
         $this->_baseDir = $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'backups';
-        $this->_filesystem = $filesystem;
+
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->ensureDirectoryExists($this->_baseDir);
         $this->_filesystem->setWorkingDirectory($this->_baseDir);
