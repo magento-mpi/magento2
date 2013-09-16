@@ -53,7 +53,7 @@ abstract class ClassReflectorAbstract
         $data = array(
             'controller' => $className,
         );
-        $serverReflection = new \Reflection;
+        $serverReflection = new \Zend\Server\Reflection;
         foreach ($serverReflection->reflectClass($className)->getMethods() as $methodReflection) {
             try {
                 $method = $this->getMethodNameWithoutVersionSuffix($methodReflection);
@@ -79,13 +79,13 @@ abstract class ClassReflectorAbstract
     /**
      * Identify API method name without version suffix by its reflection.
      *
-     * @param \ReflectionMethod|string $method Method name or method reflection.
+     * @param \Zend\Server\Reflection\ReflectionMethod|string $method Method name or method reflection.
      * @return string Method name without version suffix on success.
      * @throws \InvalidArgumentException When method name is invalid API resource method.
      */
     public function getMethodNameWithoutVersionSuffix($method)
     {
-        if ($method instanceof \ReflectionMethod) {
+        if ($method instanceof \Zend\Server\Reflection\ReflectionMethod) {
             $methodNameWithSuffix = $method->getName();
         } else {
             $methodNameWithSuffix = $method;
@@ -101,11 +101,11 @@ abstract class ClassReflectorAbstract
     /**
      * Identify API method version by its reflection.
      *
-     * @param \ReflectionMethod $methodReflection
+     * @param \Zend\Server\Reflection\ReflectionMethod $methodReflection
      * @return string|bool Method version with prefix on success.
      *      false is returned in case when method should not be exposed via API.
      */
-    public function getMethodVersion(\ReflectionMethod $methodReflection)
+    public function getMethodVersion(\Zend\Server\Reflection\ReflectionMethod $methodReflection)
     {
         $methodVersion = false;
         $methodNameWithSuffix = $methodReflection->getName();
@@ -130,11 +130,11 @@ abstract class ClassReflectorAbstract
     /**
      * Retrieve method interface and documentation description.
      *
-     * @param \ReflectionMethod $method
+     * @param \Zend\Server\Reflection\ReflectionMethod $method
      * @return array
      * @throws \InvalidArgumentException
      */
-    public function extractMethodData(\ReflectionMethod $method)
+    public function extractMethodData(\Zend\Server\Reflection\ReflectionMethod $method)
     {
         $methodData = array('documentation' => $method->getDescription());
         $prototypes = $method->getPrototypes();
@@ -181,17 +181,17 @@ abstract class ClassReflectorAbstract
      * )
      * </pre>
      *
-     * @param \ReflectionMethod $methodReflection
+     * @param \Zend\Server\Reflection\ReflectionMethod $methodReflection
      * @return array|bool On success array with policy details; false otherwise.
      * @throws \LogicException If deprecation tag format is incorrect.
      */
-    protected function _extractDeprecationPolicy(\ReflectionMethod $methodReflection)
+    protected function _extractDeprecationPolicy(\Zend\Server\Reflection\ReflectionMethod $methodReflection)
     {
         $deprecationPolicy = false;
         $methodDocumentation = $methodReflection->getDocComment();
         if ($methodDocumentation) {
             /** Zend server reflection is not able to work with annotation tags of the method. */
-            $docBlock = new DocBlockReflection($methodDocumentation);
+            $docBlock = new \Zend\Code\Reflection\DocBlockReflection($methodDocumentation);
             $removedTag = $docBlock->getTag('apiRemoved');
             $deprecatedTag = $docBlock->getTag('apiDeprecated');
             if ($removedTag) {
@@ -212,13 +212,13 @@ abstract class ClassReflectorAbstract
     /**
      * Extract method deprecation policy "use method" data.
      *
-     * @param \ReflectionMethod $methodReflection
+     * @param \Zend\Server\Reflection\ReflectionMethod $methodReflection
      * @param string $useMethod
      * @param array $deprecationPolicy
      * @throws \LogicException
      */
     protected function _extractDeprecationPolicyUseMethod(
-        \ReflectionMethod $methodReflection,
+        \Zend\Server\Reflection\ReflectionMethod $methodReflection,
         $useMethod,
         &$deprecationPolicy
     ) {
