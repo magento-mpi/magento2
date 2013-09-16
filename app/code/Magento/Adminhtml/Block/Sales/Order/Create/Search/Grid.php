@@ -26,6 +26,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
     /**
      * Constructor
      *
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
@@ -33,18 +34,14 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
-        parent::__construct(
-            $context,
-            $storeManager,
-            $urlModel,
-            $data
-        );
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
         $this->_coreConfig = $coreConfig;
     }
 
