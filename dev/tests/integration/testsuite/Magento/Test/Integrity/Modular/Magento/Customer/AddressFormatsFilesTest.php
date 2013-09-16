@@ -36,6 +36,7 @@ class Magento_Test_Integrity_Modular_Magento_Customer_AddressFormatsFilesTest ex
      */
     public function fileFormatDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('address_formats.xml');
+        return
+            Magento_TestFramework_Utility_Files::init()->getConfigFiles('{*/address_formats.xml,address_formats.xml}');
     }
 }
