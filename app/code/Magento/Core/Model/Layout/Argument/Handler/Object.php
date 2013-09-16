@@ -18,13 +18,70 @@
 class Magento_Core_Model_Layout_Argument_Handler_Object extends Magento_Core_Model_Layout_Argument_HandlerAbstract
 {
     /**
-     * Instantiate model object
-     * @param string $value
-     * @return Magento_Core_Model_Abstract|boolean
+     * @var Magento_ObjectManager
      */
-    public function process($value)
+    protected $_objectManager;
+
+    /**
+     * @param Magento_ObjectManager $objectManager
+     */
+    public function __construct(Magento_ObjectManager $objectManager)
     {
-        $valueInstance = $this->_objectManager->create($value, array());
-        return $valueInstance;
+        $this->_objectManager = $objectManager;
+    }
+
+    /**
+     * Process argument value
+     *
+     * @param array $argument
+     * @return mixed
+     * @throws InvalidArgumentException
+     */
+    public function process(array $argument)
+    {
+        $this->_validate($argument);
+        $value = $argument['value'];
+
+        return $this->_objectManager->create($value['object']);
+    }
+
+    /**
+     * Validate argument
+     * @param $argument
+     * @throws InvalidArgumentException
+     */
+    protected function _validate(array $argument)
+    {
+        parent::_validate($argument);
+        $value = $argument['value'];
+
+        if (!isset($value['object'])) {
+            throw new InvalidArgumentException(
+                'Passed value has incorrect format. ' . $this->_getArgumentInfo($argument)
+            );
+        }
+
+        if (!is_subclass_of($value['object'], 'Magento_Data_Collection')) {
+            throw new InvalidArgumentException(
+                'Incorrect data source model. ' . $this->_getArgumentInfo($argument)
+            );
+        }
+    }
+
+    /**
+     * Retrieve value from argument
+     *
+     * @param Magento_Core_Model_Layout_Element $argument
+     * @return array|null
+     */
+    protected function _getArgumentValue(Magento_Core_Model_Layout_Element $argument)
+    {
+        $value = parent::_getArgumentValue($argument);
+        if (!isset($value)) {
+            return null;
+        }
+        return array(
+            'object' => $value
+        );
     }
 }

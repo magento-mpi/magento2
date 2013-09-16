@@ -23,4 +23,4 @@
     <event name="magento_invitation_save_commit_after">
         <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="invitationToCustomer" />
     </event>
-</config>
+</config>

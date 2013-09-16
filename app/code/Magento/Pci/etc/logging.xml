@@ -9,23 +9,24 @@
  * @license     {license_link}
  */
 -->
-<logging>
-    <magento_pci_crypt translate="label">
-        <label>Encryption Key Change</label>
-        <actions>
-            <adminhtml_crypt_key_save>
-                <action>save</action>
-                <post_dispatch>postDispatchSimpleSave</post_dispatch>
-            </adminhtml_crypt_key_save>
-        </actions>
-    </magento_pci_crypt>
-    <magento_pci_locks translate="label">
-        <label>Admin Accounts Locks</label>
-        <actions>
-            <adminhtml_locks_massUnlock>
-                <action>massUpdate</action>
-                <post_dispatch>postDispatchAdminAccountsMassUnlock</post_dispatch>
-            </adminhtml_locks_massUnlock>
-        </actions>
-    </magento_pci_locks>
+<logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
+    <groups>
+        <group name="magento_pci_crypt">
+            <label translate="true">Encryption Key Change</label>
+            <events>
+                <event controller_action="adminhtml_crypt_key_save"
+                       action_alias="save"
+                       post_dispatch="postDispatchSimpleSave" />
+            </events>
+        </group>
+        <group name="magento_pci_locks">
+            <label translate="true">Admin Accounts Locks</label>
+            <events>
+                <event controller_action="adminhtml_locks_massUnlock"
+                       action_alias="massUpdate"
+                       post_dispatch="postDispatchAdminAccountsMassUnlock" />
+            </events>
+        </group>
+    </groups>
 </logging>

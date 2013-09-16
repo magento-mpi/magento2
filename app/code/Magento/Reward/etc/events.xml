@@ -53,4 +53,4 @@
     <event name="checkout_multishipping_refund_all">
         <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="revertRewardPointsForAllOrders" />
     </event>
-</config>
+</config>

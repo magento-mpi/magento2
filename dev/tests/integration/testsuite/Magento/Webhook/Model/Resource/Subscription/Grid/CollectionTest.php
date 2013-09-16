@@ -57,14 +57,14 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
         }
     }
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_createSubscriptions();
 
         $this->_config = $this->_createSubscriptionConfig();
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         foreach ($this->_subscriptions as $subscription) {
             $subscription->delete();

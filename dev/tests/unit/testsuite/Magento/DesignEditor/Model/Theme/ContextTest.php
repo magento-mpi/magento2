@@ -35,7 +35,7 @@ class Magento_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_Tes
      */
     protected $_theme;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_themeFactory = $this->getMock('Magento_Core_Model_ThemeFactory', array('create'), array(), '', false);
 

@@ -16,7 +16,7 @@ class Magento_Rma_Controller_ReturnTest extends Magento_TestFramework_TestCase_C
      */
     protected $_customerSession;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         $this->_customerSession = Mage::getModel('Magento_Customer_Model_Session');

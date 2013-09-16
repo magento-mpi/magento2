@@ -53,7 +53,13 @@ abstract class Magento_AdvancedCheckout_Block_Adminhtml_Sku_Abstract extends Mag
         $headBlock = parent::_prepareLayout()->getLayout()->getBlock('head');
         if ($headBlock) {
             // Head block is not defined on AJAX request
-            $headBlock->addJs('Magento_AdvancedCheckout::addbysku.js');
+            $headBlock->addChild(
+                'magento-checkout-addbysku-js',
+                'Magento_Page_Block_Html_Head_Script',
+                array(
+                    'file' => 'Magento_AdvancedCheckout::addbysku.js'
+                )
+            );
         }
 
         $this->addChild('deleteButton', 'Magento_Adminhtml_Block_Widget_Button', array(

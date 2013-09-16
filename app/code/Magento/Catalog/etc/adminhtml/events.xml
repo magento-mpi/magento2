@@ -11,4 +11,4 @@
     <event name="cms_wysiwyg_images_static_urls_allowed">
         <observer name="catalog_wysiwyg" instance="Magento_Catalog_Model_Observer" method="catalogCheckIsUsingStaticUrlsAllowed" />
     </event>
-</config>
+</config>

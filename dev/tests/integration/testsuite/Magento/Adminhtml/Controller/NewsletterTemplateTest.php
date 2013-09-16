@@ -19,7 +19,7 @@ class Magento_Adminhtml_Controller_NewsletterTemplateTest extends Magento_Backen
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         $post = array('code'=>'test data',
@@ -31,7 +31,7 @@ class Magento_Adminhtml_Controller_NewsletterTemplateTest extends Magento_Backen
         $this->_model = Mage::getModel('Magento_Newsletter_Model_Template');
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         /**
          * Unset messages

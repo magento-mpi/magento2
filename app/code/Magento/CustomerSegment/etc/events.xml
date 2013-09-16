@@ -20,4 +20,4 @@
     <event name="customer_balance_save_commit_after">
         <observer name="magento_customersegment" instance="Magento_CustomerSegment_Model_Observer" method="processCustomerEvent" />
     </event>
-</config>
+</config>

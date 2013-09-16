@@ -30,7 +30,7 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_ContentTest extends PHPUnit_Fr
      */
     protected $_request;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_helperStorage = $this->getMock('Magento_Theme_Helper_Storage', array(), array(), '', false);
         $this->_urlBuilder = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false);

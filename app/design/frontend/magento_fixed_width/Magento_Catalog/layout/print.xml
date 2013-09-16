@@ -10,9 +10,11 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="print">
         <reference name="head">
-            <action method="addCss">
-                <argument name="file" xsi:type="string">Magento_Catalog::widgets.css</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Css" name="magento-catalog-widgets-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_Catalog::widgets.css</argument>
+                </arguments>
+            </block>
         </reference>
     </handle>
 </layout>

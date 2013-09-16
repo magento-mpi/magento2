@@ -21,7 +21,7 @@ class Magento_Centinel_Model_State_JcbTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = new Magento_Centinel_Model_State_Jcb();
         $this->_model->setDataStorage(new Magento_Object());

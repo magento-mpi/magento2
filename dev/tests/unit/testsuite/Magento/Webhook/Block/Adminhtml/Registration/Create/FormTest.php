@@ -29,7 +29,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_FormTest extends Magen
     /** @var  string[] */
     private $_actualIds;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         $this->_registry = new Magento_Core_Model_Registry();

@@ -10,11 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="sales_order_creditmemo">
         <reference name="creditmemo_items">
-            <action method="addItemRender">
-                <argument name="type" xsi:type="string">bundle</argument>
-                <argument name="block" xsi:type="string">Magento_Bundle_Block_Sales_Order_Items_Renderer</argument>
-                <argument name="template" xsi:type="string">sales/order/creditmemo/items/renderer.phtml</argument>
-            </action>
+            <block class="Magento_Bundle_Block_Sales_Order_Items_Renderer" as="bundle" template="sales/order/creditmemo/items/renderer.phtml"/>
         </reference>
     </handle>
 </layout>

@@ -14,4 +14,4 @@
     <event name="wishlist_save_commit_after">
         <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="registerWishlistListChange" />
     </event>
-</config>
+</config>

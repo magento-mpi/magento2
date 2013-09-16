@@ -16,37 +16,12 @@
             </block>
             <block class="Magento_Sales_Block_Order_Shipment" name="sales.order.shipment" after="sales.order.info">
                 <block class="Magento_Sales_Block_Order_Shipment_Items" name="shipment_items" template="order/shipment/items.phtml">
-                    <action method="addItemRender">
-                        <argument name="type" xsi:type="string">default</argument>
-                        <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
-                        <argument name="template" xsi:type="string">Magento_Sales::order/shipment/items/renderer/default.phtml</argument>
-                    </action>
+                    <block class="Magento_Catalog_Block_Product_Price" as="default" template="Magento_Sales::order/shipment/items/renderer/default.phtml"/>
                     <block class="Magento_Sales_Block_Order_Comments" name="shipment_comments" template="order/comments.phtml"/>
                 </block>
             </block>
         </reference>
-        <reference name="sales.order.info">
-            <action method="addLink">
-                <argument name="name" xsi:type="string">view</argument>
-                <argument name="path" xsi:type="string">*/*/view</argument>
-                <argument translate="true" name="label" xsi:type="string">Order Information</argument>
-            </action>
-            <action method="addLink">
-                <argument name="name" xsi:type="string">invoice</argument>
-                <argument name="path" xsi:type="string">*/*/invoice</argument>
-                <argument translate="true" name="label" xsi:type="string">Invoices</argument>
-            </action>
-            <action method="addLink">
-                <argument name="name" xsi:type="string">shipment</argument>
-                <argument name="path" xsi:type="string"/>
-                <argument translate="true" name="label" xsi:type="string">Shipments</argument>
-            </action>
-            <action method="addLink">
-                <argument name="name" xsi:type="string">creditmemo</argument>
-                <argument name="path" xsi:type="string">*/*/creditmemo</argument>
-                <argument translate="true" name="label" xsi:type="string">Refunds</argument>
-            </action>
-        </reference>
+        <update handle="sales_order_info_links"/>
         <container name="additional.product.info" label="Additional Product Info"/>
     </handle>
 </layout>

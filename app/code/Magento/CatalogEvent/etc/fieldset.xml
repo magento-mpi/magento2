@@ -9,17 +9,16 @@
  * @license     {license_link}
  */
 -->
-<config>
-    <global>
-        <fieldsets>
-            <sales_convert_quote_item>
-                <event_id>
-                    <to_order_item>*</to_order_item>
-                </event_id>
-                <event_name>
-                    <to_order_item>*</to_order_item>
-                </event_name>
-            </sales_convert_quote_item>
-        </fieldsets>
-    </global>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../Magento/Core/etc/fieldset.xsd">
+    <scope id="global">
+        <fieldset id="sales_convert_quote_item">
+            <field name="event_id">
+                <aspect name="to_order_item" />
+            </field>
+            <field name="event_name">
+                <aspect name="to_order_item" />
+            </field>
+        </fieldset>
+    </scope>
 </config>
