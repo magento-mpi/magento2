@@ -76,6 +76,8 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Magento_Index_Model_I
     protected $_catalogInventoryData = null;
 
     /**
+     * Construct
+     *
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
@@ -91,8 +93,8 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Magento_Index_Model_I
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_catalogInventoryData = $catalogInventoryData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_catalogInventoryData = $catalogInventoryData;
     }
 
     /**
