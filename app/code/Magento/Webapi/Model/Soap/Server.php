@@ -33,7 +33,7 @@ class Magento_Webapi_Model_Soap_Server
     /** @var Magento_Core_Model_StoreManagerInterface */
     protected $_storeManager;
 
-    /** @var Magento_Webapi_Model_Soap_Server_FactoryInterface */
+    /** @var Magento_Webapi_Model_Soap_Server_Factory */
     protected $_soapServerFactory;
 
     /**

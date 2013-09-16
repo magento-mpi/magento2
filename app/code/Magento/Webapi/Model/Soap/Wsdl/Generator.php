@@ -110,18 +110,18 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
         $wsdl = $this->_wsdlFactory->create(self::WSDL_NAME, $endPointUrl);
         $wsdl->addSchemaTypeSection();
 
-        foreach ($services as $serviceId => $serviceData) {
-            $portTypeName = $this->getPortTypeName($serviceId);
-            $bindingName = $this->getBindingName($serviceId);
+        foreach ($services as $serviceClass => $serviceData) {
+            $portTypeName = $this->getPortTypeName($serviceClass);
+            $bindingName = $this->getBindingName($serviceClass);
             $portType = $wsdl->addPortType($portTypeName);
             $binding = $wsdl->addBinding($bindingName, Wsdl::TYPES_NS . ':' . $portTypeName);
             $wsdl->addSoapBinding($binding, 'document', 'http://schemas.xmlsoap.org/soap/http', SOAP_1_2);
-            $portName = $this->getPortName($serviceId);
-            $serviceName = $this->getServiceName($serviceId);
+            $portName = $this->getPortName($serviceClass);
+            $serviceName = $this->getServiceName($serviceClass);
             $wsdl->addService($serviceName, $portName, Wsdl::TYPES_NS . ':' . $bindingName, $endPointUrl, SOAP_1_2);
 
             foreach ($serviceData['methods'] as $methodName => $methodData) {
-                $operationName = $this->getOperationName($serviceId, $methodName);
+                $operationName = $this->getOperationName($serviceClass, $methodName);
                 $inputBinding = array('use' => 'literal');
                 $inputMessageName = $this->_createOperationInput($wsdl, $operationName, $methodData);
 
