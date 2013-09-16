@@ -24,9 +24,9 @@ class Magento_Customer_Model_Address_Config_Converter implements Magento_Config_
         foreach ($formats as $formatConfig) {
             $formatCode = $formatConfig->attributes->getNamedItem('code')->nodeValue;
             $output[$formatCode] = array();
-            for ($attributeCount = 0; $attributeCount < $formatConfig->attributes->length; $attributeCount++) {
-                $output[$formatCode][$formatConfig->attributes->item($attributeCount)->nodeName] =
-                    $formatConfig->attributes->item($attributeCount)->nodeValue;
+            for ($attributeIndex = 0; $attributeIndex < $formatConfig->attributes->length; $attributeIndex++) {
+                $output[$formatCode][$formatConfig->attributes->item($attributeIndex)->nodeName] =
+                    $formatConfig->attributes->item($attributeIndex)->nodeValue;
             }
         }
         return $output;

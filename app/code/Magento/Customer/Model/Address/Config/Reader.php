@@ -23,8 +23,7 @@ class Magento_Customer_Model_Address_Config_Reader extends Magento_Config_Reader
     ) {
         parent::__construct(
             $fileResolver, $converter, $schemaLocator, $validationState, 'address_formats.xml', array(
-                    '/config/format' => 'code'
+                '/config/format' => 'code'
         ));
     }
-
 }

@@ -9,7 +9,7 @@
 class Magento_Customer_Model_Address_Config_SchemaLocatorTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Attribute_Config_SchemaLocator
+     * @var Magento_Customer_Model_Address_Config_SchemaLocator
      */
     protected $_model;
 
@@ -30,7 +30,7 @@ class Magento_Customer_Model_Address_Config_SchemaLocatorTest extends PHPUnit_Fr
 
     protected function setUp()
     {
-        $this->_xsdFile = $this->_xsdDir . DIRECTORY_SEPARATOR . 'address_formats.xsd';
+        $this->_xsdFile = $this->_xsdDir . '/address_formats.xsd';
         $this->_moduleReader = $this->getMock(
             'Magento_Core_Model_Config_Modules_Reader', array('getModuleDir'), array(), '', false
         );

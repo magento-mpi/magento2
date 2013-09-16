@@ -14,15 +14,14 @@ class Magento_Customer_Model_Address_Config_SchemaLocator implements Magento_Con
      *
      * @var string
      */
-    protected $_schema;
+    private $_schema;
 
     /**
      * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
      */
     public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader)
     {
-        $this->_schema =
-            $moduleReader->getModuleDir('etc', 'Magento_Customer') . DIRECTORY_SEPARATOR . 'address_formats.xsd';
+        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Customer') . '/address_formats.xsd';
     }
 
     /**
