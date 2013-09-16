@@ -81,9 +81,7 @@ class Magento_Data_Form_Element_Factory
             $className = $elementType;
         }
 
-        $element = $this->_objectManager->create($className, array(
-            'attributes' => $config,
-        ));
+        $element = $this->_objectManager->create($className, $config);
         if (!($element instanceof Magento_Data_Form_Element_Abstract)) {
             throw new InvalidArgumentException($className . ' doesn\'n extend Magento_Data_Form_Element_Abstract');
         }

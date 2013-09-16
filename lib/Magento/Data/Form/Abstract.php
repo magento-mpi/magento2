@@ -144,7 +144,7 @@ class Magento_Data_Form_Abstract extends Magento_Object
      * @param   mixed  $after
      * @return Magento_Data_Form_Element_Abstract
      */
-    public function addField($elementId, $type, $config, $after=false)
+    public function addField($elementId, $type, $config, $after = false)
     {
         if (isset($this->_types[$type])) {
             $type = $this->_types[$type];
