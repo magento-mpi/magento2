@@ -1479,21 +1479,6 @@ class Layout extends \Magento\Simplexml\Config
     }
 
     /**
-     * Retrieve helper object
-     *
-     * @param   string $name
-     * @return  \Magento\Core\Helper\AbstractHelper
-     */
-    public function helper($name)
-    {
-        $helper = \Mage::helper($name);
-        if (!$helper) {
-            return false;
-        }
-        return $helper->setLayout($this);
-    }
-
-    /**
      * Retrieve block factory
      *
      * @return \Magento\Core\Model\BlockFactory

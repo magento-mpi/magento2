@@ -992,17 +992,6 @@ abstract class AbstractType
     }
 
     /**
-     * Retrieve helper by specified name
-     *
-     * @param string $name
-     * @return \Magento\Core\Helper\AbstractHelper
-     */
-    protected function _helper($name)
-    {
-        return isset($this->_helpers[$name]) ? $this->_helpers[$name] : \Mage::helper($name);
-    }
-
-    /**
      * Determine presence of weight for product type
      *
      * @return bool

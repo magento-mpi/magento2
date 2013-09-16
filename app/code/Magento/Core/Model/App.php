@@ -353,17 +353,6 @@ class App implements \Magento\Core\Model\AppInterface
     }
 
     /**
-     * Retrieve helper object
-     *
-     * @param string $name
-     * @return \Magento\Core\Helper\AbstractHelper
-     */
-    public function getHelper($name)
-    {
-        return \Mage::helper($name);
-    }
-
-    /**
      * Retrieve application base currency code
      *
      * @return string
