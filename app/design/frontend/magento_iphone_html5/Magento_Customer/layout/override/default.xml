@@ -10,24 +10,18 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="default">
         <reference name="top.links">
-            <action method="addLink">
-                <argument translate="true" name="label" xsi:type="string">My Account</argument>
-                <argument name="url" xsi:type="helper" helper="Magento_Customer_Helper_Data::getAccountUrl"/>
-                <argument translate="true" name="title" xsi:type="string">My Account</argument>
-                <argument name="prepare" xsi:type="string"/>
-                <argument name="urlParams" xsi:type="string"/>
-                <argument name="position" xsi:type="string">10</argument>
-            </action>
+            <block class="Magento_Customer_Block_Account_Link" name="my-account-link">
+                <arguments>
+                    <argument name="label" xsi:type="string">My Account</argument>
+                </arguments>
+            </block>
         </reference>
         <reference name="account.links">
-            <action method="addLink">
-                <argument translate="true" name="label" xsi:type="string">Register</argument>
-                <argument name="url" xsi:type="helper" helper="Magento_Customer_Helper_Data::getRegisterUrl"/>
-                <argument translate="true" name="title" xsi:type="string">Register</argument>
-                <argument name="prepare" xsi:type="string"/>
-                <argument name="urlParams" xsi:type="string"/>
-                <argument name="position" xsi:type="string">100</argument>
-            </action>
+            <block class="Magento_Customer_Block_Account_RegisterLink" name="register-link">
+                <arguments>
+                    <argument name="label" xsi:type="string">Register</argument>
+                </arguments>
+            </block>
         </reference>
     </handle>
 </layout>

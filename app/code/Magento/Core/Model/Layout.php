@@ -801,6 +801,12 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             throw new Magento_Exception("Unexpected element type specified for generating block: {$type}.");
         }
 
+        $configPath = (string)$node->getAttribute('ifconfig');
+        if (!empty($configPath) && !Mage::getStoreConfigFlag($configPath)) {
+            $this->_scheduledStructure->unsetElement($elementName);
+            return;
+        }
+
         // create block
         $className = (string)$node['class'];
 
@@ -842,11 +848,8 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * @param array $options
      * @throws Magento_Exception if any of arguments are invalid
      */
-    protected function _generateContainer($name, $label, array $options)
+    protected function _generateContainer($name, $label = '', array $options)
     {
-        if (empty($label)) {
-            throw new Magento_Exception('Container requires a label.');
-        }
         $this->_structure->setAttribute($name, self::CONTAINER_OPT_LABEL, $label);
         unset($options[self::CONTAINER_OPT_LABEL]);
         unset($options['type']);

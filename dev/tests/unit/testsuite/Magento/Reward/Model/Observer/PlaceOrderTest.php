@@ -43,7 +43,7 @@ class Magento_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_Tes
      */
     protected $_observerMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_restrictionMock = $this->getMock('Magento_Reward_Model_Observer_PlaceOrder_RestrictionInterface');
         $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);

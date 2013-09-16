@@ -29,4 +29,4 @@
     <event name="backend_auth_user_login_failed">
         <observer name="magento_logging" instance="Magento_Logging_Model_Observer" method="adminSessionLoginFailed" />
     </event>
-</config>
+</config>

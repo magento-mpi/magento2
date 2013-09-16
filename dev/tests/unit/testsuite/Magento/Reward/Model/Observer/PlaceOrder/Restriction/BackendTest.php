@@ -23,7 +23,7 @@ class Magento_Reward_Model_Observer_PlaceOrder_Restriction_BackendTest extends P
      */
     protected $_authorizationMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_helper = $this->getMock('Magento_Reward_Helper_Data', array(), array(), '', false);
         $this->_authorizationMock = $this->getMock('Magento_AuthorizationInterface');

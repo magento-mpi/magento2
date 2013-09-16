@@ -11,4 +11,4 @@
     <event name="customer_address_format">
         <observer name="magento_giftregistry" instance="Magento_GiftRegistry_Model_Observer" method="addressFormatAdmin" />
     </event>
-</config>
+</config>

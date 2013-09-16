@@ -10,11 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="checkout_cart_index">
         <reference name="checkout.cart">
-            <action method="addItemRender">
-                <argument name="type" xsi:type="string">downloadable</argument>
-                <argument name="block" xsi:type="string">Magento_Downloadable_Block_Checkout_Cart_Item_Renderer</argument>
-                <argument name="template" xsi:type="string">checkout/cart/item/default.phtml</argument>
-            </action>
+            <block class="Magento_Downloadable_Block_Checkout_Cart_Item_Renderer" as="downloadable" template="checkout/cart/item/default.phtml"/>
         </reference>
     </handle>
 </layout>

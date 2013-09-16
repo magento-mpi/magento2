@@ -22,7 +22,7 @@ class Magento_Webhook_Model_Source_Pkg extends PHPUnit_Framework_TestCase
     /** @var Magento_Core_Model_Config_Element */
     protected $_modelConfigElement;
     
-    public function setUp()
+    protected function setUp()
     {
         $label = self::CONFIG_LABEL;
         $status = self::CONFIG_STATUS;

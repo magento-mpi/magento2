@@ -38,7 +38,7 @@ class Magento_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_T
      */
     protected $_state;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManager = $this->getMockForAbstractClass('Magento_ObjectManager', array('create'));
         $this->_storeConfig = $this->getMock('Magento_Core_Model_Store_Config', array('getConfigFlag'));

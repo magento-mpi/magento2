@@ -15,9 +15,11 @@
             </action>
         </reference>
         <reference name="head">
-            <action method="addJs">
-                <argument name="file" xsi:type="string">varien/product.js</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Script" name="varien-product-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">varien/product.js</argument>
+                </arguments>
+            </block>
         </reference>
         <reference name="content">
             <block class="Magento_Sendfriend_Block_Send" name="sendfriend.send" template="send.phtml"/>

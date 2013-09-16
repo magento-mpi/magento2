@@ -17,4 +17,4 @@
     <event name="sales_quote_collect_totals_after">
         <observer name="catalog_msrp" instance="Magento_Sales_Model_Observer" method="setQuoteCanApplyMsrp" />
     </event>
-</config>
+</config>

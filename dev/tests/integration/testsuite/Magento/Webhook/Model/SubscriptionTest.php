@@ -51,7 +51,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
      */
     protected $_objectManager;
 
-    public function setUp()
+    protected function setUp()
     {
         // Clean out the cache
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
@@ -63,7 +63,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         Mage::getConfig()->setNode('global/webhook/webhooks/test/two/label', 'Test Hook Two');
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         // Clean out the cache
         /** @var Magento_Acl_CacheInterface $aclCache */

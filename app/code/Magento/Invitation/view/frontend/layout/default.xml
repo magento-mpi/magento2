@@ -9,8 +9,13 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="default">
-        <block class="Magento_Invitation_Block_Link" name="invitation_link_top">
-            <action method="addAccountLink"/>
-        </block>
+        <reference name="account.links">
+            <block class="Magento_Invitation_Block_Link" name="invitation_link_top">
+                <arguments>
+                    <argument name="label" xsi:type="string">Send Invitations</argument>
+                    <argument name="id" xsi:type="string">invitation-send-link</argument>
+                </arguments>
+            </block>
+        </reference>
     </handle>
 </layout>

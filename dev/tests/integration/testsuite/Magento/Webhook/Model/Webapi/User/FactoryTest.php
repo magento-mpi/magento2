@@ -26,7 +26,7 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
     /** @var  int */
     private $_apiUserId;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_userContext = array(
             'email'     => self::VALUE_EMAIL,
@@ -36,7 +36,7 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
         );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         /** @var Magento_Webapi_Model_Acl_User $user */
         $user = Mage::getModel('Magento_Webapi_Model_Acl_User');

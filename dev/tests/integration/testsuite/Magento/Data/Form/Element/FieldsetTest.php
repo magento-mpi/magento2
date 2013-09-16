@@ -19,7 +19,7 @@ class Magento_Data_Form_Element_FieldsetTest extends PHPUnit_Framework_TestCase
      */
     protected $_fieldset;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_fieldset = Mage::getObjectManager()->create('Magento_Data_Form_Element_Fieldset', array());
     }
