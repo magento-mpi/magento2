@@ -60,20 +60,20 @@
       protected $_logAdapterFactory;
 
       /**
-       * @var Magento_Core_Model_StoreManager
+       * @var Magento_Core_Model_Store_Config
        */
-      protected $_storeManager;
+      protected $_coreStoreConfig;
 
       /**
        * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
-       * @param Magento_Core_Model_StoreManager $storeManager
+       * @param Magento_Core_Model_Store_Config $coreStoreConfig
        */
       public function __construct(
           Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
-          Magento_Core_Model_StoreManager $storeManager
+          Magento_Core_Model_Store_Config $coreStoreConfig
       ) {
           $this->_logAdapterFactory = $logAdapterFactory;
-          $this->_storeManager = $storeManager;
+          $this->_coreStoreConfig = $coreStoreConfig;
       }
 
     /**
@@ -632,7 +632,7 @@
       $session = curl_init($url);
       $this->log->LogRequest($postargs);
 
-      if ($this->_storeManager->getStore()->getConfig('google/checkout/debug')) {
+      if ($this->_coreStoreConfig->getConfig('google/checkout/debug')) {
             $file = "payment_googlecheckout.log";
             $debug = $this->_logAdapterFactory->create(array('fileName' => $file));
             $debug->log(
