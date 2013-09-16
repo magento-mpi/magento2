@@ -41,7 +41,7 @@ class Magento_SalesArchive_Model_Resource_Helper_Mysql4 extends Magento_Core_Mod
         }
 
         if (!$this->_getWriteAdapter()->isTableExists($table)) {
-            Mage::throwException(__("We can't find the table."));
+            throw new Magento_Core_Exception(__("We can't find the table."));
         }
 
         $columns = array();
@@ -52,9 +52,9 @@ class Magento_SalesArchive_Model_Resource_Helper_Mysql4 extends Magento_Core_Mod
         }
 
         if (!isset($columns[$column])) {
-            Mage::throwException(__('Column not found'));
+            throw new Magento_Core_Exception(__('Column not found'));
         } elseif ($after && !isset($columns[$after])) {
-            Mage::throwException(__('Positioning column not found'));
+            throw new Magento_Core_Exception(__('Positioning column not found'));
         }
 
         if ($after) {
