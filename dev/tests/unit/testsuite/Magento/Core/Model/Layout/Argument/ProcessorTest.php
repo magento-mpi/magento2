@@ -51,108 +51,84 @@ class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework
         );
     }
 
-    protected function tearDown()
-    {
-        unset($this->_model);
-        unset($this->_argumentUpdaterMock);
-        unset($this->_handlerFactory);
-    }
-
     /**
-     * @param $arguments
-     * @dataProvider argumentsDataProvider
+     * @param array $argument
+     * @param boolean $isUpdater
+     * @param mixed $result
+     * @dataProvider processArgumentsDataProvider
      */
-    public function testProcess($arguments)
+    public function testProcess(array $argument, $isUpdater, $result)
     {
         $argumentHandlerMock = $this->getMock(
             'Magento_Core_Model_Layout_Argument_HandlerInterface', array(), array(), '', false
         );
-        $argumentHandlerMock->expects($this->exactly(2))
+        $argumentHandlerMock->expects($this->once())
             ->method('process')
-            ->will($this->returnValue($this->getMock('Dummy_Argument_Value_Class_Name', array(), array(), '', false)));
+            ->with($this->equalTo($argument))
+            ->will($this->returnValue($argument['value']));
 
         $this->_handlerFactory->expects($this->once())->method('getArgumentHandlerByType')
-            ->with($this->equalTo('dummy'))
+            ->with($this->equalTo('string'))
             ->will($this->returnValue($argumentHandlerMock));
 
-        $processedArguments = $this->_model->process($arguments);
+        if ($isUpdater) {
+            $this->_argumentUpdaterMock->expects($this->once())
+                ->method('applyUpdaters')
+                ->with(
+                    $this->equalTo($argument['value']),
+                    $this->equalTo($argument['updaters'])
+                )
+                ->will($this->returnValue($argument['value'] . '_Updated'));
+        } else {
+            $this->_argumentUpdaterMock->expects($this->never())->method('applyUpdaters');
+        }
 
-        $this->assertArrayHasKey('argKeyOne', $processedArguments);
-        $this->assertArrayHasKey('argKeyTwo', $processedArguments);
+        $processed = $this->_model->process($argument);
+        $this->assertEquals($processed, $result);
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage dummy type handler
-     *     should implement Magento_Core_Model_Layout_Argument_HandlerInterface
-     */
-    public function testProcessIfArgumentHandlerFactoryIsIncorrect()
-    {
-        $this->_handlerFactory->expects($this->once())->method('getArgumentHandlerByType')
-            ->with($this->equalTo('dummy'))
-            ->will($this->returnValue(new StdClass()));
-
-        $this->_model->process(array('argKey' => array('type' => 'dummy', 'value' => 'incorrect_value')));
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage type handler should implement Magento_Core_Model_Layout_Argument_HandlerInterface
-     */
-    public function testProcessIfArgumentHandlerIsIncorrect()
-    {
-        $this->_handlerFactory->expects($this->once())->method('getArgumentHandlerByType')
-            ->with($this->equalTo('incorrect'))
-            ->will($this->returnValue(new StdClass()));
-
-        $this->_model->process(array('argKey' => array('type' => 'incorrect', 'value' => 'incorrect_value')));
-    }
-
-    public function argumentsDataProvider()
+    public function processArgumentsDataProvider()
     {
         return array(
             array(
                 array(
-                    'argKeyOne' => array('type' => 'dummy', 'value' => 'argValue'),
-                    'argKeyTwo' => array('type' => 'dummy', 'value' => 'Dummy_Argument_Value_Class_Name'),
-                )
+                    'type' => 'string',
+                    'value' => 'Test Value'
+                ),
+                false,
+                'Test Value'
+            ),
+            array(
+                array(
+                    'type' => 'string',
+                    'updaters' => array('Dummy_Updater_Class'),
+                    'value' => 'Dummy_Argument_Value_Class_Name'
+                ),
+                true,
+                'Dummy_Argument_Value_Class_Name_Updated'
             )
         );
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Argument value is required for type Dummy_Type
-     * @dataProvider processWhitEmptyArgumentValueAndSpecifiedTypeDataProvider
-     */
-    public function testProcessWithEmptyArgumentValueAndSpecifiedType($arguments)
+    public function testParse()
     {
-        $this->_model->process($arguments);
-    }
-
-    public function processWhitEmptyArgumentValueAndSpecifiedTypeDataProvider()
-    {
-        return array(
-            'no value'      => array(array('argKey' => array('type' => 'Dummy_Type'))),
-            'null value'    => array(array('argKey' => array('value' => null, 'type' => 'Dummy_Type'))),
-        );
-    }
-
-    public function testProcessWithArgumentUpdaters()
-    {
-        $arguments = array(
-            'one' => array(
-                'type' => 'string',
-                'value' => 1,
-                'updater' => array('Dummy_Updater_1', 'Dummy_Updater_2')
-            )
+        // Because descendants of SimpleXMLElement couldn't be mocked
+        $argument = new Magento_Core_Model_Layout_Element('<argument xsi:type="string" name="argumentName" '
+            . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Value</argument>'
         );
 
-        $this->_argumentUpdaterMock->expects($this->once())->method('applyUpdaters')->will($this->returnValue(1));
-
-        $expected = array(
-            'one' => 1,
+        $argumentHandlerMock = $this->getMock(
+            'Magento_Core_Model_Layout_Argument_HandlerInterface', array(), array(), '', false
         );
-        $this->assertEquals($expected, $this->_model->process($arguments));
+        $argumentHandlerMock->expects($this->once())
+            ->method('parse')
+            ->with($this->equalTo($argument))
+            ->will($this->returnValue(true));
+
+        $this->_handlerFactory->expects($this->once())->method('getArgumentHandlerByType')
+            ->with($this->equalTo('string'))
+            ->will($this->returnValue($argumentHandlerMock));
+
+        $this->_model->parse($argument);
     }
 }

@@ -78,7 +78,6 @@ class Magento_Core_Model_Theme_CopyService
         $this->_copyDatabaseCustomization($source, $target);
         $this->_copyLayoutCustomization($source, $target);
         $this->_copyFilesystemCustomization($source, $target);
-        $this->_eventManager->dispatch('theme_copy_after', array('sourceTheme' => $source, 'targetTheme' => $target));
     }
 
     /**

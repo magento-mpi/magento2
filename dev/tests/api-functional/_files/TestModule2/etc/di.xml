@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <preference for="Magento_TestModule2_Service_SubsetRestV1Interface" type="Magento_TestModule2_Service_SubsetRestV1" />
+    <preference for="Magento_TestModule2_Service_AllSoapNoRestV1Interface" type="Magento_TestModule2_Service_AllSoapNoRestV1" />
+    <preference for="Magento_TestModule2_Service_NoWebApiXmlV1Interface" type="Magento_TestModule2_Service_NoWebApiXmlV1" />
+</config>

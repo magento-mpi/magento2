@@ -1,15 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Core
- * @copyright  {copyright}
- * @license    {license_link}
- */
-
-/**
  * Filter data collector
+ *
+ * {license_notice}
  *
  * Model for multi-filtering all data which set to models
  * Example:
@@ -84,9 +77,8 @@
  * </code>
  *
  * @see Magento_Core_Model_Input_FilterTest    See this class for manual
- * @category   Magento
- * @package    Magento_Core
- * @author     Magento Api Team <api-team@magento.com>
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 class Magento_Core_Model_Input_Filter implements Zend_Filter_Interface
 {
