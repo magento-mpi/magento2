@@ -17,7 +17,7 @@ class Magento_Core_Model_Layout_Argument_HandlerAbstractTest extends PHPUnit_Fra
     /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Layout_Argument_HandlerAbstract */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = $this->getMockForAbstractClass(
             'Magento_Core_Model_Layout_Argument_HandlerAbstract',

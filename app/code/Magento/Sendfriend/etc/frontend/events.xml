@@ -11,4 +11,4 @@
     <event name="catalog_controller_product_view">
         <observer name="sendfriend" instance="Magento_Sendfriend_Model_Observer" method="register" />
     </event>
-</config>
+</config>

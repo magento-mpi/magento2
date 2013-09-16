@@ -10,38 +10,64 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="default">
         <reference name="head">
-            <action method="addCss">
-                <argument name="file" xsi:type="string">reset.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">boxes.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">custom.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">iestyles.css</argument>
-                <argument name="params" xsi:type="string"/>
-                <argument name="if" xsi:type="string">lt IE 8</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">below_ie7.css</argument>
-                <argument name="params" xsi:type="string"/>
-                <argument name="if" xsi:type="string">lt IE 7</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">ie7.css</argument>
-                <argument name="params" xsi:type="string"/>
-                <argument name="if" xsi:type="string">IE 7</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">menu.css</argument>
-                <argument name="params" xsi:type="string">media="screen, projection"</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">print.css</argument>
-                <argument name="params" xsi:type="string">media="print"</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Css" name="reset-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">reset.css</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="boxes-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">boxes.css</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="custom-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">custom.css</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="iestyles-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">iestyles.css</argument>
+                    <argument name="properties" xsi:type="array">
+                        <item name="attributes" xsi:type="string"/>
+                        <item name="ie_condition" xsi:type="string">lt IE 8</item>
+                    </argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="below-ie-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">below_ie7.css</argument>
+                    <argument name="properties" xsi:type="array">
+                        <item name="attributes" xsi:type="string"/>
+                        <item name="ie_condition" xsi:type="string">lt IE 7</item>
+                    </argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="ie-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">ie7.css</argument>
+                    <argument name="properties" xsi:type="array">
+                        <item name="attributes" xsi:type="string"/>
+                        <item name="ie_condition" xsi:type="string">IE 7</item>
+                    </argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="menu-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">menu.css</argument>
+                    <argument name="properties" xsi:type="array">
+                        <item name="attributes" xsi:type="string">media="screen, projection"</item>
+                    </argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="print-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">print.css</argument>
+                    <argument name="properties" xsi:type="array">
+                        <item name="attributes" xsi:type="string">media="print"</item>
+                    </argument>
+                </arguments>
+            </block>
         </reference>
     </handle>
 </layout>

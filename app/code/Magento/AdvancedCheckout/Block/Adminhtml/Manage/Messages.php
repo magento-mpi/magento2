@@ -20,7 +20,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Messages extends Magento_A
     /**
      * Prepares layout for current block
      */
-    public function _prepareLayout()
+    protected function _prepareLayout()
     {
         $this->addMessages(Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages(true));
         parent::_prepareLayout();

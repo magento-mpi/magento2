@@ -13,21 +13,34 @@
  *
  * @category   Magento
  * @package    Magento_Checkout
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_Items_Abstract
 {
     /**
-     * Initialize default item renderer for row-level items output
+     * Block alias fallback
      */
-    protected function _construct()
+    const DEFAULT_TYPE = 'default';
+
+    /**
+     * Initialize default item renderer
+     */
+    protected function _prepareLayout()
     {
-        parent::_construct();
-        $this->addItemRender(
-            $this->_getRowItemType('default'),
-            'Magento_Checkout_Block_Cart_Item_Renderer',
-            'multishipping/overview/item.phtml'
-        );
+        $rowItemType = $this->_getRowItemType(self::DEFAULT_TYPE);
+        if (!$this->getChildBlock($rowItemType)) {
+            $this->addChild(
+                $rowItemType,
+                'Magento_Checkout_Block_Cart_Item_Renderer',
+                array('template' => 'multishipping/overview/item.phtml')
+            );
+        }
+        if ($headBlock = $this->getLayout()->getBlock('head')) {
+            $headBlock->setTitle(
+                __('Review Order - %1', $headBlock->getDefaultTitle())
+            );
+        }
+        return parent::_prepareLayout();
     }
 
     /**
@@ -38,16 +51,6 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     public function getCheckout()
     {
         return Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping');
-    }
-
-    protected function _prepareLayout()
-    {
-        if ($headBlock = $this->getLayout()->getBlock('head')) {
-            $headBlock->setTitle(
-                __('Review Order - %1', $headBlock->getDefaultTitle())
-            );
-        }
-        return parent::_prepareLayout();
     }
 
     public function getBillingAddress()
@@ -232,21 +235,6 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     }
 
     /**
-     * Add renderer for row-level item output
-     *
-     * @param   string $type Product type
-     * @param   string $block Block type
-     * @param   string $template Block template
-     * @return  Magento_Checkout_Block_Multishipping_Overview
-     */
-    public function addRowItemRender($type, $block, $template)
-    {
-        $type = $this->_getRowItemType($type);
-        parent::addItemRender($this->_getRowItemType($type), $block, $template);
-        return $this;
-    }
-
-    /**
      * Return row-level item html
      *
      * @param Magento_Object $item
@@ -255,10 +243,9 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     public function getRowItemHtml(Magento_Object $item)
     {
         $type = $this->_getItemType($item);
-        $block = $this->_getRowItemRenderer($type)
-            ->setItem($item);
-        $this->_prepareItem($block);
-        return $block->toHtml();
+        $renderer = $this->_getRowItemRenderer($type)->setItem($item);
+        $this->_prepareItem($renderer);
+        return $renderer->toHtml();
     }
 
     /**
@@ -267,21 +254,24 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
      * @param string $type
      * @return Magento_Core_Block_Abstract
      */
-    public function _getRowItemRenderer($type)
+    protected function _getRowItemRenderer($type)
     {
-        $type = $this->_getRowItemType($type);
-        $type = isset($this->_itemRenders[$type]) ? $type : $this->_getRowItemType('default');
-        return parent::getItemRenderer($type);
+        $renderer = $this->getChildBlock($this->_getRowItemType($type));
+        if ($renderer instanceof Magento_Core_Block) {
+            $renderer->setRenderedBlock($this);
+            return $renderer;
+        }
+        return parent::getItemRenderer($this->_getRowItemType(self::DEFAULT_TYPE));
     }
 
     /**
-     * Wrap row renderers into namespace by adding 'row_' suffix
+     * Wrap row renderers into namespace by adding 'row-' prefix
      *
      * @param string $type Product type
      * @return string
      */
     protected function _getRowItemType($type)
     {
-        return 'row_' . $type;
+        return 'row-' . $type;
     }
 }

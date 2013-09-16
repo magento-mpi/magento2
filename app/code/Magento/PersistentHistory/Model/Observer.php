@@ -210,19 +210,6 @@ class Magento_PersistentHistory_Model_Observer
     }
 
     /**
-     * Remove cart link
-     *
-     * @param Magento_Event_Observer $observer
-     */
-    public function removeCartLink($observer)
-    {
-        $block =  Mage::app()->getLayout()->getBlock('checkout.links');
-        if ($block) {
-            $block->removeLinkByUrl(Mage::getUrl('checkout/cart'));
-        }
-    }
-
-    /**
      * Emulate 'compared products' block with persistent data
      *
      * @param Magento_Reports_Block_Product_Compared $block

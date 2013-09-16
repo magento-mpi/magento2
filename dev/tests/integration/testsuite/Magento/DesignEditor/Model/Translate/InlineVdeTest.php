@@ -32,7 +32,7 @@ class Magento_DesignEditor_Model_Translate_InlineVdeTest extends PHPUnit_Framewo
             ->setDesignTheme('magento_demo');
     }
 
-    public function setUp()
+    protected function setUp()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 

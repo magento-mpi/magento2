@@ -12,7 +12,7 @@
 class Magento_Test_Performance_BootstrapTest extends PHPUnit_Framework_TestCase
 {
 
-    public function tearDown()
+    protected function tearDown()
     {
         // Delete a directory, where tests do some temporary work
         $tmpDir = $this->_getBaseFixtureDir() . '/config_dist/tmp';

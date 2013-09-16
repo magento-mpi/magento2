@@ -41,7 +41,7 @@ class Magento_Backend_Model_Menu_Director_DirectorTest extends PHPUnit_Framework
     protected $_commandMock;
 
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_builderMock =
             $this->getMock('Magento_Backend_Model_Menu_Builder', array(), array(), '', false);

@@ -75,4 +75,4 @@
     <event name="update_customer_cookies">
         <observer name="persistent" instance="Magento_Persistent_Model_Observer" method="updateCustomerCookies" />
     </event>
-</config>
+</config>

@@ -11,4 +11,4 @@
     <event name="controller_action_predispatch">
         <observer name="adminnotification" instance="Magento_AdminNotification_Model_Observer" method="preDispatch" />
     </event>
-</config>
+</config>

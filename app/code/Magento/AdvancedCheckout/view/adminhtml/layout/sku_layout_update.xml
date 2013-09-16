@@ -11,9 +11,11 @@
     <handle id="sku_layout_update">
         <update handle="adminhtml_sku_errors_block"/>
         <reference name="head">
-            <action method="addJs">
-                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/product/composite/configure.js</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminhtml-catalog-product-composite-configure-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/product/composite/configure.js</argument>
+                </arguments>
+            </block>
         </reference>
         <reference name="data">
             <block class="Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku" name="additional_area" template="Magento_Adminhtml::sales/order/create/abstract.phtml">

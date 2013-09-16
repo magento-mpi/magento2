@@ -32,7 +32,7 @@ class Magento_AdminNotification_Model_System_Message_SecurityTest extends PHPUni
      */
     protected $_messageModel;
 
-    public function setUp()
+    protected function setUp()
     {
         //Prepare objects for constructor
         $this->_cacheMock = $this->getMock('Magento_Core_Model_CacheInterface');

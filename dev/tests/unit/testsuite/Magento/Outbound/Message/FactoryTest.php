@@ -47,7 +47,7 @@ class Magento_Outbound_Message_FactoryTest extends PHPUnit_Framework_TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_mockEndpoint;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
             ->setMethods(array('create'))

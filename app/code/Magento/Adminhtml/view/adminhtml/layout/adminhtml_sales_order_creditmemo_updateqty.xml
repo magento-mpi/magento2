@@ -10,11 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_sales_order_creditmemo_updateqty">
         <block class="Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items" name="order_items" template="sales/order/creditmemo/create/items.phtml">
-            <action method="addItemRender">
-                <argument name="type" xsi:type="string">default</argument>
-                <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Items_Renderer_Default</argument>
-                <argument name="template" xsi:type="string">sales/order/creditmemo/create/items/renderer/default.phtml</argument>
-            </action>
+            <block class="Magento_Adminhtml_Block_Sales_Items_Renderer_Default" as="default" template="sales/order/creditmemo/create/items/renderer/default.phtml"/>
             <action method="addColumnRender">
                 <argument name="column" xsi:type="string">qty</argument>
                 <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Items_Column_Qty</argument>
@@ -36,7 +32,7 @@
             <block class="Magento_Adminhtml_Block_Sales_Order_Creditmemo_Totals" name="creditmemo_totals" template="sales/order/totals.phtml">
                 <block class="Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Adjustments" name="adjustments" template="sales/order/creditmemo/create/totals/adjustments.phtml"/>
                 <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Tax" name="tax" template="sales/order/totals/tax.phtml"/>
-                <!--<block class="Magento_Adminhtml_Block_Sales_Order_Totals" name="order_totals" template="sales/order/totals.phtml"/>
+<!--<block class="Magento_Adminhtml_Block_Sales_Order_Totals" name="order_totals" template="sales/order/totals.phtml"/>
                 <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="footer" template="sales/order/totals/footer.phtml">
                     <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="grand" template="sales/order/totals/grand.phtml">
                         <action method="setGrandTotalTitle">

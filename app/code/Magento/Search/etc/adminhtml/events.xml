@@ -38,4 +38,4 @@
     <event name="after_reindex_process_catalog_product_price">
         <observer name="magento_search" instance="Magento_Search_Model_Observer" method="runFulltextReindexAfterPriceReindex" />
     </event>
-</config>
+</config>

@@ -32,4 +32,4 @@
     <event name="customer_save_after">
         <observer name="customer" instance="Magento_Sales_Model_Observer_Backend_CustomerQuote" method="dispatch" />
     </event>
-</config>
+</config>

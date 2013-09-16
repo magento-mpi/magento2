@@ -17,7 +17,7 @@ class Magento_Test_Performance_ScenarioTest extends PHPUnit_Framework_TestCase
      */
     protected $_object;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_object = new Magento_TestFramework_Performance_Scenario('Test title', 'test/file.jmx',
             array('arg1' => 'value1', 'arg2' => 'value2'), array('setting1' => 'value1', 'setting2' => 'value2'),
@@ -25,7 +25,7 @@ class Magento_Test_Performance_ScenarioTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_object);
     }

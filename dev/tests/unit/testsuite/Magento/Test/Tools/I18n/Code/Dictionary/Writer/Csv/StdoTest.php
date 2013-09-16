@@ -20,7 +20,7 @@ class StdoTest extends \PHPUnit_Framework_TestCase
         $this->_handler = STDOUT;
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         fclose($this->_handler);
     }

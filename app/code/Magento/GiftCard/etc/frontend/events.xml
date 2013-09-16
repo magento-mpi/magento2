@@ -11,4 +11,4 @@
     <event name="product_option_renderer_init">
         <observer name="giftcard_observer" instance="Magento_GiftCard_Model_Observer" method="initOptionRenderer" />
     </event>
-</config>
+</config>

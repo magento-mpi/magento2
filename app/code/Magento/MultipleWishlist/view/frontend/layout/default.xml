@@ -10,13 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="default">
         <reference name="top.links">
-            <action method="removeLinkBlock">
-                <argument name="blockName" xsi:type="string">wishlist_link</argument>
-            </action>
-            <block class="Magento_MultipleWishlist_Block_Links" name="wishlist_link"/>
-            <action method="addLinkBlock">
-                <argument name="blockName" xsi:type="string">wishlist_link</argument>
-            </action>
+            <block class="Magento_MultipleWishlist_Block_Link" name="wish-list-link"/>
         </reference>
         <block class="Magento_MultipleWishlist_Block_Customer_Sidebar" name="wishlist_sidebar" template="Magento_Wishlist::sidebar.phtml"/>
         <reference name="before_body_end">

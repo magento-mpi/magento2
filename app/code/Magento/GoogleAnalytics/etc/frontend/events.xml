@@ -17,4 +17,4 @@
     <event name="googlecheckout_block_link_html_before">
         <observer name="googleanalytics_googlecheckout_integration" instance="Magento_GoogleAnalytics_Model_Observer" method="injectAnalyticsInGoogleCheckoutLink" />
     </event>
-</config>
+</config>

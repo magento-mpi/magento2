@@ -17,7 +17,7 @@ class Magento_Core_Model_Cache_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_storage = $this->getMock('Magento_Core_Model_Cache_Config_Data', array('get'), array(), '', false);
         $this->_model = new Magento_Core_Model_Cache_Config($this->_storage);

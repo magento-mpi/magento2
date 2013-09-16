@@ -18,7 +18,7 @@ class Magento_Core_Model_DataService_Config_ReaderTest extends PHPUnit_Framework
     /**
      * Prepare object manager with mocks of objects required by config reader.
      */
-    public function setUp()
+    protected function setUp()
     {
         $path = array(__DIR__, '..', '_files', 'service_calls.xml');
         $path = realpath(implode('/', $path));
