@@ -20,27 +20,8 @@
             </enterprise_setup>
         </resources>
     </global>
-    <frontend>
-        <design>
-            <theme>
-                <full_name>magento_fixed_width</full_name>
-            </theme>
-        </design>
-    </frontend>
-    <adminhtml>
-        <design>
-            <theme>
-                <full_name>magento_backend</full_name>
-            </theme>
-        </design>
-    </adminhtml>
     <install>
         <eula_file>LICENSE_EE.html</eula_file>
-        <design>
-            <theme>
-                <full_name>magento_enterprise</full_name>
-            </theme>
-        </design>
     </install>
     <default>
         <design>

@@ -34,7 +34,7 @@ class Magento_Logging_Block_Adminhtml_System_Config_Actions
      */
     public function getIsChecked($key)
     {
-        return Mage::getSingleton('Magento_Logging_Model_Config')->isActive($key, true);
+        return Mage::getSingleton('Magento_Logging_Model_Config')->isEventGroupLogged($key);
     }
 
     /**

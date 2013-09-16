@@ -103,21 +103,26 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoConfigFixture frontend/design/theme/full_name f
-     * @magentoConfigFixture install/design/theme/full_name i
-     * @magentoConfigFixture adminhtml/design/theme/full_name b
      * @magentoConfigFixture current_store design/theme/theme_id 0
      */
     public function testGetConfigurationDesignThemeDefaults()
     {
-        $this->assertEquals('f', $this->_model->getConfigurationDesignTheme());
-        $this->assertEquals('f', $this->_model->getConfigurationDesignTheme('frontend'));
-        $this->assertEquals('f', $this->_model->getConfigurationDesignTheme('frontend', array('store' => 0)));
-        $this->assertEquals('f', $this->_model->getConfigurationDesignTheme('frontend', array('store' => null)));
-        $this->assertEquals('i', $this->_model->getConfigurationDesignTheme('install'));
-        $this->assertEquals('i', $this->_model->getConfigurationDesignTheme('install', array('store' => uniqid())));
-        $this->assertEquals('b', $this->_model->getConfigurationDesignTheme('adminhtml'));
-        $this->assertEquals('b', $this->_model->getConfigurationDesignTheme('adminhtml', array('store' => uniqid())));
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+        $themes = array('frontend' => 'test_f', 'adminhtml' => 'test_a', 'install' => 'test_i');
+        $design = $objectManager->create('Magento_Core_Model_View_Design', array('themes' => $themes));
+        $objectManager->addSharedInstance($design, 'Magento_Core_Model_View_Design');
+
+        $model = $objectManager->get('Magento_Core_Model_View_Design');
+
+        $this->assertEquals('test_f', $model->getConfigurationDesignTheme());
+        $this->assertEquals('test_f', $model->getConfigurationDesignTheme('frontend'));
+        $this->assertEquals('test_f', $model->getConfigurationDesignTheme('frontend', array('store' => 0)));
+        $this->assertEquals('test_f', $model->getConfigurationDesignTheme('frontend', array('store' => null)));
+        $this->assertEquals('test_i', $model->getConfigurationDesignTheme('install'));
+        $this->assertEquals('test_i', $model->getConfigurationDesignTheme('install', array('store' => uniqid())));
+        $this->assertEquals('test_a', $model->getConfigurationDesignTheme('adminhtml'));
+        $this->assertEquals('test_a', $model->getConfigurationDesignTheme('adminhtml', array('store' => uniqid())));
     }
 
     /**

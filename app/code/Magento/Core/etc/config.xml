@@ -19,11 +19,6 @@
         <template>
             <email />
         </template>
-        <design>
-            <theme>
-                <allow_view_files_duplication>1</allow_view_files_duplication>
-            </theme>
-        </design>
         <session>
             <validation>
                 <http_user_agent_skip>
@@ -48,25 +43,37 @@
         </migration>
     </global>
     <frontend>
-        <design>
-            <theme>
-                <full_name>magento_demo</full_name>
-            </theme>
-        </design>
+        <translate>
+            <modules>
+                <Magento_Core>
+                    <files>
+                        <default>Magento_Core.csv</default>
+                    </files>
+                </Magento_Core>
+            </modules>
+        </translate>
     </frontend>
     <adminhtml>
-        <design>
-            <theme>
-                <full_name>magento_backend</full_name>
-            </theme>
-        </design>
+        <translate>
+            <modules>
+                <Magento_Core>
+                    <files>
+                        <default>Magento_Core.csv</default>
+                    </files>
+                </Magento_Core>
+            </modules>
+        </translate>
     </adminhtml>
     <install>
-        <design>
-            <theme>
-                <full_name>magento_basic</full_name>
-            </theme>
-        </design>
+        <translate>
+            <modules>
+                <Magento_Core>
+                    <files>
+                        <default>Magento_Core.csv</default>
+                    </files>
+                </Magento_Core>
+            </modules>
+        </translate>
     </install>
     <default>
         <design>
