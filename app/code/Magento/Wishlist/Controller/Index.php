@@ -401,7 +401,7 @@ class Index
                         ->setQty($qty)
                         ->save();
                     $updatedItems++;
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     \Mage::getSingleton('Magento\Customer\Model\Session')->addError(
                         __('Can\'t save description %1', $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($description))
                     );

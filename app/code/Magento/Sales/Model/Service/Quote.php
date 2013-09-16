@@ -178,7 +178,7 @@ class Quote
             $transaction->save();
             $this->_inactivateQuote();
             $this->_eventManager->dispatch('sales_model_service_quote_submit_success', array('order'=>$order, 'quote'=>$quote));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
 
             if (!\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
                 // reset customer ID's on exception, because customer not saved

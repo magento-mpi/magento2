@@ -332,7 +332,7 @@ class Processor
             $loggingEvent->save();
             $this->_saveEventChanges($loggingEvent);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_logger->logException($e);
             return false;
         }

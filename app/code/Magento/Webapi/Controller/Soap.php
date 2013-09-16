@@ -100,7 +100,7 @@ class Soap implements \Magento\Core\Controller\FrontInterface
                 $this->_setResponseContentType(self::CONTENT_TYPE_SOAP_CALL);
             }
             $this->_setResponseBody($responseBody);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_prepareErrorResponse($e);
         }
         $this->_response->sendResponse();

@@ -109,7 +109,7 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
                 return;
             } catch (\Magento\Core\Exception $e) {
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('Something went wrong while saving this condition.'));
             }
             catch (\Exception $e) {
@@ -140,7 +140,7 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
         } catch (\Magento\Core\Exception $e) {
         catch (\Magento\Core\Exception $e) {
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('Something went wrong  while deleting this condition.'));
         }
 

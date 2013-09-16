@@ -414,7 +414,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
                     __('The product attribute has been deleted.'));
                 $this->_redirect('*/*/');
                 return;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('attribute_id' => $this->getRequest()->getParam('attribute_id')));
                 return;

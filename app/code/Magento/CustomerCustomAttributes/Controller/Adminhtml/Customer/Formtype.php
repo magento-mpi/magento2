@@ -295,7 +295,7 @@ class Formtype extends \Magento\Adminhtml\Controller\Action
                 } catch (\Magento\Core\Exception $e) {
                 catch (\Magento\Core\Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                 catch (\Exception $e) {
                     $message = __('Something went wrong deleting the form type.');
                     $this->_getSession()->addException($e, $message);

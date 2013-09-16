@@ -47,7 +47,7 @@ class Response extends \Magento\Webapi\Controller\Response
                 $this->_renderMessages();
             }
             parent::sendResponse();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if ($e instanceof \Magento\Webapi\Exception) {
                 // If the server does not support all MIME types accepted by the client it SHOULD send 406.
                 $httpCode = $e->getHttpCode() == \Magento\Webapi\Exception::HTTP_NOT_ACCEPTABLE

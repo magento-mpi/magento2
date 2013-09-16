@@ -160,7 +160,7 @@ class Search extends \Magento\Adminhtml\Controller\Action
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('You deleted the search.'));
                 $this->_redirect('*/*/');
                 return;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;

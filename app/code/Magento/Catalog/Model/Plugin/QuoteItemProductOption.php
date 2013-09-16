@@ -32,7 +32,7 @@ class QuoteItemProductOption
                                 ->setQuoteItemOption($itemOption)
                                 ->copyQuoteToOrder();
 
-                        } catch (Exception $e) {
+                        } catch (\Exception $e) {
                             continue;
                         }
                     }

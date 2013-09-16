@@ -198,7 +198,7 @@ class Product extends \Magento\Core\Controller\Front\Action
 
                     $review->aggregate();
                     $session->addSuccess(__('Your review has been accepted for moderation.'));
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                 catch (\Exception $e) {
                     $session->setFormData($data);
                     $session->addError(__('We cannot post the review.'));

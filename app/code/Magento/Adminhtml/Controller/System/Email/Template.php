@@ -154,7 +154,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
             } catch (\Magento\Core\Exception $e) {
             catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()
                     ->addError(__('An error occurred while deleting email template data. '
                         . 'Please review log and try again.'));

@@ -105,7 +105,7 @@ class Generator
             }
         } catch (\Magento\Webapi\Exception $e) {
             throw $e;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new \Magento\Webapi\Exception($e->getMessage());
         }
 

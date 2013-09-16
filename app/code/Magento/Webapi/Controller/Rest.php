@@ -87,7 +87,7 @@ class Rest implements \Magento\Core\Controller\FrontInterface
                 );
             }
             $this->_response->prepareResponse($outputData);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_response->setException($e);
         }
         $this->_response->sendResponse();
