@@ -56,7 +56,7 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
     protected function _getDbAdapterInstance($configArr)
     {
         $className = $this->_getDbAdapterClassName();
-        $adapter = new $className($this->_dirs, array('config' => $configArr));
+        $adapter = new $className($this->_dirs, $configArr);
         return $adapter;
     }
 
