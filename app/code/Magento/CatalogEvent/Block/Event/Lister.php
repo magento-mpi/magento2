@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,9 +9,6 @@
 
 /**
  * Catalog Event homepage block
- *
- * @category   Magento
- * @package    Magento_CatalogEvent
  */
 class Magento_CatalogEvent_Block_Event_Lister extends Magento_CatalogEvent_Block_Event_Abstract
 {
@@ -29,22 +24,37 @@ class Magento_CatalogEvent_Block_Event_Lister extends Magento_CatalogEvent_Block
      *
      * @var Magento_CatalogEvent_Helper_Data
      */
-    protected $_catalogEventData = null;
+    protected $_catalogEventData;
 
     /**
-     * @param Magento_CatalogEvent_Helper_Data $catalogEventData
+     * Event collection factory
+     *
+     * @var Magento_CatalogEvent_Model_Resource_Event_CollectionFactory
+     */
+    protected $_eventCollectionFactory;
+    
+    /**
+     * Construct
+     * 
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_CatalogEvent_Helper_Data $catalogEventData
+     * @param Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $eventCollectionFactory
      * @param array $data
      */
     public function __construct(
-        Magento_CatalogEvent_Helper_Data $catalogEventData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_CatalogEvent_Helper_Data $catalogEventData,
+        Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $eventCollectionFactory,
         array $data = array()
     ) {
+        parent::__construct($coreData, $context, $locale, $data);
+        
         $this->_catalogEventData = $catalogEventData;
-        parent::__construct($coreData, $context, $data);
+        $this->_eventCollectionFactory = $eventCollectionFactory;
     }
 
     /**
@@ -91,8 +101,8 @@ class Magento_CatalogEvent_Block_Event_Lister extends Magento_CatalogEvent_Block
             }
 
             if (!empty($allIds)) {
-                $eventCollection = Mage::getModel('Magento_CatalogEvent_Model_Event')
-                    ->getCollection();
+                /** @var Magento_CatalogEvent_Model_Resource_Event_Collection $eventCollection */
+                $eventCollection = $this->_eventCollectionFactory->create();
                 $eventCollection->addFieldToFilter('category_id', array('in' => $allIds))
                     ->addVisibilityFilter()
                     ->addImageData()
@@ -115,8 +125,6 @@ class Magento_CatalogEvent_Block_Event_Lister extends Magento_CatalogEvent_Block
                 foreach ($eventCollection as $event) {
                     $this->_events[] = $event;
                 }
-
-
             }
         }
 
