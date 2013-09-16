@@ -90,11 +90,6 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     protected $_widgetData = null;
 
     /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_coreConfig;
-
-    /**
      * @param Magento_Widget_Helper_Data $widgetData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Context $context
@@ -103,7 +98,6 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Widget_Model_Config_Reader $reader,
      * @param Magento_Widget_Model_Widget $widgetModel,
-     * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -117,14 +111,12 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Widget_Model_Config_Reader $reader,
         Magento_Widget_Model_Widget $widgetModel,
-        Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_widgetData = $widgetData;
         $this->_coreData = $coreData;
-        $this->_coreConfig = $coreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_viewFileSystem = $viewFileSystem;
         $this->_reader = $reader;
