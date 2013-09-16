@@ -17,7 +17,7 @@ try {
     Mage::getConfig()->reinit();
     $config = array();
 
-    foreach (glob(dirname(__FILE__) . '/AliasesMap/cms_content_tables_*.php', GLOB_BRACE) as $configFile) {
+    foreach (glob(__DIR__ . '/AliasesMap/cms_content_tables_*.php', GLOB_BRACE) as $configFile) {
         $config = array_merge($config, include($configFile));
     }
 

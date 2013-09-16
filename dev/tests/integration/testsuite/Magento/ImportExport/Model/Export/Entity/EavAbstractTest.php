@@ -68,8 +68,6 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
      */
     public function testGetExportAttrCodes()
     {
-        $this->_checkReflectionMethodSetAccessibleExists();
-
         $this->_model->setParameters($this->_getSkippedAttributes());
         $method = new ReflectionMethod($this->_model, '_getExportAttributeCodes');
         $method->setAccessible(true);
@@ -118,15 +116,5 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
         return array(
             Magento_ImportExport_Model_Export::FILTER_ELEMENT_SKIP => $skippedAttributes
         );
-    }
-
-    /**
-     * Check that method ReflectionMethod::setAccessible exists
-     */
-    protected function _checkReflectionMethodSetAccessibleExists()
-    {
-        if (!method_exists('ReflectionMethod', 'setAccessible')) {
-            $this->markTestSkipped('Test requires ReflectionMethod::setAccessible (PHP 5 >= 5.3.2).');
-        }
     }
 }

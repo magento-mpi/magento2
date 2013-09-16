@@ -282,7 +282,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
             return;
         }
 
-        $uri = @parse_url($baseUrl);
+        $uri = parse_url($baseUrl);
         $requestUri = $request->getRequestUri() ? $request->getRequestUri() : '/';
         if (isset($uri['scheme']) && $uri['scheme'] != $request->getScheme()
             || isset($uri['host']) && $uri['host'] != $request->getHttpHost()

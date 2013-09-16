@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Db/LoggerAbstract.php';
 
 class Magento_Test_Tools_Migration_Acl_Db_LoggerAbstractTest extends PHPUnit_Framework_TestCase
