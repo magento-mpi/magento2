@@ -10,14 +10,14 @@
  */
 
 /**
- * Test class for \Magento\Catalog\Block\Product\New.
+ * Test class for \Magento\Catalog\Block\Product\NewProduct.
  *
  * @magentoDataFixture Magento/Catalog/_files/products_new.php
  */
 class Magento_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Catalog\Block\Product\New
+     * @var \Magento\Catalog\Block\Product\NewProduct
      */
     protected $_block;
 
