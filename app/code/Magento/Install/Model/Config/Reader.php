@@ -13,7 +13,7 @@ class Magento_Install_Model_Config_Reader extends Magento_Config_Reader_Filesyst
      * @var array
      */
     protected $_idAttributes = array(
-        '/install/steps/step' => 'id',
-        '/install/filesystem_prerequisites/directory' => 'alias'
+        '/install_wizard/steps/step' => 'id',
+        '/install_wizard/filesystem_prerequisites/directory' => 'alias'
     );
 }

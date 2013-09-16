@@ -135,4 +135,74 @@ class Magento_Install_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $directories['writeable']);
 
     }
+
+    public function testMergeCompleteAndPartial()
+    {
+        $fileList = array(
+            __DIR__ . '/_files/install_wizard_complete.xml',
+            __DIR__ . '/_files/install_wizard_partial.xml'
+        );
+        $fileResolverMock = $this->getMockBuilder('Magento_Config_FileResolverInterface')
+            ->setMethods(array('get'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $fileResolverMock->expects($this->once())
+            ->method('get')
+            ->with($this->equalTo('install_wizard.xml'))
+            ->will($this->returnValue($fileList));
+
+        $configReader = Mage::getObjectManager()->create(
+            'Magento_Install_Model_Config_Reader', array(
+                'fileResolver' => $fileResolverMock,
+            )
+        );
+
+        $configData =  Mage::getObjectManager()->create(
+            'Magento_Install_Model_Config_Data', array(
+                'reader' => $configReader,
+            )
+        );
+
+        /** @var Magento_Install_Model_Config $model */
+        $model = Mage::getObjectManager()->create(
+            'Magento_Install_Model_Config', array(
+                'dataStorage' => $configData,
+            )
+        );
+
+        $expectedSteps = array(
+            array(
+                'name' => "begin",
+                'controller' => 'wizard_custom',
+                'action' => 'begin_new',
+                'code' => 'License Agreement Updated'
+            ),
+            array(
+                'name' => "after_end",
+                'controller' => 'wizard_custom',
+                'action' => 'after_end',
+                'code' => 'One more thing..'
+            )
+        );
+
+        $steps = $model->getWizardSteps();
+
+        $counter = 0;
+        foreach ($steps as $step) {
+            if (isset($expectedSteps[$counter])) {
+                $this->assertEquals($expectedSteps[$counter], $step->getData());
+                $counter++;
+            } else {
+                $this->fail('It is more Install steps than expected');
+            }
+        }
+        if (count($expectedSteps) > $counter+1) {
+            $this->fail('Some expected steps are missing');
+        }
+        $pathesForCheck = $model->getWritableFullPathsForCheck();
+        $this->assertArrayHasKey('etc', $pathesForCheck);
+        $this->assertArrayHasKey('media', $pathesForCheck);
+        $this->assertArrayHasKey('lib', $pathesForCheck);
+        $this->assertEquals('0', $pathesForCheck['etc']['recursive']);
+    }
 }
