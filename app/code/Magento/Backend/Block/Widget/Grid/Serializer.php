@@ -63,7 +63,7 @@ class Magento_Backend_Block_Widget_Grid_Serializer extends Magento_Core_Block_Te
     public function getColumnInputNames($asJSON = false)
     {
         if ($asJSON) {
-            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->_inputsToSerialize);
+            return $this->_coreData->jsonEncode($this->_inputsToSerialize);
         }
         return $this->_inputsToSerialize;
     }
@@ -81,7 +81,7 @@ class Magento_Backend_Block_Widget_Grid_Serializer extends Magento_Core_Block_Te
         } elseif (!empty($this->_inputsToSerialize)) {
             return '{}';
         }
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 
 
@@ -110,5 +110,4 @@ class Magento_Backend_Block_Widget_Grid_Serializer extends Magento_Core_Block_Te
                  ->setSerializeData($grid->$callback());
         }
     }
-
 }

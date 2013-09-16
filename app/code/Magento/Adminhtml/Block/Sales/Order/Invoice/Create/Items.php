@@ -16,6 +16,31 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
     protected $_disableSubmitButton = false;
 
     /**
+     * Sales data
+     *
+     * @var Magento_Sales_Helper_Data
+     */
+    protected $_salesData = null;
+
+    /**
+     * @param Magento_Sales_Helper_Data $salesData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Sales_Helper_Data $salesData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_salesData = $salesData;
+        parent::__construct($coreData, $context, $registry, $data);
+    }
+
+    /**
      * Prepare child blocks
      *
      * @return Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items
@@ -112,14 +137,14 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
      */
     public function getOrderTotalbarData()
     {
-        $totalbarData = array();
         $this->setPriceDataObject($this->getInvoice()->getOrder());
+
+        $totalbarData = array();
         $totalbarData[] = array(__('Paid Amount'), $this->displayPriceAttribute('amount_paid'), false);
         $totalbarData[] = array(__('Refund Amount'), $this->displayPriceAttribute('amount_refunded'), false);
         $totalbarData[] = array(__('Shipping Amount'), $this->displayPriceAttribute('shipping_captured'), false);
         $totalbarData[] = array(__('Shipping Refund'), $this->displayPriceAttribute('shipping_refunded'), false);
         $totalbarData[] = array(__('Order Grand Total'), $this->displayPriceAttribute('grand_total'), true);
-
         return $totalbarData;
     }
 
@@ -190,6 +215,6 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
 
     public function canSendInvoiceEmail()
     {
-        return Mage::helper('Magento_Sales_Helper_Data')->canSendNewInvoiceEmail($this->getOrder()->getStore()->getId());
+        return $this->_salesData->canSendNewInvoiceEmail($this->getOrder()->getStore()->getId());
     }
 }

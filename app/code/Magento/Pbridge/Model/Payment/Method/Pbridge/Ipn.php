@@ -53,17 +53,26 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
     protected $_debugReplacePrivateDataKeys = array();
 
     /**
+     * Pbridge data
+     *
+     * @var Magento_Pbridge_Helper_Data
+     */
+    protected $_pbridgeData = null;
+
+    /**
      * @var Magento_Core_Model_Logger
      */
     protected $_logger;
 
     /**
-     * Constructor
-     *
      * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Pbridge_Helper_Data $pbridgeData
      */
-    public function __construct(Magento_Core_Model_Logger $logger)
-    {
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Pbridge_Helper_Data $pbridgeData
+    ) {
+        $this->_pbridgeData = $pbridgeData;
         $this->_logger = $logger;
     }
 
@@ -120,7 +129,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
         $sReq .= "&cmd=_notify-validate";
         $sReq = substr($sReq, 1);
 
-        $helper = Mage::helper('Magento_Pbridge_Helper_Data');
+        $helper = $this->_pbridgeData;
         $url = rtrim($helper->getBridgeBaseUrl(), '/') . '/ipn.php?action=PaypalIpn';
 
         try {

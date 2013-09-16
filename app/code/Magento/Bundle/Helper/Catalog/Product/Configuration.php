@@ -19,6 +19,35 @@ class Magento_Bundle_Helper_Catalog_Product_Configuration extends Magento_Core_H
     implements Magento_Catalog_Helper_Product_Configuration_Interface
 {
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Catalog product configuration
+     *
+     * @var Magento_Catalog_Helper_Product_Configuration
+     */
+    protected $_ctlgProdConfigur = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_ctlgProdConfigur = $ctlgProdConfigur;
+        $this->_coreData = $coreData;
+        parent::__construct($context);
+    }
+
+    /**
      * Get selection quantity
      *
      * @param Magento_Catalog_Model_Product $product
@@ -109,7 +138,7 @@ class Magento_Bundle_Helper_Catalog_Product_Configuration extends Magento_Core_H
                             $qty = $this->getSelectionQty($product, $bundleSelection->getSelectionId()) * 1;
                             if ($qty) {
                                 $option['value'][] = $qty . ' x ' . $this->escapeHtml($bundleSelection->getName())
-                                    . ' ' . Mage::helper('Magento_Core_Helper_Data')->currency(
+                                    . ' ' . $this->_coreData->currency(
                                         $this->getSelectionFinalPrice($item, $bundleSelection)
                                     );
                             }
@@ -136,7 +165,7 @@ class Magento_Bundle_Helper_Catalog_Product_Configuration extends Magento_Core_H
     {
         return array_merge(
             $this->getBundleOptions($item),
-            Mage::helper('Magento_Catalog_Helper_Product_Configuration')->getCustomOptions($item)
+            $this->_ctlgProdConfigur->getCustomOptions($item)
         );
     }
 }

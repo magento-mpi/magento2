@@ -14,6 +14,13 @@
 class Magento_CatalogEvent_Block_Catalog_Category_Event extends Magento_CatalogEvent_Block_Event_Abstract
 {
     /**
+     * Catalog event data
+     *
+     * @var Magento_CatalogEvent_Helper_Data
+     */
+    protected $_catalogEventData = null;
+
+    /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -21,17 +28,22 @@ class Magento_CatalogEvent_Block_Catalog_Category_Event extends Magento_CatalogE
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_CatalogEvent_Helper_Data $catalogEventData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_CatalogEvent_Helper_Data $catalogEventData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        $this->_catalogEventData = $catalogEventData;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -76,8 +88,8 @@ class Magento_CatalogEvent_Block_Catalog_Category_Event extends Magento_CatalogE
      */
     public function canDisplay()
     {
-        return Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()
-            && $this->getEvent()
-            && $this->getEvent()->canDisplayCategoryPage();
+        return $this->_catalogEventData->isEnabled() &&
+               $this->getEvent() &&
+               $this->getEvent()->canDisplayCategoryPage();
     }
 }

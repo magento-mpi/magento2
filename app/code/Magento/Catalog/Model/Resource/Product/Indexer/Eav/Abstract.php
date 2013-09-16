@@ -20,6 +20,25 @@ abstract class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
     extends Magento_Catalog_Model_Resource_Product_Indexer_Abstract
 {
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($resource);
+    }
+
+    /**
      * Rebuild all index data
      *
      *
@@ -186,7 +205,7 @@ abstract class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
         /**
          * Add additional external limitation
          */
-        Mage::dispatchEvent('prepare_catalog_product_index_select', array(
+        $this->_eventManager->dispatch('prepare_catalog_product_index_select', array(
             'select'        => $select,
             'entity_field'  => new Zend_Db_Expr('l.parent_id'),
             'website_field' => new Zend_Db_Expr('cs.website_id'),

@@ -25,6 +25,22 @@ class Magento_Eav_Model_Attribute_Data_File extends Magento_Eav_Model_Attribute_
     protected $_validatorNotProtectedExtensions;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData
+    ) {
+        $this->_coreData = $coreData;
+    }
+
+    /**
      * Extract data from request and return value
      *
      * @param Zend_Controller_Request_Http $request
@@ -253,7 +269,7 @@ class Magento_Eav_Model_Attribute_Data_File extends Magento_Eav_Model_Attribute_
                 case Magento_Eav_Model_Attribute_Data::OUTPUT_FORMAT_JSON:
                     $output = array(
                         'value'     => $value,
-                        'url_key'   => Mage::helper('Magento_Core_Helper_Data')->urlEncode($value)
+                        'url_key'   => $this->_coreData->urlEncode($value)
                     );
                     break;
             }

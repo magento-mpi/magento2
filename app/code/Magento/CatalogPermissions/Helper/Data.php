@@ -29,6 +29,25 @@ class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstrac
     const GRANT_NONE            = 0;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve config value for permission enabled
      *
      * @return boolean
@@ -37,24 +56,6 @@ class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstrac
     {
         return Mage::getStoreConfigFlag(self::XML_PATH_ENABLED);
     }
-
-    /**
-     * Check category permission is allowed
-     *
-     * @param Magento_Catalog_Model_Category $category
-     * @return boolean
-     */
-    public function isAllowedCategory($category)
-    {
-        $options = new Magento_Object();
-        $options->setCategory($category);
-        $options->setIsAllowed(true);
-
-        Mage::dispatchEvent('magento_catalog_permissions_is_allowed_category', array('options' => $options));
-
-        return $options->getIsAllowed();
-    }
-
 
     /**
      * Retrieve config value for category access permission

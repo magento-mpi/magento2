@@ -186,9 +186,12 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
     public function __wakeup()
     {
         if (Mage::getIsSerializable()) {
-            $this->_eventDispatcher = Mage::getSingleton('Magento_Core_Model_Event_Manager');
-            $this->_cacheManager    = Mage::getSingleton('Magento_Core_Model_CacheInterface');
-            $this->_coreRegistry    = Mage::getObjectManager()->get('Magento_Core_Model_Registry');
+            $this->_eventDispatcher = Magento_Core_Model_ObjectManager::getInstance()
+                ->get('Magento_Core_Model_Event_Manager');
+            $this->_cacheManager    = Magento_Core_Model_ObjectManager::getInstance()
+                ->get('Magento_Core_Model_CacheInterface');
+            $this->_coreRegistry    = Magento_Core_Model_ObjectManager::getInstance()
+                ->get('Magento_Core_Model_Registry');
         }
     }
 
@@ -641,9 +644,9 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
      */
     protected function _afterDeleteCommit()
     {
-         $this->_eventDispatcher->dispatch('model_delete_commit_after', array('object' => $this));
-         $this->_eventDispatcher->dispatch($this->_eventPrefix . '_delete_commit_after', $this->_getEventData());
-         return $this;
+        $this->_eventDispatcher->dispatch('model_delete_commit_after', array('object' => $this));
+        $this->_eventDispatcher->dispatch($this->_eventPrefix . '_delete_commit_after', $this->_getEventData());
+        return $this;
     }
 
     /**

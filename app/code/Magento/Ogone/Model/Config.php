@@ -16,6 +16,22 @@ class Magento_Ogone_Model_Config extends Magento_Payment_Model_Config
     const OGONE_PAYMENT_PATH = 'payment/ogone/';
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData
+    ) {
+        $this->_coreData = $coreData;
+    }
+
+    /**
      * Return ogone payment config information
      *
      * @param string $path
@@ -38,7 +54,7 @@ class Magento_Ogone_Model_Config extends Magento_Payment_Model_Config
      */
     public function getShaInCode($storeId=null)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->decrypt($this->getConfigData('secret_key_in', $storeId));
+        return $this->_coreData->decrypt($this->getConfigData('secret_key_in', $storeId));
     }
 
     /**
@@ -48,7 +64,7 @@ class Magento_Ogone_Model_Config extends Magento_Payment_Model_Config
      */
     public function getShaOutCode($storeId=null)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->decrypt($this->getConfigData('secret_key_out', $storeId));
+        return $this->_coreData->decrypt($this->getConfigData('secret_key_out', $storeId));
     }
 
     /**

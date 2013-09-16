@@ -164,15 +164,29 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     const HASH_SHA512 = 'sha512';
 
     /**
-     * Init Ogone Api instance, detup default values
+     * Core string
      *
-     * @var Magento_Ogone_Model_Config $config
-     * @return Magento_Ogone_Model_Api
+     * @var Magento_Core_Helper_String
      */
-    public function __construct(Magento_Ogone_Model_Config $config)
-    {
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Ogone_Model_Config $config
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_String $coreString,
+        Magento_Ogone_Model_Config $config,
+        Magento_Payment_Helper_Data $paymentData,
+        array $data = array()
+    ) {
+        $this->_coreString = $coreString;
         $this->_config = $config;
-        return $this;
+        parent::__construct($eventManager, $paymentData, $data);
     }
 
     /**
@@ -392,18 +406,17 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     protected function _getOrderDescription($order)
     {
         $invoiceDesc = '';
-        $lengs = 0;
         foreach ($order->getAllItems() as $item) {
             if ($item->getParentItem()) {
                 continue;
             }
             //COM filed can only handle max 100
-            if (Mage::helper('Magento_Core_Helper_String')->strlen($invoiceDesc.$item->getName()) > 100) {
+            if ($this->_coreString->strlen($invoiceDesc.$item->getName()) > 100) {
                 break;
             }
             $invoiceDesc .= $item->getName() . ', ';
         }
-        return Mage::helper('Magento_Core_Helper_String')->substr($invoiceDesc, 0, -2);
+        return $this->_coreString->substr($invoiceDesc, 0, -2);
     }
 
     /**

@@ -26,12 +26,15 @@ class Magento_Catalog_Model_Product_Type_Virtual extends Magento_Catalog_Model_P
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_File_Storage_Database $fileStorageDb,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Logger $logger,
         array $data = array()
     ) {
-        parent::__construct($filesystem, $coreRegistry, $logger, $data);
+        parent::__construct($eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger, $data);
     }
 
     /**

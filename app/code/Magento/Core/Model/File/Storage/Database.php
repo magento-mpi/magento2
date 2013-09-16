@@ -45,16 +45,28 @@ class Magento_Core_Model_File_Storage_Database extends Magento_Core_Model_File_S
     protected $_logger;
 
     /**
-     * Class construct
-     *
      * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_File_Storage_Database $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
      * @param string $connectionName
      */
-    public function __construct(Magento_Core_Model_Logger $logger, $connectionName = null)
-    {
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_File_Storage_Database $resource,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array(),
+        $connectionName = null
+    ) {
         $this->_init('Magento_Core_Model_Resource_File_Storage_Database');
         $this->_logger = $logger;
-        parent::__construct($connectionName);
+        parent::__construct($coreFileStorageDb, $context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -304,7 +316,7 @@ class Magento_Core_Model_File_Storage_Database extends Magento_Core_Model_File_S
      */
     public function getDirectoryFiles($directory)
     {
-        $directory = Mage::helper('Magento_Core_Helper_File_Storage_Database')->getMediaRelativePath($directory);
+        $directory = $this->_coreFileStorageDb->getMediaRelativePath($directory);
         return $this->_getResource()->getDirectoryFiles($directory);
     }
 

@@ -18,23 +18,6 @@
 class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Type_Abstract
 {
     /**
-     * Initialize data
-     *
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Logger $logger
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Logger $logger,
-        array $data = array()
-    ) {
-        parent::__construct($filesystem, $coreRegistry, $logger, $data);
-    }
-
-    /**
      * Product is composite
      *
      * @var bool
@@ -89,6 +72,47 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
      * @var bool
      */
     protected $_canConfigure                = true;
+
+    /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * Catalog product
+     *
+     * @var Magento_Catalog_Helper_Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
+     * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Logger $logger
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_File_Storage_Database $fileStorageDb,
+        Magento_Filesystem $filesystem,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Logger $logger,
+        array $data = array()
+    ) {
+        $this->_catalogProduct = $catalogProduct;
+        $this->_catalogData = $catalogData;
+        parent::__construct($eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger, $data);
+    }
 
     /**
      * Return relation info about used products
@@ -410,7 +434,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
                 ->addFilterByRequiredOptions()
                 ->setOptionIdsFilter($optionIds);
 
-            if (!Mage::helper('Magento_Catalog_Helper_Data')->isPriceGlobal() && $storeId) {
+            if (!$this->_catalogData->isPriceGlobal() && $storeId) {
                 $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
                 $selectionsCollection->joinPrices($websiteId);
             }
@@ -534,7 +558,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
         $selections = array();
         $isStrictProcessMode = $this->_isStrictProcessMode($processMode);
 
-        $skipSaleableCheck = Mage::helper('Magento_Catalog_Helper_Product')->getSkipSaleableCheck();
+        $skipSaleableCheck = $this->_catalogProduct->getSkipSaleableCheck();
         $_appendAllSelections = (bool)$product->getSkipCheckRequiredOption() || $skipSaleableCheck;
 
         $options = $buyRequest->getBundleOption();
@@ -737,7 +761,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
                 ->addFilterByRequiredOptions()
                 ->setSelectionIdsFilter($selectionIds);
 
-                if (!Mage::helper('Magento_Catalog_Helper_Data')->isPriceGlobal() && $storeId) {
+                if (!$this->_catalogData->isPriceGlobal() && $storeId) {
                     $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
                     $usedSelections->joinPrices($websiteId);
                 }
@@ -937,7 +961,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
             Mage::throwException($this->getSpecifyOptionMessage());
         }
 
-        $skipSaleableCheck = Mage::helper('Magento_Catalog_Helper_Product')->getSkipSaleableCheck();
+        $skipSaleableCheck = $this->_catalogProduct->getSkipSaleableCheck();
         foreach ($selectionIds as $selectionId) {
             /* @var $selection Magento_Bundle_Model_Selection */
             $selection = $productSelections->getItemById($selectionId);
@@ -1041,7 +1065,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
          */
         /*
         $collection = $this->getUsedProductCollection($product);
-        $helper = Mage::helper('Magento_Catalog_Helper_Data');
+        $helper = $this->_catalogData;
 
         $result = null;
         $parentVisibility = $product->getMsrpDisplayActualPriceType();

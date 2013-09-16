@@ -135,7 +135,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Source
         /**
          * Add additional external limitation
          */
-        Mage::dispatchEvent('prepare_catalog_product_index_select', array(
+        $this->_eventManager->dispatch('prepare_catalog_product_index_select', array(
             'select'        => $select,
             'entity_field'  => new Zend_Db_Expr('pid.entity_id'),
             'website_field' => new Zend_Db_Expr('pid.website_id'),
@@ -209,7 +209,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Source
         /**
          * Add additional external limitation
          */
-        Mage::dispatchEvent('prepare_catalog_product_index_select', array(
+        $this->_eventManager->dispatch('prepare_catalog_product_index_select', array(
             'select'        => $select,
             'entity_field'  => new Zend_Db_Expr('pvd.entity_id'),
             'website_field' => new Zend_Db_Expr('cs.website_id'),

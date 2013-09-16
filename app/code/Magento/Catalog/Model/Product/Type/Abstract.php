@@ -58,13 +58,6 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
      */
     protected $_fileQueue       = array();
 
-    /**
-     * Helpers list
-     *
-     * @var array
-     */
-    protected $_helpers = array();
-
     const CALCULATE_CHILD = 0;
     const CALCULATE_PARENT = 1;
 
@@ -101,6 +94,16 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     protected $_filesystem;
 
     /**
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData;
+
+    /**
+     * @var Magento_Core_Helper_File_Storage_Database
+     */
+    protected $_fileStorageDb;
+
+    /**
      * Delete data specific for this product type
      *
      * @param Magento_Catalog_Model_Product $product
@@ -115,27 +118,40 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     protected $_coreRegistry = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * @var Magento_Core_Model_Logger
      */
     protected $_logger;
 
     /**
-     * Initialize data
-     *
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Logger $logger
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_File_Storage_Database $fileStorageDb,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Logger $logger,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_eventManager = $eventManager;
+        $this->_coreData = $coreData;
+        $this->_fileStorageDb = $fileStorageDb;
         $this->_filesystem = $filesystem;
-        $this->_helpers = isset($data['helpers']) ? $data['helpers'] : array();
         $this->_logger = $logger;
     }
 
@@ -445,13 +461,13 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
                             }
                             Mage::throwException(__("The file upload failed."));
                         }
-                        $this->_helper('Magento_Core_Helper_File_Storage_Database')->saveFile($dst);
+                        $this->_fileStorageDb->saveFile($dst);
                         break;
                     case 'move_uploaded_file':
                         $src = $queueOptions['src_name'];
                         $dst = $queueOptions['dst_name'];
                         move_uploaded_file($src, $dst);
-                        $this->_helper('Magento_Core_Helper_File_Storage_Database')->saveFile($dst);
+                        $this->_fileStorageDb->saveFile($dst);
                         break;
                     default:
                         break;
@@ -524,7 +540,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
         }
 
         $eventName = sprintf('catalog_product_type_prepare_%s_options', $processMode);
-        Mage::dispatchEvent($eventName, array(
+        $this->_eventManager->dispatch($eventName, array(
             'transport'   => $transport,
             'buy_request' => $buyRequest,
             'product' => $product
@@ -979,17 +995,6 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     public function isMapEnabledInOptions($product, $visibility = null)
     {
         return false;
-    }
-
-    /**
-     * Retrieve helper by specified name
-     *
-     * @param string $name
-     * @return Magento_Core_Helper_Abstract
-     */
-    protected function _helper($name)
-    {
-        return isset($this->_helpers[$name]) ? $this->_helpers[$name] : Mage::helper($name);
     }
 
     /**

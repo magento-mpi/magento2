@@ -39,8 +39,7 @@ class Magento_GoogleShopping_Model_Attribute_Default extends Magento_GoogleShopp
         if (is_null($this->getName())) {
             return $entry;
         }
-        $productAttribute = Mage::helper('Magento_GoogleShopping_Helper_Product')
-            ->getProductAttribute($product, $this->getAttributeId());
+        $productAttribute = $this->_gsProduct->getProductAttribute($product, $this->getAttributeId());
         $type = $this->getGcontentAttributeType($productAttribute);
         $value = $this->getProductAttributeValue($product);
 
@@ -62,8 +61,7 @@ class Magento_GoogleShopping_Model_Attribute_Default extends Magento_GoogleShopp
             return null;
         }
 
-        $productAttribute = Mage::helper('Magento_GoogleShopping_Helper_Product')
-            ->getProductAttribute($product, $this->getAttributeId());
+        $productAttribute = $this->_gsProduct->getProductAttribute($product, $this->getAttributeId());
         if (is_null($productAttribute)) {
             return null;
         }

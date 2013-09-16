@@ -24,8 +24,15 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
         );
         $source->rewind();
         $expected = $source->current();
+
+        $objectManager = Mage::getObjectManager();
+        $coreData = $objectManager->get('Magento_Core_Helper_Data');
+        $coreString = $objectManager->get('Magento_Core_Helper_String');
+
         /** @var $model Magento_ImportExport_Model_Import_EntityAbstract|PHPUnit_Framework_MockObject_MockObject */
-        $model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_EntityAbstract');
+        $model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_EntityAbstract', array(
+            $coreData, $coreString
+        ));
         $model->expects($this->any())
             ->method('validateRow')
             ->will($this->returnValue(true));

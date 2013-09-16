@@ -18,6 +18,30 @@
 class Magento_GoogleShopping_Model_MassOperations
 {
     /**
+     * @var Magento_GoogleShopping_Helper_Data
+     */
+    protected $_gleShoppingData = null;
+
+    /**
+     * @var Magento_GoogleShopping_Helper_Category|null
+     */
+    protected $_gleShoppingCategory = null;
+
+    /**
+     * @param Magento_GoogleShopping_Helper_Data $gleShoppingData
+     * @param Magento_GoogleShopping_Helper_Category $gleShoppingCategory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GoogleShopping_Helper_Data $gleShoppingData,
+        Magento_GoogleShopping_Helper_Category $gleShoppingCategory,
+        array $data = array()
+    ) {
+        $this->_gleShoppingData = $gleShoppingData;
+        $this->_gleShoppingCategory = $gleShoppingCategory;
+    }
+
+    /**
      * Zend_Db_Statement_Exception code for "Duplicate unique index" error
      *
      * @var int
@@ -98,7 +122,7 @@ class Magento_GoogleShopping_Model_MassOperations
                 } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
                     throw $e;
                 } catch (Zend_Gdata_App_Exception $e) {
-                    $errors[] = Mage::helper('Magento_GoogleShopping_Helper_Data')->parseGdataExceptionMessage($e->getMessage(), $product);
+                    $errors[] = $this->_gleShoppingData->parseGdataExceptionMessage($e->getMessage(), $product);
                 } catch (Zend_Db_Statement_Exception $e) {
                     $message = $e->getMessage();
                     if ($e->getCode() == self::ERROR_CODE_SQL_UNIQUE_INDEX) {
@@ -177,7 +201,7 @@ class Magento_GoogleShopping_Model_MassOperations
                         $totalDeleted++;
                     } else {
                         $this->_addGeneralError();
-                        $errors[] = Mage::helper('Magento_GoogleShopping_Helper_Data')
+                        $errors[] = $this->_gleShoppingData
                             ->parseGdataExceptionMessage($e->getMessage(), $item->getProduct());
                         $totalFailed++;
                     }
@@ -185,7 +209,7 @@ class Magento_GoogleShopping_Model_MassOperations
                     throw $e;
                 } catch (Zend_Gdata_App_Exception $e) {
                     $this->_addGeneralError();
-                    $errors[] = Mage::helper('Magento_GoogleShopping_Helper_Data')
+                    $errors[] = $this->_gleShoppingData
                         ->parseGdataExceptionMessage($e->getMessage(), $item->getProduct());
                     $totalFailed++;
                 } catch (Magento_Core_Exception $e) {
@@ -244,7 +268,7 @@ class Magento_GoogleShopping_Model_MassOperations
                     throw $e;
                 } catch (Zend_Gdata_App_Exception $e) {
                     $this->_addGeneralError();
-                    $errors[] = Mage::helper('Magento_GoogleShopping_Helper_Data')
+                    $errors[] = $this->_gleShoppingData
                         ->parseGdataExceptionMessage($e->getMessage(), $item->getProduct());
                 } catch (Exception $e) {
                     $this->_logger->logException($e);
@@ -319,7 +343,7 @@ class Magento_GoogleShopping_Model_MassOperations
         if (!$this->_hasError) {
             $this->_getNotifier()->addMajor(
                 __('Google Shopping Error'),
-                Mage::helper('Magento_GoogleShopping_Helper_Category')->getMessage()
+                $this->_gleShoppingCategory->getMessage()
             );
             $this->_hasError = true;
         }

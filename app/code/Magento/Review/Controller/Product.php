@@ -47,7 +47,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
     {
         parent::preDispatch();
 
-        $allowGuest = Mage::helper('Magento_Review_Helper_Data')->getIsGuestAllowToWrite();
+        $allowGuest = $this->_objectManager->get('Magento_Review_Helper_Data')->getIsGuestAllowToWrite();
         if (!$this->getRequest()->isDispatched()) {
             return;
         }
@@ -56,12 +56,12 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
         if (!$allowGuest && $action == 'post' && $this->getRequest()->isPost()) {
             if (!Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-                Mage::getSingleton('Magento_Customer_Model_Session')->setBeforeAuthUrl(
-                    Mage::getUrl('*/*/*', array('_current' => true))
-                );
-                Mage::getSingleton('Magento_Review_Model_Session')->setFormData($this->getRequest()->getPost())
+                Mage::getSingleton('Magento_Customer_Model_Session')
+                    ->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_current' => true)));
+                Mage::getSingleton('Magento_Review_Model_Session')
+                    ->setFormData($this->getRequest()->getPost())
                     ->setRedirectUrl($this->_getRefererUrl());
-                $this->_redirectUrl(Mage::helper('Magento_Customer_Helper_Data')->getLoginUrl());
+                $this->_redirectUrl($this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl());
             }
         }
 
@@ -133,7 +133,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
      * Load review model with data by passed id.
      * Return false if review was not loaded or review is not approved.
      *
-     * @param int $productId
+     * @param $reviewId
      * @return bool|Magento_Review_Model_Review
      */
     protected function _loadReview($reviewId)
@@ -155,7 +155,6 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
 
     /**
      * Submit new review action
-     *
      */
     public function postAction()
     {
@@ -291,13 +290,13 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
         );
 
         if ($product->getPageLayout()) {
-            $this->getLayout()->helper('Magento_Page_Helper_Layout')
+            $this->_objectManager->get('Magento_Page_Helper_Layout')
                 ->applyHandle($product->getPageLayout());
         }
         $this->loadLayoutUpdates();
 
         if ($product->getPageLayout()) {
-            $this->getLayout()->helper('Magento_Page_Helper_Layout')
+            $this->_objectManager->get('Magento_Page_Helper_Layout')
                 ->applyTemplate($product->getPageLayout());
         }
         $update->addUpdate($product->getCustomLayoutUpdate());

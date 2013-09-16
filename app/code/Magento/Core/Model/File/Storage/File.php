@@ -48,9 +48,23 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
      * Class construct
      *
      * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_File_Storage_File $resource
+     * @param Magento_Data_Collection_Db|null $resourceCollection
+     * @param array $data
      */
-    public function __construct(Magento_Core_Model_Logger $logger)
-    {
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_File_Storage_File $resource,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($coreFileStorageDb, $context, $registry, $resource, $resourceCollection, $data);
         $this->_setResourceModel('Magento_Core_Model_Resource_File_Storage_File');
         $this->_logger = $logger;
     }

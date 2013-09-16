@@ -123,13 +123,18 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
      *
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
+     * @param Magento_Directory_Helper_Data $directoryData
+     * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
-        Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
+        Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory,
+        Magento_Directory_Helper_Data $directoryData,
+        array $data = array()
     ) {
         $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
         $this->_logger = $logger;
+        parent::__construct($directoryData, $data);
     }
 
     /**

@@ -38,13 +38,21 @@ class Magento_Backend_Model_Auth_Session
 
     /**
      * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Acl_Builder $aclBuilder
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param array $data
      */
-    public function __construct(Magento_Core_Model_Logger $logger, Magento_Acl_Builder $aclBuilder)
-    {
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Acl_Builder $aclBuilder,
+        Magento_Core_Helper_Http $coreHttp,
+        array $data = array()
+    ) {
         $this->_aclBuilder = $aclBuilder;
+        parent::__construct($logger, $eventManager, $coreHttp, $data);
         $this->init('admin');
-        parent::__construct($logger);
     }
 
     /**

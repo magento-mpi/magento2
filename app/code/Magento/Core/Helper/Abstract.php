@@ -30,13 +30,6 @@ abstract class Magento_Core_Helper_Abstract
     protected $_request;
 
     /**
-     * Layout model object
-     *
-     * @var Magento_Core_Model_Layout
-     */
-    protected $_layout;
-
-    /**
      * Translator model
      *
      * @var Magento_Core_Model_Translate
@@ -286,28 +279,6 @@ abstract class Magento_Core_Helper_Abstract
     protected function _getUrl($route, $params = array())
     {
         return Mage::getUrl($route, $params);
-    }
-
-    /**
-     * Declare layout
-     *
-     * @param   Magento_Core_Model_Layout $layout
-     * @return  Magento_Core_Helper_Abstract
-     */
-    public function setLayout($layout)
-    {
-        $this->_layout = $layout;
-        return $this;
-    }
-
-    /**
-     * Retrieve layout model object
-     *
-     * @return Magento_Core_Model_Layout
-     */
-    public function getLayout()
-    {
-        return $this->_layout;
     }
 
     /**

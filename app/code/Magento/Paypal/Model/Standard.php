@@ -9,7 +9,6 @@
  */
 
 /**
- *
  * PayPal Standard Checkout Module
  *
  * @author      Magento Core Team <core@magentocommerce.com>

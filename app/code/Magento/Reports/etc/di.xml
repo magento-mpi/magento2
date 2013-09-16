@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Log_Model_Resource_Log">
+        <plugin name="reportLog" type="Magento_Reports_Model_Plugin_Log" />
+    </type>
+</config>

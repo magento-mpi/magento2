@@ -394,7 +394,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
                 $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
         }
-        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**
@@ -403,9 +403,8 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
     public function chooserAction()
     {
         $uniqId = $this->getRequest()->getParam('uniq_id');
-        $chooserBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Promo_Widget_Chooser', '', array(
-            'data' => array('id' => $uniqId)
-        ));
+        $chooserBlock = $this->getLayout()
+            ->createBlock('Magento_Adminhtml_Block_Promo_Widget_Chooser', '', array('data' => array('id' => $uniqId)));
         $this->getResponse()->setBody($chooserBlock->toHtml());
     }
 

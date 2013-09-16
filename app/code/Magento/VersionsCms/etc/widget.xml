@@ -3,61 +3,45 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
-<widgets>
-    <cms_hierarchy_node type="Magento_VersionsCms_Block_Widget_Node" translate="name description">
-        <name>CMS Hierarchy Node Link</name>
-        <description>Link to Specified CMS Hierarchy Node</description>
-        <is_email_compatible>1</is_email_compatible>
-        <placeholder_image>Magento_VersionsCms::widget_node.gif</placeholder_image>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Widget/etc/widget.xsd">
+    <widget id="cms_hierarchy_node" class="Magento_VersionsCms_Block_Widget_Node" is_email_compatible="true"
+            placeholder_image="Magento_VersionsCms::widget_node.gif">
+        <label translate="true">CMS Hierarchy Node Link</label>
+        <description translate="true">Link to Specified CMS Hierarchy Node</description>
         <parameters>
-            <node_id translate="label">
-                <label>Node</label>
-                <visible>1</visible>
-                <required>1</required>
-                <type>label</type>
-                <helper_block>
-                    <type>Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser</type>
+            <parameter name="node_id" xsi:type="block" visible="true" required="true" sort_order="10">
+                <label translate="true">Node</label>
+                <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser">
                     <data>
-                        <button translate="open">
-                            <open>Select a page or node.</open>
-                        </button>
+                        <item name="button" xsi:type="array">
+                            <item name="open" xsi:type="string">Select a page or node.</item>
+                        </item>
                     </data>
-                </helper_block>
-                <sort_order>10</sort_order>
-            </node_id>
-            <anchor_text translate="label description">
-                <visible>1</visible>
-                <label>Anchor Custom Text</label>
-                <description>If this value is empty, the node or page name will be used.</description>
-                <type>text</type>
-            </anchor_text>
-            <title translate="label">
-                <visible>1</visible>
-                <label>Anchor Custom Title</label>
-                <type>text</type>
-            </title>
-            <template translate="label">
-                <label>Template</label>
-                <visible>1</visible>
-                <type>select</type>
-                <value>hierarchy/widget/link/link_block.phtml</value>
-                <values>
-                    <default translate="label">
-                        <value>hierarchy/widget/link/link_block.phtml</value>
-                        <label>CMS Page Link Block Template</label>
-                    </default>
-                    <link_inline translate="label">
-                        <value>hierarchy/widget/link/link_inline.phtml</value>
-                        <label>CMS Page Link Inline Template</label>
-                    </link_inline>
-                </values>
-            </template>
+                </block>
+            </parameter>
+            <parameter name="anchor_text" xsi:type="text" visible="true">
+                <label translate="true">Anchor Custom Text</label>
+                <description translate="true">If this value is empty, the node or page name will be used.</description>
+            </parameter>
+            <parameter name="title" xsi:type="text" visible="true">
+                <label translate="true">Anchor Custom Title</label>
+            </parameter>
+            <parameter name="template" xsi:type="select" visible="true">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default" value="hierarchy/widget/link/link_block.phtml" selected="true">
+                        <label translate="true">CMS Page Link Block Template</label>
+                    </option>
+                    <option name="link_inline" value="hierarchy/widget/link/link_inline.phtml">
+                        <label translate="true">CMS Page Link Inline Template</label>
+                    </option>
+                </options>
+            </parameter>
         </parameters>
-    </cms_hierarchy_node>
+    </widget>
 </widgets>

@@ -114,13 +114,17 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
      *
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
+     * @param Magento_Directory_Helper_Data $directoryData
+     * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
-        Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
+        Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory,
+        Magento_Directory_Helper_Data $directoryData,
+        array $data = array()
     ) {
         $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
-        parent::__construct();
+        parent::__construct($directoryData, $data);
         $wsdlBasePath = Mage::getModuleDir('etc', 'Magento_Usa')  . DS . 'wsdl' . DS . 'FedEx' . DS;
         $this->_shipServiceWsdl = $wsdlBasePath . 'ShipService_v10.wsdl';
         $this->_rateServiceWsdl = $wsdlBasePath . 'RateService_v10.wsdl';

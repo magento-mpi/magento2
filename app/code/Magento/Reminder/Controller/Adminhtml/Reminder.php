@@ -267,6 +267,6 @@ class Magento_Reminder_Controller_Adminhtml_Reminder extends Magento_Adminhtml_C
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Reminder::magento_reminder') &&
-            Mage::helper('Magento_Reminder_Helper_Data')->isEnabled();
+            $this->_objectManager->get('Magento_Reminder_Helper_Data')->isEnabled();
     }
 }

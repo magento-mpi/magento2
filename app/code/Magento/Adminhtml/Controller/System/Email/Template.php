@@ -99,7 +99,8 @@ class Magento_Adminhtml_Controller_System_Email_Template extends Magento_Adminht
 
         $template = $this->_initTemplate('id');
         if (!$template->getId() && $id) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('This email template no longer exists.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                ->addError(__('This email template no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -117,20 +118,23 @@ class Magento_Adminhtml_Controller_System_Email_Template extends Magento_Adminht
                 $template->setTemplateType(Magento_Core_Model_Email_Template::TYPE_HTML);
             }
 
-            if($request->getParam('_change_type_flag')) {
+            if ($request->getParam('_change_type_flag')) {
                 $template->setTemplateType(Magento_Core_Model_Email_Template::TYPE_TEXT);
                 $template->setTemplateStyles('');
             }
 
             $template->save();
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData(false);
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('The email template has been saved.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                ->addSuccess(__('The email template has been saved.'));
             $this->_redirect('*/*');
         } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->setData('email_template_form_data', $this->getRequest()->getParams());
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                ->setData('email_template_form_data', $request->getParams());
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_forward('new');
         }
+
     }
 
     public function deleteAction()
@@ -140,7 +144,8 @@ class Magento_Adminhtml_Controller_System_Email_Template extends Magento_Adminht
             try {
                 $template->delete();
                  // display success message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('The email template has been deleted.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                    ->addSuccess(__('The email template has been deleted.'));
                 // go to grid
                 $this->_redirect('*/*/');
                 return;
@@ -150,14 +155,16 @@ class Magento_Adminhtml_Controller_System_Email_Template extends Magento_Adminht
                 $this->_getSession()->addError(__('An error occurred while deleting email template data. Please review log and try again.'));
                 $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 // save data in session
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData($data);
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                    ->setFormData($this->getRequest()->getParams());
                 // redirect to edit form
-                $this->_redirect('*/*/edit', array('id' => $id));
+                $this->_redirect('*/*/edit', array('id' => $template->getId()));
                 return;
             }
         }
         // display error message
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We can\'t find an email template to delete.'));
+        Mage::getSingleton('Magento_Adminhtml_Model_Session')
+            ->addError(__('We can\'t find an email template to delete.'));
         // go to grid
         $this->_redirect('*/*/');
     }
@@ -184,7 +191,9 @@ class Magento_Adminhtml_Controller_System_Email_Template extends Magento_Adminht
             $templateBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_System_Email_Template_Edit');
             $template->setData('orig_template_used_default_for', $templateBlock->getUsedDefaultForPaths(false));
 
-            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($template->getData()));
+            $this->getResponse()->setBody(
+                $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($template->getData())
+            );
         } catch (Exception $e) {
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }

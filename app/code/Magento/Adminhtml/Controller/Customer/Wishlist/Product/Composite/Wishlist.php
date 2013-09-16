@@ -82,9 +82,8 @@ class Magento_Adminhtml_Controller_Customer_Wishlist_Product_Composite_Wishlist
             $configureResult->setMessage($e->getMessage());
         }
 
-        /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Composite');
-        $helper->renderConfigureResult($this, $configureResult);
+        $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Composite')
+            ->renderConfigureResult($this, $configureResult);
 
         return $this;
     }

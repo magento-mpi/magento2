@@ -48,9 +48,47 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
     protected $_shippingLabel   = null;
 
     /**
+     * Rma data
+     *
+     * @var Magento_Rma_Helper_Data
+     */
+    protected $_rmaData = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Rma_Helper_Data $rmaData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Rma_Model_Resource_Rma $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Rma_Helper_Data $rmaData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Rma_Model_Resource_Rma $resource,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        $this->_rmaData = $rmaData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Init resource model
      */
-    protected function _construct() {
+    protected function _construct()
+    {
         $this->_init('Magento_Rma_Model_Resource_Rma');
         parent::_construct();
     }
@@ -319,7 +357,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
             }
         }
 
-        $returnAddress = Mage::helper('Magento_Rma_Helper_Data')->getReturnAddress(
+        $returnAddress = $this->_rmaData->getReturnAddress(
             'html', array(), $this->getStoreId()
         );
 
@@ -400,8 +438,8 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
 
         $preparePost['product_name']       = $realItem->getName();
         $preparePost['product_sku']        = $realItem->getSku();
-        $preparePost['product_admin_name'] = Mage::helper('Magento_Rma_Helper_Data')->getAdminProductName($realItem);
-        $preparePost['product_admin_sku']  = Mage::helper('Magento_Rma_Helper_Data')->getAdminProductSku($realItem);
+        $preparePost['product_admin_name'] = $this->_rmaData->getAdminProductName($realItem);
+        $preparePost['product_admin_sku']  = $this->_rmaData->getAdminProductSku($realItem);
         $preparePost['product_options']    = serialize($realItem->getProductOptions());
         $preparePost['is_qty_decimal']     = $realItem->getIsQtyDecimal();
 
@@ -454,7 +492,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
         $errors     = array();
         $errorKeys  = array();
         if (!$this->getIsUpdate()) {
-            $availableItems = Mage::helper('Magento_Rma_Helper_Data')->getOrderItems($orderId);
+            $availableItems = $this->_rmaData->getOrderItems($orderId);
         } else {
             $availableItems = Mage::getResourceModel('Magento_Rma_Model_Resource_Item')
                 ->getOrderItemsCollection($orderId);
@@ -481,7 +519,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
                 }
                 $validation['dummy'] = -1;
                 $previousValue = null;
-                $escapedProductName = Mage::helper('Magento_Rma_Helper_Data')->escapeHtml($item->getProductName());
+                $escapedProductName = $this->_rmaData->escapeHtml($item->getProductName());
                 foreach ($validation as $key => $value) {
                     if (isset($previousValue) && $value > $previousValue) {
                         $errors[] = __('There is an error in quantities for item %1.', $escapedProductName);
@@ -531,7 +569,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
         }
 
         foreach ($itemsArray as $key=>$qty) {
-            $escapedProductName = Mage::helper('Magento_Rma_Helper_Data')->escapeHtml(
+            $escapedProductName = $this->_rmaData->escapeHtml(
                 $availableItemsArray[$key]['name']
             );
             if (!array_key_exists($key, $availableItemsArray)) {
@@ -677,7 +715,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      */
     protected function _validateEmail($value)
     {
-        $label = Mage::helper('Magento_Rma_Helper_Data')->getContactEmailLabel();
+        $label = $this->_rmaData->getContactEmailLabel();
 
         $validator = new Zend_Validate_EmailAddress();
         $validator->setMessage(
@@ -731,7 +769,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      */
     public function getCreatedAtFormated($format)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->formatDate($this->getCreatedAtStoreDate(), $format, true);
+        return $this->_coreData->formatDate($this->getCreatedAtStoreDate(), $format, true);
     }
 
     /**
@@ -814,7 +852,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
     protected function _requestShippingRates($items, $address, $store, $subtotal, $weight, $qty)
     {
         /** @var Magento_Sales_Model_Quote_Address $shippingDestinationInfo */
-        $shippingDestinationInfo = Mage::helper('Magento_Rma_Helper_Data')->getReturnAddressModel(
+        $shippingDestinationInfo = $this->_rmaData->getReturnAddressModel(
             $this->getStoreId()
         );
 
@@ -891,7 +929,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
                 if (
                     in_array(
                         $shippingRate->getCarrier(),
-                        array_keys(Mage::helper('Magento_Rma_Helper_Data')->getShippingCarriers())
+                        array_keys($this->_rmaData->getShippingCarriers())
                     )
                 ) {
                     $found[] = Mage::getModel('Magento_Sales_Model_Quote_Address_Rate')->importShippingRate($shippingRate);

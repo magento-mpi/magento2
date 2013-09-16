@@ -26,7 +26,6 @@
  * @method Magento_SalesRule_Model_Rule setUsesPerCustomer(int $value)
  * @method int getUsesPerCoupon()
  * @method Magento_SalesRule_Model_Rule setUsesPerCoupon(int $value)
- * @method string getCustomerGroupIds()
  * @method Magento_SalesRule_Model_Rule setCustomerGroupIds(string $value)
  * @method int getIsActive()
  * @method Magento_SalesRule_Model_Rule setIsActive(int $value)
@@ -159,6 +158,35 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
      * @var array
      */
     protected $_validatedAddresses = array();
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($formFactory, $context, $registry, $resource, $resourceCollection, $data);
+    }
 
     /**
      * Set resource model and Id field name
@@ -380,7 +408,7 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
                 'coupon_types'                => $this->_couponTypes,
                 'is_coupon_type_auto_visible' => false
             ));
-            Mage::dispatchEvent('salesrule_rule_get_coupon_types', array('transport' => $transport));
+            $this->_eventManager->dispatch('salesrule_rule_get_coupon_types', array('transport' => $transport));
             $this->_couponTypes = $transport->getCouponTypes();
             if ($transport->getIsCouponTypeAutoVisible()) {
                 $this->_couponTypes[Magento_SalesRule_Model_Rule::COUPON_TYPE_AUTO] = __('Auto');

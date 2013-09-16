@@ -21,6 +21,25 @@ class Magento_Catalog_Helper_Product_Configuration extends Magento_Core_Helper_A
     const XML_PATH_CONFIGURABLE_ALLOWED_TYPES = 'global/catalog/product/type/configurable/allow_product_types';
 
     /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieves product configuration options
      *
      * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
@@ -228,7 +247,7 @@ class Magento_Catalog_Helper_Product_Configuration extends Magento_Core_Helper_A
             return array('value' => $_truncatedValue);
         } else {
             if ($maxLength) {
-                $_truncatedValue = Mage::helper('Magento_Core_Helper_String')->truncate($optionValue, $maxLength, '');
+                $_truncatedValue = $this->_coreString->truncate($optionValue, $maxLength, '');
             } else {
                 $_truncatedValue = $optionValue;
             }
@@ -237,7 +256,7 @@ class Magento_Catalog_Helper_Product_Configuration extends Magento_Core_Helper_A
 
         $result = array('value' => $_truncatedValue);
 
-        if ($maxLength && (Mage::helper('Magento_Core_Helper_String')->strlen($optionValue) > $maxLength)) {
+        if ($maxLength && ($this->_coreString->strlen($optionValue) > $maxLength)) {
             $result['value'] = $result['value'] . $cutReplacer;
             $optionValue = nl2br($optionValue);
             $result['full_view'] = $optionValue;

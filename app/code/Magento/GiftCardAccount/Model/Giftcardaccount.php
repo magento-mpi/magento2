@@ -64,6 +64,33 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
      */
     protected static $_alreadySelectedIds = array();
 
+    /**
+     * Gift card account data
+     *
+     * @var Magento_GiftCardAccount_Helper_Data
+     */
+    protected $_giftCardAccountData = null;
+
+    /**
+     * @param Magento_GiftCardAccount_Helper_Data $giftCardAccountData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_GiftCardAccount_Model_Resource_Giftcardaccount $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GiftCardAccount_Helper_Data $giftCardAccountData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_GiftCardAccount_Model_Resource_Giftcardaccount $resource,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_giftCardAccountData = $giftCardAccountData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
     protected function _construct()
     {
         $this->_init('Magento_GiftCardAccount_Model_Resource_Giftcardaccount');
@@ -177,7 +204,7 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
         }
         $website = Mage::app()->getStore($quote->getStoreId())->getWebsite();
         if ($this->isValid(true, true, $website)) {
-            $cards = Mage::helper('Magento_GiftCardAccount_Helper_Data')->getCards($quote);
+            $cards = $this->_giftCardAccountData->getCards($quote);
             if (!$cards) {
                 $cards = array();
             } else {
@@ -193,7 +220,7 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
                 'a'=>$this->getBalance(),   // amount
                 'ba'=>$this->getBalance(),  // base amount
             );
-            Mage::helper('Magento_GiftCardAccount_Helper_Data')->setCards($quote, $cards);
+            $this->_giftCardAccountData->setCards($quote, $cards);
 
             if ($saveQuote) {
                 $quote->collectTotals()->save();
@@ -219,12 +246,12 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
             $quote = $this->_getCheckoutSession()->getQuote();
         }
 
-        $cards = Mage::helper('Magento_GiftCardAccount_Helper_Data')->getCards($quote);
+        $cards = $this->_giftCardAccountData->getCards($quote);
         if ($cards) {
             foreach ($cards as $k => $one) {
                 if ($one['i'] == $this->getId()) {
                     unset($cards[$k]);
-                    Mage::helper('Magento_GiftCardAccount_Helper_Data')->setCards($quote, $cards);
+                    $this->_giftCardAccountData->setCards($quote, $cards);
 
                     if ($saveQuote) {
                         $quote->collectTotals()->save();

@@ -57,7 +57,6 @@
                 <directory>../app/code/Mage/Adminhtml/Block</directory>
                 <directory>../app/code/Mage/Install</directory>
                 <directory>../app/code/Mage/Reports</directory>
-                <directory>../app/code/Mage/Api/Model/Acl/Assert</directory>
                 <directory>../app/code/Mage/Index</directory>
                 <directory>../app/code/Mage/Cybersource</directory>
                 <file>../app/code/Mage/Captcha/Model/Captcha.php</file>

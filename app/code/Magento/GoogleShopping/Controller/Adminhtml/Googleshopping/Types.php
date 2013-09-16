@@ -198,7 +198,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Types extends M
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('The attribute mapping has been saved.'));
             if (!empty($requiredAttributes)) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')
-                    ->addSuccess(Mage::helper('Magento_GoogleShopping_Helper_Category')->getMessage());
+                    ->addSuccess($this->_objectManager->get('Magento_GoogleShopping_Helper_Category')->getMessage());
             }
         } catch (Exception $e) {
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);

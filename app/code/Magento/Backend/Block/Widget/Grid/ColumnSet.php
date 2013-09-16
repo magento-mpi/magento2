@@ -100,13 +100,16 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     protected $_totals = null;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory
+     * @param Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory
+     * $generatorFactory
      * @param Magento_Backend_Model_Widget_Grid_SubTotals $subtotals
      * @param Magento_Backend_Model_Widget_Grid_Totals $totals
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory,
         Magento_Backend_Model_Widget_Grid_SubTotals $subtotals,
@@ -127,7 +130,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
             array_key_exists('filter_visibility', $data) ? (bool) $data['filter_visibility'] : true
         );
 
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
 
         $this->setEmptyText(__(
             isset($data['empty_text'])? $data['empty_text'] : 'We couldn\'t find any records.'

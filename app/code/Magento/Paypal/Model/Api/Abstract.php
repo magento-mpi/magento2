@@ -69,7 +69,7 @@ abstract class Magento_Paypal_Model_Api_Abstract extends Magento_Object
      */
     protected $_recurringPaymentProfiles = array();
 
-   /**
+    /**
      * Fields that should be replaced in debug with '***'
      *
      * @var array
@@ -77,16 +77,31 @@ abstract class Magento_Paypal_Model_Api_Abstract extends Magento_Object
     protected $_debugReplacePrivateDataKeys = array();
 
     /**
+     * Customer address
+     *
+     * @var Magento_Customer_Helper_Address
+     */
+    protected $_customerAddress = null;
+
+    /**
      * @var Magento_Core_Model_Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param array $data
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Customer_Helper_Address $customerAddress
      */
-    public function __construct(Magento_Core_Model_Logger $logger, array $data = array())
-    {
+    public function __construct(
+        Magento_Customer_Helper_Address $customerAddress,
+        Magento_Core_Model_Logger $logger,
+        array $data = array()
+    ) {
+        $this->_customerAddress = $customerAddress;
         $this->_logger = $logger;
         parent::__construct($data);
     }
@@ -322,7 +337,7 @@ abstract class Magento_Paypal_Model_Api_Abstract extends Magento_Object
     /**
      * Export $this public data to private request array
      *
-     * @param array $internalRequestMap
+     * @param array $privateRequestMap
      * @param array $request
      * @return array
      */
@@ -516,7 +531,7 @@ abstract class Magento_Paypal_Model_Api_Abstract extends Magento_Object
      * (keys should go as 3rd, 4th[...] parameters)
      *
      * @param Magento_Object $address
-     * @param array $request
+     * @param array $to
      */
     protected function _importStreetFromAddress(Magento_Object $address, array &$to)
     {
@@ -526,7 +541,7 @@ abstract class Magento_Paypal_Model_Api_Abstract extends Magento_Object
             return;
         }
 
-        $street = Mage::helper('Magento_Customer_Helper_Address')
+        $street = $this->_customerAddress
             ->convertStreetLines($address->getStreet(), count($keys));
 
         $i = 0;

@@ -12,7 +12,6 @@
 /**
  * CatalogInventory Stock Status Indexer Model
  *
- * @method Magento_CatalogInventory_Model_Resource_Indexer_Stock _getResource()
  * @method Magento_CatalogInventory_Model_Resource_Indexer_Stock getResource()
  * @method int getProductId()
  * @method Magento_CatalogInventory_Model_Indexer_Stock setProductId(int $value)
@@ -68,6 +67,33 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Magento_Index_Model_I
         Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK,
         Magento_CatalogInventory_Helper_Data::XML_PATH_SHOW_OUT_OF_STOCK
     );
+
+    /**
+     * Catalog inventory data
+     *
+     * @var Magento_CatalogInventory_Helper_Data
+     */
+    protected $_catalogInventoryData = null;
+
+    /**
+     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_catalogInventoryData = $catalogInventoryData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
 
     /**
      * Initialize resource model
@@ -246,7 +272,7 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Magento_Index_Model_I
 
         // Saving stock item without product object
         // Register re-index price process if products out of stock hidden on Front-end
-        if (!Mage::helper('Magento_CatalogInventory_Helper_Data')->isShowOutOfStock() && !$object->getProduct()) {
+        if (!$this->_catalogInventoryData->isShowOutOfStock() && !$object->getProduct()) {
             $massObject = new Magento_Object();
             $massObject->setAttributesData(array('force_reindex_required' => 1));
             $massObject->setProductIds(array($object->getProductId()));

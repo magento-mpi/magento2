@@ -15,10 +15,8 @@ class Magento_Usa_Model_Shipping_Carrier_UpsTest extends PHPUnit_Framework_TestC
 
     public function setUp()
     {
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $simplexmlFactory = $this->getMock('Magento_Usa_Model_Simplexml_ElementFactory', array(), array(), '', false);
-        /** @var $simplexmlFactory Magento_Usa_Model_Simplexml_ElementFactory */
-        $this->_object = new Magento_Usa_Model_Shipping_Carrier_Ups($logger, $simplexmlFactory);
+        $this->_object = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Usa_Model_Shipping_Carrier_Ups');
     }
 
     public function testGetShipAcceptUrl()

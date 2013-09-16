@@ -100,7 +100,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
             if ($storeId && $useRedirects) {
                 // Redirect to preferred store view
                 if ($this->getRequest()->getQuery('isAjax', false) || $this->getRequest()->getQuery('ajax', false)) {
-                    $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+                    $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                         'url' => $this->getUrl('*/*/index', array('store' => $storeId, 'customer' => $customerId))
                     )));
                 } else {
@@ -228,7 +228,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
             $customer = $this->_coreRegistry->registry('checkout_current_customer');
             $store = $this->_coreRegistry->registry('checkout_current_store');
 
-            $source = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($this->getRequest()->getPost('source'));
+            $source = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonDecode($this->getRequest()->getPost('source'));
 
             // Reorder products
             if (isset($source['source_ordered']) && is_array($source['source_ordered'])) {
@@ -469,7 +469,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
 
         // Render page
         /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Composite');
+        $helper = $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;
@@ -515,7 +515,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
 
         // Render page
         /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Composite');
+        $helper = $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Composite');
         $helper->renderConfigureResult($this, $configureResult);
         return $this;
     }
@@ -560,7 +560,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
 
         // Render page
         /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Composite');
+        $helper = $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Composite');
         $helper->renderConfigureResult($this, $configureResult);
         return $this;
     }
@@ -580,7 +580,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                 'error' => __('An error has occurred. See error log for details.')
             );
         }
-        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**
@@ -646,7 +646,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
 
         // Render page
         /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Composite');
+        $helper = $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;
@@ -839,7 +839,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                 Magento_AdvancedCheckout_Block_Adminhtml_Sku_Abstract::LIST_TYPE,
             );
             /* @var $productHelper Magento_Catalog_Helper_Product */
-            $productHelper = Mage::helper('Magento_Catalog_Helper_Product');
+            $productHelper = $this->_objectManager->get('Magento_Catalog_Helper_Product');
             $listTypes = array_filter(explode(',', $listTypes));
             if (in_array(Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Abstract::LIST_TYPE, $listTypes)) {
                 // If results came from SKU error grid - clean them (submitted results are going to be re-checked)
@@ -939,7 +939,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
     protected function _processFiles($items)
     {
         /* @var $productHelper Magento_Catalog_Helper_Product */
-        $productHelper = Mage::helper('Magento_Catalog_Helper_Product');
+        $productHelper = $this->_objectManager->get('Magento_Catalog_Helper_Product');
         foreach ($items as $id => $item) {
             $buyRequest = new Magento_Object($item);
             $params = array('files_prefix' => 'item_' . $id . '_');
@@ -985,7 +985,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         }
 
         /** @var $helper Magento_AdvancedCheckout_Helper_Data */
-        $helper = Mage::helper('Magento_AdvancedCheckout_Helper_Data');
+        $helper = $this->_objectManager->get('Magento_AdvancedCheckout_Helper_Data');
         $rows = $helper->isSkuFileUploaded($this->getRequest())
             ? $helper->processSkuFileUploading($this->_getSession())
             : array();

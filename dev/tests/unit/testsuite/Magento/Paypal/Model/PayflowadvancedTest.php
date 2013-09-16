@@ -74,7 +74,6 @@ class Magento_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCas
             ->method('getOrder')
             ->will($this->returnValue($order));
         $request = new Magento_Paypal_Model_Payflow_Request;
-        $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
         $this->_modelClass = $this->getMock(
             'Magento_Paypal_Model_Payflowadvanced',
             array(
@@ -86,10 +85,7 @@ class Magento_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCas
                 '_buildTokenRequest',
                 '_getCallbackUrl'
             ),
-            array(
-                $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false),
-                $this->_moduleListMock
-            )
+            array(), '', false
         );
         $this->_modelClass->expects($this->any())
             ->method('getResponse')

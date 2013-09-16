@@ -54,6 +54,25 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_engine;
 
     /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve search query parameter name
      *
      * @return string
@@ -88,7 +107,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     public function isMinQueryLength()
     {
         $minQueryLength = $this->getMinQueryLength();
-        $thisQueryLength = Mage::helper('Magento_Core_Helper_String')->strlen($this->getQueryText());
+        $thisQueryLength = $this->_coreString->strlen($this->getQueryText());
         return !$thisQueryLength || $minQueryLength !== '' && $thisQueryLength < $minQueryLength;
     }
 
@@ -105,7 +124,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
                 $this->_queryText = '';
             } else {
                 /* @var $stringHelper Magento_Core_Helper_String */
-                $stringHelper = Mage::helper('Magento_Core_Helper_String');
+                $stringHelper = $this->_coreString;
                 $this->_queryText = is_array($this->_queryText) ? ''
                     : $stringHelper->cleanString(trim($this->_queryText));
 
@@ -266,7 +285,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
         }
 
         /* @var $stringHelper Magento_Core_Helper_String */
-        $stringHelper = Mage::helper('Magento_Core_Helper_String');
+        $stringHelper = $this->_coreString;
 
         $searchType = Mage::getStoreConfig(Magento_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE);
         if ($searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE

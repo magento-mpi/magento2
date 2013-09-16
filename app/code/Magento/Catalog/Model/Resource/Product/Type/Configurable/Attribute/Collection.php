@@ -41,6 +41,30 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
     protected $_product;
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute
+     * $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute  $resource
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($eventManager, $fetchStrategy, $resource);
+    }
+
+    /**
      * Initialize connection and define table names
      *
      */
@@ -52,16 +76,6 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
         );
         $this->_labelTable = $this->getTable('catalog_product_super_attribute_label');
         $this->_priceTable = $this->getTable('catalog_product_super_attribute_pricing');
-    }
-
-    /**
-     * Retrieve catalog helper
-     *
-     * @return Magento_Catalog_Helper_Data
-     */
-    public function getHelper()
-    {
-        return Mage::helper('Magento_Catalog_Helper_Data');
     }
 
     /**
@@ -215,7 +229,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
                 0 => array()
             );
 
-            if ($this->getHelper()->isPriceGlobal()) {
+            if ($this->_catalogData->isPriceGlobal()) {
                 $websiteId = 0;
             } else {
                 $websiteId = (int)Mage::app()->getStore($this->getStoreId())->getWebsiteId();

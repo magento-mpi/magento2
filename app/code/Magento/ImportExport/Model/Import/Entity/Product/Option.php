@@ -66,13 +66,6 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     protected $_resourceHelper;
 
     /**
-     * Array of data helpers
-     *
-     * @var array
-     */
-    protected $_helpers;
-
-    /**
      * Flag for global prices property
      *
      * @var bool
@@ -240,33 +233,38 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     protected $_pageSize;
 
     /**
-     * Constructor
+     * Catalog data
      *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        array $data = array()
+    ) {
+        $this->_catalogData = $catalogData;
+
         if (isset($data['connection'])) {
             $this->_connection = $data['connection'];
         } else {
             $this->_connection = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('write');
         }
+
         if (isset($data['resource_helper'])) {
             $this->_resourceHelper = $data['resource_helper'];
         } else {
             $this->_resourceHelper = Mage::getResourceHelper('Magento_ImportExport');
         }
 
-        if (isset($data['helpers'])) {
-            $this->_helpers = $data['helpers'];
-        }
-
         if (isset($data['is_price_global'])) {
             $this->_isPriceGlobal = $data['is_price_global'];
         } else {
-            /** @var $catalogHelper Magento_Catalog_Helper_Data */
-            $catalogHelper = Mage::helper('Magento_Catalog_Helper_Data');
-            $this->_isPriceGlobal = $catalogHelper->isPriceGlobal();
+            $this->_isPriceGlobal = $this->_catalogData->isPriceGlobal();
         }
 
         $this->_initSourceEntities($data)
@@ -322,17 +320,6 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
         );
         // @codingStandardsIgnoreEnd
         return $this;
-    }
-
-    /**
-     * Helper getter
-     *
-     * @param string $helperName
-     * @return Magento_Core_Helper_Abstract
-     */
-    protected function _helper($helperName)
-    {
-        return isset($this->_helpers[$helperName]) ? $this->_helpers[$helperName] : Mage::helper($helperName);
     }
 
     /**
