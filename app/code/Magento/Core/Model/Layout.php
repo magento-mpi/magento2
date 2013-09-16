@@ -812,7 +812,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         }
 
         $configPath = (string)$node->getAttribute('ifconfig');
-        if (!empty($configPath) && !Mage::getStoreConfigFlag($configPath)) {
+        if (!empty($configPath) && !$this->_coreStoreConfig->getConfigFlag($configPath)) {
             $this->_scheduledStructure->unsetElement($elementName);
             return;
         }
