@@ -203,6 +203,6 @@ class Magento_Install_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('etc', $pathesForCheck);
         $this->assertArrayHasKey('media', $pathesForCheck);
         $this->assertArrayHasKey('lib', $pathesForCheck);
-        $this->assertEquals('0', $pathesForCheck['etc']['recursive']);
+        $this->assertEquals('1', $pathesForCheck['etc']['recursive']);
     }
 }
