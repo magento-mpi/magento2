@@ -17,18 +17,29 @@ class Magento_Webhook_Block_Adminhtml_Subscription_EditTest extends Magento_Test
     /** @var  Magento_Webhook_Block_Adminhtml_Subscription_Edit */
     private $_block;
 
+    /** @var  Magento_Core_Helper_Data */
+    protected $_coreData;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->_coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+    }
+
     public function testGetHeaderTestExisting()
     {
         $subscriptionData = array(
             Magento_Webhook_Block_Adminhtml_Subscription_Edit::DATA_SUBSCRIPTION_ID => true,
             'alias' => 'alias_value');
+
         $this->_registry = new Magento_Core_Model_Registry();
         $this->_registry->register(Magento_Webhook_Block_Adminhtml_Subscription_Edit::REGISTRY_KEY_CURRENT_SUBSCRIPTION,
             $subscriptionData);
 
         $this->_block = new Magento_Webhook_Block_Adminhtml_Subscription_Edit(
-            $this->_registry,
-            $this->_context
+            $this->_coreData,
+            $this->_context,
+            $this->_registry
         );
         $this->assertEquals('Edit Subscription', $this->_block->getHeaderText());
 
@@ -40,8 +51,9 @@ class Magento_Webhook_Block_Adminhtml_Subscription_EditTest extends Magento_Test
     {
         $this->_registry = new Magento_Core_Model_Registry();
         $this->_block = new Magento_Webhook_Block_Adminhtml_Subscription_Edit(
-            $this->_registry,
-            $this->_context
+            $this->_coreData,
+            $this->_context,
+            $this->_registry
         );
 
         $this->assertEquals('Add Subscription', $this->_block->getHeaderText());

@@ -18,6 +18,22 @@
 class Magento_PageCache_Model_System_Config_Source_Controls
 {
     /**
+     * Page cache data
+     *
+     * @var Magento_PageCache_Helper_Data
+     */
+    protected $_pageCacheData = null;
+
+    /**
+     * @param Magento_PageCache_Helper_Data $pageCacheData
+     */
+    public function __construct(
+        Magento_PageCache_Helper_Data $pageCacheData
+    ) {
+        $this->_pageCacheData = $pageCacheData;
+    }
+
+    /**
      * Return array of external cache controls for using as options
      *
      * @return array
@@ -25,7 +41,7 @@ class Magento_PageCache_Model_System_Config_Source_Controls
     public function toOptionArray()
     {
         $options = array();
-        foreach (Mage::helper('Magento_PageCache_Helper_Data')->getCacheControls() as $code => $type) {
+        foreach ($this->_pageCacheData->getCacheControls() as $code => $type) {
             $options[] = array(
                 'value' => $code,
                 'label' => $type['label']

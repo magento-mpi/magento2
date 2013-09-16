@@ -24,7 +24,7 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Button_Delete extends Mag
      */
     protected function _toHtml()
     {
-        if (Mage::helper('Magento_MultipleWishlist_Helper_Data')->isMultipleEnabled() && $this->isWishlistDeleteable()) {
+        if ($this->_wishlistData->isMultipleEnabled() && $this->isWishlistDeleteable()) {
             return parent::_toHtml();
         }
         return '';
@@ -37,7 +37,7 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Button_Delete extends Mag
      */
     protected function isWishlistDeleteable()
     {
-        return !Mage::helper('Magento_MultipleWishlist_Helper_Data')->isWishlistDefault($this->getWishlistInstance());
+        return !$this->_wishlistData->isWishlistDefault($this->getWishlistInstance());
     }
 
     /**

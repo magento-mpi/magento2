@@ -24,6 +24,22 @@ class Magento_GoogleAnalytics_Model_Observer
     protected $_isGoogleCheckoutLinkAdded = false;
 
     /**
+     * Google analytics data
+     *
+     * @var Magento_GoogleAnalytics_Helper_Data
+     */
+    protected $_googleAnalyticsData = null;
+
+    /**
+     * @param Magento_GoogleAnalytics_Helper_Data $googleAnalyticsData
+     */
+    public function __construct(
+        Magento_GoogleAnalytics_Helper_Data $googleAnalyticsData
+    ) {
+        $this->_googleAnalyticsData = $googleAnalyticsData;
+    }
+
+    /**
      * Add order information into GA block to render on checkout success pages
      *
      * @param Magento_Event_Observer $observer
@@ -53,13 +69,14 @@ class Magento_GoogleAnalytics_Model_Observer
     public function injectAnalyticsInGoogleCheckoutLink(Magento_Event_Observer $observer)
     {
         $block = $observer->getEvent()->getBlock();
-        if (!$block || !Mage::helper('Magento_GoogleAnalytics_Helper_Data')->isGoogleAnalyticsAvailable()) {
+        if (!$block || !$this->_googleAnalyticsData->isGoogleAnalyticsAvailable()) {
             return;
         }
 
         // make sure to track google checkout "onsubmit"
         $onsubmitJs = $block->getOnsubmitJs();
-        $block->setOnsubmitJs($onsubmitJs . ($onsubmitJs ? '; ' : '') . '_gaq.push(function() {var pageTracker = _gaq._getAsyncTracker(); setUrchinInputCode(pageTracker);});');
+        $block->setOnsubmitJs($onsubmitJs . ($onsubmitJs ? '; ' : '')
+        . '_gaq.push(function() {var pageTracker = _gaq._getAsyncTracker(); setUrchinInputCode(pageTracker);});');
 
         // add a link that includes google checkout/analytics script, to the first instance of the link block
         if ($this->_isGoogleCheckoutLinkAdded) {

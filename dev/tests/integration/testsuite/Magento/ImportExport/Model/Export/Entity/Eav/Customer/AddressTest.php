@@ -73,9 +73,13 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
 
         $this->assertNotEmpty($data['data'], 'No data was exported');
 
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
         // Get addresses
         /** @var $customers Magento_Customer_Model_Customer[] */
-        $customers = Mage::registry('_fixture/Magento_ImportExport_Customers_Array');
+        $customers = $objectManager->get('Magento_Core_Model_Registry')
+            ->registry('_fixture/Magento_ImportExport_Customers_Array');
         foreach ($customers as $customer) {
             /** @var $address Magento_Customer_Model_Address */
             foreach ($customer->getAddresses() as $address) {
@@ -141,9 +145,13 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
 
         $this->_model->setParameters($filterData);
 
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
         // Get expected address count
         /** @var $customers Magento_Customer_Model_Customer[] */
-        $customers = Mage::registry('_fixture/Magento_ImportExport_Customers_Array');
+        $customers = $objectManager->get('Magento_Core_Model_Registry')
+            ->registry('_fixture/Magento_ImportExport_Customers_Array');
         $expectedCount = 0;
         foreach ($customers as $customer) {
             if ($customer->getGender() == $genderFilterValue) {

@@ -60,6 +60,43 @@ class Magento_SalesRule_Model_Validator extends Magento_Core_Model_Abstract
     protected $_skipActionsValidation = false;
 
     /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_taxData = $taxData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Init validator
      * Init process load collection of rules for specific website,
      * customer group and coupon code
@@ -415,7 +452,7 @@ class Magento_SalesRule_Model_Validator extends Magento_Core_Model_Abstract
                 'discount_amount'      => $discountAmount,
                 'base_discount_amount' => $baseDiscountAmount,
             ));
-            Mage::dispatchEvent('salesrule_validator_process', array(
+            $this->_eventManager->dispatch('salesrule_validator_process', array(
                 'rule'    => $rule,
                 'item'    => $item,
                 'address' => $address,
@@ -740,7 +777,7 @@ class Magento_SalesRule_Model_Validator extends Magento_Core_Model_Abstract
      */
     protected function _getItemOriginalPrice($item)
     {
-        return Mage::helper('Magento_Tax_Helper_Data')->getPrice($item, $item->getOriginalPrice(), true);
+        return $this->_taxData->getPrice($item, $item->getOriginalPrice(), true);
     }
 
     /**
@@ -763,7 +800,7 @@ class Magento_SalesRule_Model_Validator extends Magento_Core_Model_Abstract
      */
     protected function _getItemBaseOriginalPrice($item)
     {
-        return Mage::helper('Magento_Tax_Helper_Data')->getPrice($item, $item->getBaseOriginalPrice(), true);
+        return $this->_taxData->getPrice($item, $item->getBaseOriginalPrice(), true);
     }
 
     /**

@@ -17,16 +17,36 @@
  */
 class Magento_GiftRegistry_Controller_Adminhtml_Giftregistry_Customer extends Magento_Adminhtml_Controller_Action
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
     protected function _initEntity($requestParam = 'id')
     {
         $entity = Mage::getModel('Magento_GiftRegistry_Model_Entity');
-        if ($entityId = $this->getRequest()->getParam($requestParam)) {
+        $entityId = $this->getRequest()->getParam($requestParam);
+        if ($entityId) {
             $entity->load($entityId);
             if (!$entity->getId()) {
                 Mage::throwException(__('Please correct the gift registry entity.'));
             }
         }
-        Mage::register('current_giftregistry_entity', $entity);
+        $this->_coreRegistry->register('current_giftregistry_entity', $entity);
         return $entity;
     }
 
@@ -152,8 +172,8 @@ class Magento_GiftRegistry_Controller_Adminhtml_Giftregistry_Customer extends Ma
     public function shareAction()
     {
         $model = $this->_initEntity();
-
-        if ($data = $this->getRequest()->getParam('emails')) {
+        $data = $this->getRequest()->getParam('emails');
+        if ($data) {
             $emails = explode(',', $data);
             $emailsForSend = array();
 
@@ -185,8 +205,7 @@ class Magento_GiftRegistry_Controller_Adminhtml_Giftregistry_Customer extends Ma
                 if (empty($emailsForSend)) {
                     Mage::throwException(__('Please enter at least one email address.'));
                 }
-            }
-            catch (Magento_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
 
@@ -214,8 +233,7 @@ class Magento_GiftRegistry_Controller_Adminhtml_Giftregistry_Customer extends Ma
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
                 __('You deleted this gift registry entity.')
             );
-        }
-        catch (Magento_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('id' => $model->getId()));
             return;

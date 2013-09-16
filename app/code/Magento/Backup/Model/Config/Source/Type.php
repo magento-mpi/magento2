@@ -18,6 +18,22 @@
 class Magento_Backup_Model_Config_Source_Type implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
+     * Backup data
+     *
+     * @var Magento_Backup_Helper_Data
+     */
+    protected $_backupData = null;
+
+    /**
+     * @param Magento_Backup_Helper_Data $backupData
+     */
+    public function __construct(
+        Magento_Backup_Helper_Data $backupData
+    ) {
+        $this->_backupData = $backupData;
+    }
+
+    /**
      * return possible options
      *
      * @return array
@@ -25,7 +41,7 @@ class Magento_Backup_Model_Config_Source_Type implements Magento_Core_Model_Opti
     public function toOptionArray()
     {
         $backupTypes = array();
-        foreach(Mage::helper('Magento_Backup_Helper_Data')->getBackupTypes() as $type => $label) {
+        foreach($this->_backupData->getBackupTypes() as $type => $label) {
             $backupTypes[] = array(
                 'label' => $label,
                 'value' => $type,

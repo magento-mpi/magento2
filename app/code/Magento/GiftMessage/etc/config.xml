@@ -28,26 +28,4 @@
             </gift_messages>
         </sales>
     </default>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_GiftMessage>
-                    <files>
-                        <default>Magento_GiftMessage.csv</default>
-                    </files>
-                </Magento_GiftMessage>
-            </modules>
-        </translate>
-    </adminhtml>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_GiftMessage>
-                    <files>
-                        <default>Magento_GiftMessage.csv</default>
-                    </files>
-                </Magento_GiftMessage>
-            </modules>
-        </translate>
-    </frontend>
 </config>

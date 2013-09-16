@@ -28,7 +28,6 @@ class Magento_Core_Model_Layout_ElementTest extends PHPUnit_Framework_TestCase
         list($actionNode) = $this->_model->xpath('//action[@method="setTitle"]');
 
         $this->assertEmpty($blockNode->attributes()->parent);
-        $this->assertEmpty($blockNode->attributes()->type);
         $this->assertEmpty($actionNode->attributes()->block);
 
         $this->_model->prepare(array());

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Rma_Helper_Data">
+        <param name="app">
+            <instance type="Magento_Core_Model_AppProxy" />
+        </param>
+        <param name="storeConfig">
+            <instance type="Magento_Core_Model_Store_ConfigProxy" />
+        </param>
+    </type>
+</config>

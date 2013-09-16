@@ -18,6 +18,30 @@
 class Magento_Reward_Model_Action_InvitationOrder extends Magento_Reward_Model_Action_Abstract
 {
     /**
+     * Reward data
+     *
+     * @var Magento_Reward_Helper_Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Reward_Helper_Data $rewardData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Reward_Helper_Data $rewardData,
+        array $data = array()
+    ) {
+        $this->_rewardData = $rewardData;
+        parent::__construct($data);
+    }
+
+    /**
      * Retrieve points delta for action
      *
      * @param int $websiteId
@@ -25,7 +49,7 @@ class Magento_Reward_Model_Action_InvitationOrder extends Magento_Reward_Model_A
      */
     public function getPoints($websiteId)
     {
-        return (int)Mage::helper('Magento_Reward_Helper_Data')->getPointsConfig('invitation_order', $websiteId);
+        return (int)$this->_rewardData->getPointsConfig('invitation_order', $websiteId);
     }
 
     /**
@@ -35,7 +59,7 @@ class Magento_Reward_Model_Action_InvitationOrder extends Magento_Reward_Model_A
      */
     public function canAddRewardPoints()
     {
-        $frequency = Mage::helper('Magento_Reward_Helper_Data')->getPointsConfig(
+        $frequency = $this->_rewardData->getPointsConfig(
             'invitation_order_frequency', $this->getReward()->getWebsiteId()
         );
         if ($frequency == '*') {
@@ -52,7 +76,7 @@ class Magento_Reward_Model_Action_InvitationOrder extends Magento_Reward_Model_A
      */
     public function getRewardLimit()
     {
-        return Mage::helper('Magento_Reward_Helper_Data')->getPointsConfig(
+        return $this->_rewardData->getPointsConfig(
             'invitation_order_limit',
             $this->getReward()->getWebsiteId()
         );

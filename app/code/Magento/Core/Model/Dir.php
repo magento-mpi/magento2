@@ -45,7 +45,7 @@ class Magento_Core_Model_Dir
     /**
      * Files with translation of system labels and messages from en_US to other languages
      */
-    const LOCALE = 'locale';
+    const LOCALE = 'i18n';
 
     /**
      * Directory within document root of a web-server to access static view files publicly
@@ -127,7 +127,6 @@ class Magento_Core_Model_Dir
         self::THEMES        => 'app/design',
         self::CONFIG        => 'app/etc',
         self::LIB           => 'lib',
-        self::LOCALE        => 'app/locale',
         self::VAR_DIR       => 'var',
         self::TMP           => 'var/tmp',
         self::CACHE         => 'var/cache',

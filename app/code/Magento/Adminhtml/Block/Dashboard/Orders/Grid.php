@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_Dashboard_Orders_Grid extends Magento_Adminhtml_Bl
 
     protected function _prepareCollection()
     {
-        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Magento_Reports')) {
+        if (!$this->_coreData->isModuleEnabled('Magento_Reports')) {
             return $this;
         }
         $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Order_Collection')
@@ -63,7 +63,8 @@ class Magento_Adminhtml_Block_Dashboard_Orders_Grid extends Magento_Adminhtml_Bl
     protected function _preparePage()
     {
         $this->getCollection()->setPageSize($this->getParam($this->getVarNameLimit(), $this->_defaultLimit));
-        // Remove count of total orders $this->getCollection()->setCurPage($this->getParam($this->getVarNamePage(), $this->_defaultPage));
+//        Remove count of total orders
+//        $this->getCollection()->setCurPage($this->getParam($this->getVarNamePage(), $this->_defaultPage));
     }
 
     protected function _prepareColumns()

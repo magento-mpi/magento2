@@ -367,7 +367,7 @@ class Magento_Backend_Block_Widget_Tabs extends Magento_Backend_Block_Widget
             }
         }
         if ($asJson) {
-            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+            return $this->_coreData->jsonEncode($result);
         }
         return $result;
     }

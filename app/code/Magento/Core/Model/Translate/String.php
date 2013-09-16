@@ -30,14 +30,13 @@ class Magento_Core_Model_Translate_String extends Magento_Core_Model_Abstract
     {
         $this->_init('Magento_Core_Model_Resource_Translate_String');
     }
-    
+
     public function setString($string)
     {
         $this->setData('string', $string);
-        //$this->setData('string', strtolower($string));
         return $this;
     }
-    
+
     /**
      * Retrieve string
      *
@@ -45,7 +44,6 @@ class Magento_Core_Model_Translate_String extends Magento_Core_Model_Abstract
      */
     public function getString()
     {
-        //return strtolower($this->getData('string'));
         return $this->getData('string');
     }
 }

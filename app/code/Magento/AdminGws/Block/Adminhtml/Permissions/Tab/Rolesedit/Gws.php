@@ -19,16 +19,28 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mag
     protected $_storeManager;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $data);
         $this->_storeManager = $storeManager;
     }
 
@@ -43,11 +55,11 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mag
             return false;
         }
 
-        if (!Mage::registry('current_role')->getId()) {
+        if (!$this->_coreRegistry->registry('current_role')->getId()) {
             return true;
         }
 
-        return Mage::registry('current_role')->getGwsIsAll();
+        return $this->_coreRegistry->registry('current_role')->getGwsIsAll();
     }
 
     /**
@@ -57,7 +69,7 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mag
      */
     public function getRole()
     {
-        return Mage::registry('current_role');
+        return $this->_coreRegistry->registry('current_role');
     }
 
     /**
@@ -86,7 +98,7 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mag
                 }
             }
         }
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 
     /**

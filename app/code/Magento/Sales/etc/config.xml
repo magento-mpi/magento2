@@ -372,27 +372,7 @@
         <secure_url>
             <sales>/sales/</sales>
         </secure_url>
-        <translate>
-            <modules>
-                <Magento_Sales>
-                    <files>
-                        <default>Magento_Sales.csv</default>
-                    </files>
-                </Magento_Sales>
-            </modules>
-        </translate>
     </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Sales>
-                    <files>
-                        <default>Magento_Sales.csv</default>
-                    </files>
-                </Magento_Sales>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <sales>
             <totals_sort>

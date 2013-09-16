@@ -14,8 +14,34 @@
  * @category   Magento
  * @package    Magento_CatalogEvent
  */
-class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
+    /**
+     * Adminhtml data
+     *
+     * @var Magento_Backend_Helper_Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Backend_Helper_Data $adminhtmlData
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Backend_Helper_Data $adminhtmlData,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_adminhtmlData = $adminhtmlData;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
 
     /**
      * Return form action url
@@ -51,14 +77,15 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Admin
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(
-            array(
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
                 'id'      => 'edit_form',
                 'action'  => $this->getActionUrl(),
                 'method'  => 'post',
                 'field_name_suffix' => 'catalogevent',
-                'enctype' => 'multipart/form-data'
-            )
+                'enctype' => 'multipart/form-data',
+            ))
         );
 
         $form->setHtmlIdPrefix('event_edit_');
@@ -142,7 +169,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Admin
 
         if ($currentCategory && $this->getEvent()->getId()) {
             $form->getElement('category_name')->setText(
-                '<a href="' . Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/catalog_category/edit',
+                '<a href="' . $this->_adminhtmlData->getUrl('adminhtml/catalog_category/edit',
                                                             array('clear' => 1, 'id' => $currentCategory->getId()))
                 . '">' . $currentCategory->getName() . '</a>'
             );
@@ -185,7 +212,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Admin
      */
     public function getEvent()
     {
-        return Mage::registry('magento_catalogevent_event');
+        return $this->_coreRegistry->registry('magento_catalogevent_event');
     }
 
     /**
@@ -197,5 +224,4 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Admin
     {
         return array('image' => 'Magento_CatalogEvent_Block_Adminhtml_Event_Helper_Image');
     }
-
 }

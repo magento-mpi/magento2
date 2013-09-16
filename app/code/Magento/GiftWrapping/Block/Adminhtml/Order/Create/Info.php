@@ -81,7 +81,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Info
      */
     public function getDisplayCardBothPrices()
     {
-        return Mage::helper('Magento_GiftWrapping_Helper_Data')->displayCartCardBothPrices($this->getStoreId());
+        return $this->_giftWrappingData->displayCartCardBothPrices($this->getStoreId());
     }
 
     /**
@@ -91,7 +91,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Info
      */
     public function getDisplayCardPriceInclTax()
     {
-        return Mage::helper('Magento_GiftWrapping_Helper_Data')->displayCartCardIncludeTaxPrice($this->getStoreId());
+        return $this->_giftWrappingData->displayCartCardIncludeTaxPrice($this->getStoreId());
     }
 
     /**
@@ -101,7 +101,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Info
      */
     public function getAllowPrintedCard()
     {
-        return Mage::helper('Magento_GiftWrapping_Helper_Data')->allowPrintedCard($this->getStoreId());
+        return $this->_giftWrappingData->allowPrintedCard($this->getStoreId());
     }
 
     /**
@@ -111,7 +111,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Info
      */
     public function getAllowGiftReceipt()
     {
-        return Mage::helper('Magento_GiftWrapping_Helper_Data')->allowGiftReceipt($this->getStoreId());
+        return $this->_giftWrappingData->allowGiftReceipt($this->getStoreId());
     }
 
     /**
@@ -121,7 +121,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Info
      */
     public function canDisplayGiftWrappingForOrder()
     {
-        return (Mage::helper('Magento_GiftWrapping_Helper_Data')->isGiftWrappingAvailableForOrder($this->getStoreId())
+        return ($this->_giftWrappingData->isGiftWrappingAvailableForOrder($this->getStoreId())
             || $this->getAllowPrintedCard()
             || $this->getAllowGiftReceipt())
                 && !$this->getQuote()->isVirtual();
@@ -134,7 +134,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Info
      */
     public function isGiftWrappingForEntireOrder()
     {
-        return Mage::helper('Magento_GiftWrapping_Helper_Data')->isGiftWrappingAvailableForOrder($this->getStoreId());
+        return $this->_giftWrappingData->isGiftWrappingAvailableForOrder($this->getStoreId());
     }
 
     /**
@@ -144,7 +144,8 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Info
      *
      * @return void
      */
-    public function getRefreshWrappingUrl() {
+    public function getRefreshWrappingUrl()
+    {
         return $this->getUrl('*/giftwrapping/orderOptions');
     }
 }

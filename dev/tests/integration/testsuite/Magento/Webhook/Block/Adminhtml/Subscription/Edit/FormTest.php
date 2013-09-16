@@ -20,7 +20,7 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends PHPUnit
         $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Layout');
 
         /** @var Magento_Core_Model_Registry $registry */
-        $registry = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Registry');
+        $registry = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Registry');
         $subscription = array(
             'name' => 'subscriptionName',
             'endpoint_url' => 'example.url.com',

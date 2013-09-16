@@ -13,6 +13,40 @@
  */
 class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_taxData = $taxData;
+        $this->_coreRegistry = $registry;
+        parent::__construct($catalogData, $coreData, $context, $data);
+    }
 
     /**
      * Return list of gift registry items
@@ -46,11 +80,11 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
                     ->setOptions($item->getOptions());
 
                 $product->setCustomOptions($item->getOptionsByCode());
-                if (Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($product)) {
+                if ($this->_catalogData->canApplyMsrp($product)) {
                     $quoteItem->setCanApplyMsrp(true);
                     $product->setRealPriceHtml(
                         Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
-                            Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $product->getFinalPrice(), true)
+                            $this->_taxData->getPrice($product, $product->getFinalPrice(), true)
                         ))
                     );
                     $product->setAddToCartUrl($this->helper('Magento_Checkout_Helper_Cart')->getAddUrl($product));
@@ -75,7 +109,7 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
     public function getEntity()
     {
          if (!$this->hasEntity()) {
-            $this->setData('entity', Mage::registry('current_entity'));
+            $this->setData('entity', $this->_coreRegistry->registry('current_entity'));
         }
         return $this->_getData('entity');
     }
@@ -83,7 +117,6 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
     /**
      * Return "add to cart" url
      *
-     * @param Magento_GiftRegistry_Model_Item $item
      * @return string
      */
     public function getActionUrl()
@@ -110,5 +143,4 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
     {
         return $this->getUrl('giftregistry');
     }
-
 }

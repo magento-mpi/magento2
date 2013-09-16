@@ -46,7 +46,7 @@ class Magento_FullPageCache_Model_Container_Wishlistlinks extends Magento_FullPa
         /** @var $block Magento_Core_Block_Template */
         $block = Mage::app()->getLayout()->createBlock($block);
 
-        Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+        $this->_eventManager->dispatch('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
         return $block->toHtml();
     }
 }

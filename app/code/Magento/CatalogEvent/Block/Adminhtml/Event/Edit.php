@@ -8,12 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Catalog Events edit page
- *
- * @category   Magento
- * @package    Magento_CatalogEvent
  */
 class Magento_CatalogEvent_Block_Adminhtml_Event_Edit
     extends Magento_Adminhtml_Block_Widget_Form_Container
@@ -21,6 +17,29 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit
     protected $_objectId = 'id';
     protected $_blockGroup = 'Magento_CatalogEvent';
     protected $_controller = 'adminhtml_event';
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Prepare catalog event form or category selector
@@ -112,8 +131,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit
     {
         if ($this->getEvent()->getId()) {
             return __('Edit Catalog Event');
-        }
-        else {
+        } else {
             return __('Add Catalog Event');
         }
     }
@@ -125,7 +143,6 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit
      */
     public function getEvent()
     {
-        return Mage::registry('magento_catalogevent_event');
+        return $this->_coreRegistry->registry('magento_catalogevent_event');
     }
-
 }

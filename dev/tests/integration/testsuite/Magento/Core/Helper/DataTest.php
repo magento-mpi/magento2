@@ -34,7 +34,7 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_helper = Mage::helper('Magento_Core_Helper_Data');
+        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data');
         $this->_dateTime = new DateTime;
         $this->_dateTime->setTimezone(new DateTimeZone(self::DATE_TIMEZONE));
     }
@@ -164,10 +164,35 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
         $expectedTarget = new Magento_Object($data);
         $expectedTarget->setDataChanges(true); // hack for assertion
 
-        $this->assertFalse($this->_helper->copyFieldset($fieldset, $aspect, 'invalid_source', array()));
-        $this->assertFalse($this->_helper->copyFieldset('invalid_fieldset', $aspect, array(), array()));
-        $this->assertTrue($this->_helper->copyFieldset($fieldset, $aspect, $source, $target));
+        $this->assertNull($this->_helper->copyFieldsetToTarget($fieldset, $aspect, 'invalid_source', array()));
+        $this->assertNull($this->_helper->copyFieldsetToTarget($fieldset, $aspect, array(), 'invalid_target'));
+        $this->assertEquals(
+            $target,
+            $this->_helper->copyFieldsetToTarget('invalid_fieldset', $aspect, $source, $target)
+        );
+        $this->assertSame($target, $this->_helper->copyFieldsetToTarget($fieldset, $aspect, $source, $target));
         $this->assertEquals($expectedTarget, $target);
+    }
+
+    public function testCopyFieldsetArrayTarget()
+    {
+        $fieldset = 'sales_copy_order';
+        $aspect = 'to_edit';
+        $data = array(
+            'customer_email' => 'admin@example.com',
+            'customer_group_id' => '1',
+        );
+        $source = new Magento_Object($data);
+        $target = array();
+        $expectedTarget = $data;
+
+        $this->assertEquals(
+            $target,
+            $this->_helper->copyFieldsetToTarget('invalid_fieldset', $aspect, $source, $target)
+        );
+        $this->assertEquals(
+            $expectedTarget,
+            $this->_helper->copyFieldsetToTarget($fieldset, $aspect, $source, $target));
     }
 
     public function testDecorateArray()

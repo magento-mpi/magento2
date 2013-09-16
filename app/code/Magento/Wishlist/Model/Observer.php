@@ -16,6 +16,33 @@
 class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
 {
     /**
+     * Wishlist data
+     *
+     * @var Magento_Wishlist_Helper_Data
+     */
+    protected $_wishlistData = null;
+
+    /**
+     * @param Magento_Wishlist_Helper_Data $wishlistData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Wishlist_Helper_Data $wishlistData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_wishlistData = $wishlistData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Get customer wishlist model instance
      *
      * @param   int $customerId
@@ -68,7 +95,7 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
 
         if (!empty($productIds)) {
             $wishlist->save();
-            Mage::helper('Magento_Wishlist_Helper_Data')->calculate();
+            $this->_wishlistData->calculate();
         }
         return $this;
     }
@@ -86,7 +113,7 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
             $wishlistIds = array($singleWishlistId);
         }
 
-        if (count($wishlistIds) && $request->getParam('wishlist_next')){
+        if (count($wishlistIds) && $request->getParam('wishlist_next')) {
             $wishlistId = array_shift($wishlistIds);
 
             if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
@@ -101,9 +128,10 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
 
             $wishlist->getItemCollection()->load();
 
-            foreach($wishlist->getItemCollection() as $wishlistItem){
-                if ($wishlistItem->getId() == $wishlistId)
+            foreach ($wishlist->getItemCollection() as $wishlistItem) {
+                if ($wishlistItem->getId() == $wishlistId) {
                     $wishlistItem->delete();
+                }
             }
             Mage::getSingleton('Magento_Checkout_Model_Session')->setWishlistIds($wishlistIds);
             Mage::getSingleton('Magento_Checkout_Model_Session')->setSingleWishlistId(null);
@@ -131,7 +159,7 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
      */
     public function customerLogin(Magento_Event_Observer $observer)
     {
-        Mage::helper('Magento_Wishlist_Helper_Data')->calculate();
+        $this->_wishlistData->calculate();
 
         return $this;
     }
@@ -148,5 +176,4 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
 
         return $this;
     }
-
 }

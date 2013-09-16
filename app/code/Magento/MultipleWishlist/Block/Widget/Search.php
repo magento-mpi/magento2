@@ -15,7 +15,8 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Block_Widget_Search extends Magento_Core_Block_Template implements Magento_Widget_Block_Interface
+class Magento_MultipleWishlist_Block_Widget_Search extends Magento_Core_Block_Template 
+    implements Magento_Widget_Block_Interface
 {
     /**
      * Search form select options
@@ -120,7 +121,7 @@ class Magento_MultipleWishlist_Block_Widget_Search extends Magento_Core_Block_Te
     public function getBlockId()
     {
         if ($this->getData('id') === null) {
-            $this->setData('id', Mage::helper('Magento_Core_Helper_Data')->uniqHash());
+            $this->setData('id', $this->_coreData->uniqHash());
         }
         return $this->getData('id');
     }

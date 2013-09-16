@@ -17,6 +17,32 @@
  */
 class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Magento_Adminhtml_Block_Widget_Grid
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -38,7 +64,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Magento_Admi
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Grid_Collection')
-            ->addFieldToFilter('customer_id', Mage::registry('current_customer')->getId())
+            ->addFieldToFilter('customer_id', $this->_coreRegistry->registry('current_customer')->getId())
             ->setIsCustomerMode(true);
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -106,5 +132,4 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Magento_Admi
     {
         return ($this->getCollection()->getSize() >= 0);
     }
-
 }

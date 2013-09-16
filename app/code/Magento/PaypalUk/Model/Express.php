@@ -44,7 +44,7 @@ class Magento_PaypalUk_Model_Express extends Magento_Paypal_Model_Express
             return false;
         }
         if (!$this->_ecInstance) {
-            $this->_ecInstance = Mage::helper('Magento_Payment_Helper_Data')
+            $this->_ecInstance = $this->_paymentData
                 ->getMethodInstance(Magento_Paypal_Model_Config::METHOD_WPP_EXPRESS);
         }
         if ($quote && $this->_ecInstance) {
@@ -66,7 +66,8 @@ class Magento_PaypalUk_Model_Express extends Magento_Paypal_Model_Express
                 $api->getRedirectRequired() || $api->getRedirectRequested()
             )
             ->setIsTransactionPending($api->getIsPaymentPending())
-            ->setTransactionAdditionalInfo(Magento_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID, $api->getTransactionId())
+            ->setTransactionAdditionalInfo(Magento_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID,
+                $api->getTransactionId())
         ;
         $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getTransactionId()));
         Mage::getModel('Magento_Paypal_Model_Info')->importToPayment($api, $payment);

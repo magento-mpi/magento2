@@ -15,8 +15,10 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Entity for editing of gift message
@@ -120,7 +122,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
      */
     public function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset('main', array('no_container'=>true));
 
         $fieldset->addField('type','hidden',

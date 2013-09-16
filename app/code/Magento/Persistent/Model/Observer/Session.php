@@ -23,6 +23,32 @@ class Magento_Persistent_Model_Observer_Session
      *
      * @param Magento_Event_Observer $observer
      */
+    /**
+     * Persistent session
+     *
+     * @var Magento_Persistent_Helper_Session
+     */
+    protected $_persistentSession = null;
+
+    /**
+     * Persistent data
+     *
+     * @var Magento_Persistent_Helper_Data
+     */
+    protected $_persistentData = null;
+
+    /**
+     * @param Magento_Persistent_Helper_Data $persistentData
+     * @param Magento_Persistent_Helper_Session $persistentSession
+     */
+    public function __construct(
+        Magento_Persistent_Helper_Data $persistentData,
+        Magento_Persistent_Helper_Session $persistentSession
+    ) {
+        $this->_persistentData = $persistentData;
+        $this->_persistentSession = $persistentSession;
+    }
+
     public function synchronizePersistentOnLogin(Magento_Event_Observer $observer)
     {
         /** @var $customer Magento_Customer_Model_Customer */
@@ -30,22 +56,22 @@ class Magento_Persistent_Model_Observer_Session
         // Check if customer is valid (remove persistent cookie for invalid customer)
         if (!$customer
             || !$customer->getId()
-            || !Mage::helper('Magento_Persistent_Helper_Session')->isRememberMeChecked()
+            || !$this->_persistentSession->isRememberMeChecked()
         ) {
             Mage::getModel('Magento_Persistent_Model_Session')->removePersistentCookie();
             return;
         }
 
-        $persistentLifeTime = Mage::helper('Magento_Persistent_Helper_Data')->getLifeTime();
+        $persistentLifeTime = $this->_persistentData->getLifeTime();
         // Delete persistent session, if persistent could not be applied
-        if (Mage::helper('Magento_Persistent_Helper_Data')->isEnabled() && ($persistentLifeTime <= 0)) {
+        if ($this->_persistentData->isEnabled() && ($persistentLifeTime <= 0)) {
             // Remove current customer persistent session
             Mage::getModel('Magento_Persistent_Model_Session')->deleteByCustomerId($customer->getId());
             return;
         }
 
         /** @var $sessionModel Magento_Persistent_Model_Session */
-        $sessionModel = Mage::helper('Magento_Persistent_Helper_Session')->getSession();
+        $sessionModel = $this->_persistentSession->getSession();
 
         // Check if session is wrong or not exists, so create new session
         if (!$sessionModel->getId() || ($sessionModel->getCustomerId() != $customer->getId())) {
@@ -58,7 +84,7 @@ class Magento_Persistent_Model_Observer_Session
                     ->save();
             }
 
-            Mage::helper('Magento_Persistent_Helper_Session')->setSession($sessionModel);
+            $this->_persistentSession->setSession($sessionModel);
         }
 
         // Set new cookie
@@ -78,8 +104,7 @@ class Magento_Persistent_Model_Observer_Session
      */
     public function synchronizePersistentOnLogout(Magento_Event_Observer $observer)
     {
-        $helper = Mage::helper('Magento_Persistent_Helper_Data');
-        if (!$helper->isEnabled() || !$helper->getClearOnLogout()) {
+        if (!$this->_persistentData->isEnabled() || !$this->_persistentData->getClearOnLogout()) {
             return;
         }
 
@@ -93,7 +118,7 @@ class Magento_Persistent_Model_Observer_Session
         Mage::getModel('Magento_Persistent_Model_Session')->removePersistentCookie();
 
         // Unset persistent session
-        Mage::helper('Magento_Persistent_Helper_Session')->setSession(null);
+        $this->_persistentSession->setSession(null);
     }
 
     /**
@@ -103,15 +128,14 @@ class Magento_Persistent_Model_Observer_Session
      */
     public function synchronizePersistentInfo(Magento_Event_Observer $observer)
     {
-        $helper = Mage::helper('Magento_Persistent_Helper_Session');
-        if (!Mage::helper('Magento_Persistent_Helper_Data')->isEnabled()
-            || !$helper->isPersistent()
+        if (!$this->_persistentData->isEnabled()
+            || !$this->_persistentSession->isPersistent()
         ) {
             return;
         }
 
         /** @var $sessionModel Magento_Persistent_Model_Session */
-        $sessionModel = $helper->getSession();
+        $sessionModel = $this->_persistentSession->getSession();
 
         /** @var $request Magento_Core_Controller_Request_Http */
         $request = $observer->getEvent()->getFront()->getRequest();
@@ -131,10 +155,9 @@ class Magento_Persistent_Model_Observer_Session
      */
     public function setRememberMeCheckedStatus(Magento_Event_Observer $observer)
     {
-        $helper = Mage::helper('Magento_Persistent_Helper_Data');
-        if (!$helper->canProcess($observer)
-            || !$helper->isEnabled()
-            || !$helper->isRememberMeEnabled()
+        if (!$this->_persistentData->canProcess($observer)
+            || !$this->_persistentData->isEnabled()
+            || !$this->_persistentData->isRememberMeEnabled()
         ) {
             return;
         }
@@ -143,7 +166,7 @@ class Magento_Persistent_Model_Observer_Session
         $controllerAction = $observer->getEvent()->getControllerAction();
         if ($controllerAction) {
             $rememberMeCheckbox = $controllerAction->getRequest()->getPost('persistent_remember_me');
-            Mage::helper('Magento_Persistent_Helper_Session')->setRememberMeChecked((bool)$rememberMeCheckbox);
+            $this->_persistentSession->setRememberMeChecked((bool)$rememberMeCheckbox);
             if (
                 $controllerAction->getFullActionName() == 'checkout_onepage_saveBilling'
                     || $controllerAction->getFullActionName() == 'customer_account_createpost'
@@ -160,10 +183,9 @@ class Magento_Persistent_Model_Observer_Session
      */
     public function renewCookie(Magento_Event_Observer $observer)
     {
-        $helper = Mage::helper('Magento_Persistent_Helper_Data');
-        if (!$helper->canProcess($observer)
-            || !$helper->isEnabled()
-            || !Mage::helper('Magento_Persistent_Helper_Session')->isPersistent()
+        if (!$this->_persistentData->canProcess($observer)
+            || !$this->_persistentData->isEnabled()
+            || !$this->_persistentSession->isPersistent()
         ) {
             return;
         }
@@ -176,7 +198,7 @@ class Magento_Persistent_Model_Observer_Session
         ) {
             Mage::getSingleton('Magento_Core_Model_Cookie')->renew(
                 Magento_Persistent_Model_Session::COOKIE_NAME,
-                $helper->getLifeTime()
+                $this->_persistentData->getLifeTime()
             );
         }
     }

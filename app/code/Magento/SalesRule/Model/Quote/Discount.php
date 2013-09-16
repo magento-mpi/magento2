@@ -18,8 +18,20 @@ class Magento_SalesRule_Model_Quote_Discount extends Magento_Sales_Model_Quote_A
      */
     protected $_calculator;
 
-    public function __construct()
-    {
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager
+    ) {
+        $this->_eventManager = $eventManager;
         $this->setCode('discount');
         $this->_calculator = Mage::getSingleton('Magento_SalesRule_Model_Validator');
     }
@@ -67,7 +79,7 @@ class Magento_SalesRule_Model_Quote_Discount extends Magento_Sales_Model_Quote_A
                 }
 
                 $eventArgs['item'] = $item;
-                Mage::dispatchEvent('sales_quote_address_discount_item', $eventArgs);
+                $this->_eventManager->dispatch('sales_quote_address_discount_item', $eventArgs);
 
                 if ($item->getHasChildren() && $item->isChildrenCalculated()) {
                     $isMatchedParent = $this->_calculator->canApplyRules($item);
@@ -79,7 +91,7 @@ class Magento_SalesRule_Model_Quote_Discount extends Magento_Sales_Model_Quote_A
                         }
 
                         $eventArgs['item'] = $child;
-                        Mage::dispatchEvent('sales_quote_address_discount_item', $eventArgs);
+                        $this->_eventManager->dispatch('sales_quote_address_discount_item', $eventArgs);
 
                         $this->_aggregateItemDiscount($child);
                     }

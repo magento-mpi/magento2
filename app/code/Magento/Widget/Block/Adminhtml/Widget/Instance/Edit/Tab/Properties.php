@@ -66,7 +66,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Properties
      */
     public function getWidgetInstance()
     {
-        return Mage::registry('current_widget_instance');
+        return $this->_coreRegistry->registry('current_widget_instance');
     }
 
     /**

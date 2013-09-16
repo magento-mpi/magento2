@@ -21,19 +21,33 @@ class Magento_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_Te
         $configManager = $this->getMock('Magento_Core_Model_View_Config', array(), array(), '', false);
         $configManager->expects($this->any())->method('getViewConfig')->will($this->returnValue($configView));
 
-        $configurable = $objectManagerHelper->getObject('Magento_Checkout_Block_Cart_Item_Renderer_Configurable',
-            array('viewConfig' => $configManager));
-
         $product = $this->getMock('Magento_Catalog_Model_Product', array('isConfigurable'), array(), '', false);
         $product->expects($this->any())->method('isConfigurable')->will($this->returnValue(true));
 
-        $childProduct =
-            $this->getMock('Magento_Catalog_Model_Product', array('getThumbnail', 'getDataByKey'), array(), '', false);
+        $childProduct = $this->getMock(
+            'Magento_Catalog_Model_Product', array('getThumbnail', 'getDataByKey'), array(), '', false
+        );
         $childProduct->expects($this->any())->method('getThumbnail')->will($this->returnValue('/_/_/__green.gif'));
 
+        $helperImage = $this->getMock('Magento_Catalog_Helper_Image',
+            array('init', 'resize', '__toString'), array(), '', false
+        );
+        $helperImage->expects($this->any())->method('init')->will($this->returnValue($helperImage));
+        $helperImage->expects($this->any())->method('resize')->will($this->returnValue($helperImage));
+        $helperImage->expects($this->any())->method('__toString')->will($this->returnValue($url));
+
+        $helperFactory = $this->getMock(
+            'Magento_Core_Model_Factory_Helper', array('get'), array(), '', false, false
+        );
+        $helperFactory->expects($this->any())
+            ->method('get')
+            ->with('Magento_Catalog_Helper_Image', array())
+            ->will($this->returnValue($helperImage));
+
         $arguments = array(
-            'statusListFactory' => $this->getMock('Magento_Sales_Model_Status_ListFactory', array(), array(), '',
-                false),
+            'statusListFactory' => $this->getMock(
+                'Magento_Sales_Model_Status_ListFactory', array(), array(), '', false
+            ),
         );
         $childItem = $objectManagerHelper->getObject('Magento_Sales_Model_Quote_Item', $arguments);
         $childItem->setData('product', $childProduct);
@@ -42,12 +56,12 @@ class Magento_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_Te
         $item->setData('product', $product);
         $item->addChild($childItem);
 
-        $helperImage = $this->getMock('Magento_Catalog_Helper_Image',
-            array('init', 'resize', '__toString'), array(), '', false
-        );
-        $helperImage->expects($this->any())->method('init')->will($this->returnValue($helperImage));
-        $helperImage->expects($this->any())->method('resize')->will($this->returnValue($helperImage));
-        $helperImage->expects($this->any())->method('__toString')->will($this->returnValue($url));
+        $configurable = $objectManagerHelper->getObject(
+            'Magento_Checkout_Block_Cart_Item_Renderer_Configurable',
+            array(
+                'viewConfig' => $configManager,
+                'helperFactory' => $helperFactory,
+            ));
 
         $layout = $configurable->getLayout();
         $layout->expects($this->any())->method('helper')->will($this->returnValue($helperImage));

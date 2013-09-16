@@ -27,7 +27,6 @@
  */
 class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
 {
-
     /**
      * Event prefix for observer
      *
@@ -135,7 +134,7 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
     public function appendSummary($collection)
     {
         $entityIds = array();
-        foreach ($collection->getItems() as $_itemId => $_item) {
+        foreach ($collection->getItems() as $_item) {
             $entityIds[] = $_item->getEntityId();
         }
 

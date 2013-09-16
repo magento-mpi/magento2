@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Backend_Block_Widget_Tabs
 {
     /**
      * Default Attribute Tab Block
@@ -25,6 +25,39 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Bl
     protected $_attributeTabBlock = 'Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes';
 
     protected $_template = 'widget/tabshoriz.phtml';
+
+   /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * Adminhtml catalog
+     *
+     * @var Magento_Adminhtml_Helper_Catalog
+     */
+    protected $_adminhtmlCatalog = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_adminhtmlCatalog = $adminhtmlCatalog;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Initialize Tabs
@@ -46,17 +79,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Bl
      */
     public function getCategory()
     {
-        return Mage::registry('current_category');
-    }
-
-    /**
-     * Return Adminhtml Catalog Helper
-     *
-     * @return Magento_Adminhtml_Helper_Catalog
-     */
-    public function getCatalogHelper()
-    {
-        return Mage::helper('Magento_Adminhtml_Helper_Catalog');
+        return $this->_coreRegistry->registry('current_category');
     }
 
     /**
@@ -66,7 +89,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Bl
      */
     public function getAttributeTabBlock()
     {
-        if ($block = $this->getCatalogHelper()->getCategoryAttributeTabBlock()) {
+        if ($block = $this->_adminhtmlCatalog->getCategoryAttributeTabBlock()) {
             return $block;
         }
         return $this->_attributeTabBlock;
@@ -141,7 +164,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Bl
         ));
 
         // dispatch event add custom tabs
-        Mage::dispatchEvent('adminhtml_catalog_category_tabs', array(
+        $this->_eventManager->dispatch('adminhtml_catalog_category_tabs', array(
             'tabs'  => $this
         ));
 

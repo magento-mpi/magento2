@@ -34,6 +34,29 @@ class Magento_VersionsCms_Block_Widget_Node
     protected $_storeId;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve specified anchor text
      *
      * @return string
@@ -88,7 +111,7 @@ class Magento_VersionsCms_Block_Widget_Node
             $this->_node = Mage::getModel('Magento_VersionsCms_Model_Hierarchy_Node')
                 ->load($this->getNodeId());
         } else {
-            $this->_node = Mage::registry('current_cms_hierarchy_node');
+            $this->_node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
         }
 
         if (!$this->_node) {

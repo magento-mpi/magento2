@@ -18,6 +18,31 @@
  */
 class Magento_Checkout_Block_Onepage_Login extends Magento_Checkout_Block_Onepage_Abstract
 {
+    /**
+     * Checkout data
+     *
+     * @var Magento_Checkout_Helper_Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * @param Magento_Checkout_Helper_Data $checkoutData
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Checkout_Helper_Data $checkoutData,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_checkoutData = $checkoutData;
+        parent::__construct($configCacheType, $coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         if (!$this->isCustomerLoggedIn()) {
@@ -73,6 +98,6 @@ class Magento_Checkout_Block_Onepage_Login extends Magento_Checkout_Block_Onepag
      */
     public function isAllowedGuestCheckout()
     {
-        return Mage::helper('Magento_Checkout_Helper_Data')->isAllowedGuestCheckout($this->getQuote());
+        return $this->_checkoutData->isAllowedGuestCheckout($this->getQuote());
     }
 }

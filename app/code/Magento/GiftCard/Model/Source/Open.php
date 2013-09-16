@@ -11,6 +11,22 @@
 class Magento_GiftCard_Model_Source_Open extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData
+    ) {
+        $this->_coreData = $coreData;
+    }
+
+    /**
      * Get all options
      *
      * @return array
@@ -31,7 +47,8 @@ class Magento_GiftCard_Model_Source_Open extends Magento_Eav_Model_Entity_Attrib
     /**
      * Get option text
      *
-     * @return string|null
+     * @param int|string $value
+     * @return bool|null|string
      */
     public function getOptionText($value)
     {
@@ -73,7 +90,7 @@ class Magento_GiftCard_Model_Source_Open extends Magento_Eav_Model_Entity_Attrib
             'default'  => $isNullable ? null : $attributeDefaultValue
         );
 
-        if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
+        if ($this->_coreData->useDbCompatibleMode()) {
             $column['type']     = $attributeType;
             $column['is_null']  = $isNullable;
         } else {

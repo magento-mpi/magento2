@@ -8,16 +8,8 @@
  * @license     {license_link}
  */
 
-/**
- * description
- *
- * @category    Magento
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions
-    extends Magento_Adminhtml_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
@@ -62,11 +54,10 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_promo_catalog_rule');
+        $model = $this->_coreRegistry->registry('current_promo_catalog_rule');
 
-        //$form = new Magento_Data_Form(array('id' => 'edit_form1', 'action' => $this->getData('action'), 'method' => 'post'));
-        $form = new Magento_Data_Form();
-
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
         $renderer = Mage::getBlockSingleton('Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
@@ -83,33 +74,8 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions
             'title' => __('Conditions'),
             'required' => true,
         ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Conditions'));
-/*
-        $fieldset = $form->addFieldset('actions_fieldset', array('legend'=>__('Actions')));
 
-        $fieldset->addField('actions', 'text', array(
-            'name' => 'actions',
-            'label' => __('Actions'),
-            'title' => __('Actions'),
-            'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Actions'));
-
-        $fieldset = $form->addFieldset('options_fieldset', array('legend'=>__('Options')));
-
-        $fieldset->addField('stop_rules_processing', 'select', array(
-            'label'     => __('Stop Further Rules Processing'),
-            'title'     => __('Stop Further Rules Processing'),
-            'name'      => 'stop_rules_processing',
-            'required' => true,
-            'options'    => array(
-                '1' => __('Yes'),
-                '0' => __('No'),
-            ),
-        ));
-*/
         $form->setValues($model->getData());
-
-        //$form->setUseContainer(true);
-
         $this->setForm($form);
 
         return parent::_prepareForm();

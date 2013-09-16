@@ -44,28 +44,6 @@
             </tax>
         </sales>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Usa>
-                    <files>
-                        <default>Magento_Usa.csv</default>
-                    </files>
-                </Magento_Usa>
-            </modules>
-        </translate>
-    </adminhtml>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Usa>
-                    <files>
-                        <default>Magento_Usa.csv</default>
-                    </files>
-                </Magento_Usa>
-            </modules>
-        </translate>
-    </frontend>
     <default>
         <system>
             <media_storage_configuration>

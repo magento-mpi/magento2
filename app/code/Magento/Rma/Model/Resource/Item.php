@@ -38,6 +38,29 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
     );
 
     /**
+     * Rma data
+     *
+     * @var Magento_Rma_Helper_Data
+     */
+    protected $_rmaData = null;
+
+    /**
+     * Main constructor
+     *
+     *
+     *
+     * @param Magento_Rma_Helper_Data $rmaData
+     * @param  $data
+     */
+    public function __construct(
+        Magento_Rma_Helper_Data $rmaData,
+        $data = array()
+    ) {
+        $this->_rmaData = $rmaData;
+        parent::__construct($data);
+    }
+
+    /**
      * Resource initialization
      */
     public function _construct()
@@ -253,7 +276,7 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
             $product->setStoreId($item->getStoreId());
             $product->load($item->getProductId());
 
-            if (!Mage::helper('Magento_Rma_Helper_Data')->canReturnProduct($product, $item->getStoreId())) {
+            if (!$this->_rmaData->canReturnProduct($product, $item->getStoreId())) {
                 $allowed = false;
             }
 
@@ -304,7 +327,7 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
                 $productOptions     = $item->getProductOptions();
                 $product->reset();
                 $product->load($product->getIdBySku($productOptions['simple_sku']));
-                if (!Mage::helper('Magento_Rma_Helper_Data')->canReturnProduct($product, $item->getStoreId())) {
+                if (!$this->_rmaData->canReturnProduct($product, $item->getStoreId())) {
                     $orderItemsCollection->removeItemByKey($item->getId());
                     continue;
                 }

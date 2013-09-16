@@ -15,9 +15,32 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Block_Widget
+class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Backend_Block_Widget
 {
     protected $_template = 'catalog/product/edit.phtml';
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     protected function _construct()
     {
@@ -33,7 +56,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**
@@ -228,7 +251,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
      */
     public function getTypeSwitcherData()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+        return $this->_coreData->jsonEncode(array(
             'tab_id' => 'product_info_tabs_downloadable_items',
             'is_virtual_id' => Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight::VIRTUAL_FIELD_HTML_ID,
             'weight_id' => 'weight',

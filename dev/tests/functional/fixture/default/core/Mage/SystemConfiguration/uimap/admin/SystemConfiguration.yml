@@ -3560,7 +3560,6 @@ system_configuration:
                                         disable_modules_output_link: //parent::div//a[@id='advanced_modules_disable_output-head']
                                     dropdowns:
                                         mage_adminnotification: //select[@name='groups[modules_disable_output][fields][Magento_AdminNotification][value]']
-                                        mage_api: //select[@id='Magento_Api']
                                         mage_authorizenet: //select[@name='groups[modules_disable_output][fields][Magento_Authorizenet][value]']
                                         mage_backup: //select[@name='groups[modules_disable_output][fields][Magento_Backup][value]']
                                         mage_bundle: //select[@name='groups[modules_disable_output][fields][Magento_Bundle][value]']
@@ -3622,7 +3621,6 @@ system_configuration:
                                         mage_wishlist: //select[@name='groups[modules_disable_output][fields][Magento_Wishlist][value]']
                                     checkboxes:
                                         mage_adminnotification_use_default: //input[@name='groups[modules_disable_output][fields][Magento_AdminNotification][inherit]']
-                                        mage_api_use_default: //input[@id='Magento_Api_inherit']
                                         mage_authorizenet_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Authorizenet][inherit]']
                                         mage_backup_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Backup][inherit]']
                                         mage_bundle_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Bundle][inherit]']

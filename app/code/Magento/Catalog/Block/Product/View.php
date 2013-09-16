@@ -27,6 +27,35 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
     protected $_mapRenderer = 'msrp_item';
 
     /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Helper_String $coreString,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
+    /**
      * Add meta information from product to head block
      *
      * @return Magento_Catalog_Block_Product_View
@@ -42,7 +71,7 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
                 $headBlock->setTitle($title);
             }
             $keyword = $product->getMetaKeyword();
-            $currentCategory = Mage::registry('current_category');
+            $currentCategory = $this->_coreRegistry->registry('current_category');
             if ($keyword) {
                 $headBlock->setKeywords($keyword);
             } elseif($currentCategory) {
@@ -52,7 +81,7 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
             if ($description) {
                 $headBlock->setDescription( ($description) );
             } else {
-                $headBlock->setDescription(Mage::helper('Magento_Core_Helper_String')->substr($product->getDescription(), 0, 255));
+                $headBlock->setDescription($this->_coreString->substr($product->getDescription(), 0, 255));
             }
             if ($this->helper('Magento_Catalog_Helper_Product')->canUseCanonicalTag()) {
                 $params = array('_ignore_category'=>true);
@@ -74,11 +103,11 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
      */
     public function getProduct()
     {
-        if (!Mage::registry('product') && $this->getProductId()) {
+        if (!$this->_coreRegistry->registry('product') && $this->getProductId()) {
             $product = Mage::getModel('Magento_Catalog_Model_Product')->load($this->getProductId());
-            Mage::register('product', $product);
+            $this->_coreRegistry->register('product', $product);
         }
-        return Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     /**
@@ -88,7 +117,7 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
      */
     public function canEmailToFriend()
     {
-        $sendToFriendModel = Mage::registry('send_to_friend_model');
+        $sendToFriendModel = $this->_coreRegistry->registry('send_to_friend_model');
         return $sendToFriendModel && $sendToFriendModel->canEmailToFriend();
     }
 
@@ -111,7 +140,7 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
 
         $addUrlKey = Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
         $addUrlValue = Mage::getUrl('*/*/*', array('_use_rewrite' => true, '_current' => true));
-        $additional[$addUrlKey] = Mage::helper('Magento_Core_Helper_Data')->urlEncode($addUrlValue);
+        $additional[$addUrlKey] = $this->_coreData->urlEncode($addUrlValue);
 
         return $this->helper('Magento_Checkout_Helper_Cart')->getAddUrl($product, $additional);
     }
@@ -126,7 +155,7 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
     {
         $config = array();
         if (!$this->hasOptions()) {
-            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
+            return $this->_coreData->jsonEncode($config);
         }
 
         $_request = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRateRequest(false, false, false);
@@ -141,26 +170,26 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
 
         $_regularPrice = $product->getPrice();
         $_finalPrice = $product->getFinalPrice();
-        $_priceInclTax = Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $_finalPrice, true);
-        $_priceExclTax = Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $_finalPrice);
+        $_priceInclTax = $this->_taxData->getPrice($product, $_finalPrice, true);
+        $_priceExclTax = $this->_taxData->getPrice($product, $_finalPrice);
         $_tierPrices = array();
         $_tierPricesInclTax = array();
         foreach ($product->getTierPrice() as $tierPrice) {
-            $_tierPrices[] = Mage::helper('Magento_Core_Helper_Data')->currency($tierPrice['website_price'], false, false);
-            $_tierPricesInclTax[] = Mage::helper('Magento_Core_Helper_Data')->currency(
-                Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, (int)$tierPrice['website_price'], true),
+            $_tierPrices[] = $this->_coreData->currency($tierPrice['website_price'], false, false);
+            $_tierPricesInclTax[] = $this->_coreData->currency(
+                $this->_taxData->getPrice($product, (int)$tierPrice['website_price'], true),
                 false, false);
         }
         $config = array(
             'productId'           => $product->getId(),
             'priceFormat'         => Mage::app()->getLocale()->getJsPriceFormat(),
-            'includeTax'          => Mage::helper('Magento_Tax_Helper_Data')->priceIncludesTax() ? 'true' : 'false',
-            'showIncludeTax'      => Mage::helper('Magento_Tax_Helper_Data')->displayPriceIncludingTax(),
-            'showBothPrices'      => Mage::helper('Magento_Tax_Helper_Data')->displayBothPrices(),
-            'productPrice'        => Mage::helper('Magento_Core_Helper_Data')->currency($_finalPrice, false, false),
-            'productOldPrice'     => Mage::helper('Magento_Core_Helper_Data')->currency($_regularPrice, false, false),
-            'priceInclTax'        => Mage::helper('Magento_Core_Helper_Data')->currency($_priceInclTax, false, false),
-            'priceExclTax'        => Mage::helper('Magento_Core_Helper_Data')->currency($_priceExclTax, false, false),
+            'includeTax'          => $this->_taxData->priceIncludesTax() ? 'true' : 'false',
+            'showIncludeTax'      => $this->_taxData->displayPriceIncludingTax(),
+            'showBothPrices'      => $this->_taxData->displayBothPrices(),
+            'productPrice'        => $this->_coreData->currency($_finalPrice, false, false),
+            'productOldPrice'     => $this->_coreData->currency($_regularPrice, false, false),
+            'priceInclTax'        => $this->_coreData->currency($_priceInclTax, false, false),
+            'priceExclTax'        => $this->_coreData->currency($_priceExclTax, false, false),
             'defaultTax'          => $defaultTax,
             'currentTax'          => $currentTax,
             'idSuffix'            => '_clone',
@@ -174,14 +203,14 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
         );
 
         $responseObject = new Magento_Object();
-        Mage::dispatchEvent('catalog_product_view_config', array('response_object'=>$responseObject));
+        $this->_eventManager->dispatch('catalog_product_view_config', array('response_object'=>$responseObject));
         if (is_array($responseObject->getAdditionalOptions())) {
             foreach ($responseObject->getAdditionalOptions() as $option=>$value) {
                 $config[$option] = $value;
             }
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
+        return $this->_coreData->jsonEncode($config);
     }
 
     /**

@@ -26,6 +26,27 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Wrapline
     protected $_defaultMaxLineLength = 60;
 
     /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Backend_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Backend_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Renders grid column
      *
      * @param Magento_Object $row
@@ -38,8 +59,8 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Wrapline
         $lineLength = $this->getColumn()->getData('lineLength')
             ? $this->getColumn()->getData('lineLength')
             : $this->_defaultMaxLineLength;
-        for ($i = 0, $n = floor(Mage::helper('Magento_Core_Helper_String')->strlen($line) / $lineLength); $i <= $n; $i++) {
-            $wrappedLine .= Mage::helper('Magento_Core_Helper_String')->substr($line, ($lineLength * $i), $lineLength)
+        for ($i = 0, $n = floor($this->_coreString->strlen($line) / $lineLength); $i <= $n; $i++) {
+            $wrappedLine .= $this->_coreString->substr($line, ($lineLength * $i), $lineLength)
                 . "<br />";
         }
         return $wrappedLine;

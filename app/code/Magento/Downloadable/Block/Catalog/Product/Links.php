@@ -18,8 +18,6 @@
 class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_Block_Product_Abstract
 {
     /**
-     * Enter description here...
-     *
      * @return boolean
      */
     public function getLinksPurchasedSeparately()
@@ -28,8 +26,6 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
     }
 
     /**
-     * Enter description here...
-     *
      * @return boolean
      */
     public function getLinkSelectionRequired()
@@ -39,8 +35,6 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
     }
 
     /**
-     * Enter description here...
-     *
      * @return boolean
      */
     public function hasLinks()
@@ -50,8 +44,6 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
     }
 
     /**
-     * Enter description here...
-     *
      * @return array
      */
     public function getLinks()
@@ -61,8 +53,6 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
     }
 
     /**
-     * Enter description here...
-     *
      * @param Magento_Downloadable_Model_Link $link
      * @return string
      */
@@ -76,11 +66,11 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
         }
 
         $taxCalculation = Mage::getSingleton('Magento_Tax_Model_Calculation');
-        if (!$taxCalculation->getCustomer() && Mage::registry('current_customer')) {
-            $taxCalculation->setCustomer(Mage::registry('current_customer'));
+        if (!$taxCalculation->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
+            $taxCalculation->setCustomer($this->_coreRegistry->registry('current_customer'));
         }
 
-        $taxHelper = Mage::helper('Magento_Tax_Helper_Data');
+        $taxHelper = $this->_taxData;
         $coreHelper = $this->helper('Magento_Core_Helper_Data');
         $_priceInclTax = $taxHelper->getPrice($link->getProduct(), $price, true);
         $_priceExclTax = $taxHelper->getPrice($link->getProduct(), $price);
@@ -115,14 +105,12 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
     }
 
     /**
-     * Enter description here...
-     *
      * @return string
      */
     public function getJsonConfig()
     {
         $config = array();
-        $coreHelper = Mage::helper('Magento_Core_Helper_Data');
+        $coreHelper = $this->_coreData;
 
         foreach ($this->getLinks() as $link) {
             $config[$link->getId()] = $coreHelper->currency($link->getPrice(), false, false);

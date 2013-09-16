@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Reward customer controller
  *
@@ -18,6 +17,25 @@
  */
 class Magento_Reward_Controller_Customer extends Magento_Core_Controller_Front_Action
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
     /**
      * Predispatch
      * Check is customer authenticate
@@ -29,7 +47,7 @@ class Magento_Reward_Controller_Customer extends Magento_Core_Controller_Front_A
         if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront()) {
+        if (!$this->_objectManager->get('Magento_Reward_Helper_Data')->isEnabledOnFront()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
@@ -40,7 +58,7 @@ class Magento_Reward_Controller_Customer extends Magento_Core_Controller_Front_A
      */
     public function infoAction()
     {
-        Mage::register('current_reward', $this->_getReward());
+        $this->_coreRegistry->register('current_reward', $this->_getReward());
         $this->loadLayout();
         $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');

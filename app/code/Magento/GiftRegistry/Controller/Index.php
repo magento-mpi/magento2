@@ -14,6 +14,25 @@
 class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Front_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Only logged in users can use this functionality,
      * this function checks if user is logged in before all other actions
      *
@@ -22,14 +41,14 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('Magento_GiftRegistry_Helper_Data')->isEnabled()) {
+        if (!$this->_objectManager->get('Magento_GiftRegistry_Helper_Data')->isEnabled()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return $this;
         }
 
         if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
-            $this->getResponse()->setRedirect(Mage::helper('Magento_Customer_Helper_Data')->getLoginUrl());
+            $this->getResponse()->setRedirect($this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl());
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
         return $this;
@@ -37,14 +56,13 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
 
     /**
      * View gift registry list in 'My Account' section
-     *
-     * @return void
      */
     public function indexAction()
     {
         $this->loadLayout();
         $this->_initLayoutMessages('Magento_Customer_Model_Session');
-        if ($block = $this->getLayout()->getBlock('giftregistry_list')) {
+        $block = $this->getLayout()->getBlock('giftregistry_list');
+        if ($block) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
         $headBlock = $this->getLayout()->getBlock('head');
@@ -56,8 +74,6 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
 
     /**
      * Add quote items to customer active gift registry
-     *
-     * @return void
      */
     public function cartAction()
     {
@@ -73,7 +89,7 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
                 } else {//Adding from cart
                     $cart = Mage::getSingleton('Magento_Checkout_Model_Cart');
                     foreach ($cart->getQuote()->getAllVisibleItems() as $item) {
-                        if (!Mage::helper('Magento_GiftRegistry_Helper_Data')->canAddToGiftRegistry($item)) {
+                        if (!$this->_objectManager->get('Magento_GiftRegistry_Helper_Data')->canAddToGiftRegistry($item)) {
                             $skippedItems++;
                             continue;
                         }
@@ -121,8 +137,6 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
 
     /**
      * Add wishlist items to customer active gift registry action
-     *
-     * @return void
      */
     public function wishlistAction()
     {
@@ -140,7 +154,8 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
                 $redirectParams['wishlist_id'] = $wishlistItem->getWishlistId();
             } catch (Magento_Core_Exception $e) {
                 if ($e->getCode() == Magento_GiftRegistry_Model_Entity::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
-                    $product = Mage::getModel('Magento_Catalog_Model_Product')->load((int)$wishlistItem->getProductId());
+                    $product = Mage::getModel('Magento_Catalog_Model_Product')
+                        ->load((int)$wishlistItem->getProductId());
                     $query['options'] = Magento_GiftRegistry_Block_Product_View::FLAG;
                     $query['entity'] = $this->getRequest()->getParam('entity');
                     $this->_redirectUrl($product->getUrlModel()->getUrl($product, array('_query' => $query)));
@@ -159,8 +174,6 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
 
     /**
      * Delete selected gift registry entity
-     *
-     * @return void
      */
     public function deleteAction()
     {
@@ -183,8 +196,6 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
 
     /**
      * Share selected gift registry entity
-     *
-     * @return void
      */
     public function shareAction()
     {
@@ -210,13 +221,11 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
 
     /**
      * View items of selected gift registry entity
-     *
-     * @return void
      */
     public function itemsAction()
     {
         try {
-            Mage::register('current_entity', $this->_initEntity());
+            $this->_coreRegistry->register('current_entity', $this->_initEntity());
             $this->loadLayout();
             $this->_initLayoutMessages('Magento_Customer_Model_Session');
             $this->_initLayoutMessages('Magento_Checkout_Model_Session');
@@ -234,8 +243,6 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
 
     /**
      * Update gift registry items
-     *
-     * @return void
      */
     public function updateItemsAction()
     {
@@ -266,8 +273,6 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
 
     /**
      * Share selected gift registry entity
-     *
-     * @return void
      */
     public function sendAction()
     {
@@ -321,14 +326,13 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
 
     /**
      * Add select gift registry action
-     *
-     * @return void
      */
     public function addSelectAction()
     {
         $this->loadLayout();
         $this->_initLayoutMessages('Magento_Customer_Model_Session');
-        if ($block = $this->getLayout()->getBlock('giftregistry_addselect')) {
+        $block = $this->getLayout()->getBlock('giftregistry_addselect');
+        if ($block) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
         $headBlock = $this->getLayout()->getBlock('head');
@@ -340,8 +344,6 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
 
     /**
      * Select gift registry type action
-     *
-     * @return void
      */
     public function editAction()
     {
@@ -368,8 +370,8 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
                 }
             }
 
-            Mage::register('magento_giftregistry_entity', $model);
-            Mage::register('magento_giftregistry_address', $model->exportAddress());
+            $this->_coreRegistry->register('magento_giftregistry_entity', $model);
+            $this->_coreRegistry->register('magento_giftregistry_address', $model->exportAddress());
 
             $this->loadLayout();
             $this->_initLayoutMessages('Magento_Customer_Model_Session');
@@ -392,8 +394,6 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
 
     /**
      * Create gift registry action
-     *
-     * @return void
      */
     public function editPostAction()
     {
@@ -412,7 +412,7 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
             $isError = false;
             $isAddAction = true;
             try {
-                if ($entityId){
+                if ($entityId) {
                     $isAddAction = false;
                     $model = $this->_initEntity('entity_id');
                 }
@@ -424,7 +424,7 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
                     }
                 }
 
-                $data = Mage::helper('Magento_GiftRegistry_Helper_Data')->filterDatesByFormat(
+                $data = $this->_objectManager->get('Magento_GiftRegistry_Helper_Data')->filterDatesByFormat(
                     $data,
                     $model->getDateFieldArray()
                 );
@@ -435,7 +435,7 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
                 $registrantsPost = $this->getRequest()->getPost('registrant');
                 $persons = array();
                 if (is_array($registrantsPost)) {
-                    foreach  ($registrantsPost as $index => $registrant) {
+                    foreach ($registrantsPost as $registrant) {
                         if (is_array($registrant)) {
                             /* @var $person Magento_GiftRegistry_Model_Person */
                             $person = Mage::getModel('Magento_GiftRegistry_Model_Person');
@@ -567,7 +567,7 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
         return $entity;
     }
 
-     /**
+    /**
      * Strip tags from received data
      *
      * @param  string|array $data

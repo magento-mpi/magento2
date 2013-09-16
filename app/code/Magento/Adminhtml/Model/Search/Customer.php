@@ -18,18 +18,39 @@
 class Magento_Adminhtml_Model_Search_Customer extends Magento_Object
 {
     /**
+     * Adminhtml data
+     *
+     * @var Magento_Adminhtml_Helper_Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Data $adminhtmlData
+    ) {
+        $this->_adminhtmlData = $adminhtmlData;
+    }
+
+    /**
      * Load search results
      *
      * @return Magento_Adminhtml_Model_Search_Customer
      */
     public function load()
     {
-        $arr = array();
-
+        $result = array();
         if (!$this->hasStart() || !$this->hasLimit() || !$this->hasQuery()) {
-            $this->setResults($arr);
+            $this->setResults($result);
             return $this;
         }
+
         $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection')
             ->addNameToSelect()
             ->joinAttribute('company', 'customer_address/company', 'default_billing', null, 'left')
@@ -42,21 +63,16 @@ class Magento_Adminhtml_Model_Search_Customer extends Magento_Object
             ->load();
 
         foreach ($collection->getItems() as $customer) {
-            $arr[] = array(
+            $result[] = array(
                 'id'            => 'customer/1/'.$customer->getId(),
                 'type'          => __('Customer'),
                 'name'          => $customer->getName(),
                 'description'   => $customer->getCompany(),
-                'url' => Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl(
-                    '*/customer/edit',
-                    array(
-                        'id' => $customer->getId()
-                    )
-                ),
+                'url' => $this->_adminhtmlData->getUrl('*/customer/edit', array('id' => $customer->getId())),
             );
         }
 
-        $this->setResults($arr);
+        $this->setResults($result);
 
         return $this;
     }

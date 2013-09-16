@@ -43,7 +43,7 @@ class Magento_Sales_Block_Order_Creditmemo extends Magento_Sales_Block_Order_Cre
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return $this->_coreRegistry->registry('current_order');
     }
 
     /**

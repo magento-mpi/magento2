@@ -9,25 +9,26 @@
  */
 
 class Magento_Index_Block_Adminhtml_Process_Edit_Tab_Main
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Backend_Block_Widget_Form_Generic
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_index_process');
-        $form = new Magento_Data_Form();
+        $model = $this->_coreRegistry->registry('current_index_process');
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('index_process_');
         $fieldset = $form->addFieldset(
             'base_fieldset',
             array('legend'=>__('General'), 'class'=>'fieldset-wide')
         );
 
-        $fieldset->addField('process_id', 'hidden', array('name' => 'process', 'value'=>$model->getId()));
+        $fieldset->addField('process_id', 'hidden', array('name' => 'process', 'value' => $model->getId()));
 
         $fieldset->addField('name', 'note', array(
             'label' => __('Index Name'),
             'title' => __('Index Name'),
-            'text'  => '<strong>'.$model->getIndexer()->getName().'</strong>'
+            'text'  => '<strong>' . $model->getIndexer()->getName() . '</strong>'
         ));
 
         $fieldset->addField('description', 'note', array(
@@ -44,7 +45,6 @@ class Magento_Index_Block_Adminhtml_Process_Edit_Tab_Main
             'values'=> $model->getModesOptions()
         ));
 
-        //$form->setValues($model->getData());
         $this->setForm($form);
         return parent::_prepareForm();
     }

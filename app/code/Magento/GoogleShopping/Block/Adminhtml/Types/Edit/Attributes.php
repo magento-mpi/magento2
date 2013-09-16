@@ -165,7 +165,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
      */
     public function jsonFormat($data)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
+        return $this->_coreData->jsonEncode($data);
     }
 
     /**
