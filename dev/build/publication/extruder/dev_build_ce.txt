@@ -4,3 +4,4 @@
 dev/tests/functional/fixture/enterprise*
 dev/tests/functional/testsuite/Enterprise
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/MenuHierarchyConfigFilesTest.php
+dev/tests/unit/testsuite/Magento/VersionsCms
