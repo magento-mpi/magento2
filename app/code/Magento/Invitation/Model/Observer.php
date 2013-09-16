@@ -48,30 +48,9 @@ class Magento_Invitation_Model_Observer
     }
 
     /**
-     * Observe customer registration for invitations
-     *
-     * @param Magento_Event_Observer $observer
-     * @return void
-     */
-    public function restrictCustomerRegistration(Magento_Event_Observer $observer)
-    {
-        if (!$this->_config->isEnabledOnFront()) {
-            return;
-        }
-
-        $result = $observer->getEvent()->getResult();
-        if (!$result->getIsAllowed()) {
-            $this->_invitationData->isRegistrationAllowed(false);
-        } else {
-            $this->_invitationData->isRegistrationAllowed(true);
-            $result->setIsAllowed(!$this->_config->getInvitationRequired());
-        }
-    }
-
-    /**
      * Handler for invitation mass update
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event
      */

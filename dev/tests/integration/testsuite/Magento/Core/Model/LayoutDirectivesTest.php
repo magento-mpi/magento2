@@ -76,8 +76,8 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
     public function testLayoutObjectArgumentsDirective()
     {
         $layout = $this->_getLayoutModel('arguments_object_type.xml');
-        $this->assertInstanceOf('Magento_Core_Block_Text', $layout->getBlock('block_with_object_args')->getOne());
-        $this->assertInstanceOf('Magento_Core_Block_Messages',
+        $this->assertInstanceOf('Magento_Data_Collection_Db', $layout->getBlock('block_with_object_args')->getOne());
+        $this->assertInstanceOf('Magento_Data_Collection_Db',
             $layout->getBlock('block_with_object_args')->getTwo()
         );
         $this->assertEquals(3, $layout->getBlock('block_with_object_args')->getThree());
@@ -103,9 +103,9 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
 
         $expectedSimpleData = 2;
 
-        $block = $layout->getBlock('block_with_object_updater_args')->getOne();
-        $this->assertInstanceOf('Magento_Core_Block_Text', $block);
-        $this->assertEquals($expectedObjectData, $block->getUpdaterCall());
+        $dataSource = $layout->getBlock('block_with_object_updater_args')->getOne();
+        $this->assertInstanceOf('Magento_Data_Collection', $dataSource);
+        $this->assertEquals($expectedObjectData, $dataSource->getUpdaterCall());
         $this->assertEquals($expectedSimpleData, $layout->getBlock('block_with_object_updater_args')->getTwo());
     }
 

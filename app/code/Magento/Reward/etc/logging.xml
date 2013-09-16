@@ -9,60 +9,37 @@
  * @license     {license_link}
  */
 -->
-<logging>
-    <magento_reward_rate translate="label">
-        <label>Reward Points Rates</label>
-        <expected_models>
-            <Magento_Reward_Model_Reward_Rate/>
-        </expected_models>
-        <actions>
-            <adminhtml_reward_rate_edit>
-                <action>edit</action>
-            </adminhtml_reward_rate_edit>
-            <adminhtml_reward_rate_save>
-                <action>save</action>
-            </adminhtml_reward_rate_save>
-            <adminhtml_reward_rate_delete>
-                <action>delete</action>
-            </adminhtml_reward_rate_delete>
-        </actions>
-    </magento_reward_rate>
-
-    <customer>
-        <actions>
-            <adminhtml_customer_save>
-                <expected_models extends="merge">
-                    <Magento_Reward_Model_Reward_History>
-                        <skip_data>
-                            <history_id/>
-                            <action/>
-                            <additional_data/>
-                            <notification_sent/>
-                            <created_at/>
-                            <expired_at/>
-                        </skip_data>
-                    </Magento_Reward_Model_Reward_History>
-                </expected_models>
-            </adminhtml_customer_save>
-        </actions>
-    </customer>
-    <!--magento_reward translate="label">
-        <label>Reward Points balance</label>
-        <expected_models>
-            <Magento_Reward_Model_Reward_History>
-                <skip_data>
-                    <new_password/>
-                    <password/>
-                    <password_hash/>
-                </skip_data>
-            </magento_reward__reward_history>
-        </expected_models>
-        <actions>
-            <adminhtml_customer_save>
-                <expected_models extends="merge">
-                    <Magento_Reward_Model_Reward_History/>
-                </expected_models>
-            </adminhtml_customer_save>
-        </actions>
-    </magento_reward-->
+<logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging_file.xsd">
+    <groups>
+        <group name="magento_reward_rate">
+            <label translate="true">Reward Points Rates</label>
+            <expected_models>
+                <expected_model class="Magento_Reward_Model_Reward_Rate" />
+            </expected_models>
+            <events>
+                <event controller_action="adminhtml_reward_rate_edit" action_alias="edit" />
+                <event controller_action="adminhtml_reward_rate_save" action_alias="save" />
+                <event controller_action="adminhtml_reward_rate_delete" action_alias="delete" />
+            </events>
+        </group>
+        <group name="customer">
+            <events>
+                <event controller_action="adminhtml_customer_save">
+                    <expected_models merge_group="true">
+                        <expected_model class="Magento_Reward_Model_Reward_History">
+                            <skip_fields>
+                                <field name="history_id" />
+                                <field name="action" />
+                                <field name="additional_data" />
+                                <field name="notification_sent" />
+                                <field name="created_at" />
+                                <field name="expired_at" />
+                            </skip_fields>
+                        </expected_model>
+                    </expected_models>
+                </event>
+            </events>
+        </group>
+    </groups>
 </logging>

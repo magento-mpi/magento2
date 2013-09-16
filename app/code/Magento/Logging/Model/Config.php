@@ -1,5 +1,9 @@
 <?php
 /**
+ * Logging configuration model
+ *
+ * Provides access to nodes and labels
+ *
  * {license_notice}
  *
  * @category    Magento
@@ -8,17 +12,12 @@
  * @license     {license_link}
  */
 
-/**
- * Logging configuration model
- *
- * Merges logging.xml files and provides access to nodes and labels
- */
 class Magento_Logging_Model_Config
 {
     /**
      * logging.xml merged config
      *
-     * @var Magento_Simplexml_Config
+     * @var array
      */
     protected $_xmlConfig;
 
@@ -29,28 +28,26 @@ class Magento_Logging_Model_Config
      */
     protected $_labels = array();
 
+    /**
+     * Configuration for event groups from System Configuration
+     *
+     * @var array
+     */
     protected $_systemConfigValues = null;
 
     /**
-     * Load config from cache or merged from logging.xml files
-     *
-     * @param Magento_Core_Model_Config_Modules_Reader $configReader
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @var Magento_Core_Model_Store
      */
-    public function __construct(
-        Magento_Core_Model_Config_Modules_Reader $configReader,
-        Magento_Core_Model_Cache_Type_Config $configCacheType
+    protected $_store;
+
+    /**
+     * @param Magento_Logging_Model_Config_Data $dataStorage
+     */
+    public function __construct(Magento_Logging_Model_Config_Data $dataStorage,
+        Magento_Core_Model_StoreManager $storeManager
     ) {
-        $configXml = $configCacheType->load('magento_logging_config');
-        if ($configXml) {
-            $this->_xmlConfig = new Magento_Simplexml_Config($configXml);
-        } else {
-            $config = new Magento_Simplexml_Config;
-            $config->loadString('<?xml version="1.0"?><logging></logging>');
-            $configReader->loadModulesConfiguration('logging.xml', $config);
-            $this->_xmlConfig = $config;
-            $configCacheType->save($config->getXmlString(), 'magento_logging_config');
-        }
+        $this->_xmlConfig = $dataStorage->get('logging');
+        $this->_store = $storeManager->getStore();
     }
 
     /**
@@ -61,57 +58,34 @@ class Magento_Logging_Model_Config
     public function getSystemConfigValues()
     {
         if (null === $this->_systemConfigValues) {
-            $this->_systemConfigValues = Mage::getStoreConfig('admin/magento_logging/actions');
-            if (null === $this->_systemConfigValues) {
-                $this->_systemConfigValues = array();
-                foreach ($this->getLabels() as $key => $label) {
-                    $this->_systemConfigValues[$key] = 1;
-                }
-            }
-            else {
-                $this->_systemConfigValues = unserialize($this->_systemConfigValues);
-            }
+            $this->_initSystemConfigValues();
         }
         return $this->_systemConfigValues;
     }
 
     /**
-     * Check whether specified full action name or event group should be logged
+     * Check if there is a value identified by key in System Config
      *
-     * @param string $reference
-     * @param bool $isGroup
+     * @param string $key
      * @return bool
      */
-    public function isActive($reference, $isGroup = false)
+    public function hasSystemConfigValue($key)
     {
-        if (!$isGroup) {
-            foreach ($this->_getNodesByFullActionName($reference) as $action) {
-                $reference = $action->getParent()->getParent()->getName();
-                $isGroup   = true;
-                break;
-            }
+        if (null === $this->_systemConfigValues) {
+            $this->_initSystemConfigValues();
         }
-
-        if ($isGroup) {
-            $this->getSystemConfigValues();
-            return isset($this->_systemConfigValues[$reference]);
-        }
-
-        return false;
+        return isset($this->_systemConfigValues[$key]);
     }
 
     /**
-     * Get configuration node for specified full action name
+     * Check if event group is enabled for logging
      *
-     * @param string $fullActionName
-     * @return Magento_Simplexml_Element|false
+     * @param string $groupName
+     * @return bool
      */
-    public function getNode($fullActionName)
+    public function isEventGroupLogged($groupName)
     {
-        foreach ($this->_getNodesByFullActionName($fullActionName) as $actionConfig) {
-            return $actionConfig;
-        }
-        return false;
+        return $this->hasSystemConfigValue($groupName);
     }
 
     /**
@@ -122,11 +96,13 @@ class Magento_Logging_Model_Config
     public function getLabels()
     {
         if (!$this->_labels) {
-            foreach ($this->_xmlConfig->getXpath('/logging/*/label') as $labelNode) {
-                $this->_labels[$labelNode->getParent()->getName()] = __((string)$labelNode);
+            foreach ($this->_xmlConfig as $logName => $logConfig) {
+                if (isset($logConfig['label'])) {
+                    $this->_labels[$logName] = __($logConfig['label']);
+                }
             }
             asort($this->_labels);
-        }
+        };
         return $this->_labels;
     }
 
@@ -138,31 +114,63 @@ class Magento_Logging_Model_Config
      */
     public function getActionLabel($action)
     {
-        $xpath = 'actions/' . $action . '/label';
-        $actionLabelNode = $this->_xmlConfig->getNode($xpath);
-
-        if (!$actionLabelNode) {
-            return $action;
+        if (isset($this->_xmlConfig['actions'])
+            && array_key_exists($action, $this->_xmlConfig['actions'])
+            && isset($this->_xmlConfig['actions'][$action]['label']))
+        {
+            return __($this->_xmlConfig['actions'][$action]['label']);
         }
 
-        return __((string)$actionLabelNode);
+        return $action;
     }
 
     /**
-     * Lookup configuration nodes by full action name
+     * Get configuration node for specified full action name
      *
-     * @param string $fullActionName
-     * @return array
+     * @param string $controllerAction
+     * @return array|false
      */
-    protected function _getNodesByFullActionName($fullActionName)
+    public function getEventByFullActionName($controllerAction)
     {
-        if (!$fullActionName) {
-            return array();
+        foreach ($this->_xmlConfig as $configData) {
+            if (isset($configData['actions']) && array_key_exists($controllerAction, $configData['actions'])) {
+                return $configData['actions'][$controllerAction];
+            }
         }
-        $actionNodes = $this->_xmlConfig->getXpath("/logging/*/actions/{$fullActionName}[1]");
-        if ($actionNodes) {
-            return $actionNodes;
+        return false;
+    }
+
+    /**
+     * Retrieve configuration for group of events
+     *
+     * @param $groupName
+     * @return bool
+     */
+    public function getEventGroupConfig($groupName)
+    {
+        if (!array_key_exists($groupName, $this->_xmlConfig)) {
+            return false;
         }
-        return array();
+        return $this->_xmlConfig[$groupName];
+    }
+
+
+    /**
+     * Load values from System Configuration
+     *
+     * @return Magento_Logging_Model_Config
+     */
+    protected function _initSystemConfigValues()
+    {
+        $this->_systemConfigValues = $this->_store->getConfig('admin/magento_logging/actions');
+        if (null === $this->_systemConfigValues) {
+            $this->_systemConfigValues = array();
+            foreach (array_keys($this->getLabels()) as $key) {
+                $this->_systemConfigValues[$key] = 1;
+            }
+        } else {
+            $this->_systemConfigValues = unserialize($this->_systemConfigValues);
+        }
+        return $this;
     }
 }

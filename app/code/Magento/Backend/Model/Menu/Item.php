@@ -448,7 +448,12 @@ class Magento_Backend_Model_Menu_Item
     public function __sleep()
     {
         if (Mage::getIsSerializable()) {
-            $this->_moduleHelperName = get_class($this->_moduleHelper);
+            $helperClass = get_class($this->_moduleHelper);
+            // Save original class name of the helper
+            if (substr($helperClass, -1 * strlen('Interceptor')) === 'Interceptor') {
+                $helperClass = get_parent_class($helperClass);
+            }
+            $this->_moduleHelperName = $helperClass;
             if ($this->_submenu) {
                 $this->_serializedSubmenu = $this->_submenu->serialize();
             }

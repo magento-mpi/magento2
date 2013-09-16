@@ -42,7 +42,6 @@ class Magento_Core_Model_Layout_Element extends Magento_Simplexml_Element
                 $this->prepareActionArgument($args);
                 break;
         }
-        $children = $this->children();
         foreach ($this as $child) {
             $child->prepare($args);
         }
@@ -93,13 +92,6 @@ class Magento_Core_Model_Layout_Element extends Magento_Simplexml_Element
 
     public function prepareBlock($args)
     {
-        $type = (string)$this['type'];
-
-        $className = (string)$this['class'];
-        if (!$className) {
-            $this->addAttribute('class', $type);
-        }
-
         $parent = $this->getParent();
         if (isset($parent['name']) && !isset($this['parent'])) {
             $this->addAttribute('parent', (string)$parent['name']);

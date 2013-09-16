@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * PHPUnit configuration for Web API functional tests.
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<phpunit bootstrap="./framework/bootstrap.php">
+    <!-- Test suites definition -->
+    <testsuites>
+        <testsuite name="Magento Web API Functional Tests">
+            <directory suffix="Test.php">testsuite</directory>
+        </testsuite>
+    </testsuites>
+
+     <!-- Code coverage filters -->
+    <filter>
+        <whitelist>
+            <!-- All CE modules -->
+            <directory suffix=".php">../../app/code/Magento</directory>
+            <exclude>
+                <!-- Excluding installation and upgrade scripts -->
+                <directory>../../app/code/Magento/*/sql</directory>
+                <!-- Excluding data installation and upgrade scripts -->
+                <directory>../../app/code/Magento/*/data</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+
+    <!-- PHP INI settings and constants definition -->
+    <php>
+        <includePath>./testsuite</includePath>
+
+        <!-- WebSerivice Type. Possible values: soap, rest -->
+        <const name="TESTS_WEB_API_ADAPTER" value="soap"/>
+        <!-- Webserver URL -->
+        <const name="TESTS_BASE_URL" value="http://tests.url"/>
+        <!-- Webserver API user -->
+        <const name="TESTS_WEBSERVICE_USER" value="admin"/>
+        <!-- Webserver API key -->
+        <const name="TESTS_WEBSERVICE_APIKEY" value="123123q"/>
+
+        <ini name="date.timezone" value="America/Los_Angeles"/>
+        <!-- Local XML configuration file ('.dist' extension will be added, if the specified file doesn't exist) -->
+        <const name="TESTS_LOCAL_CONFIG_FILE" value="etc/local-mysql.xml"/>
+        <!-- Semicolon-separated 'glob' patterns, that match global XML configuration files -->
+        <const name="TESTS_GLOBAL_CONFIG_DIR" value="../../../app/etc"/>
+        <!-- Semicolon-separated 'glob' patterns, that match module declaration XML configuration files -->
+        <const name="TESTS_MODULE_CONFIG_FILES" value="../../../app/etc/*/module.xml;etc/test/module.xml"/>
+        <!-- Whether to cleanup the application before running tests or not -->
+        <const name="TESTS_CLEANUP" value="disabled"/>
+        <!--Defines if Magento should be installed before tests execution-->
+        <const name="TESTS_MAGENTO_INSTALLATION" value="disabled"/>
+        <!-- Magento mode for tests execution. Possible values are "default", "developer" and "production". -->
+        <const name="TESTS_MAGENTO_MODE" value="default"/>
+    </php>
+
+    <!-- Test listeners -->
+    <listeners>
+        <listener class="Magento_TestFramework_Event_PhpUnit"/>
+    </listeners>
+</phpunit>

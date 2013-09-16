@@ -9,76 +9,75 @@
  * @license     {license_link}
  */
 -->
-<config>
-    <global>
-        <fieldsets>
-            <sales_convert_quote_item>
-                <weee_tax_applied>
-                    <to_order_item>*</to_order_item>
-                </weee_tax_applied>
-                <weee_tax_applied_amount>
-                    <to_order_item>*</to_order_item>
-                </weee_tax_applied_amount>
-                <weee_tax_applied_row_amount>
-                    <to_order_item>*</to_order_item>
-                </weee_tax_applied_row_amount>
-                <base_weee_tax_applied_amount>
-                    <to_order_item>*</to_order_item>
-                </base_weee_tax_applied_amount>
-                <base_weee_tax_applied_row_amnt>
-                    <to_order_item>*</to_order_item>
-                </base_weee_tax_applied_row_amnt>
-                <weee_tax_disposition>
-                    <to_order_item>*</to_order_item>
-                </weee_tax_disposition>
-                <base_weee_tax_disposition>
-                    <to_order_item>*</to_order_item>
-                </base_weee_tax_disposition>
-                <weee_tax_row_disposition>
-                    <to_order_item>*</to_order_item>
-                </weee_tax_row_disposition>
-                <base_weee_tax_row_disposition>
-                    <to_order_item>*</to_order_item>
-                </base_weee_tax_row_disposition>
-            </sales_convert_quote_item>
-            <sales_convert_order_item>
-                <weee_tax_applied>
-                    <to_cm_item>*</to_cm_item>
-                    <to_invoice_item>*</to_invoice_item>
-                </weee_tax_applied>
-                <weee_tax_applied_amount>
-                    <to_cm_item>*</to_cm_item>
-                    <to_invoice_item>*</to_invoice_item>
-                </weee_tax_applied_amount>
-                <weee_tax_applied_row_amount>
-                    <to_cm_item>*</to_cm_item>
-                    <to_invoice_item>*</to_invoice_item>
-                </weee_tax_applied_row_amount>
-                <base_weee_tax_applied_amount>
-                    <to_cm_item>*</to_cm_item>
-                    <to_invoice_item>*</to_invoice_item>
-                </base_weee_tax_applied_amount>
-                <base_weee_tax_applied_row_amnt>
-                    <to_cm_item>*</to_cm_item>
-                    <to_invoice_item>*</to_invoice_item>
-                </base_weee_tax_applied_row_amnt>
-                <weee_tax_disposition>
-                    <to_cm_item>*</to_cm_item>
-                    <to_invoice_item>*</to_invoice_item>
-                </weee_tax_disposition>
-                <base_weee_tax_disposition>
-                    <to_cm_item>*</to_cm_item>
-                    <to_invoice_item>*</to_invoice_item>
-                </base_weee_tax_disposition>
-                <weee_tax_row_disposition>
-                    <to_cm_item>*</to_cm_item>
-                    <to_invoice_item>*</to_invoice_item>
-                </weee_tax_row_disposition>
-                <base_weee_tax_row_disposition>
-                    <to_cm_item>*</to_cm_item>
-                    <to_invoice_item>*</to_invoice_item>
-                </base_weee_tax_row_disposition>
-            </sales_convert_order_item>
-        </fieldsets>
-    </global>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../Magento/Core/etc/fieldset.xsd">
+    <scope id="global">
+        <fieldset id="sales_convert_quote_item">
+            <field name="weee_tax_applied">
+                <aspect name="to_order_item" />
+            </field>
+            <field name="weee_tax_applied_amount">
+                <aspect name="to_order_item" />
+            </field>
+            <field name="weee_tax_applied_row_amount">
+                <aspect name="to_order_item" />
+            </field>
+            <field name="base_weee_tax_applied_amount">
+                <aspect name="to_order_item" />
+            </field>
+            <field name="base_weee_tax_applied_row_amnt">
+                <aspect name="to_order_item" />
+            </field>
+            <field name="weee_tax_disposition">
+                <aspect name="to_order_item" />
+            </field>
+            <field name="base_weee_tax_disposition">
+                <aspect name="to_order_item" />
+            </field>
+            <field name="weee_tax_row_disposition">
+                <aspect name="to_order_item" />
+            </field>
+            <field name="base_weee_tax_row_disposition">
+                <aspect name="to_order_item" />
+            </field>
+        </fieldset>
+        <fieldset id="sales_convert_order_item">
+            <field name="weee_tax_applied">
+                <aspect name="to_cm_item" />
+                <aspect name="to_invoice_item" />
+            </field>
+            <field name="weee_tax_applied_amount">
+                <aspect name="to_cm_item" />
+                <aspect name="to_invoice_item" />
+            </field>
+            <field name="weee_tax_applied_row_amount">
+                <aspect name="to_cm_item" />
+                <aspect name="to_invoice_item" />
+            </field>
+            <field name="base_weee_tax_applied_amount">
+                <aspect name="to_cm_item" />
+                <aspect name="to_invoice_item" />
+            </field>
+            <field name="base_weee_tax_applied_row_amnt">
+                <aspect name="to_cm_item" />
+                <aspect name="to_invoice_item" />
+            </field>
+            <field name="weee_tax_disposition">
+                <aspect name="to_cm_item" />
+                <aspect name="to_invoice_item" />
+            </field>
+            <field name="base_weee_tax_disposition">
+                <aspect name="to_cm_item" />
+                <aspect name="to_invoice_item" />
+            </field>
+            <field name="weee_tax_row_disposition">
+                <aspect name="to_cm_item" />
+                <aspect name="to_invoice_item" />
+            </field>
+            <field name="base_weee_tax_row_disposition">
+                <aspect name="to_cm_item" />
+                <aspect name="to_invoice_item" />
+            </field>
+        </fieldset>
+    </scope>
 </config>
