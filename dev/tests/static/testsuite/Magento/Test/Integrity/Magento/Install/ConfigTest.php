@@ -9,21 +9,6 @@
  */
 class Magento_Test_Integrity_Magento_Install_ConfigTest extends Integrity_ConfigAbstract
 {
-    public function testFileSchemaUsingPartialXml()
-    {
-        $this->markTestSkipped('install_wizard.xml does not have a partial schema');
-    }
-
-    public function testFileSchemaUsingInvalidXml()
-    {
-        $this->markTestSkipped('install_wizard.xml does not have a partial schema');
-    }
-
-    public function testSchemaUsingPartialXml()
-    {
-        $this->markTestSkipped('install_wizard.xml does not have a partial schema');
-    }
-
     protected function _getXsd()
     {
         return "/app/code/Magento/Install/etc/install_wizard.xsd";
@@ -41,17 +26,17 @@ class Magento_Test_Integrity_Magento_Install_ConfigTest extends Integrity_Config
 
     protected function _getKnownValidPartialXml()
     {
-        return '';
+        return __DIR__ . '/_files/partial_install_wizard.xml';
     }
 
     protected function _getFileXsd()
     {
-        return '';
+        return "/app/code/Magento/Install/etc/install_wizard_file.xsd";
     }
 
     protected function _getKnownInvalidPartialXml()
     {
-        return '';
+        return __DIR__ . '/_files/invalid_partial_install_wizard.xml';
     }
 
     protected function _getXmlName()
