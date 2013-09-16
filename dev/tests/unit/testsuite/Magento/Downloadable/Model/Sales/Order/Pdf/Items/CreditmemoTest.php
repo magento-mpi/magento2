@@ -34,22 +34,24 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PH
         $this->_order
             ->expects($this->any())
             ->method('formatPriceTxt')
-            ->will($this->returnCallback(array($this, 'formatPrice')))
-        ;
+            ->will($this->returnCallback(array($this, 'formatPrice')));
 
         $this->_pdf = $this->getMock(
             'Magento_Sales_Model_Order_Pdf_Abstract', array('drawLineBlocks', 'getPdf'), array(), '', false, false
         );
-        $modelConstructorArgs['coreStoreConfig'] = $this->getMock(
-            'Magento_Core_Model_Store_Config', array(), array(), '', false, false
-        );
+
         $context = $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false);
-        $modelConstructorArgs['helper'] = new Magento_Core_Helper_String($context);
+        $modelConstructorArgs = $objectManager
+            ->getConstructArguments('Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo', array(
+                'helper' => new Magento_Core_Helper_String($context)
+        ));
+
         $this->_model = $this->getMock(
             'Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo',
             array('getLinks', 'getLinksTitle'),
             $modelConstructorArgs
         );
+
         $context = $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false);
         $this->_model->setStringHelper(new Magento_Core_Helper_String($context));
         $this->_model->setOrder($this->_order);

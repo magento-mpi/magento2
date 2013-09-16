@@ -33,6 +33,7 @@ abstract class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Abstract extends
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
@@ -41,6 +42,7 @@ abstract class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Abstract extends
      * @param array $data
      */
     public function __construct(
+        Magento_Tax_Helper_Data $taxData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
@@ -49,7 +51,7 @@ abstract class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Abstract extends
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($taxData, $context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
