@@ -105,15 +105,17 @@ abstract class Magento_Core_Model_Resource_Db_Collection_Abstract extends Magent
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         $this->_eventManager = $eventManager;
-        parent::__construct($fetchStrategy);
+        parent::__construct($fetchStrategy, $entityFactory);
         $this->_construct();
         $this->_resource = $resource;
         $this->setConnection($this->getResource()->getReadConnection());

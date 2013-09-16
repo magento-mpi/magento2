@@ -80,11 +80,15 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
 
     /**
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Zend_Db_Adapter_Abstract|Magento_DB_Adapter_Interface $conn
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param null $conn
      */
-    public function __construct(Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy, $conn = null)
-    {
-        parent::__construct();
+    public function __construct(
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        $conn = null
+    ) {
+        parent::__construct($entityFactory);
         $this->_fetchStrategy = $fetchStrategy;
         if (!is_null($conn)) {
             $this->setConnection($conn);

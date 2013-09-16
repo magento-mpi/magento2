@@ -16,14 +16,14 @@ class Magento_Filter_Object extends Zend_Filter
     /**
      * @var Magento_ObjectManager
      */
-    protected $_objectManager;
+    protected $_entityFactory;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(Magento_Core_Model_EntityFactory $entityFactory)
     {
-        $this->_objectManager = $objectManager;
+        $this->_entityFactory = $entityFactory;
     }
     
     function addFilter(Zend_Filter_Interface $filter, $column='')
@@ -44,7 +44,7 @@ class Magento_Filter_Object extends Zend_Filter
             throw new Exception('Expecting an instance of Magento_Object');
         }
         $class = get_class($object);
-        $out = $this->_objectManager->create($class);
+        $out = $this->_entityFactory->create($class);
         foreach ($object->getData() as $column=>$value) {
             $value = parent::filter($value);
             if (isset($this->_columnFilters[$column])) {

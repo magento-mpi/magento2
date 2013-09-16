@@ -8,34 +8,39 @@
 class Magento_Backup_Model_DbFactory
 {
     /**
-     * Entity class name
+     * Instance name to create
+     *
+     * @var string
      */
-    const CLASS_NAME = 'Magento_Backup_Model_Db';
+    protected $_instanceName;
 
     /**
      * Object Manager instance
      *
      * @var Magento_ObjectManager
      */
-    protected $_objectManager = null;
+    protected $_objectManager;
 
     /**
      * Factory constructor
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento_ObjectManager $objectManager
+     * @param string $instanceName
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento_ObjectManager $objectManager, $instanceName = 'Magento_Backup_Model_Db')
     {
         $this->_objectManager = $objectManager;
+        $this->_instanceName = $instanceName;
     }
 
     /**
      * Create class instance with specified parameters
      *
+     * @param array $data
      * @return Magento_Backup_Model_Db
      */
-    public function create()
+    public function create(array $data = array())
     {
-        return $this->_objectManager->create(self::CLASS_NAME);
+        return $this->_objectManager->create($this->_instanceName, $data);
     }
 }
