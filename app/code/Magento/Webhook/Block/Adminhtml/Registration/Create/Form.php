@@ -27,9 +27,6 @@ class Form extends \Magento\Backend\Block\Widget\Form
     /** @var \Magento\Data\Form\Factory */
     private $_formFactory;
 
-    /** @var \Magento\Core\Helper\Data  */
-    private $_coreHelper;
-
     /** @var \Magento\Core\Model\Registry  */
     private $_registry;
 

@@ -120,7 +120,8 @@ class Generator
             $wsdl->addSoapBinding($binding, 'document', 'http://schemas.xmlsoap.org/soap/http', SOAP_1_2);
             $portName = $this->getPortName($serviceId);
             $serviceName = $this->getServiceName($serviceId);
-            $wsdl->addService($serviceName, $portName, \Zend\Soap\Wsdl::TYPES_NS . ':' . $bindingName, $endPointUrl, SOAP_1_2);
+            $wsdl->addService($serviceName, $portName, \Zend\Soap\Wsdl::TYPES_NS
+                . ':' . $bindingName, $endPointUrl, SOAP_1_2);
 
             foreach ($serviceData['methods'] as $methodName => $methodData) {
                 $operationName = $this->getOperationName($serviceId, $methodName);
