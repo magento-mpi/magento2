@@ -58,8 +58,9 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
         $this->_model = $this->getMock(
             'Magento_Widget_Model_Widget_Instance',
             array('_construct'),
-            array($widgetData, $coreData, $contextMock, $registryMock, $this->_viewFileSystemMock, $this->_readerMock,
-                $this->_widgetModelMock, $this->_coreConfigMock),
+            array($widgetData, $coreData, $contextMock, $registryMock, $this->_coreConfigMock,
+                $this->_viewFileSystemMock, $this->_readerMock, $this->_widgetModelMock
+            ),
             '',
             true
         );
