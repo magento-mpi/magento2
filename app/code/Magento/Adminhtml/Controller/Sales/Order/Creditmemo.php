@@ -97,7 +97,7 @@ class Creditmemo
         $creditmemoId = $this->getRequest()->getParam('creditmemo_id');
         $orderId = $this->getRequest()->getParam('order_id');
         if ($creditmemoId) {
-            $creditmemo = $this->_objectManager->create('\Magento\Sales\Model\Order\Creditmemo')
+            $creditmemo = $this->_objectManager->create('Magento\Sales\Model\Order\Creditmemo')
                 ->load($creditmemoId);
         } elseif ($orderId) {
             $data   = $this->getRequest()->getParam('creditmemo');
