@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="test_handle">
+    <handle id="arguments">
         <block class="Magento_Test_Block" name="test.block">
             <arguments>
                 <argument name="testHelperWithParams" xsi:type="helper" helper="Magento_Core_Model_Layout_Argument_Handler_TestHelper::testMethod">

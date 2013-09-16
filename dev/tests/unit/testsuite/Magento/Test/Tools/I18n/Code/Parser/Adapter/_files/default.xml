@@ -9,7 +9,7 @@
 -->
 
 <layout>
-    <default>
+    <handle id="default">
         <node1 translate="description, label">
             <description>Phrase 1</description>
             <label>Phrase 2</label>
@@ -18,5 +18,5 @@
         <node2>
             <title translate="true">Phrase 1</title>
         </node2>
-    </default>
+    </handle>
 </layout>
