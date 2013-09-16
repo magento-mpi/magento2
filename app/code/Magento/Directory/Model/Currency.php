@@ -226,7 +226,7 @@ class Currency extends \Magento\Core\Model\AbstractModel
     public function getOutputFormat()
     {
         $formated = $this->formatTxt(0);
-        $number = $this->formatTxt(0, array('display' => Zend_Currency::NO_SYMBOL));
+        $number = $this->formatTxt(0, array('display' => \Zend_Currency::NO_SYMBOL));
         return str_replace($number, '%s', $formated);
     }
 

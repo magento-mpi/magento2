@@ -565,7 +565,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
             if ($rma = \Mage::getModel('Magento\Rma\Model\Rma')->load($rmaId)) {
                 $pdf = \Mage::getModel('Magento\Rma\Model\Pdf\Rma')->getPdf(array($rma));
                 $this->_prepareDownloadResponse(
-                    'rma'.Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s').'.pdf',
+                    'rma' . \Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
                     'application/pdf'
                 );
@@ -1218,8 +1218,9 @@ class Rma extends \Magento\Adminhtml\Controller\Action
                     )
                     ->getPdf($shipment);
             $this->_prepareDownloadResponse(
-                'packingslip'.Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
-                'application/pdf'
+                'packingslip'
+                    . \Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s')
+                    . '.pdf', $pdf->render(), 'application/pdf'
             );
         }
         else {

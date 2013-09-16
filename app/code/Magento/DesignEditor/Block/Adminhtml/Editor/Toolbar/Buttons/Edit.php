@@ -14,7 +14,7 @@
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons;
 
 class Edit
-    extends \Magento\Backend\Block\Widget\Button\Split
+    extends \Magento\Backend\Block\Widget\Button\SplitButton
 {
     /**
      * @var \Magento\DesignEditor\Model\Theme\Context

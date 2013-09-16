@@ -52,7 +52,7 @@
     </type>
 
     <type name="Magento\Backend\Helper\Data">
-        <param name="defaultAreaFrontName">
+        <param name="dfltAreaFrontName">
             <value>backend</value>
         </param>
         <param name="primaryConfig">

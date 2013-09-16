@@ -42,7 +42,7 @@ class Salesrule extends \Magento\Rss\Block\AbstractBlock
         $url           = \Mage::getUrl('');
         $newUrl        = \Mage::getUrl('rss/catalog/salesrule');
         $lang          = \Mage::getStoreConfig('general/locale/code');
-        $title       = __('%1 - Discounts and Coupons',Mage::app()->getStore($storeId)->getName());
+        $title       = __('%1 - Discounts and Coupons', \Mage::app()->getStore($storeId)->getName());
 
         /** @var $rssObject \Magento\Rss\Model\Rss */
         $rssObject = \Mage::getModel('Magento\Rss\Model\Rss');

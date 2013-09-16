@@ -532,6 +532,7 @@ class Translate
      * @return string
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.ConstructorWithNameAsEnclosingClass)
      */
     public function translate($args)
     {

@@ -300,25 +300,37 @@ class Magento_Test_Integrity_DependencyTest extends PHPUnit_Framework_TestCase
 
         $undeclared = array();
         foreach ($dependencies as $dependency) {
-            $module = $dependency['module'];
-            $nsModule = str_replace('_', '\\', $module);
-            $type = isset($dependency['type']) ? $dependency['type'] : self::TYPE_HARD;
-
-            $soft = $this->_getDependencies($currentModule, self::TYPE_SOFT, self::MAP_TYPE_DECLARED);
-            $hard = $this->_getDependencies($currentModule, self::TYPE_HARD, self::MAP_TYPE_DECLARED);
-
-            $declared = ($type == self::TYPE_SOFT) ? array_merge($soft, $hard) : $hard;
-            if (!in_array($module, $declared) && !in_array($nsModule, $declared)) {
-                if ($this->_isFake($module)) {
-                    $this->_addFake($currentModule, $module);
-                    continue;
-                }
-                $undeclared[$type][] = $module;
-            }
-
-            $this->_addDependencies($currentModule, $type, self::MAP_TYPE_FOUND, $nsModule);
+            $this->collectDependency($dependency, $currentModule, $undeclared);
         }
         return $undeclared;
+    }
+
+    /**
+     * Collect a dependency
+     *
+     * @param $dependency
+     * @param $currentModule
+     * @return array
+     */
+    private function collectDependency($dependency, $currentModule, $undeclared)
+    {
+        $module = $dependency['module'];
+        $nsModule = str_replace('_', '\\', $module);
+        $type = isset($dependency['type']) ? $dependency['type'] : self::TYPE_HARD;
+
+        $soft = $this->_getDependencies($currentModule, self::TYPE_SOFT, self::MAP_TYPE_DECLARED);
+        $hard = $this->_getDependencies($currentModule, self::TYPE_HARD, self::MAP_TYPE_DECLARED);
+
+        $declared = ($type == self::TYPE_SOFT) ? array_merge($soft, $hard) : $hard;
+        if (!in_array($module, $declared) && !in_array($nsModule, $declared)) {
+            if ($this->_isFake($module)) {
+                $this->_addFake($currentModule, $module);
+                return;
+            }
+            $undeclared[$type][] = $module;
+        }
+
+        $this->_addDependencies($currentModule, $type, self::MAP_TYPE_FOUND, $nsModule);
     }
 
     /**

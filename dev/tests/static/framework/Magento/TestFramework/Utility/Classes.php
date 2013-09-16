@@ -181,7 +181,7 @@ class Magento_TestFramework_Utility_Classes
                 $module = "{$matches[1]}_{$matches[2]}";
                 $class = "{$module}" . \Magento\Autoload\IncludePath::NS_SEPARATOR .
                     str_replace('/', '\\', $matches[3]);
-                $key = str_replace('_','\\', $class);
+                $key = str_replace('_', '\\', $class);
                 $result[$key] = $module;
             }
         }

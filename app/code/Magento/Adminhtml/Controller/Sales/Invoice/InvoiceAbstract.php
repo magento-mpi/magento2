@@ -95,8 +95,9 @@ class InvoiceAbstract
         if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
             if ($invoice = \Mage::getModel('Magento\Sales\Model\Order\Invoice')->load($invoiceId)) {
                 $pdf = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Invoice')->getPdf(array($invoice));
-                $this->_prepareDownloadResponse('invoice'.Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s').
-                    '.pdf', $pdf->render(), 'application/pdf');
+                $this->_prepareDownloadResponse('invoice'
+                        . \Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s')
+                        . '.pdf', $pdf->render(), 'application/pdf');
             }
         }
         else {
@@ -118,8 +119,9 @@ class InvoiceAbstract
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
 
-            return $this->_prepareDownloadResponse('invoice'.Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s').
-                '.pdf', $pdf->render(), 'application/pdf');
+            return $this->_prepareDownloadResponse('invoice'
+                    . \Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s')
+                    . '.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('*/*/');
     }

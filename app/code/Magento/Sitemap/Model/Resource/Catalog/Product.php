@@ -209,18 +209,18 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         // Join product images required attributes
         $imageIncludePolicy = $this->_sitemapData->getProductImageIncludePolicy($store->getId());
-        if (\Magento\Sitemap\Model\Source\Product\Image\Include::INCLUDE_NONE != $imageIncludePolicy) {
+        if (\Magento\Sitemap\Model\Source\Product\Image\IncludeImage::INCLUDE_NONE != $imageIncludePolicy) {
             $this->_joinAttribute($store->getId(), 'name');
             $this->_select->columns(array(
                 'name' => $this->getReadConnection()->getIfNullSql('t2_name.value', 't1_name.value')
             ));
 
-            if (\Magento\Sitemap\Model\Source\Product\Image\Include::INCLUDE_ALL == $imageIncludePolicy) {
+            if (\Magento\Sitemap\Model\Source\Product\Image\IncludeImage::INCLUDE_ALL == $imageIncludePolicy) {
                 $this->_joinAttribute($store->getId(), 'thumbnail');
                 $this->_select->columns(array(
                     'thumbnail' => $this->getReadConnection()->getIfNullSql('t2_thumbnail.value', 't1_thumbnail.value')
                 ));
-            } elseif (\Magento\Sitemap\Model\Source\Product\Image\Include::INCLUDE_BASE == $imageIncludePolicy) {
+            } elseif (\Magento\Sitemap\Model\Source\Product\Image\IncludeImage::INCLUDE_BASE == $imageIncludePolicy) {
                 $this->_joinAttribute($store->getId(), 'image');
                 $this->_select->columns(array(
                     'image' => $this->getReadConnection()->getIfNullSql('t2_image.value', 't1_image.value')
@@ -272,9 +272,9 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         // Get product images
         $imagesCollection = array();
-        if (\Magento\Sitemap\Model\Source\Product\Image\Include::INCLUDE_ALL == $imageIncludePolicy) {
+        if (\Magento\Sitemap\Model\Source\Product\Image\IncludeImage::INCLUDE_ALL == $imageIncludePolicy) {
             $imagesCollection = $this->_getAllProductImages($product, $storeId);
-        } elseif (\Magento\Sitemap\Model\Source\Product\Image\Include::INCLUDE_BASE == $imageIncludePolicy
+        } elseif (\Magento\Sitemap\Model\Source\Product\Image\IncludeImage::INCLUDE_BASE == $imageIncludePolicy
             && $product->getImage() && $product->getImage() != self::NOT_SELECTED_IMAGE) {
             $imagesCollection = array(new \Magento\Object(array(
                 'url' => $this->_getMediaConfig()->getBaseMediaUrlAddition() . $product->getImage()

@@ -31,11 +31,11 @@ class Link extends \Magento\Core\Block\Template
     public function getImageUrl()
     {
         $url = 'https://checkout.google.com/buttons/checkout.gif';
-        $url .= '?merchant_id='.Mage::getStoreConfig('google/checkout/merchant_id');
+        $url .= '?merchant_id=' . \Mage::getStoreConfig('google/checkout/merchant_id');
         $v = $this->getImageStyle();
         $url .= '&w='.$v[0].'&h='.$v[1].'&style='.$v[2];
         $url .= '&variant='.($this->getIsDisabled() ? 'disabled' : 'text');
-        $url .= '&loc='.Mage::getStoreConfig('google/checkout/locale');
+        $url .= '&loc=' . \Mage::getStoreConfig('google/checkout/locale');
         return $url;
     }
 

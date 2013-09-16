@@ -74,10 +74,10 @@ class Edit
         if (!$this->getEvent()->getId() && !$this->getEvent()->getCategoryId()) {
             $this->setChild(
                 'form',
-                $this->getLayout()->createBlock($this->_blockGroup
+                $this->getLayout()->createBlock(str_replace('_', '\\', $this->_blockGroup)
                     . '\\Block\\'
-                    . str_replace(' ', '_', ucwords(str_replace('_', ' ', $this->_controller . '_' . $this->_mode)))
-                    . '_Category',
+                    . str_replace(' ', '\\', ucwords(str_replace('_', ' ', $this->_controller . '_' . $this->_mode)))
+                    . '\Category',
                     $this->getNameInLayout() . 'catalog_event_form'
                 )
             );

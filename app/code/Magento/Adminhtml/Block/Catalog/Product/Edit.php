@@ -92,10 +92,10 @@ class Edit extends \Magento\Backend\Block\Widget
         }
 
         if (!$this->getProduct()->isReadonly()) {
-            $this->addChild('save-split-button', 'Magento\Backend\Block\Widget\Button\Split', array(
+            $this->addChild('save-split-button', 'Magento\Backend\Block\Widget\Button\SplitButton', array(
                 'id' => 'save-split-button',
                 'label' => __('Save'),
-                'class_name' => 'Magento\Backend\Block\Widget\Button\Split',
+                'class_name' => 'Magento\Backend\Block\Widget\Button\SplitButton',
                 'button_class' => 'widget-button-save',
                 'options' => $this->_getSaveSplitButtonOptions()
             ));

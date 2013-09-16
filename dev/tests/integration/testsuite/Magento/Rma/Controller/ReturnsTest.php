@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Controller_ReturnTest extends Magento_TestFramework_TestCase_ControllerAbstract
+class Magento_Rma_Controller_ReturnsTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -53,8 +53,8 @@ class Magento_Rma_Controller_ReturnTest extends Magento_TestFramework_TestCase_C
     public function isResponseContainDataProvider()
     {
         return array(
-            array('rma/return/addlabel', '<td>CarrierTitle</td>'),
-            array('rma/return/dellabel', '<td>CarrierTitle</td>'),
+            array('rma/returnshipment/addlabel', '<td>CarrierTitle</td>'),
+            array('rma/returnshipment/dellabel', '<td>CarrierTitle</td>'),
         );
     }
 }

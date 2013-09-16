@@ -546,7 +546,8 @@ class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
     {
         $class = str_replace('_', \Magento\Autoload\IncludePath::NS_SEPARATOR, $realModule) .
             \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Controller' .
-            \Magento\Autoload\IncludePath::NS_SEPARATOR . uc_words($controller);
+            \Magento\Autoload\IncludePath::NS_SEPARATOR .
+            str_replace('_','\\', uc_words(str_replace('_', ' ', $controller)));
         return $class;
     }
 
