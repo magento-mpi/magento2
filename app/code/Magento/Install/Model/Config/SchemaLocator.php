@@ -28,7 +28,8 @@ class Magento_Install_Model_Config_SchemaLocator implements Magento_Config_Schem
      */
     public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader)
     {
-        $this->_schema =  $moduleReader->getModuleDir('etc', 'Magento_Install') . '/install_wizard.xsd';
+        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Install') . '/install_wizard.xsd';
+        $this->_perFileSchema = $moduleReader->getModuleDir('etc', 'Magento_Install') . '/install_wizard_file.xsd';
     }
 
     /**

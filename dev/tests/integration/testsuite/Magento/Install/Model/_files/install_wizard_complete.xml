@@ -9,7 +9,8 @@
  * @license     {license_link}
  */
 -->
-<install_wizard xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./install_wizard.xsd">
+<install_wizard xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:noNamespaceSchemaLocation="../../../../../../../../app/code/Magento/Install/etc/install_wizard.xsd">
     <steps>
         <step id="begin" controller="wizard" action="begin">
             <label translate="true">License Agreement</label>
