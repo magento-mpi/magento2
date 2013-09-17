@@ -25,7 +25,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Bac
     protected $_elementFactory;
 
     /**
-     * @var Magento_Data_FormFactory
+     * @var Magento_Data_Form_Factory
      */
     protected $_formFactory;
 
@@ -37,7 +37,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Bac
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Data_FormFactory $formFactory
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Data_Form_Element_Factory $elementFactory
      * @param Magento_GoogleShopping_Helper_Category $googleShoppingCategory
      * @param Magento_Core_Helper_Data $coreData
@@ -46,7 +46,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Bac
      * @param array $data
      */
     public function __construct(
-        Magento_Data_FormFactory $formFactory,
+        Magento_Data_Form_Factory $formFactory,
         Magento_Data_Form_Element_Factory $elementFactory,
         Magento_GoogleShopping_Helper_Category $googleShoppingCategory,
         Magento_Core_Helper_Data $coreData,

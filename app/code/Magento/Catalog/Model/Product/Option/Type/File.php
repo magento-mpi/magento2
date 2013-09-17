@@ -34,6 +34,11 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
     protected $_filesystem;
 
     /**
+     * @var Magento_File_Size
+     */
+    protected $_fileSize;
+
+    /**
      * Core file storage database
      *
      * @var Magento_Core_Helper_File_Storage_Database
@@ -51,17 +56,20 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
      * @param Magento_Filesystem $filesystem
+     * @param Magento_File_Size $fileSize
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
         Magento_Filesystem $filesystem,
+        Magento_File_Size $fileSize,
         $data = array()
     ) {
         $this->_coreData = $coreData;
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         $this->_filesystem = $filesystem;
+        $this->_fileSize = $fileSize;
         $this->_data = $data;
         parent::__construct($data);
     }
@@ -831,6 +839,6 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
      */
     public function getFileSizeService()
     {
-        return Mage::getObjectManager()->get('Magento_File_Size');
+        return $this->_fileSize;
     }
 }

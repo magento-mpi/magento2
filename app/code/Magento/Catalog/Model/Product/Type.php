@@ -39,32 +39,45 @@ class Magento_Catalog_Model_Product_Type
     const DEFAULT_PRICE_MODEL   = 'Magento_Catalog_Model_Product_Type_Price';
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
      * Product types
      *
      * @var array|string
      */
-    static protected $_types;
+    protected $_types;
 
     /**
      * Composite product type Ids
      *
      * @var array
      */
-    static protected $_compositeTypes;
+    protected $_compositeTypes;
 
     /**
      * Price models
      *
      * @var array
      */
-    static protected $_priceModels;
+    protected $_priceModels;
 
     /**
      * Product types by type indexing priority
      *
      * @var array
      */
-    static protected $_typesPriority;
+    protected $_typesPriority;
+
+    /**
+     * @param Magento_Core_Model_Config $config
+     */
+    public function __construct(Magento_Core_Model_Config $config)
+    {
+        $this->_config = $config;
+    }
 
     /**
      * Factory to product singleton product type instances
@@ -72,9 +85,9 @@ class Magento_Catalog_Model_Product_Type
      * @param   Magento_Catalog_Model_Product $product
      * @return  Magento_Catalog_Model_Product_Type_Abstract
      */
-    public static function factory($product)
+    public function factory($product)
     {
-        $types = self::getTypes();
+        $types = $this->getTypes();
         $typeId = $product->getTypeId();
 
         if (!empty($types[$typeId]['model'])) {
@@ -96,13 +109,13 @@ class Magento_Catalog_Model_Product_Type
      * @param   string $productType
      * @return  Magento_Catalog_Model_Product_Type_Price
      */
-    public static function priceFactory($productType)
+    public function priceFactory($productType)
     {
-        if (isset(self::$_priceModels[$productType])) {
-            return self::$_priceModels[$productType];
+        if (isset($this->_priceModels[$productType])) {
+            return $this->_priceModels[$productType];
         }
 
-        $types = self::getTypes();
+        $types = $this->getTypes();
 
         if (!empty($types[$productType]['price_model'])) {
             $priceModelName = $types[$productType]['price_model'];
@@ -110,8 +123,8 @@ class Magento_Catalog_Model_Product_Type
             $priceModelName = self::DEFAULT_PRICE_MODEL;
         }
 
-        self::$_priceModels[$productType] = Mage::getModel($priceModelName);
-        return self::$_priceModels[$productType];
+        $this->_priceModels[$productType] = Mage::getModel($priceModelName);
+        return $this->_priceModels[$productType];
     }
 
     /**
@@ -119,13 +132,12 @@ class Magento_Catalog_Model_Product_Type
      *
      * @return array
      */
-    static public function getOptionArray()
+    public function getOptionArray()
     {
         $options = array();
-        foreach (self::getTypes() as $typeId => $type) {
+        foreach ($this->getTypes() as $typeId => $type) {
             $options[$typeId] = __($type['label']);
         }
-
         return $options;
     }
 
@@ -134,9 +146,9 @@ class Magento_Catalog_Model_Product_Type
      *
      * @return array
      */
-    static public function getAllOption()
+    public function getAllOption()
     {
-        $options = self::getOptionArray();
+        $options = $this->getOptionArray();
         array_unshift($options, array('value' => '', 'label' => ''));
         return $options;
     }
@@ -146,11 +158,11 @@ class Magento_Catalog_Model_Product_Type
      *
      * @return array
      */
-    static public function getAllOptions()
+    public function getAllOptions()
     {
         $res = array();
         $res[] = array('value' => '', 'label' => '');
-        foreach (self::getOptionArray() as $index => $value) {
+        foreach ($this->getOptionArray() as $index => $value) {
             $res[] = array(
                'value' => $index,
                'label' => $value
@@ -164,10 +176,10 @@ class Magento_Catalog_Model_Product_Type
      *
      * @return array
      */
-    static public function getOptions()
+    public function getOptions()
     {
         $res = array();
-        foreach (self::getOptionArray() as $index => $value) {
+        foreach ($this->getOptionArray() as $index => $value) {
             $res[] = array(
                'value' => $index,
                'label' => $value
@@ -182,9 +194,9 @@ class Magento_Catalog_Model_Product_Type
      * @param string $optionId
      * @return null|string
      */
-    static public function getOptionText($optionId)
+    public function getOptionText($optionId)
     {
-        $options = self::getOptionArray();
+        $options = $this->getOptionArray();
         return isset($options[$optionId]) ? $options[$optionId] : null;
     }
 
@@ -193,18 +205,16 @@ class Magento_Catalog_Model_Product_Type
      *
      * @return array
      */
-    static public function getTypes()
+    public function getTypes()
     {
-        if (is_null(self::$_types)) {
-            $config = Mage::getObjectManager()->get('Magento_Core_Model_Config');
-            $productTypes = $config->getNode('global/catalog/product/type')->asArray();
+        if (is_null($this->_types)) {
+            $productTypes = $this->_config->getNode('global/catalog/product/type')->asArray();
             foreach ($productTypes as $productKey => $productConfig) {
                 $productTypes[$productKey]['label'] = __($productConfig['label']);
             }
-            self::$_types = $productTypes;
+            $this->_types = $productTypes;
         }
-
-        return self::$_types;
+        return $this->_types;
     }
 
     /**
@@ -212,18 +222,18 @@ class Magento_Catalog_Model_Product_Type
      *
      * @return array
      */
-    static public function getCompositeTypes()
+    public function getCompositeTypes()
     {
-        if (is_null(self::$_compositeTypes)) {
-            self::$_compositeTypes = array();
-            $types = self::getTypes();
+        if (is_null($this->_compositeTypes)) {
+            $this->_compositeTypes = array();
+            $types = $this->getTypes();
             foreach ($types as $typeId => $typeInfo) {
                 if (array_key_exists('composite', $typeInfo) && $typeInfo['composite']) {
-                    self::$_compositeTypes[] = $typeId;
+                    $this->_compositeTypes[] = $typeId;
                 }
             }
         }
-        return self::$_compositeTypes;
+        return $this->_compositeTypes;
     }
 
     /**
@@ -231,14 +241,14 @@ class Magento_Catalog_Model_Product_Type
      *
      * @return array
      */
-    public static function getTypesByPriority()
+    public function getTypesByPriority()
     {
-        if (is_null(self::$_typesPriority)) {
-            self::$_typesPriority = array();
+        if (is_null($this->_typesPriority)) {
+            $this->_typesPriority = array();
             $simplePriority = array();
             $compositePriority = array();
 
-            $types = self::getTypes();
+            $types = $this->getTypes();
             foreach ($types as $typeId => $typeInfo) {
                 $priority = isset($typeInfo['index_priority']) ? abs(intval($typeInfo['index_priority'])) : 0;
                 if (!empty($typeInfo['composite'])) {
@@ -252,12 +262,12 @@ class Magento_Catalog_Model_Product_Type
             asort($compositePriority, SORT_NUMERIC);
 
             foreach (array_keys($simplePriority) as $typeId) {
-                self::$_typesPriority[$typeId] = $types[$typeId];
+                $this->_typesPriority[$typeId] = $types[$typeId];
             }
             foreach (array_keys($compositePriority) as $typeId) {
-                self::$_typesPriority[$typeId] = $types[$typeId];
+                $this->_typesPriority[$typeId] = $types[$typeId];
             }
         }
-        return self::$_typesPriority;
+        return $this->_typesPriority;
     }
 }

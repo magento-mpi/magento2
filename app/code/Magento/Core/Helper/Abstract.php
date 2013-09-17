@@ -48,19 +48,16 @@ abstract class Magento_Core_Helper_Abstract
     {
         $this->_translator = $context->getTranslator();
         $this->_moduleManager = $context->getModuleManager();
+        $this->_request = $context->getRequest();
     }
 
     /**
      * Retrieve request object
      *
      * @return Zend_Controller_Request_Http
-     * @return Zend_Controller_Request_Http
      */
     protected function _getRequest()
     {
-        if (!$this->_request) {
-            $this->_request = Mage::getObjectManager()->get('Magento_Core_Controller_Request_Http');
-        }
         return $this->_request;
     }
 

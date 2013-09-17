@@ -16,14 +16,15 @@ class Magento_Adminhtml_Block_Widget_Form_ContainerTest extends PHPUnit_Framewor
 {
     public function testGetFormHtml()
     {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var $layout Magento_Core_Model_Layout */
         $layout = Mage::getSingleton('Magento_Core_Model_Layout');
         // Create block with blocking _prepateLayout(), which is used by block to instantly add 'form' child
         /** @var $block Magento_Adminhtml_Block_Widget_Form_Container */
         $block = $this->getMock('Magento_Adminhtml_Block_Widget_Form_Container', array('_prepareLayout'),
             array(
-                Mage::getObjectManager()->create('Magento_Core_Helper_Data'),
-                Mage::getObjectManager()->create('Magento_Backend_Block_Template_Context'),
+                $objectManager->create('Magento_Core_Helper_Data'),
+                $objectManager->create('Magento_Backend_Block_Template_Context'),
             )
         );
 
