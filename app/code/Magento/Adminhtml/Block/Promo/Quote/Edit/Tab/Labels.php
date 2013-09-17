@@ -11,7 +11,7 @@
 namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab;
 
 class Labels
-    extends \Magento\Backend\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
@@ -22,7 +22,7 @@ class Labels
     protected $_storeManager;
     
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param Magento_Data_Form_Factory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
