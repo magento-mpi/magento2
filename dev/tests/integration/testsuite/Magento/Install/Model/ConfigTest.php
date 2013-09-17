@@ -14,8 +14,14 @@ class Magento_Install_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     private $_object;
 
+    /**
+     * @var Magento_ObjectManager
+     */
+    private $_objectManager;
+
     public function setUp()
     {
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var $cacheTypeList Magento_Core_Model_Cache_TypeListInterface */
         $cacheTypeList = Mage::getModel('Magento_Core_Model_Cache_TypeListInterface');
         $types = array_keys($cacheTypeList->getTypes());
@@ -29,7 +35,7 @@ class Magento_Install_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $cacheState->persist();
 
         /** @var Magento_Core_Model_Dir $dirs */
-        $dirs = Mage::getObjectManager()->create(
+        $dirs = $this->_objectManager->create(
             'Magento_Core_Model_Dir', array(
                 'baseDir' => BP,
                 'dirs' => array(
@@ -40,7 +46,7 @@ class Magento_Install_Model_ConfigTest extends PHPUnit_Framework_TestCase
         );
 
         /** @var Magento_Core_Model_Module_Declaration_FileResolver $modulesDeclarations */
-        $modulesDeclarations = Mage::getObjectManager()->create(
+        $modulesDeclarations = $this->_objectManager->create(
             'Magento_Core_Model_Module_Declaration_FileResolver', array(
                 'applicationDirs' => $dirs,
             )
@@ -48,21 +54,21 @@ class Magento_Install_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
 
         /** @var Magento_Core_Model_Module_Declaration_Reader_Filesystem $filesystemReader */
-        $filesystemReader = Mage::getObjectManager()->create(
+        $filesystemReader = $this->_objectManager->create(
             'Magento_Core_Model_Module_Declaration_Reader_Filesystem', array(
                 'fileResolver' => $modulesDeclarations,
             )
         );
 
         /** @var Magento_Core_Model_ModuleList $modulesList */
-        $modulesList = Mage::getObjectManager()->create(
+        $modulesList = $this->_objectManager->create(
             'Magento_Core_Model_ModuleList', array(
                 'reader' => $filesystemReader,
             )
         );
 
         /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
-        $moduleReader = Mage::getObjectManager()->create(
+        $moduleReader = $this->_objectManager->create(
             'Magento_Core_Model_Config_Modules_Reader', array(
                 'dirs' => $dirs,
                 'moduleList' => $modulesList
@@ -70,26 +76,26 @@ class Magento_Install_Model_ConfigTest extends PHPUnit_Framework_TestCase
         );
 
         /** @var Magento_Core_Model_Config_FileResolver $fileResolver */
-        $fileResolver = Mage::getObjectManager()->create(
+        $fileResolver = $this->_objectManager->create(
             'Magento_Core_Model_Config_FileResolver', array(
                 'moduleReader' => $moduleReader,
             )
         );
 
         /** @var Magento_Logging_Model_Config_Reader $configReader */
-        $configReader = Mage::getObjectManager()->create(
+        $configReader = $this->_objectManager->create(
             'Magento_Install_Model_Config_Reader', array(
                 'fileResolver' => $fileResolver,
             )
         );
 
-        $configData =  Mage::getObjectManager()->create(
+        $configData =  $this->_objectManager->create(
             'Magento_Install_Model_Config_Data', array(
                 'reader' => $configReader,
             )
         );
 
-        $this->_object =  Mage::getObjectManager()->create(
+        $this->_object =  $this->_objectManager->create(
             'Magento_Install_Model_Config', array(
                 'dataStorage' => $configData,
             )
@@ -151,20 +157,20 @@ class Magento_Install_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('install_wizard.xml'))
             ->will($this->returnValue($fileList));
 
-        $configReader = Mage::getObjectManager()->create(
+        $configReader = $this->_objectManager->create(
             'Magento_Install_Model_Config_Reader', array(
                 'fileResolver' => $fileResolverMock,
             )
         );
 
-        $configData =  Mage::getObjectManager()->create(
+        $configData =  $this->_objectManager->create(
             'Magento_Install_Model_Config_Data', array(
                 'reader' => $configReader,
             )
         );
 
         /** @var Magento_Install_Model_Config $model */
-        $model = Mage::getObjectManager()->create(
+        $model = $this->_objectManager->create(
             'Magento_Install_Model_Config', array(
                 'dataStorage' => $configData,
             )
