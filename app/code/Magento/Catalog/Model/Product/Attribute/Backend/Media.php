@@ -339,8 +339,6 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
             \Mage::throwException(__('The image does not exist.'));
         }
 
-        \Mage::dispatchEvent('catalog_product_media_add_image', array('product' => $product, 'image' => $file));
-
         $pathinfo = pathinfo($file);
         $imgExtensions = array('jpg','jpeg','gif','png');
         if (!isset($pathinfo['extension']) || !in_array(strtolower($pathinfo['extension']), $imgExtensions)) {
