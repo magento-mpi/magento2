@@ -267,7 +267,6 @@ class Queue extends \Magento\Adminhtml\Controller\Action
 
             $this->_redirect('*/*');
         } catch (\Magento\Core\Exception $e) {
-        catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $id = $this->getRequest()->getParam('id');
             if ($id) {

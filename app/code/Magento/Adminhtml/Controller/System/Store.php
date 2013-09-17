@@ -232,7 +232,6 @@ class Store extends \Magento\Adminhtml\Controller\Action
                 $this->_redirect('*/*/');
                 return;
             } catch (\Magento\Core\Exception $e) {
-            catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addMessages($e->getMessages());
                 $session->setPostData($postData);
             } catch (\Exception $e) {
@@ -359,7 +358,6 @@ class Store extends \Magento\Adminhtml\Controller\Action
             $this->_redirect('*/*/');
             return ;
         } catch (\Magento\Core\Exception $e) {
-        catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('Unable to delete website. Please, try again later.'));
@@ -390,7 +388,6 @@ class Store extends \Magento\Adminhtml\Controller\Action
             $this->_redirect('*/*/');
             return ;
         } catch (\Magento\Core\Exception $e) {
-        catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('Unable to delete store. Please, try again later.'));
@@ -428,7 +425,6 @@ class Store extends \Magento\Adminhtml\Controller\Action
             $this->_redirect('*/*/');
             return ;
         } catch (\Magento\Core\Exception $e) {
-        catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (E\xception $e) {
             $this->_getSession()->addException($e, __('Unable to delete store view. Please, try again later.'));
@@ -463,7 +459,6 @@ class Store extends \Magento\Adminhtml\Controller\Action
             $backupDb->createBackup($backup);
             $this->_getSession()->addSuccess(__('The database was backed up.'));
         } catch (\Magento\Core\Exception $e) {
-        catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect($failPath, $arguments);
             return ;
