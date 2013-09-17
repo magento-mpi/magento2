@@ -38,8 +38,6 @@ class Price extends \Magento\Core\Block\Template
         parent::__construct($coreData, $context, $data);
     }
 
- class Price extends \Magento\Core\Block\Template
- {
     public function getPrice()
     {
         $product = $this->_coreRegistry->registry('product');
