@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_Customer_Model_Address_XsdTest extends PHPUnit_Framework_TestCase
+class Magento_Customer_Model_Address_Config_XsdTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -38,6 +38,10 @@ class Magento_Customer_Model_Address_XsdTest extends PHPUnit_Framework_TestCase
         return array(
             'valid' => array(
                 '<config><format code="code" title="title" /></config>',
+                array()
+            ),
+            'valid with optional attributes' => array(
+                '<config><format code="code" title="title" renderer="Some_Renderer" escapeHtml="false" /></config>',
                 array()
             ),
             'empty root node' => array(
