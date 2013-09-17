@@ -25,7 +25,7 @@ class Magento_VersionsCms_Model_Hierarchy_Config_SchemaLocatorTest extends PHPUn
 
         $this->_modulesReaderMock->expects($this->once())
             ->method('getModuleDir')
-            ->with('etc', 'Magento_Core')
+            ->with('etc', 'Magento_VersionsCms')
             ->will($this->returnValue('some_path'));
 
         $this->_model = new Magento_VersionsCms_Model_Hierarchy_Config_SchemaLocator($this->_modulesReaderMock);
@@ -36,7 +36,7 @@ class Magento_VersionsCms_Model_Hierarchy_Config_SchemaLocatorTest extends PHPUn
      */
     public function testGetSchema()
     {
-        $expectedSchemaPath = 'some_path' . DIRECTORY_SEPARATOR . 'menuHierarchy.xsd';
+        $expectedSchemaPath = 'some_path' . DIRECTORY_SEPARATOR . 'menu_hierarchy_merged.xsd';
         $this->assertEquals($expectedSchemaPath, $this->_model->getSchema());
     }
 
@@ -45,7 +45,7 @@ class Magento_VersionsCms_Model_Hierarchy_Config_SchemaLocatorTest extends PHPUn
      */
     public function testGetPerFileSchema()
     {
-        $expectedSchemaPath = 'some_path' . DIRECTORY_SEPARATOR . 'menuHierarchy.xsd';
+        $expectedSchemaPath = 'some_path' . DIRECTORY_SEPARATOR . 'menu_hierarchy.xsd';
         $this->assertEquals($expectedSchemaPath, $this->_model->getPerFileSchema());
     }
 }
