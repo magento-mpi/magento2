@@ -25,7 +25,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     protected $_infoBlockType = 'Magento_Ogone_Block_Info';
     protected $_config = null;
 
-     /**
+    /**
      * Availability options
      */
     protected $_isGateway               = false;
@@ -171,6 +171,12 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     protected $_coreString = null;
 
     /**
+     * @var Magento_Core_Model_Url
+     */
+    protected $_urlModel;
+
+    /**
+     * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Ogone_Model_Config $config
@@ -178,12 +184,14 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_String $coreString,
         Magento_Ogone_Model_Config $config,
         Magento_Payment_Helper_Data $paymentData,
         array $data = array()
     ) {
+        $this->_urlModel = $urlModel;
         $this->_coreString = $coreString;
         $this->_config = $config;
         parent::__construct($eventManager, $paymentData, $data);
@@ -216,7 +224,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
      */
     public function getOrderPlaceRedirectUrl()
     {
-          return Mage::getUrl('ogone/api/placeform', array('_secure' => true));
+        return $this->_urlModel->getUrl('ogone/api/placeform', array('_secure' => true));
     }
 
     /**
