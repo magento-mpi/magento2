@@ -38,6 +38,7 @@ class Helper
      */
     public function get($className, array $arguments = array())
     {
+        $className = str_replace('_', '\\', $className);
         /* Default helper class for a module */
         if (strpos($className, '\Helper\\') === false) {
             $className .= '\Helper\Data';
