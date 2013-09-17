@@ -36,7 +36,7 @@ class Magento_Rss_Controller_CatalogTest extends Magento_TestFramework_TestCase_
      */
     public function testNewAction()
     {
-        $this->dispatch('rss/catalog/new');
+        $this->dispatch('rss/catalog/newcatalog');
         $this->assertContains('New Product', $this->getResponse()->getBody());
     }
 
