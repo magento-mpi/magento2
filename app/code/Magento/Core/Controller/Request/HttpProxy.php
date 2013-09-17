@@ -1,13 +1,22 @@
 <?php
 /**
- * Proxy class for \Magento_Core_Controller_Request_Http
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Core
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-class Magento_Core_Controller_Request_HttpProxy extends \Magento_Core_Controller_Request_Http
+
+/**
+ * Proxy class for Magento_Core_Controller_Request_Http
+ */
+class Magento_Core_Controller_Request_HttpProxy extends Magento_Core_Controller_Request_Http
 {
     /**
      * Object Manager instance
      *
-     * @var \Magento_ObjectManager
+     * @var Magento_ObjectManager
      */
     protected $_objectManager = null;
 
@@ -21,7 +30,7 @@ class Magento_Core_Controller_Request_HttpProxy extends \Magento_Core_Controller
     /**
      * Proxied instance
      *
-     * @var \Magento_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     protected $_subject = null;
 
@@ -35,12 +44,12 @@ class Magento_Core_Controller_Request_HttpProxy extends \Magento_Core_Controller
     /**
      * Proxy constructor
      *
-     * @param \Magento_ObjectManager $objectManager
+     * @param Magento_ObjectManager $objectManager
      * @param string $instanceName
      * @param bool $shared
      */
     public function __construct(
-        \Magento_ObjectManager $objectManager,
+        Magento_ObjectManager $objectManager,
         $instanceName = 'Magento_Core_Controller_Request_Http', $shared = true
     ) {
         $this->_objectManager = $objectManager;
@@ -75,7 +84,7 @@ class Magento_Core_Controller_Request_HttpProxy extends \Magento_Core_Controller
     /**
      * Get proxied instance
      *
-     * @return \Magento_Core_Controller_Request_Http
+     * @return Magento_Core_Controller_Request_Http
      */
     protected function _getSubject()
     {
