@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Action
 {
     /**
@@ -24,6 +23,25 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
      * @var Magento_Sales_Model_Order
      */
     protected $_order;
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
 
     /**
      * @return Magento_Checkout_Controller_Onepage|null
@@ -69,7 +87,8 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
     {
         if (!$this->getOnepage()->getQuote()->hasItems()
             || $this->getOnepage()->getQuote()->getHasError()
-            || $this->getOnepage()->getQuote()->getIsMultiShipping()) {
+            || $this->getOnepage()->getQuote()->getIsMultiShipping()
+        ) {
             $this->_ajaxRedirectResponse();
             return true;
         }
@@ -155,7 +174,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
      */
     public function indexAction()
     {
-        if (!Mage::helper('Magento_Checkout_Helper_Data')->canOnepageCheckout()) {
+        if (!$this->_objectManager->get('Magento_Checkout_Helper_Data')->canOnepageCheckout()) {
             Mage::getSingleton('Magento_Checkout_Model_Session')->addError(__('The onepage checkout is disabled.'));
             $this->_redirect('checkout/cart');
             return;
@@ -299,7 +318,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
         if ($this->getRequest()->isPost()) {
             $method = $this->getRequest()->getPost('method');
             $result = $this->getOnepage()->saveCheckoutMethod($method);
-            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
@@ -341,7 +360,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
                 }
             }
 
-            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
@@ -365,7 +384,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
                     'html' => $this->_getShippingMethodsHtml()
                 );
             }
-            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
@@ -386,7 +405,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
                         array('request'=>$this->getRequest(),
                             'quote'=>$this->getOnepage()->getQuote()));
                 $this->getOnepage()->getQuote()->collectTotals();
-                $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+                $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
 
                 $result['goto_section'] = 'payment';
                 $result['update_section'] = array(
@@ -395,7 +414,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
                 );
             }
             $this->getOnepage()->getQuote()->collectTotals()->save();
-            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
@@ -441,7 +460,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
             Mage::logException($e);
             $result['error'] = __('Unable to set Payment Method');
         }
-        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**
@@ -480,7 +499,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
             ->prepareInvoice($items);
         $invoice->setEmailSent(true)->register();
 
-        Mage::register('current_invoice', $invoice);
+        $this->_coreRegistry->register('current_invoice', $invoice);
         return $invoice;
     }
 
@@ -495,7 +514,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
 
         $result = array();
         try {
-            $requiredAgreements = Mage::helper('Magento_Checkout_Helper_Data')->getRequiredAgreementIds();
+            $requiredAgreements = $this->_objectManager->get('Magento_Checkout_Helper_Data')->getRequiredAgreementIds();
             if ($requiredAgreements) {
                 $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
                 $agreementsDiff = array_diff($requiredAgreements, $postedAgreements);
@@ -503,7 +522,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
                     $result['success'] = false;
                     $result['error'] = true;
                     $result['error_messages'] = __('Please agree to all the terms and conditions before placing the order.');
-                    $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+                    $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
                     return;
                 }
             }
@@ -535,7 +554,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
             );
         } catch (Magento_Core_Exception $e) {
             Mage::logException($e);
-            Mage::helper('Magento_Checkout_Helper_Data')->sendPaymentFailedEmail(
+            $this->_objectManager->get('Magento_Checkout_Helper_Data')->sendPaymentFailedEmail(
                 $this->getOnepage()->getQuote(),
                 $e->getMessage()
             );
@@ -561,7 +580,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
             }
         } catch (Exception $e) {
             Mage::logException($e);
-            Mage::helper('Magento_Checkout_Helper_Data')->sendPaymentFailedEmail(
+            $this->_objectManager->get('Magento_Checkout_Helper_Data')->sendPaymentFailedEmail(
                 $this->getOnepage()->getQuote(),
                 $e->getMessage()
             );
@@ -578,7 +597,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
             $result['redirect'] = $redirectUrl;
         }
 
-        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**
@@ -602,7 +621,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
     {
         return Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()
             || $this->getRequest()->getActionName() == 'index'
-            || Mage::helper('Magento_Checkout_Helper_Data')->isAllowedGuestCheckout($this->getOnepage()->getQuote())
-            || !Mage::helper('Magento_Checkout_Helper_Data')->isCustomerMustBeLogged();
+            || $this->_objectManager->get('Magento_Checkout_Helper_Data')->isAllowedGuestCheckout($this->getOnepage()->getQuote())
+            || !$this->_objectManager->get('Magento_Checkout_Helper_Data')->isCustomerMustBeLogged();
     }
 }

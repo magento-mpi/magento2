@@ -137,7 +137,7 @@ T: {{telephone}}";
 
     public function getName()
     {
-        if(!$this->getData('name')) {
+        if (!$this->getData('name')) {
             $this->setData(
                 'name',
                 Mage::app()->getLocale()->getCountryTranslation($this->getId())

@@ -3,3 +3,4 @@
 ~dev/tests/functional
 dev/tests/functional/fixture/enterprise*
 dev/tests/functional/testsuite/Enterprise
+dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/PlaceholderConfigFilesTest.php

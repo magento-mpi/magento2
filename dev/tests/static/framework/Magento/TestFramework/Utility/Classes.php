@@ -122,9 +122,10 @@ class Magento_TestFramework_Utility_Classes
     {
         // @todo this method must be refactored after implementation of MAGETWO-7689 (valid configuration)
         $classes = self::getXmlNodeValues($xml, '
-            /config//resource_adapter | /config/*[not(name()="sections")]//class[not(ancestor::observers)] | //model
-                | //backend_model | //source_model | //price_model | //model_token | //writer_model | //clone_model
-                | //frontend_model | //working_model | //admin_renderer | //renderer | /config/*/di/preferences/*'
+            /config//resource_adapter | /config/*[not(name()="sections")]//class[not(ancestor::observers)]
+                | //model[not(parent::connection)] | //backend_model | //source_model | //price_model
+                | //model_token | //writer_model | //clone_model | //frontend_model | //working_model
+                | //admin_renderer | //renderer | /config/*/di/preferences/*'
         );
         $classes = array_merge($classes, self::getXmlAttributeValues($xml, '//@backend_model', 'backend_model'));
         $classes = array_merge($classes, self::getXmlNodeNames($xml,

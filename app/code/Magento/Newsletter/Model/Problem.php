@@ -30,7 +30,7 @@ class Magento_Newsletter_Model_Problem extends Magento_Core_Model_Abstract
 {
     /**
      * Current Subscriber
-     * 
+     *
      * @var Magento_Newsletter_Model_Subscriber
      */
     protected  $_subscriber = null;
@@ -87,11 +87,11 @@ class Magento_Newsletter_Model_Problem extends Magento_Core_Model_Abstract
      */
     public function getSubscriber()
     {
-        if(!$this->getSubscriberId()) {
+        if (!$this->getSubscriberId()) {
             return null;
         }
 
-        if(is_null($this->_subscriber)) {
+        if (is_null($this->_subscriber)) {
             $this->_subscriber = Mage::getModel('Magento_Newsletter_Model_Subscriber')
                 ->load($this->getSubscriberId());
         }
@@ -106,7 +106,7 @@ class Magento_Newsletter_Model_Problem extends Magento_Core_Model_Abstract
      */
     public function unsubscribe()
     {
-        if($this->getSubscriber()) {
+        if ($this->getSubscriber()) {
             $this->getSubscriber()->setSubscriberStatus(Magento_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED)
                 ->setIsStatusChanged(true)
                 ->save();

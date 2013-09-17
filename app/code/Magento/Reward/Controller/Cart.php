@@ -29,8 +29,8 @@ class Magento_Reward_Controller_Cart extends Magento_Core_Controller_Front_Actio
      */
     public function removeAction()
     {
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront()
-            || !Mage::helper('Magento_Reward_Helper_Data')->getHasRates()) {
+        if (!$this->_objectManager->get('Magento_Reward_Helper_Data')->isEnabledOnFront()
+            || !$this->_objectManager->get('Magento_Reward_Helper_Data')->getHasRates()) {
             return $this->_redirect('customer/account/');
         }
 

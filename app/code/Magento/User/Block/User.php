@@ -23,16 +23,18 @@ class Magento_User_Block_User extends Magento_Backend_Block_Widget_Grid_Containe
     protected $_resourceModel;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_User_Model_Resource_User $resourceModel
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_User_Model_Resource_User $resourceModel,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_resourceModel = $resourceModel;
     }
 

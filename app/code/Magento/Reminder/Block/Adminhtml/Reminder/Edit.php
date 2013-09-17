@@ -11,8 +11,39 @@
 /**
  * Reminder rule edit form block
  */
-class Magento_Reminder_Block_Adminhtml_Reminder_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+class Magento_Reminder_Block_Adminhtml_Reminder_Edit extends Magento_Backend_Block_Widget_Form_Container
 {
+    /**
+     * Core registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Reminder data
+     *
+     * @var Magento_Reminder_Helper_Data
+     */
+    protected $_reminderData = null;
+
+    /**
+     * @param Magento_Reminder_Helper_Data $reminderData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Reminder_Helper_Data $reminderData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_reminderData = $reminderData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Initialize form
      * Add standard buttons
@@ -28,10 +59,10 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit extends Magento_Adminhtml_B
         parent::_construct();
 
         /** @var $rule Magento_Reminder_Model_Rule */
-        $rule = Mage::registry('current_reminder_rule');
+        $rule = $this->_coreRegistry->registry('current_reminder_rule');
         if ($rule && $rule->getId()) {
             $confirm = __('Are you sure you want to match this rule now?');
-            if ($limit = Mage::helper('Magento_Reminder_Helper_Data')->getOneRunLimit()) {
+            if ($limit = $this->_reminderData->getOneRunLimit()) {
                 $confirm .= ' ' . __('No more than %1 customers may receive the reminder email after this action.', $limit);
             }
             $this->_addButton('run_now', array(
@@ -58,11 +89,10 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit extends Magento_Adminhtml_B
      */
     public function getHeaderText()
     {
-        $rule = Mage::registry('current_reminder_rule');
+        $rule = $this->_coreRegistry->registry('current_reminder_rule');
         if ($rule->getRuleId()) {
             return __("Edit Rule '%1'", $this->escapeHtml($rule->getName()));
-        }
-        else {
+        } else {
             return __('New Rule');
         }
     }
@@ -74,7 +104,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit extends Magento_Adminhtml_B
      */
     public function getRunUrl()
     {
-        $rule = Mage::registry('current_reminder_rule');
+        $rule = $this->_coreRegistry->registry('current_reminder_rule');
         return $this->getUrl('*/*/run', array('id' => $rule->getRuleId()));
     }
 }

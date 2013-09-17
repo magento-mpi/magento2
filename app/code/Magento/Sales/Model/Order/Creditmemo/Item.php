@@ -139,8 +139,7 @@ class Magento_Sales_Model_Order_Creditmemo_Item extends Magento_Core_Model_Abstr
         if (is_null($this->_orderItem)) {
             if ($this->getCreditmemo()) {
                 $this->_orderItem = $this->getCreditmemo()->getOrder()->getItemById($this->getOrderItemId());
-            }
-            else {
+            } else {
                 $this->_orderItem = Mage::getModel('Magento_Sales_Model_Order_Item')
                     ->load($this->getOrderItemId());
             }
@@ -157,10 +156,9 @@ class Magento_Sales_Model_Order_Creditmemo_Item extends Magento_Core_Model_Abstr
     public function setQty($qty)
     {
         if ($this->getOrderItem()->getIsQtyDecimal()) {
-            $qty = (float) $qty;
-        }
-        else {
-            $qty = (int) $qty;
+            $qty = (float)$qty;
+        } else {
+            $qty = (int)$qty;
         }
         $qty = $qty > 0 ? $qty : 0;
         /**
@@ -168,8 +166,7 @@ class Magento_Sales_Model_Order_Creditmemo_Item extends Magento_Core_Model_Abstr
          */
         if ($qty <= $this->getOrderItem()->getQtyToRefund() || $this->getOrderItem()->isDummy()) {
             $this->setData('qty', $qty);
-        }
-        else {
+        } else {
             Mage::throwException(
                 __('We found an invalid quantity to refund item "%1".', $this->getName())
             );
@@ -260,7 +257,8 @@ class Magento_Sales_Model_Order_Creditmemo_Item extends Magento_Core_Model_Abstr
     {
         $orderItem = $this->getOrderItem();
         if ((string)(float)$this->getQty() == (string)(float)$orderItem->getQtyToRefund()
-                && !$orderItem->getQtyToInvoice()) {
+            && !$orderItem->getQtyToInvoice()
+        ) {
             return true;
         }
         return false;

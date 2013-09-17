@@ -18,7 +18,6 @@
  */
 class Magento_Data_Form_Abstract extends Magento_Object
 {
-
     /**
      * Form level elements collection
      *
@@ -29,17 +28,32 @@ class Magento_Data_Form_Abstract extends Magento_Object
     /**
      * Element type classes
      *
-     * @var unknown_type
+     * @var array
      */
     protected $_types = array();
 
     /**
-     * Enter description here...
-     *
+     * @var Magento_Data_Form_Element_Factory
+     */
+    protected $_factoryElement;
+
+    /**
+     * @var Magento_Data_Form_Element_CollectionFactory
+     */
+    protected $_factoryCollection;
+
+    /**
+     * @param Magento_Data_Form_Element_Factory $factoryElement
+     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
      * @param array $attributes
      */
-    public function __construct($attributes = array())
-    {
+    public function __construct(
+        Magento_Data_Form_Element_Factory $factoryElement,
+        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
+        $attributes = array()
+    ) {
+        $this->_factoryElement = $factoryElement;
+        $this->_factoryCollection = $factoryCollection;
         parent::__construct($attributes);
         $this->_construct();
     }
@@ -75,7 +89,7 @@ class Magento_Data_Form_Abstract extends Magento_Object
     public function getElements()
     {
         if (empty($this->_elements)) {
-            $this->_elements = new Magento_Data_Form_Element_Collection($this);
+            $this->_elements = $this->_factoryCollection->create(array('container' => $this));
         }
         return $this->_elements;
     }
@@ -133,11 +147,9 @@ class Magento_Data_Form_Abstract extends Magento_Object
     public function addField($elementId, $type, $config, $after=false)
     {
         if (isset($this->_types[$type])) {
-            $className = $this->_types[$type];
-        } else {
-            $className = 'Magento_Data_Form_Element_' . ucfirst(strtolower($type));
+            $type = $this->_types[$type];
         }
-        $element = new $className($config);
+        $element = $this->_factoryElement->create($type, array('attributes' => $config));
         $element->setId($elementId);
         $this->addElement($element, $after);
         return $element;
@@ -166,7 +178,7 @@ class Magento_Data_Form_Abstract extends Magento_Object
      */
     public function addFieldset($elementId, $config, $after = false, $isAdvanced = false)
     {
-        $element = new Magento_Data_Form_Element_Fieldset($config);
+        $element = $this->_factoryElement->create('fieldset', array('attributes' => $config));
         $element->setId($elementId);
         $element->setAdvanced($isAdvanced);
         $this->addElement($element, $after);
@@ -182,7 +194,7 @@ class Magento_Data_Form_Abstract extends Magento_Object
      */
     public function addColumn($elementId, $config)
     {
-        $element = new Magento_Data_Form_Element_Column($config);
+        $element = $this->_factoryElement->create('column', array('attributes' => $config));
         $element->setForm($this)
             ->setId($elementId);
         $this->addElement($element);

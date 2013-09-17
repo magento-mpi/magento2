@@ -38,6 +38,6 @@ class Magento_Test_Legacy_Magento_AdminGws_ConfigTest extends PHPUnit_Framework_
      */
     public function configFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('config.xml');
+        return Magento_TestFramework_Utility_Files::init()->getMainConfigFiles();
     }
 }

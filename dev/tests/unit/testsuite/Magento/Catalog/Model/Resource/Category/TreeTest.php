@@ -46,12 +46,13 @@ class Magento_Catalog_Model_Resource_Category_TreeTest extends PHPUnit_Framework
             ->with('catalog_category_entity')
             ->will($this->returnArgument(0))
         ;
+        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
         $this->_attributeConfig = $this->getMock('Magento_Catalog_Model_Attribute_Config', array(), array(), '', false);
         $this->_collectionFactory = $this->getMock(
             'Magento_Catalog_Model_Resource_Category_Collection_Factory', array(), array(), '', false
         );
         $this->_model = new Magento_Catalog_Model_Resource_Category_Tree(
-            $this->_resource, $this->_attributeConfig, $this->_collectionFactory
+            $this->_resource, $eventManager, $this->_attributeConfig, $this->_collectionFactory
         );
     }
 

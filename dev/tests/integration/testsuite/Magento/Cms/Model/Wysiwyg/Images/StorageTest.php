@@ -19,7 +19,9 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
 
     public static function setUpBeforeClass()
     {
-        self::$_baseDir = Mage::helper('Magento_Cms_Helper_Wysiwyg_Images')->getCurrentPath() . __CLASS__;
+        self::$_baseDir = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Cms_Helper_Wysiwyg_Images')
+                ->getCurrentPath() . __CLASS__;
         mkdir(self::$_baseDir, 0777);
         touch(self::$_baseDir . DIRECTORY_SEPARATOR . '1.swf');
     }
@@ -53,11 +55,7 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
 
     public function testGetThumbsPath()
     {
-        $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $imageFactory = $objectManager->get('Magento_Core_Model_Image_AdapterFactory');
-        $viewUrl = $objectManager->get('Magento_Core_Model_View_Url');
-        $model = new Magento_Cms_Model_Wysiwyg_Images_Storage($filesystem, $imageFactory, $viewUrl);
+        $model = Mage::getModel('Magento_Cms_Model_Wysiwyg_Images_Storage');
         $this->assertStringStartsWith(
             realpath(Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir()),
             $model->getThumbsPath()

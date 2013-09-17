@@ -14,9 +14,11 @@
  * @category   Magento
  * @package    Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 
-class Magento_User_Block_User_Edit_Tab_Main extends Magento_Backend_Block_Widget_Form
+class Magento_User_Block_User_Edit_Tab_Main extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Prepare form fields
@@ -27,10 +29,10 @@ class Magento_User_Block_User_Edit_Tab_Main extends Magento_Backend_Block_Widget
     protected function _prepareForm()
     {
         /** @var $model Magento_User_Model_User */
-        $model = Mage::registry('permissions_user');
+        $model = $this->_coreRegistry->registry('permissions_user');
 
-        $form = new Magento_Data_Form();
-
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('user_');
 
         $fieldset = $form->addFieldset(

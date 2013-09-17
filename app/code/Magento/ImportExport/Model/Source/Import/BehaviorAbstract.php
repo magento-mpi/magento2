@@ -18,36 +18,6 @@
 abstract class Magento_ImportExport_Model_Source_Import_BehaviorAbstract
 {
     /**
-     * Array of data helpers
-     *
-     * @var array
-     */
-    protected $_helpers;
-
-    /**
-     * Constructor
-     *
-     * @param array $data
-     */
-    public function __construct(array $data = array())
-    {
-        if (isset($data['helpers'])) {
-            $this->_helpers = $data['helpers'];
-        }
-    }
-
-    /**
-     * Helper getter
-     *
-     * @param string $helperName
-     * @return Magento_Core_Helper_Abstract
-     */
-    protected function _helper($helperName)
-    {
-        return isset($this->_helpers[$helperName]) ? $this->_helpers[$helperName] : Mage::helper($helperName);
-    }
-
-    /**
      * Get array of possible values
      *
      * @abstract

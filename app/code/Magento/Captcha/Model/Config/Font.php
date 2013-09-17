@@ -18,6 +18,22 @@
 class Magento_Captcha_Model_Config_Font
 {
     /**
+     * Captcha data
+     *
+     * @var Magento_Captcha_Helper_Data
+     */
+    protected $_captchaData = null;
+
+    /**
+     * @param Magento_Captcha_Helper_Data $captchaData
+     */
+    public function __construct(
+        Magento_Captcha_Helper_Data $captchaData
+    ) {
+        $this->_captchaData = $captchaData;
+    }
+
+    /**
      * Get options for font selection field
      *
      * @return array
@@ -25,7 +41,7 @@ class Magento_Captcha_Model_Config_Font
     public function toOptionArray()
     {
         $optionArray = array();
-        foreach (Mage::helper('Magento_Captcha_Helper_Data')->getFonts() as $fontName => $fontData) {
+        foreach ($this->_captchaData->getFonts() as $fontName => $fontData) {
             $optionArray[] = array('label' => $fontData['label'], 'value' => $fontName);
         }
         return $optionArray;

@@ -11,11 +11,6 @@ class Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleop
     extends Magento_Adminhtml_Block_Catalog_Form
 {
     /**
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_registry;
-
-    /**
      * @var Magento_GoogleOptimizer_Helper_Code
      */
     protected $_codeHelper;
@@ -25,27 +20,30 @@ class Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleop
      */
     protected $_formHelper;
 
-    /**
-     * @param Magento_Backend_Block_Template_Context $context
+    /**.
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_GoogleOptimizer_Helper_Code $codeHelper
      * @param Magento_GoogleOptimizer_Helper_Form $formHelper
      * @param Magento_Data_Form $form
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
         Magento_GoogleOptimizer_Helper_Code $codeHelper,
         Magento_GoogleOptimizer_Helper_Form $formHelper,
         Magento_Data_Form $form,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
 
         $this->_codeHelper = $codeHelper;
         $this->_formHelper = $formHelper;
-        $this->_registry = $registry;
         $this->setForm($form);
     }
 
@@ -83,7 +81,7 @@ class Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleop
      */
     protected function _getCategory()
     {
-        $entity = $this->_registry->registry('current_category');
+        $entity = $this->_coreRegistry->registry('current_category');
         if (!$entity) {
             throw new RuntimeException('Entity is not found in registry.');
         }

@@ -15,6 +15,22 @@ class Magento_Banner_Model_Observer
 {
 
     /**
+     * Adminhtml js
+     *
+     * @var Magento_Adminhtml_Helper_Js
+     */
+    protected $_adminhtmlJs = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Js $adminhtmlJs
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Js $adminhtmlJs
+    ) {
+        $this->_adminhtmlJs = $adminhtmlJs;
+    }
+
+    /**
      * Prepare catalog rule post data to save
      *
      * @param Magento_Event_Observer $observer
@@ -25,7 +41,7 @@ class Magento_Banner_Model_Observer
         $request = $observer->getEvent()->getRequest();
         $request->setPost(
             'related_banners',
-            Mage::helper('Magento_Adminhtml_Helper_Js')->decodeGridSerializedInput($request->getPost('related_banners'))
+            $this->_adminhtmlJs->decodeGridSerializedInput($request->getPost('related_banners'))
         );
         return $this;
     }
@@ -59,7 +75,7 @@ class Magento_Banner_Model_Observer
         $request = $observer->getEvent()->getRequest();
         $request->setPost(
             'related_banners',
-            Mage::helper('Magento_Adminhtml_Helper_Js')->decodeGridSerializedInput($request->getPost('related_banners'))
+            $this->_adminhtmlJs->decodeGridSerializedInput($request->getPost('related_banners'))
         );
         return $this;
     }

@@ -44,7 +44,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
         $websiteAddData     = $this->getRequest()->getParam('add_website_ids', array());
 
         /* Prepare inventory data item options (use config settings) */
-        foreach (Mage::helper('Magento_CatalogInventory_Helper_Data')->getConfigItemOptions() as $option) {
+        $options = $this->_objectManager->get('Magento_CatalogInventory_Helper_Data')->getConfigItemOptions();
+        foreach ($options as $option) {
             if (isset($inventoryData[$option]) && !isset($inventoryData['use_config_' . $option])) {
                 $inventoryData['use_config_' . $option] = 0;
             }
@@ -52,7 +53,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
 
         try {
             if ($attributesData) {
-                $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+                $dateFormat = Mage::app()->getLocale()
+                    ->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
                 $storeId    = $this->_getHelper()->getSelectedStoreId();
 
                 foreach ($attributesData as $attributeCode => $value) {
@@ -140,7 +142,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
                 ));
 
                 $this->_getSession()->addNotice(
-                    __('Please refresh "Catalog URL Rewrites" and "Product Attributes" in System -> <a href="%1">Index Management</a>.', $this->getUrl('adminhtml/process/list'))
+                    __('Please refresh "Catalog URL Rewrites" and "Product Attributes" in System -> '
+                        . '<a href="%1">Index Management</a>.', $this->getUrl('adminhtml/process/list'))
                 );
             }
 
@@ -152,7 +155,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
             $this->_getSession()->addError($e->getMessage());
         }
         catch (Exception $e) {
-            $this->_getSession()->addException($e, __('Something went wrong while updating the product(s) attributes.'));
+            $this->_getSession()
+                ->addException($e, __('Something went wrong while updating the product(s) attributes.'));
         }
 
         $this->_redirect('*/catalog_product/', array('store'=>$this->_getHelper()->getSelectedStoreId()));
@@ -188,7 +192,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
      */
     protected function _getHelper()
     {
-        return Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute');
+        return $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute');
     }
 
     protected function _isAllowed()
@@ -209,7 +213,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
 
         try {
             if ($attributesData) {
-                $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+                $dateFormat = Mage::app()->getLocale()
+                    ->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
                 $storeId    = $this->_getHelper()->getSelectedStoreId();
 
                 foreach ($attributesData as $attributeCode => $value) {
@@ -231,7 +236,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
             $response->setError(true);
             $response->setMessage($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, __('Something went wrong while updating the product(s) attributes.'));
+            $this->_getSession()
+                ->addException($e, __('Something went wrong while updating the product(s) attributes.'));
             $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());

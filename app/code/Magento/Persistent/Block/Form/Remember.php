@@ -19,15 +19,37 @@
 class Magento_Persistent_Block_Form_Remember extends Magento_Core_Block_Template
 {
     /**
+     * Persistent data
+     *
+     * @var Magento_Persistent_Helper_Data
+     */
+    protected $_persistentData = null;
+
+    /**
+     * @param Magento_Persistent_Helper_Data $persistentData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Persistent_Helper_Data $persistentData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_persistentData = $persistentData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Prevent rendering if Persistent disabled
      *
      * @return string
      */
     protected function _toHtml()
     {
-        /** @var $helper Magento_Persistent_Helper_Data */
-        $helper = Mage::helper('Magento_Persistent_Helper_Data');
-        return ($helper->isEnabled() && $helper->isRememberMeEnabled()) ? parent::_toHtml() : '';
+        return ($this->_persistentData->isEnabled() && $this->_persistentData->isRememberMeEnabled())
+            ? parent::_toHtml() : '';
     }
 
     /**
@@ -37,8 +59,8 @@ class Magento_Persistent_Block_Form_Remember extends Magento_Core_Block_Template
      */
     public function isRememberMeChecked()
     {
-        /** @var $helper Magento_Persistent_Helper_Data */
-        $helper = Mage::helper('Magento_Persistent_Helper_Data');
-        return $helper->isEnabled() && $helper->isRememberMeEnabled() && $helper->isRememberMeCheckedDefault();
+        return $this->_persistentData->isEnabled()
+            && $this->_persistentData->isRememberMeEnabled()
+            && $this->_persistentData->isRememberMeCheckedDefault();
     }
 }

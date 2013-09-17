@@ -15,8 +15,30 @@
  */
 class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
     extends Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct(
+            $coreData, $paymentData, $context, $storeManager, $urlModel, $data
+        );
+    }
+
     /**
      * Disable filters and paging
      *
@@ -54,7 +76,7 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
      */
     public function canShowTab()
     {
-        $customer = Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
         return (bool)$customer->getId();
     }
 
@@ -76,12 +98,12 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Recurring_Profile_Collection')
-            ->addFieldToFilter('customer_id', Mage::registry('current_customer')->getId());
+            ->addFieldToFilter('customer_id', $this->_coreRegistry->registry('current_customer')->getId());
         if (!$this->getParam($this->getVarNameSort())) {
             $collection->setOrder('profile_id', 'desc');
         }
         $this->setCollection($collection);
-        return Magento_Adminhtml_Block_Widget_Grid::_prepareCollection();
+        return parent::_prepareCollection();
     }
 
     /**

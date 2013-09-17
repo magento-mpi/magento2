@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * CMS block edit form container
  *
@@ -18,6 +17,29 @@
  */
 class Magento_Adminhtml_Block_Cms_Block_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         $this->_objectId = 'block_id';
@@ -56,12 +78,11 @@ class Magento_Adminhtml_Block_Cms_Block_Edit extends Magento_Adminhtml_Block_Wid
      */
     public function getHeaderText()
     {
-        if (Mage::registry('cms_block')->getId()) {
-            return __("Edit Block '%1'", $this->escapeHtml(Mage::registry('cms_block')->getTitle()));
+        if ($this->_coreRegistry->registry('cms_block')->getId()) {
+            return __("Edit Block '%1'", $this->escapeHtml($this->_coreRegistry->registry('cms_block')->getTitle()));
         }
         else {
             return __('New Block');
         }
     }
-
 }

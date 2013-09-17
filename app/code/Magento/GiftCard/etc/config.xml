@@ -52,29 +52,11 @@
         </template>
     </global>
     <frontend>
-        <translate>
-            <modules>
-                <Magento_GiftCard>
-                    <files>
-                        <default>Magento_GiftCard.csv</default>
-                    </files>
-                </Magento_GiftCard>
-            </modules>
-        </translate>
         <secure_url>
             <giftcard_customer>/giftcard/customer/</giftcard_customer>
         </secure_url>
     </frontend>
     <adminhtml>
-        <translate>
-            <modules>
-                <Magento_GiftCard>
-                    <files>
-                        <default>Magento_GiftCard.csv</default>
-                    </files>
-                </Magento_GiftCard>
-            </modules>
-        </translate>
         <sales>
             <order>
                 <create>

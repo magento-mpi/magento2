@@ -35,6 +35,6 @@ class Magento_Test_Integrity_Modular_Magento_Catalog_AttributeConfigFilesTest ex
      */
     public function fileFormatDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('attributes.xml');
+        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('catalog_attributes.xml');
     }
 }

@@ -10,27 +10,22 @@
 
 /**
  * Sales orders grid massaction items updater
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Billing_Agreement_OrdersUpdater implements Magento_Core_Model_Layout_Argument_UpdaterInterface
 {
-
     /**
      * @var Magento_Core_Model_Registry
      */
     protected $_registryManager;
+
     /**
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      * @throws InvalidArgumentException
      */
-    public function __construct(array $data = array())
+    public function __construct(Magento_Core_Model_Registry $coreRegistry, array $data = array())
     {
-        $this->_registryManager = isset($data['registry']) ?
-            $data['registry'] :
-            Mage::getSingleton('Magento_Core_Model_Registry');
+        $this->_registryManager = isset($data['registry']) ? $data['registry'] : $coreRegistry;
 
         if (false === ($this->_registryManager instanceof Magento_Core_Model_Registry)) {
             throw new InvalidArgumentException('registry object has to be an instance of Magento_Core_Model_Registry');
@@ -41,8 +36,8 @@ class Magento_Sales_Model_Billing_Agreement_OrdersUpdater implements Magento_Cor
      * Add billing agreement filter
      *
      * @param mixed $argument
-     * @throws DomainException
      * @return mixed
+     * @throws DomainException
      */
     public function update($argument)
     {

@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
-
 /**
  * Catalog Event model
- *
- * @category   Magento
- * @package    Magento_CatalogEvent
  */
 class Magento_CatalogEvent_Model_Observer
 {
@@ -26,6 +21,32 @@ class Magento_CatalogEvent_Model_Observer
     protected $_eventsToCategories = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Catalog event data
+     *
+     * @var Magento_CatalogEvent_Helper_Data
+     */
+    protected $_catalogEventData = null;
+
+    /**
+     * @param Magento_CatalogEvent_Helper_Data $catalogEventData
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_CatalogEvent_Helper_Data $catalogEventData,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_catalogEventData = $catalogEventData;
+        $this->_coreRegistry = $coreRegistry;
+    }
+
+    /**
      * Applies event to category
      *
      * @param Magento_Event_Observer $observer
@@ -33,7 +54,7 @@ class Magento_CatalogEvent_Model_Observer
      */
     public function applyEventToCategory(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
+        if (!$this->_catalogEventData->isEnabled()) {
             return $this;
         }
 
@@ -53,7 +74,7 @@ class Magento_CatalogEvent_Model_Observer
      */
     public function applyEventToCategoryCollection(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
+        if (!$this->_catalogEventData->isEnabled()) {
             return $this;
         }
 
@@ -67,7 +88,7 @@ class Magento_CatalogEvent_Model_Observer
                 $this->_parseCategoryPath($path));
         }
 
-        if (! empty($categoryIds)) {
+        if (!empty($categoryIds)) {
             $eventCollection = $this->_getEventCollection($categoryIds);
             foreach ($categoryCollection as $category) {
                 $this->_applyEventToCategory($category,
@@ -84,7 +105,7 @@ class Magento_CatalogEvent_Model_Observer
      */
     public function applyEventToProduct(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
+        if (!$this->_catalogEventData->isEnabled()) {
             return $this;
         }
 
@@ -136,7 +157,7 @@ class Magento_CatalogEvent_Model_Observer
      */
     public function applyEventOnQuoteItemSetProduct(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
+        if (!$this->_catalogEventData->isEnabled()) {
             return $this;
         }
 
@@ -164,7 +185,7 @@ class Magento_CatalogEvent_Model_Observer
      */
     public function applyEventOnQuoteItemSetQty(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
+        if (!$this->_catalogEventData->isEnabled()) {
             return $this;
         }
 
@@ -175,7 +196,8 @@ class Magento_CatalogEvent_Model_Observer
         }
 
         if ($item->getEventId()) {
-            if ($event = $item->getEvent()) {
+            $event = $item->getEvent();
+            if ($event) {
                 if ($event->getStatus() !== Magento_CatalogEvent_Model_Event::STATUS_OPEN) {
                     $item->setHasError(true)
                         ->setMessage(
@@ -205,7 +227,7 @@ class Magento_CatalogEvent_Model_Observer
      */
     public function applyEventToProductCollection(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
+        if (!$this->_catalogEventData->isEnabled()) {
             return $this;
         }
 
@@ -264,10 +286,10 @@ class Magento_CatalogEvent_Model_Observer
      */
     protected function _getEventInStore($categoryId)
     {
-        if (Mage::registry('current_category')
-            && Mage::registry('current_category')->getId() == $categoryId) {
+        if ($this->_coreRegistry->registry('current_category')
+            && $this->_coreRegistry->registry('current_category')->getId() == $categoryId) {
             // If category already loaded for page, we don't need to load categories tree
-            return Mage::registry('current_category')->getEvent();
+            return $this->_coreRegistry->registry('current_category')->getEvent();
         }
 
         if ($this->_eventsToCategories === null) {
@@ -372,6 +394,4 @@ class Magento_CatalogEvent_Model_Observer
 
         return $this;
     }
-
-
 }

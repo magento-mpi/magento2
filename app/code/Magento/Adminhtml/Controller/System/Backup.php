@@ -18,13 +18,32 @@
 class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Backup list action
      */
     public function indexAction()
     {
         $this->_title(__('Backups'));
 
-        if($this->getRequest()->getParam('ajax')) {
+        if ($this->getRequest()->getParam('ajax')) {
             $this->_forward('grid');
             return;
         }
@@ -63,7 +82,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
         /**
          * @var Magento_Backup_Helper_Data $helper
          */
-        $helper = Mage::helper('Magento_Backup_Helper_Data');
+        $helper = $this->_objectManager->get('Magento_Backup_Helper_Data');
 
         try {
             $type = $this->getRequest()->getParam('type');
@@ -81,7 +100,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
 
             $backupManager->setName($this->getRequest()->getParam('backup_name'));
 
-            Mage::register('backup_manager', $backupManager);
+            $this->_coreRegistry->register('backup_manager', $backupManager);
 
             if ($this->getRequest()->getParam('maintenance_mode')) {
                 $turnedOn = $helper->turnOnMaintenanceMode();
@@ -89,9 +108,10 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
                 if (!$turnedOn) {
                     $response->setError(
                         __('You need more permissions to activate maintenance mode right now.')
-                            . ' ' . __('To continue with the backup, you need to either deselect "Put store on the maintenance mode" or update your permissions.')
-                    );
-                    $backupManager->setErrorMessage(__("Something went wrong putting your store into maintenance mode."));
+                        . ' ' . __('To continue with the backup, you need to either deselect '
+                        . '"Put store on the maintenance mode" or update your permissions.'));
+                    $backupManager->setErrorMessage(__("Something went wrong '
+                        . 'putting your store into maintenance mode."));
                     return $this->getResponse()->setBody($response->toJson());
                 }
             }
@@ -147,7 +167,8 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             return $this->_redirect('*/*');
         }
 
-        $fileName = Mage::helper('Magento_Backup_Helper_Data')->generateBackupDownloadName($backup);
+        $fileName = $this->_objectManager->get('Magento_Backup_Helper_Data')
+            ->generateBackupDownloadName($backup);
 
         $this->_prepareDownloadResponse($fileName, null, 'application/octet-stream', $backup->getSize());
 
@@ -164,7 +185,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
      */
     public function rollbackAction()
     {
-        if (!Mage::helper('Magento_Backup_Helper_Data')->isRollbackAllowed()){
+        if (!$this->_objectManager->get('Magento_Backup_Helper_Data')->isRollbackAllowed()) {
             return $this->_forward('denied');
         }
 
@@ -172,7 +193,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             return $this->getUrl('*/*/index');
         }
 
-        $helper = Mage::helper('Magento_Backup_Helper_Data');
+        $helper = $this->_objectManager->get('Magento_Backup_Helper_Data');
         $response = new Magento_Object();
 
         try {
@@ -199,7 +220,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
                 ->setName($backup->getName(), false)
                 ->setResourceModel(Mage::getResourceModel('Magento_Backup_Model_Resource_Db'));
 
-            Mage::register('backup_manager', $backupManager);
+            $this->_coreRegistry->register('backup_manager', $backupManager);
 
             $passwordValid = Mage::getModel('Magento_Backup_Model_Backup')->validateUserPassword(
                 $this->getRequest()->getParam('password')
@@ -217,9 +238,10 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
                 if (!$turnedOn) {
                     $response->setError(
                         __('You need more permissions to activate maintenance mode right now.')
-                            . ' ' . __('To continue with the rollback, you need to either deselect "Put store on the maintenance mode" or update your permissions.')
-                    );
-                    $backupManager->setErrorMessage(__("Something went wrong putting your store into maintenance mode."));
+                        . ' ' . __('To continue with the rollback, you need to either deselect '
+                        . '"Put store on the maintenance mode" or update your permissions.'));
+                    $backupManager->setErrorMessage(__("Something went wrong '
+                        . 'putting your store into maintenance mode."));
                     return $this->getResponse()->setBody($response->toJson());
                 }
             }
@@ -292,7 +314,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
         $resultData = new Magento_Object();
         $resultData->setIsSuccess(false);
         $resultData->setDeleteResult(array());
-        Mage::register('backup_manager', $resultData);
+        $this->_coreRegistry->register('backup_manager', $resultData);
 
         $deleteFailMessage = __('We couldn\'t delete one or more backups.');
 
@@ -322,8 +344,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
                 $this->_getSession()->addSuccess(
                     __('The selected backup(s) has been deleted.')
                 );
-            }
-            else {
+            } else {
                 throw new Exception($deleteFailMessage);
             }
         } catch (Exception $e) {

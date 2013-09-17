@@ -79,7 +79,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Decimal
         /**
          * Add additional external limitation
          */
-        Mage::dispatchEvent('prepare_catalog_product_index_select', array(
+        $this->_eventManager->dispatch('prepare_catalog_product_index_select', array(
             'select'        => $select,
             'entity_field'  => new Zend_Db_Expr('pdd.entity_id'),
             'website_field' => new Zend_Db_Expr('cs.website_id'),

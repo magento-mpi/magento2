@@ -15,6 +15,16 @@
 class Magento_Config_Dom
 {
     /**
+     * Prefix which will be used for root namespace
+     */
+    const ROOT_NAMESPACE_PREFIX = 'x';
+
+    /**
+     * Format of items in errors array to be used by default. Available placeholders - fields of LibXMLError.
+     */
+    const ERROR_FORMAT_DEFAULT = "%message%\nLine: %line%\n";
+
+    /**
      * Dom document
      *
      * @var DOMDocument
@@ -36,6 +46,20 @@ class Magento_Config_Dom
     protected $_schemaFile;
 
     /**
+     * Format of error messages
+     *
+     * @var string
+     */
+    protected $_errorFormat;
+
+    /**
+     * Default namespace for xml elements
+     *
+     * @var string
+     */
+    protected $_rootNamespace;
+
+    /**
      * Build DOM with initial XML contents and specifying identifier attributes for merging
      *
      * Format of $idAttributes: array('/xpath/to/some/node' => 'id_attribute_name')
@@ -44,13 +68,17 @@ class Magento_Config_Dom
      * @param string $xml
      * @param array $idAttributes
      * @param string $schemaFile
+     * @param string $errorFormat
      * @throws Magento_Config_Dom_ValidationException
      */
-    public function __construct($xml, array $idAttributes = array(), $schemaFile = null)
-    {
-        $this->_schemaFile   = $schemaFile;
-        $this->_idAttributes = $idAttributes;
-        $this->_dom = $this->_initDom($xml);
+    public function __construct(
+        $xml, array $idAttributes = array(), $schemaFile = null, $errorFormat = self::ERROR_FORMAT_DEFAULT
+    ) {
+        $this->_schemaFile    = $schemaFile;
+        $this->_idAttributes  = $idAttributes;
+        $this->_errorFormat   = $errorFormat;
+        $this->_dom           = $this->_initDom($xml);
+        $this->_rootNamespace = $this->_dom->lookupNamespaceUri($this->_dom->namespaceURI);
     }
 
     /**
@@ -85,19 +113,20 @@ class Magento_Config_Dom
 
         /* Update matched node attributes and value */
         if ($matchedNode) {
-            foreach ($node->attributes as $attribute) {
-                $matchedNode->setAttribute($attribute->name, $attribute->value);
+            $this->_mergeAttributes($matchedNode, $node);
+            if (!$node->hasChildNodes()) {
+                return;
             }
-            /* Merge child nodes */
-            if ($node->hasChildNodes()) {
-                /* override node value */
-                if ($node->childNodes->length == 1 && $node->childNodes->item(0) instanceof DOMText) {
+            /* override node value */
+            if ($this->_isTextNode($node)) {
+                /* skip the case when the matched node has children, otherwise they get overriden */
+                if (!$matchedNode->hasChildNodes() || $this->_isTextNode($matchedNode)) {
                     $matchedNode->nodeValue = $node->childNodes->item(0)->nodeValue;
-                } else { /* recursive merge for all child nodes */
-                    foreach ($node->childNodes as $childNode) {
-                        if ($childNode instanceof DOMElement) {
-                            $this->_mergeNode($childNode, $path);
-                        }
+                }
+            } else { /* recursive merge for all child nodes */
+                foreach ($node->childNodes as $childNode) {
+                    if ($childNode instanceof DOMElement) {
+                        $this->_mergeNode($childNode, $path);
                     }
                 }
             }
@@ -110,6 +139,31 @@ class Magento_Config_Dom
     }
 
     /**
+     * Check if the node content is text
+     *
+     * @param $node
+     * @return bool
+     */
+    protected function _isTextNode($node)
+    {
+        return $node->childNodes->length == 1 && $node->childNodes->item(0) instanceof DOMText;
+    }
+
+    /**
+     * Merges attributes of the merge node to the base node
+     *
+     * @param $baseNode
+     * @param $mergeNode
+     * @return null
+     */
+    protected function _mergeAttributes($baseNode, $mergeNode)
+    {
+        foreach ($mergeNode->attributes as $attribute) {
+            $baseNode->setAttribute($this->_getAttributeName($attribute), $attribute->value);
+        }
+    }
+
+    /**
      * Identify node path based on parent path and node attributes
      *
      * @param DOMElement $node
@@ -118,7 +172,8 @@ class Magento_Config_Dom
      */
     protected function _getNodePathByParent(DOMElement $node, $parentPath)
     {
-        $path = $parentPath . '/' . $node->tagName;
+        $prefix = is_null($this->_rootNamespace) ? '' : self::ROOT_NAMESPACE_PREFIX . ':';
+        $path = $parentPath . '/' . $prefix . $node->tagName;
         $idAttribute = $this->_findIdAttribute($path);
         if ($idAttribute && $value = $node->getAttribute($idAttribute)) {
             $path .= "[@{$idAttribute}='{$value}']";
@@ -135,6 +190,7 @@ class Magento_Config_Dom
     protected function _findIdAttribute($xPath)
     {
         $path = preg_replace('/\[@[^\]]+?\]/', '', $xPath);
+        $path = preg_replace('/\/[^:]+?\:/', '/', $path);
         return isset($this->_idAttributes[$path]) ? $this->_idAttributes[$path] : false;
     }
 
@@ -148,6 +204,9 @@ class Magento_Config_Dom
     protected function _getMatchedNode($nodePath)
     {
         $xPath  = new DOMXPath($this->_dom);
+        if ($this->_rootNamespace) {
+            $xPath->registerNamespace(self::ROOT_NAMESPACE_PREFIX, $this->_rootNamespace);
+        }
         $matchedNodes = $xPath->query($nodePath);
         $node = null;
         if ($matchedNodes->length > 1) {
@@ -163,10 +222,12 @@ class Magento_Config_Dom
      *
      * @param DOMDocument $dom
      * @param string $schemaFileName
+     * @param string $errorFormat
      * @return array of errors
      */
-    public static function validateDomDocument(DOMDocument $dom, $schemaFileName)
-    {
+    public static function validateDomDocument(
+        DOMDocument $dom, $schemaFileName, $errorFormat = self::ERROR_FORMAT_DEFAULT
+    ) {
         libxml_use_internal_errors(true);
         $result = $dom->schemaValidate($schemaFileName);
         $errors = array();
@@ -174,7 +235,7 @@ class Magento_Config_Dom
             $validationErrors = libxml_get_errors();
             if (count($validationErrors)) {
                 foreach ($validationErrors as $error) {
-                    $errors[] = "{$error->message} Line: {$error->line}\n";
+                    $errors[] = self::_renderErrorMessage($error, $errorFormat);
                 }
             } else {
                 $errors[] = 'Unknown validation error';
@@ -182,6 +243,28 @@ class Magento_Config_Dom
         }
         libxml_use_internal_errors(false);
         return $errors;
+    }
+
+    /**
+     * Render error message string by replacing placeholders '%field%' with properties of LibXMLError
+     *
+     * @param LibXMLError $errorInfo
+     * @param string $format
+     * @return string
+     * @throws InvalidArgumentException
+     */
+    private static function _renderErrorMessage(LibXMLError $errorInfo, $format)
+    {
+        $result = $format;
+        foreach ($errorInfo as $field => $value) {
+            $placeholder = '%' . $field . '%';
+            $value = trim((string)$value);
+            $result = str_replace($placeholder, $value, $result);
+        }
+        if (strpos($result, '%') !== false) {
+            throw new InvalidArgumentException("Error format '$format' contains unsupported placeholders.");
+        }
+        return $result;
     }
 
     /**
@@ -206,7 +289,7 @@ class Magento_Config_Dom
         $dom = new DOMDocument();
         $dom->loadXML($xml);
         if ($this->_schemaFile) {
-            $errors = self::validateDomDocument($dom, $this->_schemaFile);
+            $errors = self::validateDomDocument($dom, $this->_schemaFile, $this->_errorFormat);
             if (count($errors)) {
                 throw new Magento_Config_Dom_ValidationException(implode("\n", $errors));
             }
@@ -223,7 +306,7 @@ class Magento_Config_Dom
      */
     public function validate($schemaFileName, &$errors = array())
     {
-        $errors = self::validateDomDocument($this->_dom, $schemaFileName);
+        $errors = self::validateDomDocument($this->_dom, $schemaFileName, $this->_errorFormat);
         return !count($errors);
     }
 
@@ -237,5 +320,21 @@ class Magento_Config_Dom
     {
         $this->_schemaFile = $schemaFile;
         return $this;
+    }
+
+    /**
+     * Returns the attribute name with prefix, if there is one
+     *
+     * @param DOMAttr $attribute
+     * @return string
+     */
+    private function _getAttributeName($attribute)
+    {
+        if (!is_null($attribute->prefix) && !empty($attribute->prefix)) {
+            $attributeName = $attribute->prefix . ':' .$attribute->name;
+        } else {
+            $attributeName =  $attribute->name;
+        }
+        return $attributeName;
     }
 }

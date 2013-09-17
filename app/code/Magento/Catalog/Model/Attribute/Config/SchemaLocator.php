@@ -21,7 +21,7 @@ class Magento_Catalog_Model_Attribute_Config_SchemaLocator implements Magento_Co
      */
     public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader)
     {
-        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Catalog') . '/attributes.xsd';
+        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Catalog') . '/catalog_attributes.xsd';
     }
 
     /**

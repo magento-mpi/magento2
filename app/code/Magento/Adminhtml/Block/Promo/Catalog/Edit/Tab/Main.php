@@ -16,8 +16,8 @@
  * @author Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Backend_Block_Widget_Form_Generic
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Prepare content for tab
@@ -61,10 +61,10 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_promo_catalog_rule');
+        $model = $this->_coreRegistry->registry('current_promo_catalog_rule');
 
-        $form = new Magento_Data_Form();
-
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset = $form->addFieldset('base_fieldset',
@@ -117,7 +117,8 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
                 'required' => true,
                 'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()
+                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
         }
 
@@ -154,8 +155,6 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
 
         $form->setValues($model->getData());
 
-        //$form->setUseContainer(true);
-
         if ($model->isReadonly()) {
             foreach ($fieldset->getElements() as $element) {
                 $element->setReadonly(true, true);
@@ -164,7 +163,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
 
         $this->setForm($form);
 
-        Mage::dispatchEvent('adminhtml_promo_catalog_edit_tab_main_prepare_form', array('form' => $form));
+        $this->_eventManager->dispatch('adminhtml_promo_catalog_edit_tab_main_prepare_form', array('form' => $form));
 
         return parent::_prepareForm();
     }

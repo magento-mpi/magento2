@@ -12,7 +12,7 @@
  * Reminder rules edit form general fields
  */
 class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
-    extends Magento_Adminhtml_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Prepare general properties form
@@ -22,8 +22,9 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
     protected function _prepareForm()
     {
         $isEditable = ($this->getCanEditReminderRule() !== false) ? true : false;
-        $form = new Magento_Data_Form();
-        $model = Mage::registry('current_reminder_rule');
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
+        $model = $this->_coreRegistry->registry('current_reminder_rule');
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend'  => __('General Information'),

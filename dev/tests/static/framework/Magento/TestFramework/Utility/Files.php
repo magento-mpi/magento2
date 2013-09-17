@@ -167,9 +167,38 @@ class Magento_TestFramework_Utility_Files
     public function getXmlFiles()
     {
         return array_merge(
-            self::getConfigFiles(),
-            self::getLayoutFiles()
+            $this->getMainConfigFiles(),
+            $this->getLayoutFiles()
         );
+    }
+
+    /**
+     * Retrieve all config files, that participate (or have a chance to participate) in composing main config
+     *
+     * @param bool $asDataSet
+     * @return array
+     */
+    public function getMainConfigFiles($asDataSet = true)
+    {
+        $cacheKey = __METHOD__ . '|' . $this->_path . '|' . serialize(func_get_args());
+        if (!isset(self::$_cache[$cacheKey])) {
+            $globPaths = array(
+                'app/etc/config.xml',
+                'app/etc/*/config.xml',
+                'app/etc/local.xml',
+                'app/code/*/*/etc/config.xml',
+                'app/code/*/*/etc/config.*.xml', // Module DB-specific configs, e.g. config.mysql4.xml
+            );
+            $files = array();
+            foreach ($globPaths as $globPath) {
+                $files = array_merge($files, glob($this->_path . '/' . $globPath));
+            }
+            self::$_cache[$cacheKey] = $files;
+        }
+        if ($asDataSet) {
+            return self::composeDataSets(self::$_cache[$cacheKey]);
+        }
+        return self::$_cache[$cacheKey];
     }
 
     /**
@@ -178,16 +207,19 @@ class Magento_TestFramework_Utility_Files
      * @param string $fileNamePattern
      * @param array $excludedFileNames
      * @param bool $asDataSet
+     * @param bool $includeDesign
      * @return array
      */
     public function getConfigFiles(
         $fileNamePattern = '*.xml',
         $excludedFileNames = array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'),
-        $asDataSet = true
+        $asDataSet = true,
+        $includeDesign = false
     ) {
+        $searchDir = $includeDesign ? "{code,design}" : "code";
         $cacheKey = __METHOD__ . '|' . $this->_path . '|' . serialize(func_get_args());
         if (!isset(self::$_cache[$cacheKey])) {
-            $files = glob($this->_path . "/app/code/*/*/etc/$fileNamePattern", GLOB_NOSORT | GLOB_BRACE);
+            $files = glob($this->_path . "/app/" . $searchDir . "/*/*/etc/$fileNamePattern", GLOB_NOSORT | GLOB_BRACE);
             $files = array_filter(
                 $files,
                 function ($file) use ($excludedFileNames) {
@@ -459,4 +491,19 @@ class Magento_TestFramework_Utility_Files
         return $result;
     }
 
+    /**
+     * @param string $namespace
+     * @param string $module
+     * @param string $file
+     * @return string
+     */
+    public function getModuleFile($namespace, $module, $file)
+    {
+        return $this->_path . DIRECTORY_SEPARATOR
+            . 'app'. DIRECTORY_SEPARATOR
+            . 'code'. DIRECTORY_SEPARATOR
+            . $namespace . DIRECTORY_SEPARATOR
+            . $module . DIRECTORY_SEPARATOR
+            . $file;
+    }
 }

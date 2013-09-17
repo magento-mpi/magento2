@@ -23,11 +23,14 @@ class Magento_Wishlist_Block_Customer_Wishlist_Item_ColumnTest extends PHPUnit_F
 
     protected function setUp()
     {
-        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
+        $this->_layout = Mage::getSingleton('Magento_Core_Model_Layout');
         $this->_block = $this->_layout->addBlock('Magento_Wishlist_Block_Customer_Wishlist_Item_Column', 'test');
         $this->_layout->addBlock('Magento_Core_Block_Text', 'child', 'test');
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testToHtml()
     {
         $item = new StdClass;

@@ -31,7 +31,35 @@
  */
 class Magento_GiftRegistry_Model_Person extends Magento_Core_Model_Abstract
 {
-    function _construct() {
+    /**
+     * Gift registry data
+     *
+     * @var Magento_GiftRegistry_Helper_Data
+     */
+    protected $_giftRegistryData = null;
+
+    /**
+     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_GiftRegistry_Model_Resource_Person $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GiftRegistry_Helper_Data $giftRegistryData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_GiftRegistry_Model_Resource_Person $resource,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_giftRegistryData = $giftRegistryData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    protected function _construct()
+    {
         $this->_init('Magento_GiftRegistry_Model_Resource_Person');
     }
 
@@ -60,7 +88,7 @@ class Magento_GiftRegistry_Model_Person extends Magento_Core_Model_Abstract
         $customValues = $this->getCustom();
         $attributes = Mage::getSingleton('Magento_GiftRegistry_Model_Entity')->getRegistrantAttributes();
 
-        $errorsCustom = Mage::helper('Magento_GiftRegistry_Helper_Data')->validateCustomAttributes($customValues, $attributes);
+        $errorsCustom = $this->_giftRegistryData->validateCustomAttributes($customValues, $attributes);
         if ($errorsCustom !== true) {
             $errors = empty($errors) ? $errorsCustom : array_merge($errors, $errorsCustom);
         }
@@ -75,7 +103,8 @@ class Magento_GiftRegistry_Model_Person extends Magento_Core_Model_Abstract
      *
      * @return $this
      */
-    public function unserialiseCustom() {
+    public function unserialiseCustom()
+    {
         if (is_string($this->getCustomValues())) {
             $this->setCustom(unserialize($this->getCustomValues()));
         }

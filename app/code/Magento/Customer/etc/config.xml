@@ -54,30 +54,10 @@
             </email>
         </template>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Customer>
-                    <files>
-                        <default>Magento_Customer.csv</default>
-                    </files>
-                </Magento_Customer>
-            </modules>
-        </translate>
-    </adminhtml>
     <frontend>
         <secure_url>
             <customer>/customer/</customer>
         </secure_url>
-        <translate>
-            <modules>
-                <Magento_Customer>
-                    <files>
-                        <default>Magento_Customer.csv</default>
-                    </files>
-                </Magento_Customer>
-            </modules>
-        </translate>
     </frontend>
     <default>
         <customer>

@@ -21,7 +21,7 @@ class Magento_Review_Block_Product_View_List extends Magento_Review_Block_Produc
 
     public function getProductId()
     {
-        return Mage::registry('product')->getId();
+        return $this->_coreRegistry->registry('product')->getId();
     }
 
     protected function _prepareLayout()

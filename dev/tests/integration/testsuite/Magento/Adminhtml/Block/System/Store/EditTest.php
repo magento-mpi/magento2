@@ -16,9 +16,11 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
 {
     public function tearDown()
     {
-        Mage::unregister('store_type');
-        Mage::unregister('store_data');
-        Mage::unregister('store_action');
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')->unregister('store_type');
+        $objectManager->get('Magento_Core_Model_Registry')->unregister('store_data');
+        $objectManager->get('Magento_Core_Model_Registry')->unregister('store_action');
     }
 
     /**
@@ -26,12 +28,15 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
      */
     protected function _initStoreTypesInRegistry($registryData)
     {
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         foreach ($registryData as $key => $value) {
-            Mage::register($key, $value);
+            $objectManager->get('Magento_Core_Model_Registry')->register($key, $value);
         }
     }
 
     /**
+     * @magentoAppIsolation enabled
      * @param $registryData
      * @param $expected
      * @dataProvider getStoreTypesForLayout
@@ -41,7 +46,7 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
         $this->_initStoreTypesInRegistry($registryData);
 
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
         /** @var $block Magento_Adminhtml_Block_System_Store_Edit */
         $block = $layout->createBlock('Magento_Adminhtml_Block_System_Store_Edit', 'block');
         $block->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
@@ -56,20 +61,21 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
     {
         return array(
             array(
-                array('store_type'=>'website', 'store_data'=> Mage::getModel('Magento_Core_Model_Website')),
+                array('store_type' => 'website', 'store_data' => Mage::getModel('Magento_Core_Model_Website')),
                 'Magento_Adminhtml_Block_System_Store_Edit_Form_Website'
             ),
             array(
-                array('store_type'=>'group', 'store_data'=> Mage::getModel('Magento_Core_Model_Store_Group')),
+                array('store_type' => 'group', 'store_data' => Mage::getModel('Magento_Core_Model_Store_Group')),
                 'Magento_Adminhtml_Block_System_Store_Edit_Form_Group'
             ),
             array(
-                array('store_type'=>'store', 'store_data'=> Mage::getModel('Magento_Core_Model_Store')),
+                array('store_type' => 'store', 'store_data' => Mage::getModel('Magento_Core_Model_Store')),
                 'Magento_Adminhtml_Block_System_Store_Edit_Form_Store'
             )
         );
     }
     /**
+     * @magentoAppIsolation enabled
      * @param $registryData
      * @param $expected
      * @dataProvider getStoreDataForBlock
@@ -79,7 +85,7 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
         $this->_initStoreTypesInRegistry($registryData);
 
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
         /** @var $block Magento_Adminhtml_Block_System_Store_Edit */
         $block = $layout->createBlock('Magento_Adminhtml_Block_System_Store_Edit', 'block');
         $block->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);

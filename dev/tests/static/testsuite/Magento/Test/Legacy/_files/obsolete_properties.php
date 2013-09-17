@@ -75,4 +75,5 @@ return array(
     array('decoratedIsLast', null, 'getDecoratedIsLast'),
     array('static', 'Magento_Core_Model_Email_Template_Filter'),
     array('_useAnalyticFunction'),
+    array('_registry', 'Mage'),
 );

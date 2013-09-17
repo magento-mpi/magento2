@@ -29,28 +29,6 @@
             </email>
         </template>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Sendfriend>
-                    <files>
-                        <default>Magento_Sendfriend.csv</default>
-                    </files>
-                </Magento_Sendfriend>
-            </modules>
-        </translate>
-    </adminhtml>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Sendfriend>
-                    <files>
-                        <default>Magento_Sendfriend.csv</default>
-                    </files>
-                </Magento_Sendfriend>
-            </modules>
-        </translate>
-    </frontend>
     <default>
         <sendfriend>
             <email>

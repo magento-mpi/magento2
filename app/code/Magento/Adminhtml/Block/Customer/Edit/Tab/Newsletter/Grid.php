@@ -17,6 +17,32 @@
  */
 class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -33,7 +59,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Magento_
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/newsletter', array('_current'=>true));
+        return $this->getUrl('*/*/newsletter', array('_current' => true));
     }
 
     protected function _prepareCollection()
@@ -41,7 +67,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Magento_
         /** @var $collection Magento_Newsletter_Model_Resource_Queue_Collection */
         $collection = Mage::getResourceModel('Magento_Newsletter_Model_Resource_Queue_Collection')
             ->addTemplateInfo()
-            ->addSubscriberFilter(Mage::registry('subscriber')->getId());
+            ->addSubscriberFilter($this->_coreRegistry->registry('subscriber')->getId());
 
         $this->setCollection($collection);
 
@@ -107,5 +133,4 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Magento_
 
         return parent::_prepareColumns();
     }
-
 }

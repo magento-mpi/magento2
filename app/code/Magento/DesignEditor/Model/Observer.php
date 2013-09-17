@@ -118,35 +118,6 @@ class Magento_DesignEditor_Model_Observer
     }
 
     /**
-     * Copy additional information about theme change time
-     *
-     * @param Magento_Event_Observer $event
-     */
-    public function copyChangeTime($event)
-    {
-        /** @var $sourceTheme Magento_Core_Model_Theme|null */
-        $sourceTheme = $event->getData('sourceTheme');
-        /** @var $targetTheme Magento_Core_Model_Theme|null */
-        $targetTheme = $event->getData('targetTheme');
-        if ($sourceTheme && $targetTheme) {
-            /** @var $sourceChange Magento_DesignEditor_Model_Theme_Change */
-            $sourceChange = $this->_objectManager->create('Magento_DesignEditor_Model_Theme_Change');
-            $sourceChange->loadByThemeId($sourceTheme->getId());
-            /** @var $targetChange Magento_DesignEditor_Model_Theme_Change */
-            $targetChange = $this->_objectManager->create('Magento_DesignEditor_Model_Theme_Change');
-            $targetChange->loadByThemeId($targetTheme->getId());
-
-            if ($sourceChange->getId()) {
-                $targetChange->setThemeId($targetTheme->getId());
-                $targetChange->setChangeTime($sourceChange->getChangeTime());
-                $targetChange->save();
-            } elseif ($targetChange->getId()) {
-                $targetChange->delete();
-            }
-        }
-    }
-
-    /**
      * Determine if the vde specific translation class should be used.
      *
      * @param  Magento_Event_Observer $observer

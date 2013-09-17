@@ -50,15 +50,24 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
 
     /**
      * Init main class options
+     *
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Catalog_Model_Resource_Product $product
      */
     public function __construct(
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Catalog_Model_Resource_Product $product
     ) {
         $this->setProductEntityId($product->getEntityIdField());
         $this->setProductEntityTableName($product->getEntityTable());
         $this->setProductEntityTypeId($product->getTypeId());
-        parent::__construct($fetchStrategy);
+        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy);
     }
     /**
      * Set Type for COUNT SQL Select
@@ -75,7 +84,7 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Set product entity id
      *
-     * @param int $value
+     * @param $entityId
      * @return Magento_Reports_Model_Resource_Product_Collection
      */
     public function setProductEntityId($entityId)

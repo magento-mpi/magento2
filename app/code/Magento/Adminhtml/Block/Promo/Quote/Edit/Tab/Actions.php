@@ -8,17 +8,9 @@
  * @license     {license_link}
  */
 
-/**
- * description
- *
- * @category    Magento
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Backend_Block_Widget_Form_Generic
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Prepare content for tab
@@ -62,14 +54,15 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_promo_quote_rule');
+        $model = $this->_coreRegistry->registry('current_promo_quote_rule');
 
-        //$form = new Magento_Data_Form(array('id' => 'edit_form1', 'action' => $this->getData('action'), 'method' => 'post'));
-        $form = new Magento_Data_Form();
-
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset = $form->addFieldset('action_fieldset', array('legend'=>__('Update prices using the following information')));
+        $fieldset = $form->addFieldset('action_fieldset', array(
+            'legend' => __('Update prices using the following information')
+        ));
 
         $fieldset->addField('simple_action', 'select', array(
             'label'     => __('Apply'),
@@ -133,7 +126,8 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
             ->setNewChildUrl($this->getUrl('*/promo_quote/newActionHtml/form/rule_actions_fieldset'));
 
         $fieldset = $form->addFieldset('actions_fieldset', array(
-            'legend'=>__('Apply the rule only to cart items matching the following conditions (leave blank for all items).')
+            'legend'=>__('Apply the rule only to cart items matching the following conditions '
+                . '(leave blank for all items).')
         ))->setRenderer($renderer);
 
         $fieldset->addField('actions', 'text', array(
@@ -143,7 +137,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
             'required' => true,
         ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Actions'));
 
-        Mage::dispatchEvent('adminhtml_block_salesrule_actions_prepareform', array('form' => $form));
+        $this->_eventManager->dispatch('adminhtml_block_salesrule_actions_prepareform', array('form' => $form));
 
         $form->setValues($model->getData());
 
@@ -152,11 +146,8 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
                 $element->setReadonly(true, true);
             }
         }
-        //$form->setUseContainer(true);
 
         $this->setForm($form);
-
         return parent::_prepareForm();
     }
-
 }

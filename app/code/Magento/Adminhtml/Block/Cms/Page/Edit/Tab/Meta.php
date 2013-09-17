@@ -16,10 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Meta
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Backend_Block_Widget_Form_Generic
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
-
     protected function _prepareForm()
     {
         /*
@@ -31,11 +30,12 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Meta
             $isElementDisabled = true;
         }
 
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form   = $this->_formFactory->create();
 
         $form->setHtmlIdPrefix('page_');
 
-        $model = Mage::registry('cms_page');
+        $model = $this->_coreRegistry->registry('cms_page');
 
         $fieldset = $form->addFieldset('meta_fieldset', array('legend' => __('Meta Data'), 'class' => 'fieldset-wide'));
 
@@ -53,7 +53,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Meta
             'disabled'  => $isElementDisabled
         ));
 
-        Mage::dispatchEvent('adminhtml_cms_page_edit_tab_meta_prepare_form', array('form' => $form));
+        $this->_eventManager->dispatch('adminhtml_cms_page_edit_tab_meta_prepare_form', array('form' => $form));
 
         $form->setValues($model->getData());
 

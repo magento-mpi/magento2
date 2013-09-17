@@ -56,7 +56,8 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
      */
     protected $_flagOptionsSaved = null;
 
-    function _construct() {
+    protected function _construct()
+    {
         $this->_init('Magento_GiftRegistry_Model_Resource_Item');
     }
 
@@ -175,7 +176,8 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
             }
             if ( !isset($options2[$code])
                 || ($options2[$code]->getValue() === null)
-                || $options2[$code]->getValue() != $option->getValue()) {
+                || $options2[$code]->getValue() != $option->getValue()
+            ) {
                 return false;
             }
         }
@@ -369,7 +371,7 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
             $option = Mage::getModel('Magento_GiftRegistry_Model_Item_Option')->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
-        } elseif($option instanceof Magento_GiftRegistry_Model_Item_Option) {
+        } elseif ($option instanceof Magento_GiftRegistry_Model_Item_Option) {
             $option->setItem($this);
         } else {
             Mage::throwException(__('Please correct the item option format.'));

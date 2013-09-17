@@ -38,7 +38,7 @@ class Magento_Catalog_Model_Attribute_Config_ReaderTest extends PHPUnit_Framewor
         $this->_fileResolverMock
             ->expects($this->once())
             ->method('get')
-            ->with('attributes.xml', 'scope')
+            ->with('catalog_attributes.xml', 'scope')
             ->will($this->returnValue(array(
                 __DIR__ . '/_files/attributes_config_one.xml',
                 __DIR__ . '/_files/attributes_config_two.xml',

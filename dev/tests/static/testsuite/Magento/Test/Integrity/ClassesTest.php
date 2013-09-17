@@ -99,7 +99,7 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function configFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles();
+        return Magento_TestFramework_Utility_Files::init()->getMainConfigFiles();
     }
 
     /**
@@ -219,7 +219,7 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     protected function _assertClassNamespace($file, $relativePath, $contents, $className)
     {
         $namespacePattern = '/(Maged|Magento|Zend)\/[a-zA-Z]+[^\.]+/';
-        $formalPattern = '/^namespace\s[\\\\a-zA-Z]+/m';
+        $formalPattern = '/^namespace\s[\\\\a-zA-Z\d]+/m';
 
         $namespaceMatch = array();
         $formalNamespaceArray = array();

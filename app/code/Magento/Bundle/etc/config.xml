@@ -74,27 +74,7 @@
             </creditmemo>
         </pdf>
     </global>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Bundle>
-                    <files>
-                        <default>Magento_Bundle.csv</default>
-                    </files>
-                </Magento_Bundle>
-            </modules>
-        </translate>
-    </frontend>
     <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Bundle>
-                    <files>
-                        <default>Magento_Bundle.csv</default>
-                    </files>
-                </Magento_Bundle>
-            </modules>
-        </translate>
         <sales>
             <order>
                 <create>

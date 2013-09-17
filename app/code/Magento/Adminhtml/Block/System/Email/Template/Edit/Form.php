@@ -10,13 +10,9 @@
 
 /**
  * Adminhtml system template edit form
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Prepare layout.
@@ -26,7 +22,8 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ad
      */
     protected function _prepareLayout()
     {
-        if ($head = $this->getLayout()->getBlock('head')) {
+        $head = $this->getLayout()->getBlock('head');
+        if ($head) {
             $head->addJs('prototype/window.js')
                 ->addCss('prototype/windows/themes/default.css')
                 ->addCss('Magento_Core::prototype/magento.css')
@@ -42,7 +39,8 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ad
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend' => __('Template Information'),
@@ -131,7 +129,8 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ad
             $form->addValues($this->getEmailTemplate()->getData());
         }
 
-        if ($values = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getData('email_template_form_data', true)) {
+        $values = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getData('email_template_form_data', true);
+        if ($values) {
             $form->setValues($values);
         }
 
@@ -147,7 +146,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ad
      */
     public function getEmailTemplate()
     {
-        return Mage::registry('current_email_template');
+        return $this->_coreRegistry->registry('current_email_template');
     }
 
     /**
@@ -166,7 +165,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ad
             $variables[] = $customVariables;
         }
         /* @var $template Magento_Core_Model_Email_Template */
-        $template = Mage::registry('current_email_template');
+        $template = $this->_coreRegistry->registry('current_email_template');
         if ($template->getId() && $templateVariables = $template->getVariablesOptionArray(true)) {
             $variables[] = $templateVariables;
         }

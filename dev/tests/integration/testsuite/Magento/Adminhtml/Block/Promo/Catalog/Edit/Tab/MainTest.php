@@ -21,12 +21,13 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_MainTest extends PHPUnit_Fr
      */
     public function testPrepareForm()
     {
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_View_DesignInterface')
             ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
         $rule = $objectManager->create('Magento_CatalogRule_Model_Rule');
-        Mage::register('current_promo_catalog_rule', $rule);
+        $objectManager->get('Magento_Core_Model_Registry')->register('current_promo_catalog_rule', $rule);
 
         $block = $objectManager->create('Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main');
         $block->setLayout($objectManager->create('Magento_Core_Model_Layout'));

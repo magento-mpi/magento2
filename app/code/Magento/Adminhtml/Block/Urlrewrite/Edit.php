@@ -40,6 +40,29 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
     protected $_buttonsHtml;
 
     /**
+     * Adminhtml data
+     *
+     * @var Magento_Backend_Helper_Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * @param Magento_Backend_Helper_Data $adminhtmlData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Helper_Data $adminhtmlData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_adminhtmlData = $adminhtmlData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Prepare URL rewrite editing layout
      *
      * @return Magento_Adminhtml_Block_Urlrewrite_Edit
@@ -59,16 +82,15 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
      */
     protected function _prepareLayoutFeatures()
     {
-        /** @var $helper Magento_Adminhtml_Helper_Data */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
-
         if ($this->_getUrlRewrite()->getId()) {
             $this->_headerText = __('Edit URL Rewrite');
         } else {
             $this->_headerText = __('Add New URL Rewrite');
         }
 
-        $this->_updateBackButtonLink($helper->getUrl('*/*/edit') . $this->_getSelectorBlock()->getDefaultMode());
+        $this->_updateBackButtonLink(
+            $this->_adminhtmlData->getUrl('*/*/edit') . $this->_getSelectorBlock()->getDefaultMode()
+        );
         $this->_addUrlRewriteSelectorBlock();
         $this->_addEditFormBlock();
     }
@@ -106,12 +128,9 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
      */
     protected function _addBackButton()
     {
-        /** @var $helper Magento_Adminhtml_Helper_Data */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
-
         $this->_addButton('back', array(
             'label'   => __('Back'),
-            'onclick' => 'setLocation(\'' . $helper->getUrl('*/*/') . '\')',
+            'onclick' => 'setLocation(\'' . $this->_adminhtmlData->getUrl('*/*/') . '\')',
             'class'   => 'back',
             'level'   => -1
         ));
@@ -132,14 +151,12 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
      */
     protected function _addDeleteButton()
     {
-        /** @var $helper Magento_Adminhtml_Helper_Data */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
-
         $this->_addButton('delete', array(
             'label'   => __('Delete'),
             'onclick' => 'deleteConfirm(\''
                 . addslashes(__('Are you sure you want to do this?'))
-                . '\', \'' . $helper->getUrl('*/*/delete', array('id' => $this->getUrlRewrite()->getId())) . '\')',
+                . '\', \''
+                . $this->_adminhtmlData->getUrl('*/*/delete', array('id' => $this->getUrlRewrite()->getId())) . '\')',
             'class'   => 'scalable delete',
             'level'   => -1
         ));

@@ -8,7 +8,7 @@
 class Magento_Catalog_Model_Attribute_Config_SchemaLocatorTest extends PHPUnit_Framework_TestCase
 {
     const FIXTURE_XSD_DIR   = 'fixture_dir';
-    const FIXTURE_XSD_FILE  = 'fixture_dir/attributes.xsd';
+    const FIXTURE_XSD_FILE  = 'fixture_dir/catalog_attributes.xsd';
 
     /**
      * @var Magento_Catalog_Model_Attribute_Config_SchemaLocator

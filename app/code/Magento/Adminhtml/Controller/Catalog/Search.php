@@ -8,9 +8,27 @@
  * @license     {license_link}
  */
 
-
 class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Controller_Action
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
     protected function _initAction()
     {
         $this->loadLayout()
@@ -56,7 +74,7 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
             $model->addData($data);
         }
 
-        Mage::register('current_catalog_search', $model);
+        $this->_coreRegistry->register('current_catalog_search', $model);
 
         $this->_initAction();
 
@@ -130,7 +148,8 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
 
     public function deleteAction()
     {
-        if ($id = $this->getRequest()->getParam('id')) {
+        $id = $this->getRequest()->getParam('id');
+        if ($id) {
             try {
                 $model = Mage::getModel('Magento_CatalogSearch_Model_Query');
                 $model->setId($id);
@@ -138,8 +157,7 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You deleted the search.'));
                 $this->_redirect('*/*/');
                 return;
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
@@ -152,7 +170,7 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
     public function massDeleteAction()
     {
         $searchIds = $this->getRequest()->getParam('search');
-        if(!is_array($searchIds)) {
+        if (!is_array($searchIds)) {
              Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('Please select catalog searches.'));
         } else {
             try {

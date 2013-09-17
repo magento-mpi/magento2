@@ -70,6 +70,7 @@ class Magento_Banner_Block_Widget_BannerTest extends PHPUnit_Framework_TestCase
         $storeManager->expects($this->once())->method('getWebsite')->will($this->returnValue($currentWebsite));
 
         $this->_block = new Magento_Banner_Block_Widget_Banner(
+            $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false),
             $this->getMock('Magento_Core_Block_Template_Context', array(), array(), '', false),
             $this->_bannerResource,
             $this->getMock('Magento_Core_Model_Session', array(), array(), '', false),

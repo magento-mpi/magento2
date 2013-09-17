@@ -18,8 +18,18 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
 
     protected function setUp()
     {
+        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+        $coreDataMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $fileStorageDbMock = $this->getMock('Magento_Core_Helper_File_Storage_Database', array(), array(), '', false);
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
-        $this->_model = new Magento_Catalog_Model_Product_Type_Configurable($filesystem);
+        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $this->_model = new Magento_Catalog_Model_Product_Type_Configurable(
+            $eventManager,
+            $coreDataMock,
+            $fileStorageDbMock,
+            $filesystem,
+            $coreRegistry
+        );
     }
 
     public function testHasWeightTrue()

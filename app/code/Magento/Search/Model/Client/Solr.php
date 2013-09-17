@@ -10,12 +10,7 @@
 
 /**
  * Solr client
- *
- * @category   Magento
- * @package    Magento_Search
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Search_Model_Client_Solr extends Apache_Solr_Service
 {
     /**
