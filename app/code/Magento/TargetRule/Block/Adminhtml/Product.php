@@ -38,12 +38,12 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Backend_Block_W
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_TargetRule_Model_Source_PositionFactory
+     * @var Magento_TargetRule_Model_Source_Position
      */
-    protected $_positionFactory;
+    protected $_position;
 
     /**
-     * @param Magento_TargetRule_Model_Source_PositionFactory $positionFactory
+     * @param Magento_TargetRule_Model_Source_Position $position
      * @param Magento_TargetRule_Helper_Data $targetRuleData
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Helper_Data $coreData
@@ -52,7 +52,7 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Backend_Block_W
      * @param array $data
      */
     public function __construct(
-        Magento_TargetRule_Model_Source_PositionFactory $positionFactory,
+        Magento_TargetRule_Model_Source_Position $position,
         Magento_TargetRule_Helper_Data $targetRuleData,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Helper_Data $coreData,
@@ -60,7 +60,7 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Backend_Block_W
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        $this->_positionFactory = $positionFactory;
+        $this->_position = $position;
         $this->_coreRegistry = $registry;
         $this->_targetRuleData = $targetRuleData;
         $this->_storeManager = $storeManager;
@@ -103,7 +103,7 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Backend_Block_W
      */
     public function getPositionBehaviorOptions()
     {
-        return $this->_positionFactory->create()->toOptionArray();
+        return $this->_position->toOptionArray();
     }
 
     /**
