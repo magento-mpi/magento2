@@ -453,7 +453,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
                     $allowedMethods = explode(',', $this->getConfigData('nondoc_methods'));
                     break;
                 default:
-                    Mage::throwException(__('Wrong Content Type'));
+                    throw new Magento_Core_Exception(__('Wrong Content Type'));
             }
         }
         $methods = array();
@@ -950,7 +950,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
                                     break;
                                 }
                             }
-                            Mage::throwException(__('Error #%1 : %2', trim($code), trim($data)));
+                            throw new Magento_Core_Exception(__('Error #%1 : %2', trim($code), trim($data)));
                         }
 
                         $code = isset($nodeCondition->ConditionCode) ? (string)$nodeCondition->ConditionCode : 0;
@@ -971,7 +971,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
                                 );
                                 $result->setShippingLabelContent($pdf->render());
                             } catch (Exception $e) {
-                                Mage::throwException(__($e->getMessage()));
+                                throw new Magento_Core_Exception(__($e->getMessage()));
                             }
                             return $result;
                         } else {
@@ -1004,7 +1004,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             }
         } else if (!empty($this->_errors)) {
             if ($this->_isShippingLabelFlag) {
-                Mage::throwException($responseError);
+                throw new Magento_Core_Exception($responseError);
             }
             return $this->_showError();
         }
@@ -1087,7 +1087,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         $countryId = $this->_rawRequest->getOrigCountryId();
         $measureUnit = $this->getCountryParams($countryId)->getMeasureUnit();
         if (empty($measureUnit)) {
-            Mage::throwException(__("Cannot identify measure unit for %1", $countryId));
+            throw new Magento_Core_Exception(__("Cannot identify measure unit for %1", $countryId));
         }
         return $measureUnit;
     }
@@ -1102,7 +1102,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         $countryId = $this->_rawRequest->getOrigCountryId();
         $weightUnit = $this->getCountryParams($countryId)->getWeightUnit();
         if (empty($weightUnit)) {
-            Mage::throwException(__("Cannot identify weight unit for %1", $countryId));
+            throw new Magento_Core_Exception(__("Cannot identify weight unit for %1", $countryId));
         }
         return $weightUnit;
     }
@@ -1226,7 +1226,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
                 $minValue = $this->_getMinDimension($params['dimension_units']);
                 if ($params['width'] < $minValue || $params['length'] < $minValue || $params['height'] < $minValue) {
                     $message = __('Height, width and length should be equal or greater than %1', $minValue);
-                    Mage::throwException($message);
+                    throw new Magento_Core_Exception($message);
                 }
             }
 
@@ -1275,7 +1275,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         )->getRegion();
 
         if (!$originRegion) {
-            Mage::throwException(__('Wrong Region'));
+            throw new Magento_Core_Exception(__('Wrong Region'));
         }
 
         if ($originRegion == 'AM') {
@@ -1747,7 +1747,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     {
         $packages = $request->getPackages();
         if (!is_array($packages) || !$packages) {
-            Mage::throwException(__('No packages for request'));
+            throw new Magento_Core_Exception(__('No packages for request'));
         }
         $result = $this->_doShipmentRequest($request);
 

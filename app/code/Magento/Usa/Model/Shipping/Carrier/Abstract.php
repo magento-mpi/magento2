@@ -399,7 +399,7 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Magento_Shipp
     {
         $packages = $request->getPackages();
         if (!is_array($packages) || !$packages) {
-            Mage::throwException(__('No packages for request'));
+            throw new Magento_Core_Exception(__('No packages for request'));
         }
         if ($request->getStoreId() != null) {
             $this->setStore($request->getStoreId());
@@ -448,7 +448,7 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Magento_Shipp
         $request->setIsReturn(true);
         $packages = $request->getPackages();
         if (!is_array($packages) || !$packages) {
-            Mage::throwException(__('No packages for request'));
+            throw new Magento_Core_Exception(__('No packages for request'));
         }
         if ($request->getStoreId() != null) {
             $this->setStore($request->getStoreId());
