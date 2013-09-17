@@ -12,7 +12,7 @@
 /**
  * Tests usage of \Magento\Core\Block\AbstractBlock
  */
-class Magento_Test_Legacy_Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Legacy_Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Tests if methods are used with correct count of parameters

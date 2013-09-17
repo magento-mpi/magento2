@@ -11,7 +11,7 @@
 /**
  * @magentoAppIsolation enabled
  */
-class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
+class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Block\AbstractBlock
@@ -338,7 +338,8 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $parent = $this->_createBlockWithLayout('parent', 'parent');
         $block = $this->_createBlockWithLayout('');
         $parent->setChild('', $block);
-        $this->assertContains('abstractmock', $parent->getChildNames());
+        $childrenArray = $parent->getChildNames();
+        $this->assertContains('abstractblockmock', $childrenArray);
     }
 
     /**
@@ -699,13 +700,14 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     protected function _createBlockWithLayout($name = 'block', $alias = null,
         $type = 'Magento\Core\Block\AbstractBlock'
     ) {
-        $mockClass = $type . 'Mock';
+        $className = array_pop(explode('\\', $type));
+        $mockClass = $className . 'Mock';
         if (!isset(self::$_mocks[$mockClass])) {
             self::$_mocks[$mockClass] = $this->getMockForAbstractClass($type, array(
                     Mage::getSingleton('Magento\Core\Block\Context'),
                     array('module_name' => 'Magento_Core')
                 ),
-                $type . 'Mock'
+                $mockClass
             );
         }
         if (is_null($this->_layout)) {
