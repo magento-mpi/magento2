@@ -107,7 +107,6 @@ class Cart extends \Magento\Core\Controller\Front\Action
         try {
             $card->isValid(true, true, true, false);
         } catch (\Magento\Core\Exception $e) {
-        catch (\Magento\Core\Exception $e) {
             $card->unsetData();
         }
 
