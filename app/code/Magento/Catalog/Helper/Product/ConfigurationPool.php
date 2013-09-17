@@ -15,7 +15,7 @@ class ConfigurationPool
     protected $_objectManager;
 
     /**
-     * @var \Magento\Catalog\Helper\Product\Configuration_Interface[]
+     * @var \Magento\Catalog\Helper\Product\Configuration\Interface[]
      */
     private $_instances = array();
 
@@ -30,17 +30,17 @@ class ConfigurationPool
 
     /**
      * @param string $className
-     * @return \Magento\Catalog\Helper\Product\Configuration_Interface
+     * @return \Magento\Catalog\Helper\Product\Configuration\Interface
      * @throws \LogicException
      */
     public function get($className)
     {
         if (!isset($this->_instances[$className])) {
-            /** @var \Magento\Catalog\Helper\Product\Configuration_Interface $helperInstance */
+            /** @var \Magento\Catalog\Helper\Product\Configuration\Interface $helperInstance */
             $helperInstance = $this->_objectManager->get($className);
-            if (false === ($helperInstance instanceof \Magento\Catalog\Helper\Product\Configuration_Interface)) {
+            if (false === ($helperInstance instanceof \Magento\Catalog\Helper\Product\Configuration\Interface)) {
                 throw new \LogicException(
-                    "{$className} doesn't implement \Magento\Catalog\Helper\Product\Configuration_Interface"
+                    "{$className} doesn't implement \Magento\Catalog\Helper\Product\Configuration\Interface"
                 );
             }
             $this->_instances[$className] = $helperInstance;
