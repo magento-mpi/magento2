@@ -10,6 +10,13 @@
 class Magento_Index_Model_Indexer_Config_Data extends Magento_Config_Data_Scoped
 {
     /**
+     * Scope priority loading scheme
+     *
+     * @var array
+     */
+    protected $_scopePriorityScheme = array('global');
+
+    /**
      * @param Magento_Index_Model_Indexer_Config_Reader $reader
      * @param Magento_Config_ScopeInterface $configScope
      * @param Magento_Config_CacheInterface $cache

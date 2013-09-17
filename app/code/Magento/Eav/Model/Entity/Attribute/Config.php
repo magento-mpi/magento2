@@ -28,6 +28,37 @@ class Magento_Eav_Model_Entity_Attribute_Config extends Magento_Config_Data
      */
     public function getLockedFields(Magento_Catalog_Model_Resource_Eav_Attribute $attribute)
     {
-        return $this->get($attribute->getEntityType()->getEntityTypeCode() . '/' . $attribute->getAttributeCode());
+        $allFields = $this->get(
+            $attribute->getEntityType()->getEntityTypeCode() . '/attributes/' . $attribute->getAttributeCode()
+        );
+
+        $lockedFields = array();
+        foreach ($allFields as $fieldCode => $fieldConfig) {
+            $lockedFields[$fieldCode] = $fieldCode;
+        }
+
+        return $lockedFields;
+    }
+
+    /**
+     * Retrieve attributes list with config for entity
+     *
+     * @param string $entityCode
+     * @return array
+     */
+    public function getEntityAttributesLockedFields($entityCode)
+    {
+        $attributesLockedFields = array();
+
+        $entityAttributes = $this->get($entityCode . '/attributes');
+        foreach ($entityAttributes as $attributeCode => $attributeData) {
+            foreach ($attributeData as $attributeField) {
+                if ($attributeField['locked']) {
+                    $attributesLockedFields[$attributeCode][] = $attributeField['code'];
+                }
+            }
+        }
+
+        return $attributesLockedFields;
     }
 }

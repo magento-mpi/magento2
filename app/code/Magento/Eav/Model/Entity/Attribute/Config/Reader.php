@@ -22,14 +22,14 @@ class Magento_Eav_Model_Entity_Attribute_Config_Reader extends Magento_Config_Re
 
     /**
      * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_Config_ConverterInterface $converter
-     * @param Magento_Config_SchemaLocatorInterface $schemaLocator
+     * @param Magento_Eav_Model_Entity_Attribute_Config_Converter $converter
+     * @param Magento_Eav_Model_Entity_Attribute_Config_SchemaLocator $schemaLocator
      * @param Magento_Config_ValidationStateInterface $validationState
      */
     public function __construct(
         Magento_Config_FileResolverInterface $fileResolver,
-        Magento_Config_ConverterInterface $converter,
-        Magento_Config_SchemaLocatorInterface $schemaLocator,
+        Magento_Eav_Model_Entity_Attribute_Config_Converter $converter,
+        Magento_Eav_Model_Entity_Attribute_Config_SchemaLocator $schemaLocator,
         Magento_Config_ValidationStateInterface $validationState
     ) {
         parent::__construct($fileResolver, $converter, $schemaLocator, $validationState, 'attributes.xml', array());
