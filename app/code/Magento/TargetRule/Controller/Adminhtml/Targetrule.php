@@ -240,7 +240,7 @@ class Magento_TargetRule_Controller_Adminhtml_Targetrule extends Magento_Adminht
         $typeArr = explode('|', str_replace('-', '/', $this->getRequest()->getParam('type')));
         $type = $typeArr[0];
 
-        $model = Mage::getModel($type)
+        $model = $this->_objectManager->create($type)
             ->setId($id)
             ->setType($type)
             ->setRule($this->_objectManager->create('Magento_TargetRule_Model_Rule'))
