@@ -37,7 +37,7 @@ class Observer
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        Magento_AuthorizationInterface $authorization
+        \Magento\AuthorizationInterface $authorization
     ) {
         $this->_coreData = $coreData;
         $this->_authorization = $authorization;

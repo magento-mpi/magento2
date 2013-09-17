@@ -41,7 +41,7 @@ class Observer
      */
     public function __construct(
         \Magento\CatalogPermissions\Helper\Data $catalogPermData,
-        Magento_AuthorizationInterface $authorization
+        \Magento\AuthorizationInterface $authorization
     ) {
         $this->_catalogPermData = $catalogPermData;
         $this->_authorization = $authorization;

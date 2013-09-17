@@ -57,14 +57,14 @@ class Observer
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\VersionsCms\Model\Config $config
-     * @param Magento_AuthorizationInterface $authorization
+     * @param \Magento\AuthorizationInterface $authorization
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\VersionsCms\Model\Config $config,
-        Magento_AuthorizationInterface $authorization
+        \Magento\AuthorizationInterface $authorization
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_coreData = $coreData;
