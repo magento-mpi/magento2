@@ -14,6 +14,7 @@
  *
  * @category   Magento
  * @package    Magento_TargetRule
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRule_Block_Product_Abstract
 {
@@ -86,6 +87,12 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     protected $_storeManager;
 
     /**
+     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     */
+    protected $_productCollectionFactory;
+
+    /**
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Catalog_Model_Product_Visibility $visibility
      * @param Magento_CatalogInventory_Model_Stock_Status $status
@@ -104,6 +111,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Catalog_Model_Product_Visibility $visibility,
         Magento_CatalogInventory_Model_Stock_Status $status,
@@ -119,6 +127,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_productCollectionFactory = $productCollectionFactory;
         $this->_storeManager = $storeManager;
         $this->_visibility = $visibility;
         $this->_status = $status;
@@ -329,7 +338,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     protected function _getProductCollectionByIds($productIds)
     {
         /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
+        $collection = $this->_productCollectionFactory->create();
         $collection->addFieldToFilter('entity_id', array('in' => $productIds));
         $this->_addProductAttributesAndPrices($collection);
 

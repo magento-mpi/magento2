@@ -41,6 +41,7 @@
  * @category    Magento
  * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
 {
@@ -123,6 +124,12 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
     protected $_locale;
 
     /**
+     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     */
+    protected $_productCollectionFactory;
+
+    /**
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_Resource_Iterator $iterator
      * @param Magento_TargetRule_Model_Rule_Condition_CombineFactory $ruleFactory
@@ -138,6 +145,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Model_Resource_Iterator $iterator,
         Magento_TargetRule_Model_Rule_Condition_CombineFactory $ruleFactory,
@@ -150,6 +158,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_productCollectionFactory = $productCollectionFactory;
         $this->_locale = $locale;
         $this->_iterator = $iterator;
         $this->_productFactory = $productFactory;
@@ -236,7 +245,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
      */
     public function prepareMatchingProducts($onlyId = false)
     {
-        $productCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
+        $productCollection = $this->_productCollectionFactory->create();
 
         if (!$onlyId && !is_null($this->_productIds)) {
             $productCollection->addIdFilter($this->_productIds);

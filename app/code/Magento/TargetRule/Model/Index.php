@@ -22,6 +22,7 @@
  * @category    Magento
  * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstract
 {
@@ -89,7 +90,10 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
      */
     protected $_locale;
 
+    protected $_ruleCollectionFactory;
+
     /**
+     * @param Magento_TargetRule_Model_Resource_Rule_CollectionFactory $ruleCollectionFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Index_Model_Indexer $indexer
@@ -100,8 +104,11 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
      * @param Magento_TargetRule_Model_Resource_Index $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_TargetRule_Model_Resource_Rule_CollectionFactory $ruleCollectionFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Index_Model_Indexer $indexer,
@@ -113,6 +120,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_ruleCollectionFactory = $ruleCollectionFactory;
         $this->_storeManger = $storeManager;
         $this->_locale = $locale;
         $this->_indexer = $indexer;
@@ -313,7 +321,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     public function getRuleCollection()
     {
         /* @var $collection Magento_TargetRule_Model_Resource_Rule_Collection */
-        $collection = Mage::getResourceModel('Magento_TargetRule_Model_Resource_Rule_Collection');
+        $collection = $this->_ruleCollectionFactory->create();
         $collection->addApplyToFilter($this->getType())
             ->addProductFilter($this->getProduct()->getId())
             ->addIsActiveFilter()
@@ -443,7 +451,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
         // remove old matched product index
         $indexResource->removeProductIndex($product->getId());
 
-        $ruleCollection = Mage::getResourceModel('Magento_TargetRule_Model_Resource_Rule_Collection')
+        $ruleCollection = $this->_ruleCollectionFactory->create()
             ->addProductFilter($product->getId());
 
         foreach ($ruleCollection as $rule) {

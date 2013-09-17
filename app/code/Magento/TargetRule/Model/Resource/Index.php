@@ -15,6 +15,7 @@
  * @category    Magento
  * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resource_Abstract
 {
@@ -67,6 +68,18 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     protected $_storeManager;
 
     /**
+     * @var Magento_CustomerSegment_Model_Resource_Segment
+     */
+    protected $_segmentCollectionFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     */
+    protected $_productCollectionFactory;
+
+    /**
+     * @param Magento_CustomerSegment_Model_Resource_Segment $segmentCollectionFactory
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Catalog_Model_Product_Visibility $visibility
      * @param Magento_CustomerSegment_Model_Customer $customer
@@ -75,8 +88,12 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
      * @param Magento_TargetRule_Helper_Data $targetRuleData
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Resource $resource
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_CustomerSegment_Model_Resource_Segment $segmentCollectionFactory,
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Catalog_Model_Product_Visibility $visibility,
         Magento_CustomerSegment_Model_Customer $customer,
@@ -86,6 +103,8 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Resource $resource
     ) {
+        $this->_segmentCollectionFactory = $segmentCollectionFactory;
+        $this->_productCollectionFactory = $productCollectionFactory;
         $this->_storeManager = $storeManager;
         $this->_visibility = $visibility;
         $this->_customer = $customer;
@@ -285,7 +304,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
         $rule->afterLoad();
 
         /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
+        $collection = $this->_productCollectionFactory->create()
             ->setStoreId($object->getStoreId())
             ->addPriceData($object->getCustomerGroupId())
             ->setVisibility($this->_visibility->getVisibleInCatalogIds());
@@ -678,9 +697,8 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
                 $segmentIds = $this->_customer->getCustomerSegmentIdsForWebsite($customer->getId(), $websiteId);
             }
 
-            if(count($segmentIds)) {
-                $segmentIds = Mage::getResourceModel('Magento_CustomerSegment_Model_Resource_Segment')
-                    ->getActiveSegmentsByIds($segmentIds);
+            if (count($segmentIds)) {
+                $segmentIds = $this->_segmentCollectionFactory->getActiveSegmentsByIds($segmentIds);
             }
         }
         return $segmentIds;
