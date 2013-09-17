@@ -94,6 +94,9 @@ return array(
     array('TYPE_TINYINT', null, 'Magento_DB_Ddl_Table::TYPE_SMALLINT'),
     array('TYPE_VARCHAR', null, 'Magento_DB_Ddl_Table::TYPE_TEXT'),
     array('URL_TYPE_SKIN'),
+    array('XML_CHARSET_NODE', 'Magento_SalesRule_Helper_Coupon'),
+    array('XML_CHARSET_SEPARATOR', 'Magento_SalesRule_Helper_Coupon'),
+    array('XML_NODE_RELATED_CACHE', 'Magento_CatalogRule_Model_Rule'),
     array('XML_PATH_ALLOW_CODES', 'Magento_Core_Model_Locale', 'Magento_Core_Model_LocaleInterface::XML_PATH_ALLOW_CODES'),
     array('XML_PATH_ALLOW_CURRENCIES', 'Magento_Core_Model_Locale',
         'Magento_Core_Model_LocaleInterface::XML_PATH_ALLOW_CURRENCIES'
