@@ -371,7 +371,6 @@ class Invitation extends \Magento\Core\Model\AbstractModel
             $this->makeSureCanBeSent();
             return true;
         } catch (\Magento\Core\Exception $e) {
-        catch (\Magento\Core\Exception $e) {
             if ($e->getCode() && $e->getCode() === self::ERROR_INVALID_DATA) {
                 throw $e;
             }
@@ -425,7 +424,6 @@ class Invitation extends \Magento\Core\Model\AbstractModel
             $this->makeSureCanBeAccepted($websiteId);
             return true;
         } catch (\Magento\Core\Exception $e) {
-        catch (\Magento\Core\Exception $e) {
             // intentionally jammed
         }
         return false;

@@ -621,7 +621,6 @@ class Product extends \Magento\Adminhtml\Controller\Action
 //                }
 //            }
         } catch (\Magento\Eav\Model\Entity\Attribute\Exception $e) {
-        catch (\Magento\Eav\Model\Entity\Attribute\Exception $e) {
             $response->setError(true);
             $response->setAttribute($e->getAttributeCode());
             $response->setMessage($e->getMessage());
