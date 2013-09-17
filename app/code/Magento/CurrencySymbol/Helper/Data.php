@@ -17,6 +17,28 @@
  */
 class Magento_CurrencySymbol_Helper_Data extends Magento_Core_Helper_Data
 {
+    /**
+     * @var Magento_CurrencySymbol_Model_System_Currencysymbol_Factory
+     */
+    protected $_symbolFactory;
+
+    /**
+     * @param Magento_CurrencySymbol_Model_System_Currencysymbol_Factory $symbolFactory
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config $config
+     */
+    public function __construct(
+        Magento_CurrencySymbol_Model_System_Currencysymbol_Factory $symbolFactory,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $config
+    ) {
+        $this->_symbolFactory = $symbolFactory;
+        parent::__construct($eventManager, $coreHttp, $context, $config);
+    }
 
     /**
      * Get currency display options
@@ -27,7 +49,7 @@ class Magento_CurrencySymbol_Helper_Data extends Magento_Core_Helper_Data
     public function getCurrencyOptions($baseCode)
     {
         $currencyOptions = array();
-        $currencySymbol = Mage::getModel('Magento_CurrencySymbol_Model_System_Currencysymbol');
+        $currencySymbol = $this->_symbolFactory->create();
         if($currencySymbol) {
             $customCurrencySymbol = $currencySymbol->getCurrencySymbol($baseCode);
 

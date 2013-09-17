@@ -72,11 +72,19 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Backend_Model_Config_Factory
+     */
+    protected $_configFactory;
+
+    /**
+     * @param Magento_Backend_Model_Config_Factory $configFactory
      * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
+        Magento_Backend_Model_Config_Factory $configFactory,
         Magento_Core_Model_Event_Manager $eventManager
     ) {
+        $this->_configFactory = $configFactory;
         $this->_eventManager = $eventManager;
     }
 
@@ -208,7 +216,7 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
             $value['options']['fields']['customsymbol']['inherit'] = 1;
         }
 
-        Mage::getModel('Magento_Backend_Model_Config')
+        $this->_configFactory->create()
             ->setSection(self::CONFIG_SECTION)
             ->setWebsite(null)
             ->setStore(null)

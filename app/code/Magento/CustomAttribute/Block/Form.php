@@ -96,6 +96,35 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
     protected $_fieldNameFormat = '%1$s';
 
     /**
+     * @var Magento_Core_Model_Factory
+     */
+    protected $_modelFactory;
+
+    /**
+     * @var Magento_Eav_Model_Form_Factory
+     */
+    protected $_formFactory;
+
+    /**
+     * @param Magento_Core_Model_Factory $modelFactory
+     * @param Magento_Eav_Model_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Factory $modelFactory,
+        Magento_Eav_Model_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_modelFactory = $modelFactory;
+        $this->_formFactory = $formFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Add custom renderer block and template for rendering EAV entity attributes
      *
      * @param string $type
@@ -207,7 +236,7 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
     {
         if (is_null($this->_entity)) {
             if ($this->_entityModelClass) {
-                $this->_entity = Mage::getModel($this->_entityModelClass);
+                $this->_entity = $this->_modelFactory->create($this->_entityModelClass);
             }
         }
         return $this->_entity;
@@ -245,7 +274,7 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
     public function getForm()
     {
         if (is_null($this->_form)) {
-            $this->_form = Mage::getModel($this->_formModelPath)
+            $this->_form = $this->_formFactory->create($this->_formModelPath)
                 ->setFormCode($this->_formCode)
                 ->setEntity($this->getEntity());
             if ($this->_entityType) {

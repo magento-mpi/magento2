@@ -51,7 +51,8 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currencysymbol extends 
         }
 
         try {
-            Mage::getModel('Magento_CurrencySymbol_Model_System_Currencysymbol')->setCurrencySymbolsData($symbolsDataArray);
+            $this->_objectManager->create('Magento_CurrencySymbol_Model_System_Currencysymbol')
+                ->setCurrencySymbolsData($symbolsDataArray);
             Mage::getSingleton('Magento_Connect_Model_Session')->addSuccess(
                 __('The custom currency symbols were applied.')
             );
@@ -67,7 +68,7 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currencysymbol extends 
      */
     public function resetAction()
     {
-        Mage::getModel('Magento_CurrencySymbol_Model_System_Currencysymbol')->resetValues();
+        $this->_objectManager->create('Magento_CurrencySymbol_Model_System_Currencysymbol')->resetValues();
         $this->_redirectReferer();
     }
 
