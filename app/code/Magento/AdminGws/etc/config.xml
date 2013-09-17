@@ -39,7 +39,6 @@
                     <magento_core_model_resource_store_group_collection>limitStoreGroups</magento_core_model_resource_store_group_collection>
                     <magento_cms_model_resource_page_collection>addStoreFilter</magento_cms_model_resource_page_collection>
                     <magento_cms_model_resource_block_collection>addStoreFilter</magento_cms_model_resource_block_collection>
-                    <magento_poll_model_resource_poll_collection>addStoreFilterNoAdmin</magento_poll_model_resource_poll_collection>
                     <magento_sales_model_resource_order_collection>addStoreAttributeToFilter</magento_sales_model_resource_order_collection>
                     <magento_catalog_model_resource_product_collection>limitProducts</magento_catalog_model_resource_product_collection>
                     <magento_customer_model_resource_customer_collection>limitCustomers</magento_customer_model_resource_customer_collection>
@@ -86,7 +85,6 @@
                 <model_save_before>
                     <magento_cms_model_page>cmsPageSaveBefore</magento_cms_model_page>
                     <magento_cms_model_block>cmsBlockSaveBefore</magento_cms_model_block>
-                    <magento_poll_model_poll>pollSaveBefore</magento_poll_model_poll>
                     <magento_rule_model_abstract>ruleSaveBefore</magento_rule_model_abstract>
                     <magento_sales_model_order>salesOrderSaveBefore</magento_sales_model_order>
                     <magento_sales_model_order_invoice>salesOrderEntitySaveBefore</magento_sales_model_order_invoice>
@@ -118,7 +116,6 @@
                 <model_delete_before>
                     <magento_cms_model_page>cmsPageDeleteBefore</magento_cms_model_page>
                     <magento_cms_model_block>cmsBlockDeleteBefore</magento_cms_model_block>
-                    <magento_poll_model_poll>pollDeleteBefore</magento_poll_model_poll>
                     <magento_rule_model_abstract>ruleDeleteBefore</magento_rule_model_abstract>
                     <magento_catalog_model_product>catalogProductDeleteBefore</magento_catalog_model_product>
                     <magento_catalog_model_category>catalogCategoryDeleteBefore</magento_catalog_model_category>
@@ -276,7 +273,6 @@
                     <magento_adminhtml_block_catalog_product_grid>catalogProductPrepareMassaction</magento_adminhtml_block_catalog_product_grid>
                     <magento_adminhtml_block_cms_page_edit>removeCmsPageButtons</magento_adminhtml_block_cms_page_edit>
                     <magento_adminhtml_block_cms_block_edit>removeCmsBlockButtons</magento_adminhtml_block_cms_block_edit>
-                    <magento_adminhtml_block_poll_edit>removePollButtons</magento_adminhtml_block_poll_edit>
                     <magento_reward_block_adminhtml_reward_rate_edit>removeRewardRateButtons</magento_reward_block_adminhtml_reward_rate_edit>
                     <magento_adminhtml_block_sales_order_grid>removeNotAllowedMassactionsForOrders</magento_adminhtml_block_sales_order_grid>
                     <magento_index_block_adminhtml_process_grid>removeProcessListButtons</magento_index_block_adminhtml_process_grid>
