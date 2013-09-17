@@ -108,7 +108,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * @var Magento_Core_Model_Registry
      */
     protected $_coreRegistry = null;
-    
+
     /**
      * Core data
      *
@@ -135,6 +135,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
      * @param array $data
      */
     public function __construct(
@@ -142,6 +143,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Config $coreConfig,
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -149,7 +151,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         $this->_coreRegistry = $coreRegistry;
         $this->_coreConfig = $coreConfig;
         parent::__construct($data);
-        $this->_session = Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote');
+        $this->_session = $sessionQuote;
     }
 
     /**
@@ -822,11 +824,9 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             $config['qty'] = isset($config['qty']) ? (float)$config['qty'] : 1;
             try {
                 $this->addProduct($productId, $config);
-            }
-            catch (Magento_Core_Exception $e){
+            } catch (Magento_Core_Exception $e){
                 $this->getSession()->addError($e->getMessage());
-            }
-            catch (Exception $e){
+            } catch (Exception $e){
                 return $e;
             }
         }
