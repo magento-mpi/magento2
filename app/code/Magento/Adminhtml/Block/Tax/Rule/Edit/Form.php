@@ -180,9 +180,9 @@ class Form extends \Magento\Backend\Block\Widget\Form
     public function getTaxClassSelectConfig($classType)
     {
         $config = array(
-            'new_url' => $this->getUrl('adminhtml/tax_class/ajaxSave/'),
-            'save_url' => $this->getUrl('adminhtml/tax_class/ajaxSave/'),
-            'delete_url' => $this->getUrl('adminhtml/tax_class/ajaxDelete/'),
+            'new_url' => $this->getUrl('adminhtml/tax_classtax/ajaxSave/'),
+            'save_url' => $this->getUrl('adminhtml/tax_classtax/ajaxSave/'),
+            'delete_url' => $this->getUrl('adminhtml/tax_classtax/ajaxDelete/'),
             'delete_confirm_message' => __('Do you really want to delete this tax class?'),
             'target_select_id' => $this->getTaxClassSelectHtmlId($classType),
             'add_button_caption' => __('Add New Tax Class'),
