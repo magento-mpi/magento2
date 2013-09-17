@@ -21,24 +21,6 @@
         </resources>
         <catalog>
             <product>
-                <options>
-                    <bundle>
-                        <types>
-                            <select translate="label">
-                                <label>Drop-down</label>
-                            </select>
-                            <radio translate="label">
-                                <label>Radio Buttons</label>
-                            </radio>
-                            <checkbox translate="label">
-                                <label>Checkbox</label>
-                            </checkbox>
-                            <multi translate="label">
-                                <label>Multiple Select</label>
-                            </multi>
-                        </types>
-                    </bundle>
-                </options>
                 <attributes>
                     <unassignable>
                         <price_type />
