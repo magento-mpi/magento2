@@ -416,7 +416,9 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
             $options->setCacheDir(Magento_TestFramework_Bootstrap::getInstance()->getMagentoDir() . '/var/cache');
             $options->setEtcDir(Magento_TestFramework_Bootstrap::getInstance()->getMagentoDir() . '/app/etc');
 
-            $this->_appCache = Mage::getObjectManager()->get('Magento_Core_Model_Cache');
+            /** @var $objectManager Magento_TestFramework_ObjectManager */
+            $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+            $this->_appCache = $objectManager->get('Magento_Core_Model_Cache');
 
             //revert paths options
             $options->setCacheDir($currentCacheDir);
