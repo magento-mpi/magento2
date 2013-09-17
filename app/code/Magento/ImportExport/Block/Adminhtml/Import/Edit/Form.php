@@ -48,7 +48,8 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_Back
         ));
 
         // add behaviour fieldsets
-        $uniqueBehaviors = Magento_ImportExport_Model_Import::getUniqueEntityBehaviors();
+        $importModel = Mage::getModel('Magento_ImportExport_Model_Import');
+        $uniqueBehaviors = $importModel->getUniqueEntityBehaviors();
         foreach ($uniqueBehaviors as $behaviorCode => $behaviorClass) {
             $fieldsets[$behaviorCode] = $form->addFieldset(
                 $behaviorCode . '_fieldset',

@@ -48,7 +48,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Before extends Magento_Ba
     public function getEntityBehaviors()
     {
         $importModel = $this->_importModel;
-        $behaviors = $importModel::getEntityBehaviors();
+        $behaviors = $importModel->getEntityBehaviors();
         foreach ($behaviors as $entityCode => $behavior) {
             $behaviors[$entityCode] = $behavior['code'];
         }
@@ -63,7 +63,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Before extends Magento_Ba
     public function getUniqueBehaviors()
     {
         $importModel = $this->_importModel;
-        $uniqueBehaviors = $importModel::getUniqueEntityBehaviors();
+        $uniqueBehaviors = $importModel->getUniqueEntityBehaviors();
         return $this->_coreData->jsonEncode(array_keys($uniqueBehaviors));
     }
 }

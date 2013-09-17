@@ -28,13 +28,6 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
     const FILTER_TYPE_DATE   = 'date';
     const FILTER_TYPE_NUMBER = 'number';
 
-    /**#@+
-     * Config keys.
-     */
-    const CONFIG_KEY_ENTITIES          = 'global/importexport/export_entities';
-    const CONFIG_KEY_FORMATS           = 'global/importexport/export_file_formats';
-    /**#@-*/
-
     /**
      * Entity adapter.
      *
@@ -50,6 +43,24 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
     protected $_writer;
 
     /**
+     * @var Magento_ImportExport_Model_Export_ConfigInterface
+     */
+    protected $_exportConfig;
+
+
+    /**
+     * @param Magento_ImportExport_Model_Export_ConfigInterface $exportConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_ImportExport_Model_Export_ConfigInterface $exportConfig,
+        array $data = array()
+    ) {
+        parent::__construct($data);
+        $this->_exportConfig = $exportConfig;
+    }
+
+    /**
      * Create instance of entity adapter and return it
      *
      * @throws Magento_Core_Exception
@@ -58,11 +69,11 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
     protected function _getEntityAdapter()
     {
         if (!$this->_entityAdapter) {
-            $entityTypes = Magento_ImportExport_Model_Config::getModels(self::CONFIG_KEY_ENTITIES);
+            $entities = $this->_exportConfig->getEntities();
 
-            if (isset($entityTypes[$this->getEntity()])) {
+            if (isset($entities[$this->getEntity()])) {
                 try {
-                    $this->_entityAdapter = Mage::getModel($entityTypes[$this->getEntity()]['model']);
+                    $this->_entityAdapter = Mage::getModel($entities[$this->getEntity()]['model']);
                 } catch (Exception $e) {
                     Mage::logException($e);
                     Mage::throwException(
@@ -103,11 +114,11 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
     protected function _getWriter()
     {
         if (!$this->_writer) {
-            $validWriters = Magento_ImportExport_Model_Config::getModels(self::CONFIG_KEY_FORMATS);
+            $fileFormats = $this->_exportConfig->getFileFormats();
 
-            if (isset($validWriters[$this->getFileFormat()])) {
+            if (isset($fileFormats[$this->getFileFormat()])) {
                 try {
-                    $this->_writer = Mage::getModel($validWriters[$this->getFileFormat()]['model']);
+                    $this->_writer = Mage::getModel($fileFormats[$this->getFileFormat()]['model']);
                 } catch (Exception $e) {
                     Mage::logException($e);
                     Mage::throwException(

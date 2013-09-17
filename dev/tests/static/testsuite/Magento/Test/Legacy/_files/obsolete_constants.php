@@ -170,5 +170,8 @@ return array(
 
     array('XML_PATH_WEBAPI_REQUEST_INTERPRETERS', 'Magento_Webapi_Controller_Request_Rest_Interpreter_Factory'),
     array('XML_PATH_WEBAPI_RESPONSE_RENDERS', 'Magento_Webapi_Controller_Response_Rest_Renderer_Factor'),
+    array('CONFIG_KEY_ENTITIES', 'Magento_ImportExport_Model_Export'),
+    array('CONFIG_KEY_FORMATS', 'Magento_ImportExport_Model_Export'),
+    array('CONFIG_KEY_ENTITIES', 'Magento_ImportExport_Model_Import'),
 );
 

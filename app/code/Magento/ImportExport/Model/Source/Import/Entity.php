@@ -18,14 +18,35 @@
 class Magento_ImportExport_Model_Source_Import_Entity
 {
     /**
+     * @var Magento_ImportExport_Model_Import_ConfigInterface
+     */
+    protected $_importConfig;
+
+    /**
+     * @param Magento_ImportExport_Model_Import_ConfigInterface $importConfig
+     */
+    public function __construct(
+        Magento_ImportExport_Model_Import_ConfigInterface $importConfig
+    ) {
+        $this->_importConfig = $importConfig;
+    }
+
+    /**
      * Prepare and return array of import entities ids and their names
      *
      * @return array
      */
     public function toOptionArray()
     {
-        return Magento_ImportExport_Model_Config::getModelsComboOptions(
-            Magento_ImportExport_Model_Import::CONFIG_KEY_ENTITIES, true
+        $options = array();
+        $options[] = array(
+            'label' => __('-- Please Select --'),
+            'value' => ''
         );
+        foreach ($this->_importConfig->getEntities() as $entityName => $entityConfig) {
+            $options[] = array('label' => __($entityConfig['label']), 'value' => $entityName);
+        }
+        return $options;
+
     }
 }

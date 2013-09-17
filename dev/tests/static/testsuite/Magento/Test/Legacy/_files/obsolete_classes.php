@@ -764,4 +764,5 @@ return array(
     array('Varien_Db_Adapter_Mysqli'),
     array('Mage_DB_Mysqli'),
     array('Mage_DB_Exception'),
+    array('Magento_ImportExport_Model_Config'),
 );
