@@ -23,12 +23,14 @@ class Magento_Page_Block_HtmlTest extends PHPUnit_Framework_TestCase
         $storeConfig->expects($this->any())
             ->method('getConfig')
             ->will($this->returnValueMap($configData));
-
+        $coreConfig = $this->getMockBuilder('Magento_Core_Model_Config')
+            ->disableOriginalConstructor()
+            ->getMock();
         $urlHelperMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
         $urlBuilder = $this->getMock(
             'Magento_Core_Model_Url',
             array('getBaseUrl'),
-            array($urlHelperMock, $storeConfig)
+            array($urlHelperMock, $storeConfig, $coreConfig)
         );
         $urlBuilder->expects($this->any())
             ->method('getBaseUrl')
