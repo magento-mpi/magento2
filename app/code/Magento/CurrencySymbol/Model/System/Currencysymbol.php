@@ -77,14 +77,38 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
     protected $_configFactory;
 
     /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
      * @param Magento_Backend_Model_Config_Factory $configFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_System_Store $systemStore
      * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
         Magento_Backend_Model_Config_Factory $configFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_System_Store $systemStore,
         Magento_Core_Model_Event_Manager $eventManager
     ) {
         $this->_configFactory = $configFactory;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        $this->_systemStore  = $systemStore;
         $this->_eventManager = $eventManager;
     }
 
@@ -135,7 +159,7 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
         );
 
         /* @var $storeModel Magento_Core_Model_System_Store */
-        $storeModel = Mage::getSingleton('Magento_Core_Model_System_Store');
+        $storeModel = $this->_systemStore;
         foreach ($storeModel->getWebsiteCollection() as $website) {
             $websiteShow = false;
             foreach ($storeModel->getGroupCollection() as $group) {
@@ -166,13 +190,11 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
 
         $currentSymbols = $this->_unserializeStoreConfig(self::XML_PATH_CUSTOM_CURRENCY_SYMBOL);
 
-        /** @var $locale Magento_Core_Model_LocaleInterface */
-        $locale = Mage::app()->getLocale();
         foreach ($allowedCurrencies as $code) {
-            if (!$symbol = $locale->getTranslation($code, 'currencysymbol')) {
+            if (!$symbol = $this->_locale->getTranslation($code, 'currencysymbol')) {
                 $symbol = $code;
             }
-            $name = $locale->getTranslation($code, 'nametocurrency');
+            $name = $this->_locale->getTranslation($code, 'nametocurrency');
             if (!$name) {
                 $name = $code;
             }
@@ -229,7 +251,7 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
 
         // reinit configuration
         Mage::getConfig()->reinit();
-        Mage::app()->reinitStores();
+        $this->_storeManager->reinitStores();
 
         $this->clearCache();
 

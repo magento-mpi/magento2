@@ -40,10 +40,32 @@ class Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Matrix extends
 
     protected $_template = 'system/currency/rate/matrix.phtml';
 
+    /**
+     * @var Magento_Backend_Model_Session
+     */
+    protected $_adminSession;
+
+    /**
+     * @param Magento_Backend_Model_Session $adminSession
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Model_Session $adminSession,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_adminSession = $adminSession;
+        parent::__construct($coreData, $context, $data);
+    }
+
+
     protected function _prepareLayout()
     {
-        $newRates = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getRates();
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->unsetData('rates');
+        $newRates = $this->_adminSession->getRates();
+        $this->_adminSession->unsetData('rates');
 
         $currencyModel = $this->_dirCurrencyFactory->create();
         $currencies = $currencyModel->getConfigAllowCurrencies();

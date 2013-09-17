@@ -106,8 +106,14 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
     protected $_formFactory;
 
     /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
      * @param Magento_Core_Model_Factory $modelFactory
      * @param Magento_Eav_Model_Form_Factory $formFactory
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
@@ -115,12 +121,14 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
     public function __construct(
         Magento_Core_Model_Factory $modelFactory,
         Magento_Eav_Model_Form_Factory $formFactory,
+        Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_modelFactory = $modelFactory;
         $this->_formFactory = $formFactory;
+        $this->_eavConfig = $eavConfig;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -152,10 +160,10 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
     protected function _prepareLayout()
     {
         if (empty($this->_xmlBlockName)) {
-            Mage::throwException(__('The current module XML block name is undefined.'));
+            throw new Magento_Core_Exception(__('The current module XML block name is undefined.'));
         }
         if (empty($this->_formModelPath)) {
-            Mage::throwException(__('The current module form model pathname is undefined.'));
+            throw new Magento_Core_Exception(__('The current module form model pathname is undefined.'));
         }
 
         /* $var $template Magento_CustomAttribute_Block_Form_Template */
@@ -223,7 +231,7 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
      */
     public function setEntityType($entityType)
     {
-        $this->_entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType($entityType);
+        $this->_entityType = $this->_eavConfig->getEntityType($entityType);
         return $this;
     }
 
