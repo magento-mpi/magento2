@@ -30,7 +30,6 @@ $translations = array(
     'Please enter a valid number in this field.' => __('Please enter a valid number in this field.'),
     'The value is not within the specified range.' => __('The value is not within the specified range.'),
     'Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas.' => __('Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas.'),
-    'The value is not within the specified range.' => __('The value is not within the specified range.'),
     'Please use letters only (a-z or A-Z) in this field.' => __('Please use letters only (a-z or A-Z) in this field.'),
     'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.' => __('Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.'),
     'Please use only letters (a-z or A-Z) or numbers (0-9) only in this field. No spaces or other characters are allowed.' => __('Please use only letters (a-z or A-Z) or numbers (0-9) only in this field. No spaces or other characters are allowed.'),
@@ -52,9 +51,7 @@ $translations = array(
     'Please use this date format: dd/mm/yyyy. For example 17/03/2006 for the 17th of March, 2006.' => __('Please use this date format: dd/mm/yyyy. For example 17/03/2006 for the 17th of March, 2006.'),
     'Please select one of the above options.' => __('Please select one of the above options.'),
     'Please select one of the options.' => __('Please select one of the options.'),
-    'Please enter a valid number in this field.' => __('Please enter a valid number in this field.'),
     'Please select State/Province.' => __('Please select State/Province.'),
-    'Please enter 6 or more characters. Leading or trailing spaces will be ignored.' => __('Please enter 6 or more characters. Leading or trailing spaces will be ignored.'),
     'Please enter a number greater than 0 in this field.' => __('Please enter a number greater than 0 in this field.'),
     'Please enter a number 0 or greater in this field.' => __('Please enter a number 0 or greater in this field.'),
     'Please enter a valid credit card number.' => __('Please enter a valid credit card number.'),
@@ -90,6 +87,8 @@ $translations = array(
     'Save' => __('Save'),
 );
 ?>
-<script type="text/javascript"><![CDATA[
+<script type="text/javascript">
+//<![CDATA[
     (function($) {$.mage.translate.add(<?php echo json_encode($translations) ?>)})(jQuery);
-]]></script>
+//]]>
+</script>
