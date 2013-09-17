@@ -45,6 +45,19 @@ class Magento_Sitemap_Model_Observer
     const XML_PATH_ERROR_RECIPIENT = 'sitemap/generate/error_email';
 
     /**
+     * @var Magento_Core_Model_Translate
+     */
+    protected $_coreTranslate;
+
+    /**
+     * @param Magento_Core_Model_Translate $coreTranslate
+     */
+    public function __construct(Magento_Core_Model_Translate $coreTranslate)
+    {
+        $this->_coreTranslate = $coreTranslate;
+    }
+
+    /**
      * Generate sitemaps
      *
      * @param Magento_Cron_Model_Schedule $schedule
@@ -72,9 +85,7 @@ class Magento_Sitemap_Model_Observer
         }
 
         if ($errors && Mage::getStoreConfig(self::XML_PATH_ERROR_RECIPIENT)) {
-            $translate = Mage::getSingleton('Magento_Core_Model_Translate');
-            /* @var $translate Magento_Core_Model_Translate */
-            $translate->setTranslateInline(false);
+            $this->_coreTranslate->setTranslateInline(false);
 
             $emailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
             /* @var $emailTemplate Magento_Core_Model_Email_Template */
@@ -87,7 +98,7 @@ class Magento_Sitemap_Model_Observer
                     array('warnings' => join("\n", $errors))
                 );
 
-            $translate->setTranslateInline(true);
+            $this->_coreTranslate->setTranslateInline(true);
         }
     }
 }
