@@ -17,27 +17,6 @@
  */
 class Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Matrix extends Magento_Backend_Block_Template
 {
-    /**
-     * @var Magento_Directory_Model_Currency_Factory
-     */
-    protected $_dirCurrencyFactory;
-
-    /**
-     * @param Magento_Directory_Model_Currency_Factory $dirCurrencyFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Directory_Model_Currency_Factory $dirCurrencyFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_dirCurrencyFactory = $dirCurrencyFactory;
-        parent::__construct($coreData, $context, $data);
-    }
-
     protected $_template = 'system/currency/rate/matrix.phtml';
 
     /**
@@ -46,21 +25,28 @@ class Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Matrix extends
     protected $_adminSession;
 
     /**
+     * @var Magento_Directory_Model_Currency_Factory
+     */
+    protected $_dirCurrencyFactory;
+
+    /**
+     * @param Magento_Directory_Model_Currency_Factory $dirCurrencyFactory
      * @param Magento_Backend_Model_Session $adminSession
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Directory_Model_Currency_Factory $dirCurrencyFactory,
         Magento_Backend_Model_Session $adminSession,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_dirCurrencyFactory = $dirCurrencyFactory;
         $this->_adminSession = $adminSession;
         parent::__construct($coreData, $context, $data);
     }
-
 
     protected function _prepareLayout()
     {
