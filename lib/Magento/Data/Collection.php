@@ -15,7 +15,13 @@
  * @package     Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Collection implements IteratorAggregate, Countable
+
+/**
+ * TODO: Refactor use of Magento_Core_Model_Option_ArrayInterface in library. Probably will be refactored while
+ * moving Magento_Core to library
+ */
+class Magento_Data_Collection implements IteratorAggregate, Countable, Magento_Core_Model_Option_ArrayInterface
+
 {
     const SORT_ORDER_ASC    = 'ASC';
     const SORT_ORDER_DESC   = 'DESC';

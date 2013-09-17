@@ -16,6 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 abstract class Magento_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_Abstract
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Carrier Product Type Indicator

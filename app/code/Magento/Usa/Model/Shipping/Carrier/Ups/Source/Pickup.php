@@ -9,7 +9,7 @@
  */
 
 
-class Magento_Usa_Model_Shipping_Carrier_Ups_Source_Pickup
+class Magento_Usa_Model_Shipping_Carrier_Ups_Source_Pickup implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

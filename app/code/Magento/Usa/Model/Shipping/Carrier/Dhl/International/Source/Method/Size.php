@@ -16,6 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_Size
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Returns array to be used in multiselect on back-end

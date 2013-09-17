@@ -17,6 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Search_Model_Adminhtml_System_Config_Source_Indexationmode
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Prepare options for selection

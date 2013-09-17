@@ -15,7 +15,7 @@
  * @package    Magento_Bundle
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Model_Source_Option_Type
+class Magento_Bundle_Model_Source_Option_Type implements Magento_Core_Model_Option_ArrayInterface
 {
     const BUNDLE_OPTIONS_TYPES_PATH = 'global/catalog/product/options/bundle/types';
 

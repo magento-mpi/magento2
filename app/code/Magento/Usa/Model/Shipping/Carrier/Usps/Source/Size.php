@@ -9,7 +9,7 @@
  */
 
 
-class Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size
+class Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

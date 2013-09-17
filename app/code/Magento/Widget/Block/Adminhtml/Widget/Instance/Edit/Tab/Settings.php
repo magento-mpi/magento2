@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
-    extends Magento_Adminhtml_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form
     implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
@@ -27,17 +27,25 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Core_Model_Theme_LabelFactory
+     */
+    protected $_themeLabelFactory;
+
+    /**
+     * @param Magento_Core_Model_Theme_LabelFactory $themeLabelFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Theme_LabelFactory $themeLabelFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_themeLabelFactory = $themeLabelFactory;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -129,7 +137,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
         ));
 
         /** @var $label Magento_Core_Model_Theme_Label */
-        $label = Mage::getModel('Magento_Core_Model_Theme_Label');
+        $label = $this->_themeLabelFactory->create();
         $options = $label->getLabelsCollection(__('-- Please Select --'));
         $fieldset->addField('theme_id', 'select', array(
             'name'     => 'theme_id',
