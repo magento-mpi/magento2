@@ -59,6 +59,7 @@ $translations = array(
     'B' => __('B'),
     'Add Products' => __('Add Products'),
     'Add Products By SKU' => __('Add Products By SKU'),
-);
-echo '(function($) {$.mage.translate.add(' . json_encode($translations) . ')})(jQuery);';
-?>
+); ?>
+<script type="text/javascript">
+    <?php echo '(function($) {$.mage.translate.add(' . json_encode($translations) . ')})(jQuery);'; ?>
+</script>
