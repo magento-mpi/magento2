@@ -25,7 +25,7 @@ class Magento_Adminhtml_Controller_Tax_ClassTest extends Magento_Backend_Utility
     {
         $this->getRequest()->setPost($postData);
 
-        $this->dispatch('backend/admin/tax_class/ajaxSave');
+        $this->dispatch('backend/admin/tax_classtax/ajaxSave');
 
         $jsonBody = $this->getResponse()->getBody();
         $result = Mage::helper('Magento\Core\Helper\Data')->jsonDecode($jsonBody);

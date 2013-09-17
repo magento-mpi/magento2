@@ -1468,15 +1468,15 @@
             <Magento_Tax_Model_ClassModel/>
         </expected_models>
         <actions>
-            <adminhtml_tax_class_ajaxDelete>
+            <adminhtml_tax_classtax_ajaxDelete>
                 <action>delete</action>
                 <post_dispatch>postDispatchTaxClassDelete</post_dispatch>
-            </adminhtml_tax_class_ajaxDelete>
+            </adminhtml_tax_classtax_ajaxDelete>
 
-            <adminhtml_tax_class_ajaxSave>
+            <adminhtml_tax_classtax_ajaxSave>
                 <action>save</action>
                 <post_dispatch>postDispatchTaxClassSave</post_dispatch>
-            </adminhtml_tax_class_ajaxSave>
+            </adminhtml_tax_classtax_ajaxSave>
         </actions>
     </tax_customer_tax_classes>
 
