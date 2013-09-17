@@ -19,6 +19,14 @@
 class Magento_SalesArchive_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resource_Helper_Mysql4
 {
     /**
+     * @param string $modulePrefix
+     */
+    public function __construct($modulePrefix = 'SalesArchive')
+    {
+        parent::__construct($modulePrefix);
+    }
+
+    /**
      * Change columns position
      *
      * @param string $table
