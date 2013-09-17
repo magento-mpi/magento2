@@ -74,16 +74,32 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
     /**
      * @var Magento_Core_Model_System_Store
      */
-    protected $__systemStore;
+    protected $_systemStore;
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_System_Store $systemStore
      * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Model_System_Store $systemStore,
         Magento_Core_Model_Event_Manager $eventManager
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
         $this->_systemStore  = $systemStore;
         $this->_eventManager = $eventManager;
     }
@@ -166,13 +182,11 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
 
         $currentSymbols = $this->_unserializeStoreConfig(self::XML_PATH_CUSTOM_CURRENCY_SYMBOL);
 
-        /** @var $locale Magento_Core_Model_LocaleInterface */
-        $locale = Mage::app()->getLocale();
         foreach ($allowedCurrencies as $code) {
-            if (!$symbol = $locale->getTranslation($code, 'currencysymbol')) {
+            if (!$symbol = $this->_locale->getTranslation($code, 'currencysymbol')) {
                 $symbol = $code;
             }
-            $name = $locale->getTranslation($code, 'nametocurrency');
+            $name = $this->_locale->getTranslation($code, 'nametocurrency');
             if (!$name) {
                 $name = $code;
             }
@@ -229,7 +243,7 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
 
         // reinit configuration
         Mage::getConfig()->reinit();
-        Mage::app()->reinitStores();
+        $this->_storeManager->reinitStores();
 
         $this->clearCache();
 
