@@ -105,9 +105,7 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
                 break;
 
             default:
-                Mage::throwException(
-                    __('Undefined Catalog Product List Type')
-                );
+                throw new Magento_Core_Exception(__('Undefined Catalog Product List Type'));
         }
         return $prefix;
     }
@@ -210,9 +208,7 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
                 break;
 
             default:
-                Mage::throwException(
-                    __('Undefined Catalog Product List Type')
-                );
+                throw new Magento_Core_Exception(__('Undefined Catalog Product List Type'));
         }
 
         if (!is_null($limit)) {

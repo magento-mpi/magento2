@@ -145,9 +145,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     {
         $type = $this->getData('type');
         if (is_null($type)) {
-            Mage::throwException(
-                __('Undefined Catalog Product List Type')
-            );
+            throw new Magento_Core_Exception(__('Undefined Catalog Product List Type'));
         }
         return $type;
     }
@@ -248,7 +246,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     {
         $product = $this->getData('product');
         if (!$product instanceof Magento_Object) {
-            Mage::throwException(__('Please define a product data object.'));
+            throw new Magento_Core_Exception(__('Please define a product data object.'));
         }
         return $product;
     }

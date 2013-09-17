@@ -387,7 +387,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
                     continue;
                 }
                 if (!class_exists($actionArgs['type'])) {
-                    Mage::throwException(
+                    throw new Magento_Core_Exception(
                         __('Model class name for attribute is invalid')
                     );
                 }

@@ -141,7 +141,7 @@ class Magento_TargetRule_Controller_Adminhtml_Targetrule extends Magento_Adminht
                 if ($ruleId) {
                     $model->load($ruleId);
                     if ($ruleId != $model->getId()) {
-                        Mage::throwException(__('Please specify a correct rule.'));
+                        throw new Magento_Core_Exception(__('Please specify a correct rule.'));
                     }
                 }
 

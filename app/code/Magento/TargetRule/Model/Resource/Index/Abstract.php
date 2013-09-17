@@ -35,7 +35,7 @@ abstract class Magento_TargetRule_Model_Resource_Index_Abstract extends Magento_
     public function getListType()
     {
         if (is_null($this->_listType)) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('The product list type identifier is not defined.')
             );
         }

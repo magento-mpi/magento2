@@ -129,7 +129,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
                 break;
 
             default:
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('Undefined Catalog Product List Type')
                 );
         }
