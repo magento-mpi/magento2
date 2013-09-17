@@ -8,11 +8,6 @@
  */
 -->
 <config>
-    <type name="Magento_Catalog_Model_Product_Attribute_Api">
-        <param name="attributeLabelCache">
-            <instance type="Magento_Core_Model_Cache_Type_Translate" />
-        </param>
-    </type>
     <type name="Magento_Log_Model_Resource_Log">
         <plugin name="catalogLog" type="Magento_Catalog_Model_Plugin_Log" />
     </type>
@@ -48,11 +43,6 @@
         </param>
     </type>
     <type name="Magento_Catalog_Model_Product_Attribute_Source_Inputtype">
-        <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
-        </param>
-    </type>
-    <type name="Magento_Catalog_Model_Product_Option_Api">
         <param name="eventManager">
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>

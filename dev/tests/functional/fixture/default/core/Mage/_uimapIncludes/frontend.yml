@@ -41,7 +41,7 @@ frontend_header:
                             advanced_search: //a[@title='Advanced Search']
                             orders_and_returns: //a[@title='Orders and Returns']
                             contact_us: //a[@title='Contact Us']
-                            select_store: //ul[@id='select-store']/li//a[text()='%store%']
+                            select_store: //*[@id='select-store']//option[text()='%store%']
                 -
                     categories:
                         xpath:

@@ -16,7 +16,7 @@ class Magento_Backend_Model_Config_Structure_Mapper_DependenciesTest extends PHP
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = new Magento_Backend_Model_Config_Structure_Mapper_Dependencies(
             new Magento_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter()

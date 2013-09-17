@@ -16,7 +16,7 @@ class Magento_Core_Controller_Request_HttpTest extends PHPUnit_Framework_TestCas
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(Mage::PARAM_CUSTOM_LOCAL_CONFIG
             => sprintf(Magento_Core_Model_Config_Primary::CONFIG_TEMPLATE_INSTALL_DATE, date('r', strtotime('now')))
@@ -95,15 +95,12 @@ class Magento_Core_Controller_Request_HttpTest extends PHPUnit_Framework_TestCas
         $this->assertEquals($pathInfo, $this->_model->getOriginalPathInfo());
     }
 
-    public function testIsDirectAccessFrontendName()
-    {
-        $this->assertFalse($this->_model->isDirectAccessFrontendName('test'));
-        $this->assertTrue($this->_model->isDirectAccessFrontendName('api'));
-    }
-
     public function testGetDirectFrontNames()
     {
-        $this->assertContains('api', array_keys($this->_model->getDirectFrontNames()));
+        $this->assertEmpty(
+            $this->_model->getDirectFrontNames(),
+            "After API module removal there should not be areas with direct front name."
+        );
     }
 
     public function testGetRequestString()

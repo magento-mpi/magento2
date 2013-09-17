@@ -16,7 +16,7 @@ class Magento_Log_Model_Resource_ShellTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = Mage::getResourceModel('Magento_Log_Model_Resource_Shell');
     }

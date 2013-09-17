@@ -24,7 +24,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_ActivateTest extends PHPUnit_
         'topics' => array('customer/created', 'customer/updated')
     );
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_urlBuilder = $this->getMock('Magento_Core_Model_Url', array('getUrl'), array(), '', false);
 

@@ -18,7 +18,7 @@ class Magento_Reward_Model_Observer_PlaceOrder_Restriction_FrontendTest extends 
      */
     protected $_helper;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_helper = $this->getMock('Magento_Reward_Helper_Data', array(), array(), '', false);
         $this->_model = new Magento_Reward_Model_Observer_PlaceOrder_Restriction_Frontend(

@@ -9,6 +9,13 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="customer_account">
-        <block class="Magento_Reward_Block_Customer_Account" name="enterprise.reward.customer.account"/>
+        <reference name="customer-account-navigation">
+            <block class="Magento_Reward_Block_Customer_AccountLink" name="customer-account-navigation-reward-link">
+                <arguments>
+                    <argument name="path" xsi:type="string">magento_reward/customer/info</argument>
+                    <argument name="label" xsi:type="string">Reward Points</argument>
+                </arguments>
+            </block>
+        </reference>
     </handle>
 </layout>

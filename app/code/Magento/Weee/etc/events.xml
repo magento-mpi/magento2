@@ -20,4 +20,4 @@
     <event name="bundle_product_view_config">
         <observer name="weee" instance="Magento_Weee_Model_Observer" method="updateBundleProductOptions" />
     </event>
-</config>
+</config>

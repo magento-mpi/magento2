@@ -32,7 +32,7 @@ class Magento_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     protected $_helper;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         $this->_storeConfigMock = $this->getMock(

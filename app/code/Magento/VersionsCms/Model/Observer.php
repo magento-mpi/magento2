@@ -480,7 +480,7 @@ class Magento_VersionsCms_Model_Observer
     /**
      * Handler for cms hierarchy view
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event|false
      */
@@ -492,7 +492,7 @@ class Magento_VersionsCms_Model_Observer
     /**
      * Handler for cms revision preview
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event|false
      */
@@ -504,7 +504,7 @@ class Magento_VersionsCms_Model_Observer
     /**
      * Handler for cms revision publish
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event|false
      */

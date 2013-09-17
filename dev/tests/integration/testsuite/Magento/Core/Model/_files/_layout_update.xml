@@ -16,15 +16,21 @@
             <action method="setTitle">
                 <argument translate="true" name="title" xsi:type="string">Magento Admin</argument>
             </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">prototype/prototype.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">prototype/window.js</argument>
-            </action>
-            <action method="addJs" ifconfig="dev/js/deprecation">
-                <argument name="file" xsi:type="string">prototype/deprecation.js</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Script" name="prototype-prototype-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">prototype/prototype.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="prototype-window-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">prototype/window.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="prototype-deprecation-js" ifconfig="dev/js/deprecation">
+                <arguments>
+                    <argument name="file" xsi:type="string">prototype/deprecation.js</argument>
+                </arguments>
+            </block>
             <block class="Magento_Core_Block_Html_Calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
         </block>
         <block class="Magento_Adminhtml_Block_Page_Header" name="header" as="header"/>
@@ -32,20 +38,20 @@
         <block class="Magento_Core_Block_Messages" name="messages" as="messages"/>
         <block class="Magento_Core_Block_Text" as="no_name"/>
     </block>
-    <update handle="layout_test_handle_sample"/>
-    <remove name="header"/>
-    <remove name="menu"/>
-    <remove name="some_element_1"/>
-    <remove name="some_element_2"/>
-    <reference name="root">
+    <handle id="update" handle="layout_test_handle_sample"/>
+    <handle id="remove" name="header"/>
+    <handle id="remove" name="menu"/>
+    <handle id="remove" name="some_element_1"/>
+    <handle id="remove" name="some_element_2"/>
+    <handle id="reference" name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">popup.phtml</argument>
         </action>
-    </reference>
-    <reference name="some_element_1"/>
+    </handle>
+    <handle id="reference" name="some_element_1"/>
     <block class="Magento_Core_Block_Text_List" name="test.nonexisting.block"/>
-    <remove name="test.nonexisting.block"/>
-    <reference name="test.nonexisting.block">
+    <handle id="remove" name="test.nonexisting.block"/>
+    <handle id="reference" name="test.nonexisting.block">
         <action method="getSomething"/>
-    </reference>
+    </handle>
 </layout>

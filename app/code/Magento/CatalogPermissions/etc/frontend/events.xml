@@ -62,4 +62,4 @@
     <event name="rss_catalog_category_xml_callback">
         <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Observer" method="checkIfProductAllowedInRss" />
     </event>
-</config>
+</config>

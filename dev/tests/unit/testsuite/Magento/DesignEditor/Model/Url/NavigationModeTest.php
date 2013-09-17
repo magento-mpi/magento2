@@ -39,7 +39,7 @@ class Magento_DesignEditor_Model_Url_NavigationModeTest extends PHPUnit_Framewor
      */
     protected $_testData = array('themeId' => 1, 'mode' => 'test');
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_helper = $this->getMock('Magento_DesignEditor_Helper_Data', array('getFrontName'),
             array(), '', false);

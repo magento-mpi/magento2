@@ -88,9 +88,6 @@ class Magento_Test_Integrity_Layout_HandlesTest extends PHPUnit_Framework_TestCa
             } elseif (!preg_match('/^[a-z][a-z\-\_\d\.]*$/i', $attr['name'])) {
                 $nodeErrors[] = 'specified value for "name" attribute is invalid';
             }
-            if (!isset($attr['label']) || '' == $attr['label']) {
-                $nodeErrors[] = '"label" attribute is not specified or empty';
-            }
             if (isset($attr['as']) && !preg_match('/^[a-z\d\-\_]+$/i', $attr['as'])) {
                 $nodeErrors[] = 'specified value for "as" attribute is invalid';
             }

@@ -26,4 +26,4 @@
     <event name="checkout_quote_destroy">
         <observer name="log" instance="Magento_Log_Model_Visitor" method="bindQuoteDestroy" />
     </event>
-</config>
+</config>

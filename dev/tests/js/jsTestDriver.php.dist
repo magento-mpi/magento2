@@ -16,6 +16,7 @@ return array(
     'server' => 'http://localhost:9876',
     'load' => array(
         '/pub/lib/mage/translate.js',
+        '/pub/lib/mage/webapi.js',
         '/pub/lib/jquery/jquery-ui-timepicker-addon.js',
         '/pub/lib/jquery/jquery.tmpl.min.js',
         '/app/code/Magento/DesignEditor/view/adminhtml/js/base.js',

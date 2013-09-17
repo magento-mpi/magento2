@@ -69,7 +69,7 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_mockSubscription;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_mockSubscription = $this->_createMockSubscription();
     }

@@ -18,7 +18,7 @@ class Magento_Core_Model_TemplateEngine_FactoryTest extends PHPUnit_Framework_Te
     /**
      * Setup a factory to test with an mocked object manager.
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
         $this->_factory = new Magento_Core_Model_TemplateEngine_Factory($this->_objectManagerMock);

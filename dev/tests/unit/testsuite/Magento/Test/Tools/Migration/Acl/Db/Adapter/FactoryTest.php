@@ -23,7 +23,7 @@ class Magento_Test_Tools_Migration_Acl_Db_Adapter_FactoryTest extends PHPUnit_Fr
      */
     protected $_config;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = new Magento_Tools_Migration_Acl_Db_Adapter_Factory();
         $this->_config = array(
@@ -34,7 +34,7 @@ class Magento_Test_Tools_Migration_Acl_Db_Adapter_FactoryTest extends PHPUnit_Fr
         );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
     }

@@ -10,19 +10,24 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="default">
         <reference name="header">
-            <block class="Magento_Core_Block_Template" name="top.search" as="topSearch" template="Magento_CatalogSearch::form.mini.phtml"/>
+            <block class="Magento_Core_Block_Template" name="top.search" as="topSearch"
+                   template="Magento_CatalogSearch::form.mini.phtml"/>
         </reference>
         <reference name="footer_links">
-            <action method="addLink" ifconfig="catalog/seo/search_terms">
-                <argument translate="true" name="label" xsi:type="string">Search Terms</argument>
-                <argument name="url" xsi:type="helper" helper="Magento_CatalogSearch_Helper_Data::getSearchTermUrl"/>
-                <argument translate="true" name="title" xsi:type="string">Search Terms</argument>
-            </action>
-            <action method="addLink">
-                <argument translate="true" name="label" xsi:type="string">Advanced Search</argument>
-                <argument name="url" xsi:type="helper" helper="Magento_CatalogSearch_Helper_Data::getAdvancedSearchUrl"/>
-                <argument translate="true" name="title" xsi:type="string">Advanced Search</argument>
-            </action>
+            <block class="Magento_Page_Block_Link_Current" ifconfig="catalog/seo/search_terms"
+                   name="catalog-search-term-popular-link">
+                <arguments>
+                    <argument name="label" xsi:type="string">Search Terms</argument>
+                    <argument name="path" xsi:type="string">catalogsearch/term/popular</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Link_Current" ifconfig="catalog/seo/search_terms"
+                   name="catalog-search-advanced-link">
+                <arguments>
+                    <argument name="label" xsi:type="string">Advanced Search</argument>
+                    <argument name="path" xsi:type="string">catalogsearch/advanced</argument>
+                </arguments>
+            </block>
         </reference>
     </handle>
 </layout>

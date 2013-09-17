@@ -15,28 +15,36 @@
             </action>
         </reference>
         <reference name="head">
-            <action method="addCss">
-                <argument name="file" xsi:type="string">css/iphone.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">css/widgets.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">css/custom.css</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">js/iphone.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">js/dnd.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">js/modernizr.js</argument>
-            </action>
-            <action method="addMetaTag">
-                <argument name="name" xsi:type="string">viewport</argument>
-                <argument name="content" xsi:type="string">width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Css" name="css-iphone-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">css/iphone.css</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="css-widgets-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">css/widgets.css</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="css-custom-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">css/custom.css</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="js-iphone-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">js/iphone.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="js-dnd-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">js/dnd.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="js-modernizr-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">js/modernizr.js</argument>
+                </arguments>
+            </block>
         </reference>
     </handle>
 </layout>

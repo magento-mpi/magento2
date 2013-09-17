@@ -23,8 +23,8 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
     /** @var Magento_Checkout_Model_Session */
     protected $_checkoutSession;
     protected $_item;
-    protected $_productUrl = null;
-    protected $_productThumbnail = null;
+    protected $_productUrl;
+    protected $_productThumbnail;
 
     /**
      * Whether qty will be converted to number

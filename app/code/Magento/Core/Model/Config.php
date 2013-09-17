@@ -333,24 +333,6 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     }
 
     /**
-     * Get fieldset from configuration
-     *
-     * @param string $name fieldset name
-     * @param string $root fieldset area, could be 'admin'
-     * @return null|array
-     */
-    public function getFieldset($name, $root = 'global')
-    {
-        /** @var $config Magento_Core_Model_Config_Base */
-        $config = $this->_objectManager->get('Magento_Core_Model_Config_Fieldset');
-        $rootNode = $config->getNode($root . '/fieldsets');
-        if (!$rootNode) {
-            return null;
-        }
-        return $rootNode->$name ? $rootNode->$name->children() : null;
-    }
-
-    /**
      * Determine whether provided name begins from any available modules, according to namespaces priority
      * If matched, returns as the matched module "factory" name or a fully qualified module name
      *

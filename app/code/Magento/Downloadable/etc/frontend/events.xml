@@ -26,4 +26,4 @@
     <event name="product_option_renderer_init">
         <observer name="downloadable_observer" instance="Magento_Downloadable_Model_Observer" method="initOptionRenderer" />
     </event>
-</config>
+</config>

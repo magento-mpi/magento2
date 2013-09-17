@@ -34,7 +34,7 @@ class Magento_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framewor
      *
      * Create request, response and forward action (child of ActionAbstract)
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->_request = $this->getMock('Magento_Core_Controller_Request_Http',
             array('getRequestedRouteName', 'getRequestedControllerName', 'getRequestedActionName'), array(), '', false

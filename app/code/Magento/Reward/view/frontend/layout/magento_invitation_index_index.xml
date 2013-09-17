@@ -11,9 +11,9 @@
     <handle id="magento_invitation_index_index">
         <reference name="invitations.list.list.before">
             <block class="Magento_Reward_Block_Tooltip" name="reward.tooltip.invitation" template="tooltip.phtml">
-                <action method="initRewardType">
-                    <argument name="type" xsi:type="string">Magento_Reward_Model_Action_InvitationCustomer</argument>
-                </action>
+                <arguments>
+                    <argument name="reward_type" xsi:type="string">Magento_Reward_Model_Action_InvitationCustomer</argument>
+                </arguments>
                 <action method="setWrapperClass">
                     <argument name="class" xsi:type="string">reward-invitation</argument>
                 </action>
@@ -28,9 +28,9 @@
                 </action>
             </block>
             <block class="Magento_Reward_Block_Tooltip" name="reward.tooltip.invitation.order" template="tooltip.phtml">
-                <action method="initRewardType">
-                    <argument name="type" xsi:type="string">Magento_Reward_Model_Action_InvitationOrder</argument>
-                </action>
+                <arguments>
+                    <argument name="reward_type" xsi:type="string">Magento_Reward_Model_Action_InvitationOrder</argument>
+                </arguments>
                 <action method="setWrapperClass">
                     <argument name="class" xsi:type="string">reward-invitation</argument>
                 </action>

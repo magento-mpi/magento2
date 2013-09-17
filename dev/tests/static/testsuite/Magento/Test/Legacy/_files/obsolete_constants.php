@@ -169,5 +169,6 @@ return array(
 
     array('XML_PATH_WEBAPI_REQUEST_INTERPRETERS', 'Magento_Webapi_Controller_Request_Rest_Interpreter_Factory'),
     array('XML_PATH_WEBAPI_RESPONSE_RENDERS', 'Magento_Webapi_Controller_Response_Rest_Renderer_Factor'),
+    array('XML_PATH_THEME'),
+    array('XML_PATH_ALLOW_DUPLICATION'),
 );
-

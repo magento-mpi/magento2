@@ -10,27 +10,12 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="ADMINHTML_CATALOG_PRODUCT_COMPOSITE_CONFIGURE">
         <block class="Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset" name="product.composite.fieldset" output="1">
-            <block class="Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options" name="product.composite.fieldset.options" template="catalog/product/composite/fieldset/options.phtml">
-                <action method="addOptionRenderer">
-                    <argument name="type" xsi:type="string">text</argument>
-                    <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_View_Options_Type_Text</argument>
-                    <argument name="template" xsi:type="string">Magento_Adminhtml::catalog/product/composite/fieldset/options/type/text.phtml</argument>
-                </action>
-                <action method="addOptionRenderer">
-                    <argument name="type" xsi:type="string">file</argument>
-                    <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_View_Options_Type_File</argument>
-                    <argument name="template" xsi:type="string">Magento_Adminhtml::catalog/product/composite/fieldset/options/type/file.phtml</argument>
-                </action>
-                <action method="addOptionRenderer">
-                    <argument name="type" xsi:type="string">select</argument>
-                    <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_View_Options_Type_Select</argument>
-                    <argument name="template" xsi:type="string">Magento_Adminhtml::catalog/product/composite/fieldset/options/type/select.phtml</argument>
-                </action>
-                <action method="addOptionRenderer">
-                    <argument name="type" xsi:type="string">date</argument>
-                    <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_View_Options_Type_Date</argument>
-                    <argument name="template" xsi:type="string">Magento_Adminhtml::catalog/product/composite/fieldset/options/type/date.phtml</argument>
-                </action>
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options" template="catalog/product/composite/fieldset/options.phtml">
+                <block class="Magento_Catalog_Block_Product_View_Options_Type_Default" as="default" template="Magento_Adminhtml::catalog/product/composite/fieldset/options/type/default.phtml"/>
+                <block class="Magento_Catalog_Block_Product_View_Options_Type_Text" as="text" template="Magento_Adminhtml::catalog/product/composite/fieldset/options/type/text.phtml"/>
+                <block class="Magento_Catalog_Block_Product_View_Options_Type_File" as="file" template="Magento_Adminhtml::catalog/product/composite/fieldset/options/type/file.phtml"/>
+                <block class="Magento_Catalog_Block_Product_View_Options_Type_Select" as="select" template="Magento_Adminhtml::catalog/product/composite/fieldset/options/type/select.phtml"/>
+                <block class="Magento_Catalog_Block_Product_View_Options_Type_Date" as="date" template="Magento_Adminhtml::catalog/product/composite/fieldset/options/type/date.phtml"/>
                 <block class="Magento_Core_Block_Template" name="product.composite.fieldset.options.js" as="options_js" template="Magento_Adminhtml::catalog/product/composite/fieldset/options/js.phtml"/>
             </block>
             <block class="Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Qty" name="product.composite.fieldset.qty" template="catalog/product/composite/fieldset/qty.phtml"/>

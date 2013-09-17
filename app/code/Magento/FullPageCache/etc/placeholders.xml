@@ -62,7 +62,7 @@
     </placeholder>
     <placeholder name="wishlist_links" code="WISHLISTLINKS" cacheLifeTime="86400">
         <container instance="Magento_FullPageCache_Model_Container_Wishlistlinks" />
-        <block instance="Magento_Wishlist_Block_Links" />
+        <block instance="Magento_Wishlist_Block_Link" />
     </placeholder>
     <placeholder name="poll_activepoll" code="POLL" cacheLifeTime="86400">
         <container instance="Magento_FullPageCache_Model_Container_Sidebar_Poll" />

@@ -14,12 +14,6 @@
             <action method="setTitleId">
                 <argument translate="true" name="id" xsi:type="string">order-header</argument>
             </action>
-            <!--<action method="setTitlePrefix" translate="value">
-                <argument name="value" xsi:type="string">Prefix</argument>
-            </action>
-            <action method="setTitleSuffix" translate="value">
-                <argument name="value" xsi:type="string">suffix</argument>
-            </action>-->
         </reference>
         <reference name="left">
             <action method="setIsCollapsed">
@@ -27,25 +21,37 @@
             </action>
         </reference>
         <reference name="head">
-            <action method="addJs">
-                <argument name="file" xsi:type="string">Magento_Adminhtml::sales/order/create/scripts.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">Magento_Adminhtml::sales/order/create/giftmessage.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/product/composite/configure.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">varien/configurable.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">Magento_Adminhtml::sales/order/giftoptions_tooltip.js</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminhtml-sales-order-create-scripts-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_Adminhtml::sales/order/create/scripts.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminhtml-sales-order-create-giftmessage-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_Adminhtml::sales/order/create/giftmessage.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminhtml-catalog-product-composite-configure-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/product/composite/configure.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="varien-configurable-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">varien/configurable.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminhtml-sales-order-giftoptions-tooltip-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_Adminhtml::sales/order/giftoptions_tooltip.js</argument>
+                </arguments>
+            </block>
             <block class="Magento_Adminhtml_Block_Template" name="optional_zip_countries" as="optional_zip_countries" template="Magento_Directory::js/optional_zip_countries.phtml"/>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">Magento_Core::prototype/magento.css</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Css" name="magento-core-prototype-magento-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_Core::prototype/magento.css</argument>
+                </arguments>
+            </block>
         </reference>
         <reference name="js">
             <block class="Magento_Adminhtml_Block_Template" template="sales/order/create/js.phtml" name="create"/>

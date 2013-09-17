@@ -12,12 +12,16 @@
 <config>
     <global>
         <areas>
-            <webapi>
-                <frontName>webapi</frontName>
-                <front_controller>Magento_Webapi_Controller_Front</front_controller>
-                <!--TODO: Utilize base action controller from config, not constant-->
-                <base_controller>Magento_Webapi_Controller_ActionAbstract</base_controller>
-            </webapi>
+            <webapi_rest>
+                <frontName>rest</frontName>
+                <front_controller>Magento_Webapi_Controller_Rest</front_controller>
+                <request_object>Magento_Webapi_Controller_Rest_Request</request_object>
+            </webapi_rest>
+            <webapi_soap>
+                <frontName>soap</frontName>
+                <front_controller>Magento_Webapi_Controller_Soap</front_controller>
+                <request_object>Magento_Webapi_Controller_Soap_Request</request_object>
+            </webapi_soap>
         </areas>
         <resources>
             <webapi_setup>
