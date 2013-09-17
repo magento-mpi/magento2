@@ -33,6 +33,28 @@ class Magento_Core_Model_Cookie
     protected $_store;
 
     /**
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_httpRequest;
+
+    /**
+     * @var Magento_Core_Controller_Response_Http
+     */
+    protected $_httpResponse;
+
+    /**
+     * @param Magento_Core_Controller_Request_Http $httpRequest
+     * @param Magento_Core_Controller_Response_Http $httpResponse
+     */
+    public function __construct(
+        Magento_Core_Controller_Request_Http $httpRequest,
+        Magento_Core_Controller_Response_Http $httpResponse
+    ) {
+        $this->_httpRequest = $httpRequest;
+        $this->_httpResponse = $httpResponse;
+    }
+
+    /**
      * Set Store object
      *
      * @param mixed $store
@@ -64,7 +86,7 @@ class Magento_Core_Model_Cookie
      */
     protected function _getRequest()
     {
-        return Mage::getObjectManager()->get('Magento_Core_Controller_Request_Http');
+        return $this->_httpRequest;
     }
 
     /**
@@ -74,7 +96,7 @@ class Magento_Core_Model_Cookie
      */
     protected function _getResponse()
     {
-        return Mage::getObjectManager()->get('Magento_Core_Controller_Response_Http');
+        return $this->_httpResponse;
     }
 
     /**

@@ -489,13 +489,13 @@ final class Magento_Downloader_Controller
 
             if (self::$_instance->isDownloaded()) {
                 if (!class_exists('Magento', false)) {
-                    if (!file_exists(self::getBootstrapPath())) {
+                    if (!file_exists(self::$_instance->getBootstrapPath())) {
                         return false;
                     }
-                    include_once self::getBootstrapPath();
+                    include_once self::$_instance->getBootstrapPath();
                     Mage::setIsDownloader();
                 }
-                Mage::getObjectManager()->get('Magento_Core_Model_App');
+                Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_App');
                 if (self::isInstalled()) {
                     Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
                 }
@@ -923,7 +923,8 @@ final class Magento_Downloader_Controller
                 Mage::app()->getConfig()->reinit();
 
                 /** @var $updater Magento_Core_Model_Db_UpdaterInterface*/
-                $updater = Mage::getObjectManager()->get('Magento_Core_Model_Db_UpdaterInterface');
+                $updater = Magento_Core_Model_ObjectManager::getInstance()
+                    ->get('Magento_Core_Model_Db_UpdaterInterface');
                 $updater->updateScheme();
                 $updater->updateData();
                 $message .= 'Cache cleaned successfully';
@@ -1009,7 +1010,9 @@ final class Magento_Downloader_Controller
                 ->setName($archiveName)
                 ->setBackupsDir(Mage::getBaseDir('var') . DS . 'backups');
 
-            Mage::getObjectManager()->get('Magento_Core_Model_Registry')->register('backup_manager', $backupManager);
+            Magento_Core_Model_ObjectManager::getInstance()
+                ->get('Magento_Core_Model_Registry')
+                ->register('backup_manager', $backupManager);
 
             if ($type != Magento_Backup_Helper_Data::TYPE_DB) {
                 $backupManager->setRootDir(Mage::getBaseDir())

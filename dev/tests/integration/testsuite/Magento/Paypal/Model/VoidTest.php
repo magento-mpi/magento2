@@ -17,14 +17,14 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
      */
     public function testPayflowProVoid()
     {
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $eventManager = $objectManager->get('Magento_Core_Model_Event_Manager');
         $coreData = $objectManager->get('Magento_Core_Helper_Data');
         $moduleList = $objectManager->get('Magento_Core_Model_ModuleListInterface');
         $paymentData = $objectManager->get('Magento_Payment_Helper_Data');
 
         /** @var $order Magento_Sales_Model_Order */
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = $objectManager->create('Magento_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
         $payment = $order->getPayment();
 

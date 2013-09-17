@@ -129,6 +129,11 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Core_Model_Cache_TypeListInterface
+     */
+    protected $_typeList;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction
      * @param Magento_FullPageCache_Model_Cache $fpcCache
@@ -142,6 +147,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
      * @param Magento_FullPageCache_Model_Store_Identifier $storeIdentifier
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Cache_TypeListInterface $typeList
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
@@ -156,7 +162,8 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
         Magento_FullPageCache_Model_Metadata $metadata,
         Magento_FullPageCache_Model_Store_Identifier $storeIdentifier,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Cache_TypeListInterface $typeList
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreRegistry = $coreRegistry;
@@ -171,6 +178,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
         $this->_metadata = $metadata;
         $this->_storeIdentifier = $storeIdentifier;
         $this->_storeManager = $storeManager;
+        $this->_typeList = $typeList;
         $this->_requestTags = array(self::CACHE_TAG);
     }
 
@@ -481,9 +489,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
                 $maxSizeInBytes = Mage::getStoreConfig(self::XML_PATH_CACHE_MAX_SIZE) * 1024 * 1024;
 
                 if ($currentStorageSize >= $maxSizeInBytes) {
-                    /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-                    $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
-                    $cacheTypeList->invalidate('full_page');
+                    $this->_typeList->invalidate('full_page');
                     return $this;
                 }
 
