@@ -9,7 +9,7 @@
  */
 
 
-class Magento_GoogleCheckout_Model_Source_Shipping_Carrier
+class Magento_GoogleCheckout_Model_Source_Shipping_Carrier implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

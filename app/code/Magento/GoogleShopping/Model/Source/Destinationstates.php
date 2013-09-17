@@ -15,7 +15,7 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Source_Destinationstates
+class Magento_GoogleShopping_Model_Source_Destinationstates implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Retrieve option array with destinations

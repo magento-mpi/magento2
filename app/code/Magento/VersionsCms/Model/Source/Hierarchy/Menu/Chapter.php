@@ -15,7 +15,7 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Magento_VersionsCms_Model_Source_Hierarchy_Menu_Chapter
+class Magento_VersionsCms_Model_Source_Hierarchy_Menu_Chapter implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Return options for Chapter/Section meta links

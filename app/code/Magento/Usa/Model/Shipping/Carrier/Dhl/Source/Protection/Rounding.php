@@ -10,6 +10,7 @@
 
 
 class Magento_Usa_Model_Shipping_Carrier_Dhl_Source_Protection_Rounding
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

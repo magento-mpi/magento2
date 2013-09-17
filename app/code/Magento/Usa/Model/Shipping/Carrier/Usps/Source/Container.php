@@ -9,7 +9,7 @@
  */
 
 
-class Magento_Usa_Model_Shipping_Carrier_Usps_Source_Container
+class Magento_Usa_Model_Shipping_Carrier_Usps_Source_Container implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

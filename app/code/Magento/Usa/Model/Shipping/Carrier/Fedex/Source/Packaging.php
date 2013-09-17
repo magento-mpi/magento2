@@ -15,7 +15,7 @@
  * @package    Magento_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Model_Shipping_Carrier_Fedex_Source_Packaging
+class Magento_Usa_Model_Shipping_Carrier_Fedex_Source_Packaging implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

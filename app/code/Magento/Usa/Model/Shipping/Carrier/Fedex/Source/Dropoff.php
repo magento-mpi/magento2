@@ -16,6 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Usa_Model_Shipping_Carrier_Fedex_Source_Dropoff
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {
