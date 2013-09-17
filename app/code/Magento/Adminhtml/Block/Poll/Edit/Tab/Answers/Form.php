@@ -18,7 +18,7 @@
 
 namespace Magento\Adminhtml\Block\Poll\Edit\Tab\Answers;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form\Generic
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected function _prepareForm()
     {
