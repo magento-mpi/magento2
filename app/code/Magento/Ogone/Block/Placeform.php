@@ -11,6 +11,26 @@
 
 class Magento_Ogone_Block_Placeform extends Magento_Core_Block_Template
 {
+    /**
+     * @var Magento_Sales_Model_OrderFactory
+     */
+    protected $_salesOrderFactory;
+
+    /**
+     * @param Magento_Sales_Model_OrderFactory $salesOrderFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Sales_Model_OrderFactory $salesOrderFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_salesOrderFactory = $salesOrderFactory;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Get checkout session namespace
@@ -42,7 +62,8 @@ class Magento_Ogone_Block_Placeform extends Magento_Core_Block_Template
         if ($this->getOrder()) {
             $order = $this->getOrder();
         } else if ($this->getCheckout()->getLastRealOrderId()) {
-            $order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId($this->getCheckout()->getLastRealOrderId());
+            $order = $this->_salesOrderFactory->create()
+                ->loadByIncrementId($this->getCheckout()->getLastRealOrderId());
         } else {
             return null;
         }
