@@ -36,7 +36,7 @@ class Action extends \Magento\Core\Controller\Varien\Action
     {
         parent::postDispatch();
         if (!$this->getFlag('', self::FLAG_NO_START_SESSION )) {
-            \Mage::getSingleton('Magento_Core_Model_Session')
+            \Mage::getSingleton('Magento\Core\Model\Session')
                 ->setLastUrl(\Mage::getUrl('*/*/*', array('_current' => true)));
         }
         return $this;

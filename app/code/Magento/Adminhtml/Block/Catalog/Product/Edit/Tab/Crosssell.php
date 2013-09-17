@@ -42,7 +42,7 @@ class Crosssell extends \Magento\Adminhtml\Block\Widget\Grid
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $coreRegistry;
+        $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 

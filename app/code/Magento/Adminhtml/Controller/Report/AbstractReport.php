@@ -105,7 +105,7 @@ abstract class AbstractReport extends \Magento\Adminhtml\Controller\Action
         $refreshStatsLink = $this->getUrl('*/report_statistics');
         $directRefreshLink = $this->getUrl('*/report_statistics/refreshRecent', array('code' => $refreshCode));
 
-        \Mage::getSingleton('Magento_Adminhtml_Model_Session')
+        \Mage::getSingleton('Magento\Adminhtml\Model\Session')
             ->addNotice(__('Last updated: %1. To refresh last day\'s <a href="%2">statistics</a>, '
                 . 'click <a href="%3">here</a>.', $updatedAt, $refreshStatsLink, $directRefreshLink));
         return $this;

@@ -72,7 +72,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         $calc = $this->_taxData->getCalculator();
         $customerTaxClass = $calc->getDefaultCustomerTaxClass($product->getStoreId());
         $rates = $calc->getRatesByCustomerAndProductTaxClasses($customerTaxClass, $product->getTaxClassId());
-        $targetCountry = \Mage::getSingleton('Magento_GoogleShopping_Model_Config')
+        $targetCountry = \Mage::getSingleton('Magento\GoogleShopping\Model\Config')
             ->getTargetCountry($product->getStoreId());
         $ratesTotal = 0;
         foreach ($rates as $rate) {

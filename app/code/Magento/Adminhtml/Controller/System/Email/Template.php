@@ -101,7 +101,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
 
         $template = $this->_initTemplate('id');
         if (!$template->getId() && $id) {
-            \Mage::getSingleton('Magento_Adminhtml_Model_Session')
+            \Mage::getSingleton('Magento\Adminhtml_Model_Session')
                 ->addError(__('This email template no longer exists.'));
             $this->_redirect('*/*/');
             return;
@@ -152,7 +152,6 @@ class Template extends \Magento\Adminhtml\Controller\Action
                 $this->_redirect('*/*/');
                 return;
             } catch (\Magento\Core\Exception $e) {
-            catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_getSession()
@@ -168,8 +167,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
             }
         }
         // display error message
-        \Mage::getSingleton('Magento_Adminhtml_Model_Session')
-            ->addError(__('We can\'t find an email template to delete.'));
+        \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('We can\'t find an email template to delete.'));
         // go to grid
         $this->_redirect('*/*/');
     }

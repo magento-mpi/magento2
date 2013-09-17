@@ -60,7 +60,7 @@ class Product extends \Magento\Core\Controller\Front\Action
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
                 \Mage::getSingleton('Magento\Customer\Model\Session')
                     ->setBeforeAuthUrl(\Mage::getUrl('*/*/*', array('_current' => true)));
-                \Mage::getSingleton('Magento_Review_Model_Session')
+                \Mage::getSingleton('Magento\Review\Model\Session')
                     ->setFormData($this->getRequest()->getPost())
                     ->setRedirectUrl($this->_getRefererUrl());
                 $this->_redirectUrl($this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl());

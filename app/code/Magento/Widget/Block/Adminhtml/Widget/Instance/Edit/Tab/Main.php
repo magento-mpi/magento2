@@ -146,7 +146,7 @@ class Main
                 'label'     => __('Assign to Store Views'),
                 'title'     => __('Assign to Store Views'),
                 'required'  => true,
-                'values'    => \Mage::getSingleton('Magento_Core_Model_System_Store')
+                'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')
                     ->getStoreValuesForForm(false, true),
             ));
             $renderer = $this->getLayout()

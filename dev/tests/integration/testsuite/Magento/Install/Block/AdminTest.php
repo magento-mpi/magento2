@@ -21,7 +21,7 @@ class Magento_Install_Block_AdminTest extends PHPUnit_Framework_TestCase
         );
 
         /** @var $session \Magento\Core\Model\Session\Generic */
-        $session = Mage::getSingleton('Magento_Install_Model_Session');
+        $session = Mage::getSingleton('Magento\Install\Model\Session');
         $session->setAdminData(array_merge($preserve, $omit));
 
         /** @var $layout \Magento\Core\Model\Layout */

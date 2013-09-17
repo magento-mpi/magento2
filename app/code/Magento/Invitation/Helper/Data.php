@@ -57,7 +57,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getInvitationStatusText($invitation)
     {
-        return \Mage::getSingleton('Magento_Invitation_Model_Source_Invitation_Status')
+        return \Mage::getSingleton('Magento\Invitation\Model\Source\Invitation\Status')
             ->getOptionText($invitation->getStatus());
     }
 
