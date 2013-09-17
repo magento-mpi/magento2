@@ -128,9 +128,11 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
             $this->_forward('noRoute');
             return;
         }
+        /* @var $session Magento_Catalog_Model_Session */
+        $catalogSession = $this->_objectManager->get('Magento_Catalog_Model_Session');
 
         if ($model->getMaxSendsToFriend() && $model->isExceedLimit()) {
-            $this->_objectManager->get('Magento_Catalog_Model_Session')->addNotice(
+            $catalogSession->addNotice(
                 __('You can\'t send messages more than %1 times an hour.', $model->getMaxSendsToFriend())
             );
         }
@@ -139,9 +141,9 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
         $this->_initLayoutMessages('Magento_Catalog_Model_Session');
 
         $this->_eventManager->dispatch('sendfriend_product', array('product' => $product));
-        $data = $this->_objectManager->get('Magento_Catalog_Model_Session')->getSendfriendFormData();
+        $data = $catalogSession->getSendfriendFormData();
         if ($data) {
-            $this->_objectManager->get('Magento_Catalog_Model_Session')->setSendfriendFormData(true);
+            $catalogSession->setSendfriendFormData(true);
             $block = $this->getLayout()->getBlock('sendfriend.send');
             if ($block) {
                 $block->setFormData($data);
@@ -182,39 +184,33 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
         $model->setRecipients($this->getRequest()->getPost('recipients'));
         $model->setProduct($product);
 
+        /* @var $session Magento_Catalog_Model_Session */
+        $catalogSession = $this->_objectManager->get('Magento_Catalog_Model_Session');
         try {
             $validate = $model->validate();
             if ($validate === true) {
                 $model->send();
-                $this->_objectManager->get('Magento_Catalog_Model_Session')->addSuccess(
-                    __('The link to a friend was sent.')
-                );
+                $catalogSession->addSuccess(__('The link to a friend was sent.'));
                 $this->_redirectSuccess($product->getProductUrl());
                 return;
             }
             else {
                 if (is_array($validate)) {
                     foreach ($validate as $errorMessage) {
-                        $this->_objectManager->get('Magento_Catalog_Model_Session')->addError($errorMessage);
+                        $catalogSession->addError($errorMessage);
                     }
-                }
-                else {
-                    $this->_objectManager->get('Magento_Catalog_Model_Session')->addError(
-                        __('We found some problems with the data.')
-                    );
+                } else {
+                    $catalogSession->addError(__('We found some problems with the data.'));
                 }
             }
-        }
-        catch (Magento_Core_Exception $e) {
-            $this->_objectManager->get('Magento_Catalog_Model_Session')->addError($e->getMessage());
-        }
-        catch (Exception $e) {
-            $this->_objectManager->get('Magento_Catalog_Model_Session')
-                ->addException($e, __('Some emails were not sent.'));
+        } catch (Magento_Core_Exception $e) {
+            $catalogSession->addError($e->getMessage());
+        } catch (Exception $e) {
+            $catalogSession->addException($e, __('Some emails were not sent.'));
         }
 
         // save form data
-        $this->_objectManager->get('Magento_Catalog_Model_Session')->setSendfriendFormData($data);
+        $catalogSession->setSendfriendFormData($data);
 
         $this->_redirectError(
             $this->_objectManager
