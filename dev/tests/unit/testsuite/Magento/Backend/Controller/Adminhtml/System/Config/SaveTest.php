@@ -180,7 +180,7 @@ class Magento_Backend_Controller_Adminhtml_System_Config_SaveTest extends PHPUni
     {
         $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
 
-        $fixturePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
+        $fixturePath = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
         $groups = require_once($fixturePath . 'groups_array.php');
         $requestParamMap = array(
             array('section', null, 'test_section'),

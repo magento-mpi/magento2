@@ -7,26 +7,24 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Multishipping Checkout Overview" id="checkout_multishipping_overview" type="page" parent="checkout_multishipping">
-        <update handle="checkout_multishipping"/>
-        <reference name="content">
-            <block class="Magento_Checkout_Block_Multishipping_Overview" name="checkout_overview" template="multishipping/overview.phtml">
-                <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="default" template="multishipping/item/default.phtml"/>
-                <block class="Magento_Checkout_Block_Cart_Item_Renderer_Grouped" as="grouped" template="multishipping/item/default.phtml"/>
-                <block class="Magento_Checkout_Block_Cart_Item_Renderer_Configurable" as="configurable" template="multishipping/item/default.phtml"/>
-                <block class="Magento_Checkout_Block_Cart_Item_Renderer_Grouped" as="row-grouped" template="multishipping/overview/item.phtml"/>
-                <block class="Magento_Checkout_Block_Cart_Item_Renderer_Configurable" as="row-configurable" template="multishipping/overview/item.phtml"/>
-                <block class="Magento_Checkout_Block_Multishipping_Payment_Info" name="payment_info">
-                    <action method="setInfoTemplate">
-                        <argument name="method" xsi:type="string"/>
-                        <argument name="template" xsi:type="string"/>
-                    </action>
-                </block>
-                <block class="Magento_Checkout_Block_Agreements" name="checkout.multishipping.agreements" as="agreements" template="multishipping/agreements.phtml"/>
-                <block class="Magento_Checkout_Block_Cart_Totals" name="totals"/>
-                <container name="checkout.multishipping.overview.items.after" as="items_after" label="Overview Items After"/>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Multishipping Checkout Overview" type="page" parent="checkout_multishipping">
+    <update handle="checkout_multishipping"/>
+    <reference name="content">
+        <block class="Magento_Checkout_Block_Multishipping_Overview" name="checkout_overview" template="multishipping/overview.phtml">
+            <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="default" template="multishipping/item/default.phtml"/>
+            <block class="Magento_Checkout_Block_Cart_Item_Renderer_Grouped" as="grouped" template="multishipping/item/default.phtml"/>
+            <block class="Magento_Checkout_Block_Cart_Item_Renderer_Configurable" as="configurable" template="multishipping/item/default.phtml"/>
+            <block class="Magento_Checkout_Block_Cart_Item_Renderer_Grouped" as="row-grouped" template="multishipping/overview/item.phtml"/>
+            <block class="Magento_Checkout_Block_Cart_Item_Renderer_Configurable" as="row-configurable" template="multishipping/overview/item.phtml"/>
+            <block class="Magento_Checkout_Block_Multishipping_Payment_Info" name="payment_info">
+                <action method="setInfoTemplate">
+                    <argument name="method" xsi:type="string"/>
+                    <argument name="template" xsi:type="string"/>
+                </action>
             </block>
-        </reference>
-    </handle>
+            <block class="Magento_Checkout_Block_Agreements" name="checkout.multishipping.agreements" as="agreements" template="multishipping/agreements.phtml"/>
+            <block class="Magento_Checkout_Block_Cart_Totals" name="totals"/>
+            <container name="checkout.multishipping.overview.items.after" as="items_after" label="Overview Items After"/>
+        </block>
+    </reference>
 </layout>

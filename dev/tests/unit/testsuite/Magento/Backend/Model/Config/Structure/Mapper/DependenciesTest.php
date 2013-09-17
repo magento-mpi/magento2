@@ -25,8 +25,8 @@ class Magento_Backend_Model_Config_Structure_Mapper_DependenciesTest extends PHP
 
     public function testMap()
     {
-        $data = require_once (realpath(dirname(__FILE__) . '/../../../') . '/_files/dependencies_data.php');
-        $expected = require_once (realpath(dirname(__FILE__) . '/../../../') . '/_files/dependencies_mapped.php');
+        $data = require_once (realpath(__DIR__ . '/../../../') . '/_files/dependencies_data.php');
+        $expected = require_once (realpath(__DIR__ . '/../../../') . '/_files/dependencies_mapped.php');
 
         $actual = $this->_model->map($data);
         $this->assertEquals($expected, $actual);

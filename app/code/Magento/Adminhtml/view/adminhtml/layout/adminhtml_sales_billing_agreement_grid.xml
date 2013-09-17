@@ -8,7 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_billing_agreement_grid">
-        <block class="Magento_Sales_Block_Adminhtml_Billing_Agreement_Grid" name="sales.billing.agreement.grid" output="1"/>
-    </handle>
+    <block class="Magento_Sales_Block_Adminhtml_Billing_Agreement_Grid" name="sales.billing.agreement.grid" output="1"/>
 </layout>

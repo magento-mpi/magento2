@@ -93,12 +93,9 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
     {
         try {
             //wrap XML value in the "layout" and "handle" tags to make it validatable
-            $value = '<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
-                . '<handle id="handleId">' . trim($value) . '</handle>'
-                . '</layout>';
-
+            $value = '<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $value . '</layout>';
             $schema = $this->_modulesReader->getModuleDir('etc', 'Magento_Core') . DIRECTORY_SEPARATOR . 'layouts.xsd';
-            $dom = $this->_domConfigFactory->createDom(array(
+            $this->_domConfigFactory->createDom(array(
                 'xml' => $value,
                 'schemaFile' => $schema
             ));

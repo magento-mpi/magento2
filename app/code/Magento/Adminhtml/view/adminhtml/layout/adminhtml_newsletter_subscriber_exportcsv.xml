@@ -8,8 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_newsletter_subscriber_exportcsv">
-        <update handle="adminhtml_newsletter_subscriber_block"/>
-        <container name="adminhtml.newsletter.subscriber.container" label="Newsletter Subscriber Grid Container"/>
-    </handle>
+    <update handle="adminhtml_newsletter_subscriber_block"/>
+    <container name="adminhtml.newsletter.subscriber.container" label="Newsletter Subscriber Grid Container"/>
 </layout>

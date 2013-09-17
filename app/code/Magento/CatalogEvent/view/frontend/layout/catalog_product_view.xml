@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="catalog_product_view">
-        <reference name="top.container">
-            <block class="Magento_CatalogEvent_Block_Catalog_Product_Event" after="-" name="product_category_event" template="catalog/product/event.phtml"/>
-        </reference>
-    </handle>
+    <reference name="top.container">
+        <block class="Magento_CatalogEvent_Block_Catalog_Product_Event" after="-" name="product_category_event" template="catalog/product/event.phtml"/>
+    </reference>
 </layout>

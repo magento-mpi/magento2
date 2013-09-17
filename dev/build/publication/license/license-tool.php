@@ -13,8 +13,8 @@
  * Command line tool for processing file docblock of Magento source code files.
  */
 
-require dirname(__FILE__) . '/Routine.php';
-require dirname(__FILE__) . '/LicenseAbstract.php';
+require __DIR__ . '/Routine.php';
+require __DIR__ . '/LicenseAbstract.php';
 
 define('USAGE', <<<USAGE
 php -f license-tool.php -- -e <edition> [-w <dir>] [-v] [-d] [-0]

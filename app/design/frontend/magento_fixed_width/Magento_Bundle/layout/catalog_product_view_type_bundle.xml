@@ -8,32 +8,30 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="catalog_product_view_type_bundle">
-        <reference name="product.info">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">Magento_Bundle::catalog/product/view.phtml</argument>
-            </action>
-            <block class="Magento_Bundle_Block_Catalog_Product_View" name="bundle.summary" as="bundleSummary" after="product.info.bundle" template="catalog/product/view/summary.phtml">
-                <block class="Magento_Catalog_Block_Product_View" name="product.info.addtocart.bundle" as="addtocart" template="product/view/addtocart.phtml"/>
-                <block class="Magento_Catalog_Block_Product_View" name="product.info.addto.bundle" as="addto" template="product/view/addto.phtml"/>
-            </block>
-            <block class="Magento_Bundle_Block_Catalog_Product_View" name="customize.button" as="customize_button" template="catalog/product/view/customize.phtml"/>
-        </reference>
-        <move element="bundle.prices" destination="bundle.summary" before="-"/>
-        <reference name="product.info.options.wrapper">
-            <block class="Magento_Catalog_Block_Product_View" name="bundle.product.view.options.notice" after="-" template="Magento_Bundle::catalog/product/view/options/notice.phtml"/>
-        </reference>
-        <reference name="product.info.options.wrapper.bottom">
-            <block class="Magento_Bundle_Block_Catalog_Product_View" name="bundle.back.button" as="backButton" after="-" template="catalog/product/view/backbutton.phtml"/>
-            <action method="unsetChild">
-                <argument name="block" xsi:type="string">addtocart</argument>
-            </action>
-            <action method="setHideRequiredNotice">
-                <argument name="flag" xsi:type="string">1</argument>
-            </action>
-            <action method="unsetChild">
-                <argument name="block" xsi:type="string">addto</argument>
-            </action>
-        </reference>
-    </handle>
+    <reference name="product.info">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">Magento_Bundle::catalog/product/view.phtml</argument>
+        </action>
+        <block class="Magento_Bundle_Block_Catalog_Product_View" name="bundle.summary" as="bundleSummary" after="product.info.bundle" template="catalog/product/view/summary.phtml">
+            <block class="Magento_Catalog_Block_Product_View" name="product.info.addtocart.bundle" as="addtocart" template="product/view/addtocart.phtml"/>
+            <block class="Magento_Catalog_Block_Product_View" name="product.info.addto.bundle" as="addto" template="product/view/addto.phtml"/>
+        </block>
+        <block class="Magento_Bundle_Block_Catalog_Product_View" name="customize.button" as="customize_button" template="catalog/product/view/customize.phtml"/>
+    </reference>
+    <move element="bundle.prices" destination="bundle.summary" before="-"/>
+    <reference name="product.info.options.wrapper">
+        <block class="Magento_Catalog_Block_Product_View" name="bundle.product.view.options.notice" after="-" template="Magento_Bundle::catalog/product/view/options/notice.phtml"/>
+    </reference>
+    <reference name="product.info.options.wrapper.bottom">
+        <block class="Magento_Bundle_Block_Catalog_Product_View" name="bundle.back.button" as="backButton" after="-" template="catalog/product/view/backbutton.phtml"/>
+        <action method="unsetChild">
+            <argument name="block" xsi:type="string">addtocart</argument>
+        </action>
+        <action method="setHideRequiredNotice">
+            <argument name="flag" xsi:type="string">1</argument>
+        </action>
+        <action method="unsetChild">
+            <argument name="block" xsi:type="string">addto</argument>
+        </action>
+    </reference>
 </layout>

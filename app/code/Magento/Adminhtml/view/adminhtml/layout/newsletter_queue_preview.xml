@@ -8,10 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="newsletter_queue_preview">
-        <block class="Magento_Core_Block_Template" name="root" output="1" template="Magento_Adminhtml::newsletter/queue/preview.phtml">
-            <block class="Magento_Adminhtml_Block_Newsletter_Queue_Preview" name="content" as="content"/>
-        </block>
-        <block class="Magento_Adminhtml_Block_Newsletter_Queue_Preview" name="preview_template"/>
-    </handle>
+    <block class="Magento_Core_Block_Template" name="root" output="1" template="Magento_Adminhtml::newsletter/queue/preview.phtml">
+        <block class="Magento_Adminhtml_Block_Newsletter_Queue_Preview" name="content" as="content"/>
+    </block>
+    <block class="Magento_Adminhtml_Block_Newsletter_Queue_Preview" name="preview_template"/>
 </layout>

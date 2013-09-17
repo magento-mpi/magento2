@@ -8,13 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_catalog_product_upsell">
-        <reference name="adminhtml.targetrule.grid.container">
-            <block class="Magento_TargetRule_Block_Adminhtml_Product" name="targetrule.adminhtml.product" template="product.phtml" before="catalog.product.edit.tab.upsell">
-                <action method="setFormPrefix">
-                    <argument name="params" xsi:type="string">upsell</argument>
-                </action>
-            </block>
-        </reference>
-    </handle>
+    <reference name="adminhtml.targetrule.grid.container">
+        <block class="Magento_TargetRule_Block_Adminhtml_Product" name="targetrule.adminhtml.product" template="product.phtml" before="catalog.product.edit.tab.upsell">
+            <action method="setFormPrefix">
+                <argument name="params" xsi:type="string">upsell</argument>
+            </action>
+        </block>
+    </reference>
 </layout>

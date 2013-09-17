@@ -22,7 +22,7 @@ class Magento_CustomerBalance_Block_Account_WrapperTest extends PHPUnit_Framewor
         $session->login('customer@example.com', 'password');
 
         $utility = new Magento_Core_Utility_Layout($this);
-        $layout = $utility->getLayoutFromFixture(__DIR__ . '/../../_files/account_wrapper.xml',
+        $layout = $utility->getLayoutFromFixture(__DIR__ . '/../../_files/magento_customerbalance_info_index.xml',
             $utility->getLayoutDependencies()
         );
         $layout->getUpdate()->addHandle('magento_customerbalance_info_index')->load();

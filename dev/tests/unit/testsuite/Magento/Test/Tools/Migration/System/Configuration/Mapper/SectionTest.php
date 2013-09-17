@@ -8,13 +8,13 @@
  * @license    {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Abstract.php';
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Group.php';
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Section.php';
 
 /**

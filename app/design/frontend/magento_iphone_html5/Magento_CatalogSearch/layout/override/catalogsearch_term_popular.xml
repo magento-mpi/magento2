@@ -7,20 +7,18 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Popular Search Terms" id="catalogsearch_term_popular" type="page" parent="default">
-        <reference name="head">
-            <action method="setTitle">
-                <argument translate="true" name="title" xsi:type="string">Search Terms</argument>
-            </action>
-        </reference>
-        <reference name="root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">1column.phtml</argument>
-            </action>
-        </reference>
-        <reference name="content">
-            <block class="Magento_CatalogSearch_Block_Term" name="seo.searchterm" template="term.phtml"/>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Popular Search Terms" type="page" parent="default">
+    <reference name="head">
+        <action method="setTitle">
+            <argument translate="true" name="title" xsi:type="string">Search Terms</argument>
+        </action>
+    </reference>
+    <reference name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">1column.phtml</argument>
+        </action>
+    </reference>
+    <reference name="content">
+        <block class="Magento_CatalogSearch_Block_Term" name="seo.searchterm" template="term.phtml"/>
+    </reference>
 </layout>

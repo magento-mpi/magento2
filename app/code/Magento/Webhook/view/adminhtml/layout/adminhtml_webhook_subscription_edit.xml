@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_webhook_subscription_edit">
-        <reference name="content">
-            <block class="Magento_Webhook_Block_Adminhtml_Subscription_Edit" name="webhook.subscriptions.edit"/>
-        </reference>
-    </handle>
+    <reference name="content">
+        <block class="Magento_Webhook_Block_Adminhtml_Subscription_Edit" name="webhook.subscriptions.edit"/>
+    </reference>
 </layout>

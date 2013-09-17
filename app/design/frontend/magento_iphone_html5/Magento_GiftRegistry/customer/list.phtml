@@ -44,7 +44,7 @@
 
 <?php if ($this->canAddNewEntity()):?>
 <div class="buttons-set">
-    <button type="button" onclick="setLocation('<?php echo $this->escapeUrl($this->getAddUrl()) ?>')" class="button"><?php echo __('Add New') ?></button>
+    <a class="button" href="<?php echo $this->escapeUrl($this->getAddUrl()) ?>"><span><?php echo __('Add New') ?></span></a>
 </div>
 <?php endif;?>
 </div>
