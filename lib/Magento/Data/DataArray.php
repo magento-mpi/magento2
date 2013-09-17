@@ -6,7 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Data_Array extends Varien_Object
+namespace Magento\Data;
+
+class DataArray extends Varien_Object
 {
     //
 }

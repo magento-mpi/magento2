@@ -6,7 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Data_Schema extends Varien_Object
+namespace Magento\Data;
+
+class Schema extends Varien_Object
 {
     public function load($schema)
     {
@@ -23,6 +25,6 @@ class Magento_Data_Schema extends Varien_Object
     public function extract($rawData)
     {
         $elements = $rawData;
-        return new Magento_Data_Array($elements);
+        return new \Magento\Data\DataArray($elements);
     }
 }
