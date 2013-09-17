@@ -41,7 +41,12 @@
     Fieldset.addToPrefix(<?php echo $this->helper('Magento_Adminhtml_Helper_Data')->getCurrentUserId() ?>);
 </script>
 
-$translation = array(
+<?php echo $this->getChildHtml('components'); ?>
+<?php echo $this->getChildHtml('calendar'); ?>
+<?php echo $this->getChildHtml('optional_zip_countries'); ?>
+
+<?php
+$translations = array(
     'Complete' => __('Complete'),
     'Upload Security Error' => __('Upload Security Error'),
     'Upload HTTP Error' => __('Upload HTTP Error'),
@@ -53,15 +58,7 @@ $translation = array(
     'kB' => __('kB'),
     'B' => __('B'),
     'Add Products' => __('Add Products'),
-};
-<?php echo '(function($) {$.mage.translate.add(' . json_encode($translations) . ')})(jQuery);'; ?>
-<?php echo $this->getChildHtml('components'); ?>
-<?php echo $this->getChildHtml('calendar'); ?>
-<?php echo $this->getChildHtml('optional_zip_countries'); ?>
-
-<?php
-$translations = array(
-    'Add Products By SKU'   => __('Add Products By SKU'),
+    'Add Products By SKU' => __('Add Products By SKU'),
 );
 echo '(function($) {$.mage.translate.add(' . json_encode($translations) . ')})(jQuery);';
 ?>
