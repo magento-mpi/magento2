@@ -46,16 +46,6 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     protected $_coreUrl = null;
 
     /**
-     * Retrieve customer sharing configuration model
-     *
-     * @return Magento_Customer_Model_Config_Share
-     */
-    public function getCustomerConfigShare()
-    {
-        return Mage::getSingleton('Magento_Customer_Model_Config_Share');
-    }
-
-    /**
      * Class constructor. Initialize session namespace
      *
      * @param Magento_Core_Helper_Url $coreUrl
@@ -66,6 +56,8 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      * @param string $sessionName
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Customer_Model_Config_Share $configShare,
         Magento_Core_Helper_Url $coreUrl,
         Magento_Customer_Helper_Data $customerData,
         Magento_Core_Model_Event_Manager $eventManager,
@@ -77,8 +69,8 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
         $this->_customerData = $customerData;
         parent::__construct($eventManager, $coreHttp, $data);
         $namespace = 'customer';
-        if ($this->getCustomerConfigShare()->isWebsiteScope()) {
-            $namespace .= '_' . (Mage::app()->getStore()->getWebsite()->getCode());
+        if ($configShare->isWebsiteScope()) {
+            $namespace .= '_' . ($storeManager->getWebsite()->getCode());
         }
 
         $this->init($namespace, $sessionName);
