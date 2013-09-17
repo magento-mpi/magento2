@@ -45,3 +45,10 @@
 <?php echo $this->getChildHtml('components'); ?>
 <?php echo $this->getChildHtml('calendar'); ?>
 <?php echo $this->getChildHtml('optional_zip_countries'); ?>
+
+<?php
+$translations = array(
+    'Add Products By SKU'   => __('Add Products By SKU'),
+);
+echo '(function($) {$.mage.translate.add(' . json_encode($translations) . ')})(jQuery);';
+?>
