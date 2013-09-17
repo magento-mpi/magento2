@@ -27,6 +27,9 @@
         <param name="eventManager">
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
+        <param name="typeSwitcherLabel">
+            <value>Virtual</value>
+        </param>
     </type>
     <type name="Magento_Catalog_Model_Category">
         <param name="eventManager">

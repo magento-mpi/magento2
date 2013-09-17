@@ -17,9 +17,6 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     const XML_PATH_PRODUCT_URL_USE_CATEGORY          = 'catalog/seo/product_use_categories';
     const XML_PATH_USE_PRODUCT_CANONICAL_TAG         = 'catalog/seo/product_canonical_tag';
     const XML_PATH_AUTO_GENERATE_MASK                = 'catalog/fields_masks';
-    const XML_PATH_UNASSIGNABLE_ATTRIBUTES           = 'global/catalog/product/attributes/unassignable';
-    const XML_PATH_ATTRIBUTES_USED_IN_AUTOGENERATION = 'global/catalog/product/attributes/used_in_autogeneration';
-    const XML_PATH_PRODUCT_TYPE_SWITCHER_LABEL       = 'global/catalog/product/attributes/weight/type_switcher/label';
 
     /**
      * Flag that shows if Magento has to check product to be saleable (enabled and/or inStock)
@@ -63,17 +60,33 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     protected $_coreRegistry = null;
 
     /**
+     * @var string
+     */
+    protected $_typeSwitcherLabel;
+
+    /**
+     * @var Magento_Catalog_Model_Attribute_Config
+     */
+    protected $_attributeConfig;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Catalog_Model_Attribute_Config $attributeConfig
+     * @param string $typeSwitcherLabel
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_View_Url $viewUrl,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Catalog_Model_Attribute_Config $attributeConfig,
+        $typeSwitcherLabel
     ) {
+        $this->_typeSwitcherLabel = $typeSwitcherLabel;
+        $this->_attributeConfig = $attributeConfig;
         $this->_coreRegistry = $coreRegistry;
         $this->_eventManager = $eventManager;
         parent::__construct($context);
@@ -524,8 +537,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      */
     public function getUnassignableAttributes()
     {
-        $data = Mage::getConfig()->getNode(self::XML_PATH_UNASSIGNABLE_ATTRIBUTES);
-        return false === $data || is_string($data->asArray()) ? array() : array_keys($data->asArray());
+        return $this->_attributeConfig->getAttributeNames('unassignable');
     }
 
     /**
@@ -535,7 +547,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      */
     public function getAttributesAllowedForAutogeneration()
     {
-        return array_keys(Mage::getConfig()->getNode(self::XML_PATH_ATTRIBUTES_USED_IN_AUTOGENERATION)->asArray());
+        return $this->_attributeConfig->getAttributeNames('used_in_autogeneration');
     }
 
     /**
@@ -545,6 +557,6 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      */
     public function getTypeSwitcherControlLabel()
     {
-        return __((string)Mage::getConfig()->getNode(self::XML_PATH_PRODUCT_TYPE_SWITCHER_LABEL));
+        return __($this->_typeSwitcherLabel);
     }
 }

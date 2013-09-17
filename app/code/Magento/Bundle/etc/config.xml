@@ -19,16 +19,6 @@
                 </setup>
             </bundle_setup>
         </resources>
-        <catalog>
-            <product>
-                <attributes>
-                    <unassignable>
-                        <price_type />
-                        <price_view />
-                    </unassignable>
-                </attributes>
-            </product>
-        </catalog>
         <pdf>
             <invoice>
                 <bundle>Magento_Bundle_Model_Sales_Order_Pdf_Items_Invoice</bundle>

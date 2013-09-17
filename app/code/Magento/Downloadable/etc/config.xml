@@ -19,17 +19,6 @@
                 </setup>
             </downloadable_setup>
         </resources>
-        <catalog>
-            <product>
-                <attributes>
-                    <weight>
-                        <type_switcher translate="label">
-                            <label>Virtual / Downloadable</label>
-                        </type_switcher>
-                    </weight>
-                </attributes>
-            </product>
-        </catalog>
         <pdf>
             <invoice>
                 <downloadable>Magento_Downloadable_Model_Sales_Order_Pdf_Items_Invoice</downloadable>

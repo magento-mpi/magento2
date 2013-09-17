@@ -33,4 +33,33 @@
         <attribute name="created_at"/>
         <attribute name="updated_at"/>
     </group>
+    <group name="unassignable">
+        <attribute name="image" />
+        <attribute name="name" />
+        <attribute name="description" />
+        <attribute name="short_description" />
+        <attribute name="sku" />
+        <attribute name="price" />
+        <attribute name="status" />
+        <attribute name="visibility" />
+        <attribute name="weight" />
+        <attribute name="category_ids" />
+        <attribute name="quantity_and_stock_status" />
+        <attribute name="available_sort_by" />
+        <attribute name="default_sort_by" />
+        <attribute name="filter_price_range" />
+        <attribute name="image" />
+        <attribute name="category_ids" />
+        <attribute name="media_gallery_content" />
+        <attribute name="group_price" />
+        <attribute name="tier_price" />
+        <attribute name="recurring_profileinit_may_fail" />
+        <attribute name="gift_message_available" />
+        <attribute name="inventory_manage_stock" />
+    </group>
+    <group name="used_in_autogeneration">
+        <attribute name="name" />
+        <attribute name="description" />
+        <attribute name="sku" />
+    </group>
 </config>

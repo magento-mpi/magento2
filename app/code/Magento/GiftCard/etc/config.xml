@@ -19,17 +19,6 @@
                 </setup>
             </giftcard_setup>
         </resources>
-        <catalog>
-            <product>
-                <attributes>
-                    <unassignable>
-                        <allow_open_amount />
-                        <giftcard_amounts />
-                        <giftcard_type />
-                    </unassignable>
-                </attributes>
-            </product>
-        </catalog>
         <template>
             <email>
                 <giftcard_email_template translate="label" module="Magento_GiftCard">

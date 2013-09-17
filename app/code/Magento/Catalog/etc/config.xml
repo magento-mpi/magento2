@@ -51,42 +51,6 @@
                     <add_filterable_attributes>0</add_filterable_attributes>
                     <add_child_data>0</add_child_data>
                 </flat>
-                <attributes>
-                    <unassignable>
-                        <image />
-                        <name />
-                        <description />
-                        <short_description />
-                        <sku />
-                        <price />
-                        <status />
-                        <visibility />
-                        <weight />
-                        <category_ids />
-                        <quantity_and_stock_status />
-                        <available_sort_by />
-                        <default_sort_by />
-                        <filter_price_range />
-                        <image />
-                        <category_ids />
-                        <media_gallery_content />
-                        <group_price />
-                        <tier_price />
-                        <recurring_profileinit_may_fail />
-                        <gift_message_available />
-                        <inventory_manage_stock />
-                    </unassignable>
-                    <used_in_autogeneration>
-                        <name />
-                        <description />
-                        <sku />
-                    </used_in_autogeneration>
-                    <weight>
-                        <type_switcher translate="label">
-                            <label>Virtual</label>
-                        </type_switcher>
-                    </weight>
-                </attributes>
             </product>
             <content>
                 <tempate_filter>Magento_Catalog_Model_Template_Filter</tempate_filter>
