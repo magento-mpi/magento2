@@ -26,6 +26,24 @@ abstract class Magento_TargetRule_Model_Resource_Index_Abstract extends Magento_
     protected $_listType;
 
     /**
+     * @var Magento_Catalog_Model_Resource_Product
+     */
+    protected $_product;
+
+    /**
+     * @param Magento_Catalog_Model_Resource_Product $product
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Catalog_Model_Resource_Product $product,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_product = $product;
+        parent::__construct($resource);
+    }
+
+
+    /**
      * Retrieve Product List Type identifier
      *
      * @throws Magento_Core_Exception
@@ -61,7 +79,7 @@ abstract class Magento_TargetRule_Model_Resource_Index_Abstract extends Magento_
      */
     public function getProductResource()
     {
-        return Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product');
+        return $this->_product;
     }
 
     public function loadProductIdsBySegmentId($object, $segmentId)

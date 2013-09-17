@@ -78,6 +78,12 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     protected $_productCollectionFactory;
 
     /**
+     * @var Magento_TargetRule_Model_Resource_Rule
+     */
+    protected $_rule;
+
+    /**
+     * @param Magento_TargetRule_Model_Resource_Rule $rule
      * @param Magento_CustomerSegment_Model_Resource_Segment $segmentCollectionFactory
      * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -92,6 +98,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_TargetRule_Model_Resource_Rule $rule,
         Magento_CustomerSegment_Model_Resource_Segment $segmentCollectionFactory,
         Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -103,6 +110,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Resource $resource
     ) {
+        $this->_rule = $rule;
         $this->_segmentCollectionFactory = $segmentCollectionFactory;
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_storeManager = $storeManager;
@@ -635,10 +643,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
      */
     public function removeProductIndex($productId = null, $ruleId = null)
     {
-        /** @var $targetRule Magento_TargetRule_Model_Resource_Rule */
-        $targetRule = Mage::getResourceSingleton('Magento_TargetRule_Model_Resource_Rule');
-        $targetRule->unbindRuleFromEntity($ruleId, $productId, 'product');
-
+        $this->_rule->unbindRuleFromEntity($ruleId, $productId, 'product');
         return $this;
     }
 
@@ -653,10 +658,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
      */
     public function saveProductIndex($ruleId, $productId, $storeId)
     {
-        /** @var $targetRule Magento_TargetRule_Model_Resource_Rule */
-        $targetRule = Mage::getResourceSingleton('Magento_TargetRule_Model_Resource_Rule');
-        $targetRule->bindRuleToEntity($ruleId, $productId, 'product');
-
+        $this->_rule->bindRuleToEntity($ruleId, $productId, 'product');
         return $this;
     }
 
