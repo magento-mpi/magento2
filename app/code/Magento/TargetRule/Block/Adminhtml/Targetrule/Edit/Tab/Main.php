@@ -25,6 +25,12 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
     protected $_rule;
 
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Core_Model_LocaleInterface $local
      * @param Magento_TargetRule_Model_Rule $rule
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
@@ -33,6 +39,7 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_LocaleInterface $local,
         Magento_TargetRule_Model_Rule $rule,
         Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
@@ -40,6 +47,7 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_locale = $local;
         $this->_rule = $rule;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
@@ -101,7 +109,7 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
             'options'   => $this->_rule->getAppliesToOptions(true),
         ));
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('from_date', 'date', array(
             'name'         => 'from_date',
             'label'        => __('From Date'),

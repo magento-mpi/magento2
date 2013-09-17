@@ -62,6 +62,12 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     protected $_visibility;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Catalog_Model_Product_Visibility $visibility
      * @param Magento_CustomerSegment_Model_Customer $customer
      * @param Magento_Customer_Model_Session $session
@@ -71,6 +77,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Catalog_Model_Product_Visibility $visibility,
         Magento_CustomerSegment_Model_Customer $customer,
         Magento_Customer_Model_Session $session,
@@ -79,6 +86,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Resource $resource
     ) {
+        $this->_storeManager = $storeManager;
         $this->_visibility = $visibility;
         $this->_customer = $customer;
         $this->_session = $session;
@@ -659,7 +667,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
             if (!$customer) {
                 $customer = $this->_session->getCustomer();
             }
-            $websiteId = Mage::app()->getWebsite()->getId();
+            $websiteId = $this->_storeManager->getWebsite()->getId();
 
             if (!$customer->getId()) {
                 $allSegmentIds = $this->_session->getCustomerSegmentIds();

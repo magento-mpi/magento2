@@ -118,6 +118,12 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
     protected $_iterator;
 
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_Resource_Iterator $iterator
      * @param Magento_TargetRule_Model_Rule_Condition_CombineFactory $ruleFactory
      * @param Magento_TargetRule_Model_Actions_Condition_CombineFactory $actionFactory
@@ -132,6 +138,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Model_Resource_Iterator $iterator,
         Magento_TargetRule_Model_Rule_Condition_CombineFactory $ruleFactory,
         Magento_TargetRule_Model_Actions_Condition_CombineFactory $actionFactory,
@@ -143,6 +150,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_locale = $locale;
         $this->_iterator = $iterator;
         $this->_productFactory = $productFactory;
         $this->_ruleFactory = $ruleFactory;
@@ -313,8 +321,11 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
     public function checkDateForStore($storeId)
     {
         if (!isset($this->_checkDateForStore[$storeId])) {
-            $this->_checkDateForStore[$storeId] = Mage::app()->getLocale()
-                ->isStoreDateInInterval(null, $this->getFromDate(), $this->getToDate());
+            $this->_checkDateForStore[$storeId] = $this->_locale->isStoreDateInInterval(
+                null,
+                $this->getFromDate(),
+                $this->getToDate()
+            );
         }
         return $this->_checkDateForStore[$storeId];
     }

@@ -70,11 +70,23 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
      */
     protected $_session;
 
+    /**
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
     protected $_visibility;
 
+    /**
+     * @var Magento_CatalogInventory_Model_Stock_Status
+     */
     protected $_status;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Catalog_Model_Product_Visibility $visibility
      * @param Magento_CatalogInventory_Model_Stock_Status $status
      * @param Magento_Checkout_Model_Session $session
@@ -92,6 +104,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Catalog_Model_Product_Visibility $visibility,
         Magento_CatalogInventory_Model_Stock_Status $status,
         Magento_Checkout_Model_Session $session,
@@ -106,6 +119,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
         $this->_visibility = $visibility;
         $this->_status = $status;
         $this->_session = $session;
@@ -261,7 +275,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
         $collection = $this->_productLinkFactory->create()
             ->useCrossSellLinks()
             ->getProductCollection()
-            ->setStoreId(Mage::app()->getStore()->getId())
+            ->setStoreId($this->_storeManager->getStore()->getId())
             ->setGroupBy();
         $this->_addProductAttributesAndPrices($collection);
         $collection->setVisibility($this->_visibility->getVisibleInSiteIds());

@@ -80,6 +80,18 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     protected $_indexer;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManger;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Index_Model_Indexer $indexer
      * @param Magento_Customer_Model_Session $session
      * @param Magento_TargetRule_Helper_Data $targetRuleData
@@ -90,6 +102,8 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
         Magento_Index_Model_Indexer $indexer,
         Magento_Customer_Model_Session $session,
         Magento_TargetRule_Helper_Data $targetRuleData,
@@ -99,6 +113,8 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_storeManger = $storeManager;
+        $this->_locale = $locale;
         $this->_indexer = $indexer;
         $this->_session = $session;
         $this->_targetRuleData = $targetRuleData;
@@ -170,7 +186,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     {
         $storeId = $this->getData('store_id');
         if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = $this->_storeManger->getStore()->getId();
         }
         return $storeId;
     }
@@ -324,12 +340,12 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
      */
     public function cron()
     {
-        $websites = Mage::app()->getWebsites();
+        $websites = $this->_storeManger->getWebsites();
 
         foreach ($websites as $website) {
             /* @var $website Magento_Core_Model_Website */
             $store = $website->getDefaultStore();
-            $date  = Mage::app()->getLocale()->storeDate($store);
+            $date  = $this->_locale->storeDate($store);
             if ($date->equals(0, Zend_Date::HOUR)) {
                 $this->_indexer->logEvent(
                     new Magento_Object(array('type_id' => null, 'store' => $website->getStoreIds())),
