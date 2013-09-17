@@ -26,7 +26,7 @@ class Magento_Test_Tools_Di_Code_Scanner_PhpScannerTest extends PHPUnit_Framewor
     protected function setUp()
     {
         $this->_model = new Magento\Tools\Di\Code\Scanner\PhpScanner();
-        $this->_testDir = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../') . '/_files');
+        $this->_testDir = str_replace('\\', '/', realpath(__DIR__ . '/../../') . '/_files');
         $this->_testFiles = array(
             $this->_testDir . '/app/code/Magento/SomeModule/Helper/Test.php',
             $this->_testDir . '/app/code/Magento/SomeModule/Model/Test.php',

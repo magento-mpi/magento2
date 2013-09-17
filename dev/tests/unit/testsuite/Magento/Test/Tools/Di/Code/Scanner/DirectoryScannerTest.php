@@ -21,7 +21,7 @@ class Magento_Test_Tools_Di_Code_Scanner_DirectoryScannerTest extends PHPUnit_Fr
     protected function setUp()
     {
         $this->_model = new Magento\Tools\Di\Code\Scanner\DirectoryScanner();
-        $this->_testDir = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../') . '/_files');
+        $this->_testDir = str_replace('\\', '/', realpath(__DIR__ . '/../../') . '/_files');
     }
 
     public function testScan()
