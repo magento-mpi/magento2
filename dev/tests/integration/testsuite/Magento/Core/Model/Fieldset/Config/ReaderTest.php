@@ -17,8 +17,9 @@ class Magento_Core_Model_Fieldset_Config_ReaderTest extends PHPUnit_Framework_Te
 
     public function setUp()
     {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var Magento_Core_Model_Dir $dirs */
-        $dirs = Mage::getObjectManager()->create(
+        $dirs = $objectManager->create(
             'Magento_Core_Model_Dir', array(
                 'baseDir' => BP,
                 'dirs' => array(
@@ -29,7 +30,7 @@ class Magento_Core_Model_Fieldset_Config_ReaderTest extends PHPUnit_Framework_Te
         );
 
         /** @var Magento_Core_Model_Module_Declaration_FileResolver $modulesDeclarations */
-        $modulesDeclarations = Mage::getObjectManager()->create(
+        $modulesDeclarations = $objectManager->create(
             'Magento_Core_Model_Module_Declaration_FileResolver', array(
                 'applicationDirs' => $dirs,
             )
@@ -37,21 +38,21 @@ class Magento_Core_Model_Fieldset_Config_ReaderTest extends PHPUnit_Framework_Te
 
 
         /** @var Magento_Core_Model_Module_Declaration_Reader_Filesystem $filesystemReader */
-        $filesystemReader = Mage::getObjectManager()->create(
+        $filesystemReader = $objectManager->create(
             'Magento_Core_Model_Module_Declaration_Reader_Filesystem', array(
                 'fileResolver' => $modulesDeclarations,
             )
         );
 
         /** @var Magento_Core_Model_ModuleList $modulesList */
-        $modulesList = Mage::getObjectManager()->create(
+        $modulesList = $objectManager->create(
             'Magento_Core_Model_ModuleList', array(
                 'reader' => $filesystemReader,
             )
         );
 
         /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
-        $moduleReader = Mage::getObjectManager()->create(
+        $moduleReader = $objectManager->create(
             'Magento_Core_Model_Config_Modules_Reader', array(
                 'dirs' => $dirs,
                 'moduleList' => $modulesList
@@ -59,13 +60,13 @@ class Magento_Core_Model_Fieldset_Config_ReaderTest extends PHPUnit_Framework_Te
         );
 
         /** @var Magento_Core_Model_Config_FileResolver $fileResolver */
-        $fileResolver = Mage::getObjectManager()->create(
+        $fileResolver = $objectManager->create(
             'Magento_Core_Model_Config_FileResolver', array(
                 'moduleReader' => $moduleReader,
             )
         );
 
-        $this->_model = Mage::getObjectManager()->create(
+        $this->_model = $objectManager->create(
             'Magento_Core_Model_Fieldset_Config_Reader', array(
                 'fileResolver' => $fileResolver,
             )
@@ -95,7 +96,7 @@ class Magento_Core_Model_Fieldset_Config_ReaderTest extends PHPUnit_Framework_Te
             ->will($this->returnValue($fileList));
 
         /** @var Magento_Core_Model_Fieldset_Config_Reader $model */
-        $model = Mage::getObjectManager()->create(
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
             'Magento_Core_Model_Fieldset_Config_Reader', array(
                 'fileResolver' => $fileResolverMock,
             )

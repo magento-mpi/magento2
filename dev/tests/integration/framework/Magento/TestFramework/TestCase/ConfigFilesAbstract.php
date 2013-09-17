@@ -32,7 +32,7 @@ abstract class Magento_TestFramework_TestCase_ConfigFilesAbstract extends PHPUni
 
     public function setUp()
     {
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $xmlFiles = $this->getXmlConfigFiles();
         if (!empty($xmlFiles)) {
 
