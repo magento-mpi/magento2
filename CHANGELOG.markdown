@@ -1,3 +1,6 @@
+* Install segment was moved from config.xml to di.xml for next configuration nodes:
+  * config/install/databases
+  * config/install/eula_file
 * Various improvements:
   * Removed some events (plugins must be used instead):
     * adminhtml_widget_container_html_before
