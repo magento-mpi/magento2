@@ -24,8 +24,8 @@ class Magento_Catalog_Block_Product_ProductList_CrosssellTest extends PHPUnit_Fr
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('product', $product);
-        /** @var $block \Magento\Catalog\Block\Product\List\Crosssell */
-        $block = Mage::app()->getLayout()->createBlock('Magento\Catalog\Block\Product\List\Crosssell');
+        /** @var $block \Magento\Catalog\Block\Product\ProductList\Crosssell */
+        $block = Mage::app()->getLayout()->createBlock('Magento\Catalog\Block\Product\ProductList\Crosssell');
         $block->setLayout(Mage::getSingleton('Magento\Core\Model\Layout'));
         $block->setTemplate('Magento_Checkout::cart/crosssell.phtml');
         $block->setItemCount(1);
