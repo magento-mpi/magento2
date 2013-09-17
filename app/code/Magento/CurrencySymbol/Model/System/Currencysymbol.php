@@ -87,13 +87,13 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
     protected $_locale;
 
     /**
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_System_Store $systemStore
      * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
-        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Model_System_Store $systemStore,
         Magento_Core_Model_Event_Manager $eventManager
