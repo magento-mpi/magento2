@@ -19,12 +19,9 @@ class Magento_Cms_Helper_PageTest extends PHPUnit_Framework_TestCase
     {
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
         $arguments = array(
-            'request' => $request,
-            'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_TestFramework_Response')
+            'request' => $objectManager->get('Magento_TestFramework_Request'),
+            'response' => $objectManager->get('Magento_TestFramework_Response')
         );
         $context = Mage::getModel('Magento_Core_Controller_Varien_Action_Context', $arguments);
         $page = Mage::getSingleton('Magento_Cms_Model_Page');
