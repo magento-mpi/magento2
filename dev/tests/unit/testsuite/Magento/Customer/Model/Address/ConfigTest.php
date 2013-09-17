@@ -50,7 +50,7 @@ class Magento_Customer_Model_Address_ConfigTest extends PHPUnit_Framework_TestCa
 
     public function setUp()
     {
-        $this->_storeMock = $this->getMock('Magento_Core_Model_Store', array('getId', 'getConfig'), array(), '', false);
+        $this->_storeMock = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
 
         $this->_readerMock = $this->getMock(
             'Magento_Customer_Model_Address_Config_Reader',
