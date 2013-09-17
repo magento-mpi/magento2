@@ -28,17 +28,17 @@ class Magento_Core_Model_Fieldset_Config_ReaderTest extends PHPUnit_Framework_Te
             )
         );
 
-        /** @var Magento_Core_Model_Module_Declaration_FileResolver $modulesDeclarations */
+        /** @var Magento\Core\Model\Module\Declaration\FileResolver $modulesDeclarations */
         $modulesDeclarations = Mage::getObjectManager()->create(
-            'Magento_Core_Model_Module_Declaration_FileResolver', array(
+            'Magento\Core\Model\Module\Declaration\FileResolver', array(
                 'applicationDirs' => $dirs,
             )
         );
 
 
-        /** @var Magento_Core_Model_Module_Declaration_Reader_Filesystem $filesystemReader */
+        /** @var Magento\Core\Model\Module\Declaration\Reader\Filesystem $filesystemReader */
         $filesystemReader = Mage::getObjectManager()->create(
-            'Magento_Core_Model_Module_Declaration_Reader_Filesystem', array(
+            'Magento\Core\Model\Module\Declaration\Reader\Filesystem', array(
                 'fileResolver' => $modulesDeclarations,
             )
         );

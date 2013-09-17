@@ -28,7 +28,7 @@ class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        /** @var Magento_Core_Model_Module_Declaration_FileResolver $modulesDeclarations */
+        /** @var Magento\Core\Model\Module\Declaration\Reader\Filesystem $modulesDeclarations */
         $modulesDeclarations = Mage::getObjectManager()->create(
             'Magento\Core\Model\Module\Declaration\FileResolver', array(
                 'applicationDirs' => $dirs,
@@ -36,7 +36,7 @@ class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
         );
 
 
-        /** @var Magento_Core_Model_Module_Declaration_Reader_Filesystem $filesystemReader */
+        /** @var Magento\Core\Model\Module\Declaration\Reader\Filesystem $filesystemReader */
         $filesystemReader = Mage::getObjectManager()->create(
             'Magento\Core\Model\Module\Declaration\Reader\Filesystem', array(
                 'fileResolver' => $modulesDeclarations,
