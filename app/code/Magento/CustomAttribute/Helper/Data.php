@@ -56,7 +56,7 @@ class Magento_CustomAttribute_Helper_Data extends Magento_Core_Helper_Abstract
      */
     protected function _getEntityTypeCode()
     {
-        Mage::throwException(__('Use helper with defined EAV entity.'));
+        throw new Magento_Core_Exception(__('Use helper with defined EAV entity.'));
     }
 
     /**
@@ -495,7 +495,7 @@ class Magento_CustomAttribute_Helper_Data extends Magento_Core_Helper_Abstract
             if (isset($data['attribute_code'])) {
                 $validatorAttrCode = new Zend_Validate_Regex(array('pattern' => '/^[a-z_0-9]{1,255}$/'));
                 if (!$validatorAttrCode->isValid($data['attribute_code'])) {
-                    Mage::throwException(__('The attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_) in this field. The first character should be a letter.'));
+                    throw new Magento_Core_Exception(__('The attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_) in this field. The first character should be a letter.'));
                 }
             }
         }
