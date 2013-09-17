@@ -21,7 +21,7 @@ class Collection
      * @param \Magento\Core\Model\Registry $registryManager
      */
     public function __construct(
-        Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\Registry $registryManager
     ) {
         $this->_registryManager = $registryManager;
