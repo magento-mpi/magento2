@@ -8,8 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_archive_exportexcel">
-        <update handle="adminhtml_sales_archive_orders_grid_block"/>
-        <container name="sales_order.grid.container" label="Sales Archive Order Grid Container"/>
-    </handle>
+    <update handle="adminhtml_sales_archive_orders_grid_block"/>
+    <container name="sales_order.grid.container" label="Sales Archive Order Grid Container"/>
 </layout>

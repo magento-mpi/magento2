@@ -8,11 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_multishipping">
-        <reference name="cart_sidebar">
-            <action method="setIsLinkMode">
-                <argument name="param" xsi:type="string">1</argument>
-            </action>
-        </reference>
-    </handle>
+    <reference name="cart_sidebar">
+        <action method="setIsLinkMode">
+            <argument name="param" xsi:type="string">1</argument>
+        </action>
+    </reference>
 </layout>

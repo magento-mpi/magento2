@@ -1,6 +1,3 @@
-* Layout Improvements
- * Removed access to direct execution of API through layout by removing <action> nodes
- * Implemented ability to declare containers in layout that don't have any specific semantic value
 * Various improvements:
   * Removed some events (plugins must be used instead):
     * adminhtml_widget_container_html_before
@@ -32,16 +29,33 @@
     * sales_convert_quote_item_to_order_item
     * sales_quote_config_get_product_attributes
   * Static method `getObjectManager` of Mage class was eliminated
-  * Eliminated Mage::helper and Mage::dispatchEvent in code
 * Redesign and reimplementation of web services framework
   * Removed the Api module and all existing SOAP V1, SOAP V2, and XML-RPC web services code
   * Implemented new web services framework to support both REST and SOAP based off of a common service interface
 * XML Validation
   * Altered format of `widget.xml` and added `widget.xsd` to allow for validation of XML files.
   * Altered format of `fieldset.xml` and added `fieldset.xsd` to allow for validation of XML files.
-* I18n refactoring and improvements:
-  * Removed "translate" node from configuration XML files
-  * Added I18n tools for translation dictionary generation and language package generation
+* Removed "translate" node from configuration XML files
+* Added I18n tools for translation dictionary generation and language package generation
+* Eliminated Mage::helper and Mage::dispatchEvent in code
+* Layout improvements:
+  * Arbitrary handle name moved to handle node, id attribute
+  * New arguments format, which introduce argument types implemented
+  * Translation specified just on the level of node which is going to be translated
+  * XSD validation for Layouts XML added
+  * Type casting for all kind of types (url, option, array and simple types) added
+  * Covered introduced argument types with integrity test
+  * Types restrictions was implemented
+  * Removed access to direct execution of API through layout by removing <action> nodes
+  * Implemented ability to declare containers in layout that don't have any specific semantic value
+  * Removed handle declaration from layout update files. Name of the file stands for the handle ID and handle's attributes are defined in the root <layout> node
+* PHP 5.4 and 5.5 support:
+  * Made application compatible with PHP 5.4 and 5.5
+  * Removed workarounds for older PHP versions
+  * Minimum supported PHP version is set to 5.4.0
+* Fixed bugs:
+  * Fixed address field "State/Province" on frontend, which contained "[object Object]" items instead of necessary values
+  * Fixed inability to create gift registry on frontend
 
 2.0.0.0-dev45
 =============
@@ -113,13 +127,6 @@
      * Covered new layout customization mechanism with integrity tests
   * Relocated several files, declared in layouts
   * Streamlined several design customizations
-  * Arbitrary handle name moved to handle node, id attribute
-  * New arguments format, which introduce argument types implemented
-  * Translation specified just on the level of node which is going to be translated
-  * XSD validation for Layouts XML added
-  * Type casting for all kind of types (url, option, array and simple types) added
-  * Covered introduced argument types with integrity test
-  * Types restrictions was implemented
 * Various improvements:
   * Refactored fallback paths to prevent searching of modular view files in non-module context, covered application with appropriate integrity test
   * Added configuration for limits on sending wishlist emails

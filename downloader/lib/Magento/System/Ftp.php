@@ -105,7 +105,7 @@ class Magento_System_Ftp
      */
     public function validateConnectionString($string)
     {
-        $data = @parse_url($string);
+        $data = parse_url($string);
         if(false === $data) {
             throw new Exception("Connection string invalid: '{$string}'");
         }

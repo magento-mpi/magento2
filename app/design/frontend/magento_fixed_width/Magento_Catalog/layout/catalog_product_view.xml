@@ -8,26 +8,24 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="catalog_product_view">
-        <update handle="page_one_column"/>
-        <reference name="head">
-            <block class="Magento_Page_Block_Html_Head_Script" name="jquery-jqzoom-js-jquery-jqzoom-core-pack-js">
-                <arguments>
-                    <argument name="file" xsi:type="string">jquery/jqzoom/js/jquery.jqzoom-core-pack.js</argument>
-                </arguments>
-            </block>
-            <block class="Magento_Page_Block_Html_Head_Css" name="jquery-jqzoom-css-jquery-jqzoom-css">
-                <arguments>
-                    <argument name="file" xsi:type="string">jquery/jqzoom/css/jquery.jqzoom.css</argument>
-                </arguments>
-            </block>
-        </reference>
-        <remove name="magento-catalog-zoom-css"/>
-        <reference name="product.info">
-            <block class="Magento_Catalog_Block_Product_View" name="product.tierprices" as="tierprices" template="product/view/tierprices.phtml"/>
-        </reference>
-        <move element="catalog.product.related" destination="product.info" as="relatedProducts"/>
-        <move element="product.clone_prices" destination="product.info.options.wrapper.bottom" after="product.info.addto.additional"/>
-        <move element="product.tierprices.additional" destination="product.info.options.wrapper.bottom" after="product.clone_prices"/>
-    </handle>
+    <update handle="page_one_column"/>
+    <reference name="head">
+        <block class="Magento_Page_Block_Html_Head_Script" name="jquery-jqzoom-js-jquery-jqzoom-core-pack-js">
+            <arguments>
+                <argument name="file" xsi:type="string">jquery/jqzoom/js/jquery.jqzoom-core-pack.js</argument>
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Css" name="jquery-jqzoom-css-jquery-jqzoom-css">
+            <arguments>
+                <argument name="file" xsi:type="string">jquery/jqzoom/css/jquery.jqzoom.css</argument>
+            </arguments>
+        </block>
+    </reference>
+    <remove name="magento-catalog-zoom-css"/>
+    <reference name="product.info">
+        <block class="Magento_Catalog_Block_Product_View" name="product.tierprices" as="tierprices" template="product/view/tierprices.phtml"/>
+    </reference>
+    <move element="catalog.product.related" destination="product.info" as="relatedProducts"/>
+    <move element="product.clone_prices" destination="product.info.options.wrapper.bottom" after="product.info.addto.additional"/>
+    <move element="product.tierprices.additional" destination="product.info.options.wrapper.bottom" after="product.clone_prices"/>
 </layout>

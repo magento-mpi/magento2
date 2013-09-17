@@ -8,72 +8,70 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_notification_block">
-        <reference name="adminhtml.notification.container">
-            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.notification.container.grid" as="grid">
+    <reference name="adminhtml.notification.container">
+        <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.notification.container.grid" as="grid">
+            <arguments>
+                <argument name="id" xsi:type="string">notificationGrid</argument>
+                <argument name="dataSource" xsi:type="object">Magento_AdminNotification_Model_Resource_Grid_Collection</argument>
+                <argument name="default_dir" xsi:type="string">DESC</argument>
+                <argument name="default_sort" xsi:type="string">date_added</argument>
+                <argument name="save_parameters_in_session" xsi:type="string">1</argument>
+            </arguments>
+            <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.notification.container.grid.columnSet" as="grid.columnSet">
                 <arguments>
-                    <argument name="id" xsi:type="string">notificationGrid</argument>
-                    <argument name="dataSource" xsi:type="object">Magento_AdminNotification_Model_Resource_Grid_Collection</argument>
-                    <argument name="default_dir" xsi:type="string">DESC</argument>
-                    <argument name="default_sort" xsi:type="string">date_added</argument>
-                    <argument name="save_parameters_in_session" xsi:type="string">1</argument>
+                    <argument name="filter_visibility" xsi:type="string">0</argument>
                 </arguments>
-                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.notification.container.grid.columnSet" as="grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="severity">
                     <arguments>
-                        <argument name="filter_visibility" xsi:type="string">0</argument>
+                        <argument name="header" xsi:type="string" translate="true">Severity</argument>
+                        <argument name="width" xsi:type="string">60px</argument>
+                        <argument name="index" xsi:type="string">severity</argument>
+                        <argument name="renderer" xsi:type="string">Magento_AdminNotification_Block_Grid_Renderer_Severity</argument>
                     </arguments>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="severity">
-                        <arguments>
-                            <argument name="header" xsi:type="string" translate="true">Severity</argument>
-                            <argument name="width" xsi:type="string">60px</argument>
-                            <argument name="index" xsi:type="string">severity</argument>
-                            <argument name="renderer" xsi:type="string">Magento_AdminNotification_Block_Grid_Renderer_Severity</argument>
-                        </arguments>
-                    </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="date_added">
-                        <arguments>
-                            <argument name="header" xsi:type="string" translate="true">Date Added</argument>
-                            <argument name="id" xsi:type="string">date_added</argument>
-                            <argument name="index" xsi:type="string">date_added</argument>
-                            <argument name="width" xsi:type="string">150px</argument>
-                            <argument name="type" xsi:type="string">datetime</argument>
-                        </arguments>
-                    </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="title">
-                        <arguments>
-                            <argument name="header" xsi:type="string" translate="true">Message</argument>
-                            <argument name="index" xsi:type="string">title</argument>
-                            <argument name="renderer" xsi:type="string">Magento_AdminNotification_Block_Grid_Renderer_Notice</argument>
-                        </arguments>
-                    </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="actions">
-                        <arguments>
-                            <argument name="header" xsi:type="string" translate="true">Actions</argument>
-                            <argument name="width" xsi:type="string">250px</argument>
-                            <argument name="sortable" xsi:type="string">0</argument>
-                            <argument name="renderer" xsi:type="string">Magento_AdminNotification_Block_Grid_Renderer_Actions</argument>
-                        </arguments>
-                    </block>
                 </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.block.notification.massactions" as="grid.massaction">
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="date_added">
                     <arguments>
-                        <argument name="massaction_id_field" xsi:type="string">notification_id</argument>
-                        <argument name="form_field_name" xsi:type="string">notification</argument>
-                        <argument name="use_select_all" xsi:type="string">1</argument>
-                        <argument name="options" xsi:type="array">
-                            <item name="mark_as_read" xsi:type="array">
-                                <item name="label" xsi:type="string" translate="true">Mark as Read</item>
-                                <item name="url" xsi:type="string">*/*/massMarkAsRead</item>
-                            </item>
-                            <item name="remove" xsi:type="array">
-                                <item name="label" xsi:type="string" translate="true">Remove</item>
-                                <item name="url" xsi:type="string">*/*/massRemove</item>
-                                <item name="confirm" xsi:type="string" translate="true">Are you sure?</item>
-                            </item>
-                        </argument>
+                        <argument name="header" xsi:type="string" translate="true">Date Added</argument>
+                        <argument name="id" xsi:type="string">date_added</argument>
+                        <argument name="index" xsi:type="string">date_added</argument>
+                        <argument name="width" xsi:type="string">150px</argument>
+                        <argument name="type" xsi:type="string">datetime</argument>
+                    </arguments>
+                </block>
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="title">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Message</argument>
+                        <argument name="index" xsi:type="string">title</argument>
+                        <argument name="renderer" xsi:type="string">Magento_AdminNotification_Block_Grid_Renderer_Notice</argument>
+                    </arguments>
+                </block>
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="actions">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Actions</argument>
+                        <argument name="width" xsi:type="string">250px</argument>
+                        <argument name="sortable" xsi:type="string">0</argument>
+                        <argument name="renderer" xsi:type="string">Magento_AdminNotification_Block_Grid_Renderer_Actions</argument>
                     </arguments>
                 </block>
             </block>
-        </reference>
-    </handle>
+            <block class="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.block.notification.massactions" as="grid.massaction">
+                <arguments>
+                    <argument name="massaction_id_field" xsi:type="string">notification_id</argument>
+                    <argument name="form_field_name" xsi:type="string">notification</argument>
+                    <argument name="use_select_all" xsi:type="string">1</argument>
+                    <argument name="options" xsi:type="array">
+                        <item name="mark_as_read" xsi:type="array">
+                            <item name="label" xsi:type="string" translate="true">Mark as Read</item>
+                            <item name="url" xsi:type="string">*/*/massMarkAsRead</item>
+                        </item>
+                        <item name="remove" xsi:type="array">
+                            <item name="label" xsi:type="string" translate="true">Remove</item>
+                            <item name="url" xsi:type="string">*/*/massRemove</item>
+                            <item name="confirm" xsi:type="string" translate="true">Are you sure?</item>
+                        </item>
+                    </argument>
+                </arguments>
+            </block>
+        </block>
+    </reference>
 </layout>

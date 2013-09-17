@@ -7,18 +7,16 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Customer My Account Address Edit Form" id="customer_address_form" type="page" parent="customer_address_index">
-        <update handle="customer_account"/>
-        <reference name="my.account.wrapper">
-            <block class="Magento_Customer_Block_Address_Edit" name="customer_address_edit" template="address/edit.phtml">
-                <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
-                    <action method="setFormCode">
-                        <argument name="code" xsi:type="string">customer_address_edit</argument>
-                    </action>
-                </block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Address Edit Form" type="page" parent="customer_address_index">
+    <update handle="customer_account"/>
+    <reference name="my.account.wrapper">
+        <block class="Magento_Customer_Block_Address_Edit" name="customer_address_edit" template="address/edit.phtml">
+            <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
+                <action method="setFormCode">
+                    <argument name="code" xsi:type="string">customer_address_edit</argument>
+                </action>
             </block>
-        </reference>
-        <update handle="customer_form_template_handle"/>
-    </handle>
+        </block>
+    </reference>
+    <update handle="customer_form_template_handle"/>
 </layout>

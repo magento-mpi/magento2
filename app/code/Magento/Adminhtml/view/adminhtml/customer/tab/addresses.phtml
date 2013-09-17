@@ -40,7 +40,7 @@
             regionsUrl: "<?php echo $this->getRegionsUrl(); ?>",
             optionalZipCountries: <?php echo $this->helper("Magento_Directory_Helper_Data")->getCountriesWithOptionalZip(true) ?>,
             requiredStateForCountries: <?php echo $this->helper('Magento_Directory_Helper_Data')->getCountriesWithStatesRequired(true) ?>,
-            showAllRegions: <?php echo (string)$this->helper('Magento_Directory_Helper_Data')->getShowNonRequiredState() ? 1 : 0; ?>,
+            showAllRegions: <?php echo (string)$this->helper('Magento_Directory_Helper_Data')->isShowNonRequiredState() ? 1 : 0; ?>,
             defaultCountries: <?php echo $this->getDefaultCountriesJson(); ?>,
             templatePrefix: "<?php echo $this->getTemplatePrefix() ?>" }}'>
         <ul class="address-list" id="address_list">

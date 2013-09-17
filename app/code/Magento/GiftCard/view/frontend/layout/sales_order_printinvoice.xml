@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="sales_order_printinvoice">
-        <reference name="sales.order.print.invoice">
-            <block class="Magento_GiftCard_Block_Sales_Order_Item_Renderer_Noquote" as="giftcard" template="Magento_Sales::order/invoice/items/renderer/default.phtml"/>
-        </reference>
-    </handle>
+    <reference name="sales.order.print.invoice">
+        <block class="Magento_GiftCard_Block_Sales_Order_Item_Renderer_Noquote" as="giftcard" template="Magento_Sales::order/invoice/items/renderer/default.phtml"/>
+    </reference>
 </layout>

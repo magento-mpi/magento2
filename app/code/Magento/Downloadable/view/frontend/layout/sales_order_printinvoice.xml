@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="sales_order_printinvoice">
-        <reference name="sales.order.print.invoice">
-            <block class="Magento_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable" as="downloadable" template="sales/order/invoice/items/renderer/downloadable.phtml"/>
-        </reference>
-    </handle>
+    <reference name="sales.order.print.invoice">
+        <block class="Magento_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable" as="downloadable" template="sales/order/invoice/items/renderer/downloadable.phtml"/>
+    </reference>
 </layout>

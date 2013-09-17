@@ -33,7 +33,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_
     public static function setUpBeforeClass()
     {
         self::$_mediaTmpDir = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseTmpMediaPath();
-        $fixtureDir = realpath(dirname(__FILE__).'/../../../../_files');
+        $fixtureDir = realpath(__DIR__.'/../../../../_files');
         self::$_mediaDir = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
 
         $ioFile = new Magento_Io_File();
