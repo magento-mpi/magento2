@@ -32,13 +32,13 @@ abstract class AbstractOnepage extends \Magento\Core\Block\Template
     /**
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_configCacheType = $configCacheType;
