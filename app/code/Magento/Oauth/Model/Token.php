@@ -226,9 +226,10 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
     /**
      * Get string representation of token
      *
+     * @param string $format
      * @return string
      */
-    public function toString()
+    public function toString($format = '')
     {
         return http_build_query(array('oauth_token' => $this->getToken(), 'oauth_token_secret' => $this->getSecret()));
     }
