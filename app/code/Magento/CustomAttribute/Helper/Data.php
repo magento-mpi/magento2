@@ -25,6 +25,23 @@ class Magento_CustomAttribute_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_userDefinedAttributeCodes = array();
 
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_locale = $locale;
+        parent::__construct($context);
+    }
+
+    /**
      * Default attribute entity type code
      *
      * @throws Magento_Core_Exception
@@ -446,7 +463,7 @@ class Magento_CustomAttribute_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getDateFormat()
     {
-        return Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**

@@ -32,18 +32,20 @@ class Magento_CustomerCustomAttributes_Helper_Data extends Magento_CustomAttribu
     protected $_customerAddress = null;
 
     /**
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_CustomerCustomAttributes_Helper_Address $customerAddress
      * @param Magento_CustomerCustomAttributes_Helper_Customer $customerCustomer
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
+        Magento_Core_Model_LocaleInterface $locale,
         Magento_CustomerCustomAttributes_Helper_Address $customerAddress,
         Magento_CustomerCustomAttributes_Helper_Customer $customerCustomer,
         Magento_Core_Helper_Context $context
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_customerCustomer = $customerCustomer;
-        parent::__construct($context);
+        parent::__construct($locale, $context);
     }
 
     /**
