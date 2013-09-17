@@ -89,7 +89,7 @@ class Container extends \Magento\Backend\Block\Widget\Container
     {
         return ucwords(str_replace('_', '\\', $this->_blockGroup))
         . '\\Block\\'
-        . ucwords(str_replace('_', '\\', $this->_controller . '\\' . $this->_mode))
+        . str_replace('_', '\\', uc_words(str_replace('_', ' ', $this->_controller) . '\\' . uc_words($this->_mode)))
         . '\\Form';
     }
 
