@@ -164,10 +164,11 @@ class Magento_User_Model_User
     public function __wakeup()
     {
         parent::__wakeup();
-        $this->_eventManager = Mage::getSingleton('Magento_Core_Model_Event_Manager');
-        $this->_sender       = Mage::getSingleton('Magento_Core_Model_Sender');
-        $this->_coreData     = Mage::getSingleton('Magento_Core_Helper_Data');
-        $this->_userData     = Mage::getSingleton('Magento_User_Helper_Data');
+        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
+        $this->_eventManager = $objectManager->get('Magento_Core_Model_Event_Manager');
+        $this->_sender       = $objectManager->get('Magento_Core_Model_Sender');
+        $this->_coreData     = $objectManager->get('Magento_Core_Helper_Data');
+        $this->_userData     = $objectManager->get('Magento_User_Helper_Data');
     }
 
     /**
@@ -370,16 +371,6 @@ class Magento_User_Model_User
     {
         $result = $this->_getResource()->roleUserExists($this);
         return (is_array($result) && count($result) > 0) ? true : false;
-    }
-
-    /**
-     * Retrieve admin user collection
-     *
-     * @return Magento_User_Model_Resource_User_Collection
-     */
-    public function getCollection()
-    {
-        return Mage::getResourceModel('Magento_User_Model_Resource_User_Collection');
     }
 
     /**

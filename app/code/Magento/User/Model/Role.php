@@ -32,6 +32,32 @@
  */
 class Magento_User_Model_Role extends Magento_Core_Model_Abstract
 {
+
+    /**
+     * @var Magento_User_Model_Resource_Role_User_CollectionFactory
+     */
+    protected $_userRolesFactory;
+
+    /**
+     * @param Magento_User_Model_Resource_Role_User_CollectionFactory $userRolesFactory
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_User_Model_Resource_Role_User_CollectionFactory $userRolesFactory,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ){
+        $this->_userRolesFactory = $userRolesFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
     /**
      * @var string
      */
@@ -60,7 +86,7 @@ class Magento_User_Model_Role extends Magento_Core_Model_Abstract
      */
     public function getUsersCollection()
     {
-        return Mage::getResourceModel('Magento_User_Model_Resource_Role_User_Collection');
+        return $this->_userRolesFactory->create();
     }
 
     /**

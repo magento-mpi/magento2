@@ -29,17 +29,41 @@ class Magento_User_Block_Role_Tab_Edit extends Magento_Backend_Block_Widget_Form
     protected $_rootResource;
 
     /**
+     * @var Magento_Acl_Builder
+     */
+    protected $_aclBuilder;
+
+    /**
+     * @var Magento_User_Model_Resource_Rules_CollectionFactory
+     */
+    protected $_userRulesFactory;
+
+    /**
+     * @var Magento_Acl_Resource_Provider
+     */
+    protected $_aclProvider;
+
+    /**
+     * @param Magento_Acl_Builder $aclBuilder
+     * @param Magento_Acl_Resource_ProviderInterface $aclProvider
+     * @param Magento_User_Model_Resource_Rules_CollectionFactory $userRulesFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Acl_RootResource $rootResource
      * @param array $data
      */
     public function __construct(
+        Magento_Acl_Builder $aclBuilder,
+        Magento_Acl_Resource_ProviderInterface $aclProvider,
+        Magento_User_Model_Resource_Rules_CollectionFactory $userRulesFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Acl_RootResource $rootResource,
         array $data = array()
     ) {
+        $this->_aclBuilder = $aclBuilder;
+        $this->_aclProvider = $aclProvider;
+        $this->_userRulesFactory = $userRulesFactory;
         parent::__construct($coreData, $context, $data);
         $this->_rootResource = $rootResource;
     }
@@ -93,8 +117,8 @@ class Magento_User_Block_Role_Tab_Edit extends Magento_Backend_Block_Widget_Form
 
         $rid = Mage::app()->getRequest()->getParam('rid', false);
 
-        $acl = Mage::getSingleton('Magento_Acl_Builder')->getAcl();
-        $rulesSet = Mage::getResourceModel('Magento_User_Model_Resource_Rules_Collection')->getByRoles($rid)->load();
+        $acl = $this->_aclBuilder->getAcl();
+        $rulesSet = $this->_userRulesFactory->create()->getByRoles($rid)->load();
 
         $selectedResourceIds = array();
 
@@ -125,9 +149,7 @@ class Magento_User_Block_Role_Tab_Edit extends Magento_Backend_Block_Widget_Form
      */
     public function getTree()
     {
-        /** @var $resourceProvider Magento_Acl_Resource_ProviderInterface */
-        $resourceProvider = Mage::getSingleton('Magento_Acl_Resource_ProviderInterface');
-        $resources = $resourceProvider->getAclResources();
+        $resources = $this->_aclProvider->getAclResources();
         $rootArray = $this->_mapResources(
             isset($resources[1]['children']) ? $resources[1]['children'] : array()
         );
