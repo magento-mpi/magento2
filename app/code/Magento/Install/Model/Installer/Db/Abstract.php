@@ -25,11 +25,20 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
     protected $_resource;
 
     /**
-     * @param Magento_Core_Model_Resource $resource
+     * List of necessary extensions for DBs
+     *
+     * @var array
      */
-    public function __construct(Magento_Core_Model_Resource $resource)
+    protected $_dbExtensions;
+
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param array $dbExtensions
+     */
+    public function __construct(Magento_Core_Model_Resource $resource, array $dbExtensions = array())
     {
         $this->_resource = $resource;
+        $this->_dbExtensions = $dbExtensions;
     }
 
     /**
@@ -147,7 +156,7 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
     public function getRequiredExtensions()
     {
         $extensions = array();
-        $configExt = (array)Mage::getConfig()->getNode(sprintf('install/databases/%s/extensions', $this->getModel()));
+        $configExt = isset($this->_dbExtensions[$this->getModel()]) ? $this->_dbExtensions[$this->getModel()] : array();
         foreach (array_keys($configExt) as $name) {
             $extensions[] = $name;
         }
