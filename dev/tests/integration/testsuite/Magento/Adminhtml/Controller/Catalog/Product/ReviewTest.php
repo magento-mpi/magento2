@@ -19,7 +19,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_ReviewTest extends Magento_Ba
      */
     public function testEditActionProductNameXss()
     {
-        $reviewId = Mage::getModel('Magento_Review_Model_Review')->load(1, 'entity_pk_value')->getId();
+        $reviewId = Mage::getModel('Magento\Review\Model\Review')->load(1, 'entity_pk_value')->getId();
         $this->dispatch('backend/admin/catalog_product_review/edit/id/' . $reviewId);
         $responseBody = $this->getResponse()->getBody();
         $this->assertContains('&lt;script&gt;alert(&quot;xss&quot;);&lt;/script&gt;', $responseBody);
