@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_system_email_template_grid">
-        <update handle="formkey"/>
-        <update handle="adminhtml_system_email_template_grid_block"/>
-        <container label="System Email Templates" name="adminhtml.system.email.template.container" output="1"/>
-    </handle>
+    <update handle="formkey"/>
+    <update handle="adminhtml_system_email_template_grid_block"/>
+    <container label="System Email Templates" name="adminhtml.system.email.template.container" output="1"/>
 </layout>

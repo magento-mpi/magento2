@@ -114,9 +114,9 @@ class Magento_Tools_Migration_Acl_Generator
             'title' => 'title'
         );
 
-        $this->_basePath = realpath(dirname(__FILE__) . '/../../../../../..');
+        $this->_basePath = realpath(__DIR__ . '/../../../../../..');
 
-        $this->_artifactsPath = realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR;
+        $this->_artifactsPath = realpath(__DIR__) . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR;
     }
 
     /**

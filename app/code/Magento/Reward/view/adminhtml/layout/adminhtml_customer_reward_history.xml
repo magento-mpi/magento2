@@ -8,8 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_customer_reward_history">
-        <update handle="adminhtml_customer_reward_history_block"/>
-        <container name="adminhtml.reward.history.customer.edit.tab.container" label="Reward Points History" output="1"/>
-    </handle>
+    <update handle="adminhtml_customer_reward_history_block"/>
+    <container name="adminhtml.reward.history.customer.edit.tab.container" label="Reward Points History" output="1"/>
 </layout>

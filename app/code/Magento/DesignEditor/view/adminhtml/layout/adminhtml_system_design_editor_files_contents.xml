@@ -8,7 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_system_design_editor_files_contents">
-        <block class="Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content_Files" name="editor_files.files" template="Magento_DesignEditor::editor/tools/files/content/files.phtml" output="1"/>
-    </handle>
+    <block class="Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content_Files" name="editor_files.files" template="Magento_DesignEditor::editor/tools/files/content/files.phtml" output="1"/>
 </layout>
