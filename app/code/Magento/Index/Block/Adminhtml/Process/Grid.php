@@ -32,6 +32,12 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
     protected $_eventRepository;
 
     /**
+     * @var Magento_Core_Model_EntityFactory
+     */
+    protected $_entityFactory;
+
+    /**
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -40,6 +46,7 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -49,6 +56,7 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
     ) {
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
         $this->_eventRepository = $eventRepository;
+        $this->_entityFactory = $entityFactory;
     }
 
     /**
@@ -275,7 +283,8 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
         $this->setMassactionIdField('process_id');
         $this->getMassactionBlock()->setFormFieldName('process');
 
-        $modeOptions = Mage::getModel('Magento_Index_Model_Process')->getModesOptions();
+        /** @var Magento_Index_Model_Process $modeOptions */
+        $modeOptions = $this->_entityFactory->create('Magento_Index_Model_Process')->getModesOptions();
 
         $this->getMassactionBlock()->addItem('change_mode', array(
             'label'         => __('Change Index Mode'),

@@ -28,14 +28,20 @@ class Magento_Index_Model_Indexer
     protected $_eventManager = null;
 
     /**
-     * Class constructor. Initialize index processes based on configuration
-     *
+     * @var Magento_Core_Model_EntityFactory
+     */
+    protected $_entityFactory;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_EntityFactory $entityFactory
     ) {
         $this->_eventManager = $eventManager;
+        $this->_entityFactory = $entityFactory;
         $this->_processesCollection = $this->_createCollection();
     }
 
@@ -149,7 +155,7 @@ class Magento_Index_Model_Indexer
      */
     public function logEvent(Magento_Object $entity, $entityType, $eventType, $doSave=true)
     {
-        $event = Mage::getModel('Magento_Index_Model_Event')
+        $event = $this->_entityFactory->create('Magento_Index_Model_Event')
             ->setEntity($entityType)
             ->setType($eventType)
             ->setDataObject($entity)

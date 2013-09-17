@@ -17,14 +17,22 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Core_Model_EntityFactory
+     */
+    protected $_entityFactory;
+
+    /**
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_EntityFactory $entityFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_entityFactory = $entityFactory;
         parent::__construct($context);
     }
 
@@ -38,7 +46,7 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
         $processId = $this->getRequest()->getParam('process');
         if ($processId) {
             /** @var $process Magento_Index_Model_Process */
-            $process = Mage::getModel('Magento_Index_Model_Process')->load($processId);
+            $process = $this->_entityFactory->create('Magento_Index_Model_Process')->load($processId);
             if ($process->getId() && $process->getIndexer()->isVisible()) {
                 return $process;
             }
@@ -215,7 +223,7 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
                 $mode = $this->getRequest()->getParam('index_mode');
                 foreach ($processIds as $processId) {
                     /* @var $process Magento_Index_Model_Process */
-                    $process = Mage::getModel('Magento_Index_Model_Process')->load($processId);
+                    $process = $this->_entityFactory->create('Magento_Index_Model_Process')->load($processId);
                     if ($process->getId() && $process->getIndexer()->isVisible()) {
                         $process->setMode($mode)->save();
                         $counter++;

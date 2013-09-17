@@ -87,6 +87,12 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Core_Model_EntityFactory
+     */
+    protected $_entityFactory;
+
+    /**
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -97,6 +103,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -110,6 +117,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_lockStorage = $lockStorage;
         $this->_eventRepository = $eventRepository;
+        $this->_entityFactory = $entityFactory;
     }
 
     /**
@@ -329,7 +337,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
             if (!$config || empty($config->model)) {
                 Mage::throwException(__('Indexer model is not defined.'));
             }
-            $model = Mage::getModel((string)$config->model);
+            $model = $this->_entityFactory->create((string)$config->model);
             if ($model instanceof Magento_Index_Model_Indexer_Abstract) {
                 $this->_indexer = $model;
             } else {
