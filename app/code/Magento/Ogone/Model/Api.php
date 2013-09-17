@@ -171,9 +171,9 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     protected $_coreString = null;
 
     /**
-     * @var Magento_Core_Model_Url
+     * @var Magento_Core_Model_UrlInterface
      */
-    protected $_urlModel;
+    protected $_urlBuilder;
 
     /**
      * @var Magento_Core_Model_StoreManagerInterface
@@ -188,7 +188,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     /**
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_UrlInterface $urlBuilder
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Ogone_Model_Config $config
@@ -198,7 +198,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     public function __construct(
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_UrlInterface $urlBuilder,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_String $coreString,
         Magento_Ogone_Model_Config $config,
@@ -207,7 +207,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     ) {
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
-        $this->_urlModel = $urlModel;
+        $this->_urlBuilder = $urlBuilder;
         $this->_coreString = $coreString;
         $this->_config = $config;
         parent::__construct($eventManager, $paymentData, $data);
@@ -240,7 +240,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
      */
     public function getOrderPlaceRedirectUrl()
     {
-        return $this->_urlModel->getUrl('ogone/api/placeform', array('_secure' => true));
+        return $this->_urlBuilder->getUrl('ogone/api/placeform', array('_secure' => true));
     }
 
     /**
