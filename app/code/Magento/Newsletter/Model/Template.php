@@ -55,6 +55,13 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
     protected $_mail;
 
     /**
+     * Store manager to emulate design
+     *
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * Filter for newsletter text
      *
      * @var Magento_Newsletter_Model_Template_Filter
@@ -65,6 +72,7 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
      * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Newsletter_Model_Template_Filter $filter
      * @param array $data
      */
@@ -72,9 +80,11 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
         Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManager $storeManager,
         Magento_Newsletter_Model_Template_Filter $filter,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
         $this->_filter = $filter;
         parent::__construct($design, $context, $registry, $data);
     }
@@ -194,8 +204,8 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
             $variables['this'] = $this;
         }
 
-        if (Mage::app()->hasSingleStore()) {
-            $this->_filter->setStoreId(Mage::app()->getStore());
+        if ($this->_storeManager->hasSingleStore()) {
+            $this->_filter->setStoreId($this->_storeManager->getStore()->getId());
         } else {
             $this->_filter->setStoreId(Mage::app()->getRequest()->getParam('store_id'));
         }
