@@ -18,7 +18,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image 
      */
     protected $_imagePath;
 
-    /***
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Data_Form_Element_Factory $factoryElement
      * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
@@ -40,7 +40,6 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image 
             $attributes
         );
     }
-
 
     /**
      * Get image preview url

@@ -20,7 +20,7 @@ class Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleop
      */
     protected $_formHelper;
 
-    /**.
+    /**
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData

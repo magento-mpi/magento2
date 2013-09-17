@@ -16,12 +16,6 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
     protected $_productType;
 
     /**
-     * Assign custom renderer for product create/edit form weee attribute element
-     *
-     * @param Magento_Event_Observer $observer
-     * @return  Magento_Weee_Model_Observer
-     */
-    /**
      * Weee data
      *
      * @var Magento_Weee_Helper_Data
@@ -51,6 +45,12 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * Assign custom renderer for product create/edit form weee attribute element
+     *
+     * @param Magento_Event_Observer $observer
+     * @return  Magento_Weee_Model_Observer
+     */
     public function setWeeeRendererInForm(Magento_Event_Observer $observer)
     {
         //adminhtml_catalog_product_edit_prepare_form

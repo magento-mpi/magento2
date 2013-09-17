@@ -40,6 +40,7 @@ class Magento_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Magento_Backe
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_formFactory = $formFactory;
         parent::__construct($coreData, $context, $data);
     }
 
