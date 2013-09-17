@@ -85,7 +85,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
          * @var \Magento\Core\Block\Abstract $widget
          */
         $widget = $this->_coreApp->getLayout()->createBlock($type, $name, array('data' => $params));
-        if (!$widget instanceof \Magento\Widget\Block\Interface) {
+        if (!$widget instanceof \Magento\Widget\Block\BlockInterface) {
             return '';
         }
 
