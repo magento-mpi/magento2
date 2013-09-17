@@ -28,14 +28,15 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form extends Magento_Bac
     {
         $consumerData = $this->_coreRegistry->registry(self::REGISTRY_KEY_CURRENT_CONSUMER);
 
-        $form = $this->_formFactory->create(
-            array(
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
                 'id' => 'edit_form',
                 'action' => $this->getUrl('*/*/save',
                     $consumerData[self::DATA_ENTITY_ID]
                         ? array('id' => $consumerData[self::DATA_ENTITY_ID]) : array()),
-                'method' => 'post')
-            );
+                'method' => 'post'
+            ))
+        );
 
         $fieldset = $form->addFieldset('consumer_fieldset', array(
             'legend' => __('Add-On Information'), 'class' => 'fieldset-wide'

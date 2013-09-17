@@ -61,14 +61,15 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
      */
     const USER_TYPE_ADMIN    = 'admin';
     const USER_TYPE_CUSTOMER = 'customer';
-    /**
-     * Oauth data
-     *
-     * @var Magento_Oauth_Helper_Data
-     */
-    protected $_oauthData = null;
+
+     /** @var Magento_Oauth_Helper_Data */
+    protected $_oauthData;
+
+    /** @var Magento_Oauth_Model_Consumer_Factory */
+    protected $_consumerFactory;
 
     /**
+     * @param Magento_Oauth_Model_Consumer_Factory $consumerFactory
      * @param Magento_Oauth_Helper_Data $oauthData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -77,6 +78,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Oauth_Model_Consumer_Factory $consumerFactory,
         Magento_Oauth_Helper_Data $oauthData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -84,8 +86,9 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_oauthData = $oauthData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_consumerFactory = $consumerFactory;
+        $this->_oauthData = $oauthData;
     }
 
     /**
@@ -115,22 +118,25 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
     }
 
     /**
-     * Generate an oauth_verifier.
+     * Generate an oauth_verifier for a consumer, if the consumer doesn't already have one.
      *
      * @param int $consumerId - The id of the consumer associated with the verifier to be generated.
      * @return Magento_Oauth_Model_Token
      */
     public function createVerifierToken($consumerId)
     {
-        $this->setType(self::TYPE_VERIFIER);
-        $this->setConsumerId($consumerId);
-        $this->setToken($this->_oauthData->generateToken());
-        $this->setSecret($this->_oauthData->generateTokenSecret());
-        $this->setVerifier($this->_oauthData->generateVerifier());
-        // TODO: What should the callback_url be and where do we get its value from?
-        $this->setCallbackUrl(Magento_Oauth_Model_Server::CALLBACK_ESTABLISHED);
-        $this->save();
-
+        $this->setData($this->getResource()->selectTokenByType($consumerId, Magento_Oauth_Model_Token::TYPE_VERIFIER));
+        if (!$this->getId()) {
+            $this->setData(array(
+                'consumer_id' => $consumerId,
+                'type' => Magento_Oauth_Model_Token::TYPE_VERIFIER,
+                'token' => $this->_oauthData->generateToken(),
+                'secret' => $this->_oauthData->generateTokenSecret(),
+                'verifier' => $this->_oauthData->generateVerifier(),
+                'callback_url' => Magento_Oauth_Model_Server::CALLBACK_ESTABLISHED
+            ));
+            $this->save();
+        }
         return $this;
     }
 
@@ -226,10 +232,9 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
     /**
      * Get string representation of token
      *
-     * @param string $format
      * @return string
      */
-    public function toString($format = '')
+    public function toString()
     {
         return http_build_query(array('oauth_token' => $this->getToken(), 'oauth_token_secret' => $this->getSecret()));
     }
@@ -303,9 +308,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
     public function getConsumer()
     {
         if (!$this->getData('consumer')) {
-            /** @var $consumer Magento_Oauth_Model_Consumer */
-            $consumer = Mage::getModel('Magento_Oauth_Model_Consumer');
-            $consumer->load($this->getConsumerId());
+            $consumer = $this->_consumerFactory->create()->load($this->getConsumerId());
             $this->setData('consumer', $consumer);
         }
 

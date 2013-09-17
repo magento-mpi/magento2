@@ -22,18 +22,17 @@ class Magento_Oauth_Controller_Token extends Magento_Core_Controller_Front_Actio
     const HTTP_INTERNAL_ERROR = 500;
     /**#@-*/
 
-    /** @var  Magento_Oauth_Service_OauthInterfaceV1 */
+    /** @var  Magento_Oauth_Service_OauthV1Interface */
     protected $_oauthService;
 
     public function __construct(
-        Magento_Oauth_Service_OauthInterfaceV1 $oauthService,
+        Magento_Oauth_Service_OauthV1Interface $oauthService,
         Magento_Core_Controller_Varien_Action_Context $context,
         $areaCode = null
     ) {
-        $this->_oauthService = $oauthService;
         parent::__construct($context, $areaCode);
+        $this->_oauthService = $oauthService;
     }
-
 
     /**
      * TODO: Check if this is needed
@@ -172,7 +171,7 @@ class Magento_Oauth_Controller_Token extends Magento_Core_Controller_Front_Actio
                 $errorMsg = 'unknown_problem&code=' . $eCode;
                 $responseCode = self::HTTP_INTERNAL_ERROR;
             }
-            if (Magento_Oauth_Service_OauthInterfaceV1::ERR_PARAMETER_ABSENT == $eCode) {
+            if (Magento_Oauth_Service_OauthV1Interface::ERR_PARAMETER_ABSENT == $eCode) {
                 $errorMsg .= '&oauth_parameters_absent=' . $eMsg;
             } elseif ($eMsg) {
                 $errorMsg .= '&message=' . $eMsg;

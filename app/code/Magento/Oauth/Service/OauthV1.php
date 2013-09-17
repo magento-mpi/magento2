@@ -8,10 +8,10 @@
  * @license     {license_link}
  */
 /**
- * TODO: Need to refactor to reduce coupling
+ * TODO: Reduce PHPMD Coupling Between Objects
  * Class Magento_Oauth_Service_OauthV1
  */
-class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthInterfaceV1
+class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Interface
 {
     /**
      * Error code to error messages pairs
@@ -82,16 +82,13 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthInterf
     /** @var  Magento_Oauth_Model_Token_Factory */
     private $_tokenFactory;
 
-    /** @var  Magento_Core_Model_Translate */
-    private $_translator;
-
     /** @var  Magento_Oauth_Helper_Data */
     protected $_helper;
 
-    /** @var  Magento_Core_Model_Store */
-    protected $_store;
+    /** @var  Magento_Core_Model_StoreManagerInterface */
+    protected $_storeManager;
 
-    /** @var  Zend_Http_Client */
+    /** @var  Magento_HTTP_ZendClient */
     protected $_httpClient;
 
     /**#@+
@@ -128,26 +125,23 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthInterf
      * @param Magento_Oauth_Model_Consumer_Factory $consumerFactory
      * @param Magento_Oauth_Model_Nonce_Factory $nonceFactory
      * @param Magento_Oauth_Model_Token_Factory $tokenFactory
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
-     * @param Magento_Core_Model_Store
-     * @param Magento_Core_Model_Translate $translator
-     * @param Zend_Http_Client
+     * @param Magento_Oauth_Helper_Data $helper
+     * @param Magento_Core_Model_StoreManagerInterface
+     * @param Magento_HTTP_ZendClient
      */
     public function __construct(
         Magento_Oauth_Model_Consumer_Factory $consumerFactory,
         Magento_Oauth_Model_Nonce_Factory $nonceFactory,
         Magento_Oauth_Model_Token_Factory $tokenFactory,
-        Magento_Core_Model_Factory_Helper $helperFactory,
-        Magento_Core_Model_Store $store,
-        Magento_Core_Model_Translate $translator,
-        Zend_Http_Client $httpClient
+        Magento_Oauth_Helper_Data $helper,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_HTTP_ZendClient $httpClient
     ) {
         $this->_consumerFactory = $consumerFactory;
         $this->_nonceFactory = $nonceFactory;
         $this->_tokenFactory = $tokenFactory;
-        $this->_helper = $helperFactory->get('Magento_Oauth_Helper_Data');
-        $this->_store = $store;
-        $this->_translator = $translator;
+        $this->_helper = $helper;
+        $this->_store = $storeManager->getStore();
         $this->_httpClient = $httpClient;
     }
 
@@ -178,8 +172,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthInterf
         } catch (Magento_Core_Exception $exception) {
             throw $exception;
         } catch (Exception $exception) {
-            throw new Magento_Oauth_Exception(
-                $this->_translator->translate(array('Unexpected error. Unable to create OAuth Consumer account.')));
+            throw new Magento_Oauth_Exception(__('Unexpected error. Unable to create OAuth Consumer account.'));
         }
     }
 
@@ -194,27 +187,22 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthInterf
     public function postToConsumer($consumerData)
     {
         try {
-            // TODO: The getBaseUrl() method doesn't seem to return the correct store url.
-            $storeUrl = $this->_store->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_WEB);
-            $storeApiBaseUrl = $storeUrl . 'api';
-
+            $storeUrl = $this->_store->getBaseUrl();
             $this->_httpClient->setUri($consumerData['http_post_url']);
             $this->_httpClient->setParameterPost(array(
                 'oauth_consumer_key' => $consumerData['key'],
                 'oauth_consumer_secret' => $consumerData['secret'],
-                'store_url' => $storeUrl,
-                'store_api_base_url' => $storeApiBaseUrl
+                'store_url' => $storeUrl
             ));
             // TODO: Uncomment this when there is a live http_post_url that we can actually post to.
-            //$this->_httpClient->request(Zend_Http_Client::POST);
+            //$this->_httpClient->request(Magento_HTTP_ZendClient::POST);
 
-            $token = $this->_tokenFactory->create()->createVerifierToken($consumerData['entity_id']);
-            return array('oauth_verifier' => $token->getVerifier());
+            $verifier = $this->_tokenFactory->create()->createVerifierToken($consumerData['entity_id']);
+            return array('oauth_verifier' => $verifier->getVerifier());
         } catch (Magento_Core_Exception $exception) {
             throw $exception;
         } catch (Exception $exception) {
-            throw new Magento_Oauth_Exception(
-                $this->_translator->translate(array('Unexpected error. Unable to post data to consumer.')));
+            throw new Magento_Oauth_Exception(__('Unexpected error. Unable to post data to consumer.'));
         }
     }
 
@@ -370,29 +358,25 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthInterf
             $timestamp = (int)$timestamp;
             if ($timestamp <= 0 || $timestamp > (time() + self::TIME_DEVIATION)) {
                 throw new Magento_Oauth_Exception(
-                    $this->_translator->translate(
-                        array('Incorrect timestamp value in the oauth_timestamp parameter.')
-                    ),
-                    self::ERR_TIMESTAMP_REFUSED);
+                    __('Incorrect timestamp value in the oauth_timestamp parameter.'),
+                    self::ERR_TIMESTAMP_REFUSED
+                );
             }
 
             $nonceObj = $this->_getNonce($nonce, $consumerId);
 
             if ($nonceObj->getConsumerId()) {
                 throw new Magento_Oauth_Exception(
-                    $this->_translator->translate(
-                        array('The nonce is already being used by the consumer with id %s.', $consumerId)
-                    ),
-                    self::ERR_NONCE_USED);
+                    __('The nonce is already being used by the consumer with id %1.', $consumerId),
+                    self::ERR_NONCE_USED
+                );
             }
 
             $consumer = $this->_getConsumer($consumerId);
 
             if ($nonceObj->getTimestamp() == $timestamp) {
                 throw new Magento_Oauth_Exception(
-                    $this->_translator->translate(
-                        array('The nonce/timestamp combination has already been used.')
-                    ), self::ERR_NONCE_USED);
+                    __('The nonce/timestamp combination has already been used.'), self::ERR_NONCE_USED);
             }
 
             $nonceObj->setNonce($nonce)
@@ -402,9 +386,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthInterf
         } catch (Magento_Oauth_Exception $exception) {
             throw $exception;
         } catch (Exception $exception) {
-            throw new Magento_Oauth_Exception(
-                $this->_translator->translate(array('An error occurred validating the nonce.'))
-            );
+            throw new Magento_Oauth_Exception(__('An error occurred validating the nonce.'));
         }
     }
 
@@ -472,7 +454,6 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthInterf
             throw new Magento_Oauth_Exception('', self::ERR_VERSION_REJECTED);
         }
     }
-
 
     /**
      * Validate request and header parameters
@@ -620,7 +601,6 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthInterf
         return $token->getConsumerId() == $consumer->getId();
     }
 
-
     /**
      * Throw OAuth exception
      *
@@ -642,7 +622,6 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthInterf
     {
         return $this->_errors;
     }
-
 
     /**
      * Get map of error code and HTTP code
@@ -670,7 +649,6 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthInterf
         }
     }
 
-
     /**
      * Process token requests to extract Request parameters
      *
@@ -686,8 +664,8 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthInterf
         return array_merge($request, $params);
     }
 
-
     /**
+     * TODO: Reduce PHPMD Cyclomatic Complexity and NPath Complexity
      * Process oauth related protocol information and return as an array
      *
      * @param $authHeaderValue
@@ -698,7 +676,6 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthInterf
      */
     protected function _processRequest($authHeaderValue, $contentTypeHeader, $requestBodyString, $requestUrl)
     {
-
         $protocolParams = array();
 
         if ($authHeaderValue && 'oauth' === strtolower(substr($authHeaderValue, 0, 5))) {
@@ -744,10 +721,9 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthInterf
             $this->_fetchProtocolParamsFromQuery($protocolParams, $queryString);
         }
 
-        //Combine request and header parameters
+        // Combine request and header parameters
         return $protocolParams;
     }
-
 
     /**
      * Retrieve protocol parameters from query string
@@ -774,6 +750,4 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthInterf
     {
         return (bool)preg_match('/oauth_[a-z_-]+/', $attrName);
     }
-
-
 }

@@ -9,34 +9,28 @@
  */
 class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var Magento_Oauth_Model_Consumer_Factory*/
     private $_consumerFactory;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var Magento_Oauth_Model_Nonce_Factory */
     private $_nonceFactory;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var Magento_Oauth_Model_Token_Factory */
     private $_tokenFactory;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var Magento_Oauth_Model_Consumer */
     private $_consumerMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var Magento_Oauth_Model_Token */
     private $_tokenMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
-    private $_helperFactoryMock;
-
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var Magento_Oauth_Helper_Data */
     private $_helperMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var Magento_Core_Model_Store */
     private $_storeMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
-    private $_translator;
-
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var Magento_HTTP_ZendClient */
     private $_httpClientMock;
 
     /** @var Magento_Oauth_Service_OauthV1 */
@@ -68,34 +62,21 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_tokenMock));
 
-        $this->_helperFactoryMock = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->_helperMock = $this->getMockBuilder('Magento_Oauth_Helper_Data')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_helperFactoryMock->expects($this->any())
-            ->method('get')
-            ->with($this->equalTo('Magento_Oauth_Helper_Data'))
-            ->will($this->returnValue($this->_helperMock));
-
+        $storeManagerMock = $this->getMockBuilder('Magento_Core_Model_StoreManagerInterface')
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         $this->_storeMock = $this->getMockBuilder('Magento_Core_Model_Store')
             ->disableOriginalConstructor()
             ->getMock();
+        $storeManagerMock->expects($this->once())
+            ->method('getStore')
+            ->will($this->returnValue($this->_storeMock));
 
-        $this->_translator = $this->getMockBuilder('Magento_Core_Model_Translate')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_translator->expects($this->any())
-            ->method('translate')
-            ->will($this->returnCallback(
-                    function ($arr) {
-                        return $arr[0];
-                    }
-                ));
-
-        $this->_httpClientMock = $this->getMockBuilder('Zend_Http_Client')
+        $this->_httpClientMock = $this->getMockBuilder('Magento_HTTP_ZendClient')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -103,11 +84,21 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
             $this->_consumerFactory,
             $this->_nonceFactory,
             $this->_tokenFactory,
-            $this->_helperFactoryMock,
-            $this->_storeMock,
-            $this->_translator,
+            $this->_helperMock,
+            $storeManagerMock,
             $this->_httpClientMock
         );
+    }
+
+    public function tearDown()
+    {
+        unset($this->_consumerFactory);
+        unset($this->_nonceFactory);
+        unset($this->_tokenFactory);
+        unset($this->_helperMock);
+        unset($this->_storeMock);
+        unset($this->_httpClientMock);
+        unset($this->_service);
     }
 
     public function testCreateConsumer()
@@ -147,14 +138,14 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
         $this->_httpClientMock->expects($this->once())
             ->method('setUri')
             ->with($this->equalTo('http://www.magento.com'))
-            ->will($this->returnValue($this->_httpClientMock));
+            ->will($this->returnSelf());
         $this->_httpClientMock->expects($this->once())
             ->method('setParameterPost')
-            ->will($this->returnValue($this->_httpClientMock));
+            ->will($this->returnSelf());
         $this->_tokenMock->expects($this->once())
             ->method('createVerifierToken')
             ->with($this->equalTo(1))
-            ->will($this->returnValue($this->_tokenMock));
+            ->will($this->returnSelf());
         $this->_tokenMock->expects($this->once())
             ->method('getVerifier')
             ->will($this->returnValue($oauthVerifier));

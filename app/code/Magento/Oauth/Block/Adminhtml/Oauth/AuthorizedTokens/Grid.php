@@ -135,7 +135,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Magento_
      */
     protected function _prepareMassaction()
     {
-        if(!$this->_isAllowed()) {
+        if (!$this->_isAllowed()) {
             return $this;
         }
 

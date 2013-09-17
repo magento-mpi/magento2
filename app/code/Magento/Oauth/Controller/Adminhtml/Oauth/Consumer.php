@@ -20,6 +20,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
     const DATA_ENTITY_ID = 'entity_id';
     const DATA_KEY = 'key';
     const DATA_SECRET = 'secret';
+    const DATA_VERIFIER = 'oauth_verifier';
 
     /** Keys used for registering data into the registry */
     const REGISTRY_KEY_CURRENT_CONSUMER = 'current_consumer';
@@ -33,7 +34,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
     /** @var Magento_Oauth_Model_Consumer_Factory */
     private $_consumerFactory;
 
-    /** @var Magento_Oauth_Service_OauthInterfaceV1 */
+    /** @var Magento_Oauth_Service_OauthV1Interface */
     private $_oauthService;
 
     /** @var Magento_Oauth_Helper_Data */
@@ -43,23 +44,23 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
      * Class constructor
      *
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Oauth_Helper_Data $oauthHelper
      * @param Magento_Oauth_Model_Consumer_Factory $consumerFactory
-     * @param Magento_Oauth_Service_OauthInterfaceV1 $oauthService
+     * @param Magento_Oauth_Service_OauthV1Interface $oauthService
      * @param Magento_Backend_Controller_Context $context
      * @param string $areaCode
      */
     public function __construct(
         Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Factory_Helper $helperFactory,
+        Magento_Oauth_Helper_Data $oauthHelper,
         Magento_Oauth_Model_Consumer_Factory $consumerFactory,
-        Magento_Oauth_Service_OauthInterfaceV1 $oauthService,
+        Magento_Oauth_Service_OauthV1Interface $oauthService,
         Magento_Backend_Controller_Context $context,
         $areaCode = null
     ) {
         parent::__construct($context, $areaCode);
         $this->_registry = $registry;
-        $this->_oauthHelper = $helperFactory->get('Magento_Oauth_Helper_Data');
+        $this->_oauthHelper = $oauthHelper;
         $this->_consumerFactory = $consumerFactory;
         $this->_oauthService = $oauthService;
     }
@@ -67,7 +68,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
     /**
      * Perform layout initialization actions
      *
-     * @return Magento_Oauth_Adminhtml_Oauth_ConsumerController
+     * @return Magento_Oauth_Controller_Adminhtml_Oauth_Consumer
      */
     protected function _initAction()
     {
@@ -113,7 +114,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
 
         if (!$consumer->getId()) {
             $this->_getSession()
-                ->addError(__('An add-on with ID %s was not found.', $consumerId));
+                ->addError(__('An add-on with ID %1 was not found.', $consumerId));
             $this->_redirect('*/*/index');
         }
 
@@ -123,7 +124,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
     /**
      * Init titles
      *
-     * @return Magento_Oauth_Adminhtml_Oauth_ConsumerController
+     * @return Magento_Oauth_Controller_Adminhtml_Oauth_Consumer
      */
     public function preDispatch()
     {
@@ -246,11 +247,12 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
 
         if ($this->getRequest()->getParam('back')) {
             $this->_redirectToEditOrNew($consumerId);
-        } else if ($verifier['oauth_verifier']) {
+        } else if ($verifier[self::DATA_VERIFIER]) {
+            /** TODO: Complete when we have the Add-On website URL */
             //$this->_redirect('<Add-On Website URL>', array(
                     //'oauth_consumer_key' => $data[self::DATA_KEY],
-                    //'oauth_verifier' => $verifier['oauth_verifier'],
-                    //'return_url' => $this->getUrl('*/*/index')
+                    //'oauth_verifier' => $verifier[self::DATA_VERIFIER],
+                    //'callback_url' => $this->getUrl('*/*/index')
                 //));
             $this->_redirect('*/*/index');
         } else {
@@ -298,7 +300,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
      * Set form data
      *
      * @param $data
-     * @return Magento_Oauth_Adminhtml_Oauth_ConsumerController
+     * @return Magento_Oauth_Controller_Adminhtml_Oauth_Consumer
      */
     protected function _setFormData($data)
     {

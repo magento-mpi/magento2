@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Oauth_Service_OauthInterfaceV1
+interface Magento_Oauth_Service_OauthV1Interface
 {
     /**#@+
      * OAuth result statuses

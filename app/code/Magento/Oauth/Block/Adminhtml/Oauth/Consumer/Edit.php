@@ -42,7 +42,6 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit extends Magento_Backend_
         ) {
             $this->_removeButton('delete');
         }
-
     }
 
     /**
