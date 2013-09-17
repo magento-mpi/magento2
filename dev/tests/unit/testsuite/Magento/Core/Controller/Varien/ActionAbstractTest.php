@@ -36,8 +36,14 @@ class Magento_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framewor
      */
     protected function setUp()
     {
-        $this->_request = $this->getMock('Magento_Core_Controller_Request_Http',
-            array('getRequestedRouteName', 'getRequestedControllerName', 'getRequestedActionName'), array(), '', false
+        $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(),
+            'Magento_Backend_Helper_DataProxy', false);
+        $this->_request = $this->getMock(
+            'Magento_Core_Controller_Request_Http',
+            array('getRequestedRouteName', 'getRequestedControllerName', 'getRequestedActionName'),
+            array($helperMock),
+            '',
+            false
         );
         $this->_response = $this->getMock('Magento_Core_Controller_Response_Http', array(), array(), '', false);
         $this->_response->headersSentThrowsException = false;
@@ -67,7 +73,7 @@ class Magento_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framewor
     }
 
     /**
-     * Test for getResponse method. Checks that response headers are set correctly
+     * Test for getResponse med. Checks that response headers are set correctly
      *
      * @test
      * @covers Magento_Core_Controller_Varien_ActionAbstract::getResponse
@@ -76,7 +82,9 @@ class Magento_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framewor
     {
         $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
 
-        $request = new Magento_Core_Controller_Request_Http();
+        $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(),
+            'Magento_Backend_Helper_DataProxy', false);
+        $request = new Magento_Core_Controller_Request_Http($helperMock);
         $response = new Magento_Core_Controller_Response_Http($eventManager);
         $response->headersSentThrowsException = false;
         $action = new Magento_Core_Controller_Varien_Action_Forward($request, $response);

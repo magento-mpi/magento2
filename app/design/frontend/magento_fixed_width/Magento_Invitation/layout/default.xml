@@ -8,7 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <remove name="invitation_link_top" />
-    </handle>
+    <remove name="invitation_link_top" />
 </layout>

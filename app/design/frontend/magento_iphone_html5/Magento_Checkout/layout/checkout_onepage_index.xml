@@ -8,8 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_onepage_index">
-        <remove name="mage-checkout-js-opcheckout-js"/>
-        <remove name="checkout.progress"/>
-    </handle>
+    <remove name="mage-checkout-js-opcheckout-js"/>
+    <remove name="checkout.progress"/>
 </layout>

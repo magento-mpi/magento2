@@ -257,7 +257,7 @@ class Magento_Connect_Command
      */
     public static function registerCommands()
     {
-        $pathCommands = dirname(__FILE__).DIRECTORY_SEPARATOR.basename(__FILE__, ".php");
+        $pathCommands = __DIR__.DIRECTORY_SEPARATOR.basename(__FILE__, ".php");
         $f = new DirectoryIterator($pathCommands);
         foreach($f as $file) {
             if (! $file->isFile()) {

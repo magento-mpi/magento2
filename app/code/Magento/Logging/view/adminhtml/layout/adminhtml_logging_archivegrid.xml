@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_logging_archivegrid">
-        <update handle="formkey"/>
-        <update handle="adminhtml_logging_archive_grid_block"/>
-        <container label="Logging Archive Block" name="adminhtml.logging.archive.grid.container" output="1"/>
-    </handle>
+    <update handle="formkey"/>
+    <update handle="adminhtml_logging_archive_grid_block"/>
+    <container label="Logging Archive Block" name="adminhtml.logging.archive.grid.container" output="1"/>
 </layout>

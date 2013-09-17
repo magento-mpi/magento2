@@ -8,11 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_catalog_product_set_index">
-        <update handle="formkey"/>
-        <update handle="adminhtml_catalog_product_set_block"/>
-        <reference name="content">
-            <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main" name="adminhtml.catalog.product.set.container"/>
-        </reference>
-    </handle>
+    <update handle="formkey"/>
+    <update handle="adminhtml_catalog_product_set_block"/>
+    <reference name="content">
+        <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main" name="adminhtml.catalog.product.set.container"/>
+    </reference>
 </layout>

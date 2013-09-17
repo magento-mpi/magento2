@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_giftwrapping_new">
-        <reference name="content">
-            <block class="Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit" name="giftwrapping_edit"/>
-        </reference>
-    </handle>
+    <reference name="content">
+        <block class="Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit" name="giftwrapping_edit"/>
+    </reference>
 </layout>

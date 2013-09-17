@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_catalog_search_relatedgrid">
-        <update handle="adminhtml_catalog_search_block"/>
-        <remove name="root"/>
-        <block class="Magento_Search_Block_Adminhtml_Search_Edit" name="related_grid_edit" output="1"/>
-    </handle>
+    <update handle="adminhtml_catalog_search_block"/>
+    <remove name="root"/>
+    <block class="Magento_Search_Block_Adminhtml_Search_Edit" name="related_grid_edit" output="1"/>
 </layout>

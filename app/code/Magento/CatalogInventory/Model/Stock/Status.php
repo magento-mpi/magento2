@@ -66,9 +66,10 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
 
     /**
      * Construct
-     * 
+     *
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Catalog_Model_Product_Type $productType
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory
@@ -79,16 +80,18 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Catalog_Model_Product_Type $productType,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory,
-        Magento_CatalogInventory_Helper_Data $catalogInventoryData,        
+        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-        
+
         $this->_catalogInventoryData = $catalogInventoryData;
+        $this->_productType = $productType;
         $this->_storeManager = $storeManager;
         $this->_stockItemFactory = $stockItemFactory;
     }
@@ -114,7 +117,7 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
             $this->_productTypes = array();
             $productEmulator     = new Magento_Object();
 
-            foreach (array_keys(Magento_Catalog_Model_Product_Type::getTypes()) as $typeId) {
+            foreach (array_keys($this->_productType->getTypes()) as $typeId) {
                 $productEmulator->setTypeId($typeId);
                 $this->_productTypes[$typeId] = Mage::getSingleton('Magento_Catalog_Model_Product_Type')
                     ->factory($productEmulator);

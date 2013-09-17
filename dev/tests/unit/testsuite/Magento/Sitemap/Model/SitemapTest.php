@@ -97,7 +97,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_coreRegistryMock));
 
         Mage::reset();
-        Mage::setObjectManager($objectManagerMock);
+        Magento_Core_Model_ObjectManager::setInstance($objectManagerMock);
     }
 
     /**

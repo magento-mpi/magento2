@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="catalog_product_view">
-        <reference name="head">
-            <block class="Magento_GoogleOptimizer_Block_Code_Product" before="-" name="googleoptimizer.experiment.script"/>
-        </reference>
-    </handle>
+    <reference name="head">
+        <block class="Magento_GoogleOptimizer_Block_Code_Product" before="-" name="googleoptimizer.experiment.script"/>
+    </reference>
 </layout>

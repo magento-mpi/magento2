@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_report_customer_wishlist_exportcsv">
-        <update handle="formkey"/>
-        <update handle="adminhtml_report_customer_wishlist_block"/>
-        <container name="adminhtml.block.report.customer.wishlist.container" label="Report Customer Wish List Grid Container"/>
-    </handle>
+    <update handle="formkey"/>
+    <update handle="adminhtml_report_customer_wishlist_block"/>
+    <container name="adminhtml.block.report.customer.wishlist.container" label="Report Customer Wish List Grid Container"/>
 </layout>
