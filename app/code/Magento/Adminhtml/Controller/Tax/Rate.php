@@ -209,12 +209,10 @@ class Rate extends \Magento\Adminhtml\Controller\Action
                         ->addSuccess(__('The tax rate has been deleted.'));
                     $this->getResponse()->setRedirect($this->getUrl("*/*/"));
                     return true;
-                }
-                catch (\Magento\Core\Exception $e) {
+                } catch (\Magento\Core\Exception $e) {
                     \Mage::getSingleton('Magento\Adminhtml\Model\Session')
                         ->addError($e->getMessage());
-                }
-                catch (\Exception $e) {
+                } catch (\Exception $e) {
                     \Mage::getSingleton('Magento\Adminhtml\Model\Session')
                         ->addError(__('Something went wrong deleting this rate.'));
                 }
@@ -335,7 +333,7 @@ class Rate extends \Magento\Adminhtml\Controller\Action
                     ->addError(__('Invalid file upload attempt'));
             }
         } else {
-           \ \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+           \Mage::getSingleton('Magento\Adminhtml\Model\Session')
                 ->addError(__('Invalid file upload attempt'));
         }
         $this->_redirectReferer();

@@ -79,7 +79,6 @@ class Payment extends \Magento\Core\Controller\Front\Action
             $paymentMethod->process($data);
             $result['success'] = 1;
         } catch (\Magento\Core\Exception $e) {
-        catch (\Magento\Core\Exception $e) {
             \Mage::logException($e);
             $result['success'] = 0;
             $result['error_msg'] = $e->getMessage();
