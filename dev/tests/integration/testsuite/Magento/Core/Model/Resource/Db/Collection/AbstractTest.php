@@ -33,7 +33,7 @@ class Magento_Core_Model_Resource_Db_Collection_AbstractTest extends PHPUnit_Fra
             ->get('Magento\Core\Model\Event\Manager');
 
         $this->_model = $this->getMockForAbstractClass(
-            'Magento\Core\Model\Resource\Db\Collection\Abstract',
+            'Magento\Core\Model\Resource\Db\Collection\AbstractCollection',
             array($eventManager, $fetchStrategy, $resource)
         );
     }
