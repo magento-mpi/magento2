@@ -65,6 +65,8 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magent
 
     public function fetchRatesAction()
     {
+        /** @var Magento_Backend_Model_Session $backendSession */
+        $backendSession = $this->_objectManager->get('Magento_Backend_Model_Session');
         try {
             $service = $this->getRequest()->getParam('rate_services');
             $this->_getSession()->setCurrencyRateService($service);
@@ -82,21 +84,17 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magent
             $errors = $importModel->getMessages();
             if (sizeof($errors) > 0) {
                 foreach ($errors as $error) {
-                    $this->_objectManager->get('Magento_Backend_Model_Session')->addWarning($error);
+                    $backendSession->addWarning($error);
                 }
-                $this->_objectManager->get('Magento_Backend_Model_Session')->addWarning(
-                    __('All possible rates were fetched, please click on "Save" to apply')
-                );
+                $backendSession->addWarning(__('All possible rates were fetched, please click on "Save" to apply'));
             } else {
-                $this->_objectManager->get('Magento_Backend_Model_Session')->addSuccess(
-                    __('All rates were fetched, please click on "Save" to apply')
-                );
+                $backendSession->addSuccess(__('All rates were fetched, please click on "Save" to apply'));
             }
 
-            $this->_objectManager->get('Magento_Backend_Model_Session')->setRates($rates);
+            $backendSession->setRates($rates);
         }
         catch (Exception $e){
-            $this->_objectManager->get('Magento_Backend_Model_Session')->addError($e->getMessage());
+            $backendSession->addError($e->getMessage());
         }
         $this->_redirect('*/*/');
     }
@@ -105,6 +103,8 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magent
     {
         $data = $this->getRequest()->getParam('rate');
         if (is_array($data)) {
+            /** @var Magento_Backend_Model_Session $backendSession */
+            $backendSession = $this->_objectManager->get('Magento_Backend_Model_Session');
             try {
                 foreach ($data as $currencyCode => $rate) {
                     foreach( $rate as $currencyTo => $value ) {
@@ -114,7 +114,7 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magent
                         );
                         $data[$currencyCode][$currencyTo] = $value;
                         if( $value == 0 ) {
-                            $this->_objectManager->get('Magento_Backend_Model_Session')->addWarning(
+                            $backendSession->addWarning(
                                 __('Please correct the input data for %1 => %2 rate', $currencyCode, $currencyTo)
                             );
                         }
@@ -122,9 +122,7 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magent
                 }
 
                 $this->_objectManager->create('Magento_Directory_Model_Currency')->saveRates($data);
-                $this->_objectManager->get('Magento_Backend_Model_Session')->addSuccess(
-                    __('All valid rates have been saved.')
-                );
+                $backendSession->addSuccess(__('All valid rates have been saved.'));
             } catch (Exception $e) {
                 $this->_objectManager->get('Magento_Backend_Model_Session')->addError($e->getMessage());
             }
