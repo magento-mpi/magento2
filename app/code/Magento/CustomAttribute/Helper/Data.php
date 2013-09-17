@@ -25,6 +25,24 @@ class Magento_CustomAttribute_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_userDefinedAttributeCodes = array();
 
     /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($context);
+    }
+
+
+    /**
      * Default attribute entity type code
      *
      * @throws Magento_Core_Exception
@@ -418,7 +436,7 @@ class Magento_CustomAttribute_Helper_Data extends Magento_Core_Helper_Abstract
         if (empty($this->_userDefinedAttributeCodes[$entityTypeCode])) {
             $this->_userDefinedAttributeCodes[$entityTypeCode] = array();
             /* @var $config Magento_Eav_Model_Config */
-            $config = Mage::getSingleton('Magento_Eav_Model_Config');
+            $config = $this->_eavConfig;
             foreach ($config->getEntityAttributeCodes($entityTypeCode) as $attributeCode) {
                 $attribute = $config->getAttribute($entityTypeCode, $attributeCode);
                 if ($attribute && $attribute->getIsUserDefined()) {

@@ -34,16 +34,18 @@ class Magento_CustomerCustomAttributes_Helper_Data extends Magento_CustomAttribu
     /**
      * @param Magento_CustomerCustomAttributes_Helper_Address $customerAddress
      * @param Magento_CustomerCustomAttributes_Helper_Customer $customerCustomer
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
         Magento_CustomerCustomAttributes_Helper_Address $customerAddress,
         Magento_CustomerCustomAttributes_Helper_Customer $customerCustomer,
+        Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Helper_Context $context
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_customerCustomer = $customerCustomer;
-        parent::__construct($context);
+        parent::__construct($eavConfig, $context);
     }
 
     /**
