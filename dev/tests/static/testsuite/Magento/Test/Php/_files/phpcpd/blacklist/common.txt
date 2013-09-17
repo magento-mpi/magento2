@@ -30,7 +30,9 @@ Magento/Checkout/Block/Multishipping/Payment
 Magento/Checkout/Model/Type
 Magento/Connect/Block/Adminhtml/Extension/Custom/Edit/Tab
 Magento/Catalog/Model/Template
+Magento/GoogleShopping/Model
 Magento/Oauth/Controller
+Magento/Rating/Model
 Magento/Sales/Block/Order
 Magento/Sales/Model/Resource/Helper
 Magento/Sales/Model/Resource/Order
@@ -64,6 +66,7 @@ Magento/Tax/Model/Sales/Pdf
 Magento/Usa/Model/Shipping/Carrier
 Magento/Webapi/Model
 Magento/Wishlist/Model
+Magento/Wishlist/Block
 lib/Magento/Archive
 lib/Magento/Connect/Channel
 lib/Magento/HTTP/Client
