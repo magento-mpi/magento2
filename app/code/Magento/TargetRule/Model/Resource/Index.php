@@ -151,36 +151,6 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     }
 
     /**
-     * Retrieve catalog product list index by type
-     *
-     * @param int $type
-     * @return Magento_TargetRule_Model_Resource_Index_Abstract
-     */
-    public function getTypeIndex($type)
-    {
-        switch ($type) {
-            case Magento_TargetRule_Model_Rule::RELATED_PRODUCTS:
-                $model = 'Related';
-                break;
-
-            case Magento_TargetRule_Model_Rule::UP_SELLS:
-                $model = 'Upsell';
-                break;
-
-            case Magento_TargetRule_Model_Rule::CROSS_SELLS:
-                $model = 'Crosssell';
-                break;
-
-            default:
-                throw new Magento_Core_Exception(
-                    __('Undefined Catalog Product List Type')
-                );
-        }
-
-        return Mage::getResourceSingleton('Magento_TargetRule_Model_Resource_Index_' . $model);
-    }
-
-    /**
      * Retrieve array of defined product list type id
      *
      * @return array
