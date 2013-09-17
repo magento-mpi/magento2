@@ -227,13 +227,12 @@ class Magento_WebsiteRestriction_Model_Observer
      */
     public function addPrivateSalesLayoutUpdate($observer)
     {
-        if (in_array((int)$this->_store->getConfig(Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_MODE),
-            array(
-                Magento_WebsiteRestriction_Model_Mode::ALLOW_REGISTER,
-                Magento_WebsiteRestriction_Model_Mode::ALLOW_LOGIN
-            ),
-            true
-        )) {
+        $item = (int)$this->_storeConfig->getConfig(Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_MODE);
+        $hasItem = in_array($item, array(
+            Magento_WebsiteRestriction_Model_Mode::ALLOW_REGISTER,
+            Magento_WebsiteRestriction_Model_Mode::ALLOW_LOGIN
+        ), true);
+        if ($hasItem) {
             $observer->getEvent()->getLayout()->getUpdate()->addHandle('restriction_privatesales_mode');
         }
     }
