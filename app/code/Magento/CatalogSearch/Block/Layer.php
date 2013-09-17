@@ -89,7 +89,7 @@ class Layer extends \Magento\Catalog\Block\Layer\View
         if (!$_isLNAllowedByEngine) {
             return false;
         }
-        $availableResCount = (int)Mage::app()->getStore()
+        $availableResCount = (int)\Mage::app()->getStore()
             ->getConfig(\Magento\CatalogSearch\Model\Layer::XML_PATH_DISPLAY_LAYER_COUNT);
 
         if (!$availableResCount || ($availableResCount > $this->getLayer()->getProductCollection()->getSize())) {
