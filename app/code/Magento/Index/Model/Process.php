@@ -205,11 +205,16 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     /**
      * Reindex all data what this process responsible is
      *
+     * @throws Magento_Core_Exception
+     * @throws Exception
      */
     public function reindexAll()
     {
         if ($this->isLocked()) {
-            Mage::throwException(__('%1 Index process is not working now. Please try running this process later.', $this->getIndexer()->getName()));
+            throw new Magento_Core_Exception(
+                __('%1 Index process is not working now. Please try running this process later.',
+                    $this->getIndexer()->getName())
+            );
         }
 
         $processStatus = $this->getStatus();
@@ -323,6 +328,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     /**
      * Get Indexer strategy object
      *
+     * @throws Magento_Core_Exception
      * @return Magento_Index_Model_IndexerInterface
      */
     public function getIndexer()
@@ -330,7 +336,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
         if ($this->_indexer === null) {
             $code = $this->_getData('indexer_code');
             if (!$code) {
-                Mage::throwException(__('Indexer code is not defined.'));
+                throw new Magento_Core_Exception(__('Indexer code is not defined.'));
             }
             $this->_indexer = $this->_indexerFactory->create($code);
         }
