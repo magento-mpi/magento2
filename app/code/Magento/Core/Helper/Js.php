@@ -90,4 +90,13 @@ class Magento_Core_Helper_Js extends Magento_Core_Helper_Abstract
         return '<script type="text/javascript" src="' . $this->_viewUrl->getViewFileUrl($file) . '"></script>' . "\n";
     }
 
+    /**
+     * Retrieve JS translation array
+     *
+     * @return array
+     */
+    protected function _getTranslateData()
+    {
+        return $this->_translateData;
+    }
 }
