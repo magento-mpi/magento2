@@ -129,6 +129,6 @@ class Magento_Config_DomTest extends PHPUnit_Framework_TestCase
         $xml = '<root><unknown_node/></root>';
         $errorFormat = '%message%,%unknown%';
         $dom = new Magento_Config_Dom($xml, array(), null, $errorFormat);
-        $dom->validate(__DIR__ . '/_files/sample.xsd', $actualErrors);
+        $dom->validate(__DIR__ . '/_files/sample.xsd');
     }
 }
