@@ -16,7 +16,7 @@
 
 namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main;
 
-class Formattribute extends \Magento\Adminhtml\Block\Widget\Form\Generic
+class Formattribute extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected function _prepareForm()
     {
