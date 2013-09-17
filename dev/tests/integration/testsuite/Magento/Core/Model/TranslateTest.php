@@ -109,31 +109,6 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetModulesConfig()
-    {
-        /** @var $modulesConfig \Magento\Core\Model\Config\Element */
-        $modulesConfig = $this->_model->getModulesConfig();
-
-        $this->assertInstanceOf('Magento\Core\Model\Config\Element', $modulesConfig);
-
-        /* Number of nodes is the number of enabled modules, that support translation */
-        $checkedNode = 'Magento_Core';
-        $this->assertGreaterThan(1, count($modulesConfig));
-        $this->assertNotEmpty($modulesConfig->$checkedNode);
-        $this->assertXmlStringEqualsXmlString(
-            '<Magento_Core>
-                <files>
-                    <default>Magento_Core.csv</default>
-                    <fixture>../../../../../../dev/tests/integration/testsuite/Magento/Core/_files/fixture.csv</fixture>
-                </files>
-            </Magento_Core>',
-            $modulesConfig->$checkedNode->asXML()
-        );
-
-        $this->_model->init('non_existing_area', null, true);
-        $this->assertEquals(array(), $this->_model->getModulesConfig());
-    }
-
     public function testGetConfig()
     {
         $this->assertEquals('frontend', $this->_model->getConfig(\Magento\Core\Model\Translate::CONFIG_KEY_AREA));
