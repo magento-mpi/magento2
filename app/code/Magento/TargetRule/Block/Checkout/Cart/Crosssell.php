@@ -66,6 +66,18 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     protected $_productLinkFactory;
 
     /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_session;
+
+    protected $_visibility;
+
+    protected $_status;
+
+    /**
+     * @param Magento_Catalog_Model_Product_Visibility $visibility
+     * @param Magento_CatalogInventory_Model_Stock_Status $status
+     * @param Magento_Checkout_Model_Session $session
      * @param Magento_Catalog_Model_Product_LinkFactory $productLinkFactory
      * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_TargetRule_Model_IndexFactory $indexFactory
@@ -80,6 +92,9 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Catalog_Model_Product_Visibility $visibility,
+        Magento_CatalogInventory_Model_Stock_Status $status,
+        Magento_Checkout_Model_Session $session,
         Magento_Catalog_Model_Product_LinkFactory $productLinkFactory,
         Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_TargetRule_Model_IndexFactory $indexFactory,
@@ -91,6 +106,9 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_visibility = $visibility;
+        $this->_status = $status;
+        $this->_session = $session;
         $this->_productLinkFactory = $productLinkFactory;
         $this->_productFactory = $productFactory;
         $this->_indexFactory = $indexFactory;
@@ -115,7 +133,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
      */
     public function getLastAddedProductId()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getLastAddedProductId(true);
+        return $this->_session->getLastAddedProductId(true);
     }
 
     /**
@@ -143,7 +161,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return $this->_session->getQuote();
     }
 
     /**
@@ -246,11 +264,8 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
             ->setStoreId(Mage::app()->getStore()->getId())
             ->setGroupBy();
         $this->_addProductAttributesAndPrices($collection);
-
-        $collection->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
-
-        Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')
-            ->addIsInStockFilterToCollection($collection);
+        $collection->setVisibility($this->_visibility->getVisibleInSiteIds());
+        $this->_status->addIsInStockFilterToCollection($collection);
 
         return $collection;
     }
@@ -304,12 +319,8 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
         $collection->addFieldToFilter('entity_id', array('in' => $productIds));
         $this->_addProductAttributesAndPrices($collection);
 
-        $collection->setVisibility(
-            Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds()
-        );
-
-        Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')
-            ->addIsInStockFilterToCollection($collection);
+        $collection->setVisibility($this->_visibility->getVisibleInCatalogIds());
+        $this->_status->addIsInStockFilterToCollection($collection);
 
         return $collection;
     }

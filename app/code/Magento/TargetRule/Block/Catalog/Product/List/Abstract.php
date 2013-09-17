@@ -45,6 +45,12 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
     protected $_indexFactory;
 
     /**
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_visibility;
+
+    /**
+     * @param Magento_Catalog_Model_Product_Visibility $visibility
      * @param Magento_TargetRule_Model_IndexFactory $indexFactory
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_TargetRule_Helper_Data $targetRuleData
@@ -55,6 +61,7 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_Product_Visibility $visibility,
         Magento_TargetRule_Model_IndexFactory $indexFactory,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_TargetRule_Helper_Data $targetRuleData,
@@ -64,6 +71,7 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_visibility = $visibility;
         $this->_indexFactory = $indexFactory;
         parent::__construct($coreRegistry, $targetRuleData, $taxData, $catalogData, $coreData, $context, $data);
     }
@@ -213,7 +221,7 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
         }
 
         $linkCollection
-            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds())
+            ->setVisibility($this->_visibility->getVisibleInCatalogIds())
             ->setFlag('do_not_use_category_id', true);
 
         $excludeProductIds = $this->getExcludeProductIds();
@@ -288,7 +296,7 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
 
             $collection->setPageSize($limit)
                 ->setFlag('do_not_use_category_id', true)
-                ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
+                ->setVisibility($this->_visibility->getVisibleInCatalogIds());
 
             foreach ($collection as $item) {
                 $items[$item->getEntityId()] = $item;

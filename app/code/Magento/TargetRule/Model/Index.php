@@ -70,6 +70,18 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     protected $_targetRuleData = null;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * @var Magento_Index_Model_Indexer
+     */
+    protected $_indexer;
+
+    /**
+     * @param Magento_Index_Model_Indexer $indexer
+     * @param Magento_Customer_Model_Session $session
      * @param Magento_TargetRule_Helper_Data $targetRuleData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -78,6 +90,8 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
      * @param array $data
      */
     public function __construct(
+        Magento_Index_Model_Indexer $indexer,
+        Magento_Customer_Model_Session $session,
         Magento_TargetRule_Helper_Data $targetRuleData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -85,6 +99,8 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_indexer = $indexer;
+        $this->_session = $session;
         $this->_targetRuleData = $targetRuleData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -181,7 +197,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     {
         $customerGroupId = $this->getData('customer_group_id');
         if (is_null($customerGroupId)) {
-            $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+            $customerGroupId = $this->_session->getCustomerGroupId();
         }
         return $customerGroupId;
     }
@@ -312,22 +328,19 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     {
         $websites = Mage::app()->getWebsites();
 
-        /** @var $indexer Magento_Index_Model_Indexer */
-        $indexer = Mage::getSingleton('Magento_Index_Model_Indexer');
-
         foreach ($websites as $website) {
             /* @var $website Magento_Core_Model_Website */
             $store = $website->getDefaultStore();
             $date  = Mage::app()->getLocale()->storeDate($store);
             if ($date->equals(0, Zend_Date::HOUR)) {
-                $indexer->logEvent(
+                $this->_indexer->logEvent(
                     new Magento_Object(array('type_id' => null, 'store' => $website->getStoreIds())),
                     self::ENTITY_TARGETRULE,
                     self::EVENT_TYPE_CLEAN_TARGETRULES
                 );
             }
         }
-        $indexer->indexEvents(
+        $this->_indexer->indexEvents(
             self::ENTITY_TARGETRULE,
             self::EVENT_TYPE_CLEAN_TARGETRULES
         );

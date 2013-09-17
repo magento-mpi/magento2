@@ -26,6 +26,45 @@ class Magento_TargetRule_Block_Catalog_Product_List_Related
     protected $_mapRenderer = 'msrp_noform';
 
     /**
+     * @var Magento_Checkout_Model_Cart
+     */
+    protected $_cart;
+
+    /**
+     * @param Magento_Checkout_Model_Cart $cart
+     * @param Magento_Catalog_Model_Product_Visibility $visibility
+     * @param Magento_TargetRule_Model_IndexFactory $indexFactory
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_TargetRule_Helper_Data $targetRuleData
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Magento_Checkout_Model_Cart $cart,
+        Magento_Catalog_Model_Product_Visibility $visibility,
+        Magento_TargetRule_Model_IndexFactory $indexFactory,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_TargetRule_Helper_Data $targetRuleData,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_cart = $cart;
+        parent::__construct(
+            $visibility, $indexFactory, $coreRegistry, $targetRuleData,
+            $taxData, $catalogData, $coreData, $context, $data
+        );
+    }
+
+
+    /**
      * Retrieve Catalog Product List Type identifier
      *
      * @return int
@@ -44,7 +83,7 @@ class Magento_TargetRule_Block_Catalog_Product_List_Related
     public function getExcludeProductIds()
     {
         if (is_null($this->_excludeProductIds)) {
-            $cartProductIds = Mage::getSingleton('Magento_Checkout_Model_Cart')->getProductIds();
+            $cartProductIds = $this->_cart->getProductIds();
             $this->_excludeProductIds = array_merge($cartProductIds, array($this->getProduct()->getEntityId()));
         }
         return $this->_excludeProductIds;

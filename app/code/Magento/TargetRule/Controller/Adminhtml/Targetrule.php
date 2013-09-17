@@ -94,7 +94,7 @@ class Magento_TargetRule_Controller_Adminhtml_Targetrule extends Magento_Adminht
 
         $this->_title($model->getId() ? $model->getName() : __('New Related Products Rule'));
 
-        $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getFormData(true);
+        $data = $this->_objectManager->get('Magento_Adminhtml_Model_Session')->getFormData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -185,8 +185,8 @@ class Magento_TargetRule_Controller_Adminhtml_Targetrule extends Magento_Adminht
                     __('An error occurred while saving Product Rule.')
                 );
 
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPageData($data);
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }
@@ -213,18 +213,18 @@ class Magento_TargetRule_Controller_Adminhtml_Targetrule extends Magento_Adminht
                 $model = $this->_objectManager->create('Magento_TargetRule_Model_Rule');
                 $model->load($id);
                 $model->delete();
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')
                     ->addSuccess(__('You deleted the rule.'));
                 $this->_redirect('*/*/');
                 return;
             }
             catch (Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')
+        $this->_objectManager->get('Magento_Adminhtml_Model_Session')
             ->addError(__("We can't find a page to delete."));
         $this->_redirect('*/*/');
     }

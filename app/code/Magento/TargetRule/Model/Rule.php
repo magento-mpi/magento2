@@ -113,6 +113,12 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
     protected $_actionFactory;
 
     /**
+     * @var Magento_Core_Model_Resource_Iterator
+     */
+    protected $_iterator;
+
+    /**
+     * @param Magento_Core_Model_Resource_Iterator $iterator
      * @param Magento_TargetRule_Model_Rule_Condition_CombineFactory $ruleFactory
      * @param Magento_TargetRule_Model_Actions_Condition_CombineFactory $actionFactory
      * @param Magento_Catalog_Model_ProductFactory $productFactory
@@ -122,8 +128,11 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_Resource_Iterator $iterator,
         Magento_TargetRule_Model_Rule_Condition_CombineFactory $ruleFactory,
         Magento_TargetRule_Model_Actions_Condition_CombineFactory $actionFactory,
         Magento_Catalog_Model_ProductFactory $productFactory,
@@ -134,6 +143,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_iterator = $iterator;
         $this->_productFactory = $productFactory;
         $this->_ruleFactory = $ruleFactory;
         $this->_actionFactory = $actionFactory;
@@ -229,7 +239,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
 
             $this->_productIds = array();
             $this->_products   = array();
-            Mage::getSingleton('Magento_Core_Model_Resource_Iterator')->walk(
+            $this->_iterator->walk(
                 $productCollection->getSelect(),
                 array(
                     array($this, 'callbackValidateProduct')

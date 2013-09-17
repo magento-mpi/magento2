@@ -47,17 +47,41 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     protected $_customerSegmentData = null;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * @var Magento_CustomerSegment_Model_Customer
+     */
+    protected $_customer;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_visibility;
+
+    /**
+     * @param Magento_Catalog_Model_Product_Visibility $visibility
+     * @param Magento_CustomerSegment_Model_Customer $customer
+     * @param Magento_Customer_Model_Session $session
      * @param Magento_CustomerSegment_Helper_Data $customerSegmentData
      * @param Magento_TargetRule_Helper_Data $targetRuleData
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
+        Magento_Catalog_Model_Product_Visibility $visibility,
+        Magento_CustomerSegment_Model_Customer $customer,
+        Magento_Customer_Model_Session $session,
         Magento_CustomerSegment_Helper_Data $customerSegmentData,
         Magento_TargetRule_Helper_Data $targetRuleData,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Resource $resource
     ) {
+        $this->_visibility = $visibility;
+        $this->_customer = $customer;
+        $this->_session = $session;
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSegmentData = $customerSegmentData;
         $this->_targetRuleData = $targetRuleData;
@@ -256,7 +280,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
         $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
             ->setStoreId($object->getStoreId())
             ->addPriceData($object->getCustomerGroupId())
-            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
+            ->setVisibility($this->_visibility->getVisibleInCatalogIds());
 
         $actionSelect = $rule->getActionSelect();
         $actionBind   = $rule->getActionSelectBind();
@@ -633,18 +657,17 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
         if ($this->_customerSegmentData->isEnabled()) {
             $customer = $this->_coreRegistry->registry('segment_customer');
             if (!$customer) {
-                $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+                $customer = $this->_session->getCustomer();
             }
             $websiteId = Mage::app()->getWebsite()->getId();
 
             if (!$customer->getId()) {
-                $allSegmentIds = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerSegmentIds();
+                $allSegmentIds = $this->_session->getCustomerSegmentIds();
                 if ((is_array($allSegmentIds) && isset($allSegmentIds[$websiteId]))) {
                     $segmentIds = $allSegmentIds[$websiteId];
                 }
             } else {
-                $segmentIds = Mage::getSingleton('Magento_CustomerSegment_Model_Customer')
-                    ->getCustomerSegmentIdsForWebsite($customer->getId(), $websiteId);
+                $segmentIds = $this->_customer->getCustomerSegmentIdsForWebsite($customer->getId(), $websiteId);
             }
 
             if(count($segmentIds)) {

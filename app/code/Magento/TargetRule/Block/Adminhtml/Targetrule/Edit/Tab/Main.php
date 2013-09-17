@@ -20,6 +20,32 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
     implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
+     * @var Magento_TargetRule_Model_Rule
+     */
+    protected $_rule;
+
+    /**
+     * @param Magento_TargetRule_Model_Rule $rule
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_TargetRule_Model_Rule $rule,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_rule = $rule;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+
+    /**
      * Prepare Mail Target Rule Edit form
      *
      * @return Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
@@ -72,7 +98,7 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
             'label'     => __('Apply To'),
             'name'      => 'apply_to',
             'required'  => true,
-            'options'   => Mage::getSingleton('Magento_TargetRule_Model_Rule')->getAppliesToOptions(true),
+            'options'   => $this->_rule->getAppliesToOptions(true),
         ));
 
         $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
