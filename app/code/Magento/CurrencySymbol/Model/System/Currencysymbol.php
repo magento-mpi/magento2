@@ -77,6 +77,11 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
     protected $_configFactory;
 
     /**
+     * @var Magento_Core_Model_Cache_TypeList
+     */
+    protected $_cacheTypeList;
+
+    /**
      * @var Magento_Core_Model_System_Store
      */
     protected $_systemStore;
@@ -99,6 +104,7 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
     /**
      * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Backend_Model_Config_Factory $configFactory
+     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_System_Store $systemStore
@@ -107,6 +113,7 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
     public function __construct(
         Magento_Core_Model_Config $coreConfig,
         Magento_Backend_Model_Config_Factory $configFactory,
+        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Model_System_Store $systemStore,
@@ -114,6 +121,7 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
     ) {
         $this->_coreConfig = $coreConfig;
         $this->_configFactory = $configFactory;
+        $this->_cacheTypeList = $cacheTypeList;
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
         $this->_systemStore  = $systemStore;
@@ -294,11 +302,9 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
      */
     public function clearCache()
     {
-        /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-        $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
         // clear cache for frontend
         foreach ($this->_cacheTypes as $cacheType) {
-            $cacheTypeList->invalidate($cacheType);
+            $this->_cacheTypeList->invalidate($cacheType);
         }
         return $this;
     }
