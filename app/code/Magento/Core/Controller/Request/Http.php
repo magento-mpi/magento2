@@ -55,13 +55,6 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      */
     protected $_beforeForwardInfo = array();
 
-    public function __construct(
-        $uri = null
-    ) {
-        $this->_directFrontNames = array('api' => '');
-        parent::__construct($uri);
-    }
-
     /**
      * @var Magento_Backend_Helper_DataProxy
      */
