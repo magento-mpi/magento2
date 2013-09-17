@@ -16,8 +16,7 @@ class Magento_Catalog_Model_Attribute_Config_XsdTest extends PHPUnit_Framework_T
 
     protected function setUp()
     {
-        $this->_schemaFile
-            = __DIR__ . '/../../../../../../../../../app/code/Magento/Catalog/etc/catalog_attributes.xsd';
+        $this->_schemaFile = BP . '/app/code/Magento/Catalog/etc/catalog_attributes.xsd';
     }
 
     /**
@@ -52,6 +51,10 @@ class Magento_Catalog_Model_Attribute_Config_XsdTest extends PHPUnit_Framework_T
                 '<config><group name="test"/></config>',
                 array("Element 'group': Missing child element(s). Expected is ( attribute ).")
             ),
+            'node "group" without attribute "name"' => array(
+                '<config><group><attribute name="attr"/></group></config>',
+                array("Element 'group': The attribute 'name' is required but missing.")
+            ),
             'node "group" with invalid attribute' => array(
                 '<config><group name="test" invalid="true"><attribute name="attr"/></group></config>',
                 array("Element 'group', attribute 'invalid': The attribute 'invalid' is not allowed.")
@@ -63,6 +66,10 @@ class Magento_Catalog_Model_Attribute_Config_XsdTest extends PHPUnit_Framework_T
             'node "attribute" with children' => array(
                 '<config><group name="test"><attribute name="attr"><invalid/></attribute></group></config>',
                 array("Element 'attribute': Element content is not allowed, because the content type is empty.")
+            ),
+            'node "attribute" without attribute "name"' => array(
+                '<config><group name="test"><attribute/></group></config>',
+                array("Element 'attribute': The attribute 'name' is required but missing.")
             ),
             'node "attribute" with invalid attribute' => array(
                 '<config><group name="test"><attribute name="attr" invalid="true"/></group></config>',
