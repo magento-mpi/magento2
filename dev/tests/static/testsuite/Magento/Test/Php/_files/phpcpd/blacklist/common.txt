@@ -1,5 +1,7 @@
 Find/Feed/Block/Adminhtml
 Magento/Adminhtml
+Magento/AdvancedCheckout/Block
+Magento/VersionsCms/Block
 Magento/Backend
 Magento/Bundle
 Magento/Catalog/Block/Product/ProductList
