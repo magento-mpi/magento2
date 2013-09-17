@@ -71,7 +71,7 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
             'helperFactory' => $this->_helperFactoryMock,
             'data' => array(
                 'group' => $groupMock
-            ),
+            )
         );
         $this->_testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_object = $this->_testHelper->getObject('Magento_Backend_Block_System_Config_Form_Fieldset', $data);

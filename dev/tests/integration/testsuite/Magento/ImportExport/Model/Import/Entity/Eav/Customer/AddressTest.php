@@ -80,7 +80,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      */
     protected function setUp()
     {
-        $this->_entityAdapter =  Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_entityAdapter = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create($this->_testClassName);
     }
 

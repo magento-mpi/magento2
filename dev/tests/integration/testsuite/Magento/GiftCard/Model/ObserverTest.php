@@ -52,7 +52,7 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $emailTemplateMock->expects($this->once())
             ->method('_getMail')
             ->will($this->returnValue($zendMailMock));
-
+        /** @var $model Magento_GiftCard_Model_Observer */
         $model = Mage::getModel('Magento_GiftCard_Model_Observer', array(
             'data' => array('email_template_model' => $emailTemplateMock)
         ));

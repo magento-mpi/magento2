@@ -18,6 +18,20 @@
 abstract class Magento_Install_Model_Installer_Db_Abstract
 {
     /**
+     * Resource model
+     *
+     * @var Magento_Core_Model_Resource
+     */
+    protected $_resource;
+
+    /**
+     * List of necessary extensions for DBs
+     *
+     * @var array
+     */
+    protected $_dbExtensions;
+
+    /**
      *  Adapter instance
      *
      * @var Magento_DB_Adapter_Interface
@@ -38,32 +52,17 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
      */
     protected $_configData;
 
-    /**
-     * Resource model
-     *
-     * @var Magento_Core_Model_Resource
-     */
-    protected $_resource;
 
     /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_coreConfig;
-
-    /**
-     * Constructor
-     *
      * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param array $dbExtensions
      */
-    public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config $coreConfig
-    ) {
+    public function __construct(Magento_Core_Model_Resource $resource, array $dbExtensions = array())
+    {
         $this->_resource = $resource;
-        $this->_coreConfig = $coreConfig;
+        $this->_dbExtensions = $dbExtensions;
     }
-
+    
     /**
      * Return the name of DB model from config
      *
@@ -156,12 +155,7 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
      */
     public function getRequiredExtensions()
     {
-        $extensions = array();
-        $configExt = (array)$this->_coreConfig->getNode(sprintf('install/databases/%s/extensions', $this->getModel()));
-        foreach (array_keys($configExt) as $name) {
-            $extensions[] = $name;
-        }
-        return $extensions;
+        return isset($this->_dbExtensions[$this->getModel()]) ? $this->_dbExtensions[$this->getModel()] : array();
     }
 
     /**

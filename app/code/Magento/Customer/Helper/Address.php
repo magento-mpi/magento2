@@ -54,6 +54,11 @@ class Magento_Customer_Helper_Address extends Magento_Core_Helper_Abstract
     protected $_blockFactory;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -63,16 +68,19 @@ class Magento_Customer_Helper_Address extends Magento_Core_Helper_Abstract
     /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_BlockFactory $blockFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_BlockFactory $blockFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_blockFactory = $blockFactory;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -116,11 +124,7 @@ class Magento_Customer_Helper_Address extends Magento_Core_Helper_Abstract
      */
     public function getConfig($key, $store = null)
     {
-        /** @var $storeManager Magento_Core_Model_StoreManagerInterface */
-        $storeManager = Mage::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface');
-        /** @var $store Magento_Core_Model_Store */
-        $store = $storeManager->getStore($store);
-
+        $store = $this->_storeManager->getStore($store);
         $websiteId = $store->getWebsiteId();
         if (!isset($this->_config[$websiteId])) {
             $this->_config[$websiteId] = $store->getConfig('customer/address', $store);

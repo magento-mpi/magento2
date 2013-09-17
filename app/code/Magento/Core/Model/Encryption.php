@@ -15,7 +15,7 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Encryption
+class Magento_Core_Model_Encryption implements Magento_Core_Model_EncryptionInterface
 {
     /**
      * @var Magento_Crypt

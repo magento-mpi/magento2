@@ -18,11 +18,29 @@
 class Magento_Core_Model_App_Emulation extends Magento_Object
 {
     /**
-     * Design package instance
-     *
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var Magento_Core_Model_App
      */
-    protected $_design = null;
+    protected $_app;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_Design
+     */
+    protected $_design;
+
+    /**
+     * @var Magento_Core_Model_Translate
+     */
+    protected $_translate;
+
+    /**
+     * @var Magento_Core_Helper_Translate
+     */
+    protected $_helperTranslate;
 
     /**
      * Core store config
@@ -30,20 +48,35 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig;
-    
+
     /**
-     * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_View_DesignInterface $viewDesign
+     * @param Magento_Core_Model_Design $design
+     * @param Magento_Core_Model_Translate $translate
+     * @param Magento_Core_Helper_Translate $helperTranslate
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_App $app,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_View_DesignInterface $viewDesign,
+        Magento_Core_Model_Design $design,
+        Magento_Core_Model_Translate $translate,
+        Magento_Core_Helper_Translate $helperTranslate,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        $this->_design = $design;
-        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($data);
+        $this->_app = $app;
+        $this->_storeManager = $storeManager;
+        $this->_viesDesign = $viewDesign;
+        $this->_design = $design;
+        $this->_translate = $translate;
+        $this->_helperTranslate = $helperTranslate;
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**
@@ -68,7 +101,7 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
             : $this->_emulateInlineTranslation();
         $initialDesign = $this->_emulateDesign($storeId, $area);
         // Current store needs to be changed right before locale change and after design change
-        Mage::getObjectManager()->get('Magento_Core_Model_StoreManager')->setCurrentStore($storeId);
+        $this->_storeManager->setCurrentStore($storeId);
         $initialLocaleCode = $this->_emulateLocale($storeId, $area);
 
         $initialEnvironmentInfo = new Magento_Object();
@@ -94,7 +127,7 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
         $initialDesign = $initialEnvironmentInfo->getInitialDesign();
         $this->_restoreInitialDesign($initialDesign);
         // Current store needs to be changed right before locale change and after design change
-        Mage::getObjectManager()->get('Magento_Core_Model_StoreManager')->setCurrentStore($initialDesign['store']);
+        $this->_storeManager->setCurrentStore($initialDesign['store']);
         $this->_restoreInitialLocale($initialEnvironmentInfo->getInitialLocaleCode(), $initialDesign['area']);
         return $this;
     }
@@ -120,11 +153,9 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
                 $newTranslateInline = $this->_coreStoreConfig->getConfigFlag('dev/translate_inline/active', $storeId);
             }
         }
-        /** @var $translateModel Magento_Core_Model_Translate */
-        $translateModel = Mage::getObjectManager()->get('Magento_Core_Model_Translate');
-        $initialTranslateInline = $translateModel->getTranslateInline();
-        $translateModel->setTranslateInline($newTranslateInline);
-        return $initialTranslateInline;
+        $translateInline = $this->_translate->getTranslateInline();
+        $this->_translate->setTranslateInline($newTranslateInline);
+        return $translateInline;
     }
 
     /**
@@ -137,25 +168,20 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
      */
     protected function _emulateDesign($storeId, $area = Magento_Core_Model_App_Area::AREA_FRONTEND)
     {
-        /** @var $objectManager Magento_ObjectManager */
-        $objectManager = Mage::getObjectManager();
-
-        /** @var $store Magento_Core_Model_StoreManager */
-        $store = $objectManager->get('Magento_Core_Model_StoreManager')->getStore();
-
+        $store = $this->_storeManager->getStore();
         $initialDesign = array(
-            'area' => $this->_design->getArea(),
-            'theme' => $this->_design->getDesignTheme(),
+            'area' => $this->_viesDesign->getArea(),
+            'theme' => $this->_viesDesign->getDesignTheme(),
             'store' => $store
         );
 
-        $storeTheme = $this->_design->getConfigurationDesignTheme($area, array('store' => $storeId));
-        $this->_design->setDesignTheme($storeTheme, $area);
+        $storeTheme = $this->_viesDesign->getConfigurationDesignTheme($area, array('store' => $storeId));
+        $this->_viesDesign->setDesignTheme($storeTheme, $area);
 
         if ($area == Magento_Core_Model_App_Area::AREA_FRONTEND) {
-            $designChange = $objectManager->get('Magento_Core_Model_Design')->loadChange($storeId);
+            $designChange = $this->_design->loadChange($storeId);
             if ($designChange->getData()) {
-                $this->_design->setDesignTheme($designChange->getDesign(), $area);
+                $this->_viesDesign->setDesignTheme($designChange->getDesign(), $area);
             }
         }
 
@@ -172,25 +198,26 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
      */
     protected function _emulateLocale($storeId, $area = Magento_Core_Model_App_Area::AREA_FRONTEND)
     {
-        $initialLocaleCode = Mage::app()->getLocale()->getLocaleCode();
-        $newLocaleCode = $this->_coreStoreConfig->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId);
-        Mage::app()->getLocale()->setLocaleCode($newLocaleCode);
-        Mage::getObjectManager()->get('Magento_Core_Helper_Translate')
-            ->initTranslate($newLocaleCode, $area, true);
+        $initialLocaleCode = $this->_app->getLocale()->getLocaleCode();
+        $newLocaleCode = $this->_coreStoreConfig->getConfig(
+            Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE,
+            $storeId
+        );
+        $this->_app->getLocale()->setLocaleCode($newLocaleCode);
+        $this->_helperTranslate->initTranslate($newLocaleCode, $area, true);
         return $initialLocaleCode;
     }
 
     /**
      * Restore initial inline translation state
      *
-     * @param boolean $initialTranslateInline
+     * @param bool $initialTranslate
      *
      * @return Magento_Core_Model_App_Emulation
      */
-    protected function _restoreInitialInlineTranslation($initialTranslateInline)
+    protected function _restoreInitialInlineTranslation($initialTranslate)
     {
-        $translateModel = Mage::getObjectManager()->get('Magento_Core_Model_Translate');
-        $translateModel->setTranslateInline($initialTranslateInline);
+        $this->_translate->setTranslateInline($initialTranslate);
         return $this;
     }
 
@@ -203,7 +230,7 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
      */
     protected function _restoreInitialDesign(array $initialDesign)
     {
-        $this->_design->setDesignTheme($initialDesign['theme'], $initialDesign['area']);
+        $this->_viesDesign->setDesignTheme($initialDesign['theme'], $initialDesign['area']);
         return $this;
     }
 
@@ -217,12 +244,8 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
      */
     protected function _restoreInitialLocale($initialLocaleCode, $initialArea = Magento_Core_Model_App_Area::AREA_ADMIN)
     {
-        /** @var $app Magento_Core_Model_App */
-        $app = Mage::getObjectManager()->get('Magento_Core_Model_App');
-
-        $app->getLocale()->setLocaleCode($initialLocaleCode);
-        Mage::getObjectManager()->get('Magento_Core_Helper_Translate')
-            ->initTranslate($initialLocaleCode, $initialArea, true);
+        $this->_app->getLocale()->setLocaleCode($initialLocaleCode);
+        $this->_helperTranslate->initTranslate($initialLocaleCode, $initialArea, true);
         return $this;
     }
 }

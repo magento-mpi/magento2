@@ -40,16 +40,24 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Core_Model_Layout
+     */
+    protected $_layout;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Layout $layout
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Layout $layout,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_layout = $layout;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
@@ -107,7 +115,7 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
     {
         if (is_string($block)) {
             if (class_exists($block)) {
-                $block = Mage::getObjectManager()->create($block);
+                $block = $this->_layout->createBlock($block);
             }
         }
         if (!$block instanceof Magento_Core_Block_Abstract) {

@@ -16,30 +16,26 @@ class Magento_Install_Block_Begin extends Magento_Install_Block_Abstract
     protected $_template = 'begin.phtml';
 
     /**
-     * @var Magento_Core_Model_Config
+     * Eula file name
+     *
+     * @var string
      */
-    protected $_coreConfig;
+    protected $_eulaFile;
 
     /**
-     * Constructor
-     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
+     * @param string|null $eulaFile
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Config $coreConfig,
-        array $data = array()
+        array $data = array(),
+        $eulaFile = null
     ) {
-        parent::__construct(
-            $coreData,
-            $context,
-            $data
-        );
-        $this->_coreConfig = $coreConfig;
+        $this->_eulaFile = $eulaFile;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -59,6 +55,6 @@ class Magento_Install_Block_Begin extends Magento_Install_Block_Abstract
      */
     public function getLicenseHtml()
     {
-        return $this->_filesystem->read(BP . DS . (string)$this->_coreConfig->getNode('install/eula_file'));
+        return ($this->_eulaFile) ? $this->_filesystem->read(BP . DS . $this->_eulaFile) : '';
     }
 }

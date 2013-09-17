@@ -41,6 +41,7 @@ class Magento_Backend_Model_Locale extends Magento_Core_Model_Locale
      * @param Magento_Backend_Model_Locale_Manager $localeManager
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Model_Locale_Validator $localeValidator
+     * @param Magento_Core_Helper_Translate $translate
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param string|null $locale
      */
@@ -50,6 +51,7 @@ class Magento_Backend_Model_Locale extends Magento_Core_Model_Locale
         Magento_Backend_Model_Locale_Manager $localeManager,
         Magento_Core_Controller_Request_Http $request,
         Magento_Core_Model_Locale_Validator $localeValidator,
+        Magento_Core_Helper_Translate $translate,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         $locale = null
     ) {
@@ -57,8 +59,7 @@ class Magento_Backend_Model_Locale extends Magento_Core_Model_Locale
         $this->_localeManager = $localeManager;
         $this->_request = $request;
         $this->_localeValidator = $localeValidator;
-
-        parent::__construct($eventManager, $coreStoreConfig, $locale);
+        parent::__construct($eventManager, $translate, $coreStoreConfig, $locale);
     }
 
     /**

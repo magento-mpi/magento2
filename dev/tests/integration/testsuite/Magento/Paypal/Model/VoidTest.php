@@ -25,7 +25,7 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
         $coreStoreConfig = $objectManager->get('Magento_Core_Model_Store_Config');
 
         /** @var $order Magento_Sales_Model_Order */
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = $objectManager->create('Magento_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
         $payment = $order->getPayment();
 

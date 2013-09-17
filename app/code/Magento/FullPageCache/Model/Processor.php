@@ -129,6 +129,11 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Core_Model_Cache_TypeListInterface
+     */
+    protected $_typeList;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -154,6 +159,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
      * @param Magento_FullPageCache_Model_Store_Identifier $storeIdentifier
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Cache_TypeListInterface $typeList
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      */
@@ -171,6 +177,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
         Magento_FullPageCache_Model_Store_Identifier $storeIdentifier,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Cache_TypeListInterface $typeList,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig
     ) {
@@ -188,6 +195,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
         $this->_metadata = $metadata;
         $this->_storeIdentifier = $storeIdentifier;
         $this->_storeManager = $storeManager;
+        $this->_typeList = $typeList;
         $this->_requestTags = array(self::CACHE_TAG);
         $this->_coreConfig = $coreConfig;
     }
@@ -499,9 +507,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
                 $maxSizeInBytes = $this->_coreStoreConfig->getConfig(self::XML_PATH_CACHE_MAX_SIZE) * 1024 * 1024;
 
                 if ($currentStorageSize >= $maxSizeInBytes) {
-                    /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-                    $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
-                    $cacheTypeList->invalidate('full_page');
+                    $this->_typeList->invalidate('full_page');
                     return $this;
                 }
 

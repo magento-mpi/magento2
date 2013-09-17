@@ -110,6 +110,11 @@ class Magento_FullPageCache_Model_Observer
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Core_Model_Cache_TypeListInterface
+     */
+    protected $_typeList;
+
+    /**
      * @param Magento_Core_Helper_Url $coreUrl
      * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_Catalog_Helper_Product_Compare $ctlgProdCompare
@@ -122,6 +127,7 @@ class Magento_FullPageCache_Model_Observer
      * @param Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction
      * @param Magento_FullPageCache_Model_DesignPackage_Rules $designRules
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Cache_TypeListInterface $typeList
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
@@ -137,6 +143,7 @@ class Magento_FullPageCache_Model_Observer
         Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction,
         Magento_FullPageCache_Model_DesignPackage_Rules $designRules,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Cache_TypeListInterface $typeList,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -153,6 +160,7 @@ class Magento_FullPageCache_Model_Observer
         $this->_requestIdentifier = $_requestIdentifier;
         $this->_designRules = $designRules;
         $this->_isEnabled = $this->_cacheState->isEnabled('full_page');
+        $this->_typeList = $typeList;
     }
 
     /**
@@ -344,9 +352,7 @@ class Magento_FullPageCache_Model_Observer
      */
     public function invalidateCache()
     {
-        /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-        $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
-        $cacheTypeList->invalidate('full_page');
+        $this->_typeList->invalidate('full_page');
         return $this;
     }
 
