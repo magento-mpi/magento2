@@ -100,6 +100,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      * @param Magento_Widget_Model_Resource_Widget_Instance $resource
      * @param Magento_Widget_Model_Widget $widget
      * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Cache_TypeListInterface $list
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */

@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Widget_Model_Resource_Setup */
+
+/** @var $this Magento_Widget_Model_Resource_Setup */
+$installer = $this->getMigrationModel();
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('widget_instance', 'instance_type',
