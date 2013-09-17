@@ -98,26 +98,39 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
     protected $_customizableContainerTypes = array('YOUR_PACKAGING');
 
     /**
-     * Factory for Magento_Usa_Model_Simplexml_Element
-     *
-     * @var Magento_Usa_Model_Simplexml_ElementFactory
-     */
-    protected $_simpleXmlElementFactory;
-
-    /**
      * Fedex constructor
      *
-     * @param Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
+     * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
+     * @param Magento_Shipping_Model_Rate_ResultFactory $rateFactory
+     * @param Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory
+     * @param Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory
+     * @param Magento_Shipping_Model_Tracking_ResultFactory $trackFactory
+     * @param Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory
+     * @param Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory
+     * @param Magento_Directory_Model_RegionFactory $regionFactory
+     * @param Magento_Directory_Model_CountryFactory $countryFactory
+     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
      * @param Magento_Directory_Helper_Data $directoryData
      * @param array $data
      */
     public function __construct(
-        Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory,
+        Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
+        Magento_Shipping_Model_Rate_ResultFactory $rateFactory,
+        Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory,
+        Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory,
+        Magento_Shipping_Model_Tracking_ResultFactory $trackFactory,
+        Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory,
+        Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory,
+        Magento_Directory_Model_RegionFactory $regionFactory,
+        Magento_Directory_Model_CountryFactory $countryFactory,
+        Magento_Directory_Model_CurrencyFactory $currencyFactory,
         Magento_Directory_Helper_Data $directoryData,
         array $data = array()
     ) {
-        $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
-        parent::__construct($directoryData, $data);
+        parent::__construct(
+            $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory, $trackFactory, $trackErrorFactory,
+            $trackStatusFactory, $regionFactory, $countryFactory, $currencyFactory, $directoryData, $data
+        );
         $wsdlBasePath = Mage::getModuleDir('etc', 'Magento_Usa')  . DS . 'wsdl' . DS . 'FedEx' . DS;
         $this->_shipServiceWsdl = $wsdlBasePath . 'ShipService_v10.wsdl';
         $this->_rateServiceWsdl = $wsdlBasePath . 'RateService_v10.wsdl';
@@ -237,7 +250,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
                 $request->getStoreId()
             );
         }
-        $r->setOrigCountry(Mage::getModel('Magento_Directory_Model_Country')->load($origCountry)->getIso2Code());
+        $r->setOrigCountry($this->_countryFactory->create()->load($origCountry)->getIso2Code());
 
         if ($request->getOrigPostcode()) {
             $r->setOrigPostal($request->getOrigPostcode());
@@ -253,7 +266,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
         } else {
             $destCountry = self::USA_COUNTRY_ID;
         }
-        $r->setDestCountry(Mage::getModel('Magento_Directory_Model_Country')->load($destCountry)->getIso2Code());
+        $r->setDestCountry($this->_countryFactory->create()->load($destCountry)->getIso2Code());
 
         if ($request->getDestPostcode()) {
             $r->setDestPostal($request->getDestPostcode());
@@ -431,7 +444,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
      */
     protected function _getQuotes()
     {
-        $this->_result = Mage::getModel('Magento_Shipping_Model_Rate_Result');
+        $this->_result = $this->_rateFactory->create();
         // make separate request for Smart Post method
         $allowedMethods = explode(',', $this->getConfigData('allowed_methods'));
         if (in_array(self::RATE_REQUEST_SMARTPOST, $allowedMethods)) {
@@ -490,9 +503,9 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
             }
         }
 
-        $result = Mage::getModel('Magento_Shipping_Model_Rate_Result');
+        $result = $this->_rateFactory->create();
         if (empty($priceArr)) {
-            $error = Mage::getModel('Magento_Shipping_Model_Rate_Result_Error');
+            $error = $this->_rateErrorFactory->create();
             $error->setCarrier($this->_code);
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($errorTitle);
@@ -500,7 +513,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
             $result->append($error);
         } else {
             foreach ($priceArr as $method=>$price) {
-                $rate = Mage::getModel('Magento_Shipping_Model_Rate_Result_Method');
+                $rate = $this->_rateMethodFactory->create();
                 $rate->setCarrier($this->_code);
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
@@ -570,7 +583,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
     protected function _getXmlQuotes()
     {
         $r = $this->_rawRequest;
-        $xml = $this->_simpleXmlElementFactory->create(
+        $xml = $this->_xmlElFactory->create(
             array('<?xml version = "1.0" encoding = "UTF-8"?><FDXRateAvailableServicesRequest/>')
         );
 
@@ -688,16 +701,16 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
             $errorTitle = 'Unable to retrieve tracking';
         }
 
-        $result = Mage::getModel('Magento_Shipping_Model_Rate_Result');
+        $result = $this->_rateFactory->create();
         if (empty($priceArr)) {
-            $error = Mage::getModel('Magento_Shipping_Model_Rate_Result_Error');
+            $error = $this->_rateErrorFactory->create();
             $error->setCarrier('fedex');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
         } else {
             foreach ($priceArr as $method=>$price) {
-                $rate = Mage::getModel('Magento_Shipping_Model_Rate_Result_Method');
+                $rate = $this->_rateMethodFactory->create();
                 $rate->setCarrier('fedex');
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
@@ -1104,18 +1117,18 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
         }
 
         if (!$this->_result) {
-            $this->_result = Mage::getModel('Magento_Shipping_Model_Tracking_Result');
+            $this->_result = $this->_trackFactory->create();
         }
 
         if (isset($resultArray)) {
-            $tracking = Mage::getModel('Magento_Shipping_Model_Tracking_Result_Status');
+            $tracking = $this->_trackStatusFactory->create();
             $tracking->setCarrier('fedex');
             $tracking->setCarrierTitle($this->getConfigData('title'));
             $tracking->setTracking($trackingValue);
             $tracking->addData($resultArray);
             $this->_result->append($tracking);
         } else {
-           $error = Mage::getModel('Magento_Shipping_Model_Tracking_Result_Error');
+           $error = $this->_trackErrorFactory->create();
            $error->setCarrier('fedex');
            $error->setCarrierTitle($this->getConfigData('title'));
            $error->setTracking($trackingValue);
