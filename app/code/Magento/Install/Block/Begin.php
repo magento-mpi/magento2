@@ -32,8 +32,8 @@ class Magento_Install_Block_Begin extends Magento_Install_Block_Abstract
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array(),
-        $eulaFile = null)
-    {
+        $eulaFile = null
+    ) {
         $this->_eulaFile = $eulaFile;
         parent::__construct($coreData, $context, $data);
     }
