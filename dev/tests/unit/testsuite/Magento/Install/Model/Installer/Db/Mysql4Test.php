@@ -74,12 +74,12 @@ class Magento_Install_Model_Installer_Db_Mysql4Test extends PHPUnit_Framework_Te
             ),
             'full extensions' => array(
                 array('db_model' => 'mysql'),
-                array('mysql' => array('pdo_ext1' => 1, 'pdo_ext2' => array(), 'pdo_ext3' => 0)),
-                array('pdo_ext1', 'pdo_ext2', 'pdo_ext3')
+                array('mysql' => array('pdo' => 'pdo_ext1', 'pdo_ext2', 'pdo2' => 'pdo_ext3')),
+                array('pdo' => 'pdo_ext1', 'pdo_ext2', 'pdo2' => 'pdo_ext3')
             ),
             'empty extensions' => array(
                 array('db_model' => 'mysql'),
-                array('mysql' => array(), 'mysql2' => array('pdo_ext1' => 1, 'pdo_ext2' => 1, )),
+                array('mysql' => array(), 'mysql2' => array('pdo_ext1', 'pdo_ext2')),
                 array()
             )
         );

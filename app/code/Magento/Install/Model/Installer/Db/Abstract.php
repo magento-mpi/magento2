@@ -155,12 +155,7 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
      */
     public function getRequiredExtensions()
     {
-        $extensions = array();
-        $configExt = isset($this->_dbExtensions[$this->getModel()]) ? $this->_dbExtensions[$this->getModel()] : array();
-        foreach (array_keys($configExt) as $name) {
-            $extensions[] = $name;
-        }
-        return $extensions;
+        return isset($this->_dbExtensions[$this->getModel()]) ? $this->_dbExtensions[$this->getModel()] : array();
     }
 
     /**

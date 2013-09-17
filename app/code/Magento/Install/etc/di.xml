@@ -33,7 +33,7 @@
         <param name="dbExtensions">
             <value>
                 <mysql4>
-                    <pdo_mysql/>
+                    <pdo>pdo_mysql</pdo>
                 </mysql4>
             </value>
         </param>
