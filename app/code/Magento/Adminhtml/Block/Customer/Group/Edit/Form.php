@@ -41,7 +41,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'label' => __('Group Name'),
                 'title' => __('Group Name'),
                 'note'  => __('Maximum length must be less then %1 symbols',
-                    Magento_Customer_Model_Group::GROUP_CODE_MAX_LENGTH),
+                    \Magento\Customer\Model\Group::GROUP_CODE_MAX_LENGTH),
                 'class' => $validateClass,
                 'required' => true,
             )
