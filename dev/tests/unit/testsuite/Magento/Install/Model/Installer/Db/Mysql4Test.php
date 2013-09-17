@@ -26,9 +26,8 @@ class Magento_Install_Model_Installer_Db_Mysql4Test extends PHPUnit_Framework_Te
         $resourceMock->expects($this->once())->method('createConnection')->will($this->returnValue($connectionMock));
 
         $connectionMock->expects($this->once())->method('fetchPairs')->will($this->returnValue($supportedEngines));
-        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
 
-        $installer = new Magento_Install_Model_Installer_Db_Mysql4($resourceMock, $coreConfig);
+        $installer = new Magento_Install_Model_Installer_Db_Mysql4($resourceMock);
         $this->assertEquals($expectedResult, $installer->supportEngine());
     }
 
