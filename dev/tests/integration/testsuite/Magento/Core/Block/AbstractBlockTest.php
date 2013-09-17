@@ -233,7 +233,7 @@ class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
         // With layout
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = Mage::getSingleton('Magento\Core\Model\Layout');
-        $child = $layout->createBlock('Magento_Core_Block_Text', $childName);
+        $child = $layout->createBlock('Magento\Core\Block\Text', $childName);
         $layout->addBlock($this->_block, $parentName);
 
         $this->_block->setChild($childAlias, $child);
