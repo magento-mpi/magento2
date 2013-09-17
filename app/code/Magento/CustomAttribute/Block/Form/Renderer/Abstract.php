@@ -47,6 +47,27 @@ abstract class Magento_CustomAttribute_Block_Form_Renderer_Abstract extends Mage
     protected $_fieldNameFormat = '%1$s';
 
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_locale = $locale;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Set attribute instance
      *
      * @param Magento_Eav_Model_Attribute $attribute
@@ -101,7 +122,7 @@ abstract class Magento_CustomAttribute_Block_Form_Renderer_Abstract extends Mage
         if ($filterCode) {
             $filterClass = 'Magento_Data_Form_Filter_' . ucfirst($filterCode);
             if ($filterCode == 'date') {
-                $format = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+                $format = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
                 $filter = new $filterClass($format);
             } else {
                 $filter = new $filterClass();

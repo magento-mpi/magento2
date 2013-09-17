@@ -15,6 +15,20 @@
  */
 class Magento_Directory_Model_Observer
 {
+    /**
+     * @var Magento_Directory_Model_Currency_Import_Factory
+     */
+    protected $_importFactory;
+
+    /**
+     * @param Magento_Directory_Model_Currency_Import_Factory $importFactory
+     */
+    function __construct(
+        Magento_Directory_Model_Currency_Import_Factory $importFactory
+    ) {
+        $this->_importFactory = $importFactory;
+    }
+
     const CRON_STRING_PATH = 'crontab/jobs/currency_rates_update/schedule/cron_expr';
     const IMPORT_ENABLE = 'currency/import/enabled';
     const IMPORT_SERVICE = 'currency/import/service';
@@ -36,9 +50,7 @@ class Magento_Directory_Model_Observer
         }
 
         try {
-            $importModel = Mage::getModel(
-                Mage::getConfig()->getNode('global/currency/import/services/' . $service . '/model')->asArray()
-            );
+            $importModel = $this->_importFactory->create($service);
         } catch (Exception $e) {
             $importWarnings[] = __('FATAL ERROR:') . ' ' . Mage::throwException(__("We can't initialize the import model."));
         }

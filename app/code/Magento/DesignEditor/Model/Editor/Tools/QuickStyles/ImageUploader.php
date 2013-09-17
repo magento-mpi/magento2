@@ -121,7 +121,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends 
 
         if (!$uploader->save($this->getStoragePath())) {
             /** @todo add translator */
-            Mage::throwException('Cannot upload file.');
+            throw new Magento_Core_Exception('Cannot upload file.');
         }
         $result['css_path'] = implode(
             '/', array('..', self::PATH_PREFIX_QUICK_STYLE, $uploader->getUploadedFileName())

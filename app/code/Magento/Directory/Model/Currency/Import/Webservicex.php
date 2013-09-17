@@ -10,15 +10,10 @@
 
 /**
  * Currency rate import model (From www.webservicex.net)
- *
- * @category   Magento
- * @package    Magento_Directory
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Directory_Model_Currency_Import_Webservicex extends Magento_Directory_Model_Currency_Import_Abstract
 {
     protected $_url = 'http://www.webservicex.net/CurrencyConvertor.asmx/ConversionRate?FromCurrency={{CURRENCY_FROM}}&ToCurrency={{CURRENCY_TO}}';
-    protected $_messages = array();
 
      /**
      * HTTP client
