@@ -7,21 +7,29 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Index_Model_Indexer_Config implements Magento_Index_Model_Indexer_ConfigInterface
+class Magento_Index_Model_Indexer_Config extends Magento_Config_Data_Scoped
+    implements Magento_Index_Model_Indexer_ConfigInterface
 {
     /**
-     * Indexer configuration data container
+     * Scope priority loading scheme
      *
-     * @var Magento_Index_Model_Indexer_Config_Data
+     * @var array
      */
-    protected $_dataContainer;
+    protected $_scopePriorityScheme = array('global');
 
     /**
-     * @param Magento_Index_Model_Indexer_Config_Data $dataContainer
+     * @param Magento_Index_Model_Indexer_Config_Reader $reader
+     * @param Magento_Config_ScopeInterface $configScope
+     * @param Magento_Config_CacheInterface $cache
+     * @param string $cacheId
      */
-    public function __construct(Magento_Index_Model_Indexer_Config_Data $dataContainer)
-    {
-        $this->_dataContainer = $dataContainer;
+    public function __construct(
+        Magento_Index_Model_Indexer_Config_Reader $reader,
+        Magento_Config_ScopeInterface $configScope,
+        Magento_Config_CacheInterface $cache,
+        $cacheId = 'indexerConfigCache'
+    ) {
+        parent::__construct($reader, $configScope, $cache, $cacheId);
     }
 
     /**
@@ -32,7 +40,7 @@ class Magento_Index_Model_Indexer_Config implements Magento_Index_Model_Indexer_
      */
     public function getIndexer($name)
     {
-        return $this->_dataContainer->get($name, array());
+        return $this->get($name, array());
     }
 
     /**
@@ -42,6 +50,6 @@ class Magento_Index_Model_Indexer_Config implements Magento_Index_Model_Indexer_
      */
     public function getAll()
     {
-        return $this->_dataContainer->get();
+        return $this->get();
     }
 }
