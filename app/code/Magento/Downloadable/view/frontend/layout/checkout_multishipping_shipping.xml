@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_multishipping_shipping">
-        <reference name="checkout_billing_items">
-            <block class="Magento_Downloadable_Block_Checkout_Cart_Item_Renderer" as="downloadable" template="checkout/multishipping/item/downloadable.phtml"/>
-        </reference>
-    </handle>
+    <reference name="checkout_billing_items">
+        <block class="Magento_Downloadable_Block_Checkout_Cart_Item_Renderer" as="downloadable" template="checkout/multishipping/item/downloadable.phtml"/>
+    </reference>
 </layout>

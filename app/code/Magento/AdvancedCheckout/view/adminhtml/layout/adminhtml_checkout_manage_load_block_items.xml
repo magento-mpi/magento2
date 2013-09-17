@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_checkout_manage_load_block_items">
-        <reference name="content">
-            <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items" name="items" template="manage/items.phtml"/>
-        </reference>
-    </handle>
+    <reference name="content">
+        <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items" name="items" template="manage/items.phtml"/>
+    </reference>
 </layout>

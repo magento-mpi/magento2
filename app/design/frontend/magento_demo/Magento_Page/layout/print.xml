@@ -8,30 +8,28 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="print">
-        <reference name="head">
-            <block class="Magento_Page_Block_Html_Head_Css" name="css-styles-css">
-                <arguments>
-                    <argument name="file" xsi:type="string">css/styles.css</argument>
-                </arguments>
-            </block>
-            <block class="Magento_Page_Block_Html_Head_Css" name="css-styles-ie-css">
-                <arguments>
-                    <argument name="file" xsi:type="string">css/styles-ie.css</argument>
-                    <argument name="properties" xsi:type="array">
-                        <item name="attributes" xsi:type="string"/>
-                        <item name="ie_condition" xsi:type="string">lt IE 8</item>
-                    </argument>
-                </arguments>
-            </block>
-            <block class="Magento_Page_Block_Html_Head_Css" name="css-print-css">
-                <arguments>
-                    <argument name="file" xsi:type="string">css/print.css</argument>
-                    <argument name="properties" xsi:type="array">
-                        <item name="attributes" xsi:type="string">media="print"</item>
-                    </argument>
-                </arguments>
-            </block>
-        </reference>
-    </handle>
+    <reference name="head">
+        <block class="Magento_Page_Block_Html_Head_Css" name="css-styles-css">
+            <arguments>
+                <argument name="file" xsi:type="string">css/styles.css</argument>
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Css" name="css-styles-ie-css">
+            <arguments>
+                <argument name="file" xsi:type="string">css/styles-ie.css</argument>
+                <argument name="properties" xsi:type="array">
+                    <item name="attributes" xsi:type="string"/>
+                    <item name="ie_condition" xsi:type="string">lt IE 8</item>
+                </argument>
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Css" name="css-print-css">
+            <arguments>
+                <argument name="file" xsi:type="string">css/print.css</argument>
+                <argument name="properties" xsi:type="array">
+                    <item name="attributes" xsi:type="string">media="print"</item>
+                </argument>
+            </arguments>
+        </block>
+    </reference>
 </layout>
