@@ -26,6 +26,11 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
     protected $_themeContext;
 
     /**
+     * @var Magento_Theme_Model_Config_Customization
+     */
+    protected $_themeConfig;
+
+    /**
      * Set of templates to render
      *
      * Upper is rendered first and is inserted into next using <?php echo $this->getHtml() ?>
@@ -38,17 +43,20 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
     );
 
     /**
+     * @param Magento_Theme_Model_Config_Customization $themeConfig
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_DesignEditor_Model_Theme_Context $themeContext
      * @param array $data
      */
     public function __construct(
+        Magento_Theme_Model_Config_Customization $themeConfig,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_DesignEditor_Model_Theme_Context $themeContext,
         array $data = array()
     ) {
+        $this->_themeConfig = $themeConfig;
         $this->_themeContext = $themeContext;
         parent::__construct($coreData, $context, $data);
     }
@@ -101,7 +109,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
      */
     public function getStoresList()
     {
-        $stores = Mage::getObjectManager()->get('Magento_Theme_Model_Config_Customization')->getStoresByThemes();
+        $stores = $this->_themeConfig->getStoresByThemes();
         return isset($stores[$this->_themeContext->getEditableTheme()->getId()])
             ? $stores[$this->_themeContext->getEditableTheme()->getId()]
             : null;
