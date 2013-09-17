@@ -52,11 +52,11 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currencysymbol extends 
 
         try {
             Mage::getModel('Magento_CurrencySymbol_Model_System_Currencysymbol')->setCurrencySymbolsData($symbolsDataArray);
-            Mage::getSingleton('Magento_Connect_Model_Session')->addSuccess(
+            $this->_objectManager->get('Magento_Connect_Model_Session')->addSuccess(
                 __('The custom currency symbols were applied.')
             );
         } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+            $this->_objectManager->get('Magento_Backend_Model_Session')->addError($e->getMessage());
         }
 
         $this->_redirectReferer();
