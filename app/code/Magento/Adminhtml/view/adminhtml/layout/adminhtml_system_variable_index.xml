@@ -8,10 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_system_variable_index">
-        <update handle="adminhtml_system_variable_grid_block"/>
-        <reference name="content">
-            <block class="Magento_Adminhtml_Block_System_Variable" name="adminhtml.system.variable.grid.container"/>
-        </reference>
-    </handle>
+    <update handle="adminhtml_system_variable_grid_block"/>
+    <reference name="content">
+        <block class="Magento_Adminhtml_Block_System_Variable" name="adminhtml.system.variable.grid.container"/>
+    </reference>
 </layout>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="page" parent="root_page_with_imported_containers" label="Child Page with Inherited Imported Containers"/>

@@ -8,8 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_report_invitation_exportexcel">
-        <update handle="adminhtml_report_invitation_grid"/>
-        <container name="adminhtml.report.grid.container" label="Report Invitations General Container"/>
-    </handle>
+    <update handle="adminhtml_report_invitation_grid"/>
+    <container name="adminhtml.report.grid.container" label="Report Invitations General Container"/>
 </layout>

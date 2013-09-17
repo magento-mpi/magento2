@@ -35,11 +35,14 @@ class Magento_TestFramework_CodingStandard_Tool_CopyPasteDetector
     /**
      * Whether the tool can be ran on the current environment
      *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     *
      * @return bool
      */
     public function canRun()
     {
-        return (bool)@include 'SebastianBergmann/PHPCPD/autoload.php';
+        exec('phpcpd --version', $output, $exitCode);
+        return $exitCode === 0;
     }
 
     /**
@@ -68,11 +71,10 @@ class Magento_TestFramework_CodingStandard_Tool_CopyPasteDetector
             . ' --log-pmd ' . escapeshellarg($this->_reportFile)
             . ' --min-lines 13'
             . $blackListStr
-            . ' ' .realpath(__DIR__ . '/../../../../../../../../');
+            . ' ' .BP;
 
         exec($command, $output, $exitCode);
 
         return !(bool)$exitCode;
     }
-
 }

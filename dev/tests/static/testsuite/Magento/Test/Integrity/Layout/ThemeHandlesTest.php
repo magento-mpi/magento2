@@ -10,22 +10,21 @@
 class Magento_Test_Integrity_Layout_ThemeHandlesTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var array|bool
+     * @var array|null
      */
-    protected $_codeFrontendHandles = false;
+    protected $_baseFrontendHandles = null;
 
     /**
-     * Check that all handles declared in a theme layout are declared in code
+     * Check that all handles declared in a theme layout are declared in base layouts
      *
      * @param string $handleName
      * @dataProvider designHandlesDataProvider
      */
-
     public function testIsDesignHandleDeclaredInCode($handleName)
     {
-        $this->assertArrayHasKey(
+        $this->assertContains(
             $handleName,
-            $this->_getCodeFrontendHandles(),
+            $this->_getBaseFrontendHandles(),
             "Handle '{$handleName}' is not declared in any module.'"
         );
     }
@@ -38,53 +37,46 @@ class Magento_Test_Integrity_Layout_ThemeHandlesTest extends PHPUnit_Framework_T
         $files = Magento_TestFramework_Utility_Files::init()->getLayoutFiles(array(
             'include_code' => false,
             'area' => 'frontend'
-        ));
-
-        $handles = array();
-        foreach (array_keys($files) as $path) {
-            $xml = simplexml_load_file($path);
-            $handleNodes = $xml->xpath('/layout/*') ?: array();
-            foreach ($handleNodes as $handleNode) {
-                $handles[] = $handleNode->getName();
-            }
-        }
-
+        ), false);
+        $handles = $this->_extractLayoutHandles($files);
         $result = array();
-        foreach (array_unique($handles) as $handleName) {
-            $result[] = array($handleName);
+        foreach ($handles as $handleName) {
+            $result[$handleName] = array($handleName);
         }
         return $result;
     }
 
     /**
-     * Returns information about handles that are declared in code for frontend
+     * Return layout handles that are declared in the base layouts for frontend
      *
      * @return array
      */
-    protected function _getCodeFrontendHandles()
+    protected function _getBaseFrontendHandles()
     {
-        if ($this->_codeFrontendHandles) {
-            return $this->_codeFrontendHandles;
+        if ($this->_baseFrontendHandles === null) {
+            $files = Magento_TestFramework_Utility_Files::init()->getLayoutFiles(array(
+                'include_design' => false,
+                'area' => 'frontend'
+            ), false);
+            $this->_baseFrontendHandles = $this->_extractLayoutHandles($files);
         }
+        return $this->_baseFrontendHandles;
+    }
 
-        $files = Magento_TestFramework_Utility_Files::init()->getLayoutFiles(array(
-            'include_design' => false,
-            'area' => 'frontend'
-        ));
-        foreach (array_keys($files) as $path) {
-            $xml = simplexml_load_file($path);
-            $handleNodes = $xml->xpath('/layout/*') ?: array();
-            foreach ($handleNodes as $handleNode) {
-                $isLabel = $handleNode->xpath('label');
-                if (isset($handles[$handleNode->getName()]['label_count'])) {
-                    $handles[$handleNode->getName()]['label_count'] += (int)$isLabel;
-                } else {
-                    $handles[$handleNode->getName()]['label_count'] = (int)$isLabel;
-                }
-            }
+    /**
+     * Retrieve the list of unique layout handle names from the layout files
+     *
+     * @param array $files
+     * @return array
+     */
+    protected function _extractLayoutHandles(array $files)
+    {
+        $result = array();
+        foreach ($files as $filename) {
+            $handleName = basename($filename, '.xml');
+            $result[] = $handleName;
         }
-
-        $this->_codeFrontendHandles = $handles;
-        return $this->_codeFrontendHandles;
+        $result = array_unique($result);
+        return $result;
     }
 }

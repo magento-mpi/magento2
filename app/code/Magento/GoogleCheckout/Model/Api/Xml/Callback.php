@@ -72,9 +72,6 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
         // Retrieve the XML sent in the HTTP POST request to the ResponseHandler
         $xmlResponse = isset($GLOBALS['HTTP_RAW_POST_DATA']) ?
             $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
-        if (get_magic_quotes_gpc()) {
-            $xmlResponse = stripslashes($xmlResponse);
-        }
 
         $debugData = array('request' => $xmlResponse, 'dir' => 'in');
 

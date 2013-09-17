@@ -8,48 +8,46 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_system_design_editor_firstentrance">
-        <reference name="head">
-            <block class="Magento_Page_Block_Html_Head_Script" name="magento-designeditor-js-dialog-js">
-                <arguments>
-                    <argument name="file" xsi:type="string">Magento_DesignEditor::js/dialog.js</argument>
-                </arguments>
+    <reference name="head">
+        <block class="Magento_Page_Block_Html_Head_Script" name="magento-designeditor-js-dialog-js">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/dialog.js</argument>
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Script" name="magento-designeditor-js-infinitescroll-js">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/infinitescroll.js</argument>
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Script" name="magento-designeditor-js-theme-selector-js">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/theme-selector.js</argument>
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Script" name="magento-designeditor-js-theme-assign-js">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/theme-assign.js</argument>
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Script" name="magento-designeditor-js-theme-edit-js">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/theme-edit.js</argument>
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Css" name="magento-designeditor-css-styles-css">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::css/styles.css</argument>
+            </arguments>
+        </block>
+    </reference>
+    <reference name="content">
+        <block class="Magento_Backend_Block_Template" name="available.theme.list.container" as="theme_container" template="Magento_DesignEditor::theme/selector/first_entrance.phtml">
+            <block class="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available" name="available.theme.list" template="Magento_DesignEditor::theme/list/available.phtml">
+                <block class="Magento_DesignEditor_Block_Adminhtml_Theme" name="design.editor.theme" as="theme" template="Magento_DesignEditor::theme/available.phtml"/>
             </block>
-            <block class="Magento_Page_Block_Html_Head_Script" name="magento-designeditor-js-infinitescroll-js">
-                <arguments>
-                    <argument name="file" xsi:type="string">Magento_DesignEditor::js/infinitescroll.js</argument>
-                </arguments>
-            </block>
-            <block class="Magento_Page_Block_Html_Head_Script" name="magento-designeditor-js-theme-selector-js">
-                <arguments>
-                    <argument name="file" xsi:type="string">Magento_DesignEditor::js/theme-selector.js</argument>
-                </arguments>
-            </block>
-            <block class="Magento_Page_Block_Html_Head_Script" name="magento-designeditor-js-theme-assign-js">
-                <arguments>
-                    <argument name="file" xsi:type="string">Magento_DesignEditor::js/theme-assign.js</argument>
-                </arguments>
-            </block>
-            <block class="Magento_Page_Block_Html_Head_Script" name="magento-designeditor-js-theme-edit-js">
-                <arguments>
-                    <argument name="file" xsi:type="string">Magento_DesignEditor::js/theme-edit.js</argument>
-                </arguments>
-            </block>
-            <block class="Magento_Page_Block_Html_Head_Css" name="magento-designeditor-css-styles-css">
-                <arguments>
-                    <argument name="file" xsi:type="string">Magento_DesignEditor::css/styles.css</argument>
-                </arguments>
-            </block>
-        </reference>
-        <reference name="content">
-            <block class="Magento_Backend_Block_Template" name="available.theme.list.container" as="theme_container" template="Magento_DesignEditor::theme/selector/first_entrance.phtml">
-                <block class="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available" name="available.theme.list" template="Magento_DesignEditor::theme/list/available.phtml">
-                    <block class="Magento_DesignEditor_Block_Adminhtml_Theme" name="design.editor.theme" as="theme" template="Magento_DesignEditor::theme/available.phtml"/>
-                </block>
-            </block>
-            <block class="Magento_Backend_Block_Template" name="theme.dialog" template="Magento_DesignEditor::dialog.phtml"/>
-            <block class="Magento_Backend_Block_Template" name="theme.dialog.edit" template="Magento_DesignEditor::theme/selector/theme_edit.phtml"/>
-            <block class="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView" name="theme.selector.storeview" template="Magento_DesignEditor::theme/selector/storeview.phtml"/>
-        </reference>
-    </handle>
+        </block>
+        <block class="Magento_Backend_Block_Template" name="theme.dialog" template="Magento_DesignEditor::dialog.phtml"/>
+        <block class="Magento_Backend_Block_Template" name="theme.dialog.edit" template="Magento_DesignEditor::theme/selector/theme_edit.phtml"/>
+        <block class="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView" name="theme.selector.storeview" template="Magento_DesignEditor::theme/selector/storeview.phtml"/>
+    </reference>
 </layout>

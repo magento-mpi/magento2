@@ -8,12 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_catalog_product_new">
-        <reference name="product_tabs">
-            <action method="addTab">
-                <argument name="name" xsi:type="string">google-experiment</argument>
-                <argument name="block" xsi:type="string">Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimizer</argument>
-            </action>
-        </reference>
-    </handle>
+    <reference name="product_tabs">
+        <action method="addTab">
+            <argument name="name" xsi:type="string">google-experiment</argument>
+            <argument name="block" xsi:type="string">Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimizer</argument>
+        </action>
+    </reference>
 </layout>
