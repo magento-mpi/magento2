@@ -11,6 +11,8 @@
 /**
  * Configuration for reports
  */
+namespace Magento\Reports\Model;
+
 class Config extends \Magento\Object
 {
     public function getGlobalConfig()

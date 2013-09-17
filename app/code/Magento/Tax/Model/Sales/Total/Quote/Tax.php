@@ -65,7 +65,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     ) {
         $this->setCode('tax');
         $this->_taxData = $taxData;
-        $this->_calculator  = \Mage::getSingleton('Magento\Tax\Model\Calculatio');
+        $this->_calculator  = \Mage::getSingleton('Magento\Tax\Model\Calculation');
         $this->_config      = \Mage::getSingleton('Magento\Tax\Model\Config');
     }
 

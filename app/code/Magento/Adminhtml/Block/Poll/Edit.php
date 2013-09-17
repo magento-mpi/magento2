@@ -11,6 +11,8 @@
 /**
  * Poll edit form
  */
+namespace Magento\Adminhtml\Block\Poll;
+
 class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**

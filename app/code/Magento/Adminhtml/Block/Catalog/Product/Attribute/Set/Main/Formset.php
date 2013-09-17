@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main;
 
 class Formset extends \Magento\Adminhtml\Block\Widget\Form
 {

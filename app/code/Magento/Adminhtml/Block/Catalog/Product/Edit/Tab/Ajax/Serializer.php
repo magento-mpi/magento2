@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Ajax;
 
 class Serializer extends \Magento\Core\Block\Template
 {
