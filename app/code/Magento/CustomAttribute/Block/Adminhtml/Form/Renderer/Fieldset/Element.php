@@ -15,7 +15,7 @@
  * @package    Magento_CustomAttribute
  */
 class Magento_CustomAttribute_Block_Adminhtml_Form_Renderer_Fieldset_Element
-    extends Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+    extends Magento_Backend_Block_Widget_Form_Renderer_Fieldset_Element
 {
     /**
      * @var Magento_Core_Model_StoreManagerInterface
