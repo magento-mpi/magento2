@@ -99,8 +99,6 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         $this->_categoryId = $filter;
         $this->_coreRegistry->register('current_category_filter', $this->getCategory(), true);
 
-        \Mage::register('current_category_filter', $this->getCategory(), true);
-
         $this->_appliedCategory = \Mage::getModel('Magento\Catalog\Model\Category')
             ->setStoreId(\Mage::app()->getStore()->getId())
             ->load($filter);
