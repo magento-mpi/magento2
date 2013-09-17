@@ -25,7 +25,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_TabsTest extends PHPUnit_Fram
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
         $objectManager->get('Magento\Core\Model\Config\Scope')
-            ->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
         /** @var $product \Magento\Catalog\Model\Product */
         $product = Mage::getModel('Magento\Catalog\Model\Product');

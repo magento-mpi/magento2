@@ -12,12 +12,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_CategoryTest extends P
      */
     public function testGetAfterElementHtml()
     {
-        $block = Mage::getObjectManager()->create('Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category');
+        $block = Mage::getObjectManager()->create('Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Category');
 
         $form = Mage::getObjectManager()->create('Magento\Data\Form');
 
-        $form = new \Magento\Data\Form();
-        $block->setForm($form);
+       $block->setForm($form);
 
         $this->assertRegExp('/<button[^>]*New\sCategory[^>]*>/', $block->getAfterElementHtml());
     }
