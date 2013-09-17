@@ -43,66 +43,6 @@
         </index>
         <catalog>
             <product>
-                <options>
-                    <custom>
-                        <groups>
-                            <text translate="label">
-                                <label>Text</label>
-                                <render>Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Text</render>
-                                <types>
-                                    <field translate="label">
-                                        <label>Field</label>
-                                    </field>
-                                    <area translate="label">
-                                        <label>Area</label>
-                                    </area>
-                                </types>
-                            </text>
-                            <file translate="label">
-                                <label>File</label>
-                                <render>Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_File</render>
-                                <types>
-                                    <file translate="label">
-                                        <label>File</label>
-                                    </file>
-                                </types>
-                            </file>
-                            <select translate="label">
-                                <label>Select</label>
-                                <render>Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Select</render>
-                                <types>
-                                    <drop_down translate="label">
-                                        <label>Drop-down</label>
-                                    </drop_down>
-                                    <radio translate="label">
-                                        <label>Radio Buttons</label>
-                                    </radio>
-                                    <checkbox translate="label">
-                                        <label>Checkbox</label>
-                                    </checkbox>
-                                    <multiple translate="label">
-                                        <label>Multiple Select</label>
-                                    </multiple>
-                                </types>
-                            </select>
-                            <date translate="label">
-                                <label>Date</label>
-                                <render>Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Date</render>
-                                <types>
-                                    <date translate="label">
-                                        <label>Date</label>
-                                    </date>
-                                    <date_time translate="label">
-                                        <label>Date &amp; Time</label>
-                                    </date_time>
-                                    <time translate="label">
-                                        <label>Time</label>
-                                    </time>
-                                </types>
-                            </date>
-                        </groups>
-                    </custom>
-                </options>
                 <flat>
                     <max_index_count>64</max_index_count>
                     <attribute_nodes>

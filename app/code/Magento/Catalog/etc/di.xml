@@ -9,6 +9,7 @@
 -->
 <config>
     <preference for="Magento_Catalog_Model_ProductTypes_ConfigInterface" type="Magento_Catalog_Model_ProductTypes_Config" />
+    <preference for="Magento_Catalog_Model_ProductOptions_ConfigInterface" type="Magento_Catalog_Model_ProductOptions_Config" />
     <type name="Magento_Log_Model_Resource_Log">
         <plugin name="catalogLog" type="Magento_Catalog_Model_Plugin_Log" />
     </type>
