@@ -365,6 +365,7 @@ return array(
     array('getPricesDependingOnTax', 'Magento_Bundle_Model_Product_Price'),
     array('getPrintUrl', 'Magento_Checkout_Block_Onepage_Success'),
     array('getPrintUrl', 'Magento_Sales_Block_Order_Info'),
+    array('getProductCollectionAttributes', 'Magento_Catalog_Model_Config'),
     array('getProductCollection', 'Magento_Wishlist_Helper_Data'),
     array('getProductCollection', 'Magento_Wishlist_Model_Wishlist'),
     array('getProductsNotInStoreIds'),
@@ -434,6 +435,7 @@ return array(
         'Magento_Core_Model_Theme::getThemeCollectionOptionArray'
     ),
     array('getTotalModels', 'Magento_Sales_Model_Quote_Address'),
+    array('getTotalModels', 'Magento_Sales_Model_Quote_Config'),
     array('getTrackId', 'Magento_Shipping_Block_Tracking_Popup'),
     array('getTrackingInfoByOrder', 'Magento_Shipping_Block_Tracking_Popup'),
     array('getTrackingInfoByShip', 'Magento_Shipping_Block_Tracking_Popup'),

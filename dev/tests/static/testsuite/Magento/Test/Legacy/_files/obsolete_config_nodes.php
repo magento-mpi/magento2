@@ -31,5 +31,15 @@ return array(
     '/config/global/cache/types/*/tags' => 'use /config/global/cache/types/*/class node instead',
     '/config/global/disable_local_modules' => '',
     '/config/*/layout' => 'Use convention for layout files placement instead of configuration',
+    '/config/frontend/product/collection/attributes'
+        => 'Use /config/group[@name="catalog_product"] of attributes.xml',
+    '/config/frontend/category/collection/attributes'
+        => 'Use /config/group[@name="catalog_category"] of attributes.xml',
+    '/config/global/sales/quote/item/product_attributes'
+        => 'Use /config/group[@name="sales_quote_item"] of attributes.xml',
+    '/config/global/wishlist/item/product_attributes'
+        => 'Use /config/group[@name="wishlist_item"] of attributes.xml',
+    '/config/global/catalog/product/flat/attribute_nodes'
+        => 'Use /config/global/catalog/product/flat/attribute_groups',
     '/config/global/customer/address/formats' => 'Use /config/format of address_formats.xml',
 );

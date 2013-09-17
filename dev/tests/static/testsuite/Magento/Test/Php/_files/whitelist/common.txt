@@ -25,6 +25,8 @@ app/code/Magento/Catalog/Block/Product/Configurable
 app/code/Magento/Catalog/Block/Product/Grouped
 app/code/Magento/Catalog/Block/Product/TemplateSelector.php
 app/code/Magento/Catalog/Block/Product/View/Tabs.php
+app/code/Magento/Catalog/Model/Attribute/Config
+app/code/Magento/Catalog/Model/Attribute/Config.php
 app/code/Magento/Catalog/Model/Resource/Product/Collection
 app/code/Magento/Catalog/Model/Product/Type.php
 app/code/Magento/Catalog/Model/Observer/Reindex.php

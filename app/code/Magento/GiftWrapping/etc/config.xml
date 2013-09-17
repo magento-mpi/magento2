@@ -21,12 +21,6 @@
         </resources>
         <sales>
             <quote>
-                <item>
-                    <product_attributes>
-                        <gift_wrapping_available />
-                        <gift_wrapping_price />
-                    </product_attributes>
-                </item>
                 <totals>
                     <giftwrapping>
                         <class>Magento_GiftWrapping_Model_Total_Quote_Giftwrapping</class>
@@ -119,4 +113,4 @@
             </sales_display>
         </tax>
     </default>
-</config>
+</config>

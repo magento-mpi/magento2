@@ -50,42 +50,8 @@
                 </giftcard_email_template>
             </email>
         </template>
-        <sales>
-            <quote>
-                <item>
-                    <product_attributes>
-                        <giftcard_type />
-                        <giftcard_amounts />
-                        <allow_open_amount />
-                        <open_amount_min />
-                        <open_amount_max />
-                        <use_config_lifetime />
-                        <lifetime />
-                        <use_config_is_redeemable />
-                        <is_redeemable />
-                        <use_config_email_template />
-                        <email_template />
-                    </product_attributes>
-                </item>
-            </quote>
-        </sales>
     </global>
     <frontend>
-        <product>
-            <collection>
-                <attributes>
-                    <giftcard_type />
-                    <giftcard_amounts />
-                    <allow_open_amount />
-                    <open_amount_min />
-                    <open_amount_max />
-                    <use_config_lifetime />
-                    <lifetime />
-                    <use_config_is_redeemable />
-                    <is_redeemable />
-                </attributes>
-            </collection>
-        </product>
         <translate>
             <modules>
                 <Magento_GiftCard>
@@ -134,4 +100,4 @@
             </general>
         </giftcard>
     </default>
-</config>
+</config>
