@@ -33,7 +33,7 @@ class Data extends \Magento\Core\Block\Template
     public function __construct(
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
