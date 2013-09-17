@@ -638,8 +638,6 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
     {
         $r = $this->_rawRequest;
 
-        $store = Mage::app()->getStore($r->getStoreId());
-
         $_haz = $this->getConfigFlag('hazardous_materials');
 
         $_subtotal = $r->getValue();

@@ -98,8 +98,19 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
     protected $_customizableContainerTypes = array('YOUR_PACKAGING');
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+
+    protected $_productCollFactory;
+
+    /**
      * Fedex constructor
      *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Config_Modules_Reader $configReader
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory
      * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
      * @param Magento_Shipping_Model_Rate_ResultFactory $rateFactory
      * @param Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory
@@ -114,6 +125,9 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Config_Modules_Reader $configReader,
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory,
         Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
         Magento_Shipping_Model_Rate_ResultFactory $rateFactory,
         Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory,
@@ -127,11 +141,13 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
         Magento_Directory_Helper_Data $directoryData,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_productCollFactory = $productCollFactory;
         parent::__construct(
             $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory, $trackFactory, $trackErrorFactory,
             $trackStatusFactory, $regionFactory, $countryFactory, $currencyFactory, $directoryData, $data
         );
-        $wsdlBasePath = Mage::getModuleDir('etc', 'Magento_Usa')  . DS . 'wsdl' . DS . 'FedEx' . DS;
+        $wsdlBasePath = $configReader->getModuleDir('etc', 'Magento_Usa')  . DS . 'wsdl' . DS . 'FedEx' . DS;
         $this->_shipServiceWsdl = $wsdlBasePath . 'ShipService_v10.wsdl';
         $this->_rateServiceWsdl = $wsdlBasePath . 'RateService_v10.wsdl';
         $this->_trackServiceWsdl = $wsdlBasePath . 'TrackService_v5.wsdl';
@@ -934,7 +950,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
             'CLP' => 'CHP', // Chilean Pesos
             'TWD' => 'NTD', // New Taiwan Dollars
         );
-        $currencyCode = Mage::app()->getStore()->getBaseCurrencyCode();
+        $currencyCode = $this->_storeManager->getStore()->getBaseCurrencyCode();
         return isset($codes[$currencyCode]) ? $codes[$currencyCode] : $currencyCode;
     }
 
@@ -1250,7 +1266,8 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
         }
 
         // get countries of manufacture
-        $productCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
+        $productCollection = $this->_productCollFactory
+            ->create()
             ->addStoreFilter($request->getStoreId())
             ->addFieldToFilter('entity_id', array('in' => $productIds))
             ->addAttributeToSelect('country_of_manufacture');

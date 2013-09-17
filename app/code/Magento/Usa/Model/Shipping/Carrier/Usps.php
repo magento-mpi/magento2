@@ -113,9 +113,15 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     protected $_usaData = null;
 
     /**
+     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     */
+    protected $_productCollFactory;
+
+    /**
      * Usps constructor
      *
      * @param Magento_Usa_Helper_Data $usaData
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory
      * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
      * @param Magento_Shipping_Model_Rate_ResultFactory $rateFactory
      * @param Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory
@@ -131,6 +137,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
      */
     public function __construct(
         Magento_Usa_Helper_Data $usaData,
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory,
         Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
         Magento_Shipping_Model_Rate_ResultFactory $rateFactory,
         Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory,
@@ -145,6 +152,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         array $data = array()
     ) {
         $this->_usaData = $usaData;
+        $this->_productCollFactory = $productCollFactory;
         parent::__construct(
             $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory, $trackFactory, $trackErrorFactory,
             $trackStatusFactory, $regionFactory, $countryFactory, $currencyFactory, $directoryData, $data
@@ -1549,7 +1557,8 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
 
                 $productIds[]= $item->getProductId();
         }
-        $productCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
+        $productCollection = $this->_productCollFactory
+            ->create()
             ->addStoreFilter($request->getStoreId())
             ->addFieldToFilter('entity_id', array('in' => $productIds))
             ->addAttributeToSelect('country_of_manufacture');

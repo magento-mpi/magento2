@@ -107,6 +107,49 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
     protected $_customizableContainerTypes = array('CP', 'CSP');
 
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
+     * @param Magento_Shipping_Model_Rate_ResultFactory $rateFactory
+     * @param Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory
+     * @param Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory
+     * @param Magento_Shipping_Model_Tracking_ResultFactory $trackFactory
+     * @param Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory
+     * @param Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory
+     * @param Magento_Directory_Model_RegionFactory $regionFactory
+     * @param Magento_Directory_Model_CountryFactory $countryFactory
+     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
+     * @param Magento_Directory_Helper_Data $directoryData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
+        Magento_Shipping_Model_Rate_ResultFactory $rateFactory,
+        Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory,
+        Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory,
+        Magento_Shipping_Model_Tracking_ResultFactory $trackFactory,
+        Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory,
+        Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory,
+        Magento_Directory_Model_RegionFactory $regionFactory,
+        Magento_Directory_Model_CountryFactory $countryFactory,
+        Magento_Directory_Model_CurrencyFactory $currencyFactory,
+        Magento_Directory_Helper_Data $directoryData,
+        array $data = array()
+    ) {
+        $this->_locale = $locale;
+        parent::__construct(
+            $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory, $trackFactory, $trackErrorFactory,
+            $trackStatusFactory, $regionFactory, $countryFactory, $currencyFactory, $directoryData, $data
+        );
+    }
+
+
+    /**
      * Collect and get rates
      *
      * @param Magento_Shipping_Model_Rate_Request $request
@@ -431,7 +474,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
                 switch (substr($row[0], -1)) {
                     case 3: case 4:
                         if (in_array($row[1], $allowedMethods)) {
-                            $responsePrice = Mage::app()->getLocale()->getNumber($row[8]);
+                            $responsePrice = $this->_locale->getNumber($row[8]);
                             $costArr[$row[1]] = $responsePrice;
                             $priceArr[$row[1]] = $this->getMethodPrice($responsePrice, $row[1]);
                         }
@@ -442,7 +485,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
                         break;
                     case 6:
                         if (in_array($row[3], $allowedMethods)) {
-                            $responsePrice = Mage::app()->getLocale()->getNumber($row[10]);
+                            $responsePrice = $this->_locale->getNumber($row[10]);
                             $costArr[$row[3]] = $responsePrice;
                             $priceArr[$row[3]] = $this->getMethodPrice($responsePrice, $row[3]);
                         }
