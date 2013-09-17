@@ -31,7 +31,7 @@ class Magento_VersionsCms_Model_Hierarchy_Config_Converter implements Magento_Co
                 if (!in_array($attribute->nodeName, $boolAttributesNames)) {
                     $value = $attribute->nodeValue;
                 } else {
-                    $value = (bool)$attribute->nodeValue;
+                    $value = $attribute->nodeValue == "true" ? true : false;
                 }
                 $menuLayoutConfig[$attribute->nodeName] = $value;
             }
