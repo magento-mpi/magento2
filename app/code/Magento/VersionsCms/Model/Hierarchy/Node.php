@@ -82,6 +82,11 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
     protected $_scopeId = self::NODE_SCOPE_DEFAULT_ID;
 
     /**
+     * @var Magento_VersionsCms_Model_Hierarchy_ConfigInterface
+     */
+    protected $_hierarchyConfig;
+
+    /**
      * Meta node's types
      */
     const META_NODE_TYPE_CHAPTER = 'chapter';
@@ -92,16 +97,19 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
 
     /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_VersionsCms_Model_Hierarchy_ConfigInterface $hierarchyConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_VersionsCms_Model_Hierarchy_ConfigInterface $hierarchyConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_hierarchyConfig = $hierarchyConfig;
         parent::__construct($context, $resource, $resourceCollection, $data);
 
         $scope = $scopeId = null;
@@ -720,7 +728,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
         if (!$layoutName) {
             return null;
         }
-        $layout = Mage::getSingleton('Magento_VersionsCms_Model_Hierarchy_Config')->getContextMenuLayout($layoutName);
+        $layout = $this->_hierarchyConfig->getContextMenuLayout($layoutName);
         return ($layout) ? $layout : null;
     }
 

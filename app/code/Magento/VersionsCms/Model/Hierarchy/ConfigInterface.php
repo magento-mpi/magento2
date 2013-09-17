@@ -14,7 +14,7 @@ interface Magento_VersionsCms_Model_Hierarchy_ConfigInterface
      *
      * @return array
      */
-    public function getContextMenuLayouts();
+    public function getAllMenuLayouts();
 
     /**
      * Return Context Menu layout by its name

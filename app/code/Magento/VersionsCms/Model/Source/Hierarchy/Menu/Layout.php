@@ -18,6 +18,19 @@
 class Magento_VersionsCms_Model_Source_Hierarchy_Menu_Layout
 {
     /**
+     * @var Magento_VersionsCms_Model_Hierarchy_ConfigInterface
+     */
+    protected $_hierarchyConfig;
+
+    /**
+     * @param Magento_VersionsCms_Model_Hierarchy_ConfigInterface $hierarchyConfig
+     */
+    public function __construct(Magento_VersionsCms_Model_Hierarchy_ConfigInterface $hierarchyConfig)
+    {
+        $this->_hierarchyConfig = $hierarchyConfig;
+    }
+
+    /**
      * Return options for displaying Hierarchy Menu
      *
      * @param bool $withDefault Include or not default value
@@ -30,7 +43,7 @@ class Magento_VersionsCms_Model_Source_Hierarchy_Menu_Layout
            $options[] = array('label' => __('Use default'), 'value' => '');
         }
 
-        foreach (Mage::getSingleton('Magento_VersionsCms_Model_Hierarchy_Config')->getContextMenuLayouts() as $name => $info) {
+        foreach ($this->_hierarchyConfig->getAllMenuLayouts() as $name => $info) {
             $options[] = array(
                 'label' => $info['label'],
                 'value' => $name

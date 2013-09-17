@@ -7,7 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_VersionsCms_Model_Hierarchy_Config
+class Magento_VersionsCms_Model_Hierarchy_Config extends Magento_Config_Data
+    implements Magento_VersionsCms_Model_Hierarchy_ConfigInterface
 {
     /**
      * Menu layouts configuration
@@ -16,16 +17,25 @@ class Magento_VersionsCms_Model_Hierarchy_Config
     protected $_contextMenuLayouts = null;
 
     /**
-     * @var Magento_VersionsCms_Model_Hierarchy_Config_Data
+     * Scope priority loading scheme
+     *
+     * @var array
      */
-    protected $_configData;
+    protected $_scopePriorityScheme = array('global');
 
     /**
-     * @param Magento_VersionsCms_Model_Hierarchy_Config_Data $configData
+     * @param Magento_VersionsCms_Model_Hierarchy_Config_Reader $reader
+     * @param Magento_Config_ScopeInterface $configScope
+     * @param Magento_Config_CacheInterface $cache
+     * @param string $cacheId
      */
-    public function __construct(Magento_VersionsCms_Model_Hierarchy_Config_Data $configData)
-    {
-        $this->_configData = $configData;
+    public function __construct(
+        Magento_VersionsCms_Model_Hierarchy_Config_Reader $reader,
+        Magento_Config_ScopeInterface $configScope,
+        Magento_Config_CacheInterface $cache,
+        $cacheId = "menuHierarchyConfigCache"
+    ) {
+        parent::__construct($reader, $configScope, $cache, $cacheId);
     }
 
     /**
@@ -33,9 +43,9 @@ class Magento_VersionsCms_Model_Hierarchy_Config
      *
      * @return array
      */
-    public function getContextMenuLayouts()
+    public function getAllMenuLayouts()
     {
-        return $this->_configData->get();
+        return $this->get();
     }
 
     /**
@@ -46,7 +56,7 @@ class Magento_VersionsCms_Model_Hierarchy_Config
      */
     public function getContextMenuLayout($layoutName)
     {
-        $menuLayouts = $this->_configData->get();
+        $menuLayouts = $this->get();
         return isset($menuLayouts[$layoutName]) ? $menuLayouts[$layoutName] : false;
     }
 }
