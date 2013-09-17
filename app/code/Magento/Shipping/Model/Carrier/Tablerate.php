@@ -29,15 +29,13 @@ class Magento_Shipping_Model_Carrier_Tablerate
         array $data = array()
     ) {
         parent::__construct($coreStoreConfig, $data);
-        foreach ($this->getCode('condition_name') as $k=>$v) {
+        foreach ($this->getCode('condition_name') as $k => $v) {
             $this->_conditionNames[] = $k;
         }
     }
 
     /**
-     * Enter description here...
-     *
-     * @param Magento_Shipping_Model_Rate_Request $data
+     * @param Magento_Shipping_Model_Rate_Request $request
      * @return Magento_Shipping_Model_Rate_Result
      */
     public function collectRates(Magento_Shipping_Model_Rate_Request $request)
