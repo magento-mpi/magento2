@@ -8,28 +8,26 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="catalog_product_view">
-        <reference name="content">
-            <reference name="product.info">
-                <reference name="alert.urls">
-                    <block class="Magento_ProductAlert_Block_Product_View_Price" name="productalert.price" as="productalert_price" template="product/view.phtml">
-                        <action method="setHtmlClass">
-                            <argument name="value" xsi:type="string">alert-price link-price-alert</argument>
-                        </action>
-                        <action method="setSignupLabel">
-                            <argument translate="true" name="value" xsi:type="string">Sign up for price alert</argument>
-                        </action>
-                    </block>
-                    <block class="Magento_ProductAlert_Block_Product_View_Stock" name="productalert.stock" as="productalert_stock" template="product/view.phtml">
-                        <action method="setHtmlClass">
-                            <argument name="value" xsi:type="string">alert-stock link-stock-alert</argument>
-                        </action>
-                        <action method="setSignupLabel">
-                            <argument translate="true" name="value" xsi:type="string">Sign up to be notified when this product is back in stock.</argument>
-                        </action>
-                    </block>
-                </reference>
+    <reference name="content">
+        <reference name="product.info">
+            <reference name="alert.urls">
+                <block class="Magento_ProductAlert_Block_Product_View_Price" name="productalert.price" as="productalert_price" template="product/view.phtml">
+                    <action method="setHtmlClass">
+                        <argument name="value" xsi:type="string">alert-price link-price-alert</argument>
+                    </action>
+                    <action method="setSignupLabel">
+                        <argument translate="true" name="value" xsi:type="string">Sign up for price alert</argument>
+                    </action>
+                </block>
+                <block class="Magento_ProductAlert_Block_Product_View_Stock" name="productalert.stock" as="productalert_stock" template="product/view.phtml">
+                    <action method="setHtmlClass">
+                        <argument name="value" xsi:type="string">alert-stock link-stock-alert</argument>
+                    </action>
+                    <action method="setSignupLabel">
+                        <argument translate="true" name="value" xsi:type="string">Sign up to be notified when this product is back in stock.</argument>
+                    </action>
+                </block>
             </reference>
         </reference>
-    </handle>
+    </reference>
 </layout>

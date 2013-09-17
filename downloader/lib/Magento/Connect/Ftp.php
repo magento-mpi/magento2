@@ -106,7 +106,7 @@ class Magento_Connect_Ftp
         if (empty($string)) {
             throw new Exception("Connection string is empty");
         }
-        $data = @parse_url($string);
+        $data = parse_url($string);
         if(false === $data) {
             throw new Exception("Connection string invalid: '{$string}'");
         }

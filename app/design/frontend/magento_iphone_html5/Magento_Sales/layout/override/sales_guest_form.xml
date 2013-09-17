@@ -7,15 +7,13 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Returns" id="sales_guest_form" type="page" parent="sales_guest_view">
-        <reference name="root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">1column.phtml</argument>
-            </action>
-        </reference>
-        <reference name="content">
-            <block class="Magento_Sales_Block_Widget_Guest_Form" name="guest.form" template="guest/form.phtml"/>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Returns" type="page" parent="sales_guest_view">
+    <reference name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">1column.phtml</argument>
+        </action>
+    </reference>
+    <reference name="content">
+        <block class="Magento_Sales_Block_Widget_Guest_Form" name="guest.form" template="guest/form.phtml"/>
+    </reference>
 </layout>

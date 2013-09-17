@@ -23,7 +23,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         // dev/tests/unit/testsuite/tools/I18n/Parser/Adapter/_files/layout.xml
-        $this->_testFile = str_replace('\\', '/', realpath(dirname(__FILE__))) . '/_files/layout.xml';
+        $this->_testFile = str_replace('\\', '/', realpath(dirname(__FILE__))) . '/_files/default.xml';
 
         $objectManagerHelper = new \Magento_TestFramework_Helper_ObjectManager($this);
         $this->_adapter = $objectManagerHelper->getObject('Magento\Tools\I18n\Code\Parser\Adapter\Xml');

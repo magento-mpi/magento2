@@ -8,26 +8,24 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_invitation_view">
-        <reference name="content">
-            <block class="Magento_Invitation_Block_Adminhtml_Invitation_View" name="invitation_view_page" template="view.phtml">
-                
-            </block>
-        </reference>
-        <reference name="left">
-            <block class="Magento_Invitation_Block_Adminhtml_Invitation_View_Tabs" name="invitation_view_tabs" as="tabs">
-                <action method="addTab">
-                    <argument name="tab" xsi:type="string">general</argument>
-                    <argument name="content" xsi:type="string">Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General</argument>
-                </action>
-                <action method="addTab">
-                    <argument name="tab" xsi:type="string">history</argument>
-                    <argument name="content" xsi:type="string">Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History</argument>
-                </action>
-                <action method="setDestElementId">
-                    <argument name="id" xsi:type="string">invitation-elements</argument>
-                </action>
-            </block>
-        </reference>
-    </handle>
+    <reference name="content">
+        <block class="Magento_Invitation_Block_Adminhtml_Invitation_View" name="invitation_view_page" template="view.phtml">
+            
+        </block>
+    </reference>
+    <reference name="left">
+        <block class="Magento_Invitation_Block_Adminhtml_Invitation_View_Tabs" name="invitation_view_tabs" as="tabs">
+            <action method="addTab">
+                <argument name="tab" xsi:type="string">general</argument>
+                <argument name="content" xsi:type="string">Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General</argument>
+            </action>
+            <action method="addTab">
+                <argument name="tab" xsi:type="string">history</argument>
+                <argument name="content" xsi:type="string">Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History</argument>
+            </action>
+            <action method="setDestElementId">
+                <argument name="id" xsi:type="string">invitation-elements</argument>
+            </action>
+        </block>
+    </reference>
 </layout>

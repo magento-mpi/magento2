@@ -7,23 +7,21 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Customer GiftRegistry Items List" id="magento_giftregistry_index_items" type="page" parent="magento_giftregistry_index_share">
-        <update handle="customer_account"/>
-        <reference name="customer_account_navigation">
-            <action method="setActive">
-                <argument name="path" xsi:type="string">magento_giftregistry/index/index</argument>
-            </action>
-        </reference>
-        <reference name="my.account.wrapper">
-            <block class="Magento_GiftRegistry_Block_Items" name="giftregistry.customer.items" template="customer/items.phtml">
-                <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="default" template="Magento_GiftRegistry::customer/items/default.phtml"/>
-                <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="simple" template="Magento_GiftRegistry::customer/items/default.phtml"/>
-                <block class="Magento_Checkout_Block_Cart_Item_Renderer_Grouped" as="grouped" template="Magento_GiftRegistry::customer/items/default.phtml"/>
-                <block class="Magento_Checkout_Block_Cart_Item_Renderer_Configurable" as="configurable" template="Magento_GiftRegistry::customer/items/default.phtml"/>
-                <block class="Magento_Bundle_Block_Checkout_Cart_Item_Renderer" as="bundle" template="Magento_GiftRegistry::customer/items/default.phtml"/>
-                <block class="Magento_GiftCard_Block_Checkout_Cart_Item_Renderer" as="giftcard" template="Magento_GiftRegistry::customer/items/default.phtml"/>
-            </block>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer GiftRegistry Items List" type="page" parent="magento_giftregistry_index_share">
+    <update handle="customer_account"/>
+    <reference name="customer_account_navigation">
+        <action method="setActive">
+            <argument name="path" xsi:type="string">magento_giftregistry/index/index</argument>
+        </action>
+    </reference>
+    <reference name="my.account.wrapper">
+        <block class="Magento_GiftRegistry_Block_Items" name="giftregistry.customer.items" template="customer/items.phtml">
+            <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="default" template="Magento_GiftRegistry::customer/items/default.phtml"/>
+            <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="simple" template="Magento_GiftRegistry::customer/items/default.phtml"/>
+            <block class="Magento_Checkout_Block_Cart_Item_Renderer_Grouped" as="grouped" template="Magento_GiftRegistry::customer/items/default.phtml"/>
+            <block class="Magento_Checkout_Block_Cart_Item_Renderer_Configurable" as="configurable" template="Magento_GiftRegistry::customer/items/default.phtml"/>
+            <block class="Magento_Bundle_Block_Checkout_Cart_Item_Renderer" as="bundle" template="Magento_GiftRegistry::customer/items/default.phtml"/>
+            <block class="Magento_GiftCard_Block_Checkout_Cart_Item_Renderer" as="giftcard" template="Magento_GiftRegistry::customer/items/default.phtml"/>
+        </block>
+    </reference>
 </layout>

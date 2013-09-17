@@ -8,14 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="customer_account">
-        <reference name="customer-account-navigation">
-            <block class="Magento_Rma_Block_Link" name="customer-account-navigation-return-history-link">
-                <arguments>
-                    <argument name="path" xsi:type="string">rma/return/history</argument>
-                    <argument name="label" xsi:type="string">My Returns</argument>
-                </arguments>
-            </block>
-        </reference>
-    </handle>
+    <reference name="customer-account-navigation">
+        <block class="Magento_Rma_Block_Link" name="customer-account-navigation-return-history-link">
+            <arguments>
+                <argument name="path" xsi:type="string">rma/return/history</argument>
+                <argument name="label" xsi:type="string">My Returns</argument>
+            </arguments>
+        </block>
+    </reference>
 </layout>

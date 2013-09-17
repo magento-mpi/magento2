@@ -8,8 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_logging_exportcsv">
-        <update handle="adminhtml_logging_block"/>
-        <container name="adminhtml.logging.grid.container" label="Logging Grid Container"/>
-    </handle>
+    <update handle="adminhtml_logging_block"/>
+    <container name="adminhtml.logging.grid.container" label="Logging Grid Container"/>
 </layout>
