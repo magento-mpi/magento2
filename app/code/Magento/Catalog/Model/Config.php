@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
 {
     const XML_PATH_LIST_DEFAULT_SORT_BY     = 'catalog/frontend/default_sort_by';
@@ -43,8 +39,6 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
     protected $_usedForSortBy;
 
     protected $_storeId = null;
-
-    const XML_PATH_PRODUCT_COLLECTION_ATTRIBUTES = 'frontend/product/collection/attributes';
 
     /**
      * Initialize resource model
@@ -239,19 +233,6 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
             $this->_productAttributes = array_keys($this->getAttributesUsedInProductListing());
         }
         return $this->_productAttributes;
-    }
-
-    /**
-     * Retrieve Product Collection Attributes from XML config file
-     * Used only for install/upgrade
-     *
-     * @return array
-     */
-    public function getProductCollectionAttributes() {
-        $attributes = Mage::getConfig()
-            ->getNode(self::XML_PATH_PRODUCT_COLLECTION_ATTRIBUTES)
-            ->asArray();
-        return array_keys($attributes);;
     }
 
     /**
