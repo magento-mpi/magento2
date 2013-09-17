@@ -83,6 +83,12 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     protected $_rule;
 
     /**
+     * @var Magento_TargetRule_Model_Resource_IndexPool
+     */
+    protected $_indexPool;
+
+    /**
+     * @param Magento_TargetRule_Model_Resource_IndexPool $indexPool
      * @param Magento_TargetRule_Model_Resource_Rule $rule
      * @param Magento_CustomerSegment_Model_Resource_Segment $segmentCollectionFactory
      * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
@@ -98,6 +104,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_TargetRule_Model_Resource_IndexPool $indexPool,
         Magento_TargetRule_Model_Resource_Rule $rule,
         Magento_CustomerSegment_Model_Resource_Segment $segmentCollectionFactory,
         Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
@@ -110,6 +117,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Resource $resource
     ) {
+        $this->_indexPool = $indexPool;
         $this->_rule = $rule;
         $this->_segmentCollectionFactory = $segmentCollectionFactory;
         $this->_productCollectionFactory = $productCollectionFactory;
@@ -226,11 +234,11 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
         foreach ($segmentsIds as $segmentId) {
             if (in_array($segmentId, $foundSegmentIndexes)) {
                 $productIds = array_merge($productIds,
-                    $this->getTypeIndex($object->getType())->loadProductIdsBySegmentId($object, $segmentId));
+                    $this->_indexPool->get($object->getType())->loadProductIdsBySegmentId($object, $segmentId));
             } else {
                 $matchedProductIds = $this->_matchProductIdsBySegmentId($object, $segmentId);
                 $productIds = array_merge($matchedProductIds, $productIds);
-                $this->getTypeIndex($object->getType())
+                $this->_indexPool->get($object->getType())
                     ->saveResultForCustomerSegments($object, $segmentId, implode(',', $matchedProductIds));
                 $this->saveFlag($object, $segmentId);
             }
@@ -587,7 +595,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
 
         if (is_null($typeId)) {
             foreach ($this->getTypeIds() as $typeId) {
-                $this->getTypeIndex($typeId)->cleanIndex($store);
+                $this->_indexPool->get($typeId)->cleanIndex($store);
             }
 
             $where = (is_null($store)) ? '' : array('store_id IN(?)' => $store);
@@ -598,7 +606,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
                 $where['store_id IN(?)'] = $store;
             }
             $adapter->delete($this->getMainTable(), $where);
-            $this->getTypeIndex($typeId)->cleanIndex($store);
+            $this->_indexPool->get($typeId)->cleanIndex($store);
         }
 
         return $this;
@@ -621,10 +629,10 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
 
         if (is_null($typeId)) {
             foreach ($this->getTypeIds() as $typeId) {
-                $this->getTypeIndex($typeId)->removeIndex($productIds);
+                $this->_indexPool->get($typeId)->removeIndex($productIds);
             }
         } else {
-            $this->getTypeIndex($typeId)->removeIndex($productIds);
+            $this->_indexPool->get($typeId)->removeIndex($productIds);
             $where['type_id=?'] = $typeId;
         }
 
