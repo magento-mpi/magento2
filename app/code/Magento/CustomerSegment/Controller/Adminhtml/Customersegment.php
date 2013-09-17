@@ -88,7 +88,6 @@ class Customersegment extends \Magento\Adminhtml\Controller\Action
         try {
             $model = $this->_initSegment();
         } catch (\Magento\Core\Exception $e) {
-        catch (\Magento\Core\Exception $e) {
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
