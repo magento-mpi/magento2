@@ -10,7 +10,7 @@
 <config>
     <type name="Magento\TargetRule\Model\Index">
         <param name="customerSession">
-            <instance type="Mage_Customer_Model_SessionProxy" />
+            <instance type="Mage\Customer\Model\SessionProxy" />
         </param>
     </type>
 </config>

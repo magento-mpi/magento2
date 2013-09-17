@@ -205,17 +205,17 @@ class Rate extends \Magento\Adminhtml\Controller\Action
                 try {
                     $rateModel->delete();
 
-                    \Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                    \Mage::getSingleton('Magento\Adminhtml\Model\Session')
                         ->addSuccess(__('The tax rate has been deleted.'));
                     $this->getResponse()->setRedirect($this->getUrl("*/*/"));
                     return true;
                 }
                 catch (\Magento\Core\Exception $e) {
-                    \Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                    \Mage::getSingleton('Magento\Adminhtml\Model\Session')
                         ->addError($e->getMessage());
                 }
                 catch (\Exception $e) {
-                    \Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                    \Mage::getSingleton('Magento\Adminhtml\Model\Session')
                         ->addError(__('Something went wrong deleting this rate.'));
                 }
                 if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
@@ -225,7 +225,7 @@ class Rate extends \Magento\Adminhtml\Controller\Action
                     $this->getResponse()->setRedirect($this->getUrl("*/*/"));
                 }
             } else {
-                \Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')
                     ->addError(__('Something went wrong deleting this rate because of an incorrect rate ID.'));
                 $this->getResponse()->setRedirect($this->getUrl('*/*/'));
             }
