@@ -51,6 +51,54 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     protected $_index;
 
     /**
+     * @var Magento_TargetRule_Model_IndexFactory
+     */
+    protected $_indexFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Product_LinkFactory
+     */
+    protected $_productLinkFactory;
+
+    /**
+     * @param Magento_Catalog_Model_Product_LinkFactory $productLinkFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_TargetRule_Model_IndexFactory $indexFactory
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_TargetRule_Helper_Data $targetRuleData
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Magento_Catalog_Model_Product_LinkFactory $productLinkFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_TargetRule_Model_IndexFactory $indexFactory,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_TargetRule_Helper_Data $targetRuleData,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_productLinkFactory = $productLinkFactory;
+        $this->_productFactory = $productFactory;
+        $this->_indexFactory = $indexFactory;
+        parent::__construct($coreRegistry, $targetRuleData, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
+
+    /**
      * Retrieve Catalog Product List Type identifier
      *
      * @return int
@@ -80,8 +128,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
         if (is_null($this->_lastAddedProduct)) {
             $productId = $this->getLastAddedProductId();
             if ($productId) {
-                $this->_lastAddedProduct = Mage::getModel('Magento_Catalog_Model_Product')
-                    ->load($productId);
+                $this->_lastAddedProduct = $this->_productFactory->create()->load($productId);
             } else {
                 $this->_lastAddedProduct = false;
             }
@@ -159,7 +206,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     protected function _getTargetRuleIndex()
     {
         if (is_null($this->_index)) {
-            $this->_index = Mage::getModel('Magento_TargetRule_Model_Index');
+            $this->_index = $this->_indexFactory->create();
         }
         return $this->_index;
     }
@@ -193,7 +240,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     protected function _getTargetLinkCollection()
     {
         /* @var $collection Magento_Catalog_Model_Resource_Product_Link_Product_Collection */
-        $collection = Mage::getModel('Magento_Catalog_Model_Product_Link')
+        $collection = $this->_productLinkFactory->create()
             ->useCrossSellLinks()
             ->getProductCollection()
             ->setStoreId(Mage::app()->getStore()->getId())

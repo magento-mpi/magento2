@@ -80,7 +80,7 @@ class Magento_TargetRule_Controller_Adminhtml_Targetrule extends Magento_Adminht
         $this->_title(__('Related Products Rule'));
 
         /* @var $model Magento_TargetRule_Model_Rule */
-        $model  = Mage::getModel('Magento_TargetRule_Model_Rule');
+        $model  = $this->_objectManager->create('Magento_TargetRule_Model_Rule');
         $ruleId = $this->getRequest()->getParam('id', null);
 
         if ($ruleId) {
@@ -131,7 +131,7 @@ class Magento_TargetRule_Controller_Adminhtml_Targetrule extends Magento_Adminht
 
         if ($this->getRequest()->isPost() && $data) {
             /* @var $model Magento_TargetRule_Model_Rule */
-            $model          = Mage::getModel('Magento_TargetRule_Model_Rule');
+            $model          = $this->_objectManager->create('Magento_TargetRule_Model_Rule');
             $redirectBack   = $this->getRequest()->getParam('back', false);
             $hasError       = false;
 
@@ -210,7 +210,7 @@ class Magento_TargetRule_Controller_Adminhtml_Targetrule extends Magento_Adminht
     {
         if ($id = $this->getRequest()->getParam('id')) {
             try {
-                $model = Mage::getModel('Magento_TargetRule_Model_Rule');
+                $model = $this->_objectManager->create('Magento_TargetRule_Model_Rule');
                 $model->load($id);
                 $model->delete();
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')
@@ -243,7 +243,7 @@ class Magento_TargetRule_Controller_Adminhtml_Targetrule extends Magento_Adminht
         $model = Mage::getModel($type)
             ->setId($id)
             ->setType($type)
-            ->setRule(Mage::getModel('Magento_TargetRule_Model_Rule'))
+            ->setRule($this->_objectManager->create('Magento_TargetRule_Model_Rule'))
             ->setPrefix($prefix);
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);

@@ -98,6 +98,50 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
     protected $_checkDateForStore = array();
 
     /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_TargetRule_Model_Rule_Condition_CombineFactory
+     */
+    protected $_ruleFactory;
+
+    /**
+     * @var Magento_TargetRule_Model_Actions_Condition_CombineFactory
+     */
+    protected $_actionFactory;
+
+    /**
+     * @param Magento_TargetRule_Model_Rule_Condition_CombineFactory $ruleFactory
+     * @param Magento_TargetRule_Model_Actions_Condition_CombineFactory $actionFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_TargetRule_Model_Rule_Condition_CombineFactory $ruleFactory,
+        Magento_TargetRule_Model_Actions_Condition_CombineFactory $actionFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_productFactory = $productFactory;
+        $this->_ruleFactory = $ruleFactory;
+        $this->_actionFactory = $actionFactory;
+        parent::__construct($formFactory, $context, $registry, $resource, $resourceCollection, $data);
+    }
+
+
+    /**
      * Set resource model
      */
     protected function _construct()
@@ -129,7 +173,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
      */
     public function getConditionsInstance()
     {
-        return Mage::getModel('Magento_TargetRule_Model_Rule_Condition_Combine');
+        return $this->_ruleFactory->create();
     }
 
     /**
@@ -139,7 +183,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
      */
     public function getActionsInstance()
     {
-        return Mage::getModel('Magento_TargetRule_Model_Actions_Condition_Combine');
+        return $this->_actionFactory->create();
     }
 
     /**
@@ -192,7 +236,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
                 ),
                 array(
                     'attributes'    => $this->getCollectedAttributes(),
-                    'product'       => Mage::getModel('Magento_Catalog_Model_Product'),
+                    'product'       => $this->_productFactory->create(),
                     'onlyId'        => (bool) $onlyId
                 )
             );

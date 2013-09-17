@@ -40,6 +40,36 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
     protected $_allProductIds = null;
 
     /**
+     * @var Magento_TargetRule_Model_IndexFactory
+     */
+    protected $_indexFactory;
+
+    /**
+     * @param Magento_TargetRule_Model_IndexFactory $indexFactory
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_TargetRule_Helper_Data $targetRuleData
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_TargetRule_Model_IndexFactory $indexFactory,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_TargetRule_Helper_Data $targetRuleData,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_indexFactory = $indexFactory;
+        parent::__construct($coreRegistry, $targetRuleData, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
+
+    /**
      * Retrieve current product instance (if actual and available)
      *
      * @return Magento_Catalog_Model_Product
@@ -82,7 +112,7 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
     protected function _getTargetRuleIndex()
     {
         if (is_null($this->_index)) {
-            $this->_index = Mage::getModel('Magento_TargetRule_Model_Index');
+            $this->_index = $this->_indexFactory->create();
         }
         return $this->_index;
     }
