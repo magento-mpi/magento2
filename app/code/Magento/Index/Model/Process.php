@@ -87,12 +87,12 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Core_Model_EntityFactory
+     * @var Magento_Index_Model_IndexerFactory
      */
-    protected $_entityFactory;
+    protected $_indexerFactory;
 
     /**
-     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Index_Model_IndexerFactory $indexerFactory
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -103,7 +103,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Index_Model_IndexerFactory $indexerFactory,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -117,7 +117,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_lockStorage = $lockStorage;
         $this->_eventRepository = $eventRepository;
-        $this->_entityFactory = $entityFactory;
+        $this->_indexerFactory = $indexerFactory;
     }
 
     /**
@@ -323,7 +323,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     /**
      * Get Indexer strategy object
      *
-     * @return Magento_Index_Model_Indexer_Abstract
+     * @return Magento_Index_Model_IndexerInterface
      */
     public function getIndexer()
     {
@@ -332,17 +332,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
             if (!$code) {
                 Mage::throwException(__('Indexer code is not defined.'));
             }
-            $xmlPath = self::XML_PATH_INDEXER_DATA . '/' . $code;
-            $config = Mage::getConfig()->getNode($xmlPath);
-            if (!$config || empty($config->model)) {
-                Mage::throwException(__('Indexer model is not defined.'));
-            }
-            $model = $this->_entityFactory->create((string)$config->model);
-            if ($model instanceof Magento_Index_Model_Indexer_Abstract) {
-                $this->_indexer = $model;
-            } else {
-                Mage::throwException(__('Indexer model should extend Magento_Index_Model_Indexer_Abstract.'));
-            }
+            $this->_indexer = $this->_indexerFactory->create($code);
         }
         return $this->_indexer;
     }

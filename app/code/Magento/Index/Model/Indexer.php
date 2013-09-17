@@ -28,20 +28,20 @@ class Magento_Index_Model_Indexer
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Core_Model_EntityFactory
+     * @var Magento_Index_Model_EventFactory
      */
-    protected $_entityFactory;
+    protected $_indexEventFactory;
 
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Index_Model_EventFactory $indexEventFactory
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_EntityFactory $entityFactory
+        Magento_Index_Model_EventFactory $indexEventFactory
     ) {
         $this->_eventManager = $eventManager;
-        $this->_entityFactory = $entityFactory;
+        $this->_indexEventFactory = $indexEventFactory;
         $this->_processesCollection = $this->_createCollection();
     }
 
@@ -155,7 +155,7 @@ class Magento_Index_Model_Indexer
      */
     public function logEvent(Magento_Object $entity, $entityType, $eventType, $doSave=true)
     {
-        $event = $this->_entityFactory->create('Magento_Index_Model_Event')
+        $event = $this->_indexEventFactory->create()
             ->setEntity($entityType)
             ->setType($eventType)
             ->setDataObject($entity)

@@ -17,22 +17,22 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Core_Model_EntityFactory
+     * @var Magento_Index_Model_ProcessFactory
      */
-    protected $_entityFactory;
+    protected $_indexProcessFactory;
 
     /**
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Index_Model_ProcessFactory $indexProcessFactory
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_EntityFactory $entityFactory
+        Magento_Index_Model_ProcessFactory $indexProcessFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
-        $this->_entityFactory = $entityFactory;
+        $this->_indexProcessFactory = $indexProcessFactory;
         parent::__construct($context);
     }
 
@@ -46,7 +46,7 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
         $processId = $this->getRequest()->getParam('process');
         if ($processId) {
             /** @var $process Magento_Index_Model_Process */
-            $process = $this->_entityFactory->create('Magento_Index_Model_Process')->load($processId);
+            $process = $this->_indexProcessFactory->create()->load($processId);
             if ($process->getId() && $process->getIndexer()->isVisible()) {
                 return $process;
             }
@@ -223,7 +223,7 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
                 $mode = $this->getRequest()->getParam('index_mode');
                 foreach ($processIds as $processId) {
                     /* @var $process Magento_Index_Model_Process */
-                    $process = $this->_entityFactory->create('Magento_Index_Model_Process')->load($processId);
+                    $process = $this->_indexProcessFactory->create()->load($processId);
                     if ($process->getId() && $process->getIndexer()->isVisible()) {
                         $process->setMode($mode)->save();
                         $counter++;
