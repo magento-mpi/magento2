@@ -8,8 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_report_product_exportlowstockexcel">
-        <update handle="adminhtml_report_product_lowstock_grid"/>
-        <container name="adminhtml.block.report.product.lowstock.grid.container" label="Excel XML"/>
-    </handle>
+    <update handle="adminhtml_report_product_lowstock_grid"/>
+    <container name="adminhtml.block.report.product.lowstock.grid.container" label="Excel XML"/>
 </layout>

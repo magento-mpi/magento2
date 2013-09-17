@@ -8,26 +8,24 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <reference name="header">
-            <block class="Magento_Core_Block_Template" name="top.search" as="topSearch"
-                   template="Magento_CatalogSearch::form.mini.phtml"/>
-        </reference>
-        <reference name="footer_links">
-            <block class="Magento_Page_Block_Link_Current" ifconfig="catalog/seo/search_terms"
-                   name="catalog-search-term-popular-link">
-                <arguments>
-                    <argument name="label" xsi:type="string">Search Terms</argument>
-                    <argument name="path" xsi:type="string">catalogsearch/term/popular</argument>
-                </arguments>
-            </block>
-            <block class="Magento_Page_Block_Link_Current" ifconfig="catalog/seo/search_terms"
-                   name="catalog-search-advanced-link">
-                <arguments>
-                    <argument name="label" xsi:type="string">Advanced Search</argument>
-                    <argument name="path" xsi:type="string">catalogsearch/advanced</argument>
-                </arguments>
-            </block>
-        </reference>
-    </handle>
+    <reference name="header">
+        <block class="Magento_Core_Block_Template" name="top.search" as="topSearch"
+               template="Magento_CatalogSearch::form.mini.phtml"/>
+    </reference>
+    <reference name="footer_links">
+        <block class="Magento_Page_Block_Link_Current" ifconfig="catalog/seo/search_terms"
+               name="catalog-search-term-popular-link">
+            <arguments>
+                <argument name="label" xsi:type="string">Search Terms</argument>
+                <argument name="path" xsi:type="string">catalogsearch/term/popular</argument>
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Link_Current" ifconfig="catalog/seo/search_terms"
+               name="catalog-search-advanced-link">
+            <arguments>
+                <argument name="label" xsi:type="string">Advanced Search</argument>
+                <argument name="path" xsi:type="string">catalogsearch/advanced</argument>
+            </arguments>
+        </block>
+    </reference>
 </layout>

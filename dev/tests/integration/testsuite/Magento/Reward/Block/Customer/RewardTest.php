@@ -22,7 +22,7 @@ class Magento_Reward_Block_Customer_RewardTest extends PHPUnit_Framework_TestCas
         Mage::getSingleton('Magento_Customer_Model_Session')->setCustomer($customer);
 
         $utility = new Magento_Core_Utility_Layout($this);
-        $layout = $utility->getLayoutFromFixture(__DIR__ . '/../../_files/customer_info.xml',
+        $layout = $utility->getLayoutFromFixture(__DIR__ . '/../../_files/magento_reward_customer_info.xml',
             $utility->getLayoutDependencies());
 
         $layout->getUpdate()->addHandle('magento_reward_customer_info')->load();

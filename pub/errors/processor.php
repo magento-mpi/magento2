@@ -125,7 +125,7 @@ class Error_Processor
 
     public function __construct()
     {
-        $this->_errorDir  = dirname(__FILE__) . '/';
+        $this->_errorDir  = __DIR__ . '/';
         $this->_reportDir = dirname(dirname($this->_errorDir)) . '/var/report/';
 
         if (!empty($_SERVER['SCRIPT_NAME'])) {

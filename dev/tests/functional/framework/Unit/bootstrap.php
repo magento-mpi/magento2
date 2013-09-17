@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-define('SELENIUM_UNIT_TESTS_BASEDIR', realpath(dirname(__FILE__)));
+define('SELENIUM_UNIT_TESTS_BASEDIR', realpath(__DIR__));
 define('SELENIUM_TESTS_BASEDIR', realpath(
     SELENIUM_UNIT_TESTS_BASEDIR . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..'));
 define('SELENIUM_TESTS_FWDIR', realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'framework'));

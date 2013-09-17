@@ -8,11 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_onepage_reorder">
-        <reference name="right">
-            <action method="unsetChild">
-                <argument name="name" xsi:type="string">reorder</argument>
-            </action>
-        </reference>
-    </handle>
+    <reference name="right">
+        <action method="unsetChild">
+            <argument name="name" xsi:type="string">reorder</argument>
+        </action>
+    </reference>
 </layout>

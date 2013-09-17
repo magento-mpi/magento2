@@ -13,6 +13,31 @@
             <value>install</value>
         </param>
     </virtualType>
+    <type name="Magento_Install_Block_Begin">
+        <param name="eulaFile">
+            <value>LICENSE.html</value>
+        </param>
+    </type>
+    <type name="Magento_Install_Model_Installer_Db">
+        <param name="dbConfig">
+            <value>
+                <mysql4>
+                    <type>pdo_mysql</type>
+                    <initStatements>SET NAMES utf8</initStatements>
+                    <min_version>4.1.20</min_version>
+                </mysql4>
+            </value>
+        </param>
+    </type>
+    <type name="Magento_Install_Model_Installer_Db_Abstract">
+        <param name="dbExtensions">
+            <value>
+                <mysql4>
+                    <pdo>pdo_mysql</pdo>
+                </mysql4>
+            </value>
+        </param>
+    </type>
     <type name="Magento_Install_Model_Config_Reader">
         <param name="fileName">
             <value>install_wizard.xml</value>

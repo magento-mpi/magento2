@@ -8,15 +8,13 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="customer_account">
-        <reference name="customer-account-navigation">
-            <block class="Magento_Page_Block_Link_Current"
-                   name="customer-account-navigation-downloadable-products-link">
-                <arguments>
-                    <argument name="path" xsi:type="string">downloadable/customer/products</argument>
-                    <argument name="label" xsi:type="string">My Downloadable Products</argument>
-                </arguments>
-            </block>
-        </reference>
-    </handle>
+    <reference name="customer-account-navigation">
+        <block class="Magento_Page_Block_Link_Current"
+               name="customer-account-navigation-downloadable-products-link">
+            <arguments>
+                <argument name="path" xsi:type="string">downloadable/customer/products</argument>
+                <argument name="label" xsi:type="string">My Downloadable Products</argument>
+            </arguments>
+        </block>
+    </reference>
 </layout>

@@ -92,7 +92,7 @@ class Magento_Connect_Singleconfig
      */
     public function getValidUri($str)
     {
-        $data = @parse_url($str);
+        $data = parse_url($str);
         if(isset($data['path'])) {
             return $data['path'];
         }

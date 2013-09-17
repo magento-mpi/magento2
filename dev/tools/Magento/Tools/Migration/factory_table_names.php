@@ -31,8 +31,8 @@ $isDryRunMode = isset($options['d']);
 $isSearchTables = isset($options['s']);
 
 require realpath(dirname(dirname(dirname(__DIR__)))) . '/dev/tests/static/framework/bootstrap.php';
-$tablesAssociation = getFilesCombinedArray(dirname(__FILE__) . '/FactoryTableNames', 'replace_*.php');
-$blackList = getFilesCombinedArray(dirname(__FILE__) . '/FactoryTableNames', 'blacklist_*.php');
+$tablesAssociation = getFilesCombinedArray(__DIR__ . '/FactoryTableNames', 'replace_*.php');
+$blackList = getFilesCombinedArray(__DIR__ . '/FactoryTableNames', 'blacklist_*.php');
 
 $phpFiles = Magento_TestFramework_Utility_Files::init()->getPhpFiles(true, false, false, false);
 
