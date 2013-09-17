@@ -25,18 +25,26 @@ class Magento_CustomAttribute_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_userDefinedAttributeCodes = array();
 
     /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+    
+    /**
      * @var Magento_Core_Model_LocaleInterface
      */
     protected $_locale;
 
     /**
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Helper_Context $context
     ) {
+        $this->_eavConfig = $eavConfig;
         $this->_locale = $locale;
         parent::__construct($context);
     }
@@ -435,7 +443,7 @@ class Magento_CustomAttribute_Helper_Data extends Magento_Core_Helper_Abstract
         if (empty($this->_userDefinedAttributeCodes[$entityTypeCode])) {
             $this->_userDefinedAttributeCodes[$entityTypeCode] = array();
             /* @var $config Magento_Eav_Model_Config */
-            $config = Mage::getSingleton('Magento_Eav_Model_Config');
+            $config = $this->_eavConfig;
             foreach ($config->getEntityAttributeCodes($entityTypeCode) as $attributeCode) {
                 $attribute = $config->getAttribute($entityTypeCode, $attributeCode);
                 if ($attribute && $attribute->getIsUserDefined()) {

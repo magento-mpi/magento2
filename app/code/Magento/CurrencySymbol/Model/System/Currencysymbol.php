@@ -72,11 +72,19 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $__systemStore;
+
+    /**
+     * @param Magento_Core_Model_System_Store $systemStore
      * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
+        Magento_Core_Model_System_Store $systemStore,
         Magento_Core_Model_Event_Manager $eventManager
     ) {
+        $this->_systemStore  = $systemStore;
         $this->_eventManager = $eventManager;
     }
 
@@ -127,7 +135,7 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
         );
 
         /* @var $storeModel Magento_Core_Model_System_Store */
-        $storeModel = Mage::getSingleton('Magento_Core_Model_System_Store');
+        $storeModel = $this->_systemStore;
         foreach ($storeModel->getWebsiteCollection() as $website) {
             $websiteShow = false;
             foreach ($storeModel->getGroupCollection() as $group) {

@@ -96,6 +96,28 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
     protected $_fieldNameFormat = '%1$s';
 
     /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($coreData, $context, $data);
+    }
+
+
+    /**
      * Add custom renderer block and template for rendering EAV entity attributes
      *
      * @param string $type
@@ -194,7 +216,7 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
      */
     public function setEntityType($entityType)
     {
-        $this->_entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType($entityType);
+        $this->_entityType = $this->_eavConfig->getEntityType($entityType);
         return $this;
     }
 
