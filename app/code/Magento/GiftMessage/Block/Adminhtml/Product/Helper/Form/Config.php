@@ -29,15 +29,17 @@ class Magento_GiftMessage_Block_Adminhtml_Product_Helper_Form_Config
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Data_Form_Element_Factory $factoryElement
      * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $attributes
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Data_Form_Element_Factory $factoryElement,
         Magento_Data_Form_Element_CollectionFactory $factoryCollection,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         $attributes = array()
     ) {
-        $this->_coreStoreConfig = Mage::getObjectManager()->get('Magento_Core_Model_Store_Config');
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
     }
 

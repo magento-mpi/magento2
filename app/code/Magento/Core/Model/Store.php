@@ -339,11 +339,11 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     {
         parent::__wakeup();
         if (Mage::getIsSerializable()) {
-            $this->_eventDispatcher = Mage::getSingleton('Magento_Core_Model_Event_Manager');
-            $this->_cacheManager    = Mage::getSingleton('Magento_Core_Model_CacheInterface');
-            $this->_coreStoreConfig = Mage::getObjectManager()->get('Magento_Core_Model_Store_Config');
-            $this->_coreConfig = Mage::getObjectManager()->get('Magento_Core_Model_Config');
-            $this->_coreFileStorageDatabase = Mage::getSingleton('Magento_Core_Helper_File_Storage_Database');
+            $this->_eventDispatcher = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Event_Manager');
+            $this->_cacheManager    = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_CacheInterface');
+            $this->_coreStoreConfig = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Store_Config');
+            $this->_coreConfig = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Config');
+            $this->_coreFileStorageDatabase = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Helper_File_Storage_Database');
         }
     }
 
