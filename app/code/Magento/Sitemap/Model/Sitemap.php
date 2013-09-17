@@ -102,14 +102,49 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
      *
      * @var Magento_Sitemap_Helper_Data
      */
-    protected $_sitemapData = null;
+    protected $_sitemapData;
 
     /**
      * Core data
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
+
+    /**
+     * @var Magento_Sitemap_Model_Resource_Catalog_CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * @var Magento_Sitemap_Model_Resource_Catalog_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_Sitemap_Model_Resource_Cms_PageFactory
+     */
+    protected $_cmsFactory;
+
+    /**
+     * @var Magento_Core_Model_Date
+     */
+    protected $_dateModel;
+
+    /**
+     * @varMagento_Core_Model_Dir
+     */
+    protected $_dirModel;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_request;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
@@ -117,6 +152,13 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Context $context
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Sitemap_Model_Resource_Catalog_CategoryFactory $categoryFactory
+     * @param Magento_Sitemap_Model_Resource_Catalog_ProductFactory $productFactory
+     * @param Magento_Sitemap_Model_Resource_Cms_PageFactory $cmsFactory
+     * @param Magento_Core_Model_Date $modelDate
+     * @param Magento_Core_Model_Dir $dirModel
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -127,6 +169,13 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
         Magento_Core_Model_Context $context,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_Registry $registry,
+        Magento_Sitemap_Model_Resource_Catalog_CategoryFactory $categoryFactory,
+        Magento_Sitemap_Model_Resource_Catalog_ProductFactory $productFactory,
+        Magento_Sitemap_Model_Resource_Cms_PageFactory $cmsFactory,
+        Magento_Core_Model_Date $modelDate,
+        Magento_Core_Model_Dir $dirModel,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Controller_Request_Http $request,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -134,6 +183,13 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
         $this->_coreData = $coreData;
         $this->_sitemapData = $sitemapData;
         $this->_filesystem = $filesystem;
+        $this->_categoryFactory = $categoryFactory;
+        $this->_productFactory = $productFactory;
+        $this->_cmsFactory = $cmsFactory;
+        $this->_dateModel = $modelDate;
+        $this->_dirModel = $dirModel;
+        $this->_storeManager = $storeManager;
+        $this->_request = $request;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -156,7 +212,7 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
         if ($this->_fileHandler) {
             return $this->_fileHandler;
         } else {
-            Mage::throwException(__('File handler unreachable'));
+            throw new Magento_Core_Exception(__('File handler unreachable'));
         }
     }
 
@@ -211,7 +267,7 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
      */
     protected function _getCategoryItemsCollection($storeId)
     {
-        return Mage::getResourceModel('Magento_Sitemap_Model_Resource_Catalog_Category')->getCollection($storeId);
+        return $this->_categoryFactory->create()->getCollection($storeId);
     }
 
     /**
@@ -222,7 +278,7 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
      */
     protected function _getProductItemsCollection($storeId)
     {
-        return Mage::getResourceModel('Magento_Sitemap_Model_Resource_Catalog_Product')->getCollection($storeId);
+        return $this->_productFactory->create()->getCollection($storeId);
     }
 
     /**
@@ -233,7 +289,7 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
      */
     protected function _getPageItemsCollection($storeId)
     {
-        return Mage::getResourceModel('Magento_Sitemap_Model_Resource_Cms_Page')->getCollection($storeId);
+        return $this->_cmsFactory->create()->getCollection($storeId);
     }
 
     /**
@@ -253,25 +309,25 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
         /** @var $helper Magento_Sitemap_Helper_Data */
         $helper = $this->_sitemapData;
         if (!$file->allowedPath($realPath, $this->_getBaseDir())) {
-            Mage::throwException(__('Please define a correct path.'));
+            throw new Magento_Core_Exception(__('Please define a correct path.'));
         }
         /**
          * Check exists and writeable path
          */
         if (!$file->fileExists($realPath, false)) {
-            Mage::throwException(__('Please create the specified folder "%1" before saving the sitemap.',
+            throw new Magento_Core_Exception(__('Please create the specified folder "%1" before saving the sitemap.',
                 $this->_coreData->escapeHtml($this->getSitemapPath())));
         }
 
         if (!$file->isWriteable($realPath)) {
-            Mage::throwException(__('Please make sure that "%1" is writable by the web-server.',
+            throw new Magento_Core_Exception(__('Please make sure that "%1" is writable by the web-server.',
                 $this->getSitemapPath()));
         }
         /**
          * Check allow filename
          */
         if (!preg_match('#^[a-zA-Z0-9_\.]+$#', $this->getSitemapFilename())) {
-            Mage::throwException(__('Please use only letters (a-z or A-Z), numbers (0-9) or underscores (_) in the filename. No spaces or other characters are allowed.'));
+            throw new Magento_Core_Exception(__('Please use only letters (a-z or A-Z), numbers (0-9) or underscores (_) in the filename. No spaces or other characters are allowed.'));
         }
         if (!preg_match('#\.xml$#', $this->getSitemapFilename())) {
             $this->setSitemapFilename($this->getSitemapFilename() . '.xml');
@@ -333,7 +389,7 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
             $this->_addSitemapToRobotsTxt($this->getSitemapFilename());
         }
 
-        $this->setSitemapTime(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate('Y-m-d H:i:s'));
+        $this->setSitemapTime($this->_dateModel->gmtDate('Y-m-d H:i:s'));
         $this->save();
 
         return $this;
@@ -474,7 +530,8 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
         $this->_fileHandler->open(array('path' => $path));
 
         if ($this->_fileHandler->fileExists($fileName) && !$this->_fileHandler->isWriteable($fileName)) {
-            Mage::throwException(__('File "%1" cannot be saved. Please, make sure the directory "%2" is writable by web server.',
+            throw new Magento_Core_Exception(
+                __('File "%1" cannot be saved. Please, make sure the directory "%2" is writable by web server.',
                     $fileName, $path
                 )
             );
@@ -532,7 +589,7 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
      */
     protected function _getBaseDir()
     {
-        return Mage::getBaseDir();
+        return $this->_dirModel->getDir(Magento_Core_Model_Dir::ROOT);
     }
 
     /**
@@ -553,7 +610,7 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
      */
     protected function _getStoreBaseUrl($type = Magento_Core_Model_Store::URL_TYPE_LINK)
     {
-        return rtrim(Mage::app()->getStore($this->getStoreId())->getBaseUrl($type), '/') . '/';
+        return rtrim($this->_storeManager->getStore($this->getStoreId())->getBaseUrl($type), '/') . '/';
     }
 
     /**
@@ -597,7 +654,7 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
      */
     protected function _getDocumentRoot()
     {
-        return Mage::app()->getRequest()->getServer('DOCUMENT_ROOT');
+        return $this->_request->getServer('DOCUMENT_ROOT');
     }
 
     /**

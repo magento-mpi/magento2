@@ -50,11 +50,19 @@ class Magento_SalesArchive_Model_Archive
     protected $_eventManager = null;
 
     /**
+     * @var Magento_SalesArchive_Model_Resource_Archive
+     */
+    protected $_archiveResource;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_SalesArchive_Model_Resource_Archive $archiveResource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_SalesArchive_Model_Resource_Archive $archiveResource
     ) {
+        $this->_archiveResource = $archiveResource;
         $this->_eventManager = $eventManager;
     }
 
@@ -71,11 +79,12 @@ class Magento_SalesArchive_Model_Archive
 
     /**
      * Get archive resource model
+     *
      * @return Magento_SalesArchive_Model_Resource_Archive
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('Magento_SalesArchive_Model_Resource_Archive');
+        return $this->_archiveResource;
     }
 
     /**
