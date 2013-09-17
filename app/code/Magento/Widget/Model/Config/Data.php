@@ -12,6 +12,6 @@ class Magento_Widget_Model_Config_Data extends Magento_Config_Data
      *
      * @var array
      */
-    protected $_scopePriorityScheme = array('global');
+    protected $_scopePriorityScheme = array('global', 'design');
 
 }

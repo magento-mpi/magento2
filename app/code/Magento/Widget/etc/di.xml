@@ -15,6 +15,9 @@
         <param name="schemaLocator">
             <instance type="Magento_Widget_Model_Config_SchemaLocator" />
         </param>
+        <param name="fileResolver">
+            <instance type="Magento_Widget_Model_Config_FileResolver" />
+        </param>
     </type>
     <type name="Magento_Widget_Model_Config_Data">
         <param name='reader'>
