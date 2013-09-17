@@ -10,11 +10,6 @@
  */
 
 $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-$objectManager->configure(array(
-    'preferences' => array(
-        'Magento_Core_Controller_Request_Http' => 'Magento_TestFramework_Request',
-    )
-));
 
 /** @var $query Magento_CatalogSearch_Model_Query */
 $query = $objectManager->create('Magento_CatalogSearch_Model_Query');

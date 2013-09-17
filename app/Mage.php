@@ -455,28 +455,6 @@ final class Mage
     }
 
     /**
-     * Retrieve helper object
-     *
-     * @param string $name the helper name
-     * @return Magento_Core_Helper_Abstract
-     */
-    public static function helper($name)
-    {
-        /* Default helper class for a module */
-        if (strpos($name, '_Helper_') === false) {
-            $name .= '_Helper_Data';
-        }
-        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
-        /** @var Magento_Core_Model_Registry $registryObject */
-        $registryObject = $objectManager->get('Magento_Core_Model_Registry');
-        $registryKey = '_helper/' . $name;
-        if (!$registryObject->registry($registryKey)) {
-            $registryObject->register($registryKey, $objectManager->get($name));
-        }
-        return $registryObject->registry($registryKey);
-    }
-
-    /**
      * Retrieve resource helper object
      *
      * @param string $moduleName

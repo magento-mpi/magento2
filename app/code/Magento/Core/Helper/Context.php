@@ -25,7 +25,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     protected $_eventManager;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_HttpProxy
      */
     protected $_httpRequest;
 
@@ -47,7 +47,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     /**
      * @param Magento_Core_Model_Translate $translator
      * @param Magento_Core_Model_ModuleManager $moduleManager
-     * @param Magento_Core_Controller_Request_Http $httpRequest
+     * @param Magento_Core_Controller_Request_HttpProxy $httpRequest
      * @param Magento_Core_Model_Cache_Config $cacheConfig
      * @param Magento_Core_Model_EncryptionFactory $encyptorFactory
      * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
@@ -56,7 +56,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     public function __construct(
         Magento_Core_Model_Translate $translator,
         Magento_Core_Model_ModuleManager $moduleManager,
-        Magento_Core_Controller_Request_Http $httpRequest,
+        Magento_Core_Controller_Request_HttpProxy $httpRequest,
         Magento_Core_Model_Cache_Config $cacheConfig,
         Magento_Core_Model_EncryptionFactory $encyptorFactory,
         Magento_Core_Model_Fieldset_Config $fieldsetConfig,
@@ -88,7 +88,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     }
 
     /**
-     * @return Magento_Core_Controller_Request_Http
+     * @return Magento_Core_Controller_Request_HttpProxy
      */
     public function getRequest()
     {
