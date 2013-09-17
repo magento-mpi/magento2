@@ -87,26 +87,14 @@ class Magento_Eav_Helper_Data extends Magento_Core_Helper_Abstract
     public function getFrontendClasses($entityTypeCode)
     {
         $_defaultClasses = $this->_getDefaultFrontendClasses();
+
         if (isset($this->_entityTypeFrontendClasses[$entityTypeCode])) {
             return array_merge(
                 $_defaultClasses,
                 $this->_entityTypeFrontendClasses[$entityTypeCode]
             );
         }
-        $_entityTypeClasses = Mage::app()->getConfig()
-            ->getNode('global/eav_frontendclasses/' . $entityTypeCode);
-        if ($_entityTypeClasses) {
-            foreach ($_entityTypeClasses->children() as $item) {
-                $this->_entityTypeFrontendClasses[$entityTypeCode][] = array(
-                    'value' => (string)$item->value,
-                    'label' => (string)$item->label
-                );
-            }
-            return array_merge(
-                $_defaultClasses,
-                $this->_entityTypeFrontendClasses[$entityTypeCode]
-            );
-        }
+
         return $_defaultClasses;
     }
 

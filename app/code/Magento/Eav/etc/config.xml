@@ -19,7 +19,6 @@
                 </setup>
             </eav_setup>
         </resources>
-        <eav_frontendclasses />
     </global>
     <default>
         <general>
