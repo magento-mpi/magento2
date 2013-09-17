@@ -29,7 +29,7 @@ return array(
             'custom_design_apply' => 'someValue', //deprecated attribute, should be empty
             'custom_design_from' => '11/16/2011', //date of start use design
             'custom_design_to' => '11/21/2011', //date of finish use design
-            'custom_layout_update' => '<block class="core/text_list" name="content" output="toHtml"/>',
+            'custom_layout_update' => '<block class="core/text_listtext" name="content" output="toHtml"/>',
             'meta_description' => 'Meta description',
             'meta_keywords' => 'Meta keywords',
             'meta_title' => 'Meta title',
@@ -55,8 +55,8 @@ return array(
             'custom_design_apply' => 'someValueUpdate', //deprecated attribute, should be empty
             'custom_design_from' => '11/21/2011', //date of start use design
             'custom_design_to' => '', //date of finish use design
-            'custom_layout_update' => '<block class="core/text_list" name="content" output="toHtml">
-                <block class="core/text_list" name="content" output="toHtml"/>
+            'custom_layout_update' => '<block class="core/text_listtext" name="content" output="toHtml">
+                <block class="core/text_listtext" name="content" output="toHtml"/>
             </block>',
             'meta_description' => 'Meta description update',
             'meta_keywords' => 'Meta keywords update',
@@ -71,7 +71,7 @@ return array(
     'vulnerability' => array(
         'categoryData' => (object)array(
             'is_active' => '8-1',
-            'custom_layout_update' => '<block class="core/text_list" name="contentDdd" output="toHtml">
+            'custom_layout_update' => '<block class="core/text_listtext" name="contentDdd" output="toHtml">
                         <block class="core/text_tag_debug" name="test111">
                             <action method="setValue">
                                 <arg helper="core/data/mergeFiles">
