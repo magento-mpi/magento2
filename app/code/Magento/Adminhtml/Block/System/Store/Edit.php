@@ -130,6 +130,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     protected function _buildFormClassName()
     {
-        return parent::_buildFormClassName() . '_' . ucwords($this->_coreRegistry->registry('store_type'));
+        return parent::_buildFormClassName() . '\\' . ucwords($this->_coreRegistry->registry('store_type'));
     }
 }
