@@ -31,9 +31,10 @@ class Magento_Eav_Model_Entity_Attribute_Config_Converter implements Magento_Con
             foreach ($entity->getElementsByTagName('attribute') as $entityAttribute) {
                 $attributeFields = array();
                 foreach ($entityAttribute->getElementsByTagName('field') as $fieldData) {
+                    $locked = $fieldData->attributes->getNamedItem('locked')->nodeValue == "true" ? true : false;
                     $attributeFields[$fieldData->attributes->getNamedItem('code')->nodeValue] = array(
                         'code' => $fieldData->attributes->getNamedItem('code')->nodeValue,
-                        'locked' => (bool)$fieldData->attributes->getNamedItem('locked')->nodeValue
+                        'locked' => $locked
                     );
                 }
                 $attributes[$entityAttribute->attributes->getNamedItem('code')->nodeValue] = $attributeFields;
