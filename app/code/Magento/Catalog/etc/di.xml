@@ -97,4 +97,18 @@
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
     </type>
+    <type name="Magento_Catalog_Model_Entity_Product_Attribute_Design_Options_Container">
+        <param name="options">
+            <value>
+                <option1>
+                    <value>container1</value>
+                    <label>Product Info Column</label>
+                </option1>
+                <option2>
+                    <value>container2</value>
+                    <label>Block after Info Column</label>
+                </option2>
+            </value>
+        </param>
+    </type>
 </config>

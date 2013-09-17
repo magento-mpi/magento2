@@ -43,18 +43,6 @@
         </index>
         <catalog>
             <product>
-                <design>
-                    <options_container>
-                        <option1 translate="label">
-                            <value>container1</value>
-                            <label>Product Info Column</label>
-                        </option1>
-                        <option2 translate="label">
-                            <value>container2</value>
-                            <label>Block after Info Column</label>
-                        </option2>
-                    </options_container>
-                </design>
                 <options>
                     <custom>
                         <groups>
