@@ -36,7 +36,7 @@ class HandlerFactory
         self::LAYOUT_ARGUMENT_TYPE_OBJECT => 'Magento\Core\Model\Layout\Argument\Handler\Object',
         self::LAYOUT_ARGUMENT_TYPE_OPTIONS => 'Magento\Core\Model\Layout\Argument\Handler\Options',
         self::LAYOUT_ARGUMENT_TYPE_URL => 'Magento\Core\Model\Layout\Argument\Handler\Url',
-        self::LAYOUT_ARGUMENT_TYPE_ARRAY => 'Magento\Core\Model\Layout\Argument\Handler\Array',
+        self::LAYOUT_ARGUMENT_TYPE_ARRAY => 'Magento\Core\Model\Layout\Argument\Handler\ArrayHandler',
         self::LAYOUT_ARGUMENT_TYPE_BOOLEAN => 'Magento\Core\Model\Layout\Argument\Handler\Boolean',
         self::LAYOUT_ARGUMENT_TYPE_HELPER => 'Magento\Core\Model\Layout\Argument\Handler\Helper',
         self::LAYOUT_ARGUMENT_TYPE_NUMBER => 'Magento\Core\Model\Layout\Argument\Handler\Number',
