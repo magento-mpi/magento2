@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_PersistentHistory
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <default>
+        <persistent>
+            <options>
+                <wishlist>1</wishlist>
+                <recently_ordered>1</recently_ordered>
+                <compare_current>1</compare_current>
+                <compare_history>1</compare_history>
+                <recently_viewed>1</recently_viewed>
+                <customer>1</customer>
+            </options>
+        </persistent>
+    </default>
+</config>

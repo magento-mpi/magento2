@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Pci
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <helpers>
+            <core>
+                <encryption_model>Magento_Pci_Model_Encryption</encryption_model>
+            </core>
+        </helpers>
+        <resources>
+            <pci_setup>
+                <setup>
+                    <module>Magento_Pci</module>
+                    <class>Magento_Core_Model_Resource_Setup</class>
+                </setup>
+            </pci_setup>
+        </resources>
+    </global>
+    <default>
+        <admin>
+            <security>
+                <session_lifetime>900</session_lifetime>
+                <lockout_failures>6</lockout_failures>
+                <lockout_threshold>30</lockout_threshold>
+                <password_lifetime>90</password_lifetime>
+                <password_is_forced>1</password_is_forced>
+            </security>
+        </admin>
+    </default>
+</config>

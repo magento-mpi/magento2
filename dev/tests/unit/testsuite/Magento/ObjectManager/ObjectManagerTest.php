@@ -25,10 +25,8 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $config = new Magento_ObjectManager_Config_Config(new Magento_ObjectManager_Relations_Runtime());
-        $factory = new Magento_ObjectManager_Interception_FactoryDecorator(
-            new Magento_ObjectManager_Factory_Factory(
+        $factory = new Magento_ObjectManager_Factory_Factory(
                 $config, null, null, array('one' => 'first_val', 'two' => 'second_val')
-            ), $config
         );
         $this->_object = new Magento_ObjectManager_ObjectManager($factory, $config);
     }
@@ -213,6 +211,15 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
         $this->assertNull($instance->child);
     }
 
+    public function testCreateInstantiatesOptionalObjectArgumentsIfTheyreProvided()
+    {
+        $instance = $this->_object->create(
+            'Magento_Test_Di_Aggregate_WithOptional', array('child' => array('instance' => 'Magento_Test_Di_Child'))
+        );
+        $this->assertNull($instance->parent);
+        $this->assertInstanceOf('Magento_Test_Di_Child', $instance->child);
+    }
+
     public function testCreateCreatesPreconfiguredInstance()
     {
         $this->_object->configure(array(
@@ -287,7 +294,7 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
 
         $this->_object->configure(array(
             'Magento_Test_Di_Parent' => array(
-                'shared' => 'false'
+                'shared' => false
             )
         ));
         $childA = $this->_object->create('customChildType');
@@ -300,7 +307,7 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
     {
         $this->_object->configure(array(
             'Magento_Test_Di_Parent' => array(
-                'shared' => 'false'
+                'shared' => false
             ),
             'customChildType' => array(
                 'type' => 'Magento_Test_Di_Aggregate_Child',
@@ -319,7 +326,7 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
         $this->_object->configure(array(
             'customChildType' => array(
                 'parameters' => array(
-                    'interface' => array('instance' => 'Magento_Test_Di_Parent', 'shared' => 'true'),
+                    'interface' => array('instance' => 'Magento_Test_Di_Parent', 'shared' => true),
                 )
             )
         ));
@@ -337,8 +344,8 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
             ),
             'Magento_Test_Di_Aggregate_Parent' => array(
                 'parameters' => array(
-                    'scalar' => array('argument' => 'Magento_Test_Di_Aggregate_Interface::PARAM_ONE'),
-                    'optionalScalar' => array('argument' => 'Magento_Test_Di_Aggregate_Interface::PARAM_TWO')
+                    'scalar' => array('argument' => 'one'),
+                    'optionalScalar' => array('argument' => 'two')
                 )
             )
         ));
@@ -346,5 +353,58 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
         $result = $this->_object->create('Magento_Test_Di_Aggregate_Parent');
         $this->assertEquals('first_val', $result->scalar);
         $this->assertEquals('second_val', $result->optionalScalar);
+    }
+
+    public function testConfiguredArgumentsAreInherited()
+    {
+        $this->_object->configure(array(
+            'Magento_Test_Di_Aggregate_Parent' => array(
+                'parameters' => array(
+                    'interface' => array('instance' => 'Magento_Test_Di_Parent'),
+                    'scalar' => array('argument' => 'one'),
+                    'optionalScalar' => 'parentOptionalScalar'
+                )
+            ),
+            'Magento_Test_Di_Aggregate_Child' => array(
+                'parameters' => array(
+                    'secondScalar' => 'childSecondScalar',
+                )
+            )
+        ));
+
+        /** @var $result Magento_Test_Di_Aggregate_Parent */
+        $result = $this->_object->create('Magento_Test_Di_Aggregate_Child');
+        $this->assertInstanceOf('Magento_Test_Di_Parent', $result->interface);
+        $this->assertEquals('first_val', $result->scalar);
+        $this->assertEquals('childSecondScalar', $result->secondScalar);
+        $this->assertEquals('parentOptionalScalar', $result->optionalScalar);
+    }
+
+    public function testConfiguredArgumentsOverrideInheritedArguments()
+    {
+        $this->_object->configure(array(
+            'Magento_Test_Di_Aggregate_Parent' => array(
+                'parameters' => array(
+                    'interface' => array('instance' => 'Magento_Test_Di_Parent'),
+                    'scalar' => array('argument' => 'one'),
+                    'optionalScalar' => 'parentOptionalScalar'
+                )
+            ),
+            'Magento_Test_Di_Aggregate_Child' => array(
+                'parameters' => array(
+                    'interface' => array('instance' => 'Magento_Test_Di_Child'),
+                    'scalar' => array('argument' => 'two'),
+                    'secondScalar' => 'childSecondScalar',
+                    'optionalScalar' => 'childOptionalScalar'
+                )
+            )
+        ));
+
+        /** @var $result Magento_Test_Di_Aggregate_Parent */
+        $result = $this->_object->create('Magento_Test_Di_Aggregate_Child');
+        $this->assertInstanceOf('Magento_Test_Di_Child', $result->interface);
+        $this->assertEquals('second_val', $result->scalar);
+        $this->assertEquals('childSecondScalar', $result->secondScalar);
+        $this->assertEquals('childOptionalScalar', $result->optionalScalar);
     }
 }

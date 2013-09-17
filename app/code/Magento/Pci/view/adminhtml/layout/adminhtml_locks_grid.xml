@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_locks_grid">
+        <update handle="formkey"/>
+        <update handle="adminhtml_locks_block"/>
+        <container label="Locks Users" name="pci.locks.container" output="1"/>
+    </handle>
+</layout>

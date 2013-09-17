@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Reports
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <reports_setup>
+                <setup>
+                    <module>Magento_Reports</module>
+                </setup>
+            </reports_setup>
+        </resources>
+    </global>
+    <default>
+        <catalog>
+            <recently_products>
+                <scope>website</scope>
+                <viewed_count>5</viewed_count>
+                <compared_count>5</compared_count>
+            </recently_products>
+        </catalog>
+        <reports>
+            <dashboard>
+                <ytd_start>1,1</ytd_start>
+                <mtd_start>1</mtd_start>
+            </dashboard>
+        </reports>
+    </default>
+</config>

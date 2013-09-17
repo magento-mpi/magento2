@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Core_Model_RouterList">
+        <param name="routerList">
+            <value>
+                <cms>
+                    <instance>Magento_Cms_Controller_Router</instance>
+                    <disable type="bool">false</disable>
+                    <sortOrder>60</sortOrder>
+                </cms>
+            </value>
+        </param>
+    </type>
+    <type name="Magento_Cms_Helper_Page">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Cms_Helper_Wysiwyg_Images">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Cms_Model_Page">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Cms_Model_Wysiwyg_Config">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Core_Helper_Data">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+        <param name="config">
+            <instance type="Magento_Core_Model_ConfigProxy" />
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Layout">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Locale">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Resource_Db_Collection_Abstract">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Resource_Setup">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Session_Abstract">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
+</config>

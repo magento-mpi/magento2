@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_catalog_product_related">
+        <container name="root" label="Root" output="1">
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Related" name="catalog.product.edit.tab.related"/>
+            <block class="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="related_grid_serializer">
+                <arguments>
+                    <argument name="input_names" xsi:type="string">position</argument>
+                    <argument name="grid_block" xsi:type="string">catalog.product.edit.tab.related</argument>
+                    <argument name="callback" xsi:type="string">getSelectedRelatedProducts</argument>
+                    <argument name="input_element_name" xsi:type="string">links[related]</argument>
+                    <argument name="reload_param_name" xsi:type="string">products_related</argument>
+                </arguments>
+            </block>
+        </container>
+    </handle>
+</layout>

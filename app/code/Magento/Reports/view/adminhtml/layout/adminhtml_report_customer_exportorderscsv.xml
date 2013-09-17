@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_report_customer_exportorderscsv">
+        <update handle="adminhtml_report_customer_orders_grid"/>
+        <container name="adminhtml.report.grid.container" label="Report Customer Order Grid Container"/>
+    </handle>
+</layout>

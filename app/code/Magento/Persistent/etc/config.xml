@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Persistent
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <persistent_setup>
+                <setup>
+                    <module>Magento_Persistent</module>
+                </setup>
+            </persistent_setup>
+        </resources>
+    </global>
+    <frontend>
+        <secure_url>
+            <persistent_onepage_register>/persistent/index/saveMethod</persistent_onepage_register>
+        </secure_url>
+    </frontend>
+    <default>
+        <persistent>
+            <options>
+                <enabled>0</enabled>
+                <lifetime>31536000</lifetime>
+                <remember_enabled>1</remember_enabled>
+                <remember_default>1</remember_default>
+                <logout_clear>1</logout_clear>
+                <shopping_cart>1</shopping_cart>
+            </options>
+        </persistent>
+    </default>
+    <crontab>
+        <jobs>
+            <persistent_clear_expired>
+                <schedule>
+                    <cron_expr>0 0 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>Magento_Persistent_Model_Observer::clearExpiredCronJob</model>
+                </run>
+            </persistent_clear_expired>
+        </jobs>
+    </crontab>
+</config>

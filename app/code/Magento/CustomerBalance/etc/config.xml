@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_CustomerBalance
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <customerbalance_setup>
+                <setup>
+                    <module>Magento_CustomerBalance</module>
+                    <class>Magento_CustomerBalance_Model_Resource_Setup</class>
+                </setup>
+            </customerbalance_setup>
+        </resources>
+        <template>
+            <email>
+                <customer_magento_customerbalance_email_template translate="label" module="Magento_CustomerBalance">
+                    <label>Store Credit Update</label>
+                    <file>email/update_notification.html</file>
+                    <type>html</type>
+                </customer_magento_customerbalance_email_template>
+            </email>
+        </template>
+        <sales>
+            <quote>
+                <totals>
+                    <customerbalance>
+                        <class>Magento_CustomerBalance_Model_Total_Quote_Customerbalance</class>
+                        <after>weee,discount,tax,tax_subtotal,grand_total</after>
+                        <renderer>Magento_CustomerBalance_Block_Checkout_Total</renderer>
+                    </customerbalance>
+                </totals>
+            </quote>
+            <order_invoice>
+                <totals>
+                    <customerbalance>
+                        <class>Magento_CustomerBalance_Model_Total_Invoice_Customerbalance</class>
+                        <after>grand_total</after>
+                    </customerbalance>
+                </totals>
+            </order_invoice>
+            <order_creditmemo>
+                <totals>
+                    <customerbalance>
+                        <class>Magento_CustomerBalance_Model_Total_Creditmemo_Customerbalance</class>
+                        <after>weee,discount,tax,grand_total</after>
+                    </customerbalance>
+                </totals>
+            </order_creditmemo>
+        </sales>
+        <pdf>
+            <totals>
+                <magento_customerbalance translate="title">
+                    <title>Store Credit</title>
+                    <source_field>customer_balance_amount</source_field>
+                    <amount_prefix>-</amount_prefix>
+                    <font_size>7</font_size>
+                    <display_zero>0</display_zero>
+                    <sort_order>560</sort_order>
+                </magento_customerbalance>
+                <magento_customerbalance_total_refunded translate="title">
+                    <title>Refunded to Store Credit</title>
+                    <source_field>customer_bal_total_refunded</source_field>
+                    <font_size>7</font_size>
+                    <display_zero>0</display_zero>
+                    <sort_order>700</sort_order>
+                </magento_customerbalance_total_refunded>
+            </totals>
+        </pdf>
+    </global>
+    <frontend>
+        <secure_url>
+            <storecredit_info>/storecredit/info/</storecredit_info>
+        </secure_url>
+    </frontend>
+    <default>
+        <customer>
+            <magento_customerbalance>
+                <is_enabled>1</is_enabled>
+                <email_template>customer_magento_customerbalance_email_template</email_template>
+                <email_identity>general</email_identity>
+                <show_history>1</show_history>
+            </magento_customerbalance>
+        </customer>
+        <sales>
+            <totals_sort>
+                <customerbalance>95</customerbalance>
+            </totals_sort>
+        </sales>
+    </default>
+</config>

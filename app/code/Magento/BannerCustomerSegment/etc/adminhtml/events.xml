@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="banner_edit_tab_properties_after_prepare_form">
+        <observer name="magento_bannercustomersegment" instance="Magento_BannerCustomerSegment_Model_Observer" method="addFieldsToBannerForm" />
+    </event>
+</config>

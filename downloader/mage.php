@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Connect
+ * @category    Magento
+ * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +13,7 @@ define('PS', PATH_SEPARATOR);
 define('BP', dirname(dirname(__FILE__)));
 define('MAGENTO_ROOT', dirname(dirname(__FILE__)));
 
-class __cli_Mage_Connect
+class __cli_Magento_Connect
 {
     private static $_instance;
     protected $argv;
@@ -30,7 +30,7 @@ class __cli_Mage_Connect
                 $this->argv = $argv;
         $this->setIncludes();
         require_once("Mage/Autoload/Simple.php");
-        Mage_Autoload_Simple::register();
+        Magento_Autoload_Simple::register();
         chdir(BP . DS . 'downloader' . DS);
         return $this;
     }
@@ -52,13 +52,13 @@ class __cli_Mage_Connect
 
     public function getCommands()
     {
-        return Mage_Connect_Command::getCommands();
+        return Magento_Connect_Command::getCommands();
     }
 
     public function getFrontend()
     {
-        $frontend = Mage_Connect_Frontend::getInstance('CLI');
-        Mage_Connect_Command::setFrontendObject($frontend);
+        $frontend = Magento_Connect_Frontend::getInstance('CLI');
+        Magento_Connect_Command::setFrontendObject($frontend);
         return $frontend;
     }
 
@@ -67,11 +67,11 @@ class __cli_Mage_Connect
         if (isset($this->config)) {
             return $this->config;
         }
-        $config = new Mage_Connect_Config($fileName);
+        $config = new Magento_Connect_Config($fileName);
         if (empty($config->magento_root)) {
            $config->magento_root = dirname(dirname(__FILE__));
         }
-        Mage_Connect_Command::setConfigObject($config);
+        Magento_Connect_Command::setConfigObject($config);
         $this->config = $config;
         return $config;
     }
@@ -91,7 +91,7 @@ class __cli_Mage_Connect
 
     public function parseCommandArgs($argv)
     {
-        $a = new Mage_System_Args();
+        $a = new Magento_System_Args();
         $args = $a->getFiltered();
         array_shift($args);
         return array($a->getFlags(), $args);
@@ -99,7 +99,7 @@ class __cli_Mage_Connect
 
     public function runCommand($cmd, $options, $params)
     {
-        $c = Mage_Connect_Command::getInstance($cmd);
+        $c = Magento_Connect_Command::getInstance($cmd);
         $c->run($cmd, $options, $params);
     }
 
@@ -107,13 +107,13 @@ class __cli_Mage_Connect
     public function getSingleConfig()
     {
         if(!$this->_sconfig) {
-            $this->_sconfig = new Mage_Connect_Singleconfig(
+            $this->_sconfig = new Magento_Connect_Singleconfig(
                     $this->getConfig()->magento_root . DS .
                     $this->getConfig()->downloader_path . DS .
-                    Mage_Connect_Singleconfig::DEFAULT_SCONFIG_FILENAME
+                    Magento_Connect_Singleconfig::DEFAULT_SCONFIG_FILENAME
             );
         }
-        Mage_Connect_Command::setSconfig($this->_sconfig);
+        Magento_Connect_Command::setSconfig($this->_sconfig);
         return $this->_sconfig;
     }
 
@@ -136,5 +136,5 @@ class __cli_Mage_Connect
 }
 
 if (defined('STDIN') && defined('STDOUT') && (defined('STDERR'))) {
-    __cli_Mage_Connect::instance()->init($argv)->run();
+    __cli_Magento_Connect::instance()->init($argv)->run();
 }

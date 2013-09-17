@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_tax_rate_exportxml">
+        <update handle="adminhtml_tax_rate_block"/>
+        <container name="adminhtml.tax.rate.container" label="Tax Rate Container"/>
+    </handle>
+</layout>

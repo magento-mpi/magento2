@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Rma
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <rma_setup>
+                <setup>
+                    <module>Magento_Rma</module>
+                    <class>Magento_Rma_Model_Resource_Setup</class>
+                </setup>
+            </rma_setup>
+        </resources>
+        <template>
+            <email>
+                <sales_email_magento_rma_template translate="label" module="Magento_Rma">
+                    <label>New RMA</label>
+                    <file>email/new.html</file>
+                    <type>html</type>
+                </sales_email_magento_rma_template>
+                <sales_email_magento_rma_guest_template translate="label" module="Magento_Rma">
+                    <label>New RMA for Guest</label>
+                    <file>email/new_guest.html</file>
+                    <type>html</type>
+                </sales_email_magento_rma_guest_template>
+                <sales_email_magento_rma_auth_template translate="label" module="Magento_Rma">
+                    <label>RMA Authorization</label>
+                    <file>email/auth.html</file>
+                    <type>html</type>
+                </sales_email_magento_rma_auth_template>
+                <sales_email_magento_rma_auth_guest_template translate="label" module="Magento_Rma">
+                    <label>RMA Authorization for Guest</label>
+                    <file>email/auth_guest.html</file>
+                    <type>html</type>
+                </sales_email_magento_rma_auth_guest_template>
+                <sales_email_magento_rma_comment_template translate="label" module="Magento_Rma">
+                    <label>RMA Admin Comments</label>
+                    <file>email/comment.html</file>
+                    <type>html</type>
+                </sales_email_magento_rma_comment_template>
+                <sales_email_magento_rma_comment_guest_template translate="label" module="Magento_Rma">
+                    <label>RMA Admin Comments for Guest</label>
+                    <file>email/comment_guest.html</file>
+                    <type>html</type>
+                </sales_email_magento_rma_comment_guest_template>
+                <sales_email_magento_rma_customer_comment_template translate="label" module="Magento_Rma">
+                    <label>RMA Customer Comments</label>
+                    <file>email/customer_comment.html</file>
+                    <type>html</type>
+                </sales_email_magento_rma_customer_comment_template>
+            </email>
+        </template>
+    </global>
+    <default>
+        <sales>
+            <magento_rma>
+                <use_store_address>1</use_store_address>
+                <country_id>US</country_id>
+                <enabled_on_product>1</enabled_on_product>
+            </magento_rma>
+        </sales>
+        <carriers>
+            <dhl>
+                <active_rma>0</active_rma>
+            </dhl>
+            <fedex>
+                <active_rma>0</active_rma>
+            </fedex>
+            <ups>
+                <active_rma>0</active_rma>
+            </ups>
+            <usps>
+                <active_rma>0</active_rma>
+            </usps>
+        </carriers>
+        <sales_email>
+            <magento_rma>
+                <enabled>1</enabled>
+                <template>sales_email_magento_rma_template</template>
+                <guest_template>sales_email_magento_rma_guest_template</guest_template>
+                <identity>sales</identity>
+                <copy_method>bcc</copy_method>
+            </magento_rma>
+            <magento_rma_auth>
+                <enabled>1</enabled>
+                <template>sales_email_magento_rma_auth_template</template>
+                <guest_template>sales_email_magento_rma_auth_guest_template</guest_template>
+                <identity>sales</identity>
+                <copy_method>bcc</copy_method>
+            </magento_rma_auth>
+            <magento_rma_comment>
+                <enabled>1</enabled>
+                <template>sales_email_magento_rma_comment_template</template>
+                <guest_template>sales_email_magento_rma_comment_guest_template</guest_template>
+                <identity>sales</identity>
+                <copy_method>bcc</copy_method>
+            </magento_rma_comment>
+            <magento_rma_customer_comment>
+                <enabled>1</enabled>
+                <template>sales_email_magento_rma_customer_comment_template</template>
+                <identity>support</identity>
+                <recipient>sales</recipient>
+                <copy_method>bcc</copy_method>
+            </magento_rma_customer_comment>
+        </sales_email>
+    </default>
+</config>

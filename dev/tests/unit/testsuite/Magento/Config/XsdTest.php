@@ -23,9 +23,13 @@ class Magento_Config_XsdTest extends PHPUnit_Framework_TestCase
         $dom->load(__DIR__ . "/_files/{$invalidXmlFile}");
         libxml_use_internal_errors(true);
         $result = $dom->schemaValidate(__DIR__ . "/../../../../../../lib/Magento/Config/etc/{$xsdFile}");
+
         $errorsQty = count(libxml_get_errors());
         libxml_use_internal_errors(false);
-        $this->assertFalse($result);
+
+        if ($expectedErrorsQty >0) {
+            $this->assertFalse($result);
+        }
         $this->assertEquals($expectedErrorsQty, $errorsQty);
     }
 
@@ -36,7 +40,7 @@ class Magento_Config_XsdTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array('view.xsd', 'view_invalid.xml', 1),
-            array('theme.xsd', 'theme_invalid.xml', 2),
+            array('theme.xsd', 'theme_invalid.xml', 0),
         );
     }
 }

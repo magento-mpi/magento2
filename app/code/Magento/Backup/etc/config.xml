@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Backup
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <backup_setup>
+                <setup>
+                    <module>Magento_Backup</module>
+                </setup>
+            </backup_setup>
+        </resources>
+    </global>
+    <crontab>
+        <jobs>
+            <system_backup>
+                <run>
+                    <model>Magento_Backup_Model_Observer::scheduledBackup</model>
+                </run>
+            </system_backup>
+        </jobs>
+    </crontab>
+</config>

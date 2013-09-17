@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <!-- Comment within root node -->
+    <preference for="Magento_Core_Model_Db_UpdaterInterface" type="Magento_Core_Model_Db_Updater" />
+    <preference for="Magento_Core_Model_AppInterface" type="Magento_Core_Model_App_Proxy" />
+    <type name="Magento_Core_Model_App_State">
+        <param name="mode">
+            <value type="argument">Mage::PARAM_MODE</value>
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Config_Modules">
+        <!-- Comment within type node -->
+        <param name="storage">
+            <!-- Comment within param node -->
+            <instance type="Magento_Core_Model_Config_Storage_Modules" shared="false" />
+        </param>
+        <plugin name="simple_modules_plugin" type="Magento_Core_Model_Config_Modules_Plugin" disabled="true" sortOrder="10" />
+        <plugin name="simple_modules_plugin_advanced" type="Magento_Core_Model_Config_Modules_PluginAdvanced" />
+        <plugin name="overridden_plugin" sortOrder="30" disabled="true" />
+    </type>
+    <type name="Magento_Http_Handler_Composite" shared="false">
+        <param name="factory">
+            <instance type="Magento_Http_HandlerFactory" />
+        </param>
+        <param name="handlers">
+            <value>
+                <!-- Comment within value node -->
+                <custom_handler>
+                    <sortOrder>25</sortOrder>
+                    <class>Custom_Cache_Model_Http_Handler</class>
+                </custom_handler>
+                <other_handler>
+                    <!-- Comment within child node of the value node that represents an assoc array -->
+                    <sortOrder>10</sortOrder>
+                    <class><![CDATA[Other_Cache_Model_Http_Handler]]></class>
+                </other_handler>
+            </value>
+        </param>
+    </type>
+    <type name="Varien_Data_Collection_Db_FetchStrategy_Cache">
+        <param name="cacheIdPrefix"><value><![CDATA[collection_]]></value></param>
+        <param name="cacheLifetime"><value>86400</value></param>
+        <param name="cacheTags">
+            <value>
+                <const type='const'>Magento_Core_Model_Website::CACHE_TAG</const>
+                <boolFalse type='bool'>false</boolFalse>
+                <boolTrue type='bool'>true</boolTrue>
+                <boolOne type='bool'>1</boolOne>
+                <boolZero type='bool'>0</boolZero>
+                <intValue type='int'>100500</intValue>
+                <nullValue type='null' />
+                <stringPattern type='string' pattern="[a-z\-]*">az-value</stringPattern>
+            </value>
+        </param>
+        <param name="constParam">
+            <value type='const'>Magento_Core_Model_Website::CACHE_TAG</value>
+        </param>
+        <param name="boolFalseParam">
+            <value type='bool'>false</value>
+        </param>
+        <param name="boolTrueParam">
+            <value type='bool'>true</value>
+        </param>
+        <param name="boolOneParam">
+            <value type='bool'>1</value>
+        </param>
+        <param name="boolZeroParam">
+            <value type='bool'>0</value>
+        </param>
+        <param name="intValueParam">
+            <value type='int'>100500</value>
+        </param>
+        <param name="nullValueParam">
+            <value type='null' />
+        </param>
+        <param name="stringPatternParam">
+            <value type='string' pattern="[a-z\-]*">az-value</value>
+        </param>
+    </type>
+    <virtualType name="customCacheInstance" type="Magento_Core_Model_Cache" shared="true" />
+    <virtualType name="customOverriddenInstance" shared="false" />
+</config>

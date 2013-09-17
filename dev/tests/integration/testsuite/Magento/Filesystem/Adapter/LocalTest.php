@@ -18,18 +18,18 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     {
         $this->_adapter = new Magento_Filesystem_Adapter_Local();
 
-        Varien_Io_File::rmdirRecursive(self::_getTmpDir());
+        Magento_Io_File::rmdirRecursive(self::_getTmpDir());
         mkdir(self::_getTmpDir());
     }
 
     protected function tearDown()
     {
-        Varien_Io_File::rmdirRecursive(self::_getTmpDir());
+        Magento_Io_File::rmdirRecursive(self::_getTmpDir());
     }
 
     protected static function _getTmpDir()
     {
-        return Mage::getBaseDir(Mage_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . __CLASS__;
+        return Mage::getBaseDir(Magento_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . __CLASS__;
     }
 
     /**
@@ -115,7 +115,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
 
     public function testWriteException()
     {
-        $filename = "forbidden-symbol\0";
+        $filename = __DIR__;
         $this->setExpectedException('Magento_Filesystem_Exception', "Failed to write contents to '{$filename}'");
         $this->_adapter->write($filename, 'any contents');
     }
@@ -131,8 +131,8 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
 
     public function testDeleteDir()
     {
-        $fileName = self::_getTmpDir() . '/new_directory/tempFile3.css';
         $dirName = self::_getTmpDir() . '/new_directory';
+        $fileName = $dirName . '/tempFile3.css';
         mkdir($dirName, 0755);
         file_put_contents($fileName, 'test data');
         $this->_adapter->delete($dirName);
@@ -161,8 +161,8 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
         if (substr(PHP_OS, 0, 3) == 'WIN') {
             $this->markTestSkipped("chmod may not work for Windows");
         }
-        $fileName = self::_getTmpDir() . 'new_directory2/tempFile3.css';
-        $dirName = self::_getTmpDir() . 'new_directory2';
+        $dirName = self::_getTmpDir() . '/new_directory2';
+        $fileName = $dirName . '/tempFile3.css';
         mkdir($dirName, 0777);
         file_put_contents($fileName, 'test data');
         $this->_adapter->changePermissions($dirName, 0755, true);
@@ -266,7 +266,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
 
     public function testCreateDirectoryException()
     {
-        $filename = "forbidden-symbol\0";
+        $filename = __FILE__;
         $this->setExpectedException('Magento_Filesystem_Exception', "Failed to create '{$filename}'");
         $this->_adapter->createDirectory($filename, 0755);
     }
@@ -298,13 +298,9 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException Magento_Filesystem_Exception
-     * @expectedExceptionMessage
-     */
     public function testTouchException()
     {
-        $filename = "forbidden-symbol\0";
+        $filename = __FILE__ . '/invalid';
         $this->setExpectedException('Magento_Filesystem_Exception', "Failed to touch '{$filename}'");
         $this->_adapter->touch($filename);
     }

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="sales_order_place_after">
+        <observer name="sales_vat_request_params_order_comment" instance="Magento_Sales_Model_Observer" method="addVatRequestParamsOrderComment" />
+    </event>
+</config>

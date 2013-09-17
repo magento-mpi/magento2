@@ -1,0 +1,24 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="message message-info">
+    <div class="message-inner">
+        <div class="message-content"><?php echo __('Changing address information will not recalculate shipping, tax or other order amount.') ?></div>
+    </div>
+</div>
+<fieldset class="fieldset">
+    <legend class="legend">
+        <span><?php echo $this->getHeaderText() ?></span>
+    </legend>
+    <br>
+    <div class="form-inline">
+        <?php echo $this->getForm()->toHtml() ?>
+    </div>
+</fieldset>

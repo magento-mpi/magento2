@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_catalog_product_superconfig">
+        <update handle="adminhtml_catalog_product_superconfig_config"/>
+        <container output="1" name="admin.product.edit.tab.super.config.grid.container" label="grid"/>
+    </handle>
+</layout>

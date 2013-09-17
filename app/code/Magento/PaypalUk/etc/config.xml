@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_PaypalUk
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <paypaluk_setup>
+                <setup>
+                    <module>Magento_PaypalUk</module>
+                </setup>
+            </paypaluk_setup>
+        </resources>
+    </global>
+    <frontend>
+        <secure_url>
+            <paypaluk_express>/paypaluk/express</paypaluk_express>
+        </secure_url>
+    </frontend>
+    <default>
+        <payment>
+            <paypaluk_express>
+                <model>Magento_PaypalUk_Model_Express</model>
+            </paypaluk_express>
+            <paypaluk_direct>
+                <model>Magento_PaypalUk_Model_Direct</model>
+            </paypaluk_direct>
+        </payment>
+    </default>
+</config>

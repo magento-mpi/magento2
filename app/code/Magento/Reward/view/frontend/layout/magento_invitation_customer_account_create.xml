@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="magento_invitation_customer_account_create">
+        <reference name="customer.form.register.invitation.fields.before">
+            <block class="Magento_Reward_Block_Tooltip" name="reward.tooltip.register" template="tooltip.phtml">
+                <arguments>
+                    <argument name="reward_type" xsi:type="string">Magento_Reward_Model_Action_Register</argument>
+                </arguments>
+                <action method="setRewardMessage">
+                    <argument translate="true" name="message" xsi:type="string">Register on our site now and earn %s.</argument>
+                </action>
+            </block>
+            <block class="Magento_Reward_Block_Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml" after="reward.tooltip.register">
+                <arguments>
+                    <argument name="reward_type" xsi:type="string">Magento_Reward_Model_Action_Newsletter</argument>
+                </arguments>
+                <action method="setRewardMessage">
+                    <argument translate="true" name="message" xsi:type="string">Subscribe to our newsletter now and earn %s.</argument>
+                </action>
+            </block>
+        </reference>
+    </handle>
+</layout>

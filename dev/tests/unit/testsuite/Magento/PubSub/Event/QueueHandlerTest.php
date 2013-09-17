@@ -46,40 +46,40 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
     private $_actualJobsMap;
 
 
-    public function setUp()
+    protected function setUp()
     {
         /**
          * Mock objects
          */
-        $this->_subscriptionMockA = $this->getMockBuilder('Mage_Webhook_Model_Subscription')
+        $this->_subscriptionMockA = $this->getMockBuilder('Magento_Webhook_Model_Subscription')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->_subscriptionMockB = clone $this->_subscriptionMockA;
 
-        $this->_eventQueueMock = $this->getMockBuilder('Mage_Webhook_Model_Event_QueueReader')
+        $this->_eventQueueMock = $this->getMockBuilder('Magento_Webhook_Model_Event_QueueReader')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_jobQueueMock = $this->getMockBuilder('Mage_Webhook_Model_Job_QueueWriter')
+        $this->_jobQueueMock = $this->getMockBuilder('Magento_Webhook_Model_Job_QueueWriter')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_jobFactoryMock = $this->getMockBuilder('Mage_Webhook_Model_Job_Factory')
+        $this->_jobFactoryMock = $this->getMockBuilder('Magento_Webhook_Model_Job_Factory')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_subxCollectionMock = $this->getMockBuilder('Mage_Webhook_Model_Resource_Subscription_Collection')
+        $this->_subxCollectionMock = $this->getMockBuilder('Magento_Webhook_Model_Resource_Subscription_Collection')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_eventMockA = $this->getMockBuilder('Mage_Webhook_Model_Event')
+        $this->_eventMockA = $this->getMockBuilder('Magento_Webhook_Model_Event')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->_eventMockB = clone $this->_eventMockA;
 
-        $this->_jobMock = $this->getMockBuilder('Mage_Webhook_Model_Job')
+        $this->_jobMock = $this->getMockBuilder('Magento_Webhook_Model_Job')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -153,7 +153,7 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
      *
      * @param $subscription
      * @param $event
-     * @return PHPUnit_Framework_MockObject_MockObject  Is a mock of Mage_Webhook_Model_Job
+     * @return PHPUnit_Framework_MockObject_MockObject  Is a mock of Magento_Webhook_Model_Job
      */
     public function logJob($subscription, $event)
     {

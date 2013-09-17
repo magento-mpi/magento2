@@ -44,8 +44,8 @@
  * @method Core_Mage_Order_Helper|Enterprise_Mage_Order_Helper                                         orderHelper()
  * @method Core_Mage_Paypal_Helper                                                                     paypalHelper()
  * @method Core_Mage_PriceRules_Helper|Enterprise_Mage_PriceRules_Helper                               priceRulesHelper()
- * @method Core_Mage_ProductAttribute_Helper|Saas_Mage_ProductAttribute_Helper                         productAttributeHelper()
- * @method Core_Mage_Product_Helper|Enterprise_Mage_Product_Helper|Saas_Mage_Product_Helper            productHelper()
+ * @method Core_Mage_ProductAttribute_Helper                                                           productAttributeHelper()
+ * @method Core_Mage_Product_Helper|Enterprise_Mage_Product_Helper                                     productHelper()
  * @method Core_Mage_Rating_Helper                                                                     ratingHelper()
  * @method Core_Mage_Reports_Helper                                                                    reportsHelper()
  * @method Core_Mage_Review_Helper                                                                     reviewHelper()
@@ -59,6 +59,7 @@
  * @method Core_Mage_TermsAndConditions_Helper                                                         termsAndConditionsHelper()
  * @method Core_Mage_Theme_Helper                                                                      themeHelper()
  * @method Core_Mage_TransactionalEmails_Helper                                                        transactionalEmailsHelper()
+ * @method Core_Mage_UrlRewrite_Helper                                                                 urlRewriteHelper()
  * @method Core_Mage_Vde_Helper                                                                        vdeHelper()
  * @method Core_Mage_Wishlist_Helper|Enterprise_Mage_Wishlist_Helper                                   wishlistHelper()
  * @method Core_Mage_XmlSitemap_Helper                                                                 xmlSitemapHelper()
@@ -74,11 +75,6 @@
  * @method Enterprise_Mage_Rma_Helper                                                                  rmaHelper()
  * @method Enterprise_Mage_Rollback_Helper                                                             rollbackHelper()
  * @method Enterprise_Mage_WebsiteRestrictions_Helper                                                  websiteRestrictionsHelper()
- * @method Saas_Mage_Printedtemplate_Helper                                                            printedtemplateHelper()
- * @method Saas_Mage_StoreLauncher_Helper                                                              storeLauncherHelper()
- * @method Saas_Mage_Tmt_Helper                                                                        tmtHelper()
- * @method Saas_Mage_TmtApi_Helper                                                                     tmtApiHelper()
- * @method Saas_Mage_Unitprice_Helper                                                                  unitpriceHelper()
  */
 //@codingStandardsIgnoreEnd
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
@@ -846,13 +842,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                     break;
             }
         }
-        if (preg_match('/%design_package_theme%/', $value)) {
-            $value = preg_replace('/%design_package_theme%/',
-                $this->_configHelper->getApplicationDesignTheme(), $value);
-        }
         if (preg_match('/%design_theme%/', $value)) {
-            list(, $theme) = explode('/', $this->_configHelper->getApplicationDesignTheme());
-            $value = preg_replace('/%design_theme%/', trim($theme), $value);
+            $value = preg_replace('/%design_theme%/', $this->_configHelper->getApplicationDesignTheme(), $value);
         }
     }
 

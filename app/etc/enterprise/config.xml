@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <skip_process_modules_updates>0</skip_process_modules_updates>
+        <configurators>
+            <magento_search>Magento_Search_Model_ObjectManager_Configurator</magento_search>
+        </configurators>
+    </global>
+</config>

@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <versionscms_setup>
+                <setup>
+                    <module>Magento_VersionsCms</module>
+                    <class>Magento_Core_Model_Resource_Setup</class>
+                </setup>
+            </versionscms_setup>
+        </resources>
+        <magento_versionscms>
+            <hierarchy>
+                <menu>
+                    <layouts>
+                        <content translate="label">
+                            <label>Content</label>
+                            <layout_handle>magento_versionscms_hierarchy_menu_content</layout_handle>
+                            <is_default>1</is_default>
+                        </content>
+                        <left_column translate="label">
+                            <label>Left Column</label>
+                            <layout_handle>magento_versionscms_hierarchy_menu_left_column</layout_handle>
+                            <page_layout_handles>
+                                <page_two_columns_left />
+                                <page_three_columns />
+                            </page_layout_handles>
+                        </left_column>
+                        <right_column translate="label">
+                            <label>Right Column</label>
+                            <layout_handle>magento_versionscms_hierarchy_menu_right_column</layout_handle>
+                            <page_layout_handles>
+                                <page_two_columns_right />
+                                <page_three_columns />
+                            </page_layout_handles>
+                        </right_column>
+                    </layouts>
+                </menu>
+            </hierarchy>
+        </magento_versionscms>
+    </global>
+    <default>
+        <cms>
+            <hierarchy>
+                <enabled>1</enabled>
+                <metadata_enabled>1</metadata_enabled>
+                <menu_layout>content</menu_layout>
+            </hierarchy>
+            <content>
+                <versioning>1</versioning>
+            </content>
+        </cms>
+    </default>
+</config>

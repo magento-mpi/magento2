@@ -1,6 +1,6 @@
 <?php
 /**
- * Validates properties of entity (Varien_Object).
+ * Validates properties of entity (Magento_Object).
  *
  * {license_notice}
  *
@@ -25,19 +25,19 @@ class Magento_Validator_Entity_Properties extends Magento_Validator_ValidatorAbs
     }
 
     /**
-     * Successful if $value is Varien_Object an all condition are fulfilled.
+     * Successful if $value is Magento_Object an all condition are fulfilled.
      *
      * If read-only properties are set than $value mustn't have changes in them.
      *
-     * @param Varien_Object|mixed $value
+     * @param Magento_Object|mixed $value
      * @return bool
-     * @throws InvalidArgumentException when $value is not instanceof Varien_Object
+     * @throws InvalidArgumentException when $value is not instanceof Magento_Object
      */
     public function isValid($value)
     {
         $this->_clearMessages();
-        if (!($value instanceof Varien_Object)) {
-            throw new InvalidArgumentException('Instance of Varien_Object is expected.');
+        if (!($value instanceof Magento_Object)) {
+            throw new InvalidArgumentException('Instance of Magento_Object is expected.');
         }
         if ($this->_readOnlyProperties) {
             if (!$value->hasDataChanges()) {
@@ -46,7 +46,7 @@ class Magento_Validator_Entity_Properties extends Magento_Validator_ValidatorAbs
             foreach ($this->_readOnlyProperties as $property) {
                 if ($this->_hasChanges($value->getData($property), $value->getOrigData($property))) {
                     $this->_messages[__CLASS__] = array(
-                        $this->getTranslator()->__("Read-only property cannot be changed.")
+                        __("Read-only property cannot be changed.")
                     );
                     break;
                 }

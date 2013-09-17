@@ -1,7 +1,0 @@
-# A list similar to "common.txt", but distinguishes items that belong to Magento EE
-# These items and this file are not published in Magento CE
-#
-app/code/Enterprise/Banner/Block/Adminhtml/Banner/Edit/Tab/Content.php
-app/code/Enterprise/Banner/Block/Widget/Banner.php
-app/code/Enterprise/Banner/controllers/Adminhtml/BannerController.php
-app/code/Enterprise/Banner/view

@@ -1,0 +1,22 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php $_product = $this->getProduct(); ?>
+<?php $buttonTitle = __('Add to Cart'); ?>
+<?php if($_product->isSaleable()): ?>
+    <div class="add-to-cart">
+        <?php if(!$_product->isGrouped()): ?>
+        <label for="qty"><?php echo __('Qty:') ?></label>
+        <input type="text" name="qty" id="qty" maxlength="12" value="" placeholder="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo __('Qty') ?>" class="input-text qty" />
+        <?php endif; ?>
+    </div>
+    <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><?php echo $buttonTitle ?></button>
+    <?php echo $this->getChildHtml('', true) ?>
+<?php endif; ?>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Theme
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <theme>
+            <css>
+                <upload_limit>2M</upload_limit>
+            </css>
+            <js>
+                <upload_limit>2M</upload_limit>
+            </js>
+        </theme>
+    </global>
+    <default>
+        <theme>
+            <customization>
+                <custom_css>Magento_Theme_Model_Theme_Customization_File_CustomCss</custom_css>
+            </customization>
+        </theme>
+    </default>
+</config>

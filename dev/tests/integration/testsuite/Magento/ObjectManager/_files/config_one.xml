@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <preference for="Magento_Core_Model_Db_UpdaterInterface" type="Magento_Core_Model_Db_Updater" />
+    <type name="Magento_Core_Model_Config_Loader_Local">
+        <param name="customFile">
+            <value type="argument">Mage::PARAM_CUSTOM_LOCAL_FILE</value>
+        </param>
+        <param name="customConfig">
+            <instance shared="true" type="Magento_Core_Model_Config_Storage_Modules" />
+        </param>
+        <param name="customValue">
+            <value>someValue</value>
+        </param>
+        <param name="customComplexValue">
+            <value transalte="one,two" module="Some_Module">
+                <one>one</one>
+                <two>two</two>
+            </value>
+        </param>
+        <plugin name="one" type="somePluginOne"/>
+        <plugin name="two" type="somePluginTwo" sortOrder="15"/>
+    </type>
+    <virtualType name="Magento_Core_Model_Config_Loader_LocalVirtual" type="Magento_Core_Model_Config_Loader_Local" shared="false">
+        <param name="customFile">
+            <value type="argument">Mage::PARAM_CUSTOM_LOCAL_FILE</value>
+        </param>
+        <param name="customConfig">
+            <instance type="Magento_Core_Model_Config_Storage_Modules" />
+        </param>
+        <param name="customValue">
+            <value>someValue</value>
+        </param>
+        <param name="customComplexValue">
+            <value transalte="one,two" module="Some_Module">
+                <one>one</one>
+                <two>one</two>
+            </value>
+        </param>
+        <plugin name="one" type="somePluginOne" sortOrder="10" />
+        <plugin name="two" type="somePluginTwo"/>
+    </virtualType>
+    <type name="Varien_Data_Collection_Db_FetchStrategy_Cache">
+        <param name="cacheIdPrefix"><value><![CDATA[collection_]]></value></param>
+        <param name="cacheLifetime"><value>86400</value></param>
+        <param name="cacheTags">
+            <value>
+                <const type='const'>Magento_Core_Model_Website::CACHE_TAG</const>
+                <boolFalse type='bool'>false</boolFalse>
+                <boolTrue type='bool'>true</boolTrue>
+                <boolOne type='bool'>1</boolOne>
+                <boolZero type='bool'>0</boolZero>
+                <intValue type='int'>100500</intValue>
+                <nullValue type='null' />
+                <stringPattern type='string' pattern="[a-z\-]*">az-value</stringPattern>
+            </value>
+        </param>
+        <param name="constParam">
+            <value type='const'>Magento_Core_Model_Website::CACHE_TAG</value>
+        </param>
+        <param name="boolFalseParam">
+            <value type='bool'>false</value>
+        </param>
+        <param name="boolTrueParam">
+            <value type='bool'>true</value>
+        </param>
+        <param name="boolOneParam">
+            <value type='bool'>1</value>
+        </param>
+        <param name="boolZeroParam">
+            <value type='bool'>0</value>
+        </param>
+        <param name="intValueParam">
+            <value type='int'>100500</value>
+        </param>
+        <param name="nullValueParam">
+            <value type='null' />
+        </param>
+        <param name="stringPatternParam">
+            <value type='string' pattern="[a-z\-]*">az-value</value>
+        </param>
+    </type>
+</config>

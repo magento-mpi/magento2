@@ -114,33 +114,4 @@ applications:
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
-    saas: &saas
-        fallbackOrderFixture: 'saas, enterprise, default'
-        fallbackOrderHelper: 'Saas, Enterprise, Core'
-        design_theme: Enterprise/Plushe
-        ftp: *ftp
-        areas:
-            admin:
-                url: '{{saas_admin_url}}'
-                base_page_uimap: 'log_in_to_admin'
-                uimap_path: 'admin'
-                login: 'admin'
-                password: '123123q'
-                after_login_page: 'store_launcher'
-            frontend:
-                url: '{{saas_url}}'
-                base_page_uimap: 'home_page'
-                uimap_path: 'frontend'
-            paypal_sandbox: *paypalSandbox
-            paypal_developer: *paypalDeveloper
-            tmt:
-                url: '{{tmt_url}}'
-                base_page_uimap: 'home'
-                uimap_path: 'tmt'
-            tmt_api:
-                url: '{{tmt_api_url}}'
-                base_page_uimap: ~
-                uimap_path: ~
-                login: '{{tmt_api_login}}'
-                password: '{{tmt_api_pwd}}'
     default: *{{selenium_testsuite}}

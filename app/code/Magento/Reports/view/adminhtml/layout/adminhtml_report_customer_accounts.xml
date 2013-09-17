@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_report_customer_accounts">
+        <update handle="adminhtml_report_customer_accounts_grid"/>
+        <reference name="content">
+            <block class="Magento_Reports_Block_Adminhtml_Customer_Accounts" name="adminhtml.report.grid.container"/>
+        </reference>
+    </handle>
+</layout>

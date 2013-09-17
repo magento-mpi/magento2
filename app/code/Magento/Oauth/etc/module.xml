@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_Oauth" version="1.0.0.1" active="true">
+        <sequence>
+            <module name="Magento_Core"/>
+            <module name="Magento_User"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Core"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Page"/>
+        </depends>
+    </module>
+</config>

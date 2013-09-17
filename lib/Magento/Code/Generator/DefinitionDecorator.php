@@ -74,6 +74,6 @@ class Magento_Code_Generator_DefinitionDecorator implements Magento_ObjectManage
      */
     public function getClasses()
     {
-        $this->_decoratedDefinition->getClasses();
+        return $this->_decoratedDefinition->getClasses();
     }
 }

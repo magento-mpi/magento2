@@ -85,10 +85,21 @@ edit_customer:
                                     xpath: //dl[dt/a='Reward Points History']
                                     pageelements:
                                         reward_points_history_rows_number: //td[@class='pager']//span[contains(@id,'rewardPointsHistoryGrid-total-count')]
-                                    dropdowns:
-                                        filter_website: //select[@id='rewardPointsHistoryGrid_filter_website']
                                     links:
                                         reward_points_history_link: //a[contains(.,'Reward Points History')]
+                            -
+                                reward_points_history_grid:
+                                    xpath: //*[@id='rewardPointsHistoryGrid']
+                                    fields:
+                                        pager: //input[@name='page']
+                                        filter_created_from: //*[@name='created_at[from]']
+                                        filter_created_to: //*[@name='created_at[to]']
+                                    dropdowns:
+                                        filter_website: //select[@id='rewardPointsHistoryGrid_filter_website']
+                                        filter_limit_page: //select[@name='limit']
+                                    buttons:
+                                        reset_filter: //button[@title='Reset Filter']
+                                        search: //button[@title='Search']
                         pageelements:
                             reward_points_balance_head: //div[@id='customer_info_tabs_customer_edit_tab_reward_content']//div[@id='rewardPointsBalanceGrid']//div[@class='grid']//thead
         buttons:
@@ -117,7 +128,7 @@ manage_invitations:
                             invitee_group: //select[@id='invitationGrid_filter_group_id']
                             view_per_page: //select[@name='limit']
                         fields:
-                            id: //input[@id='invitationGrid_filter_enterprise_invitation_id']
+                            id: //input[@id='invitationGrid_filter_magento_invitation_id']
                             email: //input[@id='invitationGrid_filter_email']
                             sent_from: //input[@name='invitation_date[from]']
                             sent_to: //input[@name='invitation_date[to]']

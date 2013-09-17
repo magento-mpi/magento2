@@ -1,0 +1,20 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @var $this Magento_Backend_Block_Widget_Button
+ */
+?>
+<?php echo $this->getBeforeHtml(); ?>
+<button <?php echo $this->getAttributesHtml(), $this->getUiId(); ?>>
+    <span><?php echo $this->getLabel(); ?></span>
+</button>
+<?php echo $this->getAfterHtml(); ?>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Poll
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <poll_setup>
+                <setup>
+                    <module>Magento_Poll</module>
+                </setup>
+            </poll_setup>
+        </resources>
+    </global>
+</config>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="google_checkout_discount_item_price">
+        <observer name="magento_giftcardaccount" instance="Magento_GiftCardAccount_Model_Observer" method="googleCheckoutDiscoutItem" />
+    </event>
+</config>

@@ -424,3 +424,173 @@ scheduled_import_export:
         6: Status
         7: Last Outcome
         8: Action
+#dataset for ui elements in Reward Points History grid on customer edit page
+
+reward_points_history_grid:
+    fieldset:
+        reward_points_history_grid: tablename
+    field:
+        pager:
+        filter_created_from:
+        filter_created_to:
+    dropdown:
+        filter_website:
+        filter_limit_page:
+    button:
+        reset_filter:
+        search:
+    headers:
+        0: Balance
+        1: Amount Balance
+        2: Points
+        3: Amount
+        4: Rate
+        5: Website
+        6: Reason
+        7: Created
+        8: Expires
+        9: Comment
+
+#dataset for ui elements in Search Terms edit grid
+catalog_search_edit_page:
+    fieldset:
+        catalog_search_edit_grid: tablename
+    field:
+        pager: ~
+        filter_id: ~
+        filter_search_query: ~
+        filter_results_from: ~
+        filter_results_to: ~
+        filter_numb_of_uses_from: ~
+        filter_numb_of_uses_to: ~
+        filter_synonym_for: ~
+        filter_redirect: ~
+    dropdown:
+        limit_per_page: ~
+        filter_massaction_yes_no: ~
+        filter_store: ~
+        filter_suggested_term: ~
+    button:
+        reset_filter: ~
+        search: ~
+    headers:
+        1: ID
+        2: Search Query
+        3: Store
+        4: Results
+        5: Uses
+        6: Synonym
+        7: Redirect URL
+        8: Suggested Term
+        9: Action 
+
+#dataset for ui elements Customer Wish List Report grid
+customer_wishlist_report:
+    fieldset:
+        customer_wishlist_report_grid: tablename
+    button:
+        reset_filter: ~
+        search: ~
+        export: ~
+    field:
+        filter_from: ~
+        filter_to:  ~
+        comment: ~
+        wishlist_quantity_from: ~
+        wishlist_quantity_to: ~
+        store_quantity_from: ~
+        store_quantity_to: ~
+        surplus_from: ~
+        surplus_to: ~
+    dropdown:
+        view_per_page: ~
+        filter_status: ~
+    headers:
+        0: Added
+        1: Customer
+        2: Wish List
+        3: Status
+        4: Product
+        5: SKU
+        6: Comment
+        7: Wish List Quantity
+        8: Store Quantity
+        9: Surplus / Deficit
+        10: Price
+
+#dataset for ui elements Customer Segment Report grid
+customer_segment_report:
+    fieldset:
+        customer_segment_report_grid: tablename
+    button:
+        reset_filter: ~
+        search: ~
+        submit: ~
+    field:
+        filter_segment_report_id: ~
+        filter_segment_report_name:  ~
+        filter_segment_report_number_customers: ~
+        page: ~
+    dropdown:
+        view_per_page: ~
+        filter_massaction_actions: ~
+        filter_massaction: ~
+        filter_status: ~
+        filter_website: ~
+    link:
+        select_all: ~
+        unselect_all: ~
+        select_visible: ~
+        unselect_visible: ~
+    headers:
+        0: ' '
+        1: ID
+        2: Segment
+        3: Status
+        4: Website
+        5: Customers
+
+#dataset for ui elements Customer Segment Report Detail grid
+customer_segment_report_detail:
+    fieldset:
+        customer_segment_report_detail_grid: tablename
+    button:
+        reset_filter: ~
+        search: ~
+        export: ~
+        back: ~
+        refresh_data: ~
+    field:
+        id_from: ~
+        id_to:  ~
+        name: ~
+        email: ~
+        phone: ~
+        zip: ~
+        state: ~
+        customer_from: ~
+        customer_to: ~
+    dropdown:
+        view_per_page: ~
+        group: ~
+        country: ~
+    headers:
+        0: ID
+        1: Name
+        2: Email
+        3: Group
+        4: Phone
+        5: ZIP
+        6: Country
+        7: State/Province
+        8: Customer Since
+
+#dataset for ui elements Customer Store Balance grid
+edit_customer:
+    fieldset:
+        current_store_balance: tablename
+    pageelement:
+        store_credit_balance_head: ~
+    headers:
+        0: Balance
+        1: Website

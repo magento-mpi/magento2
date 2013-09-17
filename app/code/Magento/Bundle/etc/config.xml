@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Bundle
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <bundle_setup>
+                <setup>
+                    <module>Magento_Bundle</module>
+                    <class>Magento_Catalog_Model_Resource_Setup</class>
+                </setup>
+            </bundle_setup>
+        </resources>
+        <catalog>
+            <product>
+                <type>
+                    <bundle translate="label">
+                        <label>Bundle Product</label>
+                        <model>Magento_Bundle_Model_Product_Type</model>
+                        <composite>1</composite>
+                        <allowed_selection_types>
+                            <simple />
+                            <virtual />
+                        </allowed_selection_types>
+                        <price_model>Magento_Bundle_Model_Product_Price</price_model>
+                        <index_priority>40</index_priority>
+                        <price_indexer>Magento_Bundle_Model_Resource_Indexer_Price</price_indexer>
+                        <stock_indexer>Magento_Bundle_Model_Resource_Indexer_Stock</stock_indexer>
+                    </bundle>
+                </type>
+                <options>
+                    <bundle>
+                        <types>
+                            <select translate="label">
+                                <label>Drop-down</label>
+                            </select>
+                            <radio translate="label">
+                                <label>Radio Buttons</label>
+                            </radio>
+                            <checkbox translate="label">
+                                <label>Checkbox</label>
+                            </checkbox>
+                            <multi translate="label">
+                                <label>Multiple Select</label>
+                            </multi>
+                        </types>
+                    </bundle>
+                </options>
+                <attributes>
+                    <unassignable>
+                        <price_type />
+                        <price_view />
+                    </unassignable>
+                </attributes>
+            </product>
+        </catalog>
+        <sales>
+            <quote>
+                <item>
+                    <product_attributes>
+                        <price_view />
+                        <price_type />
+                        <shipment_type />
+                        <weight_type />
+                        <sku_type />
+                    </product_attributes>
+                </item>
+            </quote>
+        </sales>
+        <pdf>
+            <invoice>
+                <bundle>Magento_Bundle_Model_Sales_Order_Pdf_Items_Invoice</bundle>
+            </invoice>
+            <shipment>
+                <bundle>Magento_Bundle_Model_Sales_Order_Pdf_Items_Shipment</bundle>
+            </shipment>
+            <creditmemo>
+                <bundle>Magento_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo</bundle>
+            </creditmemo>
+        </pdf>
+    </global>
+    <frontend>
+        <product>
+            <collection>
+                <attributes>
+                    <price_view />
+                    <price_type />
+                </attributes>
+            </collection>
+        </product>
+    </frontend>
+    <adminhtml>
+        <sales>
+            <order>
+                <create>
+                    <available_product_types>
+                        <bundle />
+                    </available_product_types>
+                </create>
+            </order>
+        </sales>
+    </adminhtml>
+</config>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Category
+ * @package     Module_Name
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Map_Module::admin">
+                <resource id="Module_One::customer" title="Customers" sortOrder="40" >
+                    <resource id="Module_Two::group" title="Customer Groups" sortOrder="10" />
+                    <resource id="Map_Module::manage" title="Manage Customers" sortOrder="0"/>
+                    <resource id="Module_Four::online" title="Online Customers" sortOrder="100"/>
+                </resource>
+                <resource id="Map_Module::system">
+                    <resource id="Map_Module::config">
+                        <resource id="Module_Five::customer" title="Customers Section" sortOrder="50"/>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

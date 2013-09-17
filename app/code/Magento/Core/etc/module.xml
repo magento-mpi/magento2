@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_Core" version="1.6.0.15" active="true">
+        <depends>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Directory"/>
+            <module name="Magento_Index"/>
+            <module name="Magento_Cron"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Newsletter"/>
+            <module name="Magento_Cms"/>
+            <module name="Magento_Theme"/>
+            <module name="Magento_AdminNotification"/>
+            <module name="Magento_CatalogInventory"/>
+            <module name="Magento_CatalogRule"/>
+            <module name="Magento_CatalogSearch"/>
+            <module name="Magento_CurrencySymbol"/>
+            <module name="Magento_GiftMessage"/>
+            <module name="Magento_GoogleAnalytics"/>
+            <module name="Magento_GoogleCheckout"/>
+            <module name="Magento_ImportExport"/>
+            <module name="Magento_PaypalUk"/>
+            <module name="Magento_ProductAlert"/>
+            <module name="Magento_SalesRule"/>
+            <module name="Magento_Eav"/>
+            <module name="Magento_Page"/>
+            <extension name="spl"/>
+            <extension name="dom"/>
+            <extension name="simplexml"/>
+            <extension name="mcrypt"/>
+            <extension name="hash"/>
+            <extension name="curl"/>
+            <extension name="iconv"/>
+            <extension name="ctype"/>
+            <choice>
+                <extension name="gd"/>
+                <extension name="imagick" minVersion="3.0.0"/>
+            </choice>
+        </depends>
+    </module>
+</config>

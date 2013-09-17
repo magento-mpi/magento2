@@ -1,0 +1,28 @@
+<?php
+/**
+ * {license_notice}
+
+ * @category    design
+ * @package     base_default
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+?>
+<?php
+/**
+ * "Grant Access" button
+ *
+ * @see Magento_Oauth_Block_Authorize
+ */
+?>
+<?php /** @var $this Magento_Core_Block_Template */ ?>
+<div class="login-container">
+    <div class="login-box">
+        <div class="login-form">
+            <h1><?php echo __('Rejection Of Authorization') ?></h1>
+            <?php echo $this->getLayout()->renderElement('messages') ?>
+        </div>
+        <p class="legal"><?php echo __('Magento&reg is a trademark of X.commerce, Inc. Copyright &copy; %1 X.commerce, Inc.', date('Y')) ?></p>
+        <div class="bottom"></div>
+    </div>
+</div>

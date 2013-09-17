@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <googleoptimizer_setup>
+                <setup>
+                    <module>Magento_GoogleOptimizer</module>
+                </setup>
+            </googleoptimizer_setup>
+        </resources>
+    </global>
+    <default>
+        <google>
+            <optimizer>
+                <active>0</active>
+            </optimizer>
+        </google>
+    </default>
+</config>

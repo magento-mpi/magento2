@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="save_view_configuration">
+        <observer name="save_view_configuration_observer" instance="Magento_DesignEditor_Model_Observer" method="saveQuickStyles" />
+        <observer name="design_editor_change_timestamp" instance="Magento_DesignEditor_Model_Observer" method="saveChangeTime" />
+    </event>
+    <event name="theme_file_save_after">
+        <observer name="theme_file_save" instance="Magento_DesignEditor_Model_Observer" method="saveChangeTime" />
+    </event>
+</config>

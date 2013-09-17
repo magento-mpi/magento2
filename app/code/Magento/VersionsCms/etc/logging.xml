@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_VersionsCms
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
+    <actions>
+        <action id="preview">
+            <label translate="true">Preview</label>
+        </action>
+        <action id="publish">
+            <label translate="true">Publish</label>
+        </action>
+    </actions>
+    <groups>
+        <group name="magento_versionscms_hierarchy">
+            <label translate="true">CMS Hierarchy</label>
+            <expected_models>
+                <expected_model class="Magento_VersionsCms_Model_Hierarchy_Node" />
+            </expected_models>
+            <events>
+                <event controller_action="adminhtml_cms_hierarchy_index"
+                       action_alias="view"
+                       post_dispatch="Magento_VersionsCms_Model_Observer::postDispatchCmsHierachyView">
+                </event>
+                <event controller_action="adminhtml_cms_hierarchy_save" action_alias="save">
+                    <skip_on_back>
+                        <controller_action name="adminhtml_cms_hierarchy_index" />
+                    </skip_on_back>
+                </event>
+            </events>
+        </group>
+        <group name="magento_versionscms_page_versioning">
+            <label translate="true">CMS Versioning</label>
+            <events>
+                <event controller_action="adminhtml_cms_page_massDeleteVersions"
+                       action_alias="massDelete">
+                    <expected_models>
+                        <expected_model class="Magento_VersionsCms_Model_Page_Version" />
+                    </expected_models>
+                </event>
+                <event controller_action="adminhtml_cms_page_version_edit" action_alias="view">
+                    <expected_models>
+                        <expected_model class="Magento_VersionsCms_Model_Page_Version" />
+                    </expected_models>
+                </event>
+                <event controller_action="adminhtml_cms_page_version_save" action_alias="save">
+                    <expected_models>
+                        <expected_model class="Magento_VersionsCms_Model_Page_Version" />
+                    </expected_models>
+                    <skip_on_back>
+                        <controller_action name="adminhtml_cms_page_version_edit" />
+                    </skip_on_back>
+                </event>
+                <event controller_action="adminhtml_cms_page_version_new" action_alias="save">
+                    <expected_models>
+                        <expected_model class="Magento_VersionsCms_Model_Page_Version" />
+                    </expected_models>
+                    <skip_on_back>
+                        <controller_action name="adminhtml_cms_page_revision_edit" />
+                    </skip_on_back>
+                </event>
+                <event controller_action="adminhtml_cms_page_version_delete"
+                       action_alias="delete">
+                    <expected_models>
+                        <expected_model class="Magento_VersionsCms_Model_Page_Version" />
+                    </expected_models>
+                </event>
+                <event controller_action="adminhtml_cms_page_version_massDeleteRevisions"
+                       action_alias="massDelete">
+                    <expected_models>
+                        <expected_model class="Magento_VersionsCms_Model_Page_Revision" />
+                    </expected_models>
+                </event>
+                <event controller_action="adminhtml_cms_page_revision_edit"
+                       action_alias="view">
+                    <expected_models>
+                        <expected_model class="Magento_VersionsCms_Model_Page_Revision" />
+                    </expected_models>
+                </event>
+                <event controller_action="adminhtml_cms_page_revision_preview"
+                       action_alias="preview"
+                       post_dispatch="Magento_VersionsCms_Model_Observer::postDispatchCmsRevisionPreview">
+                </event>
+                <event controller_action="adminhtml_cms_page_revision_save"
+                       action_alias="save">
+                    <expected_models>
+                        <expected_model class="Magento_VersionsCms_Model_Page_Revision" />
+                    </expected_models>
+                    <skip_on_back>
+                        <controller_action name="adminhtml_cms_page_revision_edit" />
+                    </skip_on_back>
+                </event>
+                <event controller_action="adminhtml_cms_page_revision_delete"
+                       action_alias="delete">
+                    <expected_models>
+                        <expected_model class="Magento_VersionsCms_Model_Page_Revision" />
+                    </expected_models>
+                </event>
+                <event controller_action="adminhtml_cms_page_revision_publish"
+                       action_alias="publish"
+                       post_dispatch="Magento_VersionsCms_Model_Observer::postDispatchCmsRevisionPublish">
+                    <skip_on_back>
+                        <controller_action name="adminhtml_cms_page_revision_edit" />
+                    </skip_on_back>
+                </event>
+            </events>
+        </group>
+    </groups>
+</logging>

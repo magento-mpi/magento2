@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="default">
+        <observer name="cron_observer" instance="Magento_Cron_Model_Observer" method="dispatch" />
+    </event>
+</config>

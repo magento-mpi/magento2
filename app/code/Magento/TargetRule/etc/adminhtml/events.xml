@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="catalog_product_save_after">
+        <observer name="magento_targetrule" instance="Magento_TargetRule_Model_Observer" method="catalogProductAfterSave" />
+    </event>
+    <event name="catalog_product_save_commit_after">
+        <observer name="magento_targetrule" instance="Magento_TargetRule_Model_Observer" method="catalogProductSaveCommitAfter" />
+    </event>
+    <event name="core_config_data_save_commit_after">
+        <observer name="magento_targetrule" instance="Magento_TargetRule_Model_Observer" method="coreConfigSaveCommitAfter" />
+    </event>
+</config>

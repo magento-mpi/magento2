@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="sales_order_save_commit_after">
+        <observer name="magento_giftcard_generate_giftcardaccounts" instance="Magento_GiftCard_Model_Observer" method="generateGiftCardAccounts" />
+    </event>
+    <event name="catalog_product_collection_load_after">
+        <observer name="magento_giftcard" instance="Magento_GiftCard_Model_Observer" method="loadAttributesAfterCollectionLoad" />
+    </event>
+</config>

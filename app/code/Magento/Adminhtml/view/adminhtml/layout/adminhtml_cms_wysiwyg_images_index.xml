@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_cms_wysiwyg_images_index">
+        <remove name="footer"/>
+        <remove name="head"/>
+        <remove name="left"/>
+        <reference name="content">
+            <block class="Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content" name="wysiwyg_images.content" template="cms/browser/content.phtml">
+                <block class="Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Tree" name="wysiwyg_images.tree" template="cms/browser/tree.phtml"/>
+                <block class="Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Uploader" name="wysiwyg_images.uploader" template="cms/browser/content/uploader.phtml"/>
+            </block>
+        </reference>
+    </handle>
+</layout>

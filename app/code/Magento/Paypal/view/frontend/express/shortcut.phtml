@@ -1,0 +1,52 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @var $this Magento_Paypal_Block_Express_Shortcut
+ */
+?>
+<p class="paypal-logo">
+    <?php $shortcutHtmlId = $this->getShortcutHtmlId() ?>
+    <?php if ($this->isOrPositionBefore()): ?>
+    <span class="paypal-or"><?php echo __('-OR-');?></span>
+    <?php endif; ?>
+    <input type="image" data-action="checkout-form-submit" data-checkout-url="<?php echo $this->getCheckoutUrl()?>"
+           src="<?php echo $this->getImageUrl()?>"
+           alt="<?php echo __('Checkout with PayPal');?>"
+           title="<?php echo __('Checkout with PayPal');?>"/>
+    <?php if ($this->isOrPositionAfter()): ?>
+    <span class="paypal-or"><?php echo __('-OR-');?></span>
+    <?php endif; ?>
+    <?php if ($this->getConfirmationUrl() || $this->getIsInCatalogProduct()): ?>
+    <?php if ($this->getIsInCatalogProduct()): ?>
+        <input type="hidden" id="pp-checkout-url" name="return_url" value=""/>
+        <?php endif; ?>
+
+    <?php
+    $confirmationUrl = $this->getConfirmationUrl();
+    $isInCatalogProduct = $this->getIsInCatalogProduct();
+endif; ?>
+    <script type="text/javascript">
+        (function($) {
+            head.js(
+                "<?php echo $this->getViewFileUrl('Magento_Paypal::js/paypal-checkout.js') ?>",
+                function() {
+                    $('.paypal-logo').paypalCheckout({
+                        confirmMessage: "<?php echo $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape($this->getConfirmationMessage())?>",
+                        confirmUrl: "<?php echo !empty($confirmationUrl) ? $confirmationUrl : false ?>",
+                        isCatalogProduct: "<?php echo !empty($isInCatalogProduct) ? $isInCatalogProduct : false ?>",
+                        paypalCheckoutSelector: '#pp-checkout-url',
+                        productAddToCartForm: '#product_addtocart_form'
+                    });
+                });
+        })(jQuery);
+    </script>
+</p>

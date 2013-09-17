@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="controller_response_redirect">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="checkMessages" />
+    </event>
+    <event name="model_load_after">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="registerModelTag" />
+    </event>
+    <event name="controller_action_predispatch">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="processPreDispatch" />
+    </event>
+    <event name="controller_action_postdispatch_catalog_product_view">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="checkProductState" />
+    </event>
+    <event name="controller_action_postdispatch_catalog_category_view">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="checkCategoryState" />
+    </event>
+    <event name="controller_front_send_response_before">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="cacheResponse" />
+    </event>
+    <event name="core_layout_render_element">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="renderBlockPlaceholder" />
+    </event>
+    <event name="core_message_block_render_grouped_html_after">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="renderBlockPlaceholder" />
+    </event>
+    <event name="customer_login">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="customerLogin" />
+        <observer name="magento_fullpagecache_compare_list_change" instance="Magento_FullPageCache_Model_Observer" method="registerCompareListChange" />
+    </event>
+    <event name="controller_action_postdispatch_customer_account_logoutSuccess">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="customerLogout" />
+    </event>
+    <event name="sales_quote_save_after">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="registerQuoteChange" />
+    </event>
+    <event name="sales_quote_remove_item">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="registerQuoteChange" />
+    </event>
+    <event name="catalog_product_compare_add_product">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="registerCompareListChange" />
+    </event>
+    <event name="catalog_product_compare_remove_product">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="registerCompareListChange" />
+    </event>
+    <event name="catalog_product_compare_item_collection_clear">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="registerCompareListChange" />
+    </event>
+    <event name="core_session_abstract_add_message">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="processNewMessage" />
+    </event>
+    <event name="core_session_abstract_clear_messages">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="processMessageClearing" />
+    </event>
+    <event name="wishlist_add_product">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="registerWishlistChange" />
+    </event>
+    <event name="wishlist_item_delete_commit_after">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="registerWishlistChange" />
+    </event>
+    <event name="sales_order_place_after">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="registerNewOrder" />
+    </event>
+    <event name="poll_vote_add">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="registerPollChange" />
+    </event>
+    <event name="catalog_controller_product_init_before">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="updateProductInfo" />
+    </event>
+    <event name="magento_customersegment_ids_changed">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="changedCustomerSegmentIds" />
+    </event>
+</config>

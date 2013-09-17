@@ -1,0 +1,34 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php if ($this->getChildHtml()) :?>
+<div id="gift_options_configure_new" class="gift_options-popup product-configure-popup" style="display: none;">
+    <div id="gift_options_form_contents">
+        <div class="content">
+            <?php echo $this->getChildHtml();?>
+        </div>
+        <div class="ui-dialog-buttonset">
+            <button type="button" class="scalable" id="gift_options_cancel_button"><span><span><span><?php echo __('Cancel'); ?></span></span></span></button>
+            <button type="button" class="scalable" id="gift_options_ok_button"><span><span><span><?php echo __('OK'); ?></span></span></span></button>
+        </div>
+    </div>
+</div>
+<div id="giftoptions_tooltip_window" class="gift-options-tooltip" style="display:none;">
+    <div id="giftoptions_tooltip_window_content">&nbsp;</div>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+_giftOptions = new GiftOptionsPopup();
+giftOptionsTooltip.setTooltipWindow('giftoptions_tooltip_window','giftoptions_tooltip_window_content');
+//]]>
+</script>
+<?php endif;?>

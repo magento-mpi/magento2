@@ -40,7 +40,7 @@ class Enterprise_Mage_Various_ChangingStoreViewOnFrontendTest extends Mage_Selen
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->openConfigurationTab('general_design');
         $this->systemConfigurationHelper()->expandFieldSet('design_themes');
-        $this->fillDropdown('design_theme', 'Magento Fixed Design');
+        $this->fillDropdown('design_theme', 'Magento Fixed Width');
         $this->clickButton('save_config');
         $this->assertMessagePresent('success', 'success_saved_config');
         $this->navigate('manage_stores');

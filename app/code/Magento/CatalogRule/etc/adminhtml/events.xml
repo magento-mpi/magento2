@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="catalog_product_get_final_price">
+        <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="processAdminFinalPrice" />
+    </event>
+    <event name="catalog_product_save_after">
+        <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="applyAllRulesOnProduct" />
+    </event>
+    <event name="catalog_product_import_finish_before">
+        <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="createCatalogRulesRelations" />
+    </event>
+    <event name="catalog_product_import_after">
+        <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="applyAllRules" />
+    </event>
+    <event name="catalog_entity_attribute_delete_after">
+        <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="catalogAttributeDeleteAfter" />
+    </event>
+    <event name="catalog_entity_attribute_save_after">
+        <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="catalogAttributeSaveAfter" />
+    </event>
+</config>

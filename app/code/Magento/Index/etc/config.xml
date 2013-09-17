@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Magento_Index
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <index_setup>
+                <setup>
+                    <module>Magento_Index</module>
+                    <class>Magento_Index_Model_Resource_Setup</class>
+                </setup>
+            </index_setup>
+        </resources>
+        <index>
+            <indexer />
+        </index>
+    </global>
+</config>

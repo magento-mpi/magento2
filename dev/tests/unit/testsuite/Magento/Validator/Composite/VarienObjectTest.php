@@ -45,10 +45,10 @@ class Magento_Validator_Composite_VarienObjectTest extends PHPUnit_Framework_Tes
     /**
      * Entity validation routine to be used as a callback
      *
-     * @param Varien_Object $entity
+     * @param Magento_Object $entity
      * @return bool
      */
-    public function isEntityValid(Varien_Object $entity)
+    public function isEntityValid(Magento_Object $entity)
     {
         return (bool)$entity->getData('is_valid');
     }
@@ -72,7 +72,7 @@ class Magento_Validator_Composite_VarienObjectTest extends PHPUnit_Framework_Tes
      */
     public function testIsValid(array $inputEntityData, array $expectedErrors)
     {
-        $entity = new Varien_Object($inputEntityData);
+        $entity = new Magento_Object($inputEntityData);
         $isValid = $this->_model->isValid($entity);
         $this->assertFalse($isValid, 'Validation is expected to fail.');
 
@@ -81,7 +81,7 @@ class Magento_Validator_Composite_VarienObjectTest extends PHPUnit_Framework_Tes
             count($expectedErrors), $actualMessages, 'Number of messages does not meet expectations.'
         );
         foreach ($expectedErrors as $errorIndex => $expectedErrorMessage) {
-            /** @var $actualMessage Mage_Core_Model_Message_Abstract */
+            /** @var $actualMessage Magento_Core_Model_Message_Abstract */
             $actualMessage = $actualMessages[$errorIndex];
             $this->assertEquals($expectedErrorMessage, $actualMessage);
         }

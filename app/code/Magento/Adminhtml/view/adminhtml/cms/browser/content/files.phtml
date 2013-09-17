@@ -1,0 +1,32 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+ /** @var $this Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files */
+
+$_width  = $this->getImagesWidth();
+$_height = $this->getImagesHeight();
+
+?>
+<?php if ($this->getFilesCount() > 0): ?>
+    <?php foreach ($this->getFiles() as $file): ?>
+    <div data-row="file" class="filecnt" id="<?php echo $this->getFileId($file) ?>">
+        <p class="nm" style="height:<?php echo $_height ?>px;width:<?php echo $_width ?>px;">
+        <?php if($this->getFileThumbUrl($file)):?>
+            <img src="<?php echo $this->getFileThumbUrl($file) ?>" alt="<?php echo $this->getFileName($file) ?>"/>
+        <?php endif; ?>
+        </p>
+        <?php if($this->getFileWidth($file)): ?>
+            <small><?php echo $this->getFileWidth($file) ?>x<?php echo $this->getFileHeight($file) ?> <?php echo __('px.') ?></small><br/>
+        <?php endif; ?>
+        <small><?php echo $this->getFileShortName($file); ?></small>
+    </div>
+    <?php endforeach; ?>
+<?php else: ?>
+    <div class="empty"><?php echo __('No files found') ?></div>
+<?php endif; ?>

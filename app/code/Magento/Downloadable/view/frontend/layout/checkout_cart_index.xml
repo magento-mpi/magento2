@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_cart_index">
+        <reference name="checkout.cart">
+            <block class="Magento_Downloadable_Block_Checkout_Cart_Item_Renderer" as="downloadable" template="checkout/cart/item/default.phtml"/>
+        </reference>
+    </handle>
+</layout>

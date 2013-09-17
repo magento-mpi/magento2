@@ -1,12 +1,33 @@
 <?php
 /**
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
 class Magento_ObjectManager_Config_Config implements Magento_ObjectManager_Config
 {
+    /**
+     * Config cache
+     *
+     * @var Magento_ObjectManager_ConfigCache
+     */
+    protected $_cache;
+
+    /**
+     * Class definitions
+     *
+     * @var Magento_ObjectManager_Definition
+     */
+    protected $_definitions;
+
+    /**
+     * Current cache key
+     *
+     * @var string
+     */
+    protected $_currentCacheKey;
+
     /**
      * Interface preferences
      *
@@ -47,7 +68,7 @@ class Magento_ObjectManager_Config_Config implements Magento_ObjectManager_Confi
      *
      * @var array
      */
-    protected $_pluginConfig = array();
+    protected $_mergedPlugins = array();
 
     /**
      * List of relations
@@ -57,11 +78,22 @@ class Magento_ObjectManager_Config_Config implements Magento_ObjectManager_Confi
     protected $_relations;
 
     /**
-     * @param Magento_ObjectManager_Relations $relations
+     * List of merged arguments
+     *
+     * @var array
      */
-    public function __construct(Magento_ObjectManager_Relations $relations = null)
-    {
+    protected $_mergedArguments;
+
+    /**
+     * @param Magento_ObjectManager_Relations $relations
+     * @param Magento_ObjectManager_Definition $definitions
+     */
+    public function __construct(
+        Magento_ObjectManager_Relations $relations = null,
+        Magento_ObjectManager_Definition $definitions = null
+    ) {
         $this->_relations = $relations ?: new Magento_ObjectManager_Relations_Runtime();
+        $this->_definitions = $definitions ?: new Magento_ObjectManager_Definition_Runtime();
     }
 
     /**
@@ -75,6 +107,16 @@ class Magento_ObjectManager_Config_Config implements Magento_ObjectManager_Confi
     }
 
     /**
+     * Set cache instance
+     *
+     * @param Magento_ObjectManager_ConfigCache $cache
+     */
+    public function setCache(Magento_ObjectManager_ConfigCache $cache)
+    {
+        $this->_cache = $cache;
+    }
+
+    /**
      * Retrieve list of arguments per type
      *
      * @param string $type
@@ -83,8 +125,12 @@ class Magento_ObjectManager_Config_Config implements Magento_ObjectManager_Confi
      */
     public function getArguments($type, $arguments)
     {
-        if (isset($this->_arguments[$type])) {
-            $arguments = array_replace($this->_arguments[$type], $arguments);
+        $configuredArguments = isset($this->_mergedArguments[$type])
+            ? $this->_mergedArguments[$type]
+            : $this->_collectConfiguration($type);
+
+        if (is_array($configuredArguments)) {
+            $arguments = array_replace($configuredArguments, $arguments);
         }
         return $arguments;
     }
@@ -138,100 +184,51 @@ class Magento_ObjectManager_Config_Config implements Magento_ObjectManager_Confi
     }
 
     /**
-     * Collect plugins for type
+     * Collect parent types configuration for requested type
      *
      * @param string $type
      * @return array
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function _collectPlugins($type)
+    protected function _collectConfiguration($type)
     {
-        if (!isset($this->_pluginConfig[$type])) {
-            if (substr($type, -5) === 'Proxy') {
-                $this->_pluginConfig[$type] = false;
-                return false;
-            }
+        if (!isset($this->_mergedArguments[$type])) {
             if (isset($this->_virtualTypes[$type])) {
-                $plugins = $this->_collectPlugins($this->_virtualTypes[$type]);
-            } else {
+                $arguments = $this->_collectConfiguration($this->_virtualTypes[$type]);
+            } else if ($this->_relations->has($type)) {
                 $relations = $this->_relations->getParents($type);
-                $plugins = array();
+                $arguments = array();
                 foreach ($relations as $relation) {
                     if ($relation) {
-                        $relationPlugins = $this->_collectPlugins($relation);
-                        if ($relationPlugins) {
-                            $plugins = array_replace($plugins, $relationPlugins);
+                        $relationArguments = $this->_collectConfiguration($relation);
+                        if ($relationArguments) {
+                            $arguments = array_replace($arguments, $relationArguments);
                         }
                     }
                 }
+            } else {
+                $arguments = array();
             }
-            if (isset($this->_plugins[$type])) {
-                if ($plugins && count($plugins)) {
-                    $plugins = array_replace_recursive($plugins, $this->_plugins[$type]);
+
+            if (isset($this->_arguments[$type])) {
+                if ($arguments && count($arguments)) {
+                    $arguments = array_replace_recursive($arguments, $this->_arguments[$type]);
                 } else {
-                    $plugins = $this->_plugins[$type];
+                    $arguments = $this->_arguments[$type];
                 }
             }
-            if (!is_array($plugins) || !count($plugins)) {
-                $plugins = false;
-            } else {
-                usort($plugins, array($this, '_sort'));
-            }
-            $this->_pluginConfig[$type] = $plugins;
+            $this->_mergedArguments[$type] = $arguments;
+            return $arguments;
         }
-        return $this->_pluginConfig[$type];
+        return $this->_mergedArguments[$type];
     }
 
     /**
-     * Check whether type has configured plugins
-     *
-     * @param string $type
-     * @return bool
-     */
-    public function hasPlugins($type)
-    {
-        return $this->_collectPlugins($type) !== false;
-    }
-
-    /**
-     * Retrieve list of plugins
-     *
-     * @param string $type
-     * @return array
-     */
-    public function getPlugins($type)
-    {
-        return $this->_pluginConfig[$type];
-    }
-
-    /**
-     * Sorting items
-     *
-     * @param array $itemA
-     * @param array $itemB
-     * @return int
-     */
-    protected function _sort($itemA, $itemB)
-    {
-        if (isset($itemA['sortOrder'])) {
-            if (isset($itemB['sortOrder'])) {
-                return $itemA['sortOrder'] - $itemB['sortOrder'];
-            }
-            return $itemA['sortOrder'];
-        } else if (isset($itemB['sortOrder'])) {
-            return $itemB['sortOrder'];
-        } else {
-            return 1;
-        }
-    }
-
-    /**
-     * Extend configuration
+     * Merge configuration
      *
      * @param array $configuration
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    public function extend(array $configuration)
+    public function _mergeConfiguration(array $configuration)
     {
         foreach ($configuration as $key => $curConfig) {
             switch ($key) {
@@ -244,6 +241,9 @@ class Magento_ObjectManager_Config_Config implements Magento_ObjectManager_Confi
                         $this->_virtualTypes[$key] = $curConfig['type'];
                     }
                     if (isset($curConfig['parameters'])) {
+                        if (!empty($this->_mergedArguments)) {
+                            $this->_mergedArguments = array();
+                        }
                         if (isset($this->_arguments[$key])) {
                             $this->_arguments[$key] = array_replace($this->_arguments[$key], $curConfig['parameters']);
                         } else {
@@ -251,24 +251,52 @@ class Magento_ObjectManager_Config_Config implements Magento_ObjectManager_Confi
                         }
                     }
                     if (isset($curConfig['shared'])) {
-                        if (!$curConfig['shared'] || $curConfig['shared'] == 'false') {
+                        if (!$curConfig['shared']) {
                             $this->_nonShared[$key] = 1;
                         } else {
                             unset($this->_nonShared[$key]);
                         }
                     }
-                    if (isset($curConfig['plugins'])) {
-                        if (!empty($this->_pluginConfig)) {
-                            $this->_pluginConfig = array();
-                        }
-                        if (isset($this->_plugins[$key])) {
-                            $this->_plugins[$key] = array_replace($this->_plugins[$key], $curConfig['plugins']);
-                        } else {
-                            $this->_plugins[$key] = $curConfig['plugins'];
-                        }
-                    }
                     break;
             }
+        }
+    }
+
+    /**
+     * Extend configuration
+     *
+     * @param array $configuration
+     */
+    public function extend(array $configuration)
+    {
+        if ($this->_cache) {
+            if (!$this->_currentCacheKey) {
+                $this->_currentCacheKey = md5(serialize(array(
+                    $this->_arguments, $this->_nonShared, $this->_preferences, $this->_virtualTypes
+                )));
+            }
+            $key = md5($this->_currentCacheKey . serialize($configuration));
+            $cached = $this->_cache->get($key);
+            if ($cached) {
+                list(
+                    $this->_arguments, $this->_nonShared, $this->_preferences,
+                    $this->_virtualTypes, $this->_mergedArguments
+                ) = $cached;
+            } else {
+                $this->_mergeConfiguration($configuration);
+                if (!$this->_mergedArguments) {
+                    foreach ($this->_definitions->getClasses() as $class) {
+                        $this->_collectConfiguration($class);
+                    }
+                }
+                $this->_cache->save(array(
+                    $this->_arguments, $this->_nonShared, $this->_preferences, $this->_virtualTypes,
+                    $this->_mergedArguments
+                ), $key);
+            }
+            $this->_currentCacheKey = $key;
+        } else {
+            $this->_mergeConfiguration($configuration);
         }
     }
 }

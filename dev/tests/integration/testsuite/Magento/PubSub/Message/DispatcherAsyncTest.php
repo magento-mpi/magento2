@@ -12,7 +12,7 @@
 /**
  * @magentoDbIsolation enabled
  */
-class Magento_PubSub_Message_DispatcherAsyncTests extends PHPUnit_Framework_TestCase
+class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_PubSub_Message_DispatcherAsync
@@ -22,20 +22,21 @@ class Magento_PubSub_Message_DispatcherAsyncTests extends PHPUnit_Framework_Test
     /**
      * Initialize the model
      */
-    public function setUp()
+    protected function setUp()
     {
-        /** @var Mage_Webhook_Model_Resource_Event_Collection $eventCollection */
-        $eventCollection = Mage::getObjectManager()->create('Mage_Webhook_Model_Resource_Event_Collection')
-            ->addFieldToFilter('status', Magento_PubSub_EventInterface::READY_TO_SEND);
+        /** @var Magento_Webhook_Model_Resource_Event_Collection $eventCollection */
+        $eventCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Resource_Event_Collection');
         /** @var array $event */
         $events = $eventCollection->getItems();
-        /** @var Mage_Webhook_Model_Event $event */
+        /** @var Magento_Webhook_Model_Event $event */
         foreach ($events as $event) {
-            $event->markAsProcessed();
+            $event->complete();
             $event->save();
         }
 
-        $this->_model = Mage::getObjectManager()->create('Magento_PubSub_Message_DispatcherAsync');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_PubSub_Message_DispatcherAsync');
     }
 
     /**
@@ -51,7 +52,8 @@ class Magento_PubSub_Message_DispatcherAsyncTests extends PHPUnit_Framework_Test
 
         $this->_model->dispatch($topic, $data);
 
-        $queue = Mage::getObjectManager()->get('Magento_PubSub_Event_QueueReaderInterface');
+        $queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_PubSub_Event_QueueReaderInterface');
         $event = $queue->poll();
 
         $this->assertEquals($topic, $event->getTopic());

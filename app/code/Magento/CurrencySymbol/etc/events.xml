@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="currency_display_options_forming">
+        <observer name="magento_currencysymbol_currency_display_options" instance="Magento_CurrencySymbol_Model_Observer" method="currencyDisplayOptions" />
+    </event>
+</config>

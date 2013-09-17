@@ -4,8 +4,8 @@
  *
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Webhook
+ * @category    Magento
+ * @package     Magento_Webhook
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -26,7 +26,7 @@ class Magento_Outbound_Authentication_FactoryTest extends PHPUnit_Framework_Test
      */
     protected $_expectedObject;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
             ->setMethods(array('get'))
@@ -76,7 +76,7 @@ class Magento_Outbound_Authentication_FactoryTest extends PHPUnit_Framework_Test
         $this->_mockObjectManager->expects($this->once())
             ->method('get')
             ->with('Test_Authentication_Hmac')
-            ->will($this->returnValue($this->getMock('Varien_Object')));
+            ->will($this->returnValue($this->getMock('Magento_Object')));
         $this->_authFactory->getAuthentication(Magento_Outbound_EndpointInterface::AUTH_TYPE_HMAC);
     }
 }

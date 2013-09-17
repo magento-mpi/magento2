@@ -1,0 +1,32 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info */ ?>
+<div class="entry-edit">
+    <?php echo $this->getFormHtml() ?>
+</div>
+<?php if (!$this->isSingleStoreMode()): ?>
+<script type="text/javascript">
+//<![CDATA[
+    Event.observe(window, 'load', updateCurrency);
+    Event.observe($('_infowebsite_id'), 'change', updateCurrency);
+
+    var currencies = <?php echo $this->getCurrencyJson(); ?>;
+
+    function updateCurrency()
+    {
+        val = $('_infowebsite_id').options[$('_infowebsite_id').selectedIndex].value;
+        if (currencies[val]) {
+            $('balance_currency').innerHTML = '<b>[' + currencies[val] + ']</b>';
+        }
+    }
+//]]>
+</script>
+<?php endif; ?>

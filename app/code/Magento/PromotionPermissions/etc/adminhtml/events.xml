@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="core_block_abstract_to_html_before">
+        <observer name="magento_promotionpermissions" instance="Magento_PromotionPermissions_Model_Observer" method="coreBlockAbstractToHtmlBefore" />
+    </event>
+    <event name="adminhtml_block_html_before">
+        <observer name="magento_promotionpermissions" instance="Magento_PromotionPermissions_Model_Observer" method="adminhtmlBlockHtmlBefore" />
+    </event>
+    <event name="controller_action_predispatch">
+        <observer name="magento_promotionpermissions" instance="Magento_PromotionPermissions_Model_Observer" method="controllerActionPredispatch" />
+    </event>
+</config>

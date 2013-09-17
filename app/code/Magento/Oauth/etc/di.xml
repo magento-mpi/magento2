@@ -1,0 +1,11 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <preference for="Magento_Oauth_Service_OauthInterfaceV1" type="Magento_Oauth_Service_OauthV1" />
+</config>

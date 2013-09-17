@@ -9,24 +9,15 @@
  */
 class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase_Webapi_AdapterInterface
 {
-    /**#@+
-     * Supported HTTP methods
-     */
-    const HTTP_METHOD_GET = 'GET';
-    const HTTP_METHOD_POST = 'POST';
-    const HTTP_METHOD_PUT = 'PUT';
-    const HTTP_METHOD_DELETE = 'DELETE';
-    /**#@-*/
-
-    /** @var Mage_Webapi_Model_Config */
-    protected $_restHelper;
+    /** @var Magento_Webapi_Model_Config */
+    protected $_config;
 
     /**
      * Initialize dependencies.
      */
     public function __construct()
     {
-        $this->_restHelper = Mage::getObjectManager()->get('Mage_Webapi_Model_Config');
+        $this->_config = Mage::getObjectManager()->get('Magento_Webapi_Model_Config');
     }
 
     /**
@@ -40,16 +31,16 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
         // delegate the request to vanilla cURL REST client
         $curlClient = new Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient();
         switch ($httpMethod) {
-            case self::HTTP_METHOD_GET:
+            case Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET:
                 $response = $curlClient->get($resourcePath, $arguments);
                 break;
-            case self::HTTP_METHOD_POST:
+            case Magento_Webapi_Model_Rest_Config::HTTP_METHOD_POST:
                 $response = $curlClient->post($resourcePath, $arguments);
                 break;
-            case self::HTTP_METHOD_PUT:
+            case Magento_Webapi_Model_Rest_Config::HTTP_METHOD_PUT:
                 $response = $curlClient->put($resourcePath, $arguments);
                 break;
-            case self::HTTP_METHOD_DELETE:
+            case Magento_Webapi_Model_Rest_Config::HTTP_METHOD_DELETE:
                 $response = $curlClient->delete($resourcePath);
                 break;
             default:
@@ -76,13 +67,13 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
             $resourcePath = $serviceInfo['rest']['resourcePath'];
         } else if (isset($serviceInfo['serviceInterface']) && isset($serviceInfo['method'])) {
             /** Identify resource path using service interface name and service method name */
-            $services = $this->_restHelper->getRestServices();
+            $services = $this->_config->getServices();
             $serviceInterface = $serviceInfo['serviceInterface'];
             $method = $serviceInfo['method'];
-            if (isset($services[$serviceInterface]['operations'][$method])) {
+            if (isset($services[$serviceInterface]['methods'][$method])) {
                 $serviceData = $services[$serviceInterface];
-                $methodData = $serviceData['operations'][$method];
-                $routePattern = $serviceData['baseUrl'] . $methodData['route'];
+                $methodData = $serviceData['methods'][$method];
+                $routePattern = $serviceData[Magento_Webapi_Model_Config::ATTR_SERVICE_PATH] . $methodData['route'];
                 $numberOfPlaceholders = substr_count($routePattern, ':');
                 if ($numberOfPlaceholders == 1) {
                     if (!isset($serviceInfo['entityId'])) {
@@ -114,11 +105,12 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
             $httpMethod = $serviceInfo['rest']['httpMethod'];
         } else if (isset($serviceInfo['serviceInterface']) && isset($serviceInfo['method'])) {
             /** Identify HTTP method using service interface name and service method name */
-            $services = $this->_restHelper->getRestServices();
+            $services = $this->_config->getServices();
             $serviceInterface = $serviceInfo['serviceInterface'];
             $method = $serviceInfo['method'];
-            if (isset($services[$serviceInterface]['operations'][$method])) {
-                $httpMethod = $services[$serviceInterface]['operations'][$method]['httpMethod'];
+            if (isset($services[$serviceInterface]['methods'][$method])) {
+                $httpMethod
+                    = $services[$serviceInterface]['methods'][$method][Magento_Webapi_Model_Config::ATTR_HTTP_METHOD];
             }
         }
         if (!isset($httpMethod)) {

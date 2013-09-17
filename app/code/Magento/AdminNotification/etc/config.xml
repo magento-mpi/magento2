@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_AdminNotification
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <adminnotification_setup>
+                <setup>
+                    <module>Magento_AdminNotification</module>
+                </setup>
+            </adminnotification_setup>
+        </resources>
+    </global>
+    <default>
+        <system>
+            <adminnotification>
+                <feed_url>notifications.magentocommerce.com/community/notifications.rss</feed_url>
+                <popup_url>widgets.magentocommerce.com/notificationPopup</popup_url>
+                <severity_icons_url>widgets.magentocommerce.com/%s/%s.gif</severity_icons_url>
+                <use_https>0</use_https>
+                <frequency>1</frequency>
+                <last_update>0</last_update>
+            </adminnotification>
+        </system>
+    </default>
+</config>

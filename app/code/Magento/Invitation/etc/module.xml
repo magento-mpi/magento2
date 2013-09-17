@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_Invitation" version="1.11.0.0" active="false">
+        <sequence>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Reports"/>
+            <module name="Magento_WebsiteRestriction"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Reports"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Page"/>
+            <module name="Magento_Logging"/>
+        </depends>
+    </module>
+</config>

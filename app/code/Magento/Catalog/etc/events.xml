@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="catalog_category_save_commit_after">
+        <observer name="fulltext_reindex" instance="Magento_Catalog_Model_Observer_Reindex" method="fulltextReindex" />
+    </event>
+    <event name="page_block_html_topmenu_gethtml_before">
+        <observer name="catalog_add_topmenu_items" instance="Magento_Catalog_Model_Observer" method="addCatalogToTopmenuItems" />
+    </event>
+    <event name="catalog_product_transition_product_type">
+        <observer name="type_transition" instance="Magento_Catalog_Model_Observer" method="transitionProductType" />
+    </event>
+</config>

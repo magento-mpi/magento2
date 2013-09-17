@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Catalog_Model_Session">
+        <param name="sessionName">
+            <value>frontend</value>
+        </param>
+    </type>
+    <type name="Magento_Sales_Model_Convert_Quote">
+        <plugin name="copy_quote_files_to_order" type="Magento_Catalog_Model_Plugin_QuoteItemProductOption"/>
+    </type>
+</config>

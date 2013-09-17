@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Magento_Oauth
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <!-- Menu elements has been disabled until 3-legged oAuth functionality is needed. -->
+        <add id="Magento_Oauth::system_api_oauth_consumer" title="Add-On Management"
+             module="Magento_Oauth" sortOrder="13" parent="Magento_Webapi::system_webapi"
+             action="adminhtml/oauth_consumer/index" resource="Magento_Oauth::oauth"/>
+    </menu>
+
+    <config>
+        <menu>
+            <add id="Magento_Webhook::system_api_webapi_webhook" title="WebHook Subscriptions" module="Magento_Webhook" sortOrder="15"
+                 parent="Magento_Webapi::system_webapi" action="adminhtml/webhook_subscription/index" resource="Magento_Webhook::webhook"/>
+        </menu>
+    </config>
+</config>

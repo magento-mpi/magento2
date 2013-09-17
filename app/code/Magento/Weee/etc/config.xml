@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Weee
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <weee_setup>
+                <setup>
+                    <module>Magento_Weee</module>
+                    <class>Magento_Weee_Model_Resource_Setup</class>
+                </setup>
+            </weee_setup>
+        </resources>
+        <sales>
+            <quote>
+                <totals>
+                    <weee>
+                        <class>Magento_Weee_Model_Total_Quote_Weee</class>
+                        <after>subtotal,tax_subtotal</after>
+                        <before>tax,discount</before>
+                    </weee>
+                </totals>
+                <nominal_totals>
+                    <nominal_weee>
+                        <class>Magento_Weee_Model_Total_Quote_Nominal_Weee</class>
+                        <sort_order>600</sort_order>
+                    </nominal_weee>
+                </nominal_totals>
+            </quote>
+            <order_invoice>
+                <totals>
+                    <weee>
+                        <class>Magento_Weee_Model_Total_Invoice_Weee</class>
+                        <after>subtotal,tax,discount,grand_total,cost_total,shipping</after>
+                        <before />
+                    </weee>
+                </totals>
+            </order_invoice>
+            <order_creditmemo>
+                <totals>
+                    <weee>
+                        <class>Magento_Weee_Model_Total_Creditmemo_Weee</class>
+                        <after>subtotal</after>
+                        <before>tax,discount,grand_total</before>
+                    </weee>
+                </totals>
+            </order_creditmemo>
+        </sales>
+    </global>
+    <default>
+        <sales>
+            <totals_sort>
+                <weee>50</weee>
+            </totals_sort>
+        </sales>
+        <tax>
+            <weee>
+                <enable>0</enable>
+                <display>0</display>
+                <display_list>0</display_list>
+                <display_sales>0</display_sales>
+                <display_email>0</display_email>
+                <discount>0</discount>
+                <apply_vat>0</apply_vat>
+                <include_in_subtotal>0</include_in_subtotal>
+            </weee>
+        </tax>
+        <general>
+            <validator_data>
+                <input_types>
+                    <weee>weee</weee>
+                </input_types>
+            </validator_data>
+        </general>
+    </default>
+</config>

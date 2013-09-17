@@ -43,7 +43,7 @@ class Magento_Test_Block_Adminhtml extends PHPUnit_Framework_TestCase
     /** @var  PHPUnit_Framework_MockObject_MockObject */
     protected $_controllerMock;
 
-    /** @var  Mage_Backend_Block_Template_Context */
+    /** @var  Magento_Backend_Block_Template_Context */
     protected  $_context;
 
     /** @var  PHPUnit_Framework_MockObject_MockObject */
@@ -64,36 +64,37 @@ class Magento_Test_Block_Adminhtml extends PHPUnit_Framework_TestCase
     /** @var  PHPUnit_Framework_MockObject_MockObject */
     protected $_helperFactoryMock;
 
-    public function setUp()
+    protected function setUp()
     {
         // These mocks are accessed via context
-        $this->_designMock         = $this->_makeMock('Mage_Core_Model_View_DesignInterface');
-        $this->_sessionMock         = $this->_makeMock('Mage_Core_Model_Session');
-        $this->_translatorMock      = $this->_makeMock('Mage_Core_Model_Translate');
-        $this->_layoutMock          = $this->_makeMock('Mage_Core_Model_Layout');
-        $this->_requestMock         = $this->_makeMock('Mage_Core_Controller_Request_Http');
-        $this->_messagesMock        = $this->_makeMock('Mage_Core_Block_Messages');
-        $this->_urlMock             = $this->_makeMock('Mage_Core_Model_UrlInterface');
-        $this->_eventManagerMock    = $this->_makeMock('Mage_Core_Model_Event_Manager');
-        $this->_controllerMock      = $this->_makeMock('Mage_Core_Controller_Varien_Front');
-        $this->_dirMock             = $this->_makeMock('Mage_Core_Model_Dir');
-        $this->_loggerMock          = $this->_makeMock('Mage_Core_Model_Logger');
+        $this->_designMock         = $this->_makeMock('Magento_Core_Model_View_DesignInterface');
+        $this->_sessionMock         = $this->_makeMock('Magento_Core_Model_Session');
+        $this->_translatorMock      = $this->_makeMock('Magento_Core_Model_Translate');
+        $this->_layoutMock          = $this->_makeMock('Magento_Core_Model_Layout');
+        $this->_requestMock         = $this->_makeMock('Magento_Core_Controller_Request_Http');
+        $this->_messagesMock        = $this->_makeMock('Magento_Core_Block_Messages');
+        $this->_urlMock             = $this->_makeMock('Magento_Core_Model_UrlInterface');
+        $this->_eventManagerMock    = $this->_makeMock('Magento_Core_Model_Event_Manager');
+        $this->_controllerMock      = $this->_makeMock('Magento_Core_Controller_Varien_Front');
+        $this->_dirMock             = $this->_makeMock('Magento_Core_Model_Dir');
+        $this->_loggerMock          = $this->_makeMock('Magento_Core_Model_Logger');
         $this->_filesystemMock      = $this->_makeMock('Magento_Filesystem');
-        $this->_cacheMock           = $this->_makeMock('Mage_Core_Model_CacheInterface');
-        $this->_storeConfigMock     = $this->_makeMock('Mage_Core_Model_Store_Config');
-        $this->_helperFactoryMock   = $this->_makeMock('Mage_Core_Model_Factory_Helper');
-        $viewUrlMock                = $this->_makeMock('Mage_Core_Model_View_Url');
-        $viewConfigMock             = $this->_makeMock('Mage_Core_Model_View_Config');
-        $viewFileSystemMock         = $this->_makeMock('Mage_Core_Model_View_FileSystem');
-        $templateFactoryMock        = $this->_makeMock('Mage_Core_Model_TemplateEngine_Factory');
+        $this->_cacheMock           = $this->_makeMock('Magento_Core_Model_CacheInterface');
+        $this->_storeConfigMock     = $this->_makeMock('Magento_Core_Model_Store_Config');
+        $this->_helperFactoryMock   = $this->_makeMock('Magento_Core_Model_Factory_Helper');
+        $viewUrlMock                = $this->_makeMock('Magento_Core_Model_View_Url');
+        $viewConfigMock             = $this->_makeMock('Magento_Core_Model_View_Config');
+        $viewFileSystemMock         = $this->_makeMock('Magento_Core_Model_View_FileSystem');
+        $templateFactoryMock        = $this->_makeMock('Magento_Core_Model_TemplateEngine_Factory');
         $authorizationMock          = $this->_makeMock('Magento_AuthorizationInterface');
+        $cacheStateMock             = $this->_makeMock('Magento_Core_Model_Cache_StateInterface');
 
         $this->_translatorMock
             ->expects($this->any())
             ->method('translate')
             ->will($this->returnCallback(array($this, 'translateCallback')));
 
-        $this->_context = new Mage_Backend_Block_Template_Context(
+        $this->_context = new Magento_Backend_Block_Template_Context(
             $this->_requestMock,
             $this->_layoutMock,
             $this->_eventManagerMock,
@@ -107,6 +108,7 @@ class Magento_Test_Block_Adminhtml extends PHPUnit_Framework_TestCase
             $this->_helperFactoryMock,
             $viewUrlMock,
             $viewConfigMock,
+            $cacheStateMock,
             $this->_dirMock,
             $this->_loggerMock,
             $this->_filesystemMock,

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_email_order_shipment_items">
+        <block class="Magento_Sales_Block_Order_Email_Shipment_Items" name="items" template="email/shipment/items.phtml">
+            <block class="Magento_Sales_Block_Order_Email_Items_Default" as="default" template="email/items/shipment/default.phtml"/>
+        </block>
+        <container name="additional.product.info" label="Additional Product Info"/>
+    </handle>
+</layout>

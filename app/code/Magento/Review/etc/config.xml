@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Review
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <review_setup>
+                <setup>
+                    <module>Magento_Review</module>
+                </setup>
+            </review_setup>
+        </resources>
+    </global>
+    <frontend>
+        <secure_url>
+            <review_customer>/review/customer/</review_customer>
+        </secure_url>
+    </frontend>
+    <default>
+        <catalog>
+            <review>
+                <allow_guest>1</allow_guest>
+            </review>
+        </catalog>
+    </default>
+</config>

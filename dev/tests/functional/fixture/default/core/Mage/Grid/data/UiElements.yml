@@ -486,11 +486,9 @@ theme_list:
     field:
         page: ~
         theme_title: ~
-        theme_parent_id: ~
+        theme_parent: ~
         theme_path: ~
         theme_version: ~
-        magento_version_from: ~
-        magento_version_to: ~
     dropdown:
         view_per_page: ~
     headers:
@@ -498,8 +496,6 @@ theme_list:
         1: Parent Theme
         2: Theme Path
         3: Theme Version
-        4: Magento Version From
-        5: Magento Version To
 
 #dataset for ui elements for Manage Attribute Mapping grid
 google_content_manage_attributes:
@@ -629,32 +625,6 @@ paypal_reports:
         7: Finish Date
         8: Gross Amount
         9: Fee Amount
-
-#dataset for ui elements for Api Users grid
-api_soap_users:
-    fieldset:
-        api_users_grid: tablename
-    button:
-        reset_filter: ~
-        search: ~
-        add_new_api_user: ~
-    field:
-        page: ~
-        filter_api_users_id: ~
-        filter_api_users_username: ~
-        filter_api_users_firstname: ~
-        filter_api_users_lastname: ~
-        filter_api_users_email: ~
-    dropdown:
-        view_per_page: ~
-        status: ~
-    headers:
-        0: ID
-        1: User Name
-        2: First Name
-        3: Last Name
-        4: Email
-        5: Status
 
 #dataset for ui elements for Cache grid
 cache_storage_management:
@@ -897,3 +867,50 @@ newsletter_subscribers:
         7: Web Site
         8: Store
         9: Store View
+
+#dataset for ui elements in Low Stock Report grid
+report_product_lowstock:
+    fieldset:
+        report_product_lowstock_grid: tablename
+    field:
+        page: ~
+        filter_product: ~
+        filter_sku: ~
+        filter_stock_quantity_from: ~
+        filter_stock_quantity_to: ~
+    dropdown:
+        view_per_page: ~
+        export_to: ~
+    button:
+        export: ~
+        reset_filter: ~
+        search: ~
+    headers:
+        0: Product
+        1: SKU
+        2: Stock Quantity
+#dataset for ui elements in Cms Block grid
+manage_cms_static_blocks:
+    fieldset:
+        static_blocks_grid: tablename
+    field:
+        filter_block_title: ~
+        filter_block_identifier: ~
+        filter_block_created_from: ~
+        filter_block_created_to: ~
+        filter_block_modified_from: ~
+        filter_block_modified_to: ~
+    dropdown:
+        filter_store_view: ~
+        filter_block_status: ~
+    button:
+        reset_filter: ~
+        search: ~
+        add_new_block: ~
+    headers:
+        0: Title
+        1: Identifier
+        2: Store View
+        3: Status
+        4: Created
+        5: Modified

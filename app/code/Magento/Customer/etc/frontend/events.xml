@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="sales_model_service_quote_submit_after">
+        <observer name="restore_customer_group_id" instance="Magento_Customer_Model_Observer" method="quoteSubmitAfter" />
+    </event>
+</config>

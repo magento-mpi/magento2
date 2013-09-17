@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_GiftMessage
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <giftmessage_setup>
+                <setup>
+                    <module>Magento_GiftMessage</module>
+                    <class>Magento_GiftMessage_Model_Resource_Setup</class>
+                </setup>
+            </giftmessage_setup>
+        </resources>
+        <sales>
+            <quote>
+                <item>
+                    <product_attributes>
+                        <gift_message_available />
+                    </product_attributes>
+                </item>
+            </quote>
+        </sales>
+    </global>
+    <default>
+        <sales>
+            <gift_messages>
+                <allow_items>0</allow_items>
+                <allow_order>0</allow_order>
+            </gift_messages>
+        </sales>
+    </default>
+</config>

@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category   Mage
- * @package    Mage_Core
+ * @category   Magento
+ * @package    Magento_Core
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -13,6 +13,9 @@
  */
 final class Mage
 {
+    /**
+     * Default error handler function name
+     */
     const DEFAULT_ERROR_HANDLER = 'mageCoreErrorHandler';
 
     /**
@@ -75,13 +78,14 @@ final class Mage
      */
     const PARAM_CUSTOM_LOCAL_CONFIG = 'custom_local_config';
 
-    /**
+    /**#@+
      * Product edition labels
      */
     const EDITION_COMMUNITY    = 'Community';
     const EDITION_ENTERPRISE   = 'Enterprise';
     const EDITION_PROFESSIONAL = 'Professional';
     const EDITION_GO           = 'Go';
+    /**#@-*/
 
     /**
      * Default timezone
@@ -89,11 +93,9 @@ final class Mage
     const DEFAULT_TIMEZONE  = 'UTC';
 
     /**
-     * Registry collection
-     *
-     * @var array
+     * Magento version
      */
-    static private $_registry = array();
+    const VERSION = '2.0.0.0-dev43';
 
     /**
      * Application root absolute path
@@ -105,14 +107,14 @@ final class Mage
     /**
      * Application model
      *
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     static private $_app;
 
     /**
      * Config Model
      *
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     static private $_config;
 
@@ -126,7 +128,7 @@ final class Mage
     /**
      * Object cache instance
      *
-     * @var Varien_Object_Cache
+     * @var Magento_Object_Cache
      */
     static private $_objects;
 
@@ -154,7 +156,7 @@ final class Mage
     /**
      * Design object
      *
-     * @var Mage_Core_Model_View_DesignInterface
+     * @var Magento_Core_Model_View_DesignInterface
      */
     protected static $_design;
 
@@ -188,9 +190,10 @@ final class Mage
      */
     public static function getVersion()
     {
-        $i = self::getVersionInfo();
-        return trim("{$i['major']}.{$i['minor']}.{$i['revision']}" . ($i['patch'] != '' ? ".{$i['patch']}" : "")
-            . "-{$i['stability']}{$i['number']}", '.-');
+        $info = self::getVersionInfo();
+        return trim("{$info['major']}.{$info['minor']}.{$info['revision']}"
+            . ($info['patch'] != '' ? ".{$info['patch']}" : "")
+            . "-{$info['stability']}{$info['number']}", '.-');
     }
 
     /**
@@ -207,7 +210,7 @@ final class Mage
             'revision'  => '0',
             'patch'     => '0',
             'stability' => 'dev',
-            'number'    => '43',
+            'number'    => '45',
         );
     }
 
@@ -238,8 +241,6 @@ final class Mage
      */
     public static function reset()
     {
-        self::resetRegistry();
-
         self::$_appRoot         = null;
         self::$_app             = null;
         self::$_config          = null;
@@ -249,73 +250,6 @@ final class Mage
         self::$_design          = null;
         self::$_objectManager   = null;
         // do not reset $headersSentThrowsException
-    }
-
-    /**
-     * Reset registry
-     */
-    public static function resetRegistry()
-    {
-        /** @var $value */
-        foreach (self::$_registry as $key => $value) {
-            self::unregister($key);
-        }
-
-        self::$_registry = array();
-    }
-
-    /**
-     * Register a new variable
-     *
-     * @param string $key
-     * @param mixed $value
-     * @param bool $graceful
-     * @throws Mage_Core_Exception
-     *
-     * @deprecated use Mage_Core_Model_Registry::register
-     */
-    public static function register($key, $value, $graceful = false)
-    {
-        if (isset(self::$_registry[$key])) {
-            if ($graceful) {
-                return;
-            }
-            self::throwException('Mage registry key "'.$key.'" already exists');
-        }
-        self::$_registry[$key] = $value;
-    }
-
-    /**
-     * Unregister a variable from register by key
-     *
-     * @param string $key
-     *
-     * @deprecated use Mage_Core_Model_Registry::unregister
-     */
-    public static function unregister($key)
-    {
-        if (isset(self::$_registry[$key])) {
-            if (is_object(self::$_registry[$key]) && (method_exists(self::$_registry[$key], '__destruct'))) {
-                self::$_registry[$key]->__destruct();
-            }
-            unset(self::$_registry[$key]);
-        }
-    }
-
-    /**
-     * Retrieve a value from registry by a key
-     *
-     * @param string $key
-     * @return mixed
-     *
-     * @deprecated use Mage_Core_Model_Registry::registry
-     */
-    public static function registry($key)
-    {
-        if (isset(self::$_registry[$key])) {
-            return self::$_registry[$key];
-        }
-        return null;
     }
 
     /**
@@ -337,15 +271,15 @@ final class Mage
     }
 
     /**
-     * Varien Objects Cache
+     * Magento Objects Cache
      *
      * @param string $key optional, if specified will load this key
-     * @return Varien_Object_Cache
+     * @return Magento_Object_Cache
      */
     public static function objects($key = null)
     {
         if (!self::$_objects) {
-            self::$_objects = new Varien_Object_Cache;
+            self::$_objects = new Magento_Object_Cache;
         }
         if (is_null($key)) {
             return self::$_objects;
@@ -360,9 +294,9 @@ final class Mage
      * @param string $type
      * @return string
      */
-    public static function getBaseDir($type = Mage_Core_Model_Dir::ROOT)
+    public static function getBaseDir($type = Magento_Core_Model_Dir::ROOT)
     {
-        return self::getSingleton('Mage_Core_Model_Dir')->getDir($type);
+        return self::getSingleton('Magento_Core_Model_Dir')->getDir($type);
     }
 
     /**
@@ -374,7 +308,8 @@ final class Mage
      */
     public static function getModuleDir($type, $moduleName)
     {
-        return self::getObjectManager()->get('Mage_Core_Model_Config_Modules_Reader')->getModuleDir($type, $moduleName);
+        return self::getObjectManager()->get('Magento_Core_Model_Config_Modules_Reader')
+            ->getModuleDir($type, $moduleName);
     }
 
     /**
@@ -413,7 +348,7 @@ final class Mage
      * @param null|bool $secure
      * @return string
      */
-    public static function getBaseUrl($type = Mage_Core_Model_Store::URL_TYPE_LINK, $secure = null)
+    public static function getBaseUrl($type = Magento_Core_Model_Store::URL_TYPE_LINK, $secure = null)
     {
         return self::app()->getStore()->getBaseUrl($type, $secure);
     }
@@ -427,20 +362,7 @@ final class Mage
      */
     public static function getUrl($route = '', $params = array())
     {
-        return self::getObjectManager()->create('Mage_Core_Model_Url')->getUrl($route, $params);
-    }
-
-    /**
-     * Get design package singleton
-     *
-     * @return Mage_Core_Model_View_DesignInterface
-     */
-    public static function getDesign()
-    {
-        if (!self::$_design) {
-            self::$_design = self::getObjectManager()->get('Mage_Core_Model_View_DesignInterface');
-        }
-        return self::$_design;
+        return self::getObjectManager()->create('Magento_Core_Model_Url')->getUrl($route, $params);
     }
 
     /**
@@ -449,39 +371,22 @@ final class Mage
      * This method doesn't suit Magento 2 anymore, it is left only until refactoring, when all calls
      * to Mage::getConfig() will be removed in favor of config dependency injection.
      *
-     * @return Mage_Core_Model_Config
+     * @return Magento_Core_Model_Config
      */
     public static function getConfig()
     {
         if (!self::$_config) {
-            self::$_config = self::getObjectManager()->get('Mage_Core_Model_Config');
+            self::$_config = self::getObjectManager()->get('Magento_Core_Model_Config');
         }
         return self::$_config;
     }
 
     /**
-     * Dispatch event
-     *
-     * Calls all observer callbacks registered for this event
-     * and multiple observers matching event name pattern
-     *
-     * @param string $name
-     * @param array $data
-     *
-     * @deprecated use Mage_Core_Model_Event_Manager::dispatch
-     */
-    public static function dispatchEvent($name, array $data = array())
-    {
-        return Mage::getSingleton('Mage_Core_Model_Event_Manager')->dispatch($name, $data);
-    }
-
-    /**
      * Retrieve model object
      *
-     * @link    Mage_Core_Model_Config::getModelInstance
      * @param   string $modelClass
      * @param   array|object $arguments
-     * @return  Mage_Core_Model_Abstract|false
+     * @return  Magento_Core_Model_Abstract|false
      */
     public static function getModel($modelClass = '', $arguments = array())
     {
@@ -495,15 +400,17 @@ final class Mage
      * Retrieve model object singleton
      *
      * @param   string $modelClass
-     * @return  Mage_Core_Model_Abstract
+     * @return  Magento_Core_Model_Abstract
      */
     public static function getSingleton($modelClass = '')
     {
-        $registryKey = '_singleton/'.$modelClass;
-        if (!self::registry($registryKey)) {
-            self::register($registryKey, self::getObjectManager()->get($modelClass));
+        $registryKey = '_singleton/' . $modelClass;
+        /** @var Magento_Core_Model_Registry $registryObject */
+        $registryObject = self::getObjectManager()->get('Magento_Core_Model_Registry');
+        if (!$registryObject->registry($registryKey)) {
+            $registryObject->register($registryKey, self::getObjectManager()->get($modelClass));
         }
-        return self::registry($registryKey);
+        return $registryObject->registry($registryKey);
     }
 
     /**
@@ -519,7 +426,9 @@ final class Mage
 
     /**
      * Set application object manager
+     *
      * @param Magento_ObjectManager $objectManager
+     * @throws LogicException
      */
     public static function setObjectManager(Magento_ObjectManager $objectManager)
     {
@@ -553,11 +462,13 @@ final class Mage
      */
     public static function getResourceSingleton($modelClass = '')
     {
-        $registryKey = '_resource_singleton/'.$modelClass;
-        if (!self::registry($registryKey)) {
-            self::register($registryKey, self::getObjectManager()->get($modelClass));
+        /** @var Magento_Core_Model_Registry $registryObject */
+        $registryObject = self::getObjectManager()->get('Magento_Core_Model_Registry');
+        $registryKey = '_resource_singleton/' . $modelClass;
+        if (!$registryObject->registry($registryKey)) {
+            $registryObject->register($registryKey, self::getObjectManager()->get($modelClass));
         }
-        return self::registry($registryKey);
+        return $registryObject->registry($registryKey);
     }
 
     /**
@@ -573,49 +484,31 @@ final class Mage
     }
 
     /**
-     * Retrieve helper object
-     *
-     * @param string $name the helper name
-     * @return Mage_Core_Helper_Abstract
-     */
-    public static function helper($name)
-    {
-        /* Default helper class for a module */
-        if (strpos($name, '_Helper_') === false) {
-            $name .= '_Helper_Data';
-        }
-
-        $registryKey = '_helper/' . $name;
-        if (!self::registry($registryKey)) {
-            self::register($registryKey, self::getObjectManager()->get($name));
-        }
-        return self::registry($registryKey);
-    }
-
-    /**
      * Retrieve resource helper object
      *
      * @param string $moduleName
-     * @return Mage_Core_Model_Resource_Helper_Abstract
+     * @return Magento_Core_Model_Resource_Helper_Abstract
      */
     public static function getResourceHelper($moduleName)
     {
         $connectionModel = self::getObjectManager()
-            ->get('Mage_Core_Model_Config_Resource')
+            ->get('Magento_Core_Model_Config_Resource')
             ->getResourceConnectionModel('core');
 
         $helperClassName = $moduleName . '_Model_Resource_Helper_' . ucfirst($connectionModel);
         $connection = strtolower($moduleName);
-        if (substr($moduleName, 0, 5) == 'Mage_') {
-            $connection = substr($connection, 5);
+        if (substr($moduleName, 0, 8) == 'Magento_') {
+            $connection = substr($connection, 8);
         }
+        /** @var Magento_Core_Model_Registry $registryObject */
+        $registryObject = self::getObjectManager()->get('Magento_Core_Model_Registry');
         $key = 'resourceHelper/' . $connection;
-        if (!self::registry($key)) {
-            self::register(
+        if (!$registryObject->registry($key)) {
+            $registryObject->register(
                 $key, self::getObjectManager()->create($helperClassName, array('modulePrefix' => $connection))
             );
         }
-        return self::registry($key);
+        return $registryObject->registry($key);
     }
 
     /**
@@ -624,9 +517,9 @@ final class Mage
      * @param string $module
      * @param string $message
      * @param integer $code
-     * @return Mage_Core_Exception
+     * @return Magento_Core_Exception
      */
-    public static function exception($module = 'Mage_Core', $message = '', $code = 0)
+    public static function exception($module = 'Magento_Core', $message = '', $code = 0)
     {
         $className = $module . '_Exception';
         return new $className($message, $code);
@@ -637,25 +530,25 @@ final class Mage
      *
      * @param string $message
      * @param string $messageStorage
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public static function throwException($message, $messageStorage = null)
     {
         if ($messageStorage && ($storage = self::getSingleton($messageStorage))) {
             $storage->addError($message);
         }
-        throw new Mage_Core_Exception($message);
+        throw new Magento_Core_Exception($message);
     }
 
     /**
      * Get application object.
      *
-     * @return Mage_Core_Model_App
+     * @return Magento_Core_Model_App
      */
     public static function app()
     {
         if (null === self::$_app) {
-            self::$_app = self::getObjectManager()->get('Mage_Core_Model_App');
+            self::$_app = self::getObjectManager()->get('Magento_Core_Model_App');
         }
         return self::$_app;
     }
@@ -664,11 +557,11 @@ final class Mage
      * Check if application is installed
      *
      * @return bool
-     * @deprecated use Mage_Core_Model_App_State::isInstalled()
+     * @deprecated use Magento_Core_Model_App_State::isInstalled()
      */
     public static function isInstalled()
     {
-        return (bool) Mage::getSingleton('Mage_Core_Model_Config_Primary')->getInstallDate();
+        return (bool) Mage::getSingleton('Magento_Core_Model_Config_Primary')->getInstallDate();
     }
 
     /**
@@ -684,15 +577,15 @@ final class Mage
         $level = is_null($level) ? Zend_Log::DEBUG : $level;
         if (empty($file) || $file == 'system.log') {
             $file = 'system.log';
-            $key = Mage_Core_Model_Logger::LOGGER_SYSTEM;
+            $key = Magento_Core_Model_Logger::LOGGER_SYSTEM;
         } elseif ($file == 'exception.log') {
-            $key = Mage_Core_Model_Logger::LOGGER_EXCEPTION;
+            $key = Magento_Core_Model_Logger::LOGGER_EXCEPTION;
         } else {
             $forceLog = true;
             $key = $file;
         }
-        /** @var $logger Mage_Core_Model_Logger */
-        $logger = self::$_objectManager->get('Mage_Core_Model_Logger');
+        /** @var $logger Magento_Core_Model_Logger */
+        $logger = self::$_objectManager->get('Magento_Core_Model_Logger');
         if ($forceLog && !$logger->hasLog($key)) {
             $logger->addStreamLog($key, $file);
         }
@@ -702,18 +595,18 @@ final class Mage
     /**
      * Write exception to log
      *
-     * @param Exception $e
+     * @param Exception $exception
      */
-    public static function logException(Exception $e)
+    public static function logException(Exception $exception)
     {
-        self::$_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+        self::$_objectManager->get('Magento_Core_Model_Logger')->logException($exception);
     }
 
     /**
      * Retrieve enabled developer mode
      *
      * @return bool
-     * @deprecated use Mage_Core_Model_App_State::getMode()
+     * @deprecated use Magento_Core_Model_App_State::getMode()
      */
     public static function getIsDeveloperMode()
     {
@@ -722,13 +615,13 @@ final class Mage
             return false;
         }
 
-        $appState = $objectManager->get('Mage_Core_Model_App_State');
+        $appState = $objectManager->get('Magento_Core_Model_App_State');
         if (!$appState) {
             return false;
         }
 
         $mode = $appState->getMode();
-        return $mode == Mage_Core_Model_App_State::MODE_DEVELOPER;
+        return $mode == Magento_Core_Model_App_State::MODE_DEVELOPER;
     }
 
     /**
@@ -773,7 +666,7 @@ final class Mage
             } catch (Exception $e) {
             }
 
-            require_once(self::getBaseDir(Mage_Core_Model_Dir::PUB) . DS . 'errors' . DS . 'report.php');
+            require_once(self::getBaseDir(Magento_Core_Model_Dir::PUB) . DS . 'errors' . DS . 'report.php');
         }
 
         die();
@@ -784,7 +677,7 @@ final class Mage
      *
      * @param bool $flag
      *
-     * @deprecated use Mage_Core_Model_App_State::setIsDownloader()
+     * @deprecated use Magento_Core_Model_App_State::setIsDownloader()
      */
     public static function setIsDownloader($flag = true)
     {
@@ -797,7 +690,7 @@ final class Mage
      * @static
      * @param bool $value
      *
-     * @deprecated use Mage_Core_Model_App_State::setIsSerializable()
+     * @deprecated use Magento_Core_Model_App_State::setIsSerializable()
      */
     public static function setIsSerializable($value = true)
     {
@@ -810,7 +703,7 @@ final class Mage
      * @static
      * @return bool
      *
-     * @deprecated use Mage_Core_Model_App_State::getIsSerializable()
+     * @deprecated use Magento_Core_Model_App_State::getIsSerializable()
      */
     public static function getIsSerializable()
     {
@@ -822,7 +715,7 @@ final class Mage
      *
      * @param bool $value
      *
-     * @deprecated use Mage_Core_Model_App_State::setUpdateMode()
+     * @deprecated use Magento_Core_Model_App_State::setUpdateMode()
      */
     public static function setUpdateMode($value)
     {
@@ -834,7 +727,7 @@ final class Mage
      * Get update mode flag
      * @return bool
      *
-     * @deprecated use Mage_Core_Model_App_State::setUpdateMode()
+     * @deprecated use Magento_Core_Model_App_State::setUpdateMode()
      */
     public static function getUpdateMode()
     {

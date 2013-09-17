@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <router id="standard">
+        <route id="checkout">
+            <module name="Magento_AdvancedCheckout" before="Magento_Checkout" />
+        </route>
+        <route id="magento_advancedcheckout" frontName="customer_order">
+            <module name="Magento_AdvancedCheckout" />
+        </route>
+    </router>
+</config>

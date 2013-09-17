@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_TargetRule
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <targetrule_setup>
+                <setup>
+                    <module>Magento_TargetRule</module>
+                    <class>Magento_TargetRule_Model_Resource_Setup</class>
+                </setup>
+            </targetrule_setup>
+        </resources>
+        <index>
+            <indexer>
+                <targetrule>
+                    <model>Magento_TargetRule_Model_Index</model>
+                </targetrule>
+            </indexer>
+        </index>
+    </global>
+    <default>
+        <catalog>
+            <magento_targetrule>
+                <related_position_limit>6</related_position_limit>
+                <related_position_behavior>0</related_position_behavior>
+                <related_rotation_mode>0</related_rotation_mode>
+                <crosssell_position_limit>5</crosssell_position_limit>
+                <crosssell_position_behavior>0</crosssell_position_behavior>
+                <crosssell_rotation_mode>0</crosssell_rotation_mode>
+                <upsell_position_limit>8</upsell_position_limit>
+                <upsell_position_behavior>0</upsell_position_behavior>
+                <upsell_rotation_mode>0</upsell_rotation_mode>
+            </magento_targetrule>
+        </catalog>
+    </default>
+    <crontab>
+        <jobs>
+            <magento_targetrule_index_reindex>
+                <schedule>
+                    <cron_expr>0 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>Magento_TargetRule_Model_Index::cron</model>
+                </run>
+            </magento_targetrule_index_reindex>
+        </jobs>
+    </crontab>
+</config>

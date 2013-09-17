@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    tests
+ * @package     static
+ * @subpackage  Legacy
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<!-- These are the settings for legacy testing within the company's Magento 2 repository
+     (in addition to Magento 2 Core and Magento 2 EE) -->
+<config>
+    <words>
+        <word>Magento_Autoload::</word>
+        <word>Magento_Core_Utility_Theme</word>
+        <word>@group module:</word>
+        <word>Magento_Test_Di_InstanceManager</word>
+        <word>Magento_ObjectManager_Zend</word>
+        <word>base_public_url</word>
+        <word>secure_public_url}}js/</word>
+        <word>Magento_Core_Model_App_Options</word>
+        <word>Magento_Adminhtml_Utility_Controller</word>
+        <word>saas</word>
+        <word>tmt</word>
+    </words>
+    <whitelist>
+        <item>
+            <path>dev/tests/functional/fixture/default</path>
+        </item>
+        <item>
+            <path>dev/tests/functional/fixture/enterprise</path>
+        </item>
+        <item>
+            <path>dev/tests/functional/testsuite/Enterprise</path>
+        </item>
+    </whitelist>
+</config>

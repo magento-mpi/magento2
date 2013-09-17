@@ -41,7 +41,6 @@ class Magento_Translate_AdapterTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array('translate', 'Translate me!', 'Translated string'),
-            array('__', 'Translate me!', 'Translated string')
         );
     }
 
@@ -59,17 +58,6 @@ class Magento_Translate_AdapterTest extends PHPUnit_Framework_TestCase
      */
     public function testUnderscoresTranslation()
     {
-        $translatorMock = $this->getMockBuilder('stdClass')
-            ->setMethods(array('translate'))
-            ->getMock();
-        $translatorMock->expects($this->once())
-            ->method('translate')
-            ->will($this->returnArgument(0));
-        $translator = new Magento_Translate_Adapter(array(
-            'translator' => array($translatorMock, 'translate')
-        ));
-
-        $translatedString = $translator->__('Translated %s with %d placeholders', 'string', 2);
-        $this->assertEquals('Translated string with 2 placeholders', $translatedString);
+        $this->markTestIncomplete('MAGETWO-1012: i18n Improvements - Localization/Translations');
     }
 }

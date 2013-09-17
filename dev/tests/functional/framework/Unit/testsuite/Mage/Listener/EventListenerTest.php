@@ -12,7 +12,7 @@ class Mage_Listener_EventListenerTest extends Unit_PHPUnit_TestCase
 {
     protected $observersMocks = array();
 
-    public function tearDown()
+    protected function tearDown()
     {
         foreach ($this->observersMocks as $mockObj) {
             Mage_Listener_EventListener::detach($mockObj);

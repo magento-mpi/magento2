@@ -1,0 +1,39 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php $entity = $this->getEntity() ?>
+<?php if ($entity): ?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+&nbsp;
+<div class="page-title">
+    <h1><?php echo __('Gift Registry Info') ?></h1>
+</div>
+<div class="info-box">
+    <div class="box-content">
+        <table class="info-table">
+            <col width="1" />
+            <col />
+            <tbody>
+                <?php foreach ($this->getAttributesToDisplay() as $attributeInfo): ?>
+                <tr>
+                    <th><span class="nobr"><?php echo $attributeInfo['title'] ?></span></th>
+                    <td><?php echo $attributeInfo['value'] ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<?php echo $this->getChildHtml('giftregistry_items') ?>
+<?php endif; ?>
+<div class="buttons-set">
+    <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getSearchBackUrl()) ?>"><small>&laquo; </small><?php echo __('Back') ?></a></p>
+</div>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Widget
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Magento_Widget::cms_widget_instance" title="Frontend Apps" module="Magento_Widget" sortOrder="50" parent="Magento_Adminhtml::content_elements" action="adminhtml/widget_instance" resource="Magento_Widget::widget_instance"/>
+    </menu>
+</config>

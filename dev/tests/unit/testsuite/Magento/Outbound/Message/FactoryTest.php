@@ -47,7 +47,7 @@ class Magento_Outbound_Message_FactoryTest extends PHPUnit_Framework_TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_mockEndpoint;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
             ->setMethods(array('create'))
@@ -132,26 +132,9 @@ class Magento_Outbound_Message_FactoryTest extends PHPUnit_Framework_TestCase
             ->will($this->returnCallback(array($this, 'verifyManagerCreate')));
     }
 
-    public function testCreateByData()
-    {
-        $this->assertEquals('SUCCESS', $this->_factory->createByData($this->_mockEndpoint, self::TOPIC, self::$body));
-    }
-
     public function testCreate()
     {
-        $mockEvent = $this->getMockBuilder('Magento_PubSub_EventInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $mockEvent->expects($this->once())
-            ->method('getTopic')
-            ->will($this->returnValue(self::TOPIC));
-
-        $mockEvent->expects($this->once())
-            ->method('getBodyData')
-            ->will($this->returnValue(self::$body));
-
-        $this->assertEquals('SUCCESS', $this->_factory->create($this->_mockEndpoint, $mockEvent));
+        $this->assertEquals('SUCCESS', $this->_factory->create($this->_mockEndpoint, self::TOPIC, self::$body));
     }
 
     /**

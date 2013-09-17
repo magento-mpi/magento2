@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_promo_catalog_edit">
+        <reference name="head">
+            <action method="setCanLoadExtJs">
+                <argument name="flag" xsi:type="string">1</argument>
+            </action>
+            <action method="setCanLoadRulesJs">
+                <argument name="flag" xsi:type="string">1</argument>
+            </action>
+        </reference>
+        <reference name="left">
+            <block class="Magento_Adminhtml_Block_Promo_Catalog_Edit_Tabs" name="promo_catalog_edit_tabs">
+                <block class="Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main" name="promo_catalog_edit_tab_main"/>
+                <block class="Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions" name="promo_catalog_edit_tab_conditions"/>
+                <block class="Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions" name="promo_catalog_edit_tab_actions"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">main_section</argument>
+                    <argument name="block" xsi:type="string">promo_catalog_edit_tab_main</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">conditions_section</argument>
+                    <argument name="block" xsi:type="string">promo_catalog_edit_tab_conditions</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">actions_section</argument>
+                    <argument name="block" xsi:type="string">promo_catalog_edit_tab_actions</argument>
+                </action>
+            </block>
+        </reference>
+        <reference name="content">
+            <block class="Magento_Adminhtml_Block_Promo_Catalog_Edit" name="promo_catalog_edit"/>
+        </reference>
+        <reference name="js">
+            <block class="Magento_Adminhtml_Block_Promo_Catalog_Edit_Js" template="promo/js.phtml"/>
+        </reference>
+    </handle>
+</layout>

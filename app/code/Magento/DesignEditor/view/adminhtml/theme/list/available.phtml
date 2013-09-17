@@ -1,0 +1,32 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Magento_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available */?>
+
+<div class="infinite_scroll">
+    <ul class="themes" id="available-themes-container"></ul>
+</div>
+
+<script type="text/javascript">
+    (function ($) {
+        $( document ).ready(function( ) {
+            <?php if ($this->getTabId()): ?>
+                $('.infinite_scroll').infinite_scroll({
+                    url : '<?php echo $this->getUrl('*/*/loadthemelist') ?>',
+                    loadDataOnCreate : false
+                });
+
+                $('a[name="<?php echo $this->getTabId() ?>"]').on("click", function(event) {
+                    $('.infinite_scroll').infinite_scroll('loadDataIsContainerEmpty');
+                });
+            <?php endif; ?>
+        });
+    })(jQuery);
+</script>

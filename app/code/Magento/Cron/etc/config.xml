@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Cron
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <cron_setup>
+                <setup>
+                    <module>Magento_Cron</module>
+                </setup>
+            </cron_setup>
+        </resources>
+    </global>
+    <default>
+        <system>
+            <cron>
+                <schedule_generate_every>15</schedule_generate_every>
+                <schedule_ahead_for>20</schedule_ahead_for>
+                <schedule_lifetime>15</schedule_lifetime>
+                <history_cleanup_every>10</history_cleanup_every>
+                <history_success_lifetime>60</history_success_lifetime>
+                <history_failure_lifetime>600</history_failure_lifetime>
+            </cron>
+        </system>
+    </default>
+</config>

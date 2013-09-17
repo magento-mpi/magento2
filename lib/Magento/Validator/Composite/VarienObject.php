@@ -2,14 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Core
+ * @category    Magento
+ * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Validator encapsulates multiple validation rules for Varien_Object.
+ * Validator encapsulates multiple validation rules for Magento_Object.
  * Able to validate both individual fields and a whole object.
  */
 class Magento_Validator_Composite_VarienObject implements Zend_Validate_Interface
@@ -54,10 +54,10 @@ class Magento_Validator_Composite_VarienObject implements Zend_Validate_Interfac
     /**
      * Check whether the entity is valid according to defined validation rules
      *
-     * @param Varien_Object $entity
+     * @param Magento_Object $entity
      * @return bool
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function isValid($entity)
     {

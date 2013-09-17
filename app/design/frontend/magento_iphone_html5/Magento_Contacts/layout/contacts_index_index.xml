@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="contacts_index_index">
+        <remove name="form.additional.info"/>
+        <reference name="content">
+            <block class="Magento_Page_Block_Html_Breadcrumbs" name="breadcrumbs" as="breadcrumbs" before="-">
+                <action method="addCrumb">
+                    <argument translate="true" name="crumbName" xsi:type="string">home</argument>
+                    <argument name="crumbInfo" xsi:type="array">
+                        <item name="label" xsi:type="string">Home</item>
+                        <item name="title" xsi:type="string">Home</item>
+                        <item name="link" xsi:type="string">/</item>
+                    </argument>
+                </action>
+                <action method="addCrumb">
+                    <argument translate="true" name="crumbName" xsi:type="string">categories</argument>
+                    <argument name="crumbInfo" xsi:type="array">
+                        <item name="label" xsi:type="string">Categories</item>
+                        <item name="title" xsi:type="string">Categories</item>
+                    </argument>
+                </action>
+            </block>
+        </reference>
+    </handle>
+</layout>

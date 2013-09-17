@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Multishipping Checkout Billing Address Selection" id="checkout_multishipping_address_selectbilling" type="page" parent="checkout_multishipping_address_select">
+        <update handle="checkout_multishipping"/>
+        <reference name="content">
+            <block class="Magento_Checkout_Block_Multishipping_Address_Select" name="checkout_address_select" template="multishipping/address/select.phtml"/>
+        </reference>
+    </handle>
+</layout>

@@ -8,19 +8,13 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_TestModule1>
-            <version>1.0</version>
-            <current_api_version>1</current_api_version>
-            <active>true</active>
-        </Mage_TestModule1>
-    </modules>
     <global>
-        <di>
-            <preferences>
-                <Mage_TestModule1_Service_AllSoapAndRestInterfaceV1>Mage_TestModule1_Service_AllSoapAndRestV1</Mage_TestModule1_Service_AllSoapAndRestInterfaceV1>
-                <Mage_TestModule1_Service_AllSoapAndRestInterfaceV2>Mage_TestModule1_Service_AllSoapAndRestV2</Mage_TestModule1_Service_AllSoapAndRestInterfaceV2>
-            </preferences>
-        </di>
+        <resources>
+            <testmodule1_setup>
+                <setup>
+                    <module>Magento_TestModule1</module>
+                </setup>
+            </testmodule1_setup>
+        </resources>
     </global>
 </config>

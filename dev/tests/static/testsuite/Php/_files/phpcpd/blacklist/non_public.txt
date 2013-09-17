@@ -1,3 +1,0 @@
-Mysql
-Oracle
-Mssql

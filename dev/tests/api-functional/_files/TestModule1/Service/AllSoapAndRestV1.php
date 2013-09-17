@@ -6,23 +6,17 @@
  * @license     {license_link}
  */
 
-class Mage_TestModule1_Service_AllSoapAndRestV1 implements Mage_TestModule1_Service_AllSoapAndRestInterfaceV1
+class Magento_TestModule1_Service_AllSoapAndRestV1 implements Magento_TestModule1_Service_AllSoapAndRestV1Interface
 {
-    const ERROR_INTERNAL_LOAD = '01';
-    const ERROR_INTERNAL_SAVE = '02';
-
-
     /**
      * @param $request
      * @return array
-     * @throws Mage_TestModule1_Exception
+     * @throws Magento_Webapi_Exception
      */
     public function item($request)
     {
         if ($request['id'] == null) {
-            //TODO: Change to Mage_Service_Exception
-            throw new Mage_TestModule1_Exception("Invalid Id",
-                Mage_TestModule1_Service_AllSoapAndRestV1::ERROR_INTERNAL_LOAD);
+            throw new Magento_Webapi_Exception("Invalid Id");
         }
         $result = array(
             'id' => $request['id'],
@@ -31,9 +25,7 @@ class Mage_TestModule1_Service_AllSoapAndRestV1 implements Mage_TestModule1_Serv
         return $result;
     }
 
-
     /**
-     * @param $request
      * @return array
      */
     public function items()
@@ -51,7 +43,6 @@ class Mage_TestModule1_Service_AllSoapAndRestV1 implements Mage_TestModule1_Serv
         return $result;
     }
 
-
     /**
      * @param $request
      * @return array
@@ -65,18 +56,15 @@ class Mage_TestModule1_Service_AllSoapAndRestV1 implements Mage_TestModule1_Serv
         return $result;
     }
 
-
     /**
      * @param $request
      * @return array
-     * @throws Mage_TestModule1_Exception
+     * @throws Magento_Webapi_Exception
      */
     public function update($request)
     {
         if ($request['id'] == null) {
-            //TODO: Change to Mage_Service_Exception
-            throw new Mage_TestModule1_Exception("Invalid Id",
-                Mage_TestModule1_Service_AllSoapAndRestV1::ERROR_INTERNAL_SAVE);
+            throw new Magento_Webapi_Exception("Invalid Id");
         }
 
         $result = array(

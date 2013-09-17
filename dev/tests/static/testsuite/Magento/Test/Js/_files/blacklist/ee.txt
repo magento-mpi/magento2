@@ -1,0 +1,2 @@
+app/code/Magento/Cms/view/adminhtml/cms.js
+app/code/Magento/Rma/view/adminhtml/rma.js

@@ -30,7 +30,7 @@ class Magento_Validator_Constraint_Property extends Magento_Validator_Constraint
     }
 
     /**
-     * Get value that should be validated. Tries to extract value's property if Varien_Object or ArrayAccess or array
+     * Get value that should be validated. Tries to extract value's property if Magento_Object or ArrayAccess or array
      * is passed
      *
      * @param mixed $value
@@ -40,7 +40,7 @@ class Magento_Validator_Constraint_Property extends Magento_Validator_Constraint
     {
         $result = null;
 
-        if ($value instanceof Varien_Object) {
+        if ($value instanceof Magento_Object) {
             $result = $value->getDataUsingMethod($this->_property);
         } elseif ((is_array($value) || $value instanceof ArrayAccess) && isset($value[$this->_property])) {
             $result = $value[$this->_property];

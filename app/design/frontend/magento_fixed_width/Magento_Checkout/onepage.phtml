@@ -1,0 +1,86 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+$_paymentBlock = $this->getLayout()->getBlock('checkout.onepage.payment');
+$_registerParam = $this->getRequest()->getParam('register');
+?>
+<div class="opc-wrapper">
+    <div class="page-title">
+        <?php echo $this->getChildHtml('checkoutCallout') ?>
+        <h1><?php echo __('Checkout') ?></h1>
+    </div>
+    <div class="opc-progress-container" id="col-right-opcheckout">
+        <?php echo $this->getChildHtml('checkoutProgress') ?>
+    </div>
+    <ol class="opc" id="checkoutSteps">
+    <?php $i=0; foreach($this->getSteps() as $_stepId => $_stepInfo): ?>
+    <?php if (!$this->getChildBlock($_stepId) || !$this->getChildBlock($_stepId)->isShow()): continue; endif; $i++ ?>
+        <li id="opc-<?php echo $_stepId ?>" class="section<?php echo !empty($_stepInfo['allow'])?' allow':'' ?><?php echo !empty($_stepInfo['complete'])?' saved':'' ?>">
+            <div class="step-title">
+                <span class="number"><?php echo $i ?></span>
+                <h2><?php echo $_stepInfo['label'] ?></h2>
+                <!--<a href="#"><?php echo __('Edit') ?></a>-->
+            </div>
+            <div id="checkout-step-<?php echo $_stepId ?>" class="step a-item" style="display:none;">
+                <?php echo $this->getChildHtml($_stepId) ?>
+            </div>
+        </li>
+    <?php endforeach ?>
+    </ol>
+    <script type="text/javascript">
+        (function($) {
+            head.js(
+                "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+                "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+                "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+                "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+                "<?php echo $this->getViewFileUrl('Magento_Checkout::js/accordion.js') ?>",
+                function() {
+                    $('#checkoutSteps')
+                        .accordion({
+                            activeSelector: '#opc-<?php echo $this->getActiveStep() ?>'
+                        })
+                        .opcheckout({
+                            quoteBaseGrandTotal: <?php echo (float)$_paymentBlock->getQuoteBaseGrandTotal() ?>,
+                            progressUrl: '<?php echo $this->getUrl('checkout/onepage/progress') ?>',
+                            reviewUrl: '<?php echo $this->getUrl('checkout/onepage/review') ?>',
+                            failureUrl: '<?php echo $this->getUrl('checkout/cart') ?>',
+                            getAddressUrl: '<?php echo $this->getUrl('checkout/onepage/getAddress') ?>address/',
+                            checkoutAgreements: '#checkout-agreements',
+                            checkoutProgressContainer: '#col-right-opcheckout',
+                            checkout: {
+                                suggestRegistration: <?php echo ($_registerParam || $_registerParam === '') ? 'true' : 'false' ?>,
+                                saveUrl: '<?php echo $this->getUrl('checkout/onepage/saveMethod') ?>'
+                            },
+                            billing: {
+                                saveUrl: '<?php echo $this->getUrl('checkout/onepage/saveBilling') ?>'
+                            },
+                            shipping: {
+                                saveUrl: '<?php echo $this->getUrl('checkout/onepage/saveShipping') ?>'
+                            },
+                            shippingMethod: {
+                                saveUrl: "<?php echo $this->getUrl('checkout/onepage/saveShippingMethod') ?>"
+                            },
+                            payment: {
+                                <?php if ($_paymentBlock->getChildBlock('methods')->getSelectedMethodCode()): ?>
+                                    defaultPaymentMethod: "<?php echo $_paymentBlock->getChildBlock('methods')->getSelectedMethodCode() ?>",
+                                <?php endif ?>
+                                saveUrl: '<?php echo $this->getUrl('checkout/onepage/savePayment') ?>'
+                            },
+                            review: {
+                                saveUrl: '<?php echo $this->getUrl('checkout/onepage/saveOrder') ?>',
+                                successUrl: '<?php echo $this->getUrl('checkout/onepage/success') ?>'
+                            }
+                        });
+                });
+        })(jQuery);
+    </script>
+</div>

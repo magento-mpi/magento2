@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_catalog_product_bundle">
+        <reference name="head">
+            <block class="Magento_Page_Block_Html_Head_Css" name="magento-bundle-css-bundle-product-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_Bundle::css/bundle-product.css</argument>
+                </arguments>
+            </block>
+        </reference>
+        <reference name="product_tabs">
+            <action method="addTab">
+                <argument name="name" xsi:type="string">bundle</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle</argument>
+            </action>
+        </reference>
+    </handle>
+</layout>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="admin_user_authenticate_after">
+        <observer name="magento_pci" instance="Magento_Pci_Model_Observer" method="adminAuthenticate" />
+    </event>
+    <event name="controller_action_predispatch">
+        <observer name="magento_pci" instance="Magento_Pci_Model_Observer" method="forceAdminPasswordChange" />
+    </event>
+</config>

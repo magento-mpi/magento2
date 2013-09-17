@@ -2,6 +2,5 @@
 # because it is used in infrastructure for running tests
 ~dev/tests/functional
 dev/tests/functional/fixture/enterprise*
-dev/tests/functional/fixture/saas
 dev/tests/functional/testsuite/Enterprise
-dev/tests/functional/testsuite/Saas
+dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/PlaceholderConfigFilesTest.php

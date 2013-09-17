@@ -35,7 +35,7 @@ class Magento_Code_Generator_IoTest extends PHPUnit_Framework_TestCase
     protected $_object;
 
     /**
-     * @var Varien_Io_File|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Io_File|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_ioObjectMock;
 
@@ -49,7 +49,7 @@ class Magento_Code_Generator_IoTest extends PHPUnit_Framework_TestCase
         $this->_generationDirectory
             = rtrim(self::GENERATION_DIRECTORY, self::DIRECTORY_SEPARATOR) . self::DIRECTORY_SEPARATOR;
 
-        $this->_ioObjectMock = $this->getMock('Varien_Io_File',
+        $this->_ioObjectMock = $this->getMock('Magento_Io_File',
             array('dirsep', 'isWriteable', 'mkdir', 'fileExists', 'write')
         );
         $this->_ioObjectMock->expects($this->any())

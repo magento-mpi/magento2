@@ -15,6 +15,13 @@ interface Magento_ObjectManager_Config
     public function setRelations(Magento_ObjectManager_Relations $relations);
 
     /**
+     * Set configuration cache instance
+     *
+     * @param Magento_ObjectManager_ConfigCache $cache
+     */
+    public function setCache(Magento_ObjectManager_ConfigCache $cache);
+
+    /**
      * Retrieve list of arguments per type
      *
      * @param string $type
@@ -47,22 +54,6 @@ interface Magento_ObjectManager_Config
      * @throws LogicException
      */
     public function getPreference($type);
-
-    /**
-     * Check whether type has configured plugins
-     *
-     * @param string $type
-     * @return bool
-     */
-    public function hasPlugins($type);
-
-    /**
-     * Retrieve list of plugins
-     *
-     * @param string $type
-     * @return array
-     */
-    public function getPlugins($type);
 
     /**
      * Extend configuration

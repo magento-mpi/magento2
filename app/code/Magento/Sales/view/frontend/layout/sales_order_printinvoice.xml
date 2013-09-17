@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Sales Invoice Print View" id="sales_order_printinvoice" type="page" parent="sales_order_print">
+        <reference name="content">
+            <block class="Magento_Sales_Block_Order_Print_Invoice" name="sales.order.print.invoice" template="order/print/invoice.phtml">
+                <block class="Magento_Sales_Block_Order_Item_Renderer_Default" as="default" template="order/invoice/items/renderer/default.phtml"/>
+                <block class="Magento_Sales_Block_Order_Item_Renderer_Grouped" as="grouped" template="order/invoice/items/renderer/default.phtml"/>
+                <block class="Magento_Sales_Block_Order_Invoice_Totals" name="invoice_totals" template="order/totals.phtml">
+                    <action method="setLabelProperties">
+                        <argument name="value" xsi:type="string">colspan="4" class="a-right"</argument>
+                    </action>
+                    <action method="setValueProperties">
+                        <argument name="value" xsi:type="string">class="last a-right"</argument>
+                    </action>
+                    <block class="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
+                </block>
+            </block>
+        </reference>
+        <container name="additional.product.info" label="Additional Product Info"/>
+    </handle>
+</layout>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_CustomerSegment
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <customersegment_setup>
+                <setup>
+                    <module>Magento_CustomerSegment</module>
+                    <class>Magento_CustomerSegment_Model_Resource_Setup</class>
+                </setup>
+            </customersegment_setup>
+        </resources>
+    </global>
+    <default>
+        <customer>
+            <magento_customersegment>
+                <is_enabled>1</is_enabled>
+            </magento_customersegment>
+        </customer>
+    </default>
+</config>

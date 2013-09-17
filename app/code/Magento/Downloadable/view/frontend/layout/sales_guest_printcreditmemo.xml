@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_guest_printcreditmemo">
+        <reference name="sales.order.print.creditmemo">
+            <block class="Magento_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable" as="downloadable" template="sales/order/creditmemo/items/renderer/downloadable.phtml"/>
+        </reference>
+    </handle>
+</layout>

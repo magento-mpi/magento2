@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_CustomAttribute" version="1.11.0.0" active="false">
+        <sequence>
+            <module name="Magento_Eav"/>
+            <module name="Magento_Adminhtml"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Eav"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Core"/>
+        </depends>
+    </module>
+</config>

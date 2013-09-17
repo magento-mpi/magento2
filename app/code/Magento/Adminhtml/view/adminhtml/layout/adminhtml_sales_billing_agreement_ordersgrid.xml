@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_billing_agreement_ordersgrid">
+        <update handle="adminhtml_sales_order_grid_block"/>
+        <reference name="sales.order.grid">
+            <arguments>
+                <argument name="dataSource" xsi:type="object">
+                    <updater>Magento_Sales_Model_Billing_Agreement_OrdersUpdater</updater>
+                </argument>
+                <argument name="grid_url" xsi:type="url" path="*/*/ordersgrid"/>
+            </arguments>
+        </reference>
+        <remove name="sales.order.grid.export"/>
+        <remove name="sales.order.grid.massaction"/>
+        <container name="sales_order.grid.container" label="Sales Order Grid Container" output="1"/>
+    </handle>
+</layout>

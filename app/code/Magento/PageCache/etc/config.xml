@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_PageCache
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <external_cache>
+            <controls>
+                <zend_page_cache translate="label">
+                    <label>Zend Full Page Cache</label>
+                    <class>Magento_PageCache_Model_Control_Zend</class>
+                </zend_page_cache>
+            </controls>
+        </external_cache>
+    </global>
+    <frontend>
+        <cache>
+            <allowed_requests>
+                <cms />
+                <catalog>
+                    <category>
+                        <view />
+                    </category>
+                </catalog>
+                <catalog>
+                    <product>
+                        <view />
+                    </product>
+                </catalog>
+            </allowed_requests>
+        </cache>
+    </frontend>
+    <default>
+        <system>
+            <external_page_cache>
+                <enabled>0</enabled>
+                <control>zend_page_cache</control>
+                <cookie_lifetime>3600</cookie_lifetime>
+            </external_page_cache>
+        </system>
+    </default>
+</config>

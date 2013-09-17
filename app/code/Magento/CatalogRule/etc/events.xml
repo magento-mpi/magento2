@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="prepare_catalog_product_price_index_table">
+        <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="prepareCatalogProductPriceIndexTable" />
+    </event>
+    <event name="catalog_product_type_configurable_price">
+        <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="catalogProductTypeConfigurablePrice" />
+    </event>
+    <event name="catalogrule_apply_all">
+        <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="processApplyAll" />
+    </event>
+</config>

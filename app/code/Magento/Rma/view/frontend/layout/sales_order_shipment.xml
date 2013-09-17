@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_order_shipment">
+        <reference name="sales.order.info.links">
+            <block class="Magento_Rma_Block_Order_Link" name="sales.order.info.links.returns">
+                <arguments>
+                    <argument name="path" xsi:type="string">rma/return/returns</argument>
+                    <argument name="label" xsi:type="string">Returns</argument>
+                </arguments>
+            </block>
+        </reference>
+        <reference name="sales.order.info.buttons">
+            <block class="Magento_Rma_Block_Order_Button" name="magento.rma.info.button" template="order/button.phtml"/>
+        </reference>
+    </handle>
+</layout>

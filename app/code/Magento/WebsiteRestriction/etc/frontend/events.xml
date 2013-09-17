@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="controller_action_predispatch">
+        <observer name="magento_websiterestriction" instance="Magento_WebsiteRestriction_Model_Observer" method="restrictWebsite" />
+    </event>
+    <event name="controller_action_layout_load_before">
+        <observer name="magento_websiterestriction" instance="Magento_WebsiteRestriction_Model_Observer" method="addPrivateSalesLayoutUpdate" />
+    </event>
+</config>

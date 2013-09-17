@@ -9,7 +9,7 @@
  */
 class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase_Webapi_AdapterInterface
 {
-    const WSDL_BATH_PATH = '/webapi/soap?wsdl=1';
+    const WSDL_BASE_PATH = '/soap?wsdl=1';
 
     /**
      * SOAP client initialized with different WSDLs.
@@ -19,16 +19,16 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
     protected $_soapClients = array();
 
     /**
-     * @var Mage_Webapi_Helper_Data
+     * @var Magento_Webapi_Model_Soap_Config
      */
-    protected $_soapHelper;
+    protected $_soapConfig;
 
     /**
      * Initialize dependencies.
      */
     public function __construct()
     {
-        $this->_soapHelper = Mage::getObjectManager()->get('Mage_Webapi_Helper_Data');
+        $this->_soapConfig = Mage::getObjectManager()->get('Magento_Webapi_Model_Soap_Config');
     }
 
     /**
@@ -93,7 +93,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
         //TODO: This may change since same resource of multiple versions may be allowed after namespace changes
         ksort($services);
         /** TESTS_BASE_URL is initialized in PHPUnit configuration */
-        $wsdlUrl = rtrim(TESTS_BASE_URL, '/') . self::WSDL_BATH_PATH . '&services=';
+        $wsdlUrl = rtrim(TESTS_BASE_URL, '/') . self::WSDL_BASE_PATH . '&services=';
         $wsdlResourceArray = array();
         foreach ($services as $serviceName) {
             $wsdlResourceArray[] = $serviceName;
@@ -113,7 +113,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
         if (isset($serviceInfo['soap']['operation'])) {
             $soapOperation = $serviceInfo['soap']['operation'];
         } else if (isset($serviceInfo['serviceInterface']) && isset($serviceInfo['method'])) {
-            $soapOperation = $this->_soapHelper->getSoapOperation(
+            $soapOperation = $this->_soapConfig->getSoapOperation(
                 $serviceInfo['serviceInterface'],
                 $serviceInfo['method']
             );
@@ -139,9 +139,9 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
             */
             return '';
         } else if (isset($serviceInfo['serviceInterface'])) {
-            preg_match('/.+[V](\d+)$/', $serviceInfo['serviceInterface'], $matches);
-            if (isset($matches[1])) {
-                $version = $matches[1];
+            preg_match(Magento_Webapi_Model_Config::SERVICE_CLASS_PATTERN, $serviceInfo['serviceInterface'], $matches);
+            if (isset($matches[4])) {
+                $version = $matches[4];
             } else {
                 throw new LogicException("Service interface name is invalid.");
             }
@@ -165,7 +165,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
         if (isset($serviceInfo['soap']['service'])) {
             $serviceName = $serviceInfo['soap']['service'];
         } else if (isset($serviceInfo['serviceInterface'])) {
-            $serviceName = $this->_soapHelper->getServiceName($serviceInfo['serviceInterface'], false);
+            $serviceName = $this->_soapConfig->getServiceName($serviceInfo['serviceInterface'], false);
         } else {
             throw new LogicException("Service name cannot be identified.");
         }
@@ -202,7 +202,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
             }
             $data[$key] = $value;
         }
-        return 1 === count($data) ? reset($data) : $data;
+        return isset($arg['complexObjectArray']) ? reset($data) : $data;
     }
 
     /**

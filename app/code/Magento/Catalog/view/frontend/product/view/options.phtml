@@ -1,0 +1,27 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/* @var $this Magento_Catalog_Block_Product_View_Options */
+?>
+
+<?php $_options = $this->helper('Magento_Core_Helper_Data')->decorateArray($this->getOptions()) ?>
+<?php if (count($_options)):?>
+    <script type="text/javascript">
+        (function ($) {
+            head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/price-option.js') ?>", function () {
+                $('#product_addtocart_form').priceOption({'optionConfig':<?php echo $this->getJsonConfig()?>}).trigger('reloadPrice');
+            });
+        })(jQuery);
+    </script>
+    <dl>
+    <?php foreach($_options as $_option): ?>
+        <?php echo $this->getOptionHtml($_option) ?>
+    <?php endforeach; ?>
+    </dl>
+<?php endif; ?>

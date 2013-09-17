@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="catalog_product_prepare_save">
+        <observer name="bundle_observer" instance="Magento_Bundle_Model_Observer" method="prepareProductSave" />
+    </event>
+    <event name="catalog_model_product_duplicate">
+        <observer name="bundle_observer" instance="Magento_Bundle_Model_Observer" method="duplicateProduct" />
+    </event>
+    <event name="catalog_product_edit_action">
+        <observer name="bundle_observer" instance="Magento_Bundle_Model_Observer" method="setAttributeTabBlock" />
+    </event>
+    <event name="catalog_product_new_action">
+        <observer name="bundle_observer" instance="Magento_Bundle_Model_Observer" method="setAttributeTabBlock" />
+    </event>
+</config>

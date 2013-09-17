@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="adminhtml_catalog_product_edit_prepare_form">
+        <observer name="weee" instance="Magento_Weee_Model_Observer" method="setWeeeRendererInForm" />
+    </event>
+    <event name="adminhtml_catalog_product_form_prepare_excluded_field_list">
+        <observer name="weee" instance="Magento_Weee_Model_Observer" method="updateExcludedFieldList" />
+    </event>
+    <event name="adminhtml_product_attribute_types">
+        <observer name="weee" instance="Magento_Weee_Model_Observer" method="addWeeeTaxAttributeType" shared="false" />
+    </event>
+    <event name="adminhtml_catalog_product_edit_element_types">
+        <observer name="weee" instance="Magento_Weee_Model_Observer" method="updateElementTypes" />
+    </event>
+</config>

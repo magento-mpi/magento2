@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="sales_convert_quote_address_to_order">
+        <observer name="giftmessage" instance="Magento_GiftMessage_Model_Observer" method="salesEventConvertQuoteAddressToOrder" shared="false" />
+    </event>
+    <event name="sales_convert_quote_to_order">
+        <observer name="giftmessage" instance="Magento_GiftMessage_Model_Observer" method="salesEventConvertQuoteToOrder" shared="false" />
+    </event>
+    <event name="checkout_controller_onepage_save_shipping_method">
+        <observer name="giftmessage" instance="Magento_GiftMessage_Model_Observer" method="checkoutEventCreateGiftMessage" shared="false" />
+    </event>
+    <event name="checkout_controller_multishipping_shipping_post">
+        <observer name="giftmessage" instance="Magento_GiftMessage_Model_Observer" method="checkoutEventCreateGiftMessage" shared="false" />
+    </event>
+    <event name="sales_convert_order_to_quote">
+        <observer name="giftmessage" instance="Magento_GiftMessage_Model_Observer" method="salesEventOrderToQuote" shared="false" />
+    </event>
+</config>

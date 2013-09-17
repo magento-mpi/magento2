@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Eav
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <eav_setup>
+                <setup>
+                    <module>Magento_Eav</module>
+                    <class>Magento_Eav_Model_Entity_Setup</class>
+                </setup>
+            </eav_setup>
+        </resources>
+        <eav_frontendclasses />
+        <eav_attributes />
+    </global>
+    <default>
+        <general>
+            <validator_data>
+                <input_types>
+                    <text>text</text>
+                    <textarea>textarea</textarea>
+                    <date>date</date>
+                    <boolean>boolean</boolean>
+                    <multiselect>multiselect</multiselect>
+                    <select>select</select>
+                </input_types>
+            </validator_data>
+        </general>
+    </default>
+</config>

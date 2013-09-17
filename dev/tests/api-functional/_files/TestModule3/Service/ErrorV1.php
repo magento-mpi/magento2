@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_TestModule3_Service_ErrorV1 implements Mage_TestModule3_Service_ErrorInterfaceV1
+class Magento_TestModule3_Service_ErrorV1 implements Magento_TestModule3_Service_ErrorV1Interface
 {
     public function success()
     {
@@ -16,31 +16,36 @@ class Mage_TestModule3_Service_ErrorV1 implements Mage_TestModule3_Service_Error
 
     public function resourceNotFoundException()
     {
-        throw new Mage_Service_ResourceNotFoundException('Resource not found', 2345);
+        throw new Magento_Service_ResourceNotFoundException('', 2345, null, array(), 'resourceY');
     }
 
     public function serviceException()
     {
-        throw new Mage_Service_Exception('Generic service exception', 3456);
+        throw new Magento_Service_Exception('Generic service exception', 3456);
     }
 
     public function parameterizedServiceException($parameters)
     {
-        throw new Mage_Service_Exception('Parameterized service exception', 1234, null, $parameters['details']);
+        throw new Magento_Service_Exception('Parameterized service exception', 1234, null, $parameters['details']);
     }
 
     public function authorizationException()
     {
-        throw new Mage_Service_AuthorizationException('Service authorization exception', 4567);
+        throw new Magento_Service_AuthorizationException('', 4567, null, array(), 30, 'resourceN');
     }
 
     public function webapiException()
     {
-        throw new Mage_Webapi_Exception('Service not found', Mage_Webapi_Exception::HTTP_NOT_FOUND);
+        throw new Magento_Webapi_Exception('Service not found', 5555, Magento_Webapi_Exception::HTTP_NOT_FOUND);
     }
 
     public function otherException()
     {
         throw new Exception('Non service exception', 5678);
+    }
+
+    public function returnIncompatibleDataType()
+    {
+        return "incompatibleDataType";
     }
 }

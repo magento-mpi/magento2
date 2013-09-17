@@ -6,9 +6,7 @@
  * @license     {license_link}
  */
 -->
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            targetNamespace="http://magento.com/testModule2SubsetRestV1"
-            xmlns="http://magento.com/testModule2SubsetRestV1">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:complexType name="ItemRequest">
         <xsd:annotation>
             <xsd:documentation/>

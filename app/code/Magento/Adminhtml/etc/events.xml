@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="adminhtml_controller_action_predispatch_start">
+        <observer name="massaction" instance="Magento_Adminhtml_Model_Observer" method="massactionPrepareKey" />
+    </event>
+    <event name="admin_user_authenticate_after">
+        <observer name="configuration_files_access_level_verification" instance="Magento_Adminhtml_Model_Observer" method="clearCacheConfigurationFilesAccessLevelVerification" />
+    </event>
+</config>

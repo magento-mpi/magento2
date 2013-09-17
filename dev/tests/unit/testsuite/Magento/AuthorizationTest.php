@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Magento_Core
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -26,7 +26,7 @@ class Magento_AuthorizationTest extends PHPUnit_Framework_TestCase
      */
     protected $_policyMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_policyMock = $this->getMock('Magento_Authorization_Policy', array(), array(), '', false);
         $roleLocatorMock = $this->getMock('Magento_Authorization_RoleLocator', array(), array(), '', false);
@@ -34,7 +34,7 @@ class Magento_AuthorizationTest extends PHPUnit_Framework_TestCase
         $this->_model = new Magento_Authorization($this->_policyMock, $roleLocatorMock);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
     }
@@ -42,12 +42,12 @@ class Magento_AuthorizationTest extends PHPUnit_Framework_TestCase
     public function testIsAllowedReturnPositiveValue()
     {
         $this->_policyMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
-        $this->assertTrue($this->_model->isAllowed('Mage_Module::acl_resource'));
+        $this->assertTrue($this->_model->isAllowed('Magento_Module::acl_resource'));
     }
 
     public function testIsAllowedReturnNegativeValue()
     {
         $this->_policyMock->expects($this->once())->method('isAllowed')->will($this->returnValue(false));
-        $this->assertFalse($this->_model->isAllowed('Mage_Module::acl_resource'));
+        $this->assertFalse($this->_model->isAllowed('Magento_Module::acl_resource'));
     }
 }

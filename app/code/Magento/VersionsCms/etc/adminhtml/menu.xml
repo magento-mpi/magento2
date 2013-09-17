@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_VersionsCms
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <remove id="Magento_Cms::cms_page"/>
+        <add id="Magento_VersionsCms::versionscms_page_page" title="Pages" module="Magento_VersionsCms" sortOrder="10" parent="Magento_Adminhtml::content_elements" action="adminhtml/cms_page" resource="Magento_Cms::page"/>
+        <add id="Magento_VersionsCms::versionscms_page_hierarchy" title="Hierarchy" module="Magento_VersionsCms" sortOrder="20" parent="Magento_Adminhtml::content_elements" action="adminhtml/cms_hierarchy" resource="Magento_VersionsCms::hierarchy" dependsOnConfig="cms/hierarchy/enabled"/>
+    </menu>
+</config>
