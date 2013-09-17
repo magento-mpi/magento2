@@ -24,7 +24,7 @@ class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
      */
     protected $_factory;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager_ObjectManager',
             array('create'), array(), '', false);
@@ -41,9 +41,25 @@ class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
         $elementMock = $this->getMock($className, array(), array(), '', false);
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
-            ->with($this->equalTo($className), $this->equalTo(array()))
+            ->with($className, array('attributes' => array()))
             ->will($this->returnValue($elementMock));
         $this->assertSame($elementMock, $this->_factory->create($type));
+    }
+
+    /**
+     * @param string $type
+     * @dataProvider createPositiveDataProvider
+     */
+    public function testCreatePositiveWithAttributes($type)
+    {
+        $attributes = array('attr1' => 'attr1', 'attr2' => 'attr2');
+        $className = 'Magento_Data_Form_Element_' . ucfirst($type);
+        $elementMock = $this->getMock($className, array(), array(), '', false);
+        $this->_objectManagerMock->expects($this->once())
+            ->method('create')
+            ->with($className, array('attributes' => $attributes))
+            ->will($this->returnValue($elementMock));
+        $this->assertSame($elementMock, $this->_factory->create($type, $attributes));
     }
 
     /**
@@ -92,7 +108,7 @@ class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
     {
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
-            ->with($this->equalTo($type), $this->equalTo(array()))
+            ->with($type, array('attributes' => array()))
             ->will($this->throwException(new ReflectionException()));
         $this->_factory->create($type);
     }
@@ -119,7 +135,7 @@ class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
         $elementMock = $this->getMock($type, array(), array(), '', false);
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
-            ->with($this->equalTo($type), $this->equalTo(array()))
+            ->with($type, array('attributes' => array()))
             ->will($this->returnValue($elementMock));
         $this->_factory->create($type);
     }

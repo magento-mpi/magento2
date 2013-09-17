@@ -11,4 +11,4 @@
     <event name="default">
         <observer name="cron_observer" instance="Magento_Cron_Model_Observer" method="dispatch" />
     </event>
-</config>
+</config>

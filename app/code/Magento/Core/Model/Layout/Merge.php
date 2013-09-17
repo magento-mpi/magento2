@@ -99,6 +99,7 @@ class Magento_Core_Model_Layout_Merge
      * @param Magento_Core_Model_Resource_Layout_Update $resource
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Cache_FrontendInterface $cache
+     * @param Magento_Core_Helper_Data $helper
      * @param Magento_Core_Model_Theme $theme Non-injectable theme instance
      */
     public function __construct(
@@ -651,7 +652,10 @@ class Magento_Core_Model_Layout_Merge
         $containerNodes = $this->asSimplexml()->xpath('//container');
         /** @var $oneContainerNode Magento_Core_Model_Layout_Element */
         foreach ($containerNodes as $oneContainerNode) {
-            $result[$oneContainerNode->getAttribute('name')] = __($oneContainerNode->getAttribute('label'));
+            $label = $oneContainerNode->getAttribute('label');
+            if ($label) {
+                $result[$oneContainerNode->getAttribute('name')] = __($label);
+            }
         }
         return $result;
     }

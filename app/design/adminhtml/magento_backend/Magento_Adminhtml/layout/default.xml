@@ -10,68 +10,110 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="default">
         <reference name="head">
-            <action method="addCss">
-                <argument name="file" xsi:type="string">mui/reset.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">mui/base.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">mui/elements.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">mui/form.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">mui/components.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">css/admin.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">jquery/farbtastic/css/farbtastic.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">css/header.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">css/pages.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">mui/utils.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">Magento_Core::prototype/magento.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">css/debug.css</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Css" name="mui-reset-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">mui/reset.css</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="mui-base-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">mui/base.css</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="mui-elements-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">mui/elements.css</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="mui-form-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">mui/form.css</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="mui-components-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">mui/components.css</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="css-admin-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">css/admin.css</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="jquery-farbtastic-css-farbtastic-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">jquery/farbtastic/css/farbtastic.css</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="css-header-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">css/header.css</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="css-pages-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">css/pages.css</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="mui-utils-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">mui/utils.css</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="magento-core-prototype-magento-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_Core::prototype/magento.css</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="css-debug-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">css/debug.css</argument>
+                </arguments>
+            </block>
             <!-- temporary to debug -->
-            <action method="addCss">
-                <argument name="file" xsi:type="string">mui/print.css</argument>
-                <argument name="params" xsi:type="string">media="print"</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">lib/modernizr.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">js/head.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">mage/dropdown.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">jquery/jquery.tabs.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">jquery/farbtastic/jquery.farbtastic.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">js/theme.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">js/jquery.details.js</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Css" name="mui-print-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">mui/print.css</argument>
+                    <argument name="properties" xsi:type="array">
+                        <item name="attributes" xsi:type="string">media="print"</item>
+                    </argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="lib-modernizr-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">lib/modernizr.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="js-head-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">js/head.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="magento-dropdown-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">mage/dropdown.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="jquery-jquery-tabs-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">jquery/jquery.tabs.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="jquery-farbtastic-jquery-farbtastic-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">jquery/farbtastic/jquery.farbtastic.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="js-theme-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">js/theme.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="js-jquery-details-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">js/jquery.details.js</argument>
+                </arguments>
+            </block>
         </reference>
     </handle>
 </layout>

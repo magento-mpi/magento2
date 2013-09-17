@@ -17,8 +17,7 @@
         </reference>
         <reference name="my.account.wrapper">
             <block class="Magento_Sales_Block_Recurring_Profiles" name="sales.recurring.profiles" template="recurring/profiles.phtml">
-                <block class="Magento_Sales_Block_Recurring_Profiles" name="sales.recurring.profiles.grid" as="grid" template="recurring/grid.phtml">
-                    <action method="prepareProfilesGrid"/>
+                <block class="Magento_Sales_Block_Recurring_Profile_Grid" name="sales.recurring.profiles.grid" as="grid" template="recurring/grid.phtml">
                     <action method="setEmptyGridMessage">
                         <argument translate="true" name="value" xsi:type="string">There are no recurring profiles yet.</argument>
                     </action>

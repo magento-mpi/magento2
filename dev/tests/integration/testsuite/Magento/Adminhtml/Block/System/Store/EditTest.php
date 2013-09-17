@@ -14,7 +14,7 @@
  */
 class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_TestCase
 {
-    public function tearDown()
+    protected function tearDown()
     {
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();

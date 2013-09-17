@@ -39,7 +39,7 @@ class Magento_GoogleOptimizer_Model_Observer_Block_Category_TabTest extends PHPU
      */
     protected $_observer;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_helperMock = $this->getMock('Magento_GoogleOptimizer_Helper_Data', array(), array(), '', false);
         $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
@@ -73,7 +73,7 @@ class Magento_GoogleOptimizer_Model_Observer_Block_Category_TabTest extends PHPU
         $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
 
         $this->_tabsMock->expects($this->once())->method('addTab')->with('google-experiment-tab', array(
-            'label' => new Magento_Phrase('Category View Optimization'),
+            'label' => __('Category View Optimization'),
             'content' => 'generated html',
         ));
 

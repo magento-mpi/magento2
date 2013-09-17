@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_order_guest_info_links">
+        <reference name="sales.order.info">
+            <block class="Magento_Page_Block_Links" as="links" name="sales.order.info.links">
+                <block class="Magento_Sales_Block_Order_Link" name="sales.order.info.links.billing-agreements">
+                    <arguments>
+                        <argument name="path" xsi:type="string">sales/guest/view</argument>
+                        <argument name="label" xsi:type="string">Order Information</argument>
+                    </arguments>
+                </block>
+                <block class="Magento_Sales_Block_Order_Link" name="sales.order.info.links.invoice">
+                    <arguments>
+                        <argument name="key" xsi:type="string">Invoices</argument>
+                        <argument name="path" xsi:type="string">sales/guest/invoice</argument>
+                        <argument name="label" xsi:type="string">Invoices</argument>
+                    </arguments>
+                </block>
+                <block class="Magento_Sales_Block_Order_Link" name="sales.order.info.links.shipment">
+                    <arguments>
+                        <argument name="key" xsi:type="string">Shipments</argument>
+                        <argument name="path" xsi:type="string">sales/guest/shipment</argument>
+                        <argument name="label" xsi:type="string">Order Shipments</argument>
+                    </arguments>
+                </block>
+                <block class="Magento_Sales_Block_Order_Link" name="sales.order.info.links.creditmemo">
+                    <arguments>
+                        <argument name="key" xsi:type="string">Creditmemos</argument>
+                        <argument name="path" xsi:type="string">sales/guest/creditmemo</argument>
+                        <argument name="label" xsi:type="string">Refunds</argument>
+                    </arguments>
+                </block>
+            </block>
+        </reference>
+    </handle>
+</layout>

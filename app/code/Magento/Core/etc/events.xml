@@ -20,4 +20,4 @@
     <event name="application_process_reinit_config">
         <observer name="reinit_config_observer" instance="Magento_Core_Model_Observer" method="processReinitConfig" />
     </event>
-</config>
+</config>

@@ -12,13 +12,13 @@ class Magento_PhraseTest extends PHPUnit_Framework_TestCase
      */
     protected $_renderer;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_renderer = $this->getMock('Magento_Phrase_RendererInterface');
         Magento_Phrase::setRenderer($this->_renderer);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->_removeRendererFromPhrase();
         Magento_Phrase::setRenderer(new Magento_Phrase_Renderer_Placeholder());

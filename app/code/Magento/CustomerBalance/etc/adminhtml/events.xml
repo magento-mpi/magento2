@@ -14,4 +14,4 @@
     <event name="sales_prepare_amount_expression">
         <observer name="magento_customerbalance" instance="Magento_CustomerBalance_Model_Observer" method="extendSalesAmountExpression" />
     </event>
-</config>
+</config>

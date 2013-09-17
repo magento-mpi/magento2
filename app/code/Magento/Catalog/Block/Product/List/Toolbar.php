@@ -110,13 +110,6 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
     protected $_viewMode            = null;
 
     /**
-     * Available page limits for different list modes
-     *
-     * @var array
-     */
-    protected $_availableLimit  = array();
-
-    /**
      * Default limits per page
      *
      * @var array
@@ -651,23 +644,6 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
     }
 
     /**
-     * Add new limit to pager for mode
-     *
-     * @param string $mode
-     * @param string $value
-     * @param string $label
-     * @return Magento_Catalog_Block_Product_List_Toolbar
-     */
-    public function addPagerLimit($mode, $value, $label='')
-    {
-        if (!isset($this->_availableLimit[$mode])) {
-            $this->_availableLimit[$mode] = array();
-        }
-        $this->_availableLimit[$mode][$value] = empty($label) ? $value : $label;
-        return $this;
-    }
-
-    /**
      * Retrieve available limits for current view mode
      *
      * @return array
@@ -689,9 +665,6 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
      */
     protected function _getAvailableLimit($mode)
     {
-        if (isset($this->_availableLimit[$mode])) {
-            return $this->_availableLimit[$mode];
-        }
         $perPageConfigKey = 'catalog/frontend/' . $mode . '_per_page_values';
         $perPageValues = (string)Mage::getStoreConfig($perPageConfigKey);
         $perPageValues = explode(',', $perPageValues);

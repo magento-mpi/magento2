@@ -10,9 +10,11 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_system_config_edit">
         <reference name="head">
-            <action method="addJs">
-                <argument name="file" xsi:type="string">jquery/jquery.ba-hashchange.min.js</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Script" name="jquery-jquery-ba-hashchange-min-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">jquery/jquery.ba-hashchange.min.js</argument>
+                </arguments>
+            </block>
         </reference>
         <reference name="js">
             <block class="Magento_Adminhtml_Block_System_Shipping_Ups" template="Magento_Adminhtml::system/shipping/ups.phtml"/>

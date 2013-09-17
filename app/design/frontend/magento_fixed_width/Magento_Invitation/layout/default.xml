@@ -9,10 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="default">
-        <reference name="account_links">
-            <action method="removeRegisterLink" ifconfig="magento_invitation/general/registration_required_invitation">
-                <argument name="target" xsi:type="string">account.links</argument>
-            </action>
-        </reference>
+        <remove name="invitation_link_top" />
     </handle>
 </layout>

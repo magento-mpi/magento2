@@ -18,12 +18,12 @@ class Magento_Test_Tools_Migration_Acl_Db_LoggerAbstractTest extends PHPUnit_Fra
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = $this->getMockForAbstractClass('Magento_Tools_Migration_Acl_Db_LoggerAbstract');
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
     }
