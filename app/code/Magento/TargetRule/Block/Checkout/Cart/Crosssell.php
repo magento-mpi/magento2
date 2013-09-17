@@ -100,6 +100,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
      * @param Magento_Catalog_Model_Product_LinkFactory $productLinkFactory
      * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_TargetRule_Model_IndexFactory $indexFactory
+     * @param Magento_TargetRule_Model_Resource_Index $index
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_TargetRule_Helper_Data $targetRuleData
      * @param Magento_Tax_Helper_Data $taxData
@@ -119,6 +120,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
         Magento_Catalog_Model_Product_LinkFactory $productLinkFactory,
         Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_TargetRule_Model_IndexFactory $indexFactory,
+        Magento_TargetRule_Model_Resource_Index $index,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_TargetRule_Helper_Data $targetRuleData,
         Magento_Tax_Helper_Data $taxData,
@@ -135,7 +137,10 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
         $this->_productLinkFactory = $productLinkFactory;
         $this->_productFactory = $productFactory;
         $this->_indexFactory = $indexFactory;
-        parent::__construct($coreRegistry, $targetRuleData, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct(
+            $index, $coreRegistry, $targetRuleData, $taxData,
+            $catalogData, $coreData, $context, $data
+        );
     }
 
 

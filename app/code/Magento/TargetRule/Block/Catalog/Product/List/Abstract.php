@@ -56,6 +56,7 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
     protected $_productCollectionFactory;
 
     /**
+     * @param Magento_TargetRule_Model_Resource_Index $index
      * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
      * @param Magento_Catalog_Model_Product_Visibility $visibility
      * @param Magento_TargetRule_Model_IndexFactory $indexFactory
@@ -66,11 +67,14 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
         Magento_Catalog_Model_Product_Visibility $visibility,
         Magento_TargetRule_Model_IndexFactory $indexFactory,
+        Magento_TargetRule_Model_Resource_Index $index,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_TargetRule_Helper_Data $targetRuleData,
         Magento_Tax_Helper_Data $taxData,
@@ -82,7 +86,10 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_visibility = $visibility;
         $this->_indexFactory = $indexFactory;
-        parent::__construct($coreRegistry, $targetRuleData, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct(
+            $index, $coreRegistry, $targetRuleData, $taxData,
+            $catalogData, $coreData, $context, $data
+        );
     }
 
 

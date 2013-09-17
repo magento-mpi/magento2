@@ -32,6 +32,8 @@ class Magento_TargetRule_Block_Catalog_Product_List_Related
 
     /**
      * @param Magento_Checkout_Model_Cart $cart
+     * @param Magento_TargetRule_Model_Resource_Index $index
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
      * @param Magento_Catalog_Model_Product_Visibility $visibility
      * @param Magento_TargetRule_Model_IndexFactory $indexFactory
      * @param Magento_Core_Model_Registry $coreRegistry
@@ -43,11 +45,14 @@ class Magento_TargetRule_Block_Catalog_Product_List_Related
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @SuppressWarnings(PHPMD.LongVariable)
      */
     public function __construct(
         Magento_Checkout_Model_Cart $cart,
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
         Magento_Catalog_Model_Product_Visibility $visibility,
         Magento_TargetRule_Model_IndexFactory $indexFactory,
+        Magento_TargetRule_Model_Resource_Index $index,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_TargetRule_Helper_Data $targetRuleData,
         Magento_Tax_Helper_Data $taxData,
@@ -58,8 +63,8 @@ class Magento_TargetRule_Block_Catalog_Product_List_Related
     ) {
         $this->_cart = $cart;
         parent::__construct(
-            $visibility, $indexFactory, $coreRegistry, $targetRuleData,
-            $taxData, $catalogData, $coreData, $context, $data
+            $productCollectionFactory, $visibility, $indexFactory, $index, $coreRegistry,
+            $targetRuleData, $taxData, $catalogData, $coreData, $context, $data
         );
     }
 
