@@ -113,10 +113,10 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
             'legend'    => __("Edit Customer's Address"))
         );
 
-        $addressModel = \Mage::getModel('Magento_Customer_Model_Address');
+        $addressModel = \Mage::getModel('Magento\Customer\Model\Address');
         $addressModel->setCountryId($this->_coreData->getDefaultCountry($customer->getStore()));
         /** @var $addressForm Magento_Customer_Model_Form */
-        $addressForm = \Mage::getModel('Magento_Customer_Model_Form');
+        $addressForm = \Mage::getModel('Magento\Customer\Model\Form');
         $addressForm->setFormCode('adminhtml_customer_address')
             ->setEntity($addressModel)
             ->initDefaultValues();

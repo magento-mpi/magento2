@@ -60,7 +60,7 @@ class Link extends \Magento\Adminhtml\Block\Template
     public function getDesign()
     {
         if ($this->getItem()->getGwId()) {
-            $wrappingModel = \Mage::getModel('Magento_GiftWrapping_Model_Wrapping')
+            $wrappingModel = \Mage::getModel('Magento\GiftWrapping\Model\Wrapping')
                 ->load($this->getItem()->getGwId());
             if ($wrappingModel->getId()) {
                 return $this->escapeHtml($wrappingModel->getDesign());

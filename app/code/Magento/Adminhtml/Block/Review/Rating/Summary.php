@@ -64,7 +64,7 @@ class Summary extends \Magento\Adminhtml\Block\Template
     public function getRatingSummary()
     {
         if (!$this->getRatingSummaryCache()) {
-            $this->setRatingSummaryCache(\Mage::getModel('Magento_Rating_Model_Rating')
+            $this->setRatingSummaryCache(\Mage::getModel('Magento\Rating\Model\Rating')
                 ->getReviewSummary($this->getReviewId()));
         }
 

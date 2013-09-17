@@ -90,7 +90,7 @@ class Download extends \Magento\Core\Controller\Front\Action
      */
     public function downloadProfileCustomOptionAction()
     {
-        $recurringProfile = \Mage::getModel('Magento_Sales_Model_Recurring_Profile')
+        $recurringProfile = \Mage::getModel('Magento\Sales\Model\Recurring\Profile')
             ->load($this->getRequest()->getParam('id'));
 
         if (!$recurringProfile->getId()) {
