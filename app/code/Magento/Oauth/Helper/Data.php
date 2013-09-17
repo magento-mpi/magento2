@@ -67,16 +67,34 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     protected $_coreData = null;
 
+    /** @var Magento_Oauth_Model_Consumer_Factory */
+    protected $_consumerFactory;
+
+    /** @var Magento_Core_Model_Store */
+    protected $_store;
+
+    /** @var Magento_ObjectManager */
+    protected $_objectManager;
+
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Oauth_Model_Consumer_Factory $consumerFactory
+     * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Oauth_Model_Consumer_Factory $consumerFactory,
+        Magento_ObjectManager $objectManager
     ) {
-        $this->_coreData = $coreData;
         parent::__construct($context);
+        $this->_coreData = $coreData;
+        $this->_store = $storeManager->getStore();
+        $this->_consumerFactory = $consumerFactory;
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -84,14 +102,15 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @param int $length String length
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function _generateRandomString($length)
     {
         if (function_exists('openssl_random_pseudo_bytes')) {
-            // use openssl lib if it is install. It provides a better randomness
+            // use openssl lib if it is install. It provides a better randomness.
             $bytes = openssl_random_pseudo_bytes(ceil($length/2), $strong);
             $hex = bin2hex($bytes); // hex() doubles the length of the string
-            $randomString = substr($hex, 0, $length); // we truncate at most 1 char if length parameter is an odd number
+            $randomString = substr($hex, 0, $length); // truncate at most 1 char if length parameter is an odd number
         } else {
             // fallback to mt_rand() if openssl is not installed
             $randomString = $this->_coreData->getRandomString(
@@ -168,14 +187,15 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
         }
         if ($rejected) {
             /** @var $consumer Magento_Oauth_Model_Consumer */
-            $consumer = Mage::getModel('Magento_Oauth_Model_Consumer')->load($token->getConsumerId());
+            $consumer = $this->_consumerFactory->create()->load($token->getConsumerId());
 
             if ($consumer->getId() && $consumer->getRejectedCallbackUrl()) {
                 $callbackUrl = $consumer->getRejectedCallbackUrl();
             }
-        } elseif (!$token->getAuthorized()) {
+        } else if (!$token->getAuthorized()) {
             Mage::throwException('Token is not authorized');
         }
+
         $callbackUrl .= (false === strpos($callbackUrl, '?') ? '?' : '&');
         $callbackUrl .= 'oauth_token=' . $token->getToken() . '&';
         $callbackUrl .= $rejected ? self::QUERY_PARAM_REJECTED . '=1' : 'oauth_verifier=' . $token->getVerifier();
@@ -206,7 +226,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
     public function isCleanupProbability()
     {
         // Safe get cleanup probability value from system configuration
-        $configValue = (int) Mage::getStoreConfig(self::XML_PATH_CLEANUP_PROBABILITY);
+        $configValue = (int) $this->_store->getConfig(self::XML_PATH_CLEANUP_PROBABILITY);
         return $configValue > 0 ? 1 == mt_rand(1, $configValue) : false;
     }
 
@@ -217,7 +237,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getCleanupExpirationPeriod()
     {
-        $minutes = (int) Mage::getStoreConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
+        $minutes = (int) $this->_store->getConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
         return $minutes > 0 ? $minutes : self::CLEANUP_EXPIRATION_PERIOD_DEFAULT;
     }
 
@@ -232,11 +252,11 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
     public function sendNotificationOnTokenStatusChange($userEmail, $userName, $applicationName, $status)
     {
         /* @var $mailTemplate Magento_Core_Model_Email_Template */
-        $mailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
+        $mailTemplate = $this->_objectManager->create('Magento_Core_Model_Email_Template');
 
         $mailTemplate->sendTransactional(
-            Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE),
-            Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY),
+            $this->_store->getConfig(self::XML_PATH_EMAIL_TEMPLATE),
+            $this->_store->getConfig(self::XML_PATH_EMAIL_IDENTITY),
             $userEmail,
             $userName,
             array(
@@ -254,7 +274,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @return boolean
      */
-    protected function _getIsSimple()
+    protected function _isSimple()
     {
         $simple = false;
         if (stristr($this->_getRequest()->getActionName(), 'simple')
@@ -275,7 +295,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getAuthorizeUrl($userType)
     {
-        $simple = $this->_getIsSimple();
+        $simple = $this->_isSimple();
 
         if (Magento_Oauth_Model_Token::USER_TYPE_CUSTOMER == $userType) {
             if ($simple) {
