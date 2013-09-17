@@ -9,9 +9,9 @@
 -->
 
 <layout>
-    <reference translate="description, label">
+    <referenceBlock  translate="description, label">
         <description>Module layout description</description>
         <label>Module layout label</label>
         <title translate="true">Module layout title</title>
-    </reference>
+    </referenceBlock>
 </layout>

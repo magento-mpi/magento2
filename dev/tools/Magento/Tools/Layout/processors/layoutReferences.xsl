@@ -30,6 +30,11 @@
 
     <xsl:template match="reference">
         <xsl:choose>
+            <xsl:when test="@name=$conflictNames/@value">
+                <xsl:copy>
+                    <xsl:apply-templates select="node()|@*"/>
+                </xsl:copy>
+            </xsl:when>
             <xsl:when test="@name=$blocks/@value">
                 <xsl:element name="referenceBlock">
                     <xsl:apply-templates select="node()|@*"/>

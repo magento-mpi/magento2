@@ -26,22 +26,24 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     /**#@+
      * Supported layout directives
      */
-    const TYPE_BLOCK        = 'block';
-    const TYPE_CONTAINER    = 'container';
-    const TYPE_ACTION       = 'action';
-    const TYPE_ARGUMENTS    = 'arguments';
-    const TYPE_REFERENCE    = 'reference';
-    const TYPE_REMOVE       = 'remove';
-    const TYPE_MOVE         = 'move';
+    const TYPE_BLOCK = 'block';
+    const TYPE_CONTAINER = 'container';
+    const TYPE_ACTION = 'action';
+    const TYPE_ARGUMENTS = 'arguments';
+    const TYPE_ARGUMENT = 'argument';
+    const TYPE_REFERENCE_BLOCK = 'referenceBlock';
+    const TYPE_REFERENCE_CONTAINER = 'referenceContainer';
+    const TYPE_REMOVE = 'remove';
+    const TYPE_MOVE = 'move';
     /**#@-*/
 
     /**#@+
      * Names of container options in layout
      */
-    const CONTAINER_OPT_HTML_TAG   = 'htmlTag';
+    const CONTAINER_OPT_HTML_TAG = 'htmlTag';
     const CONTAINER_OPT_HTML_CLASS = 'htmlClass';
-    const CONTAINER_OPT_HTML_ID    = 'htmlId';
-    const CONTAINER_OPT_LABEL      = 'label';
+    const CONTAINER_OPT_HTML_ID = 'htmlId';
+    const CONTAINER_OPT_LABEL = 'label';
     /**#@-*/
 
     /**
@@ -475,7 +477,8 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
                     $this->_readStructure($node);
                     break;
 
-                case self::TYPE_REFERENCE:
+                case self::TYPE_REFERENCE_BLOCK:
+                case self::TYPE_REFERENCE_CONTAINER:
                     $this->_readStructure($node);
                     break;
 

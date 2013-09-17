@@ -45,6 +45,11 @@ class Processor
     {
         $this->_formatter = $formatter;
         $this->_referencesFile = $referencesFile;
+        $contents = '<list/>';
+        if (file_exists($referencesFile)) {
+            $contents = file_get_contents($referencesFile);
+        }
+        $this->_referenceList = new \SimpleXMLElement($contents);
     }
 
 
@@ -58,9 +63,11 @@ class Processor
     protected function _addElements($data, $type)
     {
         array_walk_recursive($data, function($value) use ($type) {
-            $element = $this->_referenceList->addChild('item');
-            $element->addAttribute('type', $type);
-            $element->addAttribute('value', $value);
+            if (!$this->_referenceList->xpath("//item[@type='$type' and @value='$value']")) {
+                $element = $this->_referenceList->addChild('item');
+                $element->addAttribute('type', $type);
+                $element->addAttribute('value', $value);
+            }
         });
 
         return $this;
@@ -106,7 +113,6 @@ class Processor
         if (empty($layouts)) {
             throw new \Exception("No layouts found");
         }
-        $this->_referenceList = new \SimpleXMLElement('<list/>');
         $references = array();
         foreach ($this->_referencePattern as $patternName => $xpath) {
             $result = array();
