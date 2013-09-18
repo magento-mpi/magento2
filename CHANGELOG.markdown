@@ -38,6 +38,7 @@
 * Added I18n tools for translation dictionary generation and language package generation
 * Eliminated Mage::helper and Mage::dispatchEvent in code
 * Eliminated Mage::getModel, Mage::getBaseDir, Mage::getBaseUrl, Mage::printException in /lib and /pub
+* Eliminated Mage::getModel, Mage::getBlockSingleton, Mage::app, Mage::throwException, Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_TargetRule module
 * Static method `getObjectManager` of Mage class was eliminated
 * Layout improvements:
   * Arbitrary handle name moved to handle node, id attribute
