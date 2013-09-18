@@ -47,7 +47,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
-        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        parent::__construct($coreData, $context, $data,$registry, $formFactory);
     }
 
     /**

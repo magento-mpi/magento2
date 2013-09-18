@@ -41,7 +41,7 @@ class Googleoptimizer
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Backend\Block\Template\Context $context,
         \Magento\GoogleOptimizer\Helper\Code $codeHelper,
         \Magento\GoogleOptimizer\Helper\Form $formHelper,
         \Magento\Data\Form $form,
