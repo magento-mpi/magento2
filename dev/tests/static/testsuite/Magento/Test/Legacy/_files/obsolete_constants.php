@@ -147,5 +147,8 @@ return array(
     array('XML_PATH_CONTENT_TEMPLATE_FILTER', 'Magento_Catalog_Helper_Data'),
     array('XML_NODE_MAX_INDEX_COUNT', 'Magento_Catalog_Model_Resource_Product_Flat_Indexer'),
     array('XML_NODE_ATTRIBUTE_GROUPS', 'Magento_Catalog_Model_Resource_Product_Flat_Indexer'),
+    array('XML_PATH_UNASSIGNABLE_ATTRIBUTES', 'Magento_Catalog_Helper_Product'),
+    array('XML_PATH_ATTRIBUTES_USED_IN_AUTOGENERATION', 'Magento_Catalog_Helper_Product'),
+    array('XML_PATH_PRODUCT_TYPE_SWITCHER_LABEL', 'Magento_Catalog_Helper_Product'),
 
 );
