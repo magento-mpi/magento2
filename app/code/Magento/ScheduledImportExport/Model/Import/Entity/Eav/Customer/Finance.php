@@ -119,6 +119,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
      * @param Magento_Customer_Model_CustomerFactory $customerFactory
      * @param Magento_CustomerBalance_Model_BalanceFactory $balanceFactory
      * @param Magento_Reward_Model_RewardFactory $rewardFactory
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
@@ -128,12 +129,13 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
         Magento_Customer_Model_CustomerFactory $customerFactory,
         Magento_CustomerBalance_Model_BalanceFactory $balanceFactory,
         Magento_Reward_Model_RewardFactory $rewardFactory,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         // entity type id has no meaning for finance import
         $data['entity_type_id'] = -1;
 
-        parent::__construct($coreData, $coreString, $data);
+        parent::__construct($coreData, $coreString, $coreStoreConfig, $data);
 
         $this->_rewardFactory = $rewardFactory;
         $this->_customerFactory = $customerFactory;

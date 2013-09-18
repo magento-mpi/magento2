@@ -33,7 +33,6 @@ class Magento_Adminhtml_Block_Urlrewrite_Selector extends Magento_Core_Block_Tem
      */
     protected function _construct()
     {
-
         $this->_modes = array(
             'category' => __('For category'),
             'product' => __('For product'),

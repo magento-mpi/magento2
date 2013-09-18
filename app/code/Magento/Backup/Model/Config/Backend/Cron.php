@@ -62,7 +62,7 @@ class Magento_Backup_Model_Config_Backend_Cron extends Magento_Core_Model_Config
 
             Mage::getModel('Magento_Core_Model_Config_Value')
                 ->load(self::CRON_MODEL_PATH, 'path')
-                ->setValue((string) Mage::getConfig()->getNode(self::CRON_MODEL_PATH))
+                ->setValue((string) $this->_coreConfig->getNode(self::CRON_MODEL_PATH))
                 ->setPath(self::CRON_MODEL_PATH)
                 ->save();
         }

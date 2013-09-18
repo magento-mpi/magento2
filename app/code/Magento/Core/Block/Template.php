@@ -74,7 +74,7 @@ class Magento_Core_Block_Template extends Magento_Core_Block_Abstract
      * @var Magento_Core_Model_TemplateEngine_Factory
      */
     protected $_tmplEngineFactory;
-    
+
     /**
      * Core data
      *
@@ -205,9 +205,9 @@ class Magento_Core_Block_Template extends Magento_Core_Block_Abstract
     public function getShowTemplateHints()
     {
         if (is_null(self::$_showTemplateHints)) {
-            self::$_showTemplateHints = Mage::getStoreConfig(self::XML_PATH_DEBUG_TEMPLATE_HINTS)
+            self::$_showTemplateHints = $this->_storeConfig->getConfig(self::XML_PATH_DEBUG_TEMPLATE_HINTS)
                 && $this->_coreData->isDevAllowed();
-            self::$_showTemplateHintsBlocks = Mage::getStoreConfig(self::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS)
+            self::$_showTemplateHintsBlocks = $this->_storeConfig->getConfig(self::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS)
                 && $this->_coreData->isDevAllowed();
         }
         return self::$_showTemplateHints;

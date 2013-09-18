@@ -45,16 +45,20 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
         $ctlgRuleHlprMock = $this->getMock('Magento_CatalogRule_Helper_Data',
             array('__construct'), array(), '', false);
         $cacheTypeList = $this->getMock('Magento_Core_Model_Cache_TypeListInterface', array(), array(), '', false);
+        $config = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         /** @var $catalogRule Magento_CatalogRule_Model_Rule */
-        $catalogRule = $this->getMock('Magento_CatalogRule_Model_Rule',
-            array('_getRulesFromProduct'), array(
+        $catalogRule = $this->getMock(
+            'Magento_CatalogRule_Model_Rule',
+            array('_getRulesFromProduct'),
+            array(
                 $ctlgRuleHlprMock,
                 $formFactoryMock,
                 $contextMock,
                 $registryMock,
                 $cacheTypeList,
+                $config,
                 $resourceMock
-            ), '');
+        ));
 
         $catalogRule->expects(self::any())
             ->method('_getRulesFromProduct')

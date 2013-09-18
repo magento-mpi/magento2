@@ -49,8 +49,8 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
     public function isMultipleEnabled()
     {
         return $this->isModuleOutputEnabled()
-            && Mage::getStoreConfig('wishlist/general/active')
-            && Mage::getStoreConfig('wishlist/general/multiple_enabled');
+            && $this->_coreStoreConfig->getConfig('wishlist/general/active')
+            && $this->_coreStoreConfig->getConfig('wishlist/general/multiple_enabled');
     }
 
     /**
@@ -89,7 +89,7 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
      */
     public function getWishlistLimit()
     {
-        return Mage::getStoreConfig('wishlist/general/multiple_wishlist_number');
+        return $this->_coreStoreConfig->getConfig('wishlist/general/multiple_wishlist_number');
     }
 
     /**
@@ -133,7 +133,7 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
     public function getWishlistItemCount(Magento_Wishlist_Model_Wishlist $wishlist)
     {
         $collection = $wishlist->getItemCollection();
-        if (Mage::getStoreConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY)) {
+        if ($this->_coreStoreConfig->getConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY)) {
             $count = $collection->getItemsQty();
         } else {
             $count = $collection->getSize();

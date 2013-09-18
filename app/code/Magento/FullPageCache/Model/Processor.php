@@ -134,6 +134,18 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
     protected $_typeList;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction
      * @param Magento_FullPageCache_Model_Cache $fpcCache
@@ -148,6 +160,8 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Cache_TypeListInterface $typeList
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
@@ -163,9 +177,12 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
         Magento_FullPageCache_Model_Store_Identifier $storeIdentifier,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Cache_TypeListInterface $typeList
+        Magento_Core_Model_Cache_TypeListInterface $typeList,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_eventManager = $eventManager;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreRegistry = $coreRegistry;
         $this->_containerFactory = $containerFactory;
         $this->_placeholderFactory = $placeholderFactory;
@@ -180,6 +197,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
         $this->_storeManager = $storeManager;
         $this->_typeList = $typeList;
         $this->_requestTags = array(self::CACHE_TAG);
+        $this->_coreConfig = $coreConfig;
     }
 
 
@@ -486,7 +504,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
                 $contentSize = strlen($content);
                 $currentStorageSize = (int) $this->_fpcCache->load(self::CACHE_SIZE_KEY);
 
-                $maxSizeInBytes = Mage::getStoreConfig(self::XML_PATH_CACHE_MAX_SIZE) * 1024 * 1024;
+                $maxSizeInBytes = $this->_coreStoreConfig->getConfig(self::XML_PATH_CACHE_MAX_SIZE) * 1024 * 1024;
 
                 if ($currentStorageSize >= $maxSizeInBytes) {
                     $this->_typeList->invalidate('full_page');
@@ -542,13 +560,13 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
         $output = $this->isAllowed();
 
         if ($output) {
-            $maxDepth = Mage::getStoreConfig(self::XML_PATH_ALLOWED_DEPTH);
+            $maxDepth = $this->_coreStoreConfig->getConfig(self::XML_PATH_ALLOWED_DEPTH);
             $queryParams = $request->getQuery();
             unset($queryParams[Magento_FullPageCache_Model_Cache::REQUEST_MESSAGE_GET_PARAM]);
             $output = count($queryParams) <= $maxDepth;
         }
         if ($output) {
-            $multiCurrency = Mage::getStoreConfig(self::XML_PATH_CACHE_MULTICURRENCY);
+            $multiCurrency = $this->_coreStoreConfig->getConfig(self::XML_PATH_CACHE_MULTICURRENCY);
             $currency = $this->_environment->getCookie('currency');
             if (!$multiCurrency && !empty($currency)) {
                 $output = false;
@@ -567,7 +585,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
     {
         if ($this->_requestProcessor === null) {
             $this->_requestProcessor = false;
-            $configuration = Mage::getConfig()->getNode(self::XML_NODE_ALLOWED_CACHE);
+            $configuration = $this->_coreConfig->getNode(self::XML_NODE_ALLOWED_CACHE);
             if ($configuration) {
                 $configuration = $configuration->asArray();
             }

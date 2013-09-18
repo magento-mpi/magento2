@@ -77,14 +77,18 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
     protected $_coreRegistry = null;
 
     /**
-     * Initialize connect to Solr Client
+     * Core store config
      *
-     *
-     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Search_Helper_ClientInterface $clientHelper
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $options
      */
     public function __construct(
@@ -92,12 +96,14 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
         Magento_Core_Model_Logger $logger,
         Magento_Search_Helper_ClientInterface $clientHelper,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         $options = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_clientHelper = $clientHelper;
         $this->_log = $logger;
         $this->_clientFactory = $clientFactory;
+        $this->_coreStoreConfig = $coreStoreConfig;
         try {
             $this->_connect($options);
         } catch (Exception $e) {
@@ -175,8 +181,12 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
     protected function _getSolrDate($storeId, $date = null)
     {
         if (!isset($this->_dateFormats[$storeId])) {
-            $timezone = Mage::getStoreConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId);
-            $locale   = Mage::getStoreConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId);
+            $timezone = $this->_coreStoreConfig->getConfig(
+                Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId
+            );
+            $locale   = $this->_coreStoreConfig->getConfig(
+                Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId
+            );
             $locale   = new Zend_Locale($locale);
 
             $dateObj  = new Zend_Date(null, null, $locale);

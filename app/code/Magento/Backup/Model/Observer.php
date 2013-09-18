@@ -44,15 +44,25 @@ class Magento_Backup_Model_Observer
     protected $_coreRegistry = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Backup_Helper_Data $backupData
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Backup_Helper_Data $backupData,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_backupData = $backupData;
         $this->_coreRegistry = $coreRegistry;
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**
@@ -62,15 +72,15 @@ class Magento_Backup_Model_Observer
      */
     public function scheduledBackup()
     {
-        if (!Mage::getStoreConfigFlag(self::XML_PATH_BACKUP_ENABLED)) {
+        if (!$this->_coreStoreConfig->getConfigFlag(self::XML_PATH_BACKUP_ENABLED)) {
             return $this;
         }
 
-        if (Mage::getStoreConfigFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE)) {
+        if ($this->_coreStoreConfig->getConfigFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE)) {
             $this->_backupData->turnOnMaintenanceMode();
         }
 
-        $type = Mage::getStoreConfig(self::XML_PATH_BACKUP_TYPE);
+        $type = $this->_coreStoreConfig->getConfig(self::XML_PATH_BACKUP_TYPE);
 
         $this->_errors = array();
         try {
@@ -96,7 +106,7 @@ class Magento_Backup_Model_Observer
             Mage::logException($e);
         }
 
-        if (Mage::getStoreConfigFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE)) {
+        if ($this->_coreStoreConfig->getConfigFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE)) {
             $this->_backupData->turnOffMaintenanceMode();
         }
 

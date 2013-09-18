@@ -75,12 +75,20 @@ class Magento_GoogleCheckout_Model_Api_Xml_Checkout extends Magento_GoogleChecko
     protected $_eventManager = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_GoogleCheckout_Helper_Data $googleCheckoutData
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Weee_Helper_Data $weeeData
      * @param Magento_Core_Model_Translate $translator
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
@@ -90,6 +98,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Checkout extends Magento_GoogleChecko
         Magento_Tax_Helper_Data $taxData,
         Magento_Weee_Helper_Data $weeeData,
         Magento_Core_Model_Translate $translator,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -97,6 +106,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Checkout extends Magento_GoogleChecko
         $this->_googleCheckoutData = $googleCheckoutData;
         $this->_taxData = $taxData;
         $this->_weeeData = $weeeData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($translator, $data);
     }
 
@@ -264,21 +274,18 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $active = Mage::getStoreConfigFlag(
-            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_ACTIVE,
-            $storeId
+        $active = $this->_coreStoreConfig->getConfigFlag(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_ACTIVE, $storeId
         );
         if (!$active) {
             return '';
         }
 
-        $schedule = Mage::getStoreConfig(
-            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_SCHEDULE,
-            $storeId
+        $schedule = $this->_coreStoreConfig->getConfig(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_SCHEDULE, $storeId
         );
-        $method   = Mage::getStoreConfig(
-            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_METHOD,
-            $storeId
+        $method   = $this->_coreStoreConfig->getConfig(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_METHOD, $storeId
         );
 
         $xml = "<display-disposition>{$schedule}</display-disposition>";
@@ -368,7 +375,7 @@ EOT;
      */
     protected function _getRequestBuyerPhoneNumberXml()
     {
-        $requestPhone = Mage::getStoreConfig(
+        $requestPhone = $this->_coreStoreConfig->getConfig(
             Magento_GoogleCheckout_Helper_Data::XML_PATH_REQUEST_PHONE,
             $this->getQuote()->getStoreId()
         );
@@ -451,43 +458,49 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $active = Mage::getStoreConfigFlag(
-            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_ACTIVE,
-            $storeId
+        $active  = $this->_coreStoreConfig->getConfigFlag(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_ACTIVE, $storeId
         );
-        $methods = Mage::getStoreConfig(
-            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_METHODS,
-            $storeId
+        $methods = $this->_coreStoreConfig->getConfig(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_METHODS, $storeId
         );
 
         if (!$active || !$methods) {
             return '';
         }
 
-        $country  = Mage::getStoreConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_COUNTRY_ID, $storeId);
-        $region   = Mage::getStoreConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_REGION_ID, $storeId);
-        $postcode = Mage::getStoreConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_POSTCODE, $storeId);
-        $city     = Mage::getStoreConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_CITY, $storeId);
+        $country  = $this->_coreStoreConfig->getConfig(
+            Magento_Shipping_Model_Config::XML_PATH_ORIGIN_COUNTRY_ID, $storeId
+        );
+        $region   = $this->_coreStoreConfig->getConfig(
+            Magento_Shipping_Model_Config::XML_PATH_ORIGIN_REGION_ID, $storeId
+        );
+        $postcode = $this->_coreStoreConfig->getConfig(
+            Magento_Shipping_Model_Config::XML_PATH_ORIGIN_POSTCODE, $storeId
+        );
+        $city     = $this->_coreStoreConfig->getConfig(
+            Magento_Shipping_Model_Config::XML_PATH_ORIGIN_CITY, $storeId
+        );
 
-        $defPrice = (float)Mage::getStoreConfig(
+        $defPrice = (float)$this->_coreStoreConfig->getConfig(
             Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_DEFAULT_PRICE,
             $storeId
         );
-        $width = Mage::getStoreConfig(
+        $width = $this->_coreStoreConfig->getConfig(
             Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_DEFAULT_WIDTH,
             $storeId
         );
-        $height = Mage::getStoreConfig(
+        $height = $this->_coreStoreConfig->getConfig(
             Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_DEFAULT_HEIGHT,
             $storeId
         );
-        $length = Mage::getStoreConfig(
+        $length = $this->_coreStoreConfig->getConfig(
             Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_DEFAULT_LENGTH,
             $storeId
         );
         $sizeUnit = self::ITEM_SIZE_UNIT;
 
-        $addressCategory = Mage::getStoreConfig(
+        $addressCategory = $this->_coreStoreConfig->getConfig(
             Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_ADDRESS_CATEGORY,
             $storeId
         );
@@ -515,7 +528,7 @@ EOT;
             if (!isset($shipments[$mageCode])) {
                 continue;
             }
-            $freeMethod = Mage::getStoreConfig('carriers/' . $mageCode . '/free_method', $storeId);
+            $freeMethod = $this->_coreStoreConfig->getConfig('carriers/' . $mageCode . '/free_method', $storeId);
 
             foreach ($shipments[$mageCode] as $rate) {
                 $mageRateCode = $rate->getMethod();
@@ -601,11 +614,10 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $isFlatrateActive = Mage::getStoreConfigFlag(
-            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_FLATRATE_ACTIVE,
-            $storeId
+        $isShippingActive = $this->_coreStoreConfig->getConfigFlag(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_FLATRATE_ACTIVE, $storeId
         );
-        if (!$isFlatrateActive) {
+        if (!$isShippingActive) {
             return '';
         }
 
@@ -617,15 +629,19 @@ EOT;
 
         $xml = '';
         for ($i = 1; $i <= 3; $i++) {
-            $title         = Mage::getStoreConfig('google/checkout_shipping_flatrate/title_' . $i, $storeId);
-            $price         = (float)Mage::getStoreConfig('google/checkout_shipping_flatrate/price_' . $i, $storeId);
-            $price         = number_format($price, 2, '.', '');
-            $price         = (float)$this->_taxData->getShippingPrice($price, false, false);
-            $allowSpecific = Mage::getStoreConfigFlag(
+            $title = $this->_coreStoreConfig->getConfig(
+                'google/checkout_shipping_flatrate/title_' . $i, $storeId
+            );
+            $price = (float)$this->_coreStoreConfig->getConfig(
+                'google/checkout_shipping_flatrate/price_' . $i, $storeId
+            );
+            $price = number_format($price, 2, '.', '');
+            $price = (float)$this->_taxData->getShippingPrice($price, false, false);
+            $allowSpecific = $this->_coreStoreConfig->getConfigFlag(
                 'google/checkout_shipping_flatrate/sallowspecific_' . $i,
                 $storeId
             );
-            $specificCountries = Mage::getStoreConfig(
+            $specificCountries = $this->_coreStoreConfig->getConfig(
                 'google/checkout_shipping_flatrate/specificcountry_' . $i,
                 $storeId
             );
@@ -691,11 +707,11 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $active = Mage::getStoreConfigFlag(
+        $active = $this->_coreStoreConfig->getConfigFlag(
             Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_MERCHANT_ACTIVE,
             $storeId
         );
-        $methods = Mage::getStoreConfig(
+        $methods = $this->_coreStoreConfig->getConfig(
             Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_MERCHANT_ALLOWED_METHODS,
             $storeId
         );
@@ -720,7 +736,7 @@ EOT;
                     $allowedMethods = $carrier->getAllowedMethods();
 
                     if (isset($allowedMethods[$methodCode])) {
-                        $method = Mage::getStoreConfig('carriers/' . $carrierCode . '/title', $storeId);
+                        $method = $this->_coreStoreConfig->getConfig('carriers/' . $carrierCode . '/title', $storeId);
                         $method .= ' - '.$allowedMethods[$methodCode];
                     }
 
@@ -758,13 +774,20 @@ EOT;
     protected function _getPickupXml()
     {
         $storeId = $this->getQuote()->getStoreId();
-        if (!Mage::getStoreConfig(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_PICKUP_ACTIVE, $storeId)) {
+        $isShippingActive = $this->_coreStoreConfig->getConfig(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_PICKUP_ACTIVE, $storeId
+        );
+        if (!$isShippingActive) {
             return '';
         }
 
-        $title = Mage::getStoreConfig(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_PICKUP_TITLE, $storeId);
-        $price = Mage::getStoreConfig(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_PICKUP_PRICE, $storeId);
-        $price = (float) $this->_taxData->getShippingPrice($price, false, false);
+        $title = $this->_coreStoreConfig->getConfig(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_PICKUP_TITLE, $storeId
+        );
+        $price = $this->_coreStoreConfig->getConfig(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_PICKUP_PRICE, $storeId
+        );
+        $price = (float)$this->_taxData->getShippingPrice($price, false, false);
 
         $xml = <<<EOT
                 <pickup name="{$title}">
@@ -914,7 +937,7 @@ EOT;
      */
     protected function _getAllTaxTablesXml()
     {
-        $isDefaultTaxTablesDisabled = Mage::getStoreConfigFlag(
+        $isDefaultTaxTablesDisabled = $this->_coreStoreConfig->getConfigFlag(
             Magento_GoogleCheckout_Helper_Data::XML_PATH_DISABLE_DEFAULT_TAX_TABLES,
             $this->getQuote()->getStoreId()
         );
@@ -973,7 +996,7 @@ EOT;
     protected function _getShippingTaxRules()
     {
         $customerTaxClass = $this->_getCustomerTaxClass();
-        $shippingTaxClass = Mage::getStoreConfig(
+        $shippingTaxClass = $this->_coreStoreConfig->getConfig(
             Magento_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS,
             $this->getQuote()->getStoreId()
         );
