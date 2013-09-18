@@ -22,7 +22,7 @@ class Magento_Tax_Model_Resource_CalculationTest extends PHPUnit_Framework_TestC
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         $taxRule = $objectManager->get('Magento\Core\Model\Registry')
-            ->registry('_fixture/Magento\Tax\Model\Calculation\Rule');
+            ->registry('_fixture/\Magento\Tax\Model\Calculation\Rule');
         $customerTaxClasses = $taxRule->getTaxCustomerClass();
         $productTaxClasses = $taxRule->getTaxProductClass();
         $taxRate =  $objectManager->get('Magento\Core\Model\Registry')

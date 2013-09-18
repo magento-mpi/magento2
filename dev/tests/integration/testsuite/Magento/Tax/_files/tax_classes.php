@@ -53,7 +53,7 @@ $ruleData = array(
 
 $taxRule = Mage::getModel('Magento\Tax\Model\Calculation\Rule')->setData($ruleData)->save();
 
-$objectManager->get('Magento\Core\Model\Registry')->register('_fixture/Magento\Tax\Model\Calculation\Rule', $taxRule);
+$objectManager->get('Magento\Core\Model\Registry')->register('_fixture/\Magento\Tax\Model\Calculation\Rule', $taxRule);
 
 $ruleData['code'] = 'Test Rule Duplicate';
 
