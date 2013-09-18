@@ -92,7 +92,13 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     protected $_indexerFactory;
 
     /**
+     * @var Magento_Index_Model_Indexer
+     */
+    protected $_indexIndexer;
+
+    /**
      * @param Magento_Index_Model_IndexerFactory $indexerFactory
+     * @param Magento_Index_Model_Indexer $indexIndexer
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -104,6 +110,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
      */
     public function __construct(
         Magento_Index_Model_IndexerFactory $indexerFactory,
+        Magento_Index_Model_Indexer $indexIndexer,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -118,6 +125,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
         $this->_lockStorage = $lockStorage;
         $this->_eventRepository = $eventRepository;
         $this->_indexerFactory = $indexerFactory;
+        $this->_indexIndexer = $indexIndexer;
     }
 
     /**
@@ -275,10 +283,8 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
         );
 
         if ($this->getDepends()) {
-            /** @var $indexer Magento_Index_Model_Indexer */
-            $indexer = Mage::getSingleton('Magento_Index_Model_Indexer');
             foreach ($this->getDepends() as $code) {
-                $process = $indexer->getProcessByCode($code);
+                $process = $this->_indexIndexer->getProcessByCode($code);
                 if ($process) {
                     $process->reindexEverything();
                 }

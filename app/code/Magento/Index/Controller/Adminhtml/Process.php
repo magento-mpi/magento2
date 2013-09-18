@@ -22,17 +22,25 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
     protected $_indexProcessFactory;
 
     /**
+     * @var Magento_Index_Model_Indexer
+     */
+    protected $_indexIndexer;
+
+    /**
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Index_Model_ProcessFactory $indexProcessFactory
+     * @param Magento_Index_Model_Indexer $indexIndexer
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
-        Magento_Index_Model_ProcessFactory $indexProcessFactory
+        Magento_Index_Model_ProcessFactory $indexProcessFactory,
+        Magento_Index_Model_Indexer $indexIndexer
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_indexProcessFactory = $indexProcessFactory;
+        $this->_indexIndexer = $indexIndexer;
         parent::__construct($context);
     }
 
@@ -179,8 +187,6 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
      */
     public function massReindexAction()
     {
-        /* @var $indexer Magento_Index_Model_Indexer */
-        $indexer    = Mage::getSingleton('Magento_Index_Model_Indexer');
         $processIds = $this->getRequest()->getParam('process');
         if (empty($processIds) || !is_array($processIds)) {
             $this->_getSession()->addError(__('Please select Indexes'));
@@ -189,7 +195,7 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
                 $counter = 0;
                 foreach ($processIds as $processId) {
                     /* @var $process Magento_Index_Model_Process */
-                    $process = $indexer->getProcessById($processId);
+                    $process = $this->_indexIndexer->getProcessById($processId);
                     if ($process && $process->getIndexer()->isVisible()) {
                         $process->reindexEverything();
                         $counter++;

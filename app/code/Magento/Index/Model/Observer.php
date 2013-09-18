@@ -11,15 +11,14 @@
 class Magento_Index_Model_Observer
 {
     /**
-     * Indexer model
-     *
      * @var Magento_Index_Model_Indexer
      */
-    protected $_indexer;
+    protected $_indexIndexer;
 
-    public function __construct()
-    {
-        $this->_indexer = Mage::getSingleton('Magento_Index_Model_Indexer');
+    public function __construct(
+        Magento_Index_Model_Indexer $indexIndexer
+    ) {
+        $this->_indexIndexer = $indexIndexer;
     }
 
     /**
@@ -30,7 +29,7 @@ class Magento_Index_Model_Observer
     public function processStoreSave(Magento_Event_Observer $observer)
     {
         $store = $observer->getEvent()->getStore();
-        $this->_indexer->processEntityAction(
+        $this->_indexIndexer->processEntityAction(
             $store,
             Magento_Core_Model_Store::ENTITY,
             Magento_Index_Model_Event::TYPE_SAVE
@@ -45,7 +44,7 @@ class Magento_Index_Model_Observer
     public function processStoreGroupSave(Magento_Event_Observer $observer)
     {
         $storeGroup = $observer->getEvent()->getStoreGroup();
-        $this->_indexer->processEntityAction(
+        $this->_indexIndexer->processEntityAction(
             $storeGroup,
             Magento_Core_Model_Store_Group::ENTITY,
             Magento_Index_Model_Event::TYPE_SAVE
@@ -60,7 +59,7 @@ class Magento_Index_Model_Observer
     public function processWebsiteSave(Magento_Event_Observer $observer)
     {
         $website = $observer->getEvent()->getWebsite();
-        $this->_indexer->processEntityAction(
+        $this->_indexIndexer->processEntityAction(
             $website,
             Magento_Core_Model_Website::ENTITY,
             Magento_Index_Model_Event::TYPE_SAVE
@@ -75,7 +74,7 @@ class Magento_Index_Model_Observer
     public function processStoreDelete(Magento_Event_Observer $observer)
     {
         $store = $observer->getEvent()->getStore();
-        $this->_indexer->processEntityAction(
+        $this->_indexIndexer->processEntityAction(
             $store,
             Magento_Core_Model_Store::ENTITY,
             Magento_Index_Model_Event::TYPE_DELETE
@@ -90,7 +89,7 @@ class Magento_Index_Model_Observer
     public function processStoreGroupDelete(Magento_Event_Observer $observer)
     {
         $storeGroup = $observer->getEvent()->getStoreGroup();
-        $this->_indexer->processEntityAction(
+        $this->_indexIndexer->processEntityAction(
             $storeGroup,
             Magento_Core_Model_Store_Group::ENTITY,
             Magento_Index_Model_Event::TYPE_DELETE
@@ -105,7 +104,7 @@ class Magento_Index_Model_Observer
     public function processWebsiteDelete(Magento_Event_Observer $observer)
     {
         $website = $observer->getEvent()->getWebsite();
-        $this->_indexer->processEntityAction(
+        $this->_indexIndexer->processEntityAction(
             $website,
             Magento_Core_Model_Website::ENTITY,
             Magento_Index_Model_Event::TYPE_DELETE
@@ -120,11 +119,10 @@ class Magento_Index_Model_Observer
     public function processConfigDataSave(Magento_Event_Observer $observer)
     {
         $configData = $observer->getEvent()->getConfigData();
-        $this->_indexer->processEntityAction(
+        $this->_indexIndexer->processEntityAction(
             $configData,
             Magento_Core_Model_Config_Value::ENTITY,
             Magento_Index_Model_Event::TYPE_SAVE
         );
     }
-
 }

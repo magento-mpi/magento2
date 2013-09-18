@@ -15,7 +15,7 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
      *
      * @var Magento_Index_Model_Process
      */
-    protected $_processModel;
+    protected $_indexProcess;
 
     /**
      * Mass-action block
@@ -32,12 +32,7 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
     protected $_eventRepository;
 
     /**
-     * @var Magento_Index_Model_ProcessFactory
-     */
-    protected $_indexProcessFactory;
-
-    /**
-     * @param Magento_Index_Model_ProcessFactory $indexProcessFactory
+     * @param Magento_Index_Model_Process $indexProcess
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -46,7 +41,7 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
      * @param array $data
      */
     public function __construct(
-        Magento_Index_Model_ProcessFactory $indexProcessFactory,
+        Magento_Index_Model_Process $indexProcess,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -56,7 +51,7 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
     ) {
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
         $this->_eventRepository = $eventRepository;
-        $this->_indexProcessFactory = $indexProcessFactory;
+        $this->_indexProcess = $indexProcess;
     }
 
     /**
@@ -65,7 +60,6 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
     protected function _construct()
     {
         parent::_construct();
-        $this->_processModel = Mage::getSingleton('Magento_Index_Model_Process');
         $this->setId('indexer_processes_grid');
         $this->setFilterVisibility(false);
         $this->setPagerVisibility(false);
@@ -136,7 +130,7 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
             'align'     => 'left',
             'index'     => 'mode',
             'type'      => 'options',
-            'options'   => $this->_processModel->getModesOptions()
+            'options'   => $this->_indexProcess->getModesOptions()
         ));
 
         $this->addColumn('status', array(
@@ -145,7 +139,7 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
             'align'     => 'left',
             'index'     => 'status',
             'type'      => 'options',
-            'options'   => $this->_processModel->getStatusesOptions(),
+            'options'   => $this->_indexProcess->getStatusesOptions(),
             'frame_callback' => array($this, 'decorateStatus')
         ));
 
@@ -156,7 +150,7 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
             'align'     => 'left',
             'index'     => 'update_required',
             'type'      => 'options',
-            'options'   => $this->_processModel->getUpdateRequiredOptions(),
+            'options'   => $this->_indexProcess->getUpdateRequiredOptions(),
             'frame_callback' => array($this, 'decorateUpdateRequired')
         ));
 
@@ -283,7 +277,7 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
         $this->setMassactionIdField('process_id');
         $this->getMassactionBlock()->setFormFieldName('process');
 
-        $modeOptions = $this->_indexProcessFactory->create()->getModesOptions();
+        $modeOptions = $this->_indexProcess->getModesOptions();
 
         $this->getMassactionBlock()->addItem('change_mode', array(
             'label'         => __('Change Index Mode'),
