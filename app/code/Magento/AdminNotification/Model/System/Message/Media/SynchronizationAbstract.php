@@ -28,11 +28,11 @@ abstract class Magento_AdminNotification_Model_System_Message_Media_Synchronizat
     protected $_isDisplayed = null;
 
     /**
-     * @param Magento_Core_Model_File_Storage $fileStorage
+     * @param Magento_Core_Model_File_Storage_Flag $fileStorage
      */
-    public function __construct(Magento_Core_Model_File_Storage $fileStorage)
+    public function __construct(Magento_Core_Model_File_Storage_Flag $fileStorage)
     {
-        $this->_syncFlag = $fileStorage->getSyncFlag();
+        $this->_syncFlag = $fileStorage->loadSelf();
     }
 
     /**

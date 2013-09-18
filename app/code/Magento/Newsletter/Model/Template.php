@@ -66,6 +66,8 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
      * @param Magento_Newsletter_Helper_Data $newsletterData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_App_Emulation $appEmulation
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
@@ -73,10 +75,12 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
         Magento_Newsletter_Helper_Data $newsletterData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_App_Emulation $appEmulation,
+        Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
         $this->_newsletterData = $newsletterData;
-        parent::__construct($design, $context, $registry, $data);
+        parent::__construct($design, $context, $registry, $appEmulation, $storeManager, $data);
     }
 
     /**

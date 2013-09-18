@@ -73,11 +73,29 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     protected $_routes;
 
     /**
+     * @var Magento_Core_Model_Url
+     */
+    protected $_url;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_App_State
+     */
+    protected $_appState;
+
+    /**
      * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Config_Scope $configScope
      * @param Magento_Core_Model_Route_Config $routeConfig
+     * @param Magento_Core_Model_Url $url
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_App_State $appState
      * @param string $areaCode
      * @param string $baseController
      * @param string $routerId
@@ -89,6 +107,9 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
         Magento_Core_Model_App $app,
         Magento_Core_Model_Config_Scope $configScope,
         Magento_Core_Model_Route_Config $routeConfig,
+        Magento_Core_Model_Url $url,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_App_State $appState,
         $areaCode,
         $baseController,
         $routerId
@@ -102,6 +123,9 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
         $this->_configScope    = $configScope;
         $this->_routeConfig    = $routeConfig;
         $this->_routerId       = $routerId;
+        $this->_url            = $url;
+        $this->_storeManager   = $storeManager;
+        $this->_appState       = $appState;
 
         if (is_null($this->_areaCode) || is_null($this->_baseController)) {
             throw new InvalidArgumentException("Not enough options to initialize router.");
@@ -141,7 +165,7 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
      */
     protected function _beforeModuleMatch()
     {
-        if (Mage::app()->getStore()->isAdmin()) {
+        if ($this->_app->getStore()->isAdmin()) {
             return false;
         }
         return true;
@@ -578,17 +602,17 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
      */
     protected function _checkShouldBeSecure(Zend_Controller_Request_Http $request, $path = '')
     {
-        if (!Mage::isInstalled() || $request->getPost()) {
+        if (!$this->_appState->isInstalled() || $request->getPost()) {
             return;
         }
 
         if ($this->_shouldBeSecure($path) && !$request->isSecure()) {
             $url = $this->_getCurrentSecureUrl($request);
             if ($this->_shouldRedirectToSecure()) {
-                $url = Mage::getSingleton('Magento_Core_Model_Url')->getRedirectUrl($url);
+                $url = $this->_url->getRedirectUrl($url);
             }
 
-            Mage::app()->getFrontController()->getResponse()
+            $this->_app->getFrontController()->getResponse()
                 ->setRedirect($url)
                 ->sendResponse();
             exit;
@@ -602,17 +626,17 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
      */
     protected function _shouldRedirectToSecure()
     {
-        return Mage::app()->getUseSessionInUrl();
+        return $this->_app->getUseSessionInUrl();
     }
 
     protected function _getCurrentSecureUrl($request)
     {
         $alias = $request->getAlias(Magento_Core_Model_Url_Rewrite::REWRITE_REQUEST_PATH_ALIAS);
         if ($alias) {
-            return Mage::getBaseUrl('link', true) . ltrim($alias, '/');
+            return $this->_storeManager->getStore()->getBaseUrl('link', true) . ltrim($alias, '/');
         }
 
-        return Mage::getBaseUrl('link', true) . ltrim($request->getPathInfo(), '/');
+        return $this->_storeManager->getStore()->getBaseUrl('link', true) . ltrim($request->getPathInfo(), '/');
     }
 
     /**

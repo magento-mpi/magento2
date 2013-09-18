@@ -88,12 +88,20 @@ class Magento_Core_Model_Input_Filter implements Zend_Filter_Interface
     protected $_helperFactory;
 
     /**
+     * @var Magento_Core_Model_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * @param Magento_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Model_ObjectManager $objectManager
      */
     function __construct(
-        Magento_Core_Model_Factory_Helper $helperFactory
+        Magento_Core_Model_Factory_Helper $helperFactory,
+        Magento_Core_Model_ObjectManager $objectManager
     ) {
         $this->_helperFactory = $helperFactory;
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -320,7 +328,7 @@ class Magento_Core_Model_Input_Filter implements Zend_Filter_Interface
             $filterData['args'] = $filterData['args'][0];
         }
         if (is_string($filterData['model'])) {
-            $filter = Mage::getModel($filterData['model'], $filterData['args']);
+            $filter = $this->_objectManager->create($filterData['model'], $filterData['args']);
         }
         if (!($filter instanceof Zend_Filter_Interface)) {
             throw new Exception('Filter is not instance of Zend_Filter_Interface');

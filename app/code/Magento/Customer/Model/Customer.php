@@ -1037,7 +1037,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     public function canSkipConfirmation()
     {
         return $this->getId() && $this->hasSkipConfirmationIfEmail()
-            && strtolower($this->getSkipConfirmationIfEmail()) === strtolower($this->getEmail());
+        && strtolower($this->getSkipConfirmationIfEmail()) === strtolower($this->getEmail());
     }
 
     /**

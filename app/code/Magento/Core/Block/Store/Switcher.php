@@ -21,6 +21,47 @@ class Magento_Core_Block_Store_Switcher extends Magento_Core_Block_Template
     protected $_stores = array();
     protected $_loaded = false;
 
+    /**
+     * Store factory
+     *
+     * @var Magento_Core_Model_StoreFactory
+     */
+    protected $_storeFactory;
+
+    /**
+     * Store group factory
+     *
+     * @var Magento_Core_Model_Store_GroupFactory
+     */
+    protected $_storeGroupFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_Store_GroupFactory $storeGroupFactory
+     * @param Magento_Core_Model_StoreFactory $storeFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_GroupFactory $storeGroupFactory,
+        Magento_Core_Model_StoreFactory $storeFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_StoreManager $storeManager,
+        array $data = array()
+    ) {
+        $this->_storeGroupFactory = $storeGroupFactory;
+        $this->_storeFactory = $storeFactory;
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         $this->_loadData();
@@ -35,11 +76,11 @@ class Magento_Core_Block_Store_Switcher extends Magento_Core_Block_Template
             return $this;
         }
 
-        $websiteId = Mage::app()->getStore()->getWebsiteId();
-        $storeCollection = Mage::getModel('Magento_Core_Model_Store')
+        $websiteId = $this->_storeManager->getStore()->getWebsiteId();
+        $storeCollection = $this->_storeFactory->create()
             ->getCollection()
             ->addWebsiteFilter($websiteId);
-        $groupCollection = Mage::getModel('Magento_Core_Model_Store_Group')
+        $groupCollection = $this->_storeGroupFactory->create()
             ->getCollection()
             ->addWebsiteFilter($websiteId);
         foreach ($groupCollection as $group) {
@@ -84,7 +125,7 @@ class Magento_Core_Block_Store_Switcher extends Magento_Core_Block_Template
 
     public function getLanguageCount()
     {
-        $groupId = Mage::app()->getStore()->getGroupId();
+        $groupId = $this->_storeManager->getStore()->getGroupId();
         if (!isset($this->_stores[$groupId])) {
             $this->setLanguages(array());
             return 0;
@@ -95,11 +136,11 @@ class Magento_Core_Block_Store_Switcher extends Magento_Core_Block_Template
 
     public function getCurrentStoreId()
     {
-        return Mage::app()->getStore()->getId();
+        return $this->_storeManager->getStore()->getId();
     }
 
     public function getCurrentStoreCode()
     {
-        return Mage::app()->getStore()->getCode();
+        return $this->_storeManager->getStore()->getCode();
     }
 }

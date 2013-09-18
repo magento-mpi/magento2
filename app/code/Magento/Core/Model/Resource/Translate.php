@@ -19,6 +19,32 @@
 class Magento_Core_Model_Resource_Translate extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
+     * @var Magento_Core_Model_App_State
+     */
+    protected $_appState;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_App_State $appState
+     * @param Magento_Core_Model_StoreManager $storeManager
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_App_State $appState,
+        Magento_Core_Model_StoreManager $storeManager
+    ) {
+        parent::__construct($resource);
+        $this->_appState = $appState;
+        $this->_storeManager = $storeManager;
+    }
+
+
+    /**
      * Define main table
      *
      */
@@ -36,12 +62,12 @@ class Magento_Core_Model_Resource_Translate extends Magento_Core_Model_Resource_
      */
     public function getTranslationArray($storeId = null, $locale = null)
     {
-        if (!Mage::isInstalled()) {
+        if (!$this->_appState->isInstalled()) {
             return array();
         }
 
         if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = $this->_storeManager->getStore()->getId();
         }
 
         $adapter = $this->_getReadAdapter();
@@ -73,12 +99,12 @@ class Magento_Core_Model_Resource_Translate extends Magento_Core_Model_Resource_
      */
     public function getTranslationArrayByStrings(array $strings, $storeId = null)
     {
-        if (!Mage::isInstalled()) {
+        if (!$this->_appState->isInstalled()) {
             return array();
         }
 
         if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = $this->_storeManager->getStore()->getId();
         }
 
         $adapter = $this->_getReadAdapter();

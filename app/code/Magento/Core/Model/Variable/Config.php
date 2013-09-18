@@ -23,11 +23,18 @@ class Magento_Core_Model_Variable_Config
     protected $_viewUrl;
 
     /**
-     * @param Magento_Core_Model_View_Url $viewUrl
+     * @var Magento_Backend_Model_Url
      */
-    public function __construct(Magento_Core_Model_View_Url $viewUrl)
+    protected $_url;
+
+    /**
+     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Backend_Model_Url $url
+     */
+    public function __construct(Magento_Core_Model_View_Url $viewUrl, Magento_Backend_Model_Url $url)
     {
         $this->_viewUrl = $viewUrl;
+        $this->_url = $url;
     }
 
     /**
@@ -75,6 +82,6 @@ class Magento_Core_Model_Variable_Config
      */
     public function getVariablesWysiwygActionUrl()
     {
-        return Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/system_variable/wysiwygPlugin');
+        return $this->_url->getUrl('*/system_variable/wysiwygPlugin');
     }
 }

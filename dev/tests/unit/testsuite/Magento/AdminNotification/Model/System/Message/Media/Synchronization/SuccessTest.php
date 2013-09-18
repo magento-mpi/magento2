@@ -33,8 +33,8 @@ class Magento_AdminNotification_Model_System_Message_Media_Synchronization_Succe
             'Magento_Core_Model_File_Storage_Flag', array('getState', 'getFlagData', 'setState'), array(), '', false
         );
 
-        $this->_fileStorage = $this->getMock('Magento_Core_Model_File_Storage', array(), array(), '', false);
-        $this->_fileStorage->expects($this->any())->method('getSyncFlag')
+        $this->_fileStorage = $this->getMock('Magento_Core_Model_File_Storage_Flag', array(), array(), '', false);
+        $this->_fileStorage->expects($this->any())->method('loadSelf')
             ->will($this->returnValue($this->_syncFlagMock));
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);

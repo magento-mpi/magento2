@@ -33,9 +33,17 @@ abstract class Magento_Core_Model_File_Storage_Abstract extends Magento_Core_Mod
     protected $_coreFileStorageDb = null;
 
     /**
+     * Date model
+     *
+     * @var Magento_Core_Model_Date
+     */
+    protected $_date;
+
+    /**
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Date $date
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -44,11 +52,13 @@ abstract class Magento_Core_Model_File_Storage_Abstract extends Magento_Core_Mod
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Date $date,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreFileStorageDb = $coreFileStorageDb;
+        $this->_date = $date;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -102,7 +112,7 @@ abstract class Magento_Core_Model_File_Storage_Abstract extends Magento_Core_Mod
         return array(
             'filename'      => basename($path),
             'content'       => @file_get_contents($fullPath),
-            'update_time'   => Mage::getSingleton('Magento_Core_Model_Date')->date(),
+            'update_time'   => $this->_date->date(),
             'directory'     => $directory
         );
     }

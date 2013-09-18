@@ -24,6 +24,23 @@ class Magento_Core_Helper_Url_Rewrite extends Magento_Core_Helper_Abstract
     const VERR_ANCHOR = 2;      // Anchor is not supported in request path, e.g. 'foo#bar'
 
     /**
+     * @var Magento_Core_Model_Source_Urlrewrite_Options
+     */
+    protected $_urlrewrite;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Source_Urlrewrite_Options $urlrewrite
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Source_Urlrewrite_Options $urlrewrite
+    ) {
+        parent::__construct($context);
+        $this->_urlrewrite = $urlrewrite;
+    }
+
+    /**
      * Core func to validate request path
      * If something is wrong with a path it throws localized error message and error code,
      * that can be checked to by wrapper func to alternate error message
@@ -87,8 +104,6 @@ class Magento_Core_Helper_Url_Rewrite extends Magento_Core_Helper_Abstract
      */
     public function hasRedirectOptions($urlRewrite)
     {
-        /** @var $options Magento_Core_Model_Source_Urlrewrite_Options */
-        $options = Mage::getSingleton('Magento_Core_Model_Source_Urlrewrite_Options');
-        return in_array($urlRewrite->getOptions(), $options->getRedirectOptions());
+        return in_array($urlRewrite->getOptions(), $this->_urlrewrite->getRedirectOptions());
     }
 }

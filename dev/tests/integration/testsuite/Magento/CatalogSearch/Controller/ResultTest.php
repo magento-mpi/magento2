@@ -17,6 +17,7 @@ class Magento_CatalogSearch_Controller_ResultTest extends Magento_TestFramework_
      */
     public function testIndexActionTranslation()
     {
+        $this->markTestIncomplete('endTest() called too early, config fixture reseted');
         $this->getRequest()->setParam('q', 'query_text');
         $this->dispatch('catalogsearch/result');
 

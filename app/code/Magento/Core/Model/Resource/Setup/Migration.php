@@ -11,6 +11,7 @@
 /**
  * Resource setup model with methods needed for migration process between Magento versions
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Resource_Setup
 {
@@ -129,6 +130,11 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
     protected $_filesystem;
 
     /**
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
      * @param Magento_Core_Model_Config $config
@@ -137,8 +143,12 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Helper_Data $helper
+     * @param Magento_Core_Model_Resource_Resource $resourceResource
+     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory
+     * @param Magento_Core_Model_Theme_CollectionFactory $themeFactory
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
+     * @param Magento_Core_Model_Dir $dir
      * @param $resourceName
-     * @param Magento_Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
@@ -150,18 +160,25 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Filesystem $filesystem,
         Magento_Core_Helper_Data $helper,
+        Magento_Core_Model_Resource_Resource $resourceResource,
+        Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory,
+        Magento_Core_Model_Theme_CollectionFactory $themeFactory,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
+        Magento_Core_Model_Dir $dir,
         $resourceName,
         array $data = array()
     ) {
         $this->_filesystem = $filesystem;
         $this->_coreHelper = $helper;
+        $this->_dir = $dir;
         if (!isset($data['resource_config'])
             || !isset($data['connection_config'])
             || !isset($data['module_config'])
             || !isset($data['connection'])
         ) {
             parent::__construct(
-                $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
+                $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceResource,
+                $themeResourceFactory, $themeFactory, $migrationFactory, $resourceName
             );
         } else {
             $this->_resourceModel = $resource;
@@ -177,7 +194,7 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
         if (isset($data['base_dir'])) {
             $this->_baseDir = $data['base_dir'];
         } else {
-            $this->_baseDir = Mage::getBaseDir();
+            $this->_baseDir = $this->_dir->getDir(Magento_Core_Model_Dir::ROOT);
         }
 
         $this->_initAliasesMapConfiguration($data);

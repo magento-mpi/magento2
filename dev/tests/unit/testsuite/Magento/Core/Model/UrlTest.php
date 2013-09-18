@@ -22,7 +22,10 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_model = new Magento_Core_Model_Url(
-            $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false)
+            $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false),
+            $this->getMock('Magento_Core_Model_App', array(), array(), '', false, false),
+            $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false, false),
+            $this->getMock('Magento_Core_Model_Session', array(), array(), '', false, false)
         );
     }
 

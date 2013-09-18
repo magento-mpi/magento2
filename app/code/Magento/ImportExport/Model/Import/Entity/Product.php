@@ -302,12 +302,18 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
     protected $_eventManager = null;
 
     /**
+     * @var Magento_ImportExport_Model_Import_UploaderFactory
+     */
+    protected $_uploaderFactory;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_ImportExport_Helper_Data $importExportData
+     * @param Magento_ImportExport_Model_Import_UploaderFactory $uploaderFactory
      * @param array $data
      */
     public function __construct(
@@ -317,11 +323,13 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
         Magento_Core_Helper_String $coreString,
         Magento_Core_Helper_Data $coreData,
         Magento_ImportExport_Helper_Data $importExportData,
+        Magento_ImportExport_Model_Import_UploaderFactory $uploaderFactory,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_catalogInventoryData = $catalogInventoryData;
         $this->_catalogData = $catalogData;
+        $this->_uploaderFactory = $uploaderFactory;
         parent::__construct($coreString, $coreData, $importExportData);
 
         $this->_optionEntity = isset($data['option_entity']) ? $data['option_entity']
@@ -1212,7 +1220,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
     protected function _getUploader()
     {
         if (is_null($this->_fileUploader)) {
-            $this->_fileUploader = Mage::getModel('Magento_ImportExport_Model_Import_Uploader');
+            $this->_fileUploader = $this->_uploaderFactory->create();
 
             $this->_fileUploader->init();
 

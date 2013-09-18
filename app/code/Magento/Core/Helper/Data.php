@@ -82,21 +82,61 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_Locale_Proxy
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Core_Model_Date_Proxy
+     */
+    protected $_dateModel;
+
+    /**
+     * @var Magento_Core_Model_App_State
+     */
+    protected $_appState;
+
+    /**
+     * @var Magento_Core_Model_Config_Resource
+     */
+    protected $_configResource;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Locale_Proxy $locale
+     * @param Magento_Core_Model_Date_Proxy $dateModel
+     * @param Magento_Core_Model_App_State $appState
+     * @param Magento_Core_Model_Config_Resource $configResource
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $config
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Locale_Proxy $locale,
+        Magento_Core_Model_Date_Proxy $dateModel,
+        Magento_Core_Model_App_State $appState,
+        Magento_Core_Model_Config_Resource $configResource
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreHttp = $coreHttp;
         parent::__construct($context);
         $this->_config = $config;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        $this->_dateModel = $dateModel;
+        $this->_appState = $appState;
+        $this->_configResource = $configResource;
     }
 
     /**
@@ -126,9 +166,9 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      * @param   bool $includeContainer
      * @return  mixed
      */
-    public static function currency($value, $format = true, $includeContainer = true)
+    public function currency($value, $format = true, $includeContainer = true)
     {
-        return self::currencyByStore($value, null, $format, $includeContainer);
+        return $this->currencyByStore($value, null, $format, $includeContainer);
     }
 
     /**
@@ -140,11 +180,11 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      * @param   bool $includeContainer
      * @return  mixed
      */
-    public static function currencyByStore($value, $store = null, $format = true, $includeContainer = true)
+    public function currencyByStore($value, $store = null, $format = true, $includeContainer = true)
     {
         try {
             if (!($store instanceof Magento_Core_Model_Store)) {
-                $store = Mage::app()->getStore($store);
+                $store = $this->_app->getStore($store);
             }
 
             $value = $store->convertPrice($value, $format, $includeContainer);
@@ -177,7 +217,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function formatPrice($price, $includeContainer = true)
     {
-        return Mage::app()->getStore()->formatPrice($price, $includeContainer);
+        return $this->_storeManager->getStore()->formatPrice($price, $includeContainer);
     }
 
     /**
@@ -197,19 +237,19 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
             return '';
         }
         if (is_null($date)) {
-            $date = Mage::app()->getLocale()->date(
-                Mage::getSingleton('Magento_Core_Model_Date')->gmtTimestamp(),
+            $date = $this->_locale->date(
+                $this->_dateModel->gmtTimestamp(),
                 null,
                 null
             );
         } elseif (!$date instanceof Zend_Date) {
-            $date = Mage::app()->getLocale()->date(strtotime($date), null, null);
+            $date = $this->_locale->date(strtotime($date), null, null);
         }
 
         if ($showTime) {
-            $format = Mage::app()->getLocale()->getDateTimeFormat($format);
+            $format = $this->_locale->getDateTimeFormat($format);
         } else {
-            $format = Mage::app()->getLocale()->getDateFormat($format);
+            $format = $this->_locale->getDateFormat($format);
         }
 
         return $date->toString($format);
@@ -230,17 +270,17 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
         }
 
         if (is_null($time)) {
-            $date = Mage::app()->getLocale()->date(time());
+            $date = $this->_locale->date(time());
         } else if ($time instanceof Zend_Date) {
             $date = $time;
         } else {
-            $date = Mage::app()->getLocale()->date(strtotime($time));
+            $date = $this->_locale->date(strtotime($time));
         }
 
         if ($showDate) {
-            $format = Mage::app()->getLocale()->getDateTimeFormat($format);
+            $format = $this->_locale->getDateTimeFormat($format);
         } else {
-            $format = Mage::app()->getLocale()->getTimeFormat($format);
+            $format = $this->_locale->getTimeFormat($format);
         }
 
         return $date->toString($format);
@@ -254,7 +294,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function encrypt($data)
     {
-        if (!Mage::isInstalled()) {
+        if (!$this->_appState->isInstalled()) {
             return $data;
         }
         return $this->getEncryptor()->encrypt($data);
@@ -268,7 +308,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function decrypt($data)
     {
-        if (!Mage::isInstalled()) {
+        if (!$this->_appState->isInstalled()) {
             return $data;
         }
         return $this->getEncryptor()->decrypt($data);
@@ -316,7 +356,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getStoreId($store=null)
     {
-        return Mage::app()->getStore($store)->getId();
+        return $this->_storeManager->getStore($store)->getId();
     }
 
     /**
@@ -745,10 +785,8 @@ XML;
      */
     public function useDbCompatibleMode()
     {
-        /** @var $resourceConfig Magento_Core_Model_Config_Resource */
-        $resourceConfig = Mage::getSingleton('Magento_Core_Model_Config_Resource');
-        $connType = (string) $resourceConfig->getResourceConnectionConfig('default_setup')->type;
-        $value = (string) $resourceConfig->getResourceTypeConfig($connType)->compatibleMode;
+        $connType = (string) $this->_configResource->getResourceConnectionConfig('default_setup')->type;
+        $value = (string) $this->_configResource->getResourceTypeConfig($connType)->compatibleMode;
         return (bool) $value;
     }
 

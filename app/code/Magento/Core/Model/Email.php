@@ -25,8 +25,20 @@ class Magento_Core_Model_Email extends Magento_Object
     protected $_tplVars = array();
     protected $_block;
 
-    public function __construct()
-    {
+    /**
+     * Layout factory
+     *
+     * @var Magento_Core_Model_LayoutFactory
+     */
+    protected $_layoutFactory;
+
+    /**
+     * @param Magento_Core_Model_LayoutFactory $layoutFactory
+     */
+    public function __construct(
+        Magento_Core_Model_LayoutFactory $layoutFactory
+    ) {
+        $this->_layoutFactory = $layoutFactory;
         // TODO: move to config
         $this->setFromName('Magento');
         $this->setFromEmail('magento@varien.com');
@@ -55,7 +67,7 @@ class Magento_Core_Model_Email extends Magento_Object
     {
         $body = $this->getData('body');
         if (empty($body) && $this->getTemplate()) {
-            $this->_block = Mage::getModel('Magento_Core_Model_Layout')->createBlock('Magento_Core_Block_Template', 'email')
+            $this->_block = $this->_layoutFactory->create()->createBlock('Magento_Core_Block_Template', 'email')
                 ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
                 ->setTemplate($this->getTemplate());
             foreach ($this->getTemplateVars() as $var=>$value) {

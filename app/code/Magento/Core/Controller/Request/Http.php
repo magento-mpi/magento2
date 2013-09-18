@@ -104,10 +104,10 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
             $storeCode = $pathParts[0];
 
             if ($this->_isFrontArea($storeCode)) {
-                $stores = Mage::app()->getStores(true, true);
+                $stores = Mage::getObjectManager()->get('Magento_Core_Model_StoreManager')->getStores(true, true);
                 if (isset($stores[$storeCode]) && $stores[$storeCode]->isUseStoreInUrl()) {
                     if (!$this->isDirectAccessFrontendName($storeCode)) {
-                        Mage::app()->setCurrentStore($storeCode);
+                        Mage::getObjectManager()->get('Magento_Core_Model_StoreManager')->setCurrentStore($storeCode);
                         $pathInfo = '/'.(isset($pathParts[1]) ? $pathParts[1] : '');
                     } elseif (!empty($storeCode)) {
                         $this->setActionName('noRoute');
@@ -229,7 +229,8 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     public function setRouteName($route)
     {
         $this->_route = $route;
-        $router = Mage::app()->getFrontController()->getRouterList()->getRouterByRoute($route);
+        $router = Mage::getObjectManager()->get('Magento_Core_Model_App')->getFrontController()
+            ->getRouterList()->getRouterByRoute($route);
         if (!$router) {
             return $this;
         }
@@ -376,7 +377,8 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
         if ($this->_requestedRouteName === null) {
             if ($this->_rewritedPathInfo !== null && isset($this->_rewritedPathInfo[0])) {
                 $frontName = $this->_rewritedPathInfo[0];
-                $router = Mage::app()->getFrontController()->getRouterList()->getRouterByFrontName($frontName);
+                $router = Mage::getObjectManager()->get('Magento_Core_Model_App')->getFrontController()
+                    ->getRouterList()->getRouterByFrontName($frontName);
                 $this->_requestedRouteName = $router->getRouteByFrontName($frontName);
             } else {
                 // no rewritten path found, use default route name

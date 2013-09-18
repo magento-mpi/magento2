@@ -51,13 +51,14 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Config_Scope $configScope
      * @param Magento_Core_Model_Route_Config $routeConfig
+     * @param Magento_Core_Model_Url $url
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_App_State $appState
      * @param string $areaCode
      * @param string $baseController
      * @param string $routerId
      * @param string $defaultRouteId
      * @throws InvalidArgumentException
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Backend_Helper_Data $backendData,
@@ -66,13 +67,16 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
         Magento_Core_Model_App $app,
         Magento_Core_Model_Config_Scope $configScope,
         Magento_Core_Model_Route_Config $routeConfig,
+        Magento_Core_Model_Url $url,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_App_State $appState,
         $areaCode,
         $baseController,
         $routerId,
         $defaultRouteId
     ) {
-        parent::__construct($controllerFactory, $filesystem, $app, $configScope, $routeConfig, $areaCode,
-            $baseController, $routerId);
+        parent::__construct($controllerFactory, $filesystem, $app, $configScope, $routeConfig, $url, $storeManager,
+            $appState, $areaCode, $baseController, $routerId);
 
         $this->_backendData = $backendData;
         $this->_areaFrontName = $this->_backendData->getAreaFrontName();

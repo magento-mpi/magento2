@@ -44,8 +44,12 @@ class Magento_Core_Helper_Url_RewriteTest extends PHPUnit_Framework_TestCase
      */
     public function testHasRedirectOptions($option, $expected)
     {
+        $optionsMock = $this->getMock('Magento_Core_Model_Source_Urlrewrite_Options', array('getRedirectOptions'),
+            array(), '', false, false);
+        $optionsMock->expects($this->any())->method('getRedirectOptions')->will($this->returnValue(array('R', 'RP')));
         $helper = new Magento_Core_Helper_Url_Rewrite(
-            $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false)
+            $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false),
+            $optionsMock
         );
         $mockObject = new Magento_Object();
         $mockObject->setOptions($option);

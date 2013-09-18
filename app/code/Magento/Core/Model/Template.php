@@ -74,20 +74,36 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
     protected $_design = null;
 
     /**
+     * @var Magento_Core_Model_App_Emulation
+     */
+    protected $_appEmulation;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_App_Emulation $appEmulation
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_App_Emulation $appEmulation,
+        Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
         $this->_design = $design;
         $this->_area = isset($data['area']) ? $data['area'] : null;
         $this->_store = isset($data['store']) ? $data['store'] : null;
+        $this->_appEmulation = $appEmulation;
+        $this->_storeManager = $storeManager;
         parent::__construct($context, $registry, null, null, $data);
     }
 
@@ -103,9 +119,7 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
         $storeId = is_object($store) ? $store->getId() : $store;
         $area = $designConfig->getArea();
         if (!is_null($storeId)) {
-            /** @var $appEmulation Magento_Core_Model_App_Emulation */
-            $appEmulation = Mage::getSingleton('Magento_Core_Model_App_Emulation');
-            $this->_initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId, $area);
+            $this->_initialEnvironmentInfo = $this->_appEmulation->startEnvironmentEmulation($storeId, $area);
         }
         return $this;
     }
@@ -118,8 +132,7 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
     protected function _cancelDesignConfig()
     {
         if (!empty($this->_initialEnvironmentInfo)) {
-            $appEmulation = Mage::getSingleton('Magento_Core_Model_App_Emulation');
-            $appEmulation->stopEnvironmentEmulation($this->_initialEnvironmentInfo);
+            $this->_appEmulation->stopEnvironmentEmulation($this->_initialEnvironmentInfo);
             $this->_initialEnvironmentInfo = null;
         }
         return $this;
@@ -137,7 +150,7 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
                 $this->_area = $this->_design->getArea();
             }
             if ($this->_store === null) {
-                $this->_store = Mage::app()->getStore()->getId();
+                $this->_store = $this->_storeManager->getStore()->getId();
             }
             $this->_designConfig = new Magento_Object(array(
                 'area' => $this->_area,

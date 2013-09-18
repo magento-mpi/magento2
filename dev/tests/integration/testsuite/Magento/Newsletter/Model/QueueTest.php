@@ -40,10 +40,14 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
             array(
                 $objectManager->get('Magento_Core_Model_Context'),
                 $objectManager->get('Magento_Core_Model_Registry'),
+                $objectManager->get('Magento_Core_Model_App_Emulation'),
                 $objectManager->get('Magento_Filesystem'),
                 $objectManager->get('Magento_Core_Model_View_Url'),
                 $objectManager->get('Magento_Core_Model_View_FileSystem'),
-                $objectManager->get('Magento_Core_Model_View_Design')
+                $objectManager->get('Magento_Core_Model_View_DesignInterface'),
+                $objectManager->get('Magento_Core_Model_Email_Template_FilterFactory'),
+                $objectManager->get('Magento_Core_Model_StoreManager'),
+                $objectManager->get('Magento_Core_Model_Dir'),
             )
         );
 
@@ -75,10 +79,14 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
             array(
                 $objectManager->get('Magento_Core_Model_Context'),
                 $objectManager->get('Magento_Core_Model_Registry'),
+                $objectManager->get('Magento_Core_Model_App_Emulation'),
                 $objectManager->get('Magento_Filesystem'),
                 $objectManager->get('Magento_Core_Model_View_Url'),
                 $objectManager->get('Magento_Core_Model_View_FileSystem'),
-                $objectManager->get('Magento_Core_Model_View_Design')
+                $objectManager->get('Magento_Core_Model_View_DesignInterface'),
+                $objectManager->get('Magento_Core_Model_Email_Template_FilterFactory'),
+                $objectManager->get('Magento_Core_Model_StoreManager'),
+                $objectManager->get('Magento_Core_Model_Dir'),
             )
         );
         $template->expects($this->any())->method('_getMail')->will($this->onConsecutiveCalls($mail, $brokenMail));

@@ -83,9 +83,21 @@ class Magento_Core_Model_Store_Group extends Magento_Core_Model_Abstract
     protected $_configDataResource;
 
     /**
+     * @var Magento_Core_Model_Store
+     */
+    protected $_store;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Config_Data $configDataResource
+     * @param Magento_Core_Model_Store $store
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -94,11 +106,15 @@ class Magento_Core_Model_Store_Group extends Magento_Core_Model_Abstract
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Config_Data $configDataResource,
+        Magento_Core_Model_Store $store,
+        Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_configDataResource = $configDataResource;
+        $this->_store = $store;
+        $this->_storeManager = $storeManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -158,7 +174,7 @@ class Magento_Core_Model_Store_Group extends Magento_Core_Model_Abstract
      */
     public function getStoreCollection()
     {
-        return Mage::getModel('Magento_Core_Model_Store')
+        return $this->_store
             ->getCollection()
             ->addGroupFilter($this->getId());
     }
@@ -286,7 +302,7 @@ class Magento_Core_Model_Store_Group extends Magento_Core_Model_Abstract
         if (is_null($this->getWebsiteId())) {
             return false;
         }
-        return Mage::app()->getWebsite($this->getWebsiteId());
+        return $this->_storeManager->getWebsite($this->getWebsiteId());
     }
 
     /**

@@ -23,10 +23,24 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
      */
     protected $_model;
 
+    /**
+     * @var Magento_ImportExport_Model_Import_Uploader
+     */
+    protected $_uploader;
+
+    /**
+     * @var Magento_ImportExport_Model_Import_UploaderFactory
+     */
+    protected $_uploaderFactory;
+
     public function setUp()
     {
+        $this->_uploaderFactory = $this->getMock('Magento_ImportExport_Model_Import_UploaderFactory',
+            array('create'), array(), '', false);
         $this->_model = Mage::getObjectManager()
-            ->create('Magento_ImportExport_Model_Import_Entity_Product');
+            ->create('Magento_ImportExport_Model_Import_Entity_Product', array(
+                'uploaderFactory' => $this->_uploaderFactory
+            ));
     }
 
     /**
@@ -421,6 +435,15 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
             $this->fail("Unexpected precondition - product exists: '{$product->getId()}'.");
         }
 
+        $uploader = $this->getMock('Magento_ImportExport_Model_Import_Uploader',
+            array('init'), array(
+                Mage::getObjectManager()->create('Magento_Core_Helper_File_Storage_Database'),
+                Mage::getObjectManager()->create('Magento_Core_Helper_File_Storage'),
+                Mage::getObjectManager()->create('Magento_Core_Model_Image_AdapterFactory'),
+                Mage::getObjectManager()->create('Magento_Core_Model_File_Validator_NotProtectedExtension'),
+            ));
+        $this->_uploaderFactory->expects($this->any())->method('create')->will($this->returnValue($uploader));
+
         $this->_model->setSource($fixture)
             ->setParameters(array('behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_APPEND))
             ->isDataValid();
@@ -436,7 +459,7 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
         $this->assertCount(1, $items);
         $item = array_pop($items);
         $this->assertInstanceOf('Magento_Object', $item);
-        $this->assertEquals('/m/a/magento_image.jpg', $item->getFile());
+        $this->assertEquals('magento_image.jpg', $item->getFile());
         $this->assertEquals('Image Label', $item->getLabel());
     }
 

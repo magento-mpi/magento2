@@ -72,6 +72,39 @@ class Magento_Core_Block_Messages extends Magento_Core_Block_Template
     );
 
     /**
+     * Message singleton
+     *
+     * @var Magento_Core_Model_Message
+     */
+    protected $_message;
+
+    /**
+     * Message model factory
+     *
+     * @var Magento_Core_Model_MessageFactory
+     */
+    protected $_messageFactory;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Message $message
+     * @param Magento_Core_Model_Message_CollectionFactory $messageFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Message $message,
+        Magento_Core_Model_Message_CollectionFactory $messageFactory,
+        array $data = array()
+    ) {
+        $this->_message = $message;
+        $this->_messageFactory = $messageFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Preparing global layout
      *
      * @return Magento_Core_Block_Messages
@@ -130,7 +163,7 @@ class Magento_Core_Block_Messages extends Magento_Core_Block_Template
     public function getMessageCollection()
     {
         if (!($this->_messages instanceof Magento_Core_Model_Message_Collection)) {
-            $this->_messages = Mage::getModel('Magento_Core_Model_Message_Collection');
+            $this->_messages = $this->_messageFactory->create();
         }
         return $this->_messages;
     }
@@ -155,7 +188,7 @@ class Magento_Core_Block_Messages extends Magento_Core_Block_Template
      */
     public function addError($message)
     {
-        $this->addMessage(Mage::getSingleton('Magento_Core_Model_Message')->error($message));
+        $this->addMessage($this->_message->error($message));
         return $this;
     }
 
@@ -167,7 +200,7 @@ class Magento_Core_Block_Messages extends Magento_Core_Block_Template
      */
     public function addWarning($message)
     {
-        $this->addMessage(Mage::getSingleton('Magento_Core_Model_Message')->warning($message));
+        $this->addMessage($this->_message->warning($message));
         return $this;
     }
 
@@ -179,7 +212,7 @@ class Magento_Core_Block_Messages extends Magento_Core_Block_Template
      */
     public function addNotice($message)
     {
-        $this->addMessage(Mage::getSingleton('Magento_Core_Model_Message')->notice($message));
+        $this->addMessage($this->_message->notice($message));
         return $this;
     }
 
@@ -191,7 +224,7 @@ class Magento_Core_Block_Messages extends Magento_Core_Block_Template
      */
     public function addSuccess($message)
     {
-        $this->addMessage(Mage::getSingleton('Magento_Core_Model_Message')->success($message));
+        $this->addMessage($this->_message->success($message));
         return $this;
     }
 

@@ -75,13 +75,16 @@ class Magento_FullPageCache_Model_Cookie extends Magento_Core_Model_Cookie
     protected $_eventManager = null;
 
     /**
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_FullPageCache_Model_Cache $_fpcCache
      */
     public function __construct(
+        Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_FullPageCache_Model_Cache $_fpcCache
     ) {
+        parent::__construct($storeManager);
         $this->_eventManager = $eventManager;
         $this->_fpcCache = $_fpcCache;
     }

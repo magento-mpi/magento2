@@ -49,13 +49,20 @@ class Magento_Core_Model_System_Store extends Magento_Object
     private $_isAdminScopeAllowed = true;
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * Init model
      * Load Website, Group and Store collections
      *
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @return Magento_Core_Model_System_Store
      */
-    public function __construct()
+    public function __construct(Magento_Core_Model_StoreManager $storeManager)
     {
+        $this->_storeManager = $storeManager;
         return $this->reload();
     }
 
@@ -66,7 +73,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
      */
     protected function _loadWebsiteCollection()
     {
-        $this->_websiteCollection = Mage::app()->getWebsites();
+        $this->_websiteCollection = $this->_storeManager->getWebsites();
         return $this;
     }
 
@@ -78,7 +85,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
     protected function _loadGroupCollection()
     {
         $this->_groupCollection = array();
-        foreach (Mage::app()->getWebsites() as $website) {
+        foreach ($this->_storeManager->getWebsites() as $website) {
             foreach ($website->getGroups() as $group) {
                 $this->_groupCollection[$group->getId()] = $group;
             }
@@ -93,7 +100,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
      */
     protected function _loadStoreCollection()
     {
-        $this->_storeCollection = Mage::app()->getStores();
+        $this->_storeCollection = $this->_storeManager->getStores();
         return $this;
     }
 
@@ -267,7 +274,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
     public function getWebsiteOptionHash($withDefault = false, $attribute = 'name')
     {
         $options = array();
-        foreach (Mage::app()->getWebsites((bool)$withDefault && $this->_isAdminScopeAllowed) as $website) {
+        foreach ($this->_storeManager->getWebsites((bool)$withDefault && $this->_isAdminScopeAllowed) as $website) {
             $options[$website->getId()] = $website->getDataUsingMethod($attribute);
         }
         return $options;
@@ -283,7 +290,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
     public function getStoreOptionHash($withDefault = false, $attribute = 'name')
     {
         $options = array();
-        foreach (Mage::app()->getStores((bool)$withDefault && $this->_isAdminScopeAllowed) as $store) {
+        foreach ($this->_storeManager->getStores((bool)$withDefault && $this->_isAdminScopeAllowed) as $store) {
             $options[$store->getId()] = $store->getDataUsingMethod($attribute);
         }
         return $options;

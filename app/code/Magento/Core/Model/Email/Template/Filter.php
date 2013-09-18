@@ -56,20 +56,52 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
     protected $_coreData = null;
 
     /**
+     * Variable factory
+     *
+     * @var Magento_Core_Model_VariableFactory
+     */
+    protected $_variableFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_Layout
+     */
+    protected $_layout;
+
+    /**
+     * @var Magento_Core_Model_LayoutFactory
+     */
+    protected $_layoutFactory;
+
+    /**
      * Setup callbacks for filters
-     *
-     *
      *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_VariableFactory $coreVariableFactory
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Layout $layout
+     * @param Magento_Core_Model_LayoutFactory $layoutFactory
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_View_Url $viewUrl
+        Magento_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_VariableFactory $coreVariableFactory,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Layout $layout,
+        Magento_Core_Model_LayoutFactory $layoutFactory
     ) {
         $this->_coreData = $coreData;
         $this->_viewUrl = $viewUrl;
         $this->_modifiers['escape'] = array($this, 'modifierEscape');
+        $this->_variableFactory = $coreVariableFactory;
+        $this->_storeManager = $storeManager;
+        $this->_layout = $layout;
+        $this->_layoutFactory = $layoutFactory;
     }
 
     /**
@@ -140,7 +172,7 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
     public function getStoreId()
     {
         if (null === $this->_storeId) {
-            $this->_storeId = Mage::app()->getStore()->getId();
+            $this->_storeId = $this->_storeManager->getStore()->getId();
         }
         return $this->_storeId;
     }
@@ -155,13 +187,12 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
     {
         $skipParams = array('type', 'id', 'output');
         $blockParameters = $this->_getIncludeParameters($construction[2]);
-        $layout = Mage::app()->getLayout();
 
         if (isset($blockParameters['type'])) {
             $type = $blockParameters['type'];
-            $block = $layout->createBlock($type, null, array('data' => $blockParameters));
+            $block = $this->_layout->createBlock($type, null, array('data' => $blockParameters));
         } elseif (isset($blockParameters['id'])) {
-            $block = $layout->createBlock('Magento_Cms_Block_Block');
+            $block = $this->_layout->createBlock('Magento_Cms_Block_Block');
             if ($block) {
                 $block->setBlockId($blockParameters['id']);
             }
@@ -204,7 +235,7 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
             $layoutParams['area'] = $params['area'];
         }
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout', $layoutParams);
+        $layout = $this->_layoutFactory->create($layoutParams);
         $layout->getUpdate()->addHandle($params['handle'])
             ->load();
 
@@ -274,7 +305,7 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
     public function mediaDirective($construction)
     {
         $params = $this->_getIncludeParameters($construction[2]);
-        return Mage::getBaseUrl('media') . $params['url'];
+        return $this->_storeManager->getStore()->getBaseUrl('media') . $params['url'];
     }
 
     /**
@@ -311,7 +342,7 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
             unset($params['url']);
         }
 
-        return Mage::app()->getStore($this->getStoreId())->getUrl($path, $params);
+        return $this->_storeManager->getStore($this->getStoreId())->getUrl($path, $params);
     }
 
     /**
@@ -426,9 +457,9 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
         $params = $this->_getIncludeParameters($construction[2]);
         $store = null;
         if (isset($params['store'])) {
-            $store = Mage::app()->getSafeStore($params['store']);
+            $store = $this->_storeManager->getSafeStore($params['store']);
         }
-        $isSecure = Mage::app()->getStore($store)->isCurrentlySecure();
+        $isSecure = $this->_storeManager->getStore($store)->isCurrentlySecure();
         $protocol = $isSecure ? 'https' : 'http';
         if (isset($params['url'])) {
             return $protocol . '://' . $params['url'];
@@ -470,7 +501,7 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
         $customVarValue = '';
         $params = $this->_getIncludeParameters($construction[2]);
         if (isset($params['code'])) {
-            $variable = Mage::getModel('Magento_Core_Model_Variable')
+            $variable = $this->_variableFactory->create()
                 ->setStoreId($this->getStoreId())
                 ->loadByCode($params['code']);
             $mode = $this->getPlainTemplateMode()

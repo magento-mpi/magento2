@@ -33,6 +33,20 @@ class Magento_Core_Model_Cookie
     protected $_store;
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManager $storeManager
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManager $storeManager
+    ) {
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Set Store object
      *
      * @param mixed $store
@@ -40,7 +54,7 @@ class Magento_Core_Model_Cookie
      */
     public function setStore($store)
     {
-        $this->_store = Mage::app()->getStore($store);
+        $this->_store = $this->_storeManager->getStore($store);
         return $this;
     }
 
@@ -52,7 +66,7 @@ class Magento_Core_Model_Cookie
     public function getStore()
     {
         if (is_null($this->_store)) {
-            $this->_store = Mage::app()->getStore();
+            $this->_store = $this->_storeManager->getStore();
         }
         return $this->_store;
     }

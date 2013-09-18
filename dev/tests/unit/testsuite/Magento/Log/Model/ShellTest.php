@@ -26,9 +26,10 @@ class Magento_Log_Model_ShellTest extends PHPUnit_Framework_TestCase
     {
         $this->_factoryMock = $this->getMock('Magento_Log_Model_Shell_Command_Factory', array(), array(), '', false);
         $filesystemMock = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $dirMock = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
         $this->_model = $this->getMock('Magento_Log_Model_Shell',
             array('_applyPhpVariables'),
-            array($this->_factoryMock, $filesystemMock, 'entryPoint.php')
+            array($this->_factoryMock, $filesystemMock, 'entryPoint.php', $dirMock)
         );
     }
 

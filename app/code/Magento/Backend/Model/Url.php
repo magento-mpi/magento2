@@ -24,7 +24,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      *
      * @var Magento_Backend_Model_Auth_Session
      */
-    protected $_session;
+    protected $_authSession;
 
     /**
      * @var Magento_Backend_Model_Menu
@@ -48,11 +48,6 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
     protected $_coreHelper;
 
     /**
-     * @var Magento_Core_Model_Session
-     */
-    protected $_coreSession;
-
-    /**
      * Menu config
      *
      * @var Magento_Backend_Model_Menu_Config
@@ -66,7 +61,11 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      * @param Magento_Core_Model_Store_Config $storeConfig
      * @param Magento_Backend_Model_Menu_Config $menuConfig
      * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Backend_Helper_Data $backendHelper,
@@ -75,12 +74,13 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
         Magento_Core_Model_Store_Config $storeConfig,
         Magento_Backend_Model_Menu_Config $menuConfig,
         Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_App $app,
+        Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
-        parent::__construct($coreData, $data);
+        parent::__construct($coreData, $app, $storeManager, $coreSession, $data);
         $this->_startupMenuItemId = $storeConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM);
         $this->_backendHelper = $backendHelper;
-        $this->_coreSession = $coreSession;
         $this->_coreHelper = $coreHelper;
         $this->_menuConfig = $menuConfig;
     }
@@ -170,7 +170,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      */
     public function getSecretKey($routeName = null, $controller = null, $action = null)
     {
-        $salt = $this->_coreSession->getFormKey();
+        $salt = $this->_session->getFormKey();
         $request = $this->getRequest();
 
         if (!$routeName) {
@@ -302,7 +302,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      */
     public function setSession(Magento_Backend_Model_Auth_Session $session)
     {
-        $this->_session = $session;
+        $this->_authSession = $session;
         return $this;
     }
 
@@ -313,10 +313,10 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      */
     protected function _getSession()
     {
-        if ($this->_session == null) {
-            $this->_session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+        if ($this->_authSession == null) {
+            $this->_authSession = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
         }
-        return $this->_session;
+        return $this->_authSession;
     }
 
 

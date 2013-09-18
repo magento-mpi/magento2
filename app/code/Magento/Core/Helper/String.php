@@ -18,6 +18,24 @@ class Magento_Core_Helper_String extends Magento_Core_Helper_Abstract
     const ICONV_CHARSET = 'UTF-8';
 
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Locale_Proxy $locale
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Locale_Proxy $locale)
+    {
+        parent::__construct($context);
+        $this->_locale = $locale;
+    }
+
+
+    /**
      * Truncate a string to a certain length if necessary, appending the $etc string.
      * $remainder will contain the string that has been replaced with $etc.
      *
@@ -278,7 +296,7 @@ class Magento_Core_Helper_String extends Magento_Core_Helper_Abstract
             return false;
         }
         $oldLocale = setlocale(LC_COLLATE, "0");
-        $localeCode = Mage::app()->getLocale()->getLocaleCode();
+        $localeCode = $this->_locale->getLocaleCode();
         // use fallback locale if $localeCode is not available
         setlocale(LC_COLLATE,  $localeCode . '.UTF8', 'C.UTF-8', 'en_US.utf8');
         ksort($sort, SORT_LOCALE_STRING);

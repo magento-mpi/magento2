@@ -22,8 +22,8 @@ class Magento_Catalog_Helper_UrlTest extends PHPUnit_Framework_TestCase
         $contextMock = $this->getMockBuilder('Magento_Core_Helper_Context')->disableOriginalConstructor()->getMock();
         $this->_configMock = $this->getMockBuilder('Magento_Core_Model_Config')
             ->disableOriginalConstructor()->getMock();
-
-        $this->_urlHelper = new Magento_Catalog_Helper_Product_Url($contextMock, $this->_configMock);
+        $storeManager = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
+        $this->_urlHelper = new Magento_Catalog_Helper_Product_Url($contextMock, $this->_configMock, $storeManager);
     }
 
     /**

@@ -146,7 +146,9 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     public function testSendPasswordResetConfirmationEmail()
     {
-        $mailer = $this->getMock('Magento_Core_Model_Email_Template_Mailer');
+        $mailer = $this->getMock('Magento_Core_Model_Email_Template_Mailer', array(), array(
+            $this->getMock('Magento_Core_Model_Email_TemplateFactory', array(), array(), '', false)
+        ));
         $mailer->expects($this->once())
             ->method('setTemplateId')
             ->with(Mage::getStoreConfig(Magento_User_Model_User::XML_PATH_FORGOT_EMAIL_TEMPLATE));

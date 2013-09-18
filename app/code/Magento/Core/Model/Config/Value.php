@@ -48,6 +48,20 @@ class Magento_Core_Model_Config_Value extends Magento_Core_Model_Abstract
      */
     protected $_eventObject = 'config_data';
 
+    protected $_storeManager;
+
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
     /**
      * Magento model constructor
      */
@@ -86,10 +100,10 @@ class Magento_Core_Model_Config_Value extends Magento_Core_Model_Abstract
         $path        = $this->getPath();
 
         if ($storeCode) {
-            return Mage::app()->getStore($storeCode)->getConfig($path);
+            return $this->_storeManager->getStore($storeCode)->getConfig($path);
         }
         if ($websiteCode) {
-            return Mage::app()->getWebsite($websiteCode)->getConfig($path);
+            return $this->_storeManager->getWebsite($websiteCode)->getConfig($path);
         }
         return (string) Mage::getConfig()->getValue($path, 'default');
     }

@@ -18,6 +18,24 @@
 class Magento_Core_Helper_Url extends Magento_Core_Helper_Abstract
 {
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_StoreManager $storeManager
+    ) {
+        parent::__construct($context);
+        $this->_storeManager = $storeManager;
+    }
+
+
+    /**
      * Retrieve current url
      *
      * @return string
@@ -62,7 +80,7 @@ class Magento_Core_Helper_Url extends Magento_Core_Helper_Abstract
      */
     public function getHomeUrl()
     {
-        return Mage::getBaseUrl();
+        return $this->_storeManager->getStore()->getBaseUrl();
     }
 
     protected function _prepareString($string)

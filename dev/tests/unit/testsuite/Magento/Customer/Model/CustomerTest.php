@@ -67,10 +67,6 @@ class Magento_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('send'))
             ->getMock();
-        $this->_storeManager = $this->getMockBuilder('Magento_Core_Model_StoreManager')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getWebsite'))
-            ->getMock();
         $this->_config = $this->getMockBuilder('Magento_Eav_Model_Config')
             ->disableOriginalConstructor()
             ->setMethods(array('getAttribute'))
@@ -78,10 +74,6 @@ class Magento_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
         $this->_attribute = $this->getMockBuilder('Magento_Eav_Model_Attribute')
             ->disableOriginalConstructor()
             ->setMethods(array('getIsVisible'))
-            ->getMock();
-        $this->_contextMock = $this->getMockBuilder('Magento_Core_Model_Context')
-            ->disableOriginalConstructor()
-            ->setMethods(array())
             ->getMock();
         $this->_resourceMock = $this->getMockBuilder('Magento_Customer_Model_Resource_Customer')
             ->disableOriginalConstructor()
@@ -92,6 +84,17 @@ class Magento_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
             ->setMethods(array())
             ->getMock();
         $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+
+        $this->_storeManager = $this->getMockBuilder('Magento_Core_Model_StoreManager')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getWebsite'))
+            ->getMock();
+        $this->_contextMock = $this->getMockBuilder('Magento_Core_Model_Context')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getStoreManager'))
+            ->getMock();
+        $this->_contextMock->expects($this->any())->method('getStoreManager')
+            ->will($this->returnValue($this->_storeManager));
 
         $this->_model = new Magento_Customer_Model_Customer(
             $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),

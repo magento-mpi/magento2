@@ -65,18 +65,20 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Context $context,
+        Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_eventManager = $eventManager;
-        parent::__construct($context);
+        parent::__construct($context, $storeManager);
         $this->_viewUrl = $viewUrl;
     }
 

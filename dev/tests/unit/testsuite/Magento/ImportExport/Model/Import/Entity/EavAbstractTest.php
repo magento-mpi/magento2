@@ -57,12 +57,13 @@ class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_F
      */
     protected function _getModelDependencies()
     {
+        $localeMock = $this->getMock('Magento_Core_Model_Locale_Proxy', array(), array(), '', false);
         $data = array(
             'data_source_model'            => 'not_used',
             'connection'                   => 'not_used',
             'json_helper'                  => 'not_used',
             'string_helper'                => new Magento_Core_Helper_String(
-                $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false)
+                $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false), $localeMock
             ),
             'page_size'                    => 1,
             'max_data_size'                => 1,

@@ -42,12 +42,30 @@ abstract class Magento_Core_Helper_Abstract
     private $_moduleManager;
 
     /**
+     * @var Magento_Core_Model_App
+     */
+    protected $_app;
+
+    /**
+     * @var Magento_Core_Model_UrlFactory
+     */
+    protected $_urlFactory;
+
+    /**
+     * @var Magento_Core_Model_Url
+     */
+    protected $_urlModel;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(Magento_Core_Helper_Context $context)
     {
         $this->_translator = $context->getTranslator();
         $this->_moduleManager = $context->getModuleManager();
+        $this->_app = $context->getApp();
+        $this->_urlFactory = $context->getUrlFactory();
+        $this->_urlModel = $context->getUrlModel();
     }
 
     /**
@@ -72,7 +90,7 @@ abstract class Magento_Core_Helper_Abstract
      */
     protected function _loadCache($cacheId)
     {
-        return Mage::app()->loadCache($cacheId);
+        return $this->_app->loadCache($cacheId);
     }
 
     /**
@@ -86,7 +104,7 @@ abstract class Magento_Core_Helper_Abstract
      */
     protected function _saveCache($data, $cacheId, $tags = array(), $lifeTime = false)
     {
-        Mage::app()->saveCache($data, $cacheId, $tags, $lifeTime);
+        $this->_app->saveCache($data, $cacheId, $tags, $lifeTime);
         return $this;
     }
 
@@ -98,7 +116,7 @@ abstract class Magento_Core_Helper_Abstract
      */
     protected function _removeCache($cacheId)
     {
-        Mage::app()->removeCache($cacheId);
+        $this->_app->removeCache($cacheId);
         return $this;
     }
 
@@ -110,7 +128,7 @@ abstract class Magento_Core_Helper_Abstract
      */
     protected function _cleanCache($tags=array())
     {
-        Mage::app()->cleanCache($tags);
+        $this->_app->cleanCache($tags);
         return $this;
     }
 
@@ -272,7 +290,7 @@ abstract class Magento_Core_Helper_Abstract
      */
     protected function _getUrl($route, $params = array())
     {
-        return Mage::getUrl($route, $params);
+        return $this->_urlFactory->create()->getUrl($route, $params);
     }
 
     /**
@@ -295,9 +313,7 @@ abstract class Magento_Core_Helper_Abstract
     public function urlDecode($url)
     {
         $url = base64_decode(strtr($url, '-_,', '+/='));
-        /** @var $urlModel Magento_Core_Model_Url */
-        $urlModel = Mage::getSingleton('Magento_Core_Model_Url');
-        return $urlModel->sessionUrlVar($url);
+        return $this->_urlModel->sessionUrlVar($url);
     }
 
     /**

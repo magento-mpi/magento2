@@ -18,10 +18,6 @@
 class Magento_Core_Model_Encryption
 {
     /**
-     * @var Magento_Crypt
-     */
-    protected $_crypt;
-    /**
      * @var string
      */
     protected $_helper;
@@ -120,13 +116,10 @@ class Magento_Core_Model_Encryption
      */
     protected function _getCrypt($key = null)
     {
-        if (!$this->_crypt) {
-            if (null === $key) {
-                $key = (string)Mage::getConfig()->getNode('global/crypt/key');
-            }
-            $this->_crypt = new Magento_Crypt($key);
+        if (null === $key) {
+            $key = (string)Mage::getConfig()->getNode('global/crypt/key');
         }
-        return $this->_crypt;
+        return $this->_objectManager->create('Magento_Crypt', array('key' => $key));
     }
 
     /**

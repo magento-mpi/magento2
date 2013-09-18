@@ -132,9 +132,45 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
     protected $_configDataResource;
 
     /**
+     * @var Magento_Core_Model_StoreFactory
+     */
+    protected $_storeFactory;
+
+    /**
+     * @var Magento_Core_Model_Store_GroupFactory
+     */
+    protected $_storeGroupFactory;
+
+    /**
+     * @var Magento_Core_Model_WebsiteFactory
+     */
+    protected $_websiteFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_App
+     */
+    protected $_app;
+
+    /**
+     * @var Magento_Directory_Model_CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Config_Data $configDataResource
+     * @param Magento_Core_Model_StoreFactory $storeFactory
+     * @param Magento_Core_Model_Store_GroupFactory $storeGroupFactory
+     * @param Magento_Core_Model_WebsiteFactory $websiteFactory
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -143,12 +179,24 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Config_Data $configDataResource,
+        Magento_Core_Model_StoreFactory $storeFactory,
+        Magento_Core_Model_Store_GroupFactory $storeGroupFactory,
+        Magento_Core_Model_WebsiteFactory $websiteFactory,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_App $app,
+        Magento_Directory_Model_CurrencyFactory $currencyFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_configDataResource = $configDataResource;
+        $this->_storeFactory = $storeFactory;
+        $this->_storeGroupFactory = $storeGroupFactory;
+        $this->_websiteFactory = $websiteFactory;
+        $this->_storeManager = $storeManager;
+        $this->_app = $app;
+        $this->_currencyFactory = $currencyFactory;
     }
 
     /**
@@ -241,7 +289,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
      */
     public function getGroupCollection()
     {
-        return Mage::getModel('Magento_Core_Model_Store_Group')
+        return $this->_storeGroupFactory->create()
             ->getCollection()
             ->addWebsiteFilter($this->getId());
     }
@@ -347,7 +395,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
      */
     public function getStoreCollection()
     {
-        return Mage::getModel('Magento_Core_Model_Store')
+        return $this->_storeFactory->create()
             ->getCollection()
             ->addWebsiteFilter($this->getId());
     }
@@ -415,7 +463,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
             return false;
         }
         if (is_null($this->_isCanDelete)) {
-            $this->_isCanDelete = (Mage::getModel('Magento_Core_Model_Website')->getCollection()->getSize() > 2)
+            $this->_isCanDelete = ($this->_websiteFactory->create()->getCollection()->getSize() > 2)
                 && !$this->getIsDefault();
         }
         return $this->_isCanDelete;
@@ -455,7 +503,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
      */
     protected function _afterDelete()
     {
-        Mage::app()->clearWebsiteCache($this->getId());
+        $this->_storeManager->clearWebsiteCache($this->getId());
         parent::_afterDelete();
         Mage::getConfig()->removeCache();
         return $this;
@@ -471,7 +519,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
         if ($this->getConfig(Magento_Core_Model_Store::XML_PATH_PRICE_SCOPE)
             == Magento_Core_Model_Store::PRICE_SCOPE_GLOBAL
         ) {
-            return Mage::app()->getBaseCurrencyCode();
+            return $this->_app->getBaseCurrencyCode();
         } else {
             return $this->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE);
         }
@@ -486,7 +534,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
     {
         $currency = $this->getData('base_currency');
         if (is_null($currency)) {
-            $currency = Mage::getModel('Magento_Directory_Model_Currency')->load($this->getBaseCurrencyCode());
+            $currency = $this->_currencyFactory->create()->load($this->getBaseCurrencyCode());
             $this->setData('base_currency', $currency);
         }
         return $currency;

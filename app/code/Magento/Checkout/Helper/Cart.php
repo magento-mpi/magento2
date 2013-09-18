@@ -32,13 +32,15 @@ class Magento_Checkout_Helper_Cart extends Magento_Core_Helper_Url
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_StoreManager $storeManager
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($context);
+        parent::__construct($context, $storeManager);
     }
 
     /**

@@ -84,10 +84,14 @@ class Magento_Catalog_Helper_Product_Url extends Magento_Core_Helper_Url
      *
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_StoreManager $storeManager
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_Config $config)
-    {
-        parent::__construct($context);
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_StoreManager $storeManager
+    ) {
+        parent::__construct($context, $storeManager);
         $convertConfig = $config->getValue('url/convert', 'default');
         if ($convertConfig) {
             foreach ($convertConfig as $configValue) {

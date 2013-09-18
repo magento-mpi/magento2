@@ -38,6 +38,11 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Locale_Proxy $locale
+     * @param Magento_Core_Model_Date_Proxy $dateModel
+     * @param Magento_Core_Model_App_State $appState
+     * @param Magento_Core_Model_Config_Resource $configResource
      */
     public function __construct(
         Magento_CustomerBalance_Helper_Data $customerBalanceData,
@@ -45,11 +50,17 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $config
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Locale_Proxy $locale,
+        Magento_Core_Model_Date_Proxy $dateModel,
+        Magento_Core_Model_App_State $appState,
+        Magento_Core_Model_Config_Resource $configResource
     ) {
         $this->_customerBalanceData = $customerBalanceData;
         $this->_rewardData = $rewardData;
-        parent::__construct($eventManager, $coreHttp, $context, $config);
+        parent::__construct($eventManager, $coreHttp, $context, $config, $storeManager, $locale, $dateModel, $appState,
+            $configResource);
     }
 
     /**

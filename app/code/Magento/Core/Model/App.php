@@ -128,7 +128,6 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
 
     /**
      * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Controller_Varien_Front $frontController
      * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Core_Model_Db_UpdaterInterface $dbUpdater
@@ -139,7 +138,6 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      */
     public function __construct(
         Magento_Core_Model_Config $config,
-        Magento_Core_Controller_Varien_Front $frontController,
         Magento_Core_Model_CacheInterface $cache,
         Magento_ObjectManager $objectManager,
         Magento_Core_Model_Db_UpdaterInterface $dbUpdater,
@@ -153,7 +151,6 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
         $this->_objectManager = $objectManager;
         $this->_storeManager = $storeManager;
         $this->_dbUpdater = $dbUpdater;
-        $this->_frontController = $frontController;
         $this->_appState = $appState;
         $this->_eventManager = $eventManager;
         $this->_configScope = $configScope;

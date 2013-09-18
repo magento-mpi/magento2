@@ -24,11 +24,11 @@ class Magento_Backend_Controller_ActionAbstractTest extends Magento_Backend_Util
     {
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
+        $this->dispatch('backend');
         /** @var $backendUrlModel Magento_Backend_Model_Url */
         $backendUrlModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url');
         $url = $backendUrlModel->getStartupPageUrl();
         $expected = $backendUrlModel->getUrl($url);
-        $this->dispatch('backend');
         $this->assertRedirect($this->stringStartsWith($expected));
     }
 
@@ -50,9 +50,8 @@ class Magento_Backend_Controller_ActionAbstractTest extends Magento_Backend_Util
             'password' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD
         ));
 
-        $url = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('adminhtml/system_account/index');
         $this->getRequest()->setPost($postLogin);
-        $this->dispatch($url);
+        $this->dispatch('backend/admin/system_account/index');
 
         $expected = 'backend/admin/system_account/index';
         $this->assertRedirect($this->stringContains($expected));

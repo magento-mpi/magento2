@@ -29,7 +29,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             'context' => $objectManager->get('Magento_Core_Model_Context'),
             'registry' => $objectManager->get('Magento_Core_Model_Registry'),
             'configCacheType' => $objectManager->get('Magento_Core_Model_Cache_Type_Config'),
-            'urlModel' => $objectManager->get('Magento_Core_Model_Url'),
+            'urlModel' => $objectManager->get('Magento_Core_Model_Url_Proxy'),
             'appState' => $objectManager->get('Magento_Core_Model_App_State'),
             'request' => $objectManager->get('Magento_Core_Controller_Request_Http'),
             'configDataResource' => $objectManager->get('Magento_Core_Model_Resource_Config_Data'),

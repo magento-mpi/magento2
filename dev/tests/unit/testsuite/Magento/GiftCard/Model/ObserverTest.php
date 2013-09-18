@@ -21,9 +21,13 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructorValidArguments()
     {
+        $appState = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
+        $storeManager = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
         $context = new Magento_Core_Model_Context(
             $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_Cache', array(), array(), '', false)
+            $this->getMock('Magento_Core_Model_Cache', array(), array(), '', false),
+            $appState,
+            $storeManager
         );
         $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
         $this->_model = new Magento_GiftCard_Model_Observer(
@@ -46,9 +50,13 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructorInvalidArgument()
     {
+        $appState = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
+        $storeManager = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
         $context = new Magento_Core_Model_Context(
             $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false)
+            $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false),
+            $appState,
+            $storeManager
         );
         $this->_model = new Magento_GiftCard_Model_Observer(
             $this->getMock('Magento_GiftCard_Helper_Data', array(), array(), '', false),

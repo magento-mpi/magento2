@@ -30,9 +30,11 @@ class Magento_GoogleOptimizer_Helper_DataTest extends PHPUnit_Framework_TestCase
             false);
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $context = $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false);
         $this->_helper = $objectManagerHelper->getObject('Magento_GoogleOptimizer_Helper_Data', array(
             'storeConfig' => $this->_storeConfigMock,
             'analyticsHelper' => $this->_googleAnalyticsHelperMock,
+            'context' => $context
         ));
     }
 

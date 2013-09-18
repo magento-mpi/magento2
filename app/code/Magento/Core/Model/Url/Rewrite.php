@@ -50,6 +50,48 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
      */
     protected $_cacheTag = false;
 
+    /**
+     * @var Magento_Core_Model_App
+     */
+    protected $_app;
+
+    /**
+     * @var Magento_Core_Model_App_State
+     */
+    protected $_appState;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Core_Model_App_State $appState
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_App $app,
+        Magento_Core_Model_App_State $appState,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_app = $app;
+        $this->_appState = $appState;
+        $this->_storeManager = $storeManager;
+    }
+
+
     protected function _construct()
     {
         $this->_init('Magento_Core_Model_Resource_Url_Rewrite');
@@ -180,17 +222,17 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
      */
     public function rewrite(Zend_Controller_Request_Http $request=null, Zend_Controller_Response_Http $response=null)
     {
-        if (!Mage::isInstalled()) {
+        if (!$this->_appState->isInstalled()) {
             return false;
         }
         if (is_null($request)) {
-            $request = Mage::app()->getFrontController()->getRequest();
+            $request = $this->_app->getFrontController()->getRequest();
         }
         if (is_null($response)) {
-            $response = Mage::app()->getFrontController()->getResponse();
+            $response = $this->_app->getFrontController()->getResponse();
         }
         if (is_null($this->getStoreId()) || false === $this->getStoreId()) {
-            $this->setStoreId(Mage::app()->getStore()->getId());
+            $this->setStoreId($this->_storeManager->getStore()->getId());
         }
 
         /**
@@ -221,7 +263,7 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
          */
         if (!$this->getId() && isset($_GET['___from_store'])) {
             try {
-                $fromStoreId = Mage::app()->getStore($_GET['___from_store'])->getId();
+                $fromStoreId = $this->_storeManager->getStore($_GET['___from_store'])->getId();
             } catch (Exception $e) {
                 return false;
             }
@@ -230,10 +272,10 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
             if (!$this->getId()) {
                 return false;
             }
-            $currentStore = Mage::app()->getStore();
+            $currentStore = $this->_storeManager->getStore();
             $this->setStoreId($currentStore->getId())->loadByIdPath($this->getIdPath());
 
-            Mage::app()->getCookie()->set(Magento_Core_Model_Store::COOKIE_NAME, $currentStore->getCode(), true);
+            $this->_app->getCookie()->set(Magento_Core_Model_Store::COOKIE_NAME, $currentStore->getCode(), true);
             $targetUrl = $request->getBaseUrl(). '/' . $this->getRequestPath();
 
             $this->_sendRedirectHeaders($targetUrl, true);
@@ -248,8 +290,8 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
         $external = substr($this->getTargetPath(), 0, 6);
         $isPermanentRedirectOption = $this->hasOption('RP');
         if ($external === 'http:/' || $external === 'https:') {
-            $destinationStoreCode = Mage::app()->getStore($this->getStoreId())->getCode();
-            Mage::app()->getCookie()->set(Magento_Core_Model_Store::COOKIE_NAME, $destinationStoreCode, true);
+            $destinationStoreCode = $this->_storeManager->getStore($this->getStoreId())->getCode();
+            $this->_app->getCookie()->set(Magento_Core_Model_Store::COOKIE_NAME, $destinationStoreCode, true);
 
             $this->_sendRedirectHeaders($this->getTargetPath(), $isPermanentRedirectOption);
         } else {
@@ -257,14 +299,14 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
         }
         $isRedirectOption = $this->hasOption('R');
         if ($isRedirectOption || $isPermanentRedirectOption) {
-            if (Mage::getStoreConfig('web/url/use_store') && $storeCode = Mage::app()->getStore()->getCode()) {
+            if (Mage::getStoreConfig('web/url/use_store') && $storeCode = $this->_storeManager->getStore()->getCode()) {
                 $targetUrl = $request->getBaseUrl(). '/' . $storeCode . '/' .$this->getTargetPath();
             }
 
             $this->_sendRedirectHeaders($targetUrl, $isPermanentRedirectOption);
         }
 
-        if (Mage::getStoreConfig('web/url/use_store') && $storeCode = Mage::app()->getStore()->getCode()) {
+        if (Mage::getStoreConfig('web/url/use_store') && $storeCode = $this->_storeManager->getStore()->getCode()) {
                 $targetUrl = $request->getBaseUrl(). '/' . $storeCode . '/' .$this->getTargetPath();
         }
 

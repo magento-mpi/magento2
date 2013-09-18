@@ -77,18 +77,88 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     protected $_eventManager = null;
 
     /**
+     * Core cookie
+     *
+     * @var Magento_Core_Model_Cookie
+     */
+    protected $_cookie;
+
+    /**
+     * Core message
+     *
+     * @var Magento_Core_Model_Message
+     */
+    protected $_message;
+
+    /**
+     * Core message collection factory
+     *
+     * @var Magento_Core_Model_Message_CollectionFactory
+     */
+    protected $_messageFactory;
+
+    /**
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_request;
+
+    /**
+     * @var Magento_Core_Model_App_State
+     */
+    protected $_appState;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
+     * @var Magento_Core_Model_Url
+     */
+    protected $_url;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Core_Model_Message_CollectionFactory $messageFactory
+     * @param Magento_Core_Model_Message $message
+     * @param Magento_Core_Model_Cookie $cookie
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Core_Model_App_State $appState
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Dir $dir
+     * @param Magento_Core_Model_Url_Proxy $url
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Model_Message_CollectionFactory $messageFactory,
+        Magento_Core_Model_Message $message,
+        Magento_Core_Model_Cookie $cookie,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Core_Model_App_State $appState,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Dir $dir,
+        Magento_Core_Model_Url_Proxy $url,
         array $data = array()
     ) {
+        parent::__construct($data);
         $this->_eventManager = $eventManager;
         $this->_coreHttp = $coreHttp;
-        parent::__construct($data);
+        $this->_messageFactory = $messageFactory;
+        $this->_message = $message;
+        $this->_cookie = $cookie;
+        $this->_request = $request;
+        $this->_appState = $appState;
+        $this->_storeManager = $storeManager;
+        $this->_dir = $dir;
+        $this->_url = $url;
     }
 
     /**
@@ -190,7 +260,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
      */
     public function getCookie()
     {
-        return Mage::getSingleton('Magento_Core_Model_Cookie');
+        return $this->_cookie;
     }
 
     /**
@@ -435,7 +505,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     public function getMessages($clear = false)
     {
         if (!$this->getData('messages')) {
-            $this->setMessages(Mage::getModel('Magento_Core_Model_Message_Collection'));
+            $this->setMessages($this->_messageFactory->create());
         }
 
         if ($clear) {
@@ -464,7 +534,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
         $file = Mage::getStoreConfig(self::XML_PATH_LOG_EXCEPTION_FILE);
         Mage::log($message, Zend_Log::DEBUG, $file);
 
-        $this->addMessage(Mage::getSingleton('Magento_Core_Model_Message')->error($alternativeText));
+        $this->addMessage($this->_message->error($alternativeText));
         return $this;
     }
 
@@ -489,7 +559,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
      */
     public function addError($message)
     {
-        $this->addMessage(Mage::getSingleton('Magento_Core_Model_Message')->error($message));
+        $this->addMessage($this->_message->error($message));
         return $this;
     }
 
@@ -501,7 +571,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
      */
     public function addWarning($message)
     {
-        $this->addMessage(Mage::getSingleton('Magento_Core_Model_Message')->warning($message));
+        $this->addMessage($this->_message->warning($message));
         return $this;
     }
 
@@ -513,7 +583,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
      */
     public function addNotice($message)
     {
-        $this->addMessage(Mage::getSingleton('Magento_Core_Model_Message')->notice($message));
+        $this->addMessage($this->_message->notice($message));
         return $this;
     }
 
@@ -525,7 +595,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
      */
     public function addSuccess($message)
     {
-        $this->addMessage(Mage::getSingleton('Magento_Core_Model_Message')->success($message));
+        $this->addMessage($this->_message->success($message));
         return $this;
     }
 
@@ -605,10 +675,10 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     {
 
         if (null === $id
-            && (Mage::app()->getStore()->isAdmin() || Mage::getStoreConfig(self::XML_PATH_USE_FRONTEND_SID))
+            && ($this->_storeManager->getStore()->isAdmin() || Mage::getStoreConfig(self::XML_PATH_USE_FRONTEND_SID))
         ) {
             $_queryParam = $this->getSessionIdQueryParam();
-            if (isset($_GET[$_queryParam]) && Mage::getSingleton('Magento_Core_Model_Url')->isOwnOriginUrl()) {
+            if (isset($_GET[$_queryParam]) && $this->_url->isOwnOriginUrl()) {
                 $id = $_GET[$_queryParam];
             }
         }
@@ -682,7 +752,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
             return '';
         }
 
-        $httpHost = Mage::app()->getRequest()->getHttpHost();
+        $httpHost = $this->_request->getHttpHost();
         if (!$httpHost) {
             return '';
         }
@@ -701,7 +771,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
             self::$_urlHostCache[$urlHost] = $sessionId;
         }
 
-        return Mage::app()->getStore()->isAdmin() || $this->isValidForPath($urlPath)
+        return $this->_storeManager->getStore()->isAdmin() || $this->isValidForPath($urlPath)
             ? self::$_urlHostCache[$urlHost]
             : $this->getEncryptedSessionId();
     }
@@ -743,7 +813,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
      */
     protected function _addHost()
     {
-        $host = Mage::app()->getRequest()->getHttpHost();
+        $host = $this->_request->getHttpHost();
         if (!$host) {
             return $this;
         }
@@ -782,7 +852,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
      */
     public function getSessionSaveMethod()
     {
-        if (Mage::isInstalled() && $sessionSave = Mage::getConfig()->getNode(self::XML_NODE_SESSION_SAVE)) {
+        if ($this->_appState->isInstalled() && $sessionSave = Mage::getConfig()->getNode(self::XML_NODE_SESSION_SAVE)) {
             return (string) $sessionSave;
         }
         return 'files';
@@ -795,10 +865,10 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
      */
     public function getSessionSavePath()
     {
-        if (Mage::isInstalled() && $sessionSavePath = Mage::getConfig()->getNode(self::XML_NODE_SESSION_SAVE_PATH)) {
+        if ($this->_appState->isInstalled() && $sessionSavePath = Mage::getConfig()->getNode(self::XML_NODE_SESSION_SAVE_PATH)) {
             return $sessionSavePath;
         }
-        return Mage::getBaseDir('session');
+        return $this->_dir->getDir('session');
     }
 
     /**

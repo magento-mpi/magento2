@@ -34,8 +34,10 @@ class Magento_Core_Controller_Front_Action extends Magento_Core_Controller_Varie
     {
         parent::postDispatch();
         if (!$this->getFlag('', self::FLAG_NO_START_SESSION )) {
-            Mage::getSingleton('Magento_Core_Model_Session')
-                ->setLastUrl(Mage::getUrl('*/*/*', array('_current' => true)));
+            $this->_objectManager->get('Magento_Core_Model_Session')
+                ->setLastUrl(
+                    $this->_objectManager->create('Magento_Core_Model_Url')->getUrl('*/*/*', array('_current' => true))
+                );
         }
         return $this;
     }
@@ -50,11 +52,11 @@ class Magento_Core_Controller_Front_Action extends Magento_Core_Controller_Varie
      */
     public function authenticateAndAuthorizeAdmin($aclResource)
     {
-        Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML,
-            Magento_Core_Model_App_Area::PART_CONFIG);
+        $this->_objectManager->get('Magento_Core_Model_App')
+            ->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML,Magento_Core_Model_App_Area::PART_CONFIG);
 
         /** @var $auth Magento_Backend_Model_Auth */
-        $auth = Mage::getModel('Magento_Backend_Model_Auth');
+        $auth = $this->_objectManager->create('Magento_Backend_Model_Auth');
         $session = $auth->getAuthStorage();
 
         // Try to login using HTTP-authentication
@@ -70,7 +72,7 @@ class Magento_Core_Controller_Front_Action extends Magento_Core_Controller_Varie
 
         // Verify if logged in and authorized
         if (!$session->isLoggedIn()
-            || !Mage::getSingleton('Magento_AuthorizationInterface')->isAllowed($aclResource)) {
+            || !$this->_objectManager->get('Magento_AuthorizationInterface')->isAllowed($aclResource)) {
             $this->_objectManager->get('Magento_Core_Helper_Http')
                 ->failHttpAuthentication($this->getResponse(), 'RSS Feeds');
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);

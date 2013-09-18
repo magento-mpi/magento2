@@ -479,9 +479,9 @@ class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Vari
         if (!$this->getFlag('', self::FLAG_NO_START_SESSION)) {
             $checkCookie = in_array($this->getRequest()->getActionName(), $this->_cookieCheckActions)
                 && !$this->getRequest()->getParam('nocookie', false);
-            $cookies = Mage::getSingleton('Magento_Core_Model_Cookie')->get();
+            $cookies = $this->_objectManager->get('Magento_Core_Model_Cookie')->get();
             /** @var $session Magento_Core_Model_Session */
-            $session = Mage::getSingleton('Magento_Core_Model_Session')->start();
+            $session = $this->_objectManager->get('Magento_Core_Model_Session')->start();
 
             if (empty($cookies)) {
                 if ($session->getCookieShouldBeReceived()) {
@@ -489,7 +489,8 @@ class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Vari
                     $session->unsCookieShouldBeReceived();
                     $session->setSkipSessionIdFlag(true);
                 } elseif ($checkCookie) {
-                    if (isset($_GET[$session->getSessionIdQueryParam()]) && Mage::app()->getUseSessionInUrl()
+                    if (isset($_GET[$session->getSessionIdQueryParam()])
+                        && $this->_objectManager->get('Magento_Core_Model_App')->getUseSessionInUrl()
                         && $this->_sessionNamespace != Magento_Backend_Controller_ActionAbstract::SESSION_NAMESPACE
                     ) {
                         $session->setCookieShouldBeReceived(true);
@@ -509,7 +510,7 @@ class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Vari
      */
     protected function _initDesign()
     {
-        $area = Mage::app()->getArea($this->getLayout()->getArea());
+        $area = $this->_objectManager->get('Magento_Core_Model_App')->getArea($this->getLayout()->getArea());
         $area->load();
         $area->detectDesign($this->getRequest());
         return $this;
@@ -523,7 +524,7 @@ class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Vari
     public function preDispatch()
     {
         if (!$this->getFlag('', self::FLAG_NO_CHECK_INSTALLATION)) {
-            if (!Mage::isInstalled()) {
+            if (!$this->_objectManager->get('Magento_Core_Model_App_State')->isInstalled()) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
                 $this->_redirect('install');
                 return;
@@ -532,8 +533,8 @@ class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Vari
 
         // Prohibit disabled store actions
         $storeManager = $this->_objectManager->get('Magento_Core_Model_StoreManager');
-        if (Mage::isInstalled() && !$storeManager->getStore()->getIsActive()) {
-            Mage::app()->throwStoreException();
+        if ($this->_objectManager->get('Magento_Core_Model_App_State') && !$storeManager->getStore()->getIsActive()) {
+            $this->_objectManager->get('Magento_Core_Model_StoreManager')->throwStoreException();
         }
 
         if ($this->_rewrite()) {
@@ -751,7 +752,8 @@ class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Vari
     {
         /** @var $session Magento_Core_Model_Session */
         $session = $this->_objectManager->get('Magento_Core_Model_Session');
-        if ($session->getCookieShouldBeReceived() && Mage::app()->getUseSessionInUrl()
+        if ($session->getCookieShouldBeReceived()
+            && $this->_objectManager->get('Magento_Core_Model_App')->getUseSessionInUrl()
             && $this->_sessionNamespace != Magento_Backend_Controller_ActionAbstract::SESSION_NAMESPACE
         ) {
             $arguments += array('_query' => array(
@@ -814,7 +816,9 @@ class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Vari
 
         $refererUrl = $this->_getRefererUrl();
         if (empty($refererUrl)) {
-            $refererUrl = empty($defaultUrl) ? Mage::getBaseUrl() : $defaultUrl;
+            $refererUrl = empty($defaultUrl)
+                ? $this->_objectManager->get('Magento_Core_Model_StoreManager')->getBaseUrl()
+                : $defaultUrl;
         }
 
         $this->getResponse()->setRedirect($refererUrl);
@@ -938,7 +942,7 @@ class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Vari
     protected function _validateFormKey()
     {
         if (!($formKey = $this->getRequest()->getParam('form_key', null))
-            || $formKey != Mage::getSingleton('Magento_Core_Model_Session')->getFormKey()
+            || $formKey != $this->_objectManager->get('Magento_Core_Model_Session')->getFormKey()
         ) {
             return false;
         }
@@ -999,7 +1003,8 @@ class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Vari
             return $array;
         }
         $filterInput = new Zend_Filter_LocalizedToNormalized(array(
-            'date_format' => Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT)
+            'date_format' => $this->_objectManager->get('Magento_Core_Model_LocaleInterface')
+                ->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT)
         ));
         $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
             'date_format' => Magento_Date::DATE_INTERNAL_FORMAT
@@ -1027,7 +1032,7 @@ class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Vari
             return $array;
         }
         $filterInput = new Zend_Filter_LocalizedToNormalized(array(
-            'date_format' => Mage::app()->getLocale()
+            'date_format' => $this->_objectManager->get('Magento_Core_Model_LocaleInterface')
                 ->getDateTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT)
         ));
         $filterInternal = new Zend_Filter_NormalizedToLocalized(array(

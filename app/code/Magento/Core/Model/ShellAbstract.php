@@ -44,13 +44,19 @@ abstract class Magento_Core_Model_ShellAbstract
     protected $_filesystem;
 
     /**
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
      * Initializes application and parses input parameters
      *
      * @param Magento_Filesystem $filesystem
      * @param string $entryPoint
+     * @param Magento_Core_Model_Dir $dir
      * @throws Exception
      */
-    public function __construct(Magento_Filesystem $filesystem, $entryPoint)
+    public function __construct(Magento_Filesystem $filesystem, $entryPoint, Magento_Core_Model_Dir $dir)
     {
         if (isset($_SERVER['REQUEST_METHOD'])) {
             throw new Exception('This script cannot be run from Browser. This is the shell script.');
@@ -58,6 +64,7 @@ abstract class Magento_Core_Model_ShellAbstract
 
         $this->_filesystem = $filesystem;
         $this->_entryPoint = $entryPoint;
+        $this->_dir = $dir;
         $this->_rawArgs = $_SERVER['argv'];
         $this->_applyPhpVariables();
         $this->_parseArgs();
@@ -84,7 +91,7 @@ abstract class Magento_Core_Model_ShellAbstract
      */
     protected function _getRootPath()
     {
-        return Mage::getBaseDir();
+        return $this->_dir->getDir(Magento_Core_Model_Dir::ROOT);
     }
 
     /**

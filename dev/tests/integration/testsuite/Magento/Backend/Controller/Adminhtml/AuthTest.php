@@ -153,9 +153,9 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
     public function testDeniedIframeAction()
     {
         $this->_login();
+        $this->dispatch('backend/admin/auth/deniedIframe');
         $homeUrl = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Helper_Data')
             ->getHomePageUrl();
-        $this->dispatch('backend/admin/auth/deniedIframe');
         $expected = '<script type="text/javascript">parent.window.location =';
         $this->assertStringStartsWith($expected, $this->getResponse()->getBody());
         $this->assertContains($homeUrl, $this->getResponse()->getBody());

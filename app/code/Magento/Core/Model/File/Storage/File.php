@@ -40,17 +40,27 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
     protected $_errors = array();
 
     /**
-     * Class construct
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Date $dateModel
+     * @param \Magento_Core_Model_Resource_Abstract|\Magento_Core_Model_Resource_File_Storage_File $resource
+     * @param Magento_Core_Model_Resource_File_Storage_File $fileResource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_File_Storage_File $resource,
+        Magento_Core_Model_Date $dateModel,
+        Magento_Core_Model_Resource_Abstract $resource,
+        Magento_Core_Model_Resource_File_Storage_File $fileResource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($coreFileStorageDb, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($coreFileStorageDb, $context, $registry, $dateModel, $resource,
+            $fileResource, $resourceCollection, $data);
         $this->_setResourceModel('Magento_Core_Model_Resource_File_Storage_File');
     }
 

@@ -66,7 +66,6 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateAdministrator()
     {
-        $this->markTestIncomplete('Story bug MAGETWO-8593');
         $userName = 'installer_test';
         $userPassword = '123123q';
         $userData = array(

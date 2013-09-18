@@ -40,14 +40,21 @@ class Magento_Core_Model_Resource_Session implements Zend_Session_SaveHandler_In
     protected $_write;
 
     /**
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
      * Constructor
      *
      * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Dir $dir
      */
-    public function __construct(Magento_Core_Model_Resource $resource)
+    public function __construct(Magento_Core_Model_Resource $resource, Magento_Core_Model_Dir $dir)
     {
         $this->_sessionTable = $resource->getTableName('core_session');
         $this->_write        = $resource->getConnection('core_write');
+        $this->_dir          = $dir;
     }
 
     /**
@@ -92,7 +99,7 @@ class Magento_Core_Model_Resource_Session implements Zend_Session_SaveHandler_In
                 array($this, 'gc')
             );
         } else {
-            session_save_path(Mage::getBaseDir('session'));
+            session_save_path($this->_dir->getDir('session'));
         }
         return $this;
     }

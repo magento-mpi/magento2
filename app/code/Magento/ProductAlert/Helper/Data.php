@@ -35,13 +35,15 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
     /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_StoreManager $storeManager
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_StoreManager $storeManager
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context);
+        parent::__construct($context, $storeManager);
     }
 
     /**

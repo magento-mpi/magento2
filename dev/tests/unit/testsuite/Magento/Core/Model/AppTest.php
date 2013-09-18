@@ -25,11 +25,6 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_frontControllerMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_cacheMock;
 
     /**
@@ -60,8 +55,6 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false, false);
-        $this->_frontControllerMock = $this->getMock('Magento_Core_Controller_Varien_Front',
-            array(), array(), '', false, false);
         $this->_cacheMock = $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false, false);
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false, false);
         $this->_dbUpdaterMock = $this->getMock('Magento_Core_Model_Db_UpdaterInterface',
@@ -72,7 +65,6 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->_appStateMock = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false, false);
         $this->_model = new Magento_Core_Model_App(
             $this->_configMock,
-            $this->_frontControllerMock,
             $this->_cacheMock,
             $this->_objectManagerMock,
             $this->_dbUpdaterMock,
@@ -86,7 +78,6 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         unset($this->_configMock);
-        unset($this->_frontControllerMock);
         unset($this->_cacheMock);
         unset($this->_objectManagerMock);
         unset($this->_dbUpdaterMock);

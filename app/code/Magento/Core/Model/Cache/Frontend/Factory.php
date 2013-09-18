@@ -70,9 +70,17 @@ class Magento_Core_Model_Cache_Frontend_Factory
     );
 
     /**
+     * Resource
+     *
+     * @var Magento_Core_Model_Resource
+     */
+    protected $_resource;
+
+    /**
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_Dir $dirs
+     * @param Magento_Core_Model_Resource $resource
      * @param array $enforcedOptions
      * @param array $decorators
      */
@@ -80,12 +88,14 @@ class Magento_Core_Model_Cache_Frontend_Factory
         Magento_ObjectManager $objectManager,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_Dir $dirs,
+        Magento_Core_Model_Resource $resource,
         array $enforcedOptions = array(),
         array $decorators = array()
     ) {
         $this->_objectManager = $objectManager;
         $this->_filesystem = $filesystem;
         $this->_dirs = $dirs;
+        $this->_resource = $resource;
         $this->_enforcedOptions = $enforcedOptions;
         $this->_decorators = $decorators;
     }
@@ -282,13 +292,13 @@ class Magento_Core_Model_Cache_Frontend_Factory
     protected function _getDbAdapterOptions()
     {
         $options['adapter_callback'] = function () {
-            return Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('core_write');
+            return $this->_resource->getConnection('core_write');
         };
         $options['data_table_callback'] = function () {
-            return Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('core_cache');
+            return $this->_resource->getTableName('core_cache');
         };
         $options['tags_table_callback'] = function () {
-            return Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('core_cache_tag');
+            return $this->_resource->getTableName('core_cache_tag');
         };
         return $options;
     }

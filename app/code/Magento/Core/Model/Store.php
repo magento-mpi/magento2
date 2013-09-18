@@ -258,7 +258,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Url_Proxy $urlModel
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Model_Resource_Config_Data $configDataResource
@@ -272,7 +272,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Url_Proxy $urlModel,
         Magento_Core_Model_App_State $appState,
         Magento_Core_Controller_Request_Http $request,
         Magento_Core_Model_Resource_Config_Data $configDataResource,
@@ -591,7 +591,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
             && $this->_coreFileStorageDatabase->checkDbUsage()
         ) {
             return $this->getBaseUrl(self::URL_TYPE_WEB, $secure) . $dirs->getUri(Magento_Core_Model_Dir::PUB)
-                . '/' . self::MEDIA_REWRITE_SCRIPT;
+            . '/' . self::MEDIA_REWRITE_SCRIPT;
         }
         return false;
     }
@@ -618,8 +618,8 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     public function isUseStoreInUrl()
     {
         return $this->_appState->isInstalled()
-            && $this->getConfig(self::XML_PATH_STORE_IN_URL)
-            && !$this->isAdmin();
+        && $this->getConfig(self::XML_PATH_STORE_IN_URL)
+        && !$this->isAdmin();
     }
 
     /**
@@ -1074,9 +1074,9 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
         }
 
         return $storeParsedUrl['scheme'] . '://' . $storeParsedUrl['host']
-            . (isset($storeParsedUrl['port']) ? ':' . $storeParsedUrl['port'] : '')
-            . $storeParsedUrl['path'] . $requestString
-            . ($storeParsedQuery ? '?'.http_build_query($storeParsedQuery, '', '&amp;') : '');
+        . (isset($storeParsedUrl['port']) ? ':' . $storeParsedUrl['port'] : '')
+        . $storeParsedUrl['path'] . $requestString
+        . ($storeParsedQuery ? '?'.http_build_query($storeParsedQuery, '', '&amp;') : '');
     }
 
     /**

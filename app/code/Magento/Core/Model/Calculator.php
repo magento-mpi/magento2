@@ -36,11 +36,12 @@ class Magento_Core_Model_Calculator
      * Initialize calculator
      *
      * @param Magento_Core_Model_Store|int $store
+     * @param Magento_Core_Model_StoreManager $storeManager
      */
-    public function __construct($store)
+    public function __construct($store, Magento_Core_Model_StoreManager $storeManager)
     {
         if (!($store instanceof Magento_Core_Model_Store)) {
-            $store = Mage::app()->getStore($store);
+            $store = $storeManager->getStore($store);
         }
         $this->_store = $store;
     }

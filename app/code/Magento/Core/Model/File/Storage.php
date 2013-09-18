@@ -48,9 +48,37 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
     protected $_coreFileStorage = null;
 
     /**
+     * Core file storage flag
+     *
+     * @var Magento_Core_Model_File_Storage_Flag
+     */
+    protected $_fileFlag;
+
+    /**
+     * File factory
+     *
+     * @var Magento_Core_Model_File_Storage_FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @var Magento_Core_Model_File_Storage_DatabaseFactory
+     */
+    protected $_databaseFactory;
+
+    /**
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
      * @param Magento_Core_Helper_File_Storage $coreFileStorage
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_File_Storage_Flag $fileFlag
+     * @param Magento_Core_Model_File_Storage_FileFactory $fileFactory
+     * @param Magento_Core_Model_File_Storage_DatabaseFactory $databaseFactory
+     * @param Magento_Core_Model_Dir $dir
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -59,11 +87,19 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
         Magento_Core_Helper_File_Storage $coreFileStorage,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_File_Storage_Flag $fileFlag,
+        Magento_Core_Model_File_Storage_FileFactory $fileFactory,
+        Magento_Core_Model_File_Storage_DatabaseFactory $databaseFactory,
+        Magento_Core_Model_Dir $dir,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreFileStorage = $coreFileStorage;
+        $this->_fileFlag = $fileFlag;
+        $this->_fileFactory = $fileFactory;
+        $this->_databaseFactory = $databaseFactory;
+        $this->_dir = $dir;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -91,7 +127,7 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
      */
     public function getSyncFlag()
     {
-        return Mage::getSingleton('Magento_Core_Model_File_Storage_Flag')->loadSelf();
+        return $this->_fileFlag->loadSelf();
     }
 
     /**
@@ -115,13 +151,12 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
 
         switch ($storage) {
             case self::STORAGE_MEDIA_FILE_SYSTEM:
-                $model = Mage::getModel('Magento_Core_Model_File_Storage_File');
+                $model = $this->_fileFactory->create();
                 break;
             case self::STORAGE_MEDIA_DATABASE:
                 $connection = (isset($params['connection'])) ? $params['connection'] : null;
                 $arguments = array('connection' => $connection);
-                $model = Mage::getModel('Magento_Core_Model_File_Storage_Database',
-                    array('connectionName' => $arguments));
+                $model = $this->_databaseFactory->create(array('connectionName' => $arguments));
                 break;
             default:
                 return false;
@@ -231,7 +266,7 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
     public function getScriptConfig()
     {
         $config = array();
-        $config['media_directory'] = Mage::getBaseDir('media');
+        $config['media_directory'] = $this->_dir->getDir('media');
 
         $allowedResources = Mage::getConfig()->getValue(self::XML_PATH_MEDIA_RESOURCE_WHITELIST, 'default');
         foreach ($allowedResources as $allowedResource) {

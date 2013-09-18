@@ -40,13 +40,6 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_allowedHashKeys = array('rma_id', 'track_id');
 
     /**
-     * Application model
-     *
-     * @var Magento_Core_Model_App
-     */
-    protected $_app;
-
-    /**
      * Store config model
      *
      * @var Magento_Core_Model_Store_Config
@@ -77,7 +70,6 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Store_Config $storeConfig
      * @param Magento_Directory_Model_CountryFactory $countryFactory
      * @param Magento_Directory_Model_RegionFactory $regionFactory
@@ -85,13 +77,11 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_App $app,
         Magento_Core_Model_Store_Config $storeConfig,
         Magento_Directory_Model_CountryFactory $countryFactory,
         Magento_Directory_Model_RegionFactory $regionFactory
     ) {
         $this->_coreData = $coreData;
-        $this->_app = $app;
         $this->_storeConfig = $storeConfig;
         $this->_countryFactory = $countryFactory;
         $this->_regionFactory = $regionFactory;

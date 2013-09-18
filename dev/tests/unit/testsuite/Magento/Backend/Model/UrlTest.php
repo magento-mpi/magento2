@@ -38,19 +38,14 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
     protected $_coreHelperMock;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var Magento_Core_Model_Store_Config
      */
     protected $_storeConfigMock;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var Magento_Backend_Model_Menu_Config
      */
     protected $_menuConfigMock;
-
-    /**
-     * @var Magento_Core_Controller_Request_Http
-     */
-    protected $_backendHelperMock;
 
     /**
      * @var Magento_Core_Helper_Data|PHPUnit_Framework_MockObject_MockObject
@@ -105,7 +100,9 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             $this->_coreSessionMock,
             $this->_storeConfigMock,
             $this->_menuConfigMock,
-            $this->_coreDataMock
+            $this->_coreDataMock,
+            $this->getMock('Magento_Core_Model_App', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false)
         );
 
         $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
@@ -180,7 +177,9 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             $this->_coreSessionMock,
             $this->_storeConfigMock,
             $this->_menuConfigMock,
-            $this->_coreDataMock
+            $this->_coreDataMock,
+            $this->getMock('Magento_Core_Model_App', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false)
         );
 
         $urlModel->getAreaFrontName();
@@ -216,7 +215,9 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             $this->_coreSessionMock,
             $this->_storeConfigMock,
             $this->_menuConfigMock,
-            $this->_coreDataMock
+            $this->_coreDataMock,
+            $this->getMock('Magento_Core_Model_App', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false)
         );
 
         $moduleFrontName = 'moduleFrontName';

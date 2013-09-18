@@ -32,6 +32,7 @@ class Magento_Backend_Block_Context extends Magento_Core_Block_Context
      * @param Magento_Core_Model_View_Config $viewConfig
      * @param Magento_Core_Model_Cache_StateInterface $cacheState
      * @param Magento_AuthorizationInterface $authorization
+     * @param Magento_Core_Model_App $app
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -52,11 +53,12 @@ class Magento_Backend_Block_Context extends Magento_Core_Block_Context
         Magento_Core_Model_View_Config $viewConfig,
         Magento_Core_Model_Cache_StateInterface $cacheState,
         Magento_AuthorizationInterface $authorization,
+        Magento_Core_Model_App $app,
         array $data = array()
     ) {
         $this->_authorization = $authorization;
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design,
-            $session, $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $data
+            $session, $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $app, $data
         );
     }
 

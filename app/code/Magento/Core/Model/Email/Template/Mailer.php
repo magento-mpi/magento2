@@ -26,6 +26,25 @@ class Magento_Core_Model_Email_Template_Mailer extends Magento_Object
     protected $_emailInfos = array();
 
     /**
+     * Email template factory
+     *
+     * @var Magento_Core_Model_Email_TemplateFactory
+     */
+    protected $_coreEmailTemplateFactory;
+
+    /**
+     * @param Magento_Core_Model_Email_TemplateFactory $coreEmailTemplateFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Email_TemplateFactory $coreEmailTemplateFactory,
+        array $data = array()
+    ) {
+        parent::__construct($data);
+        $this->_coreEmailTemplateFactory = $coreEmailTemplateFactory;
+    }
+
+    /**
      * Add new email info to corresponding list
      *
      * @param Magento_Core_Model_Email_Info $emailInfo
@@ -46,7 +65,7 @@ class Magento_Core_Model_Email_Template_Mailer extends Magento_Object
     public function send()
     {
         /** @var $emailTemplate Magento_Core_Model_Email_Template */
-        $emailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
+        $emailTemplate = $this->_coreEmailTemplateFactory->create();
         // Send all emails from corresponding list
         while (!empty($this->_emailInfos)) {
             $emailInfo = array_pop($this->_emailInfos);

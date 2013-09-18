@@ -66,20 +66,36 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
     /**
      * @var Magento_Core_Model_Theme_FlyweightFactory
      */
+    protected $_flyweightFactory;
+
+    /**
+     * @var Magento_Core_Model_Theme
+     */
     protected $_themeFactory;
+
+    /**
+     * @var Magento_Core_Model_App
+     */
+    protected $_app;
 
     /**
      * Design
      *
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Theme_FlyweightFactory $themeFactory
+     * @param Magento_Core_Model_Theme_FlyweightFactory $flyweightFactory
+     * @param Magento_Core_Model_ThemeFactory $themeFactory
+     * @param Magento_Core_Model_App $app
      */
     public function __construct(
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Theme_FlyweightFactory $themeFactory
+        Magento_Core_Model_Theme_FlyweightFactory $flyweightFactory,
+        Magento_Core_Model_ThemeFactory $themeFactory,
+        Magento_Core_Model_App $app
     ) {
         $this->_storeManager = $storeManager;
+        $this->_flyweightFactory = $flyweightFactory;
         $this->_themeFactory = $themeFactory;
+        $this->_app = $app;
     }
 
     /**
@@ -124,7 +140,7 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
         if ($theme instanceof Magento_Core_Model_Theme) {
             $this->_theme = $theme;
         } else {
-            $this->_theme = $this->_themeFactory->create($theme, $this->getArea());
+            $this->_theme = $this->_flyweightFactory->create($theme, $this->getArea());
         }
 
         return $this;
@@ -187,7 +203,7 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
     public function getDesignTheme()
     {
         if ($this->_theme === null) {
-            $this->_theme = Mage::getModel('Magento_Core_Model_Theme');
+            $this->_theme = $this->_themeFactory->create();
         }
         return $this->_theme;
     }
@@ -227,7 +243,7 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
         $params = array(
             'area'       => $this->getArea(),
             'themeModel' => $this->getDesignTheme(),
-            'locale'     => Mage::app()->getLocale()->getLocaleCode()
+            'locale'     => $this->_app->getLocale()->getLocaleCode()
         );
 
         return $params;

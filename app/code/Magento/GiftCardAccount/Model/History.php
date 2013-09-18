@@ -190,25 +190,25 @@ class Magento_GiftCardAccount_Model_History extends Magento_Core_Model_Abstract
                 $this->setAdditionalInfo($this->_getCreatedAdditionalInfo());
 
                 $this->setBalanceDelta($this->getBalanceAmount());
-            break;
+                break;
             case self::ACTION_USED:
                 $this->setAdditionalInfo($this->_getUsedAdditionalInfo());
-            break;
+                break;
             case self::ACTION_SENT:
                 $this->setAdditionalInfo($this->_getSentAdditionalInfo());
-            break;
+                break;
             case self::ACTION_REDEEMED:
                 $this->setAdditionalInfo($this->_getRedeemedAdditionalInfo());
-            break;
+                break;
             case self::ACTION_UPDATED:
                 $this->setAdditionalInfo($this->_getUpdatedAdditionalInfo());
-            break;
+                break;
             case self::ACTION_EXPIRED:
                 $this->setAdditionalInfo($this->_getExpiredAdditionalInfo());
-            break;
+                break;
             default:
                 Mage::throwException(__('Unknown history action.'));
-            break;
+                break;
         }
 
         return parent::_beforeSave();

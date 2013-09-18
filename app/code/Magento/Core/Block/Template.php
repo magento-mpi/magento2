@@ -83,6 +83,11 @@ class Magento_Core_Block_Template extends Magento_Core_Block_Abstract
     protected $_coreData = null;
 
     /**
+     * @var Magento_Core_Model_App
+     */
+    protected $_app;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
@@ -98,6 +103,7 @@ class Magento_Core_Block_Template extends Magento_Core_Block_Abstract
         $this->_filesystem = $context->getFilesystem();
         $this->_viewFileSystem = $context->getViewFileSystem();
         $this->_tmplEngineFactory = $context->getEngineFactory();
+        $this->_app = $context->getApp();
         parent::__construct($context, $data);
     }
 
@@ -327,7 +333,7 @@ HTML;
     {
         return array(
             'BLOCK_TPL',
-            Mage::app()->getStore()->getCode(),
+            $this->_app->getStore()->getCode(),
             $this->getTemplateFile(),
             'template' => $this->getTemplate()
         );

@@ -33,11 +33,19 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
     protected $_errors = array();
 
     /**
+     * @var Magento_Core_Model_File_Storage_Directory_DatabaseFactory
+     */
+    protected $_directoryFactory;
+
+    /**
      * Class construct
      *
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Date $dateModel
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Core_Model_File_Storage_Directory_DatabaseFactory $directoryFactory
      * @param Magento_Core_Model_Resource_File_Storage_Directory_Database $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -47,13 +55,20 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Date $dateModel,
+        Magento_Core_Model_App $app,
+        Magento_Core_Model_File_Storage_Directory_DatabaseFactory $directoryFactory,
         Magento_Core_Model_Resource_File_Storage_Directory_Database $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array(),
         $connectionName = null
     ) {
-        parent::__construct($coreFileStorageDb, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $coreFileStorageDb, $context, $registry, $dateModel, $app, $resource, $resourceCollection,
+            $data
+        );
 
+        $this->_directoryFactory = $directoryFactory;
         $this->_init('Magento_Core_Model_Resource_File_Storage_Directory_Database');
     }
 
@@ -120,7 +135,7 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
      */
     public function createRecursive($path)
     {
-        $directory = Mage::getModel('Magento_Core_Model_File_Storage_Directory_Database')->loadByPath($path);
+        $directory = $this->_directoryFactory->create()->loadByPath($path);
 
         if (!$directory->getId()) {
             $dirName = basename($path);
@@ -176,7 +191,7 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
             return $this;
         }
 
-        $dateSingleton = Mage::getSingleton('Magento_Core_Model_Date');
+        $dateSingleton = $this->_date;
         foreach ($dirs as $dir) {
             if (!is_array($dir) || !isset($dir['name']) || !strlen($dir['name'])) {
                 continue;
@@ -184,10 +199,7 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
 
             try {
                 $arguments = array('connection' => $this->getConnectionName());
-                $directory = Mage::getModel(
-                    'Magento_Core_Model_File_Storage_Directory_Database',
-                    array('connectionName' => $arguments)
-                );
+                $directory = $this->_directoryFactory->create(array('connectionName' => $arguments));
                 $directory->setPath($dir['path']);
 
                 $parentId = $directory->getParentId();

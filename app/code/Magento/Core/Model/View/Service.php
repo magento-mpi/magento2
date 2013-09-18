@@ -34,21 +34,29 @@ class Magento_Core_Model_View_Service
     protected $_themeFactory;
 
     /**
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
      * View files system model
      *
      *
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_View_Design_Proxy $design
      * @param Magento_Core_Model_Theme_FlyweightFactory $themeFactory
+     * @param Magento_Core_Model_Dir $dir
      */
     public function __construct(
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_View_Design_Proxy $design,
-        Magento_Core_Model_Theme_FlyweightFactory $themeFactory
+        Magento_Core_Model_Theme_FlyweightFactory $themeFactory,
+        Magento_Core_Model_Dir $dir
     ) {
         $this->_appState = $appState;
         $this->_design = $design;
         $this->_themeFactory = $themeFactory;
+        $this->_dir = $dir;
     }
 
     /**
@@ -107,7 +115,7 @@ class Magento_Core_Model_View_Service
      */
     public function getPublicDir()
     {
-        return Mage::getBaseDir(Magento_Core_Model_Dir::STATIC_VIEW);
+        return $this->_dir->getDir(Magento_Core_Model_Dir::STATIC_VIEW);
     }
 
     /**

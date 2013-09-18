@@ -19,9 +19,16 @@
 abstract class Magento_Core_Model_File_Storage_Database_Abstract extends Magento_Core_Model_File_Storage_Abstract
 {
     /**
+     * @var Magento_Core_Model_App
+     */
+    protected $_app;
+
+    /**
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Date $dateModel
+     * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -30,11 +37,14 @@ abstract class Magento_Core_Model_File_Storage_Database_Abstract extends Magento
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Date $dateModel,
+        Magento_Core_Model_App $app,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($coreFileStorageDb, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($coreFileStorageDb, $context, $registry, $dateModel, $resource, $resourceCollection, $data);
+        $this->_app = $app;
         $connectionName = (isset($data['connection'])) ? $data['connection'] : null;
         if (empty($connectionName)) {
             $connectionName = $this->getConfigConnectionName();
@@ -50,7 +60,7 @@ abstract class Magento_Core_Model_File_Storage_Database_Abstract extends Magento
      */
     public function getConfigConnectionName()
     {
-        $connectionName = Mage::app()->getConfig()
+        $connectionName = $this->_app->getConfig()
             ->getValue(Magento_Core_Model_File_Storage::XML_PATH_STORAGE_MEDIA_DATABASE, 'default');
         if (empty($connectionName)) {
             $connectionName = 'default_setup';

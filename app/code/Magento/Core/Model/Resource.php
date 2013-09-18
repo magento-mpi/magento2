@@ -68,13 +68,23 @@ class Magento_Core_Model_Resource
     protected $_cache;
 
     /**
+     * @var Magento_Core_Model_App_Proxy
+     */
+    protected $_app;
+
+    /**
      * @param Magento_Core_Model_Config_Resource $resourceConfig
      * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_App_Proxy $app
      */
-    public function __construct(Magento_Core_Model_Config_Resource $resourceConfig, Magento_Core_Model_CacheInterface $cache)
-    {
+    public function __construct(
+        Magento_Core_Model_Config_Resource $resourceConfig,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_App_Proxy $app
+    ) {
         $this->_resourceConfig = $resourceConfig;
         $this->_cache = $cache;
+        $this->_app = $app;
     }
 
     /**
@@ -108,7 +118,7 @@ class Magento_Core_Model_Resource
         if (isset($this->_connections[$name])) {
             $connection = $this->_connections[$name];
             if (isset($this->_skippedConnections[$name])) {
-                $connection->setCacheAdapter(Mage::app()->getCache());
+                $connection->setCacheAdapter($this->_app->getCache());
                 unset($this->_skippedConnections[$name]);
             }
             return $connection;

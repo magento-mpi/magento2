@@ -35,12 +35,19 @@ abstract class Magento_Core_Model_Resource_Helper_Abstract
     protected $_modulePrefix;
 
     /**
+     * @var Magento_Core_Model_Resource
+     */
+    protected $_resource;
+
+    /**
      * Initialize resource helper instance
      *
+     * @param Magento_Core_Model_Resource $resource
      * @param string $modulePrefix
      */
-    public function __construct($modulePrefix)
+    public function __construct(Magento_Core_Model_Resource $resource, $modulePrefix)
     {
+        $this->_resource = $resource;
         $this->_modulePrefix = (string)$modulePrefix;
     }
 
@@ -81,10 +88,8 @@ abstract class Magento_Core_Model_Resource_Helper_Abstract
     protected function _getConnection($name)
     {
         $connection = sprintf('%s_%s', $this->_modulePrefix, $name);
-        /** @var $resource Magento_Core_Model_Resource */
-        $resource   = Mage::getSingleton('Magento_Core_Model_Resource');
 
-        return $resource->getConnection($connection);
+        return $this->_resource->getConnection($connection);
     }
 
     /**

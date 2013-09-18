@@ -41,14 +41,22 @@ class Magento_Core_Helper_File_Storage extends Magento_Core_Helper_Abstract
     protected $_coreFileStorageDb = null;
 
     /**
+     * @var Magento_Core_Model_File_Storage
+     */
+    protected $_storage;
+
+    /**
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_File_Storage_Proxy $storage
      */
     public function __construct(
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
-        Magento_Core_Helper_Context $context
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_File_Storage_Proxy $storage
     ) {
         $this->_coreFileStorageDb = $coreFileStorageDb;
+        $this->_storage = $storage;
         parent::__construct($context);
     }
 
@@ -60,7 +68,7 @@ class Magento_Core_Helper_File_Storage extends Magento_Core_Helper_Abstract
     public function getCurrentStorageCode()
     {
         if (is_null($this->_currentStorage)) {
-            $this->_currentStorage = (int) Mage::app()
+            $this->_currentStorage = (int) $this->_app
                 ->getConfig()->getValue(Magento_Core_Model_File_Storage::XML_PATH_STORAGE_MEDIA, 'default');
         }
 
@@ -99,7 +107,7 @@ class Magento_Core_Helper_File_Storage extends Magento_Core_Helper_Abstract
      */
     public function getStorageModel($storage = null, $params = array())
     {
-        return Mage::getSingleton('Magento_Core_Model_File_Storage')->getStorageModel($storage, $params);
+        return $this->_storage->getStorageModel($storage, $params);
     }
 
     /**

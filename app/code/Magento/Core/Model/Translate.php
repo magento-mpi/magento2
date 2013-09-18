@@ -53,11 +53,11 @@ class Magento_Core_Model_Translate
     const DEFAULT_STRING = 'Translate String';
 
     /**
-     * Locale name
+     * Locale code
      *
      * @var string
      */
-    protected $_locale;
+    protected $_localeCode;
 
     /**
      * Translation object
@@ -156,6 +156,21 @@ class Magento_Core_Model_Translate
     protected $_modulesReader;
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_Resource_Translate
+     */
+    protected $_translateResource;
+
+    /**
+     * @var Magento_Core_Model_App
+     */
+    protected $_app;
+
+    /**
      * Initialize translate model
      *
      * @param Magento_Core_Model_View_DesignInterface $viewDesign
@@ -166,6 +181,11 @@ class Magento_Core_Model_Translate
      * @param Magento_Phrase_Renderer_Placeholder $placeholderRender
      * @param Magento_Core_Model_ModuleList $moduleList
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Resource_Translate $translate
+     * @param Magento_Core_Model_App $app
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_View_DesignInterface $viewDesign,
@@ -175,7 +195,10 @@ class Magento_Core_Model_Translate
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Phrase_Renderer_Placeholder $placeholderRender,
         Magento_Core_Model_ModuleList $moduleList,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader
+        Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Resource_Translate $translate,
+        Magento_Core_Model_App $app
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_localeHierarchy = $config->getHierarchy();
@@ -185,6 +208,9 @@ class Magento_Core_Model_Translate
         $this->_placeholderRender = $placeholderRender;
         $this->_moduleList = $moduleList;
         $this->_modulesReader = $modulesReader;
+        $this->_storeManager = $storeManager;
+        $this->_translateResource = $translate;
+        $this->_app = $app;
     }
 
     /**
@@ -238,7 +264,7 @@ class Magento_Core_Model_Translate
             $this->_config[self::CONFIG_KEY_LOCALE] = $this->getLocale();
         }
         if (!isset($this->_config[self::CONFIG_KEY_STORE])) {
-            $this->_config[self::CONFIG_KEY_STORE] = Mage::app()->getStore()->getId();
+            $this->_config[self::CONFIG_KEY_STORE] = $this->_storeManager->getStore()->getId();
         }
         if (!isset($this->_config[self::CONFIG_KEY_DESIGN_THEME])) {
             $this->_config[self::CONFIG_KEY_DESIGN_THEME] = $this->_viewDesign->getDesignTheme()->getId();
@@ -482,10 +508,10 @@ class Magento_Core_Model_Translate
      */
     public function getLocale()
     {
-        if (null === $this->_locale) {
-            $this->_locale = Mage::app()->getLocale()->getLocaleCode();
+        if (null === $this->_localeCode) {
+            $this->_localeCode = $this->_app->getLocale()->getLocaleCode();
         }
-        return $this->_locale;
+        return $this->_localeCode;
     }
 
     /**
@@ -496,7 +522,7 @@ class Magento_Core_Model_Translate
      */
     public function setLocale($locale)
     {
-        $this->_locale = $locale;
+        $this->_localeCode = $locale;
         return $this;
     }
 
@@ -507,7 +533,7 @@ class Magento_Core_Model_Translate
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('Magento_Core_Model_Resource_Translate');
+        return $this->_translateResource;
     }
 
     /**

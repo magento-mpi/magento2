@@ -64,23 +64,39 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
     protected $_viewFileSystem;
 
     /**
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
+     * @var Magento_Core_Model_Config_Modules_Reader
+     */
+    protected $_modulesReader;
+
+    /**
      * View files publisher model
      *
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Helper_Css $cssHelper
      * @param Magento_Core_Model_View_Service $viewService
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
+     * @param Magento_Core_Model_Dir $dir
+     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      */
     public function __construct(
         Magento_Filesystem $filesystem,
         Magento_Core_Helper_Css $cssHelper,
         Magento_Core_Model_View_Service $viewService,
-        Magento_Core_Model_View_FileSystem $viewFileSystem
+        Magento_Core_Model_View_FileSystem $viewFileSystem,
+        Magento_Core_Model_Dir $dir,
+        Magento_Core_Model_Config_Modules_Reader $modulesReader
     ) {
         $this->_filesystem = $filesystem;
         $this->_cssHelper = $cssHelper;
         $this->_viewService = $viewService;
         $this->_viewFileSystem = $viewFileSystem;
+        $this->_dir = $dir;
+        $this->_modulesReader = $modulesReader;
     }
 
     /**
@@ -213,7 +229,7 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
      */
     protected function _needToProcessFile($filePath)
     {
-        $jsPath = Mage::getBaseDir(Magento_Core_Model_Dir::PUB_LIB) . DS;
+        $jsPath = $this->_dir->getDir(Magento_Core_Model_Dir::PUB_LIB) . DS;
         if (strncmp($filePath, $jsPath, strlen($jsPath)) === 0) {
             return false;
         }
@@ -282,14 +298,14 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
      */
     protected function _buildPublicViewSufficientFilename($filename, array $params)
     {
-        $designDir = Mage::getBaseDir(Magento_Core_Model_Dir::THEMES) . DS;
+        $designDir = $this->_dir->getDir(Magento_Core_Model_Dir::THEMES) . DS;
         if (0 === strpos($filename, $designDir)) {
             // theme file
             $publicFile = substr($filename, strlen($designDir));
         } else {
             // modular file
             $module = $params['module'];
-            $moduleDir = Mage::getModuleDir('theme', $module) . DS;
+            $moduleDir = $this->_modulesReader->getModuleDir('theme', $module) . DS;
             $publicFile = substr($filename, strlen($moduleDir));
             $publicFile = self::PUBLIC_MODULE_DIR . DS . $module . DS . $publicFile;
         }
@@ -350,7 +366,7 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
             $filePath = $this->_viewService->extractScope($fileId, $params);
         } else {
             /* Check if module file overridden on theme level based on _module property and file path */
-            if ($params['module'] && strpos($parentFilePath, Mage::getBaseDir(Magento_Core_Model_Dir::THEMES)) === 0) {
+            if ($params['module'] && strpos($parentFilePath, $this->_dir->getDir(Magento_Core_Model_Dir::THEMES)) === 0) {
                 /* Add module directory to relative URL */
                 $filePath = dirname($params['module'] . '/' . $parentFileName)
                     . '/' . $fileId;

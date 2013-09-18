@@ -89,7 +89,9 @@ class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
             ->method('getConnection')
             ->will($this->returnValue($connection));
 
-        $this->_model = new Magento_Core_Model_Resource_Session($resource);
+        $this->_model = new Magento_Core_Model_Resource_Session(
+            $resource, $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false, false)
+        );
     }
 
     /**

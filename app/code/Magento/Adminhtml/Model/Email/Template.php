@@ -26,25 +26,34 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
     /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_App_Emulation $appEmulation
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_Email_Template_FilterFactory $emailFilterFactory
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Dir $dir
      * @param Magento_Core_Model_Config $config
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_App_Emulation $appEmulation,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_Email_Template_FilterFactory $emailFilterFactory,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Dir $dir,
         Magento_Core_Model_Config $config,
         array $data = array()
     ) {
         $this->_config = $config;
-        parent::__construct($context, $registry, $filesystem, $viewUrl, $viewFileSystem, $design, $data);
+        parent::__construct($context, $registry, $appEmulation, $filesystem, $viewUrl, $viewFileSystem,
+            $design, $emailFilterFactory, $storeManager, $dir, $data);
     }
 
     /**

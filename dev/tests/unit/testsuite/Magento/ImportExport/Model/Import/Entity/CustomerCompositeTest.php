@@ -54,18 +54,6 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         'importData',
     );
 
-    /**
-     * Expected prepared data after method Magento_ImportExport_Model_Import_Entity_CustomerComposite::_prepareRowForDb
-     *
-     * @var array
-     */
-    protected $_preparedData = array(
-        '_scope' => Magento_ImportExport_Model_Import_Entity_CustomerComposite::SCOPE_DEFAULT,
-        Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_WEBSITE    => 'admin',
-        Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_EMAIL      => 'test@qwewqeq.com',
-        Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => null,
-    );
-
     protected function setUp()
     {
         $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
@@ -73,8 +61,13 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $translator->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(false));
+        $context = $this->getMock('Magento_Core_Helper_Context', array('getTranslator'), array(), '', false);
+        $context->expects($this->any())->method('getTranslator')->will($this->returnValue($translator));
         $data = array(
             'translator' => $translator,
+            'context' => $context,
+            'locale' => $this->getMock('Magento_Core_Model_Locale_Proxy', array(), array(), '', false),
+            'dateModel' => $this->getMock('Magento_Core_Model_Date_Proxy', array(), array(), '', false)
         );
         $this->_coreHelper = $objectManager->getObject('Magento_Core_Helper_Data', $data);
         $this->_stringHelper = $this->getMock('Magento_Core_Helper_String', array('__construct'), array(), '', false);
@@ -135,6 +128,18 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
 
         return $this->_model;
     }
+
+    /**
+     * Expected prepared data after method Magento_ImportExport_Model_Import_Entity_CustomerComposite::_prepareRowForDb
+     *
+     * @var array
+     */
+    protected $_preparedData = array(
+        '_scope' => Magento_ImportExport_Model_Import_Entity_CustomerComposite::SCOPE_DEFAULT,
+        Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_WEBSITE    => 'admin',
+        Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_EMAIL      => 'test@qwewqeq.com',
+        Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => null,
+    );
 
     /**
      * Returns entity mock for method testImportData

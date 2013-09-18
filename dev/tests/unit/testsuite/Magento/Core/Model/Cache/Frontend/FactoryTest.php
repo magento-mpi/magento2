@@ -168,12 +168,13 @@ class Magento_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_Te
             array(Magento_Core_Model_Dir::CONFIG, 'CONFIG_DIR'),
         );
         $dirs = $this->getMock('Magento_Core_Model_Dir', array('getDir'), array(), '', false);
+        $resource = $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false);
         $dirs->expects($this->any())
             ->method('getDir')
             ->will($this->returnValueMap($map));
 
-        $model = new Magento_Core_Model_Cache_Frontend_Factory($objectManager, $filesystem, $dirs, $enforcedOptions,
-            $decorators);
+        $model = new Magento_Core_Model_Cache_Frontend_Factory($objectManager, $filesystem, $dirs, $resource,
+            $enforcedOptions, $decorators);
 
         return $model;
     }

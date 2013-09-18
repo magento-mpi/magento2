@@ -32,6 +32,9 @@ class Magento_Checkout_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_Resource_Resource $resourceResource
+     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory
+     * @param Magento_Core_Model_Theme_CollectionFactory $themeFactory
      * @param $resourceName
      */
     public function __construct(
@@ -43,11 +46,15 @@ class Magento_Checkout_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_Resource_Resource $resourceResource,
+        Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory,
+        Magento_Core_Model_Theme_CollectionFactory $themeFactory,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         $resourceName
     ) {
         parent::__construct(
             $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource, $modulesReader,
-            $cache, $resourceName
+            $cache, $resourceResource, $themeResourceFactory, $themeFactory, $migrationFactory, $resourceName
         );
         $this->_customerAddress = $customerAddress;
     }

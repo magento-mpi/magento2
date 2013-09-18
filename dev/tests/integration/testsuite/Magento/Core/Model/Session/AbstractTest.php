@@ -22,6 +22,14 @@ class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
             array(
                 Mage::getObjectManager()->get('Magento_Core_Model_Event_Manager'),
                 Mage::getObjectManager()->get('Magento_Core_Helper_Http'),
+                Mage::getObjectManager()->get('Magento_Core_Model_Message_CollectionFactory'),
+                Mage::getObjectManager()->get('Magento_Core_Model_Message'),
+                Mage::getObjectManager()->get('Magento_Core_Model_Cookie'),
+                Mage::getObjectManager()->get('Magento_Core_Controller_Request_Http'),
+                Mage::getObjectManager()->get('Magento_Core_Model_App_State'),
+                Mage::getObjectManager()->get('Magento_Core_Model_StoreManager'),
+                Mage::getObjectManager()->get('Magento_Core_Model_Dir'),
+                Mage::getObjectManager()->get('Magento_Core_Model_Url_Proxy'),
             ));
     }
 

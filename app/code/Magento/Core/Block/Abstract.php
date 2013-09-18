@@ -128,6 +128,11 @@ abstract class Magento_Core_Block_Abstract extends Magento_Object
     protected $_cacheState;
 
     /**
+     * @var Magento_Core_Model_App
+     */
+    protected $_app;
+
+    /**
      * @param Magento_Core_Block_Context $context
      * @param array $data
      */
@@ -147,6 +152,7 @@ abstract class Magento_Core_Block_Abstract extends Magento_Object
         $this->_viewUrl         = $context->getViewUrl();
         $this->_viewConfig      = $context->getViewConfig();
         $this->_cacheState      = $context->getCacheState();
+        $this->_app             = $context->getApp();
         parent::__construct($data);
         $this->_construct();
     }
@@ -913,7 +919,7 @@ abstract class Magento_Core_Block_Abstract extends Magento_Object
     protected function _beforeCacheUrl()
     {
         if ($this->_cacheState->isEnabled(self::CACHE_GROUP)) {
-            Mage::app()->setUseSessionVar(true);
+            $this->_app->setUseSessionVar(true);
         }
         return $this;
     }
@@ -927,7 +933,7 @@ abstract class Magento_Core_Block_Abstract extends Magento_Object
     protected function _afterCacheUrl($html)
     {
         if ($this->_cacheState->isEnabled(self::CACHE_GROUP)) {
-            Mage::app()->setUseSessionVar(false);
+            $this->_app->setUseSessionVar(false);
             Magento_Profiler::start('CACHE_URL');
             $html = $this->_urlBuilder->sessionUrlVar($html);
             Magento_Profiler::stop('CACHE_URL');

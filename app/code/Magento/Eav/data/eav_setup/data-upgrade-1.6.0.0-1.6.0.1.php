@@ -9,8 +9,7 @@
  */
 
 /** @var $installer Magento_Core_Model_Resource_Setup_Migration */
-$installer = Mage::getResourceModel('Magento_Core_Model_Resource_Setup_Migration',
-    array('resourceName' => 'core_setup'));
+$installer = $this->_migrationFactory->create(array('resourceName' => 'core_setup'));
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('eav_attribute', 'attribute_model',

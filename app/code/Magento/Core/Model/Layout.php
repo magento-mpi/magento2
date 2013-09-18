@@ -200,6 +200,16 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Core_Model_Layout_MergeFactory
+     */
+    protected $_mergeFactory;
+
+    /**
+     * @var Magento_Core_Model_Resource_Theme_CollectionFactory
+     */
+    protected $_themeFactory;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Factory_Helper $factoryHelper
      * @param Magento_Core_Helper_Data $coreData
@@ -209,6 +219,8 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * @param Magento_Core_Model_Layout_Argument_Processor $argumentProcessor
      * @param Magento_Core_Model_Layout_ScheduledStructure $scheduledStructure
      * @param Magento_Core_Model_DataService_Graph $dataServiceGraph
+     * @param Magento_Core_Model_Layout_MergeFactory $mergeFactory
+     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeFactory
      * @param string $area
      */
     public function __construct(
@@ -221,6 +233,8 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         Magento_Core_Model_Layout_Argument_Processor $argumentProcessor,
         Magento_Core_Model_Layout_ScheduledStructure $scheduledStructure,
         Magento_Core_Model_DataService_Graph $dataServiceGraph,
+        Magento_Core_Model_Layout_MergeFactory $mergeFactory,
+        Magento_Core_Model_Resource_Theme_CollectionFactory $themeFactory,
         $area = Magento_Core_Model_View_DesignInterface::DEFAULT_AREA
     ) {
         $this->_eventManager = $eventManager;
@@ -236,6 +250,8 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         $this->_renderingOutput = new Magento_Object;
         $this->_scheduledStructure = $scheduledStructure;
         $this->_dataServiceGraph = $dataServiceGraph;
+        $this->_mergeFactory = $mergeFactory;
+        $this->_themeFactory = $themeFactory;
     }
 
     /**
@@ -263,7 +279,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     {
         if (!$this->_update) {
             $theme = $this->_getThemeInstance($this->getArea());
-            $this->_update = Mage::getModel('Magento_Core_Model_Layout_Merge', array('theme' => $theme));
+            $this->_update = $this->_mergeFactory->create(array('theme' => $theme));
         }
         return $this->_update;
     }
@@ -280,7 +296,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             return $this->_design->getDesignTheme();
         }
         /** @var Magento_Core_Model_Resource_Theme_Collection $themeCollection */
-        $themeCollection = Mage::getResourceModel('Magento_Core_Model_Resource_Theme_Collection');
+        $themeCollection = $this->_themeFactory->create();
         $themeIdentifier = $this->_design->getConfigurationDesignTheme($area);
         if (is_numeric($themeIdentifier)) {
             $result = $themeCollection->getItemById($themeIdentifier);
@@ -1468,7 +1484,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
                 Mage::throwException(__('Invalid block type: %1', $type));
             }
 
-            $helper = Mage::getModel($type);
+            $helper = Mage::getObjectManager()->create($type);
             if ($helper) {
                 if ($helper instanceof Magento_Core_Block_Abstract) {
                     $helper->setLayout($this);

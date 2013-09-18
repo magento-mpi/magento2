@@ -33,16 +33,22 @@ class Magento_ImportExport_Model_Import_Uploader extends Magento_Core_Model_File
     protected $_imageFactory;
 
     /**
+     * @var Magento_Core_Model_File_Validator_NotProtectedExtension
+     */
+    protected $_validator;
+
+    /**
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
      * @param Magento_Core_Helper_File_Storage $coreFileStorage
      * @param Magento_Core_Model_Image_AdapterFactory $imageFactory
-     * @param null $filePath
-     * @internal param $fileId
+     * @param Magento_Core_Model_File_Validator_NotProtectedExtension $validator
+     * @param string $filePath
      */
     public function __construct(
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
         Magento_Core_Helper_File_Storage $coreFileStorage,
         Magento_Core_Model_Image_AdapterFactory $imageFactory,
+        Magento_Core_Model_File_Validator_NotProtectedExtension $validator,
         $filePath = null
     ) {
         if (!is_null($filePath)) {
@@ -51,6 +57,7 @@ class Magento_ImportExport_Model_Import_Uploader extends Magento_Core_Model_File
         $this->_imageFactory = $imageFactory;
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_coreFileStorage = $coreFileStorage;
+        $this->_validator = $validator;
     }
 
     /**

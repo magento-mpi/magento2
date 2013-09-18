@@ -25,10 +25,12 @@ class Magento_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->will($this->returnValueMap($storeConfigData));
 
+        $context = $this->getMock('Magento_Core_Helper_Context', array('getApp'), array(), '', false, false);
+        $context->expects($this->any())->method('getApp')->will($this->returnValue($this->_getAppMock($mockConfig)));
+
         $model = new Magento_Rma_Helper_Data(
             $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false),
-            $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false),
-            $this->_getAppMock($mockConfig),
+            $context,
             $storeConfigMock,
             $this->_getCountryFactoryMock($mockConfig),
             $this->_getRegionFactoryMock($mockConfig)

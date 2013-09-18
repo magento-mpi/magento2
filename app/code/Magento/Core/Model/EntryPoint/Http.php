@@ -17,9 +17,12 @@ class Magento_Core_Model_EntryPoint_Http extends Magento_Core_Model_EntryPointAb
         try {
             parent::processRequest();
         } catch (Magento_Core_Model_Session_Exception $e) {
-            header('Location: ' . Mage::getBaseUrl());
+            header(
+                'Location: ' . $this->_objectManager->get('Magento_Core_Model_StoreManager')->getStore()->getBaseUrl()
+            );
         } catch (Magento_Core_Model_Store_Exception $e) {
-            require Mage::getBaseDir(Magento_Core_Model_Dir::PUB) . DS . 'errors' . DS . '404.php';
+            require $this->_objectManager->get('Magento_Core_Model_Dir')
+                    ->getDir(Magento_Core_Model_Dir::PUB) . DS . 'errors' . DS . '404.php';
         } catch (Magento_BootstrapException $e) {
             header('Content-Type: text/plain', true, 503);
             echo $e->getMessage();

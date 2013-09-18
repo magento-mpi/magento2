@@ -77,11 +77,25 @@ class Magento_Core_Model_App_Area
     protected $_diConfigLoader;
 
     /**
+     * Core design
+     *
+     * @var Magento_Core_Model_Design
+     */
+    protected $_design;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Translate $translator
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_ObjectManager $objectManager
      * @param Magento_Core_Model_ObjectManager_ConfigLoader $diConfigLoader
+     * @param Magento_Core_Model_Design $design
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param string $areaCode
      */
     public function __construct(
@@ -90,6 +104,8 @@ class Magento_Core_Model_App_Area
         Magento_Core_Model_Config $config,
         Magento_Core_Model_ObjectManager $objectManager,
         Magento_Core_Model_ObjectManager_ConfigLoader $diConfigLoader,
+        Magento_Core_Model_Design $design,
+        Magento_Core_Model_StoreManager $storeManager,
         $areaCode
     ) {
         $this->_code = $areaCode;
@@ -98,6 +114,8 @@ class Magento_Core_Model_App_Area
         $this->_diConfigLoader = $diConfigLoader;
         $this->_eventManager = $eventManager;
         $this->_translator = $translator;
+        $this->_design = $design;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -128,8 +146,8 @@ class Magento_Core_Model_App_Area
         if ($this->_code == self::AREA_FRONTEND) {
             $isDesignException = ($request && $this->_applyUserAgentDesignException($request));
             if (!$isDesignException) {
-                $this->_getDesignChange()
-                    ->loadChange(Mage::app()->getStore()->getId())
+                $this->_design
+                    ->loadChange($this->_storeManager->getStore()->getId())
                     ->changeDesign($this->_getDesign());
             }
         }
@@ -171,14 +189,6 @@ class Magento_Core_Model_App_Area
     protected function _getDesign()
     {
         return $this->_objectManager->get('Magento_Core_Model_View_DesignInterface');
-    }
-
-    /**
-     * @return Magento_Core_Model_Design
-     */
-    protected function _getDesignChange()
-    {
-        return Mage::getSingleton('Magento_Core_Model_Design');
     }
 
     /**

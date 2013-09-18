@@ -77,9 +77,12 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
                 }
             ));
 
+        $appState = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
+        $storeManager = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
+
         $eventDispatcher = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false, false);
         $cacheManager = $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false, false);
-        $context = new Magento_Core_Model_Context($eventDispatcher, $cacheManager);
+        $context = new Magento_Core_Model_Context($eventDispatcher, $cacheManager, $appState, $storeManager);
         $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false);
         $giftRegistryData = $this->getMock('Magento_GiftRegistry_Helper_Data', array('escapeHtml', 'getRegistryLink'),
             array(), '', false, false);

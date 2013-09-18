@@ -14,10 +14,10 @@
  * Example:
  *
  * // Loading of template
- * $emailTemplate  = Mage::getModel('Magento_Core_Model_Email_Template')
+ * $emailTemplate  = $this->_coreEmailTemplateFactory->create()
  *    ->load(Mage::getStoreConfig('path_to_email_template_id_config'));
  * $variables = array(
- *    'someObject' => Mage::getSingleton('Magento_Core_Model_Resource_Email_Template')
+ *    'someObject' => $this->_coreResourceEmailTemplate
  *    'someString' => 'Some string value'
  * );
  * $emailTemplate->send('some@domain.com', 'Name Of User', $variables);
@@ -91,27 +91,49 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
     static protected $_defaultTemplates;
 
     /**
+     * Email filter factory
+     *
+     * @var Magento_Core_Model_Email_Template_FilterFactory
+     */
+    protected $_emailFilterFactory;
+
+    /**
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_App_Emulation $appEmulation
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_Email_Template_FilterFactory $emailFilterFactory
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Dir $dir
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_App_Emulation $appEmulation,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_Email_Template_FilterFactory $emailFilterFactory,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Dir $dir,
         array $data = array()
     ) {
         $this->_filesystem = $filesystem;
         $this->_viewUrl = $viewUrl;
         $this->_viewFileSystem = $viewFileSystem;
-        parent::__construct($design, $context, $registry, $data);
+        $this->_emailFilterFactory = $emailFilterFactory;
+        $this->_dir = $dir;
+        parent::__construct($design, $context, $registry, $appEmulation, $storeManager, $data);
     }
 
     /**
@@ -131,13 +153,13 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      */
     protected function _getLogoUrl($store)
     {
-        $store = Mage::app()->getStore($store);
+        $store = $this->_storeManager->getStore($store);
         $fileName = $store->getConfig(self::XML_PATH_DESIGN_EMAIL_LOGO);
         if ($fileName) {
             $uploadDir = Magento_Backend_Model_Config_Backend_Email_Logo::UPLOAD_DIR;
-            $fullFileName = Mage::getBaseDir('media') . DS . $uploadDir . DS . $fileName;
+            $fullFileName = $this->_dir->getDir('media') . DS . $uploadDir . DS . $fileName;
             if ($this->_filesystem->isFile($fullFileName)) {
-                return Mage::getBaseUrl('media') . $uploadDir . '/' . $fileName;
+                return $this->_storeManager->getStore()->getBaseUrl('media') . $uploadDir . '/' . $fileName;
             }
         }
         return $this->_viewUrl->getViewFileUrl('Magento_Core::logo_email.gif');
@@ -151,7 +173,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      */
     protected function _getLogoAlt($store)
     {
-        $store = Mage::app()->getStore($store);
+        $store = $this->_storeManager->getStore($store);
         $alt = $store->getConfig(self::XML_PATH_DESIGN_EMAIL_LOGO_ALT);
         if ($alt) {
             return $alt;
@@ -189,7 +211,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
     public function getTemplateFilter()
     {
         if (empty($this->_templateFilter)) {
-            $this->_templateFilter = Mage::getModel('Magento_Core_Model_Email_Template_Filter');
+            $this->_templateFilter = $this->_emailFilterFactory->create();
             $this->_templateFilter->setUseAbsoluteLinks($this->getUseAbsoluteLinks())
                 ->setStoreId($this->getDesignConfig()->getStore());
         }
@@ -575,7 +597,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         }
 
         if (!isset($vars['store'])) {
-            $vars['store'] = Mage::app()->getStore($storeId);
+            $vars['store'] = $this->_storeManager->getStore($storeId);
         }
         $this->setSentSuccess($this->send($email, $name, $vars));
         return $this;

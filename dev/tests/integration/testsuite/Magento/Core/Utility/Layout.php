@@ -82,6 +82,8 @@ class Magento_Core_Utility_Layout
             'argumentProcessor'  => $objectManager->create('Magento_Core_Model_Layout_Argument_Processor', array()),
             'scheduledStructure' => $objectManager->create('Magento_Core_Model_Layout_ScheduledStructure', array()),
             'dataServiceGraph'   => $objectManager->create('Magento_Core_Model_DataService_Graph', array()),
+            'mergeFactory'       => $objectManager->get('Magento_Core_Model_Layout_MergeFactory', array()),
+            'themeFactory'       => $objectManager->get('Magento_Core_Model_Resource_Theme_CollectionFactory', array()),
         );
     }
 }

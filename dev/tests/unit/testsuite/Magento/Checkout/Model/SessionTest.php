@@ -32,7 +32,19 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
 
         /** @var Magento_Checkout_Model_Session $session */
         $session = $this->getMock(
-            'Magento_Checkout_Model_Session', array('init'), array($orderFactory, $eventManager, $coreHttp), ''
+            'Magento_Checkout_Model_Session', array('init'), array(
+                $orderFactory,
+                $eventManager,
+                $coreHttp,
+                $this->getMock('Magento_Core_Model_Message_CollectionFactory', array(), array(), '', false),
+                $this->getMock('Magento_Core_Model_Message', array(), array(), '', false),
+                $this->getMock('Magento_Core_Model_Cookie', array(), array(), '', false),
+                $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false),
+                $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false),
+                $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false),
+                $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false),
+                $this->getMock('Magento_Core_Model_Url_Proxy', array(), array(), '', false),
+            ), ''
         );
         $session->setLastRealOrderId($orderId);
 

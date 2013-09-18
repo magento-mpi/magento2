@@ -6,6 +6,8 @@
  * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 
 class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Core_Controller_Varien_Router_Base
@@ -29,9 +31,14 @@ class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Cor
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Config_Scope $configScope
      * @param Magento_Core_Model_Route_Config $routeConfig
+     * @param Magento_Core_Model_Url $url
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_App_State $appState
      * @param string $areaCode
      * @param string $baseController
      * @param string $routerId
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
@@ -40,12 +47,15 @@ class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Cor
         Magento_Core_Model_App $app,
         Magento_Core_Model_Config_Scope $configScope,
         Magento_Core_Model_Route_Config $routeConfig,
+        Magento_Core_Model_Url $url,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_App_State $appState,
         $areaCode,
         $baseController,
         $routerId
     ) {
-        parent::__construct($controllerFactory, $filesystem, $app, $configScope, $routeConfig, $areaCode,
-            $baseController, $routerId);
+        parent::__construct($controllerFactory, $filesystem, $app, $configScope, $routeConfig, $url, $storeManager,
+            $appState, $areaCode, $baseController, $routerId);
         $this->_objectManager = $objectManager;
     }
 

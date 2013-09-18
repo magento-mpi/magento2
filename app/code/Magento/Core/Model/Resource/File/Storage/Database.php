@@ -19,6 +19,24 @@
 class Magento_Core_Model_Resource_File_Storage_Database extends Magento_Core_Model_Resource_File_Storage_Abstract
 {
     /**
+     * @var Magento_Core_Model_Resource_Helper_Abstract
+     */
+    protected $_resourceHelper;
+
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Resource_Helper_Abstract $resourceHelper
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Resource_Helper_Abstract $resourceHelper
+    ) {
+        parent::__construct($resource);
+        $this->_resourceHelper = $resourceHelper;
+    }
+
+
+    /**
      * Define table name and id field for resource
      */
     protected function _construct()
@@ -282,9 +300,7 @@ class Magento_Core_Model_Resource_File_Storage_Database extends Magento_Core_Mod
             return;
         }
 
-        /* @var $resHelper Magento_Core_Model_Resource_Helper_Abstract */
-        $resHelper = Mage::getResourceHelper('Magento_Core');
-        $likeExpression = $resHelper->addLikeEscape($folderName . '/', array('position' => 'start'));
+        $likeExpression = $this->_resourceHelper->addLikeEscape($folderName . '/', array('position' => 'start'));
         $this->_getWriteAdapter()
             ->delete($this->getMainTable(), new Zend_Db_Expr('filename LIKE ' . $likeExpression));
     }

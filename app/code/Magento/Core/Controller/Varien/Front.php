@@ -30,10 +30,46 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
     protected $_backendData;
 
     /**
+     * @var Magento_Core_Model_Url
+     */
+    protected $_url;
+
+    /**
+     * @var Magento_Core_Model_App_State
+     */
+    protected $_appState;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_request;
+
+    /**
+     * @var Magento_Core_Controller_Response_Http
+     */
+    protected $_response;
+
+    /**
+     * @var Magento_Core_Model_App_Proxy
+     */
+    protected $_appProxy;
+
+    /**
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Core_Model_Url_RewriteFactory $rewriteFactory
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_RouterList $routerList
+     * @param Magento_Core_Model_Url $url
+     * @param Magento_Core_Model_App_State $appState
+     * @param Magento_Core_Model_App_Proxy $appProxy
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Response_Http $response
      * @param array $data
      */
     public function __construct(
@@ -41,6 +77,12 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
         Magento_Core_Model_Url_RewriteFactory $rewriteFactory,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_RouterList $routerList,
+        Magento_Core_Model_Url $url,
+        Magento_Core_Model_App_State $appState,
+        Magento_Core_Model_App_Proxy $appProxy,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Core_Controller_Response_Http $response,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -49,6 +91,12 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
         $this->_rewriteFactory = $rewriteFactory;
         $this->_eventManager = $eventManager;
         $this->_routerList = $routerList;
+        $this->_url = $url;
+        $this->_appState = $appState;
+        $this->_appProxy = $appProxy;
+        $this->_storeManager = $storeManager;
+        $this->_request = $request;
+        $this->_response = $response;
     }
 
     public function setDefault($key, $value=null)
@@ -78,7 +126,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
      */
     public function getRequest()
     {
-        return Mage::app()->getRequest();
+        return $this->_request;
     }
 
     /**
@@ -88,7 +136,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
      */
     public function getResponse()
     {
-        return Mage::app()->getResponse();
+        return $this->_response;
     }
 
     /**
@@ -259,7 +307,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
      */
     protected function _checkBaseUrl($request)
     {
-        if (!Mage::isInstalled() || $request->getPost() || strtolower($request->getMethod()) == 'post') {
+        if (!$this->_appState->isInstalled() || $request->getPost() || strtolower($request->getMethod()) == 'post') {
             return;
         }
 
@@ -274,9 +322,9 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
             return;
         }
 
-        $baseUrl = Mage::getBaseUrl(
+        $baseUrl = $this->_storeManager->getStore()->getBaseUrl(
             Magento_Core_Model_Store::URL_TYPE_WEB,
-            Mage::app()->getStore()->isCurrentlySecure()
+            $this->_storeManager->getStore()->isCurrentlySecure()
         );
         if (!$baseUrl) {
             return;
@@ -288,11 +336,11 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
             || isset($uri['host']) && $uri['host'] != $request->getHttpHost()
             || isset($uri['path']) && strpos($requestUri, $uri['path']) === false
         ) {
-            $redirectUrl = Mage::getSingleton('Magento_Core_Model_Url')->getRedirectUrl(
-                Mage::getUrl(ltrim($request->getPathInfo(), '/'), array('_nosid' => true))
+            $redirectUrl = $this->_url->getRedirectUrl(
+                $this->_url->getUrl(ltrim($request->getPathInfo(), '/'), array('_nosid' => true))
             );
 
-            Mage::app()->getFrontController()->getResponse()
+            $this->_appProxy->getFrontController()->getResponse()
                 ->setRedirect($redirectUrl, $redirectCode)
                 ->sendResponse();
             exit;

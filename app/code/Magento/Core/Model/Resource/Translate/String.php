@@ -19,6 +19,31 @@
 class Magento_Core_Model_Resource_Translate_String extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_StoreManager $storeManager
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_StoreManager $storeManager
+    ) {
+        parent::__construct($resource);
+        $this->_locale = $locale;
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Define main table
      *
      */
@@ -161,7 +186,7 @@ class Magento_Core_Model_Resource_Translate_String extends Magento_Core_Model_Re
     public function deleteTranslate($string, $locale = null, $storeId = null)
     {
         if (is_null($locale)) {
-            $locale = Mage::app()->getLocale()->getLocaleCode();
+            $locale = $this->_locale->getLocaleCode();
         }
 
         $where = array(
@@ -195,11 +220,11 @@ class Magento_Core_Model_Resource_Translate_String extends Magento_Core_Model_Re
         $table = $this->getMainTable();
 
         if (is_null($locale)) {
-            $locale = Mage::app()->getLocale()->getLocaleCode();
+            $locale = $this->_locale->getLocaleCode();
         }
 
         if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = $this->_storeManager->getStore()->getId();
         }
 
         $select = $write->select()

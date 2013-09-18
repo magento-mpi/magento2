@@ -20,6 +20,8 @@ class Magento_Core_Helper_CookieTest extends PHPUnit_Framework_TestCase
     {
         $this->_object = new Magento_Core_Helper_Cookie(
             $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false),
+            $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false, false),
+            $this->getMock('Magento_Core_Model_Cookie', array(), array(), '', false, false),
             array(
                 'current_store' => $this->_getStoreStub(),
                 'cookie_model' => $this->_getCookieStub(array(1 => 1)),
@@ -33,6 +35,8 @@ class Magento_Core_Helper_CookieTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_object->isUserNotAllowSaveCookie());
         $this->_object = new Magento_Core_Helper_Cookie(
             $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false),
+            $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false, false),
+            $this->getMock('Magento_Core_Model_Cookie', array(), array(), '', false, false),
             array(
                 'current_store' => $this->_getStoreStub(),
                 'cookie_model' => $this->_getCookieStub(array()),
@@ -59,6 +63,8 @@ class Magento_Core_Helper_CookieTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('web/cookie/cookie_restriction_lifetime'));
         $this->_object = new Magento_Core_Helper_Cookie(
             $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false),
+            $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false, false),
+            $this->getMock('Magento_Core_Model_Cookie', array(), array(), '', false, false),
             array(
                 'current_store' => $storeStub,
                 'cookie_model' => $this->_getCookieStub(array(1 => 1)),
