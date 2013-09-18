@@ -10,10 +10,6 @@
 
 /**
  * Payment Observer
- *
- * @category    Magento
- * @package     Magento_Payment
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Payment_Model_Observer
 {
@@ -23,11 +19,42 @@ class Magento_Payment_Model_Observer
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * Locale model
+     *
+     * @var Magento_Core_Model_LocaleInterface
      */
-    public function __construct(Magento_ObjectManager $objectManager)
-    {
+    protected $_locale;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * Recurring profile factory
+     *
+     * @var Magento_Payment_Model_Recurring_ProfileFactory
+     */
+    protected $_profileFactory;
+
+    /**
+     * @param Magento_ObjectManager $objectManager
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Payment_Model_Recurring_ProfileFactory $profileFactory
+     */
+    public function __construct(
+        Magento_ObjectManager $objectManager,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Payment_Model_Recurring_ProfileFactory $profileFactory
+    ) {
         $this->_objectManager = $objectManager;
+        $this->_locale = $locale;
+        $this->_storeManager = $storeManager;
+        $this->_profileFactory = $profileFactory;
     }
     /**
      * Set forced canCreditmemo flag
@@ -75,9 +102,9 @@ class Magento_Payment_Model_Observer
             return;
         }
 
-        $profile = Mage::getModel('Magento_Payment_Model_Recurring_Profile')
-            ->setLocale(Mage::app()->getLocale())
-            ->setStore(Mage::app()->getStore())
+        $profile = $this->_profileFactory->create()
+            ->setLocale($this->_locale)
+            ->setStore($this->_storeManager->getStore())
             ->importBuyRequest($buyRequest)
             ->importProduct($product);
         if (!$profile) {

@@ -20,7 +20,11 @@ class Magento_Payment_Block_Info_ContainerAbstractTest extends PHPUnit_Framework
             array('getChildBlock', 'getPaymentInfo'), array(), '', false);
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $paymentInfo = $objectManagerHelper->getObject('Magento_Payment_Model_Info');
-        $methodInstance = $objectManagerHelper->getObject('Magento_Payment_Model_Method_Checkmo');
+        $adapterFactoryMock = $this->getMock('Magento_Core_Model_Log_AdapterFactory', array('create'),
+            array(), '', false);
+        $methodInstance = $objectManagerHelper->getObject('Magento_Payment_Model_Method_Checkmo', array(
+            'logAdapterFactory' => $adapterFactoryMock,
+        ));
         $paymentInfo->setMethodInstance($methodInstance);
         $block->expects($this->atLeastOnce())
             ->method('getPaymentInfo')

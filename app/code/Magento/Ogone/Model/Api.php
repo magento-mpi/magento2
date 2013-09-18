@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Ogone
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -171,27 +169,32 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     protected $_coreString = null;
 
     /**
+     * Construct
+     *
      * Core string
      *
      * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @var Magento_Ogone_Model_Config $config
      * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
+     * @param Magento_Core_Helper_String $coreString
+     * @var Magento_Ogone_Model_Config $config
+     * @param Magento_Ogone_Model_Config $config
      * @param array $data
      * @return Magento_Ogone_Model_Api
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Ogone_Model_Config $config,
         Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
+        Magento_Core_Helper_String $coreString,
+        Magento_Ogone_Model_Config $config,
         array $data = array()
     ) {
         $this->_coreString = $coreString;
         $this->_config = $config;
-        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $data);
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
     }
 
     /**
