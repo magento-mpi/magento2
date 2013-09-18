@@ -79,13 +79,13 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      */
     protected $_dirs;
 
+
     /**
      * @param Magento_Cms_Helper_Wysiwyg_Images $cmsWysiwygImages
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_Image_AdapterFactory $imageFactory
      * @param Magento_Core_Model_View_Url $viewUrl
-     * @param Magento_Cms_Helper_Wysiwyg_Images $imageHelper
      * @param array $resizeParameters
      * @param array $extensions
      * @param array $dirs
@@ -97,7 +97,6 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         Magento_Filesystem $filesystem,
         Magento_Core_Model_Image_AdapterFactory $imageFactory,
         Magento_Core_Model_View_Url $viewUrl,
-        Magento_Cms_Helper_Wysiwyg_Images $imageHelper,
         array $resizeParameters = array(),
         array $extensions = array(),
         array $dirs = array(),
@@ -109,7 +108,6 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->setWorkingDirectory($cmsWysiwygImages->getStorageRoot());
         $this->_imageFactory = $imageFactory;
-        $this->_imageHelper = $imageHelper;
         $this->_viewUrl = $viewUrl;
         $this->_resizeParameters = $resizeParameters;
         $this->_extensions = $extensions;
