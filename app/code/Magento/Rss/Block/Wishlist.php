@@ -32,6 +32,36 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
     protected $_mapRenderer = 'msrp_rss';
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Wishlist_Helper_Data $wishlistData
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Wishlist_Helper_Data $wishlistData,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+        parent::__construct($coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
+
+    /**
      * Retrieve Wishlist model
      *
      * @return Magento_Wishlist_Model_Wishlist
@@ -68,7 +98,7 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
             $params = $this->_coreData->urlDecode($this->getRequest()->getParam('data'));
             $data   = explode(',', $params);
             $cId    = abs(intval($data[0]));
-            if ($cId && ($cId == Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId()) ) {
+            if ($cId && ($cId == $this->_customerSession->getCustomerId()) ) {
                 $this->_customer->load($cId);
             }
         }
