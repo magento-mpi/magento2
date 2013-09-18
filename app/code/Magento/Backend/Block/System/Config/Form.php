@@ -119,6 +119,8 @@ class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Wid
      * @param Magento_Backend_Block_System_Config_Form_Field_Factory $fieldFactory
      * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
@@ -440,6 +442,10 @@ class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Wid
     public function getConfigValue($path)
     {
         return $this->_config->getValue($path, $this->getScope(), $this->getScopeCode());
+        if (empty($this->_configRoot)) {
+            $this->_configRoot = $this->_coreConfig->getNode(null, $this->getScope(), $this->getScopeCode());
+        }
+        return $this->_configRoot;
     }
 
     /**

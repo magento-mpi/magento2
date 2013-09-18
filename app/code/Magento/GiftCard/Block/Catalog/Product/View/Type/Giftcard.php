@@ -66,7 +66,7 @@ class Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Magento_
     public function isMessageAvailable($product)
     {
         if ($product->getUseConfigAllowMessage()) {
-            return Mage::getStoreConfigFlag(Magento_GiftCard_Model_Giftcard::XML_PATH_ALLOW_MESSAGE);
+            return $this->_storeConfig->getConfigFlag(Magento_GiftCard_Model_Giftcard::XML_PATH_ALLOW_MESSAGE);
         } else {
             return (int) $product->getAllowMessage();
         }
@@ -99,7 +99,7 @@ class Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Magento_
 
     public function getMessageMaxLength()
     {
-        return (int) Mage::getStoreConfig(Magento_GiftCard_Model_Giftcard::XML_PATH_MESSAGE_MAX_LENGTH);
+        return (int) $this->_storeConfig->getConfig(Magento_GiftCard_Model_Giftcard::XML_PATH_MESSAGE_MAX_LENGTH);
     }
 
     /**

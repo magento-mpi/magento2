@@ -67,7 +67,9 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
                 $quote->setIsActive(false)->save();
                 $session->replaceQuote($storeQuote);
                 Mage::getModel('Magento_Checkout_Model_Cart')->init()->save();
-                if (Mage::getStoreConfigFlag('google/checkout/hide_cart_contents')) {
+                if ($this->_objectManager->get('Magento_Core_Model_Store_Config')
+                    ->getConfigFlag('google/checkout/hide_cart_contents')
+                ) {
                     $session->setGoogleCheckoutQuoteId($session->getQuoteId());
                     $session->setQuoteId(null);
                 }
@@ -111,7 +113,9 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
 
     public function cartAction()
     {
-        if (Mage::getStoreConfigFlag('google/checkout/hide_cart_contents')) {
+        $hideCartContents = $this->_objectManager->get('Magento_Core_Model_Store_Config')
+            ->getConfigFlag('google/checkout/hide_cart_contents');
+        if ($hideCartContents) {
             $session = Mage::getSingleton('Magento_Checkout_Model_Session');
             if ($session->getQuoteId()) {
                 $session->getQuote()->delete();
@@ -133,11 +137,14 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
         }
         $session->clear();
 
-        if (Mage::getStoreConfigFlag('google/checkout/hide_cart_contents')) {
+        $hideCartContents = $this->_objectManager->get('Magento_Core_Model_Store_Config')
+            ->getConfigFlag('google/checkout/hide_cart_contents');
+        if ($hideCartContents) {
             $session->setGoogleCheckoutQuoteId(null);
         }
 
-        $url = Mage::getStoreConfig('google/checkout/continue_shopping_url');
+        $url = $this->_objectManager->get('Magento_Core_Model_Store_Config')
+            ->getConfig('google/checkout/continue_shopping_url');
         if (empty($url)) {
             $this->_redirect('');
         } elseif (substr($url, 0, 4) === 'http') {

@@ -195,8 +195,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
                 unset($advancedGroups['design']);
             }
 
-            $alertPriceAllow = Mage::getStoreConfig('catalog/productalert/allow_price');
-            $alertStockAllow = Mage::getStoreConfig('catalog/productalert/allow_stock');
+            $alertPriceAllow = $this->_storeConfig->getConfig('catalog/productalert/allow_price');
+            $alertStockAllow = $this->_storeConfig->getConfig('catalog/productalert/allow_stock');
             if (($alertPriceAllow || $alertStockAllow) && !$product->isGrouped()) {
                 $this->addTab('product-alerts', array(
                     'label'     => __('Product Alerts'),

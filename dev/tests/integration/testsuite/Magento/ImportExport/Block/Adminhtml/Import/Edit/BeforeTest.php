@@ -78,10 +78,10 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
             '',
             false
         );
-        $importModel->staticExpects($this->any())
+        $importModel->expects($this->any())
             ->method('getEntityBehaviors')
             ->will($this->returnValue($this->_sourceEntities));
-        $importModel->staticExpects($this->any())
+        $importModel->expects($this->any())
             ->method('getUniqueEntityBehaviors')
             ->will($this->returnValue($this->_sourceBehaviors));
 
@@ -90,10 +90,8 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
             'importModel' => $importModel,
             'urlBuilder' => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false)
         );
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Magento_ImportExport_Block_Adminhtml_Import_Edit_Before',
-            $arguments
-        );
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_model = $objectManager->create('Magento_ImportExport_Block_Adminhtml_Import_Edit_Before', $arguments);
     }
 
     protected function tearDown()

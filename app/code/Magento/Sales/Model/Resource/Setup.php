@@ -252,4 +252,14 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
     {
         return $this->_coreData;
     }
+
+    /**
+     * Get config model
+     *
+     * @return Magento_Core_Model_Config
+     */
+    public function getConfigModel()
+    {
+        return $this->_config;
+    }
 }

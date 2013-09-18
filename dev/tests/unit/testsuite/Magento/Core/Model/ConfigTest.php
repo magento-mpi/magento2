@@ -71,10 +71,16 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
         $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
         $this->_sectionPoolMock = $this->getMock('Magento_Core_Model_Config_SectionPool', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
 
         $this->_model = new Magento_Core_Model_Config(
-            $this->_objectManagerMock, $configStorageMock, $modulesReaderMock, $this->_moduleListMock,
-            $this->_configScopeMock, $this->_sectionPoolMock
+            $this->_objectManagerMock,
+            $configStorageMock,
+            $modulesReaderMock,
+            $this->_moduleListMock,
+            $this->_configScopeMock,
+            $this->_sectionPoolMock,
+            $coreStoreConfig
         );
     }
     public function testSetNodeData()

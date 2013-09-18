@@ -18,6 +18,22 @@
 class Magento_ImportExport_Model_Config
 {
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Get data about models from specified config key.
      *
      * @static
@@ -25,11 +41,11 @@ class Magento_ImportExport_Model_Config
      * @throws Magento_Core_Exception
      * @return array
      */
-    public static function getModels($configKey)
+    public function getModels($configKey)
     {
         $entities = array();
 
-        foreach (Mage::getConfig()->getNode($configKey)->asCanonicalArray() as $entityType => $entityParams) {
+        foreach ($this->_coreConfig->getNode($configKey)->asCanonicalArray() as $entityType => $entityParams) {
             if (empty($entityParams['model_token'])) {
                 Mage::throwException(
                     __('Please provide a correct model token tag.')
@@ -51,7 +67,7 @@ class Magento_ImportExport_Model_Config
      * @param boolean $withEmpty OPTIONAL Include 'Please Select' option or not
      * @return array
      */
-    public static function getModelsComboOptions($configKey, $withEmpty = false)
+    public function getModelsComboOptions($configKey, $withEmpty = false)
     {
         $options = array();
 
@@ -61,7 +77,7 @@ class Magento_ImportExport_Model_Config
                 'value' => ''
             );
         }
-        foreach (self::getModels($configKey) as $type => $params) {
+        foreach ($this->getModels($configKey) as $type => $params) {
             $options[] = array('value' => $type, 'label' => $params['label']);
         }
         return $options;
@@ -75,13 +91,13 @@ class Magento_ImportExport_Model_Config
      * @param boolean $withEmpty OPTIONAL Include 'Please Select' option or not
      * @return array
      */
-    public static function getModelsArrayOptions($configKey, $withEmpty = false)
+    public function getModelsArrayOptions($configKey, $withEmpty = false)
     {
         $options = array();
         if ($withEmpty) {
             $options[0] = __('-- Please Select --');
         }
-        foreach (self::getModels($configKey) as $type => $params) {
+        foreach ($this->getModels($configKey) as $type => $params) {
             $options[$type] = $params['label'];
         }
         return $options;

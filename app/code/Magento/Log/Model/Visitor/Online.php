@@ -37,6 +37,33 @@ class Magento_Log_Model_Visitor_Online extends Magento_Core_Model_Abstract
     const XML_PATH_UPDATE_FREQUENCY     = 'log/visitor/online_update_frequency';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
      *
      */
@@ -98,7 +125,7 @@ class Magento_Log_Model_Visitor_Online extends Magento_Core_Model_Abstract
      */
     public function getUpdateFrequency()
     {
-        return Mage::getStoreConfig(self::XML_PATH_UPDATE_FREQUENCY);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_FREQUENCY);
     }
 
     /**
@@ -108,7 +135,7 @@ class Magento_Log_Model_Visitor_Online extends Magento_Core_Model_Abstract
      */
     public function getOnlineInterval()
     {
-        $value = intval(Mage::getStoreConfig(self::XML_PATH_ONLINE_INTERVAL));
+        $value = intval($this->_coreStoreConfig->getConfig(self::XML_PATH_ONLINE_INTERVAL));
         if (!$value) {
             $value = Magento_Log_Model_Visitor::DEFAULT_ONLINE_MINUTES_INTERVAL;
         }
