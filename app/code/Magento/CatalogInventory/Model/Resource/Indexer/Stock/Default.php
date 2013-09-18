@@ -110,14 +110,13 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock_Default
     /**
      * Retrieve active Product Type Id
      *
-     * @throws Magento_Core_Exception
-     *
      * @return string
+     * @throws Magento_Core_Exception
      */
     public function getTypeId()
     {
         if (is_null($this->_typeId)) {
-            Mage::throwException(__('Undefined product type'));
+            throw new Magento_Core_Exception(__('Undefined product type'));
         }
         return $this->_typeId;
     }
