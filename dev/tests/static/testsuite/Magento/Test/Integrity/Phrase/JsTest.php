@@ -104,7 +104,7 @@ class Magento_Test_Integrity_Phrase_JsTest extends Magento_Test_Integrity_Phrase
 
         $result = array();
         foreach ($this->_phraseCollector->getPhrases() as $phrase) {
-            $result[] = trim($phrase['phrase'], "'");
+            $result[] = stripcslashes(trim($phrase['phrase'], "'"));
         }
         return $result;
     }
