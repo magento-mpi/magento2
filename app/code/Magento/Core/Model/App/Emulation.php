@@ -43,12 +43,20 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
     protected $_helperTranslate;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_View_DesignInterface $viewDesign
      * @param Magento_Core_Model_Design $design
      * @param Magento_Core_Model_Translate $translate
      * @param Magento_Core_Helper_Translate $helperTranslate
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
@@ -58,6 +66,7 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
         Magento_Core_Model_Design $design,
         Magento_Core_Model_Translate $translate,
         Magento_Core_Helper_Translate $helperTranslate,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -67,6 +76,7 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
         $this->_design = $design;
         $this->_translate = $translate;
         $this->_helperTranslate = $helperTranslate;
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**
@@ -138,9 +148,9 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
             $newTranslateInline = false;
         } else {
             if ($area == Magento_Core_Model_App_Area::AREA_ADMIN) {
-                $newTranslateInline = Mage::getStoreConfigFlag('dev/translate_inline/active_admin', $storeId);
+                $newTranslateInline = $this->_coreStoreConfig->getConfigFlag('dev/translate_inline/active_admin', $storeId);
             } else {
-                $newTranslateInline = Mage::getStoreConfigFlag('dev/translate_inline/active', $storeId);
+                $newTranslateInline = $this->_coreStoreConfig->getConfigFlag('dev/translate_inline/active', $storeId);
             }
         }
         $translateInline = $this->_translate->getTranslateInline();
@@ -189,7 +199,10 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
     protected function _emulateLocale($storeId, $area = Magento_Core_Model_App_Area::AREA_FRONTEND)
     {
         $initialLocaleCode = $this->_app->getLocale()->getLocaleCode();
-        $newLocaleCode = Mage::getStoreConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId);
+        $newLocaleCode = $this->_coreStoreConfig->getConfig(
+            Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE,
+            $storeId
+        );
         $this->_app->getLocale()->setLocaleCode($newLocaleCode);
         $this->_helperTranslate->initTranslate($newLocaleCode, $area, true);
         return $initialLocaleCode;

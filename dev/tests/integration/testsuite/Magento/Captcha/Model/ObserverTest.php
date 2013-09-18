@@ -36,7 +36,7 @@ class Magento_Captcha_Model_ObserverTest extends Magento_TestFramework_TestCase_
         );
         $this->getRequest()->setPost($post);
         $this->dispatch('backend/admin');
-        $this->assertContains((string)__('Incorrect CAPTCHA'), $this->getResponse()->getBody());
+        $this->assertContains(__('Incorrect CAPTCHA'), $this->getResponse()->getBody());
     }
 
     /**

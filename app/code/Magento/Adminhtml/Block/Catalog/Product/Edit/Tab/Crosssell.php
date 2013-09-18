@@ -221,7 +221,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Magento
         $this->addColumn('price', array(
             'header'        => __('Price'),
             'type'          => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) $this->_storeConfig->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'         => 'price',
             'header_css_class'  => 'col-price',
             'column_css_class'  => 'col-price'

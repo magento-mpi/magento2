@@ -30,15 +30,25 @@ class Magento_Pci_Model_Observer
     protected $_coreData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_AuthorizationInterface $authorization
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
-        Magento_AuthorizationInterface $authorization
+        Magento_AuthorizationInterface $authorization,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreData = $coreData;
         $this->_authorization = $authorization;
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**
@@ -58,7 +68,7 @@ class Magento_Pci_Model_Observer
         if ((!$authResult) && ($user->getId())) {
             $now = time();
             $lockThreshold = $this->getAdminLockThreshold();
-            $maxFailures = (int)Mage::getStoreConfig('admin/security/lockout_failures');
+            $maxFailures = (int)$this->_coreStoreConfig->getConfig('admin/security/lockout_failures');
             if (!($lockThreshold && $maxFailures)) {
                 return;
             }
@@ -228,7 +238,7 @@ class Magento_Pci_Model_Observer
      */
     public function getAdminLockThreshold()
     {
-        return 60 * (int)Mage::getStoreConfig('admin/security/lockout_threshold');
+        return 60 * (int)$this->_coreStoreConfig->getConfig('admin/security/lockout_threshold');
     }
 
     /**
@@ -238,7 +248,7 @@ class Magento_Pci_Model_Observer
      */
     public function getAdminPasswordLifetime()
     {
-        return 86400 * (int)Mage::getStoreConfig('admin/security/password_lifetime');
+        return 86400 * (int)$this->_coreStoreConfig->getConfig('admin/security/password_lifetime');
     }
 
     /**
@@ -288,6 +298,6 @@ class Magento_Pci_Model_Observer
      */
     public function isPasswordChangeForced()
     {
-        return (bool)(int)Mage::getStoreConfig('admin/security/password_is_forced');
+        return (bool)(int)$this->_coreStoreConfig->getConfig('admin/security/password_is_forced');
     }
 }

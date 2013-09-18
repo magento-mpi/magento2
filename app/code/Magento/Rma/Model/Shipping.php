@@ -56,9 +56,17 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
     protected $_rmaData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Rma_Model_Resource_Shipping $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -67,11 +75,13 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
         Magento_Rma_Helper_Data $rmaData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Rma_Model_Resource_Shipping $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -103,7 +113,7 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
     public function requestToShipment()
     {
         $shipmentStoreId    = $this->getRma()->getStoreId();
-        $storeInfo          = new Magento_Object(Mage::getStoreConfig('general/store_information', $shipmentStoreId));
+        $storeInfo          = new Magento_Object($this->_coreStoreConfig->getConfig('general/store_information', $shipmentStoreId));
 
         /** @var $order Magento_Sales_Model_Order */
         $order              = Mage::getModel('Magento_Sales_Model_Order')->load($this->getRma()->getOrderId());
