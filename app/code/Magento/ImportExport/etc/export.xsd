@@ -13,7 +13,7 @@
             <xs:choice maxOccurs="unbounded">
                 <xs:element name="entity" type="entityDeclaration" minOccurs="0" maxOccurs="unbounded" />
                 <xs:element name="productType" type="productTypeDeclaration" minOccurs="0" maxOccurs="unbounded" />
-                <xs:element name="fileFormat" type="productTypeDeclaration" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="fileFormat" type="fileFormatDeclaration" minOccurs="0" maxOccurs="unbounded" />
             </xs:choice>
         </xs:complexType>
         <xs:unique name="uniqueEntityName">
