@@ -1,6 +1,4 @@
 <?php
-use \Zend\Soap\Wsdl;
-
 /**
  * Magento-specific WSDL builder.
  *
@@ -10,6 +8,7 @@ use \Zend\Soap\Wsdl;
  * @license     {license_link}
  */
 namespace Magento\Webapi\Model\Soap;
+use \Zend\Soap\Wsdl;
 
 class Wsdl extends \Zend\Soap\Wsdl
 {

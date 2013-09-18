@@ -1,6 +1,4 @@
 <?php
-use Zend\Soap\Wsdl;
-
 /**
  * WSDL generator.
  *
@@ -10,6 +8,7 @@ use Zend\Soap\Wsdl;
  * @license     {license_link}
  */
 namespace Magento\Webapi\Model\Soap\Wsdl;
+use Zend\Soap\Wsdl;
 
 class Generator
 {

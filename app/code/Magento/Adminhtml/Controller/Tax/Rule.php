@@ -103,7 +103,6 @@ class Rule extends \Magento\Adminhtml\Controller\Action
                 $this->_redirect('*/*/');
                 return;
             } catch (\Magento\Core\Exception $e) {
-            catch (\Magento\Core\Exception $e) {
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             } catch (\Exception $e) {
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('Something went wrong saving this tax rule.'));
@@ -135,7 +134,6 @@ class Rule extends \Magento\Adminhtml\Controller\Action
 
             return;
         } catch (\Magento\Core\Exception $e) {
-        catch (\Magento\Core\Exception $e) {
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
         } catch (\Exception $e) {
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('Something went wrong deleting this tax rule.'));

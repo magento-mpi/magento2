@@ -15,6 +15,7 @@
  * @package    \Magento\Pear
  * @author      Magento Core Team <core@magentocommerce.com>
  */
+namespace Magento;
 
 // Looks like PEAR is being developed without E_NOTICE (1.7.0RC1)
 error_reporting(E_ALL & ~E_NOTICE);

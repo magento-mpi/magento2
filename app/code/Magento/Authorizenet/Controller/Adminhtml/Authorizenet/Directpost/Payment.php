@@ -135,7 +135,6 @@ class Payment
                 $result['success'] = 1;
                 $isError = false;
             } catch (\Magento\Core\Exception $e) {
-            catch (\Magento\Core\Exception $e) {
                 $message = $e->getMessage();
                 if (!empty($message)) {
                     $this->_getSession()->addError($message);

@@ -112,9 +112,6 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
             } catch (\Exception $e) {
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('Something went wrong while saving this condition.'));
             }
-            catch (\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('Something went wrong while saving this condition.'));
-            }
 
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setAgreementData($postData);
             $this->_redirectReferer();
@@ -138,7 +135,6 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
             $this->_redirect('*/*/');
             return;
         } catch (\Magento\Core\Exception $e) {
-        catch (\Magento\Core\Exception $e) {
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
         } catch (\Exception $e) {
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('Something went wrong  while deleting this condition.'));
