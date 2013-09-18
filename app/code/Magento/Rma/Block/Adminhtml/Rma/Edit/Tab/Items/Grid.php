@@ -47,6 +47,12 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Rma_Model_Item_Status
+     */
+    protected $_rmaItemStatus;
+
+    /**
+     * @param Magento_Rma_Model_Item_Status $rmaItemStatus
      * @param Magento_Rma_Helper_Eav $rmaEav
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -56,6 +62,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Model_Item_Status $rmaItemStatus,
         Magento_Rma_Helper_Eav $rmaEav,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -64,6 +71,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_rmaItemStatus = $rmaItemStatus;
         $this->_coreRegistry = $coreRegistry;
         $this->_rmaEav = $rmaEav;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
@@ -130,7 +138,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
      */
     protected function _prepareColumns()
     {
-        $statusManager = Mage::getSingleton('Magento_Rma_Model_Item_Status');
+        $statusManager = $this->_rmaItemStatus;
         $rma = $this->_coreRegistry->registry('current_rma');
         if ($rma
             && (($rma->getStatus() === Magento_Rma_Model_Rma_Source_Status::STATE_CLOSED)
@@ -362,8 +370,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
      */
     public function setAllFieldsEditable()
     {
-        Mage::getSingleton('Magento_Rma_Model_Item_Status')->setAllEditable();
+        $this->_rmaItemStatus->setAllEditable();
         return $this;
     }
-
 }

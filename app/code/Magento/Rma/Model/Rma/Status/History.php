@@ -18,6 +18,49 @@
 class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
 {
     /**
+     * @var Magento_Rma_Model_Config
+     */
+    protected $_rmaConfig;
+
+    /**
+     * @var Magento_Core_Model_Date
+     */
+    protected $_coreDate;
+
+    /**
+     * @var Magento_Core_Model_Translate
+     */
+    protected $_translate;
+
+    /**
+     * @param Magento_Core_Model_Date $coreDate
+     * @param Magento_Core_Model_Translate $translate
+     * @param Magento_Rma_Model_Config $rmaConfig
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Date $coreDate,
+        Magento_Core_Model_Translate $translate,
+        Magento_Rma_Model_Config $rmaConfig,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreDate = $coreDate;
+        $this->_translate = $translate;
+        $this->_rmaConfig = $rmaConfig;
+        parent::__construct(
+            $context, $registry, $resource, $resourceCollection, $data
+        );
+    }
+
+    /**
      * Initialize resource model
      */
     protected function _construct()
@@ -60,7 +103,7 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
     public function sendCommentEmail()
     {
         /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('Magento_Rma_Model_Config');
+        $configRmaEmail = $this->_rmaConfig;
         $order = $this->getRma()->getOrder();
         if ($order->getCustomerIsGuest()) {
             $customerName = $order->getBillingAddress()->getName();
@@ -85,7 +128,7 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
     public function sendCustomerCommentEmail()
     {
         /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('Magento_Rma_Model_Config');
+        $configRmaEmail = $this->_rmaConfig;
         $sendTo = array(
             array(
                 'email' => $configRmaEmail->getCustomerEmailRecipient($this->getStoreId()),
@@ -107,7 +150,7 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
     public function _sendCommentEmail($rootConfig, $sendTo, $isGuestAvailable = true)
     {
         /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('Magento_Rma_Model_Config');
+        $configRmaEmail = $this->_rmaConfig;
         $configRmaEmail->init($rootConfig, $this->getStoreId());
 
         if (!$configRmaEmail->isEnabled()) {
@@ -117,7 +160,7 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
         $order = $this->getRma()->getOrder();
         $comment = $this->getComment();
 
-        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+        $translate = $this->_translate;
         /* @var $translate Magento_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
@@ -207,7 +250,7 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
                 ->setComment($systemComments[$rma->getStatus()])
                 ->setIsVisibleOnFront(true)
                 ->setStatus($rma->getStatus())
-                ->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate())
+                ->setCreatedAt($this->_coreDate->gmtDate())
                 ->setIsAdmin(1)
                 ->save();
         }

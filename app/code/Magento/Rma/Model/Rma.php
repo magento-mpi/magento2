@@ -62,6 +62,26 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
     protected $_coreData = null;
 
     /**
+     * @var Magento_Rma_Model_Config
+     */
+    protected $_rmaConfig;
+
+    /**
+     * @var Magento_Core_Model_Session
+     */
+    protected $_coreSession;
+
+    /**
+     * @var Magento_Core_Model_Translate
+     */
+    protected $_translate;
+    protected $_eavConfig;
+
+    /**
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_Translate $translate
+     * @param Magento_Core_Model_Session $coreSession
+     * @param Magento_Rma_Model_Config $rmaConfig
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Core_Model_Context $context
@@ -71,6 +91,10 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_Translate $translate,
+        Magento_Core_Model_Session $coreSession,
+        Magento_Rma_Model_Config $rmaConfig,
         Magento_Core_Helper_Data $coreData,
         Magento_Rma_Helper_Data $rmaData,
         Magento_Core_Model_Context $context,
@@ -79,6 +103,10 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eavConfig = $eavConfig;
+        $this->_translate = $translate;
+        $this->_coreSession = $coreSession;
+        $this->_rmaConfig = $rmaConfig;
         $this->_coreData = $coreData;
         $this->_rmaData = $rmaData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -103,7 +131,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
         parent::_beforeSave();
 
         if (!$this->getIncrementId()) {
-            $incrementId = Mage::getSingleton('Magento_Eav_Model_Config')
+            $incrementId = $this->_eavConfig
                 ->getEntityType('rma_item')
                 ->fetchNewIncrementId($this->getStoreId());
             $this->setIncrementId($incrementId);
@@ -252,7 +280,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
         if ($this->getCustomerCustomEmail()) {
             $validateEmail = $this->_validateEmail($this->getCustomerCustomEmail());
             if (is_array($validateEmail)) {
-                $session = Mage::getSingleton('Magento_Core_Model_Session');
+                $session = $this->_coreSession;
                 foreach ($validateEmail as $error) {
                     $session->addError($error);
                 }
@@ -279,7 +307,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
     public function sendNewRmaEmail()
     {
         /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('Magento_Rma_Model_Config');
+        $configRmaEmail = $this->_rmaConfig;
         return $this->_sendRmaEmailWithItems($configRmaEmail->getRootRmaEmail());
     }
 
@@ -294,7 +322,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
             return $this;
         }
         /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('Magento_Rma_Model_Config');
+        $configRmaEmail = $this->_rmaConfig;
         return $this->_sendRmaEmailWithItems($configRmaEmail->getRootAuthEmail());
     }
 
@@ -307,14 +335,14 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
     public function _sendRmaEmailWithItems($rootConfig)
     {
         /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('Magento_Rma_Model_Config');
+        $configRmaEmail = $this->_rmaConfig;
         $configRmaEmail->init($rootConfig, $this->getStoreId());
 
         if (!$configRmaEmail->isEnabled()) {
             return $this;
         }
 
-        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+        $translate = $this->_translate;
         /* @var $translate Magento_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
@@ -471,7 +499,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
         }
 
         if ($errors) {
-            $session = Mage::getSingleton('Magento_Core_Model_Session');
+            $session = $this->_coreSession;
             $session->addError(
                 __('There is an error in quantities for item %1.', $preparePost['product_name'])
             );
@@ -687,7 +715,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
             $errorKeys  = array_merge($errorKey, $errorKeys);
         }
 
-        $session    = Mage::getSingleton('Magento_Core_Model_Session');
+        $session    = $this->_coreSession;
         $eMessages  = $session->getMessages()->getErrors();
 
         if (!empty($errors) || !empty($eMessages)) {

@@ -25,6 +25,12 @@ class Magento_Rma_Block_Return_Returns extends Magento_Core_Block_Template
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
@@ -32,12 +38,14 @@ class Magento_Rma_Block_Return_Returns extends Magento_Core_Block_Template
      * @param array $data
      */
     public function __construct(
+        Magento_Customer_Model_Session $customerSession,
         Magento_Rma_Helper_Data $rmaData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_customerSession = $customerSession;
         $this->_rmaData = $rmaData;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
@@ -54,7 +62,7 @@ class Magento_Rma_Block_Return_Returns extends Magento_Core_Block_Template
                 ->addFieldToFilter('order_id', $this->_coreRegistry->registry('current_order')->getId())
                 ->setOrder('date_requested', 'desc');
 
-            $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
+            $customerSession = $this->_customerSession;
             if ($customerSession->isLoggedIn()) {
                 $returns->addFieldToFilter('customer_id', $customerSession->getCustomer()->getId());
             }

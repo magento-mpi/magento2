@@ -19,6 +19,29 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
     extends Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Abstract
 {
     /**
+     * @var Magento_Rma_Model_Config
+     */
+    protected $_rmaConfig;
+
+    /**
+     * @param Magento_Rma_Model_Config $rmaConfig
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Rma_Model_Config $rmaConfig,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_rmaConfig = $rmaConfig;
+        parent::__construct($coreData, $context, $registry, $data);
+    }
+
+    /**
      * Prepare child blocks
      *
      * @return Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
@@ -45,7 +68,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
     public function canSendCommentEmail()
     {
         /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('Magento_Rma_Model_Config');
+        $configRmaEmail = $this->_rmaConfig;
         $configRmaEmail->init($configRmaEmail->getRootCommentEmail(), $this->getOrder()->getStore());
         return $configRmaEmail->isEnabled();
     }
@@ -58,7 +81,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
     public function canSendConfirmationEmail()
     {
         /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('Magento_Rma_Model_Config');
+        $configRmaEmail = $this->_rmaConfig;
         $configRmaEmail->init($configRmaEmail->getRootRmaEmail(), $this->getOrder()->getStore());
         return $configRmaEmail->isEnabled();
     }

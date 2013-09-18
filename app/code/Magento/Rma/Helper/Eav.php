@@ -26,6 +26,24 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
     protected $_attributeOptionValues = array();
 
     /**
+     * @var Magento_Core_Model_Resource
+     */
+    protected $_coreResource;
+
+    /**
+     * @param Magento_Core_Model_Resource $coreResource
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $coreResource,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_coreResource = $coreResource;
+        parent::__construct($context);
+    }
+
+
+    /**
      * Default attribute entity type code
      *
      * @return string
@@ -179,11 +197,11 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
             $optionCollection
                 ->getSelect()
                 ->join(
-                    array('ea' => Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('eav_attribute')),
+                    array('ea' => $this->_coreResource->getTableName('eav_attribute')),
                     'main_table.attribute_id = ea.attribute_id',
                     array('attribute_code' => 'ea.attribute_code'))
                 ->join(
-                    array('eat' => Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('eav_entity_type')),
+                    array('eat' => $this->_coreResource->getTableName('eav_entity_type')),
                     'ea.entity_type_id = eat.entity_type_id',
                     array(''))
                 ->where('eat.entity_type_code = ?', $this->_getEntityTypeCode());
