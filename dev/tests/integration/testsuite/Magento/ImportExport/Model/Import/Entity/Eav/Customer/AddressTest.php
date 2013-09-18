@@ -26,7 +26,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      *
      * @var string
      */
-    protected $_fixtureKey = '_fixture/Magento_ImportExport_Customers_Array';
+    protected $_fixtureKey = '_fixture/Magento\ImportExport\Customers\Array';
 
     /**
      * Address entity adapter instance

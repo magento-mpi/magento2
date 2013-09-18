@@ -26,9 +26,9 @@ $additionalWebsiteId = $website->getId();
 /** @var $objectManager Magento_TestFramework_ObjectManager */
 $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 $objectManager->get('Magento\Core\Model\Registry')
-    ->unregister('_fixture/Magento_ScheduledImportExport_Model_TestWebsite');
+    ->unregister('_fixture/Magento\ScheduledImportExport\Model\TestWebsite');
 $objectManager->get('Magento\Core\Model\Registry')
-    ->register('_fixture/Magento_ScheduledImportExport_Model_TestWebsite', $website);
+    ->register('_fixture/Magento\ScheduledImportExport\Model\TestWebsite', $website);
 
 $expectedBalances = array();
 $expectedRewards = array();
@@ -200,11 +200,11 @@ $expectedBalances[$customer->getId()][$defaultWebsiteId] = 500;
 $expectedRewards[$customer->getId()][$defaultWebsiteId] = 500;
 
 $objectManager->get('Magento\Core\Model\Registry')
-    ->unregister('_fixture/Magento_ScheduledImportExport_Customers_ExpectedBalances');
+    ->unregister('_fixture/Magento\ScheduledImportExport\Customers\ExpectedBalances');
 $objectManager->get('Magento\Core\Model\Registry')
-    ->register('_fixture/Magento_ScheduledImportExport_Customers_ExpectedBalances', $expectedBalances);
+    ->register('_fixture/Magento\ScheduledImportExport\Customers\ExpectedBalances', $expectedBalances);
 
 $objectManager->get('Magento\Core\Model\Registry')
-    ->unregister('_fixture/Magento_ScheduledImportExport_Customers_ExpectedRewards');
+    ->unregister('_fixture/Magento\ScheduledImportExport\Customers\ExpectedRewards');
 $objectManager->get('Magento\Core\Model\Registry')
-    ->register('_fixture/Magento_ScheduledImportExport_Customers_ExpectedRewards', $expectedRewards);
+    ->register('_fixture/Magento\ScheduledImportExport\Customers\ExpectedRewards', $expectedRewards);
