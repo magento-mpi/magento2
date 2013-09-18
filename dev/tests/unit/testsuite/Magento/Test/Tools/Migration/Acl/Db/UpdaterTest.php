@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Db/Updater.php';
 
 class Magento_Test_Tools_Migration_Acl_Db_UpdaterTest extends PHPUnit_Framework_TestCase

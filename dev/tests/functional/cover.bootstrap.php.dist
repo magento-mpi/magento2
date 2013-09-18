@@ -8,12 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-$rootDir = dirname(dirname(__FILE__));
+$rootDir = dirname(__DIR__);
 require_once $rootDir . DIRECTORY_SEPARATOR . 'app/Mage.php';
 Mage::setRoot($rootDir . DIRECTORY_SEPARATOR . 'app');
 Mage::app();
 
-define('SELENIUM_TESTS_BASEDIR', realpath(dirname(__FILE__)));
+define('SELENIUM_TESTS_BASEDIR', realpath(__DIR__));
 define('SELENIUM_TESTS_SCREENSHOTDIR',
         realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'screenshots'));
 

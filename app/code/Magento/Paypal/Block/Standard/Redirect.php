@@ -17,7 +17,7 @@ class Magento_Paypal_Block_Standard_Redirect extends Magento_Core_Block_Abstract
     protected $_coreData = null;
 
     /**
-     * @var Magento_Data_FormFactory
+     * @var Magento_Data_Form_Factory
      */
     protected $_formFactory;
 
@@ -27,14 +27,14 @@ class Magento_Paypal_Block_Standard_Redirect extends Magento_Core_Block_Abstract
     protected $_elementFactory;
 
     /**
-     * @param Magento_Data_FormFactory $formFactory
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Data_Form_Element_Factory $elementFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Data_FormFactory $formFactory,
+        Magento_Data_Form_Factory $formFactory,
         Magento_Data_Form_Element_Factory $elementFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Context $context,

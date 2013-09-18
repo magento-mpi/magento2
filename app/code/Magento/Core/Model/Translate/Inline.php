@@ -45,16 +45,51 @@ class Magento_Core_Model_Translate_Inline implements Magento_Core_Model_Translat
     protected $_isScriptInserted    = false;
 
     /**
+     * @var Magento_Backend_Model_Url
+     */
+    protected $_backendUrl;
+
+    /**
+     * @var Magento_Core_Model_Url
+     */
+    protected $_url;
+
+    /**
+     * @var Magento_Core_Model_Layout
+     */
+    protected $_layout;
+
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * Initialize inline translation model
      *
      * @param Magento_Core_Model_Translate_InlineParser $parser
+     * @param Magento_Core_Model_Translate $translate
+     * @param Magento_Backend_Model_Url $backendUrl
+     * @param Magento_Core_Model_Url $url
+     * @param Magento_Core_Model_Layout $layout
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Model_Translate_InlineParser $parser,
-        Magento_Core_Model_Translate $translate
+        Magento_Core_Model_Translate $translate,
+        Magento_Backend_Model_Url $backendUrl,
+        Magento_Core_Model_Url $url,
+        Magento_Core_Model_Layout $layout,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_parser = $parser;
         $this->_translator = $translate;
+        $this->_backendUrl = $backendUrl;
+        $this->_url = $url;
+        $this->_layout = $layout;
     }
 
     /**
@@ -74,9 +109,9 @@ class Magento_Core_Model_Translate_Inline implements Magento_Core_Model_Translat
             }
 
             if ($this->_parser->getDesignPackage()->getArea() == 'adminhtml') {
-                $active = Mage::getStoreConfigFlag('dev/translate_inline/active_admin', $store);
+                $active = $this->_coreStoreConfig->getConfigFlag('dev/translate_inline/active_admin', $store);
             } else {
-                $active = Mage::getStoreConfigFlag('dev/translate_inline/active', $store);
+                $active = $this->_coreStoreConfig->getConfigFlag('dev/translate_inline/active', $store);
             }
             $this->_isAllowed = $active && $this->_parser->getHelper()->isDevAllowed($store);
         }
@@ -136,16 +171,16 @@ class Magento_Core_Model_Translate_Inline implements Magento_Core_Model_Translat
         $store = $this->_parser->getStoreManager()->getStore();
         if ($store->isAdmin()) {
             $urlPrefix = Magento_Backend_Helper_Data::BACKEND_AREA_CODE;
-            $urlModel = Mage::getObjectManager()->get('Magento_Backend_Model_Url');
+            $urlModel = $this->_backendUrl;
         } else {
             $urlPrefix = 'core';
-            $urlModel = Mage::getObjectManager()->get('Magento_Core_Model_Url');
+            $urlModel = $this->_url;
         }
         $ajaxUrl = $urlModel->getUrl($urlPrefix . '/ajax/translate',
             array('_secure' => $store->isCurrentlySecure()));
 
         /** @var $block Magento_Core_Block_Template */
-        $block = Mage::getObjectManager()->create('Magento_Core_Block_Template');
+        $block = $this->_layout->createBlock('Magento_Core_Block_Template');
 
         $block->setAjaxUrl($ajaxUrl);
 

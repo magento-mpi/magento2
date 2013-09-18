@@ -9,40 +9,6 @@
  */
 
 /**
- * Disable magic quotes in runtime if needed
- *
- * @link http://us3.php.net/manual/en/security.magicquotes.disabling.php
- */
-if (get_magic_quotes_gpc()) {
-    /**
-     * Undo magic quotes
-     *
-     * @param array $array
-     * @param bool $topLevel
-     * @return array
-     */
-    function mageUndoMagicQuotes($array, $topLevel = true)
-    {
-        $newArray = array();
-        foreach ($array as $key => $value) {
-            if (!$topLevel) {
-                $newKey = stripslashes($key);
-                if ($newKey !== $key) {
-                    unset($array[$key]);
-                }
-                $key = $newKey;
-            }
-            $newArray[$key] = is_array($value) ? mageUndoMagicQuotes($value, false) : stripslashes($value);
-        }
-        return $newArray;
-    }
-    $_GET = mageUndoMagicQuotes($_GET);
-    $_POST = mageUndoMagicQuotes($_POST);
-    $_COOKIE = mageUndoMagicQuotes($_COOKIE);
-    $_REQUEST = mageUndoMagicQuotes($_REQUEST);
-}
-
-/**
  * Object destructor
  *
  * @param mixed $object
@@ -114,24 +80,6 @@ function mageCoreErrorHandler($errorNo, $errorStr, $errorFile, $errorLine)
     $errorNo = $errorNo & error_reporting();
     if ($errorNo == 0) {
         return false;
-    }
-    if (!defined('E_STRICT')) {
-        /**
-         * Strict error int value
-         */
-        define('E_STRICT', 2048);
-    }
-    if (!defined('E_RECOVERABLE_ERROR')) {
-        /**
-         * Recoverable error int value
-         */
-        define('E_RECOVERABLE_ERROR', 4096);
-    }
-    if (!defined('E_DEPRECATED')) {
-        /**
-         * Deprecated error int value
-         */
-        define('E_DEPRECATED', 8192);
     }
 
     // PEAR specific message handling
@@ -323,11 +271,17 @@ function is_dir_writeable($dir)
 /**
  * Create value-object Magento_Phrase
  *
- * @return Magento_Phrase
+ * @return string
  */
 function __()
 {
     $argc = func_get_args();
 
-    return new Magento_Phrase(array_shift($argc), $argc);
+    /**
+     * Type casting to string is a workaround.
+     * Many places in client code at the moment are unable to handle the Magento_Phrase object properly.
+     * The intended behavior is to use __toString(),
+     * so that rendering of the phrase happens only at the last moment when needed
+     */
+    return (string)new Magento_Phrase(array_shift($argc), $argc);
 }

@@ -8,10 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_report_invitation_order">
-        <update handle="adminhtml_report_invitation_order_grid"/>
-        <reference name="content">
-            <block class="Magento_Invitation_Block_Adminhtml_Report_Invitation_Order" name="adminhtml.report.grid.container"/>
-        </reference>
-    </handle>
+    <update handle="adminhtml_report_invitation_order_grid"/>
+    <reference name="content">
+        <block class="Magento_Invitation_Block_Adminhtml_Report_Invitation_Order" name="adminhtml.report.grid.container"/>
+    </reference>
 </layout>

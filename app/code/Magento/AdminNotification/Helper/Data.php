@@ -49,6 +49,25 @@ class Magento_AdminNotification_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_unreadNoticeCounts;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve latest notice model
      *
      * @return Magento_AdminNotification_Model_Inbox
@@ -88,7 +107,7 @@ class Magento_AdminNotification_Helper_Data extends Magento_Core_Helper_Abstract
                 ? 'https://'
                 : 'http://';
 
-            $this->_popupUrl = $scheme . Mage::getStoreConfig(self::XML_PATH_POPUP_URL);
+            $this->_popupUrl = $scheme . $this->_coreStoreConfig->getConfig(self::XML_PATH_POPUP_URL);
         }
         return $this->_popupUrl . ($withExt ? '.swf' : '');
     }

@@ -101,7 +101,7 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Factory
         }
         /** @var $config Magento_DesignEditor_Model_Config_Control_Abstract */
         $config = $this->_objectManager->create($class, array('configFiles' => $files));
-        return Mage::getObjectManager()->create(
+        return $this->_objectManager->create(
             'Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration', array(
                 'configuration' => $config,
                 'theme'         => $theme,

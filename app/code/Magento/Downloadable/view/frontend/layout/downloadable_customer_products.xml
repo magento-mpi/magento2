@@ -7,16 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Customer My Account Downloadable Items" id="downloadable_customer_products" type="page" parent="customer_account">
-        <update handle="customer_account"/>
-        <reference name="my.account.wrapper">
-            <block class="Magento_Downloadable_Block_Customer_Products_List" name="downloadable_customer_products_list" template="customer/products/list.phtml"/>
-        </reference>
-        <reference name="root">
-            <action method="setHeaderTitle">
-                <argument translate="true" name="title" xsi:type="string">My Downloadable Products</argument>
-            </action>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Downloadable Items" type="page" parent="customer_account">
+    <update handle="customer_account"/>
+    <reference name="my.account.wrapper">
+        <block class="Magento_Downloadable_Block_Customer_Products_List" name="downloadable_customer_products_list" template="customer/products/list.phtml"/>
+    </reference>
+    <reference name="root">
+        <action method="setHeaderTitle">
+            <argument translate="true" name="title" xsi:type="string">My Downloadable Products</argument>
+        </action>
+    </reference>
 </layout>

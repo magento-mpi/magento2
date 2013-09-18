@@ -76,7 +76,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Backe
     public function _beforeToHtml()
     {
         $this->_currency = Mage::getModel('Magento_Directory_Model_Currency')
-            ->load(Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE));
+            ->load($this->_storeConfig->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE));
 
         $this->_collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Sale_Collection')
             ->setCustomerFilter($this->_coreRegistry->registry('current_customer'))

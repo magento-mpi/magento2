@@ -8,17 +8,15 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <reference name="right">
-            <block class="Magento_Sales_Block_Reorder_Sidebar" name="sale.reorder.sidebar" as="reorder" template="reorder/sidebar.phtml"/>
-        </reference>
-        <reference name="footer_links">
-            <block class="Magento_Sales_Block_Guest_Link" name="sales-guest-form-link">
-                <arguments>
-                    <argument name="label" xsi:type="string">Orders and Returns</argument>
-                    <argument name="path" xsi:type="string">sales/guest/form</argument>
-                </arguments>
-            </block>
-        </reference>
-    </handle>
+    <reference name="right">
+        <block class="Magento_Sales_Block_Reorder_Sidebar" name="sale.reorder.sidebar" as="reorder" template="reorder/sidebar.phtml"/>
+    </reference>
+    <reference name="footer_links">
+        <block class="Magento_Sales_Block_Guest_Link" name="sales-guest-form-link">
+            <arguments>
+                <argument name="label" xsi:type="string">Orders and Returns</argument>
+                <argument name="path" xsi:type="string">sales/guest/form</argument>
+            </arguments>
+        </block>
+    </reference>
 </layout>

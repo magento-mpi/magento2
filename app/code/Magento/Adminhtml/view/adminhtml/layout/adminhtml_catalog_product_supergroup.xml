@@ -8,8 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_catalog_product_supergroup">
-        <update handle="adminhtml_catalog_product_grouped"/>
-        <container output="1" name="catalog.product.edit.tab.super.grid.container" label="grid"/>
-    </handle>
+    <update handle="adminhtml_catalog_product_grouped"/>
+    <container output="1" name="catalog.product.edit.tab.super.grid.container" label="grid"/>
 </layout>

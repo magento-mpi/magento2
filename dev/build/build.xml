@@ -10,6 +10,8 @@
  */
 -->
 <project name="Magento2" basedir="../../" default="init">
+    <import file="core_dev/util.xml"/>
+
     <property file="dev/build/build.properties" />
     <property environment="env"/>
     <tstamp>
@@ -60,7 +62,7 @@
         </replace>
     </target>
 
-    <target name="js-test-php" depends="jstestdriver-path-substitution">
+    <target name="js-test-php" depends="_server_info,jstestdriver-path-substitution">
         <exec dir="${basedir}/dev/tests/js" executable="php" failonerror="true">
             <arg line="run_js_tests.php"/>
         </exec>

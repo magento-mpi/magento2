@@ -62,7 +62,7 @@ class Magento_Backend_Block_Template extends Magento_Core_Block_Template
         if ($moduleName === null) {
             $moduleName = $this->getModuleName();
         }
-        return !Mage::getStoreConfigFlag('advanced/modules_disable_output/' . $moduleName);
+        return !$this->_storeConfig->getConfigFlag('advanced/modules_disable_output/' . $moduleName);
     }
     
     /**

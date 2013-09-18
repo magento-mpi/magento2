@@ -30,7 +30,7 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->_storeConfig = $this->getMock('Magento_Core_Model_Store_Config');
+        $this->_storeConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
         $dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
         $this->_objectManager = $this->getMock('Magento_ObjectManager');
         $this->_appState = $this->getMock('Magento_Core_Model_App_State');

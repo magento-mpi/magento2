@@ -59,7 +59,7 @@ abstract class Magento_TestFramework_TestCase_ControllerAbstract extends PHPUnit
     protected function setUp()
     {
         $this->_assertSessionErrors = false;
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_TestFramework_ObjectManager::getInstance();
         $this->_objectManager->configure(array(
             'preferences' => array(
                 'Magento_Core_Controller_Request_Http' => 'Magento_TestFramework_Request',
@@ -105,8 +105,7 @@ abstract class Magento_TestFramework_TestCase_ControllerAbstract extends PHPUnit
     public function getRequest()
     {
         if (!$this->_request) {
-            $this->_request = $this->_objectManager->create('Magento_TestFramework_Request');
-            $this->_objectManager->addSharedInstance($this->_request, 'Magento_TestFramework_Request');
+            $this->_request = $this->_objectManager->get('Magento_TestFramework_Request');
         }
         return $this->_request;
     }
@@ -120,7 +119,6 @@ abstract class Magento_TestFramework_TestCase_ControllerAbstract extends PHPUnit
     {
         if (!$this->_response) {
             $this->_response = $this->_objectManager->get('Magento_TestFramework_Response');
-            $this->_objectManager->addSharedInstance($this->_response, 'Magento_TestFramework_Response');
         }
         return $this->_response;
     }

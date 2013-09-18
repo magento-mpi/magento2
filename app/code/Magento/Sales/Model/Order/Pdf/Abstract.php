@@ -84,20 +84,38 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
     protected $_paymentData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
         $this->_coreData = $coreData;
         $this->_coreString = $coreString;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($data);
     }
 
@@ -174,7 +192,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
     protected function insertLogo(&$page, $store = null)
     {
         $this->y = $this->y ? $this->y : 815;
-        $image = Mage::getStoreConfig('sales/identity/logo', $store);
+        $image = $this->_coreStoreConfig->getConfig('sales/identity/logo', $store);
         if ($image) {
             $image = Mage::getBaseDir('media') . '/sales/store/logo/' . $image;
             if (is_file($image)) {
@@ -224,7 +242,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
         $page->setLineWidth(0);
         $this->y = $this->y ? $this->y : 815;
         $top = 815;
-        foreach (explode("\n", Mage::getStoreConfig('sales/identity/address', $store)) as $value){
+        foreach (explode("\n", $this->_coreStoreConfig->getConfig('sales/identity/address', $store)) as $value){
             if ($value !== '') {
                 $value = preg_replace('/<br[^>]*>/i', "\n", $value);
                 foreach ($this->_coreString->str_split($value, 45, true, true) as $_value) {
@@ -567,7 +585,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
      */
     protected function _getTotalsList($source)
     {
-        $totals = Mage::getConfig()->getNode('global/pdf/totals')->asArray();
+        $totals = $this->_coreConfig->getNode('global/pdf/totals')->asArray();
         usort($totals, array($this, '_sortTotalsList'));
         $totalModels = array();
         foreach ($totals as $index => $totalInfo) {
@@ -704,7 +722,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
      */
     protected function _initRenderer($type)
     {
-        $node = Mage::getConfig()->getNode('global/pdf/' . $type);
+        $node = $this->_coreConfig->getNode('global/pdf/' . $type);
         foreach ($node->children() as $renderer) {
             $this->_renderers[$renderer->getName()] = array(
                 'model'     => (string)$renderer,

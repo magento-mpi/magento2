@@ -8,8 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_giftcardaccount_exportcsv">
-        <update handle="adminhtml_giftcardaccount_block"/>
-        <container name="adminhtml.gift.card.account.grid.container" label="Gift Card Account Grid Container"/>
-    </handle>
+    <update handle="adminhtml_giftcardaccount_block"/>
+    <container name="adminhtml.gift.card.account.grid.container" label="Gift Card Account Grid Container"/>
 </layout>
