@@ -19,23 +19,21 @@
 class Magento_Cms_Block_Block extends Magento_Core_Block_Abstract
 {
     /**
-     * Cms data
-     *
-     * @var Magento_Cms_Helper_Data
+     * @var Magento_Filter_Template
      */
-    protected $_cmsData = null;
+    protected $_blockTemplateFilter;
 
     /**
-     * @param Magento_Cms_Helper_Data $cmsData
      * @param Magento_Core_Block_Context $context
+     * @param Magento_Filter_Template $blockTemplateFilter
      * @param array $data
      */
     public function __construct(
-        Magento_Cms_Helper_Data $cmsData,
         Magento_Core_Block_Context $context,
+        Magento_Filter_Template $blockTemplateFilter,
         array $data = array()
     ) {
-        $this->_cmsData = $cmsData;
+        $this->_blockTemplateFilter = $blockTemplateFilter;
         parent::__construct($context, $data);
     }
 
@@ -54,11 +52,7 @@ class Magento_Cms_Block_Block extends Magento_Core_Block_Abstract
                 ->setStoreId($storeId)
                 ->load($blockId);
             if ($block->getIsActive()) {
-                /* @var $helper Magento_Cms_Helper_Data */
-                $helper = $this->_cmsData;
-                $processor = $helper->getBlockTemplateProcessor();
-                $html = $processor->setStoreId($storeId)
-                    ->filter($block->getContent());
+                $html = $this->_blockTemplateFilter->setStoreId($storeId)->filter($block->getContent());
             }
         }
         return $html;

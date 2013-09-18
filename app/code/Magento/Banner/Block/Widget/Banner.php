@@ -84,9 +84,9 @@ class Magento_Banner_Block_Widget_Banner
     protected $_customerSession;
 
     /**
-     * @var Magento_Cms_Helper_Data
+     * @var Magento_Filter_Template
      */
-    protected $_cmsHelper;
+    protected $_pageTemplateFilter;
 
     /**
      * @var int
@@ -105,16 +105,15 @@ class Magento_Banner_Block_Widget_Banner
     protected $_renderedParams = array();
 
     /**
-     * @param array $data
      * @param Magento_Core_Helper_Data $coreData
-     * @param  $context
-     * @param  $resource
-     * @param  $coreSession
-     * @param  $checkoutSession
-     * @param  $customerSession
-     * @param  $cmsHelper
-     * @param  $storeManager
-     * @param  $data
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Banner_Model_Resource_Banner $resource
+     * @param Magento_Core_Model_Session $coreSession
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Filter_Template $pageTemplateFilter
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
@@ -123,7 +122,7 @@ class Magento_Banner_Block_Widget_Banner
         Magento_Core_Model_Session $coreSession,
         Magento_Checkout_Model_Session $checkoutSession,
         Magento_Customer_Model_Session $customerSession,
-        Magento_Cms_Helper_Data $cmsHelper,
+        Magento_Filter_Template $pageTemplateFilter,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
@@ -132,7 +131,7 @@ class Magento_Banner_Block_Widget_Banner
         $this->_coreSession = $coreSession;
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
-        $this->_cmsHelper = $cmsHelper;
+        $this->_pageTemplateFilter = $pageTemplateFilter;
         $this->_currentStoreId  = $storeManager->getStore()->getId();
         $this->_currentWebsiteId  = $storeManager->getWebsite()->getId();
     }
@@ -242,9 +241,8 @@ class Magento_Banner_Block_Widget_Banner
         $this->_bannerResource->filterByTypes();
 
         // Filtering directives
-        $processor = $this->_cmsHelper->getPageTemplateProcessor();
         foreach ($bannersContent as $bannerId => $content) {
-            $bannersContent[$bannerId] = $processor->filter($content);
+            $bannersContent[$bannerId] = $this->_pageTemplateFilter->filter($content);
         }
 
         return $bannersContent;

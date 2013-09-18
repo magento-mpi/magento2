@@ -24,4 +24,5 @@
             <value>widget_config</value>
         </param>
     </type>
+    <preference for="Magento_Filter_Template" type="Magento_Widget_Model_Template_Filter" />
 </config>
